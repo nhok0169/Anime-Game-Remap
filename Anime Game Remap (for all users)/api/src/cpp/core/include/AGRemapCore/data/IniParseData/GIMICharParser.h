@@ -119,6 +119,90 @@ namespace AGRemapCore {
         std::vector<std::string> objsWithoutLightMap;
 
         /**
+         * @brief
+         @rst
+         Which registers ONE object's downloaded textures hang off, when they are not the
+         usual ``ps-t0``/``ps-t1`` :raw-html:`<br />` :raw-html:`<br />`
+
+         **Why this is not a constant.** A download has to land on the register the mod's own
+         shader would have bound that texture to, and GI moved those: a 4.0-era character
+         reads its diffuse from ``ps-t1`` and its lightmap from ``ps-t2``, leaving ``ps-t0``
+         for a normal map, while a modern one uses ``ps-t0``/``ps-t1``. Put a download on the
+         wrong slot and the shader samples a lightmap as a diffuse :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         It varies **per object as well as per version** -- Kirara's head is the 4.0 layout
+         while her body and dress are already the modern one -- so this is keyed by object
+         and every object not named here keeps the defaults
+         @endrst
+         */
+        struct ObjDownloadRegs {
+
+            /**
+             * @brief The mod object these registers are for, eg. ``"head"``
+             */
+            std::string obj;
+
+            /**
+             * @brief The register this object's diffuse hangs off
+             */
+            std::string diffuseReg = "ps-t0";
+
+            /**
+             * @brief The register this object's lightmap hangs off
+             */
+            std::string lightMapReg = "ps-t1";
+
+            /**
+             * @brief
+             @rst
+             The register this object's NORMAL MAP hangs off, or empty for no normal map
+             download at all -- which is the usual case :raw-html:`<br />` :raw-html:`<br />`
+
+             Only the 4.0-era characters that shipped one want this; a modern character's
+             normal map is invented by the fix (``GIMICharFixerConfig::texAdds``) rather than
+             fetched
+             @endrst
+             */
+            std::string normalMapReg;
+        };
+
+        /**
+         * @brief Per-object register overrides for downloaded textures -- see \ref ObjDownloadRegs
+         */
+        std::vector<ObjDownloadRegs> objDownloadRegs;
+
+        /**
+         * @brief
+         @rst
+         The version folder the FACE diffuse download lives in, when it is not the one the rest of
+         this character's assets are in -- empty (the usual case) means \ref downloadVersionFolder
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         Not a rule, a per-character fact, and a narrow one: of the 44 characters in
+         ``Data/Mod Downloads/GI`` exactly THREE file their face diffuse somewhere other than
+         alongside the rest -- AyakaSpringbloom, Nilou and LisaStudent, all of whom keep it under
+         ``5_4`` while everything else sits in ``4_0``. Get it wrong and the download 404s, which
+         is invisible until a mod turns up with no face section of its own for the fix to use
+         @endrst
+         */
+        std::string faceDownloadVersionFolder;
+
+        /**
+         * @brief
+         @rst
+         The file-name prefix of the FACE diffuse download, when it is not \ref downloadPrefix --
+         empty (the usual case) means that one :raw-html:`<br />` :raw-html:`<br />`
+
+         Exists because one character's assets disagree with themselves:
+         ``AyakaSpringBloomBodyDiffuse.dds`` but ``AyakaSpringbloomFaceDiffuse.dds`` -- capital B
+         for everything except the face, which took its spelling from the folder instead. A raw
+         GitHub URL is case-sensitive, so this is a 404 and not a near miss
+         @endrst
+         */
+        std::string faceDownloadPrefix;
+
+        /**
          * @brief The byte size of one position vertex. **Default**: ``40``
          */
         int positionStride = 40;

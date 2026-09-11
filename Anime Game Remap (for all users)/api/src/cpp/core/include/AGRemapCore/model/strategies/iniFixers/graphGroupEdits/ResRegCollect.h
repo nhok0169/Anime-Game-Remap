@@ -154,6 +154,22 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The key to bind the collected resource's fixed name to, instead of overwriting the one
+             it was READ from -- empty for the usual behaviour :raw-html:`<br />` :raw-html:`<br />`
+
+             What it is for: an edited copy that has to sit ALONGSIDE the original rather than
+             replace it. Without this a texture edit is a move -- the register it collected from
+             ends up pointing at the edited file and the original is referenced by nothing
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The new key is APPENDED to the part, so it reads after the one it was collected from
+             @endrst
+             */
+            std::optional<K> bindToReg;
+
+            /**
+             * @brief
+             @rst
              Describes how a resource should be built, keyed by the name of the resource's subtype
              :raw-html:`<br />` :raw-html:`<br />`
 

@@ -86,7 +86,7 @@ namespace AGRemapCore {
         //
         // ps-t0 keeps a copy of itself so the slot is still bound when the texAdd below overwrites
         // it -- the same trick Ganyu uses, and for the same reason.
-        const std::vector<std::pair<std::string, std::vector<std::string>>> shift = {
+        const std::vector<GIMICharFixerConfig::RegRemapRule> shift = {
             {"ps-t1", {"ps-t2"}}, {"ps-t0", {"ps-t0", "ps-t1"}}};
         config.objRegRemaps = {{"head", shift}, {"body", shift}};
 

@@ -660,6 +660,31 @@ namespace AGRemapCore {
             // The pure-Python original stashes this in its free-form 'tempKwargs' dict; here it is
             // a real member, rebuilt whenever #modObjs changes (that dict is instead cleared
             // wholesale by clear(), which is coarser than it needs to be).
+        public:
+
+            /**
+             * @brief
+             @rst
+             `(mod object) -> the KVPs that IDENTIFY a section for it`_, in the order they should
+             be written -- empty for "cannot say" :raw-html:`<br />` :raw-html:`<br />`
+
+             **Only used when this parser has to INVENT a section**, which it does when a mod is
+             missing an object outright and a download has to be hung off something (see
+             :cpp:func:`addDownloads`). A section built from nothing but the download's register
+             is a ``TextureOverride`` with no ``hash``, and a ``TextureOverride`` with no ``hash``
+             matches no draw call -- so the file is fetched, written, referenced, and never used.
+             Reported from in game on a Kirara mod with no face diffuse :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Left unset the invented section keeps the old behaviour, so a parser that never
+             invents one need not provide it. :cpp:func:`makeGIMICharParser` supplies it from the
+             same maps its classifier uses, which is the point: the assets that let the classifier
+             RECOGNISE a section are exactly the ones an invented section has to CARRY
+             @endrst
+             */
+            std::function<std::vector<std::pair<K, V>>(const ModObj&)> objIdentityKVPs;
+
+        private:
             std::unique_ptr<NameClassifier> nameClassifier_;
             std::vector<ModObj> nameClassifierModObjs_;
 

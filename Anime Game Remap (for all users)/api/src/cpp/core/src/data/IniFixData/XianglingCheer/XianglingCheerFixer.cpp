@@ -38,7 +38,7 @@ namespace AGRemapCore {
          *
          * A mod without reflections is untouched: a key that is not in the part is not removed.
          */
-        std::vector<std::string> reflectionKeys(const std::string& obj) {
+        std::vector<GIMICharFixerConfig::RegRef> reflectionKeys(const std::string& obj) {
             return {"ResourceRef" + obj + "Diffuse", "ResourceRef" + obj + "LightMap",
                     "$CharacterIB"};
         }
@@ -63,17 +63,17 @@ namespace AGRemapCore {
         // BOTH TARGETS OFF THE HEAD NEED IT. These name the TARGET's objects and run after the
         // split, so an entry for 'head' alone would leave the 'dress' copy -- the same source graph
         // -- still binding a normal map on ps-t0 and its diffuse a slot too high.
-        std::vector<std::string> headRemovals = reflectionKeys("Head");
+        std::vector<GIMICharFixerConfig::RegRef> headRemovals = reflectionKeys("Head");
         headRemovals.push_back("ps-t0");
 
-        std::vector<std::string> bodyRemovals = reflectionKeys("Body");
+        std::vector<GIMICharFixerConfig::RegRef> bodyRemovals = reflectionKeys("Body");
         bodyRemovals.push_back("ps-t0");
 
         config.objRegRemovals = {{"head", headRemovals}, {"dress", headRemovals},
                                  {"body", bodyRemovals}};
 
         // One entry per object holding both renames, so the pass cannot re-read its own output.
-        const std::vector<std::pair<std::string, std::vector<std::string>>> shift = {
+        const std::vector<GIMICharFixerConfig::RegRemapRule> shift = {
             {"ps-t1", {"ps-t0"}}, {"ps-t2", {"ps-t1"}}};
         config.objRegRemaps = {{"head", shift}, {"dress", shift}, {"body", shift}};
 

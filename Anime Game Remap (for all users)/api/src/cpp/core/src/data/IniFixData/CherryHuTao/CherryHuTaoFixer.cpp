@@ -40,7 +40,7 @@ namespace AGRemapCore {
         const double NoGammaCorrection = 1.0;
 
 
-        std::vector<std::string> reflectionKeys(const std::string& obj) {
+        std::vector<GIMICharFixerConfig::RegRef> reflectionKeys(const std::string& obj) {
             return {"ResourceRef" + obj + "Diffuse", "ResourceRef" + obj + "LightMap", "$CharacterIB"};
         }
 
@@ -98,13 +98,13 @@ namespace AGRemapCore {
         // UNIONED per target rather than kept per source, which is safe in a way the shift below is
         // not: a key that is not in the part is not removed, so handing the head's copy the extra's
         // keys as well costs nothing and reads more simply than four source-keyed entries.
-        std::vector<std::string> headRemovals = reflectionKeys("Head");
-        for (const std::string& key : reflectionKeys("Extra")) {
+        std::vector<GIMICharFixerConfig::RegRef> headRemovals = reflectionKeys("Head");
+        for (const GIMICharFixerConfig::RegRef& key : reflectionKeys("Extra")) {
             headRemovals.push_back(key);
         }
 
-        std::vector<std::string> bodyRemovals = reflectionKeys("Body");
-        for (const std::string& key : reflectionKeys("Dress")) {
+        std::vector<GIMICharFixerConfig::RegRef> bodyRemovals = reflectionKeys("Body");
+        for (const GIMICharFixerConfig::RegRef& key : reflectionKeys("Dress")) {
             bodyRemovals.push_back(key);
         }
 
@@ -119,7 +119,7 @@ namespace AGRemapCore {
         // Target-keyed, this would shift the body-sourced and extra-sourced copies as well: their
         // diffuse would move to a slot the shader reads as a normal map and their lightmap would
         // vanish. The .ini file would still look entirely reasonable.
-        const std::vector<std::pair<std::string, std::vector<std::string>>> shift = {
+        const std::vector<GIMICharFixerConfig::RegRemapRule> shift = {
             {"ps-t1", {"ps-t0"}}, {"ps-t2", {"ps-t1"}}};
 
         config.srcObjRegRemovals = {{"head", {"ps-t0"}}, {"dress", {"ps-t0"}}};

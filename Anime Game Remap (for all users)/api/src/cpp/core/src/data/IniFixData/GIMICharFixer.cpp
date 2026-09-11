@@ -122,6 +122,66 @@ namespace AGRemapCore {
         // The register names themselves come from GIMICharFixerConfig, since they are per
         // character in principle even though no character has differed yet.
 
+        // ---- a RegRef, in the two shapes the layers underneath want ----
+        //
+        // Both take the same question -- "does this rule apply to THIS occurrence, given what the
+        // register is bound to?" -- and ask it with different arguments: a removal check is
+        // (index, value) and a remap check is (key, value). Neither extra argument has ever
+        // mattered to a real predicate, so the config carries the value-only form and these two
+        // adapt it. An empty check means the rule always fires, which is the old behaviour and
+        // still the common one.
+        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>> toRemoveKeys(
+                const std::vector<GIMICharFixerConfig::RegRef>& regs) {
+            std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>> keys;
+            keys.reserve(regs.size());
+
+            for (const GIMICharFixerConfig::RegRef& ref : regs) {
+                if (!ref.check) {
+                    keys.emplace_back(ref.reg, std::nullopt);
+                    continue;
+                }
+
+                GIMICharFixerConfig::RegValCheck check = ref.check;
+                keys.emplace_back(ref.reg, RegRemove<>::RemoveKeyCheck(
+                    [check](long long, const std::string& val) { return check(val); }));
+            }
+
+            return keys;
+        }
+
+        std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>> toRemapRules(
+                const std::vector<GIMICharFixerConfig::RegRemapRule>& rules) {
+            std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>> remaps;
+            remaps.reserve(rules.size());
+
+            for (const GIMICharFixerConfig::RegRemapRule& rule : rules) {
+                RemapList<std::string, std::string> targets;
+                for (const GIMICharFixerConfig::RegRef& to : rule.to) {
+                    if (!to.check) {
+                        targets.push_back(to.reg);
+                        continue;
+                    }
+
+                    GIMICharFixerConfig::RegValCheck check = to.check;
+                    targets.push_back(RemappedKeyData<std::string, std::string>(
+                        to.reg,
+                        RemappedKeyData<std::string, std::string>::CheckPredicate(
+                            [check](const std::string&, const std::string& val) { return check(val); })));
+                }
+
+                // A plain list unless the rule asked to keep an unmatched occurrence -- the two are
+                // different types underneath (KeyRemapList vs KeyRemapData), and the plain one is
+                // what every config written before predicates existed produces.
+                if (rule.keepIfNoneMatch) {
+                    remaps.emplace_back(rule.from, RegRemap<>::KeyRemapValue(
+                        KeyRemapData<std::string, std::string>(std::move(targets), true)));
+                } else {
+                    remaps.emplace_back(rule.from, RegRemap<>::KeyRemapValue(std::move(targets)));
+                }
+            }
+
+            return remaps;
+        }
         // BOTH DIRECTIONS IN ONE RegRemap, which is what makes this a swap rather than two renames
         // that collapse into one. IfContentPart::remapKeys rebuilds the whole part in a single pass,
         // consulting the rules once per ORIGINAL key, so the ps-t0 -> ps-t1 result can never be
@@ -411,9 +471,30 @@ namespace AGRemapCore {
                                 resGraph, TexEditor({texEdit.filter}, texEdit.compress), makeCharResEditConfig(),
                                 "resourceRemapTexEdit", texEdit.name);
 
+                            // Which object this edit is for, so the file it writes is named per EDIT
+                            // rather than per source texture -- see TexReplace::getFixFile for the
+                            // collision that costs.
+                            replace->modObj = texEdit.obj;
+
                             auto collect = std::make_unique<Collector>();
                             collect->srcRegs = {{srcGraph, texEdit.reg}};
                             collect->resEdits = {{texEdit.obj, replace.get()}};
+
+                            // A COPY rather than a move -- see GIMICharFixerConfig::TexEdit::toReg.
+                            if (!texEdit.toReg.empty()) {
+                                collect->bindToReg = texEdit.toReg;
+                            }
+
+                            // ...and only the occurrences whose VALUE matches, when the edit asks.
+                            // ResRegCollect has carried this since it was ported -- resPredicates
+                            // decides which references are collected -- so the config just hands it
+                            // one. See GIMICharFixerConfig::TexEdit::check.
+                            if (texEdit.check) {
+                                GIMICharFixerConfig::RegValCheck check = texEdit.check;
+                                collect->resPredicates[srcGraph] =
+                                    [check](const std::string&, const std::string& val,
+                                             const typename Collector::IterData&) { return check(val); };
+                            }
 
                             texReplaces_.push_back(std::move(replace));
                             texCollects_.push_back(std::move(collect));
@@ -827,17 +908,7 @@ namespace AGRemapCore {
                     for (const auto& entry : config_.objRegRemaps) {
                         const ModObj modObj("", entry.first);
 
-                        std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>> remaps;
-                        for (const auto& rename : entry.second) {
-                            RemapList<std::string, std::string> targets;
-                            for (const std::string& toReg : rename.second) {
-                                targets.push_back(toReg);
-                            }
-
-                            remaps.emplace_back(rename.first, RegRemap<>::KeyRemapValue(std::move(targets)));
-                        }
-
-                        auto edit = std::make_unique<RegRemap<>>(std::move(remaps));
+                        auto edit = std::make_unique<RegRemap<>>(toRemapRules(entry.second));
                         regRemapAdapters_[modObj] = std::make_unique<RegPartEdit<>>(edit.get());
                         regRemaps_[modObj] = std::move(edit);
                     }
@@ -911,12 +982,7 @@ namespace AGRemapCore {
                     for (const auto& entry : config_.objRegRemovals) {
                         const ModObj modObj("", entry.first);
 
-                        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>> keys;
-                        for (const std::string& reg : entry.second) {
-                            keys.emplace_back(reg, std::nullopt);
-                        }
-
-                        auto edit = std::make_unique<RegRemove<>>(std::move(keys));
+                        auto edit = std::make_unique<RegRemove<>>(toRemoveKeys(entry.second));
                         regRemovalAdapters_[modObj] = std::make_unique<RegPartEdit<>>(edit.get());
                         regRemovals_[modObj] = std::move(edit);
                     }
@@ -962,10 +1028,7 @@ namespace AGRemapCore {
                     srcRegRemapAdapters_ = SrcAdapters(groupCount_);
 
                     for (const auto& entry : config_.srcObjRegRemovals) {
-                        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>> keys;
-                        for (const std::string& reg : entry.second) {
-                            keys.emplace_back(reg, std::nullopt);
-                        }
+                        const auto keys = toRemoveKeys(entry.second);
 
                         for (std::size_t i = 0; i < objMap_.size(); ++i) {
                             if (objMap_[i].first.second != entry.first) {
@@ -987,17 +1050,7 @@ namespace AGRemapCore {
 
                             // Rebuilt per pair rather than shared: RegRemap owns its rules and the
                             // adapters hand out raw pointers, so one instance per place it runs.
-                            std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>> remaps;
-                            for (const auto& rename : entry.second) {
-                                RemapList<std::string, std::string> targets;
-                                for (const std::string& toReg : rename.second) {
-                                    targets.push_back(toReg);
-                                }
-
-                                remaps.emplace_back(rename.first, RegRemap<>::KeyRemapValue(std::move(targets)));
-                            }
-
-                            auto edit = std::make_unique<RegRemap<>>(std::move(remaps));
+                            auto edit = std::make_unique<RegRemap<>>(toRemapRules(entry.second));
                             srcRegRemapAdapters_[pairGroups_[i]][objMap_[i].second] =
                                 std::make_unique<RegPartEdit<>>(edit.get());
                             srcRegRemaps_.push_back(std::move(edit));

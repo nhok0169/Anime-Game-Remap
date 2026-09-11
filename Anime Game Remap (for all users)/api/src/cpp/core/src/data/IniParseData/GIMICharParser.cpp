@@ -78,9 +78,82 @@ namespace AGRemapCore {
                     // grammar bug this works around.
                     this->disjointModObjs = false;
 
+                    // Copied before the classifier takes them: the parser needs the same two maps
+                    // to answer objIdentityKVPs below, and the classifier's constructor moves from
+                    // these.
+                    const auto hashOnlyMap = hashKeyOnlyToModObj;
+                    const auto indexMap = indexKeyToModObj;
+
                     classifier_ = std::make_unique<Classifier>(
                         std::move(hashKeyOnlyToModObj), ctx_.modTypeHashes(),
                         std::move(indexKeyToModObj), ctx_.modTypeIndices(), ctx_.version());
+
+                    // WHAT A SECTION FOR THIS OBJECT WOULD HAVE CARRIED, for the one case where the
+                    // parser has to invent one -- see GIMIParser::objIdentityKVPs. Built from the
+                    // very maps the classifier uses to recognise a real section, so the two cannot
+                    // drift: whatever identifies an object on the way in is what an invented section
+                    // says about itself on the way out.
+                    this->objIdentityKVPs =
+                        [this, hashOnlyMap, indexMap](const ModObj& modObj) {
+                            std::vector<std::pair<std::string, std::string>> kvps;
+
+                            // Asked of the context rather than captured: it is the same name the
+                            // classifier's own lookups are filtered by, and asking keeps the two
+                            // from drifting if the .ini is reclassified.
+                            const std::string srcModName = ctx_.modTypeName();
+
+                            auto* hashes = ctx_.modTypeHashes();
+                            auto* indices = ctx_.modTypeIndices();
+                            const std::optional<Version> version = ctx_.version();
+
+                            // A DRAWN object first: identified by the shared 'ib' hash AND its own
+                            // match_first_index. Checked before the hash-only map because ('', 'ib')
+                            // lives in both -- see makeGIMICharParser's note on that overlap.
+                            for (const auto& indexEntry : indexMap) {
+                                for (const auto& objEntry : indexEntry.second) {
+                                    if (objEntry.second != modObj) {
+                                        continue;
+                                    }
+
+                                    if (hashes != nullptr) {
+                                        std::optional<std::string> hash =
+                                            hashes->get({srcModName, indexEntry.first}, version, false);
+                                        if (hash.has_value()) {
+                                            kvps.emplace_back(IniKeywords::Hash, *hash);
+                                        }
+                                    }
+
+                                    if (indices != nullptr) {
+                                        std::optional<std::string> index =
+                                            indices->get({srcModName, objEntry.first.first, objEntry.first.second},
+                                                          version, false);
+                                        if (index.has_value()) {
+                                            kvps.emplace_back(IniKeywords::MatchFirstIndex, *index);
+                                        }
+                                    }
+
+                                    return kvps;
+                                }
+                            }
+
+                            // Everything else -- the face, the buffers -- is named by a hash of its
+                            // own and has no index at all.
+                            for (const auto& hashEntry : hashOnlyMap) {
+                                if (hashEntry.second != modObj || hashes == nullptr) {
+                                    continue;
+                                }
+
+                                std::optional<std::string> hash =
+                                    hashes->get({srcModName, hashEntry.first}, version, false);
+                                if (hash.has_value()) {
+                                    kvps.emplace_back(IniKeywords::Hash, *hash);
+                                }
+
+                                return kvps;
+                            }
+
+                            return kvps;
+                        };
 
                     Classifier* classifier = classifier_.get();
                     this->objTargetFuncs.emplace_back(
@@ -138,13 +211,30 @@ namespace AGRemapCore {
                         // ORFix/NNFix run 8 times instead of 2. ORFix swaps the diffuse and
                         // lightmap registers per call, so the surplus swaps turned the model green
                         // and yellow.
-                        add(config, {"", obj}, "ps-t0", file + "Diffuse", file + "Diffuse", ".dds",
+                        // ps-t0/ps-t1 unless this object says otherwise -- see
+                        // GIMICharParserConfig::objDownloadRegs for why a 4.0-era character does.
+                        GIMICharParserConfig::ObjDownloadRegs regs;
+                        for (const auto& override_ : config.objDownloadRegs) {
+                            if (override_.obj == obj) {
+                                regs = override_;
+                                break;
+                            }
+                        }
+
+                        // Before the diffuse, matching the order the pure-Python table lists them
+                        // in -- the .ini file's sections come out in the order they were added.
+                        if (!regs.normalMapReg.empty()) {
+                            add(config, {"", obj}, regs.normalMapReg, file + "NormalMap", file + "NormalMap", ".dds",
+                                 {}, {}, true);
+                        }
+
+                        add(config, {"", obj}, regs.diffuseReg, file + "Diffuse", file + "Diffuse", ".dds",
                              {}, {}, true);
                         // ...unless there is no lightmap upstream to fetch -- see
                         // GIMICharParserConfig::objsWithoutLightMap.
                         if (std::find(config.objsWithoutLightMap.begin(), config.objsWithoutLightMap.end(), obj)
                                 == config.objsWithoutLightMap.end()) {
-                            add(config, {"", obj}, "ps-t1", file + "LightMap", file + "LightMap", ".dds",
+                            add(config, {"", obj}, regs.lightMapReg, file + "LightMap", file + "LightMap", ".dds",
                                  {}, {}, true);
                         }
                         add(config, {"", obj}, IniKeywords::Ib, file + "Ib", file, ".ib",
@@ -160,7 +250,19 @@ namespace AGRemapCore {
                     // (GIMIParser::addDownloads), so by the time the fix runs a downloaded diffuse
                     // is indistinguishable from one the mod shipped -- which is exactly what makes
                     // the ordering work.
-                    add(config, {"", "face"}, "ps-t0", "FaceDiffuse", "FaceDiffuse", ".dds");
+                    // ...from wherever this character's face diffuse actually lives, which for three
+                    // of them is not where the rest of their assets do -- see
+                    // GIMICharParserConfig::faceDownloadVersionFolder.
+                    GIMICharParserConfig faceConfig = config;
+                    if (!config.faceDownloadVersionFolder.empty()) {
+                        faceConfig.downloadVersionFolder = config.faceDownloadVersionFolder;
+                    }
+
+                    if (!config.faceDownloadPrefix.empty()) {
+                        faceConfig.downloadPrefix = config.faceDownloadPrefix;
+                    }
+
+                    add(faceConfig, {"", "face"}, "ps-t0", "FaceDiffuse", "FaceDiffuse", ".dds");
 
                     // Per buffer kind. The blend is the one that needs downloadRefKVPs -- see
                     // DownloadTools::blendRefKVPs for why a downloaded Blend.buf has to be drawn

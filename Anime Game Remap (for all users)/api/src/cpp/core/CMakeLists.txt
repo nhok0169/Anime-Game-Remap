@@ -52,6 +52,7 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Jean/JeanFixer.cpp
     src/data/IniFixData/JeanCN/JeanCNFixer.cpp
     src/data/IniFixData/DarkDiffuse.cpp
+    src/data/IniFixData/RegValChecks.cpp
     src/data/IniFixData/JeanSea/JeanSeaFixer.cpp
     src/data/IniFixData/Ganyu/GanyuFixer.cpp
     src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp

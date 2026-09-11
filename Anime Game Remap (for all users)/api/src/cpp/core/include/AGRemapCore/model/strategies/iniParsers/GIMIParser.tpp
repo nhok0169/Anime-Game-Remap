@@ -693,6 +693,18 @@ namespace AGRemapCore {
                 V resourceSectionVal = config_.valOfSectionName(resourceSectionName);
 
                 if (graphIsEmpty) {
+                    // SEEDED WITH THE ASSETS THAT IDENTIFY THIS OBJECT, not created empty.
+                    //
+                    // This section exists only because the mod does not have the object at all, so
+                    // there is nothing to copy a 'hash' from -- and without one the TextureOverride
+                    // matches no draw call, leaving the downloaded texture bound to a section the
+                    // game never runs. A drawn object needs the 'match_first_index' as well: head,
+                    // body and dress all share the one 'ib' hash and are told apart by nothing else.
+                    //
+                    // The SOURCE mod's values, deliberately. A remapped section normally carries the
+                    // source's assets and lets the fixer's RegAssetRemap rewrite them to the target's
+                    // -- that edit REPLACES a value rather than adding one, so seeding the source's is
+                    // what puts this section on the same path as every real one.
                     Section* commandIfTemplate = ctx_->addSection(commandSectionName,
                         std::make_unique<Section>(std::vector<std::unique_ptr<IfTemplatePart>>{}, config_.runConfig, commandSectionName));
 
@@ -700,6 +712,19 @@ namespace AGRemapCore {
                                          std::vector<std::string>{commandSectionName});
 
                     downloadData.addToSection(*commandIfTemplate, reg, resourceSectionVal);
+
+                    // AFTER the first register, and to the FRONT -- which is the only order that puts
+                    // these at the top of the section. addToSection prepends (addKVPToFront) while the
+                    // later registers of the same object append (addToPart -> addKVP), so seeding
+                    // before it would leave the hash buried under the first register, which is what
+                    // the first version of this did.
+                    if (objIdentityKVPs) {
+                        std::vector<std::pair<K, V>> identity = objIdentityKVPs(modObj);
+                        if (!identity.empty()) {
+                            commandIfTemplate->addKVPsToFront(identity);
+                        }
+                    }
+
                     continue;
                 }
 

@@ -196,7 +196,15 @@ namespace AGRemapCore {
                                     if (partIt != section->partsById().end()) {
                                         auto* part = dynamic_cast<typename Graph::ContentPart*>(partIt->second);
                                         if (part != nullptr) {
-                                            part->setValByInd(resCall.orderInd, resEdit.config.valOfFile(*newVal));
+                                            // ADDED rather than overwritten when a target key is
+                                            // named: the edit is then a COPY -- the register it was
+                                            // read from keeps pointing at the original file. See
+                                            // bindToReg.
+                                            if (bindToReg.has_value()) {
+                                                part->addKVP(*bindToReg, resEdit.config.valOfFile(*newVal));
+                                            } else {
+                                                part->setValByInd(resCall.orderInd, resEdit.config.valOfFile(*newVal));
+                                            }
                                         }
                                     }
                                 }

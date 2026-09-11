@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include <functional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -34,6 +35,116 @@ namespace AGRemapCore {
      @endrst
      */
     struct GIMICharFixerConfig {
+        /**
+         * @brief
+         @rst
+         `(the register's value) -> does this rule apply to this occurrence?`_
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         Value-only, deliberately. The two layers underneath take different shapes -- a removal
+         check is ``(index, value)`` and a remap check is ``(key, value)`` -- and every real
+         predicate so far cares about neither extra argument, so \ref RegRef adapts one shape to
+         both rather than making each caller pick. See \ref RegValChecks for the ready-made ones
+         @endrst
+         */
+        using RegValCheck = std::function<bool(const std::string& val)>;
+
+
+        /**
+         * @brief
+         @rst
+         A register named in a :cpp:class:`GIMICharFixerConfig`, optionally conditional on what
+         that register is bound TO :raw-html:`<br />` :raw-html:`<br />`
+
+         ``"ps-t2"`` on its own means every occurrence of the register. ``{"ps-t2",
+         RegValChecks::isLightMap}`` means only the ones whose value looks like a lightmap -- which
+         is how a mod that binds two different things to one slot across its ``$swapvar`` branches
+         gets each branch treated correctly :raw-html:`<br />` :raw-html:`<br />`
+
+         Implicitly constructible from a string, so every config written before this existed still
+         reads (and compiles) exactly as it did
+         @endrst
+         */
+        struct RegRef {
+
+            /**
+             * @brief Constructs an unconditional reference -- every occurrence of 'reg'
+             *
+             * @param reg The register, eg. ``"ps-t2"``
+             */
+            RegRef(const char* reg): reg(reg) {}
+
+            /**
+             * @copydoc RegRef(const char*)
+             */
+            RegRef(std::string reg): reg(std::move(reg)) {}
+
+            /**
+             * @brief Constructs a reference that applies only where 'check' says so
+             *
+             * @param reg The register, eg. ``"ps-t2"``
+             * @param check The test over that register's value -- see \ref RegValChecks
+             */
+            RegRef(std::string reg, RegValCheck check): reg(std::move(reg)), check(std::move(check)) {}
+
+            /**
+             * @brief The register
+             */
+            std::string reg;
+
+            /**
+             * @brief The optional test over the register's value -- empty means "always"
+             */
+            RegValCheck check;
+        };
+
+
+        /**
+         * @brief
+         @rst
+         One register rename inside \ref GIMICharFixerConfig::objRegRemaps
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         Written ``{"ps-t0", {"ps-t0", "ps-t2"}}`` for the ordinary case -- one register
+         becoming two -- and with \ref keepIfNoneMatch when the targets are conditional
+         @endrst
+         */
+        struct RegRemapRule {
+
+            /**
+             * @brief Constructs a rename
+             *
+             * @param from The register being renamed
+             * @param to What it becomes -- one entry per register it ends up on
+             * @param keepIfNoneMatch See \ref keepIfNoneMatch
+             */
+            RegRemapRule(std::string from, std::vector<RegRef> to, bool keepIfNoneMatch = false):
+                from(std::move(from)), to(std::move(to)), keepIfNoneMatch(keepIfNoneMatch) {}
+
+            /**
+             * @brief The register being renamed
+             */
+            std::string from;
+
+            /**
+             * @brief What it becomes -- one entry per register it ends up on
+             */
+            std::vector<RegRef> to;
+
+            /**
+             * @brief
+             @rst
+             Whether an occurrence that no conditional target matched keeps its ORIGINAL register
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Only meaningful when \ref to carries checks, and then it is usually what you want: a
+             rename that fires on lightmaps should leave a diffuse sitting on the same slot alone
+             rather than DELETING it, which is what happens by default when nothing matches
+             @endrst
+             */
+            bool keepIfNoneMatch = false;
+        };
+
         /**
          * @brief
          @rst
@@ -109,7 +220,7 @@ namespace AGRemapCore {
          :cpp:func:`IfContentPart::remapKeys`
          @endrst
          */
-        std::vector<std::pair<std::string, std::vector<std::pair<std::string, std::vector<std::string>>>>> objRegRemaps;
+        std::vector<std::pair<std::string, std::vector<RegRemapRule>>> objRegRemaps;
 
         /**
          * @brief
@@ -155,7 +266,7 @@ namespace AGRemapCore {
          reason about a register that is on its way out
          @endrst
          */
-        std::vector<std::pair<std::string, std::vector<std::string>>> objRegRemovals;
+        std::vector<std::pair<std::string, std::vector<RegRef>>> objRegRemovals;
 
         /**
          * @brief
@@ -183,7 +294,7 @@ namespace AGRemapCore {
          the target they share costs nothing and reads more simply
          @endrst
          */
-        std::vector<std::pair<std::string, std::vector<std::string>>> srcObjRegRemovals;
+        std::vector<std::pair<std::string, std::vector<RegRef>>> srcObjRegRemovals;
 
         /**
          * @brief
@@ -197,7 +308,7 @@ namespace AGRemapCore {
          targets, in the other group -- keep their registers exactly where they are
          @endrst
          */
-        std::vector<std::pair<std::string, std::vector<std::pair<std::string, std::vector<std::string>>>>> srcObjRegRemaps;
+        std::vector<std::pair<std::string, std::vector<RegRemapRule>>> srcObjRegRemaps;
 
         /**
          * @brief One texture edit -- a texture the fix rewrites and repoints a register at
@@ -250,6 +361,44 @@ namespace AGRemapCore {
              @endrst
              */
             std::string srcObj;
+
+            /**
+             * @brief
+             @rst
+             The register to bind the EDITED texture to, when it should sit alongside the original
+             rather than replace it -- empty (the usual case) rebinds \ref reg itself
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A plain texture edit is a MOVE: \ref reg ends up pointing at the edited file and the
+             original is referenced by nothing. Naming a target here makes it a COPY instead
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             **This is a PRE-edit register, exactly like** \ref reg, and for the face that matters
+             more than anywhere else: the face's diffuse and lightmap registers are SWAPPED after
+             the collectors run, so a copy that should end up on ``ps-t0`` is named ``ps-t1`` here.
+             Kirara is the worked example
+             @endrst
+             */
+            std::string toReg;
+
+            /**
+             * @brief
+             @rst
+             An optional test over what \ref reg is bound TO, so the edit fires only on the
+             occurrences that match -- empty (the usual case) edits every one
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Same idea as \ref RegRef's check and for the same reason (see \ref RegValChecks), but
+             this one decides which occurrences are COLLECTED rather than which are moved. A mod
+             that binds different things to one register across its ``$swapvar`` branches, or one
+             whose author already hand-fixed the 6.1 swap, needs the edit to apply to some and not
+             others :raw-html:`<br />` :raw-html:`<br />`
+
+             AyakaSpringbloom is the worked example: her head's ``ps-t2`` carries a shade lightmap on
+             one branch and something else on another, and only the first is hers to edit
+             @endrst
+             */
+            RegValCheck check;
         };
 
         /**

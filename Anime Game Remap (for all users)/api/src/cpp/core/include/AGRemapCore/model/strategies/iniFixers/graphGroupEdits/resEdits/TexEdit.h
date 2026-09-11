@@ -192,9 +192,22 @@ namespace AGRemapCore {
                                     const std::string& graphId = "") const override;
 
             /**
-             * @brief 'modName' capitalized, extended by ef resSubType when there is one
+             * @brief 'modName' capitalized, extended by \ref resSubType when there is one
              */
             std::string subTypedModName(const std::string& modName) const;
+
+            /**
+             * @brief
+             @rst
+             The mod object this edit belongs to, which the fixed FILE name carries -- see
+             \ref getFixFile :raw-html:`<br />` :raw-html:`<br />`
+
+             Optional, and only the character template sets it. Left empty the file name falls back
+             to being built from the source resource, which is what every caller got before edits
+             could collide
+             @endrst
+             */
+            std::string modObj;
     };
 }
 

@@ -103,9 +103,34 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Clears any saved internal state this class accumulates across calls (currently just
-             ``shortHashFrequency_``, the collision-disambiguation counts used by
-             ``getShortDeterministicHashStr()`` -- see that method's docs for details).
+             The STABLE short hash of a string: the same input always comes back as the same
+             token :raw-html:`<br />` :raw-html:`<br />`
+
+             :cpp:func:`getShortDeterministicHashStr` deliberately does NOT do this. It hands out a
+             FRESH token on every call -- ask it twice for the same string and you get ``HfW`` then
+             ``HfW_B`` -- because its job is to name a series of distinct things that may happen to
+             collide. That is right for a caller naming each of N sections; it is wrong for a caller
+             asking "what is the name for THIS texture", which is a question with one answer
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Collision safety is kept: two DIFFERENT strings that hash to the same short value are
+             still disambiguated, because only a repeat of the same input is served from the memo
+             @endrst
+             *
+             * @param str The string to hash
+             *
+             * @return The resultant short hash, stable for the lifetime of the process or until
+             *         :cpp:func:`clear` is called
+             */
+            static std::string getStableShortHashStr(std::string_view str);
+
+            /**
+             * @brief
+             @rst
+             Clears any saved internal state this class accumulates across calls -- the
+             ``shortHashFrequency_`` collision-disambiguation counts used by
+             ``getShortDeterministicHashStr()``, and the ``stableShortHash_`` memo behind
+             ``getStableShortHashStr()``.
              @endrst
              */
             static void clear();
@@ -116,6 +141,12 @@ namespace AGRemapCore {
              * getShortDeterministicHashStr(), before collision disambiguation
              */
             static constexpr std::uint64_t ShortHashMaxVal = 1ull << 16;
+
+            /**
+             * @brief The token already handed out for a given input string, so
+             * getStableShortHashStr() can answer a repeat with the same name
+             */
+            static std::unordered_map<std::string, std::string> stableShortHash_;
 
             /**
              * @brief

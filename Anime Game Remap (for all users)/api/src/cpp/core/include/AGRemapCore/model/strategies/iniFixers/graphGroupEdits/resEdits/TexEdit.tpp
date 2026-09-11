@@ -126,8 +126,12 @@ namespace AGRemapCore {
             const std::string baseName = FileService::pathToStr(
                 std::filesystem::path(FileService::strToPath(file)).filename());
 
-            const std::string ind = HashTools::getShortDeterministicHashStr(baseName) + " "
-                                    + HashTools::getShortDeterministicHashStr(texName);
+            // STABLE, not fresh-per-call. The same source texture given the same edit is one
+            // file, however many target objects end up pointing at it -- see the note in
+            // GIMICharFixer::buildTexEdits, and HashTools::getStableShortHashStr for why the
+            // ordinary short hash would hand out HfW, HfW_B, HfW_C for three identical requests.
+            const std::string ind = HashTools::getStableShortHashStr(baseName) + " "
+                                    + HashTools::getStableShortHashStr(texName);
 
             const std::string folder = FileService::pathToStr(
                 std::filesystem::path(FileService::strToPath(file)).parent_path());

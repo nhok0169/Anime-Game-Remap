@@ -474,7 +474,21 @@ namespace AGRemapCore {
                             // Which object this edit is for, so the file it writes is named per EDIT
                             // rather than per source texture -- see TexReplace::getFixFile for the
                             // collision that costs.
-                            replace->modObj = texEdit.obj;
+                            //
+                            // THE SOURCE OBJECT WHEN THERE IS ONE, not the target. On a merge the same
+                            // source texture is edited once per target it lands on -- AyakaSpringbloom's
+                            // body reaches Ayaka's head AND her body -- and those are two collections of
+                            // two different registers, so each ran its own edit and asked for its own
+                            // file name. Keyed on the target they were different names; keyed on the
+                            // source they are one, which is also what the pure-Python original does.
+                            //
+                            // The cost of the target key was 7 .dds files where 3 had distinct content
+                            // (32 MB written for 16 MB of textures, on one AyakaSpringbloom mod), and,
+                            // worse, a [Resource...] section DEFINED TWICE with a different filename
+                            // each time -- the section name is built from the source resource and the
+                            // edit, so it was already identical while the file names were not. That
+                            // only ever worked because the two files held the same bytes.
+                            replace->modObj = texEdit.srcObj.empty() ? texEdit.obj : texEdit.srcObj;
 
                             auto collect = std::make_unique<Collector>();
                             collect->srcRegs = {{srcGraph, texEdit.reg}};

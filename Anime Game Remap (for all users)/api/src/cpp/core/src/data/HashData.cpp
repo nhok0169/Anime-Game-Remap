@@ -169,9 +169,13 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         // the fix left it alone and instead emitted a [Resource...FaceDiffuseRemapDL] download --
         // which 404s, because no such file was ever uploaded. One dangling reference per mod.
         //
-        // NilouBreeze and KiraraBoots have the same gap and are NOT fixed here: there is no asset
-        // folder for either to confirm against, and inferring a hash from the base character would
-        // be exactly the kind of guess this table's own policy says not to make.
+        // NilouBreeze and KiraraBoots had the same gap. KiraraBoots is now filled in below, on
+        // evidence of a different kind -- a real mod DECLARING the hash rather than an asset dump.
+        // NILOUBREEZE IS STILL NOT FIXED, and should not be guessed: there is no asset folder for
+        // her, the maintainer's own pure-Python table has no row either, and the one NilouBreeze mod
+        // on hand has no face section at all to read one off. Seven of the eight base/skin pairs
+        // that carry both rows DO share a face diffuse -- but Keqing/KeqingOpulent do not
+        // (d8c9c399 vs c2b17f84), so the pattern is a hint and not a source.
         {{"4.0", "AyakaSpringBloom", "tex_face_diffuse"}, "146097c4"},
         // Barbara
         {{"4.0", "Barbara", "blend_vb"}, "22a31278"},
@@ -1067,6 +1071,27 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"4.8", "KiraraBoots", "tex_dress_lightmap"}, "8ca27fd3"},
         {{"4.8", "KiraraBoots", "tex_dress_shadowramp"}, "7eb5b84e"},
         {{"4.8", "KiraraBoots", "tex_dress_metalmap"}, "b0e08915"},
+
+        // HER FACE DIFFUSE, which neither this table nor the pure-Python one it came from had
+        // (added 2026-09-11). GI-Model-Importer-Assets has no KiraraBoots folder to confirm
+        // against, so the evidence is a real mod instead: `KPM CAT KiraraBoots Bikini V1` binds
+        //
+        //     [TextureOverrideKiraraBootsFaceHeadNormalMap]
+        //     hash = 6eb20522
+        //
+        // which is Kirara's own face diffuse. That is a mod author DECLARING the hash, not us
+        // inferring it from the base character, which is the distinction that makes this row
+        // allowed where NilouBreeze's is not (see the note by AyakaSpringBloom above).
+        //
+        // Source and target hold the same value, so this changes nothing for a mod that already
+        // has a face section -- re-A/B'd both directions to confirm exactly that. What it fixes is
+        // the OTHER path: a KiraraBoots mod with no face section at all gets one INVENTED to hang
+        // the download off, and an invented section seeds the source's hash. With no row there was
+        // nothing to seed, so the section matched no draw call and the downloaded face was never
+        // sampled -- silently, which is how the same bug survived on Kirara until it was seen in
+        // game. NilouBreeze still has that failure today, visibly: her generated
+        // [TextureOverrideNilouBreezeFaceNilouRemapFix] carries a ps-t1 and no hash.
+        {{"4.8", "KiraraBoots", "tex_face_diffuse"}, "6eb20522"},
 
         // ===== version 5.2 =====
         // Diluc

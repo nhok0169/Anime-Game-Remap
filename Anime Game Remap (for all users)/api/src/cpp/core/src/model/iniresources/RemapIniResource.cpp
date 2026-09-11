@@ -15,6 +15,7 @@
 #include "AGRemapCore/model/iniresources/RemapIniResource.h"
 
 #include <filesystem>
+#include <string>
 #include <system_error>
 #include <utility>
 
@@ -159,7 +160,64 @@ namespace AGRemapCore {
                                           : "Copying download " + name);
         }
 
-        const bool downloaded = fixFunc ? fixFunc(*this, downloadStats) : _fix(downloadStats, proxy);
+        // A RETRY HAS TO SAY SO. FileDownload backs off and asks again when a request fails for
+        // a reason worth asking again about, and without this the only thing a run shows for it
+        // is a pause -- indistinguishable from a slow download, right up until the whole thing
+        // either succeeds or is reported skipped several seconds later.
+        //
+        // Wired here rather than by RemapService, unlike the logger and the download cache: this
+        // is the one place that has both the view and the file's own name, and the hook is a
+        // std::function on an object this resource owns, so there is no lifetime question.
+        if (download != nullptr) {
+            if (logger == nullptr) {
+                download->onRetry = nullptr;
+            } else {
+                std::shared_ptr<BaseLogger> retryLogger = logger;
+                download->onRetry = [retryLogger, name](int attempt, int attempts,
+                                                         const std::string& reason,
+                                                         std::chrono::milliseconds wait) {
+                    const long long ms = static_cast<long long>(wait.count());
+                    const std::string waited = ms % 1000 == 0 ? std::to_string(ms / 1000) + "s"
+                                                              : std::to_string(ms) + "ms";
+
+                    retryLogger->log("Attempt " + std::to_string(attempt) + " of "
+                                      + std::to_string(attempts) + " for " + name + " failed ("
+                                      + reason + ") -- retrying in " + waited + "...");
+                };
+            }
+        }
+
+        // ONE RETRY CYCLE PER URL PER RUN, not one per .ini file. A failed download is not
+        // remembered by the cache (there is no file to copy), so without this every .ini file
+        // wanting a dead url repeats the whole back-off -- measured at 3.31s each, which is about
+        // two minutes for a 36-.ini mod, all of it spent re-learning what the first one found out.
+        //
+        // The attempts are RESTORED afterwards rather than left at 1: maxAttempts is the caller's
+        // setting, and quietly keeping a temporary override would turn one bad url into a
+        // permanently retry-less download object.
+        const int configuredAttempts = download != nullptr ? download->maxAttempts : 0;
+        if (download != nullptr && downloadCache != nullptr && downloadCache->hasFailed(download->url)) {
+            download->maxAttempts = 1;
+        }
+
+        bool downloaded = false;
+        try {
+            downloaded = fixFunc ? fixFunc(*this, downloadStats) : _fix(downloadStats, proxy);
+        } catch (...) {
+            if (download != nullptr) {
+                download->maxAttempts = configuredAttempts;
+
+                if (downloadCache != nullptr) {
+                    downloadCache->markFailed(download->url);
+                }
+            }
+
+            throw;
+        }
+
+        if (download != nullptr) {
+            download->maxAttempts = configuredAttempts;
+        }
 
         // The prediction was that a copy would do, and it did not -- FileDownload::get found the
         // remembered file gone and went to the network after all. Rare, but saying so is the

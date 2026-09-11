@@ -67,6 +67,7 @@
 #include <optional>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 using AGRemapCore::FileDownload;
 
@@ -272,6 +273,121 @@ void testSharedCacheAcrossFileDownloads(const std::string& scratchDir) {
     std::filesystem::remove(sourceFile);
 }
 
+// A HICCUP IS RETRIED, AN ANSWER IS NOT -- the whole point of the retry policy, and the half
+// that is easy to get wrong is the second one: retrying a 404 just prints the same thing three
+// times and delays the report.
+//
+// Neither case needs a working network. A .invalid host cannot resolve by definition (RFC 2606),
+// which is the exact failure the maintainer hit; a file:// path that does not exist fails
+// locally and permanently.
+void testRetries(const std::string& scratchDir) {
+    struct Retry {
+        int attempt;
+        int attempts;
+        std::string reason;
+        long long waitMs;
+    };
+
+    std::filesystem::path destFolder = std::filesystem::path(scratchDir) / "curl_test_retry";
+    std::filesystem::remove_all(destFolder);
+    std::filesystem::create_directories(destFolder);
+
+    // ---- transient: retried, backing off, and it says so every time ----
+    std::vector<Retry> retries;
+    FileDownload flaky("http://no-such-host.invalid/whatever.dds", "whatever.dds");
+    flaky.maxAttempts = 3;
+    flaky.retryDelay = std::chrono::milliseconds(20);  // the real default is 1s; this is a test
+    flaky.onRetry = [&retries](int attempt, int attempts, const std::string& reason,
+                                std::chrono::milliseconds wait) {
+        retries.push_back({attempt, attempts, reason, static_cast<long long>(wait.count())});
+    };
+
+    bool threw = false;
+    try {
+        flaky.download(destFolder.string());
+    } catch (const std::runtime_error&) {
+        threw = true;
+    }
+
+    check(threw, "download(): still throws once the retries are used up");
+    check(retries.size() == 2, "download(): 3 attempts means 2 retries, and each one is announced");
+
+    if (retries.size() == 2) {
+        check(retries[0].attempt == 1 && retries[1].attempt == 2,
+              "onRetry(): names the attempt that just failed");
+        check(retries[0].attempts == 3 && retries[1].attempts == 3,
+              "onRetry(): names how many there are in total");
+        check(retries[0].waitMs == 20 && retries[1].waitMs == 40,
+              "onRetry(): the wait DOUBLES -- backing off rather than hammering");
+        check(!retries[0].reason.empty(), "onRetry(): carries libcurl's own reason for this request");
+    }
+
+    // ---- and turning it off means one go ----
+    retries.clear();
+    FileDownload once("http://no-such-host.invalid/whatever.dds", "whatever.dds");
+    once.maxAttempts = 1;
+    once.retryDelay = std::chrono::milliseconds(20);
+    once.onRetry = [&retries](int attempt, int attempts, const std::string& reason,
+                               std::chrono::milliseconds wait) {
+        retries.push_back({attempt, attempts, reason, static_cast<long long>(wait.count())});
+    };
+
+    try {
+        once.download(destFolder.string());
+    } catch (const std::runtime_error&) {
+        // expected
+    }
+
+    check(retries.empty(), "download(): maxAttempts = 1 never retries");
+
+    // ---- permanent: asked once, however many attempts are allowed ----
+    retries.clear();
+    FileDownload missing("file:///this/path/definitely/does/not/exist/anywhere.txt", "anywhere.txt");
+    missing.maxAttempts = 3;
+    missing.retryDelay = std::chrono::milliseconds(20);
+    missing.onRetry = [&retries](int attempt, int attempts, const std::string& reason,
+                                  std::chrono::milliseconds wait) {
+        retries.push_back({attempt, attempts, reason, static_cast<long long>(wait.count())});
+    };
+
+    threw = false;
+    try {
+        missing.download(destFolder.string());
+    } catch (const std::runtime_error&) {
+        threw = true;
+    }
+
+    check(threw, "download(): a file that is not there still throws");
+    check(retries.empty(), "download(): a PERMANENT failure is not retried, even with attempts left");
+    check(!std::filesystem::exists(destFolder / "anywhere.txt"),
+          "download(): no partial file left behind by any attempt");
+
+    std::filesystem::remove_all(destFolder);
+}
+
+// A url that has used up its attempts is remembered as such, so the NEXT resource wanting the
+// same file does not repeat the whole back-off. Measured on a 36-.ini XingqiuBamboo mod pointed
+// at an unreachable proxy: 246s without this, 45s with it, for the identical (all-skipped)
+// result.
+void testFailureMemo() {
+    AGRemapCore::DownloadCache cache;
+    const std::string url = "https://example.invalid/x.dds";
+
+    check(!cache.hasFailed(url), "hasFailed(): a url nobody has tried has not failed");
+
+    cache.markFailed(url);
+    check(cache.hasFailed(url), "markFailed(): ...and once it has, the run knows");
+    check(!cache.hasFailed("https://example.invalid/other.dds"),
+          "markFailed(): one url failing says nothing about another");
+    check(!cache.pathOf(url).has_value(), "markFailed(): a failure is not a path to copy from");
+
+    // It came back after all -- the mark has to go, or a later resource that still needs to
+    // fetch this would be denied its retries on the strength of stale bad news.
+    cache.remember(url, "C:/somewhere/x.dds");
+    check(!cache.hasFailed(url), "remember(): a successful fetch clears the failure");
+    check(cache.pathOf(url).has_value(), "remember(): ...and records where it landed");
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
@@ -285,6 +401,8 @@ int main(int argc, char** argv) {
     testRealHttpsDownload(scratchDir);
     testGetStillWorksWithRealDownload(scratchDir);
     testSharedCacheAcrossFileDownloads(scratchDir);
+    testRetries(scratchDir);
+    testFailureMemo();
 
     if (failures == 0) {
         std::printf("\nAll tests passed.\n");

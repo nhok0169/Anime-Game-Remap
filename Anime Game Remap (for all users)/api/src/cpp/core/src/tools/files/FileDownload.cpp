@@ -16,9 +16,12 @@
 
 #include <curl/curl.h>
 
+#include <algorithm>
+#include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
+#include <thread>
 #include <utility>
 
 
@@ -69,6 +72,48 @@ namespace AGRemapCore {
                 CURL* handle_;
         };
 
+        // How long to wait for a CONNECTION, not for the transfer. Without it libcurl's own
+        // default is 300s, which is finite but makes a retry policy a lie: three attempts at an
+        // unreachable host would sit there for fifteen minutes before reporting anything. This
+        // bounds only the connect phase, so a genuinely slow download of a large texture is
+        // untouched -- CURLOPT_TIMEOUT, which caps the WHOLE transfer, would not be, and is
+        // deliberately not set.
+        const long ConnectTimeoutSeconds = 30;
+
+        // Worth asking again about: nothing here is an answer from the server about the FILE, it
+        // is the conversation failing to happen. Everything not listed (a malformed URL, an
+        // unsupported protocol, a local write error) would fail identically forever.
+        bool isTransient(CURLcode code) {
+            switch (code) {
+                case CURLE_COULDNT_RESOLVE_PROXY:
+                case CURLE_COULDNT_RESOLVE_HOST:
+                case CURLE_COULDNT_CONNECT:
+                case CURLE_OPERATION_TIMEDOUT:
+                case CURLE_PARTIAL_FILE:
+                case CURLE_SEND_ERROR:
+                case CURLE_RECV_ERROR:
+                case CURLE_GOT_NOTHING:
+                case CURLE_SSL_CONNECT_ERROR:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        // CURLOPT_FAILONERROR collapses every >= 400 into one CURLE_HTTP_RETURNED_ERROR, so the
+        // status is the only thing separating "this file does not exist" from "come back in a
+        // moment". 408 and 429 say so outright; a 5xx is the server having a bad time, not a
+        // verdict on the URL.
+        bool isTransientStatus(long status) {
+            return status == 408 || status == 429 || status >= 500;
+        }
+
+        struct DownloadAttempt {
+            bool ok = false;
+            bool worthRetrying = false;
+            std::string error;
+        };
+
         // The libcurl write callback -- called by curl_easy_perform with each received chunk of
         // the response body; 'userdata' is the std::ofstream* passed via CURLOPT_WRITEDATA below.
         // Returning anything other than 'size * nmemb' tells curl the write failed and aborts the
@@ -93,10 +138,89 @@ namespace AGRemapCore {
 
     void DownloadCache::remember(const std::string& url, const std::string& path) {
         paths_[url] = path;
+
+        // It came back. Whatever was wrong earlier in the run is over, so a later resource that
+        // somehow still needs to fetch this gets its full complement of attempts again.
+        failed_.erase(url);
+    }
+
+    void DownloadCache::markFailed(const std::string& url) {
+        failed_.insert(url);
+    }
+
+    bool DownloadCache::hasFailed(const std::string& url) const {
+        return failed_.count(url) != 0;
     }
 
     FileDownload::FileDownload(std::string url, std::string filename, bool cache):
         url(std::move(url)), filename(std::move(filename)), cache(cache) {}
+
+    namespace {
+        // ONE go at it. Split out of download() so the retry loop below reads as a loop rather
+        // than as curl setup with a loop wrapped round it, and so every attempt starts from a
+        // freshly truncated file and a fresh handle -- a second attempt appending to whatever a
+        // half-finished first one left is exactly the kind of corruption a retry is supposed to
+        // avoid.
+        DownloadAttempt attemptDownload(const std::string& url, const std::string& path,
+                                         const std::optional<std::string>& proxy) {
+            DownloadAttempt attempt;
+
+            std::ofstream out(path, std::ios::binary | std::ios::trunc);
+            if (!out) {
+                // A local problem. Asking the server again would not create the folder.
+                attempt.error = "unable to open destination file for writing: " + path;
+                return attempt;
+            }
+
+            CurlEasyHandle curl;
+
+            // libcurl's own message for THIS request rather than the generic one for the error
+            // code: "Could not resolve host: github.com" instead of "Could not resolve
+            // hostname". The buffer has to outlive curl_easy_perform, which it does -- it and
+            // the handle are locals of the same scope, and it is read before either goes.
+            char errorBuffer[CURL_ERROR_SIZE];
+            errorBuffer[0] = '\0';
+
+            curl_easy_setopt(curl.get(), CURLOPT_URL, url.c_str());
+            curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, writeChunkToFile);
+            curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &out);
+            curl_easy_setopt(curl.get(), CURLOPT_FOLLOWLOCATION, 1L);
+            curl_easy_setopt(curl.get(), CURLOPT_FAILONERROR, 1L);
+            curl_easy_setopt(curl.get(), CURLOPT_NOSIGNAL, 1L);
+            curl_easy_setopt(curl.get(), CURLOPT_ERRORBUFFER, errorBuffer);
+            curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT, ConnectTimeoutSeconds);
+
+            if (proxy.has_value()) {
+                // A single CURLOPT_PROXY applies to whichever protocol the request actually uses
+                // -- the same effective behavior as the Python original's {"http": proxy,
+                // "https": proxy, "ftp": proxy} dict (identical proxy for all three), just
+                // expressed as one option instead of a per-scheme map.
+                curl_easy_setopt(curl.get(), CURLOPT_PROXY, proxy->c_str());
+            }
+
+            CURLcode result = curl_easy_perform(curl.get());
+            out.close();
+
+            if (result == CURLE_OK) {
+                attempt.ok = true;
+                return attempt;
+            }
+
+            std::error_code removeError;
+            std::filesystem::remove(FileService::strToPath(path), removeError);  // best-effort -- don't leave a partial file behind
+
+            attempt.error = errorBuffer[0] != '\0' ? errorBuffer : curl_easy_strerror(result);
+            attempt.worthRetrying = isTransient(result);
+
+            if (result == CURLE_HTTP_RETURNED_ERROR) {
+                long status = 0;
+                curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &status);
+                attempt.worthRetrying = isTransientStatus(status);
+            }
+
+            return attempt;
+        }
+    }
 
     std::string FileDownload::download(const std::string& folder, std::optional<std::string> proxy) {
         ensureCurlGlobalInit();
@@ -104,37 +228,30 @@ namespace AGRemapCore {
         std::filesystem::create_directories(FileService::strToPath(folder));
         std::string path = FileService::pathToStr((FileService::strToPath(folder) / FileService::strToPath(filename).filename()));
 
-        std::ofstream out(path, std::ios::binary | std::ios::trunc);
-        if (!out) {
-            throw std::runtime_error("FileDownload::download: unable to open destination file for writing: " + path);
+        const int attempts = std::max(1, maxAttempts);
+        std::chrono::milliseconds wait = retryDelay;
+        DownloadAttempt attempt;
+
+        for (int number = 1; number <= attempts; ++number) {
+            attempt = attemptDownload(url, path, proxy);
+            if (attempt.ok) {
+                return path;
+            }
+
+            // Out of tries, or the failure was an ANSWER rather than a hiccup -- see maxAttempts.
+            if (!attempt.worthRetrying || number == attempts) {
+                break;
+            }
+
+            if (onRetry) {
+                onRetry(number, attempts, attempt.error, wait);
+            }
+
+            std::this_thread::sleep_for(wait);
+            wait *= 2;
         }
 
-        CurlEasyHandle curl;
-        curl_easy_setopt(curl.get(), CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, writeChunkToFile);
-        curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &out);
-        curl_easy_setopt(curl.get(), CURLOPT_FOLLOWLOCATION, 1L);
-        curl_easy_setopt(curl.get(), CURLOPT_FAILONERROR, 1L);
-        curl_easy_setopt(curl.get(), CURLOPT_NOSIGNAL, 1L);
-
-        if (proxy.has_value()) {
-            // A single CURLOPT_PROXY applies to whichever protocol the request actually uses --
-            // the same effective behavior as the Python original's {"http": proxy, "https": proxy,
-            // "ftp": proxy} dict (identical proxy for all three), just expressed as one option
-            // instead of a per-scheme map.
-            curl_easy_setopt(curl.get(), CURLOPT_PROXY, proxy->c_str());
-        }
-
-        CURLcode result = curl_easy_perform(curl.get());
-        out.close();
-
-        if (result != CURLE_OK) {
-            std::error_code removeError;
-            std::filesystem::remove(FileService::strToPath(path), removeError);  // best-effort -- don't leave a partial file behind
-            throw std::runtime_error(std::string("FileDownload::download: request failed: ") + curl_easy_strerror(result));
-        }
-
-        return path;
+        throw std::runtime_error("FileDownload::download: request failed: " + attempt.error);
     }
 
     std::optional<std::string> FileDownload::cachedPath(const DownloadCache* sharedCache) const {

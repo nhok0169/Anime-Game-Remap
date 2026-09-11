@@ -14,10 +14,13 @@
 
 // ##### EndCredits
 
+#include <chrono>
+#include <functional>
 #include <optional>
 #include <string>
 #include <tuple>
 #include <unordered_map>
+#include <unordered_set>
 
 
 namespace AGRemapCore {
@@ -66,15 +69,39 @@ namespace AGRemapCore {
             std::optional<std::string> pathOf(const std::string& url) const;
 
             /**
-             * @brief Records that 'url' now sits at 'path'
+             * @brief Records that 'url' now sits at 'path' -- and that it is no longer failing
              *
              * @param url The link the file was downloaded from
              * @param path The full path the file was downloaded to
              */
             void remember(const std::string& url, const std::string& path);
 
+            /**
+             * @brief
+             @rst
+             Records that 'url' has already been asked for, as many times as it was going to be,
+             and did not come back :raw-html:`<br />` :raw-html:`<br />`
+
+             So that the NEXT resource wanting the same file does not repeat the whole retry
+             cycle. Measured: one unresolvable host costs 3.31s with the default three attempts
+             and their backoff, and a 36-``.ini`` mod pointed at a dead url would spend about two
+             minutes of pure waiting to reach the answer it already had
+             @endrst
+             *
+             * @param url The link that failed
+             */
+            void markFailed(const std::string& url);
+
+            /**
+             * @brief Whether 'url' has already used up its attempts during this run -- see #markFailed
+             *
+             * @param url The link to ask about
+             */
+            bool hasFailed(const std::string& url) const;
+
         private:
             std::unordered_map<std::string, std::string> paths_;
+            std::unordered_set<std::string> failed_;
     };
 
 
@@ -130,6 +157,51 @@ namespace AGRemapCore {
              * @brief Whether to copy the previously-downloaded file if possible, instead of downloading another copy
              */
             bool cache;
+
+            /**
+             * @brief
+             @rst
+             How many times #download asks for the file in total before giving up -- ``1`` to
+             never retry :raw-html:`<br />` :raw-html:`<br />`
+
+             Only failures worth asking again about are retried. ``Could not resolve host`` is a
+             DNS hiccup and the request stands a real chance next time; a ``404`` is an answer,
+             and asking three times just prints the same thing three times. #download decides
+             which is which from the `libcurl`_ result -- and, for an HTTP error, from the status
+             code, since ``503`` and ``404`` arrive as the same ``CURLE_HTTP_RETURNED_ERROR``
+             @endrst
+             */
+            int maxAttempts = 3;
+
+            /**
+             * @brief
+             @rst
+             How long to wait before the FIRST retry, DOUBLED for each one after it
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Backing off rather than hammering: whatever was briefly wrong (a resolver that has
+             not come back, a rate limit) is more likely to be over after a second than after no
+             time at all. With the defaults a file that never comes back costs 1s + 2s of waiting
+             on top of its three attempts
+             @endrst
+             */
+            std::chrono::milliseconds retryDelay{1000};
+
+            /**
+             * @brief
+             @rst
+             Called just before each retry, if set -- with the attempt that just failed, how many
+             there are in total, why it failed, and how long #download is about to wait
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A hook rather than a logger, because this class has no view and should not grow one:
+             :cpp:class:`RemapIniDownload` owns the :cpp:class:`BaseLogger` and wires this up in
+             its own ``fix``. Left unset a retry is silent, which is only right for a caller that
+             has nowhere to say it
+             @endrst
+             */
+            std::function<void(int attempt, int attempts, const std::string& reason,
+                                std::chrono::milliseconds wait)> onRetry;
 
             /**
              * @brief

@@ -46,11 +46,23 @@ namespace AGRemapCore {
         //     ps-t2  lightmap    -> ps-t1
         //     ps-t3              -> dropped
         //
-        // Both rules ask what is actually BOUND before moving it, so a mod already hand-fixed
-        // for 6.1 -- one whose author did this shift themselves -- is left alone rather than
-        // shifted twice. See RegValChecks for why that guard exists.
-        config.objRegRemovals = {{"head", {"ps-t0", "ps-t3"}},
-                                 {"body", {"ps-t0", "ps-t3"}}};
+        // EVERY rule here asks what is actually BOUND before touching it, so a mod already in
+        // the modern layout -- one whose author did this shift themselves, or built the skin on
+        // a base-character mod -- is left alone rather than shifted twice.
+        //
+        // The ps-t0 REMOVAL needs the guard just as much as the remaps do, and that took a real
+        // mod to notice. LisaStudent2 binds ps-t0 to its diffuse, not to a normal map; an
+        // unconditional removal there deleted the diffuse outright and the two guarded remaps
+        // then correctly declined to fire, so the head came out with a lightmap, a shadow ramp
+        // and NOTHING on ps-t0. It only became visible once that mod started classifying as
+        // LisaStudent at all -- before the classifier learned its hashes it was fixed as Lisa,
+        // and this row never ran on it.
+        //
+        // ps-t3 stays unconditional: it is dropped because LISA has no use for the slot,
+        // whatever the source put there, which is a statement about the target and not about
+        // the value.
+        config.objRegRemovals = {{"head", {{"ps-t0", &RegValChecks::isNormalMap}, "ps-t3"}},
+                                 {"body", {{"ps-t0", &RegValChecks::isNormalMap}, "ps-t3"}}};
 
         config.objRegRemaps = {{"head", {{"ps-t1", {{"ps-t0", &RegValChecks::isDiffuse}}, true},
                                          {"ps-t2", {{"ps-t1", &RegValChecks::isLightMap}}, true}}},

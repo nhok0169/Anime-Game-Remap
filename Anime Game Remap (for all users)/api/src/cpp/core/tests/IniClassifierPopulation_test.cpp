@@ -27,6 +27,11 @@
 //     MAXIMALLY, so the longer keyword wins without any regex -- this is the
 //     part most at risk if the keyword table is ever edited by hand.
 //   * The classifier singleton staying a singleton.
+//   * THE HASHES, which the GI population passed as {} until 2026-09-12 --
+//     that a mod type is reachable by its ib hash alone, and that the
+//     hashes outvote a section name that says something else (the
+//     LisaStudent2 case: every section named after 'lisa', every hash
+//     LisaStudent's).
 //
 // Needs the full static lib. Build AGRemapCore first ("cd cbuild && ninja
 // AGRemapCore"), then compile as described in IniFile_resources_test.cpp.
@@ -43,6 +48,8 @@
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/constants/GlobalModTypes.h"
 #include "AGRemapCore/constants/ModTypeId.h"
+#include "AGRemapCore/data/HashData.h"
+#include "AGRemapCore/model/strategies/ModType.h"
 #include "AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h"
 #include "AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h"
 
@@ -301,6 +308,105 @@ static void testHiddenSectionsStillClassify() {
 }
 
 
+static void testAModTypeIsReachableByItsIbHashAlone() {
+    std::printf("testAModTypeIsReachableByItsIbHashAlone\n");
+
+    AGRC::IniClassifier& classifier = AGRC::GlobalIniClassifiers::classifier();
+
+    // Every GI mod type the classifier registers AND that HashData files an 'ib' under
+    // must be nameable from that hash with no section name in the file at all. Driven off
+    // the data rather than a retyped list, so a renamed character or a new one is covered
+    // the day it lands -- and so that a name the two tables spell differently, which would
+    // silently leave that character with no hashes, fails here instead of in a user's run.
+    int checked = 0;
+
+    for (const AGRC::ModType& modType : AGRC::GlobalModTypes::all()) {
+        std::optional<ModTypeId> modTypeId = ModTypeIdTools::getEnum(modType.modTypeId);
+        if (!modTypeId.has_value() || ModTypeIdTools::getSectionKeywords(*modTypeId).empty()) {
+            continue;
+        }
+
+        std::string ibHash;
+        for (const std::pair<std::vector<std::string>, std::string>& row : AGRC::Data::getHashDataRows()) {
+            if (row.first.size() >= 3 && row.first[1] == modType.name && row.first[2] == "ib") {
+                ibHash = row.second;
+                break;
+            }
+        }
+
+        if (ibHash.empty()) {
+            continue;
+        }
+
+        checked++;
+        AGRC::IniClassifyStats stats = classifier.classify("hash = " + ibHash + "\n");
+        check(stats.modType.find(modType.modTypeId) != stats.modType.end(),
+              modType.name + " is reachable by its ib hash " + ibHash + " alone");
+    }
+
+    // The count itself is load-bearing: a lookup that quietly matched nothing would leave
+    // every assertion above unexecuted and this function passing.
+    check(checked >= 40, "at least 40 mod types were actually checked, not zero");
+}
+
+
+static void testHashesOutvoteASectionNameThatDisagrees() {
+    std::printf("testHashesOutvoteASectionNameThatDisagrees\n");
+
+    AGRC::IniClassifier& classifier = AGRC::GlobalIniClassifiers::classifier();
+
+    // A real mod, reduced: LisaStudent2 in the maintainer's folder is built on LisaStudent's
+    // model and has every section named after 'lisa', because that is what its author called
+    // the files. On section names alone it classifies as Lisa, the fix then runs Lisa ->
+    // LisaStudent, and every reverse hash lookup fails and writes 'HashNotFound'.
+    //
+    // f30eece6 is LisaStudent's 4.3 ib, bfca9d94 her 4.1 draw_vb. Five name votes (1 each)
+    // against four hash votes (2 each), so the hashes win 8 to 5.
+    const std::string ini =
+        "[TextureOverridelisaIB]\nhash = f30eece6\n"
+        "[TextureOverridelisaHead]\nhash = f30eece6\n"
+        "[TextureOverridelisaBody]\nhash = f30eece6\n"
+        "[TextureOverridelisaVertexLimitRaise]\nhash = bfca9d94\n"
+        "[TextureOverridelisaTexcoord]\n";
+
+    AGRC::IniClassifyStats stats = classifier.classify(ini);
+
+    check(stats.modType.find(static_cast<int>(ModTypeId::LisaStudent)) != stats.modType.end(),
+          "a mod whose sections say 'lisa' but whose hashes say LisaStudent classifies as LisaStudent");
+    check(stats.modType.find(static_cast<int>(ModTypeId::Lisa)) == stats.modType.end(),
+          "...and NOT also as Lisa -- the hash weight is meant to break the tie, not join it");
+
+    // The other direction has to keep working, or this would have traded one
+    // misclassification for another: a real Lisa mod agrees with itself on both signals.
+    // 518a6840 is Lisa's 4.3 ib, e6af2c6d her 4.1 draw_vb.
+    AGRC::IniClassifyStats lisa = classifier.classify(
+        "[TextureOverrideLisaIB]\nhash = 518a6840\n"
+        "[TextureOverrideLisaBody]\nhash = 518a6840\n"
+        "[TextureOverrideLisaVertexLimitRaise]\nhash = e6af2c6d\n");
+
+    check(lisa.modType.find(static_cast<int>(ModTypeId::Lisa)) != lisa.modType.end(),
+          "a genuine Lisa mod still classifies as Lisa");
+    check(lisa.modType.find(static_cast<int>(ModTypeId::LisaStudent)) == lisa.modType.end(),
+          "...and not as LisaStudent");
+
+    // AND THE ALREADY-FIXED CASE, which is the one that could have gone badly. A fixed Lisa
+    // mod carries LisaStudent's hashes inside its RemapFix sections; if those voted, every
+    // fixed mod would reclassify as its own target the second time it was run over. readLine
+    // skips a 'hash =' inside a Remap-named section, which is what stops that.
+    AGRC::IniClassifyStats fixed = classifier.classify(
+        "[TextureOverrideLisaIB]\nhash = 518a6840\n"
+        "[TextureOverrideLisaBody]\nhash = 518a6840\n"
+        "[TextureOverrideLisaBodyLisaStudentRemapFix]\nhash = f30eece6\n"
+        "[TextureOverrideLisaLisaStudentRemapIB]\nhash = f30eece6\n");
+
+    check(fixed.modType.find(static_cast<int>(ModTypeId::Lisa)) != fixed.modType.end(),
+          "an already-fixed Lisa mod still classifies as Lisa");
+    check(fixed.modType.find(static_cast<int>(ModTypeId::LisaStudent)) == fixed.modType.end(),
+          "...and the target hashes its own fix wrote in do not vote");
+    check(fixed.isFixed, "...and it is still seen as already fixed");
+}
+
+
 static void testClassifierIsStillASingleton() {
     std::printf("testClassifierIsStillASingleton\n");
 
@@ -317,6 +423,8 @@ int main() {
     testMaximalMatchDisambiguatesOverlappingNames();
     testEveryModTypeIsReachable();
     testHiddenSectionsStillClassify();
+    testAModTypeIsReachableByItsIbHashAlone();
+    testHashesOutvoteASectionNameThatDisagrees();
     testClassifierIsStillASingleton();
 
     if (failures == 0) {

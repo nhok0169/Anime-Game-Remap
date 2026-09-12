@@ -897,6 +897,60 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The 6.1 fix that remaps a Diluc mod onto DilucFlamme -- see
+             :cpp:class:`DilucFixer`
+             @endrst
+             */
+            static IniFixBuilder::Factory diluc6_1ToDilucFlamme();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix that remaps a DilucFlamme mod onto Diluc -- see
+             :cpp:class:`DilucFlammeFixer`
+             @endrst
+             */
+            static IniFixBuilder::Factory dilucFlamme6_1ToDiluc();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix that remaps a Fischl mod onto FischlHighness -- see
+             :cpp:class:`FischlFixer`
+             @endrst
+             */
+            static IniFixBuilder::Factory fischl6_1ToFischlHighness();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix that remaps a FischlHighness mod onto Fischl -- see
+             :cpp:class:`FischlHighnessFixer`
+             @endrst
+             */
+            static IniFixBuilder::Factory fischlHighness6_1ToFischl();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix that remaps a Kaeya mod onto KaeyaSailwind -- see
+             :cpp:class:`KaeyaFixer`
+             @endrst
+             */
+            static IniFixBuilder::Factory kaeya6_1ToKaeyaSailwind();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix that remaps a KaeyaSailwind mod onto Kaeya -- see
+             :cpp:class:`KaeyaSailwindFixer`
+             @endrst
+             */
+            static IniFixBuilder::Factory kaeyaSailwind6_1ToKaeya();
+
+            /**
+             * @brief
+             @rst
              The 6.1 fix that remaps a BarbaraSummertime mod onto Barbara -- see
              :cpp:class:`BarbaraSummertimeFixer`
              @endrst

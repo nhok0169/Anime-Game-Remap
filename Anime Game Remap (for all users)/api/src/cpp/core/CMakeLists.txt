@@ -65,6 +65,18 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Lisa/LisaFixer.cpp
     src/data/IniParseData/LisaStudent/LisaStudentParser.cpp
     src/data/IniFixData/LisaStudent/LisaStudentFixer.cpp
+    src/data/IniParseData/Diluc/DilucParser.cpp
+    src/data/IniFixData/Diluc/DilucFixer.cpp
+    src/data/IniParseData/DilucFlamme/DilucFlammeParser.cpp
+    src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp
+    src/data/IniParseData/Fischl/FischlParser.cpp
+    src/data/IniFixData/Fischl/FischlFixer.cpp
+    src/data/IniParseData/FischlHighness/FischlHighnessParser.cpp
+    src/data/IniFixData/FischlHighness/FischlHighnessFixer.cpp
+    src/data/IniParseData/Kaeya/KaeyaParser.cpp
+    src/data/IniFixData/Kaeya/KaeyaFixer.cpp
+    src/data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.cpp
+    src/data/IniFixData/KaeyaSailwind/KaeyaSailwindFixer.cpp
     src/data/IniFixData/Nilou/NilouFixer.cpp
     src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp
     src/data/IniParseData/Nilou/NilouParser.cpp
@@ -99,6 +111,7 @@ add_library(AGRemapCore STATIC
     src/data/IniParseData/Shenhe/ShenheParser.cpp
     src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp
     src/model/iniresources/RemapPositionResource.cpp
+    src/model/iniresources/VGSplitGroupResource.cpp
     src/data/IniFixData/Xiangling/XianglingFixer.cpp
     src/data/IniParseData/Xiangling/XianglingParser.cpp
     src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp
@@ -162,6 +175,7 @@ add_library(AGRemapCore STATIC
     src/model/buffers/BufFloat.cpp
     src/model/buffers/BufUnorm.cpp
     src/model/buffers/BufElementType.cpp
+    src/model/buffers/VGComponentSplit.cpp
     src/model/files/BufFileErrors.cpp
     src/model/files/BinaryFile.cpp
     src/model/files/BufFile.cpp

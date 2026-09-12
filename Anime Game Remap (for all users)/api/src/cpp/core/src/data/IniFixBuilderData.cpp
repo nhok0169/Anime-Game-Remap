@@ -292,6 +292,24 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Barbara),
                   "6.1", ModTypeIdTools::getName(ModTypeId::BarbaraSummertime)}, IniFixBuilderFuncs::barbara6_1ToBarbaraSummertime()},
 
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Diluc),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::DilucFlamme)}, IniFixBuilderFuncs::diluc6_1ToDilucFlamme()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::DilucFlamme),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Diluc)}, IniFixBuilderFuncs::dilucFlamme6_1ToDiluc()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Fischl),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::FischlHighness)}, IniFixBuilderFuncs::fischl6_1ToFischlHighness()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::FischlHighness),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Fischl)}, IniFixBuilderFuncs::fischlHighness6_1ToFischl()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Kaeya),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::KaeyaSailwind)}, IniFixBuilderFuncs::kaeya6_1ToKaeyaSailwind()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::KaeyaSailwind),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Kaeya)}, IniFixBuilderFuncs::kaeyaSailwind6_1ToKaeya()},
+
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::BarbaraSummertime),
                   "6.1", ModTypeIdTools::getName(ModTypeId::Barbara)}, IniFixBuilderFuncs::barbaraSummertime6_1ToBarbara()},
 

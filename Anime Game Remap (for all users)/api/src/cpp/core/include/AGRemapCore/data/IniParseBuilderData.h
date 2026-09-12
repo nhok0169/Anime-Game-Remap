@@ -104,8 +104,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.barbara4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **Barbara** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Three drawn objects -- head, body and dress -- and her fix moves the shared
+             ``drawindexed``. See ``data/IniParseData/Barbara/BarbaraParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory barbara4_0();
@@ -113,8 +116,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.barbaraSummertime4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **BarbaraSummertime** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The same three objects as Barbara; this pair is one-to-one. See
+             ``data/IniParseData/BarbaraSummertime/BarbaraSummertimeParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory barbaraSummertime4_0();
@@ -122,8 +128,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.diluc4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **Diluc** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Head and body, stride 12. DilucFlamme adds the dress his coat becomes. See
+             ``data/IniParseData/Diluc/DilucParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory diluc4_0();
@@ -131,8 +140,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.dilucFlamme4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **DilucFlamme** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Head, body and dress, stride 20 where Diluc's is 12. See
+             ``data/IniParseData/DilucFlamme/DilucFlammeParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory dilucFlamme4_0();
@@ -140,8 +152,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.fischl4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **Fischl** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Head, body and dress -- she is the one WITH the dress, the opposite way round
+             from the Diluc pair. See ``data/IniParseData/Fischl/FischlParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory fischl4_0();
@@ -149,8 +164,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.fischlHighness4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **FischlHighness** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Head and body, stride 12. See
+             ``data/IniParseData/FischlHighness/FischlHighnessParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory fischlHighness4_0();
@@ -208,8 +226,12 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.kaeya4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **Kaeya** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Three drawn objects and FOUR indices: IndexData gives him an ``extra`` that no
+             Kaeya ``.ini`` declares and that only KaeyaSailwind's dress split fills. See
+             ``data/IniParseData/Kaeya/KaeyaParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory kaeya4_0();
@@ -217,8 +239,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.kaeyaSailwind4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **KaeyaSailwind** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The same three objects as Kaeya; the asymmetry is all on the fix side. See
+             ``data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory kaeyaSailwind4_0();
@@ -264,8 +289,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.klee4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **Klee** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Her texcoord stride is 12 where most of this batch is 20. See
+             ``data/IniParseData/Klee/KleeParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory klee4_0();
@@ -273,8 +301,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.kleeBlossomingStarlight4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **KleeBlossomingStarlight** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             She has no Face component in the assets repo, so no face diffuse hash. See
+             ``data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory kleeBlossomingStarlight4_0();
@@ -282,8 +313,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.lisa4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **Lisa** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Head, body and dress; the dress is what LisaStudent has nowhere to put. See
+             ``data/IniParseData/Lisa/LisaParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory lisa4_0();
@@ -291,8 +325,12 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.lisaStudent4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **LisaStudent** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Head and body only, and her downloads bind the diffuse to ``ps-t1`` because
+             ``ps-t0`` is her normal map. See
+             ``data/IniParseData/LisaStudent/LisaStudentParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory lisaStudent4_0();

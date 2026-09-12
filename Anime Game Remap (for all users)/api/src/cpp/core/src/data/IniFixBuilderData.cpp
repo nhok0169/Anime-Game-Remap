@@ -289,6 +289,24 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Jean),
                   "6.1", ModTypeIdTools::getName(ModTypeId::JeanSea)}, IniFixBuilderFuncs::jean6_1ToJeanSea()},
 
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Barbara),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::BarbaraSummertime)}, IniFixBuilderFuncs::barbara6_1ToBarbaraSummertime()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::BarbaraSummertime),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Barbara)}, IniFixBuilderFuncs::barbaraSummertime6_1ToBarbara()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Klee),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::KleeBlossomingStarlight)}, IniFixBuilderFuncs::klee6_1ToKleeBlossomingStarlight()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::KleeBlossomingStarlight),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Klee)}, IniFixBuilderFuncs::kleeBlossomingStarlight6_1ToKlee()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Lisa),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::LisaStudent)}, IniFixBuilderFuncs::lisa6_1ToLisaStudent()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::LisaStudent),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Lisa)}, IniFixBuilderFuncs::lisaStudent6_1ToLisa()},
+
                 // ===== JeanCN @ toVersion 6.1 =====
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanCN),
                   "6.1", ModTypeIdTools::getName(ModTypeId::Jean)}, IniFixBuilderFuncs::jeanCN6_1ToJean()},

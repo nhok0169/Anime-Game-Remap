@@ -53,6 +53,18 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/JeanCN/JeanCNFixer.cpp
     src/data/IniFixData/DarkDiffuse.cpp
     src/data/IniFixData/RegValChecks.cpp
+    src/data/IniParseData/Barbara/BarbaraParser.cpp
+    src/data/IniFixData/Barbara/BarbaraFixer.cpp
+    src/data/IniParseData/BarbaraSummertime/BarbaraSummertimeParser.cpp
+    src/data/IniFixData/BarbaraSummertime/BarbaraSummertimeFixer.cpp
+    src/data/IniParseData/Klee/KleeParser.cpp
+    src/data/IniFixData/Klee/KleeFixer.cpp
+    src/data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.cpp
+    src/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.cpp
+    src/data/IniParseData/Lisa/LisaParser.cpp
+    src/data/IniFixData/Lisa/LisaFixer.cpp
+    src/data/IniParseData/LisaStudent/LisaStudentParser.cpp
+    src/data/IniFixData/LisaStudent/LisaStudentFixer.cpp
     src/data/IniFixData/Nilou/NilouFixer.cpp
     src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp
     src/data/IniParseData/Nilou/NilouParser.cpp

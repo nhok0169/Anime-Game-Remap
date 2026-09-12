@@ -84,6 +84,12 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"3.7", "Lisa", "blend_vb"}, "de1311ae"},
         {{"3.7", "Lisa", "texcoord_vb"}, "50ae5602"},
         {{"3.7", "Lisa", "ib"}, "695e029f"},
+        // HER FACE DIFFUSE, which this table did not have (added 2026-09-12). Confirmed against
+        // GI-Model-Importer-Assets/PlayerCharacterData/Lisa, whose Face component reads
+        // Diffuse = 66bea1c9. Without it a Lisa mod's own face section does not classify as the
+        // face at all, so the fix leaves it alone and emits a download instead -- the same
+        // failure AyakaSpringbloom had before her row was added.
+        {{"3.7", "Lisa", "tex_face_diffuse"}, "66bea1c9"},
         {{"3.7", "Lisa", "tex_head_diffuse"}, "b542085f"},
         {{"3.7", "Lisa", "tex_head_lightmap"}, "f69e017e"},
         {{"3.7", "Lisa", "tex_head_shadowramp"}, "7eb5b84e"},
@@ -553,6 +559,15 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"4.0", "Lisa", "blend_vb"}, "8bfa989d"},
         {{"4.0", "Lisa", "texcoord_vb"}, "92b87c71"},
         // LisaStudent
+        // HER FACE DIFFUSE, likewise missing and likewise confirmed upstream:
+        // GI-Model-Importer-Assets/PlayerCharacterData/LisaStudent gives Face Diffuse = 95cb454c.
+        //
+        // KleeBlossomingStarlight, in this same batch, is the one that stays empty: she has NO
+        // Face component in the assets repo at all, so there is nothing to confirm against and
+        // inferring one from Klee is the guess this table's policy forbids. Her generated face
+        // section therefore still carries a register and no hash -- see NilouBreeze's row for the
+        // probe showing what that does and does not cost.
+        {{"4.0", "LisaStudent", "tex_face_diffuse"}, "95cb454c"},
         {{"4.0", "LisaStudent", "draw_vb"}, "362fb2b3"},
         {{"4.0", "LisaStudent", "position_vb"}, "37c70461"},
         {{"4.0", "LisaStudent", "blend_vb"}, "5db2f8f4"},

@@ -28,21 +28,14 @@ namespace AGRemapCore {
     // written out one-per-method rather than collapsed into a single shared stub so that each
     // can be filled in independently, and so the table below reads exactly like the
     // pure-Python original's.
-    IniParseBuilder::Factory IniParseBuilderFuncs::barbara4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::barbaraSummertime4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::diluc4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::dilucFlamme4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::fischl4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::fischlHighness4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::kaeya4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::kaeyaSailwind4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::klee4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::kleeBlossomingStarlight4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::lisa4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::lisaStudent4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::giDefault() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::arlecchino5_4() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::lisaStudent5_7() { return IniParseBuilder::defaultFactory(); }
 
     namespace {
         // The version index sits at position 0 and the mod name at position 1, matching the
@@ -104,6 +97,7 @@ namespace AGRemapCore {
 
                 // ===== 5.4 =====
                 {{"5.4", ModTypeIdTools::getName(ModTypeId::Arlecchino)}, IniParseBuilderFuncs::arlecchino5_4()},
+                {{"5.4", ModTypeIdTools::getName(ModTypeId::LisaStudent)}, IniParseBuilderFuncs::lisaStudent5_4()},
 
                 // ===== 5.5 =====
                 {{"5.5", ModTypeIdTools::getName(ModTypeId::Jean)}, IniParseBuilderFuncs::jean5_5()},

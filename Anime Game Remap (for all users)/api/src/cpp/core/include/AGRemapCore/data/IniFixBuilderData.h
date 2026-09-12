@@ -888,6 +888,60 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The 6.1 fix that remaps a Barbara mod onto BarbaraSummertime -- see
+             :cpp:class:`BarbaraFixer`
+             @endrst
+             */
+            static IniFixBuilder::Factory barbara6_1ToBarbaraSummertime();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix that remaps a BarbaraSummertime mod onto Barbara -- see
+             :cpp:class:`BarbaraSummertimeFixer`
+             @endrst
+             */
+            static IniFixBuilder::Factory barbaraSummertime6_1ToBarbara();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix that remaps a Klee mod onto KleeBlossomingStarlight -- see
+             :cpp:class:`KleeFixer`
+             @endrst
+             */
+            static IniFixBuilder::Factory klee6_1ToKleeBlossomingStarlight();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix that remaps a KleeBlossomingStarlight mod onto Klee -- see
+             :cpp:class:`KleeBlossomingStarlightFixer`
+             @endrst
+             */
+            static IniFixBuilder::Factory kleeBlossomingStarlight6_1ToKlee();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix that remaps a Lisa mod onto LisaStudent -- see
+             :cpp:class:`LisaFixer`
+             @endrst
+             */
+            static IniFixBuilder::Factory lisa6_1ToLisaStudent();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix that remaps a LisaStudent mod onto Lisa -- see
+             :cpp:class:`LisaStudentFixer`
+             @endrst
+             */
+            static IniFixBuilder::Factory lisaStudent6_1ToLisa();
+
+            /**
+             * @brief
+             @rst
              The 6.1 fix remapping **JeanCN onto Jean** -- **not** a stub. The mirror of
              :cpp:func:`jean6_1ToJeanCN`, in ``data/IniFixData/JeanCN/JeanCNFixer.cpp``
              @endrst

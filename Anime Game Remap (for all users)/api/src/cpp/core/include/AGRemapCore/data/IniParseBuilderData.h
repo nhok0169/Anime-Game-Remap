@@ -585,6 +585,16 @@ namespace AGRemapCore {
              :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
+            /**
+             * @brief
+             @rst
+             LisaStudent's 5.4 parser -- the same shifted registers as 4.0, but reading her
+             re-dumped assets out of their own ``5_4`` folder. See
+             :cpp:func:`LisaStudentParser::v5_4`
+             @endrst
+             */
+            static IniParseBuilder::Factory lisaStudent5_4();
+
             static IniParseBuilder::Factory lisaStudent5_7();
 
             /**

@@ -28,13 +28,14 @@ Two worked examples live next to the mods they fix, in `Importer/GIMI/Mods/`:
 | --- | --- |
 | `overrideScript.py` | the **config route** --- a `GIMICharParserConfig` and a `GIMICharFixerConfig` handed to `makeGIMICharParser`/`makeGIMICharFixer`, which is the same factory every compiled character uses. GanyuTwilight's whole fix in 38 lines, and its `--ab` proves the output byte-identical to the compiled one |
 | `overrideScript2.py` | the **hand-built route** --- a `GIMIParser`/`GIMIFixer` assembled from the individual edits, for a fix the config cannot express |
+| `yelanTranquilFix.py` | the hand-built route **at full size** (2026-09-12) --- a runtime `ModType` whose hash / index / vertex-group rows are added from Python and whose builders are borrowed from a shipped GI type, three pseudo targets with a fixer each, the textures collected with `ResRegCollect` (edited through `TexReplace`, a flat normal map invented through `TexCreate`) and **the buffers collected as one resource group** with `ResGroupCollect` + `BufReplace` + the core's `VGSplitGroupResource`. Yelan -> YelanTranquil, a skin of three components, which no config field expresses yet; see [Vertex Group Remaps](../VGRemaps/CLAUDE.md)'s recipe, step 8, for the traps it hit. `yelanTranquilFixPerBuffer.py` beside it is the earlier per-buffer `ResRegCollect` + `fixFunc` shape |
 
 **Reach for the config route first.** It is the same code path the shipped characters take, so a
 prototype written that way ports to C++ as a straight transcription of the config --- which is
 exactly what a `Ini{Parse,Fix}Data/<Name>/` row is. The hand-built route is for a character that
 is not the standard GIMI shape (a boss remap, say) or an edit no config field covers.
 
-Three things that will cost you an hour each if you learn them the hard way:
+Six things that will cost you an hour each if you learn them the hard way:
 
 * **Attach a logger or read `RemapService.stats`.** A prototype that raises is caught by the
   per-`.ini` guard and recorded in `stats.ini.skipped` --- and with no logger, printed **nowhere**.
@@ -43,6 +44,31 @@ Three things that will cost you an hour each if you learn them the hard way:
   and its `getModSuffixedName` has a confirmed bug. Use **`FRB.CppIniNamingTools`**.
 * **A prototype is not proven by running.** Diff it against something --- the compiled fix if the
   character has one (`--ab`), the old script if it does not.
+* **A `GIMIObjPartFilter` must outlive the callables `filter()` hands out.** They point back at
+  it; built as a local of a fixer factory it is collected, every window is empty, and the index
+  edit silently does nothing (`match_first_index` keeps the source's value). Keep it on a list.
+* **A runtime target that shares a value with the source blinds the reverse lookups.** A pseudo
+  target with its own index `0` sent Yelan's head to the `ib` graph; the fix-side filter reverse-
+  looks-up the same way. Give the classifier `hashNonVersionVals` / `indexNonVersionVals =
+  {"name": <source>}`, and register no index rows for a target nothing looks up.
+* **`RemapBlendReplace(fixFunc = ...)` only runs from `RemapService` on an API built after
+  2026-09-12** (the non-copyable-cast fix in `PyRemapBlendResource.cpp`); before it, the loop logged
+  `return_value_policy = copy, but type is non-copyable` per resource and wrote nothing, while
+  `resource.fix()` from Python worked. And give each resource a `resType` the stats know
+  (`blend` / `position` / `texcoord` / `buf`); the default `resourceRemapBlend` was counted nowhere
+  until the same day.
+* **Buffers that depend on each other go through `ResGroupCollect`, and a draw call filled
+  afterwards wants `RegFillMissingMode.BottomCover`.** A `ResRegCollect` per buffer is the naive
+  shape (issue #190): the blend decides which vertices a component keeps, the ib which triangles,
+  and the position / texcoord must follow the same vertex set. `BufReplace(resModObj, kind)` names
+  each buffer and builds a member typed by kind, and `IniGroupedResBuilder(VGSplitGroupResource,
+  args = [name], kwargs = {component, specs, ibPaths, texcoordLineEdit})` builds the group that
+  splits them together. The collect splices the collected register into an `if 1 ... endif`
+  block, which splits the section into parts -- and `RegFillMissing`'s default `FillMissing` fills
+  the FIRST content part that lacks the register (`IfTemplateNode::getKeyMissingPart`), which put
+  `drawindexed` ahead of the ib and the textures. `BottomCover` (2026-09-12) adds a fresh LAST part
+  at each root, the same way `TopdownCover` adds a first one, so the draw lands after everything
+  the section sets up whatever split it. Read the slot section's order back before believing a run.
 
 <br>
 
@@ -835,6 +861,20 @@ such declaration, and came out visibly pale in game
 (`Images/Xiangling/6_1/XianglingCheerPaleHair.jpg`). **An A/B that passes because of a per-character
 override is not evidence about the general path.**
 
+**And a save driven from PYTHON used to throw the correction away (fixed 2026-09-12).** The
+pure-Python `TextureFile.save` re-applied `info["gamma"]` unconditionally, and that key is set by
+nobody -- so `self.gamma = None` erased what the C++ `open` had just read off the DX10 header,
+and a `BC7_UNORM_SRGB` diffuse edited through a Python `TexEditor` came back out untagged AND
+uncorrected: measured 161.9 -> 161.9 mean on Yelan's head diffuse where the correction gives 117.4.
+Every compiled character goes through the C++ `TexEditorReplace`, which never touches that
+method, so no A/B saw it; the Yelan prototype did, as a visibly wrong head in game. It now only
+overrides when the metadata names a gamma. Two corollaries from the same afternoon: **the Pillow
+engine cannot do this at all** (it reads no DX10 header, so it neither knows the source is sRGB
+nor corrects -- fine for a lightmap, wrong for a diffuse; use the Compressonator engine for
+anything that was sRGB), and **a texture the fix CREATES to stand in for an sRGB one has to be
+authored pre-corrected**, because `TexCreator` writes it untagged: Tranquil's flat normal map is
+127/127/255 under an sRGB header, so the created one holds `round(255 * (127 / 255) ** 2.2) = 55`.
+
 **`--compressTextures` is not the answer to this, and it does not do what its name suggests.**
 Measured: `save(compress=true)` writes DXGI 98 and `save(compress=false)` writes a legacy header,
 and **both are linear** -- the flag changes the file's size, not its colour space. (It also only
@@ -1013,7 +1053,11 @@ faceCollect_.resEdits = {{"face", faceReplace_.get()}};
 - **`TexReplace` alone writes nothing from C++.** Exactly like `RemapBlendReplace`, it names
   everything correctly and does not override `buildResModel`, because the editor that does the work
   reaches it from Python. `TexEditorReplace` exists for that; using the base gives you a correct
-  `.ini` file naming a texture that was never created.
+  `.ini` file naming a texture that was never created. From Python it does write: `TexReplace(
+  resModObj, editor, fixFunc = f)` where `f` runs a Pillow-engine `TexEditor` over
+  `resource.srcPath` into `resource.fixedPath` is how `yelanTranquilFix.py` edits its textures.
+  The file is named per SOURCE texture (`YelanHeadDiffuseRemapTex.dds`, no target in it), so one
+  edit of one texture shared by several targets is written once and referenced by all.
 - **`resModObj` must differ from the source graph** (`("", "face")` -> `("", "faceRemapTex")`), or
   the resource overwrites the graph it was collected from.
 - **The collecting graph still needs its own `GraphRename`**, like everything else -- see below.
@@ -1510,31 +1554,55 @@ claim about two directories, and it is only as good as knowing which two.
 
 <br>
 
-### A REMOVAL needs the same value guard as the remap beside it (2026-09-12)
+### A REGISTER SHIFT IS UNCONDITIONAL --- `RegValChecks` reads a NAME, not a texture (2026-09-12)
 
-A row that shifts registers down a slot usually removes one at the top and renames the rest:
+A row that shifts registers down a slot removes one at the top and renames the rest. It is
+tempting to guard each rule on what is bound, so that a mod "already in the target's layout" is
+not shifted twice:
 
 ```cpp
-config.objRegRemovals = {{"head", {"ps-t0", "ps-t3"}}};                       // the normal map
+// DON'T. Every check here is reading a string the modder chose.
+config.objRegRemovals = {{"head", {{"ps-t0", &RegValChecks::isNormalMap}, "ps-t3"}}};
 config.objRegRemaps   = {{"head", {{"ps-t1", {{"ps-t0", &RegValChecks::isDiffuse}}, true},
                                    {"ps-t2", {{"ps-t1", &RegValChecks::isLightMap}}, true}}}};
 ```
 
-The remaps here are guarded and the removal is not, and that pairing is **wrong every time**. The
-guards exist because a mod may already be in the target's layout --- hand-fixed by its author, or
-built on a base-character mod --- and must not be shifted twice. But a mod in that state has its
-DIFFUSE on `ps-t0`, not a normal map, and the unguarded removal deletes it. The guarded renames
-then correctly decline to fire, so nothing refills the slot: LisaStudent2 came out of this with a
-lightmap, a shadow ramp, and **nothing on `ps-t0`** --- a valid, clean-looking, wrong `.ini`.
+**`RegValChecks` tests the RESOURCE NAME** --- `isDiffuse` is `containsIgnoreCase(val,
+"diffuse")` and nothing more. A name is a label the modder picks, and a mod ported forward
+keeps its old labels long after the content behind them has moved. LisaStudent1 binds `ps-t0`
+to a section called `ResourceLisaStudentHeadDiffuse` that holds her **normal map**. Guarding on
+that name does not detect "already shifted"; it detects what somebody typed.
 
-The trap is that the two lines are written while thinking about different things. The rename is
-"do not shift a mod that is already shifted", which makes the guard obvious. The removal is "the
-target has no normal map", which sounds like a fact about the TARGET and needs no guard at all.
-It is really "the source has a normal map HERE", which is a fact about the value.
+This cost a full cycle and a wrong bug report. The guarded row left `ps-t0` in place on every
+LisaStudent mod, the output was read as "the fix is deleting the diffuse", and a second guard
+was added to "fix" it --- when the unguarded shift had been right all along and the resource
+names were the only thing saying otherwise.
 
-Rule: **in a shift, guard the removal on what is being removed** (`&RegValChecks::isNormalMap`).
-Leave a removal unguarded only when it is genuinely about the target --- LisaStudent's `ps-t3`
-goes because Lisa has no use for the slot whatever is in it, and that one is right as it stands.
+**The register POSITION is the contract.** A character's row says what slot the source binds
+each map to; shift on that, unconditionally, the way the pure-Python rows always did. Reach for
+a `RegValChecks` guard only where the *value* genuinely decides something the position cannot ---
+a texture edit that should only run on one of two things a slot may hold --- and never to infer
+what a texture IS.
+
+<br>
+
+### A SPLIT's second copy is a separate target, and the register edits are keyed by target
+
+`objRegRemovals` and `objRegRemaps` are keyed by TARGET object. A split makes a second copy of
+one source graph under a different target name --- LisaStudent's `body` becomes Lisa's `body`
+**and** `dress` --- and that copy arrives with the same registers bound the same way. Name only
+the first and the shift applies to half the model:
+
+```cpp
+config.objSplits      = {{"head", {"head"}}, {"body", {"body", "dress"}}};
+config.objRegRemaps   = {{"head", ...}, {"body", ...}, {"dress", ...}};   // all THREE
+```
+
+The pure-Python rows do not need the third entry because `preRegEditOldObj` makes the edit run
+before the split, so both copies inherit it --- which is the same flag that makes Klee's texture
+edit land on her dress. Transcribing such a row into this template means writing the copy out
+explicitly. Nothing catches it: the section NAMES are all present, the references all resolve,
+and only reading the two copies' bodies side by side shows one shifted and one not.
 
 <br>
 

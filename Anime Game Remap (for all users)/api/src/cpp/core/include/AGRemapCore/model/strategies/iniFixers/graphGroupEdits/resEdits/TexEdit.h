@@ -17,6 +17,7 @@
 #include <functional>
 #include <optional>
 #include <string>
+#include <unordered_map>
 
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h"
 
@@ -77,14 +78,24 @@ namespace AGRemapCore {
              * @brief
              @rst
              The fixed name of the resource `section`_ -- ``<capitalized modName><texName>``, with a
-             counter suffix from the second texture onwards, run through
+             counter suffix from the second DISTINCT texture onwards, run through
              :cpp:func:`IniNamingTools::getRemapTexResourceName` :raw-html:`<br />` :raw-html:`<br />`
 
+             **Memoised per 'modName'**: asked for the same mod twice, this hands back the same
+             name and does not advance the counter :raw-html:`<br />` :raw-html:`<br />`
+
              .. note::
-                Unlike every other ``getFixResourceName`` in this family, this one is **not pure** --
-                each call advances the counter, so the same 'resource' asked for twice gets two
-                different names. That is the pure-Python original's own behaviour (it is what
-                numbers successive textures apart), and \ref clear is what resets it between runs
+                That memoisation is the whole point, and it is not a micro-optimisation. A
+                :cpp:class:`TexCreate` holds ONE creator, so every texture it makes is identical
+                by construction -- there is nothing for a counter to tell apart. Without the
+                memo, a mod whose graph binds the register in several branches asks once per
+                branch and gets ``NormalMap``, ``NormalMap1``, ``NormalMap2``, ``NormalMap3``:
+                four byte-identical 4MB ``.dds`` files where the pure-Python original writes one.
+                Kaeya's four-way ``$swapvar`` mod is where that surfaced (2026-09-12).
+
+             .. note::
+                The counter still exists and still numbers genuinely different textures apart --
+                a second mod name mints a second name. \ref clear resets both it and the memo
              @endrst
              *
              * @param resource The name of the original resource `section`_. Unused -- the name is built from 'modName' and \ref texName
@@ -120,9 +131,13 @@ namespace AGRemapCore {
             int texInd() const;
 
         private:
-            // Mutable because getFixResourceName is const (it overrides a const virtual) yet has to
-            // advance the counter -- see its own note on why it is deliberately not pure.
+            // Both mutable because getFixResourceName is const (it overrides a const virtual) yet
+            // has to fill the memo and advance the counter -- see its own notes.
             mutable int texInd_ = 0;
+
+            // modName -> the name already minted for it. One entry in every real fix; the map is
+            // what makes asking twice cost nothing rather than costing a file.
+            mutable std::unordered_map<std::string, std::string> names_;
     };
     /**
      * @brief

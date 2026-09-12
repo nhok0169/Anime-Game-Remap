@@ -33,6 +33,7 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     void TexCreate<K, V, KeyHash, KeyEqual>::clear() {
         texInd_ = 0;
+        names_.clear();
     }
 
 
@@ -42,6 +43,14 @@ namespace AGRemapCore {
         // 'resource' is deliberately discarded: a created texture has no original resource name to
         // build on, so the name comes entirely from the mod being fixed to and the texture type.
         (void)resource;
+
+        // ALREADY NAMED FOR THIS MOD: hand back the same name rather than minting a second.
+        // Everything this class creates comes out of one TexCreator, so two names here mean two
+        // identical files -- see the note on this method.
+        auto cached = names_.find(modName);
+        if (cached != names_.end()) {
+            return cached->second;
+        }
 
         std::string result = TextTools::capitalize(modName) + texName;
 
@@ -53,6 +62,7 @@ namespace AGRemapCore {
 
         result = IniNamingTools::getRemapTexResourceName(result);
         ++texInd_;
+        names_[modName] = result;
         return result;
     }
 

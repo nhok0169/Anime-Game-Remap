@@ -98,6 +98,35 @@ Two things worth knowing if you touch this again:
   **The pattern generalises to any narrow-`char` third-party API**: don't convert the path, avoid
   giving it one. The standard library can move bytes into places a C interface cannot name.
 
+### A path INSIDE a `.ini` is a Windows path, on every OS
+
+Separate from the UTF-8 rule above, and discovered the same way — by running the real CLI on Linux
+(2026-09-11). A GIMI `.ini` is a Windows artifact and writes its own resources as
+
+```ini
+filename = .\AyakaspringbloomMod1\AyakaspringbloomBlend.buf
+```
+
+so the separator in that file is a backslash **regardless of which OS the fix runs on**. Two
+consequences, and the first one alone is not enough:
+
+* **Reading** — on POSIX a backslash is an ordinary filename character, so that string names one
+  file that does not exist rather than a file two directories down. `FileService::strToPath`
+  translates it, because that is the single place a path-shaped `std::string` becomes a
+  `std::filesystem::path`. Windows is untouched (`#ifndef _WIN32`); it already treats both as
+  separators, so there is nothing to gain and a compiled-out branch cannot regress it.
+* **Writing** — `std::filesystem` joins with the NATIVE separator, so with only the read fix a
+  Linux run produces a correct mod whose `.ini` says `./Sub/tex.dds`. Use
+  `FileService::pathToIniStr` for anything destined for a `.ini` (`getFixedFile`,
+  `getFixedElementFile`, `TexReplace::getFixFile`). **Not** `pathToStr`, which also renders real
+  filesystem paths, folders and log lines.
+
+The pair round-trips: written `.\Sub\tex.dds`, read back correctly on POSIX.
+
+**The general shape is worth carrying to any other format this library emits**: a path in a file
+the GAME reads follows the game's convention, not the host's. `std::filesystem`'s native-separator
+default is the wrong default for a serialised artifact, and it is silent about it.
+
 <br>
 
 ## `std::make_tuple(*ptr1, *ptr2)` silently returns dangling references when the declared return type is a tuple of references

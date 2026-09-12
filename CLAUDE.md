@@ -341,9 +341,26 @@ just `VGRemapData.cpp`, at `/Od`) **must** also carry `SKIP_PRECOMPILE_HEADERS` 
 from 14s to 144s the first time this was missed. If a build feels slow, check what `cbuild` was
 configured with before optimising anything.
 
+**MOD FIXING ITSELF WAS FIRST RUN ON LINUX ON 2026-09-11, and that is a different claim from the
+port building.** The same mod fixed on Windows and under WSL now produces **148 of 148 files
+byte-identical** -- `.ini` files, textures, blends, downloads, backups. Getting there needed two
+fixes, and the first alone looked like success: a `.ini` says `filename = .\Sub\file.buf`, which
+on POSIX is one nonexistent filename rather than a path, so every mod pointing into a subfolder
+failed; fixing the READ then had Linux WRITE `./Sub/...` back into a file a Windows game reads.
+See **Architecture**'s "A path INSIDE a `.ini` is a Windows path, on every OS", and
+**Overview**'s habit 28 for why the acceptance test is a byte comparison against Windows rather
+than a clean run.
+
+**And the setup notes were written from ONE Linux box.** A second environment (Ubuntu 22.04)
+found six things they do not cover -- the GCC floor is 13 and it is *Z3* that sets it, `pybind11`
+is missing from `Tools/APIBuilder/requirements.txt`, `wsl -u root` makes the "needs root" step
+unattended, a changed compiler needs a fresh build tree, a Linux build silently modifies three
+TRACKED `.so` binaries, and numpy's ABI is not its Python version. All six are at the top of
+[Setup](AI%20Agent%20Help/Setup/CLAUDE.md)'s Linux section.
+
 **This repo is cross-platform as of 2026-08-31, and that is newer than most of the documentation
-around it.** The API has been built, imported and tested on Linux (WSL2 / Ubuntu 24.04, GCC 13)
-as well as Windows. The C++ core and Cython layer turned out to be fully portable — every bug that
+around it.** The API has been built, imported and tested on Linux (WSL2 / Ubuntu 24.04 and 22.04,
+GCC 13) as well as Windows. The C++ core and Cython layer turned out to be fully portable — every bug that
 port surfaced was in CMake glue, vendored third-party code, or `APIBuilder`, and several were
 `if(WIN32)` blocks with no `else()` that fail only on the other OS, sometimes only at runtime. If
 your task touches the build system at all, read **Setup**'s Linux section and **Overview**'s

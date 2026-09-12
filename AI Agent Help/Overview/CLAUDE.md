@@ -410,6 +410,23 @@ error. Forcing the console to CP437, running, and finding 437 afterwards proves 
 pair has to observe the CHANGED state in the middle**, or it is only testing that nothing happened.
 The same shape applies to any scoped mutation: a lock, a temp file, a working-directory change.
 
+**28. "It ran and printed ENJOY" is not evidence on a second platform — compare the BYTES against
+the one you trust.** The first Linux run of the CLI (2026-09-11) reported a clean fix while every
+`.ini` that pointed into a subfolder was silently failing to open, because a Windows-authored
+`filename = .\Sub\file.buf` is one nonexistent filename on POSIX. Fixing that produced a *second*
+false success: the mod was now correct, and the generated `.ini` carried `./Sub/...` into a file a
+Windows game reads. **Both were invisible in the summary line, and both showed up immediately in a
+content-hash comparison of the two platforms' output on the same mod** — which finished at 148/148
+identical once the second half landed.
+
+So when porting to a new environment, the acceptance criterion is not "the run succeeds there" but
+"it produces the same artifact as the platform that is known good". The harness is four lines of
+`sha256` over both trees, and it is the only thing that distinguishes *working* from *running*.
+
+A corollary from the same session: **one sample is not a platform test.** The first mod tried on
+Linux worked, because its `.ini` happened to use bare filenames; the second failed on every
+resource. Same lesson as habit 24, one layer up.
+
 <br>
 
 ## Operating norms

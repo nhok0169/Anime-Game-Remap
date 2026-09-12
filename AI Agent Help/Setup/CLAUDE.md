@@ -539,6 +539,79 @@ portable part — `AGRemapCore`'s 107 translation units and all four Cython modu
 GCC 13.3 / `-std=gnu++23` with **zero** source changes. Every problem was in build glue, vendored
 third-party code, or Windows-only assumptions in packaging.
 
+## A SECOND environment, 2026-09-11: Ubuntu 22.04, and six things this section does not say
+
+Everything below was written from a 24.04 box. A second agent built and ran the whole thing on
+**Ubuntu 22.04.5 / WSL2**, and **every single blocker was in the setup rather than in the code** --
+the C++ compiled clean again once the toolchain was right. Read this before following the recipe
+below, because two of the six will stop you outright.
+
+**1. The compiler floor is GCC 13, and it is Z3 that sets it -- not us.** 22.04 ships GCC 11 and
+offers at most g++-12 in its own repos, so a stock 22.04 cannot build this project:
+
+* **GCC 11 fails on OUR core**: `std::string_view sv(chunk.begin(), chunk.end())` in
+  `StringTools::splitlines`, where `chunk` comes from a `ranges::split_view`. libstdc++ 11 has no
+  such constructor.
+* **GCC 12 fails on the VENDORED Z3**: `extern/z3/src/ast/ast.cpp` includes `<format>`, and
+  libstdc++ only shipped that header in 13. Our own core compiles fine under 12 -- seven real
+  translation units checked -- so "the project needs GCC 13" is true for the wrong reason, and you
+  will not discover it until 93 of Z3's 888 targets have built.
+
+On 22.04 that means `ppa:ubuntu-toolchain-r/test` (g++-13.4.0 works). On 24.04 the stock g++-13 is
+already enough.
+
+**2. `sudo` is not actually a blocker under WSL.** This file says installing `libssl-dev` is "the
+one thing that genuinely needs root" and treats an agent's inability to type a password as a hard
+stop. `sudo -n true` does fail -- but `wsl -u root -- <command>` gives a passwordless root shell,
+so the whole apt side of this setup is available unattended.
+
+**3. `pybind11` is NOT in `Tools/APIBuilder/requirements.txt`** -- and grepping for it says
+otherwise. The file has exactly two lines, `pybind11-stubgen>=2.5.5` and `numpy>=1.26.4`, so
+`grep -c pybind11` returns 1 while `grep -cE '^pybind11([<>=!]|$)'` returns 0. (The same
+substring trap **Tools** documents for the script's keyword sections.) Following the documented
+steps therefore produces an environment that configures as far as
+
+```
+CMake Error at CMakeLists.txt:42 (find_package):
+  Could not find a package configuration file provided by "pybind11"
+```
+
+`api/CMakeLists.txt` derives `pybind11_DIR` by importing pybind11 from the Python it found, so it
+just has to be in the environment. **Pin it to 3.0.4** -- `core.pyi` is a committed artifact of
+that exact version. Mirroring the Windows box's whole build set is the safest move:
+`pybind11==3.0.4`, `pybind11-stubgen==2.5.5`, `numpy==1.26.4`, `Cython==0.29.34`.
+
+**4. A changed compiler needs a fresh build tree, and a failed configure poisons one.** `CMakeCache`
+pins `CMAKE_CXX_COMPILER`, so switching `CC`/`CXX` and reconfiguring in place silently keeps the old
+compiler -- which looks exactly like the new one not having installed. Same shape as the
+`OPENSSL_*-NOTFOUND` trap already documented below, and it bites again with
+`pybind11_DIR-NOTFOUND`. **Delete the tree you are changing and only that tree**: `cebuildlin`
+holds ~45 minutes of Z3, so when the core configure fails, remove `cbuildlin` alone.
+
+**5. A Linux build MODIFIES TRACKED BINARIES.** `libz3.so.4.17` (36 MB), `libcurl.so.4` and
+`libutf8proc.so.3` sit in `api/src/py/FixRaidenBoss2/` and are **tracked**, while every compiled
+module beside them (`core.*.so`, `Cy*.so`, `core.*.pyd`) is gitignored. So a Linux build leaves
+three modified binaries in `git status` that look like edits you made. Do not commit them casually:
+they are a differently-compiled copy of the same libraries, and reverting them can break the Linux
+module that was linked against the new ones.
+
+**6. `-i` really is not optional, and it works.** Verified the guard rather than trusting it: with
+`-i` on every run, the Windows `core.cp39-win_amd64.pyd` came through four full Linux builds
+untouched (same size, same mtime), and no symlink ever appeared in the shared package directory.
+
+### Running the CLI from Linux
+
+Two things beyond the build, both found by actually running it:
+
+* **`FixRaidenBoss7.py` hardcoded a drive letter.** `os.path.join("E:", os.sep, ...)` is a
+  *relative* path on POSIX, so `abspath()` turned it into a confident-looking `/Computer/...` that
+  never existed. It now tries the Windows spelling and the `/mnt/<drive>` one in turn; `AG_REMAP_REPO`
+  remains the override.
+* **numpy's ABI is not the Python version.** The modules are built against whatever numpy the build
+  environment had. A system `python3` carrying numpy 2.x against modules built on 1.26.4 fails with
+  `numpy.dtype size changed ... Expected 96 from C header, got 88` -- same interpreter version,
+  incompatible C API. Either activate the venv, or match the numpy.
+
 ## Environment
 
 | Tool | Version | Note |

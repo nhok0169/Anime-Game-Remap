@@ -81,6 +81,29 @@ namespace AGRemapCore {
              */
             static std::filesystem::path strToPath(const std::string& path);
 
+            /**
+             * @brief
+             @rst
+             Like :cpp:func:`pathToStr`, but for a path about to be WRITTEN INTO a ``.ini`` file
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A ``.ini`` is consumed by a Windows game, so the separator in it is a backslash no
+             matter which OS produced the file. ``std::filesystem`` joins with the NATIVE one, so
+             without this a mod fixed on Linux comes out holding ``./Sub/tex.dds`` where the same
+             fix on Windows writes ``.\Sub\tex.dds`` -- a pointless difference in a file the user
+             may well carry between machines, and one that makes the two platforms' output
+             impossible to compare byte for byte :raw-html:`<br />` :raw-html:`<br />`
+
+             Reading such a path back is :cpp:func:`strToPath`'s job, which understands the
+             backslash on POSIX as well
+             @endrst
+             *
+             * @param path The path to render for a ``.ini``
+             *
+             * @return The path as UTF-8, separated the way the game expects
+             */
+            static std::string pathToIniStr(const std::filesystem::path& path);
+
 
             /**
              * @brief

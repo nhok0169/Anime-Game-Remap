@@ -249,7 +249,7 @@ namespace AGRemapCore {
         std::string ext = fileExt.has_value() ? *fileExt : FileService::pathToStr(path.extension());
 
         std::string newName = getRemapFixName(baseName, modName) + ext;
-        return FileService::pathToStr((folder / newName));
+        return FileService::pathToIniStr((folder / newName));
     }
 
     std::string IniNamingTools::getFixedElementFile(const std::string& file, const std::string& elementName, const std::string& modName, std::optional<std::string> fileExt) {
@@ -263,7 +263,7 @@ namespace AGRemapCore {
             return newName;
         }
 
-        return FileService::pathToStr((folder / newName));
+        return FileService::pathToIniStr((folder / newName));
     }
 
     std::string IniNamingTools::getFixedBlendFile(const std::string& blendFile, const std::string& modName) {

@@ -139,8 +139,8 @@ namespace AGRemapCore {
                 "", TextTools::capitalize(modName) + TextTools::capitalize(modObj)) + ind + ".dds";
 
             return folder.empty() ? named
-                                  : FileService::pathToStr(FileService::strToPath(folder)
-                                                            / FileService::strToPath(named));
+                                  : FileService::pathToIniStr(FileService::strToPath(folder)
+                                                               / FileService::strToPath(named));
         }
 
         std::string result = IniNamingTools::getFixedTexFile(file);

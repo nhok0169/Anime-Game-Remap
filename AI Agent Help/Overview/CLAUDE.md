@@ -82,6 +82,18 @@ you've verified locally.
 
 ## Working a feature or bug request here: the habits that pay
 
+> **A LIVE FEATURE WITH AN EMPTY INPUT (2026-09-12).** Habit 1 is code that runs and does
+> nothing. This is its quieter cousin: code that is *correct*, *reachable*, *tested*, and never
+> handed any data. `IniClassifier::addGIModType(modType, hashes, sectionKeywords)` weighs a hash
+> hit at 2 and a section-name hit at 1, builds DFA states for the hashes, and already declines to
+> count a hash inside a `Remap`-named section --- all deliberate, all documented. And for the whole
+> life of the C++ classifier the only GI call site passed `{}` for `hashes`, so none of it ever
+> ran for a Genshin mod. The comment there explained why, and was right at the time: *"Passing
+> ModType::hashes here would be a behaviour change, not a port."* A port decision that outlived
+> the port. **When something does not work and the mechanism for it appears to exist, check what
+> the call site actually passes before concluding the mechanism is missing** --- and when you
+> write "not a port" in a comment, you are filing a TODO that nothing will ever remind you of.
+
 > **A ZERO IS A CLAIM ABOUT TWO INPUTS (2026-09-12).** "Nothing changed" and "I compared the
 > wrong two things" print the same number. A `moveDrawIndexed` flag was reported as a no-op off a
 > 9-of-9-identical diff whose two sides had both been generated after the flag was already on; the
@@ -89,6 +101,18 @@ you've verified locally.
 > expect to be absent from it. This is the same failure as habit 1 seen from the other end: there,
 > code that runs and does nothing reads as success; here, a measurement that compared nothing reads
 > as a result.
+>
+> **AND SO IS A NON-ZERO --- READ THE ROWS, NOT THE TOTAL (2026-09-12, same day).** The same
+> measurement run the other way round is just as wrong and much more flattering. A before/after of
+> the .ini classifier reported **16** files improving; seven of them were an artifact of the
+> before side, which looked its keyword table up by `getName` (`AyakaSpringBloom`) while the table
+> is keyed by the enum (`AyakaSpringbloom`) --- one letter, and that character silently had no
+> keywords at all on the before side, so of course she "improved". The real number is 9. Nothing
+> in the total gave it away; what did was reading one changed row and finding it absurd --- the
+> sections in that mod are literally named `TextureOverrideAyakaSpringBloomPosition`, so "names
+> alone could not identify it" could not possibly be true. **Spot-check a changed row against the
+> raw input before you quote the count**, especially when the count flatters the change you just
+> made.
 
 Written after several sessions where the *diagnosis* cost far more than the fix. None of this is
 about the domain -- it is about how this particular codebase fails.

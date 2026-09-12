@@ -1510,6 +1510,50 @@ claim about two directories, and it is only as good as knowing which two.
 
 <br>
 
+### A REMOVAL needs the same value guard as the remap beside it (2026-09-12)
+
+A row that shifts registers down a slot usually removes one at the top and renames the rest:
+
+```cpp
+config.objRegRemovals = {{"head", {"ps-t0", "ps-t3"}}};                       // the normal map
+config.objRegRemaps   = {{"head", {{"ps-t1", {{"ps-t0", &RegValChecks::isDiffuse}}, true},
+                                   {"ps-t2", {{"ps-t1", &RegValChecks::isLightMap}}, true}}}};
+```
+
+The remaps here are guarded and the removal is not, and that pairing is **wrong every time**. The
+guards exist because a mod may already be in the target's layout --- hand-fixed by its author, or
+built on a base-character mod --- and must not be shifted twice. But a mod in that state has its
+DIFFUSE on `ps-t0`, not a normal map, and the unguarded removal deletes it. The guarded renames
+then correctly decline to fire, so nothing refills the slot: LisaStudent2 came out of this with a
+lightmap, a shadow ramp, and **nothing on `ps-t0`** --- a valid, clean-looking, wrong `.ini`.
+
+The trap is that the two lines are written while thinking about different things. The rename is
+"do not shift a mod that is already shifted", which makes the guard obvious. The removal is "the
+target has no normal map", which sounds like a fact about the TARGET and needs no guard at all.
+It is really "the source has a normal map HERE", which is a fact about the value.
+
+Rule: **in a shift, guard the removal on what is being removed** (`&RegValChecks::isNormalMap`).
+Leave a removal unguarded only when it is genuinely about the target --- LisaStudent's `ps-t3`
+goes because Lisa has no use for the slot whatever is in it, and that one is right as it stands.
+
+<br>
+
+### Widening what CLASSIFIES runs fixer rows that have never run (2026-09-12)
+
+The bug above had been in the tree since the morning and no A/B could see it, because the only
+mod that would have exposed it was classifying as the wrong character and never reached that row
+at all. Teaching the classifier to read hashes fixed the classification, and the very first run
+afterwards produced the broken head.
+
+So: **a classification change is a fixer change.** Every mod that starts classifying differently
+is now being run through a row that no test, no A/B and no in-game session has ever exercised on
+it. Re-A/B each one individually, read the section bodies rather than the section names, and
+expect to find something --- these are by definition the inputs the row was never written
+against. The old script is no help here either: it classifies by name, so on exactly these mods
+there is no reference output to compare to.
+
+<br>
+
 ### What an A/B structurally CANNOT see: the data both scripts share
 
 The A/B compares this library against `FixRaidenBoss6.py`. Where the two **share a defect**, it

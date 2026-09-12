@@ -181,6 +181,22 @@ and **`--ab`'s section check compares section NAMES, not their contents** -- com
 See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The SHAPE tells you
 `objSplits` and nothing else".
 
+**THE .INI CLASSIFIER READS HASHES NOW, AND UNTIL 2026-09-12 IT NEVER HAD.** A mod whose author
+named every section after the BASE character while building on the SKIN's model --- `lisa` for a
+LisaStudent model, `xianglingpifu` (皮肤, "skin") for XianglingCheer --- classified as the base
+character, and the fix then ran the wrong direction and wrote `HashNotFound` into every hash it
+could not reverse-look-up. `IniClassifier` had the machinery all along: `addGIModType` takes a
+hash set, `incModTypeCountByHash` weighs a hash at **2** against a section name's **1**, and
+`readLine` already skips a `hash =` inside a `Remap`-named section so an already-fixed mod's
+target hashes cannot vote. The GI population simply passed `{}`. It now passes the five hash
+types that actually IDENTIFY a character --- `ib`, `draw_vb`, `position_vb`, `blend_vb`,
+`texcoord_vb`, unique across all 312 of their rows --- and no texture hashes, which are shared
+assets (`b0e08915` is filed under **forty** names). Measured over 150 real mod `.ini` files: 141
+classify identically, 9 change, and all 9 are corrections (4 of them files that classified as
+*nothing* and were being skipped). See **Overview**'s "A live feature with an empty input", and
+**Creating Remaps**' "Widening what CLASSIFIES runs fixer rows that have never run" --- which is
+what this immediately did.
+
 **Placement of the re-issued draw call and of the three external libraries was substantially
 reworked on 2026-09-08, and the old script is NOT the reference for it** -- matching its topology
 reproduced a real bug that silently disabled a mod's transparency. Read

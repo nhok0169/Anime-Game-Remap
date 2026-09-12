@@ -74,7 +74,7 @@ Six things that will cost you an hour each if you learn them the hard way:
 
 ## Start here: adding a character, in order
 
-Thirty characters are done, in five *shapes*. **Work out which one you have first, because
+Thirty-six characters are done, in five *shapes*. **Work out which one you have first, because
 several decisions follow from it** (see "Two shapes of remap" below, "A character with TWO
 targets" for the third, and "The merge" for the one that writes more than one .ini file):
 
@@ -776,11 +776,16 @@ would land on the wrong register.
 
 ### Editing a texture
 
-**THIRTEEN of the thirty fixers carry a `texEdits` now** -- Ayaka, AyakaSpringbloom, CherryHuTao, Ganyu, HuTao, Jean,
-JeanCN, JeanSea, Keqing, KeqingOpulent, Ningguang, NingguangOrchid, Xiangling -- so the config route
-below is the one to reach for; the hand-built collector after it is for a fix the config cannot
-express. Three of them also `texAdds` a texture the mod does not have at all (Ganyu, HuTao,
-Xiangling), and two carry a `positionEdit` (Xiangling, XianglingCheer).
+**FOURTEEN of the thirty-six fixers carry a `texEdits` now** -- Ayaka, AyakaSpringbloom, CherryHuTao,
+Ganyu, HuTao, Jean, JeanCN, Keqing, KeqingOpulent, Kirara, Klee, KleeBlossomingStarlight, Ningguang,
+Xiangling -- so the config route below is the one to reach for; the hand-built collector after it is
+for a fix the config cannot express. SIX of them also `texAdds` a texture the mod does not have at
+all (Ayaka, Ganyu, HuTao, KiraraBoots, Lisa, Xiangling), and two carry a `positionEdit` (Xiangling,
+XianglingCheer).
+
+*(Those three lists are worth re-deriving rather than trusting: this paragraph previously said
+thirteen and named JeanSea and NingguangOrchid, neither of which has ever carried a `texEdits`.
+`grep -rln "config.texEdits" core/src/data/IniFixData/` settles it in one line.)*
 
 ```cpp
 // {target object, register, edit name, the edit, [compress], [source object]}

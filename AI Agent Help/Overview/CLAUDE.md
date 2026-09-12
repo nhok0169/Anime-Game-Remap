@@ -82,6 +82,25 @@ you've verified locally.
 
 ## Working a feature or bug request here: the habits that pay
 
+> **A LABEL IS NOT THE THING IT NAMES --- THE SAME MISTAKE THREE TIMES IN ONE DAY
+> (2026-09-12).** Three separate wrong conclusions in one session, each from trusting a
+> human-authored string as if it were data:
+>
+> | the label | what it was taken to mean | what it actually was |
+> | --- | --- | --- |
+> | an A/B directory named `c6_`/`f6_` | "before and after the flag" | two snapshots both taken AFTER |
+> | `ModTypeId::AyakaSpringbloom` vs `getName` `AyakaSpringBloom` | the same key | a silent lookup miss, and 7 invented "improvements" |
+> | `ResourceLisaStudentHeadDiffuse` | a diffuse texture | her NORMAL MAP, under an old name |
+>
+> The third cost the most: it produced a confident bug report against the old script
+> ("it deletes the diffuse") and a `RegValChecks` guard written to fix a bug that was not
+> there, which then had to be reverted. **Names in this codebase are chosen by people ---
+> modders, past agents, the maintainer --- and the things they name move without them.**
+> Before a name becomes evidence, ask what would confirm it independently: the register
+> POSITION for a texture, the config source for a snapshot, a round-trip through the real
+> lookup for a key. This is habit 1's family again: a wrong label, like a no-op, reads
+> exactly like a right one.
+>
 > **A LIVE FEATURE WITH AN EMPTY INPUT (2026-09-12).** Habit 1 is code that runs and does
 > nothing. This is its quieter cousin: code that is *correct*, *reachable*, *tested*, and never
 > handed any data. `IniClassifier::addGIModType(modType, hashes, sectionKeywords)` weighs a hash

@@ -13,12 +13,8 @@
 
 #include "AGRemapCore/data/IniFixData/LisaStudent/LisaStudentFixer.h"
 
-#include <string>
-#include <vector>
-
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/GIMICharFixer.h"
-#include "AGRemapCore/data/IniFixData/RegValChecks.h"
 
 
 namespace AGRemapCore {
@@ -49,39 +45,32 @@ namespace AGRemapCore {
         //     ps-t2  lightmap    -> ps-t1
         //     ps-t3              -> dropped
         //
-        // EVERY rule here asks what is actually BOUND before touching it, so a mod already in
-        // the modern layout -- one whose author did this shift themselves, or built the skin on
-        // a base-character mod -- is left alone rather than shifted twice.
+        // UNCONDITIONAL, and that is the point. These rules were briefly written with
+        // RegValChecks on them -- move ps-t1 only if it looks like a diffuse, drop ps-t0 only if
+        // it looks like a normal map -- so that a mod already in the modern layout would not be
+        // shifted twice. That guards on the wrong thing: RegValChecks reads the RESOURCE NAME,
+        // which the modder picks and which a mod ported forward keeps long after the content
+        // behind it has moved. LisaStudent1 binds ps-t0 to a section called
+        // 'ResourceLisaStudentHeadDiffuse' that holds her NORMAL MAP. The register position is
+        // the contract; the name is a label.
         //
-        // The ps-t0 REMOVAL needs the guard just as much as the remaps do, and that took a real
-        // mod to notice. LisaStudent2 binds ps-t0 to its diffuse, not to a normal map; an
-        // unconditional removal there deleted the diffuse outright and the two guarded remaps
-        // then correctly declined to fire, so the head came out with a lightmap, a shadow ramp
-        // and NOTHING on ps-t0. It only became visible once that mod started classifying as
-        // LisaStudent at all -- before the classifier learned its hashes it was fixed as Lisa,
-        // and this row never ran on it.
-        //
-        // ps-t3 stays unconditional: it is dropped because LISA has no use for the slot,
-        // whatever the source put there, which is a statement about the target and not about
-        // the value.
-        config.objRegRemovals = {{"head", {{"ps-t0", &RegValChecks::isNormalMap}, "ps-t3"}},
-                                 {"body", {{"ps-t0", &RegValChecks::isNormalMap}, "ps-t3"}}};
+        // ALL THREE TARGETS, including the dress. The dress is the second copy of the body
+        // graph that the split makes, so it arrives with the same registers bound the same way
+        // -- and objRegRemovals/objRegRemaps are keyed by TARGET, so leaving it out shifted the
+        // body copy and left the dress copy exactly as it came in. Half the model in one layout
+        // and half in the other, which no section-name diff can see.
+        config.objRegRemovals = {{"head", {"ps-t0", "ps-t3"}},
+                                 {"body", {"ps-t0", "ps-t3"}},
+                                 {"dress", {"ps-t0", "ps-t3"}}};
 
-        config.objRegRemaps = {{"head", {{"ps-t1", {{"ps-t0", &RegValChecks::isDiffuse}}, true},
-                                         {"ps-t2", {{"ps-t1", &RegValChecks::isLightMap}}, true}}},
-                               {"body", {{"ps-t1", {{"ps-t0", &RegValChecks::isDiffuse}}, true},
-                                         {"ps-t2", {{"ps-t1", &RegValChecks::isLightMap}}, true}}}};
+        config.objRegRemaps = {{"head", {{"ps-t1", {"ps-t0"}}, {"ps-t2", {"ps-t1"}}}},
+                               {"body", {{"ps-t1", {"ps-t0"}}, {"ps-t2", {"ps-t1"}}}},
+                               {"dress", {{"ps-t1", {"ps-t0"}}, {"ps-t2", {"ps-t1"}}}}};
 
-        // NO FIX CALL AT ALL on either object -- an empty list here replaces the default
-        // NNFixPath rather than adding to it, and the mod's own NNFix/ORFix is stripped before
-        // this runs, so the remapped head and body come out with no `run =` line.
-        //
-        // The mirror of lisa6_1ToLisaStudent re-issuing ORFix: that direction GAINS a normal map
-        // and needs the library that reads one; this one drops it, and Lisa needs neither. The
-        // pure-Python lisaStudent6_1 re-issues NNFix here, so this is a deliberate divergence
-        // from it and not a transcription.
-        config.objFixCalls = {{"head", std::vector<std::string>{}},
-                              {"body", std::vector<std::string>{}}};
+        // NNFix on all three, which is the default and so needs no objFixCalls entry at all.
+        // It is what fixes up Lisa's REFLECTION, and dropping it -- which this row did briefly --
+        // costs that. Only the other direction differs: lisa6_1ToLisaStudent re-issues ORFix,
+        // because that direction gains a normal map and ORFix is the library that reads one.
 
         return makeGIMICharFixer(std::move(config));
     }

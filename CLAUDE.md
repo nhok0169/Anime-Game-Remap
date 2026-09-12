@@ -113,7 +113,7 @@ out are grapheme indices, and a byte cursor and a grapheme cursor must be separa
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
 
-**THIRTY characters are real now, in five DIFFERENT shapes, and which one you have decides
+**THIRTY-SIX characters are real now, in five DIFFERENT shapes, and which one you have decides
 almost everything else.** `raiden6_1` remaps onto a boss that **shares the source's geometry**
 (hashes kept, originals hidden). Amber/AmberCN, Mona/MonaCN, Rosaria/RosariaCN and
 Ningguang/NingguangOrchid remap onto a **different model** -- a CN skin or another outfit (hashes
@@ -166,6 +166,20 @@ is what hid the whole thing. See **Texture Editing**.
 encoded mojibake (`Ayaka∞òä...`) is correct UTF-8 drawn in CP437 and cosmetic; double-encoded
 (`Ayaka├¼ΓÇó...`) is a real active-code-page round trip and a bug. The CLI now sets the console code
 page to UTF-8 for the duration of a run and restores it afterwards.
+
+**Lisa/LisaStudent, Klee/KleeBlossomingStarlight and Barbara/BarbaraSummertime (2026-09-12) needed
+no template change at all -- and three of the six were WRONG anyway, in a way that passed a clean
+A/B.** A config written from the remap's shape alone (`drawnObjs` + `objSplits`) runs, logs success,
+generates every section name the old script does, and performs none of the character's texture work:
+the tell was that the old script edited two `.dds` files for Klee and ours edited zero. The lesson is
+the transcription step, not the shapes: **account for every entry in the character's pure-Python
+`IniFixBuilderData.py.txt` row**, match it by function NAME rather than by what sits nearest it in
+the file, and do not carry over a field because a neighbouring character has one. Two corollaries
+worth knowing before the next batch: `preRegEditOldObj` decides whether a SPLIT's second half
+inherits a texture edit (Klee sets it, Jean does not, and they need opposite configs because of it),
+and **`--ab`'s section check compares section NAMES, not their contents** -- compare the bodies too.
+See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The SHAPE tells you
+`objSplits` and nothing else".
 
 **Placement of the re-issued draw call and of the three external libraries was substantially
 reworked on 2026-09-08, and the old script is NOT the reference for it** -- matching its topology

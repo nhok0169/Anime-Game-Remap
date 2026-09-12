@@ -145,9 +145,9 @@ rather than reasoning from the picture.
 
 ## Most characters are two short files, not two long ones
 
-Thirty characters are done, and TWENTY-NINE of them go through the same template rather than being
-copied -- everything from the plainest CN skin (Amber, Mona, Rosaria) through the three-way merge
-(ShenheFrostFlower) to the ones that edit textures conditionally and shift a `Position.buf`
+Thirty-six characters are done, and THIRTY-FIVE of them go through the same template rather than
+being copied -- everything from the plainest CN skin (Amber, Mona, Rosaria) through the three-way
+merge (ShenheFrostFlower) to the ones that edit textures conditionally and shift a `Position.buf`
 (AyakaSpringbloom, CherryHuTao, XianglingCheer). Only Raiden, whose remap keeps the source
 geometry and hides the originals, is written by hand:
 
@@ -190,6 +190,50 @@ entries are the tell) **and** confirm against a mod the old script has already f
 
 Raiden is the exception and stays hand-written: a boss remap is the other shape entirely (see "Two
 shapes of remap"), not a variation on this one.
+
+<br>
+
+### The SHAPE tells you `objSplits` and nothing else -- transcribe the old row (2026-09-12)
+
+The temptation, once you can recognise a split from a merge, is to write the config from the shape:
+`drawnObjs`, `objSplits`, the download folder, done. **A config with only those is not wrong, it is
+EMPTY** -- it compiles, runs, remaps the blend, writes an `.ini` whose every section name matches the
+old script's, and silently does none of the character's actual work. Three of the six characters in
+the Lisa/Klee/Barbara batch were written that way first, and the A/B reported 0 differ on all of
+them, because the A/B compares section NAMES (see "What the A/B's section check does not compare").
+What gave it away was counting side effects rather than reading the summary: the old script edited
+two `.dds` files for Klee and ours edited **zero**.
+
+**So the step is not optional and it is not a skim: open the character's pure-Python
+`IniFixBuilderData.py.txt` row and account for every entry in it.** The mapping is mechanical:
+
+| Old row entry | Config field |
+| --- | --- |
+| `RegRemove` | `objRegRemovals` / `srcObjRegRemovals` |
+| `RegRemap` | `objRegRemaps` / `srcObjRegRemaps` |
+| `RegTexEdit` | `texEdits` |
+| `RegNewVals` | `objNewRegVals` |
+| `Ib*` entries | `moveDrawIndexed = true` |
+| `preRegEditOldObj = True` | the edit applies PRE-split, so BOTH halves inherit it |
+
+Three ways that reading goes wrong, all of them found the expensive way in one batch:
+
+**`preRegEditOldObj` decides whether a split's second half inherits an edit, and the two splits
+in the repo disagree.** `klee4_0` sets it, so the texture edit written against `body` lands on the
+dress copy too and the config needs a SECOND `texEdits` entry with `srcObj = "body"` to say so.
+Jean, the other split, does not set it. Copying Jean's arrangement into Klee produced a dress with
+no lightmap edit -- visible in game, invisible in the diff.
+
+**"The nearest preceding mention" is not attribution.** The `.py.txt` tables interleave helper
+functions with the rows that use them, so a `TexEditor` defined a few lines above a character's row
+very often belongs to a different character. A block of texture edits was attributed to
+BarbaraSummertime on exactly that reasoning and turned out to be `cherryHutao5_3`'s. **Match on the
+function NAME** (`klee4_0`, `lisaStudent4_0`), never on proximity.
+
+**A field a neighbouring character carries is not a field yours carries.** Jean's `objNewRegVals`
+nulls her `ib` register; that was copied into Klee and LisaStudent because their configs looked
+like hers. Neither pure-Python row has it. If you cannot point at the entry in the old row, it does
+not go in the config.
 
 **When you change the template, prove it by byte-identical output.** Porting Amber onto it produced
 an `.ini` byte-for-byte identical to her hand-written version, which is the only reason the port was
@@ -1425,6 +1469,46 @@ separates edits of different sources, the second separates DIFFERENT EDITS OF TH
 Ours had neither, so CherryHuTao-style double edits wrote to one path and the second landed on
 top of the first -- a lightmap given both a colour replacement and an alpha of 1, which the
 pixels show plainly (`18a100ff -> 015d0001`) and no `.ini` check can.
+
+### What the A/B's section check does not compare: anything INSIDE a section (2026-09-12)
+
+`--ab`'s section check compares the **set of remapped section names**. That is the right check for
+"did we generate the same sections" and it is blind to everything that lives inside one: which
+registers a section binds, which resource each points at, whether `drawindexed` is there at all.
+An empty config generates every section the old script does and fills none of them in, so it comes
+back **0 differ** -- which is how three bare configs passed a full A/B sweep.
+
+**Compare the section BODIES as well.** Names cannot be paired across the two scripts (they hash
+generated filenames differently), so compare each section's key ORDER plus the values of the keys
+whose value is not a generated filename:
+
+```python
+# for every key = value line in a generated section, keep 'key = value' unless the value
+# matches Remap(Tex|Blend|DL|Position|Fix) -- for those keep the bare key.
+# Then diff the resulting per-section lists between old/ and new/.
+```
+
+A full version is `cmp_ini.py` in the session scratchpad; it is ~80 lines and worth rewriting
+rather than copying a stale path. Run it on every A/B pair before believing a "0 differ".
+
+<br>
+
+### A before/after snapshot proves nothing if you diff the wrong two snapshots (2026-09-12)
+
+The way to show a config field is load-bearing is to snapshot the output with it off, turn it on,
+and diff. Barbara's `moveDrawIndexed` was checked that way and came back **9 of 9 files
+byte-identical** -- so it was reported as a flag that did nothing, in a fix that had just been
+called done. It was not: the two snapshot directories being compared (`c6_` and `f6_`) were both
+taken AFTER the flag was already on. Against the genuine pre-flag snapshot (`b6_`), 9 of 9 files
+differ, by exactly the four lines the flag is specified to move.
+
+An A/B run leaves a directory per generation, and a wrong pair of them is indistinguishable from a
+true no-op: both print zero. **Name the snapshot after the change, not after the run** (`mdi_off`,
+not `c6`), and before trusting a zero, confirm the two inputs actually straddle the change --
+`grep` the thing you expect to have moved out of one side and into the other. A no-op result is a
+claim about two directories, and it is only as good as knowing which two.
+
+<br>
 
 ### What an A/B structurally CANNOT see: the data both scripts share
 

@@ -82,6 +82,14 @@ you've verified locally.
 
 ## Working a feature or bug request here: the habits that pay
 
+> **A ZERO IS A CLAIM ABOUT TWO INPUTS (2026-09-12).** "Nothing changed" and "I compared the
+> wrong two things" print the same number. A `moveDrawIndexed` flag was reported as a no-op off a
+> 9-of-9-identical diff whose two sides had both been generated after the flag was already on; the
+> real before/after differs in all 9. Before believing a zero, `grep` one side for the thing you
+> expect to be absent from it. This is the same failure as habit 1 seen from the other end: there,
+> code that runs and does nothing reads as success; here, a measurement that compared nothing reads
+> as a result.
+
 Written after several sessions where the *diagnosis* cost far more than the fix. None of this is
 about the domain -- it is about how this particular codebase fails.
 

@@ -13,6 +13,9 @@
 
 #include "AGRemapCore/data/IniFixData/LisaStudent/LisaStudentFixer.h"
 
+#include <string>
+#include <vector>
+
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/GIMICharFixer.h"
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
@@ -68,6 +71,17 @@ namespace AGRemapCore {
                                          {"ps-t2", {{"ps-t1", &RegValChecks::isLightMap}}, true}}},
                                {"body", {{"ps-t1", {{"ps-t0", &RegValChecks::isDiffuse}}, true},
                                          {"ps-t2", {{"ps-t1", &RegValChecks::isLightMap}}, true}}}};
+
+        // NO FIX CALL AT ALL on either object -- an empty list here replaces the default
+        // NNFixPath rather than adding to it, and the mod's own NNFix/ORFix is stripped before
+        // this runs, so the remapped head and body come out with no `run =` line.
+        //
+        // The mirror of lisa6_1ToLisaStudent re-issuing ORFix: that direction GAINS a normal map
+        // and needs the library that reads one; this one drops it, and Lisa needs neither. The
+        // pure-Python lisaStudent6_1 re-issues NNFix here, so this is a deliberate divergence
+        // from it and not a transcription.
+        config.objFixCalls = {{"head", std::vector<std::string>{}},
+                              {"body", std::vector<std::string>{}}};
 
         return makeGIMICharFixer(std::move(config));
     }

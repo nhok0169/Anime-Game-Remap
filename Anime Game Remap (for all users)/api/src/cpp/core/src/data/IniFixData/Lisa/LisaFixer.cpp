@@ -28,11 +28,11 @@ namespace AGRemapCore {
         // is the size every RegTexAdd in the pure-Python tables uses.
         const int NormalMapSize = 1024;
 
-        // The maintainer's colour for this pair, given directly rather than taken from a
-        // named constant: it is ONE off Colours.NormalMapPurple1 (128, 98, 128), which
-        // lisa5_4 uses, and that near-miss is deliberate enough to be worth spelling out
-        // rather than rounding to the constant.
-        const Colour NormalMapPurple(128, 96, 128, 255);
+        // Colours.NormalMapPurple1, which is what lisa5_4's own RegTexAdd uses -- the muted
+        // purple a Sumeru-era normal map is mostly made of, NOT the flat (128, 128, 255) blue.
+        // Spelled out here rather than shared because core has no Colours constant class; Ayaka
+        // declares the same value the same way.
+        const Colour NormalMapPurple1(128, 98, 128);
     }
 
 
@@ -98,9 +98,9 @@ namespace AGRemapCore {
         // and the body different colours would need different names, or the second would silently
         // overwrite the first.
         config.texAdds = {{"head", "ps-t0", "NormalMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapPurple)},
+                            TexCreator(NormalMapSize, NormalMapSize, NormalMapPurple1)},
                           {"body", "ps-t0", "NormalMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapPurple)}};
+                            TexCreator(NormalMapSize, NormalMapSize, NormalMapPurple1)}};
 
         // ORFix rather than the default NNFix, because the TARGET now has a normal map --
         // ORFix is the normal-map one. Same single line that separates ganyu6_1 from

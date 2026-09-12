@@ -90,11 +90,13 @@ native-code change.
     `Start-Process cmd.exe -ArgumentList '/c', '"<bat>" > <log>'` returns a PID immediately but never
     writes the log. In both cases the *old* `.pyd` stays installed, and every test you run afterwards
     is quietly exercising stale code. Check `core.cp313-win_amd64.pyd`'s mtime before trusting any
-    result. Data point for pacing, **re-measured 2026-09-08 after the build-speed work below**:
-    touching a widely-included core header and running `ninja` to completion is about **2 minutes**,
-    and a one-line change to a single `core/src/*.cpp` is about **8 seconds**. Both were far worse
-    before (137.9s and 57.2s); if you are seeing the old figures, check which options `cbuild` was
-    configured with -- see "Build speed" below.
+    result. Data point for pacing --- **and read the re-measurement note below before trusting it**:
+    as of 2026-09-08, touching a widely-included core header and running `ninja` to completion was
+    about **2 minutes**, and a one-line change to a single `core/src/*.cpp` about **8 seconds**.
+    **Both figures were 50-70x higher when re-measured on 2026-09-12** (a one-`.cpp` change took
+    429s, 573s and 711s across three runs), so treat them as a floor that a correctly configured
+    tree can reach rather than what you will see today --- see "Build speed" below, and check which
+    options `cbuild` was actually configured with.
 
 ### The CIPipeline builds the API now, with `-d`
 
@@ -305,6 +307,50 @@ need the full `main.py -d` cycle every time:
   quoting problem. The `pybind11_stubgen - [ERROR] ... Invalid expression 'AGRemapCore::Xxx'` lines
   it prints for a handful of pre-existing signatures are baseline noise, not your change failing;
   check that the classes you added actually appear in `core.pyi` instead.
+
+## Re-measured on 2026-09-12, across two OSes --- and the figures moved a lot
+
+The section below is a stopwatch from 2026-09-08 and says, correctly, to re-measure rather than
+trust it. Doing that four days later gave very different numbers on the same machine, so here is
+the method and the result. **All three columns are the same work**: touch one `core/src/*.cpp`,
+build the `core` target to completion (1 compile + 2 links).
+
+| | Windows, `cbuild` on `E:` | Linux, `cbuildlin` on `/mnt/e` | Linux, `~/cbuildlin-native` |
+| --- | --- | --- | --- |
+| true no-op | **0.4s** | 29s | 15s |
+| one `.cpp` + 2 links | 429 / 573 / **711s** | 214s | **23s** |
+
+Two separate effects, pulling opposite ways:
+
+* **A no-op is a filesystem measurement.** Windows stats the tree in under half a second; WSL2
+  reaching `/mnt/e` over 9p needs 29 SECONDS to discover it has nothing to do. Moving the build
+  tree to ext4 halves that, and the rest is stat'ing the source, which is still on `/mnt/e`.
+* **A real rebuild is a LINK measurement, and Windows loses badly here.** Compiling the one file
+  is quick everywhere. Relinking `AGRemapCore.lib` plus the 10MB module is what costs minutes ---
+  consistent with a full rebuild the same day whose objects finished at 09:47 while the link ran
+  until 10:04.
+
+**So for Linux work, put the build tree on the Linux filesystem.** `~/cbuildlin` instead of the
+repo root is a one-line change to the APIBuilder invocation and is worth roughly an order of
+magnitude on the edit-rebuild cycle (23s vs 214s). The SOURCE can stay on `/mnt/e`; only the build
+tree location was changed to get that.
+
+**Untested hypothesis for the Windows figure**, offered as a lead rather than a finding: this
+`cbuild` has `AGREMAP_SCCACHE=OFF` and `AGREMAP_PCH=ON`, and nothing excludes the build directory
+from Windows Defender, which will be scanning every write of a 36MB `.lib` and a 10MB `.pyd`. An
+exclusion is the cheapest thing to try. Measure it before believing it.
+
+### Two ways a build benchmark lies, both of which happened while taking the numbers above
+
+* **Two builds at once measure each other.** A Windows timing started while a Linux build was
+  still running gave 635s for a *no-op*; both were competing for the same cores and the same
+  physical drive. Check that the machine is idle (`tasklist` / `pgrep`) before starting a
+  stopwatch, and never overlap the two platforms.
+* **A "no-op" that is not one.** The same 635s figure survived a re-run on an idle machine, which
+  looked like confirmation and was not: the run was doing three build steps, because the timing
+  script for the OTHER platform `touch`es the same shared source on `/mnt/e`. **Read the build log
+  and confirm `ninja: no work to do.` before calling anything a no-op** --- a wrong label survives
+  repetition perfectly well. Per-platform scratch files avoid the whole problem.
 
 ## Build speed: five switches, and what each one actually measured
 

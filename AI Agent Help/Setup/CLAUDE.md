@@ -745,6 +745,21 @@ giving `cebuildlin` / `cextlin` / `cbuildlin` beside the Windows `cebuild` / `ce
 For CI, pass the OS name through the same suffix flags (`-bs ubuntu-latest` gives
 `cbuildubuntu-latest`).
 
+**...and that layout is the SLOW one, by about an order of magnitude.** Those folders land beside
+the checkout, which on WSL means on `/mnt/<drive>`, and every read, write and `stat` then crosses
+the 9p boundary. Measured 2026-09-12 on the same one-`.cpp` change: **214s with the build tree on
+`/mnt/e`, 23s with it on the Linux filesystem**, and a no-op costs 29s versus 15s. The SOURCE can
+stay on `/mnt/e` -- only the build tree location matters -- so configuring by hand into `~` is
+worth it for any real Linux work:
+
+```bash
+cmake -G Ninja -B ~/cbuildlin-native -S '<repo>/Anime Game Remap (for all users)/api' \
+      -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH='<repo>/cextlin/z3'
+ninja -C ~/cbuildlin-native core
+```
+
+See **Building**'s "Re-measured on 2026-09-12" for the full three-way table.
+
 ### `source .../activate` is load-bearing — running the venv's python by path is not enough
 
 **`~/agremap-venv/bin/python main.py ...` fails**, even though it is the same interpreter:

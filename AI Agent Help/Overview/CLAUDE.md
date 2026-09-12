@@ -427,6 +427,33 @@ A corollary from the same session: **one sample is not a platform test.** The fi
 Linux worked, because its `.ini` happened to use bare filenames; the second failed on every
 resource. Same lesson as habit 24, one layer up.
 
+**29. When a measurement is impossible, doubt its LABEL before you doubt the machine.** Timing the
+build on two OSes (2026-09-12) produced 635 seconds for a *no-op*, which cannot be true. The first
+explanation was right in kind and wrong in fact -- a Linux build WAS running concurrently, and two
+builds do measure each other -- so the run was repeated on a verified-idle machine and came back
+**the same**. That looked like confirmation of a slow machine. It was not:
+
+```
+$ head -3 win_noop.log
+[1/3] Building CXX object ... FileService.cpp.obj      <- a no-op does not do this
+[2/3] Linking CXX static library AGRemapCore.lib
+```
+
+The "no-op" had never been one. The timing script for the OTHER platform `touch`es the same
+shared source on `/mnt/e`, so each platform's benchmark silently invalidated the other's build.
+The true Windows no-op is **0.4 seconds**. Three lessons, in order of how much they cost:
+
+* **A wrong label survives repetition perfectly.** Re-running an experiment tests the machine, not
+  your description of what the experiment does. Reproducibility is not validity.
+* **Read the log, not just the stopwatch.** Four lines of output identified in seconds what two
+  ten-minute runs could not.
+* **Shared state between test rigs is not always obvious.** Two OSes, one checkout, one `touch` --
+  the interference ran through a file neither script mentioned by the same name.
+
+This is the same shape as habit 26's GIL-starved sampler, and the pair is worth reading together:
+in both, the apparatus was broken and the subject was fine, and in both the giveaway was a result
+that could not happen rather than one that merely looked surprising.
+
 <br>
 
 ## Operating norms

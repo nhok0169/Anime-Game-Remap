@@ -331,9 +331,12 @@ default `/GL`+`-LTCG` was the entire 57s floor for *any* change), `AGREMAP_PCH` 
 **(1)** `AGREMAP_SCCACHE` and the two PCH options are **mutually exclusive** --- sccache refuses to
 cache a compilation that uses a precompiled header and says so only in `sccache --show-stats`, so
 running both is the worst configuration available; turning sccache on disables them for you.
-**(2)** this machine's `cbuild` is configured with **sccache on**, while the committed default is
-off (so a machine without sccache, and the Linux/wheel paths, still work) --- if a build here
-behaves unlike the committed defaults, that is why. **(3)** `AGREMAP_UNITY_BUILD` is wired up,
+**(2)** the committed default is sccache **off** (so a machine without sccache, and the
+Linux/wheel paths, still work). This line used to say this machine's `cbuild` had it **on**;
+**as of 2026-09-12 it does not** --- `AGREMAP_SCCACHE:BOOL=OFF` with `AGREMAP_PCH:BOOL=ON`, which
+is the other side of the mutual exclusion in (1). Read the four options out of
+`cbuild/CMakeCache.txt` rather than trusting any of this, including this sentence; the
+configuration drifts and the performance advice is worthless against the wrong one. **(3)** `AGREMAP_UNITY_BUILD` is wired up,
 measured, and deliberately **off**: on 24 threads it tripled the cost of the common single-file
 edit. Don't "fix" it by turning it on. **(4)** any source given per-file `COMPILE_OPTIONS` (today
 just `VGRemapData.cpp`, at `/Od`) **must** also carry `SKIP_PRECOMPILE_HEADERS` and

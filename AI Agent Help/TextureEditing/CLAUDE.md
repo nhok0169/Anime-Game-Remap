@@ -117,6 +117,22 @@ That's why `saveAs` needed no new dependency and no Pillow: a `.png` export is j
 save path with the BC7 compression step skipped. It also means a `TextureFile` can `open()` a
 `.png`, which is occasionally handy for round-trip checks in a test.
 
+## A written texture has NO mip chain unless you ask for one (`mipmaps = True`, 2026-09-12)
+
+`TextureFile::open` decodes mip 0 only (next section), and `save` wrote mip 0 only -- so every
+texture the fix has ever written shipped as a single level, where every texture the game ships
+carries its full chain (a 1024x1024 mod `.dds` has 11). A texture without a chain is sampled from
+its top level at every distance, and on a fine-grained texture that reads in game as **scattered
+off-colour pixels that move with the camera** -- "almost like data is lost from a lossy
+compression", on the hair of a Yelan mod, which is how it was found. `TextureFile::save(compress,
+mipmaps)` now takes a second flag: `true` has Compressonator box-filter the chain down to 1x1 from
+the edited pixels before the BCn encode (or the uncompressed write), and the DDS plugin writes every
+level with the right `dwMipMapCount`. `TexEditor` and `TexCreator` carry the same flag (C++ and
+Python), and `TextureFile.save(img, compress, mipmaps)` threads it. **The default is still
+`false`**, so no compiled character's output changed; the Yelan prototype turns it on for every
+texture it writes. A chain costs a third more file size and a little encode time.
+`test_TextureFile.test_save_mipmaps_writesTheFullChain` pins the header count both ways.
+
 ## Mipmapped `.dds` files (most real ones) used to fail to open at all
 
 Fixed 2026-09-06, and worth knowing because the symptom was *silence*, not an error.

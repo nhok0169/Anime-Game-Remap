@@ -22,13 +22,15 @@ fixer at runtime, taking precedence over the compiled-in row for that mod, so th
 Step 1 is where a remap is actually figured out, and it used to be the expensive part: every
 guess about which register a texture hangs off, or where a fix call belongs, cost a compile.
 
-Two worked examples live next to the mods they fix, in `Importer/GIMI/Mods/`:
+Two worked examples live in [`Tools/Misc/Prototypes/`](../../Tools/Misc/README.md) (copies; the
+live ones the maintainer runs sit next to the mods in `Importer/GIMI/Mods/` on their machine):
 
 | | what it shows |
 | --- | --- |
 | `overrideScript.py` | the **config route** --- a `GIMICharParserConfig` and a `GIMICharFixerConfig` handed to `makeGIMICharParser`/`makeGIMICharFixer`, which is the same factory every compiled character uses. GanyuTwilight's whole fix in 38 lines, and its `--ab` proves the output byte-identical to the compiled one |
 | `overrideScript2.py` | the **hand-built route** --- a `GIMIParser`/`GIMIFixer` assembled from the individual edits, for a fix the config cannot express |
-| `yelanTranquilFix.py` | the hand-built route **at full size** (2026-09-12) --- a runtime `ModType` whose hash / index / vertex-group rows are added from Python and whose builders are borrowed from a shipped GI type, three pseudo targets with a fixer each, the textures collected with `ResRegCollect` (edited through `TexReplace`, a flat normal map invented through `TexCreate`) and **the buffers collected as one resource group** with `ResGroupCollect` + `BufReplace` + the core's `VGSplitGroupResource`. Yelan -> YelanTranquil, a skin of three components, which no config field expresses yet; see [Vertex Group Remaps](../VGRemaps/CLAUDE.md)'s recipe, step 8, for the traps it hit. `yelanTranquilFixPerBuffer.py` beside it is the earlier per-buffer `ResRegCollect` + `fixFunc` shape |
+| `identityMod.py` | **not a fix -- the mod to test a fix on first.** Writes a character's own model as a GIMI mod from its `PlayerCharacterData/<Name>` asset folder (dumps -> the three `.buf` files through `VbFile.readDumpStr`, `.ib` files, textures, a GIMI-shaped `.ini`). Every bone and every material band of the real skin in one mod, where any download covers a subset; see the VGRemaps recipe's step 8 |
+| `yelanTranquilFix.py` | the hand-built route **at full size** (2026-09-12; a second Yelan mod, the Fontaine outfit with a cape, found two over-fits of the first in one pass each, and the identity mod then corrected the band legend -- see the VGRemaps recipe's step 8) --- a runtime `ModType` whose hash / index / vertex-group rows are added from Python and whose builders are borrowed from a shipped GI type, three pseudo targets with a fixer each, the textures collected with `ResRegCollect` (edited through `TexReplace`, a flat normal map invented through `TexCreate`) and **the buffers collected as one resource group** with `ResGroupCollect` + `BufReplace` + the core's `VGSplitGroupResource`. Yelan -> YelanTranquil, a skin of three components, which no config field expresses yet; see [Vertex Group Remaps](../VGRemaps/CLAUDE.md)'s recipe, step 8, for the traps it hit. `yelanTranquilFixPerBuffer.py` beside it is the earlier per-buffer `ResRegCollect` + `fixFunc` shape |
 
 **Reach for the config route first.** It is the same code path the shipped characters take, so a
 prototype written that way ports to C++ as a straight transcription of the config --- which is
@@ -72,9 +74,230 @@ Six things that will cost you an hour each if you learn them the hard way:
 
 <br>
 
+## The Yelan lessons, for ANY new remap (2026-09-12)
+
+Four Yelan mods went through the prototype in one day, and each found something the one before
+could not. In the order to apply them:
+
+1. **Build and fix the IDENTITY mod first** (`Tools/Misc/Prototypes/identityMod.py <PlayerCharacterData/Name> <folder>`).
+   It is the character's own model as a GIMI mod: every object, every vertex group, every material
+   band of the real skin. Any downloaded mod is a subset of it (the china dress used none of the
+   jacket bones and painted no fur; the Fontaine outfit hid the dress), so a fix that only ever saw
+   downloads carries over-fits that surface one mod at a time. The identity mod is also where a
+   skin's TRUE band legend is read from (next point).
+2. **Tally a mod per OBJECT at its own vertices before believing anything about it:**
+   `Tools/Misc/Diagnostics/modTally.py <mod> [--against <other mod>] [--remap From To Comp]`. It
+   prints each object's geometry, its vertex groups (`--against` lists the groups one mod uses and
+   the other does not -- the cape's chains showed up there in a minute), and its lightmap bands
+   with the diffuse colour under each band. **The band legend is the AUTHOR's, not the skin's**: a
+   port keeps its source character's bands (the Clorinde port's hair sits on Yelan's skin band and
+   its skin on Yelan's metal band), and an author who leaves alpha opaque has painted every cloth
+   as whatever 255 means on the source (fur, on Yelan). Never map a band by number alone.
+3. **So a band table is diffuse-conditional.** The prototype's `liftBands`: the source's fur band
+   (255) onto the target's (0) unconditionally, the source's skin band (115-127) onto the target's
+   (255) only where the diffuse under the pixel is skin-coloured (`skinColoured`: warm, R >= G >= B,
+   bright enough). Dark hair painted on the skin band stays put, which on Tranquil is her hair
+   band. Apply it to EVERY object's lightmap, the head's included -- "leave the head alone" only
+   held because one mod's head was hair alone.
+4. **Write every texture with its mip chain** (`TexEditor(mipmaps = True)`, `TexCreator(mipmaps =
+   True)`). A texture without one is sampled from its top level at every distance, and on hair
+   that reads as scattered off-colour pixels that move with the camera -- "like a lossy
+   compression". Every texture the game ships carries 11 levels; ours carried one until this.
+5. **A part the target LACKS wants a symmetric, rigid anchor for the whole chain, not the
+   finder's per-bone nearest.** The finder had put a cape chain's root on the target's upper arm
+   and its tail on a hanging ornament; the cape hung crooked. Read the source groups' centroids
+   off the mod (`modTally.py --centroids`) and the target's off its frame analysis
+   (`Tools/Misc/Diagnostics/boneCentroids.py <FrameAnalysis> --hashes <pos> <blend> <ib>`), and
+   take the hand-made draft's anchor (64 / 68 the shoulder pieces, 63 the chest, for Yelan's
+   jacket bones 0-13) -- `VGRemapData.cpp` carries the reasoning in a comment.
+6. **A remapped draw section needs `override_byte_stride` / `override_vertex_count`** (the
+   target's own buffer is sized for its own vertex count; the mod's 17220 through a bang buffer
+   sized for a few thousand is garbage). The count is the component's KEPT vertex count after the
+   split -- which means the fix must know the split's result while it writes the `.ini`.
+7. **Hiding the target's own parts needs no `ib = null` sections**: the remapped `("", "ib")`
+   section keeps `handling = skip` and loses its `drawindexed = auto`, and a skipped draw with no
+   re-issue draws nothing. Confirmed in game on three mods and the identity (2026-09-12); the
+   maintainer's hand-made pair (`Tools/Misc/YelanExperiments/*HandMade.ini`) hides the slots
+   explicitly and both work.
+8. **The maintainer's hand-made `.ini` pair is the A/B reference when the generated fix misbehaves
+   in game.** Diff section by section, not name by name: three omissions (the vertex-limit
+   overrides, the lost sRGB pre-correction, a created texture's gamma) were each a line the pair
+   had and the generator did not.
+9. **Two objects on one draw slot is the API's merge**: the second claimant lands in
+   `<Name>RemapFix1.ini` (then `...2`, `...3` -- the identity's head, body, dress and extra all go
+   through Tranquil's slot C, so four files). Each extra file carries the mod's own sections too,
+   and each `.ini` group gets its own resource group, so identical buffers are written more than
+   once under different suffixes. That is the shape, not a bug.
+10. **Run it where the core is built.** When the Windows `.pyd` is behind the C++, the prototypes
+    run under WSL (`python yelanTranquilFix.py /mnt/e/...`, or `--wsl` from a Windows shell); a
+    prototype that refuses to import names the build lacks is the intended failure.
+
+## Yelan is COMPILED now, through a template every later multi-component skin reuses (2026-09-13)
+
+The prototype above was transcribed on 2026-09-13, and the result is not a Yelan one-off: Yelan is
+the first of a shape every GI character from Bennett on has, so the port is a **second template
+next to `makeGIMICharFixer`** -- `GIMIComponentFixerConfig` + `makeGIMIComponentFixer(config,
+component)` in `data/IniFixData/GIMIComponentFixer.{h,cpp}`, with Yelan's own choices in
+`data/IniFixData/Yelan/YelanFixer.cpp` (the slot per component, the strategy, the band legend
+as a `liftBands(diffusePath)` filter, the head diffuse at alpha 1) and a plain
+`makeGIMICharParser` row in `data/IniParseData/Yelan/YelanParser.cpp`. The acceptance was the
+prototype itself: on the identity mod, the china dress and the Fontaine outfit, every buffer the
+compiled fixer writes is **byte-identical** to the prototype's, the `.ini` text differs only by
+the merge preamble the template adds to its generated files, and the textures differ only in
+that the service writes them uncompressed unless `--compressTextures` is passed (the prototype's
+own `fixFunc` bypassed that flag). `Tools/Misc/Diagnostics/runCompiled.py` is the driver for that
+A/B: fix a scratch copy with the prototype and another with it, diff the folders.
+
+**How the shape is encoded, and why -- read this before adding Bennett:**
+
+- **One fixer per target component, each a row keyed by a component id.** The fix table, the
+  hash rows and the naming are all keyed by a mod type NAME, so each component of the skin is a
+  `ModTypeId` of its own -- `YelanTranquilBody` / `Bang` / `Eye` -- **as a TARGET ONLY**, like the
+  boss ids: no `GIBuilder` factory, never registered, no keywords, no remove row. It was tried
+  the other way first, and a registered mod type with no keyword crashed the classifier
+  population (`keywords[0]` on an empty list in the population test is the visible half).
+  `ModTypeIdTools::getHashRemapTargets(Yelan)` lists the three; `YelanTranquil` itself stays the
+  id a mod OF the skin classifies as. The component's hash rows live under its name in
+  `HashData.cpp` (5.7), and `IniFixBuilderData` has three `(Yelan, <component>)` rows.
+- **The slot indices are in the config, NOT in `IndexData`** (`Component::slotIndex`), and the
+  reason is a trap worth knowing on its own: `ModMappedAssets::getKey` -- the REVERSE lookup
+  every classifier and part filter makes -- buckets every row holding a value by version, takes
+  the newest bucket at or below the version asked, and searches only inside it. A slot filed as
+  `"0"` at 5.7 made the 5.7 bucket THE bucket for `"0"`, and every classic character's head
+  (index 0, filed at 4.0) reverse-resolved to a slot named `A`. Measured on the identity mod's
+  own head. The same rule is why the fixer's own file lookup and the shared parser read the index
+  row UNFILTERED by name and check the object name instead: at the latest version the `"0"`
+  bucket holds a 5.3 character's row and nothing of a 4.0-era one.
+- **The shared parser now filters HASH lookups to the character's own rows** (a hash value is
+  unique per character, and every name in `HashData` is a `ModTypeId` name, so this can never
+  miss a real row). What it stops: a section carrying another character's hash of the same TYPE
+  read as one of this character's objects -- the maintainer's hand-made YelanTranquil `.ini`
+  (Tranquil's ib hash, index 0) in a Yelan mod's folder classified as Yelan's head, followed its
+  `ib = null`, and failed the file.
+- **`ResGroupCollect` had the same inert-from-C++ seam `ResRegCollect` had**: it inherited
+  `BaseIniGraphGroupEdit::editFromIni`, which drops the `.ini`, so a compiled fixer collected
+  every buffer and built nothing, silently -- `blend: fixed 0` was the only tell. It has its own
+  `editFromIni` now. The grouped builder a C++ fixer hands it is `VGSplitGroupResBuilder`
+  (`graphGroupEdits/VGSplitGroupResBuilder.{h,cpp}`), which COPIES each member the collect built
+  into the group (the collect's capture buffer owns the original, and a group owns its members)
+  and stores the group on `IniFile::getGroupedResources`.
+- **The fixer reads the mod's buffers while fixing the `.ini`** -- the first ini fix that opens
+  a binary file. It runs `VGComponentSplit` once, at construction, over the files it finds by
+  hash in `IniFile::getIfTemplates` (the fixer is built before the parser parses), to learn which
+  objects its component draws and the kept vertex count the `override_vertex_count` / blend
+  `draw` lines need. The grouped resource runs the split again when it writes the files.
+- **The identity mod is the download set**: `Data/Mod Downloads/GI/Yelan/4_0` is Yelan's own
+  buffers and textures out of the asset folder, so a mod naming no lightmap for an object still
+  draws with one. It is not on GitHub until committed and pushed, so a download attempt 404s
+  until then -- and a 404 for a HEAD texture is the tell that the parser did not find the head.
+
+What is still open: the Windows `.pyd` and `core.pyi` are behind all of this (built and verified
+on Linux only), and the per-object A/B of a compiled character against a prototype has no tool
+of its own yet beyond `runCompiled.py` plus `diff`. One thing the Linux suite run found on the
+way is NOT open any more: `parseIniReplaceVals` iterated `value.cast<PyReplaceList>().values()`,
+a reference into a temporary that dies before the loop body -- MSVC tolerated it, GCC 13
+segfaulted on every `ReplaceList` (see Architecture's pybind gotchas).
+
+**The compiled port is confirmed in game (maintainer, 2026-09-13).**
+
+## Recipe: a classic-shape mod onto a multi-component skin (Bennett and after)
+
+Every GI character from Bennett on is a skin of several components, so this is the shape the
+next remaps take. In order, with what each step needs and where it came from for Yelan:
+
+1. **Hashes and slots of the target, per component.** A frame analysis of the skin in game
+   (`FrameAnalysis-<Skin>-<date>`), read with `Tools/VGRemapFinder`'s `DumpMod.fromFrameAnalysis`
+   or `Tools/Misc/Diagnostics/boneCentroids.py --hashes`: each component's `position_vb` /
+   `blend_vb` / `texcoord_vb` / `ib` / `draw_vb`, and the `match_first_index` of every object
+   the game draws through it (its SLOTS -- Tranquil's Body had three, A / B / C). Which slot a
+   mod should be drawn through is decided by the slot's shader: read the registers the game binds
+   on it (a normal-map layout wants `ORFix`, the plain one `NNFix`). Note the face diffuse hash.
+2. **The vertex-group rows, one per (source, component)**, through the finder with the target as
+   a multi-component character (its README's "Characters of several components"), into
+   `VGRemapData.cpp` as `("Src", "") -> ("Skin", "Comp")` rows plus the reverse rows. Then the
+   identity mod of the SOURCE (`Tools/Misc/Prototypes/identityMod.py`) and `modTally.py
+   --remap Src Skin Comp` to see every used group has an entry, and `boneCentroids.py` for every
+   chain the finder mapped onto a limb (the jacket-flap lesson).
+3. **The strategy per component.** Negative index for a component that should draw the whole
+   mod trimmed to its own bones (Tranquil's Bang: the hair), graph cut for the rest. The
+   prototype's `ComponentSplit.py` / the core's `VGComponentSplit` print the coverage: every
+   source triangle drawn by exactly one component, or the strategies are wrong.
+4. **The band legend of the target**, read off ITS textures at its vertices (a frame analysis
+   dumps them), against the source's read off the source's identity mod. The table goes into
+   the character's `liftBands`-style filter; keep the skin lift diffuse-conditional.
+5. **Prototype it from Python first** (`Tools/Misc/Prototypes/yelanTranquilFix.py` is the
+   template: a runtime `ModType` with pseudo targets, one fixer per component) until four mods
+   look right in game -- the identity and three downloads -- then transcribe:
+   `IniFixData/<Src>/<Src>Fixer.cpp` building a `GIMIComponentFixerConfig`, three (or however
+   many) `ModTypeId`s as targets only, hash rows, `IniFixBuilderData` rows, and `runCompiled.py`
+   against the prototype's output until every buffer is byte-identical.
+6. **Then hand the reverse direction on** -- see the next section.
+
+## The reverse direction is OPEN: a multi-component SOURCE onto a classic target
+
+`YelanTranquil -> Yelan` was handed to another agent on 2026-09-13. What exists and what does
+not, so that agent starts from the right place:
+
+- **Exists.** `ModTypeId::YelanTranquil` with the `yelantranquil` keyword and a `GIBuilder`
+  factory; the reverse vertex-group rows `("YelanTranquil", "Body"/"Bang"/"Eye") -> ("Yelan",
+  "")` in `VGRemapData.cpp` (finder-made, half-checked); Yelan's hash / index / vertex-count
+  rows and her download folder; the component hashes under `YelanTranquilBody` / `Bang` /
+  `Eye`; the frame analysis of the skin on the maintainer's machine; the band legend of both
+  skins (Creating Remaps' "The Yelan lessons", point 2).
+- **Does not exist, and is the work.** (1) A PARSER for a multi-component mod: three sets of
+  buffers, three ib hashes, objects keyed `(component, object)` -- `GIMICharParser` assumes one
+  set, and the classifier's `IndexKey` already carries a component column for exactly this.
+  Register the skin's hashes under `YelanTranquil` (with a component column, or three
+  `HashData` name variants) so a Tranquil mod classifies as her. (2) The inverse of the split:
+  MERGING three components' blends / positions / texcoords / ibs into Yelan's single set -- a
+  grouped resource that is the mirror of `VGSplitGroupResource` (concatenate the vertex buffers,
+  offset each component's ibs by the running vertex count, remap each component's bones through
+  its own reverse row into Yelan's numbering), collected the same way through `ResGroupCollect`
+  + `BufReplace`. Sentinel `-1` bones from the negative-index side must not appear on this side:
+  a Tranquil mod's vertices are already skinned per component. (3) The register layout the
+  other way: Tranquil's Body slot C and Bang carry a normal map on `ps-t0` that Yelan has no
+  slot for -- drop it and shift down, exactly GanyuTwilight -> Ganyu (`objRegRemovals` +
+  `objRegRemaps`), and re-issue `NNFix`. (4) The band table inverted (Tranquil 255 skin ->
+  Yelan 115-127, Tranquil 0 fur -> Yelan 255, Tranquil 115-128 hair -> Yelan 0), still
+  diffuse-conditional. (5) An identity mod of the skin to test on first -- `identityMod.py`
+  refuses a multi-component `hash.json` today; extending it is the first task, and the
+  YelanTranquil frame analysis plus its `hash.json` (copied to
+  `Tools/Misc/YelanExperiments/YelanTranquil_hash.json`) are the inputs.
+- **Reuse, do not re-derive**: the vertex-limit overrides, the skip-only ib section, the
+  mipmapped texture writes, `BottomCover` for the draw call, the merge naming -- all in
+  `GIMIComponentFixer.cpp`, and most of it wants lifting into a shared base with the classic
+  template once a second config exists.
+
+## Adding a `ModTypeId`: every place it enters (2026-09-13)
+
+Missed one and the build is fine, the tests are fine, and the type quietly does not exist. In
+order, for a type that is BUILT (a character a `.ini` can classify as):
+
+1. `constants/ModTypeId.h` -- the enumerator, with a doc comment;
+2. `constants/ModTypeId.cpp` -- `getEnum` (int -> id), `getName`, `getHashRemapTargets` (the
+   fix-to graph; `getIndexRemapTargets` follows it), `getKeywords` (what a section name
+   classifies by -- lowercase);
+3. `py/src/constants/PyModTypeId.cpp` -- the `.value(...)`;
+4. `constants/GIBuilder.{h,cpp}` -- a factory with the aliases, and the entry in `all()`; and
+   `py/src/constants/PyGIBuilder.cpp` -- its `.def_static`;
+5. the three builder tables -- a parse row (`IniParseBuilderData.{h,cpp}`), fix rows per target
+   (`IniFixBuilderData.{h,cpp}`), a remove stub (`IniRemoveBuilderData.{h,cpp}`) -- and the
+   counts in `core/tests/BuilderData_test.cpp`;
+6. `data/HashData.cpp`, `data/IndexData.cpp`, `data/VertexCountData.cpp` rows (read the
+   reverse-lookup note in "Yelan is COMPILED now" before filing an index row at a new version);
+7. the oracles in `core/tests/ModTypeRemaps_test.cpp` and `core/tests/IniClassifierPopulation_test.cpp`
+   (both list every built type; a row with NO keyword crashes the second test, and the
+   population does not hold a keyword-less type either);
+8. `core/CMakeLists.txt` for the new `.cpp` files.
+
+A type that is a TARGET ONLY (a boss, a skin's component) takes steps 1-3 and 6 only: no
+factory, no `all()` entry, no keyword, no remove row, no oracle row.
+
+<br>
+
 ## Start here: adding a character, in order
 
-Thirty-six characters are done, in five *shapes*. **Work out which one you have first, because
+Forty-two characters are done, in five *shapes*. **Work out which one you have first, because
 several decisions follow from it** (see "Two shapes of remap" below, "A character with TWO
 targets" for the third, and "The merge" for the one that writes more than one .ini file):
 
@@ -880,6 +1103,12 @@ anything that was sRGB), and **a texture the fix CREATES to stand in for an sRGB
 authored pre-corrected**, because `TexCreator` writes it untagged: Tranquil's flat normal map is
 127/127/255 under an sRGB header, so the created one holds `round(255 * (127 / 255) ** 2.2) = 55`.
 
+**And a written texture carries no mip chain unless asked (2026-09-12).** Every texture the game
+ships has its full chain; ours shipped one level, which on hair reads in game as scattered
+off-colour pixels. `TextureFile.save(mipmaps = True)` / `TexEditor(mipmaps = True)` /
+`TexCreator(mipmaps = True)` write the chain; the default is unchanged. See
+[Texture Editing](../TextureEditing/CLAUDE.md)'s mip section.
+
 **`--compressTextures` is not the answer to this, and it does not do what its name suggests.**
 Measured: `save(compress=true)` writes DXGI 98 and `save(compress=false)` writes a legacy header,
 and **both are linear** -- the flag changes the file's size, not its colour space. (It also only
@@ -1371,6 +1600,10 @@ fix builds nothing, check these before anything else:
   it inherited `BaseIniGraphGroupEdit::editFromIni`, which **deliberately discards its `ini`**.
   Fixed in core now (`ResRegCollect::editFromIni` builds an `IniFileResEditContext`), but the
   pattern recurs.
+- **`ResGroupCollect` had exactly that seam until 2026-09-13** -- the first grouped fix driven
+  from C++ (Yelan's) collected every buffer and built nothing, and the only tell was `blend:
+  fixed 0` in the stats. It has its own `editFromIni` now, and a C++ caller hands it a
+  `VGSplitGroupResBuilder` (the core-side `GroupedResBuilder`; the binding's is `PyGroupedResBuilder`).
 - **`GIMIFixer::applyGraphGroupEdits` hands every group edit a `nullptr` ini.** A fixer that owns
   its own `IniFileFixContext` must override it and pass `ctx_.getIniFile()`.
 - **`GraphGroupEdit` had no core-side `PartEdit` adapters** — only `PyPartEdit`. Use

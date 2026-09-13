@@ -1410,6 +1410,26 @@ carry over if you do this to another marker class: re-add the callability check 
 caster used to give you for free (`PyCallable_Check` + `py::type_error`), and bind the
 Python-visible property to the *raw* accessor so identity round-trips.
 
+## A `std::function` parameter whose argument is a non-copyable reference must cast that argument by reference itself (2026-09-12)
+
+pybind11's `<pybind11/functional.h>` caster turns a Python callable into a `std::function` whose
+wrapper casts each argument with the automatic policy -- and for an lvalue reference that means
+**copy** whenever no Python wrapper for the object exists yet. A copyable argument is silently
+copied (the `RemapTexEditResource` a `fixFunc` receives is a copy, so anything it mutates is lost);
+a non-copyable one throws `pybind11::cast_error: return_value_policy = copy, but type is
+non-copyable!` inside the C++ caller, which here was `RemapService`'s resource loop. The trap is
+that the same callable **works when reached from Python**: `ini.getResources()` has already
+created the wrappers, the cast finds them, and every unit test goes through that door.
+`RemapBlendResource::fixFunc` sat broken this way until the Yelan prototype supplied its own
+buffers through it and the service reported *fixed 0 Blend.buf files*.
+
+The fix, in `PyRemapBlendResource.cpp`: take the callable as a `py::object`, wrap it in a named
+functor (`PyFixFunc`) that calls `py::cast(&arg, py::return_value_policy::reference)`, and let the
+getter recover the original Python object with `std::function::target<PyFixFunc>()` -- callable
+identity round-trips without re-deriving anything. Any other binding accepting a
+`std::function<...(NonCopyable&)>` (`IniGroupedResource`'s `fixFunc` is the other candidate) wants
+the same treatment before a C++ caller can rely on it.
+
 ## A pybind11 constructor taking `vector<unique_ptr<T>>` must pick disown-and-transfer vs. clone-and-copy deliberately — don't default to `IfTemplate`'s pattern
 
 `IfTemplate`'s own constructor takes ownership of its `IfTemplatePart` children by disowning the
@@ -1937,7 +1957,7 @@ the hand-written version passes, and for the same GanyuTwilight.
 **as-is**: wrapping it in the callable path would send a C++-constructed strategy out to Python
 and back through `holdPyStrategy` for nothing, since no Python code ever touches it.
 
-There is a worked example of each route next to the mods they fix: `Importer/GIMI/Mods/`
+There is a worked example of each route in `Tools/Misc/Prototypes/` (copies of the maintainer's `Importer/GIMI/Mods/` scripts):
 `overrideScript.py` is the config one (38 lines of config, `--ab` proves it), and
 `overrideScript2.py` is the hand-built one --- a deliberately incomplete GanyuTwilight fix, chosen
 so each edit's effect is visible in the output it prints. Its own comments cover what a hand-written
@@ -1954,7 +1974,7 @@ what that costs.
 `StrategyOverrides`, and A/B'd against the compiled ones over the real mod: 64 files,
 byte-identical, seven `.ini` files and ten downloaded assets included.** The script lives
 outside the repo, next to the mods it fixes
-(`Importer/GIMI/Mods/overrideScript.py`, `--ab` to run the comparison).
+(`Tools/Misc/Prototypes/overrideScript.py`, `--ab` to run the comparison).
 
 That is the strongest evidence the override path has, and it is worth knowing what it cost,
 because **the feature was not usable for a real fix before this**. Five things were missing, and
@@ -2282,7 +2302,20 @@ Things that will otherwise cost you a cycle:
   set means on `RemapService::fromModTypeIds`, and the constructor is where the ambiguity is
   resolved. Don't "fix" the asymmetry.
 
-### A new KIND of resource is invisible until `_fixResource` is told about it
+### A `cast<T>()` is a COPY, and a reference into it dies at the semicolon (2026-09-13)
+
+`for (const py::object& v : value.cast<PyReplaceList>().values())` compiled, passed every test
+on MSVC for months, and segfaulted in `PyObject_Str` on GCC 13 the first time the Linux suite
+reached it. `py::object::cast<T>()` returns `T` by value, `values()` returns a `const
+std::vector<py::object>&` into that temporary, and a range-for binds its range to the result of
+the init expression -- so the temporary is destroyed before the first iteration and the loop
+walks freed `py::object`s. The fix is a named local (`const PyReplaceList list =
+value.cast<PyReplaceList>();`) and nothing else. Grep for the shape before trusting a binding
+that "works on Windows": `.cast<[A-Za-z]+>\(\)\.[a-z]+\(\)` in a range-for or bound to a
+reference is the pattern, and a binding that returns a reference to a member is what makes it
+lethal.
+
+## A new KIND of resource is invisible until `_fixResource` is told about it
 
 `RemapService::_fixResource` dispatches on the **concrete type**, a chain of `dynamic_cast`s:
 
@@ -2302,6 +2335,20 @@ been *nothing*, because every log line and every count came out identical.
 
 If you add a resource kind, add the branch, and then run the real entry point over a mod that
 uses it and look for the FILE.
+
+**A GROUPED resource is the exception, and the shape to reach for when several files have to be
+fixed from one decision (2026-09-12).** `RemapService::_fixGroupedResource` calls
+`IniGroupedResource::fix()`, which dispatches to a *virtual* `_fix` --- so a subclass needs no
+branch here at all. `VGSplitGroupResource` is the first: a `RemapIniGroupedResource` whose `_fix`
+hands itself to the free function `fixVGSplitGroup`, which reads its members through the virtual
+`memberResources()`, tells them apart by `IniResource::type` (`blend` / `position` / `texcoord` /
+`buf`) and writes every `fixedPath` from one `VGComponentSplit`. That free function is also what
+the Python-facing class calls: `PyVGSplitGroupResource` derives from `PyIniGroupedResource` (whose
+members live in a `py::dict`, which is why the accessor is virtual) plus `RemapIniResourceMixin`,
+never from the core class --- `PyGroupedResBuilder::build` casts a built group to
+`PyIniGroupedResource*`, so anything `ResGroupCollect` is to build from Python has to be one.
+Members are built by a `resEdits/` class as usual: `BufReplace` builds a plain `IniFixResource`
+typed by kind, which the stats and the grouped fix both key on.
 
 ### A section the PARSER invents has to carry its own identity
 

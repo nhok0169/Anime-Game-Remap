@@ -1003,6 +1003,16 @@ A build script that ends in `echo BUILD_OK` only after every step, and a wait lo
 `error C`/`FAILED` **alongside** the exit codes — a per-target failure does not always change the
 overall exit code.
 
+## Building on the Linux side while someone else holds the Windows build (2026-09-12)
+
+`Tools/Misc/Linux/linuxBuild.sh` is the whole loop: `ninja core` in the native tree
+(`~/cbuildlin-native`, on ext4 -- see Setup's re-measure), then copy the `.so` into
+`api/src/py/FixRaidenBoss2/`, printing the `.so`'s mtime before and after and `NINJA_EXIT` /
+`COPY_EXIT`. A one-line `.cpp` change is ~10 s, `VGRemapData.cpp` (per-file `/Od`) ~25 s, a
+widely-included header ~2 min. What it does NOT do: touch the Windows `.pyd`, or regenerate
+`core.pyi` -- both are debts a Windows `-d` build pays later, and the guard `try` at the end of
+`FixRaidenBoss2/__init__.py` (the names bound since the last Windows build) comes out then.
+
 ## A `compile_check` over a few `.cpp` files does not cover a template you changed
 
 Spot-compiling the translation units you edited is a fast inner loop, and it misses anything in a

@@ -364,6 +364,13 @@ Things specific to these ports, if you're extending any of the families:
   end of a part a bare value/`KVP` list is added to is decided by the *mode*
   (`TopdownCover` → front), exactly as the pure-Python original's
   `_getFillMissingFunc(self.fillMissing, toFront = isCoverMode)` did.
+- **`RegFillMissingMode` has a third mode, `BottomCover` (2026-09-12).** `FillMissing` fills the
+  FIRST content part that lacks the key (`IfTemplateNode::getKeyMissingPart`), `TopdownCover` adds
+  a fresh first part; `BottomCover` mirrors it with a fresh LAST part at each root
+  (`RegFillMissing::addBottomCover`, `addBottomContentPart`). It exists because a `ResRegCollect` /
+  `ResGroupCollect` splices its register into an `if 1 ... endif` block, which splits the section
+  into parts, after which a `drawindexed` filled with `FillMissing` landed BEFORE the ib and the
+  textures. Bound as `"bottomCover"`, five tests in `test_RegFillMissing.py`.
 - **A binding that mutates an `IniSectionGraph`'s structure must call
   `PyIniSectionGraph::refreshKeepAlive()` before returning.** `GraphRename` relabels sections;
   `RegFillMissing`'s `TopdownCover`/`addCover` appends brand-new `IfContentPart`s, and its

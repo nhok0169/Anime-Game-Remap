@@ -304,8 +304,70 @@ shipped `KeqingOpulent -> Keqing` row had **no entry** for two elbow helper bone
 `BlendFile::remapIndices` writes an unmapped source group as bone `-index-1` with its weight
 kept -- a kink, logged nowhere. Every such gap in `VGRemapData.cpp` was then filled (six
 directions), and the rule is now explicit: **every source vertex group maps to something**. When
-a model deforms in game, `Importer/GIMI/Mods/overrideVgRemap.py --dump`'s `unmapped source groups`
-line is the first thing to read. See [Vertex Group Remaps](AI%20Agent%20Help/VGRemaps/CLAUDE.md).
+a model deforms in game, `Tools/Misc/Prototypes/overrideVgRemap.py --dump`'s `unmapped source
+groups` line is the first thing to read. See [Vertex Group Remaps](AI%20Agent%20Help/VGRemaps/CLAUDE.md).
+
+**A SKIN CAN BE SEVERAL COMPONENTS, EACH WITH ITS OWN VERTEX GROUP NUMBERING (2026-09-12).**
+YelanTranquil is a `Body`, a `Bang` and an `Eye` with separate buffers, and WuWa characters are
+built that way throughout. A vertex group is `(component, index)` from here on: the finder
+matches across all of a target's components, the drafts carry one column per target component
+(the maintainer's Yelan convention), and `VGRemapData.cpp` holds one row per (source component,
+target component) in the component slots every older row leaves as `""`. Yelan/YelanTranquil are
+`ModTypeId`s with remap rows and **no `GIBuilder` factory**; a component column for `HashData`
+is the open fixer-side work. **The per-component split of a mod's buffers is core now**
+(`model/buffers/VGComponentSplit`, negative index + fill cut, a port of the tool's
+`ComponentSplit.py`) **and it runs as a RESOURCE GROUP**: `VGSplitGroupResource` fixes a mod's
+blend / position / texcoord / ib members together, `BufReplace` names and builds each member, and
+`ResGroupCollect` collects them -- the ib and the vertex buffers depend on each other (issue #190),
+so a `ResRegCollect` per buffer is the naive shape. **The whole Yelan -> YelanTranquil fix runs
+through the API from Python on that** (`Tools/Misc/Prototypes/yelanTranquilFix.py`: a runtime
+`ModType`, one hand-built fixer per component). Doing so found two bindings that had always passed
+their tests: a `RemapBlendResource.fixFunc` the C++ service loop could not call (non-copyable
+cast) and a `resourceRemapBlend` type the stats never counted. Everything here is **built on
+Linux only -- the Windows `.pyd` needs a rebuild**, and `FixRaidenBoss2/__init__.py` guards the
+new names with a `try` until it has one. See
+[Vertex Group Remaps](AI%20Agent%20Help/VGRemaps/CLAUDE.md)'s "A character of SEVERAL components"
+and its recipe's step 8.
+
+**THAT FIX IS CONFIRMED IN GAME ON FOUR YELAN MODS (2026-09-12), AND EACH ONE FOUND SOMETHING THE
+ONE BEFORE HAD HIDDEN.** The china dress uses no jacket bones and paints no fur; the Fontaine
+outfit hangs a cape on the jacket chains (crooked, until they anchored symmetrically) and paints
+its stockings on the alpha the target shades as skin; the Clorinde port keeps CLORINDE's band
+legend (hair on the skin band), and its hair speckled because no written texture carried a mip
+chain. The maintainer's answer to "which mod next" was **the identity mod**: the character's own
+model as a mod (`Tools/Misc/Prototypes/identityMod.py`), every bone and every band of the real
+skin in one folder -- and it read Yelan's true legend (255 = fur, not cloth) off her own textures.
+Read [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s **"The Yelan lessons, for
+ANY new remap"** before starting a remap, and its **"Porting the Yelan prototype into C++"**
+checklist before transcribing one; the diagnostics that found each of these are
+`Tools/Misc/Diagnostics/modTally.py` and `boneCentroids.py`. Two things that changed under the
+API for it: `TextureFile::save` / `TexEditor` / `TexCreator` take a `mipmaps` flag (default off,
+so no compiled character's output moved), and `RegFillMissingMode::BottomCover` fills a section's
+LAST part. **Every script the guides mention that lives outside the repo is copied under
+`Tools/Misc/`** (its README says what each is).
+
+**AND THE PORT LANDED (2026-09-13): YELAN IS COMPILED, THROUGH A SECOND FIXER TEMPLATE.**
+`makeGIMIComponentFixer(config, component)` (`data/IniFixData/GIMIComponentFixer.{h,cpp}`) is to a
+skin of several components what `makeGIMICharFixer` is to the classic shape -- one fixer per target
+component, the target's components as target-only `ModTypeId`s (`YelanTranquilBody` / `Bang` /
+`Eye`, like the boss ids: no factory, never registered), the mod's buffers split once at
+construction and collected as one resource group per `.ini` group. Every GI character from Bennett
+on is this shape, so the next one is a config in its own `IniFixData/<Name>/` folder plus rows, not
+new machinery. The A/B against the prototype is byte-identical on every buffer over three mods and
+the identity. Four framework findings came out of it, each written up in
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)' "Yelan is COMPILED now": the
+reverse lookup's version-bucket rule (why the slot indices are in the config and not in
+`IndexData`), the shared parser now filtering hash lookups by its own name, `ResGroupCollect`'s
+inert-from-C++ seam (fixed), and a registered mod type with no keyword crashing the classifier
+population. Still Linux-built only. The Linux suite run also caught a real bug in an untouched
+binding -- `parseIniReplaceVals` walked a reference into a temporary, silent on MSVC, a segfault
+under GCC 13 -- fixed; see Architecture's pybind gotchas. **Confirmed in game on 2026-09-13.**
+The REVERSE direction, `YelanTranquil -> Yelan`, is open and handed to another agent: Creating
+Remaps' "The reverse direction is OPEN" says what exists (the ids, the reverse vertex-group
+rows, the hashes) and what does not (a multi-component parser, the merge that is the split's
+inverse, an identity mod of the skin) -- start there, not from the prototype. And its "Adding a
+`ModTypeId`: every place it enters" is the checklist for the eight places a new type has to be
+named before it exists.
 
 **THE SCRIPT NO LONGER CONTAINS THE API (2026-09-10), AND NEITHER DID THREE OTHER TOOLS STILL
 WORK.** `script build/`'s `AGRemap.py` used to be the whole pure-Python API flattened into one file

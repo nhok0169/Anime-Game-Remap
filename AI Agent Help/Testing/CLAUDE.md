@@ -1062,6 +1062,39 @@ is byte-identical, produces a correct-looking `.ini`, and reports success.
 Then run the fix **3-4 times in a row**. Repeat-run stability is where re-fixing your own output,
 unbounded trailing newlines, and line-ending reflow show up; none of them appear on a single run.
 
+## Tests that only run where the core is built (2026-09-12)
+
+When the Windows `.pyd` is behind the C++, a Python test of a new binding can only run on the
+Linux side: `wsl -d Ubuntu-22.04 -- bash -lc 'source ~/agremap-venv/bin/activate && cd "<repo>/Testing/Unit Tester" && python main.py <ClassName>'`.
+The Yelan session's tests are the ones to run first after a Windows rebuild, since none has run
+there yet: `test_VGComponentSplit.py` (3 classes, the negative-index and fill-cut split against
+hand-built buffers), the five `BottomCover` cases in `test_RegFillMissing.py`,
+`test_TextureFile.test_save_noGammaKey_keepsTheGammaOpenDetected` (the Python save clobbering the
+sRGB gamma) and `test_save_mipmaps_writesTheFullChain`. All pass on Linux; the suite's baseline
+failures (the `BaseIniFileTest` classes and one Windows-path test) are unchanged.
+
+**The standalone `core/tests/*.cpp` build on Linux too, and three of them changed on
+2026-09-13**: `Tools/Misc/Linux/buildTests.sh <Test> ...` compiles each named test against the
+native build tree's `libAGRemapCore.a` and the static Compressonator / utf8proc libraries, links
+the package's `libz3.so`, and runs it. `BuilderData_test` (parse 56 rows / fix 124 / remove 45,
+after Yelan), `ModTypeRemaps_test` (45 built types; the three YelanTranquil component ids are
+targets only and have no row) and `IniClassifierPopulation_test` (45 keyword rows) all pass. Two
+things that cost time: a test whose oracle row lists NO keyword indexes `keywords[0]` and
+segfaults with no output -- that is the test, not the library, but the library really does not
+hold a keyword-less registered type either; and `test_CppIfContentPart` / `test_IfContentPart`
+segfaulted on the Linux build inside `parseIniReplaceVals`, a binding nobody had touched, while
+passing on the older Windows build. That was a real bug the compiler change exposed (a range-for
+over a reference into a temporary -- see Architecture), fixed the same day; **a "passes on
+Windows, crashes on Linux" test in unmodified code is a defect to find, not a platform to
+excuse.** The fault handler (`python -X faulthandler main.py`) names the test when the crash is
+inside one; a crash it reports with NO Python frames is a teardown crash instead. With that
+fix the Linux suite runs to the end again: **2137 tests, 12 failures, 7 errors** on
+2026-09-13, every one of them the Linux baseline above (the Windows-path-literal tests --
+`test_IniResource`, `test_IniFixResourceModel`, `test_RemapBlendResource`,
+`test_RemapTexAddResource`, plus `test_BaseResEdit` / `test_ResEdits` of the same kind --
+the `IfTemplateTree` question, and the `BaseIniFileTest` setUpClass classes); all 12 failing
+classes pass on the Windows build.
+
 ## When you add a row to a builder table, `BuilderData_test.cpp` breaks silently
 
 `core/tests/BuilderData_test.cpp` asserts exact row and version counts for all three builder tables

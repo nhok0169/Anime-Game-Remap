@@ -518,6 +518,53 @@ This is the same shape as habit 26's GIL-starved sampler, and the pair is worth 
 in both, the apparatus was broken and the subject was fine, and in both the giveaway was a result
 that could not happen rather than one that merely looked surprising.
 
+**30. Two build sides share one checkout, and only one of them may be yours (2026-09-12).** When
+another agent owns the Windows `.pyd`, every C++ change is built and verified on WSL --
+`Tools/Misc/Linux/linuxBuild.sh` (native build tree on ext4, copies the `.so` into the package
+folder, prints both mtimes and both exit codes) -- and the Windows module falls behind the C++.
+Three habits keep that workable: **(a)** a new binding name goes into `FixRaidenBoss2/__init__.py`
+inside the `try` block at its end, so the stale side still imports; **(b)** a script meant to be
+run by the maintainer takes a Windows-form path and translates it (`/mnt/<drive>/...`), finds the
+repo from `AG_REMAP_REPO` or its own location, and offers `--wsl` to relaunch itself inside WSL
+(`Tools/Misc/Prototypes/yelanTranquilFix.py` is the pattern); **(c)** the debt is written down
+where the next Windows build will pay it: `core.pyi` is behind `VGComponentSplit`,
+`VGSplitGroupResource`, `BufReplace`, `RegFillMissingMode.BottomCover` and the `mipmaps` flags,
+and the `__init__.py` guard comes out once the `.pyd` is rebuilt. Two mechanics of driving WSL
+from the Bash tool: `wsl -d Ubuntu-22.04 -- bash -lc '...'` with the whole command single-quoted
+(a `$5` inside double quotes is expanded by the OUTER shell -- an `awk '{print $5}'` arrived as
+`{print }`), and a heredoc inside it works but its `$` are the inner shell's. And the Bash tool's
+`/e/...` paths are Git Bash's: a Windows Python given one reports "no such file", and needs
+`E:/...`. **The rule that ends all of it (2026-09-13): anything for WSL that holds a variable, a
+`$(...)`, or an `/mnt/...` argument goes into a `.sh` file in the scratchpad, and the Bash tool
+runs `wsl -d <distro> -- bash -lc 'bash "/mnt/c/.../that.sh"'` and nothing else.** MSYS rewrites
+`$S` and `/mnt/c/...` inside the wsl arguments in ways that differ call to call -- one run got
+`/cmpA` instead of the scratchpad, the next `C:/Program Files/Git/mnt/c/...` -- and every failed
+form looked like a typo. Two more from the same day: a header the Windows side refuses to write
+(`PermissionError`, another process holding it) is written from WSL instead -- the same
+`/mnt/e/...` file, no lock; and a background Unit Tester run that prints nothing has still
+written `unitTestResults.txt` -- a crash mid-suite leaves the progress dots and no summary, and
+`python -X faulthandler main.py` names the test (a runner with `verbosity = 2` into a
+line-buffered file names it even when the fault handler shows no frames).
+
+**31. A one-off diagnostic that answered a question becomes a tool the same day.** Four scratch
+scripts found the cape, the stockings, the port's legend and the missing mip chains; the
+scratchpad dies with the session and a guide that says "sample the band under the diffuse" is
+not the script that does it. `Tools/Misc/Diagnostics/modTally.py` and `boneCentroids.py` are those
+scripts made generic and run once from their new home before the guides pointed at them. Do the
+same for yours: if it printed the number that settled the argument, it belongs under `Tools/`.
+
+**32. The guides' example paths are the maintainer's machine, and the copies live in
+`Tools/Misc/`.** `Importer/GIMI/Mods/...` in a guide is a folder on one computer; an agent
+elsewhere reads the copy (`Tools/Misc/README.md` maps each) and knows the live one may be newer.
+When you write a script next to a mod because that is where it is useful, copy it into
+`Tools/Misc/` before the session ends and say which is which.
+
+**33. Ask the maintainer for the shape of the NEXT test, not just the verdict on the last.** After
+three downloads had each exposed a different over-fit, the maintainer's answer was the identity
+mod (Creating Remaps' "The Yelan lessons"), which covered in one folder what a fourth download
+might have covered by luck. The question "what would cover the cases we have not seen" is
+cheaper than the next bug report.
+
 <br>
 
 ## Operating norms

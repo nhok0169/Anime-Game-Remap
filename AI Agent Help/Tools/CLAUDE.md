@@ -195,6 +195,15 @@ with `-d`, **it regenerates the tracked `core/xml` and `core.pyi` on every run**
 [Building](../Building/CLAUDE.md)'s `-d` section for when to keep those; the short answer for a
 tooling change is that you do not.
 
+## `Tools/Misc`: the scripts the guides mention that were born outside the repo
+
+The remap prototypes, the identity-mod generator, the Yelan hand-experiment scripts and the
+maintainer's hand-made reference `.ini` pair, the Linux build script, and two diagnostics
+(`modTally.py`, `boneCentroids.py`) -- each written next to the mod it operated on, on the
+maintainer's machine, and copied here so another machine can read and run them. Its
+[README](../../Tools/Misc/README.md) maps each file to the guide that uses it and says which copy
+is the live one. Same rule as the rest of this folder: nothing tests it, run before you change.
+
 ## Traps that each cost real time
 
 - **PowerShell's `Select-Object -First N` kills the native process it is reading.** The command

@@ -545,6 +545,29 @@ namespace AGRemapCore {
              */
             GraphGroups& edit(GraphGroups& graphGroups, const ModType* modType, const std::string& modName = "") override;
 
+            /**
+             * @brief
+             @rst
+             Collects, groups AND builds, for the ``.ini`` file given -- the same seam
+             :cpp:func:`ResRegCollect::editFromIni` provides, and for the same reason
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The build half needs a context, and :cpp:func:`BaseIniGraphGroupEdit::editFromIni`
+             deliberately drops the ``.ini`` file it is handed -- so a plain C++ fixer that drives
+             this edit through the inherited one collected everything and built nothing, silently
+             (2026-09-12, the first grouped fix driven from C++). Same constraint as the flat
+             collect: only the ``std::string`` instantiation gets a context, any other falls back
+             to the collect-only behaviour
+             @endrst
+             *
+             * @param graphGroups The group of graphs to edit for each .ini file, modified in place
+             * @param ini The .ini file the grouped resources are built for -- **nullptr collects without building**
+             * @param modType The type of mod to fix
+             * @param modName The name of the mod to fix to. **Default**: ``""``
+             */
+            GraphGroups& editFromIni(GraphGroups& graphGroups, IniFile* ini, const ModType* modType,
+                                      const std::string& modName = "") override;
+
         private:
             std::vector<std::string> resGroupTypes_;
 

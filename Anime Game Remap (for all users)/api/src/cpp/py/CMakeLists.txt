@@ -121,6 +121,7 @@ pybind11_add_module(core
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphGroupEdit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyResEdit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyBlendEdit.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyBufEdit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyTexEdit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyResRegCollect.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyResGroupCollect.cpp
@@ -154,6 +155,7 @@ pybind11_add_module(core
     src/PyRemapServiceCLI.cpp
     src/model/files/PyBufFile.cpp
     src/model/PyVGRemap.cpp
+    src/model/buffers/PyVGComponentSplit.cpp
     src/model/files/PyBlendFile.cpp
     src/model/files/PyPositionFile.cpp
     src/model/files/PyIbFile.cpp
@@ -195,6 +197,7 @@ pybind11_add_module(core
     src/model/iniresources/PyIniGroupedResource.cpp
     src/model/iniresources/PyRemapIniResource.cpp
     src/model/iniresources/PyRemapIniGroupedResource.cpp
+    src/model/iniresources/PyVGSplitGroupResource.cpp
     src/model/iniresources/PyRemapBlendResource.cpp
     src/model/iniresources/PyRemapTexResource.cpp
 )

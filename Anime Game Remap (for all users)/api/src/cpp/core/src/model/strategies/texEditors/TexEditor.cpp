@@ -40,14 +40,20 @@ namespace AGRemapCore {
     }
 
 
-    TexEditor::TexEditor(std::vector<Filter> filters, bool compress):
-        filters_(std::move(filters)), compress_(compress) {}
+    TexEditor::TexEditor(std::vector<Filter> filters, bool compress, bool mipmaps):
+        filters_(std::move(filters)), compress_(compress), mipmaps_(mipmaps) {}
 
 
     bool TexEditor::getCompress() const { return compress_; }
 
 
     void TexEditor::setCompress(bool compress) { compress_ = compress; }
+
+
+    bool TexEditor::getMipmaps() const { return mipmaps_; }
+
+
+    void TexEditor::setMipmaps(bool mipmaps) { mipmaps_ = mipmaps; }
 
     const std::vector<TexEditor::Filter>& TexEditor::getFilters() const {
         return filters_;
@@ -72,6 +78,6 @@ namespace AGRemapCore {
         }
 
         texFile.setSrc(fixedTexFile);
-        texFile.save(compress_);
+        texFile.save(compress_, mipmaps_);
     }
 }

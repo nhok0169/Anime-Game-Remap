@@ -122,7 +122,14 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
 
         .value("Xingqiu", AGRC::ModTypeId::Xingqiu, R"doc(Xingqiu from GI)doc")
 
-        .value("XingqiuBamboo", AGRC::ModTypeId::XingqiuBamboo, R"doc(Xingqiu Lantern Rite skin from GI)doc");
+        .value("XingqiuBamboo", AGRC::ModTypeId::XingqiuBamboo, R"doc(Xingqiu Lantern Rite skin from GI)doc")
+
+        .value("Yelan", AGRC::ModTypeId::Yelan, R"doc(Yelan from GI)doc")
+
+        .value("YelanTranquil", AGRC::ModTypeId::YelanTranquil, R"doc(Yelan summer skin (Tranquil Banquet) from GI -- three components (Body, Bang, Eye))doc")
+        .value("YelanTranquilBody", AGRC::ModTypeId::YelanTranquilBody, R"doc(YelanTranquil's Body component, as a fix target -- a skin of several components is fixed one component at a time, and each is a mod type for the tables' purposes)doc")
+        .value("YelanTranquilBang", AGRC::ModTypeId::YelanTranquilBang, R"doc(YelanTranquil's Bang component, as a fix target)doc")
+        .value("YelanTranquilEye", AGRC::ModTypeId::YelanTranquilEye, R"doc(YelanTranquil's Eye component, as a fix target)doc");
 
     // Also bare-named -- no pure-Python 'ModTypeIdTools' class exists to shadow either.
     py::class_<AGRC::ModTypeIdTools>(m, "ModTypeIdTools", R"doc(

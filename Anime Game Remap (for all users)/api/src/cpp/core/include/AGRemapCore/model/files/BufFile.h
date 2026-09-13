@@ -315,6 +315,51 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Appends every line of several other ``.buf`` files onto the end of this one
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The **vertical** counterpart to :cpp:func:`merge`: where that one widens a line by
+             concatenating a matching line out of each source, this one *lengthens* the file, so
+             the result holds this file's lines followed by each source's lines in the order given
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Each source's elements must be a **superset** of this file's -- for every one of this
+             file's elements, the source must carry an element with the same key (see #getElements)
+             and the same :cpp:class:`BufDataType`\\s. The source may carry as many further elements
+             as it likes, and in any order; those are simply dropped, and each appended line is
+             rebuilt in **this** file's element order. So a full ``.vb`` can be appended onto a
+             ``Position.buf`` and contributes only its positions :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             .. note::
+                Only the data types have to match, not
+                :cpp:func:`BufElementType::getFormatName` -- the format name is 3dmigoto's label
+                for a layout, and two elements spelling it differently still occupy the same bytes
+
+             .. note::
+                A matched element's bytes are copied straight across rather than decoded and
+                re-encoded, so nothing an appended value goes through can perturb it :raw-html:`<br />`
+                :raw-html:`<br />`
+
+             Every source is checked against this file **before** any byte is copied, so a source
+             that breaks the superset rule leaves this file exactly as it was rather than partly
+             appended to. A null source is skipped, and a source is allowed to be this file itself
+             @endrst
+             *
+             * @param bufFiles The ``.buf`` files whose lines to append, in the order they should
+             *      appear after this file's own lines
+             *
+             * @throws std::invalid_argument if a source is missing one of this file's elements, or
+             *      carries it with different data types
+             *
+             * @throws BadBufData if the appended bytes do not divide evenly into lines (only
+             *      reachable when this file's own data was not a whole number of lines)
+             */
+            void append(const std::vector<const BufFile*>& bufFiles);
+
+            /**
+             * @brief
+             @rst
              The **data** section of the dump text for this ``.buf`` file -- the text a 3dmigoto
              frame analysis writes, which `Blender`_ can then import :raw-html:`<br />`
              :raw-html:`<br />`

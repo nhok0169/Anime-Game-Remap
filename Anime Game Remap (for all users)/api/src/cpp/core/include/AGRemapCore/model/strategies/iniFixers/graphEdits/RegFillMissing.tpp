@@ -218,6 +218,64 @@ namespace AGRemapCore {
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename RegFillMissing<K, V, KeyHash, KeyEqual>::Graph& RegFillMissing<K, V, KeyHash, KeyEqual>::addBottomCover(
+            Graph& graph, const K& reg, const FillMissingFunc& fillMissing, const PartSelection& selection) {
+        if (!fillMissing) {
+            return graph;
+        }
+
+        std::unordered_map<std::string, bool> covered = graph.rootsAreFullyCovered(reg);
+
+        bool needCover = false;
+        for (const auto& entry : covered) {
+            if (!entry.second) {
+                needCover = true;
+                break;
+            }
+        }
+
+        if (!needCover) {
+            return graph;
+        }
+
+        for (const std::string& rootName : graph.roots()) {
+            Section* section = graph.getSection(rootName);
+            if (section == nullptr) {
+                continue;
+            }
+
+            if (selection.partFilter) {
+                // The root's own last IfContentPart -- the one addBottomContentPart would reuse, or
+                // insert after -- is what the filter gets to discriminate on; see addCover.
+                ContentPart* lastPart = nullptr;
+                for (const auto& part : section->parts()) {
+                    auto* contentPart = dynamic_cast<ContentPart*>(part.get());
+                    if (contentPart != nullptr) {
+                        lastPart = contentPart;
+                    }
+                }
+
+                if (lastPart != nullptr) {
+                    Colouring colouring;
+                    IterData iterData(rootName, section, lastPart, 1, selection.trackKeys ? &colouring : nullptr);
+
+                    OrderRanges accepted = selection.partFilter(iterData, selection.modType, selection.ini);
+                    if (accepted.isEmpty()) {
+                        continue;
+                    }
+                }
+            }
+
+            ContentPart* bottomPart = section->addBottomContentPart();
+            if (bottomPart != nullptr) {
+                fillMissing(*bottomPart);
+            }
+        }
+
+        return graph;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename RegFillMissing<K, V, KeyHash, KeyEqual>::Graph& RegFillMissing<K, V, KeyHash, KeyEqual>::editFromIni(
             Graph& graph, IniFile* ini, const ModType* modType, const std::string& modName, const PartFilter& partFilter,
             bool trackKeys, const std::optional<KeySet>& keysToTrack) {
@@ -266,6 +324,8 @@ namespace AGRemapCore {
 
         if (fillMode == RegFillMissingMode::TopdownCover) {
             addCover(graph, reg, fillMissing, selection);
+        } else if (fillMode == RegFillMissingMode::BottomCover) {
+            addBottomCover(graph, reg, fillMissing, selection);
         } else if (fillMode == RegFillMissingMode::FillMissing) {
             fillMissingGraph(graph, reg, fillMissing, selection);
         }

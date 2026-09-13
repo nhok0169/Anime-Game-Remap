@@ -317,6 +317,14 @@ namespace AGRemapCore {
         return makeGIModType(ModTypeId::XingqiuBamboo, {"XingqiuLanternRite", "GuhuaGeekLanternRite", "BookwormLanternRite", "SecondSonofTheFeiyunCommerceGuildLanternRite", "ChongyunsBestieLanternRite", "LanternRiteXingqiu", "LanternRiteGuhuaGeek", "LanternRiteBookworm", "LanternRiteSecondSonofTheFeiyunCommerceGuild", "LanternRiteChongyunsBestie", "GuhuaGeekBamboo", "BookwormBamboo", "SecondSonofTheFeiyunCommerceGuildBamboo", "ChongyunsBestieBamboo"});
     }
 
+    ModType GIBuilder::yelan() {
+        return makeGIModType(ModTypeId::Yelan, {"Valley Orchid", "ValleyOrchid"});
+    }
+
+    ModType GIBuilder::yelanTranquil() {
+        return makeGIModType(ModTypeId::YelanTranquil, {"YelanTranquilBanquet", "TranquilBanquetYelan", "YelanSummer", "SummerYelan", "ValleyOrchidTranquil"});
+    }
+
     std::vector<ModType> GIBuilder::all() {
         // Listed explicitly rather than derived from ModTypeId's range: two of that enum's members
         // (RaidenBoss, ArlecchinoBoss) are remap *targets* only and have no factory here, so
@@ -364,7 +372,11 @@ namespace AGRemapCore {
             xiangling(),
             xianglingCheer(),
             xingqiu(),
-            xingqiuBamboo()
+            xingqiuBamboo(),
+            yelan(),
+            yelanTranquil()
+            // NOT the three YelanTranquil component ids: they are fix targets only, like the boss
+            // ids -- see ModTypeId::YelanTranquilBody.
         };
     }
 }

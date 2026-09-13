@@ -22,8 +22,8 @@
 
 namespace AGRemapCore {
 
-    TexCreator::TexCreator(int width, int height, Colour colour, bool compress):
-        width(width), height(height), colour(colour), compress(compress) {}
+    TexCreator::TexCreator(int width, int height, Colour colour, bool compress, bool mipmaps):
+        width(width), height(height), colour(colour), compress(compress), mipmaps(mipmaps) {}
 
     void TexCreator::fix(TextureFile &texFile, const std::string &fixedTexFile) {
         std::error_code ec;
@@ -41,6 +41,6 @@ namespace AGRemapCore {
 
         texFile.setSrc(fixedTexFile);
         texFile.setPixels(std::move(pixels), width, height);
-        texFile.save(compress);
+        texFile.save(compress, mipmaps);
     }
 }

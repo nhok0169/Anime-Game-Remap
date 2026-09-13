@@ -394,3 +394,12 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "Algo", "BufTools", "Builder", "DFA", "FlyweightBuilder", "DictTools", "GraphTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "PackageManager", "PackageData", "TextTools",
            "RemapService", "CppRemapServiceCLI", "RemapServiceCLI",
            "remapMain"]
+
+# ----- Added 2026-09-12: the component split (VGComponentSplit / VGSplitGroupResource / BufReplace) -----
+# Guarded rather than imported outright, so a `core` build older than that day (the Windows .pyd until
+# it is rebuilt) still imports the package; remove the guard once every build carries them.
+try:
+    from .core import VGComponentSpec, VGComponentSplitStats, VGComponentBuffers, VGComponentSplit, VGSplitGroupResource, BufReplace
+    __all__ += ["VGComponentSpec", "VGComponentSplitStats", "VGComponentBuffers", "VGComponentSplit", "VGSplitGroupResource", "BufReplace"]
+except ImportError:
+    pass

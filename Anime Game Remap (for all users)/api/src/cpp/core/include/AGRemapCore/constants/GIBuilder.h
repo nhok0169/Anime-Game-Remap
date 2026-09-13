@@ -249,6 +249,24 @@ namespace AGRemapCore {
             static ModType xingqiuBamboo();
 
             /**
+             * @brief Creates the :cpp:class:`ModType` for Yelan
+             */
+            static ModType yelan();
+
+            /**
+             * @brief
+             @rst
+             Creates the :cpp:class:`ModType` for YelanTranquil -- the skin, a character of THREE
+             components. What a ``.ini`` file built on the skin classifies as. What a Yelan mod is
+             remapped ONTO is her three component ids (:cpp:enumerator:`ModTypeId::YelanTranquilBody`
+             and siblings), which -- like the boss ids -- are targets only and have no factory here:
+             a registered mod type with no keyword has no way to be classified, and the classifier
+             population is not built to hold one
+             @endrst
+             */
+            static ModType yelanTranquil();
+
+            /**
              * @brief
              @rst
              Every :cpp:class:`ModType` this builder knows how to make, freshly built on each call

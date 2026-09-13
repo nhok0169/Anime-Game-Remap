@@ -259,7 +259,43 @@ namespace AGRemapCore {
         /**
          * @brief Xingqiu Lantern Rite skin from GI
          */
-        XingqiuBamboo
+        XingqiuBamboo,
+
+        /**
+         * @brief Yelan from GI
+         */
+        Yelan,
+
+        /**
+         * @brief Yelan summer skin (Tranquil Banquet) from GI -- THREE components (Body, Bang, Eye)
+         */
+        YelanTranquil,
+
+        /**
+         * @brief
+         @rst
+         YelanTranquil's ``Body`` component, as a fix TARGET :raw-html:`<br />` :raw-html:`<br />`
+
+         A skin of several components is fixed by one fixer per component (see
+         :cpp:func:`makeGIMIComponentFixer`), and the tables the fixer reads --
+         :cpp:class:`IniFixBuilderData`, :cpp:class:`HashData`, :cpp:class:`IndexData` -- are keyed
+         by a mod type NAME. So each component is a mod type of its own for those tables' purposes:
+         ``YelanTranquilBody`` carries the Body's hashes and slot indices, and Yelan remaps onto it.
+         Like the boss ids, nothing classifies a ``.ini`` file AS one of these; the skin itself is
+         :cpp:enumerator:`YelanTranquil`, whose vertex-group rows the fixer reads by component
+         @endrst
+         */
+        YelanTranquilBody,
+
+        /**
+         * @brief YelanTranquil's ``Bang`` component, as a fix target -- see :cpp:enumerator:`YelanTranquilBody`
+         */
+        YelanTranquilBang,
+
+        /**
+         * @brief YelanTranquil's ``Eye`` component, as a fix target -- see :cpp:enumerator:`YelanTranquilBody`
+         */
+        YelanTranquilEye
     };
 
     /**

@@ -140,8 +140,13 @@ Opens the texture file at :attr:`src`, decoding it into :meth:`getPixels`
 If the file does not exist, :attr:`hasImage` becomes ``False`` and :meth:`getPixels` is cleared
         )doc"))
 
-        .def("save", &AGRC::TextureFile::save, py::arg("compress") = true, py::doc(R"doc(
+        .def("save", &AGRC::TextureFile::save, py::arg("compress") = true, py::arg("mipmaps") = false, py::doc(R"doc(
 Saves :meth:`getPixels` to the texture file at :attr:`src`
+
+``mipmaps`` writes the full mip chain (box-filtered from :meth:`getPixels`) instead of the single
+top level. Every texture the game ships carries its chain, and one written without it is sampled
+from its top level at every distance, which on a fine texture such as hair reads in game as
+scattered off-colour pixels that move with the camera. **Default**: ``False``
 
 If :attr:`gamma` is set, the R/G/B channels of :meth:`getPixels` are gamma-corrected first (see
 :class:`CppGammaFilter`), in place. The file is re-encoded to whatever compressed format it was

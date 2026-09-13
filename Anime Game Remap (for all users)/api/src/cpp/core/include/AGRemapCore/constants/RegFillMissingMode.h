@@ -25,7 +25,7 @@ namespace AGRemapCore {
 
      .. note::
         The `Python`_-facing ``RegFillMissingMode`` is a separate, still-pure-Python ``Enum``
-        (``constants/RegFillMissingMode.py``) whose members carry the same two string values. The
+        (``constants/RegFillMissingMode.py``) whose members carry the same three string values. The
         binding layer maps one onto the other by that value, rather than either side being replaced
         -- this enum exists so `AGRemapCore` stays usable with no `Python`_ at all, matching what
         ``IniGraphReplaceMode`` already does for the same reason
@@ -49,7 +49,23 @@ namespace AGRemapCore {
          roots of the graph to cover for the missing registers
          @endrst
          */
-        TopdownCover
+        TopdownCover,
+
+        /**
+         * @brief
+         @rst
+         Like :cpp:enumerator:`TopdownCover`, but the register is added at the **bottom** of each root
+         -- a fresh last :cpp:class:`IfContentPart` -- so it runs after everything the root sets up
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         The mode for a draw call. :cpp:enumerator:`FillMissing` fills the FIRST content part of a
+         section that lacks the register, which is the whole section while it is one part -- and the
+         wrong end once something has split it (a :cpp:class:`ResGroupCollect` splicing a collected
+         register into an ``if`` block does), where the draw would then run before the ``ib`` and
+         the textures it depends on (2026-09-12)
+         @endrst
+         */
+        BottomCover
     };
 }
 

@@ -68,14 +68,27 @@ namespace AGRemapCore {
             bool compress;
 
             /**
+             * @brief
+             @rst
+             Whether the created texture is written with its full mip chain -- the
+             :cpp:class:`TexCreator` counterpart of :cpp:func:`TexEditor::getMipmaps`, handed to
+             :cpp:func:`TextureFile::save` :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: ``false``
+             @endrst
+             */
+            bool mipmaps;
+
+            /**
              * @brief Constructs a new texture creator
              *
              * @param width The width, in pixels, of the texture to create
              * @param height The height, in pixels, of the texture to create
              * @param colour The fill colour of the texture to create, defaulting to opaque white
              * @param compress Whether the created texture is compressed -- see #compress. **Default**: ``true``
+             * @param mipmaps Whether the created texture carries its mip chain -- see #mipmaps. **Default**: ``false``
              */
-            TexCreator(int width, int height, Colour colour = Colour(), bool compress = true);
+            TexCreator(int width, int height, Colour colour = Colour(), bool compress = true, bool mipmaps = false);
 
             /**
              * @brief

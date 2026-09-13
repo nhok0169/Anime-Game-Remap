@@ -87,14 +87,17 @@ class TexCreator(CppTexCreator):
 
     compress: :class:`bool`
         Whether the created texture is written compressed -- see :attr:`CppTexCreator.compress`
+
+    mipmaps: :class:`bool`
+        Whether the created texture is written with its full mip chain -- see :attr:`CppTexCreator.mipmaps`
     """
 
     def __init__(self, width: int, height: int, colour: Optional[Colour] = None, engine: TexEngine = TexEngine.Compressonator, readPillowImg: bool = False,
-                 compress: bool = True):
+                 compress: bool = True, mipmaps: bool = False):
         if (colour is None):
-            super().__init__(width, height, compress = compress)
+            super().__init__(width, height, compress = compress, mipmaps = mipmaps)
         else:
-            super().__init__(width, height, colour, compress = compress)
+            super().__init__(width, height, colour, compress = compress, mipmaps = mipmaps)
         self.engine = engine
         self.readPillowImg = readPillowImg
 
@@ -113,5 +116,5 @@ class TexCreator(CppTexCreator):
         # replaces CppTexCreator's own fix() wholesale, so anything the C++ one honours has to be
         # honoured again here -- an inherited 'compress' that silently did nothing would be worse
         # than not having one.
-        texFile.save(img = img, compress = self.compress)
+        texFile.save(img = img, compress = self.compress, mipmaps = self.mipmaps)
 ##### EndScript

@@ -83,6 +83,10 @@ const std::vector<std::pair<std::vector<std::string>, int>>& getVertexCountDataR
         // ===== version 5.3 =====
         {{"5.3", ModTypeIdTools::getName(ModTypeId::CherryHuTao), ""}, 23136},
         {{"5.3", ModTypeIdTools::getName(ModTypeId::XianglingCheer), ""}, 22151},
+
+        // ===== Yelan (2026-09-12) =====
+        // The game's own model, counted off her identity mod (Tools/Misc/Prototypes/identityMod.py).
+        {{"4.0", ModTypeIdTools::getName(ModTypeId::Yelan), ""}, 16062},
     };
 
     return rows;

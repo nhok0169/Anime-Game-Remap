@@ -437,6 +437,163 @@ namespace AGRemapCore {
         read();
     }
 
+    namespace {
+
+        // One contiguous run of bytes to lift out of a source line, in the target's element order.
+        // Runs that happen to sit back-to-back in the source are coalesced into one of these, so
+        // appending a file laid out exactly like the target collapses to a single whole-line run.
+        struct AppendSegment {
+            std::size_t offset = 0;
+            std::size_t size = 0;
+        };
+
+        // Only the data types decide whether two elements hold the same bytes. The format name is
+        // 3dmigoto's label for a layout rather than the layout itself, so it is deliberately not
+        // part of this -- two elements spelling it differently still encode identically.
+        bool sameDataTypes(const BufElementType& target, const BufElementType& source) {
+            const auto& targetTypes = target.getDataTypes();
+            const auto& sourceTypes = source.getDataTypes();
+
+            if (targetTypes.size() != sourceTypes.size()) {
+                return false;
+            }
+
+            for (std::size_t i = 0; i < targetTypes.size(); ++i) {
+                if (targetTypes[i]->getName() != sourceTypes[i]->getName() ||
+                    targetTypes[i]->getSize() != sourceTypes[i]->getSize() ||
+                    targetTypes[i]->getIsBigEndian() != sourceTypes[i]->getIsBigEndian()) {
+
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // Resolves the target's elements against one source's, returning where each of them lives
+        // within a source line. Throws rather than returning a failure, because a source that does
+        // not satisfy the superset rule has no meaningful partial answer.
+        std::vector<AppendSegment> planAppend(const std::string& targetFileType,
+                                              const std::vector<std::string>& targetKeys,
+                                              const std::vector<std::unique_ptr<BufElementType>>& targetElements,
+                                              const std::string& sourceFileType,
+                                              const std::vector<std::string>& sourceKeys,
+                                              const std::vector<std::unique_ptr<BufElementType>>& sourceElements) {
+
+            std::string context = "Cannot append a '" + sourceFileType + "' onto a '" + targetFileType + "': ";
+
+            // Every element's byte offset within a source line, walked once instead of re-summed
+            // per lookup.
+            std::vector<std::size_t> sourceOffsets;
+            sourceOffsets.reserve(sourceElements.size());
+
+            std::size_t offset = 0;
+            for (const auto& element : sourceElements) {
+                sourceOffsets.push_back(offset);
+                offset += element->getSize();
+            }
+
+            std::vector<AppendSegment> segments;
+
+            for (std::size_t i = 0; i < targetElements.size(); ++i) {
+                const std::string& targetKey = targetKeys[i];
+
+                auto found = std::find(sourceKeys.begin(), sourceKeys.end(), targetKey);
+                if (found == sourceKeys.end()) {
+                    throw std::invalid_argument(context + "the source has no element '" + targetKey + "'");
+                }
+
+                std::size_t sourceInd = static_cast<std::size_t>(found - sourceKeys.begin());
+                if (!sameDataTypes(*targetElements[i], *sourceElements[sourceInd])) {
+                    throw std::invalid_argument(context + "the source's element '" + targetKey +
+                                                "' does not have the same data types");
+                }
+
+                AppendSegment segment;
+                segment.offset = sourceOffsets[sourceInd];
+                segment.size = targetElements[i]->getSize();
+
+                // Coalesced onto the previous run when it continues where that one ended, which is
+                // what turns the ordinary same-layout append into one copy per source rather than
+                // one per element per line.
+                if (!segments.empty() && segments.back().offset + segments.back().size == segment.offset) {
+                    segments.back().size += segment.size;
+                } else {
+                    segments.push_back(segment);
+                }
+            }
+
+            return segments;
+        }
+    }
+
+    void BufFile::append(const std::vector<const BufFile*>& bufFiles) {
+        // With no elements there is nothing to take out of a source line, and read() only accepts
+        // an empty file in that state anyway -- every source is trivially a superset of nothing.
+        if (bytesPerLine_ == 0) {
+            return;
+        }
+
+        // Every source is resolved against this file's elements before a single byte is copied, so
+        // one source breaking the superset rule leaves this file exactly as it was rather than
+        // partly appended to.
+        std::vector<std::vector<AppendSegment>> plans;
+        plans.reserve(bufFiles.size());
+
+        std::size_t appendedBytes = 0;
+
+        for (const BufFile* bufFile : bufFiles) {
+            if (bufFile == nullptr) {
+                plans.emplace_back();
+                continue;
+            }
+
+            plans.push_back(planAppend(fileType_, elementKeys_, elements_,
+                                       bufFile->fileType_, bufFile->elementKeys_, bufFile->elements_));
+
+            std::size_t lineCount = (bufFile->bytesPerLine_ == 0) ? 0 : bufFile->data_.size() / bufFile->bytesPerLine_;
+            appendedBytes += lineCount * bytesPerLine_;
+        }
+
+        // Built beside this file's own bytes rather than into them, so a source is allowed to be
+        // this file itself -- data_ stays readable for the whole loop.
+        ByteVec appended = data_;
+        appended.reserve(data_.size() + appendedBytes);
+
+        for (std::size_t i = 0; i < bufFiles.size(); ++i) {
+            const BufFile* bufFile = bufFiles[i];
+            if (bufFile == nullptr || bufFile->bytesPerLine_ == 0) {
+                continue;
+            }
+
+            const std::vector<AppendSegment>& segments = plans[i];
+            std::size_t lineCount = bufFile->data_.size() / bufFile->bytesPerLine_;
+
+            // A source laid out exactly like this file coalesces down to one run covering its whole
+            // line, so the entire source is one copy instead of a loop over its lines.
+            if (segments.size() == 1 && segments[0].offset == 0 && segments[0].size == bufFile->bytesPerLine_) {
+                appended.insert(appended.end(), bufFile->data_.begin(),
+                                bufFile->data_.begin() + static_cast<std::ptrdiff_t>(lineCount * bufFile->bytesPerLine_));
+                continue;
+            }
+
+            for (std::size_t lineInd = 0; lineInd < lineCount; ++lineInd) {
+                auto lineStart = bufFile->data_.begin() + static_cast<std::ptrdiff_t>(lineInd * bufFile->bytesPerLine_);
+
+                for (const AppendSegment& segment : segments) {
+                    appended.insert(appended.end(),
+                                    lineStart + static_cast<std::ptrdiff_t>(segment.offset),
+                                    lineStart + static_cast<std::ptrdiff_t>(segment.offset + segment.size));
+                }
+            }
+        }
+
+        // Same shape as merge/filter -- #getData has no setter, and going back in through read()
+        // re-validates the result for free.
+        setSrc(appended);
+        read();
+    }
+
     std::string BufFile::getDumpStr(const std::string& prefix) const {
         std::string result;
         if (bytesPerLine_ == 0) {

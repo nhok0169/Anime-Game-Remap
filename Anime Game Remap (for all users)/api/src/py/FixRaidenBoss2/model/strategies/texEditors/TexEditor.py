@@ -79,11 +79,14 @@ class TexEditor(CppTexEditor):
 
     compress: :class:`bool`
         Whether the edited texture is written back compressed -- see :attr:`CppTexEditor.compress`
+
+    mipmaps: :class:`bool`
+        Whether the edited texture is written back with its full mip chain -- see :attr:`CppTexEditor.mipmaps`
     """
 
     def __init__(self, filters: Optional[List[Union[BaseTexFilter, Callable[[TextureFile], Any]]]] = None, engine: TexEngine = TexEngine.Compressonator, readPillowImg: bool = False,
-                 compress: bool = True):
-        super().__init__(compress = compress)
+                 compress: bool = True, mipmaps: bool = False):
+        super().__init__(compress = compress, mipmaps = mipmaps)
         self.filters = [] if (filters is None) else filters
         self.engine = engine
         self.readPillowImg = readPillowImg
@@ -102,7 +105,7 @@ class TexEditor(CppTexEditor):
             filter(texFile)
 
         texFile.src = fixedTexFile
-        texFile.save(compress = self.compress)
+        texFile.save(compress = self.compress, mipmaps = self.mipmaps)
 
     @classmethod
     def _ensureImg(cls, texFile: TextureFile) -> bool:

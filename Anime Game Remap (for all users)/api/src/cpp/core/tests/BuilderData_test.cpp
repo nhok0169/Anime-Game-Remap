@@ -105,17 +105,17 @@ void testTableShape() {
 
     // Counts taken straight from the pure-Python dicts, so a row silently dropped or duplicated
     // during the port shows up here.
-    check(IniParseBuilderData::repo()->size() == 55, "the parse table has all 53 rows from IniParseBuilderData.py, plus Raiden's 6.1 row and LisaStudent's 5.4 one");
-    check(IniFixBuilderData::repo()->size() == 121,
+    check(IniParseBuilderData::repo()->size() == 56, "the parse table has all 53 rows from IniParseBuilderData.py, plus Raiden's 6.1 row, LisaStudent's 5.4 one and Yelan's 4.0 one");
+    check(IniFixBuilderData::repo()->size() == 124,
           "the fix table has the 73 Python rows fanned out per target mod to 78, plus the thirty-three real 6.1 "
           "rows (Raiden, Amber, AmberCN, Mona, MonaCN, Rosaria, RosariaCN, Ningguang, NingguangOrchid, GanyuTwilight, "
           "NilouBreeze, Kirara, KiraraBoots, Ayaka, AyakaSpringbloom, Barbara, BarbaraSummertime, Klee, "
           "KleeBlossomingStarlight, Lisa, LisaStudent, Diluc, DilucFlamme, Fischl, FischlHighness, Kaeya, "
           "KaeyaSailwind, and Jean/JeanCN/JeanSea with TWO each -- one per target mod, "
-          "which is what replaced the pure-Python MultiModFixer)");
+          "which is what replaced the pure-Python MultiModFixer) -- and Yelan's THREE 6.1 rows, one per YelanTranquil component");
 
     // The remove table has no Python original -- one row per GI mod type, all at 4.0.
-    check(IniRemoveBuilderData::repo()->size() == 43, "the remove table has one row per GI mod type");
+    check(IniRemoveBuilderData::repo()->size() == 45, "the remove table has one row per GI mod type (43, plus Yelan and YelanTranquil)");
 
     check(IniParseBuilderData::repo()->getTotalIndices() == 2, "the parse table has 2 index columns");
     check(IniParseBuilderData::repo()->getVersionIndexPos() == 0, "with the version at position 0");

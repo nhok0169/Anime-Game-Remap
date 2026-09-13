@@ -76,7 +76,7 @@ namespace AGRemapCore {
              **Default**: ``true``
              @endrst
              */
-            explicit TexEditor(std::vector<Filter> filters = {}, bool compress = true);
+            explicit TexEditor(std::vector<Filter> filters = {}, bool compress = true, bool mipmaps = false);
 
             /**
              * @brief The filters for editing the image
@@ -116,6 +116,22 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Whether #fix writes the edited texture back with its full mip chain -- handed straight
+             to :cpp:func:`TextureFile::save`, which says why a texture wants one :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: ``false``
+             @endrst
+             */
+            bool getMipmaps() const;
+
+            /**
+             * @brief Sets #getMipmaps
+             */
+            void setMipmaps(bool mipmaps);
+
+            /**
+             * @brief
+             @rst
              Edits the texture file :raw-html:`<br />` :raw-html:`<br />`
 
              No-op if #getFilters is empty, or if 'texFile' does not exist on disk. Otherwise, opens
@@ -131,6 +147,7 @@ namespace AGRemapCore {
         private:
             std::vector<Filter> filters_;
             bool compress_;
+            bool mipmaps_;
     };
 }
 

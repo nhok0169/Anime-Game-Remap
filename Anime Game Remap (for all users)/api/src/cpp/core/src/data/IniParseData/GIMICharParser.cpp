@@ -88,6 +88,24 @@ namespace AGRemapCore {
                         std::move(hashKeyOnlyToModObj), ctx_.modTypeHashes(),
                         std::move(indexKeyToModObj), ctx_.modTypeIndices(), ctx_.version());
 
+                    // HASH lookups filtered to this character's own rows. A hash value is unique
+                    // to one character, so for a well-formed mod this changes nothing -- what it
+                    // stops is a section carrying ANOTHER character's hash of the same TYPE being
+                    // read as one of this character's objects: a hand-made YelanTranquil section
+                    // (her ib hash, index 0) in a Yelan mod's folder classified as Yelan's HEAD,
+                    // followed its `ib = null`, and failed the whole file (2026-09-13). Every name
+                    // in HashData is a ModTypeId name, so the filter can never miss a real row.
+                    //
+                    // The INDEX lookup is deliberately left unfiltered: an index value is shared by
+                    // every character (0 is every head), and ModMappedAssets::getKey resolves it
+                    // through the newest version bucket holding the value -- a bucket that need
+                    // not hold this character's row at all. The object NAME is what identifies the
+                    // row's tail, and that is the same for every character.
+                    const std::string ownName = ctx_.modTypeName();
+                    if (!ownName.empty()) {
+                        classifier_->setHashNonVersionVals({ownName, std::nullopt});
+                    }
+
                     // WHAT A SECTION FOR THIS OBJECT WOULD HAVE CARRIED, for the one case where the
                     // parser has to invent one -- see GIMIParser::objIdentityKVPs. Built from the
                     // very maps the classifier uses to recognise a real section, so the two cannot

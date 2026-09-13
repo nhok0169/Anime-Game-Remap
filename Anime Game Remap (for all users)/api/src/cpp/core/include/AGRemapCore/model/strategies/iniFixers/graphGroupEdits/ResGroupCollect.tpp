@@ -16,9 +16,11 @@
 
 #include <algorithm>
 #include <stdexcept>
+#include <type_traits>
 #include <utility>
 
 #include "AGRemapCore/constants/IfPredPartType.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.h"
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/iftemplate/IfPredPart.h"
 
@@ -1239,6 +1241,23 @@ namespace AGRemapCore {
         GraphGroups& graphGroups, const ModType* modType, const std::string& modName) {
         clear();
         return editImpl(graphGroups, nullptr, modType, modName);
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename ResGroupCollect<K, V, KeyHash, KeyEqual>::GraphGroups& ResGroupCollect<K, V, KeyHash, KeyEqual>::editFromIni(
+            GraphGroups& graphGroups, IniFile* ini, const ModType* modType, const std::string& modName) {
+        if constexpr (std::is_same_v<K, std::string> && std::is_same_v<V, std::string>) {
+            if (ini != nullptr) {
+                // Owned for exactly this call, as ResRegCollect's is: scratch state for one edit
+                // pass, whose built groups are handed to the .ini file before it goes.
+                IniFileResEditContext resCtx(ini);
+                clear();
+                return editImpl(graphGroups, &resCtx, modType, modName);
+            }
+        }
+
+        return edit(graphGroups, modType, modName);
     }
 }
 

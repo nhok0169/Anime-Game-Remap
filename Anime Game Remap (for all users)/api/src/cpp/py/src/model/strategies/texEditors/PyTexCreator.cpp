@@ -28,8 +28,8 @@ This class inherits from :class:`CppBaseTexEditor`
 Creates a brand new ``.dds`` file if the file does not already exist
     )doc")
 
-        .def(py::init<int, int, AGRC::Colour, bool>(), py::arg("width"), py::arg("height"),
-             py::arg("colour") = AGRC::Colour(), py::arg("compress") = true, py::doc(R"doc(
+        .def(py::init<int, int, AGRC::Colour, bool, bool>(), py::arg("width"), py::arg("height"),
+             py::arg("colour") = AGRC::Colour(), py::arg("compress") = true, py::arg("mipmaps") = false, py::doc(R"doc(
 Constructs a new texture creator
 
 Parameters
@@ -46,6 +46,10 @@ colour: :class:`CppColour`
 compress: :class:`bool`
     Whether the created texture is written compressed, or as a plain 32-bit uncompressed ``.dds``.
     **Default**: ``True``
+
+mipmaps: :class:`bool`
+    Whether the created texture is written with its full mip chain -- see :meth:`CppTextureFile.save`.
+    **Default**: ``False``
         )doc"))
 
         .def_readwrite("width", &AGRC::TexCreator::width, py::doc(R"doc(
@@ -65,5 +69,11 @@ compress: :class:`bool`
 uncompressed ``.dds``
 
 The :class:`CppTexCreator` counterpart of :attr:`CppTexEditor.compress`
+        )doc"))
+
+        .def_readwrite("mipmaps", &AGRC::TexCreator::mipmaps, py::doc(R"doc(
+:class:`bool`: Whether the created texture is written with its full mip chain
+
+The :class:`CppTexCreator` counterpart of :attr:`CppTexEditor.mipmaps`
         )doc"));
 }

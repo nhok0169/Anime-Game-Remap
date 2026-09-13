@@ -91,6 +91,7 @@
 #include "model/strategies/iniFixers/graphGroupEdits/PyGraphGroupEdit.h"
 #include "model/strategies/iniFixers/graphGroupEdits/resEdits/PyResEdit.h"
 #include "model/strategies/iniFixers/graphGroupEdits/resEdits/PyBlendEdit.h"
+#include "model/strategies/iniFixers/graphGroupEdits/resEdits/PyBufEdit.h"
 #include "model/strategies/iniFixers/graphGroupEdits/resEdits/PyTexEdit.h"
 #include "model/strategies/iniFixers/graphGroupEdits/PyResRegCollect.h"
 #include "model/strategies/iniFixers/graphGroupEdits/PyResGroupCollect.h"
@@ -121,6 +122,7 @@
 #include "model/files/PyIniFile.h"
 #include "model/files/PyBufFile.h"
 #include "model/PyVGRemap.h"
+#include "model/buffers/PyVGComponentSplit.h"
 #include "model/files/PyBlendFile.h"
 #include "model/files/PyPositionFile.h"
 #include "model/files/PyIbFile.h"
@@ -163,6 +165,7 @@
 #include "model/iniresources/PyIniGroupedResource.h"
 #include "model/iniresources/PyRemapIniResource.h"
 #include "model/iniresources/PyRemapIniGroupedResource.h"
+#include "model/iniresources/PyVGSplitGroupResource.h"
 #include "model/iniresources/PyRemapBlendResource.h"
 #include "model/iniresources/PyRemapTexResource.h"
 
@@ -210,6 +213,7 @@ PYBIND11_MODULE(core, m) {
     // PyVGRemap.cpp depends on nothing else here, so this is just an ordering choice.
     initCppVGRemap(m);
     initCppVGRemaps(m); // reads best after initCppVGRemap (its get() returns one); not order-critical
+    initCppVGComponentSplit(m); // must come after initCppVGRemap (a VGComponentSpec holds one)
 
     initCppModType(m);
     initCppGlobalModTypes(m); // must come after initCppModType (its all() returns CppModTypes)
@@ -268,6 +272,7 @@ PYBIND11_MODULE(core, m) {
     initCppGraphGroupEdit(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppBaseRegEdit (its isinstance target for register edits)
     initCppResEdit(m); // must come after initCppIniResource/initCppIniFixResource (the models it builds) and initCppIniSectionGraph/initCppIfTemplate
     initCppRemapBlendReplace(m); // must come after initCppResEdit (registers its base) and initCppRemapBlendResource (the model it builds)
+    initCppBufReplace(m); // must come after initCppResEdit (registers its base) and initCppRemapIniFixResource (the model it builds)
     initCppTexCreate(m); // must come after initCppResEdit (registers its base) and initCppRemapTexAddResource/initCppTexCreator (the model it builds)
     initCppTexReplace(m); // same ordering needs as initCppTexCreate above
     initCppResRegCollect(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppResEdit (its resEdits values)
@@ -332,6 +337,7 @@ PYBIND11_MODULE(core, m) {
     initCppRemapIniResource(m); // must come after initCppIniResource/initCppRemapIniResourceMixin (registers its bases)
     initCppRemapIniFixResource(m); // must come after initCppIniFixResource/initCppRemapIniResourceMixin (registers its bases)
     initCppRemapIniGroupedResource(m); // must come after initCppIniGroupedResource/initCppRemapIniResourceMixin (registers PyIniGroupedResource/RemapIniResourceMixin, its real bases)
+    initCppVGSplitGroupResource(m); // must come after initCppIniGroupedResource/initCppRemapIniResourceMixin (registers its bases) and initCppVGComponentSplit (its specs)
     initCppRemapIniDownload(m); // must come after initCppRemapIniResource (registers its base) and initCppFileDownload (constructor takes ownership of a FileDownload instance)
     initCppRemapBlendResource(m); // must come after initCppRemapIniFixResource (registers its base); VGRemap/BufElementType already registered above
     initCppRemapTexAddResource(m); // must come after initCppRemapIniResource (registers its base); CppTexCreator already registered above

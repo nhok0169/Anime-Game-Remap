@@ -32,4 +32,12 @@ class RegFillMissingMode(Enum):
     Determines whether the caller/callee graph (:class:`IniSectionGraph`) contains a :class:`IfContentPart` missing the desired register,
     then adds the register to the roots of the graph to cover for the missing registers
     """
+
+    BottomCover = "bottomCover"
+    """
+    Like :attr:`TopdownCover`, but the register is added at the **bottom** of each root (a fresh last :class:`IfContentPart`),
+    so it runs after everything the root sets up -- the mode for a draw call. :attr:`FillMissing` fills the FIRST content part
+    of a section that lacks the register, which is the wrong end once something (a :class:`ResGroupCollect` splicing a
+    collected register into an ``if`` block) has split the section
+    """
 ##### EndScript

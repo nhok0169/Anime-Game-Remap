@@ -147,6 +147,10 @@ static const std::vector<RemapRow>& expectedRows() {
         {"XianglingCheer", {"Xiangling"}, {"Xiangling"}},
         {"Xingqiu", {"XingqiuBamboo"}, {"XingqiuBamboo"}},
         {"XingqiuBamboo", {"Xingqiu"}, {"Xingqiu"}},
+        // A skin of several components: the source remaps onto the COMPONENT ids (targets only,
+        // built by nobody -- like the boss ids), the skin itself back onto the source.
+        {"Yelan", {"YelanTranquilBody", "YelanTranquilBang", "YelanTranquilEye"}, {"YelanTranquilBody", "YelanTranquilBang", "YelanTranquilEye"}},
+        {"YelanTranquil", {"Yelan"}, {"Yelan"}},
     };
     return rows;
 }
@@ -181,7 +185,7 @@ static ModTypeId idOf(const std::string& name) {
 static void testEveryRowMatchesPython() {
     std::printf("testEveryRowMatchesPython\n");
 
-    check(expectedRows().size() == 43, "the oracle itself still has all 43 rows");
+    check(expectedRows().size() == 45, "the oracle itself still has all 45 rows (43 plus Yelan and YelanTranquil)");
 
     for (const RemapRow& row : expectedRows()) {
         ModTypeId id = idOf(row.name);
@@ -226,7 +230,7 @@ static void testBuiltModTypesCarryTheirMap() {
     std::printf("testBuiltModTypesCarryTheirMap\n");
 
     std::vector<AGRC::ModType> built = AGRC::GIBuilder::all();
-    check(built.size() == 43, "GIBuilder::all() builds all 43 mod types");
+    check(built.size() == 45, "GIBuilder::all() builds all 45 mod types");
 
     for (const AGRC::ModType& modType : built) {
         const RemapRow* expected = nullptr;

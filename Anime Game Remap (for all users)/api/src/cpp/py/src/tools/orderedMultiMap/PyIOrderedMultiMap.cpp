@@ -200,8 +200,14 @@ std::vector<std::pair<std::string, PyIniIOrderedMultiMap::ReplaceSpec>> parseIni
         py::object value = py::reinterpret_borrow<py::object>(item.second);
 
         if (py::isinstance<PyReplaceList>(value)) {
+            // A named local, NOT `value.cast<PyReplaceList>().values()` in the range-for: cast()
+            // returns a COPY, values() a reference into it, and the copy dies at the end of the
+            // for-init statement -- the loop then walks freed memory. MSVC happened to tolerate
+            // it; GCC 13 segfaulted in PyObject_Str on every ReplaceList (2026-09-13, found by
+            // the Linux run of test_IfContentPart / test_CppIfContentPart).
+            const PyReplaceList replaceList = value.cast<PyReplaceList>();
             std::vector<std::string> vals;
-            for (const py::object &v : value.cast<PyReplaceList>().values()) {
+            for (const py::object &v : replaceList.values()) {
                 vals.push_back(asIniKey(v));
             }
             result.emplace_back(std::move(key), std::move(vals));

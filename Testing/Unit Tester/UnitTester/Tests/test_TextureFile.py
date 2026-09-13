@@ -110,6 +110,42 @@ class TextureFileTest(BaseUnitTest):
         self.assertNotEqual(px[0], 100, "gamma correction from .info should have changed the pixel")
         self.assertEqual(px[3], 128, "alpha should be untouched by gamma correction")
 
+    def test_save_noGammaKey_keepsTheGammaOpenDetected(self):
+        # open() sets the gamma off an sRGB DX10 header; save() used to write info's (absent) gamma
+        # over it, so a Python-driven save of an sRGB texture came out uncorrected (2026-09-12)
+        path = self._tmpPath("texturefile_save_keptgamma.dds")
+        tf = FRB.TextureFile(path)
+        tf.img = Image.new("RGBA", (2, 2), (100, 100, 100, 128))
+        tf.gamma = 2.2
+        tf.save()
+
+        self.assertAlmostEqual(tf.gamma, 2.2, places = 5)
+        result = FRB.TextureFile(path)
+        result.open()
+        px = result.read()[0, 0]
+        self.assertNotEqual(px[0], 100, "the gamma open() detected should still correct the pixel")
+        self.assertEqual(px[3], 128)
+
+    def test_save_mipmaps_writesTheFullChain(self):
+        # Every texture the game ships carries its mip chain; one written without it is sampled from
+        # its top level at every distance, which reads in game as scattered off-colour pixels on
+        # fine textures such as hair (2026-09-12). The default stays a single level.
+        import struct
+        for mipmaps, expected in ((False, 1), (True, 6)):
+            path = self._tmpPath(f"texturefile_save_mips{int(mipmaps)}.dds")
+            tf = FRB.TextureFile(path)
+            tf.img = Image.new("RGBA", (32, 16), (10, 200, 30, 255))
+            tf.save(mipmaps = mipmaps)
+
+            with open(path, "rb") as f:
+                header = f.read(32)
+            self.assertEqual(struct.unpack_from("<I", header, 28)[0], expected, f"mipmaps = {mipmaps}")
+            result = FRB.TextureFile(path)
+            result.open()
+            self.assertEqual((result.width, result.height), (32, 16))
+            px = result.read()[0, 0]
+            self.assertTrue(all(abs(a - b) <= 3 for a, b in zip(px, (10, 200, 30, 255))))
+
     def test_save_noGammaKey_doesNotGammaCorrect(self):
         path = self._tmpPath("texturefile_save_nogamma.dds")
         tf = FRB.TextureFile(path)

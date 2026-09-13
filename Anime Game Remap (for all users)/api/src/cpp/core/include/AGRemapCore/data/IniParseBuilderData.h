@@ -677,6 +677,18 @@ namespace AGRemapCore {
              */
             static IniParseBuilder::Factory raiden6_1();
 
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Yelan** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head`` / ``body`` / ``dress`` / ``extra``.
+             See ``data/IniParseData/Yelan/YelanParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory yelan4_0();
+
     };
 
     /**

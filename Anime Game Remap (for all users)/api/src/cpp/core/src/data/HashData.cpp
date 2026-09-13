@@ -1196,6 +1196,55 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"5.3", "XianglingCheer", "tex_body_diffuse"}, "a1ef63e6"},
         {{"5.3", "XianglingCheer", "tex_body_lightmap"}, "17c172d2"},
 
+        // ===== Yelan and YelanTranquil (2026-09-12) =====
+        //
+        // Grouped here rather than spliced into the version blocks above: the first character
+        // added by hand since the mechanical generation, and the first whose target is a skin of
+        // SEVERAL components. Yelan's own rows follow the assets repo's history of her hash.json
+        // (post-3.4 model at 4.0, the 4.1 draw_vb fix, the 4.3 ib fix -- the same shape as
+        // Raiden's); a mod may still carry the 4.0 draw_vb section, and the classifier resolves
+        // the version it is asked at.
+        //
+        // YelanTranquil (5.7) is a Body, a Bang and an Eye, each with its own buffers and so its
+        // own hashes, and each a fix TARGET of its own (ModTypeId::YelanTranquilBody etc.): the
+        // rows are filed under the component's name. All three share the skin's face diffuse.
+        // Read off the 5.7 frame analysis; no texture hashes, the fix never looks them up.
+        {{"4.0", "Yelan", "draw_vb"}, "589fed34"},
+        {{"4.0", "Yelan", "position_vb"}, "c58c76f9"},
+        {{"4.0", "Yelan", "blend_vb"}, "f6e01e3c"},
+        {{"4.0", "Yelan", "texcoord_vb"}, "428b836c"},
+        {{"4.0", "Yelan", "ib"}, "ba35247d"},
+        {{"4.0", "Yelan", "tex_head_diffuse"}, "3f3fd885"},
+        {{"4.0", "Yelan", "tex_head_lightmap"}, "2fe63083"},
+        {{"4.0", "Yelan", "tex_body_diffuse"}, "df127976"},
+        {{"4.0", "Yelan", "tex_body_lightmap"}, "0f384b65"},
+        {{"4.0", "Yelan", "tex_dress_diffuse"}, "df127976"},
+        {{"4.0", "Yelan", "tex_dress_lightmap"}, "0f384b65"},
+        {{"4.0", "Yelan", "tex_extra_diffuse"}, "3f3fd885"},
+        {{"4.0", "Yelan", "tex_extra_lightmap"}, "2fe63083"},
+        {{"4.0", "Yelan", "tex_face_diffuse"}, "d3c0b54a"},
+        {{"4.1", "Yelan", "draw_vb"}, "d17ac213"},
+        {{"4.3", "Yelan", "ib"}, "82e14ea2"},
+
+        {{"5.7", "YelanTranquilBody", "draw_vb"}, "3a7b10bb"},
+        {{"5.7", "YelanTranquilBody", "position_vb"}, "02c325ef"},
+        {{"5.7", "YelanTranquilBody", "blend_vb"}, "244a4b2f"},
+        {{"5.7", "YelanTranquilBody", "texcoord_vb"}, "c772811d"},
+        {{"5.7", "YelanTranquilBody", "ib"}, "611d6168"},
+        {{"5.7", "YelanTranquilBody", "tex_face_diffuse"}, "e8ad6095"},
+        {{"5.7", "YelanTranquilBang", "draw_vb"}, "11b90d23"},
+        {{"5.7", "YelanTranquilBang", "position_vb"}, "c0dc5c2f"},
+        {{"5.7", "YelanTranquilBang", "blend_vb"}, "5d532cca"},
+        {{"5.7", "YelanTranquilBang", "texcoord_vb"}, "d5db917d"},
+        {{"5.7", "YelanTranquilBang", "ib"}, "648d61dd"},
+        {{"5.7", "YelanTranquilBang", "tex_face_diffuse"}, "e8ad6095"},
+        {{"5.7", "YelanTranquilEye", "draw_vb"}, "61b441bd"},
+        {{"5.7", "YelanTranquilEye", "position_vb"}, "6bc61bb3"},
+        {{"5.7", "YelanTranquilEye", "blend_vb"}, "10056b37"},
+        {{"5.7", "YelanTranquilEye", "texcoord_vb"}, "e23e5a53"},
+        {{"5.7", "YelanTranquilEye", "ib"}, "54bc082e"},
+        {{"5.7", "YelanTranquilEye", "tex_face_diffuse"}, "e8ad6095"},
+
         // ===== version 5.4 =====
         // LisaStudent
         {{"5.4", "LisaStudent", "tex_head_normalmap"}, "a64a57de"},

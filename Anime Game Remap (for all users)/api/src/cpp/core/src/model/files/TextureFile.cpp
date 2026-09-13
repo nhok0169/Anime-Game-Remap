@@ -450,7 +450,7 @@ namespace AGRemapCore {
         hasImage_ = true;
     }
 
-    void TextureFile::save(bool compress) {
+    void TextureFile::save(bool compress, bool mipmaps) {
         if (gamma_.has_value()) {
             GammaFilter(*gamma_).transform(*this);
         }
@@ -467,7 +467,7 @@ namespace AGRemapCore {
         // *.dds files and skipped 0" having written none of them. A texture that cannot be
         // written is a fix that did not happen, and the caller already has somewhere to put
         // that -- the .ini file is recorded as skipped, with this message.
-        if (!writeTo(src_, compress)) {
+        if (!writeTo(src_, compress, mipmaps)) {
             throw std::runtime_error("Unable to write the edited texture: " + src_);
         }
     }
@@ -480,7 +480,7 @@ namespace AGRemapCore {
         return writeTo(dest, StringTools::endsWithIgnoreCase(dest, ".dds"));
     }
 
-    bool TextureFile::writeTo(const std::string &dest, bool compress) const {
+    bool TextureFile::writeTo(const std::string &dest, bool compress, bool mipmaps) const {
         if (pixels_.empty() || width_ <= 0 || height_ <= 0) {
             return false;
         }
@@ -497,6 +497,15 @@ namespace AGRemapCore {
         CMP_GetMipLevel(&srcLevel, &mipSetSrc, 0, 0);
         if (srcLevel != nullptr && srcLevel->m_pbData != nullptr) {
             std::memcpy(srcLevel->m_pbData, pixels_.data(), pixels_.size());
+        }
+
+        // The chain is generated on the RGBA8 source, so both the uncompressed write below and
+        // the BCn encode see every level; CMP_CreateMipSet already sized m_nMaxMipLevels for the
+        // full pyramid, and a 1 pixel floor means "all the way down". A failure here leaves the
+        // single level in place rather than failing the write -- a texture without its chain is
+        // what every save wrote before 2026-09-12, not a broken file.
+        if (mipmaps && mipSetSrc.m_nMaxMipLevels > 1) {
+            CMP_GenerateMIPLevels(&mipSetSrc, 1);
         }
 
         bool saved = false;

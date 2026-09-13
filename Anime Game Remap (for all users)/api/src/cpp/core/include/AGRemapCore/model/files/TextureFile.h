@@ -160,8 +160,22 @@ namespace AGRemapCore {
 
              **Default**: ``true``
              @endrst
+             *
+             * @param mipmaps
+             @rst
+             Whether to write a full mip chain (every level down to 1x1, box-filtered from
+             #getPixels by Compressonator) instead of the single top level :raw-html:`<br />` :raw-html:`<br />`
+
+             Every texture the game ships carries its chain (a 1024x1024 ``.dds`` from a mod has
+             11 levels), and a texture written without one is sampled from its top level at every
+             distance -- on a fine-grained texture such as hair that reads in game as scattered
+             off-colour pixels that move with the camera, the look of lossy compression. Costs a
+             third more file size and a little encode time :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: ``false``
+             @endrst
              */
-            void save(bool compress = true);
+            void save(bool compress = true, bool mipmaps = false);
 
             /**
              * @brief
@@ -202,9 +216,10 @@ namespace AGRemapCore {
              *
              * @param dest The file path to write to
              * @param compress Whether to re-encode to the remembered compressed format first
+             * @param mipmaps Whether to generate and write the full mip chain -- see #save
              * @return Whether the file was actually written
              */
-            bool writeTo(const std::string &dest, bool compress) const;
+            bool writeTo(const std::string &dest, bool compress, bool mipmaps = false) const;
 
             std::string src_;
             std::vector<std::uint8_t> pixels_;

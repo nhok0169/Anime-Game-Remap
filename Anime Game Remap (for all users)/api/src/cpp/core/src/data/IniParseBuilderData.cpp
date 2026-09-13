@@ -110,6 +110,9 @@ namespace AGRemapCore {
 
                 // ===== 6.1 =====
                 {{"6.1", ModTypeIdTools::getName(ModTypeId::Raiden)}, IniParseBuilderFuncs::raiden6_1()},
+
+                // ===== Yelan (2026-09-12) =====
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Yelan)}, IniParseBuilderFuncs::yelan4_0()},
             };
         }
     }

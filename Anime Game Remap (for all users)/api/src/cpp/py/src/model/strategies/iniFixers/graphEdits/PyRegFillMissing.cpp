@@ -71,6 +71,9 @@ AGRC::RegFillMissingMode parseFillMissingMode(const py::object &mode) {
     if (enumValueOf(mode) == "topdownCover") {
         return AGRC::RegFillMissingMode::TopdownCover;
     }
+    if (enumValueOf(mode) == "bottomCover") {
+        return AGRC::RegFillMissingMode::BottomCover;
+    }
 
     return AGRC::RegFillMissingMode::FillMissing;
 }
@@ -369,6 +372,38 @@ Returns
     The same graph that was passed in, with its missing parts filled
     )doc"));
 
+    cls.def_static("addBottomCover", [](py::object graph, const std::string &reg, const py::object &fillMissing) {
+        PyIniSectionGraph &parsedGraph = parseGraphArg(graph);
+        PyRegFillMissing::Core::addBottomCover(parsedGraph, reg, parseFillMissing(fillMissing, reg, false));
+
+        // addBottomCover appends brand-new IfContentParts to each root section -- see addCover below.
+        parsedGraph.refreshKeepAlive();
+        return graph;
+    }, py::arg("graph"), py::arg("reg"), py::arg("fillMissing"), py::doc(R"doc(
+Fills a fresh BOTTOM :class:`IfContentPart` at each of 'graph''s roots, if 'reg' is missing in some
+:class:`IfContentPart` of 'graph' -- :meth:`addCover`'s mirror image, for a register that has to run
+after everything the root sets up (a draw call)
+
+Nothing is added at all when every root already fully covers 'reg'
+
+Parameters
+----------
+graph: :class:`IniSectionGraph`
+    The graph to search
+
+reg: :class:`str`
+    The register to search
+
+fillMissing: Union[:class:`str`, List[Tuple[:class:`str`, :class:`str`]], Callable[[:class:`IfContentPart`], Any]]
+    How to modify the parts that are missing the desired register -- the same three shapes
+    :attr:`fillMissing` accepts
+
+Returns
+-------
+:class:`IniSectionGraph`
+    The same graph that was passed in, with its roots covered
+    )doc"));
+
     cls.def_static("addCover", [](py::object graph, const std::string &reg, const py::object &fillMissing) {
         PyIniSectionGraph &parsedGraph = parseGraphArg(graph);
         PyRegFillMissing::Core::addCover(parsedGraph, reg, parseFillMissing(fillMissing, reg, true));
@@ -418,7 +453,7 @@ Returns
         self.Core::edit(parsedGraph, nullptr, modName, parsePartFilter(partFilter, modType, self.currentIni),
                         trackKeys, parseKeysToTrack(keysToTrack));
 
-        // TopdownCover appends brand-new parts to each root -- see the addCover binding above.
+        // Either cover mode appends brand-new parts to each root -- see the addCover binding above.
         parsedGraph.refreshKeepAlive();
 
         // Returns the original Python object rather than py::cast()-ing the C++ reference back, so
@@ -429,11 +464,12 @@ Returns
        py::doc(R"doc(
 Fills the parts of 'graph' that are missing :attr:`reg`, by whichever strategy :attr:`fillMode`
 names -- :meth:`fillMissingGraph` for ``RegFillMissingMode.FillMissing``, :meth:`addCover` for
-``RegFillMissingMode.TopdownCover``
+``RegFillMissingMode.TopdownCover``, :meth:`addBottomCover` for ``RegFillMissingMode.BottomCover``
 
 'partFilter' restricts *which* parts get filled: it is asked once per candidate part, and an empty
 :class:`Ranges` result skips that one. Under ``RegFillMissingMode.TopdownCover`` it is asked once
-per root instead, against that root's own first :class:`IfContentPart`. This is the same convention
+per root instead, against that root's own first :class:`IfContentPart` (its last one under
+``RegFillMissingMode.BottomCover``). This is the same convention
 :class:`GraphGroupEdit` already applies to its register edits -- only *which* parts are chosen; a
 non-empty result's actual ranges are not consulted, since filling a part appends a whole `KVP`_
 rather than editing occurrences at particular order indices

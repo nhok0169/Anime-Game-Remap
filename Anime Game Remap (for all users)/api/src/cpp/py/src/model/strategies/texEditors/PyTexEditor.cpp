@@ -38,10 +38,17 @@ filter list was passed to the constructor.
     Python-visible behavior
     )doc")
 
-        .def(py::init([](bool compress) {
-                 return std::make_unique<AGRC::TexEditor>(std::vector<AGRC::TexEditor::Filter>{}, compress);
+        .def(py::init([](bool compress, bool mipmaps) {
+                 return std::make_unique<AGRC::TexEditor>(std::vector<AGRC::TexEditor::Filter>{}, compress, mipmaps);
              }),
-             py::arg("compress") = true)
+             py::arg("compress") = true, py::arg("mipmaps") = false)
+
+        .def_property("mipmaps", &AGRC::TexEditor::getMipmaps, &AGRC::TexEditor::setMipmaps, py::doc(R"doc(
+Whether :meth:`~CppBaseTexEditor.fix` writes the edited texture back with its full mip chain --
+handed straight to :meth:`CppTextureFile.save`, which says why a texture wants one
+
+**Default**: ``False``
+        )doc"))
 
         .def_property("compress", &AGRC::TexEditor::getCompress, &AGRC::TexEditor::setCompress, py::doc(R"doc(
 Whether :meth:`~CppBaseTexEditor.fix` writes the edited texture back in its original compressed

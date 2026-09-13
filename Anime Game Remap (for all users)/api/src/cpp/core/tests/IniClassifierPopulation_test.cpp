@@ -147,6 +147,10 @@ static const std::vector<KeywordRow>& expectedRows() {
         {"XianglingCheer", {"xianglingcheer", "xianglingnewyear"}},
         {"Xingqiu", {"xingqiu"}},
         {"XingqiuBamboo", {"xingqiubamboo"}},
+        {"Yelan", {"yelan"}},
+        {"YelanTranquil", {"yelantranquil"}},
+        // The skin's three component ids are fix targets only, built by nobody -- no row, as for
+        // the boss ids.
     };
     return rows;
 }
@@ -169,7 +173,7 @@ static ModTypeId idOf(const std::string& name) {
 static void testEveryKeywordRowMatchesPython() {
     std::printf("testEveryKeywordRowMatchesPython\n");
 
-    check(expectedRows().size() == 43, "the oracle itself still has all 43 rows");
+    check(expectedRows().size() == 45, "the oracle itself still has all 45 rows (43 plus Yelan and YelanTranquil)");
 
     for (const KeywordRow& row : expectedRows()) {
         checkKeywords(ModTypeIdTools::getSectionKeywords(idOf(row.name)), row.keywords,

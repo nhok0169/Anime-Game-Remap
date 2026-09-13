@@ -178,6 +178,47 @@ class RegFillMissingTest(BaseUnitTest):
 
         self.compareList(self.entries(graph), [("x", "1")])
 
+    # ================================================
+    # ============ edit -- BottomCover mode ===========
+
+    def test_edit_bottomCover_addsToTheBackOfTheRootSection(self):
+        graph = self.makeGraph()
+        FRB.RegFillMissing("z", "9", fillMode = FRB.RegFillMissingMode.BottomCover).edit(graph, None)
+
+        self.compareList(self.entries(graph), [("x", "1"), ("z", "9")])
+
+    def test_edit_bottomCover_splitSection_landsAfterTheLastPart(self):
+        # FillMissing fills the FIRST part lacking the register; BottomCover has to land after the
+        # LAST one, which is what a draw call needs once a collect has split the section
+        name = "a"
+        parts = [FRB.IfContentPart({"x": [(0, "1")]}, 0), FRB.IfContentPart({"y": [(0, "2")]}, 0)]
+        graph = FRB.IniSectionGraph({name: FRB.IfTemplate(parts, name = name)}, [name])
+
+        FRB.RegFillMissing("z", "9", fillMode = FRB.RegFillMissingMode.BottomCover).edit(graph, None)
+
+        self.compareList(self.entries(graph, partInd = 0), [("x", "1")])
+        self.compareList(self.entries(graph, partInd = 1), [("y", "2"), ("z", "9")])
+
+    def test_edit_bottomCover_listFillMissing_addsEveryKVPToTheBack(self):
+        graph = self.makeGraph()
+        FRB.RegFillMissing("z", [("z", "9"), ("w", "8")],
+                           fillMode = FRB.RegFillMissingMode.BottomCover).edit(graph, None)
+
+        self.compareList(self.entries(graph), [("x", "1"), ("z", "9"), ("w", "8")])
+
+    def test_edit_bottomCover_rootsAlreadyCovered_nothingAdded(self):
+        graph = self.makeGraph()
+        FRB.RegFillMissing("x", "9", fillMode = FRB.RegFillMissingMode.BottomCover).edit(graph, None)
+
+        self.compareList(self.entries(graph), [("x", "1")])
+
+    def test_addBottomCover_static_addsToTheBack(self):
+        graph = self.makeGraph()
+        result = FRB.RegFillMissing.addBottomCover(graph, "z", "9")
+
+        self.assertIs(result, graph)
+        self.compareList(self.entries(graph), [("x", "1"), ("z", "9")])
+
     def test_edit_modeReassignedAfterConstruction_isHonoured(self):
         # the C++ member is re-derived from the stored Python object at the start of every edit, so
         # both the mode *and* which end of the part the value lands on have to follow the change

@@ -221,7 +221,7 @@ class TextureFile(CppTextureFile):
 
         return self.img.load()
 
-    def save(self, img: Optional[Image] = None, compress: bool = True):
+    def save(self, img: Optional[Image] = None, compress: bool = True, mipmaps: bool = False):
         """
         Saves the pixels defined at 'img' to the texture .dds file
 
@@ -281,8 +281,13 @@ class TextureFile(CppTextureFile):
         if (self.img is not None):
             self.setPixels(self.img.tobytes(), self.img.width, self.img.height)
 
-        self.gamma = gamma
-        super().save(compress = compress)
+        # Only when the metadata names one: :meth:`open` already set the sRGB pre-correction from the
+        # DX10 header, and writing ``None`` over it here silently dropped it for every save driven
+        # from Python -- a BC7_UNORM_SRGB diffuse came back out untagged AND uncorrected, visibly
+        # brighter in game (2026-09-12). A gamma the caller declares still wins.
+        if (gamma is not None):
+            self.gamma = gamma
+        super().save(compress = compress, mipmaps = mipmaps)
 
         if (self.readPillowImg):
             self.img = Image.frombytes(ImgFormats.RGBA.value, (CppTextureFile.width.fget(self), CppTextureFile.height.fget(self)), self.getPixels())

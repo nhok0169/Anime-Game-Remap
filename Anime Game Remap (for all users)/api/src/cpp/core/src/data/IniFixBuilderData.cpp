@@ -359,6 +359,18 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::NingguangOrchid),
                   "6.1", ModTypeIdTools::getName(ModTypeId::Ningguang)}, IniFixBuilderFuncs::ningguangOrchid6_1()},
 
+                // ===== Yelan @ toVersion 6.1 =====
+                //
+                // THREE rows for one source: the target skin is three components, each a fix
+                // target of its own (ModTypeId::YelanTranquilBody etc.) so the naming, the hash
+                // remap and the merge all work unchanged. See makeGIMIComponentFixer.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Yelan),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::YelanTranquilBody)}, IniFixBuilderFuncs::yelanTranquilBody6_1()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Yelan),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::YelanTranquilBang)}, IniFixBuilderFuncs::yelanTranquilBang6_1()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Yelan),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::YelanTranquilEye)}, IniFixBuilderFuncs::yelanTranquilEye6_1()},
+
                 // ===== Keqing @ toVersion 6.1 =====
                 //
                 // The pair: this one MERGES (Keqing's dress and head onto KeqingOpulent's head)

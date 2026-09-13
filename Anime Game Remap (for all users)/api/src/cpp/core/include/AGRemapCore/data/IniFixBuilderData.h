@@ -1241,6 +1241,29 @@ namespace AGRemapCore {
              */
             static IniFixBuilder::Factory rosariaCN6_1();
 
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **Yelan onto YelanTranquil's Body** -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The first remap onto a skin of SEVERAL components: one fixer per component, three
+             rows, all built from one :cpp:class:`GIMIComponentFixerConfig` by
+             :cpp:func:`makeGIMIComponentFixer`. See ``data/IniFixData/Yelan/YelanFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory yelanTranquilBody6_1();
+
+            /**
+             * @brief The 6.1 fix remapping **Yelan onto YelanTranquil's Bang** -- see :cpp:func:`yelanTranquilBody6_1`
+             */
+            static IniFixBuilder::Factory yelanTranquilBang6_1();
+
+            /**
+             * @brief The 6.1 fix remapping **Yelan onto YelanTranquil's Eye** -- see :cpp:func:`yelanTranquilBody6_1`
+             */
+            static IniFixBuilder::Factory yelanTranquilEye6_1();
+
     };
 
     /**

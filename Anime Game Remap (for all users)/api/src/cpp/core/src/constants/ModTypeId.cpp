@@ -155,6 +155,21 @@ namespace AGRemapCore {
             case static_cast<int>(ModTypeId::XingqiuBamboo):
                 return ModTypeId::XingqiuBamboo;
 
+            case static_cast<int>(ModTypeId::Yelan):
+                return ModTypeId::Yelan;
+
+            case static_cast<int>(ModTypeId::YelanTranquil):
+                return ModTypeId::YelanTranquil;
+
+            case static_cast<int>(ModTypeId::YelanTranquilBody):
+                return ModTypeId::YelanTranquilBody;
+
+            case static_cast<int>(ModTypeId::YelanTranquilBang):
+                return ModTypeId::YelanTranquilBang;
+
+            case static_cast<int>(ModTypeId::YelanTranquilEye):
+                return ModTypeId::YelanTranquilEye;
+
             default:
                 return std::nullopt;
         }
@@ -298,6 +313,21 @@ namespace AGRemapCore {
 
             case ModTypeId::XingqiuBamboo:
                 return "XingqiuBamboo";
+
+            case ModTypeId::Yelan:
+                return "Yelan";
+
+            case ModTypeId::YelanTranquil:
+                return "YelanTranquil";
+
+            case ModTypeId::YelanTranquilBody:
+                return "YelanTranquilBody";
+
+            case ModTypeId::YelanTranquilBang:
+                return "YelanTranquilBang";
+
+            case ModTypeId::YelanTranquilEye:
+                return "YelanTranquilEye";
 
             default:
                 return "";
@@ -477,6 +507,14 @@ namespace AGRemapCore {
 
             case ModTypeId::XingqiuBamboo:
                 return {ModTypeId::Xingqiu};
+
+            // A skin of several components is remapped onto per COMPONENT -- one fixer, one set
+            // of hash and index rows each -- so the targets are the component ids, not the skin's.
+            case ModTypeId::Yelan:
+                return {ModTypeId::YelanTranquilBody, ModTypeId::YelanTranquilBang, ModTypeId::YelanTranquilEye};
+
+            case ModTypeId::YelanTranquil:
+                return {ModTypeId::Yelan};
             // Every remaining ModTypeId remaps onto nothing. That covers the two boss ids
             // (RaidenBoss, ArlecchinoBoss), which are only ever remap *targets* -- GIBuilder has
             // no factory for either.
@@ -634,6 +672,12 @@ namespace AGRemapCore {
 
             case ModTypeId::XingqiuBamboo:
                 return {"xingqiubamboo"};
+
+            case ModTypeId::Yelan:
+                return {"yelan"};
+
+            case ModTypeId::YelanTranquil:
+                return {"yelantranquil"};
             // The two target-only ids (RaidenBoss, ArlecchinoBoss) have no keywords: nothing
             // classifies a .ini file AS them, they are only ever what a mod is remapped ONTO.
             default:

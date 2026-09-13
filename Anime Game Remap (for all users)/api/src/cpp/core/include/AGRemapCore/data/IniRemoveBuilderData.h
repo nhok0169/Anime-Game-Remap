@@ -447,6 +447,16 @@ namespace AGRemapCore {
              */
             static IniRemoveBuilder::Factory xingqiuBamboo4_0();
 
+            /**
+             * @brief Stub for Yelan's remover -- returns :cpp:func:`IniRemoveBuilder::defaultFactory`
+             */
+            static IniRemoveBuilder::Factory yelan4_0();
+
+            /**
+             * @brief Stub for YelanTranquil's remover -- returns :cpp:func:`IniRemoveBuilder::defaultFactory`
+             */
+            static IniRemoveBuilder::Factory yelanTranquil4_0();
+
     };
 
     /**

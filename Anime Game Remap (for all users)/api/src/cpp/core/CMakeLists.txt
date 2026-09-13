@@ -108,6 +108,10 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp
     src/data/IniParseData/Keqing/KeqingParser.cpp
     src/data/IniParseData/KeqingOpulent/KeqingOpulentParser.cpp
+    src/data/IniFixData/GIMIComponentFixer.cpp
+    src/data/IniFixData/Yelan/YelanFixer.cpp
+    src/data/IniParseData/Yelan/YelanParser.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp
     src/data/IniFixData/Shenhe/ShenheFixer.cpp
     src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp
     src/data/IniParseData/Shenhe/ShenheParser.cpp

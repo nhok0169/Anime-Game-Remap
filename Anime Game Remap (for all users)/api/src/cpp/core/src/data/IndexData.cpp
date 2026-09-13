@@ -191,6 +191,23 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getIndexDat
         {{"4.8", "KiraraBoots", "", "body"}, "36804"},
         {{"4.8", "KiraraBoots", "", "dress"}, "80295"},
 
+        // ===== Yelan (2026-09-12) =====
+        // Yelan's four objects, unchanged through every hash update in the assets repo's history.
+        //
+        // NO rows for YelanTranquil's components, ON PURPOSE. Their draw slots' indices (Body A 0 /
+        // B 53631 / C 67374, Bang A 0, Eye A 0) live in the fixer's config
+        // (GIMIComponentFixerConfig::Component::slotIndex) instead, because of how the REVERSE
+        // lookup resolves: ModMappedAssets::getKey buckets every row holding a value by version,
+        // takes the newest bucket at or below the version asked, and searches only inside it. A
+        // "0" filed at 5.7 would make the 5.7 bucket THE bucket for "0", and every classic
+        // character's head -- index 0, filed at 4.0 -- would then reverse-resolve to a slot named
+        // "A" and fall out of its parser as an unclassified section. Measured on the identity
+        // mod's own head before the rows were pulled.
+        {{"4.0", "Yelan", "", "head"}, "0"},
+        {{"4.0", "Yelan", "", "body"}, "20913"},
+        {{"4.0", "Yelan", "", "dress"}, "51759"},
+        {{"4.0", "Yelan", "", "extra"}, "54042"},
+
         // ===== version 5.3 =====
         // CherryHuTao
         {{"5.3", "CherryHuTao", "", "head"}, "0"},

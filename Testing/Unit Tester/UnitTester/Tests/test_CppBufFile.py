@@ -15,6 +15,14 @@ def _makePositionElements():
     return [FRB.BufElementType("POSITION", "R32G32B32_FLOAT", [FRB.BufFloat(), FRB.BufFloat(), FRB.BufFloat()])]
 
 
+def _makeTexcoordElement():
+    return FRB.BufElementType("TEXCOORD", "R32G32_FLOAT", [FRB.BufFloat(), FRB.BufFloat()])
+
+
+def _makeFloatElement(name):
+    return FRB.BufElementType(name, "R32_FLOAT", [FRB.BufFloat()])
+
+
 class CppBufFileTest(BaseUnitTest):
     """
     Tests for :class:`CppBufFile` -- the C++-backed impl base behind the pure-Python
@@ -200,6 +208,156 @@ class CppBufFileTest(BaseUnitTest):
 
         self.assertEqual(bufFile.data, b"")
         self.assertEqual(bufFile.elements, [])
+
+    # ================================================
+    # =================== append =====================
+
+    def test_append_addsEveryLineOfEachSourceInOrder(self):
+        line1 = struct.pack("<3f", 1.0, 2.0, 3.0)
+        line2 = struct.pack("<3f", 4.0, 5.0, 6.0)
+        line3 = struct.pack("<3f", 7.0, 8.0, 9.0)
+
+        bufFile = FRB.CppBufFile(line1, _makePositionElements())
+        srcA = FRB.CppBufFile(line2, _makePositionElements())
+        srcB = FRB.CppBufFile(line3, _makePositionElements())
+
+        bufFile.append([srcA, srcB])
+
+        self.assertEqual(bytes(bufFile.data), line1 + line2 + line3)
+        self.assertEqual(bytes(srcA.data), line2)
+        self.assertEqual(bytes(srcB.data), line3)
+
+    def test_append_supersetSource_dropsTheExtraElements(self):
+        # the whole point of the superset rule: a full .vb can be appended onto a Position.buf and
+        # contributes only its positions
+        position = struct.pack("<3f", 1.0, 2.0, 3.0)
+        texcoord = struct.pack("<2f", 0.25, 0.5)
+
+        bufFile = FRB.CppBufFile(b"", _makePositionElements())
+        source = FRB.CppBufFile(position + texcoord, _makePositionElements() + [_makeTexcoordElement()])
+
+        bufFile.append([source])
+
+        self.assertEqual(bytes(bufFile.data), position)
+
+    def test_append_supersetInADifferentOrder_rebuiltInThisFilesOrder(self):
+        # the source carries this file's elements in the opposite order and with an extra one
+        # wedged between them -- each appended line still comes out in *this* file's order
+        bufFile = FRB.CppBufFile(b"", [_makeFloatElement("A"), _makeFloatElement("B")])
+        source = FRB.CppBufFile(struct.pack("<3f", 20.0, 99.0, 10.0),
+                                [_makeFloatElement("B"), _makeFloatElement("X"), _makeFloatElement("A")])
+
+        bufFile.append([source])
+
+        self.assertEqual(struct.unpack("<2f", bytes(bufFile.data)), (10.0, 20.0))
+
+    def test_append_formatNameMayDiffer(self):
+        # formatName is 3dmigoto's label for a layout, not the layout -- only the data types decide
+        # whether two elements hold the same bytes
+        line = struct.pack("<3f", 1.0, 2.0, 3.0)
+        bufFile = FRB.CppBufFile(b"", _makePositionElements())
+        source = FRB.CppBufFile(line, [FRB.BufElementType("POSITION", "SOME_OTHER_NAME",
+                                                          [FRB.BufFloat(), FRB.BufFloat(), FRB.BufFloat()])])
+
+        bufFile.append([source])
+
+        self.assertEqual(bytes(bufFile.data), line)
+
+    def test_append_missingElement_raisesValueError(self):
+        bufFile = FRB.CppBufFile(b"", _makePositionElements() + [_makeTexcoordElement()])
+        source = FRB.CppBufFile(struct.pack("<3f", 1.0, 2.0, 3.0), _makePositionElements())
+
+        with self.assertRaises(ValueError) as ctx:
+            bufFile.append([source])
+        self.assertIn("TEXCOORD", str(ctx.exception))
+
+    def test_append_sameNameDifferentDataTypes_raisesValueError(self):
+        # same element name AND the same byte size (3 x 4 bytes), so only comparing sizes would let
+        # this through and silently reinterpret every float as an unsigned integer
+        bufFile = FRB.CppBufFile(b"", _makePositionElements())
+        source = FRB.CppBufFile(struct.pack("<3I", 1, 2, 3),
+                                [FRB.BufElementType("POSITION", "R32G32B32_UINT",
+                                                    [FRB.BufUnSignedInt(), FRB.BufUnSignedInt(), FRB.BufUnSignedInt()])])
+
+        with self.assertRaises(ValueError) as ctx:
+            bufFile.append([source])
+        self.assertIn("POSITION", str(ctx.exception))
+
+    def test_append_oneBadSource_leavesTheFileUntouched(self):
+        # the first source is perfectly appendable -- every source is checked before any byte is
+        # copied, so this file must not end up holding it
+        line = struct.pack("<3f", 1.0, 2.0, 3.0)
+        bufFile = FRB.CppBufFile(line, _makePositionElements())
+        good = FRB.CppBufFile(struct.pack("<3f", 4.0, 5.0, 6.0), _makePositionElements())
+        bad = FRB.CppBufFile(struct.pack("<2f", 0.25, 0.5), [_makeTexcoordElement()])
+
+        with self.assertRaises(ValueError):
+            bufFile.append([good, bad])
+
+        self.assertEqual(bytes(bufFile.data), line)
+
+    def test_append_self_doublesTheFile(self):
+        line = struct.pack("<3f", 1.0, 2.0, 3.0)
+        bufFile = FRB.CppBufFile(line, _makePositionElements())
+
+        bufFile.append([bufFile])
+
+        self.assertEqual(bytes(bufFile.data), line + line)
+
+    def test_append_nothing_leavesTheFileUnchanged(self):
+        line = struct.pack("<3f", 1.0, 2.0, 3.0)
+        bufFile = FRB.CppBufFile(line, _makePositionElements())
+
+        bufFile.append([])
+
+        self.assertEqual(bytes(bufFile.data), line)
+
+    def test_append_emptySource_addsNothing(self):
+        line = struct.pack("<3f", 1.0, 2.0, 3.0)
+        bufFile = FRB.CppBufFile(line, _makePositionElements())
+
+        bufFile.append([FRB.CppBufFile(b"", _makePositionElements())])
+
+        self.assertEqual(bytes(bufFile.data), line)
+
+    def test_append_noElements_doesNothing(self):
+        # nothing to take out of a source line, and every source is trivially a superset of nothing
+        bufFile = FRB.CppBufFile(b"", [])
+        bufFile.append([FRB.CppBufFile(struct.pack("<3f", 1.0, 2.0, 3.0), _makePositionElements())])
+
+        self.assertEqual(bytes(bufFile.data), b"")
+
+    def test_append_duplicateElementNames_matchedByTheSuffixedKey(self):
+        # X/X1 are matched by their occurrence-suffixed keys, so the source's second X lands in this
+        # file's second X even with an unrelated element between them
+        bufFile = FRB.CppBufFile(b"", [_makeFloatElement("X"), _makeFloatElement("X")])
+        source = FRB.CppBufFile(struct.pack("<3f", 1.0, 99.0, 2.0),
+                                [_makeFloatElement("X"), _makeFloatElement("Y"), _makeFloatElement("X")])
+
+        bufFile.append([source])
+
+        self.assertEqual(struct.unpack("<2f", bytes(bufFile.data)), (1.0, 2.0))
+
+    def test_append_fileSrc_becomesBytesAndLeavesTheFileOnDisk(self):
+        # same 'data is read-only, the write path is src + read()' shape as merge/filter
+        line1 = struct.pack("<3f", 1.0, 2.0, 3.0)
+        line2 = struct.pack("<3f", 4.0, 5.0, 6.0)
+
+        with tempfile.NamedTemporaryFile(delete = False, suffix = ".buf") as f:
+            f.write(line1)
+            path = f.name
+
+        try:
+            bufFile = FRB.CppBufFile(path, _makePositionElements())
+            bufFile.append([FRB.CppBufFile(line2, _makePositionElements())])
+
+            self.assertEqual(bytes(bufFile.data), line1 + line2)
+            self.assertNotIsInstance(bufFile.src, str)
+
+            with open(path, "rb") as f:
+                self.assertEqual(f.read(), line1)
+        finally:
+            os.remove(path)
 
     # ================================================
     # ========= getDumpStr/getFlatDumpStr ============

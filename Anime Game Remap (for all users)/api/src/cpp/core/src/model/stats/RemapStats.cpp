@@ -56,6 +56,12 @@ namespace AGRemapCore {
         if (resourceType == "resourceRemapTexEdit") { return &texEdit; }
         if (resourceType == "resourceRemapTexAdd") { return &texAdd; }
 
+        // And the blend's, for the same reason: the compiled VGRemapBlendReplace names its models
+        // "blend", but RemapBlendReplace -- the one a Python-side fix builds its own models through --
+        // defaults to "resourceRemapBlend", so every Blend.buf a prototype wrote was counted nowhere
+        // and the summary read "fixed 0 Blend.buf files" over a folder full of them (2026-09-12).
+        if (resourceType == "resourceRemapBlend") { return &blend; }
+
         // CachedFileStats is a FileStats, so a caller sorting removed paths into buckets treats
         // downloads like anything else -- only the cache-hit half needs the derived type.
         if (resourceType == "download") { return &download; }

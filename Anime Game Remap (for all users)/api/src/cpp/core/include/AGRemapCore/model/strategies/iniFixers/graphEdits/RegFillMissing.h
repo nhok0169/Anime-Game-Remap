@@ -388,6 +388,35 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Fills a fresh **bottom** :cpp:class:`IfContentPart` at each of 'graph''s roots, if 'reg'
+             is missing in some :cpp:class:`IfContentPart` of 'graph' -- :cpp:func:`addCover`'s
+             mirror image, for a register that has to run AFTER everything the root sets up (a draw
+             call) :raw-html:`<br />` :raw-html:`<br />`
+
+             Nothing is added at all when every root already fully covers 'reg' :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             .. note::
+                'selection' narrows *which roots* get covered. Its ``partFilter`` is asked once per
+                root, against that root's own last :cpp:class:`IfContentPart` (the part
+                :cpp:func:`IfTemplate::addBottomContentPart` would reuse or insert after) -- a root
+                with no :cpp:class:`IfContentPart` at all is accepted. The colouring handed over is
+                empty, as in :cpp:func:`addCover`
+             @endrst
+             *
+             * @param graph The graph to search, modified in place
+             * @param reg The register to search
+             * @param fillMissing The function to modify the parts that are missing the desired register
+             * @param selection Which roots may be covered. **Default**: accept every root
+             *
+             * @return The same graph that was passed in, with its roots covered
+             */
+            static Graph& addBottomCover(Graph& graph, const K& reg, const FillMissingFunc& fillMissing,
+                                          const PartSelection& selection = {});
+
+            /**
+             * @brief
+             @rst
              Fills the parts of 'graph' missing \ref reg, honouring
              :cpp:member:`IniFile::downloadMode` when \ref dependOnDownload is set :raw-html:`<br />`
              :raw-html:`<br />`
@@ -428,11 +457,12 @@ namespace AGRemapCore {
              @rst
              Fills the parts of 'graph' missing \ref reg, by whichever strategy \ref fillMode names
              -- \ref fillMissingGraph for :cpp:enumerator:`RegFillMissingMode::FillMissing`,
-             \ref addCover for :cpp:enumerator:`RegFillMissingMode::TopdownCover` :raw-html:`<br />`
+             \ref addCover for :cpp:enumerator:`RegFillMissingMode::TopdownCover`,
+             \ref addBottomCover for :cpp:enumerator:`RegFillMissingMode::BottomCover` :raw-html:`<br />`
              :raw-html:`<br />`
 
-             'partFilter' restricts *which* parts (or, under
-             :cpp:enumerator:`RegFillMissingMode::TopdownCover`, which roots) are filled -- an empty
+             'partFilter' restricts *which* parts (or, under either cover mode, which roots) are
+             filled -- an empty
              :cpp:class:`Ranges` result skips that one. Together with \ref trackKeys /
              \ref keysToTrack it forms the \ref PartSelection this hands down :raw-html:`<br />`
              :raw-html:`<br />`

@@ -534,8 +534,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.arlecchino5_4`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 5.4-era **Arlecchino** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Head, body and dress at stride 20, and the only character in the table with **no
+             download assets at all**. See ``data/IniParseData/Arlecchino/ArlecchinoParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory arlecchino5_4();

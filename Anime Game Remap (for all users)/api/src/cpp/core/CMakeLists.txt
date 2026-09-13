@@ -77,6 +77,8 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Kaeya/KaeyaFixer.cpp
     src/data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.cpp
     src/data/IniFixData/KaeyaSailwind/KaeyaSailwindFixer.cpp
+    src/data/IniParseData/Arlecchino/ArlecchinoParser.cpp
+    src/data/IniFixData/Arlecchino/ArlecchinoFixer.cpp
     src/data/IniFixData/Nilou/NilouFixer.cpp
     src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp
     src/data/IniParseData/Nilou/NilouParser.cpp

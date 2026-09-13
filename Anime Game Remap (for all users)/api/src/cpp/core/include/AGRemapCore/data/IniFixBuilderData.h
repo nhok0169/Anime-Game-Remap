@@ -603,8 +603,12 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.arlecchino5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix that remaps an Arlecchino mod onto ArlecchinoBoss -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             She has no 6.1 row in the pure-Python table, so this one serves 6.1 as well --
+             the same arrangement :cpp:func:`IniFixBuilderFuncs::nilou5_7` has. See
+             :cpp:class:`ArlecchinoFixer`
              @endrst
              */
             static IniFixBuilder::Factory arlecchino5_7();

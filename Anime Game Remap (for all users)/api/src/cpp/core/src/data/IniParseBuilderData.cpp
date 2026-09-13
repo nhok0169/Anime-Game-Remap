@@ -30,7 +30,6 @@ namespace AGRemapCore {
     // pure-Python original's.
 
     IniParseBuilder::Factory IniParseBuilderFuncs::giDefault() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::arlecchino5_4() { return IniParseBuilder::defaultFactory(); }
 
     namespace {
         // The version index sits at position 0 and the mod name at position 1, matching the

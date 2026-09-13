@@ -18,7 +18,7 @@ import sys
 from typing import Dict, List, Optional, Tuple
 
 from src.VGRemapFinder.DraftWriter import DraftWriter
-from src.VGRemapFinder.DumpMod import DumpMod
+from src.VGRemapFinder.DumpMod import Character
 from src.VGRemapFinder.VGMatcher import VGMatcher
 from src.VGRemapFinder.VertexGroups import VertexGroups
 from src.VGRemapFinder.constants.Paths import RepoPath
@@ -33,7 +33,7 @@ FolderAliases = {
 }
 
 
-def loadMod(dumpsFolder: str, name: str, cacheFolder: Optional[str]) -> Optional[DumpMod]:
+def loadMod(dumpsFolder: str, name: str, cacheFolder: Optional[str]) -> Optional[Character]:
     folder = os.path.join(dumpsFolder, FolderAliases.get(name, name))
     if (not os.path.isdir(folder)):
         return None
@@ -49,11 +49,11 @@ def loadMod(dumpsFolder: str, name: str, cacheFolder: Optional[str]) -> Optional
             except Exception:
                 pass    # a stale cache (eg. pickled by an older layout of this tool): re-read the dumps below
 
-    mod = DumpMod.fromFolder(folder, name = name, silent = True)
+    character = Character.fromFolder(folder, name = name, silent = True)
     if (cachePath is not None):
         with open(cachePath, "wb") as f:
-            pickle.dump(mod, f)
-    return mod
+            pickle.dump(character, f)
+    return character
 
 
 def draftSheets(draftsFolder: str, skipped: List[str]) -> List[Tuple[str, str, str]]:

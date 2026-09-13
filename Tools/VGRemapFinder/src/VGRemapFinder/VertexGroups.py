@@ -1,18 +1,18 @@
-from typing import Dict, List, Set
+from typing import Dict, List, Optional, Set, Tuple, Union
 
 import numpy as np
 
-from .DumpMod import DumpMod
+from .DumpMod import Character, DumpMod
 
 
 class VertexGroup():
     """
-    One vertex group of a mod, summarised by the vertices it owns
+    One vertex group of a character, summarised by the vertices it owns
 
     Parameters
     ----------
     index: :class:`int`
-        The vertex group's index
+        The vertex group's index within its component
 
     vertexCount: :class:`int`
         How many vertices carry this group with a non-zero weight
@@ -28,10 +28,14 @@ class VertexGroup():
     objects: Set[:class:`str`]
         The drawn objects (``"Head"``, ``"Body"``, ...) any of those vertices belong to
 
+    component: :class:`str`
+        The component the group belongs to (``""`` for a single-component character). Two
+        components' index spaces are unrelated: ``Body 64`` and ``Bang 64`` are different bones
+
     Attributes
     ----------
     index: :class:`int`
-        The vertex group's index
+        The vertex group's index within its component
 
     vertexCount: :class:`int`
         How many vertices carry this group with a non-zero weight
@@ -44,14 +48,41 @@ class VertexGroup():
 
     objects: Set[:class:`str`]
         The drawn objects the vertices belong to
+
+    component: :class:`str`
+        The component the group belongs to
     """
 
-    def __init__(self, index: int, vertexCount: int, center: np.ndarray, spread: np.ndarray, objects: Set[str]):
+    def __init__(self, index: int, vertexCount: int, center: np.ndarray, spread: np.ndarray, objects: Set[str], component: str = ""):
         self.index = index
         self.vertexCount = vertexCount
         self.center = center
         self.spread = spread
         self.objects = objects
+        self.component = component
+
+    @property
+    def key(self) -> Tuple[str, int]:
+        """
+        ``(component, index)`` --- what identifies the group within its character
+
+        :getter: Retrieves the key
+        :type: Tuple[:class:`str`, :class:`int`]
+        """
+
+        return (self.component, self.index)
+
+    @property
+    def label(self) -> str:
+        """
+        The group as a draft or a summary names it: ``"64"`` in a single-component character,
+        ``"Body:64"`` otherwise
+
+        :getter: Retrieves the label
+        :type: :class:`str`
+        """
+
+        return f"{self.component}:{self.index}" if (self.component) else str(self.index)
 
     @property
     def isEmpty(self) -> bool:
@@ -77,17 +108,18 @@ class VertexGroup():
         return np.sqrt(np.clip(np.linalg.eigvalsh(self.spread), 0, None))[::-1]
 
     def __repr__(self) -> str:
-        return f"VertexGroup({self.index}, vertices = {self.vertexCount}, center = {self.center}, objects = {sorted(self.objects)})"
+        return f"VertexGroup({self.label}, vertices = {self.vertexCount}, center = {self.center}, objects = {sorted(self.objects)})"
 
 
 class VertexGroups():
     """
-    Every vertex group of a mod
+    Every vertex group of a character, across all of its components
 
     Parameters
     ----------
-    mod: :class:`DumpMod`
-        The mod to summarise
+    source: Union[:class:`Character`, :class:`DumpMod`]
+        The character to summarise (a lone :class:`DumpMod` is taken as a character of that one
+        component)
 
     weighted: :class:`bool`
         Whether a group's centre and spread are blend-weight-weighted (the default), rather than
@@ -98,20 +130,69 @@ class VertexGroups():
 
     Attributes
     ----------
-    mod: :class:`DumpMod`
-        The mod summarised
+    character: :class:`Character`
+        The character summarised
+
+    mod: Optional[:class:`DumpMod`]
+        The one component of a single-component character, else ``None``
 
     weighted: :class:`bool`
         Whether the centres are blend-weight-weighted
 
+    byComponent: Dict[:class:`str`, List[:class:`VertexGroup`]]
+        Each component's vertex groups, indexed by their index within the component (so
+        ``byComponent[c][i].index == i``), in the character's component order
+
     groups: List[:class:`VertexGroup`]
-        The vertex groups, indexed by their vertex group index (so ``groups[i].index == i``)
+        Every vertex group, component by component then by index --- the order the "global"
+        indices used inside the matcher follow
     """
 
-    def __init__(self, mod: DumpMod, weighted: bool = True):
-        self.mod = mod
+    def __init__(self, source: Union[Character, DumpMod], weighted: bool = True):
+        if (isinstance(source, DumpMod)):
+            source = Character(source.name, {source.component: source})
+
+        self.character = source
+        self.mod: Optional[DumpMod] = source.single() if (len(source.components) == 1) else None
         self.weighted = weighted
-        self.groups: List[VertexGroup] = self._build()
+
+        self.byComponent: Dict[str, List[VertexGroup]] = {}
+        for componentName, mod in source.components.items():
+            self.byComponent[componentName] = self._build(mod, componentName, weighted)
+        self.groups: List[VertexGroup] = [group for groups in self.byComponent.values() for group in groups]
+
+    @property
+    def name(self) -> str:
+        """
+        The character's name
+
+        :getter: Retrieves the name
+        :type: :class:`str`
+        """
+
+        return self.character.name
+
+    @property
+    def componentNames(self) -> List[str]:
+        """
+        The component names in draw order
+
+        :getter: Retrieves the names
+        :type: List[:class:`str`]
+        """
+
+        return list(self.byComponent)
+
+    @property
+    def isMultiComponent(self) -> bool:
+        """
+        Whether the character has more than one component
+
+        :getter: Retrieves whether the character is multi-component
+        :type: :class:`bool`
+        """
+
+        return self.character.isMultiComponent
 
     def __len__(self) -> int:
         return len(self.groups)
@@ -119,8 +200,49 @@ class VertexGroups():
     def __iter__(self):
         return iter(self.groups)
 
-    def __getitem__(self, index: int) -> VertexGroup:
-        return self.groups[index]
+    def __getitem__(self, key: Union[int, Tuple[str, int]]) -> VertexGroup:
+        if (isinstance(key, tuple)):
+            return self.byComponent[key[0]][key[1]]
+        if (len(self.byComponent) != 1):
+            raise TypeError(f"'{self.name}' has several components; index its groups by (component, index)")
+        return next(iter(self.byComponent.values()))[key]
+
+    def get(self, component: str, index: int) -> VertexGroup:
+        """
+        One vertex group
+
+        Parameters
+        ----------
+        component: :class:`str`
+            The component
+
+        index: :class:`int`
+            The index within the component
+
+        Returns
+        -------
+        :class:`VertexGroup`
+            The group
+        """
+
+        return self.byComponent[component][index]
+
+    def count(self, component: str) -> int:
+        """
+        How many vertex groups a component has (one past its largest index in use)
+
+        Parameters
+        ----------
+        component: :class:`str`
+            The component
+
+        Returns
+        -------
+        :class:`int`
+            The count
+        """
+
+        return len(self.byComponent[component])
 
     @property
     def nonEmpty(self) -> List[VertexGroup]:
@@ -137,7 +259,7 @@ class VertexGroups():
     def spacing(self) -> float:
         """
         The typical distance between a vertex group's centre and its nearest neighbour's --- the
-        scale on which "close" and "far" mean anything for this mod
+        scale on which "close" and "far" mean anything for this character
 
         :getter: Retrieves the spacing (0 if there are fewer than 2 non-empty groups)
         :type: :class:`float`
@@ -152,34 +274,35 @@ class VertexGroups():
         np.fill_diagonal(distances, np.inf)
         return float(np.median(distances.min(axis = 1)))
 
-    def chains(self) -> List[List[int]]:
+    def chains(self) -> List[List[VertexGroup]]:
         """
-        The runs of consecutive vertex group indices with no empty group in between --- the game
-        numbers a skeleton's bones in order, so a chain of bones (hair, a ribbon, a skirt's rows) is
-        a run of consecutive indices
+        The runs of consecutive vertex group indices with no empty group in between, within each
+        component --- the game numbers a skeleton's bones in order, so a chain of bones (hair, a
+        ribbon, a skirt's rows) is a run of consecutive indices
 
         Returns
         -------
-        List[List[:class:`int`]]
-            The runs, each a list of consecutive vertex group indices
+        List[List[:class:`VertexGroup`]]
+            The runs, each a list of consecutive groups of one component
         """
 
-        result: List[List[int]] = []
-        current: List[int] = []
-        for group in self.groups:
-            if (group.isEmpty):
-                if (current):
-                    result.append(current)
-                    current = []
-                continue
-            current.append(group.index)
+        result: List[List[VertexGroup]] = []
+        for groups in self.byComponent.values():
+            current: List[VertexGroup] = []
+            for group in groups:
+                if (group.isEmpty):
+                    if (current):
+                        result.append(current)
+                        current = []
+                    continue
+                current.append(group)
 
-        if (current):
-            result.append(current)
+            if (current):
+                result.append(current)
         return result
 
-    def _build(self) -> List[VertexGroup]:
-        mod = self.mod
+    @classmethod
+    def _build(cls, mod: DumpMod, component: str, weighted: bool = True) -> List[VertexGroup]:
         groupCount = mod.vertexGroupCount
         if (groupCount == 0):
             return []
@@ -196,7 +319,7 @@ class VertexGroups():
 
         counts = np.bincount(memberGroups, minlength = groupCount)
 
-        if (self.weighted):
+        if (weighted):
             contribution = memberWeights
         else:
             contribution = np.ones_like(memberWeights)
@@ -229,4 +352,4 @@ class VertexGroups():
             for group in groupsInObject.tolist():
                 objectsPerGroup[group].add(objectName)
 
-        return [VertexGroup(i, int(counts[i]), centers[i], spreads[i], objectsPerGroup[i]) for i in range(groupCount)]
+        return [VertexGroup(i, int(counts[i]), centers[i], spreads[i], objectsPerGroup[i], component = component) for i in range(groupCount)]

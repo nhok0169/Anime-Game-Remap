@@ -50,10 +50,10 @@ class VGMatch():
     uncertainty: :class:`float`
         How unsure the match is
 
-    chain: Optional[Tuple[:class:`int`, :class:`int`, :class:`int`, :class:`int`]]
+    chain: Optional[Tuple[:class:`VertexGroup`, :class:`VertexGroup`, :class:`VertexGroup`, :class:`VertexGroup`]]
         When the match is part of a run of consecutive source indices mapped onto consecutive
-        target indices: ``(firstFrom, lastFrom, firstTo, lastTo)`` of that run. ``None`` for a
-        match that stands alone
+        target indices (within one component on each side): ``(firstFrom, lastFrom, firstTo,
+        lastTo)`` of that run. ``None`` for a match that stands alone
     """
 
     def __init__(self, fromGroup: VertexGroup, toGroup: Optional[VertexGroup], distance: float,
@@ -64,7 +64,7 @@ class VGMatch():
         self.runnerUp = runnerUp
         self.runnerUpDistance = runnerUpDistance
         self.uncertainty = uncertainty
-        self.chain: Optional[Tuple[int, int, int, int]] = None
+        self.chain: Optional[Tuple[VertexGroup, VertexGroup, VertexGroup, VertexGroup]] = None
 
         # only set by the "vertices" mode: what share of the source group's skin the chosen /
         #   runner-up target bone drives on the other skin
@@ -76,8 +76,27 @@ class VGMatch():
         return self.fromGroup.index
 
     @property
+    def fromComponent(self) -> str:
+        return self.fromGroup.component
+
+    @property
     def toIndex(self) -> Optional[int]:
         return None if (self.toGroup is None) else self.toGroup.index
+
+    @property
+    def toComponent(self) -> Optional[str]:
+        return None if (self.toGroup is None) else self.toGroup.component
+
+    @property
+    def toKey(self) -> Optional[Tuple[str, int]]:
+        """
+        ``(component, index)`` of the target, or ``None``
+
+        :getter: Retrieves the key
+        :type: Optional[Tuple[:class:`str`, :class:`int`]]
+        """
+
+        return None if (self.toGroup is None) else self.toGroup.key
 
     def comment(self) -> str:
         """
@@ -98,25 +117,29 @@ class VGMatch():
             result = (f"{self.fromGroup.vertexCount} verts ({fromObjects}) -> {self.toGroup.vertexCount} verts ({toObjects}): "
                       f"drives {100 * self.share:.0f}% of the nearest skin, mean vertex dist {self.distance:.4f}")
             if (self.runnerUp is not None and self.runnerUpShare is not None):
-                result += f"; runner-up {self.runnerUp.index} drives {100 * self.runnerUpShare:.0f}%"
+                result += f"; runner-up {self.runnerUp.label} drives {100 * self.runnerUpShare:.0f}%"
             return result
 
         result = (f"{self.fromGroup.vertexCount} verts ({fromObjects}) -> {self.toGroup.vertexCount} verts ({toObjects}), "
                   f"dist {self.distance:.4f}")
 
         if (self.runnerUp is not None):
-            result += f"; runner-up {self.runnerUp.index} at dist {self.runnerUpDistance:.4f}"
+            result += f"; runner-up {self.runnerUp.label} at dist {self.runnerUpDistance:.4f}"
 
         if (self.chain is not None):
             firstFrom, lastFrom, firstTo, lastTo = self.chain
-            result += f"; in chain {firstFrom}-{lastFrom} -> {firstTo}-{lastTo}"
+            result += f"; in chain {firstFrom.label}-{lastFrom.index} -> {firstTo.label}-{lastTo.index}"
 
         return result
 
 
 class VGMatcher():
     """
-    Matches the vertex groups of one mod onto those of another :raw-html:`<br />` :raw-html:`<br />`
+    Matches the vertex groups of one character onto those of another :raw-html:`<br />` :raw-html:`<br />`
+
+    Either character may have several components (see :class:`Character`): every source group,
+    whichever component it is in, is matched against the target groups of **all** the target's
+    components, so a source group's answer is a ``(component, index)`` pair
 
     Two things are chosen independently:
 
@@ -133,18 +156,20 @@ class VGMatcher():
     - ``"nearest"``: every source group independently maps onto the closest target group
     - ``"chains"``: the game numbers a skeleton's bones in order, so a chain of bones (hair, a
       ribbon, a skirt's rows) is a run of consecutive indices in **both** mods. Each run of
-      consecutive source indices is aligned onto the target indices as a whole, by the cheapest
-      path where stepping to the next target index is free, skipping one costs
-      :attr:`skipCost`, and staying on the same target (several sources onto one target) or
-      jumping anywhere else costs :attr:`stayCost` / :attr:`jumpCost`. Costs are in units of the
-      target mod's :attr:`VertexGroups.spacing`
+      consecutive source indices (within one component) is aligned onto the target indices as a
+      whole, by the cheapest path where stepping to the next target index **of the same
+      component** is free, skipping one costs :attr:`skipCost`, and staying on the same target
+      (several sources onto one target) or jumping anywhere else --- another index, or another
+      component --- costs :attr:`stayCost` / :attr:`jumpCost`. Costs are in units of the target's
+      :attr:`VertexGroups.spacing`
     - ``"vertices"``: ignores the group summaries and the metric altogether. Two skins of one
       character share most of their skin, so for every vertex a source group drives, the
-      *nearest vertex* on the target skin is found, and the target bones driving those vertices
-      are tallied (each source vertex's weight times each target bone's weight). The group maps
-      onto the bone with the largest share --- a direct answer to "what moves this patch of skin
-      on the other skin". The match's :attr:`VGMatch.distance` is the mean distance to the
-      nearest vertices, a measure of whether that patch of skin exists on the target at all
+      *nearest vertex* on the target skin (across all its components) is found, and the target
+      bones driving those vertices are tallied (each source vertex's weight times each target
+      bone's weight). The group maps onto the bone with the largest share --- a direct answer to
+      "what moves this patch of skin on the other skin". The match's :attr:`VGMatch.distance` is
+      the mean distance to the nearest vertices, a measure of whether that patch of skin exists
+      on the target at all
 
     Parameters
     ----------
@@ -158,7 +183,7 @@ class VGMatcher():
         ``"center"`` or ``"gaussian"``
 
     mode: :class:`str`
-        ``"nearest"`` or ``"chains"``
+        ``"nearest"``, ``"chains"`` or ``"vertices"``
 
     stayCost: :class:`float`
         In ``"chains"`` mode, the cost of mapping consecutive source groups onto the *same* target
@@ -383,14 +408,14 @@ class VGMatcher():
         Returns
         -------
         List[:class:`VGMatch`]
-            One match per source vertex group, in index order. A source group with no vertices
-            has no target (its :attr:`VGMatch.toGroup` is ``None``)
+            One match per source vertex group, component by component then in index order. A
+            source group with no vertices has no target (its :attr:`VGMatch.toGroup` is ``None``)
         """
 
         sources = self.fromGroups.nonEmpty
         candidates = self.toGroups.nonEmpty
 
-        matches: Dict[int, VGMatch] = {}
+        matches: Dict[Tuple[str, int], VGMatch] = {}
         if (sources and candidates):
             if (self.mode == self.ModeVertices):
                 matches = self._matchVertices(sources, candidates)
@@ -403,7 +428,7 @@ class VGMatcher():
 
         result: List[VGMatch] = []
         for group in self.fromGroups:
-            match = matches.get(group.index)
+            match = matches.get(group.key)
             if (match is None):
                 match = VGMatch(group, None, float("nan"), None, float("nan"), 1.0)
             result.append(match)
@@ -411,8 +436,8 @@ class VGMatcher():
         self._markChains(result)
         return result
 
-    def _matchNearest(self, sources: List[VertexGroup], candidates: List[VertexGroup], distances: np.ndarray) -> Dict[int, VGMatch]:
-        result: Dict[int, VGMatch] = {}
+    def _matchNearest(self, sources: List[VertexGroup], candidates: List[VertexGroup], distances: np.ndarray) -> Dict[Tuple[str, int], VGMatch]:
+        result: Dict[Tuple[str, int], VGMatch] = {}
         for row, fromGroup in enumerate(sources):
             order = np.argsort(distances[row], kind = "stable")
             best = candidates[order[0]]
@@ -425,8 +450,8 @@ class VGMatcher():
                 runnerUpDistance = float(distances[row, order[1]])
 
             uncertainty = self.ratioUncertainty(bestDistance, runnerUpDistance)
-            result[fromGroup.index] = VGMatch(fromGroup, best, bestDistance, runnerUp,
-                                              float("nan") if (runnerUpDistance is None) else runnerUpDistance, uncertainty)
+            result[fromGroup.key] = VGMatch(fromGroup, best, bestDistance, runnerUp,
+                                            float("nan") if (runnerUpDistance is None) else runnerUpDistance, uncertainty)
         return result
 
     @classmethod
@@ -467,88 +492,111 @@ class VGMatcher():
             distances[start:start + chunk] = block[np.arange(block.shape[0]), indices[start:start + chunk]]
         return distances, indices
 
-    def _matchVertices(self, sources: List[VertexGroup], candidates: List[VertexGroup]) -> Dict[int, VGMatch]:
-        fromMod = self.fromGroups.mod
-        toMod = self.toGroups.mod
-        targetCount = len(self.toGroups)
+    def _matchVertices(self, sources: List[VertexGroup], candidates: List[VertexGroup]) -> Dict[Tuple[str, int], VGMatch]:
+        # the target's components stacked into one skin, every vertex's bones renumbered into the
+        #   "global" index of self.toGroups.groups (component by component, then by index)
+        offsets: Dict[str, int] = {}
+        running = 0
+        for componentName, groups in self.toGroups.byComponent.items():
+            offsets[componentName] = running
+            running += len(groups)
 
-        fromUsed = fromMod.blendWeights > 0
-        toUsed = toMod.blendWeights > 0
-        toIndices = np.where(toUsed, toMod.blendIndices, -1)
-        toWeights = np.where(toUsed, toMod.blendWeights, 0.0)
+        toPositions = []
+        toIndices = []
+        toWeights = []
+        for componentName, mod in self.toGroups.character.components.items():
+            used = mod.blendWeights > 0
+            toPositions.append(mod.positions)
+            toIndices.append(np.where(used, mod.blendIndices + offsets[componentName], -1))
+            toWeights.append(np.where(used, mod.blendWeights, 0.0))
+        toPositions = np.concatenate(toPositions, axis = 0)
+        toIndices = np.concatenate(toIndices, axis = 0)
+        toWeights = np.concatenate(toWeights, axis = 0)
+        targetCount = len(self.toGroups.groups)
+        byGlobal = self.toGroups.groups
 
-        # one nearest-neighbour query for every source vertex that any group drives, over the
-        #   whole target skin. (Restricting the search to the same drawn object -- Body against
-        #   Body -- was tried and scored far worse: the Head/Body/Dress split is arbitrary and does
-        #   not correspond between two skins of one character.)
-        driven = np.nonzero(fromUsed.any(axis = 1))[0]
-        nearestDistance = np.full(fromMod.vertexCount, np.nan)
-        nearestIndex = np.full(fromMod.vertexCount, -1, dtype = np.int64)
-        if (len(driven)):
-            nearestDistance[driven], nearestIndex[driven] = self.nearestVertices(fromMod.positions[driven], toMod.positions)
+        result: Dict[Tuple[str, int], VGMatch] = {}
+        for componentName, fromMod in self.fromGroups.character.components.items():
+            fromUsed = fromMod.blendWeights > 0
 
-        byIndex = {group.index: group for group in candidates}
-        result: Dict[int, VGMatch] = {}
-        for fromGroup in sources:
-            membership = (fromMod.blendIndices == fromGroup.index) & fromUsed
-            rows = np.nonzero(membership.any(axis = 1))[0]
-            if (not len(rows)):
-                continue
+            # one nearest-neighbour query for every source vertex that any group drives, over the
+            #   whole target skin. (Restricting the search to the same drawn object -- Body against
+            #   Body -- was tried and scored far worse: the Head/Body/Dress split is arbitrary and does
+            #   not correspond between two skins of one character.)
+            driven = np.nonzero(fromUsed.any(axis = 1))[0]
+            nearestDistance = np.full(fromMod.vertexCount, np.nan)
+            nearestIndex = np.full(fromMod.vertexCount, -1, dtype = np.int64)
+            if (len(driven)):
+                nearestDistance[driven], nearestIndex[driven] = self.nearestVertices(fromMod.positions[driven], toPositions)
 
-            sourceWeights = (fromMod.blendWeights[rows] * membership[rows]).sum(axis = 1)
-            nearest = nearestIndex[rows]
-            tallyIndices = toIndices[nearest]                                # (rows, 4)
-            tallyWeights = toWeights[nearest] * sourceWeights[:, None]
-            valid = tallyIndices >= 0
-            shares = np.bincount(tallyIndices[valid], weights = tallyWeights[valid], minlength = targetCount)
-            total = shares.sum()
-            if (total <= 0):
-                continue
-            shares = shares / total
+            for fromGroup in sources:
+                if (fromGroup.component != componentName):
+                    continue
 
-            order = np.argsort(-shares, kind = "stable")
-            best = byIndex.get(int(order[0]))
-            if (best is None):
-                continue
+                membership = (fromMod.blendIndices == fromGroup.index) & fromUsed
+                rows = np.nonzero(membership.any(axis = 1))[0]
+                if (not len(rows)):
+                    continue
 
-            runnerUp: Optional[VertexGroup] = None
-            runnerUpShare: Optional[float] = None
-            if (len(order) > 1 and shares[order[1]] > 0):
-                runnerUp = byIndex.get(int(order[1]))
-                runnerUpShare = float(shares[order[1]])
+                sourceWeights = (fromMod.blendWeights[rows] * membership[rows]).sum(axis = 1)
+                nearest = nearestIndex[rows]
+                tallyIndices = toIndices[nearest]                                # (rows, 4)
+                tallyWeights = toWeights[nearest] * sourceWeights[:, None]
+                valid = tallyIndices >= 0
+                shares = np.bincount(tallyIndices[valid], weights = tallyWeights[valid], minlength = targetCount)
+                total = shares.sum()
+                if (total <= 0):
+                    continue
+                shares = shares / total
 
-            bestShare = float(shares[order[0]])
-            uncertainty = 0.0 if (runnerUpShare is None) else float(min(1.0, runnerUpShare / bestShare))
-            match = VGMatch(fromGroup, best, float(np.nanmean(nearestDistance[rows])), runnerUp, float("nan"), uncertainty)
-            match.share = bestShare
-            match.runnerUpShare = runnerUpShare
-            result[fromGroup.index] = match
+                order = np.argsort(-shares, kind = "stable")
+                best = byGlobal[int(order[0])]
+                if (best.isEmpty):
+                    continue
+
+                runnerUp: Optional[VertexGroup] = None
+                runnerUpShare: Optional[float] = None
+                if (len(order) > 1 and shares[order[1]] > 0):
+                    runnerUp = byGlobal[int(order[1])]
+                    runnerUpShare = float(shares[order[1]])
+
+                bestShare = float(shares[order[0]])
+                uncertainty = 0.0 if (runnerUpShare is None) else float(min(1.0, runnerUpShare / bestShare))
+                match = VGMatch(fromGroup, best, float(np.nanmean(nearestDistance[rows])), runnerUp, float("nan"), uncertainty)
+                match.share = bestShare
+                match.runnerUpShare = runnerUpShare
+                result[fromGroup.key] = match
 
         return result
 
     def _transitionCosts(self, candidates: List[VertexGroup], spacing: float) -> np.ndarray:
         """
         ``T[k, l]``: the cost of the next source group mapping onto ``candidates[l]`` when the
-        previous one mapped onto ``candidates[k]``
+        previous one mapped onto ``candidates[k]``. Only a step within one target component can be
+        "the next index"; a step into another component is a jump
         """
 
+        componentOrder = {name: order for order, name in enumerate(self.toGroups.componentNames)}
         indices = np.array([group.index for group in candidates])
+        components = np.array([componentOrder[group.component] for group in candidates])
+
         delta = indices[None, :] - indices[:, None]
+        sameComponent = components[None, :] == components[:, None]
 
         result = np.full((len(candidates), len(candidates)), self.jumpCost * spacing)
-        result[delta == 1] = 0.0
-        result[delta == 2] = self.skipCost * spacing
-        result[delta == 0] = self.stayCost * spacing
+        result[sameComponent & (delta == 1)] = 0.0
+        result[sameComponent & (delta == 2)] = self.skipCost * spacing
+        result[sameComponent & (delta == 0)] = self.stayCost * spacing
         return result
 
-    def _matchChains(self, sources: List[VertexGroup], candidates: List[VertexGroup], distances: np.ndarray) -> Dict[int, VGMatch]:
+    def _matchChains(self, sources: List[VertexGroup], candidates: List[VertexGroup], distances: np.ndarray) -> Dict[Tuple[str, int], VGMatch]:
         spacing = self.toGroups.spacing
         transitions = self._transitionCosts(candidates, spacing)
-        rowOf = {group.index: row for row, group in enumerate(sources)}
+        rowOf = {group.key: row for row, group in enumerate(sources)}
 
-        result: Dict[int, VGMatch] = {}
+        result: Dict[Tuple[str, int], VGMatch] = {}
         for chain in self.fromGroups.chains():
-            rows = [rowOf[index] for index in chain]
+            rows = [rowOf[group.key] for group in chain]
             unary = distances[rows]                                     # (chainLen, candidates)
             length = len(rows)
 
@@ -565,7 +613,7 @@ class VGMatcher():
 
             marginals = forward + backward
 
-            for step, index in enumerate(chain):
+            for step, fromGroup in enumerate(chain):
                 order = np.argsort(marginals[step], kind = "stable")
                 best = candidates[order[0]]
                 bestCost = float(marginals[step, order[0]])
@@ -580,30 +628,31 @@ class VGMatcher():
                     runnerUpDistance = float(unary[step, order[1]])
 
                 uncertainty = self.marginUncertainty(bestCost, runnerUpCost, spacing)
-                result[index] = VGMatch(sources[rows[step]], best, bestDistance, runnerUp, runnerUpDistance, uncertainty)
+                result[fromGroup.key] = VGMatch(fromGroup, best, bestDistance, runnerUp, runnerUpDistance, uncertainty)
 
         return result
 
     @classmethod
     def _markChains(cls, matches: List[VGMatch]):
         """
-        Records, on every match that is part of one, the run of consecutive source indices that
-        landed on consecutive target indices
+        Records, on every match that is part of one, the run of consecutive source indices (of one
+        component) that landed on consecutive target indices (of one component)
         """
 
         run: List[VGMatch] = []
 
         def flush():
             if (len(run) > 1):
-                chain = (run[0].fromIndex, run[-1].fromIndex, run[0].toIndex, run[-1].toIndex)
+                chain = (run[0].fromGroup, run[-1].fromGroup, run[0].toGroup, run[-1].toGroup)
                 for match in run:
                     match.chain = chain
             run.clear()
 
         previous: Optional[VGMatch] = None
         for match in matches:
-            continues = (previous is not None and match.toIndex is not None and previous.toIndex is not None
-                         and match.fromIndex == previous.fromIndex + 1 and match.toIndex == previous.toIndex + 1)
+            continues = (previous is not None and match.toGroup is not None and previous.toGroup is not None
+                         and match.fromComponent == previous.fromComponent and match.fromIndex == previous.fromIndex + 1
+                         and match.toComponent == previous.toComponent and match.toIndex == previous.toIndex + 1)
             if (not continues):
                 flush()
             run.append(match)

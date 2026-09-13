@@ -2858,6 +2858,60 @@ class CppBufFile(BinaryFile):
         :class:`BadBufData`
             If 'src' holds raw bytes that are not valid for this format
         """
+    def append(self, bufFiles: collections.abc.Sequence[CppBufFile]) -> None:
+        """
+        Appends every line of several other ``.buf`` files onto the end of this one
+        
+        The **vertical** counterpart to :meth:`merge`: where that one widens a line by concatenating a
+        matching line out of each source, this one *lengthens* the file, so the result holds this file's
+        lines followed by each source's lines in the order given
+        
+        Each source's elements must be a **superset** of this file's -- for every one of this file's
+        elements, the source must carry an element with the same key (see :attr:`elements`) and the same
+        :class:`BufDataType`\\s. The source may carry as many further elements as it likes, and in any
+        order; those are simply dropped, and each appended line is rebuilt in **this** file's element
+        order:
+        
+        .. code-block:: python
+        
+            # a Position.buf takes only the positions out of each full .vb
+            positionFile.append([someVbFile, anotherVbFile])
+        
+        .. note::
+            Only the data types have to match, not :attr:`BufElementType.formatName` -- the format name is
+            3dmigoto's label for a layout rather than the layout itself, and two elements spelling it
+            differently still occupy the same bytes
+        
+        .. note::
+            A matched element's bytes are copied straight across rather than decoded and re-encoded, so
+            nothing an appended value goes through can perturb it
+        
+        .. note::
+            Every source is checked against this file **before** any byte is copied, so a source that
+            breaks the superset rule leaves this file exactly as it was rather than partly appended to
+        
+        .. note::
+            A source is allowed to be this file itself, which doubles it
+        
+        .. note::
+            :attr:`data` cannot be assigned directly, so this sets :attr:`src` to the appended bytes and
+            re-reads from it -- a ``.buf`` file originally constructed from a file path therefore ends up
+            with raw bytes as its :attr:`src`, and the file on disk is untouched
+        
+        Parameters
+        ----------
+        bufFiles: List[:class:`CppBufFile`]
+            The ``.buf`` files whose lines to append, in the order they should appear after this file's own
+            lines
+        
+        Raises
+        ------
+        :class:`ValueError`
+            If a source is missing one of this file's elements, or carries it with different data types
+        
+        :class:`BadBufData`
+            If the appended bytes do not divide evenly into lines
+        """
     def decodeAll(self) -> dict:
         """
         Decodes the whole ``.buf`` file at once, column by column -- the bulk counterpart to

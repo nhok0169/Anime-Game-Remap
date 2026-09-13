@@ -101,6 +101,19 @@ you've verified locally.
 > lookup for a key. This is habit 1's family again: a wrong label, like a no-op, reads
 > exactly like a right one.
 >
+> **A COUNTER THAT DISTINGUISHES THINGS THAT CANNOT DIFFER (2026-09-12).**
+> `TexCreate::getFixResourceName` was deliberately impure --- every call advanced a counter so
+> that successive textures got distinct names, documented as "the pure-Python original's own
+> behaviour". Correct for a texture EDIT, where each source texture makes a different output.
+> But edits are `TexReplace`; `TexCreate` has exactly one subclass, it holds ONE `TexCreator`,
+> and a `TexCreator` takes a width, a height and a colour and reads no source file at all.
+> Everything it made was identical by construction, so a mod binding the register in four
+> `$swapvar` branches got four byte-identical 4MB `.dds` files. **When something is impure or
+> stateful "to tell instances apart", check that the instances CAN differ** --- and check it
+> against the class that actually owns the state, not the family it is filed under. This is the
+> empty-input habit's mirror: there, a mechanism with no data; here, a mechanism whose data
+> cannot vary.
+>
 > **A LIVE FEATURE WITH AN EMPTY INPUT (2026-09-12).** Habit 1 is code that runs and does
 > nothing. This is its quieter cousin: code that is *correct*, *reachable*, *tested*, and never
 > handed any data. `IniClassifier::addGIModType(modType, hashes, sectionKeywords)` weighs a hash

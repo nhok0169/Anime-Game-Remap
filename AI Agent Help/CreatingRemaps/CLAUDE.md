@@ -171,7 +171,7 @@ rather than reasoning from the picture.
 
 ## Most characters are two short files, not two long ones
 
-Thirty-six characters are done, and THIRTY-FIVE of them go through the same template rather than
+Forty-two characters are done, and FORTY-ONE of them go through the same template rather than
 being copied -- everything from the plainest CN skin (Amber, Mona, Rosaria) through the three-way
 merge (ShenheFrostFlower) to the ones that edit textures conditionally and shift a `Position.buf`
 (AyakaSpringbloom, CherryHuTao, XianglingCheer). Only Raiden, whose remap keeps the source
@@ -776,12 +776,12 @@ would land on the wrong register.
 
 ### Editing a texture
 
-**FOURTEEN of the thirty-six fixers carry a `texEdits` now** -- Ayaka, AyakaSpringbloom, CherryHuTao,
-Ganyu, HuTao, Jean, JeanCN, Keqing, KeqingOpulent, Kirara, Klee, KleeBlossomingStarlight, Ningguang,
-Xiangling -- so the config route below is the one to reach for; the hand-built collector after it is
-for a fix the config cannot express. SIX of them also `texAdds` a texture the mod does not have at
-all (Ayaka, Ganyu, HuTao, KiraraBoots, Lisa, Xiangling), and two carry a `positionEdit` (Xiangling,
-XianglingCheer).
+**FIFTEEN of the forty-two fixers carry a `texEdits` now** -- Ayaka, AyakaSpringbloom, CherryHuTao,
+DilucFlamme, Ganyu, HuTao, Jean, JeanCN, Keqing, KeqingOpulent, Kirara, Klee,
+KleeBlossomingStarlight, Ningguang, Xiangling -- so the config route below is the one to reach for;
+the hand-built collector after it is for a fix the config cannot express. SEVEN of them also
+`texAdds` a texture the mod does not have at all (Ayaka, Ganyu, HuTao, Kaeya, KiraraBoots, Lisa,
+Xiangling), and two carry a `positionEdit` (Xiangling, XianglingCheer).
 
 *(Those three lists are worth re-deriving rather than trusting: this paragraph previously said
 thirteen and named JeanSea and NingguangOrchid, neither of which has ever carried a `texEdits`.
@@ -1291,7 +1291,7 @@ bone index `-index-1` and keeps its weight, so the game reads a garbage bone mat
 share of the vertex. Up to a third of an elbow vertex's weight pointing at bone `-76` is exactly
 a kink, and nothing in the fix logs it. So when a remap looks wrong in game:
 
-1. **Read the "unmapped source groups" line first.** `Importer/GIMI/Mods/overrideVgRemap.py
+1. **Read the "unmapped source groups" line first.** `Tools/Misc/Prototypes/overrideVgRemap.py
    --dump` prints it for the pair it is set to (the compiled remap has 1 row per source group
    it maps, and a source has one past its largest `BLENDINDICES` value). A gap there is the whole
    diagnosis; a run over the mod's own `Blend.buf` shows how many vertices use the gap.
@@ -1588,6 +1588,37 @@ each map to; shift on that, unconditionally, the way the pure-Python rows always
 a `RegValChecks` guard only where the *value* genuinely decides something the position cannot ---
 a texture edit that should only run on one of two things a slot may hold --- and never to infer
 what a texture IS.
+
+<br>
+
+### Three things the merge and the split can do that most characters never need (2026-09-12)
+
+**1. A merge can put one source object in BOTH generated `.ini` files.** The pure-Python rows
+spell it by listing the source twice --- `{"head": ["head", "head"]}` --- and here it is
+`{"head", {"head", "head"}}`: the first target claims the main group, the second collides into
+the next, which is exactly `objSplits`' documented first-claim rule doing the work. Diluc and
+Fischl both need it; Lisa and Keqing do not, and their head appears only in the first file. The
+symptom of getting it wrong is the second overlapping `.ini` drawing a body with no head --- and
+**no section-name diff can see it**, because the head section exists either way, just in one
+file instead of two. Count the sections PER FILE.
+
+**2. A split can name a target object that neither character's parser lists.** Kaeya draws
+three objects and has FOUR indices: `IndexData` gives him an `extra` at 47727 that no Kaeya
+`.ini` file declares. It exists only as the far half of KaeyaSailwind's dress split
+(`{"dress", {"dress", "extra"}}`). So when a split's target list looks longer than the target's
+`drawnObjs`, check `IndexData` before assuming it is a typo --- the index table is the authority
+on what a model draws, not the parser config.
+
+**3. `objRegRemovals` takes keys that are not registers.** KaeyaSailwind -> Kaeya strips
+`ResourceRefHeadDiffuse`, `ResourceRefHeadLightMap` and `$CharacterIB` --- 3dmigoto's
+reflection-support keys, which a mod writes beside its bindings and which name the SOURCE's
+slots. Carried across unchanged they point the reflection pass at the wrong textures. They go
+through the same `objRegRemovals` as a `ps-t0`; the field removes by KEY and does not care that
+the key looks like a register.
+
+One asymmetry worth knowing because it looks like a bug and is not: that row strips those keys
+from head, body and dress but **not** from `extra`, and the pure-Python table defines a
+`ReflectionExtraRemove` it then never uses. Transcribed as-is rather than corrected.
 
 <br>
 

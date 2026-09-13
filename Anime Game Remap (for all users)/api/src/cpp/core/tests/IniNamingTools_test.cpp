@@ -101,6 +101,14 @@ std::string join(const char* folder, const std::string& name) {
     return (std::filesystem::path(folder) / name).string();
 }
 
+
+// ...and the one for a path that ends up INSIDE a .ini file, which is a Windows path on every
+// OS -- FileService::pathToIniStr normalises every separator to a backslash, so the platform
+// separator is exactly what this must NOT use. See IniNamingTools::getFixedFile.
+std::string iniJoin(const std::string& name) {
+    return "a\\b\\" + name;
+}
+
 void testResourceName() {
     check(IniNamingTools::getResourceName("CuteLittleEi"), "ResourceCuteLittleEi", "getResourceName adds prefix");
     check(IniNamingTools::getResourceName("ResourceCuteLittleEi"), "ResourceCuteLittleEi", "getResourceName is idempotent");
@@ -189,7 +197,12 @@ void testFixedFilePaths() {
     // getFixedFile: bare filename -> "./"-prefixed (pathlib parent == ".", always joined).
     check(IniNamingTools::getFixedFile("foo.ini", "Raiden"), join(".", "fooRaidenRemapFix.ini"),
           "getFixedFile: bare filename gets a \"./\" folder prefix, base name kept + suffixed");
-    check(IniNamingTools::getFixedFile("a/b/foo.ini", "Raiden"), join("a/b", "fooRaidenRemapFix.ini"),
+    // NOT join(): these four run their result through FileService::pathToIniStr, which turns
+    // the whole path into a Windows one -- 'a\\b\\foo...', not the mixed 'a/b\\foo...' that
+    // joining a forward-slash folder with the platform separator produces. These expectations
+    // predate that change (2026-09-12) and were not caught for a day because nothing compiled
+    // this file -- see Testing's note on the runner.
+    check(IniNamingTools::getFixedFile("a/b/foo.ini", "Raiden"), iniJoin("fooRaidenRemapFix.ini"),
           "getFixedFile: nested path keeps its folder");
     check(IniNamingTools::getFixedFile("foo.tar.gz", "Raiden"), join(".", "foo.tarRaidenRemapFix.gz"),
           "getFixedFile: only the LAST extension is treated as the extension (stem keeps \".tar\")");
@@ -199,12 +212,12 @@ void testFixedFilePaths() {
     // getFixedElementFile: bare filename -> NO folder prefix (deliberately different from getFixedFile).
     check(IniNamingTools::getFixedElementFile("foo.buf", "Blend", "Raiden"), "fooRaidenRemapBlend.buf",
           "getFixedElementFile: bare filename gets NO folder prefix");
-    check(IniNamingTools::getFixedElementFile("a/b/foo.buf", "Blend", "Raiden"), join("a/b", "fooRaidenRemapBlend.buf"),
+    check(IniNamingTools::getFixedElementFile("a/b/foo.buf", "Blend", "Raiden"), iniJoin("fooRaidenRemapBlend.buf"),
           "getFixedElementFile: nested path keeps its folder");
 
-    check(IniNamingTools::getFixedBlendFile("a/b/EiBlend.buf", "Raiden"), join("a/b", "EiRaidenRemapBlend.buf"),
+    check(IniNamingTools::getFixedBlendFile("a/b/EiBlend.buf", "Raiden"), iniJoin("EiRaidenRemapBlend.buf"),
           "getFixedBlendFile: forces .buf extension via getFixedElementFile");
-    check(IniNamingTools::getFixedPositionFile("a/b/EiPosition.buf", "Raiden"), join("a/b", "EiRaidenRemapPosition.buf"),
+    check(IniNamingTools::getFixedPositionFile("a/b/EiPosition.buf", "Raiden"), iniJoin("EiRaidenRemapPosition.buf"),
           "getFixedPositionFile: forces .buf extension via getFixedElementFile");
 
     // getFixedTexFile: os.path.dirname/basename-based -- bare filename also gets no folder prefix,

@@ -113,7 +113,7 @@ out are grapheme indices, and a byte cursor and a grapheme cursor must be separa
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
 
-**THIRTY-SIX characters are real now, in five DIFFERENT shapes, and which one you have decides
+**FORTY-TWO characters are real now, in five DIFFERENT shapes, and which one you have decides
 almost everything else.** `raiden6_1` remaps onto a boss that **shares the source's geometry**
 (hashes kept, originals hidden). Amber/AmberCN, Mona/MonaCN, Rosaria/RosariaCN and
 Ningguang/NingguangOrchid remap onto a **different model** -- a CN skin or another outfit (hashes
@@ -138,9 +138,10 @@ source-keyed fields for it -- `srcObjRegRemovals`, `srcObjRegRemaps`, and `TexEd
 because everything else in that config is keyed by the TARGET, which is right for a split (one
 source per target) and wrong for a merge (several). It also brought the first `positionEdit`:
 XianglingCheer's model sits at a different height, so her `Position.buf` is shifted as it is
-copied. All thirty-six are verified against the old pure-Python script, and every pair through
+copied. All forty-two are verified against the old pure-Python script, and every pair through
 Lisa/LisaStudent is **confirmed in game** -- the lantern-rite batch on 2026-09-10, Ayaka/Nilou
-on 2026-09-11, and Klee, Barbara and both Lisa directions on 2026-09-12.
+on 2026-09-11, and Klee, Barbara and both Lisa directions on 2026-09-12. Diluc, Fischl and
+Kaeya landed the same day and are A/B-verified but not yet in game.
 
 **Ayaka/AyakaSpringbloom, Nilou/NilouBreeze and Kirara/KiraraBoots (2026-09-11) added no new
 shape either, and every one of them needed the TEMPLATE extended rather than a row transcribed.**
@@ -198,6 +199,19 @@ classify identically, 9 change, and all 9 are corrections (4 of them files that 
 **Creating Remaps**' "Widening what CLASSIFIES runs fixer rows that have never run" --- which is
 what this immediately did.
 
+**Diluc/DilucFlamme, Fischl/FischlHighness and Kaeya/KaeyaSailwind (2026-09-12) brought three
+things no earlier character has, all of them in the MERGE and SPLIT machinery.** A merge whose
+**head is listed twice** -- ``{"head", {"head", "head"}}`` -- so it appears in BOTH generated
+``.ini`` files rather than only the first; Lisa's and Keqing's merges do not, and without it the
+second file draws a body with no head. A split into **four** targets, where KaeyaSailwind's
+dress becomes Kaeya's ``dress`` AND his ``extra`` -- an index no Kaeya ``.ini`` declares and
+that his own parser does not list, because it exists only as the far half of that split. And
+**register removals that are not registers**: ``ResourceRef<Obj>Diffuse``,
+``ResourceRef<Obj>LightMap`` and ``$CharacterIB``, the 3dmigoto reflection-support keys, which
+name the SOURCE's slots and so aim the reflection pass at the wrong textures if carried across.
+See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Three things the merge and
+the split can do".
+
 **Placement of the re-issued draw call and of the three external libraries was substantially
 reworked on 2026-09-08, and the old script is NOT the reference for it** -- matching its topology
 reproduced a real bug that silently disabled a mod's transparency. Read
@@ -209,9 +223,10 @@ a parser or fixer at runtime, ahead of the compiled-in row, so a remap is now **
 Python until it works, then transcribed into the C++ tables and rebuilt once**. For a character
 of the standard GIMI shape the prototype is a `GIMICharFixerConfig` handed to
 `makeGIMICharFixer` --- the same factory the compiled characters use, so the transcription is
-nearly mechanical. Two worked examples sit next to the mods they fix in `Importer/GIMI/Mods/`:
-`overrideScript.py` (the config route, `--ab` proves it byte-identical to the compiled fix) and
-`overrideScript2.py` (hand-built from the individual edits, for a fix the config cannot express).
+nearly mechanical. Two worked examples live in `Tools/Misc/Prototypes/` (copies of the maintainer's
+`Importer/GIMI/Mods/` scripts): `overrideScript.py` (the config route, `--ab` proves it
+byte-identical to the compiled fix) and `overrideScript2.py` (hand-built from the individual
+edits, for a fix the config cannot express).
 See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s opening section, and
 **attach a logger or read `RemapService.stats` before believing a prototype did nothing** --- a
 fix that raises is recorded in `stats.ini.skipped` and printed nowhere else.
@@ -224,7 +239,7 @@ specification for the character (several have full Integration Tester goldens), 
 silent ways a remap can be wrong while every log line still says it worked.
 **Everything below about the fix being stubbed still holds for every OTHER character.**
 
-All thirty-six characters also carry the **face diffuse register swap** (white shiny cheek spots), which
+All forty-two characters also carry the **face diffuse register swap** (white shiny cheek spots), which
 has no pure-Python equivalent. **The obvious diagnosis is the wrong one and was built and thrown
 away once already:** the spots are not an opaque blush mask needing a transparent alpha, they are GI
 6.x having swapped which register the shader reads the face diffuse and the face lightmap out of, so
@@ -232,14 +247,14 @@ a section still binding its diffuse to `ps-t0` hands it to the lightmap slot. Th
 `RegRemap` (`ps-t0` <-> `ps-t1`) over the face graph --- one of the things NNFix does under the
 hood. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The face diffuse".
 
-**THE FIX IS LIVE FOR THIRTY-SIX CHARACTERS (verified end-to-end, and in game, 2026-09-12).
-Earlier revisions of this
+**THE FIX IS LIVE FOR FORTY-TWO CHARACTERS (verified end-to-end 2026-09-12; thirty-six of them
+in game). Earlier revisions of this
 file said every `IniFixer`/`IniParser` was stubbed and that `IniFile::getResources()` comes back
 empty --- that is NO LONGER TRUE, and believing it will cost you the best verification tool the repo
 has.** Real fixers and parsers exist for **Amber, AmberCN, Ayaka, AyakaSpringbloom, Barbara,
-BarbaraSummertime, CherryHuTao,
-Ganyu, GanyuTwilight, HuTao, Jean, JeanCN, JeanSea, Keqing, KeqingOpulent, Kirara, KiraraBoots,
-Klee, KleeBlossomingStarlight, Lisa, LisaStudent,
+BarbaraSummertime, CherryHuTao, Diluc, DilucFlamme, Fischl, FischlHighness,
+Ganyu, GanyuTwilight, HuTao, Jean, JeanCN, JeanSea, Kaeya, KaeyaSailwind, Keqing, KeqingOpulent,
+Kirara, KiraraBoots, Klee, KleeBlossomingStarlight, Lisa, LisaStudent,
 Mona, MonaCN, Nilou, NilouBreeze, Ningguang, NingguangOrchid, Raiden, Rosaria, RosariaCN, Shenhe,
 ShenheFrostFlower, Xiangling, XianglingCheer, Xingqiu, XingqiuBamboo**
 (`core/src/data/Ini{Fix,Parse}Data/`), a real run generates remapped sections,
@@ -247,7 +262,7 @@ and `fixResources` really does correct `Blend.buf` files and really does write t
 running the CLI over the in-repo Jean fixture and watching two `.dds` files appear.
 
 Two consequences, both the opposite of what this file used to say:
-- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these thirty-six.
+- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these forty-two.
   Prefer it over any unit test when the change could possibly affect a fix.
 - **Characters outside that list still have no fixer**, so a run over one of *those* still writes
   only the credit header. That is the stub, not a bug. Check
@@ -412,6 +427,15 @@ suite proves *no regression*, not *new code covered*. **Testing**'s "C++-only wo
 the Python suite" section covers what to write instead, and **Building**'s standalone-test sections
 cover how to compile it — including the static-lib link line you'll need the moment a test touches
 `IniFile::parse`/`fix`.
+
+**AND IF YOU BUILD THEM FROM A LIST YOU TYPED, THE LIST IS THE COVERAGE (2026-09-12).** A
+hand-maintained runner covering the suites a session happened to care about ran **24 of 46**
+test files for a whole day. In the gap: four assertions in `IniNamingTools_test`, broken that
+morning by this session's own `.ini`-paths-are-Windows-paths commit, and three Z3 suites that
+had never compiled under it at all because they include a private header from `core/src` that
+the compile line did not have on its include path. **Glob `core/tests/*_test.cpp` instead of
+listing them**, and put `/I <core>/src` on the line -- with both, 45 of 46 build and pass. See
+[Testing](AI%20Agent%20Help/Testing/CLAUDE.md).
 
 **The flip side of that, and the single easiest way to leave a mess behind: `core/tests/*.cpp` are
 built by nothing.** Change a core class's shape — make it a template, add a parameter to a `virtual`,

@@ -1,5 +1,28 @@
 # Testing
 
+> **BUILD THE STANDALONE TESTS BY GLOB, NEVER BY A LIST YOU TYPED (2026-09-12).** `core/tests/
+> *.cpp` are built by no target, so whatever script you use to compile them *is* the coverage --
+> and a list grown by hand, one suite at a time, as each session needed one, silently stops at
+> whatever that session cared about. Measured: such a list ran **24 of 46** files. What was
+> hiding in the other 22:
+>
+> * `IniNamingTools_test` -- four assertions broken that same morning by a deliberate behaviour
+>   change (`getFixedFile` now runs its result through `FileService::pathToIniStr`, so a path
+>   inside a `.ini` comes out `a\b\foo` rather than the mixed `a/b\foo` the test still
+>   expected). A real break, in the session's own commit, invisible for a day.
+> * `IfPredPart_test`, `Z3Predicate_test`, `Z3IfPredGenerator_test` -- never compiled by that
+>   runner at all. They include `tools/z3/Z3Internal.h`, a **private** header that lives under
+>   `core/src` rather than `core/include`, so the compile line needs `/I <core>/src` alongside
+>   `/I <core>/include`. Without it they fail with `C1083: Cannot open include file`.
+>
+> So: iterate `core/tests/*_test.cpp`, add `core/src` to the include path, and expect **45 of
+> 46** to build and pass on a clean tree. If more than that fails, check whether another agent
+> is mid-edit before assuming it is yours -- a header changed in the working tree against a
+> `.lib` built before it gives `LNK2019 unresolved external` on a signature that plainly exists,
+> which reads like a broken test and is really two people in one checkout.
+
+<br>
+
 How to run this repo's two test suites, and what to expect from them. See
 [Building](../Building/CLAUDE.md) first if you've changed C++/Cython code — these suites test
 the *installed* package, so a stale build silently tests old code.

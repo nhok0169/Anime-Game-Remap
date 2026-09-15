@@ -115,7 +115,7 @@ import os
 import re
 import shutil
 import sys
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Set
 
 import numpy as np
 
@@ -189,6 +189,15 @@ Adventure = {"Body": {"draw_vb": "bc87167b", "position_vb": "14efbc45", "blend_v
 # UV set (TEXCOORD1 at offset 12) and her Bang and Eye do not. Bennett's is 12 throughout, so his
 # lines are padded for the Body and pass through for the others.
 TexcoordStride = {"Body": 20, "Bang": 12, "Eye": 12}
+
+# Every ps-t register the TARGET's own slot binds, read off BennettAdventureIdentity -- her model as
+# a mod, and the one arrangement of hers confirmed correct in game. A register BEYOND this list is
+# not a harmless extra: the slot means something different to her shader than it does to Bennett's,
+# and her own mod deliberately leaves it to the GAME (see CreatingRemaps, "A TextureOverride binds
+# registers only for the draw its hash matches").
+SlotRegisters = {"Body": ("ps-t0", "ps-t1", "ps-t2"),
+                 "Bang": ("ps-t0", "ps-t1", "ps-t2"),
+                 "Eye": ("ps-t0", "ps-t1")}
 
 # Diagnostic switches, set from main(). Both make the output deliberately incomplete -- they
 # exist to bisect a symptom, not to ship.
@@ -510,12 +519,16 @@ class ModFiles():
         """
         The per-vertex data the TARGET component's shader reads and the source's does not.
 
-        THE STRIDE IS THE IMPORTANT PART. Bennett's Texcoord is 12 bytes a vertex (COLOR 4 +
-        TEXCOORD 8); BennettAdventure's Body is 20, because she carries a second UV set at offset 12
-        and he does not. Handing her Body a 12-byte buffer makes every read at offset 12 fall into
-        the NEXT vertex's COLOR -- shading that varies vertex by vertex, which in game was patches of
-        different white across his hair (2026-09-15). Short lines are zero-padded at the END, which
-        is exactly where TEXCOORD1 sits; her Bang and Eye are stride 12 like his and are untouched.
+        THE STRIDE IS THE IMPORTANT PART, AND IT IS A PROPERTY OF THE MOD RATHER THAN OF THE
+        CHARACTER. VANILLA Bennett's Texcoord is 12 bytes a vertex (COLOR 4 + TEXCOORD 8);
+        BennettAdventure's Body is 20, because she carries a second UV set at offset 12 and vanilla
+        he does not. Handing her Body a 12-byte buffer makes every read at offset 12 fall into the
+        NEXT vertex's COLOR.
+
+        But a real MOD may already be 20 -- its author carries a second UV set -- and her Bang and
+        Eye are 12, so that same mod has to be NARROWED onto them instead. Measure the source
+        stride; never infer it from the character. retargetTexcoords() does the conversion, in
+        whichever direction the pair needs.
 
         The vertex colour normalisation is kept from the Yelan pair, where that mod carried 188.
         Measured on Bennett: he already has G = 128 in 98% of vertices and B = 128 in 99%, so it is
@@ -528,7 +541,7 @@ class ModFiles():
             # NOT widened here. A longer returned line is not honoured by the buffer writer -- it
             # sizes its output from the SOURCE stride -- and returning one made it write nothing at
             # all, silently: the identity mod went from three texcoord buffers to one. Widening is
-            # done by widenTexcoords() after the service run instead.
+            # done by retargetTexcoords() after the service run instead.
             if (targetStride == 20 and len(out) >= 20):
                 out[12:20] = bytes(8)
             return bytes(out)
@@ -789,18 +802,46 @@ def makeFixer(component: str, components: List[str]):
 
 # ============================================================================== run
 
-def widenTexcoords(folder: str) -> None:
+def activeInis(folder: str) -> List[str]:
     """
-    Widen every written Texcoord buffer to its target component's stride, and say so in the .ini.
+    Every .ini under the folder that the game will actually load.
 
-    Runs after the service, because the buffer writer sizes its output from the source stride (see
-    this file's note on texcoordLineEdit). A buffer already at or above the target width is left
-    alone, so this is a no-op for the Bang and the Eye, whose stride matches Bennett's.
+    GIMI ignores a file whose name begins with DISABLED, so a pass that edits one is editing
+    something with no effect -- and worse, it is reading that file's claims as if they were real.
+    retargetTexcoords once walked a refused merged master this way and filled in buffers the writer
+    had never written, from siblings, which is precisely the dangling-reference state the master was
+    refused for (2026-09-15).
     """
     import glob
+
+    return [p for p in sorted(glob.glob(os.path.join(folder, "**", "*.ini"), recursive = True))
+            if (not os.path.basename(p).upper().startswith("DISABLED"))]
+
+
+def retargetTexcoords(folder: str) -> None:
+    """
+    Bring every written Texcoord buffer to its TARGET component's stride, in either direction.
+
+    Runs after the service, because the buffer writer sizes its output from the source stride (see
+    this file's note on texcoordLineEdit).
+
+    BOTH DIRECTIONS ARE REAL, AND WHICH ONE A MOD NEEDS CANNOT BE ASSUMED FROM THE CHARACTER.
+    Vanilla Bennett's Texcoord is 12 bytes a vertex and BennettAdventure's Body is 20, so a
+    vanilla-shaped mod is WIDENED onto her Body. But a mod whose author carries a second UV set is
+    already 20, and her Bang and Eye are 12 -- that mod has to be NARROWED onto them.
+
+    This guard used to be ``have >= want``, which skipped every narrowing silently. Measured on a
+    real mod (2026-09-15): its Texcoord is stride 20, her Eye slot reads 12, and the eye draw was
+    handed the 20-byte buffer -- so every vertex's UV after the first was read 8 bytes late and the
+    eyes rendered as blank white. Nothing in the run said anything; the buffer was written, named
+    and bound.
+
+    Narrowing only ever drops TEXCOORD1, the second UV set. It is REPORTED when it is not zero
+    rather than discarded quietly.
+    """
     import re
 
-    for iniPath in glob.glob(os.path.join(folder, "**", "*.ini"), recursive = True):
+    for iniPath in activeInis(folder):
         with open(iniPath, "rb") as f:
             iniRaw = f.read()
         crlf = b"\r\n" in iniRaw
@@ -821,7 +862,7 @@ def widenTexcoords(folder: str) -> None:
                 continue
             want = TexcoordStride[component]
             have = int(strideMatch.group(1))
-            if (have >= want):
+            if (have == want):
                 continue
 
             bufPath = os.path.join(os.path.dirname(iniPath), fileName)
@@ -847,21 +888,120 @@ def widenTexcoords(folder: str) -> None:
 
             data = np.fromfile(bufPath, dtype = np.uint8)
             if (len(data) % have):
-                print(f"  ! {fileName} is not a whole number of {have}-byte lines, not widened")
+                print(f"  ! {fileName} is not a whole number of {have}-byte lines, not retargeted")
                 continue
             lines = data.reshape(-1, have)
-            wide = np.zeros((len(lines), want), dtype = np.uint8)
-            wide[:, :have] = lines                      # the new bytes are TEXCOORD1, zeroed
-            wide.tofile(bufPath)
+
+            if (want > have):
+                out = np.zeros((len(lines), want), dtype = np.uint8)
+                out[:, :have] = lines                   # the new bytes are TEXCOORD1, zeroed
+            else:
+                # narrowing drops TEXCOORD1. Say so if it held anything -- a silent discard here is
+                # how the opposite mistake stayed invisible for four in-game rounds.
+                dropped = lines[:, want:]
+                if (dropped.any()):
+                    rows = int((dropped != 0).any(axis = 1).sum())
+                    print(f"  ! {fileName}: narrowing {have} -> {want} discards non-zero TEXCOORD1 "
+                          f"on {rows} of {len(lines)} vertices")
+                out = lines[:, :want].copy()
+
+            out.tofile(bufPath)
 
             iniText = iniText.replace(body, body.replace(f"stride = {have}", f"stride = {want}"), 1)
             changed = True
-            print(f"  widened {fileName}: stride {have} -> {want} over {len(lines)} vertices ({component})")
+            verb = "widened" if (want > have) else "narrowed"
+            print(f"  {verb} {fileName}: stride {have} -> {want} over {len(lines)} vertices ({component})")
 
         if (changed):
             out = iniText.replace("\n", "\r\n") if crlf else iniText
             with open(iniPath, "wb") as f:
                 f.write(out.encode("utf-8"))
+
+
+def trimSlotRegisters(folder: str) -> None:
+    """
+    Drop every ps-t binding a remapped section carries that the target's slot does not use.
+
+    The remapped sections inherit their ps-t lines from the MOD's section, and Bennett's body binds
+    four (diffuse, light map, metal map, shadow ramp). Her Eye slot binds two and her Body three, so
+    the surplus lands in registers her shaders read as something else entirely -- and which her own
+    mod leaves unbound on purpose, so the GAME's textures serve them.
+
+    A register bound TWICE in one section is dropped to its first binding for the same reason: the
+    later silently discards the earlier, and on the Body that meant Bennett's metal map overwriting
+    the remapped light map -- the band move included -- in the slot her shader reads the light map
+    from.
+
+    Registers are matched by NAME, not by position, and a scratch name (ps-tNormal) is never touched:
+    only a literal ps-t<number> is considered.
+    """
+    import re
+
+    for iniPath in activeInis(folder):
+        with open(iniPath, "rb") as f:
+            iniRaw = f.read()
+        crlf = b"\r\n" in iniRaw
+        lines = iniRaw.decode("utf-8", "replace").replace("\r\n", "\n").split("\n")
+
+        out, section, allowed, seen, dropped = [], None, None, set(), []
+        for line in lines:
+            stripped = line.strip()
+            if (stripped.startswith("[") and stripped.endswith("]")):
+                section = stripped[1:-1]
+                component = next((c for c in SlotRegisters if f"BennettAdventure{c}" in section), None)
+                allowed = SlotRegisters[component] if (component is not None and "Remap" in section) else None
+                seen = set()
+                out.append(line)
+                continue
+
+            reg = re.match(r"\s*(ps-t\d+)\s*=", line)
+            if (allowed is not None and reg):
+                name = reg.group(1)
+                if (name not in allowed):
+                    dropped.append(f"{section}: {stripped}  (her slot does not bind {name})")
+                    continue
+                if (name in seen):
+                    dropped.append(f"{section}: {stripped}  ({name} already bound above; the later one wins)")
+                    continue
+                seen.add(name)
+            out.append(line)
+
+        if (not dropped):
+            continue
+
+        fixed = "\n".join(out)
+        with open(iniPath, "wb") as f:
+            f.write((fixed.replace("\n", "\r\n") if crlf else fixed).encode("utf-8"))
+        print(f"  trimmed {len(dropped)} register binding(s) in {os.path.relpath(iniPath, folder)}:")
+        for d in dropped:
+            print(f"      {d}")
+
+
+def drawnComponents(folder: str) -> Set[str]:
+    """
+    Which target components the written .ini files actually DRAW.
+
+    Read off the output rather than inferred from the request, because those differ: a component is
+    drawn only if some `...BennettAdventure<C>...RemapFix` section carries a `drawindexed`. Collected
+    across every .ini of the mod, never per file -- GIMI merges them all, so a hide written into one
+    file would suppress a draw issued from another.
+    """
+    import re
+
+    drawn = set()
+    for iniPath in activeInis(folder):
+        with open(iniPath, "rb") as f:
+            iniText = f.read().decode("utf-8", "replace").replace("\r\n", "\n")
+
+        marks = [(m.group(1), m.start()) for m in re.finditer(r"^\[([^\]]+)\]", iniText, re.M)]
+        for i, (name, start) in enumerate(marks):
+            end = marks[i + 1][1] if (i + 1 < len(marks)) else len(iniText)
+            component = next((c for c in Adventure if f"BennettAdventure{c}" in name), None)
+            if (component is None or "RemapFix" not in name):
+                continue
+            if (re.search(r"^\s*drawindexed\s*=", iniText[start:end], re.M)):
+                drawn.add(component)
+    return drawn
 
 
 def hideUndrawnComponents(folder: str, components: List[str], keepBangs: bool) -> None:
@@ -874,17 +1014,35 @@ def hideUndrawnComponents(folder: str, components: List[str], keepBangs: bool) -
 
     `handling = skip` with no drawindexed is what suppresses a draw; it is the same shape the fix
     leaves on a component it does remap, minus the re-issued draw.
+
+    WHAT COUNTS AS "REMAPPED ONTO" IS WHAT THE OUTPUT DRAWS, NOT WHAT WAS ASKED FOR. This used to
+    read the --components list, which is a request rather than a result. The split selects by VERTEX
+    GROUP, and a mod is free not to use the bones a component's row names, so a component can be
+    requested and still come out empty. Measured on a HuoHuo-over-Bennett mod (2026-09-15): it
+    weights nothing to Bennett's groups 1 or 2, so the Eye row selected no vertices, the Eye cut was
+    empty, and her own eyes drew on top of HuoHuo's -- a second pair inside the first. Her Bang was
+    hidden correctly in the same run, purely because the Bang is excluded by the CLI, which is what
+    made the omission look like a working feature.
     """
-    import glob
     import re
 
-    missing = [c for c in Adventure if c not in components]
+    drawn = drawnComponents(folder)
+    if (not drawn):
+        print("  ! nothing was drawn for ANY component -- not hiding anything, the fix did not land")
+        return
+
+    missing = [c for c in Adventure if c not in drawn]
     if (keepBangs):
         missing = [c for c in missing if c != "Bang"]
+
+    for component in components:
+        if (component not in drawn):
+            print(f"  ! {component} was asked for but nothing landed on it -- this mod uses none of "
+                  f"the vertex groups its row names, so the skin's own {component} is hidden instead")
     if (not missing):
         return
 
-    for iniPath in sorted(glob.glob(os.path.join(folder, "**", "*.ini"), recursive = True)):
+    for iniPath in activeInis(folder):
         with open(iniPath, "rb") as f:
             iniRaw = f.read()
         iniText = iniRaw.decode("utf-8", "replace").replace("\r\n", "\n")
@@ -928,7 +1086,7 @@ def normaliseIndexBuffers(folder: str, enabled: bool) -> None:
     import glob
     import re
 
-    for iniPath in sorted(glob.glob(os.path.join(folder, "**", "*.ini"), recursive = True)):
+    for iniPath in activeInis(folder):
         with open(iniPath, "rb") as f:
             iniRaw = f.read()
         iniText = iniRaw.decode("utf-8", "replace").replace("\r\n", "\n")
@@ -982,10 +1140,152 @@ def normaliseIndexBuffers(folder: str, enabled: bool) -> None:
                 f.write(out.encode("utf-8"))
 
 
+def mergedMasters(folder: str) -> List[str]:
+    """Every .ini in the folder that binds its buffers behind a $swapvar branch (a merged mod's master)"""
+    import glob
+
+    out = []
+    for path in activeInis(folder):
+        text = open(path, encoding = "utf-8", errors = "replace").read()
+        if ("$swapvar" in text and "run = CommandList" in text):
+            out.append(path)
+    return out
+
+
+def masterHashes(masters: List[str]) -> Dict[str, str]:
+    """Every ``hash =`` a merged master declares, keyed by the section that declares it"""
+    out = {}
+    for master in masters:
+        section = None
+        with open(master, encoding = "utf-8", errors = "replace") as handle:
+            for line in handle:
+                stripped = line.strip()
+                if (stripped.startswith("[") and stripped.endswith("]")):
+                    section = stripped[1:-1]
+                    continue
+
+                key, sep, value = stripped.partition("=")
+                if (section is not None and sep and key.strip().lower() == "hash"):
+                    out.setdefault(section, value.strip())
+    return out
+
+
+def syncVariantHashes(folder: str, masters: List[str]) -> None:
+    """
+    Carry the merged master's hashes into whatever .ini files are enabled now.
+
+    GIMI's hash-update tools skip a file named ``DISABLED*``, so in a merged mod only the MASTER is
+    kept current -- the per-variant files rot at whatever game version they were merged at. Enabling
+    one as-is hands the game hashes it no longer emits, and the character's own geometry simply never
+    matches: the mod renders BROKEN while the remapped sections, keyed on the TARGET's hashes, draw
+    perfectly. Every log line still says the fix worked.
+
+    The master is the authority here rather than a version table, because it is the file the game was
+    demonstrably loading. Bennett is the reason that distinction matters: his draw_vb history says
+    ``8b2a1582`` was superseded at 4.1, and this mod's working master kept ``8b2a1582``.
+    """
+    import glob
+
+    wanted = masterHashes(masters)
+    if (not wanted):
+        return
+
+    for path in activeInis(folder):
+
+        with open(path, "rb") as handle:
+            original = handle.read()
+        hadCRLF = b"\r\n" in original
+        lines = original.decode("utf-8", errors = "replace").replace("\r\n", "\n").split("\n")
+
+        section, changes = None, []
+        for i, line in enumerate(lines):
+            stripped = line.strip()
+            if (stripped.startswith("[") and stripped.endswith("]")):
+                section = stripped[1:-1]
+                continue
+
+            key, sep, value = stripped.partition("=")
+            if (section not in wanted or not sep or key.strip().lower() != "hash"):
+                continue
+            if (value.strip() == wanted[section]):
+                continue
+
+            changes.append(f"{section}: {value.strip()} -> {wanted[section]}")
+            lines[i] = line[:len(line) - len(line.lstrip())] + f"hash = {wanted[section]}"
+
+        if (not changes):
+            continue
+
+        backup = path + ".preHashSync.bak"
+        if (not os.path.isfile(backup)):
+            with open(backup, "wb") as handle:
+                handle.write(original)
+
+        fixed = "\n".join(lines)
+        with open(path, "wb") as handle:
+            handle.write((fixed.replace("\n", "\r\n") if hadCRLF else fixed).encode("utf-8"))
+
+        print(f"  refreshed {len(changes)} stale hash(es) in {os.path.relpath(path, folder)}, from the merged master:")
+        for change in changes:
+            print(f"      {change}")
+
+
+def pickVariant(folder: str, variant: Optional[str]) -> None:
+    """
+    Turn a merged mod into an ordinary single-variant one, or refuse it.
+
+    The master binds every variant behind $swapvar and the per-variant .ini files are DISABLED, so
+    the master is all the game loads -- and fixing it emits resources for variants the split never
+    processed. Rather than write a file full of references to buffers that were never created, this
+    refuses outright unless --variant names one to keep.
+    """
+    masters = mergedMasters(folder)
+    if (not masters):
+        return
+
+    variants = {}
+    for root, _dirs, files in os.walk(folder):
+        for name in files:
+            if (name.upper().startswith("DISABLED") and name.lower().endswith(".ini")):
+                variants[os.path.basename(root)] = os.path.join(root, name)
+
+    if (variant is None):
+        print("\n  MERGED MOD -- REFUSING TO FIX IT")
+        print(f"    {', '.join(os.path.relpath(m, folder) for m in masters)} binds every variant behind $swapvar,")
+        print("    and this prototype resolves only the FIRST branch. Fixing it would write resources for")
+        print("    variants the split never processed -- references to buffers that do not exist, which")
+        print("    render as whatever was bound before them and report nothing.")
+        if (variants):
+            print(f"\n    Pick one with --variant: {', '.join(sorted(variants))}")
+            print("    That disables the master and enables that variant, making this an ordinary mod.")
+        else:
+            print("\n    No DISABLED per-variant .ini files found to pick from.")
+        raise SystemExit(1)
+
+    if (variant not in variants):
+        raise SystemExit(f"--variant {variant!r} is not one of: {', '.join(sorted(variants)) or '(none found)'}")
+
+    disabledMasters = []
+    for master in masters:
+        disabled = os.path.join(os.path.dirname(master), "DISABLED" + os.path.basename(master))
+        os.replace(master, disabled)
+        disabledMasters.append(disabled)
+        print(f"  disabled the merged master: {os.path.relpath(master, folder)}")
+
+    src = variants[variant]
+    enabled = os.path.join(os.path.dirname(src), os.path.basename(src)[len("DISABLED"):])
+    os.replace(src, enabled)
+    print(f"  enabled the '{variant}' variant: {os.path.relpath(enabled, folder)}")
+
+    syncVariantHashes(folder, disabledMasters)
+    print("  (to undo: rename the .ini files back, and restore any .preHashSync.bak)")
+
+
 def main():
     parser = argparse.ArgumentParser(description = "Bennett -> BennettAdventure, through the API's parser, fixer and resource groups")
     parser.add_argument("mod", help = "the mod folder (every Bennett .ini under it is fixed)")
     parser.add_argument("--components", default = "Body,Eye", help = "target components to produce (default: %(default)s -- the Bang is left alone on purpose, see the header)")
+    parser.add_argument("--variant", default = None, help = "a merged mod: disable its master .ini and enable this variant instead, refreshing that variant's stale hashes from the master (the prototype cannot fix a merged master)")
     parser.add_argument("--normaliseIndices", action = "store_true", help = "DESTRUCTIVE: rewrite the mod's .ini to widen 16-bit index buffers to 32-bit (backs each .ini up first)")
     parser.add_argument("--keepSkinBangs", action = "store_true", help = "leave BennettAdventure's own bangs drawing over the mod's hair (they overlap; this was the old behaviour)")
     parser.add_argument("--noTextures", action = "store_true", help = "DIAGNOSTIC: no band move; the mod's own light map is bound untouched")
@@ -1043,6 +1343,7 @@ def relaunchUnderWsl(args) -> int:
     mod = toPosix(os.path.abspath(args.mod))
     repo = toPosix(os.path.abspath(Repo))
     flags = [f"--components={args.components}"] + [f"--{name}" for name in ("keepBackups", "verbose", "loop", "noTextures", "noNormalMap", "keepSkinBangs", "normaliseIndices") if getattr(args, name)]
+    flags += ([f"--variant={args.variant}"] if args.variant else [])
     command = f"source {venv}/bin/activate && AG_REMAP_REPO={shlex.quote(repo)} python {shlex.quote(script)} {shlex.quote(mod)} {' '.join(flags)}"
     print(f"wsl -d {distro}: {command}")
     return subprocess.call(["wsl", "-d", distro, "--", "bash", "-lc", command])
@@ -1052,9 +1353,11 @@ def runService(folder: str, args, components: List[str]) -> None:
     """The whole run through RemapService: folder walk, undo of a previous fix, backups, resources, summary"""
     service = FRB.RemapService(path = folder, keepBackups = args.keepBackups, forcedModTypeIds = {int(FRB.ModTypeId.Bennett)},
                                logger = FRB.Logger() if args.verbose else None)
+    pickVariant(folder, args.variant)
     normaliseIndexBuffers(folder, args.normaliseIndices)
     service.fix()
-    widenTexcoords(folder)
+    retargetTexcoords(folder)
+    trimSlotRegisters(folder)
     hideUndrawnComponents(folder, components, args.keepSkinBangs)
     stats = service.stats
     print(f"\n.ini fixed: {len(stats.ini.fixed)}, skipped: {len(stats.ini.skipped)}")

@@ -1098,6 +1098,32 @@ as a passenger on your change** --- [Building](../Building/CLAUDE.md)'s `-d` sec
 (a clean Doxygen run also drags in ~178 files of unrelated accumulated drift), and that rule did
 not change here.
 
+## A PASS THAT NEVER FIRES LOOKS EXACTLY LIKE A PASS THAT WORKS (2026-09-15)
+
+`widenTexcoords` had never changed a byte. Its guard was `if (have >= want): continue` and every mod
+it ever saw was already at or above the target width, so it ran, logged nothing, and was credited
+with a fix that something else had made. Three rounds of in-game work were reasoned about on the
+assumption that it was doing its job.
+
+This is the repo's opening habit -- *code that runs, logs success, and does nothing* -- in its
+quietest form, because a pass that correctly skips looks identical to a pass that correctly acts:
+both print nothing. Two cheap defences, both of which would have caught it:
+
+- **Make the no-op loud enough to notice its absence.** A pass that converts should say what it
+  converted, and a run where it says nothing at all about a component it was supposed to handle is
+  a question, not a clean bill.
+- **Check the pass against an input that must make it fire.** Same rule as habit 34, applied to
+  your own helper rather than to the fix: if you cannot produce an input it changes, you have not
+  tested it.
+
+**And scope every pass to the files the game will actually load.** Three post-passes here globbed
+`**/*.ini` with no `DISABLED` filter, so they read a *refused* merged master's claims as real --
+one of them found buffers that master names, saw they had never been written, and FABRICATED them
+from siblings, papering over exactly the dangling-reference state the master had been refused for.
+One `activeInis()` helper, used everywhere, is the whole fix.
+
+<br>
+
 ## WHEN YOU CANNOT TELL WHAT A DRAW IS USING, REPLACE THE TEXTURE WITH SOMETHING UNMISTAKABLE (2026-09-15)
 
 Bennett's remapped hair came out in patches of different white. Three hypotheses were measured,
@@ -1113,6 +1139,12 @@ drawing over the mod's hair.
 The lesson is not about hair. **An `.ini` file says what the fix intended; substituting an
 unmistakable texture says what the GPU actually used**, and the two diverge exactly where the bug is.
 Reach for it before the third hypothesis, not after.
+
+**It is a tool now**: `Tools/Misc/Diagnostics/purpleSlot.py <mod> --component Eye` rebinds one
+register of one component's remapped sections to a flat magenta texture it writes itself (an
+uncompressed DDS, so no Compressonator and no Pillow DDS writer), backs up each `.ini`, and restores
+them with `--off`. The answer it gives is binary and does not depend on being right about anything:
+the slot turns magenta and the section IS what draws it, or it does not and the section is not.
 
 Two habits that go with it:
 

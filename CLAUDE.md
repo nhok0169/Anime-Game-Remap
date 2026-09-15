@@ -506,7 +506,26 @@ different whites, and the reasoning that had left them drawing was simply wrong.
 **The method that found it is worth more than the finding** -- see
 [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "WHEN YOU CANNOT TELL WHAT A DRAW IS USING,
 REPLACE THE TEXTURE WITH SOMETHING UNMISTAKABLE". Three measured hypotheses missed; one flat purple
-texture settled it in a single run.
+texture settled it in a single run. It is a tool now:
+`Tools/Misc/Diagnostics/purpleSlot.py <mod> --component Eye`, reversible with `--off`.
+
+**A SECOND ROUND ON TWO MORE REAL MODS (2026-09-15) FOUND FOUR MORE, AND NOT ONE OF THEM WAS ABOUT
+BENNETT.** Blank white eyes were a remapped section binding `ps-t2` and `ps-t3` that the target's
+Eye slot does not bind -- her own mod leaves them to the GAME -- and the same trim found the Body
+binding `ps-t2` TWICE, so the remapped light map, band move and all, had been silently discarded by
+the metal map for four rounds. A second pair of eyes on a HuoHuo-over-Bennett mod was her own Eye
+component still drawing, because the hide pass asked what was REQUESTED (`--components`) rather than
+what the output actually DRAWS, and that mod weights nothing to the vertex groups the Eye row names.
+A mod that looked broken as Bennett while the skin drew perfectly was a merged mod's DISABLED
+variants carrying 4.0 hashes, because GIMI's hash-update tools skip `DISABLED*`. And a Texcoord pass
+that had **never changed a byte** was credited with a fix throughout.
+
+All four are in [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md) -- "A REMAPPED SECTION
+MAY BIND ONLY WHAT THE TARGET'S SLOT BINDS", "A MERGED MOD'S DISABLED VARIANTS CARRY STALE HASHES",
+and the request-versus-result correction to "A TARGET COMPONENT NOTHING IS REMAPPED ONTO" -- plus
+[Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "A PASS THAT NEVER FIRES LOOKS EXACTLY LIKE A
+PASS THAT WORKS". **The identity mod is the ground truth for a target's register layout**, which is
+the strongest argument yet for building one first.
 
 **THE SCRIPT NO LONGER CONTAINS THE API (2026-09-10), AND NEITHER DID THREE OTHER TOOLS STILL
 WORK.** `script build/`'s `AGRemap.py` used to be the whole pure-Python API flattened into one file

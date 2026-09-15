@@ -250,12 +250,89 @@ So: **hide every target component nothing was remapped onto** -- a `TextureOverr
 with `handling = skip` and no `drawindexed`, the same shape the fix already leaves on a component it
 does remap. The observation (no groups map there) was right; only the conclusion was not.
 
+**And "nothing was remapped onto it" is a RESULT, not a REQUEST.** The pass doing the hiding read
+the prototype's `--components` list, which is what was *asked for*. A component can be asked for and
+still come out empty, because the split selects by VERTEX GROUP and a mod is free not to use the
+bones a component's row names. A HuoHuo-over-Bennett mod (2026-09-15) weights **nothing** to
+Bennett's groups 1 and 2 -- which is the whole of the Eye row -- so its Eye cut was empty, no eye
+buffer was written, and BennettAdventure's own eyes drew on top of HuoHuo's: a second pair of eyes
+inside the first. Her Bang was hidden correctly in that same run, purely because the Bang is
+excluded by the CLI, **which is what made the omission look like a working feature**.
+
+Decide it by reading the OUTPUT: a component is drawn only if some `...RemapFix` section carries a
+`drawindexed`. Collect that across **every** `.ini` of the mod, never per file -- GIMI merges them
+all, so a hide written into one file suppresses a draw issued from another. And guard the whole
+thing: if *no* component drew, the fix did not land, and hiding everything would turn a failed run
+into an invisible model.
+
 **And `match_first_index` does not land through the windowed pass on a target object that several
 components MERGE onto.** Measured on the reverse direction: `body` (2 members, target index 9879)
 came out 0, while the same edit with `--components Body` alone wrote 9879. Write it in the object's
 own group pass instead. `tranquilToYelanFix.py` has the same defect and **cannot show it** -- its
 only multi-member object is `head`, whose target index IS 0, so a write that never happened is
 indistinguishable from one that did. Check that before transcribing either direction into C++.
+
+<br>
+
+<br>
+
+## A REMAPPED SECTION MAY BIND ONLY WHAT THE TARGET'S SLOT BINDS (2026-09-15)
+
+A remapped section inherits its `ps-t` lines from the MOD's section, and those describe the SOURCE's
+shader. Bennett's body binds four (diffuse, light map, metal map, shadow ramp). BennettAdventure's
+Eye slot binds **two** and her Body slot **three**. Carrying the surplus across is not a harmless
+extra: the slot means something different to her shader, and **her own mod leaves it unbound on
+purpose** so the GAME's textures serve it. Her eyes rendered as blank white until `ps-t2` and
+`ps-t3` were dropped.
+
+**The identity mod is the ground truth for this**, and it is the reason to build one before the
+first remap: it is the target's own model as a mod, so its sections are the register layout the
+target's shaders actually receive, confirmed in game. Read the layout off it; do not infer it from
+the source, from a neighbouring component, or from what "ought" to be bound.
+
+**A register bound TWICE in one section is the same bug wearing a disguise.** The later line
+silently discards the earlier. On Bennett's Body the fix emitted
+
+```ini
+ps-t2 = ResourceBennettHeadLightMapBennettAdventureBodyLightMapRemapTex
+ps-t2 = ResourceBennettHeadMetalMap
+```
+
+so the remapped light map -- the band move included -- never reached the GPU at all, and the band
+work looked like it was shipping for four rounds. Keep the first binding per register and say what
+was dropped.
+
+**Buffer STRIDE is a property of the MOD, not of the character, and both directions of conversion
+are real.** Vanilla Bennett's Texcoord is 12 bytes a vertex; a mod whose author carries a second UV
+set is 20. Her Body is 20 and her Bang and Eye are 12. So one mod needs WIDENING onto her Body and
+another needs NARROWING onto her Eye, and a pass guarded with `if (have >= want): continue` does the
+first and skips the second in silence -- every UV read 8 bytes late, which renders as blank white
+rather than as anything that looks like a stride bug. Measure the source stride off the mod's own
+buffer (`size // vertexCount`); never infer it from the character's vanilla dump.
+
+<br>
+
+## A MERGED MOD'S DISABLED VARIANTS CARRY STALE HASHES (2026-09-15)
+
+GIMI's hash-update tools skip any file named `DISABLED*`. In a merged mod that means only the
+MASTER is ever brought current -- the per-variant files rot at whatever game version they were
+merged at. Enabling one as-is, which is what picking a variant does, hands the game hashes it no
+longer emits.
+
+Measured: a Bennett mod's master carried `position_vb 6cff51b4` (4.4) and `ib cdc66323` (4.3) while
+all four of its variants still said `993d1661` and `f51209fc` (4.0). The character's own geometry
+then never matched, so **the mod rendered broken while the remap drew perfectly** -- the remapped
+sections are keyed on the TARGET's hashes and are unaffected. That split symptom is the signature:
+skin fine, original broken.
+
+Reconcile the enabled file against the master, by section name, before fixing. **The master is the
+authority, not the version table in `HashData`** -- Bennett's `draw_vb` history says `8b2a1582` was
+superseded at 4.1, and this mod's working master kept `8b2a1582`. A table-driven refresh would have
+"corrected" a hash that was never wrong. The file the game was demonstrably loading beats the table.
+
+This corrects what the `--variant` note used to claim: picking a variant does **not** simply make a
+merged mod "an ordinary single-variant one". It makes it an ordinary mod *with stale hashes*, which
+is a different and worse thing, because it looks like it worked.
 
 <br>
 

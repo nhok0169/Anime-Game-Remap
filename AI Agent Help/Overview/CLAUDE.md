@@ -1098,6 +1098,34 @@ as a passenger on your change** --- [Building](../Building/CLAUDE.md)'s `-d` sec
 (a clean Doxygen run also drags in ~178 files of unrelated accumulated drift), and that rule did
 not change here.
 
+## WHEN YOU CANNOT TELL WHAT A DRAW IS USING, REPLACE THE TEXTURE WITH SOMETHING UNMISTAKABLE (2026-09-15)
+
+Bennett's remapped hair came out in patches of different white. Three hypotheses were measured,
+implemented and shipped against it -- a light map band move, a Texcoord stride mismatch, a missing
+buffer -- and **none of them was the symptom**. Each was a real defect, which is what made them
+convincing.
+
+The maintainer settled it in one run by replacing every texture bound to `ResourceBennettHeadDiffuse`
+with a flat purple one and looking: most of the hair turned purple and the front strands did not. So
+those strands were never drawn from the mod's textures at all -- they were the SKIN's own bangs,
+drawing over the mod's hair.
+
+The lesson is not about hair. **An `.ini` file says what the fix intended; substituting an
+unmistakable texture says what the GPU actually used**, and the two diverge exactly where the bug is.
+Reach for it before the third hypothesis, not after.
+
+Two habits that go with it:
+
+- **Bisect with switches rather than theories.** `--noTextures` / `--noNormalMap` on
+  `bennettAdventureFix.py` turn off one layer each, so one in-game run splits the cause in half.
+  Both print a banner, because an output that is deliberately incomplete must not be mistakable for
+  a real one later.
+- **Never iterate on a mod in `Mods/`.** Run on a copy and move the result in. A prototype that
+  rewrites a mod's own `.ini` -- as the 16-bit index normalisation did for one round -- can leave a
+  real mod pointing at files that do not exist, and the damage outlives the run.
+
+<br>
+
 ## "Add yourself to The Council" — a running repo ritual
 
 If asked to "add yourself to The Council" (or "join the Council of CLAUDE agents", or similar),

@@ -489,6 +489,25 @@ proved by rebuilding six *shipped* folders byte-identically, because a new one h
 **The vertex group rows are PROPOSED, not confirmed in game**, and Bennett has no hand-made draft
 to score against.
 
+**AND BENNETT IS PROTOTYPED IN BOTH DIRECTIONS NOW (2026-09-15), WITH THE FORWARD ONE CONFIRMED IN
+GAME ON REAL MODS.** `Tools/Misc/Prototypes/bennettAdventureFix.py` (Bennett -> BennettAdventure) and
+`adventureToBennettFix.py` (the reverse). Still no compiled parser or fixer -- the data rows above are
+what ships.
+
+What the real mods taught, none of which the identity mod can show, is in
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s **"THE IDENTITY MOD IS THE EASY CASE
+IN FOUR SEPARATE WAYS"**: a mod that draws for itself carries a stale draw COUNT after the split, a
+mod carries whichever VERSION's hashes its author dumped, a merged mod binds nothing directly and
+hides its buffers behind `run =` command lists, and an index buffer may be 16-bit -- which only
+errors when its byte count does not divide by four. And **a target component nothing is remapped onto
+still draws the SKIN's own geometry**: BennettAdventure's bangs sat on top of Bennett's hair as two
+different whites, and the reasoning that had left them drawing was simply wrong.
+
+**The method that found it is worth more than the finding** -- see
+[Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "WHEN YOU CANNOT TELL WHAT A DRAW IS USING,
+REPLACE THE TEXTURE WITH SOMETHING UNMISTAKABLE". Three measured hypotheses missed; one flat purple
+texture settled it in a single run.
+
 **THE SCRIPT NO LONGER CONTAINS THE API (2026-09-10), AND NEITHER DID THREE OTHER TOOLS STILL
 WORK.** `script build/`'s `AGRemap.py` used to be the whole pure-Python API flattened into one file
 by the `ScriptBuilder`. That is impossible now --- a single `.py` cannot carry a compiled extension

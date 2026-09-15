@@ -200,6 +200,65 @@ segfaulted on every `ReplaceList` (see Architecture's pybind gotchas).
 
 **The compiled port is confirmed in game (maintainer, 2026-09-13).**
 
+## THE IDENTITY MOD IS THE EASY CASE IN FOUR SEPARATE WAYS (Bennett, 2026-09-15)
+
+Bennett -> BennettAdventure passed on the identity mod and then failed on three real mods in a row,
+each for a reason the identity mod structurally cannot have. Read this before concluding a remap
+works:
+
+| the identity mod | a real mod |
+| --- | --- |
+| draws through `drawindexed = auto`, so it has no count to go stale | carries its own `drawindexed = <count>, 0, 0` -- its WHOLE object, which after the split is more than that component's `.ib` holds |
+| uses every vertex group and every material band | uses a subset, so a band or a bone that is wrong shows only here |
+| 32-bit index buffers | may declare `DXGI_FORMAT_R16_UINT` |
+| one variant, hashes from today's dump | several variants behind `$swapvar`, and hashes from whatever version its author dumped |
+
+**The draw COUNT must be measured off the split buffer, never inherited.** `RegFillMissing` does not
+fire on a register that is not missing, so a mod's own count survives the split. Measured: an Eye
+draw asked for 9879 indices from a buffer holding 828 -- 9051 indices of whatever followed it,
+rendered as mangled eyes.
+
+**A mod carries whichever version's hashes its author dumped.** Bennett's moved three times inside
+the library's window (draw_vb at 4.1, ib at 4.3, position_vb at 4.4); a 4.0-era mod says
+`position_vb 993d1661` where today's model says `6cff51b4`. `data/HashData.cpp` holds every version
+for exactly this reason -- a prototype that hardcodes the current one finds no position buffer and
+skips the whole file.
+
+**The GIMI mod merger writes a master `.ini` that binds nothing directly.** Its override sections
+carry `run = CommandListBennettPosition`, with the real `vb0 =` inside a `$swapvar` branch, and that
+master is the file the game loads. Resolve it with `IniSectionGraph` -- it builds the call graph
+from a root section and follows every `run =` transitively, cycles included -- rather than writing a
+second `run =` walker. One thing it cannot decide for you: a branch offers one resource per variant,
+so taking the first remaps the mod from its first variant only.
+
+**A 16-bit index buffer only ERRORS when its byte count does not divide by four.** One that does is
+read as half as many wrong indices, silently. Read the `format` the Resource section declares; do
+not infer the width from the file size.
+
+<br>
+
+## A TARGET COMPONENT NOTHING IS REMAPPED ONTO STILL DRAWS THE SKIN'S OWN GEOMETRY (2026-09-15)
+
+None of Bennett's vertex groups map to BennettAdventure's `Bang`, because he has no hair bone -- his
+hair and his face are both on his head bone. The conclusion drawn from that was to leave her Bang
+unfixed so "she keeps her own bangs", and **it was wrong**: his hair IS drawn, as part of his head
+object, by the Body component. Her bangs were redundant geometry sitting on top of his, two hair
+meshes with two different white textures, which in game reads as *parts of the hair having different
+shades of white*.
+
+So: **hide every target component nothing was remapped onto** -- a `TextureOverride` on its ib hash
+with `handling = skip` and no `drawindexed`, the same shape the fix already leaves on a component it
+does remap. The observation (no groups map there) was right; only the conclusion was not.
+
+**And `match_first_index` does not land through the windowed pass on a target object that several
+components MERGE onto.** Measured on the reverse direction: `body` (2 members, target index 9879)
+came out 0, while the same edit with `--components Body` alone wrote 9879. Write it in the object's
+own group pass instead. `tranquilToYelanFix.py` has the same defect and **cannot show it** -- its
+only multi-member object is `head`, whose target index IS 0, so a write that never happened is
+indistinguishable from one that did. Check that before transcribing either direction into C++.
+
+<br>
+
 ## Recipe: a classic-shape mod onto a multi-component skin (Bennett and after)
 
 Every GI character from Bennett on is a skin of several components, so this is the shape the

@@ -61,6 +61,30 @@
 # value on a ramp that means something else, which is how the Yelan run put static on her neck. So
 # Bands is EMPTY until something in game says otherwise, and the mod's light maps pass through.
 #
+# ---- The per-member blocks, and A BUG IN THE SHARED MACHINERY THEY EXPOSED (2026-09-15) ----
+#
+# `body` is BodyA + BodyB and `head` is BangA + EyeA, so both of Bennett's objects are merges. The
+# `body` section carries BodyA's bindings + `drawindexed = auto`, then BodyB's bindings +
+# `drawindexed = 39219, 44334, 0`, every line at the section's own depth -- checked by counting
+# if/endif rather than by eye, since stripping whitespace throws away the nesting that is the whole
+# question. `head` gets no appended draw, correctly: its members agree on their textures (both borrow
+# Body A's) and the mod draws through `auto`, which is the one case that covers a merge on its own.
+#
+# **`match_first_index` DOES NOT LAND THROUGH THE WINDOWED PASS ON A MULTI-MEMBER OBJECT.** Measured:
+# `body` (2 members, target index 9879) came out 0, while the same edit run with `--components Body`
+# alone wrote 9879. Neither a pass per object nor a GIMIObjPartFilter per object nor narrowing the
+# filter to the component's own ib hash type changed it. It is written in the object's own group pass
+# instead, where every other per-object edit already lands.
+#
+# tranquilToYelanFix.py has the same defect and CANNOT SHOW IT: its only multi-member object is
+# `head`, whose target index is 0, so a write that never happened is indistinguishable from one that
+# did. Verified against a real run of it -- her body/extra/dress come out 20913/54042/51759 through
+# single-member objects, and her head reads 0 either way. Check that before transcribing either
+# direction into C++, and prefer the group-pass write there too.
+#
+# The member's light map binds the mod's OWN resource rather than an edited copy; the reason, and
+# the guard for when a band move makes that wrong, is at the emission itself.
+#
 # ---- The vertex group rows ----
 #
 # Shipped in data/VGRemapData.cpp as of this session: BennettAdventure Body (106 groups), Bang (9)
@@ -335,11 +359,18 @@ class MergedBuffers():
                 self.members.setdefault(spec["to"], []).append((component, slot))
         self.ibs: Dict[str, bytes] = {}
         self.ibChanged: Dict[str, bool] = {}
+        # each member's (component, slot, index offset, index count) inside the merged buffer: what
+        # the appended per-member draws below are built from. Measured off the files, never guessed --
+        # a draw from a guessed count addresses whatever happens to sit at that offset.
+        self.ranges: Dict[str, List[tuple]] = {}
         for obj, members in self.members.items():
             parts = []
+            running = 0
             for component, slot in members:
                 raw = np.fromfile(files.objects[(component, slot)]["ib"], dtype = "<u4")
                 parts.append(raw + self.offsets[component])
+                self.ranges.setdefault(obj, []).append((component, slot, running, len(raw)))
+                running += len(raw)
             merged = np.concatenate(parts).astype("<u4")
             self.ibs[obj] = merged.tobytes()
             single = (len(members) == 1 and self.offsets[members[0][0]] == 0)
@@ -540,6 +571,7 @@ class ModFiles():
                 lightMapRes = first(section, "ps-t2" if normalMap else "ps-t1")
                 self.objects[(component, slot)] = {
                     "normalMap": normalMap,
+                    "draws": bool(first(section, "drawindexed")),
                     "lightMapReg": "ps-t2" if normalMap else "ps-t1",
                     "ib": fileOf(first(section, "ib")),
                     "diffuse": fileOf(diffuseRes), "diffuseRes": diffuseRes,
@@ -614,8 +646,8 @@ def makeFixer(components: List[str], vgRows: Dict[str, dict], skipTextures: bool
         for obj, members in merged.members.items():
             binds = {(files.objects[m]["diffuse"], files.objects[m]["lightMap"]) for m in members}
             if (len(binds) > 1):
-                print(f"  WARNING: {obj} is drawn from {members} but they bind DIFFERENT textures {binds};"
-                      f" one draw cannot serve both -- only {rep[obj]}'s textures will be used")
+                print(f"  {obj}: members {members} bind different textures -- each gets its own"
+                      f" bindings and its own draw, since one draw binds one set (representative {rep[obj]})")
 
         # ---- 1. the graphs onto Bennett's, all in ONE .ini file ----
         remap = {}
@@ -631,14 +663,35 @@ def makeFixer(components: List[str], vgRows: Dict[str, dict], skipTextures: bool
         # ---- 2. the match_first_index, windowed to the copied object's own KVPs ----
         objFilter = FRB.GIMIObjPartFilter(modType.hashes, modType.indices, {f"{c};ib" for c in components}, None)
         _alive.append(objFilter)
-        indexEdits, indexFilters, indexKeys, indexTrack = {}, {}, {}, {}
+        # ONE GraphGroupEdit PER OBJECT, not one carrying every object.
+        #
+        # A draw slot's match_first_index is unique only WITHIN its component, and BennettAdventure's
+        # Body A, Bang A and Eye A are ALL 0. Put every object's edit in one pass and the windows
+        # cannot tell those sections apart: each edit reaches both, and the last one written wins.
+        # Measured -- `body` came out 0 (the `head` edit's value) with all three components, and the
+        # correct 9879 with `--components Body` alone, which is the same edit in a pass of its own.
+        #
+        # The Yelan pair has the identical collision (her Body A, Bang A and Eye A are also 0), so
+        # tranquilToYelanFix.py very likely carries this too -- worth checking her generated
+        # match_first_index before transcribing either direction into C++.
+        # ...and A FILTER OF ITS OWN per object. One shared GIMIObjPartFilter handed out windows by
+        # calling .filter(modObj) on the same instance; with three slots that all carry
+        # match_first_index 0, every window ended up the last-configured one and `body` took `head`'s
+        # value. A fresh instance per object is what keeps the windows independent.
         for obj, (component, slot) in rep.items():
             key = ("", obj)
-            indexEdits[key] = [FRB.RegNewVals({"match_first_index": str(Bennett["objects"][obj])})]
-            indexFilters[key] = [objFilter.filter((component, slot))]
-            indexKeys[key] = objFilter.keysToTrack()
-            indexTrack[key] = True
-        edits.append(FRB.GraphGroupEdit([indexEdits], trackKeys = [indexTrack], keysToTrack = [indexKeys], keyFilters = [indexFilters]))
+            # ONLY THIS COMPONENT'S ib hash type. Handing every filter all three made the window
+            # ambiguous: match_first_index is unique only within a component and Body A / Bang A /
+            # Eye A are all 0, so a window that may match any component's ib could not pick out the
+            # body's section. Each component's ib hash IS unique (Body 022a9ccd, Bang 43ad99d1, Eye
+            # 91b4d5dd), so hash-type + index together identify the slot exactly.
+            objFilter = FRB.GIMIObjPartFilter(modType.hashes, modType.indices, {f"{component};ib"}, None)
+            _alive.append(objFilter)
+            edits.append(FRB.GraphGroupEdit(
+                [{key: [FRB.RegNewVals({"match_first_index": str(Bennett["objects"][obj])})]}],
+                trackKeys = [{key: True}],
+                keysToTrack = [{key: objFilter.keysToTrack()}],
+                keyFilters = [{key: [objFilter.filter((component, slot))]}]))
 
         # ---- 3. the merged buffers ----
         for kind, reg, resType in (("position", "vb0", "position"), ("blend", "vb1", "blend"), ("texcoord", "vb1", "texcoord")):
@@ -705,6 +758,68 @@ def makeFixer(components: List[str], vgRows: Dict[str, dict], skipTextures: bool
         dropFixCalls = FRB.RegRemove({"run": lambda _ind, val: val in (NNFix, ORFix)})
         dropNormalMap = FRB.RegRemove({"ps-t0": None})
         shiftDown = FRB.RegRemap({"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]})
+        # ---- the per-member blocks, for a target object several components merge onto ----
+        #
+        # See this file's header and GIMIMergeFixer.cpp: the representative's draw covers only the
+        # FIRST member, and one section binds one set of registers. Bennett needs this twice over --
+        # his body is BodyA + BodyB (different textures) and his head is BangA + EyeA (same textures,
+        # but still two ranges).
+        memberBlocks = {}
+        for obj, ranges in merged.ranges.items():
+            if (len(ranges) < 2):
+                continue
+            repComponent, repSlot = rep[obj]
+            repInfo = files.objects[(repComponent, repSlot)]
+            differ = len({(files.objects[m]["diffuseRes"], files.objects[m]["lightMapRes"])
+                          for m in merged.members[obj]}) > 1
+
+            # `drawindexed = auto` covers the whole merged buffer on its own ONLY when the mod drew
+            # nothing of its own and every member agrees on its textures.
+            if (not repInfo.get("draws") and not differ):
+                continue
+
+            block = []
+            for component, slot, offset, count in ranges[1:]:
+                info = files.objects[(component, slot)]
+                own = ((info["diffuseRes"] or info["lightMapRes"])
+                       and (info["diffuseRes"] != repInfo["diffuseRes"]
+                            or info["lightMapRes"] != repInfo["lightMapRes"]))
+                if (own):
+                    if (info["diffuseRes"]):
+                        block.append(("ps-t0", info["diffuseRes"]))
+                    if (info["lightMapRes"]):
+                        # The member's OWN light map resource, as the mod already defines it.
+                        #
+                        # The representative's is bound to an EDITED copy, whose resource the API
+                        # names itself (getRemapTexResourceName -> ...BennettLightMapRemapTex). A
+                        # member cannot go through the same path: ResRegCollect collects one named
+                        # register out of the section, and the member's registers are appended by
+                        # RegBottomAdd afterwards, so there is nothing for a collect to name. Writing
+                        # the edited name by hand is what the first version did, and it produced
+                        # `bodyRemapTexLightMap` -- a reference no resource section defines.
+                        #
+                        # Binding the original is CORRECT while Bands is empty, because the
+                        # representative's "edit" is then a pass-through copy and the two agree. It
+                        # stops being correct the moment a band moves, so that case raises rather
+                        # than silently shipping one edited light map and one unedited one.
+                        if (Bands and not skipTextures):
+                            raise SystemExit(
+                                f"{obj}: member {component}{slot} needs its own EDITED light map (Bands is not empty),"
+                                " and the prototype cannot name one -- give the member its own texture edit"
+                                " (see GIMIMergeFixer.cpp's buildMemberTexEdits) before enabling a band move")
+                        block.append(("ps-t1", info["lightMapRes"]))
+                    # its own fix call: rebinding ps-t0/ps-t1 starts a new binding epoch and NNFix
+                    # re-slots whatever is bound when it runs, so the PerPath call ahead of the
+                    # section's first draw does not serve this one
+                    block.append(("run", NNFix))
+                block.append(("drawindexed", f"{count}, {offset}, 0"))
+            if (block):
+                memberBlocks[("", obj)] = [FRB.RegBottomAdd(block)]
+                drawnBy = ", ".join(f"{c}{s}" for c, s, _, _ in ranges)
+                print(f"  {obj}: {len(ranges)} members ({drawnBy}), "
+                      + ("textures differ -- " if differ else "")
+                      + f"appending {sum(1 for k, _ in block if k == 'drawindexed')} draw(s)")
+
         fillDraw = FRB.RegFillMissing("drawindexed", "auto", fillMode = FRB.RegFillMissingMode.BottomCover)
         removeDraw = FRB.RegRemove({"drawindexed": None})
         addFix = FRB.RegDelimitedAdd([("run", NNFix)], {"drawindexed": []}, pathEndOnlyWhenUndelimited = True,
@@ -719,7 +834,21 @@ def makeFixer(components: List[str], vgRows: Dict[str, dict], skipTextures: bool
             fixCall = [addFix] if (info["diffuse"] or info["lightMap"]) else []
             if (not fixCall):
                 print(f"  {obj}: drawn with no texture registers, so no {NNFix.rsplit(chr(92), 1)[-1]} call")
-            group[("", obj)] = [dropFixCalls] + shift + [fillDraw] + fixCall + [hashRemap]
+            # The per-member blocks go AFTER the section's own fix call and before the hash remap:
+            # each carries its own `run =` where it rebinds registers, so the PerPath call above has
+            # to be placed already. RegBottomAdd puts them at the section's own depth, outside every
+            # `if` block -- RegSurroundedAdd(latest) would land inside the last one.
+            # match_first_index is written HERE, in the object's own group pass, not through the
+            # windowed pass above. On a target object that several components MERGE onto, the
+            # windowed write does not land -- measured: `body` (2 members, target index 9879) stayed
+            # 0, while the same edit with `--components Body` alone wrote 9879 correctly.
+            #
+            # tranquilToYelanFix.py has the same defect and cannot show it: its only multi-member
+            # object is `head`, whose target index IS 0, so a write that never happened is
+            # indistinguishable from one that did. Check Yelan's `head` before trusting hers.
+            setIndex = FRB.RegNewVals({"match_first_index": str(Bennett["objects"][obj])})
+            group[("", obj)] = ([dropFixCalls] + shift + [fillDraw] + fixCall
+                                + memberBlocks.get(("", obj), []) + [setIndex, hashRemap])
         group[("", "ib")] = [FRB.GraphRename(lambda n: naming.getRemapIbName(n, toModName)), hashRemap, removeDraw]
         group[("", "blend")] = [FRB.GraphRename(lambda n: naming.getRemapBlendName(n, toModName)), hashRemap,
                                 FRB.RegNewVals({"draw": f"{merged.total},0"})]

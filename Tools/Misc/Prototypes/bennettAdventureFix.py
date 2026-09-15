@@ -49,10 +49,33 @@
 # matching to within 1/255 per channel. Drawing him through B would shade his face and arms with the
 # outfit's ramps, which is the mistake Yelan's slot-B run made visible.
 #
-# And because the two skin bands already coincide, THERE IS NOTHING TO LIFT -- the Yelan pair needed
-# a lift precisely because her skin sat at 115-127 and the target's at 255. Bennett's other bands
-# (his white trim at 126-128) have no counterpart in A's legend, but a band the source never emits
-# needs no mapping, and moving one on a guess is how the neck static was introduced there.
+# The two SKIN bands already coincide at 255, so his body needed nothing -- and v1 concluded from
+# that alone that nothing needed lifting at all. **That was wrong, and the hair showed it in game
+# (2026-09-15): patches of different white where the base model is uniform.**
+#
+# The mistake was measuring whole textures. A whole-texture histogram is dominated by unused UV space
+# and by whichever material covers most of the sheet, so it answered for his BODY and said nothing
+# about his HEAD. Measured over the pixels each material actually uses:
+#
+#   Bennett head   alpha 0   = his white HAIR    (98.8% of the head's pale/neutral pixels)
+#                  alpha 255 = his brass GOGGLES (98.3% of its warm pixels, diffuse 147/144/91)
+#   Adventure A    176-178 (32%, diffuse 213-226 pale) = HER HAIR;  0 = a mid-dark material
+#
+# So his hair, all of it on band 0, was being shaded by her band-0 ramp, and his goggles on 255 by
+# her SKIN ramp. HairBand moves 0 -> 177.
+#
+# **The move is conditional on the DIFFUSE, and has to be**: the same band numbers mean different
+# materials on his own two objects -- 0 is hair on his head and dark cloth on his body, 255 is
+# goggles on his head and skin on his body. An unconditional move would put his body's cloth on her
+# hair ramp, which is the shape of the bug that put static on Yelan's neck.
+#
+# And the move is keyed by OBJECT as well: "pale and neutral" finds his hair on the head texture
+# but also catches 62908 pixels of pale CLOTH on the body one, which has no business on her hair
+# ramp. Measured, not guessed -- the first run with the condition alone reported exactly that.
+#
+# The goggles are left on 255 deliberately: none of her bands is a brass/metal one, so there is
+# nowhere measured to send them, and a guess is worse than the current wrongness. They stay
+# skin-shaded pending an in-game look.
 #
 # ---- The Bang draws NOTHING, and that is the answer rather than a gap (2026-09-14) ----
 #
@@ -81,14 +104,16 @@
 # to keep the identity mod at ps-t1 and add a heuristic guard to the swap later -- so until then,
 # the identity mod's remapped face is knowingly wrong and everything else about it is not.
 #
-# **The texture recipe is deliberately EMPTY beyond the flat normal map.** Yelan's band lift, her
-# alpha-1 head diffuse and her vertex-colour edit were each derived from her own pair in game, and
-# none of them is known to apply here. Add them one at a time, each with a measurement behind it.
+# **The texture recipe is the flat normal map plus ONE band move** (see above). Yelan's alpha-1 head
+# diffuse and her vertex-colour edit are still not applied: each was derived from her own pair in
+# game and neither is known to hold here. Add them one at a time, each with a measurement behind it --
+# that is how the hair band was found, and how v1's "nothing to lift" was found to be wrong.
 #
 
 import argparse
 import os
 import re
+import shutil
 import sys
 from typing import Dict, List, Optional
 
@@ -126,6 +151,27 @@ V = "6.1"
 NNFix = "CommandList\\global\\ORFix\\NNFix"
 ORFix = "CommandList\\global\\ORFix\\ORFix"
 
+# Every version of Bennett's hashes the library knows, straight out of data/HashData.cpp, which
+# follows his hash.json's history in the assets repo. A mod carries whichever version its author
+# dumped, so all of them have to be matchable -- a 4.0-era mod says position 993d1661 where today's
+# model says 6cff51b4, and knowing only the latter means not finding its position buffer at all.
+#
+# The FIRST value of each list is the current one, which is what gets written out.
+BennettHistory = {
+    "draw_vb":     [("4.1", "02cf3aa5"), ("4.0", "8b2a1582")],
+    "position_vb": [("4.4", "6cff51b4"), ("4.0", "993d1661")],
+    "ib":          [("4.3", "cdc66323"), ("4.0", "f51209fc")],
+    "blend_vb":    [("4.0", "d4acf3f7")],          # never moved
+    "texcoord_vb": [("4.0", "acde80a4")],          # never moved
+    "tex_face_diffuse": [("4.0", "50f7dc9a")],     # never moved
+}
+
+
+def knownHashes(key: str) -> set:
+    """every value Bennett has ever had for one hash type"""
+    return {h for _, h in BennettHistory[key]}
+
+
 # Bennett's hashes are the CURRENT model's: his hash.json moved three times inside the library's
 # window (draw_vb at 4.1, ib at 4.3, position_vb at 4.4), and these are the post-4.4 values, which
 # are what a mod built on today's model carries. ibOld is his pre-4.3 ib, for a mod that predates it.
@@ -139,6 +185,16 @@ Adventure = {"Body": {"draw_vb": "bc87167b", "position_vb": "14efbc45", "blend_v
                       "slots": {"A": 0}},
              "Eye": {"draw_vb": "feb0e532", "position_vb": "f5dd3d9e", "blend_vb": "89827a3f", "texcoord_vb": "941adcbf", "ib": "91b4d5dd",
                      "slots": {"A": 0}}}
+# Each target component's Texcoord stride, measured off her own dump: her Body carries a second
+# UV set (TEXCOORD1 at offset 12) and her Bang and Eye do not. Bennett's is 12 throughout, so his
+# lines are padded for the Body and pass through for the others.
+TexcoordStride = {"Body": 20, "Bang": 12, "Eye": 12}
+
+# Diagnostic switches, set from main(). Both make the output deliberately incomplete -- they
+# exist to bisect a symptom, not to ship.
+SkipTextures = False       # --noTextures:  no band move; the mod's own light map is bound
+SkipNormalMap = False      # --noNormalMap: no created normal map and no register shift either
+
 AdventureFaceDiffuse = "2b1b2edf"
 
 # Per target component: which strategy splits the mod's triangles for it, which of the target's draw
@@ -158,14 +214,35 @@ Plan = {"Body": {"strategy": "graphcut", "slot": "A", "normalMap": True, "fix": 
 # the lift is applied to every object's lightmap. Bennett's and BennettAdventure's legends have not
 # been measured against each other in game, so nothing is moved: a wrong lift is not a no-op, it
 # puts alpha 0 on a band that meant something (Yelan's neck static). Measure first, then fill in.
-SkinBand = None
-FurBand = None
+# ---- the light map band moves (2026-09-15, measured; see the header) ----
+#
+# (from, to, condition): the alpha band to move, where to, and which diffuse the pixel must have for
+# the move to apply. The condition is what keeps this off his BODY, where the same band numbers mean
+# different materials.
+HairBand = (0, 177, "pale", "head")   # his white hair -> her pale/hair ramp (176-178), HEAD only
+# his brass goggles sit on 255, which is her SKIN ramp. Left alone deliberately: none of her bands is
+# a brass/metal one, so there is nowhere measured to send them. Revisit with an in-game look.
+GogglesBand = None
 
 
 def skinColoured(rgb) -> "np.ndarray":
     """Where a diffuse (H x W x 3, uint8) is skin-coloured: warm and bright, red over green over blue"""
     r, g, b = (rgb[..., i].astype(np.int16) for i in range(3))
     return (r >= 96) & (r >= g) & (g >= b) & ((r - b) >= 16) & ((r - b) <= 140)
+def paleNeutral(rgb) -> "np.ndarray":
+    """Where a diffuse is his silver HAIR: bright and close to neutral, which his dark cloth is not"""
+    channels = rgb.astype(np.int16)
+    return (channels.max(axis = -1) >= 150) & ((channels.max(axis = -1) - channels.min(axis = -1)) <= 40)
+
+
+def movesFor(objName: str):
+    """The band moves that apply to one object -- empty means its light map is not touched at all"""
+    return [b for b in (HairBand, GogglesBand) if (b is not None and (b[3] is None or b[3] == objName))]
+
+
+Conditions = {"pale": paleNeutral, "skin": skinColoured, "": lambda rgb: np.ones(rgb.shape[:2], dtype = bool)}
+
+
 # The flat normal map the reference draws with is 127 / 127 / 255 under a BC7_UNORM_SRGB header; a created
 # texture is written untagged, so it carries what that samples as: round(255 * (127 / 255) ** 2.2) = 55
 FlatNormal = (55, 55, 255, 255)
@@ -182,7 +259,11 @@ def registerBennett(components: List[str]) -> FRB.ModType:
     shared = FRB.CppGlobalModTypes.all()[0].vgRemaps
     GI, YID = int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Bennett)
 
-    hashRows = [([V, "Bennett", key], Bennett[key]) for key in ("draw_vb", "position_vb", "blend_vb", "texcoord_vb", "ib", "tex_face_diffuse")]
+    # every version of every type, so a mod written against an older model still resolves. The
+    # rows are filed at the version each value belongs to, which is what HashData.cpp does.
+    hashRows = [([version, "Bennett", key], value)
+                for key in ("draw_vb", "position_vb", "blend_vb", "texcoord_vb", "ib", "tex_face_diffuse")
+                for version, value in BennettHistory[key]]
     # No index rows for the pseudo targets: nothing looks them up (RegNewVals writes the index from
     # the table above), and a reverse lookup of "0" that could land on a target row blinds the
     # classifier and GIMIObjPartFilter's window
@@ -330,6 +411,46 @@ class ModFiles():
                         return vals[0].strip()
             return None
 
+        graphCache: Dict[str, object] = {}
+
+        def viaRun(sectionName: str, key: str) -> Optional[str]:
+            """
+            A key's value on a section, following `run =` into command lists when it is not there
+            directly -- the shape the GIMI mod merger writes.
+
+            Uses IniSectionGraph, which builds the call graph from the root and walks every `run =`
+            transitively (cycles included). A $swapvar branch offers one value per variant; the first
+            is taken and the rest reported, so a merged mod is remapped from its first variant.
+            """
+            direct = first(templates[sectionName], key)
+            if (direct is not None):
+                return direct
+            if (sectionName not in graphCache):
+                try:
+                    graphCache[sectionName] = FRB.IniSectionGraph(dict(templates), [sectionName])
+                except Exception as error:
+                    print(f"  ! could not build the call graph for [{sectionName}]: {error}")
+                    graphCache[sectionName] = None
+            graph = graphCache[sectionName]
+            if (graph is None):
+                return None
+
+            found = []
+            for name, section in graph.sections.items():
+                if (name == sectionName):
+                    continue
+                value = first(section, key)          # `first` knows the parts live under the template
+                if (value and value not in found):
+                    found.append(value)
+            if (not found):
+                return None
+            if (len(found) > 1):
+                print(f"  [{sectionName}] {key}: {len(found)} variants behind `run =`, using {found[0]}"
+                      f" (also {', '.join(found[1:])})")
+            else:
+                print(f"  [{sectionName}] {key} resolved through `run =` -> {found[0]}")
+            return found[0]
+
         def fileOf(resource: Optional[str]) -> Optional[str]:
             if (not resource or resource.lower() == "null" or resource not in templates):
                 return None
@@ -338,19 +459,19 @@ class ModFiles():
 
         position = blend = texcoord = face = None
         objects: Dict[str, Dict[str, Optional[str]]] = {}
-        for template in templates.values():
+        for sectionName, template in templates.items():
             h = (first(template, "hash") or "").lower()
-            if (h == Bennett["position_vb"]):
-                position = position or fileOf(first(template, "vb0"))
-            elif (h == Bennett["blend_vb"]):
-                blend = blend or fileOf(first(template, "vb1"))
-            elif (h == Bennett["texcoord_vb"]):
-                texcoord = texcoord or fileOf(first(template, "vb1"))
-            elif (h == Bennett["tex_face_diffuse"]):
+            if (h in knownHashes("position_vb")):
+                position = position or fileOf(viaRun(sectionName, "vb0"))
+            elif (h in knownHashes("blend_vb")):
+                blend = blend or fileOf(viaRun(sectionName, "vb1"))
+            elif (h in knownHashes("texcoord_vb")):
+                texcoord = texcoord or fileOf(viaRun(sectionName, "vb1"))
+            elif (h in knownHashes("tex_face_diffuse")):
                 # BOTH registers: a mod authored pre-6.x binds its face diffuse at ps-t0, one built
                 # from a 6.x dump (an identity mod, say) at ps-t1. Reading only ps-t0 silently
                 # reported "face diffuse -" on the latter.
-                face = face or fileOf(first(template, "ps-t0")) or fileOf(first(template, "ps-t1"))
+                face = face or fileOf(viaRun(sectionName, "ps-t0")) or fileOf(viaRun(sectionName, "ps-t1"))
             elif (h in (Bennett["ib"], Bennett["ibOld"])):
                 index = first(template, "match_first_index")
                 if (index is None):
@@ -359,7 +480,7 @@ class ModFiles():
                 if (name is None):
                     print(f"  ! {template.name}: match_first_index {index} is not one of Bennett's objects, skipped")
                     continue
-                objects[name] = {"ib": fileOf(first(template, "ib")), "Diffuse": fileOf(first(template, "ps-t0")), "LightMap": fileOf(first(template, "ps-t1"))}
+                objects[name] = {"ib": fileOf(viaRun(sectionName, "ib")), "Diffuse": fileOf(viaRun(sectionName, "ps-t0")), "LightMap": fileOf(viaRun(sectionName, "ps-t1"))}
         objects = {name: objects[name] for _, name in sorted(Bennett["objects"].items()) if (name in objects)}
         return position, blend, texcoord, objects, face
 
@@ -385,18 +506,30 @@ class ModFiles():
                 self._sizes[name] = image.size
         return self._sizes[name]
 
-    def texcoordLineEdit(self):
+    def texcoordLineEdit(self, targetStride: int):
         """
-        UNUSED IN v1, kept as the hook. On the Yelan pair this normalised the per-vertex data the
-        target's shader reads and the source's does not -- vertex colour G = B = 128 (that mod
-        carried 188) and a zeroed second UV set. Measure Bennett's before enabling it.
+        The per-vertex data the TARGET component's shader reads and the source's does not.
+
+        THE STRIDE IS THE IMPORTANT PART. Bennett's Texcoord is 12 bytes a vertex (COLOR 4 +
+        TEXCOORD 8); BennettAdventure's Body is 20, because she carries a second UV set at offset 12
+        and he does not. Handing her Body a 12-byte buffer makes every read at offset 12 fall into
+        the NEXT vertex's COLOR -- shading that varies vertex by vertex, which in game was patches of
+        different white across his hair (2026-09-15). Short lines are zero-padded at the END, which
+        is exactly where TEXCOORD1 sits; her Bang and Eye are stride 12 like his and are untouched.
+
+        The vertex colour normalisation is kept from the Yelan pair, where that mod carried 188.
+        Measured on Bennett: he already has G = 128 in 98% of vertices and B = 128 in 99%, so it is
+        very nearly a no-op here rather than a correction.
         """
-        stride = self.texcoordStride
         def edit(line: bytes) -> bytes:
             out = bytearray(line)
             out[1] = 128
             out[2] = 128
-            if (stride == 20):
+            # NOT widened here. A longer returned line is not honoured by the buffer writer -- it
+            # sizes its output from the SOURCE stride -- and returning one made it write nothing at
+            # all, silently: the identity mod went from three texcoord buffers to one. Widening is
+            # done by widenTexcoords() after the service run instead.
+            if (targetStride == 20 and len(out) >= 20):
                 out[12:20] = bytes(8)
             return bytes(out)
         return edit
@@ -410,30 +543,36 @@ def alphaOne(texFile) -> None:
     texFile.img.putalpha(1)
 
 
-def liftBands(diffusePath: Optional[str]):
+def liftBands(diffusePath: Optional[str], objName: str):
     """
-    UNUSED IN v1, and it RAISES if called, because SkinBand / FurBand are None until the two
-    legends have been measured against each other. On the Yelan pair this moved her bands onto the
-    target's -- fur 255 -> 0, then skin 115-127 -> 255 where the diffuse agreed the pixel was skin.
+    Moves HairBand where the object's DIFFUSE agrees the pixel is that material.
+
+    Conditional because the band numbers mean different things on his own two objects -- 0 is hair on
+    his head and dark cloth on his body -- so an unconditional move would reshade the body.
     """
     def lift(texFile) -> None:
-        if (SkinBand is None or FurBand is None):
-            raise SystemExit("liftBands: Bennett's and BennettAdventure's band legends have not been "
-                             "measured; fill in SkinBand / FurBand before enabling the lift")
         pixels = np.array(texFile.img)
         alpha = pixels[..., 3]
-        fur = (alpha == FurBand[0])
-        skin = (alpha >= SkinBand[0]) & (alpha <= SkinBand[1])
-        if (diffusePath and os.path.isfile(diffusePath)):
-            diffuse = FRB.TextureFile(diffusePath, readPillowImg = True)
-            diffuse.open()
-            if (diffuse.hasImage):
-                img = diffuse.img.convert("RGB")
-                if (img.size != texFile.img.size):
-                    img = img.resize(texFile.img.size, Image.BILINEAR)
-                skin &= skinColoured(np.asarray(img))
-        alpha[fur] = FurBand[1]
-        alpha[skin] = SkinBand[2]
+        moved = 0
+        for band in (HairBand, GogglesBand):
+            if (band is None):
+                continue
+            fromVal, toVal, condition, onlyObj = band
+            if (onlyObj is not None and objName != onlyObj):
+                continue                      # the legend is per OBJECT: band 0 is hair on his head
+                                              # and dark cloth on his body
+            mask = (alpha == fromVal)
+            if (diffusePath and os.path.isfile(diffusePath)):
+                diffuse = FRB.TextureFile(diffusePath, readPillowImg = True)
+                diffuse.open()
+                if (diffuse.hasImage):
+                    img = diffuse.img.convert("RGB")
+                    if (img.size != texFile.img.size):
+                        img = img.resize(texFile.img.size, Image.BILINEAR)
+                    mask &= Conditions[condition](np.asarray(img))
+            alpha[mask] = toVal
+            moved += int(mask.sum())
+        print(f"      band move on {objName}: {moved} px")
         texFile.img = Image.fromarray(pixels, "RGBA")
     return lift
 
@@ -453,7 +592,7 @@ def filesFor(ini, components: List[str]) -> ModFiles:
     return _files[key]
 
 
-def texReplace(files: ModFiles, resModObj, kind: str, filterFunc) -> FRB.TexReplace:
+def texReplace(files: ModFiles, resModObj, kind: str, filterFunc, compress: bool = True) -> FRB.TexReplace:
     """A texture edit through the API's Pillow-engine TexEditor, written once per source texture"""
     def fix(resource) -> bool:
         if (resource.fixedPath in _written):
@@ -465,10 +604,12 @@ def texReplace(files: ModFiles, resModObj, kind: str, filterFunc) -> FRB.TexRepl
         # shader then samples them without the sRGB decode: a visibly brighter texture in game.
         # mipmaps: every texture the game ships carries its chain, and one written without it is
         # sampled from its top level at every distance -- speckles over the hair (2026-09-12)
-        editor = FRB.TexEditor([filterFunc], readPillowImg = True, compress = True, mipmaps = True)
+        # compress = False for a light map: its ALPHA is a material band selector, and BC7's lossy
+        # alpha moves values off their band and so onto a different shading ramp.
+        editor = FRB.TexEditor([filterFunc], readPillowImg = True, compress = compress, mipmaps = True)
         editor.fix(FRB.TextureFile(resource.srcPath, readPillowImg = True), resource.fixedPath)
         return True
-    placeholder = FRB.TexEditor([], compress = True)
+    placeholder = FRB.TexEditor([], compress = compress)
     return FRB.TexReplace(resModObj, placeholder, fixFunc = fix, resSubType = kind)
 
 
@@ -482,6 +623,8 @@ def makeFixer(component: str, components: List[str]):
         modType = FRB.ModTypeIdTools.getModType(modTypeId)
         files = filesFor(ini, components)
         drawn = files.drawn(component)
+        # what the section will actually be written as, after the diagnostic switches
+        normalMap = plan["normalMap"] and not SkipNormalMap
         cut = plan["strategy"] == "graphcut"
         groups = max(len(drawn), 1)
         print(f"  {toModName}: draws {', '.join(drawn) or 'nothing'} through slot {slot}" + (f" ({groups} .ini groups)" if (groups > 1) else ""))
@@ -501,8 +644,19 @@ def makeFixer(component: str, components: List[str]):
 
         for g, name in enumerate(drawn):
             # ---- 2. the textures: edit, then the flat normal map where the slot reads one ----
-            if (plan["normalMap"]):
-                # NO TEXTURE EDITS IN v1, deliberately. Yelan's recipe edits the head diffuse to
+            if (normalMap):
+                # the light map, band-moved (see liftBands). Collected at ps-t1, which is where the
+                # source's PLAIN layout holds it -- before the shift below moves it to ps-t2.
+                if (movesFor(name) and not SkipTextures):
+                    edits.append(FRB.ResRegCollect({(g, "", slot): "ps-t1"},
+                                                   {"lightMap": texReplace(files, (g, "", slot + "RemapTexLightMap"),
+                                                                           "LightMap", liftBands(files.objects[name]["Diffuse"], name),
+                                                                           compress = False)}))
+                elif (SkipTextures):
+                    print(f"  {name}: --noTextures, light map left untouched")
+                else:
+                    print(f"  {name}: no band move, light map left untouched")
+                # The diffuse is NOT edited. Yelan's recipe edits the head diffuse to
                 # alpha 1 and lifts every lightmap band to band here; both were derived from HER
                 # pair in game and neither is known to hold for Bennett. The mod's own textures pass
                 # through untouched until a measurement says otherwise -- see the file header.
@@ -515,6 +669,8 @@ def makeFixer(component: str, components: List[str]):
                 edits.append(FRB.GraphGroupEdit([{slotObj: [FRB.RegRemap({"ps-t0": ["ps-t1", "ps-tNormal"], "ps-t1": ["ps-t2"]})]} if (i == g) else {} for i in range(groups)]))
                 creator = FRB.TexCreator(1024, 1024, FRB.CppColour(*FlatNormal), compress = True, mipmaps = True)   # flat: any size serves every object
                 edits.append(FRB.ResRegCollect({(g, "", slot): "ps-tNormal"}, {"normalMap": FRB.TexCreate((g, "", slot + "RemapNormal"), "NormalMap", creator)}))
+            elif (plan["normalMap"]):
+                print(f"  {slot}: --noNormalMap, keeping the mod's plain layout and NNFix")
 
         # ---- 3. the buffers, as ONE resource group: split together by VGSplitGroupResource ----
         #
@@ -537,7 +693,7 @@ def makeFixer(component: str, components: List[str]):
                 resEdits[resObj] = {component: FRB.BufReplace(resObj, kind, resSubType = name if (kind == "ib") else None)}
             builder = FRB.IniGroupedResBuilder(FRB.VGSplitGroupResource, args = [f"Bennett{toModName}Buffers"],
                                                kwargs = {"component": component, "specs": files.specs, "ibPaths": files.ibPaths,
-                                                         "texcoordLineEdit": files.texcoordLineEdit()})
+                                                         "texcoordLineEdit": files.texcoordLineEdit(TexcoordStride[component])})
             edits.append(FRB.ResGroupCollect([component], srcRegs, resEdits, {component: builder}, id = g))
 
         # ---- 4. the index, windowed to the copied object's own KVPs (head and body share the ib hash) ----
@@ -558,12 +714,33 @@ def makeFixer(component: str, components: List[str]):
         dropFixCalls = FRB.RegRemove({"run": lambda _ind, val: val in (NNFix, ORFix)})
         fillDraw = FRB.RegFillMissing("drawindexed", "auto", fillMode = FRB.RegFillMissingMode.BottomCover)   # the draw call moves onto each object, at its END...
         removeDraw = FRB.RegRemove({"drawindexed": None})                      # ...and off the shared ib section, which now only skips
-        addFix = FRB.RegDelimitedAdd([("run", plan["fix"])], {"drawindexed": []}, pathEndOnlyWhenUndelimited = True,
+        addFix = FRB.RegDelimitedAdd([("run", plan["fix"] if normalMap else NNFix)], {"drawindexed": []}, pathEndOnlyWhenUndelimited = True,
                                     mode = FRB.RegDelimitedAddMode.PerPath)   # ONE call per path: NNFix/ORFix re-slot the ps-t registers, so two undo each other
         normalBack = FRB.RegRemap({"ps-tNormal": ["ps-t0"]})
         perGroup = []
         for g in range(groups):
-            group = {slotObj: [dropFixCalls] + ([normalBack] if plan["normalMap"] else []) + [fillDraw, addFix, hashRemap],
+            # THE DRAW COUNT IS MEASURED OFF THE SPLIT INDEX BUFFER, NEVER INHERITED FROM THE MOD.
+            #
+            # A mod that draws for itself carries its own `drawindexed = <count>, 0, 0`, and that
+            # count is its WHOLE object -- but after the split this component's .ib holds only the
+            # triangles the split kept for it. RegFillMissing never fires on such a section (the
+            # register is not missing), so the mod's stale count survives and the draw reads past the
+            # end of the buffer.
+            #
+            # Measured on a real Bennett mod (2026-09-15): its head section draws 9879 indices, the
+            # Eye component's split .ib holds 828, and the remapped Eye draw still asked for 9879 --
+            # 9051 indices of whatever followed the buffer, which rendered as mangled eyes. The head
+            # drawn through the Body component had the same fault (9879 asked, 9051 present). The
+            # identity mod never showed it because it draws through `auto` and so has no count to go
+            # stale: a mod that draws for itself is the case that matters, and it is the common one.
+            #
+            # Each split .ib is self-contained and renumbered, so the offset is always 0.
+            setDraw = []
+            if (g < len(drawn)):
+                i = files.ibNames.index(drawn[g])
+                count = len(files.results[component].ibs[i]) * 3
+                setDraw = [FRB.RegNewVals({"drawindexed": f"{count}, 0, 0"})]
+            group = {slotObj: [dropFixCalls] + ([normalBack] if normalMap else []) + [fillDraw] + setDraw + [addFix, hashRemap],
                      ("", "ib"): [FRB.GraphRename(lambda n: naming.getRemapIbName(n, toModName)), hashRemap, removeDraw],
                      ("", "blend"): [FRB.GraphRename(lambda n: naming.getRemapBlendName(n, toModName)), hashRemap]
                                     + ([FRB.RegNewVals({"draw": f"{files.keptVertices(component)},0"})] if cut else []),
@@ -612,10 +789,207 @@ def makeFixer(component: str, components: List[str]):
 
 # ============================================================================== run
 
+def widenTexcoords(folder: str) -> None:
+    """
+    Widen every written Texcoord buffer to its target component's stride, and say so in the .ini.
+
+    Runs after the service, because the buffer writer sizes its output from the source stride (see
+    this file's note on texcoordLineEdit). A buffer already at or above the target width is left
+    alone, so this is a no-op for the Bang and the Eye, whose stride matches Bennett's.
+    """
+    import glob
+    import re
+
+    for iniPath in glob.glob(os.path.join(folder, "**", "*.ini"), recursive = True):
+        with open(iniPath, "rb") as f:
+            iniRaw = f.read()
+        crlf = b"\r\n" in iniRaw
+        iniText = iniRaw.decode("utf-8", "replace").replace("\r\n", "\n")
+        changed = False
+
+        # [ResourceXxx] ... stride = N ... filename = Y.buf, for the remapped texcoord buffers only
+        for block in re.finditer(r"\[Resource[^\]]*\]\n(?:[^\[]*\n)?", iniText):
+            body = block.group(0)
+            nameMatch = re.search(r"filename\s*=\s*(\S+Texcoord\S*\.buf)", body)
+            strideMatch = re.search(r"stride\s*=\s*(\d+)", body)
+            if (not nameMatch or not strideMatch):
+                continue
+            fileName = nameMatch.group(1)
+            # the writer names a remapped buffer <mod><target><kind>..., so the component is in it
+            component = next((c for c in TexcoordStride if f"BennettAdventure{c}" in fileName), None)
+            if (component is None):
+                continue
+            want = TexcoordStride[component]
+            have = int(strideMatch.group(1))
+            if (have >= want):
+                continue
+
+            bufPath = os.path.join(os.path.dirname(iniPath), fileName)
+            if (not os.path.isfile(bufPath)):
+                # A SAFETY NET, not a known bug. In normal runs every named buffer is written, and
+                # both .ini groups of one component get byte-identical Texcoord content (it is ONE
+                # split output), so a missing one can be filled from its sibling.
+                #
+                # It exists because a change to texcoordLineEdit once made the writer produce nothing
+                # at all, silently -- the identity mod went from three texcoord buffers to one while
+                # every log line still said success. If this fires, the cause is upstream and worth
+                # finding rather than living with.
+                sibling = next((os.path.join(os.path.dirname(bufPath), n)
+                                for n in sorted(os.listdir(os.path.dirname(bufPath)))
+                                if (n != fileName and f"BennettAdventure{component}" in n
+                                    and "Texcoord" in n and n.endswith(".buf")
+                                    and os.path.isfile(os.path.join(os.path.dirname(bufPath), n)))), None)
+                if (sibling is None):
+                    print(f"  ! {fileName} is named by the .ini but not on disk, and has no sibling to copy")
+                    continue
+                shutil.copyfile(sibling, bufPath)
+                print(f"  ! {fileName} was named but never written (writer dedup) -- filled from {os.path.basename(sibling)}")
+
+            data = np.fromfile(bufPath, dtype = np.uint8)
+            if (len(data) % have):
+                print(f"  ! {fileName} is not a whole number of {have}-byte lines, not widened")
+                continue
+            lines = data.reshape(-1, have)
+            wide = np.zeros((len(lines), want), dtype = np.uint8)
+            wide[:, :have] = lines                      # the new bytes are TEXCOORD1, zeroed
+            wide.tofile(bufPath)
+
+            iniText = iniText.replace(body, body.replace(f"stride = {have}", f"stride = {want}"), 1)
+            changed = True
+            print(f"  widened {fileName}: stride {have} -> {want} over {len(lines)} vertices ({component})")
+
+        if (changed):
+            out = iniText.replace("\n", "\r\n") if crlf else iniText
+            with open(iniPath, "wb") as f:
+                f.write(out.encode("utf-8"))
+
+
+def hideUndrawnComponents(folder: str, components: List[str], keepBangs: bool) -> None:
+    """
+    Suppress the draw of every target component the fix did NOT remap onto.
+
+    A component nothing was remapped onto still draws the SKIN's own geometry, on top of whatever the
+    mod put there. For Bennett that is her Bang -- her front fringe over his hair, which is what made
+    the hair look like two different whites.
+
+    `handling = skip` with no drawindexed is what suppresses a draw; it is the same shape the fix
+    leaves on a component it does remap, minus the re-issued draw.
+    """
+    import glob
+    import re
+
+    missing = [c for c in Adventure if c not in components]
+    if (keepBangs):
+        missing = [c for c in missing if c != "Bang"]
+    if (not missing):
+        return
+
+    for iniPath in sorted(glob.glob(os.path.join(folder, "**", "*.ini"), recursive = True)):
+        with open(iniPath, "rb") as f:
+            iniRaw = f.read()
+        iniText = iniRaw.decode("utf-8", "replace").replace("\r\n", "\n")
+        if ("RemapFix]" not in iniText and "RemapFix\n" not in iniText):
+            continue                                   # not one of ours
+        if (re.search(r"RemapFix\d+\.ini$", os.path.basename(iniPath))):
+            continue                                   # the merge's extra files: one hide is enough
+
+        add = []
+        for component in missing:
+            name = f"TextureOverrideBennettAdventure{component}IBHide"
+            if (name in iniText):
+                continue
+            add.append(f"\n[{name}]\nhash = {Adventure[component]['ib']}\nhandling = skip\n")
+            print(f"  hiding the skin's own {component} draw (ib {Adventure[component]['ib']})")
+        if (not add):
+            continue
+
+        iniText += ("\n; The skin's own draws for components nothing was remapped onto. Left drawing,\n"
+                    "; they sit on top of the mod -- her bangs over his hair, as two different whites.\n"
+                    + "".join(add))
+        out = iniText.replace("\n", "\r\n") if (b"\r\n" in iniRaw) else iniText
+        with open(iniPath, "wb") as f:
+            f.write(out.encode("utf-8"))
+
+
+def normaliseIndexBuffers(folder: str, enabled: bool) -> None:
+    """
+    Rewrite every 16-bit index buffer a mod declares as a 32-bit one, before anything else runs.
+
+    A GIMI mod's .ib is usually R32_UINT and both this script and the API's buffer writer assume it.
+    A mod that declares `format = DXGI_FORMAT_R16_UINT` otherwise fails with numpy's "buffer size
+    must be a multiple of element size" -- and only when the byte count happens not to divide by
+    four, so a 16-bit buffer that does divide by four would be read as half as many WRONG indices
+    and never complain.
+
+    Normalising here rather than further in keeps one story: the .ini names the widened file, the
+    split is given the same path, and the generated resource inherits R32_UINT. The mod's own .ib is
+    left on disk and the .ini is backed up beside it.
+    """
+    import glob
+    import re
+
+    for iniPath in sorted(glob.glob(os.path.join(folder, "**", "*.ini"), recursive = True)):
+        with open(iniPath, "rb") as f:
+            iniRaw = f.read()
+        iniText = iniRaw.decode("utf-8", "replace").replace("\r\n", "\n")
+
+        if (not enabled):
+            # REPORT ONLY. Rewriting the mod's .ini is destructive and is not something a diagnostic
+            # run should do without being asked; the .ini is skipped further on for want of a
+            # readable index buffer, which is the same outcome as before this existed.
+            if ("R16_UINT" in iniText):
+                print(f"  ! {os.path.basename(iniPath)} declares 16-bit index buffers, which the split cannot read."
+                      "\n    Nothing was changed. Re-run with --normaliseIndices to widen them to 32-bit"
+                      "\n    (that REWRITES this .ini and writes .r32.ib files beside the originals).")
+            continue
+
+        blocks = list(re.finditer(r"\[Resource[^\]]*\]\n(?:[^\[]*\n)?", iniText))
+        changed = False
+
+        for block in blocks:
+            body = block.group(0)
+            if ("R16_UINT" not in body):
+                continue
+            nameMatch = re.search(r"filename\s*=\s*(\S+)", body)
+            if (not nameMatch):
+                continue
+            src = os.path.join(os.path.dirname(iniPath), nameMatch.group(1).replace("\\", os.sep))
+            if (not os.path.isfile(src)):
+                print(f"  ! {nameMatch.group(1)} is declared R16 but not on disk")
+                continue
+
+            wide = os.path.splitext(src)[0] + ".r32.ib"
+            data = np.fromfile(src, dtype = "<u2").astype("<u4")
+            data.tofile(wide)
+            # keep the declared path's DIRECTORY -- a merged mod names buffers in variant
+            # subfolders (".\BennettMirrorred\BennettHead.ib") and only the file name changes
+            declared = nameMatch.group(1)
+            cut = max(declared.rfind(chr(92)), declared.rfind("/"))
+            newDeclared = declared[:cut + 1] + os.path.basename(wide)
+            newBody = (body.replace(declared, newDeclared)
+                           .replace("DXGI_FORMAT_R16_UINT", "DXGI_FORMAT_R32_UINT"))
+            iniText = iniText.replace(body, newBody, 1)
+            changed = True
+            print(f"  {os.path.basename(src)}: R16 -> R32 ({len(data)} indices) as {os.path.basename(wide)}")
+
+        if (changed):
+            backup = iniPath + ".preR32.bak"
+            if (not os.path.exists(backup)):
+                with open(backup, "wb") as f:
+                    f.write(iniRaw)
+            out = iniText.replace("\n", "\r\n") if (b"\r\n" in iniRaw) else iniText
+            with open(iniPath, "wb") as f:
+                f.write(out.encode("utf-8"))
+
+
 def main():
     parser = argparse.ArgumentParser(description = "Bennett -> BennettAdventure, through the API's parser, fixer and resource groups")
     parser.add_argument("mod", help = "the mod folder (every Bennett .ini under it is fixed)")
     parser.add_argument("--components", default = "Body,Eye", help = "target components to produce (default: %(default)s -- the Bang is left alone on purpose, see the header)")
+    parser.add_argument("--normaliseIndices", action = "store_true", help = "DESTRUCTIVE: rewrite the mod's .ini to widen 16-bit index buffers to 32-bit (backs each .ini up first)")
+    parser.add_argument("--keepSkinBangs", action = "store_true", help = "leave BennettAdventure's own bangs drawing over the mod's hair (they overlap; this was the old behaviour)")
+    parser.add_argument("--noTextures", action = "store_true", help = "DIAGNOSTIC: no band move; the mod's own light map is bound untouched")
+    parser.add_argument("--noNormalMap", action = "store_true", help = "DIAGNOSTIC: also drop the created normal map and the register shift, keeping the mod's plain layout")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--loop", action = "store_true", help = "drive parse / fix / resources per .ini from this script instead of RemapService")
@@ -624,6 +998,14 @@ def main():
     if (args.wsl):
         raise SystemExit(relaunchUnderWsl(args))
     args.mod = winToPosix(args.mod)
+    global SkipTextures, SkipNormalMap
+    SkipTextures = args.noTextures or args.noNormalMap    # no normal map implies no band move either
+    SkipNormalMap = args.noNormalMap
+    if (SkipTextures or SkipNormalMap):
+        print("  DIAGNOSTIC RUN: "
+              + ("no texture edits" if SkipTextures else "")
+              + (", no created normal map and no register shift" if SkipNormalMap else "")
+              + " -- this output is deliberately incomplete")
     components = [c.strip() for c in args.components.split(",") if c.strip()]
     unknown = [c for c in components if (c not in Plan)]
     if (unknown):
@@ -639,7 +1021,7 @@ def main():
         if (args.loop):
             fixFolder(os.path.abspath(args.mod), args)
         else:
-            runService(os.path.abspath(args.mod), args)
+            runService(os.path.abspath(args.mod), args, components)
     finally:
         FRB.CppStrategyOverrides.clear()
 
@@ -660,17 +1042,20 @@ def relaunchUnderWsl(args) -> int:
     script = toPosix(os.path.abspath(__file__))
     mod = toPosix(os.path.abspath(args.mod))
     repo = toPosix(os.path.abspath(Repo))
-    flags = [f"--components={args.components}"] + [f"--{name}" for name in ("keepBackups", "verbose", "loop") if getattr(args, name)]
+    flags = [f"--components={args.components}"] + [f"--{name}" for name in ("keepBackups", "verbose", "loop", "noTextures", "noNormalMap", "keepSkinBangs", "normaliseIndices") if getattr(args, name)]
     command = f"source {venv}/bin/activate && AG_REMAP_REPO={shlex.quote(repo)} python {shlex.quote(script)} {shlex.quote(mod)} {' '.join(flags)}"
     print(f"wsl -d {distro}: {command}")
     return subprocess.call(["wsl", "-d", distro, "--", "bash", "-lc", command])
 
 
-def runService(folder: str, args) -> None:
+def runService(folder: str, args, components: List[str]) -> None:
     """The whole run through RemapService: folder walk, undo of a previous fix, backups, resources, summary"""
     service = FRB.RemapService(path = folder, keepBackups = args.keepBackups, forcedModTypeIds = {int(FRB.ModTypeId.Bennett)},
                                logger = FRB.Logger() if args.verbose else None)
+    normaliseIndexBuffers(folder, args.normaliseIndices)
     service.fix()
+    widenTexcoords(folder)
+    hideUndrawnComponents(folder, components, args.keepSkinBangs)
     stats = service.stats
     print(f"\n.ini fixed: {len(stats.ini.fixed)}, skipped: {len(stats.ini.skipped)}")
     for path, error in stats.ini.skipped.items():

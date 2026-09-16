@@ -161,6 +161,28 @@ namespace AGRemapCore {
              @endrst
              */
             std::size_t texcoordStride = 0;
+
+            /**
+             * @brief
+             @rst
+             Every ``ps-t`` register the TARGET's own slot binds, or empty to leave the registers
+             alone :raw-html:`<br />` :raw-html:`<br />`
+
+             A remapped section inherits its ``ps-t`` lines from the MOD's section, and a mod binds
+             whatever its SOURCE slot reads -- Bennett's body binds four (diffuse, light map, metal
+             map, shadow ramp). A register beyond this list is not a harmless extra: the target's
+             shader reads that slot as something else, and the target's own mod leaves it unbound
+             so the GAME's texture serves it. Blank white eyes were exactly that.
+
+             A register bound TWICE in one part keeps its first binding, for the same reason: the
+             later one silently discards the earlier, and on a normal-map slot the shifted light map
+             lands on ``ps-t2`` ahead of the mod's own metal map there.
+
+             Read these off the target's identity mod, never off a mod of it. Only a literal
+             ``ps-t<number>`` is considered, so the fix's own scratch register is untouched
+             @endrst
+             */
+            std::vector<std::string> slotRegisters;
         };
 
         /**

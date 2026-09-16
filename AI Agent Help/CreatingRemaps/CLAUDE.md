@@ -668,9 +668,19 @@ declared R32.
 
 **Still open, both directions:** the light map band legend's diffuse gate is one filter per object,
 built from the FIRST branch's diffuse (Bennett3's diffuses happen to be identical across branches;
-its light maps are not). And -- not a merged-master issue -- the compiled split never ported the
-prototype's `trimSlotRegisters`, so a mod binding `ps-t2`/`ps-t3` (Bennett3 does, merged or not)
-comes out binding `ps-t2` twice, the metal map after the shifted light map.
+its light maps are not).
+
+**The register trim is ported (2026-09-16).** The compiled split never carried the prototype's
+`trimSlotRegisters`, so a mod binding `ps-t2`/`ps-t3` -- Bennett3 does, merged or not -- came out with
+the Eye binding a metal map and shadow ramp her Eye slot does not read, and the Body binding `ps-t2`
+TWICE, the mod's metal map after the shifted light map, band move and all. It is now
+`GIMIComponentFixerConfig::Component::slotRegisters` (empty = no trim, which is what Yelan's config
+still is) and a register edit that runs after the shift. The rule is **per part, not per section**,
+which is where the prototype's line-by-line version would have gone wrong on a master: `ps-t2` is
+bound once in EACH branch of a `CommandList`, and a per-section "seen" set drops every branch's but
+the first. A checker that tracks parts reported 48 violations on the previous build's Bennett3 output
+and none on the new one, with the same 48 Body and 16 Eye bindings kept; only `.ini` files moved,
+and every other forward and reverse sample is byte-identical.
 
 <br>
 

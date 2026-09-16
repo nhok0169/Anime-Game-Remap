@@ -95,6 +95,67 @@ namespace AGRemapCore {
                 }
         };
 
+        // Drops every `ps-t<n>` binding the target's slot does not bind, and every later binding of
+        // one register a part binds twice -- see GIMIComponentFixerConfig::Component::slotRegisters.
+        //
+        // Per PART, not per section: a merged master binds `ps-t2` once in each branch of its
+        // CommandList, and those are different paths rather than one register bound twice. The
+        // double binding this exists for is made inside one part, by the register shift renaming the
+        // light map onto a register the mod already fills.
+        class TrimSlotRegisters: public BaseRegEdit<> {
+            public:
+                explicit TrimSlotRegisters(std::vector<std::string> allowed): allowed_(std::move(allowed)) {}
+
+                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
+                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
+                    (void)sectionName;
+                    (void)modType;
+                    (void)modName;
+
+                    const auto ranges = BaseRegEdit<>::toRangeSpec(partRanges);
+                    std::vector<std::pair<std::string, std::optional<ContentPart::RemoveKeyCheck>>> removals;
+
+                    for (const std::string& key : part.getKeys()) {
+                        if (!isTextureRegister(key)) {
+                            continue;
+                        }
+
+                        if (std::find(allowed_.begin(), allowed_.end(), key) == allowed_.end()) {
+                            removals.emplace_back(key, std::nullopt);
+                            continue;
+                        }
+
+                        const std::vector<std::pair<long long, std::string>> bound = part.getValsWithInds(key, true, ranges);
+                        if (bound.size() <= 1) {
+                            continue;
+                        }
+
+                        const long long first = bound.front().first;
+                        removals.emplace_back(key, ContentPart::RemoveKeyCheck(
+                            [first](long long index, const std::string&) { return index != first; }));
+                    }
+
+                    if (!removals.empty()) {
+                        part.removeKeys(removals, ranges);
+                    }
+
+                    return part;
+                }
+
+            private:
+                static bool isTextureRegister(const std::string& key) {
+                    const std::string prefix = "ps-t";
+                    if (key.size() <= prefix.size() || key.compare(0, prefix.size(), prefix) != 0) {
+                        return false;
+                    }
+
+                    return std::all_of(key.begin() + prefix.size(), key.end(),
+                                       [](char c) { return c >= '0' && c <= '9'; });
+                }
+
+                std::vector<std::string> allowed_;
+        };
+
         using Fixer = GIMIFixer<>;
         using ModObj = Fixer::ModObj;
         using ObjGroupEdit = GraphGroupEdit<>;
@@ -1094,6 +1155,11 @@ namespace AGRemapCore {
                     overridesAdapter_ = std::make_unique<RegPartEdit<>>(overrides_.get());
                     blendDrawAdapter_ = std::make_unique<RegPartEdit<>>(blendDraw_.get());
 
+                    if (!component_.slotRegisters.empty()) {
+                        trimRegisters_ = std::make_unique<TrimSlotRegisters>(component_.slotRegisters);
+                        trimRegistersAdapter_ = std::make_unique<RegPartEdit<>>(trimRegisters_.get());
+                    }
+
                     // A merged master's blend carries a `draw` per branch, and each is that variant's
                     // own count: one number for all of them stops a bigger variant part way through
                     // its model. REPLACED, not added -- a second `draw` draws the model twice.
@@ -1132,6 +1198,12 @@ namespace AGRemapCore {
                         std::vector<ObjGroupEdit::PartEdit*> slotEdits = {removeFixCallsAdapter_.get()};
                         if (component_.normalMap) {
                             slotEdits.push_back(normalBackAdapter_.get());
+                        }
+
+                        // AFTER the shift and the normal map's rename back: the double binding is
+                        // made by the shift, and ps-t0 is only a real register again after the rename.
+                        if (trimRegistersAdapter_ != nullptr) {
+                            slotEdits.push_back(trimRegistersAdapter_.get());
                         }
                         slotEdits.push_back(fillAdapter_.get());
                         slotEdits.push_back(addFixCallAdapter_.get());
@@ -1228,6 +1300,8 @@ namespace AGRemapCore {
                 std::unique_ptr<RegRemap<>> normalBack_;
                 std::unique_ptr<RegNewVals<>> overrides_;
                 std::unique_ptr<RegNewVals<>> blendDraw_;
+                std::unique_ptr<TrimSlotRegisters> trimRegisters_;
+                std::unique_ptr<RegPartEdit<>> trimRegistersAdapter_;
                 std::unique_ptr<RegBranchAdd<>> blendBranchDraw_;
                 std::unique_ptr<GraphPartEdit<>> blendBranchDrawAdapter_;
 

@@ -88,6 +88,8 @@ namespace AGRemapCore {
             // Her Body carries a second UV set; vanilla Bennett does not, so his 12-byte Texcoord is
             // widened to her 20. Her Eye reads 12, so a mod that DOES carry one is narrowed there.
             body.texcoordStride = 20;
+            // Read off BennettAdventureIdentity: her Body slot binds three, her Eye two.
+            body.slotRegisters = {"ps-t0", "ps-t1", "ps-t2"};
 
             GIMIComponentFixerConfig::Component eye{};
             eye.name = "Eye";
@@ -98,6 +100,7 @@ namespace AGRemapCore {
             eye.normalMap = false;
             eye.face = false;
             eye.texcoordStride = 12;
+            eye.slotRegisters = {"ps-t0", "ps-t1"};
 
             config.components = {body, eye};
 

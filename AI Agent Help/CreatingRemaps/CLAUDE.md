@@ -393,17 +393,48 @@ once per group. What was missing is that every group was handed the SAME config,
 variant's buffers were merged twelve times and eleven variants shipped another variant's geometry
 under their own name. The builder now takes a `std::vector<VGMergeGroupConfig>`, one per branch.
 
-**The pairing ACROSS components is positional, and that is a real limitation rather than a
-simplification to wave through.** Branch *i* of the Body is merged with branch *i* of the Bang and
-branch *i* of the Eye. That is correct for the `if / else if / else` chains an automated merger
-writes, which is nearly every merged mod in the wild. It is wrong for a hand-made mod with
-independent toggles or per-component predicates, and **it fails silently**: the output is a valid
-merge of the wrong combination. The satisfiability-based replacement is to let `ResGroupCollect`
-pair them instead -- move `buildSlotRemap`'s `GraphId(0, component, kind) -> GraphId(0, "", kind)`
-mapping into `ResGroupCollect::remaps` so the non-skeleton graphs survive to be collected, and
-register the buffer collection against every component's graph through the multi-graph `srcRegs`
-(`ByGraph<ByGraph<K>>`: one resource group collecting from several graphs is exactly this case).
-The same note is at the pairing site in `GIMIMergeFixer.cpp`.
+**And the pairing ACROSS components is by SATISFIABILITY, not by position.** Which branch of the
+Bang's `CommandList` belongs with which branch of the Body's is decided by asking whether the two
+conditions can hold at the same time -- `ResGroupCollect::combineQueries` followed by
+`Z3Predicate::isSatisfiable`, the same test the collector itself groups resources with.
+
+The mechanism is small, and the piece that was missing was an identity. `ResGroupCollect` already
+computes, per group, the query that group's resources co-occur under; it just called `build()` with
+nothing, leaving a builder that needs to know which variant it is looking at no choice but to count
+its own calls. `GroupedResBuilder::beginGroup` hands that query over (a defaulted no-op, so the
+split builder and the Python `IniGroupedResBuilder` are untouched), and `VGMergeGroupResBuilder`
+takes a resolver instead of a list: given the group's query, the fixer answers with the buffers
+selectable at the same time as it. Every value read through `run =` carries its own condition from
+the moment it is read, which is what makes the question askable at all.
+
+**Pairing by position was not merely fragile in theory -- it was already wrong on the ordinary
+case.** It survives only while each component's branch LIST lines up with every other's, and
+`ib = null` breaks that on its own: a nulled branch was dropped from the list, so a slot nulled in
+three of twelve branches had nine entries describing twelve states and every entry after the first
+null answered for the wrong one. Measured on that twelve-variant chain -- an `if / else if` chain,
+the shape that was supposed to be safe -- four of the twelve merged index buffers were wrong:
+
+| variant | positional merged | satisfiability | correct |
+| --- | --- | --- | --- |
+| 007 Pantsless Barefoot | head + **branch 8's body** | head alone | head alone (body is `null` here) |
+| 008 Nude | head + **branch 10's body** | head + branch 8's body | head + branch 8's body |
+| 009 Nude Barefoot | head + **branch 10's body** | head alone | head alone (`null`) |
+| 011 Nude BarefootGloveless | head + **branch 10's body** | head alone | head alone (`null`) |
+
+Variant 008 is the one to look at twice: branch 8's body and branch 10's body are **the same size**,
+so every size- or count-based check passes while "Nude" is handed the index buffer of "Nude
+*Gloveless*". Only the md5 separates them. And branch 10 came out right by accident -- the clamp at
+the end of a too-short list happened to land on its own entry -- which is how three of the four
+wrong ones sat next to one that looked like proof the scheme worked.
+
+**The test that proves the pairing is real is to reverse the mod, not the code.** Rewriting one
+`CommandList`'s chain from `$swapvar == 11` down to `0` is a different `.ini` saying exactly the same
+thing, because the tests are mutually exclusive -- so a satisfiability-based merge must produce
+byte-identical output, and a positional one cannot. Measured: **0 of 321 generated files move under
+satisfiability, 11 under position.** This is habit 34 with nothing invented for it: the perturbation
+is a legal mod, and it was run against the old build first to confirm the check was capable of
+failing. Yelan's three mods are byte-identical across the change, and the twelve-variant master
+still fixes with zero skips.
 
 <br>
 

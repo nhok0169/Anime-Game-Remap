@@ -517,11 +517,24 @@ output replaces the `.ini` rather than adding to it. All six, with what each cos
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "BENNETT IS COMPILED NOW, IN BOTH
 DIRECTIONS".
 
-**One known limitation ships with it**: the merge pairs `$swapvar` branches across components by
-POSITION, which is right for the `if / else if` chains an automated merger writes and silently wrong
-for a hand-made multi-toggle mod. The satisfiability-based replacement -- routing the pairing
-through `ResGroupCollect` -- is designed and written down both in that guide section and at the
-pairing site in `GIMIMergeFixer.cpp`, and is not built.
+**AND THE MERGE PAIRS BRANCHES BY SATISFIABILITY (2026-09-16), WHICH FIXED A BUG THE "SAFE" CASE
+ALREADY HAD.** Which branch of one component's `CommandList` belongs with which branch of another's
+is decided by asking `Z3` whether the two conditions can hold at the same time, not by index. The
+missing piece was an identity: `ResGroupCollect` already computes the query each group co-occurs
+under and called `build()` with nothing, so a builder could only count its own calls.
+`GroupedResBuilder::beginGroup` hands the query over -- a defaulted no-op, so the split builder and
+the `Python` `IniGroupedResBuilder` are untouched -- and `VGMergeGroupResBuilder` takes a resolver
+instead of a list of configs.
+
+Pairing by position was not only fragile in theory. `ib = null` used to be DROPPED from a slot's
+branch list, so a slot nulled in three of twelve branches had nine entries describing twelve states,
+and **four of that mod's twelve merged index buffers were wrong** -- on an `if / else if` chain, the
+shape that was supposed to be the safe one. One of the four hands "Nude" the index buffer of "Nude
+*Gloveless*" at **exactly the same byte count**, so nothing short of a checksum could see it. The
+acceptance test is to reverse a `CommandList`'s chain in the MOD -- a different `.ini` saying the
+same thing -- and require the output not to move: 0 of 321 files under satisfiability, 11 under
+position. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "BENNETT IS COMPILED
+NOW".
 
 What the real mods taught, none of which the identity mod can show, is in
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s **"THE IDENTITY MOD IS THE EASY CASE

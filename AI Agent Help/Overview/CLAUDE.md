@@ -619,6 +619,22 @@ exit code — the same "verify by the artifact, not the return code" rule the `.
 
 <br>
 
+**38. WHEN A FEATURE PRODUCES NO OUTPUT, FIND OUT WHERE ITS OUTPUT DIES BEFORE THEORISING ABOUT
+WHY IT WAS NEVER MADE (2026-09-15).** A `handling = skip` section that suppresses an unremapped
+component was reaching the `.ini` never. Four mechanisms were proposed against that, each plausible,
+each measured, each costing a build: a hash-key arity mismatch (real -- and a different bug), the
+version bucket (disproved: the lookup resolves at 6.1, 5.7 and 4.0 alike), the remover stripping it
+(disproved by running undo), and the assembly path (disproved by grep). The text was being built
+correctly the whole time -- 76 bytes, measured -- and a later writer in the same run replaced the
+file it had been added to.
+
+Every one of those theories was about *production*, and the bug was in *survival*. One print where
+the string is built and one where the file is written separates the two halves in a single run, and
+neither guess after that is needed. The same shape as habit 35 -- read what the artifact does -- one
+level earlier: **before asking why a value is wrong, confirm it still exists.**
+
+<br>
+
 ## Operating norms
 
 - Don't push or open a PR unless asked. If you do, branch off `development`, not `nhok0169`.

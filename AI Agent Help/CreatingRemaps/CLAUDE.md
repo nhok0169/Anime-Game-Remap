@@ -336,6 +336,191 @@ is a different and worse thing, because it looks like it worked.
 
 <br>
 
+## BENNETT IS COMPILED NOW, IN BOTH DIRECTIONS -- AND THE PORT NEEDED SIX TEMPLATE CHANGES (2026-09-15)
+
+`Bennett -> BennettAdventure` goes through `makeGIMIComponentFixer` and the reverse through
+`makeGIMIMergeFixer`, the same two templates YelanTranquil uses, with the configs in
+`data/Ini{Parse,Fix}Data/{Bennett,BennettAdventure}/`. The transcription itself was mechanical.
+What was not is everything below: **six things neither template could express**, every one of them
+invisible on YelanTranquil because her shapes happen to line up, and every one found by running the
+pair on real mods rather than on the identity. Each new field defaults to the previous behaviour, so
+no compiled character's output moved.
+
+Two config notes that are Bennett's and not general. The forward fix has **two** components, not
+three: he has no hair bone, so his forward `Bang` vertex-group row is empty and a Bang fixer would
+draw nothing whatever it was handed. There is no Bang row at all; its draw is suppressed instead
+(see the hide section below). And the numbers -- her Body at 26057 vertices, Texcoord stride 20,
+slots `A@0` and `B@44334`; her Bang 2492 and Eye 202, both stride 12; his `head@0` / `body@9879` --
+were read off the shipped download assets, not copied from a neighbouring character.
+
+The acceptance evidence, since a port has no new behaviour to demonstrate and so needs a different
+kind of proof from a new remap:
+
+- the reverse direction's five generated buffers are **byte-identical** to the prototype's -- match
+  them by CONTENT, because the two naming schemes differ and a name-keyed diff reports five misses
+  on a perfect result;
+- the forward direction's file set matches with three explained differences: the preamble, a
+  face-diffuse download the prototype does not make, and 2431 bytes of one light map where the band
+  gate reuses `whiteFurColoured` instead of a near-duplicate of the prototype's slightly tighter
+  test;
+- a twelve-variant merged master fixes with **zero skips** (13 `.ini`, blend 24/0, position 24/0,
+  texcoord 24/0, buf 45/0, download 6/0), and Yelan's own output is unchanged.
+
+**In-game confirmation covers the compiled pair through the register trim and the component hide,
+and not past them.** The per-branch merge and the `ib = null` handling landed after the last in-game
+report and rest on the A/B and that zero-skip run alone.
+
+<br>
+
+### A MERGED MASTER IS SEVERAL MODS BEHIND ONE `.ini`, SO THE MERGE RUNS ONCE PER BRANCH
+
+A merged mod's master is a `$swapvar` chain: one `TextureOverride` per object whose `run =` reaches
+a `CommandList` that selects a different `vb1` / `ib` per variant. Twelve variants is twelve
+complete sets of buffers behind one hash. Two things follow, and the first hides the second.
+
+**The buffers are not bound where the hash is.** The master's `TextureOverride` binds nothing
+directly, so reading `vb1` off the section that carries the hash comes back empty for every
+component and the merge fails on all of them -- which surfaces as a tidy `skipped` count, not as a
+crash. Follow `run =` transitively with `IniSectionGraph` (run config
+`{IniKeywords::Run, identity, identity}`, which handles the cycles a real mod contains) and read the
+values out of the whole reachable graph; `valsThroughRun` / `firstValThroughRun` in
+`GIMIMergeFixer.cpp` are that helper.
+
+**And then there are N merges to do, not one.** `ResGroupCollect` already separates the variants --
+it groups referenced resources by **Z3 satisfiability**, so resources that can only co-occur under
+one branch's conditions land in one group -- and `VGMergeGroupResBuilder::build()` is already called
+once per group. What was missing is that every group was handed the SAME config, so the first
+variant's buffers were merged twelve times and eleven variants shipped another variant's geometry
+under their own name. The builder now takes a `std::vector<VGMergeGroupConfig>`, one per branch.
+
+**The pairing ACROSS components is positional, and that is a real limitation rather than a
+simplification to wave through.** Branch *i* of the Body is merged with branch *i* of the Bang and
+branch *i* of the Eye. That is correct for the `if / else if / else` chains an automated merger
+writes, which is nearly every merged mod in the wild. It is wrong for a hand-made mod with
+independent toggles or per-component predicates, and **it fails silently**: the output is a valid
+merge of the wrong combination. The satisfiability-based replacement is to let `ResGroupCollect`
+pair them instead -- move `buildSlotRemap`'s `GraphId(0, component, kind) -> GraphId(0, "", kind)`
+mapping into `ResGroupCollect::remaps` so the non-skeleton graphs survive to be collected, and
+register the buffer collection against every component's graph through the multi-graph `srcRegs`
+(`ByGraph<ByGraph<K>>`: one resource group collecting from several graphs is exactly this case).
+The same note is at the pairing site in `GIMIMergeFixer.cpp`.
+
+<br>
+
+### `ib = null` IS A HIDDEN OBJECT, NOT A MISSING COMPONENT
+
+`ib = null` means *this object draws nothing* -- an author's way of removing a piece without
+deleting its section. Three variants of one merged Bennett-skin mod use it to take the gloves off.
+
+It matters because the merge's fallback for a component the mod does not carry is to fetch that
+component from the character's DOWNLOADS. `resourceOf` flattens "no `ib` line at all" and
+"`ib = null`" to the same empty string, so the fallback could not tell them apart and invented a
+download for an object the author had deliberately removed -- `BennettAdventureBodyBRemapDL.ib`,
+which nothing on the server has any reason to hold. The run then died on a file it could not open,
+inside a fix that was otherwise working.
+
+A nulled slot is dropped from the merge instead: it contributes no geometry, which is what the
+author asked for. Carry the distinction explicitly (`SlotFiles::nullIb`) rather than re-deriving it
+from an empty path. Note that `ResGroupCollect` has known this all along -- its `nullValue` defaults
+to `IniKeywords::Null` and skips such references -- so the collector was right while the two fixer
+templates reading the graph by hand were not. **If a shared collector already has an option for the
+case you just met, the bug is in the hand-rolled read beside it.**
+
+<br>
+
+### A DOWNLOADED COMPONENT CARRIES THE GAME'S UVs, SO ITS TEXTURE HAS TO COME WITH IT
+
+A mod that has no `Eye` sections whatsoever still needs eyes on the target, and the answer is the
+one the library already has: take that component from the shipped downloads. The half that is easy
+to miss is that **its textures must come from there too.**
+
+Downloaded geometry is the GAME's mesh, so its Texcoords index the GAME's atlas. Bind the mod's own
+texture to it and every UV lands somewhere unrelated on the author's art -- Bennett's eyes rendered
+as two patches of cheek, which looks like a remap failure and is a mismatch between two halves of
+one component that came from different sources. Fetch the atlas beside the geometry, and treat
+geometry and texture as a pair whenever either is substituted.
+
+<br>
+
+### A MERGE DEDUPLICATES TEXTURES, WHICH LEAVES EVERY VARIANT'S OWN BINDINGS DEAD
+
+When an author merges several mods into one, the merger moves the shared textures into a single
+folder and rewrites **the master** to point there. Each variant `.ini` is left still naming a bare
+filename beside itself -- a file that no longer exists. Those references have been dead since the
+day the mod was merged, and nothing notices while the master is the file being loaded.
+
+So picking a variant, which is how you get a merged mod down to a testable single mod, produces a
+model with **every texture missing -- in the original as well as the remap**. That reads exactly
+like a catastrophic remap bug and is a pre-existing property of the mod
+(`Images/Bennett/BennettAdventureNoTextures.jpg`). Repair a dead reference from the master's live
+one, re-expressed relative to the variant's own folder, and only ever a dead one.
+
+**And a binding naming a file that does not exist is WORSE than no binding**, which is what decides
+what to do when the master has nothing to offer. A section binding no `ps-t` renders with the game's
+textures and lets `TextureDonor` engage; a section binding a missing file looks textured to every
+check, borrows nothing, and still has `ORFix` / `NNFix` re-slotting whatever is bound. Drop the
+binding rather than keeping a broken one.
+
+<br>
+
+### WIDENING A BUFFER IS TWO EDITS: THE BYTES, AND THE DECLARED `stride`
+
+`VGSplitGroupResource::filterVertexBuffer` used to throw on any change in size, so a 12-byte
+Texcoord could never be written at a target's 20. It now allows a **uniform** stride change and
+records the width it wrote. `GIMIComponentFixerConfig::Component::texcoordStride` says which width
+to produce, in whichever direction the pair needs -- his 12 onto her Body's 20, her 20 back onto his
+12.
+
+Getting the bytes right is only half of it. **A generated resource section is a COPY of the mod's
+own**, so it still declared `stride = 12` over a buffer now written at 20, and the game then reads
+every vertex at `12i` -- the same blank-white symptom as no conversion at all. `ResEditConfig::
+extraKVPs` writes the corrected keys, and is applied only to a part whose filename was actually
+rewritten, so it reaches the generated section and nothing else in the graph.
+
+The general rule, which is not about Texcoords: **when a fix changes the shape of a file, find every
+place the `.ini` DESCRIBES that shape and change it too.** A copied section is a description of the
+old file.
+
+<br>
+
+### THE SECTION THAT HIDES A COMPONENT HAS AN OWNER, AND IT IS THE LAST FIXER
+
+Suppressing a target component nothing is remapped onto (above,
+*A TARGET COMPONENT NOTHING IS REMAPPED ONTO STILL DRAWS THE SKIN'S OWN GEOMETRY*) is a
+`TextureOverride` on its ib hash with `handling = skip` and no `drawindexed`. In the compiled
+templates that text is built by `GIMIFixer::appendedSections` from
+`GIMIComponentFixerConfig::hiddenComponents`, and **which component's fixer owns it is load-bearing**.
+
+There is one fixer per target component, and each one's output **replaces** the `.ini` rather than
+adding to the previous one's. Built on the first configured component, the 76 bytes were written and
+then written straight over by the second component's fixer -- reaching the file never, and reporting
+nothing anywhere. Owner is `config_.components.back()`.
+
+**The debugging lesson is worth more than the fix.** Four mechanisms were proposed and tested before
+the text was instrumented: a hash-key arity mismatch (real, but a different bug), the version bucket
+(disproved -- the lookup resolves at 6.1, 5.7 and 4.0 alike), the remover stripping it (disproved by
+running undo), and the assembly path (disproved by grep). Each cost a build. Printing the string at
+the point it is built, and again at the point the file is written, settled it in one run. **When a
+feature produces no output, find out where its output DIES before theorising about why it was never
+made** -- see Overview's habit 38.
+
+<br>
+
+### A BAND LEGEND IS PER OBJECT, NOT PER CHARACTER
+
+`MaterialBandRemapFilter`'s table maps a light map's alpha bands from the source's legend to the
+target's, and the same band number means different materials on different objects of one character.
+Band 0 is Bennett's silver hair on his **head** and his dark cloth on his **body**, and a colour
+gate does not separate them: the gate that correctly takes 84.7% of the head light map (the whole
+hair) still takes 6.0% of the BODY's, repainting cloth as hair.
+
+`GIMIComponentFixerConfig::lightMapObjs` restricts the edit to the objects whose legend it describes.
+`compressTextures` is the companion: the thing being edited is the alpha, the alpha is a band
+SELECTOR, and BC7 re-compression shifts band values -- so a legend edit and lossy compression must
+not be switched on together.
+
+<br>
+
 ## Recipe: a classic-shape mod onto a multi-component skin (Bennett and after)
 
 Every GI character from Bennett on is a skin of several components, so this is the shape the
@@ -1566,7 +1751,7 @@ would land on the wrong register.
 
 ### Editing a texture
 
-**SIXTEEN of the forty-four fixers carry a `texEdits` now** -- Arlecchino, Ayaka, AyakaSpringbloom,
+**SIXTEEN of the forty-two classic-template fixers carry a `texEdits` now** -- Arlecchino, Ayaka, AyakaSpringbloom,
 CherryHuTao, DilucFlamme, Ganyu, HuTao, Jean, JeanCN, Keqing, KeqingOpulent, Kirara, Klee,
 KleeBlossomingStarlight, Ningguang, Xiangling -- so the config route below is the one to reach for;
 the hand-built collector after it is for a fix the config cannot express. SEVEN of them also
@@ -2620,8 +2805,8 @@ do not do, and none of them shows up in a section-name diff or a binary comparis
 The third is the subtle one, and it is a **framework-versus-row** mistake worth recognising
 generally. In the pure-Python original, dropping the mod's own `ORFix`/`NNFix` calls is *per-row
 configuration*: every 6.1 row carries its own `RegRemove(*cls.ORFixCompleteRemoval)` and no 4.0
-row does. This template folded it into the framework as an unconditional step -- correct for all
-forty-four current characters, and silently wrong for any row that does not re-issue. It showed
+row does. This template folded it into the framework as an unconditional step -- correct for every
+character currently on it, and silently wrong for any row that does not re-issue. It showed
 as `run = CommandList\global\ORFix\NNFix` present in the old script's `--version 4.0` output
 for RosariaCN's head and absent from ours.
 
@@ -2635,7 +2820,8 @@ is invisible unless you measure it: see the next section.
 
 ### MEASURING A CHANGE TO SHARED FIXER CODE: THE A/B CANNOT DO IT (2026-09-13)
 
-`GIMICharFixer` is shared by all forty-four characters, so any edit to it needs a regression
+`GIMICharFixer` is shared by **forty-two** characters -- every one that is not a multi-component
+skin, which have their own two templates -- so any edit to it needs a regression
 check -- and **the A/B against the old script is the wrong instrument**. Several divergences from
 that script are deliberate and permanent (the face register swap, the reworked placement of the
 re-issued draw call and libraries), so `0 of 5 shared .ini files identical in shape` is the

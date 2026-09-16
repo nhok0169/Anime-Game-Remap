@@ -113,8 +113,12 @@ out are grapheme indices, and a byte cursor and a grapheme cursor must be separa
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
 
-**FORTY-FOUR characters are real now, in five DIFFERENT shapes, and which one you have decides
-almost everything else.** `raiden6_1` remaps onto a boss that **shares the source's geometry**
+**FORTY-SEVEN characters are real now (count them with
+`ls -d "Anime Game Remap (for all users)/api/src/cpp/core/src/data/IniFixData/*/"` rather than
+trusting this number -- the written one has been wrong before), in SIX different shapes, and which
+one you have decides almost everything else.** Five of them are below; the sixth is the
+multi-component skin -- Yelan/YelanTranquil and Bennett/BennettAdventure -- which has its own
+sections further down and its own two templates. `raiden6_1` remaps onto a boss that **shares the source's geometry**
 (hashes kept, originals hidden). Amber/AmberCN, Mona/MonaCN, Rosaria/RosariaCN and
 Ningguang/NingguangOrchid remap onto a **different model** -- a CN skin or another outfit (hashes
 replaced, originals left alone, indices forward-looked-up). Jean/JeanCN/JeanSea add the third: **two
@@ -138,10 +142,10 @@ source-keyed fields for it -- `srcObjRegRemovals`, `srcObjRegRemaps`, and `TexEd
 because everything else in that config is keyed by the TARGET, which is right for a split (one
 source per target) and wrong for a merge (several). It also brought the first `positionEdit`:
 XianglingCheer's model sits at a different height, so her `Position.buf` is shifted as it is
-copied. All forty-four are verified against the old pure-Python script, and **every GI character
-except Yelan is now confirmed in game** -- the lantern-rite batch on 2026-09-10, Ayaka/Nilou on
-2026-09-11, Klee/Barbara/Lisa on 2026-09-12, and Diluc, Fischl, Kaeya and Arlecchino on
-2026-09-13.
+copied. All of the classic-shape characters are verified against the old pure-Python script, and
+**every GI character is now confirmed in game** -- the lantern-rite batch on 2026-09-10, Ayaka/Nilou
+on 2026-09-11, Klee/Barbara/Lisa on 2026-09-12, Diluc, Fischl, Kaeya and Arlecchino on 2026-09-13,
+Yelan on 2026-09-13 and Bennett on 2026-09-15.
 
 **Ayaka/AyakaSpringbloom, Nilou/NilouBreeze and Kirara/KiraraBoots (2026-09-11) added no new
 shape either, and every one of them needed the TEMPLATE extended rather than a row transcribed.**
@@ -267,30 +271,33 @@ specification for the character (several have full Integration Tester goldens), 
 silent ways a remap can be wrong while every log line still says it worked.
 **Everything below about the fix being stubbed still holds for every OTHER character.**
 
-All forty-four characters also carry the **face diffuse register swap** (white shiny cheek spots), which
-has no pure-Python equivalent. **The obvious diagnosis is the wrong one and was built and thrown
+Every character on the classic `makeGIMICharFixer` template also carries the **face diffuse
+register swap** (white shiny cheek spots), which has no pure-Python equivalent. The two
+multi-component templates do it differently and you cannot copy the field across: the merge names
+the target's face register outright (`GIMIMergeFixerConfig::faceReg`) and the component template has
+no equivalent at all, because a skin of several components binds its face in its own slot. **The obvious diagnosis is the wrong one and was built and thrown
 away once already:** the spots are not an opaque blush mask needing a transparent alpha, they are GI
 6.x having swapped which register the shader reads the face diffuse and the face lightmap out of, so
 a section still binding its diffuse to `ps-t0` hands it to the lightmap slot. The fix is a two-way
 `RegRemap` (`ps-t0` <-> `ps-t1`) over the face graph --- one of the things NNFix does under the
 hood. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The face diffuse".
 
-**THE FIX IS LIVE FOR FORTY-FOUR CHARACTERS (verified end-to-end, and all but Yelan in game,
-in game). Earlier revisions of this
+**THE FIX IS LIVE FOR FORTY-SEVEN CHARACTERS (verified end-to-end, and every one of them in
+game). Earlier revisions of this
 file said every `IniFixer`/`IniParser` was stubbed and that `IniFile::getResources()` comes back
 empty --- that is NO LONGER TRUE, and believing it will cost you the best verification tool the repo
-has.** Real fixers and parsers exist for **Amber, AmberCN, Ayaka, AyakaSpringbloom, Barbara,
-BarbaraSummertime, CherryHuTao, Diluc, DilucFlamme, Fischl, FischlHighness,
-Ganyu, GanyuTwilight, HuTao, Jean, JeanCN, JeanSea, Kaeya, KaeyaSailwind, Keqing, KeqingOpulent,
-Kirara, KiraraBoots, Klee, KleeBlossomingStarlight, Lisa, LisaStudent,
+has.** Real fixers and parsers exist for **Amber, AmberCN, Arlecchino, Ayaka, AyakaSpringbloom,
+Barbara, BarbaraSummertime, Bennett, BennettAdventure, CherryHuTao, Diluc, DilucFlamme, Fischl,
+FischlHighness, Ganyu, GanyuTwilight, HuTao, Jean, JeanCN, JeanSea, Kaeya, KaeyaSailwind, Keqing,
+KeqingOpulent, Kirara, KiraraBoots, Klee, KleeBlossomingStarlight, Lisa, LisaStudent,
 Mona, MonaCN, Nilou, NilouBreeze, Ningguang, NingguangOrchid, Raiden, Rosaria, RosariaCN, Shenhe,
-ShenheFrostFlower, Xiangling, XianglingCheer, Xingqiu, XingqiuBamboo**
+ShenheFrostFlower, Xiangling, XianglingCheer, Xingqiu, XingqiuBamboo, Yelan, YelanTranquil**
 (`core/src/data/Ini{Fix,Parse}Data/`), a real run generates remapped sections,
 and `fixResources` really does correct `Blend.buf` files and really does write textures. Confirmed by
 running the CLI over the in-repo Jean fixture and watching two `.dds` files appear.
 
 Two consequences, both the opposite of what this file used to say:
-- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these forty-four.
+- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these forty-seven.
   Prefer it over any unit test when the change could possibly affect a fix.
 - **Characters outside that list still have no fixer**, so a run over one of *those* still writes
   only the credit header. That is the stub, not a bug. Check
@@ -473,26 +480,48 @@ not land every gate passes and 33312 pixels move that should not -- **the same m
 two different light maps**, alternating run to run. See Creating Remaps' "A downloaded texture that
 does not land changes the band output".
 
-**BENNETT AND BENNETTADVENTURE HAVE DATA BUT NO FIX (2026-09-14), AND THAT IS A DELIBERATE
-HALF-STEP.** Both download folders are in (`GI/Bennett/4_0`, 10 files; `GI/BennettAdventure/5_7`,
+**BENNETT AND BENNETTADVENTURE ARE COMPILED IN BOTH DIRECTIONS (2026-09-15).** The data landed
+first, on 2026-09-14, as a deliberate half-step, and all of it is still what the fix reads from.
+Both download folders are in (`GI/Bennett/4_0`, 10 files; `GI/BennettAdventure/5_7`,
 20 files), and so are the five `ModTypeId`s -- `Bennett`, `BennettAdventure`, and the three
 target-only component ids `BennettAdventure{Body,Bang,Eye}`, the YelanTranquil arrangement -- plus
 `HashData` (Bennett at **4.0 / 4.1 / 4.3 / 4.4**, following his `hash.json`'s history in the assets
 repo, and the skin's three components at 5.7), `IndexData`, `VertexCountData`, five `VGRemapData`
-rows and `Data/RemapDrafts/BennettRemapDraft.xlsx`. **No parser and no fixer**, so a run over a
-Bennett mod still writes only the credit header. The counts the suites hardcode moved with it: GI
-mod types **45 -> 47**, `VertexCountData` **44 -> 45**, `VGRemapData` **58 -> 63**, the remove table
-**45 -> 47**. Read [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Recipe: a
+rows and `Data/RemapDrafts/BennettRemapDraft.xlsx`. The counts the suites hardcode moved with it:
+GI mod types **45 -> 47**, `VertexCountData` **44 -> 45**, `VGRemapData` **58 -> 63**, the remove
+table **45 -> 47** -- and with the fix, the parse table **57 -> 59** and the fix table
+**125 -> 128**. Read [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Recipe: a
 classic-shape mod onto a multi-component skin (Bennett and after)" before adding the fix, and its
 new "Proving a NEW download folder" before adding another character's assets --- the pipeline is
 proved by rebuilding six *shipped* folders byte-identically, because a new one has no golden.
 **The vertex group rows are PROPOSED, not confirmed in game**, and Bennett has no hand-made draft
 to score against.
 
-**AND BENNETT IS PROTOTYPED IN BOTH DIRECTIONS NOW (2026-09-15), WITH THE FORWARD ONE CONFIRMED IN
-GAME ON REAL MODS.** `Tools/Misc/Prototypes/bennettAdventureFix.py` (Bennett -> BennettAdventure) and
-`adventureToBennettFix.py` (the reverse). Still no compiled parser or fixer -- the data rows above are
-what ships.
+**THE PROTOTYPES CAME FIRST AND ARE STILL THE ORACLE (2026-09-15).**
+`Tools/Misc/Prototypes/bennettAdventureFix.py` (Bennett -> BennettAdventure) and
+`adventureToBennettFix.py` (the reverse), both confirmed in game on real mods, are what the compiled
+pair was A/B'd against -- five reverse-direction buffers byte-identical, and a forward file set
+matching on everything but a preamble, one extra download and 2431 bytes of one light map. Keep them
+working: they are the only thing that can tell a transcription error from a template gap.
+
+**THE PORT NEEDED SIX TEMPLATE CHANGES, AND NONE OF THEM IS ABOUT BENNETT.** Each was invisible on
+YelanTranquil because her shapes happen to line up, and each defaults to the previous behaviour so
+no compiled character's output moved: a line edit may change a buffer's **stride** (and the copied
+resource section still DECLARES the old one, which is the half that renders blank white); a merged
+master is **several mods behind one `.ini`**, so the merge follows `run =` and then runs once per
+`$swapvar` branch; `ib = null` is a **hidden object**, not a missing component, so it must not
+trigger a download; a component taken from downloads brings the GAME's UVs and so needs the game's
+**atlas with it**; a band legend is per **object**, not per character; and the section that hides an
+unremapped component has an **owner** -- the last configured component's fixer, because each fixer's
+output replaces the `.ini` rather than adding to it. All six, with what each cost to find, are in
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "BENNETT IS COMPILED NOW, IN BOTH
+DIRECTIONS".
+
+**One known limitation ships with it**: the merge pairs `$swapvar` branches across components by
+POSITION, which is right for the `if / else if` chains an automated merger writes and silently wrong
+for a hand-made multi-toggle mod. The satisfiability-based replacement -- routing the pairing
+through `ResGroupCollect` -- is designed and written down both in that guide section and at the
+pairing site in `GIMIMergeFixer.cpp`, and is not built.
 
 What the real mods taught, none of which the identity mod can show, is in
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s **"THE IDENTITY MOD IS THE EASY CASE

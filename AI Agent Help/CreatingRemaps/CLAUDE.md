@@ -592,6 +592,26 @@ Two things fall out of putting it in the branch rather than the section:
   before that part's own draw and counts every path covered, leaving the draws inside the callee
   with none. Keeping the branch's additions in the branch never creates that part.
 
+**And the VERTEX COUNT is per branch, which is the one that hides half the model.** `draw =
+<count>,0` in the blend override says how many vertices the re-issued vertex pass covers, and a
+merged mod already gives a different one per branch because its variants are different meshes --
+26088, 23851, 39097, 39577 on the twelve measured here. Replacing all of them with the first
+branch's total draws that many vertices of every variant, so anything past it is **not there**: on
+the Shirtless variant, 28785 of 41794, which is the legs, the back of the hair and the eyes. It
+reads as a model with pieces deleted rather than as a count that is too small.
+
+`override_vertex_count` is the same number and cannot be per branch -- the section it goes in
+carries no conditions to vary it by -- so it takes the LARGEST, which is what a buffer has to be big
+enough for.
+
+**The general form is worth stating once: on a merged master, ANY number measured from the mod's
+files is per branch.** The buffers, the index counts, the vertex counts, whether the mod draws for
+itself -- each one differs between variants, and each was measured once from the first. A number
+that is right for branch 0 and wrong for eleven others looks exactly like a number that is right,
+because the first variant is the one that gets looked at first.
+
+<br>
+
 The check is arithmetic, not a spot check: for every branch, the last appended draw must be
 `(|member 2's ib|, |member 1's ib|)` read off that variant's own files, and a branch whose member is
 `ib = null` must append nothing. All twelve pass, and variant 003 comes out at `25971, 124380, 0` --

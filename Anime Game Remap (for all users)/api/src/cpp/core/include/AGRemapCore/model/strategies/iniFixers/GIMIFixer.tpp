@@ -449,6 +449,18 @@ namespace AGRemapCore {
                 content = labelTargetBlock(content);
             }
 
+            // The fix's own sections, which belong to no copied object -- see appendedSections. Group
+            // 0 only: this is written once per .ini file, not once per generated copy.
+            //
+            // INSIDE the fix's block, before the boilerplate wraps it. Appended after the closing
+            // line, these sections sat outside every region the remover takes whole, so undoing a
+            // fix left them behind -- a skip on one of the skin's own ib hashes, which then hid that
+            // component of the unmodded skin.
+            if (i == 0 && !appendedSections.empty()) {
+                content = content.empty() ? appendedSections
+                                          : std::string(StringTools::rstrip(content)) + "\n\n" + appendedSections;
+            }
+
             if (fixingCtx.priorFixBlocks != nullptr) {
                 std::string& accumulated = (*fixingCtx.priorFixBlocks)[blockKey];
 
@@ -480,12 +492,6 @@ namespace AGRemapCore {
             // file rather than buried under a section the reader has to scroll past.
             if (i > 0 && !copyPreamble.empty()) {
                 content = copyPreamble + "\n\n" + content;
-            }
-
-            // The fix's own sections, which belong to no copied object -- see appendedSections.
-            // Group 0 only: this is written once per .ini file, not once per generated copy.
-            if (i == 0 && !appendedSections.empty()) {
-                content = std::string(StringTools::rstrip(content)) + "\n\n" + appendedSections;
             }
 
             fixedContents_.push_back(content);

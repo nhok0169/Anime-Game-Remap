@@ -46,6 +46,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemove.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h"
@@ -224,11 +225,13 @@ namespace AGRemapCore {
                     this->setCtx(&ctx_);
 
                     if (!readFiles()) {
+                        giveUp("could not read the mod's sections against " + toModName_ + "'s hashes");
                         return;
                     }
 
                     resolveTargets();
                     if (drawn_.empty()) {
+                        giveUp("found no object of " + toModName_ + " that any of the mod's slots draws");
                         return;
                     }
 
@@ -281,9 +284,28 @@ namespace AGRemapCore {
                             edit->editFromIni(*this->graphGroups(), ctx_.getIniFile(), nullptr, modName);
                         }
                     }
+
+                    // A fixer that gave up withdraws the downloads too. The parser registers one per
+                    // object it filled, at parse time, and fixResources fetches every one it finds
+                    // whether or not anything references it -- so writing nothing would still drop the
+                    // game's files into the mod's folder. They are the .ini file's rather than this
+                    // fixer's: this is right while every fixer over one file succeeds or fails
+                    // together, which holds here because each component's fixer reads the same files.
+                    if (gaveUp_ && ctx_.getIniFile() != nullptr) {
+                        ctx_.getIniFile()->getFileDownloads().clear();
+                    }
                 }
 
             private:
+                // Gives up: the fixer writes NOTHING. See GraphGroupRemove -- returning without this
+                // renders the mod's own sections again under their source names, which the remover
+                // cannot strip and every later run appends to, and the run counts the .ini as fixed.
+                void giveUp(const std::string& why) {
+                    ctx_.log("the merge " + why + ", so it writes nothing for this .ini");
+                    gaveUp_ = true;
+                    this->graphGroupEdits = {&removeEveryGroup_};
+                }
+
                 // ---- the mod's files, per SOURCE component ----
                 //
                 // Each component's hashes are filed under the COMPONENT's mod type name, so the
@@ -1703,6 +1725,9 @@ namespace AGRemapCore {
                 // belongs to its context and is unusable once it goes. Z3 member ORDER has bitten
                 // this repo before -- see Z3Predicate::Impl.
                 ModBranches branches_;
+
+                bool gaveUp_ = false;
+                GraphGroupRemove<> removeEveryGroup_;
 
                 IniFileFixContext ctx_;
                 std::string toModName_;

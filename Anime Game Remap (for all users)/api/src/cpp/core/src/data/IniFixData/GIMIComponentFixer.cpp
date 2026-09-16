@@ -45,6 +45,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemove.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h"
@@ -55,6 +56,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h"
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h"
 #include "AGRemapCore/model/strategies/iniParsers/BaseIniParser.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
 #include "AGRemapCore/tools/StringTools.h"
@@ -63,98 +65,16 @@
 
 namespace AGRemapCore {
     namespace {
-        // Removes every group, so the fixer it is given to writes nothing at all.
-        //
-        // For a fixer that has concluded there is nothing to remap. The base fixer renders every graph
-        // the parser handed it whether or not any edit touched it, and a parser fills each object it
-        // could not find with the game's buffers from the downloads -- so "no edits" does not mean
-        // "no output", it means the parser's invented model written out under the SOURCE's hashes.
-        //
-        // And the downloads with it. The parser registers one per object it filled, at parse time --
-        // after this fixer was built, before this edit runs -- and fixResources fetches every one it
-        // finds whether or not anything references it. Every one of them belonged to the model this
-        // edit is withholding, so leaving them registered fetches files nothing uses: ten, into the
-        // mod's own folder, on the face-only .ini this exists for.
-        class DropEveryGroup: public BaseIniGraphGroupEdit<> {
-            public:
-                IniFile* iniFile = nullptr;
+        // Whether a key is a texture register, `ps-t<number>` -- the keys the slot restriction governs.
+        // The fix's own scratch register (ps-tNormal) is not one.
+        bool isTextureRegister(const std::string& key) {
+            const std::string prefix = "ps-t";
+            if (key.size() <= prefix.size() || key.compare(0, prefix.size(), prefix) != 0) {
+                return false;
+            }
 
-                GraphGroups& edit(GraphGroups& graphGroups, const ModType* modType, const std::string& modName) override {
-                    (void)modType;
-                    (void)modName;
-
-                    while (graphGroups.size() > 0) {
-                        graphGroups.removeGroup(graphGroups.size() - 1);
-                    }
-
-                    if (iniFile != nullptr) {
-                        iniFile->getFileDownloads().clear();
-                    }
-
-                    return graphGroups;
-                }
-        };
-
-        // Drops every `ps-t<n>` binding the target's slot does not bind, and every later binding of
-        // one register a part binds twice -- see GIMIComponentFixerConfig::Component::slotRegisters.
-        //
-        // Per PART, not per section: a merged master binds `ps-t2` once in each branch of its
-        // CommandList, and those are different paths rather than one register bound twice. The
-        // double binding this exists for is made inside one part, by the register shift renaming the
-        // light map onto a register the mod already fills.
-        class TrimSlotRegisters: public BaseRegEdit<> {
-            public:
-                explicit TrimSlotRegisters(std::vector<std::string> allowed): allowed_(std::move(allowed)) {}
-
-                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
-                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
-                    (void)sectionName;
-                    (void)modType;
-                    (void)modName;
-
-                    const auto ranges = BaseRegEdit<>::toRangeSpec(partRanges);
-                    std::vector<std::pair<std::string, std::optional<ContentPart::RemoveKeyCheck>>> removals;
-
-                    for (const std::string& key : part.getKeys()) {
-                        if (!isTextureRegister(key)) {
-                            continue;
-                        }
-
-                        if (std::find(allowed_.begin(), allowed_.end(), key) == allowed_.end()) {
-                            removals.emplace_back(key, std::nullopt);
-                            continue;
-                        }
-
-                        const std::vector<std::pair<long long, std::string>> bound = part.getValsWithInds(key, true, ranges);
-                        if (bound.size() <= 1) {
-                            continue;
-                        }
-
-                        const long long first = bound.front().first;
-                        removals.emplace_back(key, ContentPart::RemoveKeyCheck(
-                            [first](long long index, const std::string&) { return index != first; }));
-                    }
-
-                    if (!removals.empty()) {
-                        part.removeKeys(removals, ranges);
-                    }
-
-                    return part;
-                }
-
-            private:
-                static bool isTextureRegister(const std::string& key) {
-                    const std::string prefix = "ps-t";
-                    if (key.size() <= prefix.size() || key.compare(0, prefix.size(), prefix) != 0) {
-                        return false;
-                    }
-
-                    return std::all_of(key.begin() + prefix.size(), key.end(),
-                                       [](char c) { return c >= '0' && c <= '9'; });
-                }
-
-                std::vector<std::string> allowed_;
-        };
+            return std::all_of(key.begin() + prefix.size(), key.end(), [](char c) { return c >= '0' && c <= '9'; });
+        }
 
         using Fixer = GIMIFixer<>;
         using ModObj = Fixer::ModObj;
@@ -305,14 +225,13 @@ namespace AGRemapCore {
                     // Nothing to build without the mod's own files: every edit below is keyed by
                     // what the component draws, which only the split knows.
                     if (!readFiles() || !splitFiles()) {
-                        // Not rendered at all -- see DropEveryGroup. Only for the no-mesh case, which
-                        // is the one this fixer decided on its own; every other early return is left
-                        // as it was.
-                        if (authorsNoMesh_) {
-                            dropEveryGroup_.iniFile = ctx_.getIniFile();
-                            this->graphGroupEdits = {&dropEveryGroup_};
+                        if (!authorsNoMesh_) {
+                            ctx_.log("the " + componentName_ + " fix found nothing it can remap -- no blend, position,"
+                                     " texcoord or drawn index buffer it could read, or no vertex-group row --"
+                                     " so it writes nothing for this .ini");
                         }
 
+                        giveUp();
                         return;
                     }
 
@@ -360,9 +279,27 @@ namespace AGRemapCore {
                             edit->editFromIni(*this->graphGroups(), ctx_.getIniFile(), nullptr, modName);
                         }
                     }
+
+                    // A fixer that gave up withdraws the downloads too. The parser registers one per
+                    // object it filled, at parse time, and fixResources fetches every one it finds
+                    // whether or not anything references it -- so writing nothing would still drop the
+                    // game's files into the mod's folder. They are the .ini file's rather than this
+                    // fixer's: this is right while every fixer over one file succeeds or fails
+                    // together, which holds here because each component's fixer reads the same files.
+                    if (gaveUp_ && ctx_.getIniFile() != nullptr) {
+                        ctx_.getIniFile()->getFileDownloads().clear();
+                    }
                 }
 
             private:
+                // Gives up: the fixer writes NOTHING. See GraphGroupRemove -- returning without this
+                // renders the mod's own sections again under their source names, which the remover
+                // cannot strip and every later run appends to, and the run counts the .ini as fixed.
+                void giveUp() {
+                    gaveUp_ = true;
+                    this->graphGroupEdits = {&removeEveryGroup_};
+                }
+
                 // ---- the mod's files ----
                 bool readFiles() {
                     IniFile* iniFile = ctx_.getIniFile();
@@ -980,7 +917,8 @@ namespace AGRemapCore {
                             text += "\n";
                         }
 
-                        text += "[TextureOverride" + modTypeName + "IBHide]\n"
+                        // Named with the Remap keyword like every other section a fix writes.
+                        text += "[TextureOverride" + modTypeName + "IB" + IniKeywords::Remap + "Hide]\n"
                                 "hash = " + *hash + "\n"
                                 "handling = skip\n";
                     }
@@ -1156,7 +1094,8 @@ namespace AGRemapCore {
                     blendDrawAdapter_ = std::make_unique<RegPartEdit<>>(blendDraw_.get());
 
                     if (!component_.slotRegisters.empty()) {
-                        trimRegisters_ = std::make_unique<TrimSlotRegisters>(component_.slotRegisters);
+                        // Per part -- see RegRestrict and Component::slotRegisters.
+                        trimRegisters_ = std::make_unique<RegRestrict<>>(component_.slotRegisters, &isTextureRegister);
                         trimRegistersAdapter_ = std::make_unique<RegPartEdit<>>(trimRegisters_.get());
                     }
 
@@ -1266,7 +1205,8 @@ namespace AGRemapCore {
                 std::size_t groupCount_ = 1;
 
                 bool authorsNoMesh_ = false;
-                DropEveryGroup dropEveryGroup_;
+                bool gaveUp_ = false;
+                GraphGroupRemove<> removeEveryGroup_;
                 std::unique_ptr<SlotRemap> slotRemap_;
 
                 std::vector<Fixer::GroupEdit*> texGroupEdits_;
@@ -1300,7 +1240,7 @@ namespace AGRemapCore {
                 std::unique_ptr<RegRemap<>> normalBack_;
                 std::unique_ptr<RegNewVals<>> overrides_;
                 std::unique_ptr<RegNewVals<>> blendDraw_;
-                std::unique_ptr<TrimSlotRegisters> trimRegisters_;
+                std::unique_ptr<RegRestrict<>> trimRegisters_;
                 std::unique_ptr<RegPartEdit<>> trimRegistersAdapter_;
                 std::unique_ptr<RegBranchAdd<>> blendBranchDraw_;
                 std::unique_ptr<GraphPartEdit<>> blendBranchDrawAdapter_;

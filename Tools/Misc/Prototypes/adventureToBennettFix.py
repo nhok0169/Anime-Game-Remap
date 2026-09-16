@@ -123,6 +123,9 @@ if (hasattr(os, "add_dll_directory")):
     os.add_dll_directory(os.path.join(APISrc, "FixRaidenBoss2"))
 
 import FixRaidenBoss2 as FRB     # noqa: E402
+
+# GIMI file conventions both prototypes need; see that module's docstring
+from remapPrototypeTools import activeInis, pickVariant     # noqa: E402
 from PIL import Image            # noqa: E402
 
 
@@ -159,6 +162,111 @@ ComponentOrder = ("Body", "Bang", "Eye")
 # untextured head, because ORFix / NNFix re-slot whatever is bound whether the section bound it or
 # not, so a fix call over a section that brought nothing scrambles the registers the game had set.
 TextureDonor = {"Bang": ("Body", "A"), "Eye": ("Body", "A")}
+
+# The game's own buffers for a component the mod does not carry. A mod is free to leave a whole
+# component alone -- an NSFW body edit has no reason to touch her eyes, and carries no Eye sections
+# whatsoever -- and dropping it would merge a model with a hole in it. These are the SHIPPED download
+# assets, the same files the compiled fix fetches; here they are already on disk, so their vertex
+# counts are measurable and the "IniFile::fix runs before fixResources" half of that problem (see
+# CreatingRemaps, "A mod that is MISSING a whole component") does not arise.
+#
+# Textures need no entry: her Bang and Eye bind Body slot A's, which TextureDonor already handles.
+Downloads = os.path.join(Repo, "Data", "Mod Downloads", "GI", "BennettAdventure", "5_7")
+DownloadBuffers = {
+    "Body": {"blend": "BennettAdventureBodyBlend.buf", "position": "BennettAdventureBodyPosition.buf",
+             "texcoord": "BennettAdventureBodyTexcoord.buf",
+             "ibs": {"A": "BennettAdventureBodyA.ib", "B": "BennettAdventureBodyB.ib"}},
+    "Bang": {"blend": "BennettAdventureBangBlend.buf", "position": "BennettAdventureBangPosition.buf",
+             "texcoord": "BennettAdventureBangTexcoord.buf",
+             "ibs": {"A": "BennettAdventureBangA.ib"}},
+    "Eye": {"blend": "BennettAdventureEyeBlend.buf", "position": "BennettAdventureEyePosition.buf",
+            "texcoord": "BennettAdventureEyeTexcoord.buf",
+            "ibs": {"A": "BennettAdventureEyeA.ib"}}}
+
+
+# The textures a downloaded component must be drawn with. Her Bang and Eye have no textures of
+# their own -- the frame analysis says both are drawn with Body slot A's -- so all three entries
+# point at the same pair, and they are the VANILLA files rather than the mod's on purpose: a
+# downloaded component carries the GAME's UVs, which index the GAME's atlas.
+DownloadTextures = {"Body": ("BennettAdventureBodyADiffuse.dds", "BennettAdventureBodyALightMap.dds"),
+                    "Bang": ("BennettAdventureBodyADiffuse.dds", "BennettAdventureBodyALightMap.dds"),
+                    "Eye": ("BennettAdventureBodyADiffuse.dds", "BennettAdventureBodyALightMap.dds")}
+
+
+def downloadResNames(component: str) -> tuple:
+    """The .ini resource names installDownloadTextures() declares for a downloaded component"""
+    return (f"ResourceBennettAdventure{component}DownloadDiffuse",
+            f"ResourceBennettAdventure{component}DownloadLightMap")
+
+
+def installDownloadTextures(folder: str, components: List[str]) -> None:
+    """
+    Give every .ini the TEXTURE resources for any component it does not carry.
+
+    The geometry fallback alone is not enough, and the way it fails is quiet: the component draws,
+    with the mod's own texture, at the game's UV coordinates -- a different atlas. Her eyes came out
+    as two patches of cheek.
+
+    This has to happen before the fix runs rather than inside ModFiles, because what the output .ini
+    carries is a resource NAME, so the resource has to exist in the file being fixed. The .dds is
+    copied in beside the .ini so the mod stays self-contained.
+    """
+    import re
+    import shutil
+
+    for iniPath in activeInis(folder):
+        with open(iniPath, "rb") as handle:
+            original = handle.read()
+        crlf = b"\r\n" in original
+        iniText = original.decode("utf-8", errors = "replace").replace("\r\n", "\n")
+
+        hashes = {h.lower() for h in re.findall(r"^\s*hash\s*=\s*(\S+)", iniText, re.M)}
+        base, added = os.path.dirname(iniPath), []
+
+        for component in components:
+            if (Adventure[component]["ib"].lower() in hashes):
+                continue                                  # the mod carries it; its own textures apply
+
+            diffuse, lightMap = DownloadTextures.get(component, (None, None))
+            names = downloadResNames(component)
+            for name, texture in zip(names, (diffuse, lightMap)):
+                if (not texture or f"[{name}]" in iniText):
+                    continue
+                source = os.path.join(Downloads, texture)
+                if (not os.path.isfile(source)):
+                    print(f"    ! {component}: {texture} is not in the downloads, so its draw would "
+                          f"sample the mod's atlas at the game's UVs -- left unbound")
+                    continue
+                if (not os.path.isfile(os.path.join(base, texture))):
+                    shutil.copyfile(source, os.path.join(base, texture))
+                added.append(f"\n[{name}]\nfilename = {texture}\n")
+                print(f"    {component}: installed {texture} as {name}")
+
+        if (not added):
+            continue
+
+        backup = iniPath + ".preDownloadTex.bak"
+        if (not os.path.isfile(backup)):
+            with open(backup, "wb") as handle:
+                handle.write(original)
+
+        iniText += ("\n; Textures for components this mod does not carry. A downloaded component brings\n"
+                    "; the GAME's UVs, so it must be drawn with the GAME's atlas and not the author's.\n"
+                    + "".join(added))
+        with open(iniPath, "wb") as handle:
+            handle.write((iniText.replace("\n", "\r\n") if crlf else iniText).encode("utf-8"))
+
+
+def downloaded(component: str, kind: str, slot: Optional[str] = None) -> Optional[str]:
+    """The shipped download file for one component buffer, or None if it is not on disk"""
+    entry = DownloadBuffers.get(component)
+    if (entry is None):
+        return None
+    name = entry["ibs"].get(slot) if (kind == "ib") else entry.get(kind)
+    if (not name):
+        return None
+    path = os.path.join(Downloads, name)
+    return path if (os.path.isfile(path)) else None
 
 # Each source draw slot: its match_first_index on the skin, and the Bennett object it lands on. Two
 # slots naming the same Bennett object have their index buffers concatenated into one draw -- which
@@ -547,7 +655,17 @@ class ModFiles():
             if (not resource or resource.lower() == "null" or resource not in templates):
                 return None
             f = first(templates[resource], "filename")
-            return os.path.normpath(os.path.join(self.folder, f.replace("\\", os.sep))) if f else None
+            if (not f):
+                return None
+            path = os.path.normpath(os.path.join(self.folder, f.replace("\\", os.sep)))
+            if (not os.path.isfile(path)):
+                # A BINDING WHOSE FILE DOES NOT EXIST IS NOT A BINDING. A merged mod's variants name
+                # textures the merge moved or never shipped, and treating those as present defeats
+                # TextureDonor -- the object looks textured, so it does not borrow, and the remapped
+                # draw ends up binding nothing while still calling ORFix/NNFix over it.
+                print(f"    NOTE: {resource} names {f}, which is not on disk -- treated as unbound")
+                return None
+            return path
 
         byHash = {}
         for template in templates.values():
@@ -565,7 +683,26 @@ class ModFiles():
                 section = next((t for t in byHash.get(Adventure[component]["ib"], [])
                                 if (first(t, "match_first_index") == str(spec["index"]))), None)
                 if (section is None):
-                    raise ValueError(f"the .ini has no section on the {component} ib hash with match_first_index {spec['index']}")
+                    # The mod does not carry this component at all. Take the game's own geometry for
+                    # it rather than dropping it, and let TextureDonor supply the textures -- which
+                    # is right regardless, because her Bang and Eye are drawn with Body A's.
+                    ib = downloaded(component, "ib", slot)
+                    if (ib is None):
+                        raise ValueError(f"the .ini has no section on the {component} ib hash with "
+                                         f"match_first_index {spec['index']}, and no download to fall "
+                                         f"back on (looked in {Downloads})")
+                    print(f"    {component}{slot}: not in this mod -- using the shipped download "
+                          f"{os.path.basename(ib)}")
+                    # ...and the download's TEXTURES with it. Not the mod's, and not the donor's:
+                    # this geometry carries the GAME's UVs, which index the GAME's atlas. See
+                    # installDownloadTextures(), which put these resources in the .ini.
+                    diffuseRes, lightMapRes = downloadResNames(component)
+                    self.objects[(component, slot)] = {
+                        "normalMap": False, "draws": False, "lightMapReg": "ps-t1", "ib": ib,
+                        "diffuse": fileOf(diffuseRes), "diffuseRes": diffuseRes if (diffuseRes in templates) else None,
+                        "lightMap": fileOf(lightMapRes), "lightMapRes": lightMapRes if (lightMapRes in templates) else None,
+                        "borrowed": None}
+                    continue
                 normalMap = bool(first(section, "ps-t2"))
                 diffuseRes = first(section, "ps-t1" if normalMap else "ps-t0")
                 lightMapRes = first(section, "ps-t2" if normalMap else "ps-t1")
@@ -599,8 +736,22 @@ class ModFiles():
             self.blend[component] = next((fileOf(first(t, "vb1")) for t in byHash.get(Adventure[component]["blend_vb"], [])), None)
             self.position[component] = next((fileOf(first(t, "vb0")) for t in byHash.get(Adventure[component]["position_vb"], [])), None)
             self.texcoord[component] = next((fileOf(first(t, "vb1")) for t in byHash.get(Adventure[component]["texcoord_vb"], [])), None)
+
+            # Same fallback as the slot sections above, and it must be the SAME DECISION: a component
+            # whose ib came from the download must take its vertex buffers from there too, or the
+            # index buffer addresses vertices that are not in the merged output.
+            for kind, table in (("blend", self.blend), ("position", self.position), ("texcoord", self.texcoord)):
+                if (table[component] is None):
+                    fallback = downloaded(component, kind)
+                    if (fallback is not None):
+                        table[component] = fallback
+                        print(f"    {component}: no {kind} in this mod -- using the shipped download "
+                              f"{os.path.basename(fallback)}")
+
             if (not self.blend[component]):
-                raise ValueError(f"the .ini names no Blend.buf for the {component} component (hash {Adventure[component]['blend_vb']})")
+                raise ValueError(f"the .ini names no Blend.buf for the {component} component "
+                                 f"(hash {Adventure[component]['blend_vb']}), and no download to fall "
+                                 f"back on (looked in {Downloads})")
             self.vertices[component] = os.path.getsize(self.blend[component]) // BlendStride
             n = self.vertices[component]
             self.positionStride[component] = (os.path.getsize(self.position[component]) // n) if (self.position[component] and n) else 40
@@ -879,6 +1030,8 @@ def makeFixer(components: List[str], vgRows: Dict[str, dict], skipTextures: bool
 # ============================================================================== run
 
 def runService(modFolder: str, args):
+    pickVariant(modFolder, args.variant)
+    installDownloadTextures(modFolder, [c for c in ComponentOrder if c in args.components.split(",")])
     service = FRB.RemapService(path = modFolder, keepBackups = args.keepBackups,
                                forcedModTypeIds = {int(FRB.ModTypeId.BennettAdventure)},
                                logger = FRB.Logger() if args.verbose else None)
@@ -908,6 +1061,7 @@ def main():
     parser = argparse.ArgumentParser(description = "BennettAdventure -> Bennett, through the API's parser and fixer")
     parser.add_argument("mod", help = "the mod folder (every BennettAdventure .ini under it is fixed)")
     parser.add_argument("--components", default = ",".join(ComponentOrder), help = "source components to remap (default: %(default)s)")
+    parser.add_argument("--variant", default = None, help = "a merged mod: disable its master .ini and enable this variant instead, refreshing that variant's stale hashes from the master (the prototype cannot fix a merged master)")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--noTextures", action = "store_true", help = "leave the light map bands alone (geometry only)")

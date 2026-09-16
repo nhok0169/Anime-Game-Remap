@@ -138,6 +138,9 @@ if (hasattr(os, "add_dll_directory")):
     os.add_dll_directory(os.path.join(APISrc, "FixRaidenBoss2"))
 
 import FixRaidenBoss2 as FRB     # noqa: E402
+
+# GIMI file conventions both prototypes need; see that module's docstring
+from remapPrototypeTools import activeInis, pickVariant     # noqa: E402
 from PIL import Image            # noqa: E402
 
 for needed in ("VGComponentSplit", "VGSplitGroupResource", "BufReplace"):
@@ -802,22 +805,6 @@ def makeFixer(component: str, components: List[str]):
 
 # ============================================================================== run
 
-def activeInis(folder: str) -> List[str]:
-    """
-    Every .ini under the folder that the game will actually load.
-
-    GIMI ignores a file whose name begins with DISABLED, so a pass that edits one is editing
-    something with no effect -- and worse, it is reading that file's claims as if they were real.
-    retargetTexcoords once walked a refused merged master this way and filled in buffers the writer
-    had never written, from siblings, which is precisely the dangling-reference state the master was
-    refused for (2026-09-15).
-    """
-    import glob
-
-    return [p for p in sorted(glob.glob(os.path.join(folder, "**", "*.ini"), recursive = True))
-            if (not os.path.basename(p).upper().startswith("DISABLED"))]
-
-
 def retargetTexcoords(folder: str) -> None:
     """
     Bring every written Texcoord buffer to its TARGET component's stride, in either direction.
@@ -1138,147 +1125,6 @@ def normaliseIndexBuffers(folder: str, enabled: bool) -> None:
             out = iniText.replace("\n", "\r\n") if (b"\r\n" in iniRaw) else iniText
             with open(iniPath, "wb") as f:
                 f.write(out.encode("utf-8"))
-
-
-def mergedMasters(folder: str) -> List[str]:
-    """Every .ini in the folder that binds its buffers behind a $swapvar branch (a merged mod's master)"""
-    import glob
-
-    out = []
-    for path in activeInis(folder):
-        text = open(path, encoding = "utf-8", errors = "replace").read()
-        if ("$swapvar" in text and "run = CommandList" in text):
-            out.append(path)
-    return out
-
-
-def masterHashes(masters: List[str]) -> Dict[str, str]:
-    """Every ``hash =`` a merged master declares, keyed by the section that declares it"""
-    out = {}
-    for master in masters:
-        section = None
-        with open(master, encoding = "utf-8", errors = "replace") as handle:
-            for line in handle:
-                stripped = line.strip()
-                if (stripped.startswith("[") and stripped.endswith("]")):
-                    section = stripped[1:-1]
-                    continue
-
-                key, sep, value = stripped.partition("=")
-                if (section is not None and sep and key.strip().lower() == "hash"):
-                    out.setdefault(section, value.strip())
-    return out
-
-
-def syncVariantHashes(folder: str, masters: List[str]) -> None:
-    """
-    Carry the merged master's hashes into whatever .ini files are enabled now.
-
-    GIMI's hash-update tools skip a file named ``DISABLED*``, so in a merged mod only the MASTER is
-    kept current -- the per-variant files rot at whatever game version they were merged at. Enabling
-    one as-is hands the game hashes it no longer emits, and the character's own geometry simply never
-    matches: the mod renders BROKEN while the remapped sections, keyed on the TARGET's hashes, draw
-    perfectly. Every log line still says the fix worked.
-
-    The master is the authority here rather than a version table, because it is the file the game was
-    demonstrably loading. Bennett is the reason that distinction matters: his draw_vb history says
-    ``8b2a1582`` was superseded at 4.1, and this mod's working master kept ``8b2a1582``.
-    """
-    import glob
-
-    wanted = masterHashes(masters)
-    if (not wanted):
-        return
-
-    for path in activeInis(folder):
-
-        with open(path, "rb") as handle:
-            original = handle.read()
-        hadCRLF = b"\r\n" in original
-        lines = original.decode("utf-8", errors = "replace").replace("\r\n", "\n").split("\n")
-
-        section, changes = None, []
-        for i, line in enumerate(lines):
-            stripped = line.strip()
-            if (stripped.startswith("[") and stripped.endswith("]")):
-                section = stripped[1:-1]
-                continue
-
-            key, sep, value = stripped.partition("=")
-            if (section not in wanted or not sep or key.strip().lower() != "hash"):
-                continue
-            if (value.strip() == wanted[section]):
-                continue
-
-            changes.append(f"{section}: {value.strip()} -> {wanted[section]}")
-            lines[i] = line[:len(line) - len(line.lstrip())] + f"hash = {wanted[section]}"
-
-        if (not changes):
-            continue
-
-        backup = path + ".preHashSync.bak"
-        if (not os.path.isfile(backup)):
-            with open(backup, "wb") as handle:
-                handle.write(original)
-
-        fixed = "\n".join(lines)
-        with open(path, "wb") as handle:
-            handle.write((fixed.replace("\n", "\r\n") if hadCRLF else fixed).encode("utf-8"))
-
-        print(f"  refreshed {len(changes)} stale hash(es) in {os.path.relpath(path, folder)}, from the merged master:")
-        for change in changes:
-            print(f"      {change}")
-
-
-def pickVariant(folder: str, variant: Optional[str]) -> None:
-    """
-    Turn a merged mod into an ordinary single-variant one, or refuse it.
-
-    The master binds every variant behind $swapvar and the per-variant .ini files are DISABLED, so
-    the master is all the game loads -- and fixing it emits resources for variants the split never
-    processed. Rather than write a file full of references to buffers that were never created, this
-    refuses outright unless --variant names one to keep.
-    """
-    masters = mergedMasters(folder)
-    if (not masters):
-        return
-
-    variants = {}
-    for root, _dirs, files in os.walk(folder):
-        for name in files:
-            if (name.upper().startswith("DISABLED") and name.lower().endswith(".ini")):
-                variants[os.path.basename(root)] = os.path.join(root, name)
-
-    if (variant is None):
-        print("\n  MERGED MOD -- REFUSING TO FIX IT")
-        print(f"    {', '.join(os.path.relpath(m, folder) for m in masters)} binds every variant behind $swapvar,")
-        print("    and this prototype resolves only the FIRST branch. Fixing it would write resources for")
-        print("    variants the split never processed -- references to buffers that do not exist, which")
-        print("    render as whatever was bound before them and report nothing.")
-        if (variants):
-            print(f"\n    Pick one with --variant: {', '.join(sorted(variants))}")
-            print("    That disables the master and enables that variant, making this an ordinary mod.")
-        else:
-            print("\n    No DISABLED per-variant .ini files found to pick from.")
-        raise SystemExit(1)
-
-    if (variant not in variants):
-        raise SystemExit(f"--variant {variant!r} is not one of: {', '.join(sorted(variants)) or '(none found)'}")
-
-    disabledMasters = []
-    for master in masters:
-        disabled = os.path.join(os.path.dirname(master), "DISABLED" + os.path.basename(master))
-        os.replace(master, disabled)
-        disabledMasters.append(disabled)
-        print(f"  disabled the merged master: {os.path.relpath(master, folder)}")
-
-    src = variants[variant]
-    enabled = os.path.join(os.path.dirname(src), os.path.basename(src)[len("DISABLED"):])
-    os.replace(src, enabled)
-    print(f"  enabled the '{variant}' variant: {os.path.relpath(enabled, folder)}")
-
-    syncVariantHashes(folder, disabledMasters)
-    print("  (to undo: rename the .ini files back, and restore any .preHashSync.bak)")
 
 
 def main():

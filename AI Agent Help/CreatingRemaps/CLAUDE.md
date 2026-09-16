@@ -619,6 +619,61 @@ the same numbers the picked-variant oracle produces.
 
 <br>
 
+### And the FORWARD direction, through the same helpers (2026-09-16)
+
+The split (`GIMIComponentFixer`, a classic mod onto a skin of several components) had none of
+this. It read each buffer with `firstVal` off the matched section, so on a merged master it found
+no blend, no position, no index buffer, and gave up -- and **a fixer that gives up still renders
+every graph the parser handed it**, under the SOURCE's names. On the maintainer's Bennett3 master
+that appended a raw copy of the author's own sections after the remap header on every run, which the
+remover cannot tell from the author's and so never strips: two full copies had accumulated in the
+live `merged.ini`, in `Bennett3_pristine` and in `RemapBKUPmerged.txt`. Everything before the first
+`; --------------- Bennett Remap ---------------` line is the author's. **An early exit that is not
+a deliberate "write nothing" (see `DropEveryGroup`) is a polluting exit.**
+
+**The branch machinery is shared now: `data/IniFixData/ModBranches.{h,cpp}`.** It owns the
+`Z3Context` and everything that reads a value together with its condition -- `valsThroughRun`,
+`localQuery`, `branchIndexOf`, `pick`, `anyCompatible`, the resource readers -- plus
+`replacePerBranch` (a `RegBranchAdd` that SETS a key per branch, which is how both directions write
+a per-branch `draw`) and `states`. It knows nothing of blends, slots or direction, deliberately:
+single <-> multi exists only because Yelan and Bennett are old, simple models, and the thing this
+is for is a multi-component -> multi-component fixer (every WuWa character, every future GI one).
+Declare it as the fixer's FIRST member, for the Z3 member-order reason. `VGSplitGroupResBuilder`
+took a per-group resolver to match `VGMergeGroupResBuilder`'s, since the split needs every drawn
+object's index buffer OF THAT GROUP'S STATE and one config hands every state the first one's -- which
+the group's own `ib` member is then not one of, and the split throws.
+
+**The states are not the blend's branches.** The first forward build enumerated branches from the
+blend alone, which is right for a master whose every `CommandList` is one `$swapvar` chain. A real
+HuoHuo-over-Bennett mod ships an eleven-frame **animation** master that binds ONE blend for the
+whole frame range (`if $swapvar >= $frameStart && $swapvar <= $frameEnd`) and a different index
+buffer per frame: by the blend there is one state, by the index buffers there are eleven.
+`ModBranches::states` refines the states by every per-branch list in turn -- a state splits into one
+per value satisfiable with it -- so the result is every combination that can actually be selected
+(`2 hats x 3 coats` is six). That mod's frames happen to keep identical vertices, so its output
+cannot tell the two enumerations apart; `core/tests/ModBranches_States_test.cpp` can, and asserts the
+blend-only enumeration's one state beside the real eleven. The per-branch `draw` of a blend branch
+is the LARGEST of the states it is drawn in.
+
+Acceptance: every sample the change could touch is byte-identical to the previous build -- the
+twelve-variant reverse master (322 files), three YelanTranquil mods and five forward mods -- except
+Bennett5, and Bennett5's difference is two `.ini` files the previous build had written as that raw
+source-named pollution while COUNTING them fixed: the animation master is now a real per-frame fix,
+and its stale `DISABLEDmerged.ini` (whose ten other variants name `.buf` files the author never
+shipped) is now skipped with the missing file named, instead of polluted. On a clean copy of Bennett3
+the master comes out with `draw = 10034 / 9932 / 10034 / 9932` per branch (each equal to that
+branch's own written blend / 32, a check shown to fail on a copy with the draws equalised),
+`override_vertex_count = 10034`, and all 24 generated index buffers valid against their blends and
+declared R32.
+
+**Still open, both directions:** the light map band legend's diffuse gate is one filter per object,
+built from the FIRST branch's diffuse (Bennett3's diffuses happen to be identical across branches;
+its light maps are not). And -- not a merged-master issue -- the compiled split never ported the
+prototype's `trimSlotRegisters`, so a mod binding `ps-t2`/`ps-t3` (Bennett3 does, merged or not)
+comes out binding `ps-t2` twice, the metal map after the shifted light map.
+
+<br>
+
 ## Recipe: a classic-shape mod onto a multi-component skin (Bennett and after)
 
 Every GI character from Bennett on is a skin of several components, so this is the shape the

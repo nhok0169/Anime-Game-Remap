@@ -127,6 +127,17 @@ namespace AGRemapCore {
                 // mod OF a skin that is several components. Her components' hashes are filed under
                 // their own mod type names, which is why that parser builds one classifier each.
                 {{"5.7", ModTypeIdTools::getName(ModTypeId::YelanTranquil)}, IniParseBuilderFuncs::yelanTranquil5_7()},
+
+                // ===== Bennett (2026-09-15) =====
+                // Two drawn objects, where every character above has three or four, and a
+                // Texcoord of stride 12.
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Bennett)}, IniParseBuilderFuncs::bennett4_0()},
+
+                // ===== BennettAdventure (2026-09-15) =====
+                // The second row built by makeGIMIComponentParser: a Body of two draw slots, a
+                // Bang and an Eye. Her Bang and Eye have no textures of their own and borrow
+                // Body slot A's, which is what their parse-row donors say.
+                {{"5.7", ModTypeIdTools::getName(ModTypeId::BennettAdventure)}, IniParseBuilderFuncs::bennettAdventure5_7()},
             };
         }
     }

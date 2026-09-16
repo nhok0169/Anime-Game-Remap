@@ -322,6 +322,27 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::YelanTranquil),
                   "6.1", ModTypeIdTools::getName(ModTypeId::Yelan)}, IniFixBuilderFuncs::yelanTranquilToYelan6_1()},
 
+                // ===== Bennett @ toVersion 6.1 (2026-09-15) =====
+                // TWO rows where Yelan has three, one per target COMPONENT that actually receives
+                // geometry: each of BennettAdventure's components is a fix target of its own
+                // (ModTypeId::BennettAdventureBody etc.), so the naming, the hash rows and the index
+                // rows are all keyed by the component rather than by the skin.
+                //
+                // NO Bang row, deliberately. Bennett has no hair bone, so his forward Bang
+                // vertex-group row is empty and a Bang fixer would draw nothing -- his hair arrives
+                // through the Body component instead. See BennettFixer.cpp's closing note for what
+                // that leaves unhandled.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Bennett),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::BennettAdventureBody)}, IniFixBuilderFuncs::bennettAdventureBody6_1()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Bennett),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::BennettAdventureEye)}, IniFixBuilderFuncs::bennettAdventureEye6_1()},
+
+                // ===== BennettAdventure @ toVersion 6.1 (2026-09-15) =====
+                // ONE row, and one .ini group out: the merge is keyed by the SKIN rather than
+                // by its components, because the target is one mesh.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::BennettAdventure),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Bennett)}, IniFixBuilderFuncs::bennettAdventureToBennett6_1()},
+
                 // ===== Keqing @ toVersion 6.1 =====
                 //
                 // The pair: this one MERGES (Keqing's dress and head onto KeqingOpulent's head)

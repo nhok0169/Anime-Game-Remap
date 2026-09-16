@@ -687,6 +687,31 @@ namespace AGRemapCore {
              See ``data/IniParseData/Yelan/YelanParser.cpp``
              @endrst
              */
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Bennett** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head`` / ``body`` -- two objects, and a
+             Texcoord of stride 12 where Yelan's is 20. See
+             ``data/IniParseData/Bennett/BennettParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory bennett4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 5.7-era BennettAdventure ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             The SECOND parser for a skin of SEVERAL components, after
+             :cpp:func:`yelanTranquil5_7` -- a ``Body`` of two draw slots, a ``Bang`` and an ``Eye``,
+             each with its own buffers and its own hashes. See
+             ``data/IniParseData/BennettAdventure/BennettAdventureParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory bennettAdventure5_7();
+
             static IniParseBuilder::Factory yelan4_0();
 
             /**

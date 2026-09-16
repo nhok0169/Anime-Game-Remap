@@ -115,6 +115,10 @@ add_library(AGRemapCore STATIC
     src/data/IniParseData/Yelan/YelanParser.cpp
     src/data/IniParseData/GIMIComponentParser.cpp
     src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp
+    src/data/IniParseData/Bennett/BennettParser.cpp
+    src/data/IniFixData/Bennett/BennettFixer.cpp
+    src/data/IniParseData/BennettAdventure/BennettAdventureParser.cpp
+    src/data/IniFixData/BennettAdventure/BennettAdventureFixer.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp
     src/data/IniFixData/Shenhe/ShenheFixer.cpp

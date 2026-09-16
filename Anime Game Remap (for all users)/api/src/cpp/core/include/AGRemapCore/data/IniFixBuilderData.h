@@ -1258,6 +1258,39 @@ namespace AGRemapCore {
              :cpp:func:`makeGIMIComponentFixer`. See ``data/IniFixData/Yelan/YelanFixer.cpp``
              @endrst
              */
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **Bennett onto BennettAdventure's Body** :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The SECOND remap onto a skin of several components, after
+             :cpp:func:`yelanTranquilBody6_1`. One fixer per target component, all three built from
+             one :cpp:class:`GIMIComponentFixerConfig`. See
+             ``data/IniFixData/Bennett/BennettFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory bennettAdventureBody6_1();
+
+            /**
+             * @brief The 6.1 fix remapping **Bennett onto BennettAdventure's Eye** -- see :cpp:func:`bennettAdventureBody6_1`
+             */
+            static IniFixBuilder::Factory bennettAdventureEye6_1();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **BennettAdventure onto Bennett** -- the inverse of
+             :cpp:func:`bennettAdventureBody6_1` :raw-html:`<br />` :raw-html:`<br />`
+
+             A skin of several components merged onto a target of one, always as ONE ``.ini`` group.
+             BOTH of Bennett's objects are merged onto: his body takes her Body's two slots and his
+             head takes her Bang and her Eye. See
+             ``data/IniFixData/BennettAdventure/BennettAdventureFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory bennettAdventureToBennett6_1();
+
             static IniFixBuilder::Factory yelanTranquilBody6_1();
 
             /**

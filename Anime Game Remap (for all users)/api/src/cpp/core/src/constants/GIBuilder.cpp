@@ -190,7 +190,7 @@ namespace AGRemapCore {
     }
 
     ModType GIBuilder::bennettAdventure() {
-        return makeGIModType(ModTypeId::BennettAdventure, {"BennyAdventure", "AdventureBennett", "AdventureBenny"});
+        return makeGIModType(ModTypeId::BennettAdventure, {"BennyAdventure", "AdventureBennett", "AdventureBenny", "SummerBenny", "BennySummer", "SummerBennett", "BennettSummer", "NatlanBennett", "BennettNatlan", "NatlanBenny", "BennyNatlan"});
     }
 
     ModType GIBuilder::cherryHutao() {

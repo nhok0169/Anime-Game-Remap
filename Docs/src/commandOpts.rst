@@ -189,6 +189,24 @@ Below are the supported types of mods
        | BarbaraBikini
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(barbarasummertime).*\]``
+   * - **Bennett**
+     - | Benny
+     - | check if the .ini file contains a section matching the regex,
+       | ``^\s*\[\s*textureoverride.*(bennett)((?!adventure).)*\]``
+   * - **BennettAdventure**
+     - | AdventureBennett,
+       | AdventureBenny,
+       | BennettNatlan,
+       | BennettSummer,
+       | BennyAdventure,
+       | BennyNatlan,
+       | BennySummer,
+       | NatlanBennett,
+       | NatlanBenny,
+       | SummerBennett,
+       | SummerBenny
+     - | check if the .ini file contains a section matching the regex,
+       | ``^\s*\[\s*textureoverride.*(bennettadventure).*\]``
    * - **CherryHuTao**
      - | 77thDirectoroftheWangshengFuneralParlorCherry, 
        | 77thDirectoroftheWangshengFuneralParlorLanternRite, 

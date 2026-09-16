@@ -49,6 +49,39 @@ Grading
    * - | **Barbara <--> BarbaraSummertime**
      - | :greenBold:`5.0`
      - |
+   * - | **Bennett --> BennettAdventure**
+     - | :greenBold:`4.5`
+     - | Bennett is ONE mesh and BennettAdventure is THREE (``Body``, ``Bang``, ``Eye``), each with its own buffers
+       | and its own vertex group numbering, so the mod's geometry is split rather than copied. Bennett's hair
+       | stays with his head on BennettAdventure's ``Body``, and her own ``Bang`` is hidden so her bangs do not
+       | sit on top of his hair.
+       |
+       | - A material band is a shading ramp, and the two skins do not agree on the legend --- and the legend
+       | is per object: band 0 is hair on Bennett's head and cloth on his body. The bands are moved per pixel,
+       | conditioned on the diffuse underneath, so a mod whose colours are unusual for the material can be misread.
+       |
+       | - Only the textures BennettAdventure's slots read are kept. A mod's metal map and shadow ramp are
+       | left to the game, since his slots read something else from those registers.
+       |
+       | - A merged mod is fixed per variant. The light map band move is decided from the FIRST variant's diffuse,
+       | so a merged mod whose variants repaint the diffuse differently may have some bands misplaced on the others.
+       |
+       | - The vertex group rows are proposals from geometry matching, not a hand-made draft, so a pose may
+       | deform slightly at a joint the matcher guessed wrong.
+   * - | **BennettAdventure --> Bennett**
+     - | :greenBold:`4.5`
+     - | The inverse: three components merged onto one mesh, laid end to end into one set of buffers with each
+       | component's blend weights remapped through its own reverse row first.
+       |
+       | - BennettAdventure's ``Bang`` and ``Eye`` land on Bennett's ``head``, which is ONE ``.ini`` section. Where
+       | they need different textures they are drawn separately, each with its own bindings --- but a mod that
+       | needs a THIRD texture set for a single component cannot be expressed.
+       |
+       | - A component the mod does not have is downloaded from the game's own assets, along with the textures
+       | that agree with the game's texture coordinates.
+       |
+       | - The vertex group rows are proposals from geometry matching, not a hand-made draft, so a pose may
+       | deform slightly at a joint the matcher guessed wrong.
    * - | **CherryHuTao --> HuTao**
      - | :greenBold:`4.6`
      - | - Front of HuTao's dress will clip to her legs when walking.
@@ -201,9 +234,6 @@ Grading
        | agree with those coordinates, so the downloaded component is given them. A mod that repaints the atlas
        | for a slot it DOES own is followed instead --- so a mod that does both, on the same slot, cannot be
        | satisfied both ways.
-       |
-       | - Index buffers are read as ``DXGI_FORMAT_R32_UINT``. A multi-component mod using ``R16_UINT`` is not
-       | supported by the merge.
        |
        | - The vertex group rows are proposals from geometry matching, not a hand-made draft, so a pose may
        | deform slightly at a joint the matcher guessed wrong.

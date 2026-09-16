@@ -623,6 +623,30 @@ their invariants deliberately in a header comment, and `test_RegDelimitedAdd.py`
 delimiter-free segment ... last delimiter -> end of path" is a specification, not an accident. A
 change to that rule went in twice and was reverted twice before the third attempt made it opt-in.
 
+## Three edits the multi-component fixers grew, promoted to modules (2026-09-16)
+
+Each started as a class in a fixer's anonymous namespace and each is general, so each is now a
+proper module with a `pybind11` binding, a `test_Xxx.py` and live Sphinx entries -- **the
+maintainer's standing rule for anything added to `regEdits/`, `graphEdits/` or `graphGroupEdits/`:
+all three surfaces, not the core class alone.** Name them the way the family is named, noun first
+(`GraphGroupRemove`, not `RemoveGraphGroup`).
+
+- **`RegRestrict`** (`regEdits/`) -- restricts the registers a part binds to an allowed list, over the
+  keys a `keyFilter` governs, and keeps only the FIRST binding of a repeated one. For a remapped
+  section, whose registers come from the SOURCE's slot and whose surplus the target reads as
+  something else. **Per part, not per section**: a merged master binds `ps-t2` once per branch, and
+  those are separate paths, not one register bound twice.
+- **`RegBranchAdd`** (`graphEdits/`) -- adds `KVPs` inside a conditional branch, the entries decided
+  from the `Z3Predicate` the part runs under: `branchOf(query, iterData)` answers
+  `(key, additions[, replacements])` or `None`. Replacements SET a key the branch already carries (a
+  blend's `draw`), where an addition would draw twice. It sat unbound for a day after it landed; its
+  tests build their graphs with `z3Ctx = ...`, without which a part outside every `if` has no query
+  and the edit raises.
+- **`GraphGroupRemove`** (`graphGroupEdits/`) -- removes whole groups, or all of them. A fixer that
+  gives up must remove every group: `GIMIFixer` renders every graph the parser handed it whether or
+  not an edit touched it, so "no edits" means the mod's own sections written again after the remap
+  header, under the source's names, which the remover cannot strip.
+
 ## When adding a new graph-editing feature
 
 - Check `IniSectionGraph`/`CallGraph`/`GraphTools` first for a primitive that already does what

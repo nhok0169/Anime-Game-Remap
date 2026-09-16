@@ -527,6 +527,19 @@ adding to the previous one's. Built on the first configured component, the 76 by
 then written straight over by the second component's fixer -- reaching the file never, and reporting
 nothing anywhere. Owner is `config_.components.back()`.
 
+**And it has to be written INSIDE the fix's block, or undo leaves it behind (2026-09-16).** It used to
+be appended after the block's closing line, as `[TextureOverride<Component>IBHide]` with two comment
+lines above it. The default remover takes everything inside a remap block, and outside one only a
+section whose name carries `Remap` AND whose hash it can attribute to the mod type -- so an undo
+stripped the fix and left this section standing: a `handling = skip` on the skin's own Bang ib hash,
+which hid her bangs with NO mod installed. The remover was right and did not change. `GIMIFixer`
+now renders `appendedSections` into the block before the boilerplate wraps it, and the section is
+named `...IBRemapHide`. A fix -> undo cycle over the original Bennett3 master and BennettIdentity
+brings every `.ini` back to the original with no `Remap` text left; the old layout, rebuilt by hand
+and undone the same way, leaves the section and a comment behind. **Anything a fix writes outside
+its own block is something the undo cannot take back** -- mods fixed before this still carry the old
+section, and need it deleted by hand.
+
 **The debugging lesson is worth more than the fix.** Four mechanisms were proposed and tested before
 the text was instrumented: a hash-key arity mismatch (real, but a different bug), the version bucket
 (disproved -- the lookup resolves at 6.1, 5.7 and 4.0 alike), the remover stripping it (disproved by
@@ -629,7 +642,13 @@ that appended a raw copy of the author's own sections after the remap header on 
 remover cannot tell from the author's and so never strips: two full copies had accumulated in the
 live `merged.ini`, in `Bennett3_pristine` and in `RemapBKUPmerged.txt`. Everything before the first
 `; --------------- Bennett Remap ---------------` line is the author's. **An early exit that is not
-a deliberate "write nothing" (see `DropEveryGroup`) is a polluting exit.**
+a deliberate "write nothing" is a polluting exit** -- and since 2026-09-16 there is no other kind in
+either multi-component template: every early return goes through `giveUp`, which swaps the fixer's
+edits for a `GraphGroupRemove` over every group, withdraws the parser's downloads, and logs why.
+The fixtures that proved it null every `ib =` in a real mod, forward and reverse: before, 16 and 21
+raw source-named sections after the header, counted as a fixed `.ini`; after, none, no downloads,
+and the folder's file count unchanged. The `.ini` is still counted as fixed -- a skip would be more
+honest about a real failure, and is not what was asked for.
 
 **The branch machinery is shared now: `data/IniFixData/ModBranches.{h,cpp}`.** It owns the
 `Z3Context` and everything that reads a value together with its condition -- `valsThroughRun`,
@@ -675,12 +694,80 @@ its light maps are not).
 the Eye binding a metal map and shadow ramp her Eye slot does not read, and the Body binding `ps-t2`
 TWICE, the mod's metal map after the shifted light map, band move and all. It is now
 `GIMIComponentFixerConfig::Component::slotRegisters` (empty = no trim, which is what Yelan's config
-still is) and a register edit that runs after the shift. The rule is **per part, not per section**,
+still is) and a `RegRestrict` that runs after the shift -- a general register edit now, with its
+binding and tests, rather than the fixer-local class it started as. The rule is **per part, not per section**,
 which is where the prototype's line-by-line version would have gone wrong on a master: `ps-t2` is
 bound once in EACH branch of a `CommandList`, and a per-section "seen" set drops every branch's but
 the first. A checker that tracks parts reported 48 violations on the previous build's Bennett3 output
 and none on the new one, with the same 48 Body and 16 Eye bindings kept; only `.ini` files moved,
 and every other forward and reverse sample is byte-identical.
+
+<br>
+
+## Undo is only as complete as what the fix wrote INSIDE its block (2026-09-16)
+
+The default remover (`RemapIniRemover`, every mod type uses it) takes **everything between a fix's
+boilerplate lines**, and outside them only a section whose name carries `Remap` AND whose hash it
+can attribute to the mod type. Anything else a fix writes survives an undo, and a survivor is not
+harmless: the component-hide section was appended after the block, so undoing a Bennett ->
+BennettAdventure fix left `handling = skip` on her Bang ib hash and hid her bangs with no mod
+installed at all. Three rules came out of it:
+
+- **Write inside the block.** `GIMIFixer` renders `appendedSections` there now. Check any new
+  template output with a fix -> undo cycle on a scratch copy of an ORIGINAL mod, comparing every
+  `.ini` with the original section by section -- `Tools/Misc/Diagnostics/fixUndoCycle.py <original>
+  <scratch>` does exactly that -- and rebuild the OLD layout by hand once, to see the check fail.
+- **A fixer that gives up must write nothing.** Both multi-component templates route every early
+  return through `giveUp`: a `GraphGroupRemove` over every group, the parser's downloads withdrawn,
+  and a log line. Before that, a fixer that gave up rendered the parser's graphs under the SOURCE's
+  names, after the header -- counted as fixed, invisible to the remover, and appended again on every
+  run.
+- **An undo over a POLLUTED file removes the author's own sections.** Raw copies carry the author's
+  section names, and the remover takes a name everywhere it occurs, so on Bennett3 an undo deleted
+  13 of the master's real `TextureOverride`s along with the copies, and deleted `BennettFace.ini`.
+  Such a mod cannot be repaired by undoing it; restore it from an original (Overview habit 40).
+
+<br>
+
+## Triage: a merged mod that works on one variant and not the others (2026-09-16)
+
+Check these in order; the first is not a code problem at all, and it is the one that cost a session.
+
+1. **Every `.ini` of the mod must switch variants the same way.** A merge onto one target object
+   writes `<name>RemapFix1.ini` beside the master, and the game loads both. If the two files'
+   `[KeySwap]` sections differ, the two files sit on different `$swapvar` values, and one draws the
+   head of one variant over the vertex buffers of another -- a blob on every variant but `0`, where
+   both start. The maintainer hit this by editing one file's keyswap. Diff the `[Constants]` and
+   `[KeySwap]` sections of every `.ini` in the folder before reading a line of fixer code.
+2. **Is it per BRANCH?** Every number measured from a merged mod's files is per branch: buffers,
+   index counts, vertex counts (`draw = N,0`), whether the mod draws for itself. Check each branch's
+   `draw` against the blend it binds (blend bytes / 32) and each generated ib's largest index
+   against that branch's vertex count; a value right for branch 0 and wrong for the rest is the
+   standard shape of this bug.
+3. **Are the STATES right?** The mod's states are not any one register's branches: an animated
+   master binds one blend over its whole frame range and a different ib per frame
+   (`ModBranches::states`, "And the FORWARD direction" above).
+4. **Did a variant name files the author never shipped?** A stale `DISABLED` master whose variants
+   reference missing `.buf` files is skipped with the file named; that is correct, not a regression.
+
+<br>
+
+## Closing out a remap: where it is documented (2026-09-16)
+
+A remap is not finished when it works in game. Three documents carry every character, and a new
+pair needs all of them:
+
+| file | what to add |
+| --- | --- |
+| `Docs/src/commandOpts.rst` | one row per mod type in the mod-type table, alphabetical: the aliases, one per line, and the classifier-regex sentence in the same style as its neighbours (`(name)((?!skinsuffix).)*` for the base, `(nameskin).*` for the skin) |
+| `Anime Game Remap (for all users)/api/README.md` | the same rows in its markdown table |
+| `Docs/src/remapGrading.rst` | one entry per DIRECTION, alphabetical, with a grade and the known limits in plain words -- what the fix cannot express, what it approximates, what a mod could do that it would misread. The grade is the maintainer's call; propose one next to the closest existing pair and say so |
+
+**The aliases are read from `core/src/constants/GIBuilder.cpp`** (`makeGIModType(ModTypeId::X,
+{...})`), never retyped from memory -- the maintainer edits that list, and the docs have to follow
+it, sorted alphabetically. Rebuild the docs (Overview habit 42) and grep the rendered pages for the
+new names. When a later change retires a limitation you wrote here -- 16-bit index buffers, say --
+remove the sentence in the same change.
 
 <br>
 
@@ -2558,10 +2645,10 @@ verification:
 
 ```bash
 # every "filename = ..." in a fixed .ini must exist on disk
-python check_dangling.py <fixed mod folder>
+python "Tools/Misc/Diagnostics/check_dangling.py" <fixed mod folder>
 
 # ...and every "<register> = Resource..." must name a section the folder DEFINES
-python check_sections.py <fixed mod folder>
+python "Tools/Misc/Diagnostics/check_sections.py" <fixed mod folder>
 ```
 
 **The second check exists because the first one cannot see its own blind spot (2026-09-10).**

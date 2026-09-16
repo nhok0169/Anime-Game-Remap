@@ -1118,6 +1118,12 @@ fix the Linux suite runs to the end again: **2137 tests, 12 failures, 7 errors**
 the `IfTemplateTree` question, and the `BaseIniFileTest` setUpClass classes); all 12 failing
 classes pass on the Windows build.
 
+**On 2026-09-16 it is 2173 tests, 13 failures, 7 errors.** The extra failure is
+`test_RemapServiceCLI.test_versionAndDownloadModeConvert`, which still expects `version = "4.0"` to
+set `service.fromVersion` -- stale since `--version` became the fix-TO version and `--fromVersion`
+was split off (see the top-level CLAUDE.md's "TWO GAME VERSIONS"). It is not a regression of
+anything newer; fix the test, not the service, if you are asked to.
+
 ## Running every standalone C++ test on Linux: the runner, and three ways it lies (2026-09-14)
 
 Measured on a full pass over `core/tests/*_test.cpp`: **47 files, 44 pass, 3 fail**, and the three

@@ -307,7 +307,7 @@ reference dangling), and a `.ini` that was *perfect* while its `Blend.buf` had b
 | layer | check |
 | --- | --- |
 | text | diff the generated section **names** against the old script's |
-| references | `CreatingRemaps/check_dangling.py` -- every `filename =` exists on disk |
+| references | `Tools/Misc/Diagnostics/check_dangling.py` -- every `filename =` exists on disk |
 | **content** | diff each section's **body**, not just its name |
 | bytes | `cmp` **every** produced `.buf`/`.dds` against the old script's, per sub-mod |
 
@@ -632,6 +632,70 @@ Every one of those theories was about *production*, and the bug was in *survival
 the string is built and one where the file is written separates the two halves in a single run, and
 neither guess after that is needed. The same shape as habit 35 -- read what the artifact does -- one
 level earlier: **before asking why a value is wrong, confirm it still exists.**
+
+**39. DRIVE WSL THROUGH A SCRIPT FILE, NEVER AN INLINE `wsl bash -c` (2026-09-16).** On the
+Windows host the Bash tool is Git Bash, and it gets to a command before WSL does. Inline, three
+things break silently and differently each time: `$var` and `$(...)` inside the quoted string come
+out empty (`cd "$G/Mods/..."` became `cd "/Mods/..."`), a heredoc loses its backslashes (a Python
+`"\\n"` arrives as `"\n"`, so an exact-match patch finds its anchor 0 times), and a `/mnt/c/...`
+argument is rewritten into `C:/Program Files/Git/mnt/c/...`. One broken heredoc also left an empty
+file named `]"` in `py/src/`, which only `git status` showed. **Write the script with the Write tool
+into the scratchpad and run it as `MSYS_NO_PATHCONV=1 wsl bash /mnt/c/.../script.sh args`**; write a
+patch for a source file the same way and run it with `py -3`. Every command in this session that
+followed that rule worked the first time.
+
+**40. THE MAINTAINER'S LIVE MOD FOLDERS: COPY, COMPARE, MOVE -- NEVER REPAIR IN PLACE (2026-09-16).**
+Test mods under `Importer/GIMI/Mods/` are the maintainer's, and a fix run can damage them in ways
+the undo cannot reverse (see Creating Remaps' "Undo is only as complete as what the fix wrote
+inside its block"). When asked to restore one:
+
+- **Find a genuinely original copy first**, and prove it: no `Remap` text in any `.ini`, the
+  modder's own footer still at the end, no `RemapBKUP*` or `*RemapDL*` files. A `*_pristine` folder
+  or a `RemapBKUP*.txt` is NOT proof -- both were polluted by the same broken runs as the live copy.
+  For Bennett3 the original was the parked `GIMI/Bennett3Test`.
+- **Require every non-`.ini` data file of the live folder to be byte-identical to it** before
+  touching anything; stop if one is not.
+- **Move, never delete**: everything the original lacks, plus the live `.ini` files, goes to
+  `GIMI/<Mod>_restoreBackup/` keeping relative paths -- outside `Mods/`, so the game does not load
+  it -- and a pre-existing backup folder stops the script rather than being overwritten.
+- **Verify by file list and `cmp` of every file**, and say the counts.
+
+**41. A NEW `regEdits` / `graphEdits` / `graphGroupEdits` CLASS SHIPS WITH ITS WHOLE SURFACE (2026-09-16).**
+The maintainer's standing rule, and a fixer-local graph tool that is general belongs in one of those
+packages rather than in the fixer's anonymous namespace. Name it noun first, like its family
+(`GraphGroupRemove`, not `RemoveGraphGroup`). The checklist, every item of which was needed once:
+
+| where | what |
+| --- | --- |
+| `core/include/.../<package>/Xxx.h` + `.tpp` | the template class and its Doxygen doc |
+| `py/src/.../<package>/PyXxx.{h,cpp}` | hold the EXACT Python objects given (lists, callables) and re-derive the core members at the start of each `edit`, as the siblings do |
+| `py/CMakeLists.txt`, `py/src/bindings.cpp` | the source, the include and the `initCppXxx(m)` call after its base |
+| `FixRaidenBoss2/__init__.py` | exported inside a `try`, while the Windows `.pyd` is older than the class |
+| `Testing/Unit Tester/.../test_Xxx.py` + `Tests/__init__.py` | tests, including one that reassigns an attribute and checks it takes effect |
+| `core.pyi` | regenerated with `pybind11_stubgen` into a SCRATCH folder, then diffed per class -- keep it only if the diff is your classes and `__all__` |
+| `Docs/src/api.rst` + `coreAPI.rst` | an alphabetical entry in the right live group |
+| `core/xml` | Doxygen into a scratch `OUTPUT_DIRECTORY`; copy the new class/header XML and the new `index.xml` -- and then EVERY compound that index names whose file is missing, or Breathe dies with `Cannot find file` on a class you never touched |
+
+A graph edit's Python test needs its `IniSectionGraph(..., z3Ctx = ...)`: without a context, a part
+outside every `if` has no query and a query-driven edit raises.
+
+**42. BUILD THE SPHINX DOCS FROM A COPY ON THE LINUX FILESYSTEM (2026-09-16).** With the Windows
+`.pyd` stale, the only build that can autodoc a Linux-only class is a Linux one -- and Breathe
+reading ~1400 XML files across `/mnt/e` spent over 40 minutes on `coreAPI` alone. Copy `Docs/`,
+`api/pyproject.toml`, `api/src/py` and `api/src/cpp/core/xml` to one Linux-side tree with the same
+relative layout (`conf.py` resolves them relatively), and install `Docs/requirements.txt` with
+`pip install --target ~/sphinxlib` on `PYTHONPATH`, so the shared dev venv is not modified. The
+whole build is then about three minutes. Baseline: **26 warnings, 0 errors**, every warning from the
+hand-written tutorial / examples pages; a warning or error naming `api` or `coreAPI` is yours. Then
+grep the rendered HTML for the new class, as the Documentation guide says.
+
+**43. FIX THE WRITER, NOT THE SHARED READER (2026-09-16).** When one fixer's output is not undone,
+the obvious patch is to teach the remover about it. The maintainer's answer: *the remover is the
+default every mod uses, and a change for one template should not move it*. The remover was right --
+it takes everything inside a fix's block, and outside it only a `Remap`-named section it can
+attribute by hash -- and the fix was to write the section inside the block. The same applies to the
+classifier, the parser and `GIMIFixer`'s rendering: when a template produces something the shared
+machinery mishandles, first ask whether the template is producing the wrong thing.
 
 <br>
 

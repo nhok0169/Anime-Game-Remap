@@ -36,7 +36,7 @@ these were found by counting the log lines rather than reading the summary. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Verifying".
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is thirty-seven short habits, none of
+feature or bug request here: the habits that pay" first.** It is forty-three short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -440,6 +440,21 @@ body). And a master is twelve mods behind one `.ini`, so an appended draw's coun
 BRANCH: `RegBranchAdd` puts the block inside the branch with the numbers that branch's own index
 buffers give, where `RegBottomAdd` can only carry one set for all of them. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "FIXING A MERGED MASTER".
+
+**AN UNDO IS ONLY AS COMPLETE AS WHAT A FIX WROTE INSIDE ITS OWN BLOCK (2026-09-16).** A section
+appended after a fix's closing line survived every undo and hid BennettAdventure's bangs with no mod
+installed; a fixer that gave up wrote the mod's own sections again under their source names, which
+an undo then used to delete the AUTHOR's sections of the same name. Both multi-component templates
+now write nothing when they give up (`GraphGroupRemove`) and render their extra sections inside the
+block -- and the fix went into the writers, not the shared remover. Before debugging a merged mod
+that works only on its first variant, **diff the `[KeySwap]` of every `.ini` in the folder**: a
+merge writes a second `RemapFix1.ini`, and two files on different `$swapvar` values draw one
+variant's head over another's buffers. When a remap is done, it is documented in three places. All of
+this is in [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md) ("Undo is only as complete",
+"Triage", "Closing out a remap"), and [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s habits 39-43
+carry the operating side: WSL through script files, restoring the maintainer's live mods, the whole
+surface a new graph edit ships with, building the docs on Linux, and fixing the writer rather than
+the shared reader.
 
 **TWO THINGS TO READ BEFORE ANY TASK, WHICHEVER KIND YOU HAVE (2026-09-14).** They are the two
 lenses the maintainer keeps having to re-teach, and each now has its own writing:

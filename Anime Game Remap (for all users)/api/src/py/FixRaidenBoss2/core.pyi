@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniNamingTools', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'VertexCounts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentParser', 'makeGIMIMergeFixer']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniNamingTools', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'VertexCounts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentParser', 'makeGIMIMergeFixer']
 class BaseBufEditor:
     """
     
@@ -8292,6 +8292,64 @@ class GraphGroupRemap(BaseIniGraphGroupEdit):
     @remap.setter
     def remap(self, arg1: typing.Any) -> None:
         ...
+class GraphGroupRemove(BaseIniGraphGroupEdit):
+    """
+    
+    This class inherits from :class:`BaseIniGraphGroupEdit`
+    
+    Removes whole groups of graphs --- every graph one .ini file of the fix would be rendered from ---
+    where :class:`GraphRemove` removes single graphs out of a group
+    
+    Removing EVERY group is how a fixer that has given up writes nothing. A fixer renders every graph
+    the parser handed it whether or not an edit touched it, so a fixer that simply stops building its
+    edits writes the mod's own `sections`_ out again after the remap header, under the SOURCE's names
+    --- which the remover cannot tell from the author's, so every later run appends another copy
+    
+    .. note::
+        A group index past the end (or a negative one) is skipped silently, as :class:`GraphRemove`
+        skips an out-of-range graph id. Groups are removed from the highest index down, so the indices
+        given all mean the groups as they were before this edit ran
+    
+    Parameters
+    ----------
+    iniIndices: Optional[List[:class:`int`]]
+        The .ini indices of the groups to remove, or ``None`` for every group :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    def __init__(self, iniIndices: typing.Any = None) -> None:
+        ...
+    def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
+        """
+        Removes every group named by :attr:`iniIndices` from 'graphGroups'
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Unused by this edit
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in, after the groups were removed
+        """
+    @property
+    def iniIndices(self) -> typing.Any:
+        """
+        Optional[List[:class:`int`]]: The .ini indices of the groups to remove, or ``None`` for every group
+        """
+    @iniIndices.setter
+    def iniIndices(self, arg1: typing.Any) -> None:
+        ...
 class GraphInherit(BaseIniGraphGroupEdit):
     """
     
@@ -16496,6 +16554,113 @@ class RegBottomAdd(BaseIniGraphEdit):
     @additions.setter
     def additions(self, arg1: typing.Any) -> None:
         ...
+class RegBranchAdd(BaseIniGraphEdit):
+    """
+    
+    This class inherits from :class:`BaseIniGraphEdit`
+    
+    Adds `KVPs`_ **inside** a conditional branch, with the entries decided by the condition that branch
+    runs under
+    
+    .. code-block:: ini
+    
+        [CommandListCharacterBody]
+        if $swapvar == 0
+           ib = ResourceBodyIb0
+           ; these entries go HERE, and are computed for THIS branch
+        else if $swapvar == 1
+           ib = ResourceBodyIb1
+           drawindexed = 200, 0, 0
+           ; ...and separately HERE, computed for this one
+        endif
+    
+    **What this is for.** A mod whose branches are different models --- a merged mod's ``$swapvar`` chain
+    is a dozen mods behind one .ini --- where what the fix has to add differs per branch because the
+    geometry does: a ``drawindexed``'s count and offset, a blend's ``draw`` vertex count.
+    
+    **How a branch is identified.** Not by position: 'branchOf' is handed the :class:`Z3Predicate` the
+    part runs under and answers with a key naming the branch, so the caller decides by satisfiability.
+    Answering ``None`` or an empty key declines the part --- a `section`_'s unconditional preamble, say,
+    which every branch's condition is satisfiable with
+    
+    .. note::
+        Where a key appears in several parts, the entries go in the **last** of them, in the graph's own
+        iteration order --- the one everything else in the branch has already run before
+    
+    .. note::
+        Reach for :class:`RegBottomAdd` first: it lands one block at the `section`_'s own depth,
+        outside every ``if``, which is right whenever the addition does not depend on which branch is
+        taken. This edit is for when it does
+    
+    Parameters
+    ----------
+    branchOf: Optional[Callable[[:class:`Z3Predicate`, :class:`SectionIterData`], Optional[Tuple[:class:`str`, List[Tuple[:class:`str`, :class:`str`]], List[Tuple[:class:`str`, :class:`str`]]]]]]
+        Decides what belongs in each branch, from the condition a part runs under and the part itself.
+        It answers ``None`` for nothing, or a tuple of: :raw-html:`<br />` :raw-html:`<br />`
+    
+        #. The key naming the branch (empty for nothing)
+        #. The `KVPs`_ to append in that branch
+        #. *Optional:* the `KVPs`_ to SET in that branch --- replacing what the branch carries, and
+           added where it carries nothing. For a key the branch already answers for itself, like a
+           ``draw``, where a second one would not correct the first :raw-html:`<br />` :raw-html:`<br />`
+    
+        ``None`` makes the edit a no-op :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    def __init__(self, branchOf: typing.Any = None) -> None:
+        ...
+    def edit(self, graph: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
+        """
+        Adds each branch's `KVPs`_ inside that branch of 'graph', as :attr:`branchOf` decides them
+        
+        .. note::
+            'trackKeys'/'keysToTrack' are the caller's key-tracking defaults, handed down by
+            :class:`BaseIniGraphEdit`'s contract. This edit never colours the graph, so it has no use for
+            them --- they are accepted only so the shared call convention keeps working
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph to edit
+        
+        modType: Optional[:class:`ModType`]
+            The mod type handed to 'partFilter'
+        
+        modName: :class:`str`
+            The name of the mod being fixed to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        partFilter: Optional[Callable]
+            Asked about each part, and a part it rejects is left alone entirely :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        trackKeys: :class:`bool`
+            Unused --- see the note above :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        keysToTrack: Optional[Set[:class:`str`]]
+            Unused --- see the note above :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IniSectionGraph`
+            The same graph that was passed in
+        """
+    @property
+    def branchOf(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`Z3Predicate`, :class:`SectionIterData`], Optional[Tuple]]]: Decides what belongs in each branch
+        """
+    @branchOf.setter
+    def branchOf(self, arg1: typing.Any) -> None:
+        ...
 class RegDelimitedAdd(BaseIniGraphEdit):
     """
     
@@ -17198,6 +17363,111 @@ class RegRemove(BaseRegEdit):
         """
     @removeKeys.setter
     def removeKeys(self, arg1: typing.Any) -> None:
+        ...
+class RegRestrict(BaseRegEdit):
+    """
+    
+    This class inherits from :class:`BaseRegEdit`
+    
+    Restricts the registers an :class:`IfContentPart` binds to the ones its TARGET reads, and to one
+    binding each
+    
+    A remapped `section`_ inherits its registers from the MOD's `section`_, and a mod binds whatever its
+    SOURCE reads. Against a different target that surplus is not harmless: the target's shader reads
+    the extra register as something else, where the target's own mod leaves it unbound so the GAME's
+    texture serves it. And a register bound twice keeps only the LAST binding, silently --- so a fix
+    that moves one texture onto a register the mod already fills loses the texture it moved.
+    
+    .. code-block:: ini
+    
+        ; allowedKeys = ["ps-t0", "ps-t1", "ps-t2"], keyFilter = a ps-t register
+        ps-t1 = ResourceDiffuse
+        ps-t0 = ResourceNormalMap
+        ps-t2 = ResourceLightMap
+        ps-t2 = ResourceMetalMap       ; removed: ps-t2 is already bound above
+        ps-t3 = ResourceShadowRamp     ; removed: the target does not read ps-t3
+        ib = ResourceIb                ; untouched: not a key this edit governs
+    
+    .. note::
+        The unit is ONE part, not a `section`_. A merged mod binds ``ps-t2`` once in each branch of an
+        ``if`` / ``else if`` chain, and each branch is its own part: those are separate paths through
+        the `section`_, not one register bound twice
+    
+    Parameters
+    ----------
+    allowedKeys: Optional[List[:class:`str`]]
+        The governed keys a part may keep, or ``None`` to keep every governed key and only remove
+        repeated bindings :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    keyFilter: Optional[Callable[[:class:`str`], :class:`bool`]]
+        Which keys this edit governs, or ``None`` for every key :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    keepFirstOnly: :class:`bool`
+        Whether a governed key bound more than once in a part keeps only its FIRST binding :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``True``
+        
+    """
+    def __init__(self, allowedKeys: typing.Any = None, keyFilter: typing.Any = None, keepFirstOnly: bool = True) -> None:
+        ...
+    def edit(self, part: typing.Any, sectionName: str, modType: typing.Any, modName: str = '', partRanges: typing.Any = None) -> typing.Any:
+        """
+        Removes every governed key of 'part' that is not in :attr:`allowedKeys`, and --- with
+        :attr:`keepFirstOnly` --- every binding of a governed key after its first
+        
+        Parameters
+        ----------
+        part: :class:`IfContentPart`
+            The part of the `IfTemplate` that is being editted
+        
+        sectionName: :class:`str`
+            The name of the `section`_ that is being editted. Unused by this edit
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Unused by this edit
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        partRanges: Optional[:class:`Ranges`]
+            The ranges that indicate the valid order indices to process for the argument 'part' :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IfContentPart`
+            The same part that was passed in, after editing
+        """
+    @property
+    def allowedKeys(self) -> typing.Any:
+        """
+        Optional[List[:class:`str`]]: The governed keys a part may keep, or ``None`` for all of them
+        """
+    @allowedKeys.setter
+    def allowedKeys(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def keepFirstOnly(self) -> bool:
+        """
+        :class:`bool`: Whether a governed key bound more than once in a part keeps only its FIRST binding
+        """
+    @keepFirstOnly.setter
+    def keepFirstOnly(self, arg0: bool) -> None:
+        ...
+    @property
+    def keyFilter(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`str`], :class:`bool`]]: Which keys this edit governs, or ``None`` for every key
+        """
+    @keyFilter.setter
+    def keyFilter(self, arg1: typing.Any) -> None:
         ...
 class RegSurroundedAdd(BaseIniGraphEdit):
     """

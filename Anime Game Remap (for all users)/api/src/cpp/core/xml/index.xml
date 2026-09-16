@@ -494,6 +494,23 @@
     <member refid="class_a_g_remap_core_1_1_base_trie_1a6b572e52dce96e530a4ebabff6823371" kind="function"><name>addKVP</name></member>
     <member refid="class_a_g_remap_core_1_1_base_trie_1ad5eb1ad4f5d30715d84e3fa53b93d336" kind="function"><name>defaultHandleDuplicate</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_bennett_adventure_fixer" kind="class"><name>AGRemapCore::BennettAdventureFixer</name>
+    <member refid="class_a_g_remap_core_1_1_bennett_adventure_fixer_1a408bf24ff4ca14bc5f5fe803b5d212de" kind="function"><name>BennettAdventureFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_bennett_adventure_fixer_1a981230a080be60eb7f37cc8707af75ef" kind="function"><name>toBennett6_1</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_bennett_adventure_parser" kind="class"><name>AGRemapCore::BennettAdventureParser</name>
+    <member refid="class_a_g_remap_core_1_1_bennett_adventure_parser_1aaad696a39d6836fde758e080e6470a20" kind="function"><name>BennettAdventureParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_bennett_adventure_parser_1a9d4f3c162afcf9ecf1e9cdac5077e3ec" kind="function"><name>v5_7</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_bennett_fixer" kind="class"><name>AGRemapCore::BennettFixer</name>
+    <member refid="class_a_g_remap_core_1_1_bennett_fixer_1a2d124a2fb0d7d76bd268b82f258d8136" kind="function"><name>BennettFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_bennett_fixer_1a5e2c5e3f796b6bcd5d6e02a0cec64ce9" kind="function"><name>body6_1</name></member>
+    <member refid="class_a_g_remap_core_1_1_bennett_fixer_1a5dbe241d6842ab56e1a9a119b3f68329" kind="function"><name>eye6_1</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_bennett_parser" kind="class"><name>AGRemapCore::BennettParser</name>
+    <member refid="class_a_g_remap_core_1_1_bennett_parser_1a05f1b8f9a7a8dbb958dae37f58b02c40" kind="function"><name>BennettParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_bennett_parser_1a36e00693538f12970517a16a2382491d" kind="function"><name>v4_0</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_bi_map" kind="class"><name>AGRemapCore::BiMap</name>
     <member refid="class_a_g_remap_core_1_1_bi_map_1ab115df9ba9739739b4dd5ed7e78a32bb" kind="typedef"><name>iterator</name></member>
     <member refid="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" kind="typedef"><name>const_iterator</name></member>
@@ -552,6 +569,15 @@
     <member refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1a1eec42aea3c48411d6a9623c2a18af03" kind="variable"><name>value</name></member>
     <member refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1a34fcbf86952b244047a7e028bae7f8db" kind="function"><name>operator&lt;</name></member>
     <member refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1ade5b0907c761d29b00db91c2c3c762b4" kind="function"><name>operator&lt;=</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch" kind="struct"><name>AGRemapCore::RegBranchAdd::Branch</name>
+    <member refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a8452f7399163a6a7087547bd619386b2" kind="variable"><name>key</name></member>
+    <member refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a33097cdd4ab3308b783c6382bb73e12c" kind="variable"><name>additions</name></member>
+    <member refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a2ef15b8204600eba07d77833944804db" kind="variable"><name>replacements</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_branch_val" kind="struct"><name>AGRemapCore::BranchVal</name>
+    <member refid="struct_a_g_remap_core_1_1_branch_val_1a44ec46e37014c3ab7a3ee0688d37d045" kind="variable"><name>val</name></member>
+    <member refid="struct_a_g_remap_core_1_1_branch_val_1a0687844f64d969f8039b77d7c910d542" kind="variable"><name>query</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_buf_base_float" kind="class"><name>AGRemapCore::BufBaseFloat</name>
     <member refid="class_a_g_remap_core_1_1_buf_base_float_1a47f4edad94eeb07c934f25ec725b3e9b" kind="function"><name>BufBaseFloat</name></member>
@@ -799,6 +825,8 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1acf7ef1b1d9d5108f03f885580d4d9d63" kind="variable"><name>negativeIndex</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a41fc1fe25b79dd9a3fecf1691285ca04" kind="variable"><name>normalMap</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7760edfd8956346f514455eced0a1ad7" kind="variable"><name>face</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae2c0b9f4af8f721add0e6a6b68f63603" kind="variable"><name>texcoordStride</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7268856272e0561b22ab78e94e2d7c93" kind="variable"><name>slotRegisters</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component" kind="struct"><name>AGRemapCore::GIMIComponentParserConfig::Component</name>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1abac19b72746490f530acccbe5dfda15f" kind="variable"><name>name</name></member>
@@ -1178,11 +1206,14 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a6af596061a280eda3016fb18ed614871" kind="variable"><name>targetSkin</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a55c096ba405ba593d971eeb9178ddb9f" kind="variable"><name>drawnObjs</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a636986797c82ce938f54cf1a126625e4" kind="variable"><name>components</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a37f258a89d09b22c2d598bbe751f3937" kind="variable"><name>hiddenComponents</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a7a626487be714861384609cf33819b3a" kind="variable"><name>diffuseEdits</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a9ad6948d41c2aab702baf544c1f419a0" kind="variable"><name>lightMapEdit</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a4219f42e0f3a64ddc8267ceadeabc4d5" kind="variable"><name>lightMapObjs</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a177f603163fc1f91274406a76c6a2fec" kind="variable"><name>flatNormal</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4471db689105f74de5a9c04f17fc4c1" kind="variable"><name>flatNormalSize</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a5f5b373f09445ec712cd1b8cc64ea8bb" kind="variable"><name>mipmaps</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a21c67a9854c8bc6133da8c5bb5a89a9c" kind="variable"><name>compressTextures</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aea153cdb88716d1065e57c2b9533a89a" kind="variable"><name>normaliseVertexColour</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1addd0e78a5f6228f360f9c0ba68dfc41e" kind="variable"><name>zeroSecondUV</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1af4e7a7c6ad78febe612b368f4c4894b0" kind="variable"><name>copyPreamble</name></member>
@@ -1214,6 +1245,7 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1aef6dedcf6548f3ee419093a4f87e008e" kind="variable"><name>graphGroupEdits</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a69dae513284d257e88c97583cd3db751" kind="variable"><name>modsToFix</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ab7ebcd6914b22794cef0bb9f2027d854" kind="variable"><name>copyPreamble</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a7e99fb87264ff2ce673f66060718e1fa" kind="variable"><name>appendedSections</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4d9123ab804410bcd9ce99afcc4580e2" kind="variable"><name>hiddenModObjs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a8bbfcfba559d366f4e4e35674affe1b9" kind="variable"><name>prevFixer</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1abe784c5f8371cc7ab7e7d15233697f37" kind="variable"><name>ctx_</name></member>
@@ -1243,6 +1275,7 @@
   <compound refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config" kind="struct"><name>AGRemapCore::GIMIMergeFixerConfig</name>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a6b2883e11c3888f8c487c5680d66475d" kind="variable"><name>components</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1aede8d26c7769bd67afe8e3544752b25b" kind="variable"><name>targetObjs</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1afb00d98b91be3266655662c40391a023" kind="variable"><name>downloadPrefix</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a8ee3c323dd66da09c76585f63b966f19" kind="variable"><name>faceReg</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ab5d13699a51abbdeb17be08aaaf7d339" kind="variable"><name>lightMapEdit</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a490ec76ef342ee114af63d4681e4f0bd" kind="variable"><name>mipmaps</name></member>
@@ -1462,6 +1495,13 @@
     <member refid="class_a_g_remap_core_1_1_graph_group_remap_1a9a367cbccdb7e492237aa1fe7c893074" kind="function"><name>edit</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_group_remap_1a1cfa84905bcbdf4755b9ef1a5fc6f569" kind="function"><name>copyGraph</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_graph_group_remove" kind="class"><name>AGRemapCore::GraphGroupRemove</name>
+    <member refid="class_a_g_remap_core_1_1_graph_group_remove_1aa6568bc954c0615589ff14642b413009" kind="typedef"><name>Base</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_group_remove_1a22453b8447d63584851120d78e482735" kind="typedef"><name>GraphGroups</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_group_remove_1a816400c5605fac72020bc9c0167e2288" kind="variable"><name>iniIndices</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_group_remove_1a54939014675526e356cdaa6ba3cb0541" kind="function"><name>GraphGroupRemove</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_group_remove_1a07382ac437579793d2ba60926535b237" kind="function"><name>edit</name></member>
+  </compound>
   <compound refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id" kind="struct"><name>AGRemapCore::BaseIniGraphGroupEdit::GraphId</name>
     <member refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1a1ac09b3bca47541b9c32adad54df7743" kind="variable"><name>iniIndex</name></member>
     <member refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1acb9550e6e5b7ff44946d4aab6f22de0a" kind="variable"><name>modObj</name></member>
@@ -1532,6 +1572,7 @@
   <compound refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder" kind="class"><name>AGRemapCore::ResGroupCollect::GroupedResBuilder</name>
     <member refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a2086e068e6e5148293c3b7033f84b100" kind="function"><name>~GroupedResBuilder</name></member>
     <member refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a39ab0721dbc274ae70e51ee9bca589c5" kind="function"><name>build</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a92cc4e94f7fd4d50f0ee13a498158de6" kind="function"><name>beginGroup</name></member>
     <member refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a29ab622c29be739e620ecc3118a3463e" kind="function"><name>store</name></member>
     <member refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a826316b4f5b2e90beff9381ac9c884e9" kind="function"><name>addResource</name></member>
   </compound>
@@ -1616,13 +1657,14 @@
   <compound refid="class_a_g_remap_core_1_1_ib_file" kind="class"><name>AGRemapCore::IbFile</name>
     <member refid="class_a_g_remap_core_1_1_ib_file_1a037aa612e0eb074f7e142ecaa753321c" kind="variable"><name>TriangleBufElementKey</name></member>
     <member refid="class_a_g_remap_core_1_1_ib_file_1ac4ed5afbc45d6968463a3b7b7474af30" kind="variable"><name>VerticesPerTriangle</name></member>
-    <member refid="class_a_g_remap_core_1_1_ib_file_1a282286f2026fadfc07c66c7960171ff9" kind="function"><name>IbFile</name></member>
+    <member refid="class_a_g_remap_core_1_1_ib_file_1a29d5e145961ea9cfa70833c5167d1e1b" kind="function"><name>IbFile</name></member>
     <member refid="class_a_g_remap_core_1_1_ib_file_1a3b8a7a130cc408af68512e34a20eaa13" kind="function"><name>getTriangleCount</name></member>
     <member refid="class_a_g_remap_core_1_1_ib_file_1afb7190fd3ca2553cf53578f028a63d3f" kind="function"><name>getIndexCount</name></member>
     <member refid="class_a_g_remap_core_1_1_ib_file_1a3d50a736fbdc1e8d7b3e7ed610801244" kind="function"><name>makeDumpHeader</name></member>
     <member refid="class_a_g_remap_core_1_1_ib_file_1abec1ed566b1f76501edbbca6c8d4af15" kind="function"><name>getDumpStr</name></member>
     <member refid="class_a_g_remap_core_1_1_ib_file_1a5827d7fff2e968a22ac8635162a198dd" kind="function"><name>readDumpStr</name></member>
-    <member refid="class_a_g_remap_core_1_1_ib_file_1af25731fd521a9eab2785eb26d7e7bece" kind="function"><name>defaultElements</name></member>
+    <member refid="class_a_g_remap_core_1_1_ib_file_1ac15d40fa72b7aa4ca5907b582b032377" kind="function"><name>bytesPerIndexOf</name></member>
+    <member refid="class_a_g_remap_core_1_1_ib_file_1a07f2ebada7a81cf8adf1d2c56b969d33" kind="function"><name>defaultElements</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_if_content_part" kind="class"><name>AGRemapCore::IfContentPart</name>
     <member refid="class_a_g_remap_core_1_1_if_content_part_1ac1277e9cc71f6fbd8501f71b0cf4f8a7" kind="variable"><name>hasDefaultHashableContent</name></member>
@@ -2257,6 +2299,9 @@
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a7efbb5fcdca598296116646ea2e8cfb0" kind="function"><name>monaCN6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae03d94ddd49d371eac3dd2be878a2512" kind="function"><name>rosaria6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aa659acec18dfa20826ff1baef35a7c10" kind="function"><name>rosariaCN6_1</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae8c888df890e0536514fac7bdbaa0926" kind="function"><name>bennettAdventureBody6_1</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a22c13f14a5950b5c1d605129617b7024" kind="function"><name>bennettAdventureEye6_1</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a66f87ab2a1f3a6f2cc9e3bcf093d7ee3" kind="function"><name>bennettAdventureToBennett6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" kind="function"><name>yelanTranquilBody6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a52b8823aca4f15e712953d93319cd846" kind="function"><name>yelanTranquilBang6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28abe81ceeed138ca10039b96346910d" kind="function"><name>yelanTranquilEye6_1</name></member>
@@ -2498,6 +2543,8 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1afa731ff64faf335aab4d3cf3d179ea74" kind="function"><name>lisaStudent5_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aca6552e16c9d3969446cb18e9116c575" kind="function"><name>nilou5_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a28f7e4e4c8baaff955923a47b7ee747e" kind="function"><name>raiden6_1</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a974edb415d25e1ea9b4aadd28673f97c" kind="function"><name>bennett4_0</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a708be8ac73083c2a14454469100c9b92" kind="function"><name>bennettAdventure5_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ad2295a98e4a4012930182f549a649b3d" kind="function"><name>yelan4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7d30d1abce22b6dc5f644d8ff225e123" kind="function"><name>yelanTranquil5_7</name></member>
   </compound>
@@ -3031,6 +3078,31 @@
     <member refid="class_a_g_remap_core_1_1_mod_assets_1a2621a5c2e6a3a29e474e99ddaf5dcb9d" kind="function"><name>addRow</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_assets_1a3cbc891198e3827555936e2d62f5d8dd" kind="function"><name>resolveVersionColumns</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_mod_branches" kind="class"><name>AGRemapCore::ModBranches</name>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1a07b959634d280a514ce91677c3ddc09e" kind="typedef"><name>Template</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1a018631a8f15970525779073bb339eda9" kind="typedef"><name>Templates</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1a02c1c265182c191bec1f49b51d301c0b" kind="typedef"><name>BranchReplacements</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1ac94f1a7e61f2d2de9ee5fbd787f5d888" kind="variable"><name>ctx_</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1a1d61873028b334a4ea001aee2b60e6db" kind="function"><name>ModBranches</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1ab8c5ca8bf8f99fbbd9dbb97e4231907c" kind="function"><name>ModBranches</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1a9d43fb7ac06d7d8e47ab8f3468fea310" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1ae390f59903979213f5747ca64ab4bec8" kind="function"><name>ModBranches</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1a645c63e2956b9d045226620e036cb7b6" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1ae506679cc1b8d877bf840851388c6430" kind="function"><name>context</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1ad5d9346915a22d3a9ca5d86bb8198e16" kind="function"><name>valsThroughRun</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1addc39d6ed906b817553da5a2d06c0ec5" kind="function"><name>firstValThroughRun</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1aa288fec2ef963ce1da04b73d64193f21" kind="function"><name>localQuery</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1aa7d1f153a9821ff05d0698c39e0f1cea" kind="function"><name>compatible</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1a8bbfe3ef7382f569861eb280b7ba646c" kind="function"><name>branchIndexOf</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1a29b6f5a0ba507cef63e5d4b97f41efe3" kind="function"><name>pick</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1a5d430a04d9d31b3ee17827cce515cbe7" kind="function"><name>anyCompatible</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1a346ee0a12fd68f18d20d1f5c72761f31" kind="function"><name>states</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1a1e103c3914180208a3d4aa810ea0b1c8" kind="function"><name>replacePerBranch</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1a112302d165e411719d4307fddab67e80" kind="function"><name>firstVal</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1a38fdec1169b919fb688764d8d9bef55a" kind="function"><name>resourceOf</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1acffd2f631f449b8f681e018e1ee6d9d4" kind="function"><name>fileOf</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1a9b18cb2556065d736f4eb9db0664d321" kind="function"><name>ibBytesPerIndexOf</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_mod_data_assets" kind="class"><name>AGRemapCore::ModDataAssets</name>
     <member refid="class_a_g_remap_core_1_1_mod_data_assets_1ad2c2a5c9c47a628a16a1a36f60b54959" kind="function"><name>ModDataAssets</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_data_assets_1ab97d207a3c42dd908cea072acfc33b7d" kind="function"><name>vgRemaps</name></member>
@@ -3517,6 +3589,19 @@
     <member refid="class_a_g_remap_core_1_1_reg_bottom_add_1a5e5173cdc9d907671bed48c4f1105b0f" kind="function"><name>RegBottomAdd</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_bottom_add_1a7b463b1aa87e8cfc26d421a973d2b291" kind="function"><name>edit</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_reg_branch_add" kind="class"><name>AGRemapCore::RegBranchAdd</name>
+    <member refid="class_a_g_remap_core_1_1_reg_branch_add_1adca5c2691c2e0309a0645fb4d5df4e50" kind="typedef"><name>Base</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a5cd8936bb37addefe7adc43b2b750d41" kind="typedef"><name>Graph</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a033b5215a6a0ee414990031f4442222e" kind="typedef"><name>PartFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_branch_add_1af9ecba90a8972f57be3c19d21dab23d5" kind="typedef"><name>IterData</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a26c02624a37816ec358df9401065a4c8" kind="typedef"><name>KeySet</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a1fc32de46b57fc02204ceada1f69d2c5" kind="typedef"><name>ContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a842c8e351bed5d8524644407f76fd8d5" kind="typedef"><name>Additions</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_branch_add_1aec7ab88b38f9c274737824e250f0a5f0" kind="typedef"><name>BranchOf</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_branch_add_1af73f032e575a0bf355978e24072f60fa" kind="variable"><name>branchOf</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_branch_add_1aa393873bfcc44b21b136ba58e4370082" kind="function"><name>RegBranchAdd</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a55e7fada6bed0cc1a41f0bf15461294b" kind="function"><name>edit</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_reg_delimited_add" kind="class"><name>AGRemapCore::RegDelimitedAdd</name>
     <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1a246cd925497b4e8420d520c9ae2b1db5" kind="typedef"><name>Base</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1aab0c295d43d2b7a4e07e35bc1c880a20" kind="typedef"><name>Graph</name></member>
@@ -3626,6 +3711,17 @@
     <member refid="class_a_g_remap_core_1_1_reg_remove_1aee9fb92ae2e0aed7d8984f1dda372353" kind="variable"><name>removeKeys</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_remove_1ae39304b78f98d13a4ef93460815ec950" kind="function"><name>RegRemove</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_remove_1aa6319b98eee53e3f0247a4a032da06ca" kind="function"><name>edit</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_reg_restrict" kind="class"><name>AGRemapCore::RegRestrict</name>
+    <member refid="class_a_g_remap_core_1_1_reg_restrict_1adc1c4c3af51bf16adba111391513332b" kind="typedef"><name>Base</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_restrict_1a72e53e6f72b47570ff8f06a914bf2d11" kind="typedef"><name>ContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_restrict_1ad1727055b266bcfea85a86a274977105" kind="typedef"><name>OrderRanges</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_restrict_1ad4e30a36a63fef0e9d32e00d9428aadc" kind="typedef"><name>KeyFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_restrict_1aa88205be99174c6ea0bfd093cd2616d9" kind="variable"><name>allowedKeys</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_restrict_1ae4ebdfe2deba2963f28b2470ee80ae16" kind="variable"><name>keyFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_restrict_1a20a98324593a85a30297daf790ad244c" kind="variable"><name>keepFirstOnly</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_restrict_1aac90dd5c3aed307fea6d34877a5f5ef9" kind="function"><name>RegRestrict</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_restrict_1ad52992e2f8a5b3cff6df5c3a7f778bc9" kind="function"><name>edit</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_reg_surrounded_add" kind="class"><name>AGRemapCore::RegSurroundedAdd</name>
     <member refid="class_a_g_remap_core_1_1_reg_surrounded_add_1a1e9774cc4c19fad1646ecfb0e43446f8" kind="typedef"><name>Base</name></member>
@@ -4020,6 +4116,7 @@
     <member refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config_1a0ac1fcbb45f75b3e0ea8295d5214f0bb" kind="variable"><name>filenameKey</name></member>
     <member refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config_1ae1e65e103ed20d459126b126aa4e9d6d" kind="variable"><name>fileOf</name></member>
     <member refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config_1ab0c553eed0758cde50942c0f42b6ad23" kind="variable"><name>valOfFile</name></member>
+    <member refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config_1a25c0538b788f8636b4065c6dde644e65" kind="variable"><name>extraKVPs</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group" kind="struct"><name>AGRemapCore::ResGroupCollect::ResGroup</name>
     <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_1a8b958e09031b8adb7f7964f69ef2e446" kind="variable"><name>entries</name></member>
@@ -4312,6 +4409,7 @@
     <member refid="class_a_g_remap_core_1_1_string_tools_1ab66a14cb70eea88081a9bc2f76512a2f" kind="function"><name>endsWith</name></member>
     <member refid="class_a_g_remap_core_1_1_string_tools_1a615fcb1a68846faf533d36d9d149a176" kind="function"><name>equalsIgnoreCase</name></member>
     <member refid="class_a_g_remap_core_1_1_string_tools_1a386314c4c89382a978e63c19eabf5c80" kind="function"><name>endsWithIgnoreCase</name></member>
+    <member refid="class_a_g_remap_core_1_1_string_tools_1a9c777d0d82c7f85eadef40c47f7f9d1b" kind="function"><name>containsIgnoreCase</name></member>
     <member refid="class_a_g_remap_core_1_1_string_tools_1ae9965a9a69cc4cf6a529be9df026f184" kind="function"><name>eraseAll</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_string_view_hash" kind="struct"><name>AGRemapCore::StringViewHash</name>
@@ -4656,14 +4754,20 @@
   <compound refid="struct_a_g_remap_core_1_1_v_g_merge_group_config" kind="struct"><name>AGRemapCore::VGMergeGroupConfig</name>
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1a8f81e888fe8bd57b492efb8f60ca2c39" kind="variable"><name>components</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1a4ccbab3ff1866244490bc874b3bf79ed" kind="variable"><name>objects</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1acfbc3cc67c93d8e5c3f280c86c7e5cb2" kind="variable"><name>ibBytesPerIndex</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder" kind="class"><name>AGRemapCore::VGMergeGroupResBuilder</name>
     <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a2e999c940a50435fc104969544bf7135" kind="typedef"><name>GraphId</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a6cf674546e0f628167a3a51231ac6bf6" kind="typedef"><name>ConfigResolver</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a416f6964a9e758520e6204399f758df3" kind="variable"><name>name_</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a13ebc6182b2b9b74daadd594a4a06d2a" kind="variable"><name>configFor_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a89cac6c5acd37b4328440c08dc6e686e" kind="variable"><name>config_</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1ad38397d6d37df752ec6e380b22f33d5b" kind="variable"><name>query_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1aced6c238a5d5d46d5f238dc4b343e93c" kind="variable"><name>iniFile_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a8024749e775de879cef9c7db4c19fc6c" kind="variable"><name>groups_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a75ef5043802aee83d9a3eb4b4e9ee701" kind="function"><name>VGMergeGroupResBuilder</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a5b75e5a307d62df2ca04ae9b05486280" kind="function"><name>VGMergeGroupResBuilder</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1af8a961bdef496884d9d7f4285f47698e" kind="function"><name>beginGroup</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1ae33164ce3573ba6053fa88bd2d7001fa" kind="function"><name>build</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a625a04d7aa20c5ede695cf1747843e8a" kind="function"><name>store</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a1ae031e54d762b3995527743e47f8388" kind="function"><name>addResource</name></member>
@@ -4705,16 +4809,22 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a4e8b12263210463aab075475aaafa2bd" kind="variable"><name>component</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ad3072152740b4cd107fd883aac2a7f22" kind="variable"><name>specs</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1afa1fede04d255fc720b9bc56c67b1a80" kind="variable"><name>ibPaths</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ad75ebe60410e2eec68015719fe4a3a0b" kind="variable"><name>ibBytesPerIndex</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a421459c2130b60316250d30bbb86d1c6" kind="variable"><name>texcoordLineEdit</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ab2f3ce8c9cbd2704ce0e7461327073f9" kind="variable"><name>positionLineEdit</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder" kind="class"><name>AGRemapCore::VGSplitGroupResBuilder</name>
     <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a8ad693978ec25999af3557462377c94f" kind="typedef"><name>GraphId</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a36386095bdde6b02b9c6f96de0c6e38f" kind="typedef"><name>ConfigResolver</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a04bde8cef9a9e412be99a87e25131224" kind="variable"><name>name_</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1af7f0242bc5faa29ecec5705e499fdc1e" kind="variable"><name>configFor_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a0fdc74c7dde21720556636851a5b72f2" kind="variable"><name>config_</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a8ec5efc32891f274868000ee189d97ba" kind="variable"><name>query_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a6a396eaab349d0051e0894aff4cc7f57" kind="variable"><name>iniFile_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a785839d34d60bb24ee6c5e86282d9147" kind="variable"><name>groups_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a2884ef9a9611d10158c8a62422f91a2b" kind="function"><name>VGSplitGroupResBuilder</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1abdfa8285e34bf0f1edebdb291e24c93a" kind="function"><name>VGSplitGroupResBuilder</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1ac4003ce25d6d5fb26669841e930b8261" kind="function"><name>beginGroup</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a70e7202b8345ffea120b80fc9478c593" kind="function"><name>build</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1ad8b3b59dc89f8eea1b60e45c20f56e00" kind="function"><name>store</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a9ee12db695e9631e061e80fd0f687a27" kind="function"><name>addResource</name></member>
@@ -4811,6 +4921,7 @@
     <member refid="class_a_g_remap_core_1_1_z3_predicate_1aac2547bd2d627eb75f0ed8d8c7c74f86" kind="function"><name>operator|</name></member>
     <member refid="class_a_g_remap_core_1_1_z3_predicate_1a4c4d63f4a6216be45ac958bdd2d51776" kind="function"><name>operator!</name></member>
     <member refid="class_a_g_remap_core_1_1_z3_predicate_1a04d5c2fd87c2dc983b958d1669fc278c" kind="function"><name>simplify</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1ae5375665fafca4aa15210cbcdf547f3e" kind="function"><name>solverSimplify</name></member>
     <member refid="class_a_g_remap_core_1_1_z3_predicate_1a4ea27b9283fbec2a7004ff9adbb3be4f" kind="function"><name>isSatisfiable</name></member>
     <member refid="class_a_g_remap_core_1_1_z3_predicate_1ae7a66508e8f15cbe8759987b07d18a31" kind="function"><name>sameContext</name></member>
     <member refid="class_a_g_remap_core_1_1_z3_predicate_1ad6dc39590610f5b8b7151c9276a1d32d" kind="function"><name>belongsTo</name></member>
@@ -4947,6 +5058,8 @@
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d015156132173054012266212110206151167037260256110" kind="namespace"><name>AGRemapCore::@015156132173054012266212110206151167037260256110</name>
   </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d023366237014120312170372355327366221162170245371" kind="namespace"><name>AGRemapCore::@023366237014120312170372355327366221162170245371</name>
+  </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d031140314136361314373122223053321075236045145354" kind="namespace"><name>AGRemapCore::@031140314136361314373122223053321075236045145354</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d032340124205055161142075205113225246327212037374" kind="namespace"><name>AGRemapCore::@032340124205055161142075205113225246327212037374</name>
@@ -4986,6 +5099,8 @@
   <compound refid="namespace_a_g_remap_core_1_1_0d101064163031271152134213345046243331322147174250" kind="namespace"><name>AGRemapCore::@101064163031271152134213345046243331322147174250</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d101155166377263073355220241321134241262035142227" kind="namespace"><name>AGRemapCore::@101155166377263073355220241321134241262035142227</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d103115165045215003067300022165135207047255364006" kind="namespace"><name>AGRemapCore::@103115165045215003067300022165135207047255364006</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d107111270254067365135363114105157037306201206126" kind="namespace"><name>AGRemapCore::@107111270254067365135363114105157037306201206126</name>
   </compound>
@@ -5034,6 +5149,8 @@
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d161065027214020127246373007234072266375365002340" kind="namespace"><name>AGRemapCore::@161065027214020127246373007234072266375365002340</name>
   </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d165002103335175232174071225356256256254240257117" kind="namespace"><name>AGRemapCore::@165002103335175232174071225356256256254240257117</name>
+  </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d170025164064205302346154317004355322050147022270" kind="namespace"><name>AGRemapCore::@170025164064205302346154317004355322050147022270</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d170200111361320331256211126065160135067077255272" kind="namespace"><name>AGRemapCore::@170200111361320331256211126065160135067077255272</name>
@@ -5061,8 +5178,6 @@
   <compound refid="namespace_a_g_remap_core_1_1_0d243127014227202312305371362161310375130144054307" kind="namespace"><name>AGRemapCore::@243127014227202312305371362161310375130144054307</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d244336215014304052147345051060227062245352116153" kind="namespace"><name>AGRemapCore::@244336215014304052147345051060227062245352116153</name>
-  </compound>
-  <compound refid="namespace_a_g_remap_core_1_1_0d246137264364267321001152065143355251362015360301" kind="namespace"><name>AGRemapCore::@246137264364267321001152065143355251362015360301</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d255265142066246244160174167115355260250012162077" kind="namespace"><name>AGRemapCore::@255265142066246244160174167115355260250012162077</name>
   </compound>
@@ -5206,6 +5321,10 @@
   </compound>
   <compound refid="_barbara_summertime_fixer_8h" kind="file"><name>BarbaraSummertimeFixer.h</name>
   </compound>
+  <compound refid="_bennett_fixer_8h" kind="file"><name>BennettFixer.h</name>
+  </compound>
+  <compound refid="_bennett_adventure_fixer_8h" kind="file"><name>BennettAdventureFixer.h</name>
+  </compound>
   <compound refid="_cherry_hu_tao_fixer_8h" kind="file"><name>CherryHuTaoFixer.h</name>
   </compound>
   <compound refid="_dark_diffuse_8h" kind="file"><name>DarkDiffuse.h</name>
@@ -5258,6 +5377,8 @@
   </compound>
   <compound refid="_lisa_student_fixer_8h" kind="file"><name>LisaStudentFixer.h</name>
   </compound>
+  <compound refid="_mod_branches_8h" kind="file"><name>ModBranches.h</name>
+  </compound>
   <compound refid="_mona_fixer_8h" kind="file"><name>MonaFixer.h</name>
   </compound>
   <compound refid="_mona_c_n_fixer_8h" kind="file"><name>MonaCNFixer.h</name>
@@ -5309,6 +5430,10 @@
   <compound refid="_barbara_parser_8h" kind="file"><name>BarbaraParser.h</name>
   </compound>
   <compound refid="_barbara_summertime_parser_8h" kind="file"><name>BarbaraSummertimeParser.h</name>
+  </compound>
+  <compound refid="_bennett_parser_8h" kind="file"><name>BennettParser.h</name>
+  </compound>
+  <compound refid="_bennett_adventure_parser_8h" kind="file"><name>BennettAdventureParser.h</name>
   </compound>
   <compound refid="_cherry_hu_tao_parser_8h" kind="file"><name>CherryHuTaoParser.h</name>
   </compound>
@@ -5547,6 +5672,8 @@
   </compound>
   <compound refid="_reg_bottom_add_8h" kind="file"><name>RegBottomAdd.h</name>
   </compound>
+  <compound refid="_reg_branch_add_8h" kind="file"><name>RegBranchAdd.h</name>
+  </compound>
   <compound refid="_reg_delimited_add_8h" kind="file"><name>RegDelimitedAdd.h</name>
   </compound>
   <compound refid="_reg_fill_missing_8h" kind="file"><name>RegFillMissing.h</name>
@@ -5560,6 +5687,8 @@
   <compound refid="_graph_group_part_edits_8h" kind="file"><name>GraphGroupPartEdits.h</name>
   </compound>
   <compound refid="_graph_group_remap_8h" kind="file"><name>GraphGroupRemap.h</name>
+  </compound>
+  <compound refid="_graph_group_remove_8h" kind="file"><name>GraphGroupRemove.h</name>
   </compound>
   <compound refid="_graph_inherit_8h" kind="file"><name>GraphInherit.h</name>
   </compound>
@@ -5620,6 +5749,8 @@
   <compound refid="_reg_remap_8h" kind="file"><name>RegRemap.h</name>
   </compound>
   <compound refid="_reg_remove_8h" kind="file"><name>RegRemove.h</name>
+  </compound>
+  <compound refid="_reg_restrict_8h" kind="file"><name>RegRestrict.h</name>
   </compound>
   <compound refid="_remap_ini_fix_context_8h" kind="file"><name>RemapIniFixContext.h</name>
   </compound>
@@ -5876,6 +6007,10 @@
   </compound>
   <compound refid="_barbara_summertime_fixer_8cpp" kind="file"><name>BarbaraSummertimeFixer.cpp</name>
   </compound>
+  <compound refid="_bennett_fixer_8cpp" kind="file"><name>BennettFixer.cpp</name>
+  </compound>
+  <compound refid="_bennett_adventure_fixer_8cpp" kind="file"><name>BennettAdventureFixer.cpp</name>
+  </compound>
   <compound refid="_cherry_hu_tao_fixer_8cpp" kind="file"><name>CherryHuTaoFixer.cpp</name>
   </compound>
   <compound refid="_dark_diffuse_8cpp" kind="file"><name>DarkDiffuse.cpp</name>
@@ -5928,6 +6063,8 @@
   </compound>
   <compound refid="_lisa_student_fixer_8cpp" kind="file"><name>LisaStudentFixer.cpp</name>
   </compound>
+  <compound refid="_mod_branches_8cpp" kind="file"><name>ModBranches.cpp</name>
+  </compound>
   <compound refid="_mona_fixer_8cpp" kind="file"><name>MonaFixer.cpp</name>
   </compound>
   <compound refid="_mona_c_n_fixer_8cpp" kind="file"><name>MonaCNFixer.cpp</name>
@@ -5979,6 +6116,10 @@
   <compound refid="_barbara_parser_8cpp" kind="file"><name>BarbaraParser.cpp</name>
   </compound>
   <compound refid="_barbara_summertime_parser_8cpp" kind="file"><name>BarbaraSummertimeParser.cpp</name>
+  </compound>
+  <compound refid="_bennett_parser_8cpp" kind="file"><name>BennettParser.cpp</name>
+  </compound>
+  <compound refid="_bennett_adventure_parser_8cpp" kind="file"><name>BennettAdventureParser.cpp</name>
   </compound>
   <compound refid="_cherry_hu_tao_parser_8cpp" kind="file"><name>CherryHuTaoParser.cpp</name>
   </compound>
@@ -6361,6 +6502,22 @@
   <compound refid="dir_55689a2f74de097d7544f31808fe514d" kind="dir"><name>src/data/IniFixData/BarbaraSummertime</name>
   </compound>
   <compound refid="dir_2078836bcd6a988550c40e8beac7d66a" kind="dir"><name>src/data/IniParseData/BarbaraSummertime</name>
+  </compound>
+  <compound refid="dir_16e2ada0df804d4b8299437d530df2c0" kind="dir"><name>include/AGRemapCore/data/IniFixData/Bennett</name>
+  </compound>
+  <compound refid="dir_8f4b36c515683900182802782845bf84" kind="dir"><name>include/AGRemapCore/data/IniParseData/Bennett</name>
+  </compound>
+  <compound refid="dir_b4083deb9ee5df384b03ac4be66b4787" kind="dir"><name>src/data/IniFixData/Bennett</name>
+  </compound>
+  <compound refid="dir_1e259576dcaf849afef751a510e376ef" kind="dir"><name>src/data/IniParseData/Bennett</name>
+  </compound>
+  <compound refid="dir_9c5117e60e9d0cd2686bba5891e06b92" kind="dir"><name>include/AGRemapCore/data/IniFixData/BennettAdventure</name>
+  </compound>
+  <compound refid="dir_f71332cf529eabf47bac0dc890820406" kind="dir"><name>include/AGRemapCore/data/IniParseData/BennettAdventure</name>
+  </compound>
+  <compound refid="dir_f9dcce53c4497ea4a936644a43852d54" kind="dir"><name>src/data/IniFixData/BennettAdventure</name>
+  </compound>
+  <compound refid="dir_d443bbda8c296afd9d188bf9e1bd8789" kind="dir"><name>src/data/IniParseData/BennettAdventure</name>
   </compound>
   <compound refid="dir_c2153338231c5adbf3d11cc38df4ae3c" kind="dir"><name>include/AGRemapCore/model/strategies/bufEditors</name>
   </compound>

@@ -1,0 +1,727 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_mod_branches" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ModBranches</compoundname>
+    <includes refid="_mod_branches_8h" local="no">ModBranches.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_mod_branches_1a07b959634d280a514ce91677c3ddc09e" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string &gt;</type>
+        <definition>using AGRemapCore::ModBranches::Template = IfTemplate&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>Template</name>
+        <qualifiedname>AGRemapCore::ModBranches::Template</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="84" column="13" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_mod_branches_1a018631a8f15970525779073bb339eda9" prot="public" static="no">
+        <type>tsl::ordered_map&lt; std::string, std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_mod_branches_1a07b959634d280a514ce91677c3ddc09e" kindref="member">Template</ref> &gt; &gt;</type>
+        <definition>using AGRemapCore::ModBranches::Templates = tsl::ordered_map&lt;std::string, std::unique_ptr&lt;Template&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>Templates</name>
+        <qualifiedname>AGRemapCore::ModBranches::Templates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="85" column="13" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_mod_branches_1a02c1c265182c191bec1f49b51d301c0b" prot="public" static="no">
+        <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_reg_branch_add" kindref="compound">RegBranchAdd</ref>&lt;&gt;::Additions(std::size_t, const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt; &amp;)&gt;</type>
+        <definition>using AGRemapCore::ModBranches::BranchReplacements = std::function&lt;RegBranchAdd&lt;&gt;::Additions(std::size_t, const std::optional&lt;Z3Predicate&gt;&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>BranchReplacements</name>
+        <qualifiedname>AGRemapCore::ModBranches::BranchReplacements</qualifiedname>
+        <briefdescription>
+<para>What one branch&apos;s replacements are, given the branch&apos;s index and its query in <ref refid="class_a_g_remap_core_1_1_mod_branches_1ae506679cc1b8d877bf840851388c6430" kindref="member">context</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="206" column="13" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_branches_1ac94f1a7e61f2d2de9ee5fbd787f5d888" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref></type>
+        <definition>Z3Context AGRemapCore::ModBranches::ctx_</definition>
+        <argsstring></argsstring>
+        <name>ctx_</name>
+        <qualifiedname>AGRemapCore::ModBranches::ctx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="265" column="23" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a1d61873028b334a4ea001aee2b60e6db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ModBranches::ModBranches</definition>
+        <argsstring>()=default</argsstring>
+        <name>ModBranches</name>
+        <qualifiedname>AGRemapCore::ModBranches::ModBranches</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="87" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1ab8c5ca8bf8f99fbbd9dbb97e4231907c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ModBranches::ModBranches</definition>
+        <argsstring>(const ModBranches &amp;)=delete</argsstring>
+        <name>ModBranches</name>
+        <qualifiedname>AGRemapCore::ModBranches::ModBranches</qualifiedname>
+        <param>
+          <type>const ModBranches &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="88" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a9d43fb7ac06d7d8e47ab8f3468fea310" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_branches_1a1d61873028b334a4ea001aee2b60e6db" kindref="member">ModBranches</ref> &amp;</type>
+        <definition>ModBranches &amp; AGRemapCore::ModBranches::operator=</definition>
+        <argsstring>(const ModBranches &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>AGRemapCore::ModBranches::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_branches_1a1d61873028b334a4ea001aee2b60e6db" kindref="member">ModBranches</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="89" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1ae390f59903979213f5747ca64ab4bec8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ModBranches::ModBranches</definition>
+        <argsstring>(ModBranches &amp;&amp;)=delete</argsstring>
+        <name>ModBranches</name>
+        <qualifiedname>AGRemapCore::ModBranches::ModBranches</qualifiedname>
+        <param>
+          <type>ModBranches &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="90" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a645c63e2956b9d045226620e036cb7b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_branches_1a1d61873028b334a4ea001aee2b60e6db" kindref="member">ModBranches</ref> &amp;</type>
+        <definition>ModBranches &amp; AGRemapCore::ModBranches::operator=</definition>
+        <argsstring>(ModBranches &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>AGRemapCore::ModBranches::operator=</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_mod_branches_1a1d61873028b334a4ea001aee2b60e6db" kindref="member">ModBranches</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="91" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1ae506679cc1b8d877bf840851388c6430" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> &amp;</type>
+        <definition>Z3Context &amp; AGRemapCore::ModBranches::context</definition>
+        <argsstring>()</argsstring>
+        <name>context</name>
+        <qualifiedname>AGRemapCore::ModBranches::context</qualifiedname>
+        <briefdescription>
+<para>The context every query this reads or reparents belongs to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="96" column="23" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="32" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1ad5d9346915a22d3a9ca5d86bb8198e16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_branch_val" kindref="compound">BranchVal</ref> &gt;</type>
+        <definition>std::vector&lt; BranchVal &gt; AGRemapCore::ModBranches::valsThroughRun</definition>
+        <argsstring>(const Templates &amp;templates, const std::string &amp;rootSection, const std::string &amp;key)</argsstring>
+        <name>valsThroughRun</name>
+        <qualifiedname>AGRemapCore::ModBranches::valsThroughRun</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_branches_1a018631a8f15970525779073bb339eda9" kindref="member">Templates</ref> &amp;</type>
+          <declname>templates</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rootSection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every value of ``key`` in ``rootSection`` AND in everything it ``run =``\\s, each with
+the condition it sits under :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Root section first, then every section it reaches in the call graph&apos;s own order, so the
+first value is the root&apos;s own binding where it has one. Built over the RAW parsed
+sections, because a fixer is constructed before the parser runs
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>templates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>.ini</computeroutput> file&apos;s parsed sections <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_file_1aefcd2f18b6dfe1007240a43494768536" kindref="member">IniFile::getIfTemplates</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rootSection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The section to start from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register to read </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="113" column="25" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="37" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1addc39d6ed906b817553da5a2d06c0ec5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::ModBranches::firstValThroughRun</definition>
+        <argsstring>(const Templates &amp;templates, const std::string &amp;rootSection, const std::string &amp;key)</argsstring>
+        <name>firstValThroughRun</name>
+        <qualifiedname>AGRemapCore::ModBranches::firstValThroughRun</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_branches_1a018631a8f15970525779073bb339eda9" kindref="member">Templates</ref> &amp;</type>
+          <declname>templates</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rootSection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>The first value <ref refid="class_a_g_remap_core_1_1_mod_branches_1ad5d9346915a22d3a9ca5d86bb8198e16" kindref="member">valsThroughRun</ref> finds, or <computeroutput>std::nullopt</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="119" column="27" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="106" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1aa288fec2ef963ce1da04b73d64193f21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt;</type>
+        <definition>std::optional&lt; Z3Predicate &gt; AGRemapCore::ModBranches::localQuery</definition>
+        <argsstring>(const Z3Predicate *query)</argsstring>
+        <name>localQuery</name>
+        <qualifiedname>AGRemapCore::ModBranches::localQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> *</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A query some graph of the library built, reparented into #context :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Testing it against a :cpp:class:`BranchVal` reparents one side on every call otherwise
+-- a full render / re-parse round trip -- so a query tested against several candidates
+is reparented once here first
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The query, or <computeroutput>nullptr</computeroutput> for none </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="135" column="27" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="117" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1aa7d1f153a9821ff05d0698c39e0f1cea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ModBranches::compatible</definition>
+        <argsstring>(const Z3Predicate &amp;a, const Z3Predicate &amp;b)</argsstring>
+        <name>compatible</name>
+        <qualifiedname>AGRemapCore::ModBranches::compatible</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Whether two conditions can hold at the same time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="140" column="18" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="126" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a8bbfe3ef7382f569861eb280b7ba646c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>long long</type>
+        <definition>long long AGRemapCore::ModBranches::branchIndexOf</definition>
+        <argsstring>(const std::vector&lt; BranchVal &gt; &amp;branches, const std::optional&lt; Z3Predicate &gt; &amp;query)</argsstring>
+        <name>branchIndexOf</name>
+        <qualifiedname>AGRemapCore::ModBranches::branchIndexOf</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_branch_val" kindref="compound">BranchVal</ref> &gt; &amp;</type>
+          <declname>branches</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+WHICH of ``branches`` a query belongs to, or -1 for &quot;cannot say&quot; :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Exactly one candidate satisfiable with it is the whole test: a part inside
+``$swapvar == 3`` rules out every other branch, while a section&apos;s unconditional preamble
+is satisfiable with all of them and is correctly declined. A value that does not branch
+has one candidate, and every query belongs to it
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="154" column="23" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="131" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a29b6f5a0ba507cef63e5d4b97f41efe3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::ModBranches::pick</definition>
+        <argsstring>(const std::vector&lt; BranchVal &gt; &amp;candidates, const std::string &amp;fallback, const std::optional&lt; Z3Predicate &gt; &amp;query)</argsstring>
+        <name>pick</name>
+        <qualifiedname>AGRemapCore::ModBranches::pick</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_branch_val" kindref="compound">BranchVal</ref> &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fallback</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Which of a register&apos;s values a query takes :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+SATISFIABILITY, not position: a candidate is taken when its condition can hold at the
+same time as the query&apos;s, which is indifferent to how the conditions are shaped -- an
+``if`` / ``else if`` chain, independent toggles, a value that does not branch at all.
+The first satisfiable candidate wins: several are satisfiable at once only where the
+query does not constrain this register, and any of them is then a correct reading
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register&apos;s values </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fallback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What to take when there are no candidates at all </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The query, or <computeroutput>std::nullopt</computeroutput> to take the first candidate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="172" column="25" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="159" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a5d430a04d9d31b3ee17827cce515cbe7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ModBranches::anyCompatible</definition>
+        <argsstring>(const std::vector&lt; BranchVal &gt; &amp;vals, const std::optional&lt; Z3Predicate &gt; &amp;query)</argsstring>
+        <name>anyCompatible</name>
+        <qualifiedname>AGRemapCore::ModBranches::anyCompatible</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_branch_val" kindref="compound">BranchVal</ref> &gt; &amp;</type>
+          <declname>vals</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether any of ``vals`` can be taken under ``query`` -- also true where either side has
+no condition, since an unconditional value is taken everywhere
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="182" column="18" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="179" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a346ee0a12fd68f18d20d1f5c72761f31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::optional&lt; Z3Predicate &gt; &gt; AGRemapCore::ModBranches::states</definition>
+        <argsstring>(const std::vector&lt; const std::vector&lt; BranchVal &gt; * &gt; &amp;lists)</argsstring>
+        <name>states</name>
+        <qualifiedname>AGRemapCore::ModBranches::states</qualifiedname>
+        <param>
+          <type>const std::vector&lt; const std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_branch_val" kindref="compound">BranchVal</ref> &gt; * &gt; &amp;</type>
+          <declname>lists</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every state of the mod that several per-branch values describe TOGETHER
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+No single register&apos;s branches are the mod&apos;s states in general: an animated master binds
+ONE blend for its whole frame range and a different index buffer per frame, so the
+blend&apos;s branches say there is one state and the index buffers say there are eleven.
+Each list refines the states so far -- a state splits into one state per value
+satisfiable with it, and is kept as it is where none is -- so the result is every
+combination that can actually be selected. A list of one value refines nothing
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lists</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The per-branch values that decide what differs between states </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The states, each a condition in <ref refid="class_a_g_remap_core_1_1_mod_branches_1ae506679cc1b8d877bf840851388c6430" kindref="member">context</ref> <ndash/> or a single <computeroutput>std::nullopt</computeroutput> when nothing branches </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="201" column="25" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="190" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a1e103c3914180208a3d4aa810ea0b1c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_reg_branch_add" kindref="compound">RegBranchAdd</ref>&lt;&gt; &gt;</type>
+        <definition>std::unique_ptr&lt; RegBranchAdd&lt;&gt; &gt; AGRemapCore::ModBranches::replacePerBranch</definition>
+        <argsstring>(std::vector&lt; BranchVal &gt; branches, std::string keyPrefix, BranchReplacements replacementsOf)</argsstring>
+        <name>replacePerBranch</name>
+        <qualifiedname>AGRemapCore::ModBranches::replacePerBranch</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_branch_val" kindref="compound">BranchVal</ref> &gt;</type>
+          <declname>branches</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>keyPrefix</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_mod_branches_1a02c1c265182c191bec1f49b51d301c0b" kindref="member">BranchReplacements</ref></type>
+          <declname>replacementsOf</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+An edit SETTING keys to a different value in each branch of ``branches`` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+For the numbers a branch already carries and carries differently from its neighbours --
+a blend&apos;s ``draw``, whose count is that variant&apos;s own vertex count. A part that cannot
+be attributed to exactly one branch (see #branchIndexOf) is left alone, and so is a
+branch whose replacements come back empty
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>branches</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The values that define the branches, eg. every blend a <computeroutput>CommandList</computeroutput> binds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keyPrefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tells this edit&apos;s branches apart from another edit&apos;s over the same graph </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>replacementsOf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The replacements for one branch </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="224" column="29" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="241" bodyend="263"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a112302d165e411719d4307fddab67e80" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::ModBranches::firstVal</definition>
+        <argsstring>(const Template &amp;tpl, const std::string &amp;key)</argsstring>
+        <name>firstVal</name>
+        <qualifiedname>AGRemapCore::ModBranches::firstVal</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_branches_1a07b959634d280a514ce91677c3ddc09e" kindref="member">Template</ref> &amp;</type>
+          <declname>tpl</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>The first value of <computeroutput>key</computeroutput> in one section&apos;s own parts, ignoring <computeroutput>run =</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="230" column="34" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="266" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a38fdec1169b919fb688764d8d9bef55a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::ModBranches::resourceOf</definition>
+        <argsstring>(const std::optional&lt; std::string &gt; &amp;value)</argsstring>
+        <name>resourceOf</name>
+        <qualifiedname>AGRemapCore::ModBranches::resourceOf</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A register value naming a resource, as that resource&apos;s name -- or ``&quot;&quot;`` for no value,
+an empty one, or ``null``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="239" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="283" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1acffd2f631f449b8f681e018e1ee6d9d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::ModBranches::fileOf</definition>
+        <argsstring>(const Templates &amp;templates, const std::string &amp;resource, const std::string &amp;folder)</argsstring>
+        <name>fileOf</name>
+        <qualifiedname>AGRemapCore::ModBranches::fileOf</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_branches_1a018631a8f15970525779073bb339eda9" kindref="member">Templates</ref> &amp;</type>
+          <declname>templates</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>folder</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The absolute path of the file a resource section names, or ``&quot;&quot;`` when the resource has
+no section or its section no ``filename``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>templates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>.ini</computeroutput> file&apos;s parsed sections </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The resource&apos;s section name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>folder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The folder the <computeroutput>.ini</computeroutput> file sits in </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="252" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="292" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a9b18cb2556065d736f4eb9db0664d321" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::ModBranches::ibBytesPerIndexOf</definition>
+        <argsstring>(const Templates &amp;templates, const std::string &amp;resource)</argsstring>
+        <name>ibBytesPerIndexOf</name>
+        <qualifiedname>AGRemapCore::ModBranches::ibBytesPerIndexOf</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_branches_1a018631a8f15970525779073bb339eda9" kindref="member">Templates</ref> &amp;</type>
+          <declname>templates</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How many bytes one index takes in the buffer a resource names, from the resource
+section&apos;s own ``format`` -- see :cpp:func:`IbFile::bytesPerIndexOf`. 4 when it declares
+none
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="262" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="311" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What a fixer needs to read a mod whose values differ PER BRANCH, shared by every fixer
+template that has to cope with a merged master :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A merged master is several mods behind one ``.ini``: its ``TextureOverride`` carries nothing
+but ``hash``, ``match_first_index`` and ``run =``, and every buffer, register and draw sits in a
+``$swapvar`` branch of the ``CommandList`` it runs. So every number measured from the mod&apos;s
+files -- buffers, index counts, vertex counts, whether the mod draws for itself -- is per
+branch, and this is the one place that reads a value together with its branch and answers
+which branch a later query belongs to :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Component-agnostic on purpose. It knows nothing of blends, slots or which direction a fix goes:
+the split (one component onto several) and the merge (several onto one) both read through it,
+and so will a fix of several components onto several
+
+.. warning::
+   **Owns the** :cpp:class:`Z3Context` **every** :cpp:class:`BranchVal` **it hands out belongs
+   to**, and a :cpp:class:`Z3Predicate` is usable only while its context is alive. Declare an
+   instance BEFORE every member holding one of its values, so it is destroyed after them. Not
+   copyable or movable for the same reason
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::ModBranches</label>
+        <link refid="class_a_g_remap_core_1_1_mod_branches"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>ctx_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::Z3Context</label>
+        <link refid="class_a_g_remap_core_1_1_z3_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="82" column="5" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="82" bodyend="266"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1a5d430a04d9d31b3ee17827cce515cbe7" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>anyCompatible</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1a8bbfe3ef7382f569861eb280b7ba646c" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>branchIndexOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1a02c1c265182c191bec1f49b51d301c0b" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>BranchReplacements</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1aa7d1f153a9821ff05d0698c39e0f1cea" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>compatible</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1ae506679cc1b8d877bf840851388c6430" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>context</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1ac94f1a7e61f2d2de9ee5fbd787f5d888" prot="private" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>ctx_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1acffd2f631f449b8f681e018e1ee6d9d4" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>fileOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1a112302d165e411719d4307fddab67e80" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>firstVal</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1addc39d6ed906b817553da5a2d06c0ec5" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>firstValThroughRun</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1a9b18cb2556065d736f4eb9db0664d321" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>ibBytesPerIndexOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1aa288fec2ef963ce1da04b73d64193f21" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>localQuery</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1a1d61873028b334a4ea001aee2b60e6db" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>ModBranches</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1ab8c5ca8bf8f99fbbd9dbb97e4231907c" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>ModBranches</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1ae390f59903979213f5747ca64ab4bec8" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>ModBranches</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1a9d43fb7ac06d7d8e47ab8f3468fea310" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1a645c63e2956b9d045226620e036cb7b6" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1a29b6f5a0ba507cef63e5d4b97f41efe3" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>pick</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1a1e103c3914180208a3d4aa810ea0b1c8" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>replacePerBranch</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1a38fdec1169b919fb688764d8d9bef55a" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>resourceOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1a346ee0a12fd68f18d20d1f5c72761f31" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>states</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1a07b959634d280a514ce91677c3ddc09e" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>Template</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1a018631a8f15970525779073bb339eda9" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>Templates</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1ad5d9346915a22d3a9ca5d86bb8198e16" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>valsThroughRun</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

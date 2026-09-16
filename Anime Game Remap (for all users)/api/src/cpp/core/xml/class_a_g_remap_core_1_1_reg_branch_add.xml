@@ -1,0 +1,477 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_reg_branch_add" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RegBranchAdd</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_ini_graph_edit" prot="public" virt="non-virtual">AGRemapCore::BaseIniGraphEdit&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
+    <includes refid="_reg_branch_add_8h" local="no">RegBranchAdd.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch" prot="public">AGRemapCore::RegBranchAdd::Branch</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_branch_add_1adca5c2691c2e0309a0645fb4d5df4e50" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit" kindref="compound">BaseIniGraphEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::Base = BaseIniGraphEdit&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Base</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::Base</qualifiedname>
+        <briefdescription>
+<para>The base class this edit derives from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="91" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_branch_add_1a5cd8936bb37addefe7adc43b2b750d41" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a03f90593d05d5a04e7368ea9d0dbe9a9" kindref="member">Base::Graph</ref></type>
+        <definition>using AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::Graph = typename Base::Graph</definition>
+        <argsstring></argsstring>
+        <name>Graph</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::Graph</qualifiedname>
+        <briefdescription>
+<para>The type of graph this edits.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="96" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_branch_add_1a033b5215a6a0ee414990031f4442222e" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ab0649039e83478c63599c0fde5843b1c" kindref="member">Base::PartFilter</ref></type>
+        <definition>using AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::PartFilter = typename Base::PartFilter</definition>
+        <argsstring></argsstring>
+        <name>PartFilter</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::PartFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The filter used to indicate the valid order indices to process for some
+:cpp:class:`IfContentPart` in the graph :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The mod type and ``.ini`` file arguments are **non-owning, nullable** pointers,
+matching the pure-Python original&apos;s ``Optional[IniFile]`` and this subsystem&apos;s own
+convention for still-pure-Python collaborators -- an empty ``std::function`` stands in
+for that original&apos;s ``partFilter = None``. Identical to
+:cpp:type:`GraphGroupEdit::PartFilter`, which is what actually hands one of these down
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="101" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_branch_add_1af9ecba90a8972f57be3c19d21dab23d5" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9fc446b1ec46854f86a9bc61d1eaf353" kindref="member">Base::IterData</ref></type>
+        <definition>using AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::IterData = typename Base::IterData</definition>
+        <argsstring></argsstring>
+        <name>IterData</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::IterData</qualifiedname>
+        <briefdescription>
+<para>The per-part iteration data a <ref refid="class_a_g_remap_core_1_1_reg_branch_add_1a033b5215a6a0ee414990031f4442222e" kindref="member">PartFilter</ref> is handed.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="106" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_branch_add_1a26c02624a37816ec358df9401065a4c8" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ae924467fe4fb252b6f2299eee7d990c3" kindref="member">Base::KeySet</ref></type>
+        <definition>using AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::KeySet = typename Base::KeySet</definition>
+        <argsstring></argsstring>
+        <name>KeySet</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::KeySet</qualifiedname>
+        <briefdescription>
+<para>A set of the keys to keep track of for colouring.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="111" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_branch_add_1a1fc32de46b57fc02204ceada1f69d2c5" prot="public" static="no">
+        <type>typename Graph::ContentPart</type>
+        <definition>using AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::ContentPart = typename Graph::ContentPart</definition>
+        <argsstring></argsstring>
+        <name>ContentPart</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::ContentPart</qualifiedname>
+        <briefdescription>
+<para>The type of the parts this edits. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="116" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_branch_add_1a842c8e351bed5d8524644407f76fd8d5" prot="public" static="no">
+        <type>std::vector&lt; std::pair&lt; K, V &gt; &gt;</type>
+        <definition>using AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::Additions = std::vector&lt;std::pair&lt;K, V&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>Additions</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::Additions</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>KVP</computeroutput>_ entries added for one branch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="121" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_branch_add_1aec7ab88b38f9c274737824e250f0a5f0" prot="public" static="no">
+        <type>std::function&lt; <ref refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch" kindref="compound">Branch</ref>(const <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &amp;, const <ref refid="class_a_g_remap_core_1_1_reg_branch_add_1af9ecba90a8972f57be3c19d21dab23d5" kindref="member">IterData</ref> &amp;)&gt;</type>
+        <definition>using AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::BranchOf = std::function&lt;Branch(const Z3Predicate&amp;, const IterData&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>BranchOf</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::BranchOf</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Decides what a part&apos;s branch is and what belongs in it, from the condition the part
+runs under
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="163" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_branch_add_1af73f032e575a0bf355978e24072f60fa" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_branch_add_1aec7ab88b38f9c274737824e250f0a5f0" kindref="member">BranchOf</ref></type>
+        <definition>BranchOf AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::branchOf</definition>
+        <argsstring></argsstring>
+        <name>branchOf</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::branchOf</qualifiedname>
+        <briefdescription>
+<para>Decides what belongs in each branch <ndash/> empty makes the edit a no-op. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="168" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_branch_add_1aa393873bfcc44b21b136ba58e4370082" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::RegBranchAdd</definition>
+        <argsstring>(BranchOf branchOf={})</argsstring>
+        <name>RegBranchAdd</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::RegBranchAdd</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_branch_add_1aec7ab88b38f9c274737824e250f0a5f0" kindref="member">BranchOf</ref></type>
+          <declname>branchOf</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new branch-adding edit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>branchOf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Decides what belongs in each branch. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="175" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_branch_add_1a55e7fada6bed0cc1a41f0bf15461294b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_branch_add_1a5cd8936bb37addefe7adc43b2b750d41" kindref="member">Graph</ref> &amp;</type>
+        <definition>Graph &amp; AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::edit</definition>
+        <argsstring>(Graph &amp;graph, const ModType *modType, const std::string &amp;modName, const PartFilter &amp;partFilter, bool trackKeys, const std::optional&lt; KeySet &gt; &amp;keysToTrack) override</argsstring>
+        <name>edit</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::edit</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ad62d6a67c4e3f2e6de43349d732a8fa9">edit</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_branch_add_1a5cd8936bb37addefe7adc43b2b750d41" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_branch_add_1a033b5215a6a0ee414990031f4442222e" kindref="member">PartFilter</ref> &amp;</type>
+          <declname>partFilter</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trackKeys</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_reg_branch_add_1a26c02624a37816ec358df9401065a4c8" kindref="member">KeySet</ref> &gt; &amp;</type>
+          <declname>keysToTrack</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Edits the caller/callee graph. No-op by default (returns &apos;graph&apos; untouched), matching
+the pure-Python original&apos;s ``pass``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to edit, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The filter for valid order indices <ndash/> empty for &quot;no filter&quot;. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trackKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The **caller&apos;s** key-tracking default, handed down by whatever is driving this edit
+(:cpp:class:`GraphGroupEdit` passes its own ``trackKeys`` here) :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A subclass that has its own key-tracking setting decides how to combine the two;
+:cpp:class:`RegFillMissing` treats this as a default it can turn *on* but not off, so
+either side asking for tracking is enough. A subclass with no such setting simply
+ignores it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keysToTrack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The **caller&apos;s** key-tracking key set, handed down the same way -- ``std::nullopt``
+meaning &quot;every key&quot;, matching
+:cpp:func:`IfContentPartColouring::updateColouring`&apos;s own convention :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same graph that was passed in, after editing    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="180" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseIniGraphEdit`
+
+Adds `KVPs`_ **inside** a conditional branch, with the entries decided by the condition that
+branch runs under :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. code-block:: ini
+
+   [CommandListCharacterBody]
+   if $swapvar == 0
+      ib = ResourceBodyIb0
+      ; these entries go HERE, and are computed for THIS branch
+   else if $swapvar == 1
+      ib = ResourceBodyIb1
+      drawindexed = 200, 0, 0
+      ; ...and separately HERE, computed for this one
+   endif
+
+**What this is for.** A mod whose branches are different models -- a merged mod&apos;s ``$swapvar``
+chain is a dozen mods behind one ``.ini`` -- where what the fix has to add differs per branch
+because the geometry does. A ``drawindexed`` is the case that forced this: its count and offset
+come from the index buffers of the branch being drawn, and one merged mod&apos;s twelve branches have
+twelve different pairs of numbers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**How a branch is identified.** Not by position: \\ref branchOf is handed the
+:cpp:class:`Z3Predicate` the part runs under and answers with a key naming the branch, so the
+caller decides by satisfiability and nothing here assumes the branches are a flat ordered list.
+An empty key means &quot;nothing belongs here&quot;, which is how the caller declines a part it cannot
+attribute to exactly one branch -- a `section`_&apos;s unconditional preamble, say, which every
+branch&apos;s condition is satisfiable with
+
+.. note::
+   Where a key appears in several parts -- a branch that carries its ``ib`` in a nested ``if``
+   and its draws after it -- the entries go in the **last** of them, in the graph&apos;s own
+   iteration order. That is the one everything else in the branch has already run before
+
+.. note::
+   This is deliberately NOT :cpp:class:`RegBottomAdd` with a computed list.
+   :cpp:class:`RegBottomAdd` lands one block at the `section`_&apos;s own depth, outside every
+   ``if``, which is right precisely when the addition does not depend on which branch is taken
+   -- and wrong when it does. Reach for that one first; this one only when the entries differ
+   per branch :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+   Putting a draw in the `section`_ instead also moves the ``NNFix`` / ``ORFix`` call: a
+   :cpp:class:`RegDelimitedAdd` in :cpp:enumerator:`RegDelimitedAddMode::PerPath` treats a
+   content part as atomic, so a part holding both a ``run =`` and a ``drawindexed`` takes the
+   call before its own draw and counts every path covered -- leaving the draws inside the
+   callee with none. Keeping the branch&apos;s additions in the branch avoids creating that part at
+   all (2026-09-16)
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in the parts this edits </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in the parts this edits </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniGraphPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_branch_add"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniGraphPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_branch_add"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="86" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="86" bodyend="183"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a842c8e351bed5d8524644407f76fd8d5" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>Additions</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_branch_add_1adca5c2691c2e0309a0645fb4d5df4e50" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>Base</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_branch_add_1aec7ab88b38f9c274737824e250f0a5f0" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>BranchOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_branch_add_1af73f032e575a0bf355978e24072f60fa" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>branchOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a1fc32de46b57fc02204ceada1f69d2c5" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>ContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a55e7fada6bed0cc1a41f0bf15461294b" prot="public" virt="virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>edit</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a8cf7cc52f178d8774155d39261eb55a6" prot="public" virt="virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>editFromIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a5cd8936bb37addefe7adc43b2b750d41" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>Graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_branch_add_1af9ecba90a8972f57be3c19d21dab23d5" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>IterData</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a26c02624a37816ec358df9401065a4c8" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>KeySet</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b2f7dc1c8c04fc11431777be50e5a76" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>OrderRanges</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a033b5215a6a0ee414990031f4442222e" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>PartFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_branch_add_1aa393873bfcc44b21b136ba58e4370082" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>RegBranchAdd</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>~BaseIniPartEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

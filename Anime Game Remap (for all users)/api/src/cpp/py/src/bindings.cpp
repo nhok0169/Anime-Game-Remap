@@ -80,14 +80,17 @@
 #include "model/strategies/iniFixers/regEdits/PyRegNewVals.h"
 #include "model/strategies/iniFixers/regEdits/PyRegRemap.h"
 #include "model/strategies/iniFixers/regEdits/PyRegRemove.h"
+#include "model/strategies/iniFixers/regEdits/PyRegRestrict.h"
 #include "model/strategies/iniFixers/graphEdits/PyBaseIniGraphEdit.h"
 #include "model/strategies/iniFixers/graphEdits/PyGraphRename.h"
 #include "model/strategies/iniFixers/graphEdits/PyRegFillMissing.h"
 #include "model/strategies/iniFixers/graphEdits/PyRegSurroundedAdd.h"
 #include "model/strategies/iniFixers/graphEdits/PyRegBottomAdd.h"
 #include "model/strategies/iniFixers/graphEdits/PyRegDelimitedAdd.h"
+#include "model/strategies/iniFixers/graphEdits/PyRegBranchAdd.h"
 #include "model/strategies/iniFixers/graphGroupEdits/PyBaseIniGraphGroupEdit.h"
 #include "model/strategies/iniFixers/graphGroupEdits/PyGraphRemove.h"
+#include "model/strategies/iniFixers/graphGroupEdits/PyGraphGroupRemove.h"
 #include "model/strategies/iniFixers/graphGroupEdits/PyGraphInherit.h"
 #include "model/strategies/iniFixers/graphGroupEdits/PyGraphGroupRemap.h"
 #include "model/strategies/iniFixers/graphGroupEdits/PyGraphGroupEdit.h"
@@ -259,6 +262,7 @@ PYBIND11_MODULE(core, m) {
     initCppRegNewVals(m); // must come after initCppBaseRegEdit (registers its base)
     initCppRegRemap(m); // must come after initCppBaseRegEdit (registers its base)
     initCppRegRemove(m); // must come after initCppBaseRegEdit (registers its base)
+    initCppRegRestrict(m); // must come after initCppBaseRegEdit (registers its base)
 
     // ----- iniFixers/graphEdits (full replacement of the pure-Python graphEdits package -- see
     // Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----
@@ -268,12 +272,14 @@ PYBIND11_MODULE(core, m) {
     initCppRegSurroundedAdd(m); // must come after initCppBaseIniGraphEdit (registers its base)
     initCppRegBottomAdd(m); // must come after initCppBaseIniGraphEdit (registers its base) and initCppRegSurroundedAdd (shares its parseAdditions/additionsToPy)
     initCppRegDelimitedAdd(m); // must come after initCppBaseIniGraphEdit (registers its base) and initCppRegSurroundedAdd (shares its parsers)
+    initCppRegBranchAdd(m); // must come after initCppBaseIniGraphEdit (registers its base), initCppRegSurroundedAdd (shares its parseAdditions), initCppZ3Predicate and initCppSectionIterData (what branchOf is handed)
 
     // ----- iniFixers/graphGroupEdits (full replacement of the pure-Python graphGroupEdits
     // package -- see Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----
     initCppGIMIObjPartFilter(m); // must come after initCppModMappedAssets (the tables it borrows) and initCppSectionIterData (what its window function takes)
     initCppBaseIniGraphGroupEdit(m); // must come after initCppBaseRegEdit (registers BaseIniPartEdit, its base) and initCppIniSectionGraph/initCppIniGraphGroup (the types it edits)
     initCppGraphRemove(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
+    initCppGraphGroupRemove(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
     initCppGraphInherit(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppRanges (its partFilter returns one)
     initCppGraphGroupRemap(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
     initCppGraphGroupEdit(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppBaseRegEdit (its isinstance target for register edits)

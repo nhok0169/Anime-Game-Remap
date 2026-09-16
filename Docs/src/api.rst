@@ -856,6 +856,18 @@ GraphGroupRemap
 
 :raw-html:`<br />`
 
+GraphGroupRemove
+================
+
+.. attributetable:: FixRaidenBoss2.GraphGroupRemove
+
+.. autoclass:: FixRaidenBoss2.GraphGroupRemove
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 GraphInherit
 ============
 
@@ -1305,6 +1317,18 @@ RegBottomAdd
 
 :raw-html:`<br />`
 
+RegBranchAdd
+============
+
+.. attributetable:: FixRaidenBoss2.RegBranchAdd
+
+.. autoclass:: FixRaidenBoss2.RegBranchAdd
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 RegDelimitedAdd
 ===============
 
@@ -1367,6 +1391,18 @@ RegRemove
 .. attributetable:: FixRaidenBoss2.RegRemove
 
 .. autoclass:: FixRaidenBoss2.RegRemove
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegRestrict
+===========
+
+.. attributetable:: FixRaidenBoss2.RegRestrict
+
+.. autoclass:: FixRaidenBoss2.RegRestrict
     :inherited-members:
     :members:
     :private-members:

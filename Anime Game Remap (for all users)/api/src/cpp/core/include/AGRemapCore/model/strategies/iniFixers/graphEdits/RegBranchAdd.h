@@ -69,7 +69,7 @@ namespace AGRemapCore {
         -- and wrong when it does. Reach for that one first; this one only when the entries differ
         per branch :raw-html:`<br />` :raw-html:`<br />`
 
-        Putting a draw in the `section`_ instead also moves the `fix libraries`_ call: a
+        Putting a draw in the `section`_ instead also moves the ``NNFix`` / ``ORFix`` call: a
         :cpp:class:`RegDelimitedAdd` in :cpp:enumerator:`RegDelimitedAddMode::PerPath` treats a
         content part as atomic, so a part holding both a ``run =`` and a ``drawindexed`` takes the
         call before its own draw and counts every path covered -- leaving the draws inside the

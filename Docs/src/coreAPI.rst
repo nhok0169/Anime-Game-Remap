@@ -507,6 +507,17 @@ RegBottomAdd
 
 :raw-html:`<br />`
 
+RegBranchAdd
+------------
+
+.. cppattributetable:: AGRemapCore::RegBranchAdd
+
+.. doxygenclass:: AGRemapCore::RegBranchAdd
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 RegDelimitedAdd
 ---------------
 
@@ -585,6 +596,17 @@ GraphGroupRemap
 .. cppattributetable:: AGRemapCore::GraphGroupRemap
 
 .. doxygenclass:: AGRemapCore::GraphGroupRemap
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GraphGroupRemove
+----------------
+
+.. cppattributetable:: AGRemapCore::GraphGroupRemove
+
+.. doxygenclass:: AGRemapCore::GraphGroupRemove
     :members:
     :protected-members:
 
@@ -1310,6 +1332,17 @@ RegRemove
 .. cppattributetable:: AGRemapCore::RegRemove
 
 .. doxygenclass:: AGRemapCore::RegRemove
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RegRestrict
+-----------
+
+.. cppattributetable:: AGRemapCore::RegRestrict
+
+.. doxygenclass:: AGRemapCore::RegRestrict
     :members:
     :protected-members:
 

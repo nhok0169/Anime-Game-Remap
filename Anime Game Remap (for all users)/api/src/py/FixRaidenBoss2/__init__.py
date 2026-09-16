@@ -420,3 +420,12 @@ try:
                 "VGMergeComponentFiles", "VGMergeObject", "VGMergeGroupResource"]
 except ImportError:
     pass
+
+# ----- Added 2026-09-16: ini graph edits promoted out of the multi-component fixers -- a register
+# restriction, a per-branch addition and a whole-group removal. Linux-built only so far, so guarded
+# for the same reason as the blocks above.
+try:
+    from .core import RegRestrict, RegBranchAdd, GraphGroupRemove
+    __all__ += ["RegRestrict", "RegBranchAdd", "GraphGroupRemove"]
+except ImportError:
+    pass

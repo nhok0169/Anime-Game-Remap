@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::RegBranchAdd::Branch</compoundname>
+    <includes refid="_reg_branch_add_8h" local="no">RegBranchAdd.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a8452f7399163a6a7087547bd619386b2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::Branch::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::Branch::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Names the branch these entries belong to. **Empty means add nothing here**, which
+is how a part that cannot be attributed to exactly one branch is declined
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="134" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a33097cdd4ab3308b783c6382bb73e12c" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_branch_add_1a842c8e351bed5d8524644407f76fd8d5" kindref="member">Additions</ref></type>
+        <definition>Additions AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::Branch::additions</definition>
+        <argsstring></argsstring>
+        <name>additions</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::Branch::additions</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>KVP</computeroutput>_ entries to add, in order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="139" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a2ef15b8204600eba07d77833944804db" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_branch_add_1a842c8e351bed5d8524644407f76fd8d5" kindref="member">Additions</ref></type>
+        <definition>Additions AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::Branch::replacements</definition>
+        <argsstring></argsstring>
+        <name>replacements</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::Branch::replacements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+`KVP`_ entries whose value is SET in the branch&apos;s part rather than appended to it
+-- replacing whatever the branch carries, and added when the key is absent
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+For the keys a branch already answers for itself and answers differently from its
+neighbours: a ``draw`` whose count is that variant&apos;s own vertex count, say. Adding a
+second one of those would not correct the first, it would draw twice
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="153" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>What belongs in one branch, and which branch it is. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="126" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="126" bodyend="154"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a33097cdd4ab3308b783c6382bb73e12c" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd::Branch</scope><name>additions</name></member>
+      <member refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a8452f7399163a6a7087547bd619386b2" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd::Branch</scope><name>key</name></member>
+      <member refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a2ef15b8204600eba07d77833944804db" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd::Branch</scope><name>replacements</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

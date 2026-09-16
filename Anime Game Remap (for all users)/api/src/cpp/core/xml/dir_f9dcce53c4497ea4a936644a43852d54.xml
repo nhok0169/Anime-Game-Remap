@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f9dcce53c4497ea4a936644a43852d54" kind="dir">
+    <compoundname>src/data/IniFixData/BennettAdventure</compoundname>
+    <innerfile refid="_bennett_adventure_fixer_8cpp">BennettAdventureFixer.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniFixData/BennettAdventure/"/>
+  </compounddef>
+</doxygen>

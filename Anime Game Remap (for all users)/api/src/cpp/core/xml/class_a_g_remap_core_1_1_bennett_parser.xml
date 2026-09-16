@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_bennett_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BennettParser</compoundname>
+    <includes refid="_bennett_parser_8h" local="no">BennettParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bennett_parser_1a05f1b8f9a7a8dbb958dae37f58b02c40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BennettParser::BennettParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>BennettParser</name>
+        <qualifiedname>AGRemapCore::BennettParser::BennettParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Bennett/BennettParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bennett_parser_1a36e00693538f12970517a16a2382491d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::BennettParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::BennettParser::v4_0</qualifiedname>
+        <briefdescription>
+<para>The parser for a 4.0-era Bennett <computeroutput>.ini</computeroutput> file <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a974edb415d25e1ea9b4aadd28673f97c" kindref="member">IniParseBuilderFuncs::bennett4_0</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Bennett/BennettParser.h" line="40" column="45" bodyfile="src/data/IniParseData/Bennett/BennettParser.cpp" bodystart="55" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Bennett&apos;s own ``.ini`` parsers, one per game version he needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The standard GIMI character shape, drawing ``head`` / ``body`` -- two objects, where Yelan has
+four. Pair this with :cpp:class:`BennettFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Bennett/BennettParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Bennett/BennettParser.h" bodystart="32" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_bennett_parser_1a05f1b8f9a7a8dbb958dae37f58b02c40" prot="public" virt="non-virtual"><scope>AGRemapCore::BennettParser</scope><name>BennettParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_bennett_parser_1a36e00693538f12970517a16a2382491d" prot="public" virt="non-virtual"><scope>AGRemapCore::BennettParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

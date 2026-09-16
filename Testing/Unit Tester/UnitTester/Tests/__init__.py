@@ -59,6 +59,7 @@ from .test_ResEdits import ResEditsTest
 from .test_ResCollects import ResCollectsTest
 from .test_GraphInherit import GraphInheritTest
 from .test_GraphRemove import GraphRemoveTest
+from .test_GraphGroupRemove import GraphGroupRemoveTest
 from .test_GraphRename import GraphRenameTest
 from .test_RegFillMissing import RegFillMissingTest
 from .test_IfContentPart import IfContentPartTest
@@ -102,8 +103,10 @@ from .test_RegAdd import RegAddTest
 from .test_RegNewVals import RegNewValsTest
 from .test_RegRemap import RegRemapTest
 from .test_RegRemove import RegRemoveTest
+from .test_RegRestrict import RegRestrictTest
 from .test_RegSurroundedAdd import RegSurroundedAddTest
 from .test_RegDelimitedAdd import RegDelimitedAddTest
+from .test_RegBranchAdd import RegBranchAddTest
 from .test_RemapServiceCLI import RemapServiceCLITest
 from .test_ResGroupCollect import ResGroupCollectTest
 from .test_VGComponentSplit import VGComponentSplitTest, VGSplitGroupResourceTest, BufReplaceTest
@@ -148,7 +151,7 @@ __all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "BaseLoggerTest", "
 __all__ += ["ModTypesTest", "ModTypeTest", "RemapServiceCLITest", "GIMIFixerTest", "GIMIParserTest", "RemapIniRemoverTest", "GlobalRemapIniRemoverTest"]
 __all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest"]
 __all__ += ["ColourRangeTest", "VersionTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredPartTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]
-__all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "HashesTest", "IndicesTest", "VertexCountsTest", "VGRemapsTest", "GraphGroupRemapTest", "GraphInheritTest", "GraphRemoveTest", "GraphRenameTest", "ResRegCollectTest", "ResGroupCollectTest", "VGComponentSplitTest", "VGSplitGroupResourceTest", "BufReplaceTest", "SympyTokenizerTest", "SympyParserTest"]
+__all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "HashesTest", "IndicesTest", "VertexCountsTest", "VGRemapsTest", "GraphGroupRemapTest", "GraphInheritTest", "GraphRemoveTest", "GraphGroupRemoveTest", "GraphRenameTest", "ResRegCollectTest", "ResGroupCollectTest", "VGComponentSplitTest", "VGSplitGroupResourceTest", "BufReplaceTest", "SympyTokenizerTest", "SympyParserTest"]
 __all__ += ["BaseIniGraphGroupEditTest", "GraphGroupEditTest", "BaseResEditTest", "ResEditsTest", "ResCollectsTest"]
 __all__ += ["BaseIniGraphEditTest", "RegFillMissingTest"]
 __all__ += ["SympyIfPredGeneratorTest", "CppAhoCorasickDFATest", "CppTrieTest"]
@@ -156,7 +159,7 @@ __all__ += ["ModTypeIdDataTest", "ModTypeTest", "GIBuilderTest", "ModTypeIdTest"
 __all__ += ["OrderedMultiMapTest", "OrderedMultiMapSqrtTest", "OrderedMultiMapCrossCheckTest", "IOrderedMultiMapTest", "CppIfContentPartTest"]
 __all__ += ["IfContentPartColourTest", "IfContentPartColourChangeTest"]
 __all__ += ["Hash64Test", "Hash128Test", "CppHashToolsTest", "HashToolsTest", "ListToolsTest"]
-__all__ += ["BaseRegEditTest", "RegAddTest", "RegNewValsTest", "RegRemapTest", "RegRemoveTest", "RegSurroundedAddTest", "RegDelimitedAddTest"]
+__all__ += ["BaseRegEditTest", "RegAddTest", "RegNewValsTest", "RegRemapTest", "RegRemoveTest", "RegRestrictTest", "RegSurroundedAddTest", "RegDelimitedAddTest", "RegBranchAddTest"]
 __all__ += ["TokenTest", "ParseContextTest", "BaseTokenizerTest", "FilteredTokenizerTest"]
 __all__ += ["CallGraphTest", "SectionIterDataTest", "GraphToolsTest"]
 __all__ += ["BufDataTypeTest", "BufElementTypeTest", "BinaryFileTest", "CppBufFileTest", "VGRemapTest", "BufToolsTest"]

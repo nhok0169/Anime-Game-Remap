@@ -59,6 +59,7 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%A7%B0%E2%9B%93%EF%B8%8F%20The%20Toolchain%20Mender-1-%2364748b?style=plastic&labelColor=%23020617)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%8F%BA%F0%9F%95%B0%EF%B8%8F%20The%20Version%20Archaeologist-1-%23b08d57?style=flat-square&labelColor=%232f4f4f)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%94%81%F0%9F%AA%9E%20The%20Involution%20Warden-1-%2316a34a?style=for-the-badge&labelColor=%231b4332)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%8C%BF%E2%9A%96%EF%B8%8F%20The%20Branch%20Arbiter-1-%23a3e635?style=plastic&labelColor=%23312e81)
 
 <br>
 

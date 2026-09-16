@@ -38,6 +38,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h"
@@ -1301,6 +1302,104 @@ namespace AGRemapCore {
                     indexEdits_ = ObjGroupEdit(std::move(iniEdits), false);
                 }
 
+                // ---- the appended member draws, one block per BRANCH ----
+                //
+                // The same shape as the unbranched case below, asked once per branch: how many
+                // indices each member contributes there, and therefore where the next one starts.
+                // Every number comes from the branch's own files, which is the whole point.
+                bool buildBranchDraws(const std::string& obj) {
+                    auto membersIt = members_.find(obj);
+                    auto repIt = representative_.find(obj);
+                    if (membersIt == members_.end() || repIt == representative_.end()) {
+                        return false;
+                    }
+
+                    const SlotFiles* repFiles = slotFiles(repIt->second.first, repIt->second.second);
+                    if (repFiles == nullptr) {
+                        return false;
+                    }
+
+                    const std::vector<std::pair<std::string, std::string>> members = membersIt->second;
+                    const std::vector<BranchVal> branches = repFiles->ibs;
+
+                    auto branchAdd = std::make_unique<RegBranchAdd<>>(
+                        [this, obj, members, branches, repFiles](const Z3Predicate& query,
+                                                                  const RegBranchAdd<>::IterData&) {
+                            RegBranchAdd<>::Branch result;
+
+                            const std::optional<Z3Predicate> local = localQuery(&query);
+                            const long long branch = branchIndexOf(branches, local);
+                            if (branch < 0) {
+                                return result;
+                            }
+
+                            // Does the mod draw this object itself in THIS branch? Four of one
+                            // master's twelve leave it to the whole-ib override, which the remap
+                            // takes away -- so the first member needs a draw of its own there, and
+                            // needs none where the mod already issues its ranges.
+                            bool branchDraws = false;
+                            for (const BranchVal& drawVal : repFiles->drawVals) {
+                                if (!drawVal.query.has_value() || !local.has_value()) {
+                                    branchDraws = true;
+                                    break;
+                                }
+
+                                if (GroupCollector::combineQueries(*local, *drawVal.query, &z3Ctx_).isSatisfiable()) {
+                                    branchDraws = true;
+                                    break;
+                                }
+                            }
+
+                            RegBranchAdd<>::Additions additions;
+                            long long offset = 0;
+
+                            for (std::size_t i = 0; i < members.size(); ++i) {
+                                const SlotFiles* files = slotFiles(members[i].first, members[i].second);
+                                if (files == nullptr) {
+                                    continue;
+                                }
+
+                                const std::string path = pick(files->ibs, files->ib, local);
+                                if (path.empty()) {
+                                    // `ib = null`: this member draws nothing in this branch, and
+                                    // contributes nothing to the offsets either.
+                                    continue;
+                                }
+
+                                const long long count = static_cast<long long>(fileSize(path) / IbIndexStride);
+                                if (count <= 0) {
+                                    // Guessing a count would address whatever happens to sit at that
+                                    // offset -- and every member after it too, so the whole branch
+                                    // is left to the mod rather than half drawn.
+                                    return RegBranchAdd<>::Branch{};
+                                }
+
+                                if (i > 0) {
+                                    appendMemberBindings(additions, members[i], repFiles);
+                                }
+
+                                if (i > 0 || !branchDraws) {
+                                    additions.emplace_back(IniKeywords::DrawIndexed,
+                                                            std::to_string(count) + ", " + std::to_string(offset) + ", 0");
+                                }
+
+                                offset += count;
+                            }
+
+                            if (additions.empty()) {
+                                return result;
+                            }
+
+                            result.key = obj + ";" + std::to_string(branch);
+                            result.additions = std::move(additions);
+                            return result;
+                        });
+
+                    extraDrawAdapters_[obj] = std::make_unique<GraphPartEdit<>>(branchAdd.get());
+                    branchDraws_.push_back(std::move(branchAdd));
+                    return true;
+                }
+
                 // A member that reads its own textures binds them ahead of its draw, and then needs
                 // its own fix call -- rebinding ps-t0/ps-t1 starts a new binding generation and
                 // NNFix re-slots whatever is bound when it runs. Shared with the unbranched path so
@@ -1476,28 +1575,20 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        // A SOURCE WHOSE BRANCHES ARE DIFFERENT MODELS HAS NO ONE SET OF NUMBERS.
+                        // A SOURCE WHOSE BRANCHES ARE DIFFERENT MODELS NEEDS A BLOCK PER BRANCH.
                         //
-                        // The count and offset of an appended draw come from the index buffers of
-                        // the branch being drawn, and a merged master's branches have a set each.
-                        // The block below lands once, at the section's own depth, outside every
-                        // `if` -- so it can only carry one of them, which is right for one branch
-                        // and draws a slice of the FIRST member's geometry again, under the second
-                        // member's textures, in all the others.
+                        // The counts and offsets come from the index buffers being drawn, and a
+                        // merged master's branches have a set each. One block at the section's own
+                        // depth carries one set: right for one branch, and in the others it draws a
+                        // slice of the FIRST member's geometry again under the SECOND member's
+                        // textures. So when the representative's ib branches, the draws go inside
+                        // the branches instead -- see RegBranchAdd.
                         //
-                        // So it is not written at all here, and the object draws without its later
-                        // members rather than drawing the wrong thing. The block belongs INSIDE
-                        // each branch (RegBranchAdd does exactly that); what is missing is a way to
-                        // tell which branch a part belongs to, because a graph's per-part
-                        // predicates are wrong once ResGroupCollect has spliced its calls into it
-                        // -- branch 1 of a twelve-way chain reports
-                        // `$swapvar == 0 AND $swapvar != 0 AND $swapvar == 1`, which is
-                        // unsatisfiable. The `.ini` renders correctly; only the computed conditions
-                        // are wrong, and the same mod parses correctly before any of this runs
-                        // (2026-09-16).
-                        if (repFiles->ibs.size() > 1) {
-                            ctx_.log("the '" + obj + "' object's source picks a different model per branch, so its"
-                                      " later members are left undrawn rather than drawn at one branch's offsets");
+                        // It also keeps the fix call landing correctly. A draw added to the section
+                        // makes a part that both `run =`s and draws, and RegDelimitedAdd treats a
+                        // part as atomic: it takes its call before that part's own draw and counts
+                        // every path covered, leaving the draws inside the callee without one.
+                        if (repFiles->ibs.size() > 1 && buildBranchDraws(obj)) {
                             continue;
                         }
 
@@ -1568,6 +1659,14 @@ namespace AGRemapCore {
                         auto repIt = representative_.find(obj);
                         if (membersIt == members_.end() || repIt == representative_.end()
                                 || membersIt->second.size() < 2 || !membersDiffer(obj)) {
+                            continue;
+                        }
+
+                        // A branching object supplies its own first-member draw, per branch,
+                        // inside the branch -- one range at the section's depth would be right for
+                        // one branch and wrong for the rest. See buildBranchDraws.
+                        const SlotFiles* repSlot = slotFiles(repIt->second.first, repIt->second.second);
+                        if (repSlot != nullptr && repSlot->ibs.size() > 1) {
                             continue;
                         }
 
@@ -1781,6 +1880,7 @@ namespace AGRemapCore {
                 std::unordered_map<std::string, std::unique_ptr<GraphPartEdit<>>> objFillAdapters_;
                 std::vector<Fixer::GroupEdit*> preRemapTexGroupEdits_;
                 std::vector<std::unique_ptr<RegBottomAdd<>>> extraDraws_;
+                std::vector<std::unique_ptr<RegBranchAdd<>>> branchDraws_;
                 std::unordered_map<std::string, std::unique_ptr<GraphPartEdit<>>> extraDrawAdapters_;
                 std::unique_ptr<RegDelimitedAdd<>> addFixCall_;
                 std::unique_ptr<RegNewVals<>> overrides_;

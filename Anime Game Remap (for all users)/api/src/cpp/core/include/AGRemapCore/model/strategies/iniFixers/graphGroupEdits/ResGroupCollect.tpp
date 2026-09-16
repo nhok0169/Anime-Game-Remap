@@ -861,7 +861,11 @@ namespace AGRemapCore {
                 query = *reparented;
             }
 
-            query = query.simplify();
+            // solverSimplify, not simplify: this predicate is written into the mod, and the local
+            // rewriter leaves an else-if chain's accumulated condition exactly as it found it --
+            // branch n carrying every earlier branch's negation. A merged mod with two hundred
+            // variants would put a hundred and ninety-nine of them on one line.
+            query = query.solverSimplify();
 
             // Walks the Z3 expression directly -- no sympy-syntax text round trip, unlike the
             // deprecated pure-Python original's own getIfPredStr(ParseContext).

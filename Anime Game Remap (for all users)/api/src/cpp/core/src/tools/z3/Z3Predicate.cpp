@@ -55,6 +55,37 @@ namespace AGRemapCore {
         return Z3Predicate(std::make_unique<Impl>(impl_->predicate.simplify(), impl_->ctxKeepAlive));
     }
 
+
+    Z3Predicate Z3Predicate::solverSimplify() const {
+        z3::context& ctx = *impl_->ctxKeepAlive;
+
+        // `propagate-values` first, and it is the one doing the work. An else-if chain accumulates
+        // into `x != 0 AND x != 1 AND ... AND x == n`, and propagating the equality evaluates every
+        // negation away in ONE rewriting pass with no solver at all -- 200 branches in well under a
+        // second. `ctx-solver-simplify` ALONE does not do this: it drops one of the eleven negations
+        // of a twelve-way chain and stops, and reaching the same answer by repeating it costs a pass
+        // per branch. It runs second, on what is left, for the conjunctions propagation cannot reach.
+        //
+        // NOT `solve-eqs`, which looks like the obvious third and is disqualified: it ELIMINATES the
+        // variable, answering `x == 11` with an empty goal. That is sound for asking whether the
+        // thing is satisfiable and useless for writing a condition back out into a mod.
+        z3::tactic tactic = z3::tactic(ctx, "propagate-values") & z3::tactic(ctx, "ctx-solver-simplify");
+
+        z3::goal goal(ctx);
+        goal.add(impl_->predicate);
+
+        z3::apply_result result = tactic(goal);
+        if (result.size() != 1) {
+            // A tactic that split the goal, which neither of these does to a conjunction. Rather
+            // than guess how to put the pieces back, keep what came in.
+            return *this;
+        }
+
+        // An empty goal is everything discharged, which is `true` -- goal::as_expr says so itself,
+        // and this is the shape a part with no enclosing condition arrives in.
+        return Z3Predicate(std::make_unique<Impl>(result[0].as_expr(), impl_->ctxKeepAlive));
+    }
+
     bool Z3Predicate::isSatisfiable() const {
         z3::solver solver(*impl_->ctxKeepAlive);
         solver.add(impl_->predicate);

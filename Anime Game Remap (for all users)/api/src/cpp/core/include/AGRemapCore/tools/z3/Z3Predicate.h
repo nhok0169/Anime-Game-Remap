@@ -104,6 +104,35 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             A simplified, logically-equivalent form of this predicate that a PERSON has to read --
+             `Z3`_'s ``propagate-values`` followed by ``ctx-solver-simplify`` :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             \\ref simplify is a local rewriter and leaves an ``if``/``else if`` chain's accumulated
+             condition exactly as it found it: branch *n* of such a chain reads
+             ``x != 0 AND x != 1 AND ... AND x == n``, and a merged mod with two hundred variants
+             writes a hundred and ninety-nine negations into the ``.ini`` for its last one. This one
+             answers ``x == n`` -- propagating the equality evaluates the negations away in one
+             rewriting pass, with no solver call and in well under a second at that size.
+
+             .. note::
+                ``ctx-solver-simplify`` on its own does NOT do this, which is worth knowing before
+                reaching for the name that sounds right: it drops ONE of the eleven negations of a
+                twelve-way chain. It runs here as the second step, for what propagation cannot reach
+
+             .. note::
+                Deliberately not ``solve-eqs``, which eliminates the variable instead of simplifying
+                around it and answers ``x == 11`` with an empty goal. Sound for asking whether
+                something is satisfiable, useless for writing a condition back into a mod
+             @endrst
+             *
+             * @return The simplified predicate
+             */
+            Z3Predicate solverSimplify() const;
+
+            /**
+             * @brief
+             @rst
              Whether this predicate is satisfiable -- ie. whether some assignment of its free
              variables makes it evaluate to ``true``, checked via a real ``z3::solver`` :raw-html:`<br />`
              :raw-html:`<br />`

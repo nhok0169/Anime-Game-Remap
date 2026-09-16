@@ -1,5 +1,41 @@
 # Ini Graph Editing
 
+## THE PREDICATE WRITTEN BACK INTO A MOD NEEDS A DIFFERENT SIMPLIFIER (2026-09-16)
+
+An `if`/`else if` chain accumulates: branch *n* of it means `x != 0 AND x != 1 AND ... AND x == n`,
+and that is what `ResGroupCollect` writes into the `.ini` as its resource group's guard. On a merged
+mod with two hundred variants the last branch carries a hundred and ninety-nine negations on one
+line -- and it is `$swapvar == 199`.
+
+**`z3::expr::simplify()` will not touch it**, which is what the collect was calling. It is a local
+rewriter; discharging those negations means knowing the equality holds. Measured on the real
+twelve-way chain:
+
+| tactic | result | passes |
+| --- | --- | --- |
+| `simplify` | all 11 negations, unchanged | 1 |
+| `ctx-solver-simplify` | **10** negations -- it drops one and stops | 1 |
+| `propagate-values` | `$swapvar == 11` | 1 |
+| `(repeat ctx-solver-simplify)` | `$swapvar == 11` | **12** -- one per branch |
+| `solve-eqs` | **an empty goal** | 1 |
+
+So `Z3Predicate::solverSimplify` is `propagate-values` then `ctx-solver-simplify`, and the order is
+the point: propagation does the work in one rewriting pass with no solver at all -- a 200-branch
+chain in well under a second -- and the solver-based one runs second on what is left.
+
+Two of those rows are worth remembering on their own. **`ctx-solver-simplify` is the name that
+sounds right and does not do this**: reaching the same answer by repeating it costs a pass per
+branch. And **`solve-eqs` is actively wrong here** -- it ELIMINATES the variable rather than
+simplifying around it, answering `x == 11` with nothing at all. That is sound for asking whether a
+predicate is satisfiable and useless for writing a condition back into a mod, which is the
+difference between the two things Z3 is used for in this repo.
+
+Measured: the twelve-variant master's `.ini` goes from 63062 bytes to 58466, and the saving grows
+with the square of the branch count. Nothing else moves -- 772 files over 18 characters and all of
+Yelan's are byte-identical, because nothing else was emitting an accumulated chain.
+
+<br>
+
 ## A PART'S CONDITION WAS WRONG BEHIND A `run =`, AND NOTHING COULD SEE IT (2026-09-16)
 
 `IniSectionGraph::iterByQuery` reports the predicate each part sits under. It tracks, per nesting

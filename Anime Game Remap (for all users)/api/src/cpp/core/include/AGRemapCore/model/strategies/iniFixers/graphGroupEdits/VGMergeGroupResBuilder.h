@@ -14,7 +14,9 @@
 
 // ##### EndCredits
 
+#include <functional>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -58,26 +60,39 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             One config per GROUP, for a source whose resources branch :raw-html:`<br />`
+             Builds the config for one group, from the query that group's resources co-occur under
+             (see :cpp:func:`ResGroupCollect::GroupedResBuilder::beginGroup`) -- ``nullptr`` for a
+             group with no query at all
+             @endrst
+             */
+            using ConfigResolver = std::function<VGMergeGroupConfig(const Z3Predicate*)>;
+
+            /**
+             * @brief
+             @rst
+             A config built PER GROUP, for a source whose resources branch :raw-html:`<br />`
              :raw-html:`<br />`
 
              A merged mod's master is several mods behind one ``.ini``: each ``$swapvar`` branch of a
-             ``CommandList`` names a different variant's buffers.
-             :cpp:class:`ResGroupCollect` already separates them -- it groups referenced resources by
-             satisfiability, so each branch becomes its own group and #build is called once per group
-             -- but every group used to be built from ONE config, so they all merged the first
-             branch's buffers.
+             ``CommandList`` names a different variant's buffers, and a component that does not
+             branch keeps its single one whichever variant is selected.
+             :cpp:class:`ResGroupCollect` separates the variants by SATISFIABILITY -- each becomes
+             its own group, and #build is called once per group -- so the resolver is handed that
+             group's query and answers with the buffers that can be selected at the same time as it.
 
-             Configs are taken in build order, and the last one repeats if there are more groups than
-             configs. A single-element list is exactly the old behaviour
+             Nothing here is positional, which is the point: a hand-made mod with independent toggles
+             or nested conditions has no ``i``-th variant to index, and pairing one component's
+             ``i``-th branch with another's is wrong there in a way that produces a plausible model
+             and reports nothing
              @endrst
              *
              * @param name The resource group's name
-             * @param configs One config per group, in build order
+             * @param configFor Builds the config for one group -- see #ConfigResolver
              * @param iniFile The ``.ini`` file the groups are stored on
              */
-            VGMergeGroupResBuilder(std::string name, std::vector<VGMergeGroupConfig> configs, IniFile* iniFile);
+            VGMergeGroupResBuilder(std::string name, ConfigResolver configFor, IniFile* iniFile);
 
+            void beginGroup(const std::optional<Z3Predicate>& query) override;
             IniGroupedResource* build() override;
             void store(IniGroupedResource& resource) override;
             void addResource(IniGroupedResource& group, const GraphId& resType, IniResource& resource) override;
@@ -89,8 +104,9 @@ namespace AGRemapCore {
 
         private:
             std::string name_;
-            std::vector<VGMergeGroupConfig> configs_;
+            ConfigResolver configFor_;
             VGMergeGroupConfig config_;
+            std::optional<Z3Predicate> query_;
             IniFile* iniFile_;
             std::vector<std::shared_ptr<VGMergeGroupResource>> groups_;
     };

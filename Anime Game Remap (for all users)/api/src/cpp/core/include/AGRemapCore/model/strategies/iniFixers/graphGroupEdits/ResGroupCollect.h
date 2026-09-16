@@ -194,6 +194,33 @@ namespace AGRemapCore {
                     virtual IniGroupedResource* build() = 0;
 
                     /**
+                     * @brief
+                     @rst
+                     Announces which group #build is about to be called for, as the query every
+                     resource in it co-occurs under :raw-html:`<br />` :raw-html:`<br />`
+
+                     A group is one SATISFIABLE STATE of the mod -- one ``$swapvar`` branch of a
+                     merged master, one combination of independent toggles -- and this is what
+                     identifies it. A builder whose output depends on which state it is looking at
+                     needs this: the alternative is to count calls and index into a list, which is
+                     only correct when the caller's own ordering of the states happens to match the
+                     order they are collected in, and conditions in an ``.ini`` are not ordered.
+
+                     Test a candidate against it with #combineQueries followed by
+                     :cpp:func:`Z3Predicate::isSatisfiable`; reparent it into the candidates' own
+                     :cpp:class:`Z3Context` ONCE rather than per candidate, since combining across
+                     contexts is a full render/re-parse round trip
+
+                     .. note::
+                        Empty when the group carries no query at all, which is a group of one
+                        unconditional resource. Default: does nothing
+                     @endrst
+                     *
+                     * @param query The query every resource in the group co-occurs under
+                     */
+                    virtual void beginGroup(const std::optional<Z3Predicate>& query) { (void)query; }
+
+                    /**
                      * @brief Hands a finished grouped resource to the ``.ini`` file it belongs to
                      *
                      * @param resource The grouped resource, already marked built and fully populated

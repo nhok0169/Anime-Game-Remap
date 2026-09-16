@@ -127,8 +127,21 @@ namespace AGRemapCore {
         // copes with cycles -- so this asks it rather than hand-rolling a second walker. The graph is
         // built over the RAW parsed sections because a fixer is constructed before the parser runs,
         // so the parser's own graphs do not exist yet.
-        std::vector<std::string> valsThroughRun(const tsl::ordered_map<std::string, std::unique_ptr<Template>>& templates,
-                                                 const std::string& rootSection, const std::string& key) {
+        // One value a register takes, with the condition it is taken under.
+        //
+        // The condition is the whole reason this is not a plain string: which branch of the Bang's
+        // CommandList goes with which branch of the Body's is decided by whether the two can hold at
+        // the same time, so a value that arrives without its condition cannot be paired at all --
+        // see configForGroup.
+        struct BranchVal {
+            std::string val;
+            std::optional<Z3Predicate> query;
+        };
+
+
+        std::vector<BranchVal> valsThroughRun(const tsl::ordered_map<std::string, std::unique_ptr<Template>>& templates,
+                                               const std::string& rootSection, const std::string& key,
+                                               Z3Context* z3Ctx) {
             auto rootIt = templates.find(rootSection);
             if (rootIt == templates.end() || rootIt->second == nullptr) {
                 return {};
@@ -148,28 +161,51 @@ namespace AGRemapCore {
                 [](const std::string& s) { return s; }
             };
 
-            IniSectionGraph<std::string, std::string> graph(std::move(sections), {rootSection}, runConfig);
+            // The context is the CALLER's, not one made here: a Z3Predicate is only usable while
+            // the context it was generated in is alive, and these outlive this call by the whole
+            // life of the fixer.
+            IniSectionGraph<std::string, std::string> graph(std::move(sections), {rootSection}, runConfig, true, false,
+                                                            z3Ctx);
 
-            // Root first, then everything it reaches. Order matters only in that the FIRST value is
-            // the one a single-valued caller takes, and the root's own binding should win.
-            std::vector<std::string> out;
-            const auto collect = [&out, &key](const Template& tpl) {
-                for (const auto& part : tpl.parts()) {
-                    const auto* content = dynamic_cast<const Template::ContentPart*>(part.get());
-                    if (content == nullptr) {
-                        continue;
-                    }
+            // iterByQuery rather than a walk over parts(): it is the same iteration, and it reports
+            // the conditional predicate each part sits under, which is the half that is needed.
+            tsl::ordered_map<std::string, std::vector<BranchVal>> bySection;
 
-                    for (const std::string& val : content->getVals(key)) {
-                        out.push_back(std::string(StringTools::strip(val)));
-                    }
+            auto parts = graph.iterByQuery();
+            while (parts.next()) {
+                auto& iterData = parts.value();
+                if (iterData.part == nullptr) {
+                    continue;
+                }
+
+                for (const std::string& val : iterData.part->getVals(key)) {
+                    bySection[iterData.sectionName].push_back(BranchVal{std::string(StringTools::strip(val)),
+                                                                        iterData.query});
+                }
+            }
+
+            // Root first, then everything it reaches, in the graph's own order. Order matters only
+            // in that the FIRST value is the one a single-valued caller takes, and the root's own
+            // binding should win -- which is why this is regrouped by section rather than emitted in
+            // iteration order.
+            std::vector<BranchVal> out;
+            const auto append = [&out, &bySection](const std::string& sectionName) {
+                auto it = bySection.find(sectionName);
+                if (it == bySection.end()) {
+                    return;
+                }
+
+                // Copied, not moved: tsl::ordered_map hands out CONST values through its
+                // iterator even from a non-const begin().
+                for (const BranchVal& val : it->second) {
+                    out.push_back(val);
                 }
             };
 
-            collect(*rootIt->second);
+            append(rootSection);
             for (const auto& entry : graph.sections()) {
                 if (entry.first != rootSection && entry.second != nullptr) {
-                    collect(*entry.second);
+                    append(entry.first);
                 }
             }
 
@@ -178,13 +214,14 @@ namespace AGRemapCore {
 
 
         std::optional<std::string> firstValThroughRun(const tsl::ordered_map<std::string, std::unique_ptr<Template>>& templates,
-                                                       const std::string& rootSection, const std::string& key) {
-            std::vector<std::string> vals = valsThroughRun(templates, rootSection, key);
+                                                       const std::string& rootSection, const std::string& key,
+                                                       Z3Context* z3Ctx) {
+            std::vector<BranchVal> vals = valsThroughRun(templates, rootSection, key, z3Ctx);
             if (vals.empty()) {
                 return std::nullopt;
             }
 
-            return vals.front();
+            return vals.front().val;
         }
 
 
@@ -221,13 +258,20 @@ namespace AGRemapCore {
             std::string ib;
 
             // As ComponentFiles' lists: one ib per $swapvar branch of a merged master.
-            std::vector<std::string> ibs;
+            std::vector<BranchVal> ibs;
 
-            // The section is there and its ib is explicitly `null` -- the author hid this object,
-            // which three of one NSFW mod's variants do to remove the gloves. That is NOT the same
-            // as a component the mod does not have: there is nothing to download and nothing to
-            // merge, so the slot is dropped. resourceOf flattens both cases to an empty string,
-            // which is why the distinction is kept here.
+            // Some branch's ib is explicitly `null` -- the author hid this object there, which
+            // three of one NSFW mod's twelve variants do to take the gloves off. That is NOT the
+            // same as a component the mod does not have: there is nothing to download, so the
+            // download fallback must not invent one. resourceOf flattens both cases to an empty
+            // string, which is why the distinction is kept here.
+            //
+            // The nulled branch is still IN #ibs, as an entry with no file. It is a real state of
+            // the mod and has to be able to answer for itself -- dropped, it left nine entries
+            // describing twelve states and every entry after the first null answered for the wrong
+            // one (measured: branch 7's merged body came out as branch 7's head plus branch EIGHT's
+            // body). #ib is the first branch that does have a file, for everything that needs one
+            // path rather than the branch's own.
             bool nullIb = false;
             std::string diffuse;
             std::string lightMap;
@@ -251,13 +295,14 @@ namespace AGRemapCore {
             std::string blend;
             std::string texcoord;
 
-            // EVERY value the register takes through `run =`, not just the first. A merged mod's
-            // master names one variant's buffer per $swapvar branch, and each branch is a different
-            // mod that has to be merged on its own -- see buildBufferCollects' configs. One entry
-            // for an ordinary mod, which is the same thing said once.
-            std::vector<std::string> positions;
-            std::vector<std::string> blends;
-            std::vector<std::string> texcoords;
+            // EVERY value the register takes through `run =`, not just the first, each with the
+            // condition it is taken under. A merged mod's master names one variant's buffer per
+            // $swapvar branch, and each branch is a different mod that has to be merged on its own
+            // -- see configForGroup. One entry for an ordinary mod, which is the same thing said
+            // once.
+            std::vector<BranchVal> positions;
+            std::vector<BranchVal> blends;
+            std::vector<BranchVal> texcoords;
             std::size_t vertexCount = 0;
             std::size_t positionStride = 0;
             std::unordered_map<std::string, SlotFiles> slots;     // by slot name
@@ -415,11 +460,11 @@ namespace AGRemapCore {
 
                             // Every branch, not just the first -- see ComponentFiles::blends.
                             const auto filesThroughRun = [&](const std::string& reg) {
-                                std::vector<std::string> out;
-                                for (const std::string& resource : valsThroughRun(templates, sectionName, reg)) {
-                                    std::string file = fileOf(resource);
+                                std::vector<BranchVal> out;
+                                for (const BranchVal& resource : valsThroughRun(templates, sectionName, reg, &z3Ctx_)) {
+                                    std::string file = fileOf(resource.val);
                                     if (!file.empty()) {
-                                        out.push_back(std::move(file));
+                                        out.push_back(BranchVal{std::move(file), resource.query});
                                     }
                                 }
 
@@ -430,26 +475,27 @@ namespace AGRemapCore {
                                 if (files.positions.empty()) {
                                     files.positions = filesThroughRun(IniKeywords::Vb0);
                                     if (!files.positions.empty()) {
-                                        files.position = files.positions.front();
+                                        files.position = files.positions.front().val;
                                     }
                                 }
                             } else if (hashType == BlendHashKey) {
                                 if (files.blends.empty()) {
                                     files.blends = filesThroughRun(IniKeywords::Vb1);
                                     if (!files.blends.empty()) {
-                                        files.blend = files.blends.front();
+                                        files.blend = files.blends.front().val;
                                     }
                                 }
                             } else if (hashType == TexcoordHashKey) {
                                 if (files.texcoords.empty()) {
                                     files.texcoords = filesThroughRun(IniKeywords::Vb1);
                                     if (!files.texcoords.empty()) {
-                                        files.texcoord = files.texcoords.front();
+                                        files.texcoord = files.texcoords.front().val;
                                     }
                                 }
                             } else if (hashType == FaceDiffuseHashKey) {
                                 if (faceFile_.empty()) {
-                                    faceFile_ = fileOf(resourceOf(firstValThroughRun(templates, sectionName, DiffuseReg)));
+                                    faceFile_ = fileOf(resourceOf(firstValThroughRun(templates, sectionName, DiffuseReg,
+                                                                                     &z3Ctx_)));
                                 }
                             } else if (hashType == IbHashKey) {
                                 std::optional<std::string> index = firstVal(tpl, IniKeywords::MatchFirstIndex);
@@ -468,21 +514,27 @@ namespace AGRemapCore {
                                     const bool normalMap = !resourceOf(firstVal(tpl, "ps-t2")).empty();
                                     SlotFiles slotFiles;
                                     slotFiles.found = true;
-                                    for (const std::string& rawIb : valsThroughRun(templates, sectionName, IniKeywords::Ib)) {
-                                        // `ib = null` hides the object -- see SlotFiles::nullIb.
-                                        if (StringTools::equalsIgnoreCase(rawIb, IniKeywords::Null)) {
+                                    for (const BranchVal& rawIb : valsThroughRun(templates, sectionName, IniKeywords::Ib,
+                                                                                 &z3Ctx_)) {
+                                        // `ib = null` hides the object in THIS branch, and the
+                                        // branch is kept so it can say so -- see SlotFiles::nullIb.
+                                        if (StringTools::equalsIgnoreCase(rawIb.val, IniKeywords::Null)) {
                                             slotFiles.nullIb = true;
+                                            slotFiles.ibs.push_back(BranchVal{std::string(), rawIb.query});
                                             continue;
                                         }
 
-                                        std::string file = fileOf(resourceOf(rawIb));
+                                        std::string file = fileOf(resourceOf(rawIb.val));
                                         if (!file.empty()) {
-                                            slotFiles.ibs.push_back(std::move(file));
+                                            slotFiles.ibs.push_back(BranchVal{std::move(file), rawIb.query});
                                         }
                                     }
 
-                                    if (!slotFiles.ibs.empty()) {
-                                        slotFiles.ib = slotFiles.ibs.front();
+                                    for (const BranchVal& candidate : slotFiles.ibs) {
+                                        if (!candidate.val.empty()) {
+                                            slotFiles.ib = candidate.val;
+                                            break;
+                                        }
                                     }
                                     slotFiles.draws = firstVal(tpl, IniKeywords::DrawIndexed).has_value();
 
@@ -520,15 +572,15 @@ namespace AGRemapCore {
 
                             if (files.blend.empty()) {
                                 files.blend = downloadPath("Blend", ".buf");
-                                files.blends = {files.blend};
+                                files.blends = {BranchVal{files.blend, std::nullopt}};
                             }
                             if (files.position.empty()) {
                                 files.position = downloadPath("Position", ".buf");
-                                files.positions = {files.position};
+                                files.positions = {BranchVal{files.position, std::nullopt}};
                             }
                             if (files.texcoord.empty()) {
                                 files.texcoord = downloadPath("Texcoord", ".buf");
-                                files.texcoords = {files.texcoord};
+                                files.texcoords = {BranchVal{files.texcoord, std::nullopt}};
                             }
 
                             for (const GIMIMergeFixerConfig::Slot& slot : component.slots) {
@@ -539,7 +591,7 @@ namespace AGRemapCore {
                                     slotFiles.ib = FileService::absPathOfRelPath(
                                         DownloadTools::fixedFileName(config_.downloadPrefix,
                                                                       component.name + slot.name, ".ib"), folder);
-                                    slotFiles.ibs = {slotFiles.ib};
+                                    slotFiles.ibs = {BranchVal{slotFiles.ib, std::nullopt}};
                                 }
                                 if (slotFiles.indexCount == 0) {
                                     slotFiles.indexCount = slot.indexCount;
@@ -622,9 +674,11 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            // `ib = null` on every branch: the author hid this object, so it brings
-                            // no geometry to the merge -- see SlotFiles::nullIb.
-                            if (slotIt->second.nullIb && slotIt->second.ibs.empty()) {
+                            // `ib = null` on every branch -- no branch left a file behind, so the
+                            // author hid this object outright and it brings no geometry to the merge
+                            // at all. A slot nulled in only SOME branches is a different thing and
+                            // stays: see SlotFiles::nullIb, and pick.
+                            if (slotIt->second.nullIb && slotIt->second.ib.empty()) {
                                 continue;
                             }
 
@@ -924,6 +978,124 @@ namespace AGRemapCore {
                     return it != normalMap_.end() && it->second;
                 }
 
+                // Which of a register's values a group takes.
+                //
+                // SATISFIABILITY, not position: a candidate belongs to this group when its own
+                // condition can hold at the same time as the group's. That is indifferent to how the
+                // conditions are shaped -- an if / else if chain, independent toggles, nested
+                // predicates, a component that does not branch at all -- and pairing by index is not.
+                //
+                // The first satisfiable candidate wins. Several can be satisfiable at once, when the
+                // group's own state simply does not constrain this register: a component with a
+                // toggle of its own that the target's buffers say nothing about. Any of them is then
+                // a correct reading of that state, and taking the first keeps a non-branching
+                // component on its only value.
+                //
+                // Falling back to 'fallback' covers the one case with no candidate to test: a
+                // component the mod does not carry, whose buffers are downloads that are not on disk
+                // yet and appear in no section.
+                std::string pick(const std::vector<BranchVal>& candidates, const std::string& fallback,
+                                  const std::optional<Z3Predicate>& query) {
+                    if (candidates.empty()) {
+                        return fallback;
+                    }
+
+                    if (candidates.size() == 1 || !query.has_value()) {
+                        return candidates.front().val;
+                    }
+
+                    for (const BranchVal& candidate : candidates) {
+                        if (candidate.query.has_value()
+                                && GroupCollector::combineQueries(*query, *candidate.query, &z3Ctx_).isSatisfiable()) {
+                            return candidate.val;
+                        }
+                    }
+
+                    return candidates.front().val;
+                }
+
+                // The merge for ONE of the collect's groups.
+                //
+                // A group is one satisfiable state of the mod -- one variant of a merged master, one
+                // combination of a hand-made mod's toggles -- and 'query' is the condition its own
+                // resources co-occur under (see GroupedResBuilder::beginGroup). Everything structural
+                // is the same in every group; only which buffer each component contributes differs,
+                // and that is what pick answers.
+                //
+                // 'query' is nullptr for a group with no condition at all, which is every ordinary
+                // unmerged mod: then every component keeps its only value and this is the same
+                // single config the merge has always built.
+                VGMergeGroupConfig configForGroup(const Z3Predicate* query) {
+                    // Reparented ONCE per group. combineQueries does a full render / re-parse round
+                    // trip whenever its two sides belong to different Z3Contexts, and this pair
+                    // always does -- the group's query comes from the collect's own graph, while
+                    // every candidate was read through valsThroughRun into z3Ctx_. Paying that per
+                    // candidate, per component, per group is a cost for an answer that never differs.
+                    std::optional<Z3Predicate> local;
+                    if (query != nullptr) {
+                        local = GroupCollector::combineQueries(*query, Z3Predicate::trueValue(z3Ctx_), &z3Ctx_);
+                    }
+
+                    VGMergeGroupConfig config;
+
+                    for (const std::string& component : mergeOrder_) {
+                        const ComponentFiles* files = componentFiles(component);
+                        auto remapIt = remaps_.find(component);
+                        if (files == nullptr || remapIt == remaps_.end()) {
+                            return VGMergeGroupConfig{};
+                        }
+
+                        VGMergeComponentFiles entry;
+                        entry.spec.name = component;
+                        entry.spec.remap = remapIt->second;
+                        entry.blendPath = pick(files->blends, files->blend, local);
+                        entry.positionPath = pick(files->positions, files->position, local);
+                        entry.texcoordPath = pick(files->texcoords, files->texcoord, local);
+                        config.components.push_back(std::move(entry));
+                    }
+
+                    for (const std::string& obj : drawn_) {
+                        auto membersIt = members_.find(obj);
+                        auto repIt = representative_.find(obj);
+                        if (membersIt == members_.end() || repIt == representative_.end()) {
+                            continue;
+                        }
+
+                        VGMergeObject object;
+                        const SlotFiles* repFiles = slotFiles(repIt->second.first, repIt->second.second);
+                        object.srcPath = (repFiles == nullptr) ? "" : pick(repFiles->ibs, repFiles->ib, local);
+
+                        // Nothing to merge INTO: the object this group draws through is nulled here,
+                        // so the collect found no reference to it either and there is no member
+                        // waiting to be matched against this object.
+                        if (object.srcPath.empty()) {
+                            continue;
+                        }
+
+                        for (const auto& member : membersIt->second) {
+                            const SlotFiles* files = slotFiles(member.first, member.second);
+                            if (files == nullptr) {
+                                continue;
+                            }
+
+                            // An empty pick is a nulled branch: this slot draws nothing in this
+                            // group, so it contributes no geometry to the merge here. The vertex
+                            // OFFSETS are unaffected -- they come from the components' vertex
+                            // counts, which do not change with the variant.
+                            std::string path = pick(files->ibs, files->ib, local);
+                            if (path.empty()) {
+                                continue;
+                            }
+
+                            object.members.emplace_back(member.first, std::move(path));
+                        }
+
+                        config.objects.push_back(std::move(object));
+                    }
+
+                    return config;
+                }
+
                 // ---- 4. the buffers, as ONE merged resource group ----
                 void buildBufferCollect() {
                     const ModType* modType = ctx_.modType();
@@ -936,83 +1108,29 @@ namespace AGRemapCore {
                     const std::optional<Version> fromVersion = ctx_.version();
                     const std::optional<Version> toVersion = (iniFile == nullptr) ? std::nullopt : iniFile->toVersion;
 
-                    // How many branches the source has: the most any one register takes through
-                    // `run =`. A component that does not branch repeats its only value, which is
-                    // what a downloaded component wants -- the same buffer whichever variant the
-                    // player selects.
-                    std::size_t branches = 1;
+                    // Each component has a row of its OWN -- that is the whole reason they cannot
+                    // be remapped together. Looked up once: the row does not vary with the variant,
+                    // and configForGroup is called per group.
+                    remaps_.clear();
                     for (const std::string& component : mergeOrder_) {
-                        const ComponentFiles* files = componentFiles(component);
-                        if (files == nullptr) {
-                            continue;
-                        }
-
-                        branches = std::max(branches, files->blends.size());
-                        branches = std::max(branches, files->positions.size());
-                        branches = std::max(branches, files->texcoords.size());
-                        for (const auto& slot : files->slots) {
-                            branches = std::max(branches, slot.second.ibs.size());
-                        }
-                    }
-
-                    // KNOWN LIMITATION -- branches are paired by POSITION across components: the
-                    // i-th branch of the Body's CommandList is taken to describe the same variant as
-                    // the i-th branch of the Bang's. That holds for the if / else if / else chains
-                    // an automated merger writes, which is what merged mods overwhelmingly are, and
-                    // it is how this was measured (a twelve-variant NSFW edit, every buffer fixed).
-                    //
-                    // It does NOT hold for a hand-made multi-toggle mod: two independent toggles
-                    // give a combinatorial set rather than a list, nesting means a branch is not a
-                    // flat position, and two components' i-th branches need not describe the same
-                    // state at all. It would fail SILENTLY -- buffers merged from mismatched
-                    // variants render as a plausible but wrong model, with nothing reported.
-                    //
-                    // The library already answers this properly and this code does not use it:
-                    // ResGroupCollect groups referenced resources by SATISFIABILITY, with Z3, and so
-                    // is indifferent to how the conditions are shaped. The right fix is for each
-                    // merge group to take its inputs from the resources that collector put in it,
-                    // rather than the fixer guessing pairs by index. What blocks that today is that
-                    // the buffer collection registers one source graph per KIND on the target side
-                    // -- ("", "blend"), the target's default component -- so a group carries one
-                    // blend, not one per source component. Registering per-component collections is
-                    // what would let satisfiability do the pairing.
-                    const auto atBranch = [](const std::vector<std::string>& paths, const std::string& fallback,
-                                              std::size_t branch) {
-                        if (paths.empty()) {
-                            return fallback;
-                        }
-
-                        return paths[std::min(branch, paths.size() - 1)];
-                    };
-
-                    std::vector<VGMergeGroupConfig> mergeConfigs;
-                    std::vector<std::string> changedIbs;
-
-                    for (std::size_t branch = 0; branch < branches; ++branch) {
-                    VGMergeGroupConfig mergeConfig;
-                    for (const std::string& component : mergeOrder_) {
-                        const ComponentFiles* files = componentFiles(component);
-                        if (files == nullptr) {
+                        if (componentFiles(component) == nullptr) {
                             return;
                         }
 
-                        // Each component has a row of its OWN -- that is the whole reason they
-                        // cannot be remapped together.
                         std::optional<VGRemap> remap = modType->vgRemaps->get(
                             {srcName, component, toModName_, std::string("")}, {fromVersion, toVersion}, false);
                         if (!remap.has_value()) {
                             return;
                         }
 
-                        VGMergeComponentFiles entry;
-                        entry.spec.name = component;
-                        entry.spec.remap = *remap;
-                        entry.blendPath = atBranch(files->blends, files->blend, branch);
-                        entry.positionPath = atBranch(files->positions, files->position, branch);
-                        entry.texcoordPath = atBranch(files->texcoords, files->texcoord, branch);
-                        mergeConfig.components.push_back(std::move(entry));
+                        remaps_.emplace(component, *remap);
                     }
 
+                    // Only an index buffer the merge actually MOVES needs replacing, and whether it
+                    // moves is a property of the merge's shape rather than of any one variant: a
+                    // target object drawn by one slot of the component at offset 0 already addresses
+                    // the right vertices in every variant.
+                    std::vector<std::string> changedIbs;
                     for (const std::string& obj : drawn_) {
                         auto membersIt = members_.find(obj);
                         auto repIt = representative_.find(obj);
@@ -1020,33 +1138,21 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        VGMergeObject object;
-                        const SlotFiles* repFiles = slotFiles(repIt->second.first, repIt->second.second);
-                        object.srcPath = (repFiles == nullptr) ? "" : atBranch(repFiles->ibs, repFiles->ib, branch);
-
                         bool changed = membersIt->second.size() > 1;
                         for (const auto& member : membersIt->second) {
-                            const SlotFiles* files = slotFiles(member.first, member.second);
-                            if (files == nullptr) {
-                                continue;
-                            }
-                            object.members.emplace_back(member.first, atBranch(files->ibs, files->ib, branch));
-                            if (offsets_[member.first] != 0) {
+                            if (slotFiles(member.first, member.second) != nullptr && offsets_[member.first] != 0) {
                                 changed = true;
                             }
                         }
 
-                        mergeConfig.objects.push_back(std::move(object));
-                        if (changed && branch == 0) {
+                        if (changed) {
                             changedIbs.push_back(obj);
                         }
                     }
 
-                    mergeConfigs.push_back(std::move(mergeConfig));
-                    }
-
-                    builder_ = std::make_unique<VGMergeGroupResBuilder>(srcName + toModName_ + "Buffers", mergeConfigs,
-                                                                        ctx_.getIniFile());
+                    builder_ = std::make_unique<VGMergeGroupResBuilder>(
+                        srcName + toModName_ + "Buffers",
+                        [this](const Z3Predicate* query) { return configForGroup(query); }, ctx_.getIniFile());
 
                     GroupCollector::ByGraph<GroupCollector::ByGraph<std::string>> srcRegs;
                     GroupCollector::ByGraph<tsl::ordered_map<std::string, GroupCollector::ResEdit*>> resEdits;
@@ -1067,9 +1173,7 @@ namespace AGRemapCore {
                         bufReplaces_.push_back(std::move(replace));
                     }
 
-                    // Only an index buffer the merge actually MOVES needs replacing: a target object
-                    // drawn by one slot of the component at offset 0 already addresses the right
-                    // vertices.
+                    // See where changedIbs is filled.
                     for (const std::string& obj : changedIbs) {
                         const GraphId resObj(0, "", obj + "MergedIb");
                         auto replace = std::make_unique<BufReplace<>>(resObj, makeResEditConfig(), "ib",
@@ -1525,6 +1629,11 @@ namespace AGRemapCore {
 
                 static const std::string MergeGroupType;
 
+                // FIRST, so it is destroyed LAST: every Z3Predicate read out of a mod's sections
+                // belongs to this context and is unusable once it goes. Z3 member ORDER has bitten
+                // this repo before -- see Z3Predicate::Impl.
+                Z3Context z3Ctx_;
+
                 IniFileFixContext ctx_;
                 std::string toModName_;
                 GIMIMergeFixerConfig config_;
@@ -1535,6 +1644,7 @@ namespace AGRemapCore {
                 std::string faceFile_;
 
                 std::vector<std::string> mergeOrder_;
+                std::unordered_map<std::string, VGRemap> remaps_;
                 std::unordered_map<std::string, std::size_t> offsets_;
                 std::size_t totalVertices_ = 0;
                 std::size_t positionStride_ = 40;

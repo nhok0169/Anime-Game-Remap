@@ -27,20 +27,25 @@ namespace AGRemapCore {
         name_(std::move(name)), config_(std::move(config)), iniFile_(iniFile) {}
 
 
-    VGMergeGroupResBuilder::VGMergeGroupResBuilder(std::string name, std::vector<VGMergeGroupConfig> configs,
-                                                    IniFile* iniFile):
-        name_(std::move(name)), configs_(std::move(configs)),
-        config_(configs_.empty() ? VGMergeGroupConfig{} : configs_.front()), iniFile_(iniFile) {}
+    VGMergeGroupResBuilder::VGMergeGroupResBuilder(std::string name, ConfigResolver configFor, IniFile* iniFile):
+        name_(std::move(name)), configFor_(std::move(configFor)), iniFile_(iniFile) {}
+
+
+    void VGMergeGroupResBuilder::beginGroup(const std::optional<Z3Predicate>& query) {
+        query_ = query;
+    }
 
 
     IniGroupedResource* VGMergeGroupResBuilder::build() {
         // The config for the group being built. ResGroupCollect calls this once per satisfiable
-        // combination, in order, so group N is branch N of a $swapvar'd source -- see configs_.
-        // The last config repeats, which covers a source that does not branch at all.
+        // combination of the resources it found, and beginGroup has just said which one -- so the
+        // resolver answers with the buffers that can be selected at the same time as this group,
+        // rather than this being the n-th call and n indexing a list of variants.
+        VGMergeGroupConfig resolved;
         const VGMergeGroupConfig* config = &config_;
-        if (!configs_.empty()) {
-            const std::size_t index = std::min(groups_.size(), configs_.size() - 1);
-            config = &configs_[index];
+        if (configFor_) {
+            resolved = configFor_(query_.has_value() ? &(*query_) : nullptr);
+            config = &resolved;
         }
 
         auto group = std::make_shared<VGMergeGroupResource>(

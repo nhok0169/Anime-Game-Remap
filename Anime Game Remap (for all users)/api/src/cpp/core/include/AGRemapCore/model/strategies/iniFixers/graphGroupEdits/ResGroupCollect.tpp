@@ -791,6 +791,10 @@ namespace AGRemapCore {
 
             // Only now is the grouped resource itself worth building -- see ResGroup's own note.
             if (builder != nullptr) {
+                // WHICH group this is, before it is built: a builder whose output depends on the
+                // state the group describes reads it here. See GroupedResBuilder::beginGroup.
+                builder->beginGroup(resGroup.query);
+
                 IniGroupedResource* groupedResource = builder->build();
                 if (groupedResource != nullptr) {
                     for (const auto& entry : resGroup.entries) {

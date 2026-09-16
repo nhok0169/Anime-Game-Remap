@@ -25,9 +25,26 @@ namespace AGRemapCore {
         name_(std::move(name)), config_(std::move(config)), iniFile_(iniFile) {}
 
 
+    VGSplitGroupResBuilder::VGSplitGroupResBuilder(std::string name, ConfigResolver configFor, IniFile* iniFile):
+        name_(std::move(name)), configFor_(std::move(configFor)), iniFile_(iniFile) {}
+
+
+    void VGSplitGroupResBuilder::beginGroup(const std::optional<Z3Predicate>& query) {
+        query_ = query;
+    }
+
+
     IniGroupedResource* VGSplitGroupResBuilder::build() {
+        // The config for the group being built -- see VGMergeGroupResBuilder::build.
+        VGSplitGroupConfig resolved;
+        const VGSplitGroupConfig* config = &config_;
+        if (configFor_) {
+            resolved = configFor_(query_.has_value() ? &(*query_) : nullptr);
+            config = &resolved;
+        }
+
         auto group = std::make_shared<VGSplitGroupResource>(
-            name_, std::unordered_map<std::string, std::unique_ptr<IniResource>>{}, config_, nullptr, /*isBuilt*/ false);
+            name_, std::unordered_map<std::string, std::unique_ptr<IniResource>>{}, *config, nullptr, /*isBuilt*/ false);
         groups_.push_back(group);
         return group.get();
     }

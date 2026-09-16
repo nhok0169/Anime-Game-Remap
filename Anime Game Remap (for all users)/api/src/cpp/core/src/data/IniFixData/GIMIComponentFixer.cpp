@@ -12,6 +12,7 @@
 // ##### EndCredits
 
 #include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
+#include "AGRemapCore/data/IniFixData/ModBranches.h"
 
 #include <algorithm>
 #include <filesystem>
@@ -167,47 +168,47 @@ namespace AGRemapCore {
         // files are found by hash over IniFile::getIfTemplates rather than through the parser's
         // graphs -- exactly as the prototype did.
         struct ModObjectFiles {
+            // The first branch's ib that names a file, for everything that needs one path.
             std::string ib;
+
+            // EVERY ib the object's section binds through `run =`, each with its condition: a merged
+            // master names one variant's per $swapvar branch. A branch that nulls the object is kept,
+            // as an entry with no file, so it can answer for itself -- see GIMIMergeFixer's
+            // SlotFiles::ibs for what dropping it cost.
+            std::vector<BranchVal> ibs;
+
             std::string diffuse;
             std::string lightMap;
-
-            // What the ib's resource section DECLARES one index to take -- 2 for R16_UINT. Read, not
-            // inferred: a 16-bit buffer whose size divides by 12 reads as 32-bit without complaint.
-            std::size_t ibBytesPerIndex = 4;
         };
 
         struct ModFiles {
+            // The first branch's, as ModObjectFiles::ib.
             std::string position;
             std::string blend;
             std::string texcoord;
             std::string face;
+
+            // Every branch's -- see ModObjectFiles::ibs.
+            std::vector<BranchVal> positions;
+            std::vector<BranchVal> blends;
+            std::vector<BranchVal> texcoords;
+
             std::vector<std::pair<std::string, ModObjectFiles>> objects;    // in the config's draw order
 
             std::size_t vertexCount = 0;
             std::size_t positionStride = 0;
             std::size_t texcoordStride = 0;
 
-            std::vector<std::string> ibNames;    // the objects that have an ib, in draw order
-            std::vector<std::string> ibPaths;
-            std::unordered_map<std::string, std::size_t> ibBytesPerIndex;    // by ib path
+            // What each ib's resource section DECLARES one index to take -- 2 for R16_UINT, keyed by
+            // path over every branch. Read, not inferred: a 16-bit buffer whose size divides by 12
+            // reads as 32-bit without complaint.
+            std::unordered_map<std::string, std::size_t> ibBytesPerIndex;
         };
 
 
-        std::optional<std::string> firstVal(const Template& tpl, const std::string& key) {
-            for (const auto& part : tpl.parts()) {
-                const auto* content = dynamic_cast<const Template::ContentPart*>(part.get());
-                if (content == nullptr) {
-                    continue;
-                }
-
-                std::vector<std::string> vals = content->getVals(key);
-                if (!vals.empty()) {
-                    return std::string(StringTools::strip(vals.front()));
-                }
-            }
-
-            return std::nullopt;
-        }
+        // How a merged master's per-branch values are read and paired is shared with the merge --
+        // see ModBranches.
+        const auto firstVal = &ModBranches::firstVal;
 
 
         std::size_t fileSize(const std::string& path) {
@@ -315,38 +316,27 @@ namespace AGRemapCore {
                     const std::string folder = iniFile->getFolder();
                     const auto& templates = iniFile->getIfTemplates();
 
-                    auto fileOf = [&](const std::optional<std::string>& resource) -> std::string {
-                        if (!resource.has_value() || resource->empty() || StringTools::equalsIgnoreCase(*resource, IniKeywords::Null)) {
-                            return "";
-                        }
-
-                        auto it = templates.find(*resource);
-                        if (it == templates.end() || it->second == nullptr) {
-                            return "";
-                        }
-
-                        std::optional<std::string> file = firstVal(*it->second, IniKeywords::Filename);
-                        if (!file.has_value() || file->empty()) {
-                            return "";
-                        }
-
-                        return FileService::absPathOfRelPath(*file, folder);
+                    auto fileOf = [&](const std::string& resource) {
+                        return ModBranches::fileOf(templates, resource, folder);
                     };
 
-                    // How many bytes an index takes in the buffer this resource names, from the
-                    // resource section's own `format`. See IbFile::bytesPerIndexOf.
-                    auto bytesPerIndexOf = [&](const std::optional<std::string>& resource) -> std::size_t {
-                        if (!resource.has_value() || resource->empty()) {
-                            return 4;
+                    // THROUGH `run =`, every branch: a merged master's TextureOverride is nothing but
+                    // hash, match_first_index and run, and read off the matched section alone every
+                    // buffer of it came out empty and the whole .ini was skipped.
+                    const auto filesThroughRun = [&](const std::string& section, const std::string& reg) {
+                        std::vector<BranchVal> out;
+                        for (const BranchVal& value : branches_.valsThroughRun(templates, section, reg)) {
+                            std::string file = fileOf(ModBranches::resourceOf(value.val));
+                            if (!file.empty()) {
+                                out.push_back(BranchVal{std::move(file), value.query});
+                            }
                         }
 
-                        auto it = templates.find(*resource);
-                        if (it == templates.end() || it->second == nullptr) {
-                            return 4;
-                        }
+                        return out;
+                    };
 
-                        std::optional<std::string> format = firstVal(*it->second, FormatKey);
-                        return IbFile::bytesPerIndexOf(format.value_or(""));
+                    const auto firstFile = [&](const std::string& section, const std::string& reg) {
+                        return fileOf(ModBranches::resourceOf(branches_.firstValThroughRun(templates, section, reg)));
                     };
 
                     std::unordered_map<std::string, ModObjectFiles> objects;
@@ -369,22 +359,28 @@ namespace AGRemapCore {
                             continue;
                         }
 
+                        const std::string& sectionName = entry.first;
                         const std::string& hashType = hashKey->back();
+                        const auto readBuffer = [&](std::vector<BranchVal>& branches, std::string& first, const std::string& reg) {
+                            if (!branches.empty()) {
+                                return;
+                            }
+
+                            branches = filesThroughRun(sectionName, reg);
+                            if (!branches.empty()) {
+                                first = branches.front().val;
+                            }
+                        };
+
                         if (hashType == PositionHashKey) {
-                            if (files_.position.empty()) {
-                                files_.position = fileOf(firstVal(tpl, IniKeywords::Vb0));
-                            }
+                            readBuffer(files_.positions, files_.position, IniKeywords::Vb0);
                         } else if (hashType == BlendHashKey) {
-                            if (files_.blend.empty()) {
-                                files_.blend = fileOf(firstVal(tpl, IniKeywords::Vb1));
-                            }
+                            readBuffer(files_.blends, files_.blend, IniKeywords::Vb1);
                         } else if (hashType == TexcoordHashKey) {
-                            if (files_.texcoord.empty()) {
-                                files_.texcoord = fileOf(firstVal(tpl, IniKeywords::Vb1));
-                            }
+                            readBuffer(files_.texcoords, files_.texcoord, IniKeywords::Vb1);
                         } else if (hashType == FaceDiffuseHashKey) {
                             if (files_.face.empty()) {
-                                files_.face = fileOf(firstVal(tpl, DiffuseReg));
+                                files_.face = firstFile(sectionName, DiffuseReg);
                             }
                         } else if (hashType == IbHashKey) {
                             std::optional<std::string> index = firstVal(tpl, IniKeywords::MatchFirstIndex);
@@ -410,26 +406,46 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            objects[obj] = ModObjectFiles{fileOf(firstVal(tpl, IniKeywords::Ib)),
-                                                          fileOf(firstVal(tpl, DiffuseReg)),
-                                                          fileOf(firstVal(tpl, LightMapReg)),
-                                                          bytesPerIndexOf(firstVal(tpl, IniKeywords::Ib))};
+                            ModObjectFiles objFiles;
+                            for (const BranchVal& rawIb : branches_.valsThroughRun(templates, sectionName, IniKeywords::Ib)) {
+                                // `ib = null` hides the object in THIS branch -- see ModObjectFiles::ibs.
+                                if (StringTools::equalsIgnoreCase(rawIb.val, IniKeywords::Null)) {
+                                    objFiles.ibs.push_back(BranchVal{std::string(), rawIb.query});
+                                    continue;
+                                }
+
+                                const std::string resource = ModBranches::resourceOf(rawIb.val);
+                                std::string file = fileOf(resource);
+                                if (file.empty()) {
+                                    continue;
+                                }
+
+                                files_.ibBytesPerIndex[file] = ModBranches::ibBytesPerIndexOf(templates, resource);
+                                if (objFiles.ib.empty()) {
+                                    objFiles.ib = file;
+                                }
+
+                                objFiles.ibs.push_back(BranchVal{std::move(file), rawIb.query});
+                            }
+
+                            // The first branch's textures: a band legend's diffuse gate is one
+                            // filter per object, not per branch.
+                            objFiles.diffuse = firstFile(sectionName, DiffuseReg);
+                            objFiles.lightMap = firstFile(sectionName, LightMapReg);
+                            objects[obj] = std::move(objFiles);
                         }
                     }
 
+                    bool anyIb = false;
                     for (const std::string& obj : config_.drawnObjs) {
                         auto it = objects.find(obj);
                         if (it != objects.end()) {
+                            anyIb = anyIb || !it->second.ib.empty();
                             files_.objects.emplace_back(obj, it->second);
-                            if (!it->second.ib.empty()) {
-                                files_.ibNames.push_back(obj);
-                                files_.ibPaths.push_back(it->second.ib);
-                                files_.ibBytesPerIndex[it->second.ib] = it->second.ibBytesPerIndex;
-                            }
                         }
                     }
 
-                    if (files_.position.empty() || files_.blend.empty() || files_.texcoord.empty() || files_.ibPaths.empty()) {
+                    if (files_.position.empty() || files_.blend.empty() || files_.texcoord.empty() || !anyIb) {
                         return false;
                     }
 
@@ -452,9 +468,17 @@ namespace AGRemapCore {
                                != std::string::npos;
                     };
 
-                    bool authored = !isDownload(files_.blend) || !isDownload(files_.position) || !isDownload(files_.texcoord);
-                    for (const std::string& ib : files_.ibPaths) {
-                        authored = authored || !isDownload(ib);
+                    bool authored = false;
+                    for (const std::vector<BranchVal>* branches : {&files_.blends, &files_.positions, &files_.texcoords}) {
+                        for (const BranchVal& branch : *branches) {
+                            authored = authored || !isDownload(branch.val);
+                        }
+                    }
+
+                    for (const auto& object : files_.objects) {
+                        for (const BranchVal& ib : object.second.ibs) {
+                            authored = authored || (!ib.val.empty() && !isDownload(ib.val));
+                        }
                     }
 
                     if (!authored) {
@@ -510,35 +534,104 @@ namespace AGRemapCore {
                         specs_.push_back(std::move(spec));
                     }
 
-                    BlendFile blend(files_.blend);
-                    auto [weights, indices] = VGComponentSplit::readBlend(blend);
-                    files_.vertexCount = weights.size();
-                    if (files_.vertexCount == 0) {
-                        return false;
+                    // ONE SPLIT PER STATE. A merged master is several mods behind one .ini, each with its
+                    // own blend and index buffers, so what this component draws and how many vertices
+                    // it keeps are both per state: an object is drawn if ANY state keeps triangles of
+                    // it, and each blend branch's `draw` is its own count (see buildEdits). A mod that
+                    // does not branch is one state, and this is the single split it has always been.
+                    //
+                    // The states come from the blend AND every object's index buffers, not the blend
+                    // alone: an animated master binds one blend for its whole frame range and a
+                    // different ib per frame. Identical states -- the same blend and index buffers
+                    // under different conditions -- are split once.
+                    std::vector<const std::vector<BranchVal>*> lists{&files_.blends};
+                    for (const auto& object : files_.objects) {
+                        lists.push_back(&object.second.ibs);
+                    }
+                    states_ = branches_.states(lists);
+
+                    std::unordered_map<std::string, std::pair<std::size_t, std::vector<std::string>>> splitCache;
+                    std::vector<std::string> drawnAny;
+
+                    for (std::size_t state = 0; state < states_.size(); ++state) {
+                        const std::string blendPath = branches_.pick(files_.blends, files_.blend, states_[state]);
+                        const auto [names, paths] = ibsFor(states_[state]);
+
+                        std::string cacheKey = blendPath;
+                        for (const std::string& path : paths) {
+                            cacheKey += "\n" + path;
+                        }
+
+                        auto cached = splitCache.find(cacheKey);
+                        if (cached == splitCache.end()) {
+                            std::pair<std::size_t, std::vector<std::string>> result{0, {}};
+
+                            BlendFile blend(blendPath);
+                            auto [weights, indices] = VGComponentSplit::readBlend(blend);
+                            if (state == 0) {
+                                files_.vertexCount = weights.size();
+                                if (files_.vertexCount == 0) {
+                                    return false;
+                                }
+
+                                files_.positionStride = fileSize(files_.position) / files_.vertexCount;
+                                files_.texcoordStride = fileSize(files_.texcoord) / files_.vertexCount;
+                            }
+
+                            if (!weights.empty() && !paths.empty()) {
+                                std::vector<VGComponentSplit::Triangles> ibs;
+                                for (const std::string& path : paths) {
+                                    auto widthIt = files_.ibBytesPerIndex.find(path);
+                                    IbFile ib(path, widthIt == files_.ibBytesPerIndex.end() ? 4 : widthIt->second);
+                                    ibs.push_back(VGComponentSplit::readIb(ib));
+                                }
+
+                                VGComponentSplit split(std::move(weights), std::move(indices), std::move(ibs), specs_);
+                                VGComponentBuffers buffers = split.split(componentName_);
+                                result.first = buffers.stats.keptVertices;
+
+                                for (std::size_t i = 0; i < names.size() && i < buffers.stats.trianglesKept.size(); ++i) {
+                                    if (buffers.stats.trianglesKept[i] > 0) {
+                                        result.second.push_back(names[i]);
+                                    }
+                                }
+                            }
+
+                            cached = splitCache.emplace(std::move(cacheKey), std::move(result)).first;
+                        }
+
+                        stateKept_.push_back(cached->second.first);
+                        keptVertices_ = std::max(keptVertices_, cached->second.first);
+                        for (const std::string& name : cached->second.second) {
+                            if (std::find(drawnAny.begin(), drawnAny.end(), name) == drawnAny.end()) {
+                                drawnAny.push_back(name);
+                            }
+                        }
                     }
 
-                    files_.positionStride = fileSize(files_.position) / files_.vertexCount;
-                    files_.texcoordStride = fileSize(files_.texcoord) / files_.vertexCount;
-
-                    std::vector<VGComponentSplit::Triangles> ibs;
-                    for (const std::string& path : files_.ibPaths) {
-                        auto widthIt = files_.ibBytesPerIndex.find(path);
-                        IbFile ib(path, widthIt == files_.ibBytesPerIndex.end() ? 4 : widthIt->second);
-                        ibs.push_back(VGComponentSplit::readIb(ib));
-                    }
-
-                    VGComponentSplit split(std::move(weights), std::move(indices), std::move(ibs), specs_);
-                    VGComponentBuffers result = split.split(componentName_);
-                    keptVertices_ = result.stats.keptVertices;
-
-                    for (std::size_t i = 0; i < files_.ibNames.size() && i < result.stats.trianglesKept.size(); ++i) {
-                        if (result.stats.trianglesKept[i] > 0) {
-                            drawn_.push_back(files_.ibNames[i]);
+                    for (const std::string& obj : config_.drawnObjs) {
+                        if (std::find(drawnAny.begin(), drawnAny.end(), obj) != drawnAny.end()) {
+                            drawn_.push_back(obj);
                         }
                     }
 
                     groupCount_ = std::max<std::size_t>(drawn_.size(), 1);
                     return true;
+                }
+
+                // The index buffer of every drawn object that has one under 'query', in draw order,
+                // as (names, paths). std::nullopt takes each object's first branch.
+                std::pair<std::vector<std::string>, std::vector<std::string>> ibsFor(const std::optional<Z3Predicate>& query) {
+                    std::pair<std::vector<std::string>, std::vector<std::string>> out;
+                    for (const auto& object : files_.objects) {
+                        const std::string path = branches_.pick(object.second.ibs, object.second.ib, query);
+                        if (!path.empty()) {
+                            out.first.push_back(object.first);
+                            out.second.push_back(path);
+                        }
+                    }
+
+                    return out;
                 }
 
                 const ModObjectFiles* objectFiles(const std::string& name) const {
@@ -686,8 +779,15 @@ namespace AGRemapCore {
                 // group holds it: the vertex set is the union over all of them.
                 bool objectIbWasNarrow(const std::string& obj) const {
                     for (const auto& entry : files_.objects) {
-                        if (entry.first == obj) {
-                            return entry.second.ibBytesPerIndex == 2;
+                        if (entry.first != obj) {
+                            continue;
+                        }
+
+                        for (const BranchVal& ib : entry.second.ibs) {
+                            auto it = files_.ibBytesPerIndex.find(ib.val);
+                            if (it != files_.ibBytesPerIndex.end() && it->second == 2) {
+                                return true;
+                            }
                         }
                     }
 
@@ -698,12 +798,21 @@ namespace AGRemapCore {
                     VGSplitGroupConfig splitConfig;
                     splitConfig.component = componentName_;
                     splitConfig.specs = specs_;
-                    splitConfig.ibPaths = files_.ibPaths;
                     splitConfig.ibBytesPerIndex = files_.ibBytesPerIndex;
                     splitConfig.texcoordLineEdit = makeTexcoordLineEdit();
 
+                    // The index buffers PER GROUP: a group is one satisfiable state of the mod, and
+                    // the split needs every drawn object's ib of THAT state -- see
+                    // VGSplitGroupResBuilder's resolver.
                     const std::string srcName = ctx_.modTypeName().value_or("");
-                    builder_ = std::make_unique<VGSplitGroupResBuilder>(srcName + toModName_ + "Buffers", splitConfig, ctx_.getIniFile());
+                    builder_ = std::make_unique<VGSplitGroupResBuilder>(
+                        srcName + toModName_ + "Buffers",
+                        [this, splitConfig](const Z3Predicate* query) {
+                            VGSplitGroupConfig config = splitConfig;
+                            config.ibPaths = ibsFor(branches_.localQuery(query)).second;
+                            return config;
+                        },
+                        ctx_.getIniFile());
 
                     for (std::size_t group = 0; group < drawn_.size(); ++group) {
                         const std::string& name = drawn_[group];
@@ -958,7 +1067,8 @@ namespace AGRemapCore {
                         renameRule(ScratchNormalReg, {DiffuseReg})});
 
                     // The vertex-limit raise: the target's own buffer is sized for its own vertex
-                    // count, and the mod's kept vertices go through it.
+                    // count, and the mod's kept vertices go through it. The LARGEST branch's, since
+                    // this one number has to cover whichever variant is selected.
                     overrides_ = std::make_unique<RegNewVals<>>(
                         std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
                             {OverrideByteStride, RegNewVals<>::NewValSpec(RegNewVals<>::NewVal(std::to_string(files_.positionStride)))},
@@ -984,6 +1094,35 @@ namespace AGRemapCore {
                     overridesAdapter_ = std::make_unique<RegPartEdit<>>(overrides_.get());
                     blendDrawAdapter_ = std::make_unique<RegPartEdit<>>(blendDraw_.get());
 
+                    // A merged master's blend carries a `draw` per branch, and each is that variant's
+                    // own count: one number for all of them stops a bigger variant part way through
+                    // its model. REPLACED, not added -- a second `draw` draws the model twice.
+                    ObjGroupEdit::PartEdit* drawEdit = blendDrawAdapter_.get();
+                    if (files_.blends.size() > 1) {
+                        blendBranchDraw_ = branches_.replacePerBranch(
+                            files_.blends, "blend",
+                            [this](std::size_t, const std::optional<Z3Predicate>& local) -> RegBranchAdd<>::Additions {
+                                // The largest of the states this blend branch is drawn in: several
+                                // index buffers may go with one blend, and `draw` has to cover
+                                // whichever of them is selected.
+                                std::size_t kept = 0;
+                                for (std::size_t state = 0; state < states_.size() && state < stateKept_.size(); ++state) {
+                                    if (!states_[state].has_value() || !local.has_value()
+                                            || branches_.compatible(*states_[state], *local)) {
+                                        kept = std::max(kept, stateKept_[state]);
+                                    }
+                                }
+
+                                if (kept == 0) {
+                                    return {};
+                                }
+
+                                return {{IniKeywords::Draw, std::to_string(kept) + ",0"}};
+                            });
+                        blendBranchDrawAdapter_ = std::make_unique<GraphPartEdit<>>(blendBranchDraw_.get());
+                        drawEdit = blendBranchDrawAdapter_.get();
+                    }
+
                     const ModObj slotObj("", component_.slot);
                     std::vector<ObjGroupEdit::IniEdits> perGroup;
 
@@ -1005,7 +1144,7 @@ namespace AGRemapCore {
 
                         std::vector<ObjGroupEdit::PartEdit*> blendEdits = {renameBlendAdapter_.get(), assetAdapter_.get()};
                         if (!component_.negativeIndex) {
-                            blendEdits.push_back(blendDrawAdapter_.get());
+                            blendEdits.push_back(drawEdit);
                         }
                         iniEdits.edits[BlendObj] = std::move(blendEdits);
                         iniEdits.trackKeys[BlendObj] = false;
@@ -1036,6 +1175,10 @@ namespace AGRemapCore {
                     return config;
                 }
 
+                // FIRST, so it is destroyed LAST: every Z3Predicate read out of the mod's sections
+                // belongs to its context -- see ModBranches.
+                ModBranches branches_;
+
                 IniFileFixContext ctx_;
                 std::string toModName_;
                 GIMIComponentFixerConfig config_;
@@ -1045,7 +1188,9 @@ namespace AGRemapCore {
                 ModFiles files_;
                 std::vector<VGComponentSpec> specs_;
                 std::vector<std::string> drawn_;
-                std::size_t keptVertices_ = 0;
+                std::size_t keptVertices_ = 0;                  // the largest state's
+                std::vector<std::optional<Z3Predicate>> states_;  // see ModBranches::states
+                std::vector<std::size_t> stateKept_;            // per states_ entry
                 std::size_t groupCount_ = 1;
 
                 bool authorsNoMesh_ = false;
@@ -1083,6 +1228,8 @@ namespace AGRemapCore {
                 std::unique_ptr<RegRemap<>> normalBack_;
                 std::unique_ptr<RegNewVals<>> overrides_;
                 std::unique_ptr<RegNewVals<>> blendDraw_;
+                std::unique_ptr<RegBranchAdd<>> blendBranchDraw_;
+                std::unique_ptr<GraphPartEdit<>> blendBranchDrawAdapter_;
 
                 std::unique_ptr<GraphPartEdit<>> renameAdapter_;
                 std::unique_ptr<GraphPartEdit<>> renameIbAdapter_;

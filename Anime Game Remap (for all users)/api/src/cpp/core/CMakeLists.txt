@@ -109,6 +109,7 @@ add_library(AGRemapCore STATIC
     src/data/IniParseData/Keqing/KeqingParser.cpp
     src/data/IniParseData/KeqingOpulent/KeqingOpulentParser.cpp
     src/data/IniFixData/GIMIComponentFixer.cpp
+    src/data/IniFixData/ModBranches.cpp
     src/data/IniFixData/Yelan/YelanFixer.cpp
     src/data/IniFixData/GIMIMergeFixer.cpp
     src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp

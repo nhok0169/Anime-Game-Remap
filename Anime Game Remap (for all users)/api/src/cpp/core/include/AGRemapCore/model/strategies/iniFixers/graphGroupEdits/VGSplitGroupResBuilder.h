@@ -14,7 +14,9 @@
 
 // ##### EndCredits
 
+#include <functional>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -63,6 +65,36 @@ namespace AGRemapCore {
              */
             VGSplitGroupResBuilder(std::string name, VGSplitGroupConfig config, IniFile* iniFile);
 
+            /**
+             * @brief
+             @rst
+             Builds the config for one group, from the query that group's resources co-occur under
+             (see :cpp:func:`ResGroupCollect::GroupedResBuilder::beginGroup`) -- ``nullptr`` for a
+             group with no query at all
+             @endrst
+             */
+            using ConfigResolver = std::function<VGSplitGroupConfig(const Z3Predicate*)>;
+
+            /**
+             * @brief
+             @rst
+             A config built PER GROUP, for a source whose resources branch -- the split's side of
+             :cpp:func:`VGMergeGroupResBuilder::VGMergeGroupResBuilder`'s resolver :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A merged master names one variant's index buffers per ``$swapvar`` branch, and the split
+             needs EVERY drawn object's index buffer of the variant it is splitting (see
+             :cpp:member:`VGSplitGroupConfig::ibPaths`). One config for every group hands each
+             variant the first variant's, which the group's own ``ib`` member is then not one of
+             @endrst
+             *
+             * @param name The resource group's name
+             * @param configFor Builds the config for one group -- see #ConfigResolver
+             * @param iniFile The ``.ini`` file the groups are stored on
+             */
+            VGSplitGroupResBuilder(std::string name, ConfigResolver configFor, IniFile* iniFile);
+
+            void beginGroup(const std::optional<Z3Predicate>& query) override;
             IniGroupedResource* build() override;
             void store(IniGroupedResource& resource) override;
             void addResource(IniGroupedResource& group, const GraphId& resType, IniResource& resource) override;
@@ -74,7 +106,9 @@ namespace AGRemapCore {
 
         private:
             std::string name_;
+            ConfigResolver configFor_;
             VGSplitGroupConfig config_;
+            std::optional<Z3Predicate> query_;
             IniFile* iniFile_;
             std::vector<std::shared_ptr<VGSplitGroupResource>> groups_;
     };

@@ -1434,6 +1434,68 @@ namespace AGRemapCore {
                     additions.emplace_back(IniKeywords::Run, IniKeywords::NNFixPath);
                 }
 
+                // How many vertices the merged buffer holds in ONE branch.
+                //
+                // Every component contributes its own, and a merged master's components do not all
+                // branch -- the Bang and the Eye have one buffer for every variant while the Body
+                // has twelve. pick answers each of them for this branch, so the sum is this branch's.
+                std::size_t mergedVertexCount(const std::optional<Z3Predicate>& query) {
+                    std::size_t total = 0;
+                    for (const std::string& component : mergeOrder_) {
+                        const ComponentFiles* files = componentFiles(component);
+                        if (files == nullptr) {
+                            continue;
+                        }
+
+                        const std::string path = pick(files->blends, files->blend, query);
+                        const std::size_t count = fileSize(path) / BlendStride;
+                        total += (count > 0) ? count : files->vertexCount;
+                    }
+
+                    return total;
+                }
+
+                // ---- the drawn vertex count, per BRANCH ----
+                //
+                // The blend override re-issues the vertex pass, and `draw` says how many vertices it
+                // covers. One number for a branching source draws the first variant's worth of every
+                // variant: correct for that one, and for a bigger one it stops part way through the
+                // model -- the legs, the back of the hair and the eyes were simply past the end.
+                bool buildBranchVertexCounts() {
+                    const ComponentFiles* skeleton = componentFiles(mergeOrder_.front());
+                    if (skeleton == nullptr || skeleton->blends.size() <= 1) {
+                        return false;
+                    }
+
+                    const std::vector<BranchVal> branches = skeleton->blends;
+
+                    auto branchAdd = std::make_unique<RegBranchAdd<>>(
+                        [this, branches](const Z3Predicate& query, const RegBranchAdd<>::IterData&) {
+                            RegBranchAdd<>::Branch result;
+
+                            const std::optional<Z3Predicate> local = localQuery(&query);
+                            const long long branch = branchIndexOf(branches, local);
+                            if (branch < 0) {
+                                return result;
+                            }
+
+                            const std::size_t vertices = mergedVertexCount(local);
+                            if (vertices == 0) {
+                                return result;
+                            }
+
+                            // REPLACED, not added: the branch already carries a `draw` of its own,
+                            // and a second one draws the model twice rather than correcting the first.
+                            result.key = "blend;" + std::to_string(branch);
+                            result.replacements = {{IniKeywords::Draw, std::to_string(vertices) + ",0"}};
+                            return result;
+                        });
+
+                    blendBranchDraw_ = std::move(branchAdd);
+                    blendBranchDrawAdapter_ = std::make_unique<GraphPartEdit<>>(blendBranchDraw_.get());
+                    return true;
+                }
+
                 // ---- 6. everything else ----
                 void buildEdits() {
                     IniFile* iniFile = ctx_.getIniFile();
@@ -1692,10 +1754,22 @@ namespace AGRemapCore {
                         /*pathEndOnlyWhenUndelimited*/ true,
                         RegDelimitedAddMode::PerPath);
 
+                    // THE LARGEST BRANCH, not the first. This one number covers the whole
+                    // `.ini` -- the section it goes in carries no conditions to vary it by -- and it
+                    // has to be big enough for whichever variant the player picks. Equal to
+                    // totalVertices_ for a source that does not branch.
+                    std::size_t maxVertices = totalVertices_;
+                    const ComponentFiles* skeletonFiles = componentFiles(mergeOrder_.front());
+                    if (skeletonFiles != nullptr) {
+                        for (const BranchVal& branch : skeletonFiles->blends) {
+                            maxVertices = std::max(maxVertices, mergedVertexCount(branch.query));
+                        }
+                    }
+
                     overrides_ = std::make_unique<RegNewVals<>>(
                         std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
                             {OverrideByteStride, RegNewVals<>::NewValSpec(RegNewVals<>::NewVal(std::to_string(positionStride_)))},
-                            {OverrideVertexCount, RegNewVals<>::NewValSpec(RegNewVals<>::NewVal(std::to_string(totalVertices_)))}},
+                            {OverrideVertexCount, RegNewVals<>::NewValSpec(RegNewVals<>::NewVal(std::to_string(maxVertices)))}},
                         /*addNewKVPs*/ true);
 
                     blendDraw_ = std::make_unique<RegNewVals<>>(
@@ -1789,7 +1863,12 @@ namespace AGRemapCore {
                     iniEdits.trackKeys[ibObj] = false;
 
                     const ModObj blendObj("", "blend");
-                    iniEdits.edits[blendObj] = {renameBlendAdapter_.get(), skeletonAsset, blendDrawAdapter_.get()};
+                    ObjGroupEdit::PartEdit* drawEdit = blendDrawAdapter_.get();
+                    if (buildBranchVertexCounts()) {
+                        drawEdit = blendBranchDrawAdapter_.get();
+                    }
+
+                    iniEdits.edits[blendObj] = {renameBlendAdapter_.get(), skeletonAsset, drawEdit};
                     iniEdits.trackKeys[blendObj] = false;
 
                     for (const char* kind : {"position", "texcoord"}) {
@@ -1881,6 +1960,8 @@ namespace AGRemapCore {
                 std::vector<Fixer::GroupEdit*> preRemapTexGroupEdits_;
                 std::vector<std::unique_ptr<RegBottomAdd<>>> extraDraws_;
                 std::vector<std::unique_ptr<RegBranchAdd<>>> branchDraws_;
+                std::unique_ptr<RegBranchAdd<>> blendBranchDraw_;
+                std::unique_ptr<GraphPartEdit<>> blendBranchDrawAdapter_;
                 std::unordered_map<std::string, std::unique_ptr<GraphPartEdit<>>> extraDrawAdapters_;
                 std::unique_ptr<RegDelimitedAdd<>> addFixCall_;
                 std::unique_ptr<RegNewVals<>> overrides_;

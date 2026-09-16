@@ -43,6 +43,7 @@ namespace AGRemapCore {
         struct Claim {
             ContentPart* part = nullptr;
             Additions additions;
+            Additions replacements;
         };
 
         tsl::ordered_map<std::string, Claim> claims;
@@ -67,17 +68,27 @@ namespace AGRemapCore {
             }
 
             Branch branch = branchOf(queryData.query, iterData);
-            if (branch.key.empty() || branch.additions.empty()) {
+            if (branch.key.empty() || (branch.additions.empty() && branch.replacements.empty())) {
                 continue;
             }
 
-            claims[branch.key] = Claim{iterData.part, std::move(branch.additions)};
+            claims[branch.key] = Claim{iterData.part, std::move(branch.additions), std::move(branch.replacements)};
         }
 
         for (const auto& entry : claims) {
             const Claim& claim = entry.second;
             if (claim.part == nullptr) {
                 continue;
+            }
+
+            if (!claim.replacements.empty()) {
+                std::vector<std::pair<K, typename ContentPart::ReplaceSpec>> newVals;
+                newVals.reserve(claim.replacements.size());
+                for (const auto& kvp : claim.replacements) {
+                    newVals.emplace_back(kvp.first, typename ContentPart::ReplaceSpec(kvp.second));
+                }
+
+                claim.part->replaceVals(newVals, /*addNew*/ true);
             }
 
             for (const auto& kvp : claim.additions) {

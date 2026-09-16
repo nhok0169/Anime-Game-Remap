@@ -137,6 +137,20 @@ namespace AGRemapCore {
                  * @brief The `KVP`_ entries to add, in order
                  */
                 Additions additions;
+
+                /**
+                 * @brief
+                 @rst
+                 `KVP`_ entries whose value is SET in the branch's part rather than appended to it
+                 -- replacing whatever the branch carries, and added when the key is absent
+                 :raw-html:`<br />` :raw-html:`<br />`
+
+                 For the keys a branch already answers for itself and answers differently from its
+                 neighbours: a ``draw`` whose count is that variant's own vertex count, say. Adding a
+                 second one of those would not correct the first, it would draw twice
+                 @endrst
+                 */
+                Additions replacements;
             };
 
             /**

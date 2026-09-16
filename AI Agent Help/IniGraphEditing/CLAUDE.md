@@ -1,5 +1,40 @@
 # Ini Graph Editing
 
+## A PART'S CONDITION WAS WRONG BEHIND A `run =`, AND NOTHING COULD SEE IT (2026-09-16)
+
+`IniSectionGraph::iterByQuery` reports the predicate each part sits under. It tracks, per nesting
+depth, how many entries the chain open at that depth has put on the query path, so that cleaning the
+chain knows how many to take back off -- and that counter was a `std::vector` **indexed by
+`frame.depth`** but **grown by one `push_back` per explored NODE**. Those agree only while depth
+rises exactly once per node, and it does not: a content part's children are pushed at `depth + 1`,
+and a section reached through `run =` is pushed at `depth + 1` again. Follow one call and the depth
+runs past the end of the vector, where `operator[]` is undefined behaviour rather than an error.
+
+What came out was an `if`/`else if` chain whose every branch after the first carried the **first**
+branch's predicate as well as its own -- `$swapvar == 0 AND $swapvar != 0 AND $swapvar == 1`, which
+is unsatisfiable. Keyed by depth instead of indexed by it, the two cannot drift.
+
+**Why it survived so long is the part worth keeping.** An `.ini` renders from its PARTS, so the
+output was well formed and correctly indented the whole time; only a caller that asked the graph
+what a part's CONDITION was ever saw it, and until the merge needed per-branch draws
+(`RegBranchAdd`) nothing ever had. Measured after the fix: **772 files over 18 characters,
+byte-identical** -- because nothing else was asking.
+
+Three things this is worth generalising into:
+
+- **A structure that renders correctly is not a structure that is correct.** Rendering walks the
+  parts; reasoning walks the tree and the traversal built on it. Check the one you are relying on.
+- **Reproduce with the CALL in place.** Every hand-written reproduction of this passed, because each
+  rooted its graph at the branching section directly. The `run =` is the trigger, and so is the
+  nested `if` inside a branch that `ResGroupCollect` leaves behind -- `core/tests/
+  IniSectionGraph_RunQuery_test.cpp` carries both, and its first version was written flat, passed
+  against the broken build, and would have shipped meaning nothing (habit 34, again).
+- **A wrong answer here is silent by construction.** An unsatisfiable predicate does not throw; it
+  just matches nothing, so a caller asking "which branch is this?" gets "none" and carries on.
+
+<br>
+
+
 Conventions and gotchas for the subsystem that models `.ini` file structure as a graph and edits
 it — `IniSectionGraph`, `CallGraph`, `SectionIterData`/`SectionIterQueryData`, `IfTemplate`,
 `IfTemplateNode`, `IfTemplateTree`, `GraphTools` (C++-backed), and the graph-editing strategies

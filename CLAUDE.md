@@ -419,6 +419,28 @@ before `fixResources` fetches the download. Creating Remaps' "Adding a `ModTypeI
 it enters" is still the checklist for the eight places a new type has to be named before it
 exists.
 
+**A PART'S CONDITION WAS WRONG BEHIND A `run =`, FOR AS LONG AS ANYTHING HAS ASKED (2026-09-16).**
+`IniSectionGraph::iterByQuery` reports the predicate each part sits under, and its per-depth counter
+was a `std::vector` **indexed by depth** but **grown per node** -- which drift the moment a `run =`
+is followed, running the index past the end where `operator[]` is undefined behaviour. An
+`if`/`else if` chain behind a call gave every branch after the first the FIRST branch's predicate as
+well as its own: `$swapvar == 0 AND $swapvar != 0 AND $swapvar == 1`, unsatisfiable. **An `.ini`
+renders from its PARTS, so the output was well formed the whole time** and only a caller asking what
+a part's CONDITION was could see it -- 772 files over 18 characters are byte-identical across the
+fix, because nothing else was asking. Pinned by `core/tests/IniSectionGraph_RunQuery_test.cpp`, whose
+first version was written without the `run =` and without the nested `if` a collect leaves behind,
+passed against the broken build, and would have shipped meaning nothing. See
+[Ini Graph Editing](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md).
+
+**AND FIXING A MERGED MASTER IS ITS OWN SHAPE (2026-09-16).** Its `TextureOverride` carries nothing
+but `hash`, `match_first_index` and `run =`, so a read that looks only at the matched section finds
+no registers and no draws -- which left the mod's NORMAL map bound where the target's shader reads
+the diffuse (every surface pale and flat) and a merged object's second member never drawn (no lower
+body). And a master is twelve mods behind one `.ini`, so an appended draw's count and offset are per
+BRANCH: `RegBranchAdd` puts the block inside the branch with the numbers that branch's own index
+buffers give, where `RegBottomAdd` can only carry one set for all of them. See
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "FIXING A MERGED MASTER".
+
 **TWO THINGS TO READ BEFORE ANY TASK, WHICHEVER KIND YOU HAVE (2026-09-14).** They are the two
 lenses the maintainer keeps having to re-teach, and each now has its own writing:
 

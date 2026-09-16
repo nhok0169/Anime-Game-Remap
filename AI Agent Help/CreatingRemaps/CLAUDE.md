@@ -552,6 +552,53 @@ not be switched on together.
 
 <br>
 
+## FIXING A MERGED MASTER: EVERYTHING IS BEHIND `run =`, AND EVERYTHING IS PER BRANCH (2026-09-16)
+
+The first in-game run of the compiled reverse direction on a twelve-variant merged master came back
+with two symptoms that look unrelated and are one bug: **every surface pale and flat**, and **the
+lower body missing** on the variants that were tested.
+
+**A merged master's `TextureOverride` is only `hash`, `match_first_index` and `run =`.** The buffer
+reads had been taught to follow the call; four others had not, and on a master all four came back
+empty:
+
+| read | what it concluded | what it did |
+| --- | --- | --- |
+| `ps-t2` | "the two-register layout" | left the mod's NORMAL map at `ps-t0`, where the target's shader reads the diffuse -- pale, flat, unlit |
+| `ps-t0`/`ps-t1` | "this slot has no textures" | no `NNFix`, no per-member re-binding, and `membersDiffer()` saw no disagreement, so a merged object's SECOND member was never drawn |
+| `drawindexed` | "the mod draws nothing itself" | added `drawindexed = auto`, which draws the TARGET's original index range rather than the merged buffer's |
+
+**The picked-variant path was right the whole time**, which is exactly why it survived: a single
+variant binds all of this on the section itself, and the prototype can only fix a picked variant
+(its own `--variant` help says so). Fix the same variant both ways and read the two outputs side by
+side -- that is what found it in one pass, after three careful diagnoses of the screenshots had
+missed.
+
+**And a merged master is not one mod, so a number measured once is wrong eleven times out of
+twelve.** An appended member draw's count and offset come from the index buffers of the branch being
+drawn, and those differ per branch -- 44334/39219 in the first variant and 124380/25971 in the
+fourth. `RegBottomAdd` lands one block at the section's own depth, outside every `if`, which is
+right precisely when the addition does not depend on which branch is taken. `RegBranchAdd` is the
+other case: it puts the block INSIDE each branch, with the entries computed from the condition that
+branch runs under, so satisfiability picks the buffers and nothing is indexed by variant number.
+
+Two things fall out of putting it in the branch rather than the section:
+
+- **The `.ini` also draws the FIRST member where the mod does not.** Four of that master's twelve
+  branches issue no draws of their own -- they leave it to the whole-ib override, which the remap
+  takes away. Whether the mod draws for itself is per branch too.
+- **The fix call lands correctly again.** A draw added to the section makes a part that both
+  `run =`s and draws, and `RegDelimitedAdd` treats a content part as atomic: it takes its call
+  before that part's own draw and counts every path covered, leaving the draws inside the callee
+  with none. Keeping the branch's additions in the branch never creates that part.
+
+The check is arithmetic, not a spot check: for every branch, the last appended draw must be
+`(|member 2's ib|, |member 1's ib|)` read off that variant's own files, and a branch whose member is
+`ib = null` must append nothing. All twelve pass, and variant 003 comes out at `25971, 124380, 0` --
+the same numbers the picked-variant oracle produces.
+
+<br>
+
 ## Recipe: a classic-shape mod onto a multi-component skin (Bennett and after)
 
 Every GI character from Bennett on is a skin of several components, so this is the shape the

@@ -238,6 +238,28 @@ namespace AGRemapCore {
         return countGrapheme(tail) == suffixLen && equalsIgnoreCase(tail, suffix);
     }
 
+    bool StringTools::containsIgnoreCase(std::string_view txt, std::string_view target) {
+        if (target.empty()) {
+            return true;
+        }
+
+        const std::string loweredTxt = toLower(txt);
+        const std::string loweredTarget = toLower(target);
+
+        // Tried at every grapheme boundary of the text, with startsWith deciding -- so a match can
+        // neither begin nor end part way through a grapheme.
+        std::string_view rest(loweredTxt);
+        for (std::string_view grapheme : GraphemeRange(loweredTxt)) {
+            if (startsWith(rest, loweredTarget)) {
+                return true;
+            }
+
+            rest.remove_prefix(grapheme.size());
+        }
+
+        return false;
+    }
+
     void StringTools::eraseAll(std::string& txt, std::string_view target) {
         if (target.empty()) {
             return;

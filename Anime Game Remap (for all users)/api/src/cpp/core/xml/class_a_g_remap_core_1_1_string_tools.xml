@@ -565,6 +565,55 @@ See :cpp:func:`startsWith` for how this differs from a byte-wise check
         </inbodydescription>
         <location file="include/AGRemapCore/tools/StringTools.h" line="229" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="235" bodyend="239"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1a9c777d0d82c7f85eadef40c47f7f9d1b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::StringTools::containsIgnoreCase</definition>
+        <argsstring>(std::string_view txt, std::string_view target)</argsstring>
+        <name>containsIgnoreCase</name>
+        <qualifiedname>AGRemapCore::StringTools::containsIgnoreCase</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether &apos;target&apos; occurs anywhere in &apos;txt&apos;, compared by whole `graphemes`_ and ignoring case
+(see :cpp:func:`toLower` for how case is mapped) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A match has to start on a grapheme boundary of &apos;txt&apos; and end on one, so ``&quot;e&quot;`` is not
+found inside an ``e`` carrying a combining accent -- see :cpp:func:`startsWith`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to look for. The empty string is found in every text</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether &apos;txt&apos; contains &apos;target&apos; ignoring case </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="246" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="241" bodyend="261"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1ae9965a9a69cc4cf6a529be9df026f184" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void AGRemapCore::StringTools::eraseAll</definition>
@@ -604,7 +653,7 @@ See :cpp:func:`startsWith` for how this differs from a byte-wise check
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="237" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="241" bodyend="250"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="254" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="263" bodyend="272"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -625,9 +674,10 @@ Tools for handling with strings :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;
    methods never throw on malformed input
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/StringTools.h" line="42" column="5" bodyfile="include/AGRemapCore/tools/StringTools.h" bodystart="42" bodyend="238"/>
+    <location file="include/AGRemapCore/tools/StringTools.h" line="42" column="5" bodyfile="include/AGRemapCore/tools/StringTools.h" bodystart="42" bodyend="255"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_string_tools_1a6b222148ff1b101737b4e9e1591758b3" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>compareStrPtrs</name></member>
+      <member refid="class_a_g_remap_core_1_1_string_tools_1a9c777d0d82c7f85eadef40c47f7f9d1b" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>containsIgnoreCase</name></member>
       <member refid="class_a_g_remap_core_1_1_string_tools_1ac1038b37e63b7b266c13725193f60c99" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>countGrapheme</name></member>
       <member refid="class_a_g_remap_core_1_1_string_tools_1ab66a14cb70eea88081a9bc2f76512a2f" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>endsWith</name></member>
       <member refid="class_a_g_remap_core_1_1_string_tools_1a386314c4c89382a978e63c19eabf5c80" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>endsWithIgnoreCase</name></member>

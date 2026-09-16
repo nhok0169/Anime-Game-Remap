@@ -17,7 +17,7 @@
 //
 //   - StringTools::countGrapheme / isSpace / strip / lstrip / rstrip / toLower /
 //     firstGraphemes / lastGraphemes / startsWith / endsWith / equalsIgnoreCase /
-//     endsWithIgnoreCase, on emojis (ZWJ sequences, skin-tone modifiers), combining
+//     endsWithIgnoreCase / containsIgnoreCase, on emojis (ZWJ sequences, skin-tone modifiers), combining
 //     marks, Unicode whitespace (NBSP, ideographic space, U+2028) and non-ASCII letters.
 //   - GraphemeIterator on malformed UTF-8: a stray byte is its own 1-byte grapheme, and
 //     iteration terminates (it used to add utf8proc's negative error length to the cursor).
@@ -187,6 +187,14 @@ static void testPrefixSuffix() {
     expect(!StringTools::endsWithIgnoreCase("ds", ".dds"), "endsWithIgnoreCase: suffix longer than text");
     expect(!StringTools::endsWithIgnoreCase("x" + E_PLUS_ACUTE, "E"), "endsWithIgnoreCase: never matches part of a grapheme");
     expect(StringTools::endsWithIgnoreCase("x", ""), "endsWithIgnoreCase: empty suffix");
+
+    expect(StringTools::containsIgnoreCase("ResourceBodyLightMap", "lightmap"), "containsIgnoreCase: ascii, any case");
+    expect(StringTools::containsIgnoreCase("LIGHTMAP", "lightmap"), "containsIgnoreCase: whole text");
+    expect(!StringTools::containsIgnoreCase("ResourceBodyDiffuse", "lightmap"), "containsIgnoreCase: absent");
+    expect(!StringTools::containsIgnoreCase("map", "lightmap"), "containsIgnoreCase: target longer than text");
+    expect(StringTools::containsIgnoreCase("x", ""), "containsIgnoreCase: empty target");
+    expect(StringTools::containsIgnoreCase("a" + E_ACUTE_UPPER + "b", E_ACUTE + "B"), "containsIgnoreCase: non-ASCII");
+    expect(!StringTools::containsIgnoreCase("x" + E_PLUS_ACUTE + "y", "E"), "containsIgnoreCase: never matches part of a grapheme");
 }
 
 

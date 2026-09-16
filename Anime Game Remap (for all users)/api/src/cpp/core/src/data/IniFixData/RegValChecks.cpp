@@ -13,46 +13,30 @@
 
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
 
-#include <algorithm>
-#include <cctype>
+#include "AGRemapCore/tools/StringTools.h"
 
 
 namespace AGRemapCore {
 
-    namespace {
-        // Lowercased ASCII, then a plain substring search -- the pure-Python original is
-        // val.lower().find(needle) != -1 and this is value-for-value the same. 'needle' is always
-        // an ASCII literal from this file, so there is nothing here for a grapheme-aware compare
-        // to do.
-        bool containsIgnoreCase(const std::string& val, const char* needle) {
-            std::string lowered;
-            lowered.reserve(val.size());
-
-            for (const char c : val) {
-                lowered.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(c))));
-            }
-
-            return lowered.find(needle) != std::string::npos;
-        }
-    }
+    // The pure-Python original is val.lower().find(needle) != -1 -- StringTools::containsIgnoreCase.
 
     bool RegValChecks::isDiffuse(const std::string& val) {
-        return containsIgnoreCase(val, "diffuse");
+        return StringTools::containsIgnoreCase(val, "diffuse");
     }
 
     bool RegValChecks::isLightMap(const std::string& val) {
-        return containsIgnoreCase(val, "lightmap");
+        return StringTools::containsIgnoreCase(val, "lightmap");
     }
 
     bool RegValChecks::isNormalMap(const std::string& val) {
-        return containsIgnoreCase(val, "normalmap");
+        return StringTools::containsIgnoreCase(val, "normalmap");
     }
 
     bool RegValChecks::isMetalMap(const std::string& val) {
-        return containsIgnoreCase(val, "metalmap");
+        return StringTools::containsIgnoreCase(val, "metalmap");
     }
 
     bool RegValChecks::isShadow(const std::string& val) {
-        return containsIgnoreCase(val, "shadow");
+        return StringTools::containsIgnoreCase(val, "shadow");
     }
 }

@@ -229,6 +229,23 @@ namespace AGRemapCore {
             static bool endsWithIgnoreCase(std::string_view txt, std::string_view suffix);
 
             /**
+             * @brief
+             @rst
+             Whether 'target' occurs anywhere in 'txt', compared by whole `graphemes`_ and ignoring case
+             (see :cpp:func:`toLower` for how case is mapped) :raw-html:`<br />` :raw-html:`<br />`
+
+             A match has to start on a grapheme boundary of 'txt' and end on one, so ``"e"`` is not
+             found inside an ``e`` carrying a combining accent -- see :cpp:func:`startsWith`
+             @endrst
+             *
+             * @param txt The text to search
+             * @param target The text to look for. The empty string is found in every text
+             *
+             * @return Whether 'txt' contains 'target' ignoring case
+             */
+            static bool containsIgnoreCase(std::string_view txt, std::string_view target);
+
+            /**
              * @brief Erases every occurrence of 'target' from 'txt', in place
              *
              * @param txt The string to erase from

@@ -12,6 +12,7 @@
 // ##### EndCredits
 
 #include <algorithm>
+#include <unordered_map>
 
 namespace AGRemapCore {
 
@@ -1096,7 +1097,18 @@ namespace AGRemapCore {
 
         for (int addState = 1; addState <= states; addState += 2) {
             std::vector<Z3Predicate> queryPath = queryPathArg;
-            std::vector<int> queryCount{0};
+            // HOW MANY QUERY-PATH ENTRIES THE CHAIN OPEN AT EACH DEPTH HAS CONTRIBUTED.
+            //
+            // Keyed by depth, not indexed by it. It used to be a std::vector grown by one
+            // push_back per explored node, which holds only while depth rises exactly once per
+            // node -- and it does not, because a content part's children and a section reached
+            // through `run =` are both pushed at depth + 1. Following a call therefore ran the
+            // depth past the end of the vector, where `operator[]` is undefined behaviour rather
+            // than an error, and the accounting drifted: every branch of an if/else-if chain behind
+            // a `run =` came out carrying the FIRST branch's predicate as well as its own, which is
+            // unsatisfiable. Nothing reported it because the `.ini` renders from the parts and only
+            // a caller asking for a part's CONDITION ever sees this (2026-09-16).
+            std::unordered_map<int, int> queryCount;
             std::deque<QStackFrame> stack;
             std::unordered_set<std::string> visitedSections;
             const int startDepth = 0;
@@ -1152,17 +1164,20 @@ namespace AGRemapCore {
                     }
 
                     if (isLastChild || isEndIf) {
-                        int childrenQueryCount = queryCount.at(static_cast<size_t>(frame.depth));
+                        auto queryCountIt = queryCount.find(frame.depth);
+                        int childrenQueryCount = (queryCountIt == queryCount.end()) ? 0 : queryCountIt->second;
                         for (int i = 0; i < childrenQueryCount; ++i) {
                             queryPath.pop_back();
                         }
-                        queryCount[static_cast<size_t>(frame.depth)] = 0;
+                        queryCount[frame.depth] = 0;
                     } else {
                         queryPath.back() = !queryPath.back();
                     }
 
                     if (isLastChild) {
-                        queryCount.pop_back();
+                        // The chain at this depth is over -- and erasing is the same as the zero
+                        // above, since a depth nothing has counted reads as zero.
+                        queryCount.erase(frame.depth);
                     }
 
                     if (colour) {
@@ -1224,7 +1239,7 @@ namespace AGRemapCore {
                     stack.push_back(QStackFrame{cleanState, frame.sectionName, frame.section, nodeAsPart, PartVariant(nodeAsPart),
                                                  frame.depth, frame.rootSectionName, frame.rootSection});
                     queryPath.push_back(*ifPredPart->query);
-                    queryCount[static_cast<size_t>(frame.depth)] += 1;
+                    queryCount[frame.depth] += 1;
                 }
 
                 const auto& children = nodeAsPart->parts();
@@ -1233,7 +1248,7 @@ namespace AGRemapCore {
                                                  frame.depth + 1, frame.rootSectionName, frame.rootSection});
                 }
 
-                queryCount.push_back(0);
+                // (nothing to reserve -- queryCount is keyed by depth now)
             }
         }
     }

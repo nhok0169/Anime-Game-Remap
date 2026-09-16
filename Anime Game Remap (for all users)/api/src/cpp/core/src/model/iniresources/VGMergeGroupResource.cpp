@@ -139,7 +139,9 @@ namespace AGRemapCore {
             std::vector<std::pair<std::string, VGComponentSplit::Triangles>> members;
             members.reserve(object->members.size());
             for (const auto& member : object->members) {
-                IbFile ibFile(member.second);
+                // The DECLARED width -- see VGMergeGroupConfig::ibBytesPerIndex.
+                auto widthIt = config.ibBytesPerIndex.find(member.second);
+                IbFile ibFile(member.second, widthIt == config.ibBytesPerIndex.end() ? 4 : widthIt->second);
                 members.emplace_back(member.first, VGComponentSplit::readIb(ibFile));
             }
             writeBytes(ib->fixedPath, VGComponentSplit::encodeIb(merge.mergeIbs(members)));

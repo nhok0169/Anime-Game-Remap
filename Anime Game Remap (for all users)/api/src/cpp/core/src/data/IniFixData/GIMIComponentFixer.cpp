@@ -40,6 +40,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h"
@@ -61,6 +62,38 @@
 
 namespace AGRemapCore {
     namespace {
+        // Removes every group, so the fixer it is given to writes nothing at all.
+        //
+        // For a fixer that has concluded there is nothing to remap. The base fixer renders every graph
+        // the parser handed it whether or not any edit touched it, and a parser fills each object it
+        // could not find with the game's buffers from the downloads -- so "no edits" does not mean
+        // "no output", it means the parser's invented model written out under the SOURCE's hashes.
+        //
+        // And the downloads with it. The parser registers one per object it filled, at parse time --
+        // after this fixer was built, before this edit runs -- and fixResources fetches every one it
+        // finds whether or not anything references it. Every one of them belonged to the model this
+        // edit is withholding, so leaving them registered fetches files nothing uses: ten, into the
+        // mod's own folder, on the face-only .ini this exists for.
+        class DropEveryGroup: public BaseIniGraphGroupEdit<> {
+            public:
+                IniFile* iniFile = nullptr;
+
+                GraphGroups& edit(GraphGroups& graphGroups, const ModType* modType, const std::string& modName) override {
+                    (void)modType;
+                    (void)modName;
+
+                    while (graphGroups.size() > 0) {
+                        graphGroups.removeGroup(graphGroups.size() - 1);
+                    }
+
+                    if (iniFile != nullptr) {
+                        iniFile->getFileDownloads().clear();
+                    }
+
+                    return graphGroups;
+                }
+        };
+
         using Fixer = GIMIFixer<>;
         using ModObj = Fixer::ModObj;
         using ObjGroupEdit = GraphGroupEdit<>;
@@ -110,6 +143,8 @@ namespace AGRemapCore {
         }
 
 
+        const std::string FormatKey = "format";
+        const std::string R32Format = "DXGI_FORMAT_R32_UINT";
         const std::string StrideKey = "stride";
 
 
@@ -135,6 +170,10 @@ namespace AGRemapCore {
             std::string ib;
             std::string diffuse;
             std::string lightMap;
+
+            // What the ib's resource section DECLARES one index to take -- 2 for R16_UINT. Read, not
+            // inferred: a 16-bit buffer whose size divides by 12 reads as 32-bit without complaint.
+            std::size_t ibBytesPerIndex = 4;
         };
 
         struct ModFiles {
@@ -150,6 +189,7 @@ namespace AGRemapCore {
 
             std::vector<std::string> ibNames;    // the objects that have an ib, in draw order
             std::vector<std::string> ibPaths;
+            std::unordered_map<std::string, std::size_t> ibBytesPerIndex;    // by ib path
         };
 
 
@@ -203,6 +243,14 @@ namespace AGRemapCore {
                     // Nothing to build without the mod's own files: every edit below is keyed by
                     // what the component draws, which only the split knows.
                     if (!readFiles() || !splitFiles()) {
+                        // Not rendered at all -- see DropEveryGroup. Only for the no-mesh case, which
+                        // is the one this fixer decided on its own; every other early return is left
+                        // as it was.
+                        if (authorsNoMesh_) {
+                            dropEveryGroup_.iniFile = ctx_.getIniFile();
+                            this->graphGroupEdits = {&dropEveryGroup_};
+                        }
+
                         return;
                     }
 
@@ -285,6 +333,22 @@ namespace AGRemapCore {
                         return FileService::absPathOfRelPath(*file, folder);
                     };
 
+                    // How many bytes an index takes in the buffer this resource names, from the
+                    // resource section's own `format`. See IbFile::bytesPerIndexOf.
+                    auto bytesPerIndexOf = [&](const std::optional<std::string>& resource) -> std::size_t {
+                        if (!resource.has_value() || resource->empty()) {
+                            return 4;
+                        }
+
+                        auto it = templates.find(*resource);
+                        if (it == templates.end() || it->second == nullptr) {
+                            return 4;
+                        }
+
+                        std::optional<std::string> format = firstVal(*it->second, FormatKey);
+                        return IbFile::bytesPerIndexOf(format.value_or(""));
+                    };
+
                     std::unordered_map<std::string, ModObjectFiles> objects;
 
                     for (const auto& entry : templates) {
@@ -348,7 +412,8 @@ namespace AGRemapCore {
 
                             objects[obj] = ModObjectFiles{fileOf(firstVal(tpl, IniKeywords::Ib)),
                                                           fileOf(firstVal(tpl, DiffuseReg)),
-                                                          fileOf(firstVal(tpl, LightMapReg))};
+                                                          fileOf(firstVal(tpl, LightMapReg)),
+                                                          bytesPerIndexOf(firstVal(tpl, IniKeywords::Ib))};
                         }
                     }
 
@@ -359,11 +424,46 @@ namespace AGRemapCore {
                             if (!it->second.ib.empty()) {
                                 files_.ibNames.push_back(obj);
                                 files_.ibPaths.push_back(it->second.ib);
+                                files_.ibBytesPerIndex[it->second.ib] = it->second.ibBytesPerIndex;
                             }
                         }
                     }
 
-                    return !files_.position.empty() && !files_.blend.empty() && !files_.texcoord.empty() && !files_.ibPaths.empty();
+                    if (files_.position.empty() || files_.blend.empty() || files_.texcoord.empty() || files_.ibPaths.empty()) {
+                        return false;
+                    }
+
+                    // A MOD THAT AUTHORS NO MESH IS NOT SOMETHING TO SPLIT.
+                    //
+                    // The parser fills every object whose command graph is empty with the GAME's
+                    // buffers from the downloads, so an .ini that only replaces a texture -- one
+                    // mod ships a 124-byte face override beside its model -- arrives here carrying a
+                    // complete vanilla model with every path a download. Splitting that fabricates a
+                    // mesh the author never provided, and it fails before it can: the downloads land
+                    // in fixResources, after this reads the blend.
+                    //
+                    // A download is recognised the way the remover recognises one, by the RemapDL
+                    // its name must carry (see DownloadTools::DownloadPart). The vertex buffers and
+                    // EVERY index buffer have to be downloads for this to skip: a mod that ships only
+                    // index buffers over the game's own vertices is a real kind of mod -- it hides
+                    // parts of the model -- and still has something of its own to split.
+                    const auto isDownload = [](const std::string& path) {
+                        return FileService::pathToStr(FileService::strToPath(path).filename()).find(IniKeywords::RemapDL)
+                               != std::string::npos;
+                    };
+
+                    bool authored = !isDownload(files_.blend) || !isDownload(files_.position) || !isDownload(files_.texcoord);
+                    for (const std::string& ib : files_.ibPaths) {
+                        authored = authored || !isDownload(ib);
+                    }
+
+                    if (!authored) {
+                        ctx_.log("this .ini authors no mesh of its own -- every buffer it would split is a download -- so"
+                                  " there is no geometry to remap");
+                        authorsNoMesh_ = true;
+                    }
+
+                    return authored;
                 }
 
                 // ---- the split, once, to know what this component draws ----
@@ -422,7 +522,8 @@ namespace AGRemapCore {
 
                     std::vector<VGComponentSplit::Triangles> ibs;
                     for (const std::string& path : files_.ibPaths) {
-                        IbFile ib(path);
+                        auto widthIt = files_.ibBytesPerIndex.find(path);
+                        IbFile ib(path, widthIt == files_.ibBytesPerIndex.end() ? 4 : widthIt->second);
                         ibs.push_back(VGComponentSplit::readIb(ib));
                     }
 
@@ -583,11 +684,22 @@ namespace AGRemapCore {
                 // component (a negative-index component draws every vertex and keeps the mod's own
                 // Position.buf). Every drawn object's ib is handed to the split whether or not this
                 // group holds it: the vertex set is the union over all of them.
+                bool objectIbWasNarrow(const std::string& obj) const {
+                    for (const auto& entry : files_.objects) {
+                        if (entry.first == obj) {
+                            return entry.second.ibBytesPerIndex == 2;
+                        }
+                    }
+
+                    return false;
+                }
+
                 void buildBufferCollects() {
                     VGSplitGroupConfig splitConfig;
                     splitConfig.component = componentName_;
                     splitConfig.specs = specs_;
                     splitConfig.ibPaths = files_.ibPaths;
+                    splitConfig.ibBytesPerIndex = files_.ibBytesPerIndex;
                     splitConfig.texcoordLineEdit = makeTexcoordLineEdit();
 
                     const std::string srcName = ctx_.modTypeName().value_or("");
@@ -618,6 +730,13 @@ namespace AGRemapCore {
                             std::vector<std::pair<std::string, std::string>> extras;
                             if (kind.first == "texcoord" && component_.texcoordStride != 0) {
                                 extras.emplace_back(StrideKey, std::to_string(component_.texcoordStride));
+                            }
+
+                            // Same rule for an index buffer read at 16 bits: the split writes 32, so
+                            // the copied section's R16_UINT would describe a file that no longer
+                            // exists. Only where the source was 16-bit, so nothing else moves.
+                            if (kind.first == "ib" && objectIbWasNarrow(name)) {
+                                extras.emplace_back(FormatKey, R32Format);
                             }
 
                             auto replace = std::make_unique<BufReplace<>>(
@@ -929,6 +1048,8 @@ namespace AGRemapCore {
                 std::size_t keptVertices_ = 0;
                 std::size_t groupCount_ = 1;
 
+                bool authorsNoMesh_ = false;
+                DropEveryGroup dropEveryGroup_;
                 std::unique_ptr<SlotRemap> slotRemap_;
 
                 std::vector<Fixer::GroupEdit*> texGroupEdits_;

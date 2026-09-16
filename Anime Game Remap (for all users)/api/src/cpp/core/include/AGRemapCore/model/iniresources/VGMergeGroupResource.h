@@ -104,6 +104,20 @@ namespace AGRemapCore {
          * @brief The target's drawn objects
          */
         std::vector<VGMergeObject> objects;
+
+        /**
+         * @brief
+         @rst
+         How many bytes one index takes, keyed by the source ``.ib`` path -- 2 for a buffer its
+         ``.ini`` declares ``DXGI_FORMAT_R16_UINT``. A path that is not here is 4, which is every
+         mod that does not say otherwise.
+
+         The width is carried rather than inferred because it CANNOT be inferred: a 16-bit buffer
+         whose byte count divides by 12 reads as 32-bit without complaint, at half the index count
+         and with values past the end of the mesh. See :cpp:class:`IbFile`
+         @endrst
+         */
+        std::unordered_map<std::string, std::size_t> ibBytesPerIndex;
     };
 
     /**

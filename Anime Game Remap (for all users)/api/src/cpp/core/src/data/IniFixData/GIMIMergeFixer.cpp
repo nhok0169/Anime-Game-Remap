@@ -29,6 +29,7 @@
 #include "AGRemapCore/model/buffers/VGComponentMerge.h"
 #include "AGRemapCore/model/IniSectionGraph.h"
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
+#include "AGRemapCore/model/files/IbFile.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
 #include "AGRemapCore/model/iniresources/VGMergeGroupResource.h"
@@ -108,12 +109,18 @@ namespace AGRemapCore {
         }
 
 
-        BaseResEdit<>::ResEditConfig makeResEditConfig() {
-            return BaseResEdit<>::ResEditConfig{
+        const std::string FormatKey = "format";
+        const std::string R32Format = "DXGI_FORMAT_R32_UINT";
+
+        // 'extras' are forced onto the generated resource section -- see ResEditConfig::extraKVPs.
+        BaseResEdit<>::ResEditConfig makeResEditConfig(std::vector<std::pair<std::string, std::string>> extras = {}) {
+            BaseResEdit<>::ResEditConfig config{
                 IniKeywords::Filename,
                 [](const std::string& value) { return value; },
                 [](const std::string& file) { return file; }
             };
+            config.extraKVPs = std::move(extras);
+            return config;
         }
 
 
@@ -439,6 +446,18 @@ namespace AGRemapCore {
                         return FileService::absPathOfRelPath(*file, folder);
                     };
 
+                    // How many bytes an index takes in the buffer this resource names, from the
+                    // resource section's own `format` -- see IbFile::bytesPerIndexOf.
+                    auto bytesPerIndexOf = [&](const std::string& resource) -> std::size_t {
+                        auto it = templates.find(resource);
+                        if (resource.empty() || it == templates.end() || it->second == nullptr) {
+                            return 4;
+                        }
+
+                        std::optional<std::string> format = firstVal(*it->second, FormatKey);
+                        return IbFile::bytesPerIndexOf(format.value_or(""));
+                    };
+
                     for (const GIMIMergeFixerConfig::Component& component : config_.components) {
                         ComponentFiles files;
 
@@ -542,6 +561,7 @@ namespace AGRemapCore {
 
                                         std::string file = fileOf(resourceOf(rawIb.val));
                                         if (!file.empty()) {
+                                            ibBytesPerIndex_[file] = bytesPerIndexOf(resourceOf(rawIb.val));
                                             slotFiles.ibs.push_back(BranchVal{std::move(file), rawIb.query});
                                         }
                                     }
@@ -1103,6 +1123,7 @@ namespace AGRemapCore {
                     const std::optional<Z3Predicate> local = localQuery(query);
 
                     VGMergeGroupConfig config;
+                    config.ibBytesPerIndex = ibBytesPerIndex_;
 
                     for (const std::string& component : mergeOrder_) {
                         const ComponentFiles* files = componentFiles(component);
@@ -1160,6 +1181,30 @@ namespace AGRemapCore {
                     }
 
                     return config;
+                }
+
+                // Whether any branch of any member this target object draws was declared 16-bit.
+                bool objectHasNarrowIb(const std::string& obj) {
+                    auto membersIt = members_.find(obj);
+                    if (membersIt == members_.end()) {
+                        return false;
+                    }
+
+                    for (const auto& member : membersIt->second) {
+                        const SlotFiles* files = slotFiles(member.first, member.second);
+                        if (files == nullptr) {
+                            continue;
+                        }
+
+                        for (const BranchVal& branch : files->ibs) {
+                            auto it = ibBytesPerIndex_.find(branch.val);
+                            if (it != ibBytesPerIndex_.end() && it->second == 2) {
+                                return true;
+                            }
+                        }
+                    }
+
+                    return false;
                 }
 
                 // ---- 4. the buffers, as ONE merged resource group ----
@@ -1242,7 +1287,15 @@ namespace AGRemapCore {
                     // See where changedIbs is filled.
                     for (const std::string& obj : changedIbs) {
                         const GraphId resObj(0, "", obj + "MergedIb");
-                        auto replace = std::make_unique<BufReplace<>>(resObj, makeResEditConfig(), "ib",
+
+                        // The merge writes 32-bit indices whatever it read, so where any member was
+                        // 16-bit the copied section's R16_UINT describes a file that is not there.
+                        std::vector<std::pair<std::string, std::string>> extras;
+                        if (objectHasNarrowIb(obj)) {
+                            extras.emplace_back(FormatKey, R32Format);
+                        }
+
+                        auto replace = std::make_unique<BufReplace<>>(resObj, makeResEditConfig(std::move(extras)), "ib",
                                                                        std::optional<std::string>(obj));
                         srcRegs[resObj] = {{GraphId(0, "", obj), IniKeywords::Ib}};
                         resEdits[resObj] = {{MergeGroupType, replace.get()}};
@@ -1917,6 +1970,7 @@ namespace AGRemapCore {
 
                 std::vector<std::string> mergeOrder_;
                 std::unordered_map<std::string, VGRemap> remaps_;
+                std::unordered_map<std::string, std::size_t> ibBytesPerIndex_;    // declared width, by ib path
                 std::unordered_map<std::string, std::size_t> offsets_;
                 std::size_t totalVertices_ = 0;
                 std::size_t positionStride_ = 40;

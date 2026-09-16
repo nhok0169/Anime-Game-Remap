@@ -23,19 +23,29 @@ namespace AGRemapCore {
     const std::string IbFile::TriangleBufElementKey = "Triangle";
     const std::size_t IbFile::VerticesPerTriangle = 3;
 
-    std::vector<std::unique_ptr<BufElementType>> IbFile::defaultElements() {
+    std::vector<std::unique_ptr<BufElementType>> IbFile::defaultElements(std::size_t bytesPerIndex) {
+        const bool narrow = (bytesPerIndex == 2);
+
         std::vector<std::unique_ptr<BufDataType>> dataTypes;
         for (std::size_t i = 0; i < VerticesPerTriangle; ++i) {
-            dataTypes.push_back(std::make_unique<BufUnSignedInt>());
+            dataTypes.push_back(narrow ? std::make_unique<BufUnSignedInt>("UnsignedInt16", 2)
+                                       : std::make_unique<BufUnSignedInt>());
         }
 
         std::vector<std::unique_ptr<BufElementType>> result;
-        result.push_back(std::make_unique<BufElementType>(TriangleBufElementKey, "R32G32B32_UINT", std::move(dataTypes)));
+        result.push_back(std::make_unique<BufElementType>(TriangleBufElementKey,
+                                                          narrow ? "R16G16B16_UINT" : "R32G32B32_UINT",
+                                                          std::move(dataTypes)));
 
         return result;
     }
 
-    IbFile::IbFile(BinarySrc src): BufFile(std::move(src), defaultElements(), "Ib") {}
+    IbFile::IbFile(BinarySrc src, std::size_t bytesPerIndex):
+        BufFile(std::move(src), defaultElements(bytesPerIndex), "Ib") {}
+
+    std::size_t IbFile::bytesPerIndexOf(const std::string& dxgiFormat) {
+        return (dxgiFormat.find("R16") != std::string::npos) ? 2 : 4;
+    }
 
     std::size_t IbFile::getTriangleCount() const {
         std::size_t bytesPerLine = getBytesPerLine();

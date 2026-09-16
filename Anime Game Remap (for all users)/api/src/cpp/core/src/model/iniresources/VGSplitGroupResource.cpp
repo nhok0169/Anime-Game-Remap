@@ -138,7 +138,10 @@ namespace AGRemapCore {
 
         std::vector<VGComponentSplit::Triangles> triangles;
         for (const std::string& path : ibPaths) {
-            IbFile ibFile(path);
+            // The DECLARED width -- see VGSplitGroupConfig::ibBytesPerIndex for why it cannot be
+            // worked out from the file instead.
+            auto widthIt = config.ibBytesPerIndex.find(path);
+            IbFile ibFile(path, widthIt == config.ibBytesPerIndex.end() ? 4 : widthIt->second);
             triangles.push_back(VGComponentSplit::readIb(ibFile));
         }
 

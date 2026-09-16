@@ -482,6 +482,12 @@ namespace AGRemapCore {
                 content = copyPreamble + "\n\n" + content;
             }
 
+            // The fix's own sections, which belong to no copied object -- see appendedSections.
+            // Group 0 only: this is written once per .ini file, not once per generated copy.
+            if (i == 0 && !appendedSections.empty()) {
+                content = std::string(StringTools::rstrip(content)) + "\n\n" + appendedSections;
+            }
+
             fixedContents_.push_back(content);
 
             // Two separate questions, and only the first can be unanswerable: an .ini file built

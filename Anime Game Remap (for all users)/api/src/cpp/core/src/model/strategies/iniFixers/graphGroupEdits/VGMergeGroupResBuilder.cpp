@@ -13,7 +13,9 @@
 
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h"
 
+#include <algorithm>
 #include <utility>
+#include <vector>
 
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/iniresources/IniResource.h"
@@ -25,9 +27,24 @@ namespace AGRemapCore {
         name_(std::move(name)), config_(std::move(config)), iniFile_(iniFile) {}
 
 
+    VGMergeGroupResBuilder::VGMergeGroupResBuilder(std::string name, std::vector<VGMergeGroupConfig> configs,
+                                                    IniFile* iniFile):
+        name_(std::move(name)), configs_(std::move(configs)),
+        config_(configs_.empty() ? VGMergeGroupConfig{} : configs_.front()), iniFile_(iniFile) {}
+
+
     IniGroupedResource* VGMergeGroupResBuilder::build() {
+        // The config for the group being built. ResGroupCollect calls this once per satisfiable
+        // combination, in order, so group N is branch N of a $swapvar'd source -- see configs_.
+        // The last config repeats, which covers a source that does not branch at all.
+        const VGMergeGroupConfig* config = &config_;
+        if (!configs_.empty()) {
+            const std::size_t index = std::min(groups_.size(), configs_.size() - 1);
+            config = &configs_[index];
+        }
+
         auto group = std::make_shared<VGMergeGroupResource>(
-            name_, std::unordered_map<std::string, std::unique_ptr<IniResource>>{}, config_, nullptr, /*isBuilt*/ false);
+            name_, std::unordered_map<std::string, std::unique_ptr<IniResource>>{}, *config, nullptr, /*isBuilt*/ false);
         groups_.push_back(group);
         return group.get();
     }

@@ -55,6 +55,29 @@ namespace AGRemapCore {
              */
             VGMergeGroupResBuilder(std::string name, VGMergeGroupConfig config, IniFile* iniFile);
 
+            /**
+             * @brief
+             @rst
+             One config per GROUP, for a source whose resources branch :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A merged mod's master is several mods behind one ``.ini``: each ``$swapvar`` branch of a
+             ``CommandList`` names a different variant's buffers.
+             :cpp:class:`ResGroupCollect` already separates them -- it groups referenced resources by
+             satisfiability, so each branch becomes its own group and #build is called once per group
+             -- but every group used to be built from ONE config, so they all merged the first
+             branch's buffers.
+
+             Configs are taken in build order, and the last one repeats if there are more groups than
+             configs. A single-element list is exactly the old behaviour
+             @endrst
+             *
+             * @param name The resource group's name
+             * @param configs One config per group, in build order
+             * @param iniFile The ``.ini`` file the groups are stored on
+             */
+            VGMergeGroupResBuilder(std::string name, std::vector<VGMergeGroupConfig> configs, IniFile* iniFile);
+
             IniGroupedResource* build() override;
             void store(IniGroupedResource& resource) override;
             void addResource(IniGroupedResource& group, const GraphId& resType, IniResource& resource) override;
@@ -66,6 +89,7 @@ namespace AGRemapCore {
 
         private:
             std::string name_;
+            std::vector<VGMergeGroupConfig> configs_;
             VGMergeGroupConfig config_;
             IniFile* iniFile_;
             std::vector<std::shared_ptr<VGMergeGroupResource>> groups_;

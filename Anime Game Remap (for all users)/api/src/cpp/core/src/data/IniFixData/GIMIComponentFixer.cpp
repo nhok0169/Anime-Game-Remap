@@ -110,12 +110,19 @@ namespace AGRemapCore {
         }
 
 
-        BaseResEdit<>::ResEditConfig makeResEditConfig() {
-            return BaseResEdit<>::ResEditConfig{
+        const std::string StrideKey = "stride";
+
+
+        // 'extras' are forced onto the generated resource section -- see ResEditConfig::extraKVPs.
+        // Empty for every buffer but the Texcoord, whose width the target decides.
+        BaseResEdit<>::ResEditConfig makeResEditConfig(std::vector<std::pair<std::string, std::string>> extras = {}) {
+            BaseResEdit<>::ResEditConfig config{
                 IniKeywords::Filename,
                 [](const std::string& value) { return value; },
                 [](const std::string& file) { return file; }
             };
+            config.extraKVPs = std::move(extras);
+            return config;
         }
 
 
@@ -199,6 +206,7 @@ namespace AGRemapCore {
                         return;
                     }
 
+                    buildHiddenComponents();
                     buildSlotRemap();
                     buildTexEdits();
                     buildBufferCollects();
@@ -499,7 +507,7 @@ namespace AGRemapCore {
 
                             auto replace = std::make_unique<TexEditorReplace<>>(
                                 GraphId(group, "", component_.slot + "RemapTexDiffuse"),
-                                TexEditor({entry.second}, true, config_.mipmaps), makeResEditConfig(),
+                                TexEditor({entry.second}, config_.compressTextures, config_.mipmaps), makeResEditConfig(),
                                 "resourceRemapTexEdit", std::string("Diffuse"));
 
                             auto collect = std::make_unique<Collector>();
@@ -511,13 +519,19 @@ namespace AGRemapCore {
                             texCollects_.push_back(std::move(collect));
                         }
 
-                        // The lightmap edit, built from this object's diffuse.
-                        if (config_.lightMapEdit && files != nullptr) {
+                        // The lightmap edit, built from this object's diffuse. Restricted to the
+                        // objects config_.lightMapObjs names, when it names any: a band legend is
+                        // per OBJECT, and Bennett's band 0 is hair on his head and cloth on his body.
+                        const bool editThisObj = config_.lightMapObjs.empty() ||
+                            std::find(config_.lightMapObjs.begin(), config_.lightMapObjs.end(), name)
+                                != config_.lightMapObjs.end();
+
+                        if (config_.lightMapEdit && files != nullptr && editThisObj) {
                             TexEditor::Filter filter = config_.lightMapEdit(files->diffuse);
                             if (filter) {
                                 auto replace = std::make_unique<TexEditorReplace<>>(
                                     GraphId(group, "", component_.slot + "RemapTexLightMap"),
-                                    TexEditor({filter}, true, config_.mipmaps), makeResEditConfig(),
+                                    TexEditor({filter}, config_.compressTextures, config_.mipmaps), makeResEditConfig(),
                                     "resourceRemapTexEdit", std::string("LightMap"));
 
                                 auto collect = std::make_unique<Collector>();
@@ -598,8 +612,16 @@ namespace AGRemapCore {
                             element[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(element[0])));
                             const GraphId resObj(group, "", component_.slot + "Remap" + element);
 
+                            // The Texcoord is written at the TARGET's width, so the copied
+                            // section's `stride` has to say so -- it came from the MOD, and a
+                            // widened buffer declared at the mod's width is read short per vertex.
+                            std::vector<std::pair<std::string, std::string>> extras;
+                            if (kind.first == "texcoord" && component_.texcoordStride != 0) {
+                                extras.emplace_back(StrideKey, std::to_string(component_.texcoordStride));
+                            }
+
                             auto replace = std::make_unique<BufReplace<>>(
-                                resObj, makeResEditConfig(), kind.first,
+                                resObj, makeResEditConfig(std::move(extras)), kind.first,
                                 kind.first == "ib" ? std::optional<std::string>(name) : std::nullopt);
 
                             srcRegs[resObj] = {{kind.second.first, kind.second.second}};
@@ -617,15 +639,93 @@ namespace AGRemapCore {
                     }
                 }
 
+                // ---- the components nothing is remapped onto ----
+                //
+                // Written by the fixer for the LAST configured component and by no other. Two
+                // constraints meet here and only one arrangement satisfies both:
+                //
+                //   * ONE owner, or several fixers over one .ini emit the same section name twice
+                //     and GIMI warns that two sections claim one hash;
+                //   * the LAST one, because each fixer's output REPLACES the .ini rather than
+                //     adding to what the previous fixer wrote. Owned by the first, the text is
+                //     built (measured: 76 bytes on the Body fixer) and then written over by the Eye
+                //     fixer, whose own copy is empty -- the section never reaches the file and
+                //     nothing says so. This is the hazard Jean's two-target row found: fixers
+                //     overwriting each other's .ini text.
+                //
+                // So config.components must be in the same order as the character's
+                // IniFixBuilderData rows, which is the order the fixers run in.
+                //
+                // The hash is read out of the hash table under the component's own mod type name,
+                // which is where a target component's rows are filed.
+                void buildHiddenComponents() {
+                    if (config_.hiddenComponents.empty() || config_.components.empty()
+                            || config_.components.back().name != componentName_) {
+                        return;
+                    }
+
+                    IniFile* iniFile = ctx_.getIniFile();
+                    Hashes* hashes = ctx_.modTypeHashes();
+                    if (hashes == nullptr) {
+                        return;
+                    }
+
+                    // The TARGET's version, not the source's. These names are target components and
+                    // their rows are filed under the target's game version -- BennettAdventure's at
+                    // 5.7, where the mod being fixed is a 4.0 Bennett. Asking the source's bucket
+                    // finds nothing, and with errorOnNotFound false that is silent: the section is
+                    // simply never written, which looks exactly like not having asked for one.
+                    const std::optional<Version> toVersion = (iniFile == nullptr) ? std::nullopt : iniFile->toVersion;
+                    std::string text;
+
+                    for (const std::string& modTypeName : config_.hiddenComponents) {
+                        // Hashes are keyed {name, type} -- TWO non-version values, where Indices are keyed
+                        // {name, obj, objName} and take three. Passing the index shape here made
+                        // every .ini skip with "expected 2 non-version values, got 3".
+                        std::optional<std::string> hash = hashes->get({modTypeName, IbHashKey}, toVersion, false);
+                        if (!hash.has_value() || hash->empty()) {
+                            continue;
+                        }
+
+                        if (!text.empty()) {
+                            text += "\n";
+                        }
+
+                        text += "[TextureOverride" + modTypeName + "IBHide]\n"
+                                "hash = " + *hash + "\n"
+                                "handling = skip\n";
+                    }
+
+                    if (text.empty()) {
+                        return;
+                    }
+
+                    this->appendedSections =
+                        "; The skin's own draws for components nothing was remapped onto. Left drawing,\n"
+                        "; they sit on top of the mod -- her bangs over his hair, as two different whites.\n\n"
+                        + text;
+                }
+
                 VGSplitGroupConfig::LineEdit makeTexcoordLineEdit() const {
                     const bool normalise = config_.normaliseVertexColour;
-                    const bool zeroUV = config_.zeroSecondUV && files_.texcoordStride == 20;
-                    if (!normalise && !zeroUV) {
+                    const bool zeroUV = config_.zeroSecondUV;
+                    const std::size_t want = component_.texcoordStride;
+
+                    // Nothing to do only when the width is already right AND neither edit applies.
+                    if (!normalise && (!zeroUV || files_.texcoordStride < 20)
+                            && (want == 0 || want == files_.texcoordStride)) {
                         return nullptr;
                     }
 
-                    return [normalise, zeroUV](const ByteVec& line) {
+                    return [normalise, zeroUV, want](const ByteVec& line) {
                         ByteVec out = line;
+
+                        // The target's width FIRST, so the edits below see the final line. Widening
+                        // zero-pads at the end, which is where TEXCOORD1 sits; narrowing drops it.
+                        if (want != 0 && out.size() != want) {
+                            out.resize(want, static_cast<std::uint8_t>(0));
+                        }
+
                         if (normalise && out.size() >= 3) {
                             out[1] = 128;
                             out[2] = 128;

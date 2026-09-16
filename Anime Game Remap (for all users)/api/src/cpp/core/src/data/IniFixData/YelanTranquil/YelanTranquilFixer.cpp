@@ -136,6 +136,10 @@ namespace AGRemapCore {
             config.components = {std::move(body), std::move(bang), std::move(eye)};
             config.targetObjs = {"head", "body", "dress", "extra"};
 
+            // As BennettAdventure: a mod carrying none of a component merges it from its downloads.
+            // Inert for a mod that has all three, which is every YelanTranquil mod measured so far.
+            config.downloadPrefix = "YelanTranquil";
+
             // Both skins bind the face diffuse at ps-t1 on the main pass (dump draws 39-41 for
             // Yelan, 42-48 for Tranquil) -- GI 6.x swapped it with the light map. A MOD may still
             // write the pre-6.x ps-t0 though, and one of the two downloads does.

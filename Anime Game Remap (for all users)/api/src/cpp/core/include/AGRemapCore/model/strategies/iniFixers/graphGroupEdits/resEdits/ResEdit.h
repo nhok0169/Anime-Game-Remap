@@ -111,6 +111,7 @@ namespace AGRemapCore {
                  */
                 K filenameKey;
 
+
                 /**
                  * @brief Converts a ``filename =`` `KVP`_'s value into the file path it names
                  */
@@ -120,6 +121,25 @@ namespace AGRemapCore {
                  * @brief The inverse of #fileOf -- builds a ``filename =`` `KVP`_ value from a file path
                  */
                 std::function<V(const std::string&)> valOfFile;
+
+                /**
+                 * @brief
+                 @rst
+                 Extra `KVP`_\ s to force onto the generated resource section, replacing the copied
+                 value where the key is already there and adding it where it is not
+                 :raw-html:`<br />` :raw-html:`<br />`
+
+                 A generated resource section is a COPY of the one the mod wrote, so every key
+                 except the filename comes across as the MOD had it. That is right for most of them
+                 and wrong for any that describes the file being replaced: a ``stride`` copied from
+                 a 12-byte Texcoord still says 12 after the buffer has been written at the target's
+                 20, and the buffer is then read 8 bytes short per vertex.
+
+                 Applied only to a part whose filename was actually rewritten, so it reaches the
+                 generated resource section and nothing else in the graph
+                 @endrst
+                 */
+                std::vector<std::pair<K, V>> extraKVPs;
             };
 
             /**

@@ -249,6 +249,28 @@ namespace AGRemapCore {
 
             /**
              * @brief
+             * @rst
+             Raw `sections`_ appended to the mod's OWN ``.ini`` file, after everything else
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             For content that belongs to the fix as a whole rather than to any object it copies, and
+             so has no source section to be edited from. The one use so far is suppressing the draw
+             of a TARGET component nothing was remapped onto: such a component still draws the skin's
+             own geometry, on top of whatever the mod put there, and the only way to stop it is a
+             ``TextureOverride`` on its ib hash with ``handling = skip`` and no draw.
+
+             Group 0 and not the copies, deliberately -- it is written once per ``.ini`` file the fix
+             touches, where a copy is written once per generated file. A caller producing several
+             fixers over one ``.ini`` must therefore pick ONE of them to carry this, or the same
+             section name lands in the file twice
+
+             **Default**: empty
+             @endrst
+             */
+            std::string appendedSections;
+
+            /**
+             * @brief
              @rst
              Mod objects whose **original** `sections`_ are commented out of the source text this
              fix appends :raw-html:`<br />` :raw-html:`<br />`

@@ -310,6 +310,7 @@ namespace AGRemapCore {
 
             std::vector<std::pair<long long, V>> regVals = part->getValsWithInds(this->config.filenameKey);
             std::unordered_set<long long> indsToRemove;
+            bool replacedHere = false;
 
             for (const auto& regVal : regVals) {
                 long long ind = regVal.first;
@@ -326,6 +327,20 @@ namespace AGRemapCore {
                 std::string newVal = this->getFixFile(val, modName, shortGraphHash);
                 part->setValByInd(ind, this->config.valOfFile(newVal));
                 this->buildResModel(this->resType, val, newVal, modName, fileKey, ctx);
+                replacedHere = true;
+            }
+
+            // Anything the config wants to say about the FILE rather than about the mod -- see
+            // ResEditConfig::extraKVPs. Only where a filename was actually rewritten, so this
+            // reaches the generated resource section and nothing else in the graph.
+            if (replacedHere && !this->config.extraKVPs.empty()) {
+                std::vector<std::pair<K, typename Base::ContentPart::ReplaceSpec>> extras;
+                extras.reserve(this->config.extraKVPs.size());
+                for (const auto& kvp : this->config.extraKVPs) {
+                    extras.emplace_back(kvp.first, typename Base::ContentPart::ReplaceSpec(kvp.second));
+                }
+
+                part->replaceVals(extras, true);
             }
 
             if (!indsToRemove.empty()) {

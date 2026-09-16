@@ -139,6 +139,28 @@ namespace AGRemapCore {
              * @brief Whether this component's fix carries the face graph (and swaps its registers) -- exactly one component should
              */
             bool face = false;
+
+            /**
+             * @brief
+             @rst
+             The TARGET component's Texcoord stride, or ``0`` to write the mod's own
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A mod's Texcoord is whatever its author made it -- vanilla Bennett's is 12 (``COLOR`` +
+             ``TEXCOORD``) and a mod that carries a second UV set is 20 -- while the SLOT it is being
+             drawn through reads a fixed layout. Hand a slot whose shader reads ``TEXCOORD1`` at
+             offset 12 a 12-byte buffer, and every such read lands in the NEXT vertex's ``COLOR``.
+
+             So the written buffer is brought to this width: zero-padded at the END, which is exactly
+             where ``TEXCOORD1`` sits, or truncated there when the mod carries one and the target
+             does not. Both directions are real, and which one a mod needs cannot be told from the
+             character -- only from its own file.
+
+             ``0`` leaves the mod's own stride alone, which is what YelanTranquil's config relies on:
+             Yelan's Texcoord is already 20, the width all three of her slots read
+             @endrst
+             */
+            std::size_t texcoordStride = 0;
         };
 
         /**
@@ -159,6 +181,28 @@ namespace AGRemapCore {
          * @brief Every component of the target, whatever component this particular fixer is for -- the split is joint
          */
         std::vector<Component> components;
+
+        /**
+         * @brief
+         @rst
+         The TARGET components nothing is remapped onto, by their ``ModTypeId`` names -- their own
+         draw is suppressed :raw-html:`<br />` :raw-html:`<br />`
+
+         A component absent from :cpp:member:`components` is not thereby absent from the GAME: it
+         still draws the skin's own geometry, on top of whatever the mod put there. Bennett has no
+         hair bone, so his forward Bang vertex-group row is empty and a Bang fixer would draw
+         nothing -- but BennettAdventure's own fringe then sits over the hair his Body component
+         draws, which in game reads as two different whites.
+
+         Each name here becomes one ``TextureOverride`` on that component's ib hash carrying
+         ``handling = skip`` and no draw, written once into the mod's own ``.ini`` by the fixer for
+         the FIRST entry of :cpp:member:`components` -- one owner, so several fixers over one file
+         cannot write the same section twice.
+
+         Empty for a skin every component of which receives geometry, which is YelanTranquil
+         @endrst
+         */
+        std::vector<std::string> hiddenComponents;
 
         /**
          * @brief
@@ -188,6 +232,24 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         The SOURCE objects :cpp:member:`lightMapEdit` applies to, or EMPTY for every object
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         A band legend is per OBJECT, not per character, so a move that is right on one object is
+         wrong on another: band ``0`` is Bennett's silver HAIR on his head and his dark CLOTH on his
+         body. The diffuse gate does not save it on its own -- measured on his shipped 4.0 assets, a
+         bright-and-neutral gate takes 84.7% of his head lightmap, which is the whole hair, and still
+         6.0% of his BODY's: 62462 pixels that mean something else there.
+
+         Empty means every object, which is what YelanTranquil relies on -- both of her moves are
+         gated on the diffuse and her legend does not change between her objects
+         @endrst
+         */
+        std::vector<std::string> lightMapObjs;
+
+        /**
+         * @brief
+         @rst
          The flat normal map created for a normal-map slot, pre-corrected for the sRGB header the
          game reads it under (``127 -> 55``). **Default**: ``(55, 55, 255, 255)``, 1024 x 1024
          @endrst
@@ -203,6 +265,25 @@ namespace AGRemapCore {
          * @brief Whether every texture written carries its mip chain (every texture the game ships does). **Default**: ``true``
          */
         bool mipmaps = true;
+
+        /**
+         * @brief
+         @rst
+         Whether the edited diffuses and light maps are BC7-compressed :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         ON by default here, where :cpp:member:`GIMIMergeFixerConfig::compressTextures` is off, and
+         the difference is history rather than judgement: this template hardcoded compression before
+         that one existed, and YelanTranquil is confirmed in game with it on. Turning it off for a
+         character is safe; turning it off for everyone would move her output.
+
+         Turn it OFF for any config with a band table. The thing being edited IS the alpha and the
+         alpha IS a band selector, so the encoder is free to move a value that has to match exactly
+         -- measured on Bennett, BC7 moved an UNEDITED body map's band from 255 to 254, and a band
+         legend reads that as a different material
+         @endrst
+         */
+        bool compressTextures = true;
 
         /**
          * @brief

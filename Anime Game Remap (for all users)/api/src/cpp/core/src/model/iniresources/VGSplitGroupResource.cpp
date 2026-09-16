@@ -56,18 +56,37 @@ namespace AGRemapCore {
             std::size_t stride = data.size() / vertexCount;
 
             if (edit) {
+                // A LINE EDIT MAY CHANGE THE STRIDE, as long as it changes every line the same way.
+                // This used to throw on any size change, which made it impossible to hand a target
+                // component a buffer of ITS width: a 12-byte Texcoord (COLOR + TEXCOORD) onto a slot
+                // whose shader also reads TEXCOORD1 at offset 12 puts every such read into the NEXT
+                // vertex's COLOR. Widening is the writer's job because nothing downstream can resize
+                // a line -- see GIMIComponentFixerConfig::Component::texcoordStride.
                 ByteVec edited;
                 edited.reserve(data.size());
+                std::size_t outStride = 0;
+
                 for (std::size_t i = 0; i < vertexCount; ++i) {
                     ByteVec line(data.begin() + static_cast<std::ptrdiff_t>(i * stride),
                                  data.begin() + static_cast<std::ptrdiff_t>((i + 1) * stride));
                     ByteVec out = edit(line);
-                    if (out.size() != stride) {
-                        throw std::invalid_argument("a line edit of '" + path + "' changed a line's size");
+
+                    if (i == 0) {
+                        outStride = out.size();
+                        if (outStride == 0) {
+                            throw std::invalid_argument("a line edit of '" + path + "' returned an empty line");
+                        }
+                        edited.reserve(vertexCount * outStride);
+                    } else if (out.size() != outStride) {
+                        throw std::invalid_argument("a line edit of '" + path + "' changed a line's size inconsistently: "
+                                                    + std::to_string(outStride) + " bytes then " + std::to_string(out.size()));
                     }
+
                     edited.insert(edited.end(), out.begin(), out.end());
                 }
+
                 data = std::move(edited);
+                stride = outStride;
             }
 
             return VGComponentSplit::keepLines(data, stride, kept);

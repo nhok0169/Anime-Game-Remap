@@ -173,6 +173,27 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         The source character's download prefix -- the same string the parse row gives
+         ``GIMIComponentParserConfig::downloadPrefix``, eg. ``"BennettAdventure"``
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         A mod may carry none of a component at all: an NSFW body edit has no reason to touch a
+         character's eyes and ships no ``Eye`` sections whatsoever. The parser registers that
+         component's buffers as DOWNLOADS, and the merge has to read them -- so it needs the name
+         they land under, which is :cpp:func:`DownloadTools::fixedFileName` of this prefix.
+
+         Without it the component's paths stay EMPTY and go into the merge as they are, which reads
+         as ``Unable to open file:`` with nothing after the colon and loses that whole ``.ini``
+         file's buffers. Only ever used for a path the mod itself does not supply
+
+         Empty disables the fallback, which is the old behaviour
+         @endrst
+         */
+        std::string downloadPrefix;
+
+        /**
+         * @brief
+         @rst
          The register the target binds its face diffuse to, or empty to leave the face graph alone
          :raw-html:`<br />` :raw-html:`<br />`
 

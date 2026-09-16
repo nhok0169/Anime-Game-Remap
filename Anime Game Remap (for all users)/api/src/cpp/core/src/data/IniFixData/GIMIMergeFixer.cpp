@@ -287,6 +287,12 @@ namespace AGRemapCore {
             // for itself has expressed what it wants drawn, and `drawindexed = auto` on top of that
             // always draws something twice -- see where fillAdapter_ is applied.
             bool draws = false;
+
+            // Every draw the slot issues, with the condition it issues it under. A merged master
+            // draws in SOME of its branches and not others -- this mod issues none in four of its
+            // twelve -- so "does the mod draw here" is a per-branch question wherever the branches
+            // are different models.
+            std::vector<BranchVal> drawVals;
         };
 
         // ---- what one source COMPONENT's sections name ----
@@ -508,10 +514,19 @@ namespace AGRemapCore {
                                         continue;
                                     }
 
-                                    // The layout is read off the SECTION, not assumed from the
+                                    // The layout is read off the MOD, not assumed from the
                                     // config: a mod may bind its objects differently, and a slot
                                     // with a ps-t2 is the three-register normal-map layout.
-                                    const bool normalMap = !resourceOf(firstVal(tpl, "ps-t2")).empty();
+                                    //
+                                    // THROUGH `run =`, like the buffers: a merged master's
+                                    // TextureOverride is nothing but hash, match_first_index and
+                                    // run, so reading the registers off the matched section alone
+                                    // found none and every such mod was taken for the two-register
+                                    // layout. The normal map then stayed at ps-t0, where the
+                                    // target's shader reads the diffuse, and the whole model
+                                    // rendered pale and flat.
+                                    const bool normalMap =
+                                        !resourceOf(firstValThroughRun(templates, sectionName, "ps-t2", &z3Ctx_)).empty();
                                     SlotFiles slotFiles;
                                     slotFiles.found = true;
                                     for (const BranchVal& rawIb : valsThroughRun(templates, sectionName, IniKeywords::Ib,
@@ -536,7 +551,14 @@ namespace AGRemapCore {
                                             break;
                                         }
                                     }
-                                    slotFiles.draws = firstVal(tpl, IniKeywords::DrawIndexed).has_value();
+                                    // Also through `run =`: a merged master issues its draws
+                                    // inside the CommandList's branches, and read off the section
+                                    // alone it looks like a mod that draws nothing of its own --
+                                    // which adds `drawindexed = auto` on top of the draws it does
+                                    // issue, and tells the appended-draw pass it has nothing to do.
+                                    slotFiles.drawVals =
+                                        valsThroughRun(templates, sectionName, IniKeywords::DrawIndexed, &z3Ctx_);
+                                    slotFiles.draws = !slotFiles.drawVals.empty();
 
                                     // Measured first, config second -- see Slot::indexCount. Only
                                     // a target object several slots land on ever reads this.
@@ -545,8 +567,10 @@ namespace AGRemapCore {
                                     if (slotFiles.indexCount == 0) {
                                         slotFiles.indexCount = slot.indexCount;
                                     }
-                                    slotFiles.diffuseRes = resourceOf(firstVal(tpl, normalMap ? NormalShiftedDiffuseReg : DiffuseReg));
-                                    slotFiles.lightMapRes = resourceOf(firstVal(tpl, normalMap ? NormalShiftedLightMapReg : LightMapReg));
+                                    slotFiles.diffuseRes = resourceOf(firstValThroughRun(
+                                        templates, sectionName, normalMap ? NormalShiftedDiffuseReg : DiffuseReg, &z3Ctx_));
+                                    slotFiles.lightMapRes = resourceOf(firstValThroughRun(
+                                        templates, sectionName, normalMap ? NormalShiftedLightMapReg : LightMapReg, &z3Ctx_));
                                     slotFiles.diffuse = fileOf(slotFiles.diffuseRes);
                                     slotFiles.lightMap = fileOf(slotFiles.lightMapRes);
                                     normalMap_[key(component.name, slot.name)] = normalMap;
@@ -978,6 +1002,54 @@ namespace AGRemapCore {
                     return it != normalMap_.end() && it->second;
                 }
 
+                // The group's or the part's query, in OUR context.
+                //
+                // combineQueries does a full render / re-parse round trip whenever its two sides
+                // belong to different Z3Contexts, and this pair always does -- the query comes from
+                // a graph the library built, while every candidate was read through valsThroughRun
+                // into z3Ctx_. Reparented once here rather than once per candidate.
+                std::optional<Z3Predicate> localQuery(const Z3Predicate* query) {
+                    if (query == nullptr) {
+                        return std::nullopt;
+                    }
+
+                    return GroupCollector::combineQueries(*query, Z3Predicate::trueValue(z3Ctx_), &z3Ctx_);
+                }
+
+                // WHICH branch a query belongs to, or -1 for "cannot say".
+                //
+                // Exactly one candidate satisfiable with it is the whole test: a part inside
+                // `$swapvar == 3` rules out every other branch, while a section's unconditional
+                // preamble is satisfiable with all of them and is correctly declined. A source that
+                // does not branch has one candidate and every part belongs to it.
+                long long branchIndexOf(const std::vector<BranchVal>& branches,
+                                         const std::optional<Z3Predicate>& query) {
+                    if (branches.size() <= 1) {
+                        return branches.empty() ? -1 : 0;
+                    }
+
+                    if (!query.has_value()) {
+                        return -1;
+                    }
+
+                    long long found = -1;
+                    for (std::size_t i = 0; i < branches.size(); ++i) {
+                        if (!branches[i].query.has_value()) {
+                            continue;
+                        }
+
+                        if (GroupCollector::combineQueries(*query, *branches[i].query, &z3Ctx_).isSatisfiable()) {
+                            if (found >= 0) {
+                                return -1;
+                            }
+
+                            found = static_cast<long long>(i);
+                        }
+                    }
+
+                    return found;
+                }
+
                 // Which of a register's values a group takes.
                 //
                 // SATISFIABILITY, not position: a candidate belongs to this group when its own
@@ -1026,15 +1098,8 @@ namespace AGRemapCore {
                 // unmerged mod: then every component keeps its only value and this is the same
                 // single config the merge has always built.
                 VGMergeGroupConfig configForGroup(const Z3Predicate* query) {
-                    // Reparented ONCE per group. combineQueries does a full render / re-parse round
-                    // trip whenever its two sides belong to different Z3Contexts, and this pair
-                    // always does -- the group's query comes from the collect's own graph, while
-                    // every candidate was read through valsThroughRun into z3Ctx_. Paying that per
-                    // candidate, per component, per group is a cost for an answer that never differs.
-                    std::optional<Z3Predicate> local;
-                    if (query != nullptr) {
-                        local = GroupCollector::combineQueries(*query, Z3Predicate::trueValue(z3Ctx_), &z3Ctx_);
-                    }
+                    // Reparented ONCE per group -- see localQuery.
+                    const std::optional<Z3Predicate> local = localQuery(query);
 
                     VGMergeGroupConfig config;
 
@@ -1236,6 +1301,40 @@ namespace AGRemapCore {
                     indexEdits_ = ObjGroupEdit(std::move(iniEdits), false);
                 }
 
+                // A member that reads its own textures binds them ahead of its draw, and then needs
+                // its own fix call -- rebinding ps-t0/ps-t1 starts a new binding generation and
+                // NNFix re-slots whatever is bound when it runs. Shared with the unbranched path so
+                // the two cannot drift.
+                void appendMemberBindings(std::vector<std::pair<std::string, std::string>>& additions,
+                                           const std::pair<std::string, std::string>& member, const SlotFiles* repFiles) {
+                    const SlotFiles* files = slotFiles(member.first, member.second);
+                    const bool ownTextures = (files != nullptr) && (repFiles != nullptr)
+                                              && (!files->diffuseRes.empty() || !files->lightMapRes.empty())
+                                              && (files->diffuseRes != repFiles->diffuseRes
+                                                   || files->lightMapRes != repFiles->lightMapRes);
+                    if (!ownTextures) {
+                        return;
+                    }
+
+                    if (!files->diffuseRes.empty()) {
+                        additions.emplace_back(DiffuseReg, files->diffuseRes);
+                    }
+
+                    if (!files->lightMapRes.empty()) {
+                        // The name buildMemberTexEdits' own edit will produce, worked out with the
+                        // very function that produces it rather than by copying the convention.
+                        const std::string edited =
+                            config_.lightMapEdit
+                                ? IniNamingTools::getRemapTexResourceName(
+                                      files->lightMapRes, TextTools::capitalize(toModName_) + "LightMap")
+                                : files->lightMapRes;
+
+                        additions.emplace_back(LightMapReg, edited);
+                    }
+
+                    additions.emplace_back(IniKeywords::Run, IniKeywords::NNFixPath);
+                }
+
                 // ---- 6. everything else ----
                 void buildEdits() {
                     IniFile* iniFile = ctx_.getIniFile();
@@ -1377,6 +1476,31 @@ namespace AGRemapCore {
                             continue;
                         }
 
+                        // A SOURCE WHOSE BRANCHES ARE DIFFERENT MODELS HAS NO ONE SET OF NUMBERS.
+                        //
+                        // The count and offset of an appended draw come from the index buffers of
+                        // the branch being drawn, and a merged master's branches have a set each.
+                        // The block below lands once, at the section's own depth, outside every
+                        // `if` -- so it can only carry one of them, which is right for one branch
+                        // and draws a slice of the FIRST member's geometry again, under the second
+                        // member's textures, in all the others.
+                        //
+                        // So it is not written at all here, and the object draws without its later
+                        // members rather than drawing the wrong thing. The block belongs INSIDE
+                        // each branch (RegBranchAdd does exactly that); what is missing is a way to
+                        // tell which branch a part belongs to, because a graph's per-part
+                        // predicates are wrong once ResGroupCollect has spliced its calls into it
+                        // -- branch 1 of a twelve-way chain reports
+                        // `$swapvar == 0 AND $swapvar != 0 AND $swapvar == 1`, which is
+                        // unsatisfiable. The `.ini` renders correctly; only the computed conditions
+                        // are wrong, and the same mod parses correctly before any of this runs
+                        // (2026-09-16).
+                        if (repFiles->ibs.size() > 1) {
+                            ctx_.log("the '" + obj + "' object's source picks a different model per branch, so its"
+                                      " later members are left undrawn rather than drawn at one branch's offsets");
+                            continue;
+                        }
+
                         std::vector<std::string> extras;
                         long long offset = 0;
                         bool measured = true;
@@ -1428,37 +1552,7 @@ namespace AGRemapCore {
                         RegBottomAdd<>::Additions block;
 
                         for (std::size_t i = 0; i < extras.size(); ++i) {
-                            const auto& member = membersIt->second[i + 1];
-                            const SlotFiles* files = slotFiles(member.first, member.second);
-
-                            const bool ownTextures = (files != nullptr) && (repFiles != nullptr)
-                                                      && (!files->diffuseRes.empty() || !files->lightMapRes.empty())
-                                                      && (files->diffuseRes != repFiles->diffuseRes
-                                                           || files->lightMapRes != repFiles->lightMapRes);
-
-                            if (ownTextures) {
-                                if (!files->diffuseRes.empty()) {
-                                    block.emplace_back(DiffuseReg, files->diffuseRes);
-                                }
-
-                                if (!files->lightMapRes.empty()) {
-                                    // The name buildMemberTexEdits' own edit will produce, worked
-                                    // out with the very function that produces it rather than by
-                                    // copying the convention -- TexReplace::getFixResourceName is
-                                    // getRemapTexResourceName(resource, capitalize(modName) +
-                                    // capitalize(resSubType)), and the resSubType here is "LightMap".
-                                    const std::string edited =
-                                        config_.lightMapEdit
-                                            ? IniNamingTools::getRemapTexResourceName(
-                                                  files->lightMapRes, TextTools::capitalize(toModName_) + "LightMap")
-                                            : files->lightMapRes;
-
-                                    block.emplace_back(LightMapReg, edited);
-                                }
-
-                                block.emplace_back(IniKeywords::Run, IniKeywords::NNFixPath);
-                            }
-
+                            appendMemberBindings(block, membersIt->second[i + 1], repFiles);
                             block.emplace_back(IniKeywords::DrawIndexed, extras[i]);
                         }
 

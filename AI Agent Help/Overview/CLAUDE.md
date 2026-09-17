@@ -741,6 +741,115 @@ delayed expansion). **Write every script whole with the Write tool.** And when a
 applies several edits, make each file's replacements one read-modify-write that asserts every
 anchor first: the one that did not did half its files and stopped.
 
+**47. A FIXTURE THE CURRENT MATCHER CANNOT RECOGNISE TESTS NOTHING --- AND ITS GOLDEN RECORDS THAT
+AS A PASS (2026-09-17).** The Integration Tester's fixtures were hand-written for the pure-Python
+script, which matched sections by NAME. The C++ parsers match by HASH, the fixtures had none, and
+so after the migration the Raiden tests "fixed" their mods into a credit header and nothing else ---
+a golden regenerated from that would have pinned "nothing happens" forever, and the docs examples
+built on it would have shown an empty fix. The repo guides had even recorded the header-only output
+as known-good. **Before regenerating any golden, ask what the test is supposed to PRODUCE and check
+it produced it** (`Tools/Misc/Diagnostics/goldenChanges.py` lists it per test in seconds); before
+writing a fixture, give it whatever the live matcher keys on --- here, the character's real hashes
+from `HashData.cpp`. This is habit 1 and "A live feature with an empty input" meeting in test data.
+
+**48. A PYTHON CALLBACK THAT EDITS A C++ OBJECT: PROVE THE EDIT LANDS WITH A NO-OP CONTROL
+(2026-09-17).** A `GIMICharFixerConfig.TexEdit` filter written in Python ran once per texture,
+raised nothing, and wrote the UNEDITED texture --- `pybind11/functional.h` had handed it a copy (see
+Architecture's "A Python callable converted to `std::function<void(T&)>` edits a COPY"). "It was
+called" is the proof that fooled the first check. What settled it: run the edit and a no-op version
+of it over the same input and compare a number the edit must move (the body diffuse averaged 75.4
+with a no-op filter, 51.7 with the gamma filter --- and the SAME with both on the broken build).
+Any new binding that takes a Python callable for a C++ callback gets that control before it is
+believed.
+
+Two checks that LOOK like they cover this and pass on the broken build (2026-09-17): **reading the
+callable back** (`config.lightMapEdit is f`), and **calling the resource's `fix()` from Python**. The
+second is the subtle one --- a resource you got from `iniFile.getResources()` already has a Python
+wrapper, the cast finds it, and the reference survives. The copy happens only to an object created
+INSIDE C++ that Python has never seen: the `TextureFile` a `TexEditor` opens, the `CachedFileStats`
+a binding builds for the callback. So the test has to drive the real C++ caller over a real input
+--- `test_GIMIComponentBuilders.py` fixes a YelanTranquil mod of 4x4 textures (real hashes, fake
+buffers) in milliseconds, which is a pattern worth copying for any callback that reaches a file.
+
+**49. FIVE WSL / `/mnt/e` FACTS, EACH OF WHICH COST A CYCLE (2026-09-17).**
+- **A committed `.sh` is CRLF in this checkout** (no `.gitattributes`), and bash fails on the first
+  line (`set: -: invalid option`, paths ending in `$'\r'`). Run it through `tr -d "\r"` into `/tmp`,
+  as `Tools/Misc/Linux/integrationTest.sh`'s header shows.
+- **`/mnt/e` fails transiently**: one `OSError: [Errno 22] Invalid argument` opening a log file for
+  writing, one `Bus error` part way through the Unit Tester, neither reproducible. Re-run the
+  affected tests once before investigating --- but only once; a failure that repeats is real.
+- **Never `cp` a rebuilt `.so` over one a running process has loaded** --- on Linux that rewrites the
+  mapped file under it. While a suite runs, build with `ninja core` alone and copy after it ends.
+- **Standalone core tests write into the working directory**: `IniResources_test` leaves `dl/`,
+  `dl-other/` and `dl-broken-other/` wherever it was launched, and the Bash tool's cwd is the repo.
+  Launch them from a scratch folder, and check `git status` for untracked folders afterwards.
+- **A backslash escape typed into a Bash-tool command reaches the file as the control character**
+  --- a `tr -d "\r"` typed into a heredoc-written script became a literal carriage return (trap 2 of
+  the top-level CLAUDE.md, again, in a comment). `file <script>` saying "with CR, LF line
+  terminators" is the tell; write scripts with the Write tool.
+
+**50. PROVE A NEW TEST FAILS ON THE OLD BUILD WITHOUT TOUCHING THE SHARED MODULE (2026-09-17).**
+Habit 34 for a C++ change, when the package folder's `.so` is also what other agents are testing
+against. **Before running `linuxBuild.sh`, copy the package's `core.cpython-*.so` somewhere** --- the
+build overwrites it and nothing else keeps the old one. Then give the old module a Linux-side copy of
+the package (`rsync` the `FixRaidenBoss2` folder into `/tmp/oldApi/api/src/py/`, put the saved `.so`
+in it) and run `Tools/Misc/Diagnostics/unitTestIds.py <out> --api /tmp/oldApi/api [--only Class...]`
+against it and without `--api` against the new build, then `diff` the two ID lists. Its docstring
+has the commands. Three things it handles that a hand-rolled runner got wrong first:
+- **Every test module runs `sys.path.insert(1, <shared API>)` on import**, so an old copy put at
+  `sys.path[0]` is outranked and the "old build" run quietly tests the NEW module --- mine did, and
+  its new tests "passed on the broken build". The tool imports the copy before any test module. The
+  first line it prints is the path it loaded: read it.
+- It writes failure IDENTITIES, so "13 failures before, 13 after" can be told apart from a swap.
+- It never writes to the shared package, so it is safe while someone else's suite is running.
+
+**The Windows half of the same proof is cruder and takes two minutes (2026-09-17):** copy the
+installed `core.cp*-win_amd64.pyd` into the scratchpad BEFORE building, then `Copy-Item` it back
+over the installed one, run the new tests (they must fail) and the repro (it must crash), and copy
+the new one back. Verify each swap by `Get-FileHash`, not by having run the copy. It writes to the
+shared package, so it is only safe when nobody else is testing --- check `tasklist` for `python`
+first, and prefer the Linux recipe above when the checkout is busy. What it buys is worth the
+minutes: it turned "the crash stopped happening" into "413 and 435 of 500 on the old build, 0 on the
+new", which is the difference between a fix and a coincidence.
+
+The same session's other two mechanics, both general:
+- **`core.pyi` for a binding change: generate from a `/tmp` copy of the package on Linux, then
+  `Tools/Misc/Docs/pyiSplice.py <generated>`** lists the classes that differ, `--show` diffs them,
+  `--apply A B` splices only those. On a shared checkout the list is the check: a differing class
+  you did not touch is another agent's, and stays out. Also look at the TYPES in the diff --- taking
+  a callable as `py::object` turned every hint into `typing.Any`, which is why the helper binds
+  `PyOptionalCallable<Sig>` instead (Architecture).
+- **A session can be launched into a worktree it cannot do the work in, and then the edit tools
+  refuse the main checkout** ("Edits there do not land on this session's branch"). That guard is
+  there for the user, not a bug to route around: ask whether to edit the main checkout, and if yes,
+  write patch scripts in the scratchpad and run them (CRLF-aware, one expected match per anchor,
+  `--dry` first). See the worktree bullets under Operating norms for why the worktree was empty.
+
+**51. A NONDETERMINISTIC CRASH IS A DETERMINISTIC INVARIANT YOU HAVE NOT FOUND YET (2026-09-17).**
+A reused `GIMIParser` corrupted the heap, and the only symptom was `Windows fatal exception: access
+violation` in `test_GraphInherit` --- a class sharing no code with the culprit. Three moves took it
+from "unfindable in the binding" (where the previous session left it) to a named cause in under an
+hour, none of them a debugger:
+
+- **Ask WHEN, before asking WHERE.** Keeping the suspect object alive to the end of the process vs.
+  dropping it and forcing a `gc.collect()` is two lines of Python and splits "corrupted while
+  running" from "corrupted while being destroyed". Here: alive -> 2/2 clean, dropped -> 2/2 crash.
+- **Then shrink the producer, not the crash.** The repro kept its shape with the fixer gone, the
+  downloads gone and the command edits gone --- every one of those removed is a subsystem you no
+  longer have to read.
+- **Then find an invariant that the corruption breaks IN PROCESS, and count it.** The crash was
+  1-in-2 to 4-in-4 depending on the run, so four-run samples said almost nothing; the invariant
+  `IniSectionGraph({"s": section}).sections["s"] is section` failed 2583--3000 times out of 3000
+  with the bug and 0 without it, needed no rebuild, and named the mechanism (a stale `pybind11`
+  wrapper being handed back for a freed address) rather than a symptom. That probe became the
+  regression test, which is the point: a test that crashes somewhere else pins nothing.
+
+**The shape is worth recognising on sight**, because this codebase has a standing supply of it: a
+crash in an unrelated test that constructs objects INLINE (`IniSectionGraph({"s": IfTemplate(...)})`)
+usually means a non-owning wrapper outlived its C++ object and stayed in `pybind11`'s instance map.
+The probe for that whole family is one line --- build a fresh object and ask whether you get your own
+wrapper back. See Architecture's keep-alive section, and Testing's note on the `.ini` fixture classes.
+
 <br>
 
 ## Operating norms
@@ -804,7 +913,9 @@ anchor first: the one that did not did half its files and stopped.
     blocker, but read [Building](../Building/CLAUDE.md)'s "Another agent is holding the Windows
     build" first: it covers linking a snapshot of `AGRemapCore.lib` instead of running their
     `ninja`, and committing path-scoped so you never carry off their half-finished files. Confirmed
-    2026-09-13.
+    2026-09-13. **Since then the harness itself may refuse Write/Edit on the main checkout from such a
+    session** --- ask the user before working there, then apply changes through patch scripts (habit
+    50, 2026-09-17).
 - **Updating a branch that's checked out in a *different* worktree (including the user's main
   checkout — it's "just another worktree" from git's perspective) needs to happen from that
   worktree, not yours.** `git branch -f <branch> <commit>` (and similar ref-forcing commands) is
@@ -1046,10 +1157,9 @@ Practical consequences while that is true:
 
 - **Do not use "the fix produces correct output" as an acceptance criterion** for an unrelated
   change. It cannot pass yet.
-- **Do not repair the Integration Tester's golden `expected_*` trees to match current output.** The
-  goldens are correct (see `expected_fullFix_modFixed/.../ei.ini`, 61 lines with real
-  `...RemapBlend` sections); the code is not there yet. They will need regenerating *after* the
-  strategies are real, not before.
+- **The Integration Tester's golden `expected_*` trees were regenerated from the C++ fix on
+  2026-09-17** (see [Testing](../Testing/CLAUDE.md)'s "Integration Tester"); the pre-migration ones
+  are in git history before that.
 - **Do still run the CLI end to end** --- it catches a different and nastier class of bug. See
   [Testing](../Testing/CLAUDE.md)'s "A green suite does not mean the product works", written after a
   default run was found silently *emptying* every `.ini` file it touched while both suites stayed
@@ -1066,7 +1176,8 @@ mod types:
   it is separate, unstarted work).
 
 **`baseIniFileTest.py`** (the shared fixture for eight test modules — see
-[Testing](../Testing/CLAUDE.md)) was never updated off the now-deleted `IniClassifierOld`/
+[Testing](../Testing/CLAUDE.md)) **runs again as of 2026-09-17, on the C++ `IniFile` and
+`IniClassifier`; what follows is history.** It was never updated off the now-deleted `IniClassifierOld`/
 `IniClassifierBuilderOld` classes it constructed directly, so its `setUpClass` now fails
 immediately with `AttributeError: ... has no attribute 'IniClassifierOld'` — a different symptom
 of the same still-open gap above, not a new one. **Don't trust a specific red-test-count figure

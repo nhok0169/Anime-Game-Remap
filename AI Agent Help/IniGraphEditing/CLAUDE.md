@@ -1,5 +1,30 @@
 # Ini Graph Editing
 
+## `ResGroupCollect` keys call sites by LOCATION, and owns every replica it writes (2026-09-17)
+
+Two bugs in the group collect, both reachable from the Python API and both silent:
+
+- **Call sites were keyed by the resource section they reach.** `getResCallNewNames` stored one
+  query and one location per root name, so when two call sites reach the same root, all but the last
+  were dropped and never rewritten. That happens for a resource bound in two branches
+  (`if $x == 1 vb1 = Resource1 else vb1 = Resource1` left the first branch pointing at the unremapped
+  blend), and for EVERY multi-call-site `TexCreate` since it names one created section per mod.
+  `ResRootCalls` now keeps a list per root, and each (call site, file) pair is its own group entry, so
+  each call site is rewritten to the replica its own group is given.
+- **`combine` borrows sections.** `connectResGraphs` combined replica 2..n into replica 1 and added
+  replica 1 to the group; replicas 2..n were in no group and lived only as long as the graph-group
+  VIEW. The Python view dies when the edit returns, so every replica after the first rendered as `[]`
+  with no body -- freed memory, not a naming bug. The combined graph is now deep-copied before it is
+  added. The C++ view happens to outlive the render, which is why the compiled multi-component fixers
+  never showed it; don't rely on that for a new consumer of `IniSectionGraph::combine`.
+
+The tell for the second, worth remembering: **a section with an empty name and no body is a
+dangling `Section*`**, and it appears only when the replica count is two or more. The compiled
+multi-component fixers did not move: 19 real Yelan / Bennett mods (both directions, the identities and
+the twelve-branch Bennett3 master) through the CLI, 2463 files byte-identical before and after,
+including 365 replica sections. The only differences were two `*RemapDL.dds` downloads that depended on
+whether github.com resolved during that run, and re-running the old build alone reproduced one of them.
+
 ## THE PREDICATE WRITTEN BACK INTO A MOD NEEDS A DIFFERENT SIMPLIFIER (2026-09-16)
 
 An `if`/`else if` chain accumulates: branch *n* of it means `x != 0 AND x != 1 AND ... AND x == n`,

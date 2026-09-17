@@ -465,6 +465,21 @@ own `keepAlive_`, which ripples into every other binding that currently treats i
 alias for `Section*` — judged too large/risky to fold into an unrelated session; flag this if
 asked to touch `IfTemplate.parts` identity again).
 
+**The fix has a failure mode of its own: a pinned wrapper that outlives its object (2026-09-17).**
+The wrappers in `keepAlive_`/`partsKeepAlive_` are non-owning (`return_value_policy::reference`)
+whenever the section or part is owned by C++ --- an `IniFile`'s `sectionIfTemplates_`, a section's
+own `parts_`. If that owner frees the object while the GRAPH is still alive, the wrapper stays
+registered in pybind11's instance map at the freed address, and pybind11 hands it back for whatever
+object of the same type is allocated there next. The next inline
+`IniSectionGraph({"s": IfTemplate(...)})` then pins that stale wrapper instead of its own section,
+which dies under the graph --- a use-after-free that surfaced as an access violation in an
+unrelated test. It was reached through a parser reused across `IniFile.clear()`, whose
+`PyIniGraphGroups` (`handles_`/`ownedGraphs_`) kept every graph it had ever built. So **a graph over
+C++-owned sections must not outlive their owner's clear**: `PyIniGraphGroups::releaseDetached`
+drops what a view no longer groups (`PyGIMIParser::clear` calls it), and `IniFile::clear` clears its
+built strategies before its sections, not after. Any new long-lived holder of such graphs needs the
+same treatment.
+
 **Whenever you add a new class in this style** (stores raw non-owning pointers into other
 Python-constructible objects, and exposes an accessor or an `id()`-keyed correlation for them):
 think through what happens if every argument is constructed **100% inline**, with no separate
@@ -956,6 +971,50 @@ add a class that needs specialized `setup()`/`addStates()`/`addTransitions()` be
 constructor takes a `setup: bool = true`-style parameter, follow this same idiom rather than
 copying the base constructor's own `if (setup) { this->setup(); }` line as-is.
 
+## A Python callable converted to `std::function<void(T&)>` edits a COPY of `T` --- and a `def_readwrite` over an unbound element type cannot be assigned at all (2026-09-17)
+
+Two silent failures in one binding (`PyGIMICharBuilders.cpp`), both found only by running the custom
+Kirara docs example and **reading the texture it wrote**:
+
+- **`pybind11/functional.h` passes a reference argument to Python BY COPY.** Its wrapper calls the
+  Python function with `return_value_policy::automatic_reference`, which for an lvalue reference
+  means `copy`. So a `GIMICharFixerConfig.TexEdit` whose filter was a Python function ran, raised
+  nothing, and saved the UNEDITED texture --- the face diffuse came out with the source's alpha,
+  byte for byte. **Any binding that accepts a Python callable for a `std::function` taking a
+  non-const reference has this bug** -- including one whose callable RETURNS such a function, the
+  shape of `GIMIMergeFixerConfig.lightMapEdit`. To prove an edit landed, run it with the filter as a
+  no-op and compare: the body diffuse averaged 75.4 with a no-op filter and 51.7 with the gamma
+  filter, where the broken build gave the same number both times.
+
+  **The fix is one shared helper now, `py/src/tools/PyRefFunction.h` (2026-09-17).** Take the
+  argument as `PyOptionalCallable<Sig>` (a `py::typing` alias, so the stub still reads
+  `Callable[[...], R] | None` and not `Any`), convert it with `toPyRefFunction<Sig>(obj)` and read it
+  back with `fromPyRefFunction(fn)`, which returns the ORIGINAL Python object. Non-const lvalue
+  references go to Python by reference, a returned `std::function` is wrapped the same way one level
+  down, and the callable is held through a GIL-taking `shared_ptr`. Never `def_readwrite` such a
+  field: use `def_property` over the pair. Texture filters have `toTexFilter` / `PyTexFilter` in
+  `PyTexEditor.h`. The sweep that introduced it found and moved EIGHT bindings onto it:
+  `TexEdit.filter`, `lightMapEdit`, the `fixFunc` of `IniGroupedResource` (+ `RemapIniGroupedResource`,
+  `VGSplitGroupResource`, `VGMergeGroupResource`), `RemapTexAddResource`, `RemapTexEditResource`,
+  `RemapBlendResource` (its old `PyFixFunc`), and `RemapIniDownload` -- whose callback was handed a
+  COPY of its `CachedFileStats`, so every stat it recorded was silently dropped by the copy-back
+  after it. The bindings that already cast by hand (`PyRegFillMissing`, `PyGIMIParser`'s
+  `objTargetFuncs`, `PyPixelFilter`, `PyIfTemplate.find`, `PyGraphGroupRemap`) were left as they are.
+  Re-run the sweep with `grep -rn "std::function" py/src` and read every hit whose signature has a
+  `&` that is not `const`. **Two tests pin it, and both were run against the unfixed build first**:
+  `test_GIMIComponentBuilders.test_lightMapEdit_editReachesTheSavedTexture` (a 4x4-texture
+  YelanTranquil mod fixed through a Python `lightMapEdit`; the broken build saves the original pixel)
+  and `test_RemapIniResource.test_fix_withFixFunc_statsTheCallbackRecordsAreKept`. **An identity
+  test cannot stand in for them**: a Python-called `fix()` finds the wrapper Python already made and
+  passes by reference on the broken build too -- the texture edit only copies because the
+  `TextureFile` is created inside C++.
+- **`def_readwrite` over `std::vector<std::pair<std::string, std::vector<X>>>` compiles for an
+  unregistered `X`** and then rejects every assignment with a `TypeError` whose signature names the
+  raw C++ type. `objRegRemovals`/`objRegRemaps` were unassignable from Python from the day `RegRef`/
+  `RegRemapRule` replaced plain strings, which silently broke `Tools/Misc/Prototypes/overrideScript.py`.
+  Register the element type and add `py::implicitly_convertible` from the plain shape the docs
+  promise (`str` -> `RegRef`, `tuple` -> `RegRemapRule`) so old configs still read.
+
 ## A pybind11 property bound over a `std::vector`/`std::map`-typed member (via `pybind11/stl.h`) returns a fresh copy on every access, not a live view
 
 Unlike a real Python list/dict attribute, a C++ member exposed through `.def_readwrite`/
@@ -1429,12 +1488,13 @@ created the wrappers, the cast finds them, and every unit test goes through that
 `RemapBlendResource::fixFunc` sat broken this way until the Yelan prototype supplied its own
 buffers through it and the service reported *fixed 0 Blend.buf files*.
 
-The fix, in `PyRemapBlendResource.cpp`: take the callable as a `py::object`, wrap it in a named
-functor (`PyFixFunc`) that calls `py::cast(&arg, py::return_value_policy::reference)`, and let the
-getter recover the original Python object with `std::function::target<PyFixFunc>()` -- callable
-identity round-trips without re-deriving anything. Any other binding accepting a
-`std::function<...(NonCopyable&)>` (`IniGroupedResource`'s `fixFunc` is the other candidate) wants
-the same treatment before a C++ caller can rely on it.
+The fix was first made in `PyRemapBlendResource.cpp`: take the callable as a `py::object`, wrap it
+in a named functor that calls `py::cast(&arg, py::return_value_policy::reference)`, and let the
+getter recover the original Python object with `std::function::target<>()` -- callable identity
+round-trips without re-deriving anything. **That functor is the shared `PyRefFunction` now
+(2026-09-17)**, and every binding of this shape goes through `toPyRefFunction` /
+`fromPyRefFunction` -- see "A Python callable converted to `std::function<void(T&)>` edits a COPY of
+`T`" above for the list and the rule.
 
 ## A pybind11 constructor taking `vector<unique_ptr<T>>` must pick disown-and-transfer vs. clone-and-copy deliberately — don't default to `IfTemplate`'s pattern
 
@@ -2320,6 +2380,24 @@ value.cast<PyReplaceList>();`) and nothing else. Grep for the shape before trust
 that "works on Windows": `.cast<[A-Za-z]+>\(\)\.[a-z]+\(\)` in a range-for or bound to a
 reference is the pattern, and a binding that returns a reference to a member is what makes it
 lethal.
+
+### An undo never parses, so its folder walk is fed by what the removal TOOK (2026-09-17)
+
+`RemapService::_fix` reaches folders outside the start folder through each `.ini` file's parsed
+resources (`addIniNeighbourFolders` -> `IniFile::getReferencedFolders`). A fix run parses, so it
+reaches them; an **undo-only** run calls `removeFix` without parsing, holds no resource models, and
+used to reach nothing --- so a mod found only through a resource's folder was fixed by the fix run and
+**never undone**, keeping its `Remap` sections and its `RemapBlend.buf` (the Integration Tester's
+`fullFix_modFixUndoed` pinned the correct behaviour all along, from the pure-Python era). `handleIni`
+now records the parent folder of every resource the removal took into `removedResourceFolders_`
+(undo-only runs only; a fix run's own parse already covers it) and `_fix` walks those beside the
+`.ini` file's own and clears them. A new way for a walk to find folders needs the same two halves.
+
+Related, from the same session: **`FileService::absPathOfRelPath` resolves an EMPTY folder against the
+working directory now.** An `.ini` built from text alone has folder `""`, and
+`std::filesystem::absolute("")` throws on GCC as well as MSVC, so every text-only `IniFile` whose fix
+built a resource raised `filesystem error: cannot make absolute path` --- on any character, with
+downloads on or off. `RemapIniRemover`'s older `"."` substitution is kept but no longer load-bearing.
 
 ## A new KIND of resource is invisible until `_fixResource` is told about it
 

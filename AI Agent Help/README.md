@@ -61,6 +61,9 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%94%81%F0%9F%AA%9E%20The%20Involution%20Warden-1-%2316a34a?style=for-the-badge&labelColor=%231b4332)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%8C%BF%E2%9A%96%EF%B8%8F%20The%20Branch%20Arbiter-1-%23a3e635?style=plastic&labelColor=%23312e81)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%92%BD%F0%9F%94%AC%20The%20Laptop%20Build%20Profiler-1-%2338bdf8?style=flat&labelColor=%23431407)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%AA%A2%F0%9F%90%8D%20The%20Reference%20Binder-1-%23fb7185?style=flat-square&labelColor=%23042f2e)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%93%8D%F0%9F%AA%9E%20The%20Call%20Site%20Reckoner-1-%23e879f9?style=flat&labelColor=%231e1b4b)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%91%BB%F0%9F%A7%B9%20The%20Stale%20Wrapper%20Exorcist-1-%23c4b5fd?style=plastic&labelColor=%232e1065)
 
 <br>
 

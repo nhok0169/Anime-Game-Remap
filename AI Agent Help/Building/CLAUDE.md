@@ -37,6 +37,11 @@ native-code change.
   illustrative of the *shape* of the filename, not of the version you will actually see. Nothing
   is committed for any version (see Overview); the only thing that matters is that the interpreter
   running the tests matches the one the `.pyd` was built for. Ask before changing it.
+  **Flip five, measured 2026-09-17: `py -0p` lists exactly ONE interpreter, `3.9` (3.9.3), the
+  `cbuild` cache reads that same `Python39` path, and the installed module is
+  `core.cp39-win_amd64.pyd`.** All three agree, which is the thing to check — run `py -0p` and
+  `ls api/src/py/FixRaidenBoss2/core.cp*.pyd` yourself and believe those two over any number in this
+  file, this sentence included.
 - **`python` and `py -3` are not necessarily the same interpreter here.** Measured 2026-09-10:
   bare `python` on `PATH` is **3.9.13** (a WindowsApps entry ahead of it in `PATH` resolves there),
   while `py -3` is **3.9.3** at `AppData\Local\Programs\Python\Python39\python.exe` --- which is
@@ -407,6 +412,12 @@ Things to know about the junction:
   on the USB drive again.
 * On a machine where `cbuild` is a plain folder, none of this applies -- check with
   `Get-Item <repo>\cbuild | Select LinkType,Target` before reasoning about disk speed.
+* **A measured Windows rebuild on the junction, 2026-09-17, with the game open:** `ninja core` after
+  edits to two widely included core headers (`RemapService.h`, `FileService.h`), two core `.cpp`
+  files and one binding file --- 242 steps including a CMake re-run, **8 minutes**. Run it as a
+  one-shot `.bat` (vcvarsall, `ninja core`, `copy` of the `.pyd`, each followed by an `errorlevel`
+  check, `BUILD_OK` last) launched from the PowerShell tool in the background, and verify the
+  installed `.pyd`'s size and mtime against `cbuild\src\cpp\py\` before testing.
 
 ### Build speed on a small machine: what the time is, and the two changes it led to (2026-09-16)
 
@@ -992,6 +1003,20 @@ Three details on that line are load-bearing:
   shared one; the static variant gives `unresolved external __imp_utf8proc_map`.
 - Copy `libz3.dll` next to `test.exe` before running it.
 
+**Do not run `cl` from the agent scratchpad — compile in a SHORT path (2026-09-17).** The
+scratchpad directory name encodes the whole worktree path, so `cl` blows past `MAX_PATH` writing its
+intermediate files and dies with
+
+```
+fatal error C1083: Cannot open compiler generated file: '': Invalid argument
+```
+
+naming your `.cpp`, which reads like a broken source file or a bad include and is neither (the empty
+filename in the message is the tell). The same command from a short directory
+(`C:\Users\<you>\AppData\Local\Temp\agrct`) compiles and links all three suites first try. Delete
+the folder afterwards, and keep everything else — logs, scripts, saved `.pyd`s — in the
+scratchpad as usual.
+
 `vcvarsall.bat` may print a harmless `'vswhere.exe' is not recognized as an internal or external
 command` line — ignore it, the environment still sets up correctly.
 
@@ -1181,7 +1206,9 @@ PYTHONPATH=<api/src/py> py -3 -m pybind11_stubgen FixRaidenBoss2.core -o <api/sr
 ```
 **Run that from Bash, not PowerShell** — PowerShell swallows the empty-string argument and
 stubgen fails with `--root-suffix: expected one argument`. Check `pybind11.__version__` is 3.0.4
-first or the regenerated stub churns against the committed one.
+first or the regenerated stub churns against the committed one. **Generate into a scratch folder
+rather than `<api/src/py>`, then splice only your classes** with `Tools/Misc/Docs/pyiSplice.py` ---
+the module you built contains every other agent's bindings too (Overview's habit 50).
 
 
 ## Build hygiene: three ways a "successful" build leaves you testing something else

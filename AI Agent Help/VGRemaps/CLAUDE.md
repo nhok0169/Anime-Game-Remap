@@ -303,7 +303,7 @@ twenty suffixed blends beside the shared `YelanBlend.buf`.
    - `RemapBlendReplace(fixFunc = ...)` never ran from `RemapService`'s C++ resource loop: pybind
      casts the non-copyable resource by COPY when no Python wrapper exists yet
      (`return_value_policy = copy, but type is non-copyable`, logged per resource, blend count 0).
-     Fixed in `PyRemapBlendResource.cpp` (`PyFixFunc`, cast by reference); the same resource's
+     Fixed in `PyRemapBlendResource.cpp` (cast by reference -- now the shared `toPyRefFunction` in `py/src/tools/PyRefFunction.h`); the same resource's
      `fix()` from Python always worked, which is why no test saw it.
    - A Python-built `RemapBlendReplace`'s resources are type `resourceRemapBlend`, which
      `RemapStats::get` did not know: *fixed 0 Blend.buf files* over a folder full of them. Aliased

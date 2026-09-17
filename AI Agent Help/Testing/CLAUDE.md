@@ -413,7 +413,7 @@ is where the trampoline is exercised (a Python subclass overriding `write`, `log
 `self.patch(...)` helper returns `None`, not the mock --- capture calls through a `side_effect`
 instead of `assert_called_once_with`.
 
-### Current, as of 2026-09-05: **1930 tests / 0 failures / 7 errors**
+### As of 2026-09-05: **1930 tests / 0 failures / 7 errors** (superseded --- see the 2026-09-17 box below)
 
 The `RemapService` migration landed and took two whole test modules with it. **`test_Mod.py` and
 `test_RemapService.py` are deleted** --- their subjects (`model/Mod.py`, `remapService.py`) no longer
@@ -430,6 +430,91 @@ The surviving **7** are one group, all `setUpClass`, all the `baseIniFileTest.py
 above: `test_GIMIFixer`, `test_GIMIParser`, `test_GlobalRemapIniRemover`, `test_GraphGroupRemap`,
 `test_RemapIniRemover`, `test_ResGroupCollect`, `test_ResRegCollect`. Nothing else errors, so **any
 eighth error is yours**.
+
+### The `.ini` fixture classes run on the C++ `IniFile` (2026-09-17)
+
+`baseIniFileTest.py` and its seven subclasses (`test_GIMIFixer`, `test_GIMIParser`,
+`test_GlobalRemapIniRemover`, `test_GraphGroupRemap`, `test_RemapIniRemover`, `test_ResGroupCollect`,
+`test_ResRegCollect`) had not run a single test since the pure-Python `IniFile` was deleted. They do
+now, and how they were made to run is the template for any new test that needs a real `.ini` file:
+
+- **It derives from `BaseUnitTest`, not `BaseFileUnitTest`.** The latter's `os` mocks break
+  `tempfile` ("No usable temporary directory") and the C++ side never sees them anyway. Write the text
+  to a REAL file in a `tempfile.mkdtemp()` folder (`writeIniTxt`) and construct
+  `FRB.IniFile(file = ...)` on it; re-write and `clear()` between cases.
+- **Strategies go in through `CppStrategyOverrides`, not by assigning `_iniParser`/`_iniFixer`.**
+  `useStrategies(parser, fixer)` registers factories returning the test's own objects and adds a
+  cleanup that clears them --- the overrides are process-wide, so a test that forgets leaks its
+  strategy into every later class.
+- **Made-up mod types are runtime `FRB.ModType`s passed as `overrideModTypes`**, with
+  `Hashes`/`Indices` rows added through `addRepoRows`, and the fixture builds its OWN
+  `FRB.IniClassifier` (`addGIModType(ModTypeIdData, hashes, keywords)`) rather than relying on the
+  global one. Custom types borrow Raiden's builders.
+
+What the port of the expectations taught, each of which cost a debugging cycle:
+
+- **A looped test stops at its first mismatch, so every later case in it is UNVERIFIED.** Fixing the
+  first diff of `test_ResGroupCollect` exposed count failures in cases that had never executed. When
+  regenerating expectations, run with an `assertEqual` that records instead of raising, so you see
+  every case at once --- and then READ the diff, because a recorded "actual" is not a correct one.
+  One regenerated parser expectation had to be reverted: changing a filter's `includeKeyDefs` to make
+  an old expectation reachable also edited a section the filter exists to exclude.
+- **Behaviours that changed on purpose, and what the tests now say:** an `.ini` file with no mod
+  sections is not classified, and `IniFile.fix()` returns `{}` for it (pure Python wrote a bare credit
+  block); a group built by `ResGroupCollect` is in `getGroupedResources()`, not `getResources()`;
+  paths inside the `.ini` are Windows paths with `\`; `TexCreate` mints ONE name per mod; one blank
+  line, not two, precedes the credit block; `IniFileFixContext::modsToFix()` is empty by design, so a
+  fixer bound to a C++ `IniFile` fixes only an explicit `modsToFix`; download graphs come back in
+  the order the parse found them, not the order of `downloads`; and an edit's `keyFilters` ranges
+  with `includeKeyDefs = False` exclude the key lines themselves, so a `RegNewVals` on that key
+  cannot fire.
+- **A Python-built section is kept alive by the EDIT that built it.** `MyCreate(...).buildResources(...)`
+  on a temporary left the graph pointing at freed memory: the test passed alone and failed after
+  `test_ResRegCollect`, and a check repeated in one process flipped between 1 and 0 parts. Hold the
+  edit in a variable. A test that passes alone and fails in the suite with an `IndexError` on
+  `parts[0]` is this, not ordering.
+- **Reusing a Python-built parser across `IniFile.clear()` used to corrupt the heap --- FIXED
+  2026-09-17, and the looped fixture tests reuse one parser again.** Nothing failed where it
+  happened; the WHOLE run died tests later with `Windows fatal exception: access violation` inside
+  `test_GraphInherit`, a class sharing no code with the culprit. The cause: the parser's
+  `PyIniGraphGroups` view never let go of a graph, and every graph's keep-alive pins pybind11
+  wrappers for the `.ini` file's sections and parts. `IniFile.clear()` freed those objects under
+  wrappers that stayed REGISTERED at the freed addresses, so a later `IfTemplate` allocated at the
+  same address was cast back to the stale wrapper --- `IniSectionGraph({"s": IfTemplate(...)})` then
+  pinned the stale one, and the inline `IfTemplate` died under its graph. Fix:
+  `PyGIMIParser::clear` calls `PyIniGraphGroups::releaseDetached`, and `IniFile::clear` clears its
+  built strategies BEFORE freeing its sections (see Architecture's keep-alive section). Pinned by
+  `GIMIParserTest.test_clear_releasesThePreviousParsesGraphs` and the two `test_reusedAcrossClear_*`
+  tests, which FAIL on the old build (413 and 435 of 500 inline sections got a stale wrapper) rather
+  than crashing somewhere else. Two things about the hunt: the earlier "clear the strategies first"
+  experiment was NECESSARY but not sufficient, because `PyGIMIParser::clear` itself released
+  nothing; and the crash was only nondeterministic at the crash site, while an identity check
+  (`graph.sections["s"] is section`) showed the mechanism deterministically, with no rebuild and no
+  debugger. If a suite run dies with no traceback, set `PYTHONFAULTHANDLER=1` to get the Python
+  frame, then bisect CLASSES before tests --- and do not trust `PYTHONMALLOC=debug` here, which
+  reports a corrupt block at shutdown for a bare `import FixRaidenBoss2`.
+
+Four binding bugs these tests found, all fixed, each invisible to every other suite because nothing
+else builds a strategy from Python and runs it through the C++ `IniFile`: the remover's context did
+not delegate to the core `IniFileRemoveContext`; a strategy built without a `modTypeId` never fell
+back to the `.ini` file's classified type (so no section name carried the mod's prefix); a parser
+DISOWNED the caller's `FileDownload` into the `RemapIniDownload` it built (the second parse raised
+"Python instance was disowned"); and a `PyGIMIFixer` never took `GIMIFixer::snapshotPreEditSectionNames()`
+--- so `hideOrig` commented out NOTHING for any fixer built from Python, while the compiled fixers,
+whose core `getFix` takes the snapshot, were fine. `RemapBlendReplace` with no VG remap for the target
+now builds a plain `IniFixResource`, as core's `VGRemapBlendReplace` does, instead of raising.
+
+**Fixed the same day, and it was two bugs, not one:** a `ResGroupCollect` resource edit reached from
+two or more call sites of one mod lost every call site but the last (the two `oneTexCreateManyCallSites`
+tests were pinned as `expectedFailure` for it), AND any resource graph replicated for a second group
+rendered that replica as an empty `[]` section. The second was not about `TexCreate` at all --- a
+plain blend copied twice did it too --- and it only LOOKED like part of the first because the first
+was what made a created texture get replicated. See [Ini Graph Editing](../IniGraphEditing/CLAUDE.md)'s
+"`ResGroupCollect` keys call sites by LOCATION". The re-derived expectations differ from the
+pure-Python ones only in naming (one `NormalMap` per mod, a replica suffix per group) and the one
+blank line; `test_editOneResourceManyCallSites_everyCallSiteRewritten` and
+`test_editResourceInSeveralGroups_everyReplicaWritten` pin the buffer half, and all four fail against
+the previous build.
 
 ### `mock.patch` targets are `src.py.FixRaidenBoss2`, not `src.FixRaidenBoss2`
 
@@ -457,6 +542,10 @@ $o | Select-String -Pattern "^(Ran |FAILED|OK)" | ForEach-Object { $_.Line }   #
 $o | Select-String -Pattern "^FAIL: " | ForEach-Object { $_.ToString() }
 $o | Select-String -Pattern "^ERROR: " | ForEach-Object { ($_.ToString() -split "\(")[1] } | Sort-Object -Unique
 ```
+
+On Linux (or anywhere the Python runner is easier than PowerShell), `Tools/Misc/Diagnostics/
+unitTestIds.py <out.txt>` writes the IDs to a file to `diff`, and `--api <copy>` runs the same suite
+against an OLD build without touching the shared module --- Overview's habit 50 has the recipe.
 
 Also expect the **total** to drift as you add tests, so don't treat a changed "Ran N" as a red flag
 on its own --- reconcile it against what you added. And when a number you quoted earlier no longer
@@ -502,7 +591,15 @@ has been actively fixing these incrementally (a large batch — `test_FileServic
 all went from broken to fully passing in one pass), so **don't trust this list blindly; re-run and
 re-verify rather than assuming stale entries are still accurate**, in either direction.
 
-> **Current baseline — verified 2026-09-06: 2005 tests, 0 failures, 7 errors, all from ONE cause.**
+> **Current baseline --- Windows, 2026-09-17: 2288 tests, 0 failures, 0 errors, 0 expected
+> failures** (measured twice in a row, on the build carrying both of that day's binding/core fixes).
+> The seven `baseIniFileTest.py` classes described in the box below RUN now, on the C++ `IniFile`
+> and the C++ `IniClassifier` (see "The `.ini` fixture classes run on the C++ `IniFile`" further
+> down), and the two `expectedFailure`s that box used to carry are gone --- the `ResGroupCollect`
+> bug they pinned is fixed. **Anything red is yours.**
+> Linux has not been re-measured since the box below; expect its Windows-path assertions to remain.
+>
+> **Previous baseline — verified 2026-09-06: 2005 tests, 0 failures, 7 errors, all from ONE cause.**
 > **Re-verified 2026-09-08: 2038 tests, 0 failures, still exactly these same 7 errors and the
 > same 7 modules.** The count drifts as tests are added (see below); the *identities* have not.
 > Every one of the seven is a `setUpClass` error reading
@@ -516,6 +613,17 @@ re-verify rather than assuming stale entries are still accurate**, in either dir
 > silently, so "7 errors" badly understates how many individual tests are actually blocked.
 > **If you see exactly these 7, that is the baseline, not your change** — and if you want to fix it,
 > it's a two-line edit in one file, not seven investigations.
+>
+> **Linux, 2026-09-17: 2191 tests, 13 failures, 7 errors** --- the same 7 errors, and all 13 failures
+> accounted for, none from code: **10** assert Windows paths (`C:/mods/...` literals, or a `.\` a
+> test expects where Linux writes `./`) in `test_IniResource`, `test_IniFixResourceModel`,
+> `test_RemapBlendResource`, `test_RemapTexAddResource`, `test_BaseResEdit`, `test_ResEdits`;
+> `test_IfTemplateTree.test_nestedAndElifBranches_multiLevelTree` (`3 != 1`, the open question
+> below); `test_ResEdits.test_texCreate_numbersSuccessiveTexturesApart` (TexCreate's names stopped
+> being numbered on purpose, see the top-level CLAUDE.md); and
+> `test_RemapServiceCLI.test_versionAndDownloadModeConvert`, which still expects `version` to set
+> `fromVersion` --- stale since the two were split on 2026-09-13. A suite that dies part way with
+> `Bus error` on `/mnt/e` has so far been the mount, not a test: re-run before hunting.
 >
 > Note how much smaller this is than every snapshot below it: the long `ModMappedAssets.updateKeys`
 > / `VGRemaps.updateRepo` / stale-`src.FixRaidenBoss2`-import cascades those describe are **gone**.
@@ -752,9 +860,10 @@ rebuilt `.pyd` fails to import under Git Bash). Then compare every file's size b
 - **`.buf`/`.dds` files unchanged** --- read the summary line the run prints rather than guessing.
   It says exactly what it touched (`Out of the 2 *.dds files within the found mods, editted 2 ...`),
   which distinguishes "nothing was there to fix" from "the fix skipped them".
-- **Do not "fix" the goldens to match current output.** They are pre-migration and some naming has
-  legitimately moved (the Jean texture golden reads `JeanSeaBodyRemapTex...`; the C++ fixer writes
-  `...ShadeLightMap...`). Regenerating them is its own task.
+- **The goldens are current C++ output (regenerated 2026-09-17), not the pre-migration script's.** To
+  read what the old script produced, use git history: `git show 87e9e5e9:"Testing/Integration
+  Tester/IntegrationTester/Tests/APIDocsTests/expected_<test>/..."`. Regenerate them (on Linux) when a
+  change legitimately moves the output, and read what moved first.
 
 ### Real mod data: what is in the repo, and which path each fixture exercises
 
@@ -1014,33 +1123,87 @@ py -3 -m pip uninstall FixRaidenBoss2      # both -- see the shadowing warning b
   [Overview](../Overview/CLAUDE.md)'s operating norms.
 
 ## Integration Tester (`Testing/Integration Tester`)
-End-to-end tests of the actual script/API output. Run from that directory:
-```bash
-py -3 main.py [command name]
-```
-See its own `README.md` for the command list (`runSuite -s api` compares the API's output against
-the checked-in expected outputs; `produceOutputs` regenerates them).
 
-**State as of 2026-09-03: it cannot verify anything, so don't budget time on it.** It needs
-`py -3 -m pip install -r requirements.txt` first (the `directory_tree` package is not otherwise
-installed), and once that is done `runSuite -s api` errors in all 25 tests *before* exercising any
-mod: `module 'src.FixRaidenBoss2' has no attribute 'FileService'` / `'IniFile'`,
-`type object 'DownloadMode' has no attribute 'HardTexDriven'`, and
-`cannot pickle 'src.py.FixRaidenBoss2.core.IniParseBuilder' object`. That is API drift from the C++
-migration (the tester still reaches for names the Python package no longer exports), not anything a
-normal feature change causes. **Two of those three causes are fixed as of 2026-09-05** and should
-not be re-reported: the `HardTexDriven` `AttributeError` came from `remapService.py` (now deleted)
-and from `controller/CommandBuilder.py`'s `--download` help text (now reads `DownloadMode.Normal`),
-and the tester's 259 scripts have been repointed from `FRB.RemapService(...)` to
-`FRB.RemapServiceCLI(...)`. **Its golden `expected_*` trees are still pre-migration and must NOT be
-regenerated yet** — the fixers are stubbed, so `produceOutputs` today would bake the empty output in
-as expected. Regenerate only once the strategies are real -- the `Ran 25 tests ... OK` in `integrationTestResults.txt` predates it.
-Treat repairing the tester as its own task; until then, end-to-end coverage of a parser/fixer/remover
-change comes from `IniFileTest` (which still runs) plus a direct script against the rebuilt `.pyd`
-(see [Building](../Building/CLAUDE.md)'s "Verifying a build/binding change in Python directly";
-the Unit Tester's own import scheme is `sys.path.insert(1, "<.../api>")` then
-`import src.py.FixRaidenBoss2 as FRB`, which works from a script file too). The README's warning to
-run it under Linux for path-separator consistency is about *producing* outputs, not about this.
+**It works again, and its goldens are current (2026-09-17).** End-to-end tests of the API's real output:
+each test copies `Tests/<Suite>/inputs/` into `expected_<test>/` (`produceOutputs`) or `output_<test>/`
+(`runSuite`), `exec`s one script inside the copy, and compares the whole tree --- `.ini` text by
+line, `.buf` by bytes, `.dds` by decoded pixels. Two suites: `APIDocsTests` (17 tests, **each one
+backs an example in `Docs/src/apiExamples.rst`**) and `MixedModsTests` (7).
+
+```bash
+python3 -m pip install -r requirements.txt   # directory-tree is the one nothing else installs
+python3 main.py runSuite                      # or produceOutputs / printOutputs / clearOutputs
+python3 main.py runSuite ApiDocTests.test_fullFix_modFixed
+```
+
+**Produce and run it on LINUX**, as its README says and as the user asked --- CI is Linux, and a
+golden written on Windows differs in path separators inside logs. From this Windows host that means
+WSL with the Linux `.so` rebuilt first (`Tools/Misc/Linux/linuxBuild.sh`, run through an LF copy:
+the committed script is CRLF and bash chokes on `set -u\r`), then
+**`Tools/Misc/Linux/integrationTest.sh <command> [tests...]`**, which activates the venv, puts
+`~/itlib` on `PYTHONPATH`, prints the `.so` it is about to test and the result lines. A full
+`produceOutputs` or `runSuite` takes about **10-13 minutes** with the checkout on `/mnt/e`; a single
+test about 45 seconds. Install `directory-tree` with `pip install --target ~/itlib` rather than into
+the shared dev venv.
+
+What the 2026-09-17 repair changed, each of which is a trap for whoever touches it next:
+
+- **The scripts import `FixRaidenBoss2` from `api/src/py`** (`constants/Paths.py`'s `APIPath`), not
+  `src.FixRaidenBoss2`. Two import names for one extension module load it twice.
+- **Every fixture `.ini` carries a real `hash`.** The pre-migration script matched sections by NAME;
+  the C++ parsers match by HASH. The fixtures were hand-written without hashes, so after the
+  migration the Raiden ones produced only the credit header and AmberCN ignored the mod's own blend
+  and substituted a downloaded one --- a golden regenerated from that pins "nothing happens" and every
+  docs example shows an empty fix. The blend hashes added are the 4.0 `blend_vb` rows of
+  `HashData.cpp`, matching the 4.3 `ib` hashes the fixtures already had (no blend changed between
+  them). **A new fixture needs a real hash too**, or its test passes vacuously.
+- **Downloads are ON in `APIDocsTests` and OFF in `MixedModsTests`** (`downloadMode = "disabled"` on
+  every constructor there) --- the maintainer's call: the docs examples should show the downloaded
+  files. The API docs goldens therefore contain `*RemapDL*` files fetched from GitHub during the run,
+  and a network failure in CI shows up as a missing file rather than an error.
+- **`getFixStr` is gone** (dropped in the C++ `IniFile` port), so its test and docs example were
+  removed. `IniFile.fix()` returns `{path or group index: text}` --- one entry per `.ini` file written,
+  because a merge writes more than one.
+- **`RemapServiceCLI` holds the model on `.service`**: `cli.service.undoOnly = True`,
+  `cli.service.clear()`, `cli.service.stats`; `cli.log` stays on the CLI.
+- **The custom Kirara test (`overrideFix/iniPath_ImplOverride.py`) is a `GIMICharFixerConfig`** handed
+  to `makeGIMICharFixer` and registered with `CppStrategyOverrides.setFixer` --- the same route as
+  `Tools/Misc/Prototypes/overrideScript.py`. Writing it found two binding bugs, both fixed: the
+  register-removal/remap fields could not be assigned from Python at all, and a Python texture filter
+  edited a COPY of the texture (see Architecture's pybind section).
+
+**Read the goldens by what each test PRODUCED, not by `git diff`.** Every golden carries a full copy of
+the inputs, so a one-line fixture change shows up in every test's tree. Diffing each `expected_*`
+against `inputs/` (added / removed / changed files) is what surfaced the two core bugs the repair
+found: an undo-only run that never reached a `.ini` file found only through a resource's folder
+(`fullFix_modFixUndoed` kept a fix after undoing it), and any text-only `IniFile` whose fix built a
+resource throwing `filesystem error: cannot make absolute path`. **Keep the previous output folder
+before regenerating** and check the new golden would have failed against it.
+
+**The loop, when a change legitimately moves the output** --- each step has a tool, and skipping the
+review step is how a regression gets baked into a golden:
+
+1. Rebuild the Linux `.so` (`linuxBuild.sh`) --- and if a long run is importing the current one, build
+   with `ninja core` only and copy afterwards (Overview habit 49).
+2. `integrationTest.sh produceOutputs <the tests you touched>` --- a single test is ~45 seconds, so
+   iterate on those, not on the whole suite.
+3. **`Tools/Misc/Diagnostics/goldenChanges.py [filter]`** --- what each golden added / removed /
+   changed relative to its inputs. Read every entry. An EMPTY entry for a test that should fix
+   something is a vacuous test; an `.ini` still carrying `Remap` after an undo is a bug, not a golden.
+4. `integrationTest.sh produceOutputs`, then `integrationTest.sh runSuite` --- the full suite twice.
+   The second run is the determinism check: the API docs tests download from GitHub, and a golden
+   that only passes on the run that produced it is not a golden.
+5. **`Tools/Misc/Docs/genApiExamples.py --write`**, then build the docs --- see
+   [Documentation](../Documentation/CLAUDE.md)'s "`apiExamples.rst` is GENERATED".
+
+Two tester-side facts that bit on the way: the tester compares a file as **binary** only if
+`TestFileTools.BinaryFiles` names its extension (`.buf|.ib` now), and a file it does not name is read
+as UTF-8 text --- so a NEW binary output type (`.ib` arrived with downloads) errors with
+`UnicodeDecodeError` in `runSuite` while `produceOutputs` never notices. And **a new API docs test
+needs a new `SECTIONS` entry in `genApiExamples.py`**, or its example silently stays hand-written.
+
+Known cosmetic difference, not a bug: an undo writes a trailing newline the input did not have, so
+the `...filesSameAsBefore` tests are the same as before up to that newline.
 
 ## What CI actually runs
 `.github/workflows/unit-test-workflow.yml` / `integration-test-workflow.yml` do exactly

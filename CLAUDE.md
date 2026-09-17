@@ -36,7 +36,7 @@ these were found by counting the log lines rather than reading the summary. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Verifying".
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is forty-six short habits, none of
+feature or bug request here: the habits that pay" first.** It is fifty short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -304,10 +304,14 @@ Two consequences, both the opposite of what this file used to say:
   `ls "Anime Game Remap (for all users)/api/src/cpp/core/src/data/IniFixData/"` before concluding
   anything --- the list grows, and this paragraph will go stale the same way the last one did.
 
-Still true: **do not "repair" the Integration Tester's golden trees to match current output.** Those
-goldens are pre-migration and the naming has legitimately moved on (the Jean texture golden reads
-`JeanSeaBodyRemapTex...`, the C++ fixer writes `...ShadeLightMap...`). Regenerating them is its own
-task.
+**The Integration Tester works again and its goldens are CURRENT C++ output (2026-09-17)** --- regenerated
+on Linux after its fixtures gained real hashes (the C++ parsers match by hash, so the old hash-less
+fixtures pinned a fix that did nothing). The pre-migration goldens are in git history. See
+[Testing](AI%20Agent%20Help/Testing/CLAUDE.md)'s "Integration Tester" before regenerating them --- it has
+the five-step loop and its three tools (`Tools/Misc/Linux/integrationTest.sh`,
+`Tools/Misc/Diagnostics/goldenChanges.py`, `Tools/Misc/Docs/genApiExamples.py`). **`Docs/src/apiExamples.rst`
+is generated from those goldens**, so an API change that moves an example is a test change plus a
+regeneration, never a hand edit of the page (see [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md)).
 
 **But DO still run the real entry point over a real mod before calling a change done.** The suites
 cannot see the class of bug that matters most here. Confirmed the expensive way (2026-09-05): a

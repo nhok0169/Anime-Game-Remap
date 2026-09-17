@@ -1319,7 +1319,7 @@ each can save an afternoon:
 
 | where | what you get |
 | --- | --- |
-| `Testing/Integration Tester/.../APIDocsTests/expected_*/` | **a full golden `.ini` for some characters** -- Raiden, Amber, AmberCN, Jean and Keqing all have one. That is a free specification: exact section names, hashes, indices, which sections get which edit. Read it before guessing |
+| `Testing/Integration Tester/.../APIDocsTests/expected_*/` | **a full golden `.ini` for some characters** -- Raiden, Amber, AmberCN, Jean and Keqing all have one. Since 2026-09-17 these are the CURRENT C++ output, so they pin what the fix does now rather than specify it; the pre-migration script's goldens (the old specification) are at `git show 87e9e5e9:<path>` |
 | `api/src/py/FixRaidenBoss2/data/Ini{Parse,Fix}BuilderData.py.txt` | the character's pre-migration row -- reference only, but it says what the fix *used* to do |
 | `data/HashData.cpp`, `IndexData.cpp`, `VGRemapData.cpp` | whether the asset data is already in (it usually is, across several game versions) |
 | `Data/RemapDrafts/<Name>RemapDraft.xlsx` | the maintainer's hand-made vertex group remap, with the reasoning per row in its Comments column. Some early workbooks have one direction only; the CN skins, Kirara, Raiden and Arlecchino have none. Every workbook opens with a `Credits` sheet: edit one and, once you have joined The Council, credit yourself there (the drafts' `README.md` has the row format). See [Vertex Group Remaps](../VGRemaps/CLAUDE.md) |
@@ -2334,7 +2334,7 @@ Three things to know:
   copy has to ask about `body`. Ask about a "dress" the source never had and the window comes back
   empty and the edit silently does nothing.
 - **`Testing/Integration Tester/.../expected_fullFix_someFix/multiFix/select/Jean/` is a full golden
-  for this character.** Read it before guessing: it pins the indices, the `ib = null`, and the fact
+  for this character** (the pre-migration one is at commit `87e9e5e9`; the current one is C++ output). Read it before guessing: it pins the indices, the `ib = null`, and the fact
   that the `ShadeLightMap` texture edit lands on the body and *not* the dress.
 
 <br>

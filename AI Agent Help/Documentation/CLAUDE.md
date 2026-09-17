@@ -277,6 +277,33 @@ down to "the file I already had a reason to be looking at" without verifying the
 how a fix can look like it worked-by-coincidence while the actual bug (in a file you never
 reopened) survives untouched.
 
+## `apiExamples.rst` is GENERATED from the Integration Tester --- edit the test, not the page (2026-09-17)
+
+Every example on `Docs/src/apiExamples.rst` is backed by one `APIDocsTests` test of the Integration
+Tester, and `Tools/Misc/Docs/genApiExamples.py --write` rebuilds each example's **Input / Code /
+Result** dropdowns from it: the Input from `Tests/APIDocsTests/inputs/`, the Result from that test's
+`expected_*` golden (file tree and every `.ini`), and the Code from a snippet in the generator's own
+`SECTIONS` table. The prose above each example's first dropdown is left alone.
+
+What that means for a task that touches the API's behaviour or names:
+
+- **Change the test and regenerate; do not hand-edit a Result block.** It is overwritten on the next
+  run, and a hand-edited result is exactly the "docs say one thing, the API does another" drift that
+  had every example still calling `Mod.blendCorrection`, `GIMIObjMergeFixer` and
+  `RaidenBossFixService` two migrations after they were deleted.
+- **The Code snippet is the one hand-written part.** It lives in `SECTIONS`, not in the test script
+  (the scripts carry tester plumbing: `Config`, `sys.path`, `__file__` paths). When a test's script
+  changes, change its snippet to match.
+- **A section is found by its TITLE.** Rename a title and update its `SECTIONS` key, or the run fails
+  with `sections not found` --- by design, so an example cannot silently stop being regenerated.
+- **Regeneration is idempotent**: `--write` over an up-to-date page leaves it byte-identical, which
+  is the cheapest proof the page matches the goldens.
+- The generator writes `.ini` content with tabs expanded to four spaces and trees in the
+  `+--> name` style the page already used, highlighting `example.py`; in-page `:ref:`s still need the
+  `apiExamples:` prefix (next section but one).
+
+Build the docs afterwards; the regenerated page itself builds with **no** warnings.
+
 ## Doc-writing conventions specific to this codebase
 
 ### C++ side (Doxygen, in `.h`/`.tpp` comments)

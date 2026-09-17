@@ -1,0 +1,156 @@
+name: Build API
+
+# Builds the API's C++ core, its pybind11 bindings and its Cython extensions, and uploads the
+# compiled package as an artifact.
+#
+# note: this exists because a checkout ALONE cannot import the API. 'FixRaidenBoss2/__init__.py'
+#   does an unconditional 'from .core import ...' and no compiled module is tracked in git, so
+#   anything that imports the library in CI needs this to have run first.
+#
+# note: the three build folders are cached, and the prize is z3. 'APIBuilder' skips both the
+#   prebuild and the preinstall when their folders already exist, so a restored cache turns a
+#   ~45 minute z3 build into nothing at all -- no flag needed, that is just what the tool does.
+#   Each runner gets its own folders through the suffix options, per the '[folder][OS]' convention
+#   ('-bs ubuntu-latest' gives 'cbuildubuntu-latest'), so the caches never collide.
+
+on:
+  workflow_call:
+    inputs:
+      os:
+        description: The runner to build on
+        type: string
+        default: ubuntu-latest
+      python-version:
+        description: The python to build the extensions against
+        type: string
+        default: "3.12"
+      artifact-name:
+        description: What to call the uploaded package
+        type: string
+        default: ""
+    outputs:
+      artifact-name:
+        description: The name of the uploaded package artifact
+        value: ${{ jobs.build.outputs.artifact-name }}
+
+  workflow_dispatch:
+    inputs:
+      os:
+        description: The runner to build on
+        type: choice
+        options: [ubuntu-latest, windows-latest, macos-latest]
+        default: ubuntu-latest
+      python-version:
+        description: The python to build the extensions against
+        type: string
+        default: "3.12"
+
+jobs:
+  build:
+    name: Build the API (${{ inputs.os }})
+    runs-on: ${{ inputs.os }}
+
+    outputs:
+      artifact-name: ${{ steps.naming.outputs.artifact-name }}
+
+    steps:
+      # the externs (z3, utf8proc, ordered-map, xxHash, Compressonator, curl) are submodules, and
+      #   the build does not merely want them -- 'find_package(Z3 CONFIG REQUIRED)' fails without one
+      - name: Checkout, submodules and all
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
+
+      - name: Work out the names this run uses
+        id: naming
+        shell: bash
+        run: |
+          echo "suffix=${{ inputs.os }}" >> "$GITHUB_OUTPUT"
+          echo "artifact-name=${{ inputs.artifact-name != '' && inputs.artifact-name || format('api-{0}-py{1}', inputs.os, inputs.python-version) }}" >> "$GITHUB_OUTPUT"
+
+          # keyed on the z3 SUBMODULE's commit rather than on anything in this repo, so the cache is
+          #   invalidated when (and only when) the z3 pointer moves
+          echo "z3=$(git rev-parse "HEAD:Anime Game Remap (for all users)/api/extern/z3")" >> "$GITHUB_OUTPUT"
+
+      # cmake and ninja come from pip so that one line works on all three operating systems.
+      #   pybind11 is PINNED: 'core.pyi' is generated against 3.0.4 (see AI Agent Help/Overview)
+      - name: Install the build dependencies
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install cmake ninja
+          python -m pip install -r requirements.txt
+        working-directory: ./Tools/APIBuilder
+
+      # ~45 minutes of z3, and the only reason this workflow is affordable to run often
+      - name: Cache the external dependencies
+        id: cache-externs
+        uses: actions/cache@v4
+        with:
+          path: |
+            cebuild${{ steps.naming.outputs.suffix }}
+            cext${{ steps.naming.outputs.suffix }}
+          key: externs-${{ inputs.os }}-py${{ inputs.python-version }}-z3-${{ steps.naming.outputs.z3 }}
+
+      # the API's own build tree. A near-miss is still worth restoring: CMake and ninja are
+      #   incremental, so an out-of-date tree rebuilds only what actually changed
+      - name: Cache the API build tree
+        uses: actions/cache@v4
+        with:
+          path: cbuild${{ steps.naming.outputs.suffix }}
+          key: apibuild-${{ inputs.os }}-py${{ inputs.python-version }}-${{ hashFiles('Anime Game Remap (for all users)/api/CMakeLists.txt', 'Anime Game Remap (for all users)/api/src/**') }}
+          restore-keys: |
+            apibuild-${{ inputs.os }}-py${{ inputs.python-version }}-
+
+      - name: Report what the cache gave us
+        shell: bash
+        run: |
+          echo "externs cache hit: ${{ steps.cache-externs.outputs.cache-hit }}"
+          echo "(a miss here means this run pays for z3, which is the slow one)"
+
+      # -pb/-pi build and install the externs, and BOTH no-op when their folder already exists.
+      # -i keeps whatever is installed rather than walking all of api/ to delete it first.
+      - name: Build the API
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          python main.py -pb -pi -i \
+            -ps "${{ steps.naming.outputs.suffix }}" \
+            -pis "${{ steps.naming.outputs.suffix }}" \
+            -bs "${{ steps.naming.outputs.suffix }}"
+        working-directory: ./Tools/APIBuilder
+
+      # APIBuilder always configures with '-G Ninja', which on Windows needs the MSVC environment
+      #   in the SAME shell -- hence one cmd step that initialises it and builds, rather than two
+      - name: Build the API (Windows)
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: |
+          for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do set "VSPATH=%%i"
+          if not defined VSPATH (
+            echo [FAIL] could not locate a Visual Studio with the C++ toolchain
+            exit /b 1
+          )
+          call "%VSPATH%\VC\Auxiliary\Build\vcvarsall.bat" x64
+          if errorlevel 1 exit /b 1
+          cd Tools\APIBuilder
+          python main.py -pb -pi -i -ps "${{ steps.naming.outputs.suffix }}" -pis "${{ steps.naming.outputs.suffix }}" -bs "${{ steps.naming.outputs.suffix }}"
+
+      # the build reporting success is not the same as the library importing -- check the artifact
+      - name: Prove the built library imports
+        shell: bash
+        run: |
+          cd "Anime Game Remap (for all users)/api/src/py"
+          python -c "import FixRaidenBoss2 as F; print('IMPORT OK,', len(F.__all__), 'names')"
+
+      - name: Upload the built package
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.naming.outputs.artifact-name }}
+          path: Anime Game Remap (for all users)/api/src/py/FixRaidenBoss2/
+          if-no-files-found: error

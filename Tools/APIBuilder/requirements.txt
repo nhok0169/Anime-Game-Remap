@@ -1,2 +1,4 @@
 pybind11-stubgen>=2.5.5
 numpy>=1.26.4
+pybind11==3.0.4
+cython

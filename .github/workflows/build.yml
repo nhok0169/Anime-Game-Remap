@@ -1,0 +1,23 @@
+name: Build
+
+# Runs the build on each operating system.
+#
+# note: deliberately manual only. A push no longer runs the testers because they are expensive, and
+#   a full matrix build is in the same class -- so this is opt-in rather than something every commit
+#   or pull request pays for. Adding 'pull_request:' below is the whole change if that is wanted;
+#   the caches make a second run on the same OS much cheaper than the first.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    uses: './.github/workflows/build-workflow.yml'
+    with:
+      os: ${{ matrix.os }}

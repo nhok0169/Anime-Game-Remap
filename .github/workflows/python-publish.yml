@@ -8,6 +8,18 @@
 
 name: Upload FixRaidenBoss2 Package
 
+# The release flow, in order:
+#
+#   1. build the API
+#   2. run both testers against that build, at the same time
+#   3. once both pass, build the wheels and publish FixRaidenBoss2
+#   4. only if that publish succeeded, publish AnimeGameRemap
+#
+# Step 4 is last for a reason: the mirror pins 'FixRaidenBoss2==<version>', so publishing it before
+# the API would ship a package whose only dependency does not exist yet.
+#
+# A manual run does all four, exactly as a release does.
+
 on:
   release:
     types: [published]
@@ -19,30 +31,49 @@ permissions:
 jobs:
 
 # -------------------------------------------------
-# Tests (unchanged)
+# 1 + 2. Build once, then both testers in parallel
 # -------------------------------------------------
-  run-unit-tests:
-    uses: './.github/workflows/unit-test-workflow.yml'
-
-  run-integration-tests:
-    uses: './.github/workflows/integration-test-workflow.yml'
+  build-and-test:
+    name: Build and Test
+    uses: './.github/workflows/test-workflow.yml'
 
 
 # -------------------------------------------------
-# Build wheels (NOW USING CIBUILDWHEEL)
+# 3. Build wheels (cibuildwheel)
+#
+# Every operating system cibuildwheel can target from GitHub Actions. Linux and Windows each cover
+# more than one architecture from a single runner; macOS needs a runner per architecture, because a
+# macOS runner only builds for its own.
+#
+#   ubuntu-latest      manylinux + musllinux, x86_64
+#   ubuntu-24.04-arm   manylinux + musllinux, aarch64
+#   windows-latest     AMD64
+#   macos-13           x86_64   -- the last Intel runner image
+#   macos-latest       arm64    -- Apple Silicon
 # -------------------------------------------------
   build-wheels:
     name: Build wheels (${{ matrix.os }})
-    needs: [run-unit-tests, run-integration-tests]
+    needs: build-and-test
 
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os:
+          - ubuntu-latest
+          - ubuntu-24.04-arm
+          - windows-latest
+          - macos-13
+          - macos-latest
 
     steps:
-    - uses: actions/checkout@v4
+    # z3 is a submodule, and 'find_package(Z3 CONFIG REQUIRED)' does not build it -- it has to be
+    #   present and installed before a wheel can be built at all
+    - name: Checkout, submodules and all
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
 
 
     # -------------------------------------------------
@@ -51,47 +82,106 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: "3.11"
+        python-version: "3.12"
 
 
-    # -------------------------------------------------
-    # Install cibuildwheel
-    # -------------------------------------------------
     - name: Install cibuildwheel
       run: python -m pip install cibuildwheel
 
 
     # -------------------------------------------------
-    # Z3 CACHE (PER OS)
+    # The external dependencies, per OS
+    #
+    # Following the project's '[build folder][OS name]' convention, so each runner gets its own
+    # 'cebuild<os>' / 'cext<os>' and the caches never collide -- the same suffix options a local
+    # Linux build uses ('-ps lin' giving 'cebuildlin').
     # -------------------------------------------------
-    - name: Cache Z3
-      id: cache-z3
+    - name: Work out the names this run uses
+      id: naming
+      shell: bash
+      run: |
+        echo "suffix=${{ matrix.os }}" >> "$GITHUB_OUTPUT"
+        echo "z3=$(git rev-parse "HEAD:Anime Game Remap (for all users)/api/extern/z3")" >> "$GITHUB_OUTPUT"
+
+
+    # z3 is the expensive one -- measured at roughly 45 minutes from cold. APIBuilder skips both the
+    #   prebuild and the preinstall whenever their folder already exists, so restoring this cache
+    #   removes that cost outright rather than merely shortening it.
+    - name: Cache the external dependencies
       uses: actions/cache@v4
       with:
-        path: z3/install
-        key: z3-${{ runner.os }}-v1
+        path: |
+          cebuild${{ steps.naming.outputs.suffix }}
+          cext${{ steps.naming.outputs.suffix }}
+        key: externs-cibw-${{ matrix.os }}-z3-${{ steps.naming.outputs.z3 }}
 
 
     # -------------------------------------------------
-    # Build Z3 if cache miss
+    # The externs on macOS, where the wheel is built on the host itself -- so a host build is
+    # exactly what the wheel links against. '-s' skips the API build, since scikit-build-core builds
+    # the extension as part of the wheel and all that is wanted here is z3 built and installed.
     # -------------------------------------------------
-    - name: Build Z3 (cache miss only)
-      if: steps.cache-z3.outputs.cache-hit != 'true'
+    - name: Build the external dependencies (macOS)
+      if: runner.os == 'macOS'
+      shell: bash
       run: |
-        git clone https://github.com/Z3Prover/z3.git
-        cmake -S z3 -B z3/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=z3/install
-        cmake --build z3/build --parallel
-        cmake --install z3/build
+        python -m pip install cmake ninja
+        python -m pip install -r requirements.txt
+        python main.py -pb -pi -s -i \
+          -ps "${{ steps.naming.outputs.suffix }}" \
+          -pis "${{ steps.naming.outputs.suffix }}"
+      working-directory: ./Tools/APIBuilder
+
+
+    # Windows likewise builds on the host -- but APIBuilder configures with '-G Ninja', which needs
+    #   the MSVC environment in the SAME shell, so this is one cmd step that sets it up and builds
+    - name: Build the external dependencies (Windows)
+      if: runner.os == 'Windows'
+      shell: cmd
+      run: |
+        python -m pip install cmake ninja
+        for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do set "VSPATH=%%i"
+        if not defined VSPATH (
+          echo [FAIL] could not locate a Visual Studio with the C++ toolchain
+          exit /b 1
+        )
+        call "%VSPATH%\VC\Auxiliary\Build\vcvarsall.bat" x64
+        if errorlevel 1 exit /b 1
+        cd Tools\APIBuilder
+        python -m pip install -r requirements.txt
+        python main.py -pb -pi -s -i -ps "${{ steps.naming.outputs.suffix }}" -pis "${{ steps.naming.outputs.suffix }}"
 
 
     # -------------------------------------------------
     # Run cibuildwheel
+    #
+    # Linux is the one platform whose externs the steps above CANNOT build: its wheels are built
+    # inside a manylinux container, so a z3 from the Ubuntu host would be against the wrong libc.
+    # CIBW_BEFORE_ALL_LINUX runs in that container, once per platform, and the project is
+    # bind-mounted at /project -- so what it writes into cext<os> still lands in the workspace and
+    # still gets cached. 'python3', because manylinux does not put 'python' on PATH.
     # -------------------------------------------------
     - name: Build wheels
       env:
-        # CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-*"
-        CIBW_SKIP: "pp*"
-        Z3_DIR: ${{ github.workspace }}/z3/install
+        # ONE python for now, to keep the matrix quick while this is being proven. Delete this line
+        #   (or widen it) to ship for every python cibuildwheel supports; 'skip = "pp*"' in
+        #   api/pyproject.toml already keeps PyPy out either way.
+        CIBW_BUILD: "cp312-*"
+
+        CIBW_BEFORE_ALL_LINUX: >
+          python3 -m pip install cmake ninja &&
+          cd /project/Tools/APIBuilder &&
+          python3 -m pip install -r requirements.txt &&
+          python3 main.py -pb -pi -s -i
+          -ps "${{ steps.naming.outputs.suffix }}"
+          -pis "${{ steps.naming.outputs.suffix }}"
+
+        # where the build then finds z3. CMake reads CMAKE_PREFIX_PATH out of the environment, so
+        #   this is the whole of what scikit-build-core needs to be told. Forward slashes on Windows
+        #   too -- CMake wants them, and a backslash would escape in a cache entry.
+        CIBW_ENVIRONMENT_LINUX: CMAKE_PREFIX_PATH=/project/cext${{ steps.naming.outputs.suffix }}/z3
+        CIBW_ENVIRONMENT_MACOS: CMAKE_PREFIX_PATH=${{ github.workspace }}/cext${{ steps.naming.outputs.suffix }}/z3
+        CIBW_ENVIRONMENT_WINDOWS: CMAKE_PREFIX_PATH=${{ github.workspace }}/cext${{ steps.naming.outputs.suffix }}/z3
       run: python -m cibuildwheel --output-dir wheelhouse
 
 
@@ -103,10 +193,11 @@ jobs:
       with:
         name: wheels-${{ matrix.os }}
         path: wheelhouse/*
+        if-no-files-found: error
 
 
 # -------------------------------------------------
-# Publish to PyPI (now consumes wheels)
+# 3. Publish FixRaidenBoss2 to PyPI
 # -------------------------------------------------
   publish-to-pypi:
     name: Publish FixRaidenBoss2 Package to PyPI
@@ -130,3 +221,21 @@ jobs:
 
     - name: Publish to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
+
+
+# -------------------------------------------------
+# 4. ...and only then the mirror, which pins the version just published
+#
+# note: the permissions are declared HERE rather than only inside the called workflow. A called
+#   workflow cannot hold more than its caller grants, and this file's workflow-level permissions are
+#   'contents: read' -- so without this the mirror's trusted publishing would be denied its token.
+# -------------------------------------------------
+  publish-mirror:
+    name: Publish AnimeGameRemap Package to PyPI
+    needs: publish-to-pypi
+
+    permissions:
+      contents: read
+      id-token: write
+
+    uses: './.github/workflows/mirror-publish-workflow.yml'

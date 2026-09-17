@@ -8,62 +8,45 @@
 
 name: Upload AG Remap Mirror Package
 
-on: 
-  workflow_dispatch
+# Publishing the mirror on its own, which does the same build-and-test first that a release does:
+#
+#   1. build the API
+#   2. run both testers against that build, at the same time
+#   3. once both pass, build the mirror's distribution and publish AnimeGameRemap
+#
+# note: a RELEASE does not come through here. It runs python-publish.yml, which publishes
+#   FixRaidenBoss2 first and only then calls the same reusable mirror publish -- because the mirror
+#   pins 'FixRaidenBoss2==<version>' and would otherwise ship ahead of its own dependency. Use this
+#   workflow when the API at that pinned version is already on PyPI.
+
+on:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  run-unit-tests:
-    uses: './.github/workflows/unit-test-workflow.yml'
+# -------------------------------------------------
+# 1 + 2. Build once, then both testers in parallel
+# -------------------------------------------------
+  build-and-test:
+    name: Build and Test
+    uses: './.github/workflows/test-workflow.yml'
 
-  run-integration-tests:
-    uses: './.github/workflows/integration-test-workflow.yml'
 
-  build:
-    name: Build distribution
-    runs-on: ubuntu-latest
-    needs: [run-unit-tests, run-integration-tests]
+# -------------------------------------------------
+# 3. Build the mirror's distribution and publish it
+#
+# note: the permissions are declared HERE rather than only inside the called workflow. A called
+#   workflow cannot hold more than its caller grants, and this file's workflow-level permissions are
+#   'contents: read' -- so without this the mirror's trusted publishing would be denied its token.
+# -------------------------------------------------
+  publish-mirror:
+    name: Publish AnimeGameRemap Package to PyPI
+    needs: build-and-test
 
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.x"
-    - name: Install pypa/build
-      run: >-
-        python3 -m
-        pip install
-        build
-        --user
-    - name: Build a binary wheel and a source tarball
-      run: python3 -m build
-      working-directory: './Anime Game Remap (for all users)/apiMirror'
-    - name: Store the distribution packages
-      uses: actions/upload-artifact@v4
-      with:
-        name: python-package-distributions
-        path: 'Anime Game Remap (for all users)/apiMirror/dist/'
-
-  publish-to-pypi:
-    name: >-
-      Publish AnimeGameRemap Package to PyPI
-    needs:
-    - build
-    runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      url: https://pypi.org/p/AnimeGameRemap  # Replace <package-name> with your PyPI project name
     permissions:
-      id-token: write  # IMPORTANT: mandatory for trusted publishing
+      contents: read
+      id-token: write
 
-    steps:
-    - name: Download all the dists
-      uses: actions/download-artifact@v4
-      with:
-        name: python-package-distributions
-        path: dist/
-    - name: Publish distribution to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
+    uses: './.github/workflows/mirror-publish-workflow.yml'

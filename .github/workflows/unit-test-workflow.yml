@@ -2,6 +2,20 @@ name: Unit Tests
 
 on:
   workflow_call:
+    inputs:
+      artifact:
+        description: >
+          The built API package to restore before testing. The testers import FixRaidenBoss2, whose
+          __init__ pulls in the compiled core, and nothing compiled is tracked -- so without this the
+          run fails at import.
+        type: string
+        default: ""
+      python-version:
+        description: >
+          MUST be the python the artifact was built for. A compiled extension is built for one
+          python, so a mismatch here fails at import and looks like a broken build.
+        type: string
+        default: "3.12"
 
 jobs:
   run-tests:
@@ -10,10 +24,27 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: ">=3.6"
+        python-version: ${{ inputs.python-version }}
+
+    # restored on top of the checkout, so the compiled modules land beside the tracked .py files
+    #   exactly where a local build puts them
+    - name: Restore the built API
+      if: inputs.artifact != ''
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.artifact }}
+        path: Anime Game Remap (for all users)/api/src/py/FixRaidenBoss2
+
+    - name: Prove the API imports before testing anything
+      if: inputs.artifact != ''
+      shell: bash
+      run: |
+        cd "Anime Game Remap (for all users)/api/src/py"
+        python -c "import FixRaidenBoss2 as F; print('IMPORT OK,', len(F.__all__), 'names')"
     - name: Install Tester Dependencies
       run: python3 -m pip install -r requirements.txt
       working-directory: './Testing/Unit Tester'

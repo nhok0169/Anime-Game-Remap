@@ -16,11 +16,22 @@
 #include <memory>
 #include <vector>
 
+#include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 #include "AGRemapCore/model/strategies/texEditors/BaseTexEditor.h"
+#include "../../../tools/PyRefFunction.h"
 
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
+
+
+AGRC::TexEditor::Filter toTexFilter(const py::object &fn) {
+    if (!PyCallable_Check(fn.ptr())) {
+        throw py::type_error("A texture edit's filter must be callable, taking the TextureFile to edit");
+    }
+
+    return toPyRefFunction<void(AGRC::TextureFile&)>(fn);
+}
 
 
 void initCppTexEditor(pybind11::module_ &m) {

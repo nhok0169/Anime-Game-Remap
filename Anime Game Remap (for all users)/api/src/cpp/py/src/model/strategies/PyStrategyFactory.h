@@ -78,6 +78,39 @@ inline py::object resolveStrategyModType(const py::object &ini, const std::optio
 /**
  * @brief
  @rst
+ The mod type id a strategy's CORE context should answer for: its own id when it was built for one,
+ otherwise the id of the ``.ini`` file's ``availableType`` -- the same fallback
+ :cpp:func:`resolveStrategyModType` gives the `Python`_ path :raw-html:`<br />` :raw-html:`<br />`
+
+ Without it, a parser or fixer constructed by hand over the core ``IniFile`` (no ``modTypeId``)
+ resolved to no mod type at all through its core context: every generated name lost its mod type
+ prefix and every hash/index lookup had nothing to look in, while the `Python`_ path -- and the
+ ``modTypeId`` property's own doc -- promised the ``availableType`` fallback. Resolved per call
+ rather than once, because the ``.ini`` file may be classified after the strategy is built
+ @endrst
+ *
+ * @param ini The ``.ini`` file, or ``None``
+ * @param modTypeId The id the strategy was built for, if any
+ *
+ * @return The id to hand the core context, or ``std::nullopt`` when there is none to give
+ */
+inline std::optional<int> effectiveStrategyModTypeId(const py::object &ini, const std::optional<int> &modTypeId) {
+    if (modTypeId.has_value() || ini.is_none()) {
+        return modTypeId;
+    }
+
+    py::object type = ini.attr("availableType");
+    if (type.is_none()) {
+        return std::nullopt;
+    }
+
+    return type.attr("modTypeId").cast<int>();
+}
+
+
+/**
+ * @brief
+ @rst
  Owns one `Python`_ object for exactly as long as a ``shared_ptr`` to its C++ half is alive
  :raw-html:`<br />` :raw-html:`<br />`
 

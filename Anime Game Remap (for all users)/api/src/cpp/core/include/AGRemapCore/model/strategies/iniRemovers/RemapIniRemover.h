@@ -598,9 +598,8 @@ namespace AGRemapCore {
                 Paths are resolved against :cpp:func:`IniRemoveContext::iniFolder`, the way
                 :cpp:class:`IniResource`'s constructor always does. When that is empty -- a ``.ini``
                 file with no path, or one whose path is a bare relative file name -- the working
-                directory is used instead. Note this is *not* what handing
-                :cpp:func:`FileService::absPathOfRelPath` an empty folder does: that throws on
-                `MSVC`_, so #remove substitutes ``"."`` deliberately
+                directory is used instead, which is also what
+                :cpp:func:`FileService::absPathOfRelPath` does with an empty folder (it used to throw)
              @endrst
              */
             const std::unordered_map<std::string, std::vector<std::unique_ptr<IniResource>>>& getRemovedResources() const;

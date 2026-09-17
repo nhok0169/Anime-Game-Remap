@@ -20,6 +20,8 @@
 #include <pybind11/functional.h>
 #include <pybind11/stl.h>
 
+#include "../../tools/PyRefFunction.h"
+
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
@@ -40,9 +42,10 @@ Base class for a group of resources to fix in a .ini file that's used by the ove
         // Same shared-mutable-default-argument fix as CppIniGroupedResource's own constructor
         // binding -- see that file's own comment on why a lambda is required here instead of a
         // plain 'py::arg("resources") = py::dict()' default.
-        .def(py::init([](std::string name, py::object resources, std::function<bool(AGRC::IniGroupedResource&)> fixFunc, bool isBuilt) {
+        .def(py::init([](std::string name, py::object resources, const PyOptionalCallable<bool(PyIniGroupedResource&)> &fixFunc, bool isBuilt) {
             py::dict resourcesDict = resources.is_none() ? py::dict() : resources.cast<py::dict>();
-            return std::make_unique<PyRemapIniGroupedResource>(std::move(name), std::move(resourcesDict), std::move(fixFunc), isBuilt);
+            return std::make_unique<PyRemapIniGroupedResource>(std::move(name), std::move(resourcesDict),
+                                                               toPyRefFunction<bool(AGRC::IniGroupedResource&)>(fixFunc), isBuilt);
         }), py::arg("name"), py::arg("resources") = py::none(), py::arg("fixFunc") = py::none(), py::arg("isBuilt") = true, py::doc(R"doc(
 Constructs a new group of resources to fix -- see :class:`IniGroupedResource`'s constructor for the parameters
         )doc"));

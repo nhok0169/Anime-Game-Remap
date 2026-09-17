@@ -18,6 +18,7 @@
 #include <pybind11/functional.h>
 #include <pybind11/stl.h>
 
+#include "../../tools/PyRefFunction.h"
 #include "../buffers/PyVGComponentSplit.h"
 
 namespace py = pybind11;
@@ -112,7 +113,7 @@ isBuilt: :class:`bool`
     )doc")
         .def(py::init([](std::string name, const py::object &resources, std::string component, const py::object &specs,
                          const py::object &ibPaths, const py::object &texcoordLineEdit, const py::object &positionLineEdit,
-                         std::function<bool(AGRC::IniGroupedResource&)> fixFunc, bool isBuilt) {
+                         const PyOptionalCallable<bool(PyIniGroupedResource&)> &fixFunc, bool isBuilt) {
             py::dict resourcesDict = resources.is_none() ? py::dict() : resources.cast<py::dict>();
 
             AGRC::VGSplitGroupConfig config;
@@ -127,7 +128,7 @@ isBuilt: :class:`bool`
             config.positionLineEdit = lineEditFromPy(positionLineEdit);
 
             auto result = std::make_unique<PyVGSplitGroupResource>(std::move(name), std::move(resourcesDict), std::move(config),
-                                                                    std::move(fixFunc), isBuilt);
+                                                                    toPyRefFunction<bool(AGRC::IniGroupedResource&)>(fixFunc), isBuilt);
             result->texcoordLineEditObj = texcoordLineEdit;
             result->positionLineEditObj = positionLineEdit;
             return result;

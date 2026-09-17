@@ -760,12 +760,10 @@ namespace AGRemapCore {
         // text: a 'filename' KVP can sit inside an if/else branch, which only the IfTemplate knows
         // how to walk.
         //
-        // The "." fallback is load-bearing, not cosmetic. An .ini file with no folder --  a
-        // file-less one, or one whose path is a bare relative file name -- would otherwise hand an
-        // empty folder to FileService::absPathOfRelPath, which passes it to
-        // std::filesystem::absolute, which THROWS on MSVC rather than resolving to the working
-        // directory. That escapes remove() as an uncaught filesystem_error and terminates the
-        // process. "." is the same working directory, spelled in a way absolute() accepts.
+        // An .ini file with no folder -- a file-less one, or one whose path is a bare relative file
+        // name -- resolves against the working directory. FileService::absPathOfRelPath now does
+        // that for an empty folder itself (std::filesystem::absolute("") throws, and once escaped
+        // remove() as an uncaught filesystem_error); "." is kept as the explicit spelling.
         std::string iniFolder = ctx_->iniFolder();
         if (iniFolder.empty()) {
             iniFolder = ".";

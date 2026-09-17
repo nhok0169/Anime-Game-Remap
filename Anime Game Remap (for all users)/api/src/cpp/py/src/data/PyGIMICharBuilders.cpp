@@ -23,7 +23,9 @@
 
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixData/GIMICharFixer.h"
+#include "AGRemapCore/data/IniFixData/RegValChecks.h"
 #include "AGRemapCore/data/IniParseData/GIMICharParser.h"
+#include "../model/strategies/texEditors/PyTexEditor.h"   // toTexFilter
 
 // TexEditor::Filter is std::function<void(TextureFile&)>, and pybind11/functional.h needs the
 // COMPLETE type to decide how to convert it -- TexEditor.h only forward-declares it.
@@ -98,20 +100,165 @@ a default that means "the ordinary thing", so a config assigns only what its cha
 differently.
     )doc");
 
+    // Without these two registered, objRegRemovals / objRegRemaps could be READ from Python but
+    // never ASSIGNED -- every list handed to them failed to convert. Both are implicitly
+    // convertible from the plain shapes their docs describe, so a bare register name and a
+    // (from, [to, ...]) tuple still work.
+    py::class_<AGRC::GIMICharFixerConfig::RegRef>(fixerConfig, "RegRef", R"doc(
+A register named in a :class:`GIMICharFixerConfig`, optionally conditional on what that register is
+bound TO
+
+``"ps-t2"`` on its own means every occurrence of the register. ``RegRef("ps-t2",
+GIMICharFixerConfig.RegValChecks.isLightMap)`` means only the ones whose value looks like a
+lightmap. Anywhere a :class:`GIMICharFixerConfig.RegRef` is expected, a plain :class:`str` is
+accepted too
+
+Parameters
+----------
+reg: :class:`str`
+    The register, eg. ``"ps-t2"``
+
+check: Optional[Callable[[:class:`str`], :class:`bool`]]
+    The test over the register's value --- a resource section name. See
+    :class:`GIMICharFixerConfig.RegValChecks` for the ready-made ones :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``, meaning every occurrence
+    )doc")
+        .def(py::init<std::string>(), py::arg("reg"))
+        .def(py::init([](std::string reg, py::object check) {
+            if (check.is_none()) {
+                return AGRC::GIMICharFixerConfig::RegRef(std::move(reg));
+            }
+            return AGRC::GIMICharFixerConfig::RegRef(
+                std::move(reg), check.cast<AGRC::GIMICharFixerConfig::RegValCheck>());
+        }), py::arg("reg"), py::arg("check"))
+
+        .def_readwrite("reg", &AGRC::GIMICharFixerConfig::RegRef::reg,
+            py::doc(":class:`str`: The register"));
+
+    py::implicitly_convertible<py::str, AGRC::GIMICharFixerConfig::RegRef>();
+
+    py::class_<AGRC::GIMICharFixerConfig::RegRemapRule>(fixerConfig, "RegRemapRule", R"doc(
+One register rename inside :attr:`GIMICharFixerConfig.objRegRemaps`
+
+Anywhere a :class:`GIMICharFixerConfig.RegRemapRule` is expected, a ``(from, [to, ...])`` or
+``(from, [to, ...], keepIfNoneMatch)`` tuple is accepted too
+
+Parameters
+----------
+from_: :class:`str`
+    The register being renamed
+
+to: List[Union[:class:`str`, :class:`GIMICharFixerConfig.RegRef`]]
+    What it becomes --- one entry per register it ends up on
+
+keepIfNoneMatch: :class:`bool`
+    Whether an occurrence that no conditional target matched keeps its ORIGINAL register, rather than
+    being deleted. Only meaningful when ``to`` carries checks :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``False``
+    )doc")
+        .def(py::init<std::string, std::vector<AGRC::GIMICharFixerConfig::RegRef>, bool>(),
+            py::arg("from_"), py::arg("to"), py::arg("keepIfNoneMatch") = false)
+        .def(py::init([](py::tuple rule) {
+            if (rule.size() != 2 && rule.size() != 3) {
+                throw py::value_error("A RegRemapRule tuple is (from, [to, ...]) or (from, [to, ...], keepIfNoneMatch)");
+            }
+
+            return AGRC::GIMICharFixerConfig::RegRemapRule(
+                rule[0].cast<std::string>(),
+                rule[1].cast<std::vector<AGRC::GIMICharFixerConfig::RegRef>>(),
+                rule.size() == 3 ? rule[2].cast<bool>() : false);
+        }), py::arg("rule"))
+
+        .def_readwrite("from_", &AGRC::GIMICharFixerConfig::RegRemapRule::from,
+            py::doc(":class:`str`: The register being renamed"))
+        .def_readwrite("to", &AGRC::GIMICharFixerConfig::RegRemapRule::to,
+            py::doc("List[:class:`GIMICharFixerConfig.RegRef`]: What it becomes"))
+        .def_readwrite("keepIfNoneMatch", &AGRC::GIMICharFixerConfig::RegRemapRule::keepIfNoneMatch,
+            py::doc(":class:`bool`: Whether an occurrence no conditional target matched keeps its original register"));
+
+    py::implicitly_convertible<py::tuple, AGRC::GIMICharFixerConfig::RegRemapRule>();
+
+    py::class_<AGRC::RegValChecks>(fixerConfig, "RegValChecks", R"doc(
+The ready-made tests a :class:`GIMICharFixerConfig.RegRef` can be conditional on --- each one takes
+a register's value (a resource section name) and says whether it names that kind of texture
+
+What they are for is a mod that has ALREADY been fixed by hand: a rename conditional on
+:meth:`isDiffuse` leaves a register alone when the author already moved the diffuse there
+    )doc")
+        .def_static("isDiffuse", &AGRC::RegValChecks::isDiffuse, py::arg("val"),
+            py::doc(":class:`bool`: Whether 'val' names a diffuse texture"))
+        .def_static("isLightMap", &AGRC::RegValChecks::isLightMap, py::arg("val"),
+            py::doc(":class:`bool`: Whether 'val' names a lightmap"))
+        .def_static("isNormalMap", &AGRC::RegValChecks::isNormalMap, py::arg("val"),
+            py::doc(":class:`bool`: Whether 'val' names a normal map"))
+        .def_static("isMetalMap", &AGRC::RegValChecks::isMetalMap, py::arg("val"),
+            py::doc(":class:`bool`: Whether 'val' names a metal map"))
+        .def_static("isShadow", &AGRC::RegValChecks::isShadow, py::arg("val"),
+            py::doc(":class:`bool`: Whether 'val' names a shadow ramp"));
+
     py::class_<AGRC::GIMICharFixerConfig::TexEdit>(fixerConfig, "TexEdit", R"doc(
 One texture the fix rewrites, and the register it repoints at the rewritten copy
+
+Parameters
+----------
+obj: :class:`str`
+    The **target** object whose graph holds the register
+
+reg: :class:`str`
+    The register the texture hangs off, eg. ``"ps-t1"``
+
+name: :class:`str`
+    The name the rewritten texture is filed under
+
+filter: Callable[[:class:`CppTextureFile`], ``None``]
+    What the edit does to the texture. It is handed the texture itself, not a copy, so edit it in
+    place --- eg. through :meth:`CppTextureFile.getPixels` / :meth:`CppTextureFile.setPixels`, or a
+    filter's ``transform``
+
+compress: :class:`bool`
+    Whether the written ``.dds`` is compressed :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``True``
+
+srcObj: :class:`str`
+    Which **source** object's copy this edit belongs to, or ``""`` for every copy of 'obj'. Only
+    meaningful under a **merge**, where several sources land on one target :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``""``
+
+toReg: :class:`str`
+    The register to bind the EDITED texture to when it should sit alongside the original rather
+    than replace it, or ``""`` to rebind 'reg' itself. A PRE-edit register, exactly like 'reg'
+    :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``""``
+
+check: Optional[Callable[[:class:`str`], :class:`bool`]]
+    A test over what 'reg' is bound to, so the edit fires only on the occurrences that match
+    :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``, meaning every occurrence
     )doc")
         .def(py::init([](std::string obj, std::string reg, std::string name,
-                          AGRC::TexEditor::Filter filter, bool compress) {
+                          const PyTexFilter &filter, bool compress, std::string srcObj,
+                          std::string toReg, py::object check) {
             AGRC::GIMICharFixerConfig::TexEdit edit{};
             edit.obj = std::move(obj);
             edit.reg = std::move(reg);
             edit.name = std::move(name);
-            edit.filter = std::move(filter);
+            edit.filter = toTexFilter(filter);
             edit.compress = compress;
+            edit.srcObj = std::move(srcObj);
+            edit.toReg = std::move(toReg);
+            if (!check.is_none()) {
+                edit.check = check.cast<AGRC::GIMICharFixerConfig::RegValCheck>();
+            }
             return edit;
         }), py::arg("obj"), py::arg("reg"), py::arg("name"), py::arg("filter"),
-            py::arg("compress") = true)
+            py::arg("compress") = true, py::arg("srcObj") = "", py::arg("toReg") = "",
+            py::arg("check") = py::none())
 
         .def_readwrite("obj", &AGRC::GIMICharFixerConfig::TexEdit::obj,
             py::doc(":class:`str`: The **target** object whose graph holds the register"))
@@ -120,7 +267,11 @@ One texture the fix rewrites, and the register it repoints at the rewritten copy
         .def_readwrite("name", &AGRC::GIMICharFixerConfig::TexEdit::name,
             py::doc(":class:`str`: The name the rewritten texture is filed under"))
         .def_readwrite("compress", &AGRC::GIMICharFixerConfig::TexEdit::compress,
-            py::doc(":class:`bool`: Whether the written ``.dds`` is compressed. **Default**: ``True``"));
+            py::doc(":class:`bool`: Whether the written ``.dds`` is compressed. **Default**: ``True``"))
+        .def_readwrite("srcObj", &AGRC::GIMICharFixerConfig::TexEdit::srcObj,
+            py::doc(":class:`str`: Which **source** object's copy this edit belongs to, or ``\"\"`` for every copy"))
+        .def_readwrite("toReg", &AGRC::GIMICharFixerConfig::TexEdit::toReg,
+            py::doc(":class:`str`: The register the edited copy is bound to, or ``\"\"`` to rebind :attr:`reg` itself"));
 
     fixerConfig
         .def(py::init<>())
@@ -157,8 +308,8 @@ three libraries are stripped first, so this is a re-issue rather than an additio
         )doc"))
 
         .def_readwrite("objRegRemovals", &AGRC::GIMICharFixerConfig::objRegRemovals, py::doc(R"doc(
-List[Tuple[:class:`str`, List[:class:`str`]]]: Registers stripped from one **target** object's parts
-entirely --- ``[("head", ["ps-t3"])]``
+List[Tuple[:class:`str`, List[Union[:class:`str`, :class:`GIMICharFixerConfig.RegRef`]]]]: Registers
+stripped from one **target** object's parts entirely --- ``[("head", ["ps-t3"])]``
         )doc"))
 
         .def_readwrite("objNewRegVals", &AGRC::GIMICharFixerConfig::objNewRegVals, py::doc(R"doc(
@@ -166,6 +317,17 @@ List[Tuple[:class:`str`, List[Tuple[:class:`str`, :class:`str`]]]]: Register val
 target object
 
 Replaces a value that is already there; a part with no such register does not grow one
+        )doc"))
+
+        .def_readwrite("srcObjRegRemovals", &AGRC::GIMICharFixerConfig::srcObjRegRemovals, py::doc(R"doc(
+List[Tuple[:class:`str`, List[Union[:class:`str`, :class:`GIMICharFixerConfig.RegRef`]]]]: Registers
+stripped from the copies that came from ONE **source** object --- the merge counterpart of
+:attr:`objRegRemovals`
+        )doc"))
+
+        .def_readwrite("srcObjRegRemaps", &AGRC::GIMICharFixerConfig::srcObjRegRemaps, py::doc(R"doc(
+List[Tuple[:class:`str`, List[:class:`GIMICharFixerConfig.RegRemapRule`]]]: Registers renamed on the
+copies that came from ONE **source** object --- the merge counterpart of :attr:`objRegRemaps`
         )doc"))
 
         .def_readwrite("texEdits", &AGRC::GIMICharFixerConfig::texEdits,

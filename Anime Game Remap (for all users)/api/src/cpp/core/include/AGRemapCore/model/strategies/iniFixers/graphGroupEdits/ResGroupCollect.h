@@ -617,6 +617,18 @@ namespace AGRemapCore {
 
             using CollectedResources = tsl::ordered_map<std::string, std::deque<CollectedResource>>;
 
+            // One call site of a resource's root section, and the query it sits under.
+            struct ResRootCall {
+                ResRootLocation location;
+                std::optional<Z3Predicate> query;
+            };
+
+            // EVERY call site of each root section of a resource graph, in collection order, keyed by
+            // that root's name. A list, not one entry per root: several call sites can reach one root
+            // -- a resource bound in several branches, or a TexCreate, whose one created section every
+            // call site of a mod is renamed to -- and each of them has to be rewritten.
+            using ResRootCalls = tsl::ordered_map<std::string, std::vector<ResRootCall>>;
+
             // The new "run =" call sites to splice into one source part, keyed by the order index
             // the original reference sat at. std::map (not insertion-ordered) deliberately: the
             // split below sorts its indices, so these have to be walked in the same ascending order.
@@ -629,14 +641,12 @@ namespace AGRemapCore {
             GraphGroups& remapGraphs(GraphGroups& graphGroups, RemappedGraphs* remappedGraphs);
             std::pair<bool, std::vector<GraphId>> isValidResGroupType(const std::string& resGroupType) const;
             CollectedSections getResCallNewNames(const GraphId& resModObj, const std::string& resGroupType,
-                                                  tsl::ordered_map<std::string, std::optional<Z3Predicate>>& resRootQueries,
-                                                  tsl::ordered_map<std::string, ResRootLocation>& resRootLocations,
-                                                  const std::string& modName) const;
+                                                  ResRootCalls& resRootCalls, const std::string& modName) const;
             Graph* getResGraph(GraphGroups& graphGroups, const std::string& resGroupType, const GraphId& resModObj,
-                                ByGraph<CollectedSections>& resCallNewNames,
-                                tsl::ordered_map<std::string, std::optional<Z3Predicate>>& resRootQueries,
-                                tsl::ordered_map<std::string, ResRootLocation>& resRootLocations, Context* ctx,
+                                ByGraph<CollectedSections>& resCallNewNames, ResRootCalls& resRootCalls, Context* ctx,
                                 const std::string& modName);
+            static std::vector<std::pair<const ResRootCall*, Z3Predicate>> getRootCallQueries(
+                const ResRootCalls& resRootCalls, const IterQueryData& iterData, Z3Context* targetZ3Ctx);
             Graph* collectAllResources(GraphGroups& graphGroups, const std::string& resGroupType, const GraphId& resModObj,
                                         ByGraph<CollectedSections>& resCallNewNames, GroupedResBuilder& builder,
                                         ResGroups& resGroups, std::unordered_set<GraphId, GraphIdHash>& collectedResTypes,

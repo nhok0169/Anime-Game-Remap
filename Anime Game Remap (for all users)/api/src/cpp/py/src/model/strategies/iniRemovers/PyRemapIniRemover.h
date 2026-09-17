@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include <memory>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -22,6 +23,7 @@
 #include <pybind11/pybind11.h>
 
 #include "PyBaseIniRemover.h"
+#include "AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h"
 #include "AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h"
 #include "AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h"
 
@@ -60,6 +62,21 @@ class PyIniRemoveContext: public AGRC::IniRemoveContext<std::string, std::string
          */
         py::object ini;
 
+        /**
+         * @brief
+         @rst
+         Re-derives #coreCtx from #ini: a bound core ``IniFile`` gets a
+         :cpp:class:`AGRemapCore::IniFileRemoveContext` over itself and every method below forwards to
+         it, anything else takes the `Python`_ attribute path :raw-html:`<br />` :raw-html:`<br />`
+
+         Call it after assigning #ini. Without it a remover built from `Python`_ over today's
+         ``IniFile`` -- which is the C++ class -- asked it for ``sectionIfTemplates``/``fileLines``/
+         ``_isFixed``, attributes of the pure-`Python`_ ``IniFile`` deleted on 2026-09-03, and every
+         ``remove()`` raised ``AttributeError``. Same rule as ``PyIniFixContext::syncCoreCtx``
+         @endrst
+         */
+        void syncCoreCtx();
+
         bool hasIni() const override;
         std::string iniFolder() const override;
         std::optional<AGRC::Version> version() const override;
@@ -72,6 +89,10 @@ class PyIniRemoveContext: public AGRC::IniRemoveContext<std::string, std::string
         void clearRead() override;
         void removeBackup() override;
         void setIsFixed(bool isFixed) override;
+
+    private:
+        // Set only while #ini is a bound core IniFile -- see syncCoreCtx
+        std::unique_ptr<AGRC::IniFileRemoveContext> coreCtx;
 };
 
 

@@ -303,9 +303,8 @@ namespace AGRemapCore {
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename ResGroupCollect<K, V, KeyHash, KeyEqual>::CollectedSections ResGroupCollect<K, V, KeyHash, KeyEqual>::getResCallNewNames(
-        const GraphId& resModObj, const std::string& resGroupType,
-        tsl::ordered_map<std::string, std::optional<Z3Predicate>>& resRootQueries,
-        tsl::ordered_map<std::string, ResRootLocation>& resRootLocations, const std::string& modName) const {
+        const GraphId& resModObj, const std::string& resGroupType, ResRootCalls& resRootCalls,
+        const std::string& modName) const {
         CollectedSections result;
 
         auto resCallsIt = resCalls.find(resModObj);
@@ -335,10 +334,16 @@ namespace AGRemapCore {
                         auto collected = resEdit.collectResourceName(resCall, newResCall.has_value() ? *newResCall : resCall);
 
                         result.insert_or_assign(collected.first, collected.second);
-                        resRootQueries.insert_or_assign(collected.first, callEntry.second.query);
-                        resRootLocations.insert_or_assign(collected.first,
-                                                           ResRootLocation{resModObj, srcEntry.first, sectionEntry.first,
-                                                                           partEntry.first, callEntry.first});
+
+                        // APPENDED, not assigned: the root name is shared by every call site that
+                        // reaches the same resource -- a resource bound in several branches, and every
+                        // call site of a TexCreate, which names one created section per mod. Keyed by
+                        // name alone, all but the last call site were dropped, and theirs were never
+                        // rewritten.
+                        resRootCalls[collected.first].push_back(
+                            ResRootCall{ResRootLocation{resModObj, srcEntry.first, sectionEntry.first, partEntry.first,
+                                                        callEntry.first},
+                                        callEntry.second.query});
                     }
                 }
             }
@@ -351,8 +356,7 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename ResGroupCollect<K, V, KeyHash, KeyEqual>::Graph* ResGroupCollect<K, V, KeyHash, KeyEqual>::getResGraph(
         GraphGroups& graphGroups, const std::string& resGroupType, const GraphId& resModObj,
-        ByGraph<CollectedSections>& resCallNewNames, tsl::ordered_map<std::string, std::optional<Z3Predicate>>& resRootQueries,
-        tsl::ordered_map<std::string, ResRootLocation>& resRootLocations, Context* ctx, const std::string& modName) {
+        ByGraph<CollectedSections>& resCallNewNames, ResRootCalls& resRootCalls, Context* ctx, const std::string& modName) {
         auto resEditsIt = resEdits.find(resModObj);
         if (resEditsIt == resEdits.end()) {
             return nullptr;
@@ -367,8 +371,7 @@ namespace AGRemapCore {
             return nullptr;
         }
 
-        CollectedSections currentResCallNewNames = getResCallNewNames(resModObj, resGroupType, resRootQueries,
-                                                                       resRootLocations, modName);
+        CollectedSections currentResCallNewNames = getResCallNewNames(resModObj, resGroupType, resRootCalls, modName);
         resCallNewNames[resModObj] = currentResCallNewNames;
 
         // rename = false: the replicate phase renames every copy itself, folding the graph id in.
@@ -384,11 +387,9 @@ namespace AGRemapCore {
         std::unordered_set<GraphId, GraphIdHash>& collectedResTypes, Context* ctx, const std::string& modName) {
         (void)builder;
 
-        tsl::ordered_map<std::string, std::optional<Z3Predicate>> resRootQueries;
-        tsl::ordered_map<std::string, ResRootLocation> resRootLocations;
+        ResRootCalls resRootCalls;
 
-        Graph* graph = getResGraph(graphGroups, resGroupType, resModObj, resCallNewNames, resRootQueries, resRootLocations,
-                                    ctx, modName);
+        Graph* graph = getResGraph(graphGroups, resGroupType, resModObj, resCallNewNames, resRootCalls, ctx, modName);
         if (graph == nullptr) {
             return nullptr;
         }
@@ -406,13 +407,8 @@ namespace AGRemapCore {
                 continue;
             }
 
-            auto locationIt = resRootLocations.find(iterData.rootSectionName);
-            auto queryIt = resRootQueries.find(iterData.rootSectionName);
-            if (locationIt == resRootLocations.end() || queryIt == resRootQueries.end() || !queryIt->second.has_value()) {
-                continue;
-            }
-
-            Z3Predicate newQuery = combineQueries(*queryIt->second, iterData.query, graph->z3Ctx());
+            std::vector<std::pair<const ResRootCall*, Z3Predicate>> callQueries = getRootCallQueries(
+                resRootCalls, iterData, graph->z3Ctx());
 
             for (const auto& fileVal : fileVals) {
                 std::string val = resEdit.config.fileOf(fileVal.second);
@@ -420,17 +416,45 @@ namespace AGRemapCore {
                     continue;
                 }
 
-                ResGroup resGroup;
-                resGroup.entries[resModObj] = ResGroupEntry{
-                    resEdit.getFileId(resModObj, iterData.sectionName, part->id(), fileVal.first, val),
-                    iterData.rootSectionName, locationIt->second, part->depth(), nullptr};
-                resGroup.query = newQuery;
-                resGroups.push_back(std::move(resGroup));
+                std::string fileKey = resEdit.getFileId(resModObj, iterData.sectionName, part->id(), fileVal.first, val);
+
+                // One group per CALL SITE of the file, not per file: each call site is rewritten to
+                // the replica its own group is given.
+                for (const auto& callQuery : callQueries) {
+                    ResGroup resGroup;
+                    resGroup.entries[resModObj] = ResGroupEntry{fileKey, iterData.rootSectionName,
+                                                                 callQuery.first->location, part->depth(), nullptr};
+                    resGroup.query = callQuery.second;
+                    resGroups.push_back(std::move(resGroup));
+                }
             }
         }
 
         collectedResTypes.insert(resModObj);
         return graph;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::vector<std::pair<const typename ResGroupCollect<K, V, KeyHash, KeyEqual>::ResRootCall*, Z3Predicate>>
+    ResGroupCollect<K, V, KeyHash, KeyEqual>::getRootCallQueries(const ResRootCalls& resRootCalls, const IterQueryData& iterData,
+                                                                 Z3Context* targetZ3Ctx) {
+        std::vector<std::pair<const ResRootCall*, Z3Predicate>> result;
+
+        auto callsIt = resRootCalls.find(iterData.rootSectionName);
+        if (callsIt == resRootCalls.end()) {
+            return result;
+        }
+
+        for (const ResRootCall& call : callsIt->second) {
+            if (!call.query.has_value()) {
+                continue;
+            }
+
+            result.emplace_back(&call, combineQueries(*call.query, iterData.query, targetZ3Ctx));
+        }
+
+        return result;
     }
 
 
@@ -441,11 +465,9 @@ namespace AGRemapCore {
         std::unordered_set<GraphId, GraphIdHash>& collectedResTypes, Context* ctx, const std::string& modName) {
         (void)builder;
 
-        tsl::ordered_map<std::string, std::optional<Z3Predicate>> resRootQueries;
-        tsl::ordered_map<std::string, ResRootLocation> resRootLocations;
+        ResRootCalls resRootCalls;
 
-        Graph* graph = getResGraph(graphGroups, resGroupType, resModObj, resCallNewNames, resRootQueries, resRootLocations,
-                                    ctx, modName);
+        Graph* graph = getResGraph(graphGroups, resGroupType, resModObj, resCallNewNames, resRootCalls, ctx, modName);
         if (graph == nullptr) {
             return nullptr;
         }
@@ -467,13 +489,8 @@ namespace AGRemapCore {
                 continue;
             }
 
-            auto locationIt = resRootLocations.find(iterData.rootSectionName);
-            auto queryIt = resRootQueries.find(iterData.rootSectionName);
-            if (locationIt == resRootLocations.end() || queryIt == resRootQueries.end() || !queryIt->second.has_value()) {
-                continue;
-            }
-
-            Z3Predicate newQuery = combineQueries(*queryIt->second, iterData.query, graph->z3Ctx());
+            std::vector<std::pair<const ResRootCall*, Z3Predicate>> callQueries = getRootCallQueries(
+                resRootCalls, iterData, graph->z3Ctx());
 
             for (const auto& fileVal : fileVals) {
                 std::string val = resEdit.config.fileOf(fileVal.second);
@@ -481,39 +498,45 @@ namespace AGRemapCore {
                     continue;
                 }
 
-                bool added = false;
-                ResGroupEntry entry{resEdit.getFileId(resModObj, iterData.sectionName, part->id(), fileVal.first, val),
-                                     iterData.rootSectionName, locationIt->second, part->depth(), nullptr};
+                std::string fileKey = resEdit.getFileId(resModObj, iterData.sectionName, part->id(), fileVal.first, val);
 
-                for (std::size_t i = 0; i < resGroupsLen; ++i) {
-                    if (!resGroups[i].query.has_value()) {
-                        continue;
+                // Per CALL SITE of the file, as in collectAllResources.
+                for (const auto& callQuery : callQueries) {
+                    const Z3Predicate& newQuery = callQuery.second;
+
+                    bool added = false;
+                    ResGroupEntry entry{fileKey, iterData.rootSectionName, callQuery.first->location, part->depth(), nullptr};
+
+                    for (std::size_t i = 0; i < resGroupsLen; ++i) {
+                        if (!resGroups[i].query.has_value()) {
+                            continue;
+                        }
+
+                        // A real z3::solver decides '!=' natively -- unlike the sympy LRA check this
+                        // replaced, no rewrite of '!=' into a disjunction of strict inequalities is
+                        // needed first.
+                        Z3Predicate newResGroupQuery = combineQueries(newQuery, *resGroups[i].query, graph->z3Ctx());
+                        if (!newResGroupQuery.isSatisfiable()) {
+                            continue;
+                        }
+
+                        ResGroup newResGroup;
+                        newResGroup.entries = resGroups[i].entries;
+                        newResGroup.entries[resModObj] = entry;
+                        newResGroup.query = newResGroupQuery;
+                        resGroups.push_back(std::move(newResGroup));
+
+                        added = true;
                     }
 
-                    // A real z3::solver decides '!=' natively -- unlike the sympy LRA check this
-                    // replaced, no rewrite of '!=' into a disjunction of strict inequalities is
-                    // needed first.
-                    Z3Predicate newResGroupQuery = combineQueries(newQuery, *resGroups[i].query, graph->z3Ctx());
-                    if (!newResGroupQuery.isSatisfiable()) {
-                        continue;
-                    }
+                    if (!added) {
+                        ResGroup resGroup;
+                        resGroup.entries[resModObj] = entry;
+                        resGroup.query = newQuery;
 
-                    ResGroup newResGroup;
-                    newResGroup.entries = resGroups[i].entries;
-                    newResGroup.entries[resModObj] = entry;
-                    newResGroup.query = newResGroupQuery;
-                    resGroups.push_back(std::move(newResGroup));
-
-                    added = true;
-                }
-
-                if (!added) {
-                    ResGroup resGroup;
-                    resGroup.entries[resModObj] = entry;
-                    resGroup.query = newQuery;
-
-                    if (!resGroup.isMissing(collectedResTypes)) {
-                        resGroups.push_back(std::move(resGroup));
+                        if (!resGroup.isMissing(collectedResTypes)) {
+                            resGroups.push_back(std::move(resGroup));
+                        }
                     }
                 }
             }
@@ -564,10 +587,8 @@ namespace AGRemapCore {
                                                                             ByGraph<CollectedSections>& resCallNewNames,
                                                                             const std::string& modName) {
         for (const GraphId& resType : commonResTypes) {
-            tsl::ordered_map<std::string, std::optional<Z3Predicate>> resRootQueries;
-            tsl::ordered_map<std::string, ResRootLocation> resRootLocations;
-
-            resCallNewNames[resType] = getResCallNewNames(resType, resGroupType, resRootQueries, resRootLocations, modName);
+            ResRootCalls resRootCalls;
+            resCallNewNames[resType] = getResCallNewNames(resType, resGroupType, resRootCalls, modName);
         }
     }
 
@@ -1145,8 +1166,20 @@ namespace AGRemapCore {
                 rest.push_back(graphs[i].first);
             }
 
-            graphs[0].first->combine(rest);
-            Base::addGraph(graphGroups, resEditIt->second->resModObj, graphs[0].first);
+            Graph* combined = graphs[0].first;
+            if (!rest.empty()) {
+                combined->combine(rest);
+
+                // COPIED, so the graph added owns every replica's sections. combine only BORROWS the
+                // other replicas' sections, and those replicas are in no group: they live exactly as
+                // long as the graph-group view that made them. From Python that view is gone when the
+                // edit returns, so every replica after the first rendered as an empty '[]' section,
+                // and a resource it named was referenced and never written. newPartIds = false: the
+                // ids were refreshed per replica above.
+                combined = graphGroups.deepcopyGraph(*combined, true, false);
+            }
+
+            Base::addGraph(graphGroups, resEditIt->second->resModObj, combined);
         }
     }
 

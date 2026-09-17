@@ -147,6 +147,26 @@ PyIniParseContext::PyIniParseContext(py::object ini, std::optional<int> modTypeI
 }
 
 
+void PyIniParseContext::syncCoreCtx() {
+    AGRC::IniFile *coreIni = nullptr;
+    if (!ini.is_none() && py::isinstance<AGRC::IniFile>(ini)) {
+        coreIni = ini.cast<AGRC::IniFile*>();
+    }
+
+    if (coreIni == nullptr) {
+        coreCtx.reset();
+        return;
+    }
+
+    std::optional<int> effectiveId = effectiveStrategyModTypeId(ini, modTypeId);
+    if (coreCtx == nullptr || coreCtx->getIniFile() != coreIni) {
+        coreCtx = std::make_unique<AGRC::IniFileParseContext>(coreIni, effectiveId);
+    } else {
+        coreCtx->setModTypeId(effectiveId);
+    }
+}
+
+
 bool PyIniParseContext::hasIni() const {
     return !ini.is_none();
 }
@@ -508,10 +528,17 @@ void PyIniParseDownloadData::addFileDownload(Context &ctx, const std::string &in
     }
 
     // Built through the bound core module rather than by constructing AGRC::RemapIniDownload
-    // directly, exactly as the pure-Python original did -- the FileDownload it takes ownership of
-    // is the caller's own Python object, not a C++ copy of it.
-    py::object remapIniDownload = pyCoreModule().attr("RemapIniDownload");
-    pyCtx.addFileDownloadObj(remapIniDownload(py::str(iniFolder), download.attr("filename"), download));
+    // directly, as the pure-Python original did.
+    //
+    // A FRESH FileDownload per parse, not the DownloadData's own: RemapIniDownload takes its
+    // FileDownload by unique_ptr, so handing it the caller's object DISOWNED it -- the parser's own
+    // DownloadData was left holding a dead Python object, and the second parse (or anything else
+    // reading 'download.filename') raised "Python instance was disowned". A copy is exactly
+    // equivalent: FileDownload is its url, filename and cache flag, and the binding has no
+    // trampoline, so a Python subclass could not have overridden anything to lose.
+    py::module_ core = pyCoreModule();
+    py::object fresh = core.attr("FileDownload")(download.attr("url"), download.attr("filename"), download.attr("cache"));
+    pyCtx.addFileDownloadObj(core.attr("RemapIniDownload")(py::str(iniFolder), download.attr("filename"), fresh));
 }
 
 
@@ -543,6 +570,9 @@ void PyGIMIParser::refresh() {
     // '_iniFile' is assignable from Python, and the constructor sets it directly, so re-derive the
     // core pointer here too -- see PyBaseIniParser::syncCoreIniFile.
     this->syncCoreIniFile();
+
+    // ...and the context's mod type, which the 'modTypeId' property assigns without it noticing.
+    ctxImpl.syncCoreCtx();
 
     std::vector<ModObj> parsedModObjs;
     if (!modObjsObj.is_none()) {
@@ -797,6 +827,12 @@ py::object PyGIMIParser::collectToPy() const {
 
 void PyGIMIParser::clear() {
     Core::clear();
+
+    // Core::clear() only moves the command graphs out of their group and forgets its own pointers;
+    // the view still holds every graph this parser ever built. Those borrow the .ini file's sections,
+    // so they must not outlive a clear() -- see PyIniGraphGroups::releaseDetached's own warning.
+    ctxImpl.groups.releaseDetached();
+
     tempKwargs.clear();
 }
 

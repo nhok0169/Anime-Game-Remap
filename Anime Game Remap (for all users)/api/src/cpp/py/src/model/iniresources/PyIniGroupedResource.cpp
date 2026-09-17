@@ -21,6 +21,8 @@
 #include <pybind11/functional.h>
 #include <pybind11/stl.h>
 
+#include "../../tools/PyRefFunction.h"
+
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
@@ -74,7 +76,7 @@ py::object iniGroupedResourceDeepCopy(const PyIniGroupedResource& self, py::obje
     // sharing this same __deepcopy__ binding.
     py::object selfObj = py::cast(self);
     py::object selfClass = selfObj.attr("__class__");
-    return selfClass(self.name, newResources, self.fixFunc, self.isBuilt);
+    return selfClass(self.name, newResources, fromPyRefFunction(self.fixFunc), self.isBuilt);
 }
 
 
@@ -107,9 +109,14 @@ Base class for a group of resources
         // actually runs (call time, not bind time) when 'resources' is omitted -- confirmed this
         // was a real, live bug via a test that constructed two IniGroupedResource()s with no
         // 'resources' argument and saw the second one already polluted with the first one's data.
-        .def(py::init([](std::string name, py::object resources, std::function<bool(AGRC::IniGroupedResource&)> fixFunc, bool isBuilt) {
+        //
+        // 'fixFunc' goes through toPyRefFunction for the reason PyRefFunction.h gives: the group is
+        // not copyable, so pybind11's own conversion threw inside any C++ caller that reached a
+        // group Python had not seen yet.
+        .def(py::init([](std::string name, py::object resources, const PyOptionalCallable<bool(PyIniGroupedResource&)> &fixFunc, bool isBuilt) {
             py::dict resourcesDict = resources.is_none() ? py::dict() : resources.cast<py::dict>();
-            return std::make_unique<PyIniGroupedResource>(std::move(name), std::move(resourcesDict), std::move(fixFunc), isBuilt);
+            return std::make_unique<PyIniGroupedResource>(std::move(name), std::move(resourcesDict),
+                                                          toPyRefFunction<bool(AGRC::IniGroupedResource&)>(fixFunc), isBuilt);
         }), py::arg("name"), py::arg("resources") = py::none(), py::arg("fixFunc") = py::none(), py::arg("isBuilt") = true, py::doc(R"doc(
 Constructs a new group of resources
 
@@ -143,7 +150,13 @@ Dict[Any, Any]: The group of resources -- general-purpose scratch storage (see t
 :class:`str`: The name of the group of resources
         )doc"))
 
-        .def_readwrite("fixFunc", &AGRC::IniGroupedResource::fixFunc, py::doc(R"doc(
+        .def_property("fixFunc",
+            [](const PyIniGroupedResource &self) {
+                return fromPyRefFunction<bool(AGRC::IniGroupedResource&), bool(PyIniGroupedResource&)>(self.fixFunc);
+            },
+            [](PyIniGroupedResource &self, const PyOptionalCallable<bool(PyIniGroupedResource&)> &fixFunc) {
+                self.fixFunc = toPyRefFunction<bool(AGRC::IniGroupedResource&)>(fixFunc);
+            }, py::doc(R"doc(
 Optional[Callable[[:class:`IniGroupedResource`], :class:`bool`]]: Custom function for fixing the resource, overriding the default (no-op) behavior if set
         )doc"))
 

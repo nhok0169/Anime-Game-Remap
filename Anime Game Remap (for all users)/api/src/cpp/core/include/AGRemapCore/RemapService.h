@@ -929,6 +929,13 @@ namespace AGRemapCore {
             std::string path_;
             bool pathIsCwd_ = false;
 
+            // The folders of the resources the last #handleIni call's removal took, on an undo-only
+            //   run. An undo never parses the .ini file, so it holds no resource models and
+            //   #addIniNeighbourFolders finds nothing through it -- which left a mod reached only
+            //   through such a folder fixed forever, since the fix run DID reach it. _fix walks
+            //   these beside the .ini file's own, and clears them for the next file.
+            std::vector<std::string> removedResourceFolders_;
+
             // What this run has already pulled off the network, so the same URL is fetched once
             //   and copied everywhere else. Lives here rather than on the FileDownload objects
             //   because a parser is built per IniFile, so each download gets a FileDownload of

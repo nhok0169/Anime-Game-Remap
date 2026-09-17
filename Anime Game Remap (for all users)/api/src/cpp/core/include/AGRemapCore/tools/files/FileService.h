@@ -118,6 +118,10 @@ namespace AGRemapCore {
                 style throughout -- matching this codebase's existing precedent (see
                 :cpp:class:`IniNamingTools`'s own path-joining methods) rather than replicating
                 Python's Windows-first normalization quirk
+
+             .. note::
+                An empty 'relFolder' is the working directory, as in the pure-Python original --
+                which is what an ``.ini`` file with no path resolves its resources against
              @endrst
              *
              * @param dstPath The target file path to resolve

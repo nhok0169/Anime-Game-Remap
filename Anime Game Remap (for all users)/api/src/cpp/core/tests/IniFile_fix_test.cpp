@@ -116,6 +116,43 @@ static void testFileLessIniStillProducesAFix() {
 }
 
 
+static void testFileLessIniResolvesResourcesAgainstTheWorkingDirectory() {
+    std::printf("testFileLessIniResolvesResourcesAgainstTheWorkingDirectory\n");
+
+    // A file-less .ini file has an EMPTY folder, and every resource the fix builds resolves its
+    // path against it. That went to std::filesystem::absolute(""), which throws -- so any text-only
+    // .ini file whose fix built a resource (here: Raiden's remapped blend) raised a
+    // filesystem_error out of fix(), with downloads on or off.
+    const std::string blendIni = "[TextureOverrideRaidenShogunBlend]\n"
+                                 "hash = 1a495487\n"
+                                 "vb1 = ResourceRaidenShogunBlend\n"
+                                 "handling = skip\n"
+                                 "draw = 21916,0\n"
+                                 "\n"
+                                 "[ResourceRaidenShogunBlend]\n"
+                                 "type = Buffer\n"
+                                 "stride = 32\n"
+                                 "filename = RaidenShogunBlend.buf\n";
+
+    AGRC::IniFile ini(std::nullopt, blendIni);
+    ini.classify();
+    check(!ini.getModTypes().empty(), "the blend's hash classifies it");
+
+    std::unordered_map<std::string, std::string> fix;
+    try {
+        ini.parse();
+        fix = ini.fix(false, false, false);
+    } catch (const std::exception& e) {
+        check(false, std::string("fix() threw: ") + e.what());
+        return;
+    }
+
+    check(fix.count("0") == 1, "a fix is produced for the file-less .ini file");
+    check(fix.count("0") == 1 && fix.at("0").find("RemapBlend") != std::string::npos,
+          "...and it carries the remapped blend, the resource whose path used to throw");
+}
+
+
 static void testRenderContentPart() {
     std::printf("testRenderContentPart\n");
 
@@ -232,6 +269,7 @@ int main() {
     testRenderSectionIndentsConditionals();
     testFixProducesAFix();
     testFileLessIniStillProducesAFix();
+    testFileLessIniResolvesResourcesAgainstTheWorkingDirectory();
     testUnclassifiedFileFixesToNothing();
 
     if (failures == 0) {

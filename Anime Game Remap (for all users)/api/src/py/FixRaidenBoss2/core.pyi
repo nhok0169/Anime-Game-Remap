@@ -6318,13 +6318,178 @@ class GIMICharFixerConfig:
     differently.
         
     """
+    class RegRef:
+        """
+        
+        A register named in a :class:`GIMICharFixerConfig`, optionally conditional on what that register is
+        bound TO
+        
+        ``"ps-t2"`` on its own means every occurrence of the register. ``RegRef("ps-t2",
+        GIMICharFixerConfig.RegValChecks.isLightMap)`` means only the ones whose value looks like a
+        lightmap. Anywhere a :class:`GIMICharFixerConfig.RegRef` is expected, a plain :class:`str` is
+        accepted too
+        
+        Parameters
+        ----------
+        reg: :class:`str`
+            The register, eg. ``"ps-t2"``
+        
+        check: Optional[Callable[[:class:`str`], :class:`bool`]]
+            The test over the register's value --- a resource section name. See
+            :class:`GIMICharFixerConfig.RegValChecks` for the ready-made ones :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning every occurrence
+            
+        """
+        @typing.overload
+        def __init__(self, reg: str) -> None:
+            ...
+        @typing.overload
+        def __init__(self, reg: str, check: typing.Any) -> None:
+            ...
+        @property
+        def reg(self) -> str:
+            """
+            :class:`str`: The register
+            """
+        @reg.setter
+        def reg(self, arg0: str) -> None:
+            ...
+    class RegRemapRule:
+        """
+        
+        One register rename inside :attr:`GIMICharFixerConfig.objRegRemaps`
+        
+        Anywhere a :class:`GIMICharFixerConfig.RegRemapRule` is expected, a ``(from, [to, ...])`` or
+        ``(from, [to, ...], keepIfNoneMatch)`` tuple is accepted too
+        
+        Parameters
+        ----------
+        from_: :class:`str`
+            The register being renamed
+        
+        to: List[Union[:class:`str`, :class:`GIMICharFixerConfig.RegRef`]]
+            What it becomes --- one entry per register it ends up on
+        
+        keepIfNoneMatch: :class:`bool`
+            Whether an occurrence that no conditional target matched keeps its ORIGINAL register, rather than
+            being deleted. Only meaningful when ``to`` carries checks :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+            
+        """
+        @typing.overload
+        def __init__(self, from_: str, to: collections.abc.Sequence[GIMICharFixerConfig.RegRef], keepIfNoneMatch: bool = False) -> None:
+            ...
+        @typing.overload
+        def __init__(self, rule: tuple) -> None:
+            ...
+        @property
+        def from_(self) -> str:
+            """
+            :class:`str`: The register being renamed
+            """
+        @from_.setter
+        def from_(self, arg0: str) -> None:
+            ...
+        @property
+        def keepIfNoneMatch(self) -> bool:
+            """
+            :class:`bool`: Whether an occurrence no conditional target matched keeps its original register
+            """
+        @keepIfNoneMatch.setter
+        def keepIfNoneMatch(self, arg0: bool) -> None:
+            ...
+        @property
+        def to(self) -> list[GIMICharFixerConfig.RegRef]:
+            """
+            List[:class:`GIMICharFixerConfig.RegRef`]: What it becomes
+            """
+        @to.setter
+        def to(self, arg0: collections.abc.Sequence[GIMICharFixerConfig.RegRef]) -> None:
+            ...
+    class RegValChecks:
+        """
+        
+        The ready-made tests a :class:`GIMICharFixerConfig.RegRef` can be conditional on --- each one takes
+        a register's value (a resource section name) and says whether it names that kind of texture
+        
+        What they are for is a mod that has ALREADY been fixed by hand: a rename conditional on
+        :meth:`isDiffuse` leaves a register alone when the author already moved the diffuse there
+            
+        """
+        @staticmethod
+        def isDiffuse(val: str) -> bool:
+            """
+            :class:`bool`: Whether 'val' names a diffuse texture
+            """
+        @staticmethod
+        def isLightMap(val: str) -> bool:
+            """
+            :class:`bool`: Whether 'val' names a lightmap
+            """
+        @staticmethod
+        def isMetalMap(val: str) -> bool:
+            """
+            :class:`bool`: Whether 'val' names a metal map
+            """
+        @staticmethod
+        def isNormalMap(val: str) -> bool:
+            """
+            :class:`bool`: Whether 'val' names a normal map
+            """
+        @staticmethod
+        def isShadow(val: str) -> bool:
+            """
+            :class:`bool`: Whether 'val' names a shadow ramp
+            """
     class TexEdit:
         """
         
         One texture the fix rewrites, and the register it repoints at the rewritten copy
+        
+        Parameters
+        ----------
+        obj: :class:`str`
+            The **target** object whose graph holds the register
+        
+        reg: :class:`str`
+            The register the texture hangs off, eg. ``"ps-t1"``
+        
+        name: :class:`str`
+            The name the rewritten texture is filed under
+        
+        filter: Callable[[:class:`CppTextureFile`], ``None``]
+            What the edit does to the texture. It is handed the texture itself, not a copy, so edit it in
+            place --- eg. through :meth:`CppTextureFile.getPixels` / :meth:`CppTextureFile.setPixels`, or a
+            filter's ``transform``
+        
+        compress: :class:`bool`
+            Whether the written ``.dds`` is compressed :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        srcObj: :class:`str`
+            Which **source** object's copy this edit belongs to, or ``""`` for every copy of 'obj'. Only
+            meaningful under a **merge**, where several sources land on one target :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        toReg: :class:`str`
+            The register to bind the EDITED texture to when it should sit alongside the original rather
+            than replace it, or ``""`` to rebind 'reg' itself. A PRE-edit register, exactly like 'reg'
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        check: Optional[Callable[[:class:`str`], :class:`bool`]]
+            A test over what 'reg' is bound to, so the edit fires only on the occurrences that match
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning every occurrence
             
         """
-        def __init__(self, obj: str, reg: str, name: str, filter: collections.abc.Callable[[...], None], compress: bool = True) -> None:
+        def __init__(self, obj: str, reg: str, name: str, filter: collections.abc.Callable[[...], None], compress: bool = True, srcObj: str = '', toReg: str = '', check: typing.Any = None) -> None:
             ...
         @property
         def compress(self) -> bool:
@@ -6357,6 +6522,22 @@ class GIMICharFixerConfig:
             """
         @reg.setter
         def reg(self, arg0: str) -> None:
+            ...
+        @property
+        def srcObj(self) -> str:
+            """
+            :class:`str`: Which **source** object's copy this edit belongs to, or ``""`` for every copy
+            """
+        @srcObj.setter
+        def srcObj(self, arg0: str) -> None:
+            ...
+        @property
+        def toReg(self) -> str:
+            """
+            :class:`str`: The register the edited copy is bound to, or ``""`` to rebind :attr:`reg` itself
+            """
+        @toReg.setter
+        def toReg(self, arg0: str) -> None:
             ...
     def __init__(self) -> None:
         ...
@@ -6433,7 +6614,7 @@ class GIMICharFixerConfig:
     def objNewRegVals(self, arg0: collections.abc.Sequence[tuple[str, collections.abc.Sequence[tuple[str, str]]]]) -> None:
         ...
     @property
-    def objRegRemaps(self) -> list[tuple[str, list[...]]]:
+    def objRegRemaps(self) -> list[tuple[str, list[GIMICharFixerConfig.RegRemapRule]]]:
         """
         List[Tuple[:class:`str`, List[Tuple[:class:`str`, List[:class:`str`]]]]]: Registers **renamed** on
         one target object's parts --- ``[("head", [("ps-t1", ["ps-t0"]), ("ps-t2", ["ps-t1"])])]``
@@ -6442,16 +6623,16 @@ class GIMICharFixerConfig:
         and neither re-reads its own output. Naming two targets duplicates the value into both
         """
     @objRegRemaps.setter
-    def objRegRemaps(self, arg0: collections.abc.Sequence[tuple[str, collections.abc.Sequence[...]]]) -> None:
+    def objRegRemaps(self, arg0: collections.abc.Sequence[tuple[str, collections.abc.Sequence[GIMICharFixerConfig.RegRemapRule]]]) -> None:
         ...
     @property
-    def objRegRemovals(self) -> list[tuple[str, list[...]]]:
+    def objRegRemovals(self) -> list[tuple[str, list[GIMICharFixerConfig.RegRef]]]:
         """
-        List[Tuple[:class:`str`, List[:class:`str`]]]: Registers stripped from one **target** object's parts
-        entirely --- ``[("head", ["ps-t3"])]``
+        List[Tuple[:class:`str`, List[Union[:class:`str`, :class:`GIMICharFixerConfig.RegRef`]]]]: Registers
+        stripped from one **target** object's parts entirely --- ``[("head", ["ps-t3"])]``
         """
     @objRegRemovals.setter
-    def objRegRemovals(self, arg0: collections.abc.Sequence[tuple[str, collections.abc.Sequence[...]]]) -> None:
+    def objRegRemovals(self, arg0: collections.abc.Sequence[tuple[str, collections.abc.Sequence[GIMICharFixerConfig.RegRef]]]) -> None:
         ...
     @property
     def objSplits(self) -> list[tuple[str, list[str]]]:
@@ -6487,6 +6668,25 @@ class GIMICharFixerConfig:
         """
     @removeSrcTexFxCalls.setter
     def removeSrcTexFxCalls(self, arg0: bool) -> None:
+        ...
+    @property
+    def srcObjRegRemaps(self) -> list[tuple[str, list[GIMICharFixerConfig.RegRemapRule]]]:
+        """
+        List[Tuple[:class:`str`, List[:class:`GIMICharFixerConfig.RegRemapRule`]]]: Registers renamed on the
+        copies that came from ONE **source** object --- the merge counterpart of :attr:`objRegRemaps`
+        """
+    @srcObjRegRemaps.setter
+    def srcObjRegRemaps(self, arg0: collections.abc.Sequence[tuple[str, collections.abc.Sequence[GIMICharFixerConfig.RegRemapRule]]]) -> None:
+        ...
+    @property
+    def srcObjRegRemovals(self) -> list[tuple[str, list[GIMICharFixerConfig.RegRef]]]:
+        """
+        List[Tuple[:class:`str`, List[Union[:class:`str`, :class:`GIMICharFixerConfig.RegRef`]]]]: Registers
+        stripped from the copies that came from ONE **source** object --- the merge counterpart of
+        :attr:`objRegRemovals`
+        """
+    @srcObjRegRemovals.setter
+    def srcObjRegRemovals(self, arg0: collections.abc.Sequence[tuple[str, collections.abc.Sequence[GIMICharFixerConfig.RegRef]]]) -> None:
         ...
     @property
     def swapFaceRegs(self) -> bool:
@@ -7140,17 +7340,21 @@ class GIMIMergeFixerConfig:
     def faceReg(self, arg0: str) -> None:
         ...
     @property
-    def lightMapEdit(self) -> collections.abc.Callable[[str], collections.abc.Callable[[...], None]]:
+    def lightMapEdit(self) -> collections.abc.Callable[[str], collections.abc.Callable[[...], None] | None] | None:
         """
-        Optional[Callable[[:class:`str`], Callable]]: Builds the light map edit for one object, closed over
-        that object's diffuse path
+        Optional[Callable[[:class:`str`], Optional[Callable[[:class:`CppTextureFile`], ``None``]]]]: Builds the
+        light map edit for one object, closed over that object's diffuse path
         
         A light map's alpha is a material band and the legend differs per skin, so the bands have to be
         moved. Conditioning each move on the DIFFUSE under the pixel is what keeps a PORT --- which carries
         its source character's legend --- from being mangled
+        
+        The edit it returns is handed the texture itself, not a copy, so it edits in place --- eg. through
+        :meth:`CppTextureFile.getPixels` / :meth:`CppTextureFile.setPixels`. Returning ``None`` leaves that
+        object's light map alone
         """
     @lightMapEdit.setter
-    def lightMapEdit(self, arg0: collections.abc.Callable[[str], collections.abc.Callable[[...], None]]) -> None:
+    def lightMapEdit(self, arg1: collections.abc.Callable[[str], collections.abc.Callable[[...], None] | None] | None) -> None:
         ...
     @property
     def mipmaps(self) -> bool:
@@ -12150,7 +12354,7 @@ class IniGroupedResource:
         """
         Supports ``copy.deepcopy()`` on this object
         """
-    def __init__(self, name: str, resources: typing.Any = None, fixFunc: collections.abc.Callable[[...], bool] = None, isBuilt: bool = True) -> None:
+    def __init__(self, name: str, resources: typing.Any = None, fixFunc: collections.abc.Callable[[IniGroupedResource], bool] | None = None, isBuilt: bool = True) -> None:
         """
         Constructs a new group of resources
         
@@ -12230,12 +12434,12 @@ class IniGroupedResource:
             The resources in the group
         """
     @property
-    def fixFunc(self) -> collections.abc.Callable[[...], bool]:
+    def fixFunc(self) -> collections.abc.Callable[[IniGroupedResource], bool] | None:
         """
         Optional[Callable[[:class:`IniGroupedResource`], :class:`bool`]]: Custom function for fixing the resource, overriding the default (no-op) behavior if set
         """
     @fixFunc.setter
-    def fixFunc(self, arg0: collections.abc.Callable[[...], bool]) -> None:
+    def fixFunc(self, arg1: collections.abc.Callable[[IniGroupedResource], bool] | None) -> None:
         ...
     @property
     def isBuilt(self) -> bool:
@@ -18141,7 +18345,7 @@ class RemapIniDownload(RemapIniResource):
     by the caller directly instead
         
     """
-    def __init__(self, iniFolderPath: str, srcPath: str, download: typing.Any, type: str = 'download', fixFunc: collections.abc.Callable[[RemapIniDownload, CachedFileStats], bool] = None) -> None:
+    def __init__(self, iniFolderPath: str, srcPath: str, download: typing.Any, type: str = 'download', fixFunc: collections.abc.Callable[[RemapIniDownload, CachedFileStats], bool] | None = None) -> None:
         """
         Constructs a new download resource
         
@@ -18239,7 +18443,7 @@ class RemapIniGroupedResource(IniGroupedResource, RemapIniResourceMixin):
     Base class for a group of resources to fix in a .ini file that's used by the overall remap process
         
     """
-    def __init__(self, name: str, resources: typing.Any = None, fixFunc: collections.abc.Callable[[...], bool] = None, isBuilt: bool = True) -> None:
+    def __init__(self, name: str, resources: typing.Any = None, fixFunc: collections.abc.Callable[[IniGroupedResource], bool] | None = None, isBuilt: bool = True) -> None:
         """
         Constructs a new group of resources to fix -- see :class:`IniGroupedResource`'s constructor for the parameters
         """
@@ -18804,7 +19008,7 @@ class RemapTexAddResource(RemapIniResource):
     Class for adding a brand new texture file used by the overall remap process
         
     """
-    def __init__(self, iniFolderPath: str, srcPath: str, texCreator: CppTexCreator, type: str = 'resourceRemapTexAdd', fixFunc: collections.abc.Callable[[RemapTexAddResource], bool] = None) -> None:
+    def __init__(self, iniFolderPath: str, srcPath: str, texCreator: CppTexCreator, type: str = 'resourceRemapTexAdd', fixFunc: collections.abc.Callable[[RemapTexAddResource], bool] | None = None) -> None:
         """
         Constructs a new texture-add resource
         
@@ -18840,12 +19044,12 @@ class RemapTexAddResource(RemapIniResource):
             Whether the resource was fixed
         """
     @property
-    def fixFunc(self) -> collections.abc.Callable[[RemapTexAddResource], bool]:
+    def fixFunc(self) -> collections.abc.Callable[[RemapTexAddResource], bool] | None:
         """
         Optional[Callable[[:class:`RemapTexAddResource`], :class:`bool`]]: Custom function for fixing the resource, overriding the default behavior if set
         """
     @fixFunc.setter
-    def fixFunc(self, arg0: collections.abc.Callable[[RemapTexAddResource], bool]) -> None:
+    def fixFunc(self, arg1: collections.abc.Callable[[RemapTexAddResource], bool] | None) -> None:
         ...
     @property
     def texCreator(self) -> CppTexCreator:
@@ -18867,7 +19071,7 @@ class RemapTexEditResource(RemapIniFixResource):
     ``srcPath``/``fixedPath`` pair. An *add* has only the one path
         
     """
-    def __init__(self, iniFolderPath: str, srcPath: str, fixedPath: str, texEditor: CppTexEditor, type: str = 'resourceRemapTexEdit', fixFunc: collections.abc.Callable[[RemapTexEditResource], bool] = None) -> None:
+    def __init__(self, iniFolderPath: str, srcPath: str, fixedPath: str, texEditor: CppTexEditor, type: str = 'resourceRemapTexEdit', fixFunc: collections.abc.Callable[[RemapTexEditResource], bool] | None = None) -> None:
         """
         Constructs a new texture-edit resource
         
@@ -18906,12 +19110,12 @@ class RemapTexEditResource(RemapIniFixResource):
             Whether the resource was fixed
         """
     @property
-    def fixFunc(self) -> collections.abc.Callable[[RemapTexEditResource], bool]:
+    def fixFunc(self) -> collections.abc.Callable[[RemapTexEditResource], bool] | None:
         """
         Optional[Callable[[:class:`RemapTexEditResource`], :class:`bool`]]: Custom function for fixing the resource, overriding the default behavior if set
         """
     @fixFunc.setter
-    def fixFunc(self, arg0: collections.abc.Callable[[RemapTexEditResource], bool]) -> None:
+    def fixFunc(self, arg1: collections.abc.Callable[[RemapTexEditResource], bool] | None) -> None:
         ...
     @property
     def texEditor(self) -> CppTexEditor:
@@ -21974,7 +22178,7 @@ class VGMergeGroupResource(IniGroupedResource, RemapIniResourceMixin):
         **Default**: ``True``
         
     """
-    def __init__(self, name: str, resources: typing.Any = None, components: typing.Any = None, objects: typing.Any = None, fixFunc: collections.abc.Callable[[...], bool] = None, isBuilt: bool = True) -> None:
+    def __init__(self, name: str, resources: typing.Any = None, components: typing.Any = None, objects: typing.Any = None, fixFunc: collections.abc.Callable[[IniGroupedResource], bool] | None = None, isBuilt: bool = True) -> None:
         ...
     @property
     def components(self) -> list[VGMergeComponentFiles]:
@@ -22249,7 +22453,7 @@ class VGSplitGroupResource(IniGroupedResource, RemapIniResourceMixin):
         **Default**: ``True``
         
     """
-    def __init__(self, name: str, resources: typing.Any = None, component: str = '', specs: typing.Any = None, ibPaths: typing.Any = None, texcoordLineEdit: typing.Any = None, positionLineEdit: typing.Any = None, fixFunc: collections.abc.Callable[[...], bool] = None, isBuilt: bool = True) -> None:
+    def __init__(self, name: str, resources: typing.Any = None, component: str = '', specs: typing.Any = None, ibPaths: typing.Any = None, texcoordLineEdit: typing.Any = None, positionLineEdit: typing.Any = None, fixFunc: collections.abc.Callable[[IniGroupedResource], bool] | None = None, isBuilt: bool = True) -> None:
         ...
     @property
     def component(self) -> str:

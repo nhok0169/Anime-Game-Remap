@@ -89,6 +89,17 @@ class PyIniParseContext: public AGRC::IniParseContext<std::string, std::string> 
         /**
          * @brief
          @rst
+         Re-derives #coreCtx from #ini and #modTypeId -- creating it for a core ``IniFile``, and
+         handing it the id from ``effectiveStrategyModTypeId`` so a parser built without one still
+         resolves the ``.ini`` file's ``availableType``. Called at the start of every parse, since
+         #modTypeId is assignable from `Python`_ and the file may be classified after construction
+         @endrst
+         */
+        void syncCoreCtx();
+
+        /**
+         * @brief
+         @rst
          The id of the mod type this parser was built for, if it was built for one :raw-html:`<br />`
          :raw-html:`<br />`
 

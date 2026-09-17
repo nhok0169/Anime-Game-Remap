@@ -17,6 +17,8 @@
 #include <optional>
 #include <utility>
 
+#include "AGRemapCore/model/iniresources/IniResource.h"  // IniFixResource
+
 
 namespace {
 
@@ -177,6 +179,15 @@ Blend.buf file
                                                         py::arg("toVersion") = ini.attr("toVersion"),
                                                         py::arg("fromComp") = optionalStrToPy(self.fromComp),
                                                         py::arg("toComp") = optionalStrToPy(self.toComp));
+
+        // No remap is a real answer, exactly as core's VGRemapBlendReplace treats it: the plain
+        // replacement resource ResReplace builds, typed with this edit's own resType. Passing the None
+        // on raised TypeError instead, since RemapBlendResource requires a VGRemap -- which a mod type
+        // with no row for 'modName' (a test type, or a runtime ModType built without vgRemaps) hits.
+        if (vgRemap.is_none()) {
+            std::string folder = py::str(ini.attr("folder")).cast<std::string>();
+            return py::cast(std::make_unique<AGRC::IniFixResource>(self.resType, folder, srcPath, fixedPath));
+        }
 
         return pyCoreModule().attr("RemapBlendResource")(ini.attr("folder"), py::str(srcPath), py::str(fixedPath), vgRemap,
                                                           py::arg("type") = py::str(self.resType),

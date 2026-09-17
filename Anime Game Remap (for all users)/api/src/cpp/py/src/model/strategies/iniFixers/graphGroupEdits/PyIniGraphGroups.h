@@ -104,6 +104,30 @@ class PyIniGraphGroups: public AGRC::IIniGraphGroups<std::string, std::string> {
         Graph* adopt(py::object graph);
 
         /**
+         * @brief
+         @rst
+         Drops this view's own references to every graph that is no longer in any group -- the
+         graphs #removeGraph, #deepcopyGraph, #createGraph and #adopt left in its keeping
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         Breaks :cpp:class:`AGRemapCore::IIniGraphGroups`'s "every pointer stays valid" promise for
+         exactly those graphs, so call it only once nothing holds a ``Graph*`` from this view any
+         more (``PyGIMIParser::clear`` is the one caller). A graph `Python`_ still references
+         elsewhere lives on through that reference
+
+         .. warning::
+            Not optional housekeeping. Without it a parser REUSED across ``IniFile.clear()`` kept
+            every graph it had ever built, and with them their keep-alive wrappers for `sections`_
+            and parts the ``.ini`` file had already freed. `pybind11`_ keeps such a wrapper
+            registered at the freed address, so a new object allocated there was cast back to the
+            STALE wrapper -- an ``IniSectionGraph`` built over an inline ``IfTemplate`` pinned that
+            wrapper instead of the live one, the ``IfTemplate`` died under the graph, and an
+            unrelated test much later crashed with an access violation (2026-09-17)
+         @endrst
+         */
+        void releaseDetached();
+
+        /**
          * @brief Converts a #ModObj into the ``(component, object)`` tuple Python keys the graph dicts use
          *
          * @param modObj The mod object to convert

@@ -159,25 +159,7 @@ namespace AGRemapCore {
 
         // Snapshotted here, between building the groups and running any edit over them -- see
         // preEditSectionNames_ for why the post-edit names are the wrong ones to hide by.
-        preEditSectionNames_.clear();
-        if (graphGroups_ != nullptr) {
-            std::size_t groupCount = graphGroups_->size();
-            preEditSectionNames_.resize(groupCount);
-
-            for (std::size_t groupInd = 0; groupInd < groupCount; ++groupInd) {
-                for (const ModObj& modObj : graphGroups_->modObjs(groupInd)) {
-                    Graph* graph = graphGroups_->getGraph(groupInd, modObj);
-                    if (graph == nullptr) {
-                        continue;
-                    }
-
-                    std::vector<std::string>& names = preEditSectionNames_[groupInd][modObj];
-                    for (const auto& section : graph->sections()) {
-                        names.push_back(section.first);
-                    }
-                }
-            }
-        }
+        snapshotPreEditSectionNames();
 
         // The mod type being fixed FROM. modTypeName() is RemapIniFixContext's rather than
         // IniFixContext's -- which is what this class's Context typedef is -- so it is asked for
@@ -302,6 +284,32 @@ namespace AGRemapCore {
         }
 
         return result;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename FixerBase>
+    void GIMIFixer<K, V, KeyHash, KeyEqual, FixerBase>::snapshotPreEditSectionNames() {
+        preEditSectionNames_.clear();
+        if (graphGroups_ == nullptr) {
+            return;
+        }
+
+        std::size_t groupCount = graphGroups_->size();
+        preEditSectionNames_.resize(groupCount);
+
+        for (std::size_t groupInd = 0; groupInd < groupCount; ++groupInd) {
+            for (const ModObj& modObj : graphGroups_->modObjs(groupInd)) {
+                Graph* graph = graphGroups_->getGraph(groupInd, modObj);
+                if (graph == nullptr) {
+                    continue;
+                }
+
+                std::vector<std::string>& names = preEditSectionNames_[groupInd][modObj];
+                for (const auto& section : graph->sections()) {
+                    names.push_back(section.first);
+                }
+            }
+        }
     }
 
 

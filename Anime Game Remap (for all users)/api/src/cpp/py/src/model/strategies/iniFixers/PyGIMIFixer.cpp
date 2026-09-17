@@ -113,10 +113,13 @@ void PyIniFixContext::syncCoreCtx() {
     // Replaced only when the .ini file itself changed: IniFileFixContext owns storage behind what
     // it hands out, and refresh() runs at the start of every operation, so rebuilding it
     // unconditionally would throw that away mid-fix.
+    // The parser's own fallback, for a fixer whose parser was built without a mod type id -- see
+    // effectiveStrategyModTypeId.
+    std::optional<int> effectiveId = effectiveStrategyModTypeId(ini, modTypeId);
     if (coreCtx == nullptr || coreCtx->getIniFile() != coreIni) {
-        coreCtx = std::make_unique<AGRC::IniFileFixContext>(coreIni, modTypeId);
+        coreCtx = std::make_unique<AGRC::IniFileFixContext>(coreIni, effectiveId);
     } else {
-        coreCtx->setModTypeId(modTypeId);
+        coreCtx->setModTypeId(effectiveId);
     }
 }
 
@@ -438,6 +441,10 @@ PyGIMIFixer::FixTargets PyGIMIFixer::getFix(ParseData &parseData, bool onlyEditO
             }
         }
     }
+
+    // Before any edit runs, exactly as the core getFix does -- hideOrig hides by these names, and
+    // without the snapshot it hid nothing for every fixer built from Python.
+    this->snapshotPreEditSectionNames();
 
     for (const std::string &modName : this->getModsToFix()) {
         applyGraphGroupEdits(modName);

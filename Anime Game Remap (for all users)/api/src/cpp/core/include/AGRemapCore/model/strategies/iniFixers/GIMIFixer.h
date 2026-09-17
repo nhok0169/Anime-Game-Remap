@@ -535,6 +535,21 @@ namespace AGRemapCore {
              */
             virtual void applyGraphGroupEdits(const std::string& modName);
 
+            /**
+             * @brief
+             @rst
+             Fills #preEditSectionNames_ from #graphGroups_ as they stand now :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Call it after the groups are built and **before** any #graphGroupEdits run -- #getFix does.
+             An override of #getFix that builds the groups its own way has to call it too: without the
+             snapshot, #touchedSectionNames and #hiddenSectionNames are empty, and ``hideOrig`` silently
+             comments out nothing. That is exactly what the `pybind11`_ ``GIMIFixer`` did until
+             2026-09-17
+             @endrst
+             */
+            void snapshotPreEditSectionNames();
+
             FixResult fixImpl(ParseData& parseData, bool keepBackup, bool fixOnly, bool hideOrig,
                                bool withBoilerPlate, bool withSrc, IniFixingContext fixingCtx) override;
 

@@ -75,7 +75,11 @@ namespace AGRemapCore {
             return pathToStr(path.lexically_normal());
         }
 
-        std::filesystem::path absFolder = std::filesystem::absolute(strToPath(relFolder));
+        // An EMPTY folder means the working directory, as os.path.abspath("") does. It has to be
+        // spelled out: std::filesystem::absolute("") throws on both MSVC and GCC, and an .ini file
+        // with no path (IniFile's 'txt' constructor) hands every resource an empty folder.
+        std::filesystem::path absFolder = relFolder.empty() ? std::filesystem::current_path()
+                                                            : std::filesystem::absolute(strToPath(relFolder));
         return pathToStr((absFolder / path).lexically_normal());
     }
 

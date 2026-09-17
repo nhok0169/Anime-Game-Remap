@@ -118,6 +118,27 @@ PyIniGraphGroups::Graph* PyIniGraphGroups::adopt(py::object graph) {
 }
 
 
+void PyIniGraphGroups::releaseDetached() {
+    std::unordered_map<const Graph*, py::object> stillGrouped;
+    std::size_t groupCount = size();
+    for (std::size_t i = 0; i < groupCount; ++i) {
+        for (auto item : groupGraphs(i)) {
+            py::object graph = py::reinterpret_borrow<py::object>(item.second);
+            if (!graph.is_none()) {
+                stillGrouped[graph.cast<PyIniSectionGraph*>()] = graph;
+            }
+        }
+    }
+
+    // Swapped out first and released last, so both members are already consistent by the time the
+    // released graphs' own destructors run.
+    std::unordered_map<const Graph*, py::object> released = std::move(handles_);
+    py::list releasedOwned = std::move(ownedGraphs_);
+    handles_ = std::move(stillGrouped);
+    ownedGraphs_ = py::list();
+}
+
+
 std::size_t PyIniGraphGroups::size() const {
     return static_cast<std::size_t>(py::len(graphGroups_));
 }

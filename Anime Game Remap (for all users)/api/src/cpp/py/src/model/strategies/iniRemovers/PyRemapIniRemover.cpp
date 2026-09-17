@@ -54,15 +54,44 @@ PyRemapIniRemoverCore::RemoverConfig buildConfig() {
 // PyIniRemoveContext
 // ---------------------------------------------------------------------------------------
 
-PyIniRemoveContext::PyIniRemoveContext(py::object ini): ini(std::move(ini)) {}
+PyIniRemoveContext::PyIniRemoveContext(py::object ini): ini(std::move(ini)) {
+    syncCoreCtx();
+}
+
+
+void PyIniRemoveContext::syncCoreCtx() {
+    // py::isinstance rather than a try/cast, so a Python object that merely quacks like an IniFile
+    // still takes the Python path -- same rule as PyIniParseContext's constructor.
+    AGRC::IniFile *coreIni = nullptr;
+    if (!ini.is_none() && py::isinstance<AGRC::IniFile>(ini)) {
+        coreIni = ini.cast<AGRC::IniFile*>();
+    }
+
+    if (coreIni == nullptr) {
+        coreCtx.reset();
+        return;
+    }
+
+    if (coreCtx == nullptr || coreCtx->getIniFile() != coreIni) {
+        coreCtx = std::make_unique<AGRC::IniFileRemoveContext>(coreIni);
+    }
+}
 
 
 bool PyIniRemoveContext::hasIni() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->hasIni();
+    }
+
     return !ini.is_none();
 }
 
 
 std::string PyIniRemoveContext::iniFolder() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->iniFolder();
+    }
+
     if (!hasIni()) {
         return "";
     }
@@ -72,6 +101,10 @@ std::string PyIniRemoveContext::iniFolder() const {
 
 
 std::optional<AGRC::Version> PyIniRemoveContext::version() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->version();
+    }
+
     if (!hasIni()) {
         return std::nullopt;
     }
@@ -91,6 +124,10 @@ std::vector<PyIniRemoveContext::Assets*> PyIniRemoveContext::modTypeHashes() con
     // .ini file classified as several mod types had every type but the first ignored when deciding
     // what the fix had left behind.
     std::vector<Assets*> result;
+    if (coreCtx != nullptr) {
+        return coreCtx->modTypeHashes();
+    }
+
     if (!hasIni()) {
         return result;
     }
@@ -115,6 +152,10 @@ std::vector<PyIniRemoveContext::Assets*> PyIniRemoveContext::modTypeHashes() con
 
 std::vector<std::string> PyIniRemoveContext::readFileLines() {
     std::vector<std::string> result;
+    if (coreCtx != nullptr) {
+        return coreCtx->readFileLines();
+    }
+
     if (!hasIni()) {
         return result;
     }
@@ -135,6 +176,10 @@ std::vector<std::string> PyIniRemoveContext::readFileLines() {
 
 std::unordered_map<std::string, PyIniRemoveContext::Section*> PyIniRemoveContext::sectionIfTemplates() const {
     std::unordered_map<std::string, Section*> result;
+    if (coreCtx != nullptr) {
+        return coreCtx->sectionIfTemplates();
+    }
+
     if (!hasIni()) {
         return result;
     }
@@ -149,6 +194,10 @@ std::unordered_map<std::string, PyIniRemoveContext::Section*> PyIniRemoveContext
 
 
 std::string PyIniRemoveContext::fileTxt() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->fileTxt();
+    }
+
     if (!hasIni()) {
         return "";
     }
@@ -158,6 +207,11 @@ std::string PyIniRemoveContext::fileTxt() const {
 
 
 void PyIniRemoveContext::setFileTxt(std::string txt) {
+    if (coreCtx != nullptr) {
+        coreCtx->setFileTxt(std::move(txt));
+        return;
+    }
+
     if (!hasIni()) {
         return;
     }
@@ -167,6 +221,10 @@ void PyIniRemoveContext::setFileTxt(std::string txt) {
 
 
 std::string PyIniRemoveContext::write() {
+    if (coreCtx != nullptr) {
+        return coreCtx->write();
+    }
+
     if (!hasIni()) {
         return "";
     }
@@ -176,6 +234,11 @@ std::string PyIniRemoveContext::write() {
 
 
 void PyIniRemoveContext::removeBackup() {
+    if (coreCtx != nullptr) {
+        coreCtx->removeBackup();
+        return;
+    }
+
     if (!hasIni()) {
         return;
     }
@@ -204,6 +267,11 @@ void PyIniRemoveContext::removeBackup() {
 
 
 void PyIniRemoveContext::clearRead() {
+    if (coreCtx != nullptr) {
+        coreCtx->clearRead();
+        return;
+    }
+
     if (!hasIni()) {
         return;
     }
@@ -213,6 +281,11 @@ void PyIniRemoveContext::clearRead() {
 
 
 void PyIniRemoveContext::setIsFixed(bool isFixed) {
+    if (coreCtx != nullptr) {
+        coreCtx->setIsFixed(isFixed);
+        return;
+    }
+
     if (!hasIni()) {
         return;
     }
@@ -244,6 +317,10 @@ void PyRemapIniRemover::refresh() {
     if (!ctxImpl.ini.is(this->iniFileObj)) {
         ctxImpl.ini = this->iniFileObj;
     }
+
+    // Unconditionally: it keeps the core context when the .ini file is unchanged, and a caller may
+    // have assigned iniFile a different object of the same identity check's reach.
+    ctxImpl.syncCoreCtx();
 
     // setContext is idempotent, but a caller could have pointed this remover somewhere else.
     if (this->getContext() != &ctxImpl) {

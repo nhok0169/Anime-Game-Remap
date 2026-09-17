@@ -14,6 +14,7 @@
 #include "PyRemapTexResource.h"
 
 #include <functional>
+#include <memory>
 #include <string>
 
 #include <pybind11/functional.h>
@@ -22,6 +23,7 @@
 #include "AGRemapCore/model/iniresources/RemapTexResource.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
+#include "../../tools/PyRefFunction.h"
 
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
@@ -39,7 +41,13 @@ This class inherits from :class:`RemapIniResource`
 Class for adding a brand new texture file used by the overall remap process
     )doc")
 
-        .def(py::init<const std::string&, const std::string&, AGRC::TexCreator, std::string, std::function<bool(AGRC::RemapTexAddResource&)>>(),
+        // 'fixFunc' through toPyRefFunction: pybind11's own conversion hands the callable a COPY of
+        // the resource, so anything it set on the resource was lost.
+        .def(py::init([](const std::string &iniFolderPath, const std::string &srcPath, AGRC::TexCreator texCreator,
+                         std::string type, const PyOptionalCallable<bool(AGRC::RemapTexAddResource&)> &fixFunc) {
+                 return std::make_unique<AGRC::RemapTexAddResource>(iniFolderPath, srcPath, std::move(texCreator), std::move(type),
+                                                                    toPyRefFunction<bool(AGRC::RemapTexAddResource&)>(fixFunc));
+             }),
              py::arg("iniFolderPath"), py::arg("srcPath"), py::arg("texCreator"), py::arg("type") = "resourceRemapTexAdd",
              py::arg("fixFunc") = py::none(), py::doc(R"doc(
 Constructs a new texture-add resource
@@ -70,7 +78,13 @@ fixFunc: Optional[Callable[[:class:`RemapTexAddResource`], :class:`bool`]]
 :class:`CppTexCreator`: The texture creator used to create the ``.dds`` file if it's missing
         )doc"))
 
-        .def_readwrite("fixFunc", &AGRC::RemapTexAddResource::fixFunc, py::doc(R"doc(
+        .def_property("fixFunc",
+            [](const AGRC::RemapTexAddResource &self) {
+                return fromPyRefFunction(self.fixFunc);
+            },
+            [](AGRC::RemapTexAddResource &self, const PyOptionalCallable<bool(AGRC::RemapTexAddResource&)> &fixFunc) {
+                self.fixFunc = toPyRefFunction<bool(AGRC::RemapTexAddResource&)>(fixFunc);
+            }, py::doc(R"doc(
 Optional[Callable[[:class:`RemapTexAddResource`], :class:`bool`]]: Custom function for fixing the resource, overriding the default behavior if set
         )doc"))
 
@@ -98,7 +112,11 @@ The texture counterpart to :class:`RemapBlendResource`, and shaped like it rathe
 ``srcPath``/``fixedPath`` pair. An *add* has only the one path
     )doc")
 
-        .def(py::init<const std::string&, const std::string&, const std::string&, AGRC::TexEditor, std::string, std::function<bool(AGRC::RemapTexEditResource&)>>(),
+        .def(py::init([](const std::string &iniFolderPath, const std::string &srcPath, const std::string &fixedPath,
+                         AGRC::TexEditor texEditor, std::string type, const PyOptionalCallable<bool(AGRC::RemapTexEditResource&)> &fixFunc) {
+                 return std::make_unique<AGRC::RemapTexEditResource>(iniFolderPath, srcPath, fixedPath, std::move(texEditor), std::move(type),
+                                                                     toPyRefFunction<bool(AGRC::RemapTexEditResource&)>(fixFunc));
+             }),
              py::arg("iniFolderPath"), py::arg("srcPath"), py::arg("fixedPath"), py::arg("texEditor"),
              py::arg("type") = "resourceRemapTexEdit",
              py::arg("fixFunc") = py::none(), py::doc(R"doc(
@@ -133,7 +151,13 @@ fixFunc: Optional[Callable[[:class:`RemapTexEditResource`], :class:`bool`]]
 :class:`CppTexEditor`: The texture editor used to edit the ``.dds`` file
         )doc"))
 
-        .def_readwrite("fixFunc", &AGRC::RemapTexEditResource::fixFunc, py::doc(R"doc(
+        .def_property("fixFunc",
+            [](const AGRC::RemapTexEditResource &self) {
+                return fromPyRefFunction(self.fixFunc);
+            },
+            [](AGRC::RemapTexEditResource &self, const PyOptionalCallable<bool(AGRC::RemapTexEditResource&)> &fixFunc) {
+                self.fixFunc = toPyRefFunction<bool(AGRC::RemapTexEditResource&)>(fixFunc);
+            }, py::doc(R"doc(
 Optional[Callable[[:class:`RemapTexEditResource`], :class:`bool`]]: Custom function for fixing the resource, overriding the default behavior if set
         )doc"))
 

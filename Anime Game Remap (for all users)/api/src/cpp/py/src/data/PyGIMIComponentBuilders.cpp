@@ -29,6 +29,8 @@
 // TexEditor::Filter is std::function<void(TextureFile&)>, and pybind11/functional.h needs the
 // COMPLETE type to decide how to convert it -- see PyGIMICharBuilders.cpp's identical note.
 #include "AGRemapCore/model/files/TextureFile.h"
+#include "../tools/PyRefFunction.h"
+#include "../model/strategies/texEditors/PyTexEditor.h"   // PyTexFilter
 
 
 namespace py = pybind11;
@@ -207,13 +209,27 @@ alone
 GI 6.x swapped the face diffuse and the face light map, so a mod still writing the pre-6.x register
 hands its diffuse to the light map slot --- the white shiny cheek spots
         )doc"))
-        .def_readwrite("lightMapEdit", &AGRC::GIMIMergeFixerConfig::lightMapEdit, py::doc(R"doc(
-Optional[Callable[[:class:`str`], Callable]]: Builds the light map edit for one object, closed over
-that object's diffuse path
+        // A property over toPyRefFunction rather than def_readwrite: pybind11's own conversion hands
+        // the filter this RETURNS a copy of the texture, so a light map edit written in Python ran and
+        // saved the unedited light map.
+        .def_property("lightMapEdit",
+            [](const AGRC::GIMIMergeFixerConfig &self) {
+                return fromPyRefFunction<AGRC::TexEditor::Filter(const std::string&),
+                                         py::typing::Optional<PyTexFilter>(const std::string&)>(self.lightMapEdit);
+            },
+            [](AGRC::GIMIMergeFixerConfig &self, const PyOptionalCallable<py::typing::Optional<PyTexFilter>(const std::string&)> &lightMapEdit) {
+                self.lightMapEdit = toPyRefFunction<AGRC::TexEditor::Filter(const std::string&)>(lightMapEdit);
+            }, py::doc(R"doc(
+Optional[Callable[[:class:`str`], Optional[Callable[[:class:`CppTextureFile`], ``None``]]]]: Builds the
+light map edit for one object, closed over that object's diffuse path
 
 A light map's alpha is a material band and the legend differs per skin, so the bands have to be
 moved. Conditioning each move on the DIFFUSE under the pixel is what keeps a PORT --- which carries
 its source character's legend --- from being mangled
+
+The edit it returns is handed the texture itself, not a copy, so it edits in place --- eg. through
+:meth:`CppTextureFile.getPixels` / :meth:`CppTextureFile.setPixels`. Returning ``None`` leaves that
+object's light map alone
         )doc"))
         .def_readwrite("mipmaps", &AGRC::GIMIMergeFixerConfig::mipmaps,
                         py::doc(":class:`bool`: Whether written textures carry a mip chain. **Default**: ``True``"))

@@ -18,6 +18,7 @@
 #include <pybind11/functional.h>
 #include <pybind11/stl.h>
 
+#include "../../tools/PyRefFunction.h"
 #include "../buffers/PyVGComponentMerge.h"
 
 namespace py = pybind11;
@@ -136,7 +137,7 @@ isBuilt: :class:`bool`
     **Default**: ``True``
     )doc")
         .def(py::init([](std::string name, const py::object &resources, const py::object &components, const py::object &objects,
-                         std::function<bool(AGRC::IniGroupedResource&)> fixFunc, bool isBuilt) {
+                         const PyOptionalCallable<bool(PyIniGroupedResource&)> &fixFunc, bool isBuilt) {
             py::dict resourcesDict = resources.is_none() ? py::dict() : resources.cast<py::dict>();
 
             AGRC::VGMergeGroupConfig config;
@@ -148,7 +149,7 @@ isBuilt: :class:`bool`
             }
 
             return std::make_unique<PyVGMergeGroupResource>(std::move(name), std::move(resourcesDict), std::move(config),
-                                                             std::move(fixFunc), isBuilt);
+                                                             toPyRefFunction<bool(AGRC::IniGroupedResource&)>(fixFunc), isBuilt);
         }), py::arg("name"), py::arg("resources") = py::none(), py::arg("components") = py::none(), py::arg("objects") = py::none(),
             py::arg("fixFunc") = py::none(), py::arg("isBuilt") = true)
         .def_property("components", [](const PyVGMergeGroupResource &self) { return self.config.components; },

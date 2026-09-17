@@ -23,6 +23,7 @@
 
 #include "AGRemapCore/model/buffers/BufElementType.h"
 #include "AGRemapCore/model/iniresources/RemapBlendResource.h"
+#include "../../tools/PyRefFunction.h"
 
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
@@ -44,7 +45,7 @@ std::vector<std::unique_ptr<AGRC::BufElementType>> blendElementsFromList(const p
 }
 
 
-// A Python callable as the core's fixFunc, called with the resource BY REFERENCE.
+// A Python callable as the core's fixFunc, called with the resource BY REFERENCE (toPyRefFunction).
 //
 // pybind11's own std::function caster casts an lvalue-reference argument with the 'copy' policy
 // whenever no Python wrapper for the object exists yet, and RemapBlendResource is not copyable (it
@@ -55,35 +56,12 @@ std::vector<std::unique_ptr<AGRC::BufElementType>> blendElementsFromList(const p
 // worked, because getResources() had already created the wrapper the cast then found; that is why
 // every test passed. Found 2026-09-12 by the Yelan -> YelanTranquil prototype, whose per-component
 // buffers all come through fixFunc.
-//
-// A named functor rather than a lambda so the getter can hand back the ORIGINAL Python object
-// (std::function::target), which is what the pure-Python attribute always returned.
-struct PyFixFunc {
-    py::object callable;
-
-    bool operator()(AGRC::RemapBlendResource &resource) const {
-        return callable(py::cast(&resource, py::return_value_policy::reference)).cast<bool>();
-    }
-};
-
 std::function<bool(AGRC::RemapBlendResource&)> toFixFunc(const py::object &fixFunc) {
-    if (fixFunc.is_none()) {
-        return nullptr;
-    }
-
-    return PyFixFunc{fixFunc};
+    return toPyRefFunction<bool(AGRC::RemapBlendResource&)>(fixFunc);
 }
 
 py::object fromFixFunc(const std::function<bool(AGRC::RemapBlendResource&)> &fixFunc) {
-    if (!fixFunc) {
-        return py::none();
-    }
-
-    if (const PyFixFunc *held = fixFunc.target<PyFixFunc>()) {
-        return held->callable;
-    }
-
-    return py::cpp_function(fixFunc);
+    return fromPyRefFunction(fixFunc);
 }
 }
 

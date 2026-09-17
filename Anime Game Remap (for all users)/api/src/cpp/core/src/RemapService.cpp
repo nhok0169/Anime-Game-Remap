@@ -443,6 +443,13 @@ namespace AGRemapCore {
                 // have parsed enough resources to name folders worth visiting.
                 addIniNeighbourFolders(walk, *ini);
 
+                // An undo does not parse, so the folders it can reach are the ones its removal
+                // took files out of -- see removedResourceFolders_.
+                for (const std::string& removedFolder : removedResourceFolders_) {
+                    walk.push(removedFolder);
+                }
+                removedResourceFolders_.clear();
+
                 // A blank line between .ini files, but not after the last one. Undoing is quiet
                 // enough not to need the separation.
                 if (!undoOnly && iniInd + 1 < iniPathsLen && logger != nullptr) {
@@ -667,6 +674,13 @@ namespace AGRemapCore {
                 for (std::unique_ptr<IniResource>& resource : entry.second) {
                     if (resource == nullptr) {
                         continue;
+                    }
+
+                    // Only an undo needs these: a fix parses the file afterwards and reports the
+                    // same folders (and the ones its new fix writes to) through its own models.
+                    if (undoOnly) {
+                        removedResourceFolders_.push_back(
+                            FileService::pathToStr(FileService::strToPath(resource->srcPath).parent_path()));
                     }
 
                     // NEVER DELETE SOMETHING THIS RUN JUST PRODUCED.

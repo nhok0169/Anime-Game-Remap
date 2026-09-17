@@ -27,6 +27,7 @@
 #include "../stats/PyRemapStats.h"
 #include "../stats/PyCachedFileStats.h"
 #include "../stats/PyStatsConversion.h"
+#include "../../tools/PyRefFunction.h"
 #include "PyIniResource.h"
 
 namespace py = pybind11;
@@ -181,7 +182,11 @@ by the caller directly instead
     )doc")
 
         .def(py::init([](const std::string &iniFolderPath, const std::string &srcPath, py::object download,
-                          std::string type, std::function<bool(AGRC::RemapIniDownload&, PyCachedFileStats&)> fixFunc) {
+                          std::string type, const PyOptionalCallable<bool(AGRC::RemapIniDownload&, PyCachedFileStats&)> &fixFuncObj) {
+            // By reference (toPyRefFunction), or the copy-back below copies back an untouched
+            // copy: pybind11's own conversion handed the callback a COPY of 'pyStats', so every
+            // stat it recorded was lost.
+            auto fixFunc = toPyRefFunction<bool(AGRC::RemapIniDownload&, PyCachedFileStats&)>(fixFuncObj);
             std::function<bool(AGRC::RemapIniDownload&, AGRC::CachedFileStats&)> convertedFixFunc = nullptr;
             if (fixFunc) {
                 // fixFunc is invoked from the real C++ _fix() call path with a plain

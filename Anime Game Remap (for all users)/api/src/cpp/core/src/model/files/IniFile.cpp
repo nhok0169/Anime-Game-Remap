@@ -135,6 +135,27 @@ namespace AGRemapCore {
 
         ifTemplatesRead_ = false;
 
+        // Matches the pure-Python original's own "self._iniParser = None" / "self._iniFixer = None"
+        // in clear(). Both are bound to this file's now-discarded state, so neither can be reused --
+        // the next parse()/fix() builds fresh ones.
+        //
+        // Order matters, twice over:
+        // - a built fixer holds a non-owning pointer into its built parser
+        //   (BaseIniFixer::getParser), so the fixers have to go first;
+        // - and all of this has to happen BEFORE the sections below are freed. A parser's graphs
+        //   borrow those sections, and releasing a strategy does not end it when Python still holds
+        //   it (a test or a user reusing one parser across files). clear() is what drops the
+        //   graphs, so it runs here, while every section they point at is still alive. Done the
+        //   other way round, a Python-built parser kept keep-alive wrappers for freed sections
+        //   registered with pybind11 -- see PyIniGraphGroups::releaseDetached.
+        builtFixers_.clear();
+        for (auto& entry : builtParsers_) {
+            if (entry.second != nullptr) {
+                entry.second->clear();
+            }
+        }
+        builtParsers_.clear();
+
         // Order matters: the IfTemplates hold predicates built against z3Ctx_, so they have to go
         // before it is replaced.
         sectionIfTemplates_.clear();
@@ -149,15 +170,6 @@ namespace AGRemapCore {
         z3Ctx_ = Z3Context();
 
         parseData_.reset();
-
-        // Matches the pure-Python original's own "self._iniParser = None" / "self._iniFixer = None"
-        // in clear(). Both are bound to this file's now-discarded state, so neither can be reused --
-        // the next parse()/fix() builds fresh ones.
-        //
-        // Order matters: a built fixer holds a non-owning pointer into its built parser
-        // (BaseIniFixer::getParser), so the fixers have to go first.
-        builtFixers_.clear();
-        builtParsers_.clear();
     }
 
     BaseIniParser<>* IniFile::getParser(int modTypeId, ModType& modType) {

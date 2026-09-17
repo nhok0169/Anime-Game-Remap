@@ -225,6 +225,13 @@ is the live one. Same rule as the rest of this folder: nothing tests it, run bef
   two minutes, and `APIBuilder`'s `cleanInstalls()` --- an `rglob` over `api/`, which includes the
   populated `extern/` submodules --- took **twelve**. Run them in the background rather than
   concluding something is stuck.
+- **`APIBuilder` deletes installed binaries before it knows where it will install.** Unless `-i` is
+  passed, `cleanInstalls()` removes every `.pyd`/`.so` under `api/` -- the live
+  `FixRaidenBoss2` package included -- and `-f <folder>` only changes where the fresh ones go. A
+  test build into a scratch install folder needs `-i -f <scratch>`. Its `--buildLocation` (`-bl`,
+  or `AGREMAP_BUILD_LOCATION`) moves only `cbuild<suffix>`; `cext`/`cebuild` stay at the repo root,
+  and a location that already holds a build tree configured at another path will not configure
+  (2026-09-17).
 - **Do not `git add -A`, and quote every path.** Every path in this repo contains both spaces and
   parentheses. Stage explicit path lists, ideally from a python script with a real argument list ---
   see [Overview](../Overview/CLAUDE.md)'s operating norms for the `nhok0169` submodule hazard that

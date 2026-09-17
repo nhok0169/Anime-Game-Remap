@@ -697,11 +697,61 @@ attribute by hash -- and the fix was to write the section inside the block. The 
 classifier, the parser and `GIMIFixer`'s rendering: when a template produces something the shared
 machinery mishandles, first ask whether the template is producing the wrong thing.
 
+**44. A SLOW BUILD IS A QUESTION ABOUT THE MACHINE BEFORE IT IS A QUESTION ABOUT THE CODE
+(2026-09-17).** Two agents were asked to speed up the Windows build; the first tuned flags on a
+24-thread Xeon and reported success, and on the maintainer's laptop the build got *slower*. Nobody
+had looked at the laptop: the repo on a USB disk, 16 GB with the game holding 7 GB, 6 cores. Before
+touching a flag or a file, record **CPU/RAM, which physical disk `cbuild` is on, what else is
+running**, and read `cbuild/.ninja_log`. Then **compile one TU alone with `/Bt+`** (front end vs
+back end) and `/d1reportTime` (headers vs class definitions vs template bodies) -- the in-build
+timings are inflated ~10x by contention and say nothing about where a file's cost is. That profile
+is what showed "split the slow files" was the wrong fix (the 30 slowest TUs were 29% of the time)
+and explicit instantiation the right one. Every measured result, including the rejected ones, is
+in Building; add yours there, **with the machine and whether the game was open**.
+
+**45. PROVE A BUILD-ONLY CHANGE CHANGED NOTHING, WITH TWO COMPARISONS AND A DOUBLE BASELINE
+(2026-09-17).** A compiler flag, a PCH list, an explicit instantiation or a `bindings.cpp` rework
+should not move behaviour, and "it compiled" does not show that. What was accepted for all of
+them:
+
+* **The bound surface.** Load the built `core.*.pyd` standalone with
+  `importlib.machinery.ExtensionFileLoader("core", <ABSOLUTE path>)` after `os.add_dll_directory`
+  on a folder holding it plus `libz3`/`libcurl`/`utf8proc.dll`, and dump every top-level name,
+  class MRO, member and docstring to JSON. Compare byte for byte against the unchanged build. A
+  relative path fails with `DLL load failed ... The parameter is incorrect`, which reads like a
+  broken build and is not.
+* **The real CLI.** Copy `FixRaidenBoss2/` to scratch **with its `Cy*.pyd` and DLLs**, drop in the
+  `.pyd` under test, and run `remapMain` over a scratch copy of `multiFix/select` (Testing's smoke
+  check). Hash every output file. **Run the unchanged module twice first** and require those two
+  to agree: this fixture downloads, and one run in four lost a `*RemapDL.dds` on its own. A single
+  differing download is a re-run, not a regression. It exercises the classic fixer path only; say
+  so if your change reaches the multi-component one.
+* **Never let the check touch the live package.** `main.py -f <scratch>` without `-i` still runs
+  `cleanInstalls`, which deletes every `.pyd` under `api/` -- the real `FixRaidenBoss2` included --
+  before installing into the scratch folder.
+
+**46. THREE WAYS A MULTI-FILE EDIT FROM THE BASH TOOL GOES WRONG HERE, ALL SEEN IN ONE SESSION
+(2026-09-17).** Trap (2) of the top-level CLAUDE.md, in forms it does not list: a Python patch script
+**appended to through a heredoc** loses its `"\n"` escapes and its `"\r\n"` becomes a literal
+line break (the script then fails to parse, or worse, half-applies); `printf '...\18\Community...'`
+turns `\18` into an octal byte and `\v` into a vertical tab inside a generated `.bat`; and a
+`cmd` `for` loop's `%time%` is expanded **once, when the loop is parsed**, so every "start" and
+"end" timestamp in it is the same (read the log files' mtimes instead, or use `!time!` with
+delayed expansion). **Write every script whole with the Write tool.** And when a patch script
+applies several edits, make each file's replacements one read-modify-write that asserts every
+anchor first: the one that did not did half its files and stopped.
+
 <br>
 
 ## Operating norms
 
 - Don't push or open a PR unless asked. If you do, branch off `development`, not `nhok0169`.
+- **Splitting overlapping changes into separate commits without `git add -p`** (which the tools
+  here cannot drive): build each intermediate version of a shared file in a Python script, stage it
+  with `git hash-object -w --path=<repo path> <temp file>` (the `--path` applies the CRLF
+  normalisation) and `git update-index --cacheinfo 100644,<sha>,<repo path>`, then `git commit`
+  without paths. Finish by checking `git diff HEAD` is empty and grepping each commit's version of
+  the shared file for the other commits' text (2026-09-17).
 - **You may not be the only agent in this working tree, and `git checkout -- <file>` is
   unrecoverable.** The maintainer runs several agents against the same checkout, so a file you did
   not write can gain uncommitted work mid-session. This was noticed the lucky way: `RegDelimitedAdd`

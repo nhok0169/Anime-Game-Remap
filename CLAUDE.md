@@ -36,7 +36,7 @@ these were found by counting the log lines rather than reading the summary. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Verifying".
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is forty-three short habits, none of
+feature or bug request here: the habits that pay" first.** It is forty-six short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -667,8 +667,25 @@ that had it and replay the session's edits --- every patch script's exact text i
 transcript under `~/.claude/projects/<slug>/<session>.jsonl`, and a full build is what proves the
 reconstruction complete.
 
-**The build is no longer the ten-minute wall this file's older advice was written around
-(2026-09-08), and the tuning is already done --- do not re-derive it.** A one-line change to a
+**BUILD TIMES ARE A PROPERTY OF THE MACHINE, AND THE MAINTAINER HAS TWO VERY DIFFERENT ONES
+(2026-09-17).** The figures in the next paragraph are from a 24-thread, 31 GB Xeon. On the
+maintainer's other computer -- a 6-core, 16 GB laptop whose repo lives on an **external USB disk**,
+often with the game open holding ~7 GB -- the same "tuned" build took 10-30 minutes and agents kept
+trying to fix it in code. What was actually wrong, in order of size: the build tree was on the USB
+disk (a one-file rebuild 171s there, 20s on the internal SSD), then RAM, then compile work. On
+that laptop `cbuild` is now a junction to the SSD, and **`Tools/APIBuilder --buildLocation` (or
+`AGREMAP_BUILD_LOCATION`) is how any other checkout or worktree gets the same**. Three code-side
+changes landed with it and are now conventions: `bindings.cpp` **declares** each `initCppXxx`
+instead of including its header; MSVC builds with `/Zc:inline`; and core class templates used at
+`<std::string, std::string>` are **explicitly instantiated** (`extern template` in the header, an
+`XxxInstantiation.cpp` beside the source -- follow it for a new template). Measured on the laptop,
+none of these helped: fewer `ninja -j` jobs (even with the game open), `/O1`, or sccache as the
+default. **Before optimising a build, say which machine you are on and where `cbuild` physically
+is** (`Get-Item <repo>\cbuild | Select LinkType,Target`). Building's "Build speed on a small
+machine" and the sections after it have the numbers.
+
+**On the Xeon, the build is no longer the ten-minute wall this file's older advice was written
+around (2026-09-08).** A one-line change to a
 `core/src/*.cpp` rebuilds in about **8 seconds**, a change to a widely-included `core/include`
 header in about **2 minutes**, and a tree that has to build every object from scratch comes back
 from the compiler cache in about **30 seconds**. Getting there was a measured exercise, and the

@@ -346,7 +346,7 @@ tree location was changed to get that.
 from Windows Defender, which will be scanning every write of a 36MB `.lib` and a 10MB `.pyd`. An
 exclusion is the cheapest thing to try. Measure it before believing it.
 
-### Two ways a build benchmark lies, both of which happened while taking the numbers above
+### Ways a build benchmark lies, every one of which happened while taking numbers in this file
 
 * **Two builds at once measure each other.** A Windows timing started while a Linux build was
   still running gave 635s for a *no-op*; both were competing for the same cores and the same
@@ -357,6 +357,15 @@ exclusion is the cheapest thing to try. Measure it before believing it.
   script for the OTHER platform `touch`es the same shared source on `/mnt/e`. **Read the build log
   and confirm `ninja: no work to do.` before calling anything a no-op** --- a wrong label survives
   repetition perfectly well. Per-platform scratch files avoid the whole problem.
+* **The game is a variable** (2026-09-17). The same 405-edge rebuild was 760s with Genshin closed
+  and 1177s with it open. Record `Get-Process GenshinImpact` next to every figure, and compare only
+  like with like.
+* **`.ninja_log` is compacted between runs.** Ninja rewrites it keeping the latest entry per
+  output, so a back-to-back sequence of timed rebuilds loses the earlier run's rows. Time each run
+  from its own log file (first and last write), or copy `.ninja_log` out between runs.
+* **A `cmd` `for` loop's `%time%` is expanded when the loop is parsed**, so a batch that brackets
+  several builds with `echo START %time%` prints one timestamp for all of them. That once looked
+  like a build finishing in 0 seconds.
 
 ## On the maintainer's laptop, `cbuild` is a JUNCTION to the internal SSD (2026-09-16)
 

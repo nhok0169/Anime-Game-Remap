@@ -506,4 +506,13 @@ namespace AGRemapCore {
 
 #include "IfTemplateTree.tpp"
 
+namespace AGRemapCore {
+    // note: every translation unit that uses these with <std::string, std::string> would otherwise
+    //   instantiate all of their member bodies itself; they are compiled once, in
+    //   src/model/iftemplate/IfTemplateTreeInstantiation.cpp, instead. Any other instantiation still happens implicitly.
+    extern template class IfTemplateTree<std::string, std::string>;
+    extern template class IfTemplateNonEmptyNodeTree<std::string, std::string>;
+    extern template class IfTemplateNormTree<std::string, std::string>;
+}
+
 #endif

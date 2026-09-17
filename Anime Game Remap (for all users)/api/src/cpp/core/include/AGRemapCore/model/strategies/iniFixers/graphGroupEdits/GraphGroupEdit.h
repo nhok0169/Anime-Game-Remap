@@ -358,4 +358,11 @@ namespace AGRemapCore {
 
 #include "GraphGroupEdit.tpp"
 
+namespace AGRemapCore {
+    // note: every translation unit that uses these with <std::string, std::string> would otherwise
+    //   instantiate all of their member bodies itself; they are compiled once, in
+    //   src/model/strategies/iniFixers/graphGroupEdits/GraphGroupEditInstantiation.cpp, instead. Any other instantiation still happens implicitly.
+    extern template class GraphGroupEdit<std::string, std::string>;
+}
+
 #endif

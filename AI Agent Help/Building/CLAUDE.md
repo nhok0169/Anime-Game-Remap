@@ -459,10 +459,48 @@ buffer` -- configure succeeds, because it only checks that `sccache` is on `PATH
 `SCCACHE_SERVER_PORT` (e.g. `4227`) for the Windows side; `Get-NetTCPConnection -LocalPort 4226`
 naming `wslrelay` is the tell.
 
-**Not yet tried:** cutting the core front end,
-which is the project's own template headers -- `IniSectionGraph.h`, `IniFixBuilder.h`,
-`BaseIniFixer.h`, `ModType.h` each reach 100-170 TUs with 40-66 project headers behind them. No
-third-party header is the problem: `z3++.h` reaches 6 TUs, `<regex>` none.
+### The core templates are explicitly instantiated at `<std::string, std::string>` (2026-09-17)
+
+The core front end looked like header fan-in (`IniSectionGraph.h`, `IniFixBuilder.h`,
+`BaseIniFixer.h`, `ModType.h` each reach 100-170 TUs) and was not, mostly. `/d1reportTime` on two
+heavy TUs:
+
+| TU | parsing headers | class definitions | function definitions (template bodies) |
+| --- | --- | --- | --- |
+| `IniFileFixContext.cpp` | 8.1s | 9.3s | **15.5s** (10.4s of it `std::`) |
+| `GIMIComponentFixer.cpp` | 9.2s | 14.6s | **31.0s** (15.0s `std::`, 6.0s `ResGroupCollect`) |
+
+Every class template here keeps its bodies in a `.tpp` and nearly every use is
+`<std::string, std::string>`, so each of those TUs was re-instantiating the same members -- and the
+`std::` containers inside them -- and then generating code for them all over again. So **28 headers
+now end with `extern template class Xxx<std::string, std::string>;`** and each has a
+`src/.../XxxInstantiation.cpp` holding the one `template class` definition (the pattern `PyTrie`,
+`PyBiMap` and `PyModAssets` already used for their `py::object` instantiations). Not done: the CRTP
+`OrderedMultiMap` family, whose base needs its whole internal argument list spelled out.
+
+| measured (8 TUs compiled alone) | before | + 3 templates | + 25 more |
+| --- | --- | --- | --- |
+| total | 393s | 250s | **193s (-51%)** |
+| `GIMIComponentFixer.cpp` | 79.3s, 18.0 MB obj | 56.3s | **35.3s, 5.4 MB** |
+| `IniParseBuilder.cpp` | 38.3s, 9.5 MB | 31.9s | **13.1s, 0.4 MB** |
+
+A full project rebuild (game open, `-j14`) went 1177s -> **951s**, and `AGRemapCore.lib` 227 ->
+138 MB. The full build moved less than the per-TU figure because it is now **63% binding TUs**
+(8224 of 12963 CPU-seconds), which this does not touch -- their cost is pybind11 code generation --
+and the 28 instantiation TUs cost 664 CPU-seconds between them (80s the largest). Accepted on an
+identical bound surface and byte-identical CLI output over `multiFix/select`, which exercises the
+classic fixer path, not the multi-component one; GCC 13 compiles all 28 instantiation TUs.
+
+**What this means when you write core code:**
+* **A new class template used at `<std::string, std::string>`** should get the same two pieces: the
+  `extern template` line after its `.tpp` include, and an `Instantiation.cpp` registered in
+  `core/CMakeLists.txt`. Leaving them out is not an error; it is just the old cost.
+* **An explicit instantiation compiles EVERY member**, not only the ones something calls. A member
+  that cannot compile for `std::string` -- one that only makes sense for another `K` -- now breaks
+  the build in the `Instantiation.cpp` rather than never being checked. All 28 compiled cleanly on
+  MSVC and GCC as of this change.
+* **A standalone `core/tests` executable must link `AGRemapCore.lib`**, which the Windows and Linux
+  runners already do. One built from a hand-picked source list will now fail to link these members.
 
 ## Build speed: five switches, and what each one actually measured
 

@@ -9,6 +9,12 @@ for how these conventions show up in rendered docs.
 - `AGRemapCore` has zero Python/pybind11 dependency — it's meant to be usable as a standalone
   C++ library too (`-e core` build mode, see [Building](../Building/CLAUDE.md)). Keep it that
   way; Python-specific concerns belong in `api/src/cpp/py`.
+- **Class templates used at `<std::string, std::string>` are explicitly instantiated** (2026-09-17):
+  the header ends with `extern template class Xxx<std::string, std::string>;` after its `.tpp`
+  include, and `src/.../XxxInstantiation.cpp` holds the `template class` definition. It halved the
+  compile time of the heaviest core TUs; a new template of that shape should follow it, and a member
+  that only compiles for some other `K` will now fail there. See
+  [Building](../Building/CLAUDE.md)'s "The core templates are explicitly instantiated".
 - CRTP (`BaseOrderedMultiMap<Derived, ...>`) is used deliberately to avoid vtable overhead on
   hot-path container types. Don't casually add virtual methods to a CRTP base — if you need
   runtime polymorphism over such a type, wrap it in an adapter against a real interface instead

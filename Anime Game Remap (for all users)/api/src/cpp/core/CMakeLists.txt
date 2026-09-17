@@ -209,11 +209,39 @@ add_library(AGRemapCore STATIC
     src/model/strategies/iniFixers/IniFileFixContext.cpp
     src/model/strategies/iniParsers/IniFileParseContext.cpp
     src/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/ResGroupCollectInstantiation.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEditInstantiation.cpp
     src/model/strategies/iniRemovers/IniFileRemoveContext.cpp
     src/model/strategies/iniRemovers/IniRemoveBuilder.cpp
     src/model/strategies/iniFixers/BaseIniPartEdit.cpp
     src/model/files/IniFile.cpp
     src/model/IniNamingTools.cpp
+    src/model/IniSectionGraphInstantiation.cpp
+    src/model/strategies/iniRemovers/RemapIniRemoverInstantiation.cpp
+    src/model/strategies/iniFixers/GIMIFixerInstantiation.cpp
+    src/model/strategies/iniParsers/GIMIParserInstantiation.cpp
+    src/model/strategies/iniParsers/IniParseDownloadDataInstantiation.cpp
+    src/model/strategies/iniParsers/GIMISectionClassifierInstantiation.cpp
+    src/model/strategies/iniFixers/RemapIniFixContextInstantiation.cpp
+    src/model/strategies/iniFixers/graphEdits/RegFillMissingInstantiation.cpp
+    src/model/strategies/iniFixers/graphEdits/RegSurroundedAddInstantiation.cpp
+    src/model/strategies/iniFixers/graphEdits/RegDelimitedAddInstantiation.cpp
+    src/model/strategies/iniFixers/graphEdits/BaseIniGraphEditInstantiation.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemapInstantiation.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/GraphGroupEditInstantiation.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/ResRegCollectInstantiation.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEditInstantiation.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroupsInstantiation.cpp
+    src/model/strategies/iniFixers/BaseIniFixerInstantiation.cpp
+    src/model/strategies/iniParsers/BaseIniParserInstantiation.cpp
+    src/model/IniGraphGroupInstantiation.cpp
+    src/model/SectionIterDataInstantiation.cpp
+    src/model/CallGraphInstantiation.cpp
+    src/model/iftemplate/IfContentPartColourInstantiation.cpp
+    src/model/iftemplate/IfTemplateTreeInstantiation.cpp
+    src/model/iftemplate/IfTemplateNodeInstantiation.cpp
+    src/model/iftemplate/IfTemplateInstantiation.cpp
+    src/model/iftemplate/IfContentPartInstantiation.cpp
     src/model/textures/Colour.cpp
     src/model/textures/ColourRange.cpp
     src/model/files/TextureFile.cpp

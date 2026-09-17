@@ -578,4 +578,14 @@ namespace AGRemapCore {
 
 #include "ResEdit.tpp"
 
+namespace AGRemapCore {
+    // note: every translation unit that uses these with <std::string, std::string> would otherwise
+    //   instantiate all of their member bodies itself; they are compiled once, in
+    //   src/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEditInstantiation.cpp, instead. Any other instantiation still happens implicitly.
+    extern template class BaseResEdit<std::string, std::string>;
+    extern template class ResReplace<std::string, std::string>;
+    extern template class ResIdentity<std::string, std::string>;
+    extern template class ResCreate<std::string, std::string>;
+}
+
 #endif

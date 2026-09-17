@@ -517,4 +517,11 @@ namespace AGRemapCore {
 
 #include "RegFillMissing.tpp"
 
+namespace AGRemapCore {
+    // note: every translation unit that uses these with <std::string, std::string> would otherwise
+    //   instantiate all of their member bodies itself; they are compiled once, in
+    //   src/model/strategies/iniFixers/graphEdits/RegFillMissingInstantiation.cpp, instead. Any other instantiation still happens implicitly.
+    extern template class RegFillMissing<std::string, std::string>;
+}
+
 #endif

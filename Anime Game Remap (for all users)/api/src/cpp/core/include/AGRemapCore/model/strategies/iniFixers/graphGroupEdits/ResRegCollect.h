@@ -351,4 +351,11 @@ namespace AGRemapCore {
 
 #include "ResRegCollect.tpp"
 
+namespace AGRemapCore {
+    // note: every translation unit that uses these with <std::string, std::string> would otherwise
+    //   instantiate all of their member bodies itself; they are compiled once, in
+    //   src/model/strategies/iniFixers/graphGroupEdits/ResRegCollectInstantiation.cpp, instead. Any other instantiation still happens implicitly.
+    extern template class ResRegCollect<std::string, std::string>;
+}
+
 #endif

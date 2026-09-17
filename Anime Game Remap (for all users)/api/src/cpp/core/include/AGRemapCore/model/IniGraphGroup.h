@@ -197,4 +197,11 @@ namespace AGRemapCore {
 
 #include "IniGraphGroup.tpp"
 
+namespace AGRemapCore {
+    // note: every translation unit that uses these with <std::string, std::string> would otherwise
+    //   instantiate all of their member bodies itself; they are compiled once, in
+    //   src/model/IniGraphGroupInstantiation.cpp, instead. Any other instantiation still happens implicitly.
+    extern template class IniGraphGroup<std::string, std::string>;
+}
+
 #endif

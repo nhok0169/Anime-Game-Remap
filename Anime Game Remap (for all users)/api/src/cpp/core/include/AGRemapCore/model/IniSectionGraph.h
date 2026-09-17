@@ -390,4 +390,11 @@ namespace AGRemapCore {
 
 #include "IniSectionGraph.tpp"
 
+namespace AGRemapCore {
+    // note: every translation unit that uses IniSectionGraph<std::string, std::string> would otherwise
+    //   instantiate all of its member bodies itself; they are compiled once, in
+    //   src/model/IniSectionGraphInstantiation.cpp, instead. Another instantiation still happens implicitly as before.
+    extern template class IniSectionGraph<std::string, std::string>;
+}
+
 #endif

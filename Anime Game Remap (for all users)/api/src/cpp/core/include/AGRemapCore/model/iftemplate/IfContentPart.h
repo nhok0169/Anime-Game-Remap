@@ -588,4 +588,11 @@ namespace AGRemapCore {
 
 #include "IfContentPart.tpp"
 
+namespace AGRemapCore {
+    // note: every translation unit that uses these with <std::string, std::string> would otherwise
+    //   instantiate all of their member bodies itself; they are compiled once, in
+    //   src/model/iftemplate/IfContentPartInstantiation.cpp, instead. Any other instantiation still happens implicitly.
+    extern template class IfContentPart<std::string, std::string>;
+}
+
 #endif

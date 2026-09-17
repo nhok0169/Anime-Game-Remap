@@ -212,4 +212,11 @@ namespace AGRemapCore {
 
 #include "BaseIniGraphGroupEdit.tpp"
 
+namespace AGRemapCore {
+    // note: every translation unit that uses BaseIniGraphGroupEdit<std::string, std::string> would otherwise
+    //   instantiate all of its member bodies itself; they are compiled once, in
+    //   src/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEditInstantiation.cpp, instead. Another instantiation still happens implicitly as before.
+    extern template class BaseIniGraphGroupEdit<std::string, std::string>;
+}
+
 #endif

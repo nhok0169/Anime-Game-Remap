@@ -469,6 +469,8 @@ Below are the supported types of mods
 | Arlecchino | Father, Harlequin, Knave, Perrie, Peruere | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(arlecchino).*\]` |
 | Barbara | Healer, Idol | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(barbara)((?!summertime).)*\]` |
 | BarabaraSummertime | BarbaraBikini, HealerSummertime, IdolSummertime | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(barbarasummertime).*\]` |
+| Bennett | Benny | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(bennett)((?!adventure).)*\]` |
+| BennettAdventure | AdventureBennett, AdventureBenny, BennettNatlan, BennettSummer, BennyAdventure, BennyNatlan, BennySummer, NatlanBennett, NatlanBenny, SummerBennett, SummerBenny | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(bennettadventure).*\]` |
 | CherryHuTao | 77thDirectoroftheWangshengFuneralParlorCherry, 77thDirectoroftheWangshengFuneralParlorLanternRite, Cherry77thDirectoroftheWangshengFuneralParlor, CherryQiqiKidnapper, HutaoCherry, HutaoLanternRite, HutaoSnowLaden, LanternRite77thDirectoroftheWangshengFuneralParlor, LanternRiteHutao, LanternRiteQiqiKidnapper, QiqiKidnapperCherry, QiqiKidnapperLanternRite, SnowLadenHutao | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(cherryhutao\|hutaocherry).*\]` |
 | Diluc | AngelShareOwner, DarkNightBlaze, DawnWineryMaster, KaeyasBrother | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(diluc)((?!\flamme).)*\]` |
 | DilucFlamme | DarkNightHero, RedDeadOfTheNight | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(dilucflamme).*\]` |
@@ -505,6 +507,8 @@ Below are the supported types of mods
 | XianglingCheer | XianglingLanternRite, LanternRiteXiangling, CookingFanaticLanternRite, HeadChefoftheWanminRestaurantLanternRite, ChefMaosDaughterLanternRite, GuobasBuddyLanternRite, LanternRiteCookingFanatic, LanternRiteHeadChefoftheWanminRestaurant, LanternRiteChefMaosDaughter, LanternRiteGuobasBuddy | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(xiangling(cheer\|newyear)).*\]` | 
 | Xingqiu | Bookworm, ChongyunsBestie, GuhuaGeek, SecondSonofTheFeiyunCommerceGuild | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(xingqiu)((?!bamboo).)*\]` |
 | XingqiuBamboo | BookwormBamboo, BookwormLanternRite, ChongyunsBestieBamboo, ChongyunsBestieLanternRite, GuhuaGeekBamboo, GuhuaGeekLanternRite, LanternRiteBookworm, LanternRiteChongyunsBestie, LanternRiteGuhuaGeek, LanternRiteSecondSonofTheFeiyunCommerceGuild, LanternRiteXingqiu, SecondSonofTheFeiyunCommerceGuildBamboo, SecondSonofTheFeiyunCommerceGuildLanternRite, XingqiuLanternRite | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(xingqiubamboo).*\]` |
+| Yelan | ShenhesBestie, TsaritsaJacketStealer | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(yelan)((?!tranquil).)*\]` |
+| YelanTranquil | YelanTranquilBanquet, TranquilBanquetYelan, YelanSummer, SummerYelan, ShenhesSummerBestie, TsaritsaJacketStealerButDoesntNeedItSinceItIsSummer | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(yelantranquil).*\]` |
 <br>
 
 ## Game Types

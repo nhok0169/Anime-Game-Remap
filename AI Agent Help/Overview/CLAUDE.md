@@ -669,7 +669,7 @@ packages rather than in the fixer's anonymous namespace. Name it noun first, lik
 | --- | --- |
 | `core/include/.../<package>/Xxx.h` + `.tpp` | the template class and its Doxygen doc |
 | `py/src/.../<package>/PyXxx.{h,cpp}` | hold the EXACT Python objects given (lists, callables) and re-derive the core members at the start of each `edit`, as the siblings do |
-| `py/CMakeLists.txt`, `py/src/bindings.cpp` | the source, the include and the `initCppXxx(m)` call after its base |
+| `py/CMakeLists.txt`, `py/src/bindings.cpp` | the source, a `void initCppXxx(pybind11::module_ &m);` declaration (not an `#include`) and the `initCppXxx(m)` call after its base |
 | `FixRaidenBoss2/__init__.py` | exported inside a `try`, while the Windows `.pyd` is older than the class |
 | `Testing/Unit Tester/.../test_Xxx.py` + `Tests/__init__.py` | tests, including one that reassigns an attribute and checks it takes effect |
 | `core.pyi` | regenerated with `pybind11_stubgen` into a SCRATCH folder, then diffed per class -- keep it only if the diff is your classes and `__all__` |

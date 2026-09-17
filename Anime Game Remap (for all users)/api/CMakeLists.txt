@@ -105,6 +105,33 @@ if(AGREMAP_SCCACHE)
                    "precompiled headers disabled, they are not cacheable")
 endif()
 
+# -----------------------------------
+# MSVC: drop unreferenced inline functions from object files (/Zc:inline)
+# -----------------------------------
+
+# Without /Zc:inline, MSVC emits a COMDAT for every inline function a translation unit sees, used or
+#   not -- and with pybind11 and this project's header-only templates that is most of each object
+#   file. The linker throws them away again, but only after every one has been written, archived
+#   into AGRemapCore.lib and read back. It is the standard-conforming behaviour (on by default in
+#   Visual Studio projects, off for a plain cl command line, which is what CMake generates).
+#
+# Measured 2026-09-16 on a 6-core / 16GB laptop, full `core` build, same sources:
+#
+#                                        without        with
+#     AGRemapCore.lib                    678 MB         227 MB
+#     all object files                   ~2.2 GB        0.94 GB
+#     one core .cpp -> rebuilt .pyd      20.5-36s       8.4s
+#     one binding .cpp -> rebuilt .pyd   32-37s         21.3s
+#     full build                         1316s          1248s
+#
+#   Compile time per file barely moves; the win is the archive and the link. The module's bound
+#   surface was compared name-by-name and docstring-by-docstring and is identical. Code that
+#   relied on the extra copies (an inline function declared but not defined where it is used)
+#   would fail to LINK, not misbehave.
+if(MSVC)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:/Zc:inline>)
+endif()
+
 add_subdirectory(src/cpp/core)
 
 if(NOT "${BUILD_MODE}" STREQUAL "${CORESDK_MODE}")

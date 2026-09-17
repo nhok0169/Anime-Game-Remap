@@ -13,168 +13,178 @@
 
 #include <pybind11/pybind11.h>
 
-#include <pybind11/pybind11.h>
-
-#include "tools/PyListTools.h"
-#include "tools/PyIntTools.h"
-#include "tools/dfa/PyDFA.h"
-#include "tools/PyBiMap.h"
-#include "tools/PyAlgo.h"
-#include "tools/PyGraphTools.h"
-#include "view/PyBaseLogger.h"
-#include "view/PyLogger.h"
-#include "tools/PyRanges.h"
-#include "tools/tries/PyTrie.h"
-#include "tools/tries/PyAhoCorasickDFA.h"
-#include "tools/orderedMultiMap/PyOrderedMultiMap.h"
-#include "tools/orderedMultiMap/PyOrderedMultiMapSqrt.h"
-#include "tools/orderedMultiMap/PyIOrderedMultiMap.h"
-#include "model/iftemplate/PyIfContentPart.h"
-#include "model/iftemplate/PyIfContentPartColour.h"
-#include "data/PyGIMICharBuilders.h"
-#include "data/PyGIMIComponentBuilders.h"
-#include "model/PyIniNamingTools.h"
-#include "model/PyVersion.h"
-#include "model/assets/PyModDictAssets.h"
-#include "model/assets/PyModMappedAssets.h"
-#include "model/assets/PyModAssets.h"
-#include "model/assets/PyHashes.h"
-#include "model/assets/PyIndices.h"
-#include "model/assets/PyVertexCounts.h"
-#include "model/assets/PyVGRemaps.h"
-#include "constants/PyGameTypeId.h"
-#include "constants/PyModTypeId.h"
-#include "constants/PyGlobalModTypes.h"
-#include "constants/PyGIBuilder.h"
-#include "constants/PyStrategyOverrides.h"
-#include "model/strategies/PyModTypeIdData.h"
-#include "model/strategies/PyModType.h"
-#include "model/strategies/iniClassifiers/PyIniClassifyStats.h"
-#include "model/strategies/iniClassifiers/PyBaseIniClassifier.h"
-#include "model/strategies/iniClassifiers/PyIniClassifier.h"
-#include "tools/parsing/PyToken.h"
-#include "tools/parsing/PyParseContext.h"
-#include "tools/parsing/PyBaseTokenizer.h"
-#include "tools/parsing/PyFilteredTokenizer.h"
-#include "tools/parsing/PyIfPredTokenizer.h"
-#include "tools/parsing/PySympyTokenizer.h"
-#include "tools/nodes/PyParseNode.h"
-#include "tools/parsing/PyParseTree.h"
-#include "tools/parsing/PyBaseSLR1Parser.h"
-#include "model/iftemplate/PySympyParser.h"
-#include "model/iftemplate/PyIfPredParser.h"
-#include "tools/z3/PyZ3Context.h"
-#include "tools/z3/PyZ3Predicate.h"
-#include "model/iftemplate/PyIfPredPart.h"
-#include "model/iftemplate/PyIfTemplateNode.h"
-#include "model/iftemplate/PyIfTemplateTree.h"
-#include "model/iftemplate/PyIfTemplate.h"
-#include "model/PyCallGraph.h"
-#include "model/PySectionIterData.h"
-#include "model/PyIniSectionGraph.h"
-#include "model/PyIniGraphGroup.h"
-#include "model/strategies/iniFixers/regEdits/PyBaseRegEdit.h"
-#include "model/strategies/iniFixers/regEdits/PyRegAdd.h"
-#include "model/strategies/iniFixers/PyGIMIObjPartFilter.h"
-#include "model/strategies/iniFixers/regEdits/PyRegAssetRemap.h"
-#include "model/strategies/iniFixers/regEdits/PyRegNewVals.h"
-#include "model/strategies/iniFixers/regEdits/PyRegRemap.h"
-#include "model/strategies/iniFixers/regEdits/PyRegRemove.h"
-#include "model/strategies/iniFixers/regEdits/PyRegRestrict.h"
-#include "model/strategies/iniFixers/graphEdits/PyBaseIniGraphEdit.h"
-#include "model/strategies/iniFixers/graphEdits/PyGraphRename.h"
-#include "model/strategies/iniFixers/graphEdits/PyRegFillMissing.h"
-#include "model/strategies/iniFixers/graphEdits/PyRegSurroundedAdd.h"
-#include "model/strategies/iniFixers/graphEdits/PyRegBottomAdd.h"
-#include "model/strategies/iniFixers/graphEdits/PyRegDelimitedAdd.h"
-#include "model/strategies/iniFixers/graphEdits/PyRegBranchAdd.h"
-#include "model/strategies/iniFixers/graphGroupEdits/PyBaseIniGraphGroupEdit.h"
-#include "model/strategies/iniFixers/graphGroupEdits/PyGraphRemove.h"
-#include "model/strategies/iniFixers/graphGroupEdits/PyGraphGroupRemove.h"
-#include "model/strategies/iniFixers/graphGroupEdits/PyGraphInherit.h"
-#include "model/strategies/iniFixers/graphGroupEdits/PyGraphGroupRemap.h"
-#include "model/strategies/iniFixers/graphGroupEdits/PyGraphGroupEdit.h"
-#include "model/strategies/iniFixers/graphGroupEdits/resEdits/PyResEdit.h"
-#include "model/strategies/iniFixers/graphGroupEdits/resEdits/PyBlendEdit.h"
-#include "model/strategies/iniFixers/graphGroupEdits/resEdits/PyBufEdit.h"
-#include "model/strategies/iniFixers/graphGroupEdits/resEdits/PyTexEdit.h"
-#include "model/strategies/iniFixers/graphGroupEdits/PyResRegCollect.h"
-#include "model/strategies/iniFixers/graphGroupEdits/PyResGroupCollect.h"
-#include "model/strategies/iniParsers/PyBaseIniParser.h"
-#include "model/strategies/iniParsers/PyGIMISectionClassifier.h"
-#include "model/strategies/iniParsers/PyGIMIParser.h"
-#include "model/strategies/iniParsers/PyIniParseBuilder.h"
-#include "model/strategies/iniFixers/PyBaseIniFixer.h"
-#include "model/strategies/iniFixers/PyGIMIFixer.h"
-#include "model/strategies/iniFixers/PyMultiModFixer.h"
-#include "model/strategies/iniFixers/PyIniFixBuilder.h"
-#include "model/strategies/iniRemovers/PyBaseIniRemover.h"
-#include "model/strategies/iniFixers/PyIniFixingContext.h"
-#include "model/strategies/iniRemovers/PyIniRemovalContext.h"
-#include "model/strategies/iniRemovers/PyRemapIniRemover.h"
-#include "model/strategies/iniRemovers/PyGlobalRemapIniRemover.h"
-#include "model/strategies/iniRemovers/PyIniRemoveBuilder.h"
-#include "tools/hashing/PyHash64.h"
-#include "tools/hashing/PyHash128.h"
-#include "tools/hashing/PyHashTools.h"
-#include "model/buffers/PyBufType.h"
-#include "model/buffers/PyBufDataType.h"
-#include "model/buffers/PyBufInt.h"
-#include "model/buffers/PyBufFloat.h"
-#include "model/buffers/PyBufUnorm.h"
-#include "model/buffers/PyBufElementType.h"
-#include "model/files/PyBinaryFile.h"
-#include "model/files/PyIniFile.h"
-#include "model/files/PyBufFile.h"
-#include "model/PyVGRemap.h"
-#include "model/buffers/PyVGComponentSplit.h"
-#include "model/buffers/PyVGComponentMerge.h"
-#include "model/files/PyBlendFile.h"
-#include "model/files/PyPositionFile.h"
-#include "model/files/PyIbFile.h"
-#include "model/files/PyVbFile.h"
-#include "model/strategies/bufEditors/PyBaseBufEditor.h"
-#include "model/strategies/bufEditors/PyBufEditor.h"
-#include "model/textures/PyColour.h"
-#include "model/textures/PyColourRange.h"
-#include "model/files/PyTextureFile.h"
-#include "model/strategies/texEditors/pixelTransforms/PyBasePixelTransform.h"
-#include "model/strategies/texEditors/pixelTransforms/PyCorrectGamma.h"
-#include "model/strategies/texEditors/pixelTransforms/PyColourReplace.h"
-#include "model/strategies/texEditors/pixelTransforms/PyHighlightShadow.h"
-#include "model/strategies/texEditors/pixelTransforms/PyInvertAlpha.h"
-#include "model/strategies/texEditors/pixelTransforms/PyTempControl.h"
-#include "model/strategies/texEditors/pixelTransforms/PyTintTransform.h"
-#include "model/strategies/texEditors/pixelTransforms/PyTransparency.h"
-#include "model/strategies/texEditors/texFilters/PyBaseTexFilter.h"
-#include "model/strategies/texEditors/texFilters/PyGammaFilter.h"
-#include "model/strategies/texEditors/texFilters/PyColourReplaceFilter.h"
-#include "model/strategies/texEditors/texFilters/PyTransparencyAdjustFilter.h"
-#include "model/strategies/texEditors/texFilters/PyInvertAlphaFilter.h"
-#include "model/strategies/texEditors/texFilters/PyHueAdjust.h"
-#include "model/strategies/texEditors/texFilters/PyPixelFilter.h"
-#include "model/strategies/texEditors/PyBaseTexEditor.h"
-#include "model/strategies/texEditors/PyTexEditor.h"
-#include "model/strategies/texEditors/PyTexCreator.h"
-#include "model/stats/PyFileStats.h"
-#include "model/stats/PyCachedFileStats.h"
-#include "model/stats/PyRemapStats.h"
-#include "PyRemapService.h"
-#include "PyRemapServiceCLI.h"
-#include "tools/files/PyFileDownload.h"
-#include "model/iniresources/PyIniResourceModel.h"
-#include "model/iniresources/PyIniSrcResourceModel.h"
-#include "model/iniresources/PyIniFixResourceModel.h"
-#include "model/iniresources/PyIniTexModel.h"
-#include "model/iniresources/PyIniDownloadModel.h"
-#include "model/iniresources/PyIniResource.h"
-#include "model/iniresources/PyIniGroupedResource.h"
-#include "model/iniresources/PyRemapIniResource.h"
-#include "model/iniresources/PyRemapIniGroupedResource.h"
-#include "model/iniresources/PyVGSplitGroupResource.h"
-#include "model/iniresources/PyVGMergeGroupResource.h"
-#include "model/iniresources/PyRemapBlendResource.h"
-#include "model/iniresources/PyRemapTexResource.h"
+// note: only the init functions are declared here, deliberately, rather than including each binding's
+//   Py*.h. bindings.cpp calls nothing else from those headers, and including all of them (429 files
+//   once expanded) cost ~45s of pure header parsing for a 3MB object -- and made this file rebuild
+//   whenever ANY binding header changed. A new binding adds its one-line declaration here, next to
+//   its call below; a mismatched signature is a link error, not a silent problem.
+void initCppListTools(pybind11::module_ &m);
+void initCppIntTools(pybind11::module_ &m);
+void initCppBiMap(pybind11::module_ &m);
+void initCppAlgo(pybind11::module_ &m);
+void initCppGraphTools(pybind11::module_ &m);
+void initCppBaseLogger(pybind11::module_ &m);
+void initCppLogger(pybind11::module_ &m);
+void initCppRanges(pybind11::module_ &m);
+void initCppDFA(pybind11::module_ &m);
+void initCppTrie(pybind11::module_ &m);
+void initCppAhoCorasickDFA(pybind11::module_ &m);
+void initCppOrderedMultiMap(pybind11::module_ &m);
+void initCppOrderedMultiMapSqrt(pybind11::module_ &m);
+void initCppIOrderedMultiMap(pybind11::module_ &m);
+void initCppIfContentPart(pybind11::module_ &m);
+void initCppIfContentPartColour(pybind11::module_ &m);
+void initCppIniNamingTools(pybind11::module_ &m);
+void initCppVersion(pybind11::module_ &m);
+void initCppModDictAssets(pybind11::module_ &m);
+void initCppModMappedAssets(pybind11::module_ &m);
+void initCppModAssets(pybind11::module_ &m);
+void initCppHashes(pybind11::module_ &m);
+void initCppIndices(pybind11::module_ &m);
+void initCppVertexCounts(pybind11::module_ &m);
+void initCppGameTypeId(pybind11::module_ &m);
+void initCppModTypeId(pybind11::module_ &m);
+void initCppModTypeIdData(pybind11::module_ &m);
+void initCppVGRemap(pybind11::module_ &m);
+void initCppVGRemaps(pybind11::module_ &m);
+void initCppVGComponentSplit(pybind11::module_ &m);
+void initCppVGComponentMerge(pybind11::module_ &m);
+void initCppModType(pybind11::module_ &m);
+void initCppGlobalModTypes(pybind11::module_ &m);
+void initCppGIMICharBuilders(pybind11::module_ &m);
+void initCppGIMIComponentBuilders(pybind11::module_ &m);
+void initCppStrategyOverrides(pybind11::module_ &m);
+void initCppGIBuilder(pybind11::module_ &m);
+void initCppIniClassifyStats(pybind11::module_ &m);
+void initCppBaseIniClassifier(pybind11::module_ &m);
+void initCppIniClassifier(pybind11::module_ &m);
+void initCppToken(pybind11::module_ &m);
+void initCppParseContext(pybind11::module_ &m);
+void initCppBaseTokenizer(pybind11::module_ &m);
+void initCppFilteredTokenizer(pybind11::module_ &m);
+void initCppIfPredTokenizer(pybind11::module_ &m);
+void initCppSympyTokenizer(pybind11::module_ &m);
+void initCppParseNode(pybind11::module_ &m);
+void initCppParseTree(pybind11::module_ &m);
+void initCppBaseSLR1Parser(pybind11::module_ &m);
+void initCppSympyParser(pybind11::module_ &m);
+void initCppIfPredParser(pybind11::module_ &m);
+void initCppZ3Context(pybind11::module_ &m);
+void initCppZ3Predicate(pybind11::module_ &m);
+void initCppIfPredPart(pybind11::module_ &m);
+void initCppIfTemplateNode(pybind11::module_ &m);
+void initCppIfTemplateTree(pybind11::module_ &m);
+void initCppIfTemplate(pybind11::module_ &m);
+void initCppCallGraph(pybind11::module_ &m);
+void initCppSectionIterData(pybind11::module_ &m);
+void initCppIniSectionGraph(pybind11::module_ &m);
+void initCppIniGraphGroup(pybind11::module_ &m);
+void initCppBaseRegEdit(pybind11::module_ &m);
+void initCppRegAdd(pybind11::module_ &m);
+void initCppRegAssetRemap(pybind11::module_ &m);
+void initCppRegNewVals(pybind11::module_ &m);
+void initCppRegRemap(pybind11::module_ &m);
+void initCppRegRemove(pybind11::module_ &m);
+void initCppRegRestrict(pybind11::module_ &m);
+void initCppBaseIniGraphEdit(pybind11::module_ &m);
+void initCppGraphRename(pybind11::module_ &m);
+void initCppRegFillMissing(pybind11::module_ &m);
+void initCppRegSurroundedAdd(pybind11::module_ &m);
+void initCppRegBottomAdd(pybind11::module_ &m);
+void initCppRegDelimitedAdd(pybind11::module_ &m);
+void initCppRegBranchAdd(pybind11::module_ &m);
+void initCppGIMIObjPartFilter(pybind11::module_ &m);
+void initCppBaseIniGraphGroupEdit(pybind11::module_ &m);
+void initCppGraphRemove(pybind11::module_ &m);
+void initCppGraphGroupRemove(pybind11::module_ &m);
+void initCppGraphInherit(pybind11::module_ &m);
+void initCppGraphGroupRemap(pybind11::module_ &m);
+void initCppGraphGroupEdit(pybind11::module_ &m);
+void initCppResEdit(pybind11::module_ &m);
+void initCppRemapBlendReplace(pybind11::module_ &m);
+void initCppBufReplace(pybind11::module_ &m);
+void initCppTexCreate(pybind11::module_ &m);
+void initCppTexReplace(pybind11::module_ &m);
+void initCppResRegCollect(pybind11::module_ &m);
+void initCppResGroupCollect(pybind11::module_ &m);
+void initCppHash64(pybind11::module_ &m);
+void initCppHash128(pybind11::module_ &m);
+void initCppHashTools(pybind11::module_ &m);
+void initCppBufType(pybind11::module_ &m);
+void initCppBufDataType(pybind11::module_ &m);
+void initCppBufInt(pybind11::module_ &m);
+void initCppBufFloat(pybind11::module_ &m);
+void initCppBufUnorm(pybind11::module_ &m);
+void initCppBufElementType(pybind11::module_ &m);
+void initCppBinaryFile(pybind11::module_ &m);
+void initCppBufFile(pybind11::module_ &m);
+void initCppBlendFile(pybind11::module_ &m);
+void initCppPositionFile(pybind11::module_ &m);
+void initCppIbFile(pybind11::module_ &m);
+void initCppVbFile(pybind11::module_ &m);
+void initCppBaseBufEditor(pybind11::module_ &m);
+void initCppBufEditor(pybind11::module_ &m);
+void initCppColour(pybind11::module_ &m);
+void initCppColourRange(pybind11::module_ &m);
+void initCppTextureFile(pybind11::module_ &m);
+void initCppBasePixelTransform(pybind11::module_ &m);
+void initCppCorrectGamma(pybind11::module_ &m);
+void initCppColourReplace(pybind11::module_ &m);
+void initCppHighlightShadow(pybind11::module_ &m);
+void initCppInvertAlpha(pybind11::module_ &m);
+void initCppTempControl(pybind11::module_ &m);
+void initCppTintTransform(pybind11::module_ &m);
+void initCppTransparency(pybind11::module_ &m);
+void initCppBaseTexFilter(pybind11::module_ &m);
+void initCppGammaFilter(pybind11::module_ &m);
+void initCppColourReplaceFilter(pybind11::module_ &m);
+void initCppTransparencyAdjustFilter(pybind11::module_ &m);
+void initCppInvertAlphaFilter(pybind11::module_ &m);
+void initCppHueAdjust(pybind11::module_ &m);
+void initCppPixelFilter(pybind11::module_ &m);
+void initCppBaseTexEditor(pybind11::module_ &m);
+void initCppTexEditor(pybind11::module_ &m);
+void initCppTexCreator(pybind11::module_ &m);
+void initCppFileStats(pybind11::module_ &m);
+void initCppCachedFileStats(pybind11::module_ &m);
+void initCppRemapStats(pybind11::module_ &m);
+void initCppRemapService(pybind11::module_ &m);
+void initCppRemapServiceCLI(pybind11::module_ &m);
+void initCppFileDownload(pybind11::module_ &m);
+void initCppIniResourceModel(pybind11::module_ &m);
+void initCppIniSrcResourceModel(pybind11::module_ &m);
+void initCppIniFixResourceModel(pybind11::module_ &m);
+void initCppIniTexModel(pybind11::module_ &m);
+void initCppIniDownloadModel(pybind11::module_ &m);
+void initCppIniResource(pybind11::module_ &m);
+void initCppIniFixResource(pybind11::module_ &m);
+void initCppIniGroupedResource(pybind11::module_ &m);
+void initCppRemapIniResourceMixin(pybind11::module_ &m);
+void initCppRemapIniResource(pybind11::module_ &m);
+void initCppRemapIniFixResource(pybind11::module_ &m);
+void initCppRemapIniGroupedResource(pybind11::module_ &m);
+void initCppVGSplitGroupResource(pybind11::module_ &m);
+void initCppVGMergeGroupResource(pybind11::module_ &m);
+void initCppRemapIniDownload(pybind11::module_ &m);
+void initCppRemapBlendResource(pybind11::module_ &m);
+void initCppRemapTexAddResource(pybind11::module_ &m);
+void initCppRemapTexEditResource(pybind11::module_ &m);
+void initCppBaseIniParser(pybind11::module_ &m);
+void initCppGIMISectionClassifier(pybind11::module_ &m);
+void initCppGIMIParser(pybind11::module_ &m);
+void initCppBaseIniFixer(pybind11::module_ &m);
+void initCppGIMIFixer(pybind11::module_ &m);
+void initCppMultiModFixer(pybind11::module_ &m);
+void initCppIniFixingContext(pybind11::module_ &m);
+void initCppIniRemovalContext(pybind11::module_ &m);
+void initCppBaseIniRemover(pybind11::module_ &m);
+void initCppRemapIniRemover(pybind11::module_ &m);
+void initCppGlobalRemapIniRemover(pybind11::module_ &m);
+void initCppIniFile(pybind11::module_ &m);
+void initCppIniParseBuilder(pybind11::module_ &m);
+void initCppIniFixBuilder(pybind11::module_ &m);
+void initCppIniRemoveBuilder(pybind11::module_ &m);
+void initCppModTypeLateBindings(pybind11::module_ &m);
 
 namespace py = pybind11;
 

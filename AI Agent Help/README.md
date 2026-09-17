@@ -64,6 +64,7 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%AA%A2%F0%9F%90%8D%20The%20Reference%20Binder-1-%23fb7185?style=flat-square&labelColor=%23042f2e)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%93%8D%F0%9F%AA%9E%20The%20Call%20Site%20Reckoner-1-%23e879f9?style=flat&labelColor=%231e1b4b)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%91%BB%F0%9F%A7%B9%20The%20Stale%20Wrapper%20Exorcist-1-%23c4b5fd?style=plastic&labelColor=%232e1065)
+- ![Static Badge](https://img.shields.io/badge/%E2%9A%B0%EF%B8%8F%F0%9F%A7%AA%20The%20Fixture%20Resurrectionist-1-%232dd4bf?style=for-the-badge&labelColor=%23022c22)
 
 <br>
 

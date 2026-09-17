@@ -9,21 +9,22 @@ $control = 0,1,2
 $creditinfo = 0
 
 
-;RemapFixHideOrig -->[TextureOverrideRaidenShogunBlend]
-;RemapFixHideOrig -->if $control == 0
-;RemapFixHideOrig -->    vb1 = ResourceRaidenShogunBlend.0
-;RemapFixHideOrig -->    handling = skip
-;RemapFixHideOrig -->    draw = 21916,0
-;RemapFixHideOrig -->else if $control == 1
-;RemapFixHideOrig -->    vb1 = ResourceRaidenShogunBlend.1
-;RemapFixHideOrig -->    handling = skip
-;RemapFixHideOrig -->    draw = 21916,0
-;RemapFixHideOrig -->else if $control == 2
-;RemapFixHideOrig -->    vb1 = ResourceRaidenShogunBlend.2
-;RemapFixHideOrig -->    handling = skip
-;RemapFixHideOrig -->    draw = 21916,0
-;RemapFixHideOrig -->endif
-;RemapFixHideOrig -->
+[TextureOverrideRaidenShogunBlend]
+hash = 1a495487
+if $control == 0
+    vb1 = ResourceRaidenShogunBlend.0
+    handling = skip
+    draw = 21916,0
+else if $control == 1
+    vb1 = ResourceRaidenShogunBlend.1
+    handling = skip
+    draw = 21916,0
+else if $control == 2
+    vb1 = ResourceRaidenShogunBlend.2
+    handling = skip
+    draw = 21916,0
+endif
+
 [ResourceRaidenShogunBlend.0]
 type = Buffer
 stride = 32
@@ -38,43 +39,3 @@ filename = leftWing/LeftWingEntity.buf
 type = Buffer
 stride = 32
 filename = rightWing/RightWingEntity.buf
-
-
-; --------------- Raiden Remap ---------------
-; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
-; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
-
-; ***** RaidenBoss *****
-[TextureOverrideRaidenShogunRaidenBossRemapBlend]
-if $control == 0
-	vb1 = ResourceRaidenShogunRaidenBossRemapBlend.0
-	handling = skip
-	draw = 21916,0
-else if $control == 1
-	vb1 = ResourceRaidenShogunRaidenBossRemapBlend.1
-	handling = skip
-	draw = 21916,0
-else if $control == 2
-	vb1 = ResourceRaidenShogunRaidenBossRemapBlend.2
-	handling = skip
-	draw = 21916,0
-endif
-
-[ResourceRaidenShogunRaidenBossRemapBlend.0]
-type = Buffer
-stride = 32
-filename = Body/BodyEntityRaidenBossRemapBlend.buf
-
-[ResourceRaidenShogunRaidenBossRemapBlend.1]
-type = Buffer
-stride = 32
-filename = leftWing/LeftWingEntityRaidenBossRemapBlend.buf
-
-[ResourceRaidenShogunRaidenBossRemapBlend.2]
-type = Buffer
-stride = 32
-filename = rightWing/RightWingEntityRaidenBossRemapBlend.buf
-
-; **********************
-
-; --------------------------------------------

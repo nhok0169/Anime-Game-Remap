@@ -1,4 +1,5 @@
 [TextureOverrideArlecchinoBlend]
+hash = e211de60
 vb1 = ResourceArlecchinoBlend.0
 handling = skip
 draw = 21916,0

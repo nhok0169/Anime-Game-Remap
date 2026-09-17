@@ -1,36 +1,60 @@
 import sys
 import os
-import copy
 
 from IntegrationTester.src.constants.ConfigKeys import ConfigKeys
 from IntegrationTester.src.Config import Config
 
 sys.path.insert(1, Config[ConfigKeys.SysPath])
-import src.FixRaidenBoss2 as FRB
+import FixRaidenBoss2 as FRB
 
 
 iniRunPath = FRB.FileService.parseOSPath(os.path.dirname(os.path.abspath(__file__)))
-kiraraModType = FRB.ModTypes.Kirara.value
 
-oldParseBuilder = copy.deepcopy(kiraraModType.iniParseBuilder)
-oldFixBuilder = copy.deepcopy(kiraraModType.iniFixBuilder)
+RegRef = FRB.GIMICharFixerConfig.RegRef
+RegValChecks = FRB.GIMICharFixerConfig.RegValChecks
+TexEdit = FRB.GIMICharFixerConfig.TexEdit
 
-kiraraModType.iniParseBuilder = FRB.IniParseBuilder(FRB.GIMIObjParser, args = [{"head", "body"}], kwargs = {"texEdits": {
-    "body": {"ps-t1": {"DarkenDiffuse": FRB.TexEditor(filters = [FRB.TexMetadataFilter(edits = {"gamma": FRB.ColourConsts.SRGBGamma.value})])}}
-}})
+ORFix = FRB.IniKeywords.ORFixPath.value
+NNFix = r"CommandList\global\ORFix\NNFix"
+TexFx = r"CommandList\TexFx\TN.0"
 
-kiraraModType.iniFixBuilder = FRB.IniFixBuilder(FRB.GIMIObjMergeFixer, args = [{"head": ["head", "body"], "body": ["body"]}], 
-                                                kwargs = {
-                                                    "preRegEditFilters": [
-                                                        FRB.RegTexEdit({"DarkenDiffuse": ["ps-t1"]})
-                                                    ],
-                                                    "postRegEditFilters": [
-                                                        FRB.RegNewVals({"body": {"ib": "null"}})
-                                                    ]
-                                                })
+
+def darkenDiffuse(texFile):
+    FRB.GammaFilter(FRB.ColourConsts.SRGBGamma.value).transform(texFile)
+
+def makeFaceOpaque(texFile):
+    pixels = bytearray(texFile.getPixels())
+    pixels[3::4] = bytes([1]) * (len(pixels) // 4)
+    texFile.setPixels(bytes(pixels), texFile.width, texFile.height)
+
+def reflectionKeys(obj: str):
+    return [f"ResourceRef{obj}Diffuse", f"ResourceRef{obj}LightMap", "$CharacterIB"]
+
+
+# ==== Override how Kirara is fixed ======
+
+config = FRB.GIMICharFixerConfig()
+config.drawnObjs = ["head", "body", "dress"]
+
+# Kirara's body is drawn a second time as part of KiraraBoots' head, while KiraraBoots' own body is hidden
+config.objSplits = [("head", ["head"]), ("body", ["body", "head"]), ("dress", ["dress"])]
+config.objNewRegVals = [("body", [("ib", "null")])]
+
+# Edit Kirara's body so that her body's skin tone matches with her face
+config.texEdits = [TexEdit("head", "ps-t1", "DarkenDiffuse", darkenDiffuse, srcObj = "body"),
+                   TexEdit("face", "ps-t0", "OpaqueFaceDiffuse", makeFaceOpaque, toReg = "ps-t1")]
+
+# ---- the rest is the same as the default fix ----
+config.objRegRemovals = [("head", reflectionKeys("Head")), ("body", reflectionKeys("Body")), ("dress", reflectionKeys("Dress"))]
+config.objRegRemaps = [("dress", [("ps-t1", [RegRef("ps-t0", RegValChecks.isDiffuse)], True),
+                                  ("ps-t2", [RegRef("ps-t1", RegValChecks.isLightMap)], True)])]
+config.objFixCalls = [("head", [ORFix, TexFx]), ("body", [ORFix, TexFx]), ("dress", [NNFix, TexFx])]
+
+FRB.CppStrategyOverrides.setFixer("Kirara", "KiraraBoots", FRB.makeGIMICharFixer(config))
+
+# ========================================
 
 remapService = FRB.RemapServiceCLI(path = iniRunPath, verbose = False, keepBackups = False)
 remapService.fix()
 
-kiraraModType.iniParseBuilder = oldParseBuilder
-kiraraModType.iniFixBuilder = oldFixBuilder
+FRB.CppStrategyOverrides.clear()

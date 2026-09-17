@@ -69,6 +69,7 @@ Only Fix a .ini File Given the File Path
         ; The bottom part is what the fix actually cares about
 
         [TextureOverrideRaidenShogunBlend]
+        hash = 1a495487
         run = CommandListRaidenShogunBlend
         handling = skip
         draw = 21916,0
@@ -113,6 +114,7 @@ Only Fix a .ini File Given the File Path
         stride = 32
         filename = ./Dont/Use\If/Statements\Or/SubCommands\In/Resource\Sections.buf
 
+
 .. dropdown:: Code
     :open:
     :animate: fade-in-slide-down
@@ -122,9 +124,10 @@ Only Fix a .ini File Given the File Path
 
         import AnimeGameRemap as AGR
 
-        iniFile = AGR.IniFile("CuteLittleRaiden.ini", modTypes = AGR.ModTypes.getAll())
+        iniFile = AGR.IniFile("CuteLittleRaiden.ini")
         iniFile.parse()
         iniFile.fix()
+
 
 .. dropdown:: Result
     :animate: fade-in-slide-down
@@ -158,6 +161,7 @@ Only Fix a .ini File Given the File Path
         ; The bottom part is what the fix actually cares about
 
         [TextureOverrideRaidenShogunBlend]
+        hash = 1a495487
         run = CommandListRaidenShogunBlend
         handling = skip
         draw = 21916,0
@@ -202,13 +206,12 @@ Only Fix a .ini File Given the File Path
         stride = 32
         filename = ./Dont/Use\If/Statements\Or/SubCommands\In/Resource\Sections.buf
 
-
         ; --------------- Raiden Remap ---------------
         ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-        ; ***** RaidenBoss *****
         [TextureOverrideRaidenShogunRaidenBossRemapBlend]
+        hash = fe5c0180
         run = CommandListRaidenShogunRaidenBossRemapBlend
         handling = skip
         draw = 21916,0
@@ -229,16 +232,16 @@ Only Fix a .ini File Given the File Path
             vb1 = ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend
         endif
 
-        [ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend]
+        [ResourceRaidenShogunRaidenBossRemapBlend.0]
         type = Buffer
         stride = 32
-        filename = ../AAA/BBBB/CCCCCC/DDDDDRemapRaidenBossRemapBlend.buf
+        filename = ..\..\..\..\..\..\..\..\..\2-BunnyRaidenShogun\RaidenShogunRaidenBossRemapBlend.buf
 
         [ResourceEiBlendsHerRaidenBossRemapBlenderInsteadOfHerSmoothie]
         type = Buffer
         stride = 32
         if $swapmain == 1
-            filename = M:/AnotherDrive/CuteLittleEiRaidenBossRemapBlend.buf
+            filename = M:\AnotherDrive\CuteLittleEiRaidenBossRemapBlend.buf
         else
             run = ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend
         endif
@@ -246,16 +249,15 @@ Only Fix a .ini File Given the File Path
         [ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend]
         type = Buffer
         stride = 32
-        filename = Dont/Use/If/Statements/Or/SubCommands/In/Resource/SectionsRaidenBossRemapBlend.buf
+        filename = .\Dont\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRaidenBossRemapBlend.buf
 
-        [ResourceRaidenShogunRaidenBossRemapBlend.0]
+        [ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend]
         type = Buffer
         stride = 32
-        filename = ../../../../../../../../../2-BunnyRaidenShogun/RaidenShogunRaidenBossRemapBlend.buf
-
-        ; **********************
+        filename = .\..\AAA\BBBB\CCCCCC\DDDDDRemapRaidenBossRemapBlend.buf
 
         ; --------------------------------------------
+
 
 :raw-html:`<br />`
 
@@ -267,15 +269,11 @@ The code below will add the lines that make up the fix to the end of the origina
 .. note::
     This example only fixes the .ini file without removing any previous changes the fix may have made. If you want to
     first undo previous changes the fix may have done, see 
-    :ref:`Remove a Fix from a .ini File Given Only a String Containing the Content of the File <Remove a Fix from a .ini File Given Only a String Containing the Content of the File>`
+    :ref:`Remove a Fix from a .ini File Given Only a String Containing the Content of the File <apiExamples:Remove a Fix from a .ini File Given Only a String Containing the Content of the File>`
 
 
     To fix the .ini file by first removing any previous changes the fix may have made, see 
-    :ref:`Fix a .ini File Given Only A String Containing the Content of the File <Fix a .ini File Given Only A String Containing the Content of the File>`
-
-.. note::
-    To only get the lines that make up the fix without adding back to the original .ini file, see 
-    :ref:`Get Only the Fix to the .Ini file Given Only a String Containing the Content of the File <Get Only the Fix to the .Ini file Given Only a String Containing the Content of the File>`
+    :ref:`Fix a .ini File Given Only A String Containing the Content of the File <apiExamples:Fix a .ini File Given Only A String Containing the Content of the File>`
 
 :raw-html:`<br />`
 
@@ -311,6 +309,7 @@ The code below will add the lines that make up the fix to the end of the origina
         ; The bottom part is what the fix actually cares about
 
         [TextureOverrideRaidenShogunBlend]
+        hash = 1a495487
         run = CommandListRaidenShogunBlend
         handling = skip
         draw = 21916,0
@@ -363,20 +362,25 @@ The code below will add the lines that make up the fix to the end of the origina
 
     .. code-block:: python
         :linenos:
-        :lineno-start: 71
+        :lineno-start: 72
 
         import AnimeGameRemap as AGR
 
-        iniFile = AGR.IniFile(txt = shortWackyRaidenIniTxt, modTypes = AGR.ModTypes.getAll())
+        iniFile = AGR.IniFile(txt = shortWackyRaidenIniTxt)
         iniFile.parse()
         fixedResult = iniFile.fix()
 
-        print(fixedResult)
+        for fixedTxt in fixedResult.values():
+            print(fixedTxt)
+
 
 .. dropdown:: Result
     :animate: fade-in-slide-down
 
+    The printed text of the fixed .ini file
+
     .. code-block:: ini
+        :caption: CuteLittleRaiden.ini
         :linenos:
 
         [Constants]
@@ -404,6 +408,7 @@ The code below will add the lines that make up the fix to the end of the origina
         ; The bottom part is what the fix actually cares about
 
         [TextureOverrideRaidenShogunBlend]
+        hash = 1a495487
         run = CommandListRaidenShogunBlend
         handling = skip
         draw = 21916,0
@@ -448,14 +453,12 @@ The code below will add the lines that make up the fix to the end of the origina
         stride = 32
         filename = ./Dont/Use\If/Statements\Or/SubCommands\In/Resource\Sections.buf
 
-
-
         ; --------------- Raiden Remap ---------------
         ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-        ; ***** RaidenBoss *****
         [TextureOverrideRaidenShogunRaidenBossRemapBlend]
+        hash = fe5c0180
         run = CommandListRaidenShogunRaidenBossRemapBlend
         handling = skip
         draw = 21916,0
@@ -476,16 +479,16 @@ The code below will add the lines that make up the fix to the end of the origina
             vb1 = ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend
         endif
 
-        [ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend]
+        [ResourceRaidenShogunRaidenBossRemapBlend.0]
         type = Buffer
         stride = 32
-        filename = ../AAA/BBBB/CCCCCC/DDDDDRemapRaidenBossRemapBlend.buf
+        filename = ..\..\..\..\..\..\..\..\..\2-BunnyRaidenShogun\RaidenShogunRaidenBossRemapBlend.buf
 
         [ResourceEiBlendsHerRaidenBossRemapBlenderInsteadOfHerSmoothie]
         type = Buffer
         stride = 32
         if $swapmain == 1
-            filename = M:/AnotherDrive/CuteLittleEiRaidenBossRemapBlend.buf
+            filename = M:\AnotherDrive\CuteLittleEiRaidenBossRemapBlend.buf
         else
             run = ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend
         endif
@@ -493,180 +496,12 @@ The code below will add the lines that make up the fix to the end of the origina
         [ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend]
         type = Buffer
         stride = 32
-        filename = Dont/Use/If/Statements/Or/SubCommands/In/Resource/SectionsRaidenBossRemapBlend.buf
-
-        [ResourceRaidenShogunRaidenBossRemapBlend.0]
-        type = Buffer
-        stride = 32
-        filename = ../../../../../../../../../2-BunnyRaidenShogun/RaidenShogunRaidenBossRemapBlend.buf
-
-        ; **********************
-
-        ; --------------------------------------------
-
-:raw-html:`<br />`
-
-Get Only the Fix to the .Ini file Given Only a String Containing the Content of the File
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The code below will only generate the necessary lines needed to fix the .ini file
-
-.. note::
-    To have the fixed lines added back to the original content of the file, see
-    :ref:`Only Fix .Ini file Given Only a String Containing the Content of the File <Only Fix .Ini file Given Only a String Containing the Content of the File>`
-
-
-.. dropdown:: Input
-    :animate: fade-in-slide-down
-
-    .. code-block:: python
-        :linenos:
-
-        shortWackyRaidenIniTxt = r"""
-        [Constants]
-        global persist $swapvar = 0
-        global persist $swapvarn = 0
-        global persist $swapmain = 0
-        global persist $swapoffice = 0
-        global persist $swapglasses = 0
-
-        [KeyVar]
-        condition = $active == 1
-        key = VK_DOWN
-        type = cycle
-        $swapvar = 0,1,2
-
-        [KeyIntoTheHole]
-        condition = $active == 1
-        key = VK_RIGHT
-        type = cycle
-        $swapvarn = 0,1
-
-        ; The top part is not really important, so I not going to finish
-        ;   typing all the key swaps... 😋
-        ;
-        ; The bottom part is what the fix actually cares about
-
-        [TextureOverrideRaidenShogunBlend]
-        run = CommandListRaidenShogunBlend
-        handling = skip
-        draw = 21916,0
-
-        [CommandListRaidenShogunBlend]
-        if $swapmain == 0
-            if $swapvar == 0 && $swapvarn == 0
-                vb1 = ResourceRaidenShogunBlend.0
-            else
-                vb1 = ResourceEiBlendsHerBlenderInsteadOfHerSmoothie
-            endif
-        else if $swapmain == 1
-            run = SubSubTextureOverride
-        endif
-
-        [SubSubTextureOverride]
-        if $swapoffice == 0 && $swapglasses == 0
-            vb1 = GIMINeedsResourcesToAllStartWithResource
-        endif
-
-        [ResourceRaidenShogunBlend.0]
-        type = Buffer
-        stride = 32
-        filename = ..\..\..\../../../../../../2-BunnyRaidenShogun\RaidenShogunBlend.buf
-
-        [ResourceEiBlendsHerBlenderInsteadOfHerSmoothie]
-        type = Buffer
-        stride = 32
-        if $swapmain == 1
-            filename = M:\AnotherDrive\CuteLittleEi.buf
-        else
-            run = RaidenPuppetCommandResource
-        endif
-
-        [GIMINeedsResourcesToAllStartWithResource]
-        type = Buffer
-        stride = 32
-        filename = ./../AAA/BBBB\CCCCCC\DDDDDRemapBlend.buf
-
-        [RaidenPuppetCommandResource]
-        type = Buffer
-        stride = 32
-        filename = ./Dont/Use\If/Statements\Or/SubCommands\In/Resource\Sections.buf
-        """
-
-.. dropdown:: Code
-    :open:
-    :animate: fade-in-slide-down
-
-    .. code-block:: python
-        :linenos:
-        :lineno-start: 71
-
-        import AnimeGameRemap as AGR
-
-        iniFile = AGR.IniFile(txt = shortWackyRaidenIniTxt, modTypes = AGR.ModTypes.getAll())
-        iniFile.parse()
-        fixCode = iniFile.getFixStr()
-
-        print(fixCode)
-
-
-.. dropdown:: Result
-    :animate: fade-in-slide-down
-
-    .. code-block:: ini
-        :linenos:
-
-        ; --------------- Raiden Remap ---------------
-        ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
-        ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
-
-        ; ***** RaidenBoss *****
-        [TextureOverrideRaidenShogunRaidenBossRemapBlend]
-        run = CommandListRaidenShogunRaidenBossRemapBlend
-        handling = skip
-        draw = 21916,0
-
-        [CommandListRaidenShogunRaidenBossRemapBlend]
-        if $swapmain == 0
-            if $swapvar == 0 && $swapvarn == 0
-                vb1 = ResourceRaidenShogunRaidenBossRemapBlend.0
-            else
-                vb1 = ResourceEiBlendsHerRaidenBossRemapBlenderInsteadOfHerSmoothie
-            endif
-        else if $swapmain == 1
-            run = SubSubTextureOverrideRaidenBossRemapBlend
-        endif
-
-        [SubSubTextureOverrideRaidenBossRemapBlend]
-        if $swapoffice == 0 && $swapglasses == 0
-            vb1 = ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend
-        endif
+        filename = .\Dont\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRaidenBossRemapBlend.buf
 
         [ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend]
         type = Buffer
         stride = 32
-        filename = ../AAA/BBBB/CCCCCC/DDDDDRemapRaidenBossRemapBlend.buf
-
-        [ResourceEiBlendsHerRaidenBossRemapBlenderInsteadOfHerSmoothie]
-        type = Buffer
-        stride = 32
-        if $swapmain == 1
-            filename = M:/AnotherDrive/CuteLittleEiRaidenBossRemapBlend.buf
-        else
-            run = ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend
-        endif
-
-        [ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend]
-        type = Buffer
-        stride = 32
-        filename = Dont/Use/If/Statements/Or/SubCommands/In/Resource/SectionsRaidenBossRemapBlend.buf
-
-        [ResourceRaidenShogunRaidenBossRemapBlend.0]
-        type = Buffer
-        stride = 32
-        filename = ../../../../../../../../../2-BunnyRaidenShogun/RaidenShogunRaidenBossRemapBlend.buf
-
-        ; **********************
+        filename = .\..\AAA\BBBB\CCCCCC\DDDDDRemapRaidenBossRemapBlend.buf
 
         ; --------------------------------------------
 
@@ -708,6 +543,7 @@ Remove a Fix from a .ini File Given the File Path
         ; The bottom part is what the fix actually cares about
 
         [TextureOverrideRaidenShogunBlend]
+        hash = 1a495487
         run = CommandListRaidenShogunBlend
         handling = skip
         draw = 21916,0
@@ -839,7 +675,7 @@ Remove a Fix from a .ini File Given the File Path
 
         import AnimeGameRemap as AGR
 
-        iniFile = AGR.IniFile("PartiallyFixedRaiden.ini", modTypes = AGR.ModTypes.getAll())
+        iniFile = AGR.IniFile("PartiallyFixedRaiden.ini")
         iniFile.removeFix(keepBackups = False)
 
 
@@ -875,6 +711,7 @@ Remove a Fix from a .ini File Given the File Path
         ; The bottom part is what the fix actually cares about
 
         [TextureOverrideRaidenShogunBlend]
+        hash = 1a495487
         run = CommandListRaidenShogunBlend
         handling = skip
         draw = 21916,0
@@ -920,7 +757,6 @@ Remove a Fix from a .ini File Given the File Path
         filename = ./Dont/Use\If/Statements\Or/SubCommands\In/Resource\Sections.buf
 
         ; ------ some lines originally generated from the fix ---------
-
 
 
 :raw-html:`<br />`
@@ -960,6 +796,7 @@ Remove a Fix from a .ini File Given Only a String Containing the Content of the 
         ; The bottom part is what the fix actually cares about
 
         [TextureOverrideRaidenShogunBlend]
+        hash = 1a495487
         run = CommandListRaidenShogunBlend
         handling = skip
         draw = 21916,0
@@ -1089,11 +926,11 @@ Remove a Fix from a .ini File Given Only a String Containing the Content of the 
 
     .. code-block:: python
         :linenos:
-        :lineno-start: 148
+        :lineno-start: 149
 
         import AnimeGameRemap as AGR
 
-        iniFile = AGR.IniFile(txt = showWackyRaidenIniTxtWithFix, modTypes = AGR.ModTypes.getAll())
+        iniFile = AGR.IniFile(txt = showWackyRaidenIniTxtWithFix)
         fixCode = iniFile.removeFix(keepBackups = False)
 
         print(fixCode)
@@ -1102,7 +939,10 @@ Remove a Fix from a .ini File Given Only a String Containing the Content of the 
 .. dropdown:: Result
     :animate: fade-in-slide-down
 
+    The printed text with the fix removed
+
     .. code-block:: ini
+        :caption: IniWithFixRemoved.ini
         :linenos:
 
         [Constants]
@@ -1130,6 +970,7 @@ Remove a Fix from a .ini File Given Only a String Containing the Content of the 
         ; The bottom part is what the fix actually cares about
 
         [TextureOverrideRaidenShogunBlend]
+        hash = 1a495487
         run = CommandListRaidenShogunBlend
         handling = skip
         draw = 21916,0
@@ -1177,8 +1018,6 @@ Remove a Fix from a .ini File Given Only a String Containing the Content of the 
         ; ------ some lines originally generated from the fix ---------
 
 
-
-
 :raw-html:`<br />`
 
 Fix a .ini File Given the File Path
@@ -1186,8 +1025,8 @@ Fix a .ini File Given the File Path
 
 This example is the combined result of these 2 examples:
 
-* :ref:`Only Fix a .ini File Given the File Path <Only Fix a .ini File Given the File Path>`
-* :ref:`Remove a Fix from a .ini File Given the File Path <Remove a Fix from a .ini File Given the File Path>`
+* :ref:`Only Fix a .ini File Given the File Path <apiExamples:Only Fix a .ini File Given the File Path>`
+* :ref:`Remove a Fix from a .ini File Given the File Path <apiExamples:Remove a Fix from a .ini File Given the File Path>`
 
 .. dropdown:: Input
     :animate: fade-in-slide-down
@@ -1221,6 +1060,7 @@ This example is the combined result of these 2 examples:
         ; The bottom part is what the fix actually cares about
 
         [TextureOverrideRaidenShogunBlend]
+        hash = 1a495487
         run = CommandListRaidenShogunBlend
         handling = skip
         draw = 21916,0
@@ -1352,10 +1192,11 @@ This example is the combined result of these 2 examples:
 
         import AnimeGameRemap as AGR
 
-        iniFile = AGR.IniFile("PartiallyFixedRaiden.ini", modTypes = AGR.ModTypes.getAll())
+        iniFile = AGR.IniFile("PartiallyFixedRaiden.ini")
         iniFile.removeFix(keepBackups = False)
         iniFile.parse()
         iniFile.fix()
+
 
 .. dropdown:: Result
     :animate: fade-in-slide-down
@@ -1389,6 +1230,7 @@ This example is the combined result of these 2 examples:
         ; The bottom part is what the fix actually cares about
 
         [TextureOverrideRaidenShogunBlend]
+        hash = 1a495487
         run = CommandListRaidenShogunBlend
         handling = skip
         draw = 21916,0
@@ -1435,15 +1277,12 @@ This example is the combined result of these 2 examples:
 
         ; ------ some lines originally generated from the fix ---------
 
-
-
-
         ; --------------- Raiden Remap ---------------
         ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-        ; ***** RaidenBoss *****
         [TextureOverrideRaidenShogunRaidenBossRemapBlend]
+        hash = fe5c0180
         run = CommandListRaidenShogunRaidenBossRemapBlend
         handling = skip
         draw = 21916,0
@@ -1464,17 +1303,16 @@ This example is the combined result of these 2 examples:
             vb1 = ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend
         endif
 
-
-        [ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend]
+        [ResourceRaidenShogunRaidenBossRemapBlend.0]
         type = Buffer
         stride = 32
-        filename = ../AAA/BBBB/CCCCCC/DDDDDRemapRaidenBossRemapBlend.buf
+        filename = ..\..\..\..\..\..\..\..\..\2-BunnyRaidenShogun\RaidenShogunRaidenBossRemapBlend.buf
 
         [ResourceEiBlendsHerRaidenBossRemapBlenderInsteadOfHerSmoothie]
         type = Buffer
         stride = 32
         if $swapmain == 1
-            filename = M:/AnotherDrive/CuteLittleEiRaidenBossRemapBlend.buf
+            filename = M:\AnotherDrive\CuteLittleEiRaidenBossRemapBlend.buf
         else
             run = ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend
         endif
@@ -1482,17 +1320,15 @@ This example is the combined result of these 2 examples:
         [ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend]
         type = Buffer
         stride = 32
-        filename = Dont/Use/If/Statements/Or/SubCommands/In/Resource/SectionsRaidenBossRemapBlend.buf
+        filename = .\Dont\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRaidenBossRemapBlend.buf
 
-        [ResourceRaidenShogunRaidenBossRemapBlend.0]
+        [ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend]
         type = Buffer
         stride = 32
-        filename = ../../../../../../../../../2-BunnyRaidenShogun/RaidenShogunRaidenBossRemapBlend.buf
-
-        ; **********************
+        filename = .\..\AAA\BBBB\CCCCCC\DDDDDRemapRaidenBossRemapBlend.buf
 
         ; --------------------------------------------
-        
+
 
 :raw-html:`<br />`
 
@@ -1501,8 +1337,8 @@ Fix a .ini File Given Only A String Containing the Content of the File
 
 This example is the combined result of these 2 examples:
 
-* :ref:`Only Fix .Ini file Given Only a String Containing the Content of the File <Only Fix .Ini file Given Only a String Containing the Content of the File>`
-* :ref:`Remove a Fix from a .ini File Given Only a String Containing the Content of the File <Remove a Fix from a .ini File Given Only a String Containing the Content of the File>`
+* :ref:`Only Fix .Ini file Given Only a String Containing the Content of the File <apiExamples:Only Fix .Ini file Given Only a String Containing the Content of the File>`
+* :ref:`Remove a Fix from a .ini File Given Only a String Containing the Content of the File <apiExamples:Remove a Fix from a .ini File Given Only a String Containing the Content of the File>`
 
 .. dropdown:: Input
     :animate: fade-in-slide-down
@@ -1536,6 +1372,7 @@ This example is the combined result of these 2 examples:
         ; The bottom part is what the fix actually cares about
 
         [TextureOverrideRaidenShogunBlend]
+        hash = 1a495487
         run = CommandListRaidenShogunBlend
         handling = skip
         draw = 21916,0
@@ -1665,21 +1502,26 @@ This example is the combined result of these 2 examples:
 
     .. code-block:: python
         :linenos:
-        :lineno-start: 148
+        :lineno-start: 149
 
         import AnimeGameRemap as AGR
 
-        iniFile = AGR.IniFile(txt = showWackyRaidenIniTxtWithFix, modTypes = AGR.ModTypes.getAll())
+        iniFile = AGR.IniFile(txt = showWackyRaidenIniTxtWithFix)
         iniFile.removeFix(keepBackups = False)
         iniFile.parse()
-        fixResult = iniFile.fix()
+        fixedResult = iniFile.fix()
 
-        print(fixResult)
+        for fixedTxt in fixedResult.values():
+            print(fixedTxt)
+
 
 .. dropdown:: Result
     :animate: fade-in-slide-down
 
+    The printed text of the fixed .ini file
+
     .. code-block:: ini
+        :caption: FixedIni.ini
         :linenos:
 
         [Constants]
@@ -1707,6 +1549,7 @@ This example is the combined result of these 2 examples:
         ; The bottom part is what the fix actually cares about
 
         [TextureOverrideRaidenShogunBlend]
+        hash = 1a495487
         run = CommandListRaidenShogunBlend
         handling = skip
         draw = 21916,0
@@ -1753,15 +1596,12 @@ This example is the combined result of these 2 examples:
 
         ; ------ some lines originally generated from the fix ---------
 
-
-
-
         ; --------------- Raiden Remap ---------------
         ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-        ; ***** RaidenBoss *****
         [TextureOverrideRaidenShogunRaidenBossRemapBlend]
+        hash = fe5c0180
         run = CommandListRaidenShogunRaidenBossRemapBlend
         handling = skip
         draw = 21916,0
@@ -1782,16 +1622,16 @@ This example is the combined result of these 2 examples:
             vb1 = ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend
         endif
 
-        [ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend]
+        [ResourceRaidenShogunRaidenBossRemapBlend.0]
         type = Buffer
         stride = 32
-        filename = ../AAA/BBBB/CCCCCC/DDDDDRemapRaidenBossRemapBlend.buf
+        filename = ..\..\..\..\..\..\..\..\..\2-BunnyRaidenShogun\RaidenShogunRaidenBossRemapBlend.buf
 
         [ResourceEiBlendsHerRaidenBossRemapBlenderInsteadOfHerSmoothie]
         type = Buffer
         stride = 32
         if $swapmain == 1
-            filename = M:/AnotherDrive/CuteLittleEiRaidenBossRemapBlend.buf
+            filename = M:\AnotherDrive\CuteLittleEiRaidenBossRemapBlend.buf
         else
             run = ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend
         endif
@@ -1799,14 +1639,12 @@ This example is the combined result of these 2 examples:
         [ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend]
         type = Buffer
         stride = 32
-        filename = Dont/Use/If/Statements/Or/SubCommands/In/Resource/SectionsRaidenBossRemapBlend.buf
+        filename = .\Dont\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRaidenBossRemapBlend.buf
 
-        [ResourceRaidenShogunRaidenBossRemapBlend.0]
+        [ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend]
         type = Buffer
         stride = 32
-        filename = ../../../../../../../../../2-BunnyRaidenShogun/RaidenShogunRaidenBossRemapBlend.buf
-
-        ; **********************
+        filename = .\..\AAA\BBBB\CCCCCC\DDDDDRemapRaidenBossRemapBlend.buf
 
         ; --------------------------------------------
 
@@ -1822,28 +1660,90 @@ By default, the mod will show on both the original character and the remapped ch
 .. dropdown:: Input
     :animate: fade-in-slide-down
 
-    .. code-block:: ini 
-        :caption: AmberCN.ini
+    .. code-block:: ini
+        :caption: changeVersionKeqing.ini
         :linenos:
-        
-        [TextureOverrideAmberCNBlend]
-        vb1 = ResourceAmberCNBlend
-        handling = skip
-        draw = 21916,0
 
-        [TextureOverrideAmberCNBody]
-        hash = b41d4d94
-        match_first_index = 5670
-        ib = ResourceAmberCNBodyIB
-        ps-t0 = ResourceAmberCNBodyDiffuse
-        ps-t1 = ResourceAmberCNBodyLightMap
-        ps-t2 = ResourceAmberCNBodyMetalMap
-        ps-t3 = ResourceAmberCNBodyShadowRamp
+        [Constants]
+        global persist $swapvar = 0
 
-        [ResourceAmberCNBlend]
+        [KeySwap]
+        condition = $active == 1
+        key = VK_DOWN
+        type = cycle
+        $swapvar = 0,1
+        $creditinfo = 0
+
+        [TextureOverrideKeqingBlend]
+        hash = 0bf8e621
+        if $swapvar == 0
+            vb1 = ResourceKeqingBlend.0
+            handling = skip
+            draw = 21916,0
+        else if $swapvar == 1
+            vb1 = ResourceKeqingBlend.1
+            handling = skip
+            draw = 21916,0
+        endif
+
+        [TextureOverrideKeqingBody]
+        hash = cbf1894b
+        match_first_index = 10824
+        run = CommandListKeqingBody
+
+        [CommandListKeqingBody]
+        if $swapvar == 0
+            ib = ResourceKeqingBodyIB.0
+            ps-t0 = ResourceKeqingBodyDiffuse.0
+            ps-t1 = ResourceKeqingBodyLightMap.0
+            ps-t2 = ResourceKeqingBodyMetalMap.0
+            ps-t3 = ResourceKeqingBodyShadowRamp.0
+        else if $swapvar == 1
+            ib = ResourceKeqingBodyIB.3
+            ps-t0 = ResourceKeqingBodyDiffuse.3
+            ps-t1 = ResourceKeqingBodyLightMap.3
+        endif
+
+        [TextureOverrideKeqingDress]
+        hash = cbf1894b
+        match_first_index = 48216
+        run = CommandListKeqingDress
+
+        [CommandListKeqingDress]
+        if $swapvar == 0
+            ib = ResourceKeqingDressIB.0
+            ps-t0 = ResourceKeqingDressDiffuse.0
+            ps-t1 = ResourceKeqingDressLightMap.0
+            ps-t2 = ResourceKeqingDressMetalMap.0
+            ps-t3 = ResourceKeqingDressShadowRamp.0
+        else if $swapvar == 1
+            ib = ResourceKeqingDressIB.3
+            ps-t0 = ResourceKeqingDressDiffuse.3
+            ps-t1 = ResourceKeqingDressLightMap.3
+        endif
+
+        [ResourceKeqingBlend.0]
         type = Buffer
         stride = 32
-        filename = AmberCNBlend.buf
+        filename = ../Buffs/ISwearItsFor.buf
+
+        [ResourceKeqingBlend.1]
+        type = Buffer
+        stride = 32
+        filename = ../Buffs/SmallerHitboxes.buf
+
+        [ResourceKeqingDressDiffuse.0]
+        filename = CatGirl.dds
+
+        [ResourceKeqingDressDiffuse.3]
+        filename = Patootie.dds
+
+        [ResourceKeqingHeadDiffuse.0]
+        filename = Cutesy.dds
+
+        [ResourceKeqingHeadDiffuse.3]
+        filename = CutiePie.dds
+
 
 .. dropdown:: Code
     :open:
@@ -1854,67 +1754,368 @@ By default, the mod will show on both the original character and the remapped ch
 
         import AnimeGameRemap as AGR
 
-        iniFile = AGR.IniFile("AmberCN.ini", modTypes = AGR.ModTypes.getAll(), hideOrig = True)
+        iniFile = AGR.IniFile("changeVersionKeqing.ini")
         iniFile.parse()
-        iniFile.fix()
+        iniFile.fix(hideOrig = True)
 
-        print(fixResult)
 
 .. dropdown:: Result
     :animate: fade-in-slide-down
-    
-    .. code-block:: ini
-        :caption: AmberCN.ini
-        :linenos:
 
-        ;RemapFixHideOrig -->[TextureOverrideAmberCNBlend]
-        ;RemapFixHideOrig -->vb1 = ResourceAmberCNBlend
-        ;RemapFixHideOrig -->handling = skip
-        ;RemapFixHideOrig -->draw = 21916,0
-        ;RemapFixHideOrig -->
-        ;RemapFixHideOrig -->[TextureOverrideAmberCNBody]
-        ;RemapFixHideOrig -->hash = b41d4d94
-        ;RemapFixHideOrig -->match_first_index = 5670
-        ;RemapFixHideOrig -->ib = ResourceAmberCNBodyIB
-        ;RemapFixHideOrig -->ps-t0 = ResourceAmberCNBodyDiffuse
-        ;RemapFixHideOrig -->ps-t1 = ResourceAmberCNBodyLightMap
-        ;RemapFixHideOrig -->ps-t2 = ResourceAmberCNBodyMetalMap
-        ;RemapFixHideOrig -->ps-t3 = ResourceAmberCNBodyShadowRamp
-        ;RemapFixHideOrig -->
-        [ResourceAmberCNBlend]
-        type = Buffer
-        stride = 32
-        filename = AmberCNBlend.buf
+    .. dropdown:: changeVersionKeqing.ini
+        :animate: fade-in-slide-down
+
+        .. code-block:: ini
+            :caption: changeVersionKeqing.ini
+            :linenos:
+
+            [Constants]
+            global persist $swapvar = 0
+
+            [KeySwap]
+            condition = $active == 1
+            key = VK_DOWN
+            type = cycle
+            $swapvar = 0,1
+            $creditinfo = 0
+
+            ;RemapFixHideOrig -->[TextureOverrideKeqingBlend]
+            ;RemapFixHideOrig -->hash = 0bf8e621
+            ;RemapFixHideOrig -->if $swapvar == 0
+            ;RemapFixHideOrig -->    vb1 = ResourceKeqingBlend.0
+            ;RemapFixHideOrig -->    handling = skip
+            ;RemapFixHideOrig -->    draw = 21916,0
+            ;RemapFixHideOrig -->else if $swapvar == 1
+            ;RemapFixHideOrig -->    vb1 = ResourceKeqingBlend.1
+            ;RemapFixHideOrig -->    handling = skip
+            ;RemapFixHideOrig -->    draw = 21916,0
+            ;RemapFixHideOrig -->endif
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->[TextureOverrideKeqingBody]
+            ;RemapFixHideOrig -->hash = cbf1894b
+            ;RemapFixHideOrig -->match_first_index = 10824
+            ;RemapFixHideOrig -->run = CommandListKeqingBody
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->[CommandListKeqingBody]
+            ;RemapFixHideOrig -->if $swapvar == 0
+            ;RemapFixHideOrig -->    ib = ResourceKeqingBodyIB.0
+            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingBodyDiffuse.0
+            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingBodyLightMap.0
+            ;RemapFixHideOrig -->    ps-t2 = ResourceKeqingBodyMetalMap.0
+            ;RemapFixHideOrig -->    ps-t3 = ResourceKeqingBodyShadowRamp.0
+            ;RemapFixHideOrig -->else if $swapvar == 1
+            ;RemapFixHideOrig -->    ib = ResourceKeqingBodyIB.3
+            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingBodyDiffuse.3
+            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingBodyLightMap.3
+            ;RemapFixHideOrig -->endif
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->[TextureOverrideKeqingDress]
+            ;RemapFixHideOrig -->hash = cbf1894b
+            ;RemapFixHideOrig -->match_first_index = 48216
+            ;RemapFixHideOrig -->run = CommandListKeqingDress
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->[CommandListKeqingDress]
+            ;RemapFixHideOrig -->if $swapvar == 0
+            ;RemapFixHideOrig -->    ib = ResourceKeqingDressIB.0
+            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingDressDiffuse.0
+            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingDressLightMap.0
+            ;RemapFixHideOrig -->    ps-t2 = ResourceKeqingDressMetalMap.0
+            ;RemapFixHideOrig -->    ps-t3 = ResourceKeqingDressShadowRamp.0
+            ;RemapFixHideOrig -->else if $swapvar == 1
+            ;RemapFixHideOrig -->    ib = ResourceKeqingDressIB.3
+            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingDressDiffuse.3
+            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingDressLightMap.3
+            ;RemapFixHideOrig -->endif
+            ;RemapFixHideOrig -->
+            [ResourceKeqingBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/ISwearItsFor.buf
+
+            [ResourceKeqingBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/SmallerHitboxes.buf
+
+            [ResourceKeqingDressDiffuse.0]
+            filename = CatGirl.dds
+
+            [ResourceKeqingDressDiffuse.3]
+            filename = Patootie.dds
+
+            [ResourceKeqingHeadDiffuse.0]
+            filename = Cutesy.dds
+
+            [ResourceKeqingHeadDiffuse.3]
+            filename = CutiePie.dds
+
+            ; --------------- Keqing Remap ---------------
+            ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+            [ResourceKeqingHeadDiffuseRemapDL]
+            filename = KeqingHeadDiffuseRemapDL.dds
+
+            [ResourceKeqingHeadLightMapRemapDL]
+            filename = KeqingHeadLightMapRemapDL.dds
+
+            [ResourceKeqingHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KeqingHeadRemapDL.ib
+
+            [ResourceKeqingFaceDiffuseRemapDL]
+            filename = KeqingFaceDiffuseRemapDL.dds
+
+            [ResourceKeqingPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = KeqingPositionRemapDL.buf
+
+            [ResourceKeqingTexcoordRemapDL]
+            type = Buffer
+            stride = 20
+            filename = KeqingTexcoordRemapDL.buf
+
+            [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
+            hash = 7c6fc8c3
+            match_first_index = 0
+            run = CommandListKeqingHeadKeqingOpulentRemapFix
+
+            [CommandListKeqingHeadKeqingOpulentRemapFix]
+            if $swapvar == 0
+                ib = ResourceKeqingDressIB.0
+                ps-t0 = ResourceKeqingDressDiffuseKeqingOpulentOpaqueDiffuseRemapTex.0
+                ps-t1 = ResourceKeqingDressLightMap.0
+                ps-t2 = ResourceKeqingDressMetalMap.0
+                ps-t3 = ResourceKeqingDressShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingDressIB.3
+                ps-t0 = ResourceKeqingDressDiffuseKeqingOpulentOpaqueDiffuseRemapTex.3
+                ps-t1 = ResourceKeqingDressLightMap.3
+            endif
+
+            [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
+            hash = 7c6fc8c3
+            match_first_index = 19623
+            run = CommandListKeqingBodyKeqingOpulentRemapFix
+
+            [CommandListKeqingBodyKeqingOpulentRemapFix]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingBodyDiffuse.0
+                ps-t1 = ResourceKeqingBodyLightMap.0
+                ps-t2 = ResourceKeqingBodyMetalMap.0
+                ps-t3 = ResourceKeqingBodyShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingBodyIB.3
+                ps-t0 = ResourceKeqingBodyDiffuse.3
+                ps-t1 = ResourceKeqingBodyLightMap.3
+            endif
+
+            [TextureOverrideKeqingKeqingOpulentRemapBlend]
+            hash = 6f010b58
+            if $swapvar == 0
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.0
+                handling = skip
+                draw = 21916,0
+            else if $swapvar == 1
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.1
+                handling = skip
+                draw = 21916,0
+            endif
+
+            [TextureOverrideKeqingKeqingOpulentRemapPositionRemapFix]
+            hash = 0d7e3cc5
+            vb0 = ResourceKeqingPositionRemapDL
+
+            [TextureOverrideKeqingKeqingOpulentRemapTexcoordRemapFix]
+            hash = 52f78cb7
+            vb1 = ResourceKeqingTexcoordRemapDL
+
+            [TextureOverrideKeqingFaceKeqingOpulentRemapFix]
+            hash = c2b17f84
+            ps-t1 = ResourceKeqingFaceDiffuseRemapDL
+
+            [ResourceKeqingKeqingOpulentRemapBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ..\Buffs\ISwearItsForKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingKeqingOpulentRemapBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ..\Buffs\SmallerHitboxesKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingDressDiffuseKeqingOpulentOpaqueDiffuseRemapTex.0]
+            filename = KeqingOpulentHeadRemapTexKNs J93.dds
+
+            [ResourceKeqingDressDiffuseKeqingOpulentOpaqueDiffuseRemapTex.3]
+            filename = KeqingOpulentHeadRemapTexBkA J93.dds
+
+            ; --------------------------------------------
 
 
-        ; --------------- AmberCN Remap ---------------
-        ; AmberCN remapped by Albert Gold#2696 and NK#1321. If you used it to remap your AmberCN mods pls give credit for "Albert Gold#2696" and "Nhok0169"
-        ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+    .. dropdown:: changeVersionKeqingRemapFix1.ini
+        :animate: fade-in-slide-down
 
-        ; ***** Amber *****
-        [TextureOverrideAmberCNAmberRemapBlend]
-        vb1 = ResourceAmberCNAmberRemapBlend
-        handling = skip
-        draw = 21916,0
+        .. code-block:: ini
+            :caption: changeVersionKeqingRemapFix1.ini
+            :linenos:
 
-        [TextureOverrideAmberCNBodyAmberRemapFix]
-        hash = b03c7e30
-        match_first_index = 5670
-        ib = ResourceAmberCNBodyIB
-        ps-t0 = ResourceAmberCNBodyDiffuse
-        ps-t1 = ResourceAmberCNBodyLightMap
-        ps-t2 = ResourceAmberCNBodyMetalMap
-        ps-t3 = ResourceAmberCNBodyShadowRamp
-        drawindexed = auto
+            ; This is really bad!! Don't do this!
+            ; ************************************
+            ;
+            ; jk, but joking aside...
+            ;
+            ; The goal is to display n mod objects from the mod to be remapped to the mod onto a single mod object of the remapped mod.
+            ;   Therefore we will have n sets of resources all mapping onto a single index (and same hash).
+            ;
+            ; Ideally, we would want all the sections to be within a single .ini file. The naive approach would be to create n sets of sections
+            ;   (not a single section, cuz you need to include the case of sections depending on other sections, which form a section caller/callee graph) 
+            ;    where the sections names are all unique. However, this approach will trigger a warning on GIMI (or any GIMI like importer) of multiple sections
+            ;   mapping to the same hash and only 1 of the mod objects will be displayed
+            ;
+            ; The next attempt would be to take advantage of GIMI's overlapping mod bug/feature from loading multiple mods of the same character
+            ;   Apart from the original .ini file, there would be n-1 newly generated .ini files (total of n .ini files). Each .ini file would uniquely
+            ;   display a single set of sections from the n sets of sections. The overlapping property from the bug/feature would allow for all the objects to be displayed.
+            ;
+            ; For now, we were lazy and just simply copied the original .ini file onto the generated .ini files, which results in the original mod to have overlapping copies.
+            ;  But since the mod used in all the .ini files are exactly the same, the user would not see the overlap (they may have some performance issues depending on the size of n. But
+            ;   usually remaps only merge 2 mod objects into a single mod object, which should not cause much of an issue)
+            ;   We could optimize the amount of space taken up by the newly generated .ini files, by only putting the necessary sections, but that is for another day...
 
-        [ResourceAmberCNAmberRemapBlend]
-        type = Buffer
-        stride = 32
-        filename = AmberCNAmberRemapBlend.buf
+            [Constants]
+            global persist $swapvar = 0
 
-        ; *****************
+            [KeySwap]
+            condition = $active == 1
+            key = VK_DOWN
+            type = cycle
+            $swapvar = 0,1
+            $creditinfo = 0
 
-        ; ---------------------------------------------
+            ;RemapFixHideOrig -->[TextureOverrideKeqingBlend]
+            ;RemapFixHideOrig -->hash = 0bf8e621
+            ;RemapFixHideOrig -->if $swapvar == 0
+            ;RemapFixHideOrig -->    vb1 = ResourceKeqingBlend.0
+            ;RemapFixHideOrig -->    handling = skip
+            ;RemapFixHideOrig -->    draw = 21916,0
+            ;RemapFixHideOrig -->else if $swapvar == 1
+            ;RemapFixHideOrig -->    vb1 = ResourceKeqingBlend.1
+            ;RemapFixHideOrig -->    handling = skip
+            ;RemapFixHideOrig -->    draw = 21916,0
+            ;RemapFixHideOrig -->endif
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->[TextureOverrideKeqingBody]
+            ;RemapFixHideOrig -->hash = cbf1894b
+            ;RemapFixHideOrig -->match_first_index = 10824
+            ;RemapFixHideOrig -->run = CommandListKeqingBody
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->[CommandListKeqingBody]
+            ;RemapFixHideOrig -->if $swapvar == 0
+            ;RemapFixHideOrig -->    ib = ResourceKeqingBodyIB.0
+            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingBodyDiffuse.0
+            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingBodyLightMap.0
+            ;RemapFixHideOrig -->    ps-t2 = ResourceKeqingBodyMetalMap.0
+            ;RemapFixHideOrig -->    ps-t3 = ResourceKeqingBodyShadowRamp.0
+            ;RemapFixHideOrig -->else if $swapvar == 1
+            ;RemapFixHideOrig -->    ib = ResourceKeqingBodyIB.3
+            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingBodyDiffuse.3
+            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingBodyLightMap.3
+            ;RemapFixHideOrig -->endif
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->[TextureOverrideKeqingDress]
+            ;RemapFixHideOrig -->hash = cbf1894b
+            ;RemapFixHideOrig -->match_first_index = 48216
+            ;RemapFixHideOrig -->run = CommandListKeqingDress
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->[CommandListKeqingDress]
+            ;RemapFixHideOrig -->if $swapvar == 0
+            ;RemapFixHideOrig -->    ib = ResourceKeqingDressIB.0
+            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingDressDiffuse.0
+            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingDressLightMap.0
+            ;RemapFixHideOrig -->    ps-t2 = ResourceKeqingDressMetalMap.0
+            ;RemapFixHideOrig -->    ps-t3 = ResourceKeqingDressShadowRamp.0
+            ;RemapFixHideOrig -->else if $swapvar == 1
+            ;RemapFixHideOrig -->    ib = ResourceKeqingDressIB.3
+            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingDressDiffuse.3
+            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingDressLightMap.3
+            ;RemapFixHideOrig -->endif
+            ;RemapFixHideOrig -->
+            [ResourceKeqingBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/ISwearItsFor.buf
+
+            [ResourceKeqingBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/SmallerHitboxes.buf
+
+            [ResourceKeqingDressDiffuse.0]
+            filename = CatGirl.dds
+
+            [ResourceKeqingDressDiffuse.3]
+            filename = Patootie.dds
+
+            [ResourceKeqingHeadDiffuse.0]
+            filename = Cutesy.dds
+
+            [ResourceKeqingHeadDiffuse.3]
+            filename = CutiePie.dds
+
+            ; --------------- Keqing Remap ---------------
+            ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+            [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
+            ib = ResourceKeqingHeadIbRemapDL
+            ps-t1 = ResourceKeqingHeadLightMapRemapDL
+            hash = 7c6fc8c3
+            match_first_index = 0
+            ps-t0 = ResourceKeqingHeadDiffuseRemapDLKeqingOpulentOpaqueDiffuseRemapTex
+            run = CommandList\global\ORFix\NNFix
+
+            [TextureOverrideKeqingKeqingOpulentRemapBlend]
+            hash = 6f010b58
+            if $swapvar == 0
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.0
+                handling = skip
+                draw = 21916,0
+            else if $swapvar == 1
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.1
+                handling = skip
+                draw = 21916,0
+            endif
+
+            [TextureOverrideKeqingKeqingOpulentRemapPositionRemapFix]
+            hash = 0d7e3cc5
+            vb0 = ResourceKeqingPositionRemapDL
+
+            [TextureOverrideKeqingKeqingOpulentRemapTexcoordRemapFix]
+            hash = 52f78cb7
+            vb1 = ResourceKeqingTexcoordRemapDL
+
+            [TextureOverrideKeqingFaceKeqingOpulentRemapFix]
+            hash = c2b17f84
+            ps-t1 = ResourceKeqingFaceDiffuseRemapDL
+
+            [ResourceKeqingKeqingOpulentRemapBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ..\Buffs\ISwearItsForKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingKeqingOpulentRemapBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ..\Buffs\SmallerHitboxesKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingHeadDiffuseRemapDLKeqingOpulentOpaqueDiffuseRemapTex]
+            filename = KeqingOpulentHeadRemapTexCgN J93.dds
+
+            ; --------------------------------------------
+
 
 
 :raw-html:`<br />`
@@ -1928,33 +2129,95 @@ This example shows a weird use case of wanting to fix the .ini file to an older 
     The hashes and the indices are changed in the new .ini file to the older version of the game (the fix basically travelled in time!).
 
     To fix an entire mod for a specific version of the game, where the vertex group remaps of the Blend.buf files will also be affected by the specific game version
-    go to :ref:`Fixing Entire Mods to a Specific Version of the Game`
+    go to :ref:`Fixing Entire Mods to a Specific Version of the Game <apiExamples:Fixing Entire Mods to a Specific Version of the Game>`
 
 .. dropdown:: Input
     :animate: fade-in-slide-down
 
-    .. code-block:: ini 
-        :caption: AmberCN.ini
+    .. code-block:: ini
+        :caption: changeVersionKeqing.ini
         :linenos:
-        
-        [TextureOverrideAmberCNBlend]
-        vb1 = ResourceAmberCNBlend
-        handling = skip
-        draw = 21916,0
 
-        [TextureOverrideAmberCNBody]
-        hash = b41d4d94
-        match_first_index = 5670
-        ib = ResourceAmberCNBodyIB
-        ps-t0 = ResourceAmberCNBodyDiffuse
-        ps-t1 = ResourceAmberCNBodyLightMap
-        ps-t2 = ResourceAmberCNBodyMetalMap
-        ps-t3 = ResourceAmberCNBodyShadowRamp
+        [Constants]
+        global persist $swapvar = 0
 
-        [ResourceAmberCNBlend]
+        [KeySwap]
+        condition = $active == 1
+        key = VK_DOWN
+        type = cycle
+        $swapvar = 0,1
+        $creditinfo = 0
+
+        [TextureOverrideKeqingBlend]
+        hash = 0bf8e621
+        if $swapvar == 0
+            vb1 = ResourceKeqingBlend.0
+            handling = skip
+            draw = 21916,0
+        else if $swapvar == 1
+            vb1 = ResourceKeqingBlend.1
+            handling = skip
+            draw = 21916,0
+        endif
+
+        [TextureOverrideKeqingBody]
+        hash = cbf1894b
+        match_first_index = 10824
+        run = CommandListKeqingBody
+
+        [CommandListKeqingBody]
+        if $swapvar == 0
+            ib = ResourceKeqingBodyIB.0
+            ps-t0 = ResourceKeqingBodyDiffuse.0
+            ps-t1 = ResourceKeqingBodyLightMap.0
+            ps-t2 = ResourceKeqingBodyMetalMap.0
+            ps-t3 = ResourceKeqingBodyShadowRamp.0
+        else if $swapvar == 1
+            ib = ResourceKeqingBodyIB.3
+            ps-t0 = ResourceKeqingBodyDiffuse.3
+            ps-t1 = ResourceKeqingBodyLightMap.3
+        endif
+
+        [TextureOverrideKeqingDress]
+        hash = cbf1894b
+        match_first_index = 48216
+        run = CommandListKeqingDress
+
+        [CommandListKeqingDress]
+        if $swapvar == 0
+            ib = ResourceKeqingDressIB.0
+            ps-t0 = ResourceKeqingDressDiffuse.0
+            ps-t1 = ResourceKeqingDressLightMap.0
+            ps-t2 = ResourceKeqingDressMetalMap.0
+            ps-t3 = ResourceKeqingDressShadowRamp.0
+        else if $swapvar == 1
+            ib = ResourceKeqingDressIB.3
+            ps-t0 = ResourceKeqingDressDiffuse.3
+            ps-t1 = ResourceKeqingDressLightMap.3
+        endif
+
+        [ResourceKeqingBlend.0]
         type = Buffer
         stride = 32
-        filename = AmberCNBlend.buf
+        filename = ../Buffs/ISwearItsFor.buf
+
+        [ResourceKeqingBlend.1]
+        type = Buffer
+        stride = 32
+        filename = ../Buffs/SmallerHitboxes.buf
+
+        [ResourceKeqingDressDiffuse.0]
+        filename = CatGirl.dds
+
+        [ResourceKeqingDressDiffuse.3]
+        filename = Patootie.dds
+
+        [ResourceKeqingHeadDiffuse.0]
+        filename = Cutesy.dds
+
+        [ResourceKeqingHeadDiffuse.3]
+        filename = CutiePie.dds
+
 
 .. dropdown:: Code
     :open:
@@ -1965,66 +2228,389 @@ This example shows a weird use case of wanting to fix the .ini file to an older 
 
         import AnimeGameRemap as AGR
 
-        iniFile = AGR.IniFile("AmberCN.ini", modTypes = AGR.ModTypes.getAll(), version = 4.0)
+        version = AGR.CppVersion.parse("4.0")
+
+        # fromVersion: the version the mod was made for, toVersion: the version to fix the mod to
+        iniFile = AGR.IniFile("changeVersionKeqing.ini", fromVersion = version, toVersion = version)
         iniFile.parse()
         iniFile.fix()
 
-        print(fixResult)
 
 .. dropdown:: Result
     :animate: fade-in-slide-down
 
-    .. code-block:: ini
-        :caption: AmberCN.ini
-        :linenos:
+    .. dropdown:: changeVersionKeqing.ini
+        :animate: fade-in-slide-down
 
-        [TextureOverrideAmberCNBlend]
-        vb1 = ResourceAmberCNBlend
-        handling = skip
-        draw = 21916,0
+        .. code-block:: ini
+            :caption: changeVersionKeqing.ini
+            :linenos:
 
-        [TextureOverrideAmberCNBody]
-        hash = b41d4d94
-        match_first_index = 5670
-        ib = ResourceAmberCNBodyIB
-        ps-t0 = ResourceAmberCNBodyDiffuse
-        ps-t1 = ResourceAmberCNBodyLightMap
-        ps-t2 = ResourceAmberCNBodyMetalMap
-        ps-t3 = ResourceAmberCNBodyShadowRamp
+            [Constants]
+            global persist $swapvar = 0
 
-        [ResourceAmberCNBlend]
-        type = Buffer
-        stride = 32
-        filename = AmberCNBlend.buf
+            [KeySwap]
+            condition = $active == 1
+            key = VK_DOWN
+            type = cycle
+            $swapvar = 0,1
+            $creditinfo = 0
+
+            [TextureOverrideKeqingBlend]
+            hash = 0bf8e621
+            if $swapvar == 0
+                vb1 = ResourceKeqingBlend.0
+                handling = skip
+                draw = 21916,0
+            else if $swapvar == 1
+                vb1 = ResourceKeqingBlend.1
+                handling = skip
+                draw = 21916,0
+            endif
+
+            [TextureOverrideKeqingBody]
+            hash = cbf1894b
+            match_first_index = 10824
+            run = CommandListKeqingBody
+
+            [CommandListKeqingBody]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingBodyDiffuse.0
+                ps-t1 = ResourceKeqingBodyLightMap.0
+                ps-t2 = ResourceKeqingBodyMetalMap.0
+                ps-t3 = ResourceKeqingBodyShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingBodyIB.3
+                ps-t0 = ResourceKeqingBodyDiffuse.3
+                ps-t1 = ResourceKeqingBodyLightMap.3
+            endif
+
+            [TextureOverrideKeqingDress]
+            hash = cbf1894b
+            match_first_index = 48216
+            run = CommandListKeqingDress
+
+            [CommandListKeqingDress]
+            if $swapvar == 0
+                ib = ResourceKeqingDressIB.0
+                ps-t0 = ResourceKeqingDressDiffuse.0
+                ps-t1 = ResourceKeqingDressLightMap.0
+                ps-t2 = ResourceKeqingDressMetalMap.0
+                ps-t3 = ResourceKeqingDressShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingDressIB.3
+                ps-t0 = ResourceKeqingDressDiffuse.3
+                ps-t1 = ResourceKeqingDressLightMap.3
+            endif
+
+            [ResourceKeqingBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/ISwearItsFor.buf
+
+            [ResourceKeqingBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/SmallerHitboxes.buf
+
+            [ResourceKeqingDressDiffuse.0]
+            filename = CatGirl.dds
+
+            [ResourceKeqingDressDiffuse.3]
+            filename = Patootie.dds
+
+            [ResourceKeqingHeadDiffuse.0]
+            filename = Cutesy.dds
+
+            [ResourceKeqingHeadDiffuse.3]
+            filename = CutiePie.dds
+
+            ; --------------- Keqing Remap ---------------
+            ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+            [ResourceKeqingHeadDiffuseRemapDL]
+            filename = KeqingHeadDiffuseRemapDL.dds
+
+            [ResourceKeqingHeadLightMapRemapDL]
+            filename = KeqingHeadLightMapRemapDL.dds
+
+            [ResourceKeqingHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KeqingHeadRemapDL.ib
+
+            [ResourceKeqingFaceDiffuseRemapDL]
+            filename = KeqingFaceDiffuseRemapDL.dds
+
+            [ResourceKeqingPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = KeqingPositionRemapDL.buf
+
+            [ResourceKeqingTexcoordRemapDL]
+            type = Buffer
+            stride = 20
+            filename = KeqingTexcoordRemapDL.buf
+
+            [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
+            hash = 44bba21c
+            match_first_index = 0
+            run = CommandListKeqingHeadKeqingOpulentRemapFix
+
+            [CommandListKeqingHeadKeqingOpulentRemapFix]
+            if $swapvar == 0
+                ib = ResourceKeqingDressIB.0
+                ps-t0 = ResourceKeqingDressDiffuseKeqingOpulentOpaqueDressDiffuseRemapTex.0
+                ps-t1 = ResourceKeqingDressLightMap.0
+                ps-t2 = ResourceKeqingDressMetalMap.0
+                ps-t3 = ResourceKeqingDressShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingDressIB.3
+                ps-t0 = ResourceKeqingDressDiffuseKeqingOpulentOpaqueDressDiffuseRemapTex.3
+                ps-t1 = ResourceKeqingDressLightMap.3
+            endif
+
+            [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
+            hash = 44bba21c
+            match_first_index = 19623
+            run = CommandListKeqingBodyKeqingOpulentRemapFix
+
+            [CommandListKeqingBodyKeqingOpulentRemapFix]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingBodyDiffuse.0
+                ps-t1 = ResourceKeqingBodyLightMap.0
+                ps-t2 = ResourceKeqingBodyMetalMap.0
+                ps-t3 = ResourceKeqingBodyShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingBodyIB.3
+                ps-t0 = ResourceKeqingBodyDiffuse.3
+                ps-t1 = ResourceKeqingBodyLightMap.3
+            endif
+
+            [TextureOverrideKeqingKeqingOpulentRemapBlend]
+            hash = 6f010b58
+            if $swapvar == 0
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.0
+                handling = skip
+                draw = 21916,0
+            else if $swapvar == 1
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.1
+                handling = skip
+                draw = 21916,0
+            endif
+
+            [TextureOverrideKeqingKeqingOpulentRemapPositionRemapFix]
+            hash = 0d7e3cc5
+            vb0 = ResourceKeqingPositionRemapDL
+
+            [TextureOverrideKeqingKeqingOpulentRemapTexcoordRemapFix]
+            hash = 52f78cb7
+            vb1 = ResourceKeqingTexcoordRemapDL
+
+            [TextureOverrideKeqingFaceKeqingOpulentRemapFix]
+            hash = c2b17f84
+            ps-t0 = ResourceKeqingFaceDiffuseRemapDL
+
+            [ResourceKeqingKeqingOpulentRemapBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ..\Buffs\ISwearItsForKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingKeqingOpulentRemapBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ..\Buffs\SmallerHitboxesKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingDressDiffuseKeqingOpulentOpaqueDressDiffuseRemapTex.0]
+            filename = KeqingOpulentDressRemapTexKNs OBu.dds
+
+            [ResourceKeqingDressDiffuseKeqingOpulentOpaqueDressDiffuseRemapTex.3]
+            filename = KeqingOpulentDressRemapTexBkA OBu.dds
+
+            ; --------------------------------------------
 
 
-        ; --------------- AmberCN Remap ---------------
-        ; AmberCN remapped by Albert Gold#2696 and NK#1321. If you used it to remap your AmberCN mods pls give credit for "Albert Gold#2696" and "Nhok0169"
-        ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+    .. dropdown:: changeVersionKeqingRemapFix1.ini
+        :animate: fade-in-slide-down
 
-        ; ***** Amber *****
-        [TextureOverrideAmberCNAmberRemapBlend]
-        vb1 = ResourceAmberCNAmberRemapBlend
-        handling = skip
-        draw = 21916,0
+        .. code-block:: ini
+            :caption: changeVersionKeqingRemapFix1.ini
+            :linenos:
 
-        [TextureOverrideAmberCNBodyAmberRemapFix]
-        hash = 9976d124
-        match_first_index = 5670
-        ib = ResourceAmberCNBodyIB
-        ps-t0 = ResourceAmberCNBodyDiffuse
-        ps-t1 = ResourceAmberCNBodyLightMap
-        ps-t2 = ResourceAmberCNBodyMetalMap
-        ps-t3 = ResourceAmberCNBodyShadowRamp
+            ; This is really bad!! Don't do this!
+            ; ************************************
+            ;
+            ; jk, but joking aside...
+            ;
+            ; The goal is to display n mod objects from the mod to be remapped to the mod onto a single mod object of the remapped mod.
+            ;   Therefore we will have n sets of resources all mapping onto a single index (and same hash).
+            ;
+            ; Ideally, we would want all the sections to be within a single .ini file. The naive approach would be to create n sets of sections
+            ;   (not a single section, cuz you need to include the case of sections depending on other sections, which form a section caller/callee graph) 
+            ;    where the sections names are all unique. However, this approach will trigger a warning on GIMI (or any GIMI like importer) of multiple sections
+            ;   mapping to the same hash and only 1 of the mod objects will be displayed
+            ;
+            ; The next attempt would be to take advantage of GIMI's overlapping mod bug/feature from loading multiple mods of the same character
+            ;   Apart from the original .ini file, there would be n-1 newly generated .ini files (total of n .ini files). Each .ini file would uniquely
+            ;   display a single set of sections from the n sets of sections. The overlapping property from the bug/feature would allow for all the objects to be displayed.
+            ;
+            ; For now, we were lazy and just simply copied the original .ini file onto the generated .ini files, which results in the original mod to have overlapping copies.
+            ;  But since the mod used in all the .ini files are exactly the same, the user would not see the overlap (they may have some performance issues depending on the size of n. But
+            ;   usually remaps only merge 2 mod objects into a single mod object, which should not cause much of an issue)
+            ;   We could optimize the amount of space taken up by the newly generated .ini files, by only putting the necessary sections, but that is for another day...
 
-        [ResourceAmberCNAmberRemapBlend]
-        type = Buffer
-        stride = 32
-        filename = AmberCNAmberRemapBlend.buf
+            [Constants]
+            global persist $swapvar = 0
 
-        ; *****************
+            [KeySwap]
+            condition = $active == 1
+            key = VK_DOWN
+            type = cycle
+            $swapvar = 0,1
+            $creditinfo = 0
 
-        ; ---------------------------------------------
+            [TextureOverrideKeqingBlend]
+            hash = 0bf8e621
+            if $swapvar == 0
+                vb1 = ResourceKeqingBlend.0
+                handling = skip
+                draw = 21916,0
+            else if $swapvar == 1
+                vb1 = ResourceKeqingBlend.1
+                handling = skip
+                draw = 21916,0
+            endif
+
+            [TextureOverrideKeqingBody]
+            hash = cbf1894b
+            match_first_index = 10824
+            run = CommandListKeqingBody
+
+            [CommandListKeqingBody]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingBodyDiffuse.0
+                ps-t1 = ResourceKeqingBodyLightMap.0
+                ps-t2 = ResourceKeqingBodyMetalMap.0
+                ps-t3 = ResourceKeqingBodyShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingBodyIB.3
+                ps-t0 = ResourceKeqingBodyDiffuse.3
+                ps-t1 = ResourceKeqingBodyLightMap.3
+            endif
+
+            [TextureOverrideKeqingDress]
+            hash = cbf1894b
+            match_first_index = 48216
+            run = CommandListKeqingDress
+
+            [CommandListKeqingDress]
+            if $swapvar == 0
+                ib = ResourceKeqingDressIB.0
+                ps-t0 = ResourceKeqingDressDiffuse.0
+                ps-t1 = ResourceKeqingDressLightMap.0
+                ps-t2 = ResourceKeqingDressMetalMap.0
+                ps-t3 = ResourceKeqingDressShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingDressIB.3
+                ps-t0 = ResourceKeqingDressDiffuse.3
+                ps-t1 = ResourceKeqingDressLightMap.3
+            endif
+
+            [ResourceKeqingBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/ISwearItsFor.buf
+
+            [ResourceKeqingBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/SmallerHitboxes.buf
+
+            [ResourceKeqingDressDiffuse.0]
+            filename = CatGirl.dds
+
+            [ResourceKeqingDressDiffuse.3]
+            filename = Patootie.dds
+
+            [ResourceKeqingHeadDiffuse.0]
+            filename = Cutesy.dds
+
+            [ResourceKeqingHeadDiffuse.3]
+            filename = CutiePie.dds
+
+            ; --------------- Keqing Remap ---------------
+            ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+            [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
+            ib = ResourceKeqingHeadIbRemapDL
+            ps-t1 = ResourceKeqingHeadLightMapRemapDL
+            hash = 44bba21c
+            match_first_index = 0
+            ps-t0 = ResourceKeqingHeadDiffuseRemapDLKeqingOpulentOpaqueHeadDiffuseRemapTex
+
+            [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
+            hash = 44bba21c
+            match_first_index = 19623
+            run = CommandListKeqingBodyKeqingOpulentRemapFix
+
+            [CommandListKeqingBodyKeqingOpulentRemapFix]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingBodyDiffuse.0
+                ps-t1 = ResourceKeqingBodyLightMap.0
+                ps-t2 = ResourceKeqingBodyMetalMap.0
+                ps-t3 = ResourceKeqingBodyShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingBodyIB.3
+                ps-t0 = ResourceKeqingBodyDiffuse.3
+                ps-t1 = ResourceKeqingBodyLightMap.3
+            endif
+
+            [TextureOverrideKeqingKeqingOpulentRemapBlend]
+            hash = 6f010b58
+            if $swapvar == 0
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.0
+                handling = skip
+                draw = 21916,0
+            else if $swapvar == 1
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.1
+                handling = skip
+                draw = 21916,0
+            endif
+
+            [TextureOverrideKeqingKeqingOpulentRemapPositionRemapFix]
+            hash = 0d7e3cc5
+            vb0 = ResourceKeqingPositionRemapDL
+
+            [TextureOverrideKeqingKeqingOpulentRemapTexcoordRemapFix]
+            hash = 52f78cb7
+            vb1 = ResourceKeqingTexcoordRemapDL
+
+            [TextureOverrideKeqingFaceKeqingOpulentRemapFix]
+            hash = c2b17f84
+            ps-t0 = ResourceKeqingFaceDiffuseRemapDL
+
+            [ResourceKeqingKeqingOpulentRemapBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ..\Buffs\ISwearItsForKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingKeqingOpulentRemapBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ..\Buffs\SmallerHitboxesKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingHeadDiffuseRemapDLKeqingOpulentOpaqueHeadDiffuseRemapTex]
+            filename = KeqingOpulentHeadRemapTexCgN FaT.dds
+
+            ; --------------------------------------------
+
+
 
 :raw-html:`<br />`
 :raw-html:`<br />`
@@ -2071,7 +2657,8 @@ This example will make the fixed Blend.buf and put it in the same folder where t
 
         import AnimeGameRemap as AGR
 
-        AGR.Mod.blendCorrection("../LittleEiBlend.buf", AGR.ModTypes.Raiden.value, "PuppetEiGotRemapped.buf")
+        vgRemap = AGR.ModTypes.Raiden.value.getVGRemap("RaidenBoss")
+        AGR.BlendFile("../LittleEiBlend.buf").remap(vgRemap, fixedBlendFile = "PuppetEiGotRemapped.buf")
 
 
 .. dropdown:: Result
@@ -2138,7 +2725,8 @@ This example will make the fixed Blend.buf and put it in the same folder where t
 
         import AnimeGameRemap as AGR
 
-        fixedBytes = AGR.Mod.blendCorrection(inputBytes, AGR.ModTypes.Raiden.value)
+        vgRemap = AGR.ModTypes.Raiden.value.getVGRemap("RaidenBoss")
+        fixedBytes = AGR.BlendFile(inputBytes).remap(vgRemap)
         print(fixedBytes)
 
 
@@ -2193,40 +2781,60 @@ In this example, by running the program called `example.py`, the fix will start 
             |             +--> disconnectedSubTree.ini
             |
             +--> Mod
-            |     |
-            |     +--> folder
-            |     |      |
-            |     |      +--> folderInFolder
-            |     |             |
-            |     |             +--> BlendToDisconnectedSubTree.buf
-            |     |             |
-            |     |             +--> BlendToDisconnectedSubTree2.buf
-            |     |
-            |     +--> folder2
-            |     |     |
-            |     |     +--> folderInFolder2
-            |     |            |
-            |     |            +--> AnotherFolder
-            |     |                   |
-            |     |                   +--> disconnectedSubTree2.ini
-            |     |
-            |     +--> pythonScript
-            |     |     |
-            |     |     +--> Run
-            |     |           |
-            |     |           +--> example.py
-            |     |
-            |     +--> ei.ini
-            |     |
-            |     +--> ei2.ini
-            |     |
-            |     +--> RaidenShogunBlend.buf
+            |      |
+            |      +--> folder
+            |      |      |
+            |      |      +--> folderInFolder
+            |      |             |
+            |      |             +--> BlendToDisconnectedSubTree.buf
+            |      |             |
+            |      |             +--> BlendToDisconnectedSubTree2.buf
+            |      |
+            |      +--> folder2
+            |      |      |
+            |      |      +--> folderInFolder2
+            |      |             |
+            |      |             +--> AnotherFolder
+            |      |                    |
+            |      |                    +--> disconnectedSubTree2.ini
+            |      |
+            |      +--> pythonScript
+            |      |      |
+            |      |      +--> Run
+            |      |             |
+            |      |             +--> example.py
+            |      |
+            |      +--> ei.ini
+            |      |
+            |      +--> ei2.ini
+            |      |
+            |      +--> RaidenShogunBlend.buf
             |
             +--> ParentNodeBlend.buf
 
+
     :raw-html:`<br />`
 
-    Assume below are the content for each .ini file
+    Assume below is the content of the .ini files
+
+    .. dropdown:: disconnectedSubTree.ini
+        :animate: fade-in-slide-down
+
+        .. code-block:: ini
+            :caption: disconnectedSubTree.ini
+            :linenos:
+
+            [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
+            vb1 = ResourceRaidenShogunBlend
+            handling = skip
+            draw = 21916,0
+
+            [ResourceRaidenShogunBlend]
+            type = Buffer
+            stride = 32
+            filename = ../../Mod/folder/folderInFolder/BlendToDisconnectedSubTree.buf
+
 
     .. dropdown:: ei.ini
         :animate: fade-in-slide-down
@@ -2247,6 +2855,7 @@ In this example, by running the program called `example.py`, the fix will start 
 
 
             [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
             if $swapvar == 0
                 vb1 = ResourceRaidenShogunBlend.0
                 handling = skip
@@ -2267,6 +2876,7 @@ In this example, by running the program called `example.py`, the fix will start 
             stride = 32
             filename = ../ParentNodeBlend.buf
 
+
     .. dropdown:: ei2.ini
         :animate: fade-in-slide-down
 
@@ -2275,6 +2885,7 @@ In this example, by running the program called `example.py`, the fix will start 
             :linenos:
 
             [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
             vb1 = ResourceRaidenShogunBlend
             handling = skip
             draw = 21916,0
@@ -2284,22 +2895,6 @@ In this example, by running the program called `example.py`, the fix will start 
             stride = 32
             filename = RaidenShogunBlend.buf
 
-    .. dropdown:: disconnectedSubTree.ini
-        :animate: fade-in-slide-down
-
-        .. code-block:: ini
-            :caption: disconnectedSubTree.ini
-            :linenos:
-
-            [TextureOverrideRaidenShogunBlend]
-            vb1 = ResourceRaidenShogunBlend
-            handling = skip
-            draw = 21916,0
-
-            [ResourceRaidenShogunBlend]
-            type = Buffer
-            stride = 32
-            filename = ../../Mod/folder/folderInFolder/BlendToDisconnectedSubTree.buf
 
     .. dropdown:: disconnectedSubTree2.ini
         :animate: fade-in-slide-down
@@ -2307,8 +2902,9 @@ In this example, by running the program called `example.py`, the fix will start 
         .. code-block:: ini
             :caption: disconnectedSubTree2.ini
             :linenos:
-        
+
             [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
             vb1 = ResourceRaidenShogunBlend
             handling = skip
             draw = 21916,0
@@ -2317,6 +2913,7 @@ In this example, by running the program called `example.py`, the fix will start 
             type = Buffer
             stride = 32
             filename = ../../../folder/folderInFolder/BlendToDisconnectedSubTree2.buf
+
 
 
 .. dropdown:: Code
@@ -2329,7 +2926,7 @@ In this example, by running the program called `example.py`, the fix will start 
 
         import AnimeGameRemap as AGR
 
-        fixService = AGR.BossFixService(path = "../../", verbose = False, keepBackups = False)
+        fixService = AGR.RemapServiceCLI(path = "../../", verbose = False, keepBackups = False)
         fixService.fix()
 
 
@@ -2338,10 +2935,7 @@ In this example, by running the program called `example.py`, the fix will start 
 
     Contains the fixed files for the mods.
 
-
-    New File Structure:
-
-    .. dropdown:: File Strucuture
+    .. dropdown:: File Structure
         :animate: fade-in-slide-down
 
         .. code-block::
@@ -2356,40 +2950,40 @@ In this example, by running the program called `example.py`, the fix will start 
             |             +--> disconnectedSubTree.ini
             |
             +--> Mod
-            |     |
-            |     +--> folder
-            |     |      |
-            |     |      +--> folderInFolder
-            |     |             |
-            |     |             +--> BlendToDisconnectedSubTree.buf
-            |     |             |
-            |     |             +--> BlendToDisconnectedSubTree2.buf
-            |     |             |
-            |     |             +--> RaidenBossRemapBlendToDisconnectedSubTree.buf
-            |     |             |
-            |     |             +--> RaidenBossRemapBlendToDisconnectedSubTree2.buf
-            |     |
-            |     +--> folder2
-            |     |     |
-            |     |     +--> folderInFolder2
-            |     |            |
-            |     |            +--> AnotherFolder
-            |     |                   |
-            |     |                   +--> disconnectedSubTree2.ini
-            |     |
-            |     +--> pythonScript
-            |     |     |
-            |     |     +--> Run
-            |     |           |
-            |     |           +--> example.py
-            |     |
-            |     +--> ei.ini
-            |     |
-            |     +--> ei2.ini
-            |     |
-            |     +--> RaidenShogunBlend.buf
-            |     |
-            |     +--> RaidenShogunRaidenBossRemapBlend.buf
+            |      |
+            |      +--> folder
+            |      |      |
+            |      |      +--> folderInFolder
+            |      |             |
+            |      |             +--> BlendToDisconnectedSubTree.buf
+            |      |             |
+            |      |             +--> BlendToDisconnectedSubTree2.buf
+            |      |             |
+            |      |             +--> RaidenBossRemapBlendToDisconnectedSubTree.buf
+            |      |             |
+            |      |             +--> RaidenBossRemapBlendToDisconnectedSubTree2.buf
+            |      |
+            |      +--> folder2
+            |      |      |
+            |      |      +--> folderInFolder2
+            |      |             |
+            |      |             +--> AnotherFolder
+            |      |                    |
+            |      |                    +--> disconnectedSubTree2.ini
+            |      |
+            |      +--> pythonScript
+            |      |      |
+            |      |      +--> Run
+            |      |             |
+            |      |             +--> example.py
+            |      |
+            |      +--> ei.ini
+            |      |
+            |      +--> ei2.ini
+            |      |
+            |      +--> RaidenShogunBlend.buf
+            |      |
+            |      +--> RaidenShogunRaidenBossRemapBlend.buf
             |
             +--> ParentNodeBlend.buf
             |
@@ -2398,7 +2992,43 @@ In this example, by running the program called `example.py`, the fix will start 
 
     :raw-html:`<br />`
 
-    Below contains the new content of the fixed.ini files:
+    Below is the new content of the .ini files
+
+    .. dropdown:: disconnectedSubTree.ini
+        :animate: fade-in-slide-down
+
+        .. code-block:: ini
+            :caption: disconnectedSubTree.ini
+            :linenos:
+
+            [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
+            vb1 = ResourceRaidenShogunBlend
+            handling = skip
+            draw = 21916,0
+
+            [ResourceRaidenShogunBlend]
+            type = Buffer
+            stride = 32
+            filename = ../../Mod/folder/folderInFolder/BlendToDisconnectedSubTree.buf
+
+            ; --------------- Raiden Remap ---------------
+            ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+            [TextureOverrideRaidenShogunRaidenBossRemapBlend]
+            hash = fe5c0180
+            vb1 = ResourceRaidenShogunRaidenBossRemapBlend
+            handling = skip
+            draw = 21916,0
+
+            [ResourceRaidenShogunRaidenBossRemapBlend]
+            type = Buffer
+            stride = 32
+            filename = ..\..\Mod\folder\folderInFolder\RaidenBossRemapBlendToDisconnectedSubTree.buf
+
+            ; --------------------------------------------
+
 
     .. dropdown:: ei.ini
         :animate: fade-in-slide-down
@@ -2419,6 +3049,7 @@ In this example, by running the program called `example.py`, the fix will start 
 
 
             [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
             if $swapvar == 0
                 vb1 = ResourceRaidenShogunBlend.0
                 handling = skip
@@ -2439,13 +3070,12 @@ In this example, by running the program called `example.py`, the fix will start 
             stride = 32
             filename = ../ParentNodeBlend.buf
 
-
             ; --------------- Raiden Remap ---------------
             ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-            ; ***** RaidenBoss *****
             [TextureOverrideRaidenShogunRaidenBossRemapBlend]
+            hash = fe5c0180
             if $swapvar == 0
                 vb1 = ResourceRaidenShogunRaidenBossRemapBlend.0
                 handling = skip
@@ -2464,11 +3094,10 @@ In this example, by running the program called `example.py`, the fix will start 
             [ResourceRaidenShogunRaidenBossRemapBlend.1]
             type = Buffer
             stride = 32
-            filename = ../ParentNodeRaidenBossRemapBlend.buf
-
-            ; **********************
+            filename = ..\ParentNodeRaidenBossRemapBlend.buf
 
             ; --------------------------------------------
+
 
     .. dropdown:: ei2.ini
         :animate: fade-in-slide-down
@@ -2478,6 +3107,7 @@ In this example, by running the program called `example.py`, the fix will start 
             :linenos:
 
             [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
             vb1 = ResourceRaidenShogunBlend
             handling = skip
             draw = 21916,0
@@ -2487,13 +3117,12 @@ In this example, by running the program called `example.py`, the fix will start 
             stride = 32
             filename = RaidenShogunBlend.buf
 
-
             ; --------------- Raiden Remap ---------------
             ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-            ; ***** RaidenBoss *****
             [TextureOverrideRaidenShogunRaidenBossRemapBlend]
+            hash = fe5c0180
             vb1 = ResourceRaidenShogunRaidenBossRemapBlend
             handling = skip
             draw = 21916,0
@@ -2503,46 +3132,8 @@ In this example, by running the program called `example.py`, the fix will start 
             stride = 32
             filename = RaidenShogunRaidenBossRemapBlend.buf
 
-            ; **********************
-
             ; --------------------------------------------
 
-    .. dropdown:: disconnectedSubTree.ini
-        :animate: fade-in-slide-down
-
-        .. code-block:: ini
-            :caption: disconnectedSubTree.ini
-            :linenos:
-
-            [TextureOverrideRaidenShogunBlend]
-            vb1 = ResourceRaidenShogunBlend
-            handling = skip
-            draw = 21916,0
-
-            [ResourceRaidenShogunBlend]
-            type = Buffer
-            stride = 32
-            filename = ../../Mod/folder/folderInFolder/BlendToDisconnectedSubTree.buf
-
-
-            ; --------------- Raiden Remap ---------------
-            ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
-            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
-
-            ; ***** RaidenBoss *****
-            [TextureOverrideRaidenShogunRaidenBossRemapBlend]
-            vb1 = ResourceRaidenShogunRaidenBossRemapBlend
-            handling = skip
-            draw = 21916,0
-
-            [ResourceRaidenShogunRaidenBossRemapBlend]
-            type = Buffer
-            stride = 32
-            filename = ../../Mod/folder/folderInFolder/RaidenBossRemapBlendToDisconnectedSubTree.buf
-
-            ; **********************
-
-            ; --------------------------------------------
 
     .. dropdown:: disconnectedSubTree2.ini
         :animate: fade-in-slide-down
@@ -2550,8 +3141,9 @@ In this example, by running the program called `example.py`, the fix will start 
         .. code-block:: ini
             :caption: disconnectedSubTree2.ini
             :linenos:
-        
+
             [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
             vb1 = ResourceRaidenShogunBlend
             handling = skip
             draw = 21916,0
@@ -2561,13 +3153,12 @@ In this example, by running the program called `example.py`, the fix will start 
             stride = 32
             filename = ../../../folder/folderInFolder/BlendToDisconnectedSubTree2.buf
 
-
             ; --------------- Raiden Remap ---------------
             ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-            ; ***** RaidenBoss *****
             [TextureOverrideRaidenShogunRaidenBossRemapBlend]
+            hash = fe5c0180
             vb1 = ResourceRaidenShogunRaidenBossRemapBlend
             handling = skip
             draw = 21916,0
@@ -2575,11 +3166,10 @@ In this example, by running the program called `example.py`, the fix will start 
             [ResourceRaidenShogunRaidenBossRemapBlend]
             type = Buffer
             stride = 32
-            filename = ../../../folder/folderInFolder/RaidenBossRemapBlendToDisconnectedSubTree2.buf
-
-            ; **********************
+            filename = ..\..\..\folder\folderInFolder\RaidenBossRemapBlendToDisconnectedSubTree2.buf
 
             ; --------------------------------------------
+
 
 
 :raw-html:`<br />`
@@ -2600,7 +3190,7 @@ In this example, by running the program called `example.py`, the fix will start 
 
     Assume we have this file structure:
 
-    .. dropdown:: File Strucuture
+    .. dropdown:: File Structure
         :animate: fade-in-slide-down
 
         .. code-block::
@@ -2615,49 +3205,85 @@ In this example, by running the program called `example.py`, the fix will start 
             |             +--> disconnectedSubTree.ini
             |
             +--> Mod
-            |     |
-            |     +--> folder
-            |     |      |
-            |     |      +--> folderInFolder
-            |     |             |
-            |     |             +--> BlendToDisconnectedSubTree.buf
-            |     |             |
-            |     |             +--> BlendToDisconnectedSubTree2.buf
-            |     |             |
-            |     |             +--> RemapBlendToDisconnectedSubTree.buf
-            |     |             |
-            |     |             +--> RemapBlendToDisconnectedSubTree2.buf
-            |     |
-            |     +--> folder2
-            |     |     |
-            |     |     +--> folderInFolder2
-            |     |            |
-            |     |            +--> AnotherFolder
-            |     |                   |
-            |     |                   +--> disconnectedSubTree2.ini
-            |     |
-            |     +--> pythonScript
-            |     |     |
-            |     |     +--> Run
-            |     |           |
-            |     |           +--> example.py
-            |     |
-            |     +--> ei.ini
-            |     |
-            |     +--> ei2.ini
-            |     |
-            |     +--> RaidenShogunBlend.buf
-            |     |
-            |     +--> RaidenShogunRemapBlend.buf
+            |      |
+            |      +--> folder
+            |      |      |
+            |      |      +--> folderInFolder
+            |      |             |
+            |      |             +--> BlendToDisconnectedSubTree.buf
+            |      |             |
+            |      |             +--> BlendToDisconnectedSubTree2.buf
+            |      |             |
+            |      |             +--> RaidenBossRemapBlendToDisconnectedSubTree.buf
+            |      |             |
+            |      |             +--> RaidenBossRemapBlendToDisconnectedSubTree2.buf
+            |      |
+            |      +--> folder2
+            |      |      |
+            |      |      +--> folderInFolder2
+            |      |             |
+            |      |             +--> AnotherFolder
+            |      |                    |
+            |      |                    +--> disconnectedSubTree2.ini
+            |      |
+            |      +--> pythonScript
+            |      |      |
+            |      |      +--> Run
+            |      |             |
+            |      |             +--> example.py
+            |      |
+            |      +--> ei.ini
+            |      |
+            |      +--> ei2.ini
+            |      |
+            |      +--> RaidenShogunBlend.buf
+            |      |
+            |      +--> RaidenShogunRaidenBossRemapBlend.buf
             |
             +--> ParentNodeBlend.buf
             |
-            +--> ParentNodeRemapBlend.buf
+            +--> ParentNodeRaidenBossRemapBlend.buf
 
 
     :raw-html:`<br />`
 
-    Assume below are the content of each .ini file
+    Assume below is the content of the .ini files
+
+    .. dropdown:: disconnectedSubTree.ini
+        :animate: fade-in-slide-down
+
+        .. code-block:: ini
+            :caption: disconnectedSubTree.ini
+            :linenos:
+
+            [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
+            vb1 = ResourceRaidenShogunBlend
+            handling = skip
+            draw = 21916,0
+
+            [ResourceRaidenShogunBlend]
+            type = Buffer
+            stride = 32
+            filename = ../../Mod/folder/folderInFolder/BlendToDisconnectedSubTree.buf
+
+            ; --------------- Raiden Remap ---------------
+            ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+            [TextureOverrideRaidenShogunRaidenBossRemapBlend]
+            hash = fe5c0180
+            vb1 = ResourceRaidenShogunRaidenBossRemapBlend
+            handling = skip
+            draw = 21916,0
+
+            [ResourceRaidenShogunRaidenBossRemapBlend]
+            type = Buffer
+            stride = 32
+            filename = ..\..\Mod\folder\folderInFolder\RaidenBossRemapBlendToDisconnectedSubTree.buf
+
+            ; --------------------------------------------
+
 
     .. dropdown:: ei.ini
         :animate: fade-in-slide-down
@@ -2678,6 +3304,7 @@ In this example, by running the program called `example.py`, the fix will start 
 
 
             [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
             if $swapvar == 0
                 vb1 = ResourceRaidenShogunBlend.0
                 handling = skip
@@ -2698,35 +3325,34 @@ In this example, by running the program called `example.py`, the fix will start 
             stride = 32
             filename = ../ParentNodeBlend.buf
 
+            ; --------------- Raiden Remap ---------------
+            ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-            ; --------------- Raiden Boss Fix -----------------
-            ; Raiden boss fixed by NK#1321 if you used it for fix your raiden pls give credit for "Nhok0169"
-            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 and Albert Gold#2696 for support
-
-            [TextureOverrideRaidenShogunRemapBlend]
+            [TextureOverrideRaidenShogunRaidenBossRemapBlend]
+            hash = fe5c0180
             if $swapvar == 0
-                vb1 = ResourceRaidenShogunRemapBlend.0
+                vb1 = ResourceRaidenShogunRaidenBossRemapBlend.0
                 handling = skip
                 draw = 21916,0
             else if $swapvar == 1
-                vb1 = ResourceRaidenShogunRemapBlend.1
+                vb1 = ResourceRaidenShogunRaidenBossRemapBlend.1
                 handling = skip
                 draw = 21916,0
             endif
 
-
-            [ResourceRaidenShogunRemapBlend.0]
+            [ResourceRaidenShogunRaidenBossRemapBlend.0]
             type = Buffer
             stride = 32
-            filename = RaidenShogunRemapBlend.buf
+            filename = RaidenShogunRaidenBossRemapBlend.buf
 
-            [ResourceRaidenShogunRemapBlend.1]
+            [ResourceRaidenShogunRaidenBossRemapBlend.1]
             type = Buffer
             stride = 32
-            filename = ..\ParentNodeRemapBlend.buf
+            filename = ..\ParentNodeRaidenBossRemapBlend.buf
 
+            ; --------------------------------------------
 
-            ; -------------------------------------------------
 
     .. dropdown:: ei2.ini
         :animate: fade-in-slide-down
@@ -2736,6 +3362,7 @@ In this example, by running the program called `example.py`, the fix will start 
             :linenos:
 
             [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
             vb1 = ResourceRaidenShogunBlend
             handling = skip
             draw = 21916,0
@@ -2745,60 +3372,23 @@ In this example, by running the program called `example.py`, the fix will start 
             stride = 32
             filename = RaidenShogunBlend.buf
 
+            ; --------------- Raiden Remap ---------------
+            ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-            ; --------------- Raiden Boss Fix -----------------
-            ; Raiden boss fixed by NK#1321 if you used it for fix your raiden pls give credit for "Nhok0169"
-            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 and Albert Gold#2696 for support
-
-            [TextureOverrideRaidenShogunRemapBlend]
-            vb1 = ResourceRaidenShogunRemapBlend
+            [TextureOverrideRaidenShogunRaidenBossRemapBlend]
+            hash = fe5c0180
+            vb1 = ResourceRaidenShogunRaidenBossRemapBlend
             handling = skip
             draw = 21916,0
 
-
-            [ResourceRaidenShogunRemapBlend]
+            [ResourceRaidenShogunRaidenBossRemapBlend]
             type = Buffer
             stride = 32
-            filename = RaidenShogunRemapBlend.buf
+            filename = RaidenShogunRaidenBossRemapBlend.buf
 
+            ; --------------------------------------------
 
-            ; -------------------------------------------------
-
-    .. dropdown:: disconnectedSubTree.ini
-        :animate: fade-in-slide-down
-
-        .. code-block:: ini
-            :caption: disconnectedSubTree.ini
-            :linenos:
-
-            [TextureOverrideRaidenShogunBlend]
-            vb1 = ResourceRaidenShogunBlend
-            handling = skip
-            draw = 21916,0
-
-            [ResourceRaidenShogunBlend]
-            type = Buffer
-            stride = 32
-            filename = ../../Mod/folder/folderInFolder/BlendToDisconnectedSubTree.buf
-
-
-            ; --------------- Raiden Boss Fix -----------------
-            ; Raiden boss fixed by NK#1321 if you used it for fix your raiden pls give credit for "Nhok0169"
-            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 and Albert Gold#2696 for support
-
-            [TextureOverrideRaidenShogunRemapBlend]
-            vb1 = ResourceRaidenShogunRemapBlend
-            handling = skip
-            draw = 21916,0
-
-
-            [ResourceRaidenShogunRemapBlend]
-            type = Buffer
-            stride = 32
-            filename = ..\..\Mod\folder\folderInFolder\RemapBlendToDisconnectedSubTree.buf
-
-
-            ; -------------------------------------------------
 
     .. dropdown:: disconnectedSubTree2.ini
         :animate: fade-in-slide-down
@@ -2806,8 +3396,9 @@ In this example, by running the program called `example.py`, the fix will start 
         .. code-block:: ini
             :caption: disconnectedSubTree2.ini
             :linenos:
-        
+
             [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
             vb1 = ResourceRaidenShogunBlend
             handling = skip
             draw = 21916,0
@@ -2817,24 +3408,23 @@ In this example, by running the program called `example.py`, the fix will start 
             stride = 32
             filename = ../../../folder/folderInFolder/BlendToDisconnectedSubTree2.buf
 
+            ; --------------- Raiden Remap ---------------
+            ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-            ; --------------- Raiden Boss Fix -----------------
-            ; Raiden boss fixed by NK#1321 if you used it for fix your raiden pls give credit for "Nhok0169"
-            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 and Albert Gold#2696 for support
-
-            [TextureOverrideRaidenShogunRemapBlend]
-            vb1 = ResourceRaidenShogunRemapBlend
+            [TextureOverrideRaidenShogunRaidenBossRemapBlend]
+            hash = fe5c0180
+            vb1 = ResourceRaidenShogunRaidenBossRemapBlend
             handling = skip
             draw = 21916,0
 
-
-            [ResourceRaidenShogunRemapBlend]
+            [ResourceRaidenShogunRaidenBossRemapBlend]
             type = Buffer
             stride = 32
-            filename = ..\..\..\folder\folderInFolder\RemapBlendToDisconnectedSubTree2.buf
+            filename = ..\..\..\folder\folderInFolder\RaidenBossRemapBlendToDisconnectedSubTree2.buf
 
+            ; --------------------------------------------
 
-            ; -------------------------------------------------
 
 
 .. dropdown:: Code
@@ -2847,7 +3437,7 @@ In this example, by running the program called `example.py`, the fix will start 
 
         import AnimeGameRemap as AGR
 
-        fixService =AGR.RaidenBossFixService(path = "../../", verbose = True, keepBackups = False, undoOnly = True)
+        fixService = AGR.RemapServiceCLI(path = "../../", verbose = False, keepBackups = False, undoOnly = True)
         fixService.fix()
 
 
@@ -2871,40 +3461,60 @@ In this example, by running the program called `example.py`, the fix will start 
             |             +--> disconnectedSubTree.ini
             |
             +--> Mod
-            |     |
-            |     +--> folder
-            |     |      |
-            |     |      +--> folderInFolder
-            |     |             |
-            |     |             +--> BlendToDisconnectedSubTree.buf
-            |     |             |
-            |     |             +--> BlendToDisconnectedSubTree2.buf
-            |     |
-            |     +--> folder2
-            |     |     |
-            |     |     +--> folderInFolder2
-            |     |            |
-            |     |            +--> AnotherFolder
-            |     |                   |
-            |     |                   +--> disconnectedSubTree2.ini
-            |     |
-            |     +--> pythonScript
-            |     |     |
-            |     |     +--> Run
-            |     |           |
-            |     |           +--> example.py
-            |     |
-            |     +--> ei.ini
-            |     |
-            |     +--> ei2.ini
-            |     |
-            |     +--> RaidenShogunBlend.buf
+            |      |
+            |      +--> folder
+            |      |      |
+            |      |      +--> folderInFolder
+            |      |             |
+            |      |             +--> BlendToDisconnectedSubTree.buf
+            |      |             |
+            |      |             +--> BlendToDisconnectedSubTree2.buf
+            |      |
+            |      +--> folder2
+            |      |      |
+            |      |      +--> folderInFolder2
+            |      |             |
+            |      |             +--> AnotherFolder
+            |      |                    |
+            |      |                    +--> disconnectedSubTree2.ini
+            |      |
+            |      +--> pythonScript
+            |      |      |
+            |      |      +--> Run
+            |      |             |
+            |      |             +--> example.py
+            |      |
+            |      +--> ei.ini
+            |      |
+            |      +--> ei2.ini
+            |      |
+            |      +--> RaidenShogunBlend.buf
             |
             +--> ParentNodeBlend.buf
 
+
     :raw-html:`<br />`
 
-    Below is the new content for each .ini file
+    Below is the new content of the .ini files
+
+    .. dropdown:: disconnectedSubTree.ini
+        :animate: fade-in-slide-down
+
+        .. code-block:: ini
+            :caption: disconnectedSubTree.ini
+            :linenos:
+
+            [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
+            vb1 = ResourceRaidenShogunBlend
+            handling = skip
+            draw = 21916,0
+
+            [ResourceRaidenShogunBlend]
+            type = Buffer
+            stride = 32
+            filename = ../../Mod/folder/folderInFolder/BlendToDisconnectedSubTree.buf
+
 
     .. dropdown:: ei.ini
         :animate: fade-in-slide-down
@@ -2925,6 +3535,7 @@ In this example, by running the program called `example.py`, the fix will start 
 
 
             [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
             if $swapvar == 0
                 vb1 = ResourceRaidenShogunBlend.0
                 handling = skip
@@ -2945,6 +3556,7 @@ In this example, by running the program called `example.py`, the fix will start 
             stride = 32
             filename = ../ParentNodeBlend.buf
 
+
     .. dropdown:: ei2.ini
         :animate: fade-in-slide-down
 
@@ -2953,6 +3565,7 @@ In this example, by running the program called `example.py`, the fix will start 
             :linenos:
 
             [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
             vb1 = ResourceRaidenShogunBlend
             handling = skip
             draw = 21916,0
@@ -2962,22 +3575,6 @@ In this example, by running the program called `example.py`, the fix will start 
             stride = 32
             filename = RaidenShogunBlend.buf
 
-    .. dropdown:: disconnectedSubTree.ini
-        :animate: fade-in-slide-down
-
-        .. code-block:: ini
-            :caption: disconnectedSubTree.ini
-            :linenos:
-
-            [TextureOverrideRaidenShogunBlend]
-            vb1 = ResourceRaidenShogunBlend
-            handling = skip
-            draw = 21916,0
-
-            [ResourceRaidenShogunBlend]
-            type = Buffer
-            stride = 32
-            filename = ../../Mod/folder/folderInFolder/BlendToDisconnectedSubTree.buf
 
     .. dropdown:: disconnectedSubTree2.ini
         :animate: fade-in-slide-down
@@ -2985,8 +3582,9 @@ In this example, by running the program called `example.py`, the fix will start 
         .. code-block:: ini
             :caption: disconnectedSubTree2.ini
             :linenos:
-        
+
             [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
             vb1 = ResourceRaidenShogunBlend
             handling = skip
             draw = 21916,0
@@ -2995,6 +3593,8 @@ In this example, by running the program called `example.py`, the fix will start 
             type = Buffer
             stride = 32
             filename = ../../../folder/folderInFolder/BlendToDisconnectedSubTree2.buf
+
+
 
 :raw-html:`<br />`
 
@@ -3009,9 +3609,9 @@ Reference: https://gamebanana.com/posts/12191289
 :raw-html:`<br />`
 
 .. caution::
-    Modifying the :class:`FixRaidenBoss2.ModType` object from the :class:`FixRaidenBoss2.ModTypes` enum will modify how the software fixes a certain character, shown in
-    the example below. If this side effect is not what you inteneded, it is recommended to create a new copy of the :class:`FixRaidenBoss2.ModType` object 
-    through the :class:`FixRaidenBoss2.GIBuilder` class, then modify the new copy.
+    An override registered through :class:`FixRaidenBoss2.CppStrategyOverrides` changes how the software fixes that character everywhere in
+    your program, not just for the one fix shown in the example below. Call :meth:`FixRaidenBoss2.CppStrategyOverrides.clear` once you
+    are done, so later fixes go back to the default implementation.
 
 :raw-html:`<br />`
 
@@ -3032,9 +3632,10 @@ Reference: https://gamebanana.com/posts/12191289
             |
             +--> KiraraAlt.ini
             |
-            +--> Neko.dds
-            |
             +--> KiraraBlend.buf
+            |
+            +--> Neko.dds
+
 
     :raw-html:`<br />`
 
@@ -3044,7 +3645,7 @@ Reference: https://gamebanana.com/posts/12191289
         :animate: fade-in-slide-down
 
         .. code-block:: ini
-            :caption: Kirara.ini
+            :caption: KiraraAlt.ini
             :linenos:
 
             ; Kirara
@@ -3171,6 +3772,8 @@ Reference: https://gamebanana.com/posts/12191289
             [ResourceKiraraFaceHeadNormalMap]
             filename = KiraraFaceHeadNormalMap.dds
 
+
+
 .. dropdown:: Code
     :open:
     :animate: fade-in-slide-down
@@ -3181,39 +3784,69 @@ Reference: https://gamebanana.com/posts/12191289
 
         import AnimeGameRemap as AGR
 
-        # ==== Override how Kirara is fixed ======
+        RegRef = AGR.GIMICharFixerConfig.RegRef
+        RegValChecks = AGR.GIMICharFixerConfig.RegValChecks
+        TexEdit = AGR.GIMICharFixerConfig.TexEdit
 
-        kiraraModType = AGR.ModTypes.Kirara.value
+        ORFix = AGR.IniKeywords.ORFixPath.value
+        NNFix = r"CommandList\global\ORFix\NNFix"
+        TexFx = r"CommandList\TexFx\TN.0"
+
 
         # Edit Kirara's body so that her body's skin tone matches with her face
         #
         # -- Notes --:
         # If you do not like how we edit her body, you can play around with her BodyDiffuse.dds or her BodyLightMap.dds
         #   in your favourite image editor (Paint.net, Photoshop, etc...) or you can tweak the code below
-        kiraraModType.iniParseBuilder = AGR.IniParseBuilder(AGR.GIMIObjParser, args = [{"head", "body"}], kwargs = {"texEdits": {
-            "body": {"ps-t1": {"DarkenDiffuse": AGR.TexEditor(filters = [AGR.TexMetadataFilter(edits = {"gamma": AGR.ColourConsts.SRGBGamma.value})])}}
-        }})
+        #
+        # A filter is given the texture itself, so it edits the texture in place
+        def darkenDiffuse(texFile):
+            AGR.GammaFilter(AGR.ColourConsts.SRGBGamma.value).transform(texFile)
 
-        kiraraModType.iniFixBuilder = AGR.IniFixBuilder(AGR.GIMIObjMergeFixer, args = [{"head": ["head", "body"], "body": ["body"]}], 
-                                                        kwargs = {
-                                                            "preRegEditFilters": [
-                                                                AGR.RegTexEdit({"DarkenDiffuse": ["ps-t1"]})
-                                                            ],
-                                                            "postRegEditFilters": [
-                                                                AGR.RegNewVals({"body": {"ib": "null"}})
-                                                            ]
-                                                        })
+        def makeFaceOpaque(texFile):
+            pixels = bytearray(texFile.getPixels())
+            pixels[3::4] = bytes([1]) * (len(pixels) // 4)
+            texFile.setPixels(bytes(pixels), texFile.width, texFile.height)
+
+        def reflectionKeys(obj: str):
+            return [f"ResourceRef{obj}Diffuse", f"ResourceRef{obj}LightMap", "$CharacterIB"]
+
+
+        # ==== Override how Kirara is fixed ======
+
+        config = AGR.GIMICharFixerConfig()
+        config.drawnObjs = ["head", "body", "dress"]
+
+        # Kirara's body is drawn a second time as part of KiraraBoots' head, while KiraraBoots' own body is hidden
+        config.objSplits = [("head", ["head"]), ("body", ["body", "head"]), ("dress", ["dress"])]
+        config.objNewRegVals = [("body", [("ib", "null")])]
+
+        # only darken the copy of Kirara's body that is drawn as KiraraBoots' head
+        config.texEdits = [TexEdit("head", "ps-t1", "DarkenDiffuse", darkenDiffuse, srcObj = "body"),
+                           TexEdit("face", "ps-t0", "OpaqueFaceDiffuse", makeFaceOpaque, toReg = "ps-t1")]
+
+        # ---- the rest is the same as the default fix ----
+        config.objRegRemovals = [("head", reflectionKeys("Head")), ("body", reflectionKeys("Body")), ("dress", reflectionKeys("Dress"))]
+        config.objRegRemaps = [("dress", [("ps-t1", [RegRef("ps-t0", RegValChecks.isDiffuse)], True),
+                                          ("ps-t2", [RegRef("ps-t1", RegValChecks.isLightMap)], True)])]
+        config.objFixCalls = [("head", [ORFix, TexFx]), ("body", [ORFix, TexFx]), ("dress", [NNFix, TexFx])]
+
+        AGR.CppStrategyOverrides.setFixer("Kirara", "KiraraBoots", AGR.makeGIMICharFixer(config))
 
         # ========================================
 
         # fix the mod
-        remapService = AGR.RemapServiceCLI(verbose = True, keepBackups = False)
+        remapService = AGR.RemapServiceCLI(verbose = False, keepBackups = False)
         remapService.fix()
+
+        # go back to the default fix
+        AGR.CppStrategyOverrides.clear()
+
 
 .. dropdown:: Result
     :animate: fade-in-slide-down
 
-    Below contains the new content with the previous changes made by the script removed
+    Below contains the new content with the alternative fix for Kirara applied
 
     .. dropdown:: File Structure
         :animate: fade-in-slide-down
@@ -3229,23 +3862,28 @@ Reference: https://gamebanana.com/posts/12191289
             |
             +--> KiraraAltRemapFix1.ini
             |
-            +--> Neko.dds
-            |
-            +--> KiraraBootsBodyRemapTexBJ6 Gns.dds.dds
-            |
             +--> KiraraBlend.buf
             |
+            +--> KiraraBootsBodyRemapTexDsa GG3.dds
+            |
+            +--> KiraraBootsFaceRemapTexPoj JcH.dds
+            |
+            +--> KiraraFaceDiffuseRemapDL.dds
+            |
             +--> KiraraKiraraBootsRemapBlend.buf
+            |
+            +--> Neko.dds
+
 
     :raw-html:`<br />`
 
-    Below is the new content for each .ini file
+    Below is the new content of the .ini files
 
     .. dropdown:: KiraraAlt.ini
         :animate: fade-in-slide-down
 
         .. code-block:: ini
-            :caption: Kirara.ini
+            :caption: KiraraAlt.ini
             :linenos:
 
             ; Kirara
@@ -3372,46 +4010,12 @@ Reference: https://gamebanana.com/posts/12191289
             [ResourceKiraraFaceHeadNormalMap]
             filename = KiraraFaceHeadNormalMap.dds
 
-
             ; --------------- Kirara Remap ---------------
             ; Kirara remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Kirara mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-            ; ***** KiraraBoots *****
-            [TextureOverrideKiraraKiraraBootsRemapBlend]
-            hash = 53a2502b
-            vb1 = ResourceKiraraKiraraBootsRemapBlend
-            handling = skip
-            draw = 41553,0
-
-            [TextureOverrideKiraraKiraraBootsRemapIB]
-            hash = 846979e2
-            handling = skip
-            drawindexed = auto
-
-            [TextureOverrideKiraraPositionKiraraBootsRemapFix]
-            hash = f8013ba9
-            vb0 = ResourceKiraraPosition
-
-            [TextureOverrideKiraraTexcoordKiraraBootsRemapFix]
-            hash = 596e8fe0
-            vb1 = ResourceKiraraTexcoord
-
-            [TextureOverrideKiraraVertexLimitRaiseKiraraBootsRemapFix]
-            hash = 4955fc99
-
-            [TextureOverrideKiraraDressKiraraBootsRemapFix]
-            hash = 846979e2
-            match_first_index = 80295
-            ib = null
-            ps-t0 = ResourceKiraraDressNormalMap
-            ps-t1 = ResourceKiraraDressDiffuse
-            ps-t2 = ResourceKiraraDressLightMap
-            run = CommandList\global\ORFix\ORFix
-
-            [TextureOverrideKiraraFaceHeadNormalMapKiraraBootsRemapFix]
-            hash = HashNotFound
-            ps-t0 = ResourceKiraraFaceHeadNormalMap
+            [ResourceKiraraFaceDiffuseRemapDL]
+            filename = KiraraFaceDiffuseRemapDL.dds
 
             [TextureOverrideKiraraHeadKiraraBootsRemapFix]
             hash = 846979e2
@@ -3427,19 +4031,53 @@ Reference: https://gamebanana.com/posts/12191289
             match_first_index = 36804
             ib = null
             ps-t0 = ResourceKiraraBodyNormalMap
-            ps-t1 = ResourceKiraraBodyDarkenDiffuseKiraraBootsRemapTex0
+            ps-t1 = ResourceKiraraBodyDiffuse
             ps-t2 = ResourceKiraraBodyLightMap
             run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraDressKiraraBootsRemapFix]
+            hash = 846979e2
+            match_first_index = 80295
+            ib = null
+            ps-t0 = ResourceKiraraDressNormalMap
+            ps-t0 = ResourceKiraraDressDiffuse
+            ps-t1 = ResourceKiraraDressLightMap
+            run = CommandList\global\ORFix\NNFix
+
+            [TextureOverrideKiraraKiraraBootsRemapIB]
+            hash = 846979e2
+            handling = skip
+            drawindexed = auto
+
+            [TextureOverrideKiraraKiraraBootsRemapBlend]
+            hash = 53a2502b
+            vb1 = ResourceKiraraKiraraBootsRemapBlend
+            handling = skip
+            draw = 41553,0
+
+            [TextureOverrideKiraraKiraraBootsRemapPosition]
+            hash = f8013ba9
+            vb0 = ResourceKiraraPosition
+
+            [TextureOverrideKiraraKiraraBootsRemapTexcoord]
+            hash = 596e8fe0
+            vb1 = ResourceKiraraTexcoord
+
+            [TextureOverrideKiraraVertexLimitRaiseKiraraBootsRemapFix]
+            hash = 4955fc99
+
+            [TextureOverrideKiraraFaceKiraraBootsRemapFix]
+            hash = 6eb20522
+            ps-t1 = ResourceKiraraFaceDiffuseRemapDL
+            ps-t0 = ResourceKiraraFaceDiffuseRemapDLKiraraBootsOpaqueFaceDiffuseRemapTex
 
             [ResourceKiraraKiraraBootsRemapBlend]
             type = Buffer
             stride = 32
             filename = KiraraKiraraBootsRemapBlend.buf
 
-            [ResourceKiraraBodyDarkenDiffuseKiraraBootsRemapTex0]
-            filename = KiraraBootsBodyRemapTexBJ6 Gns.dds
-
-            ; ***********************
+            [ResourceKiraraFaceDiffuseRemapDLKiraraBootsOpaqueFaceDiffuseRemapTex]
+            filename = KiraraBootsFaceRemapTexPoj JcH.dds
 
             ; --------------------------------------------
 
@@ -3448,7 +4086,7 @@ Reference: https://gamebanana.com/posts/12191289
         :animate: fade-in-slide-down
 
         .. code-block:: ini
-            :caption: Kirara.ini
+            :caption: KiraraAltRemapFix1.ini
             :linenos:
 
             ; Kirara
@@ -3575,67 +4213,60 @@ Reference: https://gamebanana.com/posts/12191289
             [ResourceKiraraFaceHeadNormalMap]
             filename = KiraraFaceHeadNormalMap.dds
 
-
             ; --------------- Kirara Remap ---------------
             ; Kirara remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Kirara mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
-
-            ; ***** KiraraBoots *****
-            [TextureOverrideKiraraKiraraBootsRemapBlend]
-            hash = 53a2502b
-            vb1 = ResourceKiraraKiraraBootsRemapBlend
-            handling = skip
-            draw = 41553,0
-
-            [TextureOverrideKiraraKiraraBootsRemapIB]
-            hash = 846979e2
-            handling = skip
-            drawindexed = auto
-
-            [TextureOverrideKiraraPositionKiraraBootsRemapFix]
-            hash = f8013ba9
-            vb0 = ResourceKiraraPosition
-
-            [TextureOverrideKiraraTexcoordKiraraBootsRemapFix]
-            hash = 596e8fe0
-            vb1 = ResourceKiraraTexcoord
-
-            [TextureOverrideKiraraVertexLimitRaiseKiraraBootsRemapFix]
-            hash = 4955fc99
-
-            [TextureOverrideKiraraDressKiraraBootsRemapFix]
-            hash = 846979e2
-            match_first_index = 80295
-            ib = null
-            ps-t0 = ResourceKiraraDressNormalMap
-            ps-t1 = ResourceKiraraDressDiffuse
-            ps-t2 = ResourceKiraraDressLightMap
-            run = CommandList\global\ORFix\ORFix
-
-            [TextureOverrideKiraraFaceHeadNormalMapKiraraBootsRemapFix]
-            hash = HashNotFound
-            ps-t0 = ResourceKiraraFaceHeadNormalMap
 
             [TextureOverrideKiraraHeadKiraraBootsRemapFix]
             hash = 846979e2
             match_first_index = 0
             ib = ResourceKiraraBodyIB
             ps-t0 = ResourceKiraraBodyNormalMap
-            ps-t1 = ResourceKiraraBodyDarkenDiffuseKiraraBootsRemapTex1
+            ps-t1 = ResourceKiraraBodyDiffuseKiraraBootsDarkenDiffuseRemapTex
             ps-t2 = ResourceKiraraBodyLightMap
             run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraKiraraBootsRemapIB]
+            hash = 846979e2
+            handling = skip
+            drawindexed = auto
+
+            [TextureOverrideKiraraKiraraBootsRemapBlend]
+            hash = 53a2502b
+            vb1 = ResourceKiraraKiraraBootsRemapBlend
+            handling = skip
+            draw = 41553,0
+
+            [TextureOverrideKiraraKiraraBootsRemapPosition]
+            hash = f8013ba9
+            vb0 = ResourceKiraraPosition
+
+            [TextureOverrideKiraraKiraraBootsRemapTexcoord]
+            hash = 596e8fe0
+            vb1 = ResourceKiraraTexcoord
+
+            [TextureOverrideKiraraVertexLimitRaiseKiraraBootsRemapFix]
+            hash = 4955fc99
+
+            [TextureOverrideKiraraFaceKiraraBootsRemapFix]
+            hash = 6eb20522
+            ps-t1 = ResourceKiraraFaceDiffuseRemapDL
+            ps-t0 = ResourceKiraraFaceDiffuseRemapDLKiraraBootsOpaqueFaceDiffuseRemapTex
 
             [ResourceKiraraKiraraBootsRemapBlend]
             type = Buffer
             stride = 32
             filename = KiraraKiraraBootsRemapBlend.buf
 
-            [ResourceKiraraBodyDarkenDiffuseKiraraBootsRemapTex1]
-            filename = KiraraBootsBodyRemapTexBJ6 Gns.dds
+            [ResourceKiraraBodyDiffuseKiraraBootsDarkenDiffuseRemapTex]
+            filename = KiraraBootsBodyRemapTexDsa GG3.dds
 
-            ; ***********************
+            [ResourceKiraraFaceDiffuseRemapDLKiraraBootsOpaqueFaceDiffuseRemapTex]
+            filename = KiraraBootsFaceRemapTexPoj JcH.dds
 
             ; --------------------------------------------
+
+
 
 :raw-html:`<br />`
 
@@ -3669,9 +4300,10 @@ The example below shows how to forcibly use the strategy for remapping Rosaria o
             |
             +--> KiraraAlt.ini
             |
-            +--> Neko.dds
-            |
             +--> KiraraBlend.buf
+            |
+            +--> Neko.dds
+
 
     :raw-html:`<br />`
 
@@ -3681,7 +4313,7 @@ The example below shows how to forcibly use the strategy for remapping Rosaria o
         :animate: fade-in-slide-down
 
         .. code-block:: ini
-            :caption: Kirara.ini
+            :caption: KiraraAlt.ini
             :linenos:
 
             ; Kirara
@@ -3809,6 +4441,7 @@ The example below shows how to forcibly use the strategy for remapping Rosaria o
             filename = KiraraFaceHeadNormalMap.dds
 
 
+
 .. dropdown:: Code
     :open:
     :animate: fade-in-slide-down
@@ -3819,14 +4452,14 @@ The example below shows how to forcibly use the strategy for remapping Rosaria o
 
         import AnimeGameRemap as AGR
 
-        fixService = FRB.RemapServiceCLI(verbose = False, keepBackups = False, forcedType = "rosaria")
+        fixService = AGR.RemapServiceCLI(verbose = False, keepBackups = False, forcedType = "rosaria")
         fixService.fix()
 
 
 .. dropdown:: Result
     :animate: fade-in-slide-down
 
-    Below contains the new content with the previous changes made by the script removed
+    Below contains the new content with the fix for Rosaria applied onto the Kirara mod
 
     .. dropdown:: File Structure
         :animate: fade-in-slide-down
@@ -3840,21 +4473,54 @@ The example below shows how to forcibly use the strategy for remapping Rosaria o
             |
             +--> KiraraAlt.ini
             |
-            +--> Neko.dds
-            |
             +--> KiraraBlend.buf
             |
-            +--> KiraraRosariaCNRemapBlend.buf
+            +--> Neko.dds
+            |
+            +--> RosariaBlendRemapDL.buf
+            |
+            +--> RosariaBodyDiffuseRemapDL.dds
+            |
+            +--> RosariaBodyLightMapRemapDL.dds
+            |
+            +--> RosariaBodyRemapDL.ib
+            |
+            +--> RosariaDressDiffuseRemapDL.dds
+            |
+            +--> RosariaDressLightMapRemapDL.dds
+            |
+            +--> RosariaDressRemapDL.ib
+            |
+            +--> RosariaExtraDiffuseRemapDL.dds
+            |
+            +--> RosariaExtraLightMapRemapDL.dds
+            |
+            +--> RosariaExtraRemapDL.ib
+            |
+            +--> RosariaFaceDiffuseRemapDL.dds
+            |
+            +--> RosariaHeadDiffuseRemapDL.dds
+            |
+            +--> RosariaHeadLightMapRemapDL.dds
+            |
+            +--> RosariaHeadRemapDL.ib
+            |
+            +--> RosariaPositionRemapDL.buf
+            |
+            +--> RosariaRosariaCNRemapBlendRemapDL.buf
+            |
+            +--> RosariaTexcoordRemapDL.buf
+
 
     :raw-html:`<br />`
 
-    Below is the new content for each .ini file
+    Below is the new content of the .ini files
 
     .. dropdown:: KiraraAlt.ini
         :animate: fade-in-slide-down
 
         .. code-block:: ini
-            :caption: Kirara.ini
+            :caption: KiraraAlt.ini
             :linenos:
 
             ; Kirara
@@ -3981,66 +4647,127 @@ The example below shows how to forcibly use the strategy for remapping Rosaria o
             [ResourceKiraraFaceHeadNormalMap]
             filename = KiraraFaceHeadNormalMap.dds
 
-
             ; --------------- Rosaria Remap ---------------
             ; Rosaria remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Rosaria mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-            ; ***** RosariaCN *****
-            [TextureOverrideKiraraRosariaCNRemapBlend]
-            hash = HashNotFound
-            vb1 = ResourceKiraraRosariaCNRemapBlend
-            handling = skip
-            draw = 41553,0
-
-            [TextureOverrideKiraraRosariaCNRemapPosition]
-            hash = HashNotFound
-            vb0 = ResourceKiraraPosition
-
-            [TextureOverrideKiraraRosariaCNRemapTexcoord]
-            hash = HashNotFound
-            vb1 = ResourceKiraraTexcoord
-
-            [TextureOverrideKiraraRosariaCNRemapIB]
-            hash = HashNotFound
-            handling = skip
-            drawindexed = auto
-
-            [TextureOverrideKiraraBodyRosariaCNRemapFix]
-            hash = bdca273e
-            match_first_index = 11025
-            ib = ResourceKiraraBodyIB
-            ps-t0 = ResourceKiraraBodyNormalMap
-            ps-t1 = ResourceKiraraBodyDiffuse
-            ps-t2 = ResourceKiraraBodyLightMap
-            run = CommandList\global\ORFix\ORFix
-
-            [TextureOverrideKiraraDressRosariaCNRemapFix]
-            hash = bdca273e
-            match_first_index = 46539
-            ib = null
-            ps-t0 = ResourceKiraraDressNormalMap
-            ps-t1 = ResourceKiraraDressDiffuse
-            ps-t2 = ResourceKiraraDressLightMap
-            run = CommandList\global\ORFix\ORFix
-
-            [TextureOverrideKiraraHeadRosariaCNRemapFix]
+            [TextureOverrideRosariaHeadRosariaCNRemapFix]
+            ib = ResourceRosariaHeadIbRemapDL
+            ps-t1 = ResourceRosariaHeadLightMapRemapDL
             hash = bdca273e
             match_first_index = 0
-            ib = ResourceKiraraHeadIB
-            ps-t0 = ResourceKiraraHeadNormalMap
-            ps-t1 = ResourceKiraraHeadDiffuse
-            ps-t2 = ResourceKiraraHeadLightMap
-            run = CommandList\global\ORFix\ORFix
+            ps-t0 = ResourceRosariaHeadDiffuseRemapDL
+            run = CommandList\global\ORFix\NNFix
 
-            [ResourceKiraraRosariaCNRemapBlend]
+            [TextureOverrideRosariaBodyRosariaCNRemapFix]
+            ib = ResourceRosariaBodyIbRemapDL
+            ps-t1 = ResourceRosariaBodyLightMapRemapDL
+            hash = bdca273e
+            match_first_index = 11025
+            ps-t0 = ResourceRosariaBodyDiffuseRemapDL
+            run = CommandList\global\ORFix\NNFix
+
+            [TextureOverrideRosariaDressRosariaCNRemapFix]
+            ib = ResourceRosariaDressIbRemapDL
+            ps-t1 = ResourceRosariaDressLightMapRemapDL
+            hash = bdca273e
+            match_first_index = 46539
+            ps-t0 = ResourceRosariaDressDiffuseRemapDL
+            run = CommandList\global\ORFix\NNFix
+
+            [TextureOverrideRosariaExtraRosariaCNRemapFix]
+            ib = ResourceRosariaExtraIbRemapDL
+            ps-t1 = ResourceRosariaExtraLightMapRemapDL
+            hash = bdca273e
+            match_first_index = 48441
+            ps-t0 = ResourceRosariaExtraDiffuseRemapDL
+            run = CommandList\global\ORFix\NNFix
+
+            [TextureOverrideRosariaRosariaCNRemapBlendRemapFix]
+            hash = a7bee046
+            vb1 = ResourceRosariaRosariaCNRemapBlendRemapDL
+
+            [TextureOverrideRosariaRosariaCNRemapPositionRemapFix]
+            hash = 59a1f8b1
+            vb0 = ResourceRosariaPositionRemapDL
+
+            [TextureOverrideRosariaRosariaCNRemapTexcoordRemapFix]
+            hash = 86e0d16b
+            vb1 = ResourceRosariaTexcoordRemapDL
+
+            [TextureOverrideRosariaFaceRosariaCNRemapFix]
+            hash = 2abd61ee
+            ps-t1 = ResourceRosariaFaceDiffuseRemapDL
+
+            [ResourceRosariaHeadDiffuseRemapDL]
+            filename = RosariaHeadDiffuseRemapDL.dds
+
+            [ResourceRosariaHeadLightMapRemapDL]
+            filename = RosariaHeadLightMapRemapDL.dds
+
+            [ResourceRosariaHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = RosariaHeadRemapDL.ib
+
+            [ResourceRosariaBodyDiffuseRemapDL]
+            filename = RosariaBodyDiffuseRemapDL.dds
+
+            [ResourceRosariaBodyLightMapRemapDL]
+            filename = RosariaBodyLightMapRemapDL.dds
+
+            [ResourceRosariaBodyIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = RosariaBodyRemapDL.ib
+
+            [ResourceRosariaDressDiffuseRemapDL]
+            filename = RosariaDressDiffuseRemapDL.dds
+
+            [ResourceRosariaDressLightMapRemapDL]
+            filename = RosariaDressLightMapRemapDL.dds
+
+            [ResourceRosariaDressIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = RosariaDressRemapDL.ib
+
+            [ResourceRosariaExtraDiffuseRemapDL]
+            filename = RosariaExtraDiffuseRemapDL.dds
+
+            [ResourceRosariaExtraLightMapRemapDL]
+            filename = RosariaExtraLightMapRemapDL.dds
+
+            [ResourceRosariaExtraIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = RosariaExtraRemapDL.ib
+
+            [ResourceRosariaFaceDiffuseRemapDL]
+            filename = RosariaFaceDiffuseRemapDL.dds
+
+            [ResourceRosariaBlendRemapDL]
             type = Buffer
             stride = 32
-            filename = KiraraRosariaCNRemapBlend.buf
+            filename = RosariaBlendRemapDL.buf
 
-            ; *********************
+            [ResourceRosariaPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = RosariaPositionRemapDL.buf
+
+            [ResourceRosariaTexcoordRemapDL]
+            type = Buffer
+            stride = 20
+            filename = RosariaTexcoordRemapDL.buf
+
+            [ResourceRosariaRosariaCNRemapBlendRemapDL]
+            type = Buffer
+            stride = 32
+            filename = RosariaRosariaCNRemapBlendRemapDL.buf
 
             ; ---------------------------------------------
+
 
 
 :raw-html:`<br />`
@@ -4054,7 +4781,7 @@ Mods for Shenhe and Raiden will not be fixed.
 
 .. note::
     You can enter the nicknames/aliases of a mod in upper/lower case instead of just the regular name of the mod.
-    Please refer to :ref:`Mod Types` for the available aliases for each mod.
+    Please refer to :ref:`Mod Types <commandOpts:Mod Types>` for the available aliases for each mod.
 
 :raw-html:`<br />`
 
@@ -4067,77 +4794,77 @@ Mods for Shenhe and Raiden will not be fixed.
         :animate: fade-in-slide-down
 
         .. code-block::
-            :emphasize-lines: 10
+            :emphasize-lines: 67
 
             Mods
             |
             +--> Amber
-            |    |
-            |    +--> Amber.ini
-            |    |
-            |    +--> AmberBlend.buf
-            |
-            |
-            +--> example.py
+            |      |
+            |      +--> Amber.ini
+            |      |
+            |      +--> AmberBlend.buf
             |
             +--> Jean
-            |    |
-            |    +--> CuteJean
-            |    |    |
-            |    |    +--> CuteJean.ini
-            |    |
-            |    +--> SmolJean
-            |    |    |
-            |    |    +--> SmolJean.ini
-            |    |    |
-            |    |    +--> CuteJeanBlend.buf
-            |    |
-            |    +--> merged.ini
-            |    |
-            |    +--> SmolJeanBlend.buf
-            |    |
-            |    +--> SmollerJean.dds
+            |      |
+            |      +--> CuteJean
+            |      |      |
+            |      |      +--> CuteJean.ini
+            |      |
+            |      +--> SmolJean
+            |      |      |
+            |      |      +--> CuteJeanBlend.buf
+            |      |      |
+            |      |      +--> SmolJean.ini
+            |      |
+            |      +--> merged.ini
+            |      |
+            |      +--> SmolJeanBlend.buf
+            |      |
+            |      +--> SmollerJean.dds
             |
             +--> Kequeen
-            |    |
-            |    +--> IniOrJoJ
-            |    |     |
-            |    |     +--> Cutie.ini
-            |    |     |
-            |    |     +--> Patootie.dds
-            |    |     |
-            |    |     +--> BestGurl.ini
-            |    |     |
-            |    |     +--> CatGirl.dds
-            |    |     |
-            |    |     +--> Cutesy.dds
-            |    |     |
-            |    |     +--> CutiePie.dds
-            |    |
-            |    +--> Buffs
-            |          |
-            |          +--> ISwearItsFor.buf
-            |          |
-            |          +--> SmallerHitboxes.buf
+            |      |
+            |      +--> Buffs
+            |      |      |
+            |      |      +--> ISwearItsFor.buf
+            |      |      |
+            |      |      +--> SmallerHitboxes.buf
+            |      |
+            |      +--> IniOrJoJ
+            |             |
+            |             +--> BestGurl.ini
+            |             |
+            |             +--> CatGirl.dds
+            |             |
+            |             +--> Cutesy.dds
+            |             |
+            |             +--> Cutie.ini
+            |             |
+            |             +--> CutiePie.dds
+            |             |
+            |             +--> Patootie.dds
             |
             +--> Raiden
-            |     |
-            |     +--> KindOfGettingTired.buf
-            |     |
-            |     +--> WritingTheseTestCases.ini
+            |      |
+            |      +--> KindOfGettingTired.buf
+            |      |
+            |      +--> WritingTheseTestCases.ini
             |
             +--> Yasu
-                  |
-                  +--> Endless9999GoldenTruth.ini
-                  |
-                  +--> DesDesDesDesDesDes.buf
-                  |
-                  +--> DieDaDes.buf
-                  |
-                  +--> SentenceToDes.buf
-                  |
-                  +--> DaGreatEqualizerIsTheDes.buf
-    
+            |      |
+            |      +--> DaGreatEqualizerIsTheDes.buf
+            |      |
+            |      +--> DesDesDesDesDesDes.buf
+            |      |
+            |      +--> DieDaDes.buf
+            |      |
+            |      +--> Endless9999GoldenTruth.ini
+            |      |
+            |      +--> SentenceToDes.buf
+            |
+            +--> example.py
+
+
     :raw-html:`<br />`
 
     Assume below is the content of the .ini files
@@ -4150,6 +4877,7 @@ Mods for Shenhe and Raiden will not be fixed.
             :linenos:
 
             [TextureOverrideAmberBlend]
+            hash = ca5bd26e
             vb1 = ResourceAmberBlend
             handling = skip
             draw = 21916,0
@@ -4159,6 +4887,7 @@ Mods for Shenhe and Raiden will not be fixed.
             stride = 32
             filename = AmberBlend.buf
 
+
     .. dropdown:: CuteJean.ini
         :animate: fade-in-slide-down
 
@@ -4167,6 +4896,7 @@ Mods for Shenhe and Raiden will not be fixed.
             :linenos:
 
             [TextureOverrideJeanBlend]
+            hash = 3cb8153c
             vb1 = ResourceJeanBlend
             handling = skip
             draw = 21916,0
@@ -4176,6 +4906,7 @@ Mods for Shenhe and Raiden will not be fixed.
             stride = 32
             filename = ../SmolJean/CuteJeanBlend.buf
 
+
     .. dropdown:: SmolJean.ini
         :animate: fade-in-slide-down
 
@@ -4184,6 +4915,7 @@ Mods for Shenhe and Raiden will not be fixed.
             :linenos:
 
             [TextureOverrideJeanBlend]
+            hash = 3cb8153c
             vb1 = ResourceJeanBlend
             handling = skip
             draw = 21916,0
@@ -4202,6 +4934,7 @@ Mods for Shenhe and Raiden will not be fixed.
 
             [ResourceJeanSeaBodyLightMap]
             filename = ../SmollerJean.dds
+
 
     .. dropdown:: merged.ini
         :animate: fade-in-slide-down
@@ -4236,6 +4969,7 @@ Mods for Shenhe and Raiden will not be fixed.
             endif
 
             [TextureOverrideJeanBlend]
+            hash = 3cb8153c
             if $swapvar == 0
                 vb1 = ResourceJeanBlend.0
                 handling = skip
@@ -4259,6 +4993,95 @@ Mods for Shenhe and Raiden will not be fixed.
             stride = 32
             filename = SmolJean/CuteJeanBlend.buf
 
+
+    .. dropdown:: BestGurl.ini
+        :animate: fade-in-slide-down
+
+        .. code-block:: ini
+            :caption: BestGurl.ini
+            :linenos:
+
+            [Constants]
+            global persist $swapvar = 0
+
+            [KeySwap]
+            condition = $active == 1
+            key = VK_DOWN
+            type = cycle
+            $swapvar = 0,1
+            $creditinfo = 0
+
+            [TextureOverrideKeqingBlend]
+            hash = 0bf8e621
+            if $swapvar == 0
+                vb1 = ResourceKeqingBlend.0
+                handling = skip
+                draw = 21916,0
+            else if $swapvar == 1
+                vb1 = ResourceKeqingBlend.1
+                handling = skip
+                draw = 21916,0
+            endif
+
+            [TextureOverrideKeqingBody]
+            hash = cbf1894b
+            match_first_index = 10824
+            run = CommandListKeqingBody
+
+            [CommandListKeqingBody]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingBodyDiffuse.0
+                ps-t1 = ResourceKeqingBodyLightMap.0
+                ps-t2 = ResourceKeqingBodyMetalMap.0
+                ps-t3 = ResourceKeqingBodyShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingBodyIB.3
+                ps-t0 = ResourceKeqingBodyDiffuse.3
+                ps-t1 = ResourceKeqingBodyLightMap.3
+            endif
+
+            [TextureOverrideKeqingDress]
+            hash = cbf1894b
+            match_first_index = 48216
+            run = CommandListKeqingDress
+
+            [CommandListKeqingDress]
+            if $swapvar == 0
+                ib = ResourceKeqingDressIB.0
+                ps-t0 = ResourceKeqingDressDiffuse.0
+                ps-t1 = ResourceKeqingDressLightMap.0
+                ps-t2 = ResourceKeqingDressMetalMap.0
+                ps-t3 = ResourceKeqingDressShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingDressIB.3
+                ps-t0 = ResourceKeqingDressDiffuse.3
+                ps-t1 = ResourceKeqingDressLightMap.3
+            endif
+
+            [ResourceKeqingBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/ISwearItsFor.buf
+
+            [ResourceKeqingBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/SmallerHitboxes.buf
+
+            [ResourceKeqingDressDiffuse.0]
+            filename = CatGirl.dds
+
+            [ResourceKeqingDressDiffuse.3]
+            filename = Patootie.dds
+
+            [ResourceKeqingHeadDiffuse.0]
+            filename = Cutesy.dds
+
+            [ResourceKeqingHeadDiffuse.3]
+            filename = CutiePie.dds
+
+
     .. dropdown:: Cutie.ini
         :animate: fade-in-slide-down
 
@@ -4277,6 +5100,7 @@ Mods for Shenhe and Raiden will not be fixed.
             $creditinfo = 0
 
             [TextureOverrideKeqingBlend]
+            hash = 0bf8e621
             if $swapvar == 0
                 vb1 = ResourceKeqingBlend.0
                 handling = skip
@@ -4363,91 +5187,6 @@ Mods for Shenhe and Raiden will not be fixed.
             [ResourceKeqingHeadDiffuse.3]
             filename = CutiePie.dds
 
-    .. dropdown:: BestGurl.ini
-        :animate: fade-in-slide-down
-
-        .. code-block:: ini
-            :caption: BestGurl.ini
-            :linenos:
-
-            [Constants]
-            global persist $swapvar = 0
-
-            [KeySwap]
-            condition = $active == 1
-            key = VK_DOWN
-            type = cycle
-            $swapvar = 0,1
-            $creditinfo = 0
-
-            [TextureOverrideKeqingBlend]
-            if $swapvar == 0
-                vb1 = ResourceKeqingBlend.0
-                handling = skip
-                draw = 21916,0
-            else if $swapvar == 1
-                vb1 = ResourceKeqingBlend.1
-                handling = skip
-                draw = 21916,0
-            endif
-
-            [TextureOverrideKeqingBody]
-            hash = cbf1894b
-            match_first_index = 10824
-            run = CommandListKeqingBody
-
-            [CommandListKeqingBody]
-            if $swapvar == 0
-                ib = ResourceKeqingBodyIB.0
-                ps-t0 = ResourceKeqingBodyDiffuse.0
-                ps-t1 = ResourceKeqingBodyLightMap.0
-                ps-t2 = ResourceKeqingBodyMetalMap.0
-                ps-t3 = ResourceKeqingBodyShadowRamp.0
-            else if $swapvar == 1
-                ib = ResourceKeqingBodyIB.3
-                ps-t0 = ResourceKeqingBodyDiffuse.3
-                ps-t1 = ResourceKeqingBodyLightMap.3
-            endif
-
-            [TextureOverrideKeqingDress]
-            hash = cbf1894b
-            match_first_index = 48216
-            run = CommandListKeqingDress
-
-            [CommandListKeqingDress]
-            if $swapvar == 0
-                ib = ResourceKeqingDressIB.0
-                ps-t0 = ResourceKeqingDressDiffuse.0
-                ps-t1 = ResourceKeqingDressLightMap.0
-                ps-t2 = ResourceKeqingDressMetalMap.0
-                ps-t3 = ResourceKeqingDressShadowRamp.0
-            else if $swapvar == 1
-                ib = ResourceKeqingDressIB.3
-                ps-t0 = ResourceKeqingDressDiffuse.3
-                ps-t1 = ResourceKeqingDressLightMap.3
-            endif
-
-            [ResourceKeqingBlend.0]
-            type = Buffer
-            stride = 32
-            filename = ../Buffs/ISwearItsFor.buf
-
-            [ResourceKeqingBlend.1]
-            type = Buffer
-            stride = 32
-            filename = ../Buffs/SmallerHitboxes.buf
-
-            [ResourceKeqingDressDiffuse.0]
-            filename = CatGirl.dds
-
-            [ResourceKeqingDressDiffuse.3]
-            filename = Patootie.dds
-
-            [ResourceKeqingHeadDiffuse.0]
-            filename = Cutesy.dds
-
-            [ResourceKeqingHeadDiffuse.3]
-            filename = CutiePie.dds
 
     .. dropdown:: WritingTheseTestCases.ini
         :animate: fade-in-slide-down
@@ -4457,6 +5196,7 @@ Mods for Shenhe and Raiden will not be fixed.
             :linenos:
 
             [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
             vb1 = ResourceRaidenShogunBlend
             handling = skip
             draw = 21916,0
@@ -4465,6 +5205,7 @@ Mods for Shenhe and Raiden will not be fixed.
             type = Buffer
             stride = 32
             filename = KindOfGettingTired.buf
+
 
     .. dropdown:: Endless9999GoldenTruth.ini
         :animate: fade-in-slide-down
@@ -4484,6 +5225,7 @@ Mods for Shenhe and Raiden will not be fixed.
             $creditinfo = 0
 
             [TextureOverrideShenheBlend]
+            hash = 541cf273
             if $swapvar == 0
                 vb1 = BeatoPleaseSaveNewbieGamemasterBattlerFromHisSmallBombsLogic
                 handling = skip
@@ -4554,6 +5296,8 @@ Mods for Shenhe and Raiden will not be fixed.
             stride = 32
             filename = DaGreatEqualizerIsTheDes.buf
 
+
+
 .. dropdown:: Code
     :open:
     :animate: fade-in-slide-down
@@ -4564,122 +5308,193 @@ Mods for Shenhe and Raiden will not be fixed.
 
         import AnimeGameRemap as AGR
 
-        fixService = AGR.RaidenBossFixService(verbose = True, keepBackups = False, undoOnly = True, types = ["kequeen", "aMbEr", "ACTINGGRANDMASTER"])
+        fixService = AGR.RemapServiceCLI(verbose = False, keepBackups = False, types = ["kequeen", "aMbEr", "ACTINGGRANDMASTER"])
         fixService.fix()
 
 
 .. dropdown:: Result
     :animate: fade-in-slide-down
 
-    Below contains the new content with the fix only being applied to Amber, Keqing and Jean
+    Below contains the new content with only the mods for Keqing, Jean and Amber fixed
 
-    .. dropdown:: File Strucuture
+    .. dropdown:: File Structure
         :animate: fade-in-slide-down
 
         .. code-block::
-            :emphasize-lines: 12
+            :emphasize-lines: 167
 
             Mods
             |
             +--> Amber
-            |    |
-            |    +--> Amber.ini
-            |    |
-            |    +--> AmberBlend.buf
-            |    |
-            |    +--> AmberAmberCNRemapBlend.buf
-            |
-            |
-            +--> example.py
+            |      |
+            |      +--> Amber.ini
+            |      |
+            |      +--> AmberAmberCNRemapBlend.buf
+            |      |
+            |      +--> AmberBlend.buf
+            |      |
+            |      +--> AmberBodyDiffuseRemapDL.dds
+            |      |
+            |      +--> AmberBodyLightMapRemapDL.dds
+            |      |
+            |      +--> AmberBodyRemapDL.ib
+            |      |
+            |      +--> AmberFaceDiffuseRemapDL.dds
+            |      |
+            |      +--> AmberHeadDiffuseRemapDL.dds
+            |      |
+            |      +--> AmberHeadLightMapRemapDL.dds
+            |      |
+            |      +--> AmberHeadRemapDL.ib
+            |      |
+            |      +--> AmberPositionRemapDL.buf
+            |      |
+            |      +--> AmberTexcoordRemapDL.buf
             |
             +--> Jean
-            |    |
-            |    +--> CuteJean
-            |    |    |
-            |    |    +--> CuteJean.ini
-            |    |
-            |    +--> SmolJean
-            |    |    |
-            |    |    +--> SmolJean.ini
-            |    |    |
-            |    |    +--> CuteJeanBlend.buf
-            |    |    |
-            |    |    +--> CuteJeanJeanCNRemapBlend.buf
-            |    |    |
-            |    |    +--> CuteJeanJeanSeaRemapBlend.buf
-            |    |
-            |    +--> JeanSeaBodyRemapTexPK_ BNl.dds
-            |    |
-            |    +--> merged.ini
-            |    |
-            |    +--> SmolJeanBlend.buf
-            |    |
-            |    +--> SmolJeanJeanCNRemapBlend.buf
-            |    |
-            |    +--> SmolJeanJeanSeaRemapBlend.buf
-            |    |
-            |    +--> SmollerJean.dds
+            |      |
+            |      +--> CuteJean
+            |      |      |
+            |      |      +--> CuteJean.ini
+            |      |      |
+            |      |      +--> JeanBodyDiffuseRemapDL.dds
+            |      |      |
+            |      |      +--> JeanBodyLightMapRemapDL.dds
+            |      |      |
+            |      |      +--> JeanBodyRemapDL.ib
+            |      |      |
+            |      |      +--> JeanFaceDiffuseRemapDL.dds
+            |      |      |
+            |      |      +--> JeanHeadDiffuseRemapDL.dds
+            |      |      |
+            |      |      +--> JeanHeadLightMapRemapDL.dds
+            |      |      |
+            |      |      +--> JeanHeadRemapDL.ib
+            |      |      |
+            |      |      +--> JeanPositionRemapDL.buf
+            |      |      |
+            |      |      +--> JeanSeaBodyRemapTexO65 DK+.dds
+            |      |      |
+            |      |      +--> JeanTexcoordRemapDL.buf
+            |      |
+            |      +--> SmolJean
+            |      |      |
+            |      |      +--> CuteJeanBlend.buf
+            |      |      |
+            |      |      +--> CuteJeanJeanCNRemapBlend.buf
+            |      |      |
+            |      |      +--> CuteJeanJeanSeaRemapBlend.buf
+            |      |      |
+            |      |      +--> JeanFaceDiffuseRemapDL.dds
+            |      |      |
+            |      |      +--> JeanHeadDiffuseRemapDL.dds
+            |      |      |
+            |      |      +--> JeanHeadLightMapRemapDL.dds
+            |      |      |
+            |      |      +--> JeanHeadRemapDL.ib
+            |      |      |
+            |      |      +--> JeanPositionRemapDL.buf
+            |      |      |
+            |      |      +--> JeanTexcoordRemapDL.buf
+            |      |      |
+            |      |      +--> SmolJean.ini
+            |      |
+            |      +--> JeanFaceDiffuseRemapDL.dds
+            |      |
+            |      +--> JeanHeadDiffuseRemapDL.dds
+            |      |
+            |      +--> JeanHeadLightMapRemapDL.dds
+            |      |
+            |      +--> JeanHeadRemapDL.ib
+            |      |
+            |      +--> JeanPositionRemapDL.buf
+            |      |
+            |      +--> JeanSeaBodyRemapTexOKA DK+.dds
+            |      |
+            |      +--> JeanTexcoordRemapDL.buf
+            |      |
+            |      +--> merged.ini
+            |      |
+            |      +--> SmolJeanBlend.buf
+            |      |
+            |      +--> SmolJeanJeanCNRemapBlend.buf
+            |      |
+            |      +--> SmolJeanJeanSeaRemapBlend.buf
+            |      |
+            |      +--> SmollerJean.dds
             |
             +--> Kequeen
-            |    |
-            |    +--> IniOrJoJ
-            |    |     |
-            |    |     +--> Cutie.ini
-            |    |     |
-            |    |     +--> Patootie.dds
-            |    |     |
-            |    |     +--> BestGurl.ini
-            |    |     |
-            |    |     +--> CatGirl.dds
-            |    |     |
-            |    |     +--> CutieRemapFix1.ini
-            |    |     |
-            |    |     +--> BestGurlRemapFix1.ini
-            |    |     |
-            |    |     +--> Cutesy.dds
-            |    |     |
-            |    |     +--> KeqingOpulentDressRemapTexHl4 BUx.dds
-            |    |     |
-            |    |     +--> KeqingOpulentDressRemapTexNQe BUx.dds
-            |    |     |
-            |    |     +--> CutiePie.dds
-            |    |     |
-            |    |     +--> KeqingOpulentHeadRemapTexCKA HQ7.dds
-            |    |     |
-            |    |     +--> KeqingOpulentHeadRemapTexKZA HQ7.dds
-            |    |
-            |    +--> Buffs
-            |          |
-            |          +--> ISwearItsFor.buf
-            |          |
-            |          +--> SmallerHitboxes.buf
-            |          |
-            |          +--> ISwearItsForKeqingOpulentRemapBlend.buf
-            |          |
-            |          +--> SmallerHitboxesKeqingOpulentRemapBlend.buf
+            |      |
+            |      +--> Buffs
+            |      |      |
+            |      |      +--> ISwearItsFor.buf
+            |      |      |
+            |      |      +--> ISwearItsForKeqingOpulentRemapBlend.buf
+            |      |      |
+            |      |      +--> SmallerHitboxes.buf
+            |      |      |
+            |      |      +--> SmallerHitboxesKeqingOpulentRemapBlend.buf
+            |      |
+            |      +--> IniOrJoJ
+            |             |
+            |             +--> BestGurl.ini
+            |             |
+            |             +--> BestGurlRemapFix1.ini
+            |             |
+            |             +--> CatGirl.dds
+            |             |
+            |             +--> Cutesy.dds
+            |             |
+            |             +--> Cutie.ini
+            |             |
+            |             +--> CutiePie.dds
+            |             |
+            |             +--> CutieRemapFix1.ini
+            |             |
+            |             +--> KeqingFaceDiffuseRemapDL.dds
+            |             |
+            |             +--> KeqingHeadDiffuseRemapDL.dds
+            |             |
+            |             +--> KeqingHeadLightMapRemapDL.dds
+            |             |
+            |             +--> KeqingHeadRemapDL.ib
+            |             |
+            |             +--> KeqingOpulentHeadRemapTexBkA J93.dds
+            |             |
+            |             +--> KeqingOpulentHeadRemapTexCgN J93.dds
+            |             |
+            |             +--> KeqingOpulentHeadRemapTexKNs J93.dds
+            |             |
+            |             +--> KeqingPositionRemapDL.buf
+            |             |
+            |             +--> KeqingTexcoordRemapDL.buf
+            |             |
+            |             +--> Patootie.dds
             |
             +--> Raiden
-            |     |
-            |     +--> KindOfGettingTired.buf
-            |     |
-            |     +--> WritingTheseTestCases.ini
+            |      |
+            |      +--> KindOfGettingTired.buf
+            |      |
+            |      +--> WritingTheseTestCases.ini
             |
             +--> Yasu
-                  |
-                  +--> Endless9999GoldenTruth.ini
-                  |
-                  +--> DesDesDesDesDesDes.buf
-                  |
-                  +--> DieDaDes.buf
-                  |
-                  +--> SentenceToDes.buf
-                  |
-                  +--> DaGreatEqualizerIsTheDes.buf
+            |      |
+            |      +--> DaGreatEqualizerIsTheDes.buf
+            |      |
+            |      +--> DesDesDesDesDesDes.buf
+            |      |
+            |      +--> DieDaDes.buf
+            |      |
+            |      +--> Endless9999GoldenTruth.ini
+            |      |
+            |      +--> SentenceToDes.buf
+            |
+            +--> example.py
 
 
     :raw-html:`<br />`
 
-    Below is the new content of the .ini files (and newly generated .ini files)
+    Below is the new content of the .ini files
 
     .. dropdown:: Amber.ini
         :animate: fade-in-slide-down
@@ -4689,6 +5504,7 @@ Mods for Shenhe and Raiden will not be fixed.
             :linenos:
 
             [TextureOverrideAmberBlend]
+            hash = ca5bd26e
             vb1 = ResourceAmberBlend
             handling = skip
             draw = 21916,0
@@ -4698,25 +5514,88 @@ Mods for Shenhe and Raiden will not be fixed.
             stride = 32
             filename = AmberBlend.buf
 
-
             ; --------------- Amber Remap ---------------
             ; Amber remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Amber mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-            ; ***** AmberCN *****
+            [TextureOverrideAmberHeadAmberCNRemapFix]
+            ib = ResourceAmberHeadIbRemapDL
+            ps-t1 = ResourceAmberHeadLightMapRemapDL
+            hash = b41d4d94
+            match_first_index = 0
+            ps-t0 = ResourceAmberHeadDiffuseRemapDL
+            run = CommandList\global\ORFix\NNFix
+            drawindexed = auto
+
+            [TextureOverrideAmberBodyAmberCNRemapFix]
+            ib = ResourceAmberBodyIbRemapDL
+            ps-t1 = ResourceAmberBodyLightMapRemapDL
+            hash = b41d4d94
+            match_first_index = 5670
+            ps-t0 = ResourceAmberBodyDiffuseRemapDL
+            run = CommandList\global\ORFix\NNFix
+            drawindexed = auto
+
             [TextureOverrideAmberAmberCNRemapBlend]
+            hash = f35340d5
             vb1 = ResourceAmberAmberCNRemapBlend
             handling = skip
             draw = 21916,0
+
+            [TextureOverrideAmberAmberCNRemapPositionRemapFix]
+            hash = 557b2eff
+            vb0 = ResourceAmberPositionRemapDL
+
+            [TextureOverrideAmberAmberCNRemapTexcoordRemapFix]
+            hash = dbc594b6
+            vb1 = ResourceAmberTexcoordRemapDL
+
+            [TextureOverrideAmberFaceAmberCNRemapFix]
+            hash = 1d064079
+            ps-t1 = ResourceAmberFaceDiffuseRemapDL
+
+            [ResourceAmberHeadDiffuseRemapDL]
+            filename = AmberHeadDiffuseRemapDL.dds
+
+            [ResourceAmberHeadLightMapRemapDL]
+            filename = AmberHeadLightMapRemapDL.dds
+
+            [ResourceAmberHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = AmberHeadRemapDL.ib
+
+            [ResourceAmberBodyDiffuseRemapDL]
+            filename = AmberBodyDiffuseRemapDL.dds
+
+            [ResourceAmberBodyLightMapRemapDL]
+            filename = AmberBodyLightMapRemapDL.dds
+
+            [ResourceAmberBodyIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = AmberBodyRemapDL.ib
+
+            [ResourceAmberFaceDiffuseRemapDL]
+            filename = AmberFaceDiffuseRemapDL.dds
+
+            [ResourceAmberPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = AmberPositionRemapDL.buf
+
+            [ResourceAmberTexcoordRemapDL]
+            type = Buffer
+            stride = 12
+            filename = AmberTexcoordRemapDL.buf
 
             [ResourceAmberAmberCNRemapBlend]
             type = Buffer
             stride = 32
             filename = AmberAmberCNRemapBlend.buf
 
-            ; *******************
-
             ; -------------------------------------------
+
 
     .. dropdown:: CuteJean.ini
         :animate: fade-in-slide-down
@@ -4726,6 +5605,7 @@ Mods for Shenhe and Raiden will not be fixed.
             :linenos:
 
             [TextureOverrideJeanBlend]
+            hash = 3cb8153c
             vb1 = ResourceJeanBlend
             handling = skip
             draw = 21916,0
@@ -4735,38 +5615,177 @@ Mods for Shenhe and Raiden will not be fixed.
             stride = 32
             filename = ../SmolJean/CuteJeanBlend.buf
 
-
             ; --------------- Jean Remap ---------------
             ; Jean remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Jean mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** JeanCN *****
+            [TextureOverrideJeanHeadJeanCNRemapFix]
+            ib = ResourceJeanHeadIbRemapDL
+            ps-t1 = ResourceJeanHeadLightMapRemapDL
+            hash = aad861e0
+            match_first_index = 0
+            ps-t0 = ResourceJeanHeadDiffuseRemapDL
+            run = CommandList\global\ORFix\NNFix
+
+            [TextureOverrideJeanBodyJeanCNRemapFix]
+            ib = ResourceJeanBodyIbRemapDL
+            ps-t1 = ResourceJeanBodyLightMapRemapDL
+            hash = aad861e0
+            match_first_index = 7779
+            ps-t0 = ResourceJeanBodyDiffuseRemapDL
+            run = CommandList\global\ORFix\NNFix
+
             [TextureOverrideJeanJeanCNRemapBlend]
+            hash = d159bf31
             vb1 = ResourceJeanJeanCNRemapBlend
             handling = skip
             draw = 21916,0
 
+            [TextureOverrideJeanJeanCNRemapPositionRemapFix]
+            hash = 93bb2522
+            vb0 = ResourceJeanPositionRemapDL
+
+            [TextureOverrideJeanJeanCNRemapTexcoordRemapFix]
+            hash = 0ffefb98
+            vb1 = ResourceJeanTexcoordRemapDL
+
+            [TextureOverrideJeanFaceJeanCNRemapFix]
+            hash = c2d1a57e
+            ps-t1 = ResourceJeanFaceDiffuseRemapDL
+
+            [ResourceJeanHeadDiffuseRemapDL]
+            filename = JeanHeadDiffuseRemapDL.dds
+
+            [ResourceJeanHeadLightMapRemapDL]
+            filename = JeanHeadLightMapRemapDL.dds
+
+            [ResourceJeanHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = JeanHeadRemapDL.ib
+
+            [ResourceJeanBodyDiffuseRemapDL]
+            filename = JeanBodyDiffuseRemapDL.dds
+
+            [ResourceJeanBodyLightMapRemapDL]
+            filename = JeanBodyLightMapRemapDL.dds
+
+            [ResourceJeanBodyIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = JeanBodyRemapDL.ib
+
+            [ResourceJeanFaceDiffuseRemapDL]
+            filename = JeanFaceDiffuseRemapDL.dds
+
+            [ResourceJeanPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = JeanPositionRemapDL.buf
+
+            [ResourceJeanTexcoordRemapDL]
+            type = Buffer
+            stride = 12
+            filename = JeanTexcoordRemapDL.buf
+
             [ResourceJeanJeanCNRemapBlend]
             type = Buffer
             stride = 32
-            filename = ../SmolJean/CuteJeanJeanCNRemapBlend.buf
+            filename = ..\SmolJean\CuteJeanJeanCNRemapBlend.buf
 
             ; ******************
 
             ; ***** JeanSea *****
             [TextureOverrideJeanJeanSeaRemapBlend]
+            hash = ac801371
             vb1 = ResourceJeanJeanSeaRemapBlend
             handling = skip
             draw = 21916,0
 
+            [TextureOverrideJeanJeanSeaRemapPositionRemapFix]
+            hash = 16fef1eb
+            vb0 = ResourceJeanPositionRemapDL
+
+            [TextureOverrideJeanJeanSeaRemapTexcoordRemapFix]
+            hash = 3ffb0363
+            vb1 = ResourceJeanTexcoordRemapDL
+
+            [TextureOverrideJeanFaceJeanSeaRemapFix]
+            hash = c2d1a57e
+            ps-t1 = ResourceJeanFaceDiffuseRemapDL
+
+            [ResourceJeanHeadDiffuseRemapDL]
+            filename = JeanHeadDiffuseRemapDL.dds
+
+            [ResourceJeanHeadLightMapRemapDL]
+            filename = JeanHeadLightMapRemapDL.dds
+
+            [ResourceJeanHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = JeanHeadRemapDL.ib
+
+            [ResourceJeanBodyDiffuseRemapDL]
+            filename = JeanBodyDiffuseRemapDL.dds
+
+            [ResourceJeanBodyLightMapRemapDL]
+            filename = JeanBodyLightMapRemapDL.dds
+
+            [ResourceJeanBodyIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = JeanBodyRemapDL.ib
+
+            [ResourceJeanFaceDiffuseRemapDL]
+            filename = JeanFaceDiffuseRemapDL.dds
+
+            [ResourceJeanPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = JeanPositionRemapDL.buf
+
+            [ResourceJeanTexcoordRemapDL]
+            type = Buffer
+            stride = 12
+            filename = JeanTexcoordRemapDL.buf
+
+            [TextureOverrideJeanHeadJeanSeaRemapFix]
+            ib = ResourceJeanHeadIbRemapDL
+            ps-t1 = ResourceJeanHeadLightMapRemapDL
+            hash = 69c0c24e
+            match_first_index = 0
+            ps-t0 = ResourceJeanHeadDiffuseRemapDL
+            run = CommandList\global\ORFix\NNFix
+
+            [TextureOverrideJeanBodyJeanSeaRemapFix]
+            ib = ResourceJeanBodyIbRemapDL
+            ps-t1 = ResourceJeanBodyLightMapRemapDLJeanSeaShadeLightMapRemapTex
+            hash = 69c0c24e
+            match_first_index = 7662
+            ps-t0 = ResourceJeanBodyDiffuseRemapDL
+            run = CommandList\global\ORFix\NNFix
+
+            [TextureOverrideJeanDressJeanSeaRemapFix]
+            ib = null
+            ps-t1 = ResourceJeanBodyLightMapRemapDL
+            hash = 69c0c24e
+            match_first_index = 52542
+            ps-t0 = ResourceJeanBodyDiffuseRemapDL
+            run = CommandList\global\ORFix\NNFix
+
             [ResourceJeanJeanSeaRemapBlend]
             type = Buffer
             stride = 32
-            filename = ../SmolJean/CuteJeanJeanSeaRemapBlend.buf
+            filename = ..\SmolJean\CuteJeanJeanSeaRemapBlend.buf
+
+            [ResourceJeanBodyLightMapRemapDLJeanSeaShadeLightMapRemapTex]
+            filename = JeanSeaBodyRemapTexO65 DK+.dds
 
             ; *******************
 
             ; ------------------------------------------
+
 
     .. dropdown:: SmolJean.ini
         :animate: fade-in-slide-down
@@ -4776,6 +5795,7 @@ Mods for Shenhe and Raiden will not be fixed.
             :linenos:
 
             [TextureOverrideJeanBlend]
+            hash = 3cb8153c
             vb1 = ResourceJeanBlend
             handling = skip
             draw = 21916,0
@@ -4795,16 +5815,18 @@ Mods for Shenhe and Raiden will not be fixed.
             [ResourceJeanSeaBodyLightMap]
             filename = ../SmollerJean.dds
 
-
             ; --------------- Jean Remap ---------------
             ; Jean remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Jean mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** JeanCN *****
-            [TextureOverrideJeanJeanCNRemapBlend]
-            vb1 = ResourceJeanJeanCNRemapBlend
-            handling = skip
-            draw = 21916,0
+            [TextureOverrideJeanHeadJeanCNRemapFix]
+            ib = ResourceJeanHeadIbRemapDL
+            ps-t1 = ResourceJeanHeadLightMapRemapDL
+            hash = aad861e0
+            match_first_index = 0
+            ps-t0 = ResourceJeanHeadDiffuseRemapDL
+            run = CommandList\global\ORFix\NNFix
 
             [TextureOverrideJeanBodyJeanCNRemapFix]
             hash = aad861e0
@@ -4812,26 +5834,115 @@ Mods for Shenhe and Raiden will not be fixed.
             ib = ResourceJeanSeaBodyIB
             ps-t0 = ResourceJeanSeaBodyDiffuse
             ps-t1 = ResourceJeanSeaBodyLightMap
+            run = CommandList\global\ORFix\NNFix
+
+            [TextureOverrideJeanJeanCNRemapBlend]
+            hash = d159bf31
+            vb1 = ResourceJeanJeanCNRemapBlend
+            handling = skip
+            draw = 21916,0
+
+            [TextureOverrideJeanJeanCNRemapPositionRemapFix]
+            hash = 93bb2522
+            vb0 = ResourceJeanPositionRemapDL
+
+            [TextureOverrideJeanJeanCNRemapTexcoordRemapFix]
+            hash = 0ffefb98
+            vb1 = ResourceJeanTexcoordRemapDL
+
+            [TextureOverrideJeanFaceJeanCNRemapFix]
+            hash = c2d1a57e
+            ps-t1 = ResourceJeanFaceDiffuseRemapDL
+
+            [ResourceJeanHeadDiffuseRemapDL]
+            filename = JeanHeadDiffuseRemapDL.dds
+
+            [ResourceJeanHeadLightMapRemapDL]
+            filename = JeanHeadLightMapRemapDL.dds
+
+            [ResourceJeanHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = JeanHeadRemapDL.ib
+
+            [ResourceJeanFaceDiffuseRemapDL]
+            filename = JeanFaceDiffuseRemapDL.dds
+
+            [ResourceJeanPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = JeanPositionRemapDL.buf
+
+            [ResourceJeanTexcoordRemapDL]
+            type = Buffer
+            stride = 12
+            filename = JeanTexcoordRemapDL.buf
 
             [ResourceJeanJeanCNRemapBlend]
             type = Buffer
             stride = 32
-            filename = ../SmolJeanJeanCNRemapBlend.buf
+            filename = ..\SmolJeanJeanCNRemapBlend.buf
 
             ; ******************
 
             ; ***** JeanSea *****
             [TextureOverrideJeanJeanSeaRemapBlend]
+            hash = ac801371
             vb1 = ResourceJeanJeanSeaRemapBlend
             handling = skip
             draw = 21916,0
+
+            [TextureOverrideJeanJeanSeaRemapPositionRemapFix]
+            hash = 16fef1eb
+            vb0 = ResourceJeanPositionRemapDL
+
+            [TextureOverrideJeanJeanSeaRemapTexcoordRemapFix]
+            hash = 3ffb0363
+            vb1 = ResourceJeanTexcoordRemapDL
+
+            [TextureOverrideJeanFaceJeanSeaRemapFix]
+            hash = c2d1a57e
+            ps-t1 = ResourceJeanFaceDiffuseRemapDL
+
+            [ResourceJeanHeadDiffuseRemapDL]
+            filename = JeanHeadDiffuseRemapDL.dds
+
+            [ResourceJeanHeadLightMapRemapDL]
+            filename = JeanHeadLightMapRemapDL.dds
+
+            [ResourceJeanHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = JeanHeadRemapDL.ib
+
+            [ResourceJeanFaceDiffuseRemapDL]
+            filename = JeanFaceDiffuseRemapDL.dds
+
+            [ResourceJeanPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = JeanPositionRemapDL.buf
+
+            [ResourceJeanTexcoordRemapDL]
+            type = Buffer
+            stride = 12
+            filename = JeanTexcoordRemapDL.buf
+
+            [TextureOverrideJeanHeadJeanSeaRemapFix]
+            ib = ResourceJeanHeadIbRemapDL
+            ps-t1 = ResourceJeanHeadLightMapRemapDL
+            hash = 69c0c24e
+            match_first_index = 0
+            ps-t0 = ResourceJeanHeadDiffuseRemapDL
+            run = CommandList\global\ORFix\NNFix
 
             [TextureOverrideJeanBodyJeanSeaRemapFix]
             hash = 69c0c24e
             match_first_index = 7662
             ib = ResourceJeanSeaBodyIB
             ps-t0 = ResourceJeanSeaBodyDiffuse
-            ps-t1 = ResourceJeanBodyShadeLightMapJeanSeaRemapTex0
+            ps-t1 = ResourceJeanSeaBodyLightMapJeanSeaShadeLightMapRemapTex
+            run = CommandList\global\ORFix\NNFix
 
             [TextureOverrideJeanDressJeanSeaRemapFix]
             hash = 69c0c24e
@@ -4839,18 +5950,20 @@ Mods for Shenhe and Raiden will not be fixed.
             ib = null
             ps-t0 = ResourceJeanSeaBodyDiffuse
             ps-t1 = ResourceJeanSeaBodyLightMap
+            run = CommandList\global\ORFix\NNFix
 
             [ResourceJeanJeanSeaRemapBlend]
             type = Buffer
             stride = 32
-            filename = ../SmolJeanJeanSeaRemapBlend.buf
+            filename = ..\SmolJeanJeanSeaRemapBlend.buf
 
-            [ResourceJeanBodyShadeLightMapJeanSeaRemapTex0]
-            filename = ../JeanSeaBodyRemapTexPK_ BNl.dds
+            [ResourceJeanSeaBodyLightMapJeanSeaShadeLightMapRemapTex]
+            filename = ..\JeanSeaBodyRemapTexOKA DK+.dds
 
             ; *******************
 
             ; ------------------------------------------
+
 
     .. dropdown:: merged.ini
         :animate: fade-in-slide-down
@@ -4885,6 +5998,7 @@ Mods for Shenhe and Raiden will not be fixed.
             endif
 
             [TextureOverrideJeanBlend]
+            hash = 3cb8153c
             if $swapvar == 0
                 vb1 = ResourceJeanBlend.0
                 handling = skip
@@ -4908,13 +6022,38 @@ Mods for Shenhe and Raiden will not be fixed.
             stride = 32
             filename = SmolJean/CuteJeanBlend.buf
 
-
             ; --------------- Jean Remap ---------------
             ; Jean remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Jean mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** JeanCN *****
+            [TextureOverrideJeanHeadJeanCNRemapFix]
+            ib = ResourceJeanHeadIbRemapDL
+            ps-t1 = ResourceJeanHeadLightMapRemapDL
+            hash = aad861e0
+            match_first_index = 0
+            ps-t0 = ResourceJeanHeadDiffuseRemapDL
+            run = CommandList\global\ORFix\NNFix
+
+            [TextureOverrideJeanBodyJeanCNRemapFix]
+            if $swapvar == 0
+                hash = aad861e0
+                match_first_index = 7779
+                ib = ResourceJeanSeaBodyIB
+                ps-t0 = ResourceJeanSeaBodyDiffuse
+                ps-t1 = ResourceJeanSeaBodyLightMap
+                run = CommandList\global\ORFix\NNFix
+            else if $swapvar == 1
+                hash = aad861e0
+                match_first_index = 7779
+                ib = ResourceJeanSeaBodyIB
+                ps-t0 = ResourceJeanSeaBodyDiffuse
+                ps-t1 = ResourceJeanSeaBodyLightMap
+                run = CommandList\global\ORFix\NNFix
+            endif
+
             [TextureOverrideJeanJeanCNRemapBlend]
+            hash = d159bf31
             if $swapvar == 0
                 vb1 = ResourceJeanJeanCNRemapBlend.0
                 handling = skip
@@ -4925,20 +6064,41 @@ Mods for Shenhe and Raiden will not be fixed.
                 draw = 21916,0
             endif
 
-            [TextureOverrideJeanBodyJeanCNRemapFix]
-            if $swapvar == 0
-                hash = aad861e0
-                match_first_index = 7779
-                ib = ResourceJeanSeaBodyIB
-                ps-t0 = ResourceJeanSeaBodyDiffuse
-                ps-t1 = ResourceJeanSeaBodyLightMap
-            else if $swapvar == 1
-                hash = aad861e0
-                match_first_index = 7779
-                ib = ResourceJeanSeaBodyIB
-                ps-t0 = ResourceJeanSeaBodyDiffuse
-                ps-t1 = ResourceJeanSeaBodyLightMap
-            endif
+            [TextureOverrideJeanJeanCNRemapPositionRemapFix]
+            hash = 93bb2522
+            vb0 = ResourceJeanPositionRemapDL
+
+            [TextureOverrideJeanJeanCNRemapTexcoordRemapFix]
+            hash = 0ffefb98
+            vb1 = ResourceJeanTexcoordRemapDL
+
+            [TextureOverrideJeanFaceJeanCNRemapFix]
+            hash = c2d1a57e
+            ps-t1 = ResourceJeanFaceDiffuseRemapDL
+
+            [ResourceJeanHeadDiffuseRemapDL]
+            filename = JeanHeadDiffuseRemapDL.dds
+
+            [ResourceJeanHeadLightMapRemapDL]
+            filename = JeanHeadLightMapRemapDL.dds
+
+            [ResourceJeanHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = JeanHeadRemapDL.ib
+
+            [ResourceJeanFaceDiffuseRemapDL]
+            filename = JeanFaceDiffuseRemapDL.dds
+
+            [ResourceJeanPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = JeanPositionRemapDL.buf
+
+            [ResourceJeanTexcoordRemapDL]
+            type = Buffer
+            stride = 12
+            filename = JeanTexcoordRemapDL.buf
 
             [ResourceJeanJeanCNRemapBlend.0]
             type = Buffer
@@ -4948,12 +6108,13 @@ Mods for Shenhe and Raiden will not be fixed.
             [ResourceJeanJeanCNRemapBlend.1]
             type = Buffer
             stride = 32
-            filename = SmolJean/CuteJeanJeanCNRemapBlend.buf
+            filename = SmolJean\CuteJeanJeanCNRemapBlend.buf
 
             ; ******************
 
             ; ***** JeanSea *****
             [TextureOverrideJeanJeanSeaRemapBlend]
+            hash = ac801371
             if $swapvar == 0
                 vb1 = ResourceJeanJeanSeaRemapBlend.0
                 handling = skip
@@ -4964,19 +6125,65 @@ Mods for Shenhe and Raiden will not be fixed.
                 draw = 21916,0
             endif
 
+            [TextureOverrideJeanJeanSeaRemapPositionRemapFix]
+            hash = 16fef1eb
+            vb0 = ResourceJeanPositionRemapDL
+
+            [TextureOverrideJeanJeanSeaRemapTexcoordRemapFix]
+            hash = 3ffb0363
+            vb1 = ResourceJeanTexcoordRemapDL
+
+            [TextureOverrideJeanFaceJeanSeaRemapFix]
+            hash = c2d1a57e
+            ps-t1 = ResourceJeanFaceDiffuseRemapDL
+
+            [ResourceJeanHeadDiffuseRemapDL]
+            filename = JeanHeadDiffuseRemapDL.dds
+
+            [ResourceJeanHeadLightMapRemapDL]
+            filename = JeanHeadLightMapRemapDL.dds
+
+            [ResourceJeanHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = JeanHeadRemapDL.ib
+
+            [ResourceJeanFaceDiffuseRemapDL]
+            filename = JeanFaceDiffuseRemapDL.dds
+
+            [ResourceJeanPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = JeanPositionRemapDL.buf
+
+            [ResourceJeanTexcoordRemapDL]
+            type = Buffer
+            stride = 12
+            filename = JeanTexcoordRemapDL.buf
+
+            [TextureOverrideJeanHeadJeanSeaRemapFix]
+            ib = ResourceJeanHeadIbRemapDL
+            ps-t1 = ResourceJeanHeadLightMapRemapDL
+            hash = 69c0c24e
+            match_first_index = 0
+            ps-t0 = ResourceJeanHeadDiffuseRemapDL
+            run = CommandList\global\ORFix\NNFix
+
             [TextureOverrideJeanBodyJeanSeaRemapFix]
             if $swapvar == 0
                 hash = 69c0c24e
                 match_first_index = 7662
                 ib = ResourceJeanSeaBodyIB
                 ps-t0 = ResourceJeanSeaBodyDiffuse
-                ps-t1 = ResourceJeanBodyShadeLightMapJeanSeaRemapTex0
+                ps-t1 = ResourceJeanSeaBodyLightMapJeanSeaShadeLightMapRemapTex
+                run = CommandList\global\ORFix\NNFix
             else if $swapvar == 1
                 hash = 69c0c24e
                 match_first_index = 7662
                 ib = ResourceJeanSeaBodyIB
                 ps-t0 = ResourceJeanSeaBodyDiffuse
-                ps-t1 = ResourceJeanBodyShadeLightMapJeanSeaRemapTex0
+                ps-t1 = ResourceJeanSeaBodyLightMapJeanSeaShadeLightMapRemapTex
+                run = CommandList\global\ORFix\NNFix
             endif
 
             [TextureOverrideJeanDressJeanSeaRemapFix]
@@ -4986,12 +6193,14 @@ Mods for Shenhe and Raiden will not be fixed.
                 ib = null
                 ps-t0 = ResourceJeanSeaBodyDiffuse
                 ps-t1 = ResourceJeanSeaBodyLightMap
+                run = CommandList\global\ORFix\NNFix
             else if $swapvar == 1
                 hash = 69c0c24e
                 match_first_index = 52542
                 ib = null
                 ps-t0 = ResourceJeanSeaBodyDiffuse
                 ps-t1 = ResourceJeanSeaBodyLightMap
+                run = CommandList\global\ORFix\NNFix
             endif
 
             [ResourceJeanJeanSeaRemapBlend.0]
@@ -5002,390 +6211,15 @@ Mods for Shenhe and Raiden will not be fixed.
             [ResourceJeanJeanSeaRemapBlend.1]
             type = Buffer
             stride = 32
-            filename = SmolJean/CuteJeanJeanSeaRemapBlend.buf
+            filename = SmolJean\CuteJeanJeanSeaRemapBlend.buf
 
-            [ResourceJeanBodyShadeLightMapJeanSeaRemapTex0]
-            filename = JeanSeaBodyRemapTexPK_ BNl.dds
+            [ResourceJeanSeaBodyLightMapJeanSeaShadeLightMapRemapTex]
+            filename = JeanSeaBodyRemapTexOKA DK+.dds
 
             ; *******************
 
             ; ------------------------------------------
 
-    .. dropdown:: Cutie.ini
-        :animate: fade-in-slide-down
-
-        .. code-block:: ini
-            :caption: Cutie.ini
-            :linenos:
-
-            [Constants]
-            global persist $swapvar = 0
-
-            [KeySwap]
-            condition = $active == 1
-            key = VK_DOWN
-            type = cycle
-            $swapvar = 0,1
-            $creditinfo = 0
-
-            [TextureOverrideKeqingBlend]
-            if $swapvar == 0
-                vb1 = ResourceKeqingBlend.0
-                handling = skip
-                draw = 21916,0
-            else if $swapvar == 1
-                vb1 = ResourceKeqingBlend.1
-                handling = skip
-                draw = 21916,0
-            endif
-
-            [TextureOverrideKeqingBody]
-            hash = cbf1894b
-            match_first_index = 10824
-            run = CommandListKeqingBody
-
-            [TextureOverrideKeqingHead]
-            hash = cbf1894b
-            match_first_index = 10824
-            run = CommandListKeqingHead
-
-            [CommandListKeqingHead]
-            if $swapvar == 0
-                ib = ResourceKeqingBodyIB.0
-                ps-t0 = ResourceKeqingHeadDiffuse.0
-                ps-t1 = ResourceKeqingHeadLightMap.0
-                ps-t2 = ResourceKeqingHeadMetalMap.0
-                ps-t3 = ResourceKeqingHeadShadowRamp.0
-            else if $swapvar == 1
-                ib = ResourceKeqingHeadIB.3
-                ps-t0 = ResourceKeqingHeadDiffuse.3
-                ps-t1 = ResourceKeqingHeadLightMap.3
-            endif
-
-            [CommandListKeqingBody]
-            if $swapvar == 0
-                ib = ResourceKeqingBodyIB.0
-                ps-t0 = ResourceKeqingBodyDiffuse.0
-                ps-t1 = ResourceKeqingBodyLightMap.0
-                ps-t2 = ResourceKeqingBodyMetalMap.0
-                ps-t3 = ResourceKeqingBodyShadowRamp.0
-            else if $swapvar == 1
-                ib = ResourceKeqingBodyIB.3
-                ps-t0 = ResourceKeqingBodyDiffuse.3
-                ps-t1 = ResourceKeqingBodyLightMap.3
-            endif
-
-            [TextureOverrideKeqingDress]
-            hash = cbf1894b
-            match_first_index = 48216
-            run = CommandListKeqingDress
-
-            [CommandListKeqingDress]
-            if $swapvar == 0
-                ib = ResourceKeqingDressIB.0
-                ps-t0 = ResourceKeqingDressDiffuse.0
-                ps-t1 = ResourceKeqingDressLightMap.0
-                ps-t2 = ResourceKeqingDressMetalMap.0
-                ps-t3 = ResourceKeqingDressShadowRamp.0
-            else if $swapvar == 1
-                ib = ResourceKeqingDressIB.3
-                ps-t0 = ResourceKeqingDressDiffuse.3
-                ps-t1 = ResourceKeqingDressLightMap.3
-            endif
-
-            [ResourceKeqingBlend.0]
-            type = Buffer
-            stride = 32
-            filename = ../Buffs/ISwearItsFor.buf
-
-            [ResourceKeqingBlend.1]
-            type = Buffer
-            stride = 32
-            filename = ../Buffs/SmallerHitboxes.buf
-
-            [ResourceKeqingDressDiffuse.0]
-            filename = CatGirl.dds
-
-            [ResourceKeqingDressDiffuse.3]
-            filename = Patootie.dds
-
-            [ResourceKeqingHeadDiffuse.0]
-            filename = Cutesy.dds
-
-            [ResourceKeqingHeadDiffuse.3]
-            filename = CutiePie.dds
-
-
-            ; --------------- Keqing Remap ---------------
-            ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
-            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
-
-            ; ***** KeqingOpulent *****
-            [TextureOverrideKeqingKeqingOpulentRemapBlend]
-            if $swapvar == 0
-                vb1 = ResourceKeqingKeqingOpulentRemapBlend.0
-                handling = skip
-                draw = 21916,0
-            else if $swapvar == 1
-                vb1 = ResourceKeqingKeqingOpulentRemapBlend.1
-                handling = skip
-                draw = 21916,0
-            endif
-
-            [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
-            hash = 7c6fc8c3
-            match_first_index = 19623
-            run = CommandListKeqingBodyKeqingOpulentRemapFix
-
-            [CommandListKeqingBodyKeqingOpulentRemapFix]
-            if $swapvar == 0
-                ib = ResourceKeqingBodyIB.0
-                ps-t0 = ResourceKeqingBodyDiffuse.0
-                ps-t1 = ResourceKeqingBodyLightMap.0
-                ps-t2 = ResourceKeqingBodyMetalMap.0
-                ps-t3 = ResourceKeqingBodyShadowRamp.0
-            else if $swapvar == 1
-                ib = ResourceKeqingBodyIB.3
-                ps-t0 = ResourceKeqingBodyDiffuse.3
-                ps-t1 = ResourceKeqingBodyLightMap.3
-            endif
-
-            [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
-            hash = 7c6fc8c3
-            match_first_index = 0
-            run = CommandListKeqingHeadKeqingOpulentRemapFix
-
-            [CommandListKeqingHeadKeqingOpulentRemapFix]
-            if $swapvar == 0
-                ib = ResourceKeqingDressIB.0
-                ps-t0 = ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0
-                ps-t1 = ResourceKeqingDressLightMap.0
-                ps-t2 = ResourceKeqingDressMetalMap.0
-                ps-t3 = ResourceKeqingDressShadowRamp.0
-            else if $swapvar == 1
-                ib = ResourceKeqingDressIB.3
-                ps-t0 = ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1
-                ps-t1 = ResourceKeqingDressLightMap.3
-            endif
-
-            [ResourceKeqingKeqingOpulentRemapBlend.0]
-            type = Buffer
-            stride = 32
-            filename = ../Buffs/ISwearItsForKeqingOpulentRemapBlend.buf
-
-            [ResourceKeqingKeqingOpulentRemapBlend.1]
-            type = Buffer
-            stride = 32
-            filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
-
-            [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0]
-            filename = KeqingOpulentDressRemapTexNQe BUx.dds
-
-            [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1]
-            filename = KeqingOpulentDressRemapTexHl4 BUx.dds
-
-            ; *************************
-
-            ; --------------------------------------------
-
-    .. dropdown:: CutieRemapFix1.ini
-        :animate: fade-in-slide-down
-
-        .. code-block:: ini
-            :caption: CutieRemapFix1.ini
-            :linenos:
-
-            ; This is really bad!! Don't do this!
-            ; ************************************
-            ;
-            ; jk, but joking aside...
-            ;
-            ; The goal is to display n mod objects from the mod to be remapped to the mod onto a single mod object of the remapped mod.
-            ;   Therefore we will have n sets of resources all mapping onto a single index (and same hash).
-            ;
-            ; Ideally, we would want all the sections to be within a single .ini file. The naive approach would be to create n sets of sections
-            ;   (not a single section, cuz you need to include the case of sections depending on other sections, which form a section caller/callee graph) 
-            ;    where the sections names are all unique. However, this approach will trigger a warning on GIMI (or any GIMI like importer) of multiple sections
-            ;   mapping to the same hash and only 1 of the mod objects will be displayed
-            ;
-            ; The next attempt would be to take advantage of GIMI's overlapping mod bug/feature from loading multiple mods of the same character
-            ;   Apart from the original .ini file, there would be n-1 newly generated .ini files (total of n .ini files). Each .ini file would uniquely
-            ;   display a single set of sections from the n sets of sections. The overlapping property from the bug/feature would allow for all the objects to be displayed.
-            ;
-            ; For now, we were lazy and just simply copied the original .ini file onto the generated .ini files, which results in the original mod to have overlapping copies.
-            ;  But since the mod used in all the .ini files are exactly the same, the user would not see the overlap (they may have some performance issues depending on the size of n. But
-            ;   usually remaps only merge 2 mod objects into a single mod object, which should not cause much of an issue)
-            ;   We could optimize the amount of space taken up by the newly generated .ini files, by only putting the necessary sections, but that is for another day...
-
-            [Constants]
-            global persist $swapvar = 0
-
-            [KeySwap]
-            condition = $active == 1
-            key = VK_DOWN
-            type = cycle
-            $swapvar = 0,1
-            $creditinfo = 0
-
-            [TextureOverrideKeqingBlend]
-            if $swapvar == 0
-                vb1 = ResourceKeqingBlend.0
-                handling = skip
-                draw = 21916,0
-            else if $swapvar == 1
-                vb1 = ResourceKeqingBlend.1
-                handling = skip
-                draw = 21916,0
-            endif
-
-            [TextureOverrideKeqingBody]
-            hash = cbf1894b
-            match_first_index = 10824
-            run = CommandListKeqingBody
-
-            [TextureOverrideKeqingHead]
-            hash = cbf1894b
-            match_first_index = 10824
-            run = CommandListKeqingHead
-
-            [CommandListKeqingHead]
-            if $swapvar == 0
-                ib = ResourceKeqingBodyIB.0
-                ps-t0 = ResourceKeqingHeadDiffuse.0
-                ps-t1 = ResourceKeqingHeadLightMap.0
-                ps-t2 = ResourceKeqingHeadMetalMap.0
-                ps-t3 = ResourceKeqingHeadShadowRamp.0
-            else if $swapvar == 1
-                ib = ResourceKeqingHeadIB.3
-                ps-t0 = ResourceKeqingHeadDiffuse.3
-                ps-t1 = ResourceKeqingHeadLightMap.3
-            endif
-
-            [CommandListKeqingBody]
-            if $swapvar == 0
-                ib = ResourceKeqingBodyIB.0
-                ps-t0 = ResourceKeqingBodyDiffuse.0
-                ps-t1 = ResourceKeqingBodyLightMap.0
-                ps-t2 = ResourceKeqingBodyMetalMap.0
-                ps-t3 = ResourceKeqingBodyShadowRamp.0
-            else if $swapvar == 1
-                ib = ResourceKeqingBodyIB.3
-                ps-t0 = ResourceKeqingBodyDiffuse.3
-                ps-t1 = ResourceKeqingBodyLightMap.3
-            endif
-
-            [TextureOverrideKeqingDress]
-            hash = cbf1894b
-            match_first_index = 48216
-            run = CommandListKeqingDress
-
-            [CommandListKeqingDress]
-            if $swapvar == 0
-                ib = ResourceKeqingDressIB.0
-                ps-t0 = ResourceKeqingDressDiffuse.0
-                ps-t1 = ResourceKeqingDressLightMap.0
-                ps-t2 = ResourceKeqingDressMetalMap.0
-                ps-t3 = ResourceKeqingDressShadowRamp.0
-            else if $swapvar == 1
-                ib = ResourceKeqingDressIB.3
-                ps-t0 = ResourceKeqingDressDiffuse.3
-                ps-t1 = ResourceKeqingDressLightMap.3
-            endif
-
-            [ResourceKeqingBlend.0]
-            type = Buffer
-            stride = 32
-            filename = ../Buffs/ISwearItsFor.buf
-
-            [ResourceKeqingBlend.1]
-            type = Buffer
-            stride = 32
-            filename = ../Buffs/SmallerHitboxes.buf
-
-            [ResourceKeqingDressDiffuse.0]
-            filename = CatGirl.dds
-
-            [ResourceKeqingDressDiffuse.3]
-            filename = Patootie.dds
-
-            [ResourceKeqingHeadDiffuse.0]
-            filename = Cutesy.dds
-
-            [ResourceKeqingHeadDiffuse.3]
-            filename = CutiePie.dds
-
-
-            ; --------------- Keqing Remap ---------------
-            ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
-            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
-
-            ; ***** KeqingOpulent *****
-            [TextureOverrideKeqingKeqingOpulentRemapBlend]
-            if $swapvar == 0
-                vb1 = ResourceKeqingKeqingOpulentRemapBlend.0
-                handling = skip
-                draw = 21916,0
-            else if $swapvar == 1
-                vb1 = ResourceKeqingKeqingOpulentRemapBlend.1
-                handling = skip
-                draw = 21916,0
-            endif
-
-            [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
-            hash = 7c6fc8c3
-            match_first_index = 19623
-            run = CommandListKeqingBodyKeqingOpulentRemapFix
-
-            [CommandListKeqingBodyKeqingOpulentRemapFix]
-            if $swapvar == 0
-                ib = ResourceKeqingBodyIB.0
-                ps-t0 = ResourceKeqingBodyDiffuse.0
-                ps-t1 = ResourceKeqingBodyLightMap.0
-                ps-t2 = ResourceKeqingBodyMetalMap.0
-                ps-t3 = ResourceKeqingBodyShadowRamp.0
-            else if $swapvar == 1
-                ib = ResourceKeqingBodyIB.3
-                ps-t0 = ResourceKeqingBodyDiffuse.3
-                ps-t1 = ResourceKeqingBodyLightMap.3
-            endif
-
-            [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
-            hash = 7c6fc8c3
-            match_first_index = 0
-            run = CommandListKeqingHeadKeqingOpulentRemapFix
-
-            [CommandListKeqingHeadKeqingOpulentRemapFix]
-            if $swapvar == 0
-                ib = ResourceKeqingBodyIB.0
-                ps-t0 = ResourceKeqingHeadOpaqueHeadDiffuseKeqingOpulentRemapTex0
-                ps-t1 = ResourceKeqingHeadLightMap.0
-                ps-t2 = ResourceKeqingHeadMetalMap.0
-                ps-t3 = ResourceKeqingHeadShadowRamp.0
-            else if $swapvar == 1
-                ib = ResourceKeqingHeadIB.3
-                ps-t0 = ResourceKeqingHeadOpaqueHeadDiffuseKeqingOpulentRemapTex1
-                ps-t1 = ResourceKeqingHeadLightMap.3
-            endif
-
-            [ResourceKeqingKeqingOpulentRemapBlend.0]
-            type = Buffer
-            stride = 32
-            filename = ../Buffs/ISwearItsForKeqingOpulentRemapBlend.buf
-
-            [ResourceKeqingKeqingOpulentRemapBlend.1]
-            type = Buffer
-            stride = 32
-            filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
-
-            [ResourceKeqingHeadOpaqueHeadDiffuseKeqingOpulentRemapTex0]
-            filename = KeqingOpulentHeadRemapTexCKA HQ7.dds
-
-            [ResourceKeqingHeadOpaqueHeadDiffuseKeqingOpulentRemapTex1]
-            filename = KeqingOpulentHeadRemapTexKZA HQ7.dds
-
-            ; *************************
-
-            ; --------------------------------------------
 
     .. dropdown:: BestGurl.ini
         :animate: fade-in-slide-down
@@ -5405,6 +6239,7 @@ Mods for Shenhe and Raiden will not be fixed.
             $creditinfo = 0
 
             [TextureOverrideKeqingBlend]
+            hash = 0bf8e621
             if $swapvar == 0
                 vb1 = ResourceKeqingBlend.0
                 handling = skip
@@ -5473,21 +6308,50 @@ Mods for Shenhe and Raiden will not be fixed.
             [ResourceKeqingHeadDiffuse.3]
             filename = CutiePie.dds
 
-
             ; --------------- Keqing Remap ---------------
             ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-            ; ***** KeqingOpulent *****
-            [TextureOverrideKeqingKeqingOpulentRemapBlend]
+            [ResourceKeqingHeadDiffuseRemapDL]
+            filename = KeqingHeadDiffuseRemapDL.dds
+
+            [ResourceKeqingHeadLightMapRemapDL]
+            filename = KeqingHeadLightMapRemapDL.dds
+
+            [ResourceKeqingHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KeqingHeadRemapDL.ib
+
+            [ResourceKeqingFaceDiffuseRemapDL]
+            filename = KeqingFaceDiffuseRemapDL.dds
+
+            [ResourceKeqingPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = KeqingPositionRemapDL.buf
+
+            [ResourceKeqingTexcoordRemapDL]
+            type = Buffer
+            stride = 20
+            filename = KeqingTexcoordRemapDL.buf
+
+            [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
+            hash = 7c6fc8c3
+            match_first_index = 0
+            run = CommandListKeqingHeadKeqingOpulentRemapFix
+
+            [CommandListKeqingHeadKeqingOpulentRemapFix]
             if $swapvar == 0
-                vb1 = ResourceKeqingKeqingOpulentRemapBlend.0
-                handling = skip
-                draw = 21916,0
+                ib = ResourceKeqingDressIB.0
+                ps-t0 = ResourceKeqingDressDiffuseKeqingOpulentOpaqueDiffuseRemapTex.0
+                ps-t1 = ResourceKeqingDressLightMap.0
+                ps-t2 = ResourceKeqingDressMetalMap.0
+                ps-t3 = ResourceKeqingDressShadowRamp.0
             else if $swapvar == 1
-                vb1 = ResourceKeqingKeqingOpulentRemapBlend.1
-                handling = skip
-                draw = 21916,0
+                ib = ResourceKeqingDressIB.3
+                ps-t0 = ResourceKeqingDressDiffuseKeqingOpulentOpaqueDiffuseRemapTex.3
+                ps-t1 = ResourceKeqingDressLightMap.3
             endif
 
             [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
@@ -5508,43 +6372,48 @@ Mods for Shenhe and Raiden will not be fixed.
                 ps-t1 = ResourceKeqingBodyLightMap.3
             endif
 
-            [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
-            hash = 7c6fc8c3
-            match_first_index = 0
-            run = CommandListKeqingHeadKeqingOpulentRemapFix
-
-            [CommandListKeqingHeadKeqingOpulentRemapFix]
+            [TextureOverrideKeqingKeqingOpulentRemapBlend]
+            hash = 6f010b58
             if $swapvar == 0
-                ib = ResourceKeqingDressIB.0
-                ps-t0 = ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0
-                ps-t1 = ResourceKeqingDressLightMap.0
-                ps-t2 = ResourceKeqingDressMetalMap.0
-                ps-t3 = ResourceKeqingDressShadowRamp.0
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.0
+                handling = skip
+                draw = 21916,0
             else if $swapvar == 1
-                ib = ResourceKeqingDressIB.3
-                ps-t0 = ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1
-                ps-t1 = ResourceKeqingDressLightMap.3
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.1
+                handling = skip
+                draw = 21916,0
             endif
+
+            [TextureOverrideKeqingKeqingOpulentRemapPositionRemapFix]
+            hash = 0d7e3cc5
+            vb0 = ResourceKeqingPositionRemapDL
+
+            [TextureOverrideKeqingKeqingOpulentRemapTexcoordRemapFix]
+            hash = 52f78cb7
+            vb1 = ResourceKeqingTexcoordRemapDL
+
+            [TextureOverrideKeqingFaceKeqingOpulentRemapFix]
+            hash = c2b17f84
+            ps-t1 = ResourceKeqingFaceDiffuseRemapDL
 
             [ResourceKeqingKeqingOpulentRemapBlend.0]
             type = Buffer
             stride = 32
-            filename = ../Buffs/ISwearItsForKeqingOpulentRemapBlend.buf
+            filename = ..\Buffs\ISwearItsForKeqingOpulentRemapBlend.buf
 
             [ResourceKeqingKeqingOpulentRemapBlend.1]
             type = Buffer
             stride = 32
-            filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
+            filename = ..\Buffs\SmallerHitboxesKeqingOpulentRemapBlend.buf
 
-            [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0]
-            filename = KeqingOpulentDressRemapTexNQe BUx.dds
+            [ResourceKeqingDressDiffuseKeqingOpulentOpaqueDiffuseRemapTex.0]
+            filename = KeqingOpulentHeadRemapTexKNs J93.dds
 
-            [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1]
-            filename = KeqingOpulentDressRemapTexHl4 BUx.dds
-
-            ; *************************
+            [ResourceKeqingDressDiffuseKeqingOpulentOpaqueDiffuseRemapTex.3]
+            filename = KeqingOpulentHeadRemapTexBkA J93.dds
 
             ; --------------------------------------------
+
 
     .. dropdown:: BestGurlRemapFix1.ini
         :animate: fade-in-slide-down
@@ -5586,6 +6455,7 @@ Mods for Shenhe and Raiden will not be fixed.
             $creditinfo = 0
 
             [TextureOverrideKeqingBlend]
+            hash = 0bf8e621
             if $swapvar == 0
                 vb1 = ResourceKeqingBlend.0
                 handling = skip
@@ -5654,13 +6524,20 @@ Mods for Shenhe and Raiden will not be fixed.
             [ResourceKeqingHeadDiffuse.3]
             filename = CutiePie.dds
 
-
             ; --------------- Keqing Remap ---------------
             ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-            ; ***** KeqingOpulent *****
+            [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
+            ib = ResourceKeqingHeadIbRemapDL
+            ps-t1 = ResourceKeqingHeadLightMapRemapDL
+            hash = 7c6fc8c3
+            match_first_index = 0
+            ps-t0 = ResourceKeqingHeadDiffuseRemapDLKeqingOpulentOpaqueDiffuseRemapTex
+            run = CommandList\global\ORFix\NNFix
+
             [TextureOverrideKeqingKeqingOpulentRemapBlend]
+            hash = 6f010b58
             if $swapvar == 0
                 vb1 = ResourceKeqingKeqingOpulentRemapBlend.0
                 handling = skip
@@ -5669,6 +6546,185 @@ Mods for Shenhe and Raiden will not be fixed.
                 vb1 = ResourceKeqingKeqingOpulentRemapBlend.1
                 handling = skip
                 draw = 21916,0
+            endif
+
+            [TextureOverrideKeqingKeqingOpulentRemapPositionRemapFix]
+            hash = 0d7e3cc5
+            vb0 = ResourceKeqingPositionRemapDL
+
+            [TextureOverrideKeqingKeqingOpulentRemapTexcoordRemapFix]
+            hash = 52f78cb7
+            vb1 = ResourceKeqingTexcoordRemapDL
+
+            [TextureOverrideKeqingFaceKeqingOpulentRemapFix]
+            hash = c2b17f84
+            ps-t1 = ResourceKeqingFaceDiffuseRemapDL
+
+            [ResourceKeqingKeqingOpulentRemapBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ..\Buffs\ISwearItsForKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingKeqingOpulentRemapBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ..\Buffs\SmallerHitboxesKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingHeadDiffuseRemapDLKeqingOpulentOpaqueDiffuseRemapTex]
+            filename = KeqingOpulentHeadRemapTexCgN J93.dds
+
+            ; --------------------------------------------
+
+
+    .. dropdown:: Cutie.ini
+        :animate: fade-in-slide-down
+
+        .. code-block:: ini
+            :caption: Cutie.ini
+            :linenos:
+
+            [Constants]
+            global persist $swapvar = 0
+
+            [KeySwap]
+            condition = $active == 1
+            key = VK_DOWN
+            type = cycle
+            $swapvar = 0,1
+            $creditinfo = 0
+
+            [TextureOverrideKeqingBlend]
+            hash = 0bf8e621
+            if $swapvar == 0
+                vb1 = ResourceKeqingBlend.0
+                handling = skip
+                draw = 21916,0
+            else if $swapvar == 1
+                vb1 = ResourceKeqingBlend.1
+                handling = skip
+                draw = 21916,0
+            endif
+
+            [TextureOverrideKeqingBody]
+            hash = cbf1894b
+            match_first_index = 10824
+            run = CommandListKeqingBody
+
+            [TextureOverrideKeqingHead]
+            hash = cbf1894b
+            match_first_index = 10824
+            run = CommandListKeqingHead
+
+            [CommandListKeqingHead]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingHeadDiffuse.0
+                ps-t1 = ResourceKeqingHeadLightMap.0
+                ps-t2 = ResourceKeqingHeadMetalMap.0
+                ps-t3 = ResourceKeqingHeadShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingHeadIB.3
+                ps-t0 = ResourceKeqingHeadDiffuse.3
+                ps-t1 = ResourceKeqingHeadLightMap.3
+            endif
+
+            [CommandListKeqingBody]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingBodyDiffuse.0
+                ps-t1 = ResourceKeqingBodyLightMap.0
+                ps-t2 = ResourceKeqingBodyMetalMap.0
+                ps-t3 = ResourceKeqingBodyShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingBodyIB.3
+                ps-t0 = ResourceKeqingBodyDiffuse.3
+                ps-t1 = ResourceKeqingBodyLightMap.3
+            endif
+
+            [TextureOverrideKeqingDress]
+            hash = cbf1894b
+            match_first_index = 48216
+            run = CommandListKeqingDress
+
+            [CommandListKeqingDress]
+            if $swapvar == 0
+                ib = ResourceKeqingDressIB.0
+                ps-t0 = ResourceKeqingDressDiffuse.0
+                ps-t1 = ResourceKeqingDressLightMap.0
+                ps-t2 = ResourceKeqingDressMetalMap.0
+                ps-t3 = ResourceKeqingDressShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingDressIB.3
+                ps-t0 = ResourceKeqingDressDiffuse.3
+                ps-t1 = ResourceKeqingDressLightMap.3
+            endif
+
+            [ResourceKeqingBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/ISwearItsFor.buf
+
+            [ResourceKeqingBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/SmallerHitboxes.buf
+
+            [ResourceKeqingDressDiffuse.0]
+            filename = CatGirl.dds
+
+            [ResourceKeqingDressDiffuse.3]
+            filename = Patootie.dds
+
+            [ResourceKeqingHeadDiffuse.0]
+            filename = Cutesy.dds
+
+            [ResourceKeqingHeadDiffuse.3]
+            filename = CutiePie.dds
+
+            ; --------------- Keqing Remap ---------------
+            ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+            [ResourceKeqingHeadDiffuseRemapDL]
+            filename = KeqingHeadDiffuseRemapDL.dds
+
+            [ResourceKeqingHeadLightMapRemapDL]
+            filename = KeqingHeadLightMapRemapDL.dds
+
+            [ResourceKeqingHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KeqingHeadRemapDL.ib
+
+            [ResourceKeqingFaceDiffuseRemapDL]
+            filename = KeqingFaceDiffuseRemapDL.dds
+
+            [ResourceKeqingPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = KeqingPositionRemapDL.buf
+
+            [ResourceKeqingTexcoordRemapDL]
+            type = Buffer
+            stride = 20
+            filename = KeqingTexcoordRemapDL.buf
+
+            [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
+            hash = 7c6fc8c3
+            match_first_index = 0
+            run = CommandListKeqingHeadKeqingOpulentRemapFix
+
+            [CommandListKeqingHeadKeqingOpulentRemapFix]
+            if $swapvar == 0
+                ib = ResourceKeqingDressIB.0
+                ps-t0 = ResourceKeqingDressDiffuseKeqingOpulentOpaqueDiffuseRemapTex.0
+                ps-t1 = ResourceKeqingDressLightMap.0
+                ps-t2 = ResourceKeqingDressMetalMap.0
+                ps-t3 = ResourceKeqingDressShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingDressIB.3
+                ps-t0 = ResourceKeqingDressDiffuseKeqingOpulentOpaqueDiffuseRemapTex.3
+                ps-t1 = ResourceKeqingDressLightMap.3
             endif
 
             [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
@@ -5689,19 +6745,245 @@ Mods for Shenhe and Raiden will not be fixed.
                 ps-t1 = ResourceKeqingBodyLightMap.3
             endif
 
+            [TextureOverrideKeqingHeadKeqingOpulentBodyRemapFix]
+            hash = 7c6fc8c3
+            match_first_index = 19623
+            run = CommandListKeqingHeadKeqingOpulentBodyRemapFix
+
+            [CommandListKeqingHeadKeqingOpulentBodyRemapFix]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingHeadDiffuse.0
+                ps-t1 = ResourceKeqingHeadLightMap.0
+                ps-t2 = ResourceKeqingHeadMetalMap.0
+                ps-t3 = ResourceKeqingHeadShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingHeadIB.3
+                ps-t0 = ResourceKeqingHeadDiffuse.3
+                ps-t1 = ResourceKeqingHeadLightMap.3
+            endif
+
+            [TextureOverrideKeqingKeqingOpulentRemapBlend]
+            hash = 6f010b58
+            if $swapvar == 0
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.0
+                handling = skip
+                draw = 21916,0
+            else if $swapvar == 1
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.1
+                handling = skip
+                draw = 21916,0
+            endif
+
+            [TextureOverrideKeqingKeqingOpulentRemapPositionRemapFix]
+            hash = 0d7e3cc5
+            vb0 = ResourceKeqingPositionRemapDL
+
+            [TextureOverrideKeqingKeqingOpulentRemapTexcoordRemapFix]
+            hash = 52f78cb7
+            vb1 = ResourceKeqingTexcoordRemapDL
+
+            [TextureOverrideKeqingFaceKeqingOpulentRemapFix]
+            hash = c2b17f84
+            ps-t1 = ResourceKeqingFaceDiffuseRemapDL
+
             [ResourceKeqingKeqingOpulentRemapBlend.0]
             type = Buffer
             stride = 32
-            filename = ../Buffs/ISwearItsForKeqingOpulentRemapBlend.buf
+            filename = ..\Buffs\ISwearItsForKeqingOpulentRemapBlend.buf
 
             [ResourceKeqingKeqingOpulentRemapBlend.1]
             type = Buffer
             stride = 32
-            filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
+            filename = ..\Buffs\SmallerHitboxesKeqingOpulentRemapBlend.buf
 
-            ; *************************
+            [ResourceKeqingDressDiffuseKeqingOpulentOpaqueDiffuseRemapTex.0]
+            filename = KeqingOpulentHeadRemapTexKNs J93.dds
+
+            [ResourceKeqingDressDiffuseKeqingOpulentOpaqueDiffuseRemapTex.3]
+            filename = KeqingOpulentHeadRemapTexBkA J93.dds
 
             ; --------------------------------------------
+
+
+    .. dropdown:: CutieRemapFix1.ini
+        :animate: fade-in-slide-down
+
+        .. code-block:: ini
+            :caption: CutieRemapFix1.ini
+            :linenos:
+
+            ; This is really bad!! Don't do this!
+            ; ************************************
+            ;
+            ; jk, but joking aside...
+            ;
+            ; The goal is to display n mod objects from the mod to be remapped to the mod onto a single mod object of the remapped mod.
+            ;   Therefore we will have n sets of resources all mapping onto a single index (and same hash).
+            ;
+            ; Ideally, we would want all the sections to be within a single .ini file. The naive approach would be to create n sets of sections
+            ;   (not a single section, cuz you need to include the case of sections depending on other sections, which form a section caller/callee graph) 
+            ;    where the sections names are all unique. However, this approach will trigger a warning on GIMI (or any GIMI like importer) of multiple sections
+            ;   mapping to the same hash and only 1 of the mod objects will be displayed
+            ;
+            ; The next attempt would be to take advantage of GIMI's overlapping mod bug/feature from loading multiple mods of the same character
+            ;   Apart from the original .ini file, there would be n-1 newly generated .ini files (total of n .ini files). Each .ini file would uniquely
+            ;   display a single set of sections from the n sets of sections. The overlapping property from the bug/feature would allow for all the objects to be displayed.
+            ;
+            ; For now, we were lazy and just simply copied the original .ini file onto the generated .ini files, which results in the original mod to have overlapping copies.
+            ;  But since the mod used in all the .ini files are exactly the same, the user would not see the overlap (they may have some performance issues depending on the size of n. But
+            ;   usually remaps only merge 2 mod objects into a single mod object, which should not cause much of an issue)
+            ;   We could optimize the amount of space taken up by the newly generated .ini files, by only putting the necessary sections, but that is for another day...
+
+            [Constants]
+            global persist $swapvar = 0
+
+            [KeySwap]
+            condition = $active == 1
+            key = VK_DOWN
+            type = cycle
+            $swapvar = 0,1
+            $creditinfo = 0
+
+            [TextureOverrideKeqingBlend]
+            hash = 0bf8e621
+            if $swapvar == 0
+                vb1 = ResourceKeqingBlend.0
+                handling = skip
+                draw = 21916,0
+            else if $swapvar == 1
+                vb1 = ResourceKeqingBlend.1
+                handling = skip
+                draw = 21916,0
+            endif
+
+            [TextureOverrideKeqingBody]
+            hash = cbf1894b
+            match_first_index = 10824
+            run = CommandListKeqingBody
+
+            [TextureOverrideKeqingHead]
+            hash = cbf1894b
+            match_first_index = 10824
+            run = CommandListKeqingHead
+
+            [CommandListKeqingHead]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingHeadDiffuse.0
+                ps-t1 = ResourceKeqingHeadLightMap.0
+                ps-t2 = ResourceKeqingHeadMetalMap.0
+                ps-t3 = ResourceKeqingHeadShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingHeadIB.3
+                ps-t0 = ResourceKeqingHeadDiffuse.3
+                ps-t1 = ResourceKeqingHeadLightMap.3
+            endif
+
+            [CommandListKeqingBody]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingBodyDiffuse.0
+                ps-t1 = ResourceKeqingBodyLightMap.0
+                ps-t2 = ResourceKeqingBodyMetalMap.0
+                ps-t3 = ResourceKeqingBodyShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingBodyIB.3
+                ps-t0 = ResourceKeqingBodyDiffuse.3
+                ps-t1 = ResourceKeqingBodyLightMap.3
+            endif
+
+            [TextureOverrideKeqingDress]
+            hash = cbf1894b
+            match_first_index = 48216
+            run = CommandListKeqingDress
+
+            [CommandListKeqingDress]
+            if $swapvar == 0
+                ib = ResourceKeqingDressIB.0
+                ps-t0 = ResourceKeqingDressDiffuse.0
+                ps-t1 = ResourceKeqingDressLightMap.0
+                ps-t2 = ResourceKeqingDressMetalMap.0
+                ps-t3 = ResourceKeqingDressShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingDressIB.3
+                ps-t0 = ResourceKeqingDressDiffuse.3
+                ps-t1 = ResourceKeqingDressLightMap.3
+            endif
+
+            [ResourceKeqingBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/ISwearItsFor.buf
+
+            [ResourceKeqingBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/SmallerHitboxes.buf
+
+            [ResourceKeqingDressDiffuse.0]
+            filename = CatGirl.dds
+
+            [ResourceKeqingDressDiffuse.3]
+            filename = Patootie.dds
+
+            [ResourceKeqingHeadDiffuse.0]
+            filename = Cutesy.dds
+
+            [ResourceKeqingHeadDiffuse.3]
+            filename = CutiePie.dds
+
+            ; --------------- Keqing Remap ---------------
+            ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+            [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
+            ib = ResourceKeqingHeadIbRemapDL
+            ps-t1 = ResourceKeqingHeadLightMapRemapDL
+            hash = 7c6fc8c3
+            match_first_index = 0
+            ps-t0 = ResourceKeqingHeadDiffuseRemapDLKeqingOpulentOpaqueDiffuseRemapTex
+            run = CommandList\global\ORFix\NNFix
+
+            [TextureOverrideKeqingKeqingOpulentRemapBlend]
+            hash = 6f010b58
+            if $swapvar == 0
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.0
+                handling = skip
+                draw = 21916,0
+            else if $swapvar == 1
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.1
+                handling = skip
+                draw = 21916,0
+            endif
+
+            [TextureOverrideKeqingKeqingOpulentRemapPositionRemapFix]
+            hash = 0d7e3cc5
+            vb0 = ResourceKeqingPositionRemapDL
+
+            [TextureOverrideKeqingKeqingOpulentRemapTexcoordRemapFix]
+            hash = 52f78cb7
+            vb1 = ResourceKeqingTexcoordRemapDL
+
+            [TextureOverrideKeqingFaceKeqingOpulentRemapFix]
+            hash = c2b17f84
+            ps-t1 = ResourceKeqingFaceDiffuseRemapDL
+
+            [ResourceKeqingKeqingOpulentRemapBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ..\Buffs\ISwearItsForKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingKeqingOpulentRemapBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ..\Buffs\SmallerHitboxesKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingHeadDiffuseRemapDLKeqingOpulentOpaqueDiffuseRemapTex]
+            filename = KeqingOpulentHeadRemapTexCgN J93.dds
+
+            ; --------------------------------------------
+
 
     .. dropdown:: WritingTheseTestCases.ini
         :animate: fade-in-slide-down
@@ -5711,6 +6993,7 @@ Mods for Shenhe and Raiden will not be fixed.
             :linenos:
 
             [TextureOverrideRaidenShogunBlend]
+            hash = 1a495487
             vb1 = ResourceRaidenShogunBlend
             handling = skip
             draw = 21916,0
@@ -5719,6 +7002,7 @@ Mods for Shenhe and Raiden will not be fixed.
             type = Buffer
             stride = 32
             filename = KindOfGettingTired.buf
+
 
     .. dropdown:: Endless9999GoldenTruth.ini
         :animate: fade-in-slide-down
@@ -5738,6 +7022,7 @@ Mods for Shenhe and Raiden will not be fixed.
             $creditinfo = 0
 
             [TextureOverrideShenheBlend]
+            hash = 541cf273
             if $swapvar == 0
                 vb1 = BeatoPleaseSaveNewbieGamemasterBattlerFromHisSmallBombsLogic
                 handling = skip
@@ -5809,6 +7094,7 @@ Mods for Shenhe and Raiden will not be fixed.
             filename = DaGreatEqualizerIsTheDes.buf
 
 
+
 :raw-html:`<br />`
 
 Fixing Entire Mods Without Showing Mods on the Original Character
@@ -5817,7 +7103,7 @@ Fixing Entire Mods Without Showing Mods on the Original Character
 The example below shows fixing entire mods where the mod only shows on the remapped character, and not the original character after running `example.py`.
 
 .. note::
-    To fix only a .ini file to a specific version of the game, go to :ref:`Fixing a .ini File Without Showing the Mod on the Original Character`
+    To fix only a .ini file without showing the mod on the original character, go to :ref:`Fixing a .ini File Without Showing the Mod on the Original Character <apiExamples:Fixing a .ini File Without Showing the Mod on the Original Character>`
 
 :raw-html:`<br />`
 
@@ -5831,117 +7117,49 @@ The example below shows fixing entire mods where the mod only shows on the remap
         :animate: fade-in-slide-down
 
         .. code-block::
-            :emphasize-lines: 15
+            :emphasize-lines: 7
 
-            Mods
+            AmberCN
             |
-            +--> Keqing
-            |    |
-            |    +--> changeVersionKeqing.ini
-            |    |
-            |    +--> CatGirl.dds
-            |    |
-            |    +--> Patootie.dds
-            |    |
-            |    +--> Cutesy.dds
-            |    |
-            |    +--> CutiePie.dds
-            |    |
-            |    +--> example.py
+            +--> AmberCN.ini
             |
-            +--> Buffs
-                 |
-                 +--> SmallerHitboxes.buf
+            +--> AmberCNBlend.buf
+            |
+            +--> example.py
+
 
     :raw-html:`<br />`
 
     Assume below is the content of the .ini files
 
-    .. dropdown:: changeVersionKeqing.ini
+    .. dropdown:: AmberCN.ini
         :animate: fade-in-slide-down
 
         .. code-block:: ini
-            :caption: changeVersionKeqing.ini
+            :caption: AmberCN.ini
             :linenos:
 
-            [Constants]
-            global persist $swapvar = 0
+            [TextureOverrideAmberCNBlend]
+            hash = f35340d5
+            vb1 = ResourceAmberCNBlend
+            handling = skip
+            draw = 21916,0
 
-            [KeySwap]
-            condition = $active == 1
-            key = VK_DOWN
-            type = cycle
-            $swapvar = 0,1
-            $creditinfo = 0
+            [TextureOverrideAmberCNBody]
+            hash = b41d4d94
+            match_first_index = 5670
+            ib = ResourceAmberCNBodyIB
+            ps-t0 = ResourceAmberCNBodyDiffuse
+            ps-t1 = ResourceAmberCNBodyLightMap
+            ps-t2 = ResourceAmberCNBodyMetalMap
+            ps-t3 = ResourceAmberCNBodyShadowRamp
 
-            [TextureOverrideKeqingBlend]
-            if $swapvar == 0
-                vb1 = ResourceKeqingBlend.0
-                handling = skip
-                draw = 21916,0
-            else if $swapvar == 1
-                vb1 = ResourceKeqingBlend.1
-                handling = skip
-                draw = 21916,0
-            endif
-
-            [TextureOverrideKeqingBody]
-            hash = cbf1894b
-            match_first_index = 10824
-            run = CommandListKeqingBody
-
-            [CommandListKeqingBody]
-            if $swapvar == 0
-                ib = ResourceKeqingBodyIB.0
-                ps-t0 = ResourceKeqingBodyDiffuse.0
-                ps-t1 = ResourceKeqingBodyLightMap.0
-                ps-t2 = ResourceKeqingBodyMetalMap.0
-                ps-t3 = ResourceKeqingBodyShadowRamp.0
-            else if $swapvar == 1
-                ib = ResourceKeqingBodyIB.3
-                ps-t0 = ResourceKeqingBodyDiffuse.3
-                ps-t1 = ResourceKeqingBodyLightMap.3
-            endif
-
-            [TextureOverrideKeqingDress]
-            hash = cbf1894b
-            match_first_index = 48216
-            run = CommandListKeqingDress
-
-            [CommandListKeqingDress]
-            if $swapvar == 0
-                ib = ResourceKeqingDressIB.0
-                ps-t0 = ResourceKeqingDressDiffuse.0
-                ps-t1 = ResourceKeqingDressLightMap.0
-                ps-t2 = ResourceKeqingDressMetalMap.0
-                ps-t3 = ResourceKeqingDressShadowRamp.0
-            else if $swapvar == 1
-                ib = ResourceKeqingDressIB.3
-                ps-t0 = ResourceKeqingDressDiffuse.3
-                ps-t1 = ResourceKeqingDressLightMap.3
-            endif
-
-            [ResourceKeqingBlend.0]
+            [ResourceAmberCNBlend]
             type = Buffer
             stride = 32
-            filename = ../Buffs/ISwearItsFor.buf
+            filename = AmberCNBlend.buf
 
-            [ResourceKeqingBlend.1]
-            type = Buffer
-            stride = 32
-            filename = ../Buffs/SmallerHitboxes.buf
 
-            [ResourceKeqingDressDiffuse.0]
-            filename = CatGirl.dds
-
-            [ResourceKeqingDressDiffuse.3]
-            filename = Patootie.dds
-
-            [ResourceKeqingHeadDiffuse.0]
-            filename = Cutesy.dds
-
-            [ResourceKeqingHeadDiffuse.3]
-            filename = CutiePie.dds
 
 .. dropdown:: Code
     :open:
@@ -5953,367 +7171,148 @@ The example below shows fixing entire mods where the mod only shows on the remap
 
         import AnimeGameRemap as AGR
 
-        fixService = AGR.RaidenBossFixService(verbose = True, keepBackups = False, undoOnly = True, hideOrig = True)
+        fixService = AGR.RemapServiceCLI(verbose = False, keepBackups = False, types = ["BaronBunnyCN"], hideOrig = True)
         fixService.fix()
+
 
 .. dropdown:: Result
     :animate: fade-in-slide-down
 
-    Below contains the new content with the mod only applied only to KeqingOpulent, and not on Keqing.
+    Below contains the new content with the mod only shown on the remapped character, and not on the original character
 
     .. dropdown:: File Structure
         :animate: fade-in-slide-down
 
         .. code-block::
-            :emphasize-lines: 25
+            :emphasize-lines: 21
 
-            Mods
+            AmberCN
             |
-            +--> Keqing
-            |    |
-            |    +--> changeVersionKeqing.ini
-            |    |
-            |    +--> changeVersionKeqingRemapFix1.ini
-            |    |
-            |    +--> CatGirl.dds
-            |    |
-            |    +--> KeqingOpulentDressRemapTexNQe BUx.dds
-            |    |
-            |    +--> Patootie.dds
-            |    |
-            |    +--> KeqingOpulentDressRemapTexHl4 BUx.dds
-            |    |
-            |    +--> Cutesy.dds
-            |    |
-            |    +--> CutiePie.dds
-            |    |
-            |    +--> example.py
+            +--> AmberCN.ini
             |
-            +--> Buffs
-                 |
-                 +--> SmallerHitboxes.buf
-                 |
-                 +--> SmallerHitboxesKeqingOpulentRemapBlend.buf
+            +--> AmberCNAmberRemapBlend.buf
+            |
+            +--> AmberCNBlend.buf
+            |
+            +--> AmberCNFaceDiffuseRemapDL.dds
+            |
+            +--> AmberCNHeadDiffuseRemapDL.dds
+            |
+            +--> AmberCNHeadLightMapRemapDL.dds
+            |
+            +--> AmberCNHeadRemapDL.ib
+            |
+            +--> AmberCNPositionRemapDL.buf
+            |
+            +--> AmberCNTexcoordRemapDL.buf
+            |
+            +--> example.py
+
 
     :raw-html:`<br />`
 
     Below is the new content of the .ini files
 
-    .. dropdown:: changeVersionKeqing.ini
+    .. dropdown:: AmberCN.ini
         :animate: fade-in-slide-down
 
         .. code-block:: ini
-            :caption: changeVersionKeqing.ini
+            :caption: AmberCN.ini
             :linenos:
 
-            [Constants]
-            global persist $swapvar = 0
-
-            [KeySwap]
-            condition = $active == 1
-            key = VK_DOWN
-            type = cycle
-            $swapvar = 0,1
-            $creditinfo = 0
-
-            ;RemapFixHideOrig -->[TextureOverrideKeqingBlend]
-            ;RemapFixHideOrig -->if $swapvar == 0
-            ;RemapFixHideOrig -->    vb1 = ResourceKeqingBlend.0
-            ;RemapFixHideOrig -->    handling = skip
-            ;RemapFixHideOrig -->    draw = 21916,0
-            ;RemapFixHideOrig -->else if $swapvar == 1
-            ;RemapFixHideOrig -->    vb1 = ResourceKeqingBlend.1
-            ;RemapFixHideOrig -->    handling = skip
-            ;RemapFixHideOrig -->    draw = 21916,0
-            ;RemapFixHideOrig -->endif
+            ;RemapFixHideOrig -->[TextureOverrideAmberCNBlend]
+            ;RemapFixHideOrig -->hash = f35340d5
+            ;RemapFixHideOrig -->vb1 = ResourceAmberCNBlend
+            ;RemapFixHideOrig -->handling = skip
+            ;RemapFixHideOrig -->draw = 21916,0
             ;RemapFixHideOrig -->
-            ;RemapFixHideOrig -->[TextureOverrideKeqingBody]
-            ;RemapFixHideOrig -->hash = cbf1894b
-            ;RemapFixHideOrig -->match_first_index = 10824
-            ;RemapFixHideOrig -->run = CommandListKeqingBody
+            ;RemapFixHideOrig -->[TextureOverrideAmberCNBody]
+            ;RemapFixHideOrig -->hash = b41d4d94
+            ;RemapFixHideOrig -->match_first_index = 5670
+            ;RemapFixHideOrig -->ib = ResourceAmberCNBodyIB
+            ;RemapFixHideOrig -->ps-t0 = ResourceAmberCNBodyDiffuse
+            ;RemapFixHideOrig -->ps-t1 = ResourceAmberCNBodyLightMap
+            ;RemapFixHideOrig -->ps-t2 = ResourceAmberCNBodyMetalMap
+            ;RemapFixHideOrig -->ps-t3 = ResourceAmberCNBodyShadowRamp
             ;RemapFixHideOrig -->
-            ;RemapFixHideOrig -->[CommandListKeqingBody]
-            ;RemapFixHideOrig -->if $swapvar == 0
-            ;RemapFixHideOrig -->    ib = ResourceKeqingBodyIB.0
-            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingBodyDiffuse.0
-            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingBodyLightMap.0
-            ;RemapFixHideOrig -->    ps-t2 = ResourceKeqingBodyMetalMap.0
-            ;RemapFixHideOrig -->    ps-t3 = ResourceKeqingBodyShadowRamp.0
-            ;RemapFixHideOrig -->else if $swapvar == 1
-            ;RemapFixHideOrig -->    ib = ResourceKeqingBodyIB.3
-            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingBodyDiffuse.3
-            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingBodyLightMap.3
-            ;RemapFixHideOrig -->endif
-            ;RemapFixHideOrig -->
-            ;RemapFixHideOrig -->[TextureOverrideKeqingDress]
-            ;RemapFixHideOrig -->hash = cbf1894b
-            ;RemapFixHideOrig -->match_first_index = 48216
-            ;RemapFixHideOrig -->run = CommandListKeqingDress
-            ;RemapFixHideOrig -->
-            ;RemapFixHideOrig -->[CommandListKeqingDress]
-            ;RemapFixHideOrig -->if $swapvar == 0
-            ;RemapFixHideOrig -->    ib = ResourceKeqingDressIB.0
-            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingDressDiffuse.0
-            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingDressLightMap.0
-            ;RemapFixHideOrig -->    ps-t2 = ResourceKeqingDressMetalMap.0
-            ;RemapFixHideOrig -->    ps-t3 = ResourceKeqingDressShadowRamp.0
-            ;RemapFixHideOrig -->else if $swapvar == 1
-            ;RemapFixHideOrig -->    ib = ResourceKeqingDressIB.3
-            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingDressDiffuse.3
-            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingDressLightMap.3
-            ;RemapFixHideOrig -->endif
-            ;RemapFixHideOrig -->
-            [ResourceKeqingBlend.0]
+            [ResourceAmberCNBlend]
             type = Buffer
             stride = 32
-            filename = ../Buffs/ISwearItsFor.buf
+            filename = AmberCNBlend.buf
 
-            [ResourceKeqingBlend.1]
-            type = Buffer
-            stride = 32
-            filename = ../Buffs/SmallerHitboxes.buf
-
-            [ResourceKeqingDressDiffuse.0]
-            filename = CatGirl.dds
-
-            [ResourceKeqingDressDiffuse.3]
-            filename = Patootie.dds
-
-            [ResourceKeqingHeadDiffuse.0]
-            filename = Cutesy.dds
-
-            [ResourceKeqingHeadDiffuse.3]
-            filename = CutiePie.dds
-
-
-            ; --------------- Keqing Remap ---------------
-            ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+            ; --------------- AmberCN Remap ---------------
+            ; AmberCN remapped by Albert Gold#2696 and NK#1321. If you used it to remap your AmberCN mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-            ; ***** KeqingOpulent *****
-            [TextureOverrideKeqingKeqingOpulentRemapBlend]
-            if $swapvar == 0
-                vb1 = ResourceKeqingKeqingOpulentRemapBlend.0
-                handling = skip
-                draw = 21916,0
-            else if $swapvar == 1
-                vb1 = ResourceKeqingKeqingOpulentRemapBlend.1
-                handling = skip
-                draw = 21916,0
-            endif
-
-            [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
-            hash = 7c6fc8c3
-            match_first_index = 19623
-            run = CommandListKeqingBodyKeqingOpulentRemapFix
-
-            [CommandListKeqingBodyKeqingOpulentRemapFix]
-            if $swapvar == 0
-                ib = ResourceKeqingBodyIB.0
-                ps-t0 = ResourceKeqingBodyDiffuse.0
-                ps-t1 = ResourceKeqingBodyLightMap.0
-                ps-t2 = ResourceKeqingBodyMetalMap.0
-                ps-t3 = ResourceKeqingBodyShadowRamp.0
-            else if $swapvar == 1
-                ib = ResourceKeqingBodyIB.3
-                ps-t0 = ResourceKeqingBodyDiffuse.3
-                ps-t1 = ResourceKeqingBodyLightMap.3
-            endif
-
-            [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
-            hash = 7c6fc8c3
+            [TextureOverrideAmberCNHeadAmberRemapFix]
+            ib = ResourceAmberCNHeadIbRemapDL
+            ps-t1 = ResourceAmberCNHeadLightMapRemapDL
+            hash = b03c7e30
             match_first_index = 0
-            run = CommandListKeqingHeadKeqingOpulentRemapFix
+            ps-t0 = ResourceAmberCNHeadDiffuseRemapDL
+            run = CommandList\global\ORFix\NNFix
+            drawindexed = auto
 
-            [CommandListKeqingHeadKeqingOpulentRemapFix]
-            if $swapvar == 0
-                ib = ResourceKeqingDressIB.0
-                ps-t0 = ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0
-                ps-t1 = ResourceKeqingDressLightMap.0
-                ps-t2 = ResourceKeqingDressMetalMap.0
-                ps-t3 = ResourceKeqingDressShadowRamp.0
-            else if $swapvar == 1
-                ib = ResourceKeqingDressIB.3
-                ps-t0 = ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1
-                ps-t1 = ResourceKeqingDressLightMap.3
-            endif
+            [TextureOverrideAmberCNBodyAmberRemapFix]
+            hash = b03c7e30
+            match_first_index = 5670
+            ib = ResourceAmberCNBodyIB
+            ps-t0 = ResourceAmberCNBodyDiffuse
+            ps-t1 = ResourceAmberCNBodyLightMap
+            ps-t2 = ResourceAmberCNBodyMetalMap
+            ps-t3 = ResourceAmberCNBodyShadowRamp
+            run = CommandList\global\ORFix\NNFix
+            drawindexed = auto
 
-            [ResourceKeqingKeqingOpulentRemapBlend.0]
+            [TextureOverrideAmberCNAmberRemapBlend]
+            hash = 36d20a67
+            vb1 = ResourceAmberCNAmberRemapBlend
+            handling = skip
+            draw = 21916,0
+
+            [TextureOverrideAmberCNAmberRemapPositionRemapFix]
+            hash = a2ea4b2d
+            vb0 = ResourceAmberCNPositionRemapDL
+
+            [TextureOverrideAmberCNAmberRemapTexcoordRemapFix]
+            hash = 81b777ca
+            vb1 = ResourceAmberCNTexcoordRemapDL
+
+            [TextureOverrideAmberCNFaceAmberRemapFix]
+            hash = 1d064079
+            ps-t1 = ResourceAmberCNFaceDiffuseRemapDL
+
+            [ResourceAmberCNHeadDiffuseRemapDL]
+            filename = AmberCNHeadDiffuseRemapDL.dds
+
+            [ResourceAmberCNHeadLightMapRemapDL]
+            filename = AmberCNHeadLightMapRemapDL.dds
+
+            [ResourceAmberCNHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = AmberCNHeadRemapDL.ib
+
+            [ResourceAmberCNFaceDiffuseRemapDL]
+            filename = AmberCNFaceDiffuseRemapDL.dds
+
+            [ResourceAmberCNPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = AmberCNPositionRemapDL.buf
+
+            [ResourceAmberCNTexcoordRemapDL]
+            type = Buffer
+            stride = 12
+            filename = AmberCNTexcoordRemapDL.buf
+
+            [ResourceAmberCNAmberRemapBlend]
             type = Buffer
             stride = 32
-            filename = ../Buffs/ISwearItsForKeqingOpulentRemapBlend.buf
+            filename = AmberCNAmberRemapBlend.buf
 
-            [ResourceKeqingKeqingOpulentRemapBlend.1]
-            type = Buffer
-            stride = 32
-            filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
+            ; ---------------------------------------------
 
-            [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0]
-            filename = KeqingOpulentDressRemapTexNQe BUx.dds
-
-            [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1]
-            filename = KeqingOpulentDressRemapTexHl4 BUx.dds
-
-            ; *************************
-
-            ; --------------------------------------------
-
-    .. dropdown:: changeVersionKeqingRemapFix1.ini
-        :animate: fade-in-slide-down
-
-        .. code-block:: ini
-            :caption: changeVersionKeqingRemapFix1.ini
-            :linenos:
-
-            ; This is really bad!! Don't do this!
-            ; ************************************
-            ;
-            ; jk, but joking aside...
-            ;
-            ; The goal is to display n mod objects from the mod to be remapped to the mod onto a single mod object of the remapped mod.
-            ;   Therefore we will have n sets of resources all mapping onto a single index (and same hash).
-            ;
-            ; Ideally, we would want all the sections to be within a single .ini file. The naive approach would be to create n sets of sections
-            ;   (not a single section, cuz you need to include the case of sections depending on other sections, which form a section caller/callee graph) 
-            ;    where the sections names are all unique. However, this approach will trigger a warning on GIMI (or any GIMI like importer) of multiple sections
-            ;   mapping to the same hash and only 1 of the mod objects will be displayed
-            ;
-            ; The next attempt would be to take advantage of GIMI's overlapping mod bug/feature from loading multiple mods of the same character
-            ;   Apart from the original .ini file, there would be n-1 newly generated .ini files (total of n .ini files). Each .ini file would uniquely
-            ;   display a single set of sections from the n sets of sections. The overlapping property from the bug/feature would allow for all the objects to be displayed.
-            ;
-            ; For now, we were lazy and just simply copied the original .ini file onto the generated .ini files, which results in the original mod to have overlapping copies.
-            ;  But since the mod used in all the .ini files are exactly the same, the user would not see the overlap (they may have some performance issues depending on the size of n. But
-            ;   usually remaps only merge 2 mod objects into a single mod object, which should not cause much of an issue)
-            ;   We could optimize the amount of space taken up by the newly generated .ini files, by only putting the necessary sections, but that is for another day...
-
-            [Constants]
-            global persist $swapvar = 0
-
-            [KeySwap]
-            condition = $active == 1
-            key = VK_DOWN
-            type = cycle
-            $swapvar = 0,1
-            $creditinfo = 0
-
-            ;RemapFixHideOrig -->[TextureOverrideKeqingBlend]
-            ;RemapFixHideOrig -->if $swapvar == 0
-            ;RemapFixHideOrig -->    vb1 = ResourceKeqingBlend.0
-            ;RemapFixHideOrig -->    handling = skip
-            ;RemapFixHideOrig -->    draw = 21916,0
-            ;RemapFixHideOrig -->else if $swapvar == 1
-            ;RemapFixHideOrig -->    vb1 = ResourceKeqingBlend.1
-            ;RemapFixHideOrig -->    handling = skip
-            ;RemapFixHideOrig -->    draw = 21916,0
-            ;RemapFixHideOrig -->endif
-            ;RemapFixHideOrig -->
-            ;RemapFixHideOrig -->[TextureOverrideKeqingBody]
-            ;RemapFixHideOrig -->hash = cbf1894b
-            ;RemapFixHideOrig -->match_first_index = 10824
-            ;RemapFixHideOrig -->run = CommandListKeqingBody
-            ;RemapFixHideOrig -->
-            ;RemapFixHideOrig -->[CommandListKeqingBody]
-            ;RemapFixHideOrig -->if $swapvar == 0
-            ;RemapFixHideOrig -->    ib = ResourceKeqingBodyIB.0
-            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingBodyDiffuse.0
-            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingBodyLightMap.0
-            ;RemapFixHideOrig -->    ps-t2 = ResourceKeqingBodyMetalMap.0
-            ;RemapFixHideOrig -->    ps-t3 = ResourceKeqingBodyShadowRamp.0
-            ;RemapFixHideOrig -->else if $swapvar == 1
-            ;RemapFixHideOrig -->    ib = ResourceKeqingBodyIB.3
-            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingBodyDiffuse.3
-            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingBodyLightMap.3
-            ;RemapFixHideOrig -->endif
-            ;RemapFixHideOrig -->
-            ;RemapFixHideOrig -->[TextureOverrideKeqingDress]
-            ;RemapFixHideOrig -->hash = cbf1894b
-            ;RemapFixHideOrig -->match_first_index = 48216
-            ;RemapFixHideOrig -->run = CommandListKeqingDress
-            ;RemapFixHideOrig -->
-            ;RemapFixHideOrig -->[CommandListKeqingDress]
-            ;RemapFixHideOrig -->if $swapvar == 0
-            ;RemapFixHideOrig -->    ib = ResourceKeqingDressIB.0
-            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingDressDiffuse.0
-            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingDressLightMap.0
-            ;RemapFixHideOrig -->    ps-t2 = ResourceKeqingDressMetalMap.0
-            ;RemapFixHideOrig -->    ps-t3 = ResourceKeqingDressShadowRamp.0
-            ;RemapFixHideOrig -->else if $swapvar == 1
-            ;RemapFixHideOrig -->    ib = ResourceKeqingDressIB.3
-            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingDressDiffuse.3
-            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingDressLightMap.3
-            ;RemapFixHideOrig -->endif
-            ;RemapFixHideOrig -->
-            [ResourceKeqingBlend.0]
-            type = Buffer
-            stride = 32
-            filename = ../Buffs/ISwearItsFor.buf
-
-            [ResourceKeqingBlend.1]
-            type = Buffer
-            stride = 32
-            filename = ../Buffs/SmallerHitboxes.buf
-
-            [ResourceKeqingDressDiffuse.0]
-            filename = CatGirl.dds
-
-            [ResourceKeqingDressDiffuse.3]
-            filename = Patootie.dds
-
-            [ResourceKeqingHeadDiffuse.0]
-            filename = Cutesy.dds
-
-            [ResourceKeqingHeadDiffuse.3]
-            filename = CutiePie.dds
-
-
-            ; --------------- Keqing Remap ---------------
-            ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
-            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
-
-            ; ***** KeqingOpulent *****
-            [TextureOverrideKeqingKeqingOpulentRemapBlend]
-            if $swapvar == 0
-                vb1 = ResourceKeqingKeqingOpulentRemapBlend.0
-                handling = skip
-                draw = 21916,0
-            else if $swapvar == 1
-                vb1 = ResourceKeqingKeqingOpulentRemapBlend.1
-                handling = skip
-                draw = 21916,0
-            endif
-
-            [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
-            hash = 7c6fc8c3
-            match_first_index = 19623
-            run = CommandListKeqingBodyKeqingOpulentRemapFix
-
-            [CommandListKeqingBodyKeqingOpulentRemapFix]
-            if $swapvar == 0
-                ib = ResourceKeqingBodyIB.0
-                ps-t0 = ResourceKeqingBodyDiffuse.0
-                ps-t1 = ResourceKeqingBodyLightMap.0
-                ps-t2 = ResourceKeqingBodyMetalMap.0
-                ps-t3 = ResourceKeqingBodyShadowRamp.0
-            else if $swapvar == 1
-                ib = ResourceKeqingBodyIB.3
-                ps-t0 = ResourceKeqingBodyDiffuse.3
-                ps-t1 = ResourceKeqingBodyLightMap.3
-            endif
-
-            [ResourceKeqingKeqingOpulentRemapBlend.0]
-            type = Buffer
-            stride = 32
-            filename = ../Buffs/ISwearItsForKeqingOpulentRemapBlend.buf
-
-            [ResourceKeqingKeqingOpulentRemapBlend.1]
-            type = Buffer
-            stride = 32
-            filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
-
-            ; *************************
-
-            ; --------------------------------------------
 
 
 :raw-html:`<br />`
@@ -6326,7 +7325,7 @@ The example below shows fixing entire mods to an older version of the game (befo
 .. note::
     The hashes, indices and the vertex group remaps for the Blend.buf files are all fixed to the older version of the game. (The fix basically travelled in time!)
 
-    To fix only a .ini file to a specific version of the game, go to :ref:`Fixing a .ini File to a Specific Version of the Game`
+    To fix only a .ini file to a specific version of the game, go to :ref:`Fixing a .ini File to a Specific Version of the Game <apiExamples:Fixing a .ini File to a Specific Version of the Game>`
 
 :raw-html:`<br />`
 
@@ -6349,6 +7348,7 @@ The example below shows fixing entire mods to an older version of the game (befo
             |
             +--> example.py
 
+
     :raw-html:`<br />`
 
     Assume below is the content of the .ini files
@@ -6361,6 +7361,7 @@ The example below shows fixing entire mods to an older version of the game (befo
             :linenos:
 
             [TextureOverrideAmberCNBlend]
+            hash = f35340d5
             vb1 = ResourceAmberCNBlend
             handling = skip
             draw = 21916,0
@@ -6379,6 +7380,8 @@ The example below shows fixing entire mods to an older version of the game (befo
             stride = 32
             filename = AmberCNBlend.buf
 
+
+
 .. dropdown:: Code
     :open:
     :animate: fade-in-slide-down
@@ -6389,29 +7392,44 @@ The example below shows fixing entire mods to an older version of the game (befo
 
         import AnimeGameRemap as AGR
 
-        fixService = AGR.RaidenBossFixService(verbose = True, keepBackups = False, undoOnly = True, types = ["BaronBunnyCN"], version = 4.0)
+        # fromVersion: the version the mods were made for, version: the version to fix the mods to
+        fixService = AGR.RemapServiceCLI(verbose = False, keepBackups = False, types = ["BaronBunnyCN"], version = "4.0", fromVersion = "4.0")
         fixService.fix()
+
 
 .. dropdown:: Result
     :animate: fade-in-slide-down
 
     Below contains the new content with the fix applied for the game version 4.0
 
-    .. dropdown:: File Strucuture
+    .. dropdown:: File Structure
         :animate: fade-in-slide-down
 
         .. code-block::
-            :emphasize-lines: 9
+            :emphasize-lines: 21
 
             AmberCN
             |
             +--> AmberCN.ini
             |
-            +--> AmberCNBlend.buf
-            |
             +--> AmberCNAmberRemapBlend.buf
             |
+            +--> AmberCNBlend.buf
+            |
+            +--> AmberCNFaceDiffuseRemapDL.dds
+            |
+            +--> AmberCNHeadDiffuseRemapDL.dds
+            |
+            +--> AmberCNHeadLightMapRemapDL.dds
+            |
+            +--> AmberCNHeadRemapDL.ib
+            |
+            +--> AmberCNPositionRemapDL.buf
+            |
+            +--> AmberCNTexcoordRemapDL.buf
+            |
             +--> example.py
+
 
     :raw-html:`<br />`
 
@@ -6425,6 +7443,7 @@ The example below shows fixing entire mods to an older version of the game (befo
             :linenos:
 
             [TextureOverrideAmberCNBlend]
+            hash = f35340d5
             vb1 = ResourceAmberCNBlend
             handling = skip
             draw = 21916,0
@@ -6443,17 +7462,16 @@ The example below shows fixing entire mods to an older version of the game (befo
             stride = 32
             filename = AmberCNBlend.buf
 
-
             ; --------------- AmberCN Remap ---------------
             ; AmberCN remapped by Albert Gold#2696 and NK#1321. If you used it to remap your AmberCN mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-            ; ***** Amber *****
-            [TextureOverrideAmberCNAmberRemapBlend]
-            vb1 = ResourceAmberCNAmberRemapBlend
-            handling = skip
-            draw = 21916,0
-
+            [TextureOverrideAmberCNHeadAmberRemapFix]
+            ib = ResourceAmberCNHeadIbRemapDL
+            ps-t1 = ResourceAmberCNHeadLightMapRemapDL
+            hash = 9976d124
+            match_first_index = 0
+            ps-t0 = ResourceAmberCNHeadDiffuseRemapDL
 
             [TextureOverrideAmberCNBodyAmberRemapFix]
             hash = 9976d124
@@ -6464,12 +7482,53 @@ The example below shows fixing entire mods to an older version of the game (befo
             ps-t2 = ResourceAmberCNBodyMetalMap
             ps-t3 = ResourceAmberCNBodyShadowRamp
 
+            [TextureOverrideAmberCNAmberRemapBlend]
+            hash = ca5bd26e
+            vb1 = ResourceAmberCNAmberRemapBlend
+            handling = skip
+            draw = 21916,0
+
+            [TextureOverrideAmberCNAmberRemapPositionRemapFix]
+            hash = caddc4c6
+            vb0 = ResourceAmberCNPositionRemapDL
+
+            [TextureOverrideAmberCNAmberRemapTexcoordRemapFix]
+            hash = e3047676
+            vb1 = ResourceAmberCNTexcoordRemapDL
+
+            [TextureOverrideAmberCNFaceAmberRemapFix]
+            hash = 1d064079
+            ps-t0 = ResourceAmberCNFaceDiffuseRemapDL
+
+            [ResourceAmberCNHeadDiffuseRemapDL]
+            filename = AmberCNHeadDiffuseRemapDL.dds
+
+            [ResourceAmberCNHeadLightMapRemapDL]
+            filename = AmberCNHeadLightMapRemapDL.dds
+
+            [ResourceAmberCNHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = AmberCNHeadRemapDL.ib
+
+            [ResourceAmberCNFaceDiffuseRemapDL]
+            filename = AmberCNFaceDiffuseRemapDL.dds
+
+            [ResourceAmberCNPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = AmberCNPositionRemapDL.buf
+
+            [ResourceAmberCNTexcoordRemapDL]
+            type = Buffer
+            stride = 12
+            filename = AmberCNTexcoordRemapDL.buf
 
             [ResourceAmberCNAmberRemapBlend]
             type = Buffer
             stride = 32
             filename = AmberCNAmberRemapBlend.buf
 
-            ; *****************
-
             ; ---------------------------------------------
+
+

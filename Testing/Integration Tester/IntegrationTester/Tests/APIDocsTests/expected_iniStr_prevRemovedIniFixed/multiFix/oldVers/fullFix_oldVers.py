@@ -5,9 +5,9 @@ from IntegrationTester.src.constants.ConfigKeys import ConfigKeys
 from IntegrationTester.src.Config import Config
 
 sys.path.insert(1, Config[ConfigKeys.SysPath])
-import src.FixRaidenBoss2 as FRB
+import FixRaidenBoss2 as FRB
 
 
 iniRunPath = FRB.FileService.parseOSPath(os.path.dirname(os.path.abspath(__file__)))
-fixService = FRB.RemapServiceCLI(path = iniRunPath, verbose = False, keepBackups = False, types = ["BaronBunnyCN"], version = 4.0)
+fixService = FRB.RemapServiceCLI(path = iniRunPath, verbose = False, keepBackups = False, types = ["BaronBunnyCN"], version = "4.0", fromVersion = "4.0")
 fixService.fix()

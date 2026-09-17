@@ -28,8 +28,7 @@ class ResRegCollectTest(BaseIniFileTest):
         self.createIniFile()
         self.createParser()
         self.createFixer()
-        self._iniFile._iniParser = self._parser
-        self._iniFile._iniFixer = self._fixer
+        self.useStrategies(parser = self._parser, fixer = self._fixer)
 
     # ====================== edit =======================================
 
@@ -234,13 +233,13 @@ endif
 [ResourceRaidenShogunRikaRemapBlend.0]
 type = Buffer
 stride = 32
-filename = ..\..\..\..\..\..\..\..\..\\2-BunnyRaidenShogun/RaidenShogunRikaRemapBlend.buf
+filename = ..\..\..\..\..\..\..\..\..\\2-BunnyRaidenShogun\RaidenShogunRikaRemapBlend.buf
 
 [ResourceEiBlendsHerRikaRemapBlenderInsteadOfHerSmoothie]
 type = Buffer
 stride = 32
 if $swapmain == 1
-\tfilename = M:\AnotherDrive/CuteLittleEiRikaRemapBlend.buf
+\tfilename = M:\AnotherDrive\CuteLittleEiRikaRemapBlend.buf
 else
 \trun = ResourceRaidenPuppetCommandResourceRikaRemapBlend
 endif
@@ -248,30 +247,18 @@ endif
 [ResourceRaidenPuppetCommandResourceRikaRemapBlend]
 type = Buffer
 stride = 32
-filename = Dont\\Use\If\Statements\Or\SubCommands\In\Resource/SectionsRikaRemapBlend.buf
+filename = .\Dont\\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRikaRemapBlend.buf
 
 [ResourceGIMINeedsResourcesToAllStartWithResourceRikaRemapBlend]
 type = Buffer
 stride = 32
-filename = ..\AAA\BBBB\CCCCCC/DDDDDRemapRikaRemapBlend.buf
+filename = .\..\AAA\BBBB\CCCCCC\DDDDDRemapRikaRemapBlend.buf
 
 ; --------------------------------------------"""
                     ]],
                     ["""
                      [boo]
-                     tao = 1""", 0, [
-                     """
-                     [boo]
-                     tao = 1
-
-; --------------- GI Remap ---------------
-; Mod remapped by Albert Gold#2696 and NK#1321. If you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
-; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
-
-
-
-; ----------------------------------------"""
-                     ]]
+                     tao = 1""", 0, []]
                  ]
 
         for test in tests:
@@ -279,16 +266,13 @@ filename = ..\AAA\BBBB\CCCCCC/DDDDDRemapRikaRemapBlend.buf
             expectedResourceCount = test[1]
             expectedIniTxt = test[2]
 
+            self.writeIniTxt(iniTxt)
             self._iniFile.clear()
-            self._iniFile._iniParser = self._parser
-            self._iniFile._iniFixer = self._fixer
-
-            self._iniFile.fileTxt = iniTxt
 
             self._iniFile.parse()
             resultFix = self._iniFile.fix()
 
-            resultResources = self._iniFile.resources
+            resultResources = self._iniFile.getResources()
 
             self.assertEqual(len(resultResources), expectedResourceCount)
 
@@ -551,13 +535,13 @@ endif
 [ResourceRaidenShogunRikaJenovaLifeRemapBlend.0]
 type = Buffer
 stride = 32
-filename = ..\..\..\..\..\..\..\..\..\\2-BunnyRaidenShogun/RaidenShogunRikaJenovaLifeRemapBlend.buf
+filename = ..\..\..\..\..\..\..\..\..\\2-BunnyRaidenShogun\RaidenShogunRikaJenovaLifeRemapBlend.buf
 
 [ResourceEiBlendsHerRikaJenovaLifeRemapBlenderInsteadOfHerSmoothie]
 type = Buffer
 stride = 32
 if $swapmain == 1
-\tfilename = M:\AnotherDrive/CuteLittleEiRikaJenovaLifeRemapBlend.buf
+\tfilename = M:\AnotherDrive\CuteLittleEiRikaJenovaLifeRemapBlend.buf
 else
 \trun = ResourceRaidenPuppetCommandResourceRikaJenovaLifeRemapBlend
 endif
@@ -565,23 +549,23 @@ endif
 [ResourceRaidenPuppetCommandResourceRikaJenovaLifeRemapBlend]
 type = Buffer
 stride = 32
-filename = Dont\\Use\If\Statements\Or\SubCommands\In\Resource/SectionsRikaJenovaLifeRemapBlend.buf
+filename = .\Dont\\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRikaJenovaLifeRemapBlend.buf
 
 [ResourceGIMINeedsResourcesToAllStartWithResourceRikaJenovaLifeRemapBlend]
 type = Buffer
 stride = 32
-filename = ..\AAA\BBBB\CCCCCC/DDDDDRemapRikaJenovaLifeRemapBlend.buf
+filename = .\..\AAA\BBBB\CCCCCC\DDDDDRemapRikaJenovaLifeRemapBlend.buf
 
 [ResourceRaidenShogunRikaJenovaDeathRemapBlend.0]
 type = Buffer
 stride = 32
-filename = ..\..\..\..\..\..\..\..\..\\2-BunnyRaidenShogun/RaidenShogunRikaJenovaDeathRemapBlend.buf
+filename = ..\..\..\..\..\..\..\..\..\\2-BunnyRaidenShogun\RaidenShogunRikaJenovaDeathRemapBlend.buf
 
 [ResourceEiBlendsHerRikaJenovaDeathRemapBlenderInsteadOfHerSmoothie]
 type = Buffer
 stride = 32
 if $swapmain == 1
-\tfilename = M:\AnotherDrive/CuteLittleEiRikaJenovaDeathRemapBlend.buf
+\tfilename = M:\AnotherDrive\CuteLittleEiRikaJenovaDeathRemapBlend.buf
 else
 \trun = ResourceRaidenPuppetCommandResourceRikaJenovaDeathRemapBlend
 endif
@@ -589,36 +573,12 @@ endif
 [ResourceRaidenPuppetCommandResourceRikaJenovaDeathRemapBlend]
 type = Buffer
 stride = 32
-filename = Dont\\Use\If\Statements\Or\SubCommands\In\Resource/SectionsRikaJenovaDeathRemapBlend.buf
+filename = .\Dont\\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRikaJenovaDeathRemapBlend.buf
 
 [ResourceGIMINeedsResourcesToAllStartWithResourceRikaJenovaDeathRemapBlend]
 type = Buffer
 stride = 32
-filename = ..\AAA\BBBB\CCCCCC/DDDDDRemapRikaJenovaDeathRemapBlend.buf
-
-[ResourceRaidenShogunBlend.0]
-type = Buffer
-stride = 32
-filename = ..\..\..\../../../../../../2-BunnyRaidenShogun\RaidenShogunBlend.buf
-
-[ResourceEiBlendsHerBlenderInsteadOfHerSmoothie]
-type = Buffer
-stride = 32
-if $swapmain == 1
-\tfilename = M:\AnotherDrive\CuteLittleEi.buf
-else
-\trun = RaidenPuppetCommandResource
-endif
-
-[RaidenPuppetCommandResource]
-type = Buffer
-stride = 32
-filename = ./Dont/Use\If/Statements\Or/SubCommands\In/Resource\Sections.buf
-
-[GIMINeedsResourcesToAllStartWithResource]
-type = Buffer
-stride = 32
-filename = ./../AAA/BBBB\CCCCCC\DDDDDRemapBlend.buf
+filename = .\..\AAA\BBBB\CCCCCC\DDDDDRemapRikaJenovaDeathRemapBlend.buf
 
 [ResourceRaidenShogunBlend.0]
 type = Buffer
@@ -648,19 +608,7 @@ filename = ./../AAA/BBBB\CCCCCC\DDDDDRemapBlend.buf
                     ]],
                     ["""
                      [boo]
-                     tao = 1""", 0, [
-                     """
-                     [boo]
-                     tao = 1
-
-; --------------- GI Remap ---------------
-; Mod remapped by Albert Gold#2696 and NK#1321. If you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
-; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
-
-
-
-; ----------------------------------------"""
-                     ]]
+                     tao = 1""", 0, []]
                  ]
 
         for test in tests:
@@ -668,16 +616,13 @@ filename = ./../AAA/BBBB\CCCCCC\DDDDDRemapBlend.buf
             expectedResourceCount = test[1]
             expectedIniTxt = test[2]
 
+            self.writeIniTxt(iniTxt)
             self._iniFile.clear()
-            self._iniFile._iniParser = self._parser
-            self._iniFile._iniFixer = self._fixer
-
-            self._iniFile.fileTxt = iniTxt
 
             self._iniFile.parse()
             resultFix = self._iniFile.fix()
 
-            resultResources = self._iniFile.resources
+            resultResources = self._iniFile.getResources()
             self.assertEqual(len(resultResources), expectedResourceCount)
 
             fixLen = len(resultFix)
@@ -787,7 +732,6 @@ filename = afile2.buf
 [ResourceRaidenBlend4]
 filename = afile3.buf
 
-
 ; --------------- Raiden Remap ---------------
 ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
@@ -835,15 +779,12 @@ filename = file2RikaRemapBlend.buf
             expectedResourceCount = test[1]
             expectedIniTxt = test[2]
 
+            self.writeIniTxt(iniTxt)
             self._iniFile.clear()
-            self._iniFile._iniParser = self._parser
-            self._iniFile._iniFixer = self._fixer
-
-            self._iniFile.fileTxt = iniTxt
 
             self._iniFile.parse()
             resultFix = self._iniFile.fix()
-            resultResources = self._iniFile.resources
+            resultResources = self._iniFile.getResources()
 
             self.assertEqual(len(resultResources), expectedResourceCount)
 
@@ -928,7 +869,7 @@ filename = BarbaraBodyLightMap.dds
 filename = BarbaraBodyLightMap2.dds
 
 [ResourceBarbaraBodyLightMap3]
-filename = BarbaraBodyLightMap3.dds""", 4, [
+filename = BarbaraBodyLightMap3.dds""", 1, [
 """
 [TextureOverrideRaidenHead]
 hash = 1bc3490d
@@ -1015,7 +956,7 @@ match_first_index = 12015
 if $v == 1
 \tib = ResourceBarbaraBodyIB
 \tps-t0 = ResourceBarbaraBodyDiffuse
-\tps-t1 = ResourceRikaNormalMap1RemapTex
+\tps-t1 = ResourceRikaNormalMapRemapTex
 \tps-t2 = ResourceBarbaraBodyMetalMap
 \tps-t3 = ResourceBarbaraBodyShadowRamp
 else
@@ -1024,7 +965,7 @@ endif
 
 [SubBody]
 if $x == 2
-\tps-t1 = ResourceRikaNormalMap2RemapTex
+\tps-t1 = ResourceRikaNormalMapRemapTex
 else if $x == 3
 \trun = SubSubBody
 else
@@ -1033,20 +974,11 @@ endif
 
 [SubSubBody]
 ib = null
-ps-t1 = ResourceRikaNormalMap3RemapTex
+ps-t1 = ResourceRikaNormalMapRemapTex
 run = NonExistentFunc
 
 [ResourceRikaNormalMapRemapTex]
 filename = RikaNormalMapRemapTex.dds
-
-[ResourceRikaNormalMap1RemapTex]
-filename = RikaNormalMap1RemapTex.dds
-
-[ResourceRikaNormalMap2RemapTex]
-filename = RikaNormalMap2RemapTex.dds
-
-[ResourceRikaNormalMap3RemapTex]
-filename = RikaNormalMap3RemapTex.dds
 
 ; --------------------------------------------"""
 ]]
@@ -1057,15 +989,12 @@ filename = RikaNormalMap3RemapTex.dds
             expectedResourceCount = test[1]
             expectedIniTxt = test[2]
 
+            self.writeIniTxt(iniTxt)
             self._iniFile.clear()
-            self._iniFile._iniParser = self._parser
-            self._iniFile._iniFixer = self._fixer
-
-            self._iniFile.fileTxt = iniTxt
 
             self._iniFile.parse()
             resultFix = self._iniFile.fix()
-            resultResources = self._iniFile.resources
+            resultResources = self._iniFile.getResources()
 
             self.assertEqual(len(resultResources), expectedResourceCount)
 

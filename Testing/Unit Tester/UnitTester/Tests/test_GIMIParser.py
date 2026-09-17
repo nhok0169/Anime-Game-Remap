@@ -1,4 +1,6 @@
+import gc
 import sys, os
+import weakref
 from ordered_set import OrderedSet
 
 from .baseIniFileTest import BaseIniFileTest
@@ -16,8 +18,12 @@ class GIMIParserTest(BaseIniFileTest):
 
         cls._parser = None
 
+    # includeKeyDefs = False leaves the 'hash' and 'match_first_index' lines themselves out of the
+    # editable ranges (IfContentPartColouring::getRanges' contract). So the RegNewVals on 'hash' below
+    # can never fire, and a section that goes on to define match_first_index ([DaDaIb2]) gets no edit
+    # at all -- the pure-Python edits ignored both, and this test used to expect that.
     def _getIbOnly(self, iterData: FRB.SectionIterData, modType: FRB.ModType, ini: FRB.IniFile):
-        result = iterData.colouring.getRanges(keysExists = {"hash": True, "match_first_index": False}, keyFilters = {"hash": lambda ind, val: modType.hashes.hasFrom(val, version = ini.version, nonVersionVals = {"type": "ib"})}, includeKeyDefs = False)
+        result = iterData.colouring.getRanges(keysExists = {"hash": True, "match_first_index": False}, keyFilters = {"hash": lambda ind, val: modType.hashes.hasFrom(val, version = ini.fromVersion, nonVersionVals = {"type": "ib"})}, includeKeyDefs = False)
         return result
 
     def createParser(self):
@@ -37,7 +43,7 @@ class GIMIParserTest(BaseIniFileTest):
     def create(self):
         self.createIniFile()
         self.createParser()
-        self._iniFile._iniParser = self._parser
+        self.useStrategies(parser = self._parser)
 
     def createNamedParser(self):
         self.create()
@@ -74,44 +80,44 @@ ps-t0 = ResourceRaidenTestDiffuseRemapDL
 run = CommandListRaidenShogunBlend
 handling = skip
 draw = 21916,0
+ps-t1 = ResourceRaidenTestLightMapRemapDL
+ib = null
 
 [CommandListRaidenShogunBlend]
 if $swapmain == 0
 \tif $swapvar == 0 && $swapvarn == 0
 \t\tvb1 = ResourceRaidenShogunBlend.0
 \t\tps-t1 = ResourceRaidenTestLightMapRemapDL
-\t\tib = null
 \telse
 \t\tvb1 = ResourceEiBlendsHerBlenderInsteadOfHerSmoothie
 \t\tps-t1 = ResourceRaidenTestLightMapRemapDL
-\t\tib = null
 \tendif
 else if $swapmain == 1
 \trun = SubSubTextureOverride
+\tps-t1 = ResourceRaidenTestLightMapRemapDL
 endif
 
 [SubSubTextureOverride]
 if $swapoffice == 0 && $swapglasses == 0
 \tvb1 = GIMINeedsResourcesToAllStartWithResource
 \tps-t1 = ResourceRaidenTestLightMapRemapDL
-\tib = null
 endif
 
 [TextureOverrideRaidenTexcoordRemapFix]
 vb0 = ResourceRaidenTestPositionRemapDL
 vb1 = ResourceRaidenTestTextureRemapDL
 
-[ResourceRaidenTestPositionRemapDL]
-filename = anotherBaseFile
-
-[ResourceRaidenTestTextureRemapDL]
-filename = someBaseFile
-
 [ResourceRaidenTestDiffuseRemapDL]
 filename = unknownBaseFile
 
 [ResourceRaidenTestLightMapRemapDL]
-filename = uniqueBaseFile""", 4]]
+filename = uniqueBaseFile
+
+[ResourceRaidenTestPositionRemapDL]
+filename = anotherBaseFile
+
+[ResourceRaidenTestTextureRemapDL]
+filename = someBaseFile""", 4]]
 
         for test in tests:
             iniTxt = test[0]
@@ -139,7 +145,7 @@ filename = uniqueBaseFile""", 4]]
             result = "\n\n".join(result)
 
             self.assertEqual(result, expected)
-            self.assertEqual(len(self._iniFile.fileDownloads), expectedDownloadCount)
+            self.assertEqual(len(self._iniFile.getFileDownloads()), expectedDownloadCount)
 
     def test_textureOverrideRootFoundByKVP_parsedDataFromIniTxt(self):
         tests = [
@@ -208,13 +214,12 @@ match_first_index = uryu uryu! Slap by Rosa...
 ps-t999 = DigitOverflow
 
 [DaDaIb]
-hash = Matsuribayashi-hen
+hash = Himatsubushi-hen
 ps-t2,147,483,647 = DigitUnderflow
 
 [DaDaIb2]
 hash = Himatsubushi-hen
 match_first_index = protocolSignalGenerator
-ps-t2,147,483,647 = DigitUnderflow
 
 [ResourceBernkastelTestPositionRemapDL]
 filename = anotherBaseFile
@@ -258,7 +263,7 @@ filename = uniqueBaseFile""", 4]]
             result = "\n\n".join(result)
 
             self.assertEqual(result, expected)
-            self.assertEqual(len(self._iniFile.fileDownloads), expectedDownloadCount)
+            self.assertEqual(len(self._iniFile.getFileDownloads()), expectedDownloadCount)
 
     # ====================================================================
     # ==================== structure / attributes ========================
@@ -411,8 +416,13 @@ filename = uniqueBaseFile""", 4]]
         # the reserved "download" component plus the download's own name.
         expected = [("", "blend"), ("", "texcoord"), ("", "body"), ("", "ib")]
         expected = [modObj for modObj in expected if modObj in self._parser.commandGraphs]
-        expected += [(FRB.IniGraphModObjKeywords.Download.value, name)
-                     for name in ["testPosition", "testTexture", "testDiffuse", "testLightMap"]]
+
+        # Download graphs come in the order the parse FOUND them (downloadResourceGraphs is an
+        # ordered map filled as the walk reaches each register), not the order of 'downloads'.
+        downloadGraphs = self._parser.downloadResourceGraphs
+        expected += [(FRB.IniGraphModObjKeywords.Download.value, self._parser.downloads[modObj][reg].name)
+                     for modObj in downloadGraphs for reg in downloadGraphs[modObj]]
+        self.assertEqual(len(expected), 8)
 
         self.compareList(list(graphs.keys()), expected)
 
@@ -452,7 +462,7 @@ filename = uniqueBaseFile""", 4]]
 
         self._iniFile.parse()
 
-        self.assertEqual(len(self._iniFile.fileDownloads), 1)
+        self.assertEqual(len(self._iniFile.getFileDownloads()), 1)
 
         graphs = self._parser.collectParseResult()[0].graphs
         downloadKeys = [modObj for modObj in graphs if modObj[0] == FRB.IniGraphModObjKeywords.Download.value]
@@ -481,5 +491,65 @@ filename = uniqueBaseFile""", 4]]
 
         graphs = self._parser.parse()[0].graphs
         self.compareList(list(graphs.keys()), list(self._parser.commandGraphs.keys()))
+
+    # ====================================================================
+    # ================= reused across IniFile.clear() ====================
+
+    # A parser REUSED across IniFile.clear() used to keep every graph it had built, and those graphs
+    # kept pybind11 wrappers for sections and parts the .ini file had freed. A wrapper outliving its
+    # object stays registered at that address, so the next object allocated there was cast back to
+    # the STALE wrapper. The symptom was an access violation in an unrelated test much later
+    # (test_GraphInherit); these tests pin the mechanism instead, which fails reliably.
+
+    def _parseRounds(self, rounds: int = 3):
+        self.setupIniTxt(self._defaultIniTxt)
+        self.createNamedParser()
+
+        for _ in range(rounds):
+            self.writeIniTxt(self._iniTxt)
+            self._iniFile.clear()
+            self._iniFile.parse()
+
+    def _countStaleSectionWrappers(self, tries: int = 500) -> int:
+        stale = 0
+        for _ in range(tries):
+            section = FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")]}, 0)], name = "s")
+            graph = FRB.IniSectionGraph({"s": section}, ["s"])
+
+            # The graph's keep-alive pins whatever wrapper pybind11 finds for this address. When
+            # that is not 'section' itself, 'section' is no longer kept alive by the graph.
+            if (graph.sections["s"] is not section):
+                stale += 1
+
+        return stale
+
+    def test_clear_releasesThePreviousParsesGraphs(self):
+        self._parseRounds(rounds = 1)
+
+        graphs = [self._parser.globalGraph, *self._parser.commandGraphs.values()]
+        downloadGraphs = self._parser.downloadResourceGraphs
+        graphs += [graph for regGraphs in downloadGraphs.values() for graph in regGraphs.values()]
+        graphs = [graph for graph in graphs if graph is not None]
+        self.assertGreater(len(graphs), 1)
+
+        refs = [weakref.ref(graph) for graph in graphs]
+        graphs = downloadGraphs = None
+
+        self._iniFile.clear()
+        gc.collect()
+
+        self.assertEqual([ref for ref in refs if ref() is not None], [])
+
+    def test_reusedAcrossClear_newSectionsGetTheirOwnWrappers(self):
+        self._parseRounds()
+        self.assertEqual(self._countStaleSectionWrappers(), 0)
+
+    def test_reusedAcrossClear_noStaleWrappersBeforeTheNextParse(self):
+        self._parseRounds()
+
+        # clear() frees the sections straight away -- the parser's graphs must already be gone
+        # then, not only once the next parse clears the parser.
+        self._iniFile.clear()
+        self.assertEqual(self._countStaleSectionWrappers(), 0)
 
     # ====================================================================

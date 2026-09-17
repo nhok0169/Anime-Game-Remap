@@ -59,8 +59,7 @@ class GIMIFixerTest(BaseIniFileTest):
         self.createIniFile()
         self.createParser()
         self.createFixer(**kwargs)
-        self._iniFile._iniParser = self._parser
-        self._iniFile._iniFixer = self._fixer
+        self.useStrategies(parser = self._parser, fixer = self._fixer)
 
     def parseAndFix(self):
         self._iniFile.parse()
@@ -106,11 +105,15 @@ class GIMIFixerTest(BaseIniFileTest):
         self.create(modsToFix = ["rika", "kyrie"])
         self.compareList(self._fixer.getModsToFix(), ["rika", "kyrie"])
 
-    def test_getModsToFix_noExplicitList_takenFromTheIniFilesModType(self):
+    def test_getModsToFix_noExplicitList_isEmpty(self):
         self.create()
 
-        expected = self._iniFile.availableType.getModsToFix()
-        self.compareList(self._fixer.getModsToFix(), list(expected))
+        # Only an explicit list names targets. A fixer bound to a C++ IniFile asks its fix context,
+        # and IniFileFixContext::modsToFix() is empty by design -- the pure-Python original read
+        # ModMappedAssets.fixTo, a set it never populated -- so IniFile::fix's own fixers are all
+        # given their targets explicitly.
+        self._iniFile.classify()
+        self.compareList(self._fixer.getModsToFix(), [])
 
     def test_getModsToFix_assignedAfterConstruction_isHonoured(self):
         self.create()
@@ -126,8 +129,8 @@ class GIMIFixerTest(BaseIniFileTest):
 
         result = self._fixer.getFix()
 
-        self.compareList(list(result.keys()), [self._iniFile.filePath.path])
-        self.assertIsInstance(result[self._iniFile.filePath.path], FRB.IniGraphGroup)
+        self.compareList(list(result.keys()), [self._iniFile.file])
+        self.assertIsInstance(result[self._iniFile.file], FRB.IniGraphGroup)
 
     def test_getFix_groupHoldsTheParsersCommandAndDownloadGraphs(self):
         self.create(modsToFix = ["rika"])
@@ -193,7 +196,7 @@ class GIMIFixerTest(BaseIniFileTest):
         self.create(modsToFix = ["rika"])
         result = self.parseAndFix()
 
-        path = self._iniFile.filePath.path
+        path = self._iniFile.file
         self.compareList(list(result.keys()), [path])
         self.assertIsInstance(result[path], str)
 
@@ -204,7 +207,7 @@ class GIMIFixerTest(BaseIniFileTest):
     def test_fix_boilerPlateIsBuiltInCppNotByTheIniFile(self):
         self.create(modsToFix = ["rika"])
         result = self.parseAndFix()
-        content = result[self._iniFile.filePath.path]
+        content = result[self._iniFile.file]
 
         # ``PyIniFixContext`` inherits ``RemapIniFixContext``'s boilerplate rather than forwarding
         # to ``IniFile.addFixBoilerPlate``, so this is the C++ text -- byte-identical to what the
@@ -214,32 +217,17 @@ class GIMIFixerTest(BaseIniFileTest):
         self.assertIn(f"; {side} {modTypeName} Remap {side}", content)
         self.assertIn("Albert Gold#2696", content)
 
-    def test_fix_theIniFilesOwnBoilerPlateIsNoLongerConsulted(self):
-        self.create(modsToFix = ["rika"])
-
-        # Replacing the .ini file's own boilerplate no longer changes what the fixer writes. This
-        # is the one deliberate behaviour change from making ``PyIniFixContext`` a
-        # ``RemapIniFixContext``: ``IniFile.addFixBoilerPlate`` is still there and still called by
-        # ``MultiModFixer``, but the fixer does not go through it.
-        self._iniFile.addFixBoilerPlate = lambda fix = "": "SHOULD-NOT-APPEAR"
-
-        result = self.parseAndFix()
-        content = result[self._iniFile.filePath.path]
-
-        self.assertNotIn("SHOULD-NOT-APPEAR", content)
-        self.assertIn("Albert Gold#2696", content)
-
-    def test_fix_marksTheIniFileAsFixed(self):
+    def test_fix_leavesIsFixedToClassification(self):
+        # The pure-Python fixer set ini._isFixed = True. On the C++ IniFile the flag means
+        # "classification DETECTED an existing fix" and belongs to IniFile.classify -- a fixer
+        # writing it would conflate the two meanings, so it deliberately does not (see
+        # BaseIniFixer's own note in core).
         self.create(modsToFix = ["rika"])
         self._iniFile.parse()
 
-        # Cleared by hand first: the default .ini text already contains this software's own
-        # RemapBlend sections, so classify() legitimately flags it as already-fixed before a fixer
-        # ever runs.
-        self._iniFile._isFixed = False
-
+        self._iniFile.isFixed = False
         self._fixer.fix()
-        self.assertTrue(self._iniFile._isFixed)
+        self.assertFalse(self._iniFile.isFixed)
 
     def test_fix_populatesGraphGroups(self):
         self.create(modsToFix = ["rika"])
@@ -277,7 +265,7 @@ class GIMIFixerTest(BaseIniFileTest):
         touched = self._sectionsInTheOriginalTxt(self._touchedSections())
         self.assertTrue(touched)
 
-        content = self._iniFile.fix(hideOrig = True)[self._iniFile.filePath.path]
+        content = self._iniFile.fix(hideOrig = True)[self._iniFile.file]
 
         # Every command section the fix rewrote is commented out inside it, so the original mod
         # stops being displayed and only the remap shows.
@@ -289,10 +277,10 @@ class GIMIFixerTest(BaseIniFileTest):
         self._iniFile.parse()
 
         touched = self._touchedSections()
-        untouched = self._sectionsInTheOriginalTxt(set(self._iniFile.sectionIfTemplates) - touched)
+        untouched = self._sectionsInTheOriginalTxt(set(self._iniFile.getIfTemplates()) - touched)
         self.assertTrue(untouched)
 
-        content = self._iniFile.fix(hideOrig = True)[self._iniFile.filePath.path]
+        content = self._iniFile.fix(hideOrig = True)[self._iniFile.file]
 
         # A fix can carry a register over verbatim, still pointing at one of the original mod's own
         # resource sections -- commenting those out would break the fix itself.
@@ -312,7 +300,7 @@ class GIMIFixerTest(BaseIniFileTest):
         sections = self._sectionsInTheOriginalTxt(set(graph.sections.keys()))
         self.assertTrue(sections)
 
-        content = self._iniFile.fix(hideOrig = True)[self._iniFile.filePath.path]
+        content = self._iniFile.fix(hideOrig = True)[self._iniFile.file]
 
         for sectionName in sections:
             self.assertNotRegex(content, self._hiddenHeaderPattern(sectionName))
@@ -336,7 +324,7 @@ class GIMIFixerTest(BaseIniFileTest):
         # Several fixers chain over one .ini file -- one per mod type it was classified as -- and
         # only the last of them may rewrite the file. See IniFixingContext.isLastModType.
         content = self._fixer.fix(hideOrig = True, context = FRB.IniFixingContext(isLastModType = False))
-        content = content[self._iniFile.filePath.path]
+        content = content[self._iniFile.file]
 
         self.assertNotIn(FRB.IniKeywords.HideOriginalComment.value, content)
 
@@ -358,41 +346,31 @@ class GIMIFixerTest(BaseIniFileTest):
         context.isFirstModType = True
         self.assertTrue(context.isFirstModType)
 
+    def _backupFile(self):
+        # Where IniFile.disableIni puts the backup: beside the .ini file, prefixed, as a .txt
+        folder, name = os.path.split(self._iniFile.file)
+        return os.path.join(folder, f"{FRB.FilePrefixes.BackupFilePrefix.value}{os.path.splitext(name)[0]}.txt")
+
     def test_fix_keepBackup_isSkippedWhenThisIsNotTheFirstModType(self):
         self.create(modsToFix = ["rika"])
         self._iniFile.parse()
-        self._pretendTheIniFileIsOnDisk()
-
-        disabled = []
-        self._iniFile.disIni = lambda makeCopy = False: disabled.append(makeCopy)
 
         # Only the first mod type's fixer moves the .ini file aside; a later one would be backing up
-        # a file the first pass already moved. See IniFixingContext.isFirstModType.
+        # a file the first pass already moved. See IniFixingContext.isFirstModType. The .ini file is
+        # a real one on disk here, so the backup is checked for where it would land.
         self._fixer.fix(keepBackup = True, fixOnly = True,
                         context = FRB.IniFixingContext(isFirstModType = False, isLastModType = True))
 
-        self.compareList(disabled, [])
-
-    def _pretendTheIniFileIsOnDisk(self):
-        # keepBackup only does anything for an .ini file that already exists, and the fixer asks
-        # Python's own os.path.exists for that. Narrowed to this .ini file's path so the rest of the
-        # fix still sees the real filesystem.
-        realExists = os.path.exists
-        iniPath = self._iniFile.filePath.path
-        self.patch("os.path.exists", side_effect = lambda path: True if path == iniPath else realExists(path))
+        self.assertFalse(os.path.exists(self._backupFile()))
 
     def test_fix_keepBackup_isTakenWhenThisIsTheFirstModType(self):
         self.create(modsToFix = ["rika"])
         self._iniFile.parse()
-        self._pretendTheIniFileIsOnDisk()
-
-        disabled = []
-        self._iniFile.disIni = lambda makeCopy = False: disabled.append(makeCopy)
 
         self._fixer.fix(keepBackup = True, fixOnly = True,
                         context = FRB.IniFixingContext(isFirstModType = True, isLastModType = True))
 
-        self.assertEqual(len(disabled), 1)
+        self.assertTrue(os.path.exists(self._backupFile()))
 
     def test_fix_defaultContext_saysThisIsTheLastModType(self):
         # A fixer driven directly is the only one, so hideOrig has to work with no context given.
@@ -402,7 +380,7 @@ class GIMIFixerTest(BaseIniFileTest):
         self._iniFile.parse()
 
         touched = self._sectionsInTheOriginalTxt(self._touchedSections())
-        content = self._fixer.fix(hideOrig = True)[self._iniFile.filePath.path]
+        content = self._fixer.fix(hideOrig = True)[self._iniFile.file]
 
         for sectionName in touched:
             self.assertRegex(content, self._hiddenHeaderPattern(sectionName))
@@ -419,7 +397,7 @@ class GIMIFixerTest(BaseIniFileTest):
 
     def test_fix_withoutHideOrig_nothingIsCommentedOut(self):
         self.create(modsToFix = ["rika"])
-        content = self.parseAndFix()[self._iniFile.filePath.path]
+        content = self.parseAndFix()[self._iniFile.file]
 
         self.assertNotIn(FRB.IniKeywords.HideOriginalComment.value, content)
 

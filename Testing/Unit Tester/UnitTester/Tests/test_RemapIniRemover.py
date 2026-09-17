@@ -42,7 +42,6 @@ class RemapIniRemoverTest(BaseIniFileTest):
     def create(self):
         self.createIniFile()
         self.createRemover()
-        self._iniFile._iniRemover = self._remover
 
     def removeFrom(self, iniTxt: str, context = None) -> str:
         """
@@ -219,7 +218,7 @@ class RemapIniRemoverTest(BaseIniFileTest):
 
     def test_iniFileRemoveFix_ignoresModType(self):
         # IniFile runs exactly one remover, which makes it the LAST one -- and the last one sweeps.
-        # This is what keeps IniFile._removeFix doing what the pure-Python original always did.
+        # This is what keeps IniFile.removeFix doing what the pure-Python original always did.
         self.create()
 
         iniTxt = ("[TextureOverrideFooRemapBlend]\n"
@@ -229,7 +228,7 @@ class RemapIniRemoverTest(BaseIniFileTest):
                   "filename = FooRemapBlend.buf")
 
         self._iniFile.fileTxt = iniTxt
-        self.assertEqual(self._iniFile._removeFix(writeBack = False), "")
+        self.assertEqual(self._iniFile.removeFix(writeBack = False), "")
 
     def test_hideOriginalComments_prefixStripped(self):
         # A fix applied with hideOrig comments the ORIGINAL mod out with this prefix. Removing the
@@ -256,11 +255,18 @@ class RemapIniRemoverTest(BaseIniFileTest):
         self.assertEqual(result, "[TextureOverrideFooBlend]\nvb1 = ResourceFooBlend\n\n")
 
     def test_afterRemoval_iniNoLongerMarkedFixed(self):
+        # On the C++ IniFile, isFixed means "classification DETECTED a fix", and classification owns
+        # it: a remover's context deliberately does not write it (IniRemoveContext::setIsFixed). What
+        # clears it is the removal writing the file back, which drops the read cache the detection
+        # came from -- the path a real run takes.
         self.create()
 
-        self._iniFile._isFixed = True
-        self.removeFrom("; --------------- Raiden Boss Fix ---------------\n\nFDFDFDFDF\n\n; -----------------------------------------------")
-        self.assertEqual(self._iniFile.isFixed, False)
+        self._iniFile.classify()
+        self.assertTrue(self._iniFile.isFixed)
+
+        self._iniFile.getIfTemplates()
+        self._remover.remove(writeBack = True)
+        self.assertFalse(self._iniFile.isFixed)
 
     def test_iniFileAttribute_isTheFileGiven(self):
         self.create()

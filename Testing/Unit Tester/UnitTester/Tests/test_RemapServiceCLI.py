@@ -158,10 +158,15 @@ class RemapServiceCLITest(BaseUnitTest):
         self.assertEqual(set(implied.service.defaultModTypeIds), {int(FRB.ModTypeId.Raiden)})
 
     def test_versionAndDownloadModeConvert(self):
-        cli = self.makeCLI(version = "4.0", downloadMode = "always")
+        cli = self.makeCLI(version = "4.0", fromVersion = "3.7", downloadMode = "always")
 
         self.assertFalse(cli.hasErrorsBeforeFix)
+
+        # Two versions since the split: 'version' is the one fixed TO (it picks the fixer row) and
+        # 'fromVersion' the one the mods were written for (the parser row, hashes and indices).
+        self.assertIsNotNone(cli.service.toVersion)
         self.assertIsNotNone(cli.service.fromVersion)
+        self.assertNotEqual(str(cli.service.toVersion), str(cli.service.fromVersion))
         # The binding hands the mode back as the enum's string VALUE, not as the Python enum
         #   member -- core has its own DownloadMode enum and the two are mapped by value.
         self.assertEqual(cli.service.downloadMode, FRB.DownloadMode.Always.value)

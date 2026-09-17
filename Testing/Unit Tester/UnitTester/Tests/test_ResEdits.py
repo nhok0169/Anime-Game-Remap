@@ -121,8 +121,12 @@ class ResEditsTest(BaseUnitTest):
         ini = self._ini()
         graphGroups = self._groups()
 
-        MyCreate("resourceRemapTexAdd", (0, "", "remapTex")).buildResources({"Made": "Made"}, None, ini, graphGroups,
-                                                                             "rika")
+        # Held in a variable, not built as a temporary: a Python-built section is kept alive BY THE EDIT
+        # that built it, and the graph points at that section. With a temporary, the edit could be
+        # collected before the graph is read -- reading freed memory, which passed or failed depending
+        # on which tests ran first.
+        edit = MyCreate("resourceRemapTexAdd", (0, "", "remapTex"))
+        edit.buildResources({"Made": "Made"}, None, ini, graphGroups, "rika")
 
         graph = graphGroups[0].graphs[("", "remapTex")]
         self.compareList(sorted(graph.sections.keys()), ["Made"])
@@ -203,17 +207,27 @@ class ResEditsTest(BaseUnitTest):
         self.assertIs(edit.texCreator, texCreator)
         self.assertIs(edit.fixFunc, fixFunc)
 
-    def test_texCreate_numbersSuccessiveTexturesApart(self):
+    def test_texCreate_oneNamePerMod(self):
+        edit = FRB.TexCreate((0, "", "remapTex"), "NormalMap", FRB.TexCreator(512, 512))
+
+        # Everything one TexCreate makes comes out of one TexCreator, so a second name for the same
+        # mod would only mean a second identical file -- the name is minted once per mod and reused.
+        first = edit.getFixResourceName("ignored", None, "rika")
+        second = edit.getFixResourceName("ignored", None, "rika")
+
+        self.assertEqual(first, second)
+        self.assertEqual(first, FRB.IniNamingTools.getRemapTexResourceName("RikaNormalMap"))
+
+    def test_texCreate_numbersSuccessiveModsApart(self):
         edit = FRB.TexCreate((0, "", "remapTex"), "NormalMap", FRB.TexCreator(512, 512))
 
         first = edit.getFixResourceName("ignored", None, "rika")
-        second = edit.getFixResourceName("ignored", None, "rika")
-        third = edit.getFixResourceName("ignored", None, "rika")
+        second = edit.getFixResourceName("ignored", None, "kyrie")
+        third = edit.getFixResourceName("ignored", None, "satoko")
 
-        self.assertNotEqual(first, second)
-        self.assertNotEqual(second, third)
         self.assertEqual(first, FRB.IniNamingTools.getRemapTexResourceName("RikaNormalMap"))
-        self.assertEqual(second, FRB.IniNamingTools.getRemapTexResourceName("RikaNormalMap1"))
+        self.assertEqual(second, FRB.IniNamingTools.getRemapTexResourceName("KyrieNormalMap1"))
+        self.assertEqual(third, FRB.IniNamingTools.getRemapTexResourceName("SatokoNormalMap2"))
 
     def test_texCreate_clearResetsTheCounter(self):
         edit = FRB.TexCreate((0, "", "remapTex"), "NormalMap", FRB.TexCreator(512, 512))
@@ -238,8 +252,12 @@ class ResEditsTest(BaseUnitTest):
         ini = self._ini()
         graphGroups = self._groups()
 
-        FRB.TexCreate((0, "", "remapTex"), "NormalMap", FRB.TexCreator(512, 512)).buildResources(
-            {"ResourceRikaNormalMapRemapTex": "ResourceRikaNormalMapRemapTex"}, None, ini, graphGroups, "rika")
+        # Held in a variable, not built as a temporary: a Python-built section is kept alive BY THE EDIT
+        # that built it, and the graph points at that section. With a temporary, the edit could be
+        # collected before the graph is read -- reading freed memory, which passed or failed depending
+        # on which tests ran first.
+        edit = FRB.TexCreate((0, "", "remapTex"), "NormalMap", FRB.TexCreator(512, 512))
+        edit.buildResources({"ResourceRikaNormalMapRemapTex": "ResourceRikaNormalMapRemapTex"}, None, ini, graphGroups, "rika")
 
         graph = graphGroups[0].graphs[("", "remapTex")]
         self.compareList(sorted(graph.sections.keys()), ["ResourceRikaNormalMapRemapTex"])

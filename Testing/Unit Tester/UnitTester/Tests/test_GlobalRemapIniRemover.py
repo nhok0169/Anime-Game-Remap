@@ -36,7 +36,6 @@ class GlobalRemapIniRemoverTest(BaseIniFileTest):
     def create(self):
         self.createIniFile()
         self.createRemover()
-        self._iniFile._iniRemover = self._remover
 
     def removeFrom(self, iniTxt: str, context = None) -> str:
         """
@@ -146,8 +145,15 @@ class GlobalRemapIniRemoverTest(BaseIniFileTest):
         self.assertIn("[ResourceFooBlend]", result)
 
     def test_afterRemoval_iniNoLongerMarkedFixed(self):
+        # On the C++ IniFile, isFixed means "classification DETECTED a fix", and classification owns
+        # it: a remover's context deliberately does not write it (IniRemoveContext::setIsFixed). What
+        # clears it is the removal writing the file back, which drops the read cache the detection
+        # came from -- the path a real run takes.
         self.create()
 
-        self._iniFile._isFixed = True
-        self.removeFrom("; --------------- Raiden Boss Fix ---------------\n\nFDFDFDFDF\n\n; -----------------------------------------------")
-        self.assertEqual(self._iniFile.isFixed, False)
+        self._iniFile.classify()
+        self.assertTrue(self._iniFile.isFixed)
+
+        self._iniFile.getIfTemplates()
+        self._remover.remove(writeBack = True)
+        self.assertFalse(self._iniFile.isFixed)

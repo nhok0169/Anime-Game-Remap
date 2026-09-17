@@ -34,8 +34,7 @@ class GraphGroupRemapTest(BaseIniFileTest):
         self.createIniFile()
         self.createParser()
         self.createFixer()
-        self._iniFile._iniParser = self._parser
-        self._iniFile._iniFixer = self._fixer
+        self.useStrategies(parser = self._parser, fixer = self._fixer)
 
     # ====================== edit =======================================
 
@@ -66,6 +65,10 @@ class GraphGroupRemapTest(BaseIniFileTest):
             remaps = test[0]
 
             self._fixer.graphGroupEdits = remaps
+
+            # A fix writes the .ini file back, so every case starts again from the original text.
+            self.writeIniTxt(self._iniTxt)
+            self._iniFile.clear()
 
             self._iniFile.parse()
             temp = self._iniFile.fix()

@@ -28,12 +28,202 @@ class ResGroupCollectTest(BaseIniFileTest):
         self.createIniFile()
         self.createParser()
         self.createFixer()
-        self._iniFile._iniParser = self._parser
-        self._iniFile._iniFixer = self._fixer
+        self.useStrategies(parser = self._parser, fixer = self._fixer)
 
     # ====================== edit =======================================
 
+    # ---------------------------------------------------------------------------------------------
+    # The cases below reach ONE TexCreate from two or more call sites of one mod (a register bound
+    # twice, or in several branches). TexCreate names one created texture per mod (commit 607648f2),
+    # so every one of those call sites renames to the SAME section -- and until 2026-09-17
+    # ResGroupCollect kept only the last call site per section name: the mod's own 'headPs0 = Resource2'
+    # line survived, and an unnamed '[]' section was written. Each call site now forms its own groups,
+    # rewritten to the one created texture of each group. Kept apart from the other cases because they
+    # were pinned as expected failures while that bug was open.
+    # ---------------------------------------------------------------------------------------------
+
+    TexCreateSharedCases = {3, 4}
+    TexCreateSharedCasesWithRemaps = {4, 5, 6}
+
     def test_editDifferentInis_resGroupCollected(self):
+        self._checkEditDifferentInis(lambda ind: ind not in self.TexCreateSharedCases)
+
+    def test_editDifferentInis_oneTexCreateManyCallSites_resGroupCollected(self):
+        self._checkEditDifferentInis(lambda ind: ind in self.TexCreateSharedCases)
+
+    def test_editDifferentInisWithRemaps_resGroupCollected(self):
+        self._checkEditDifferentInisWithRemaps(lambda ind: ind not in self.TexCreateSharedCasesWithRemaps)
+
+    def test_editDifferentInisWithRemaps_oneTexCreateManyCallSites_resGroupCollected(self):
+        self._checkEditDifferentInisWithRemaps(lambda ind: ind in self.TexCreateSharedCasesWithRemaps)
+
+    # A RESOURCE reached from two or more call sites, and a resource replicated for more than one group,
+    # with no TexCreate involved -- the buffer half of the bug above. The first case left the '$x == 1'
+    # branch's own 'vb1 = Resource1' unremapped; the second wrote the second replica as an empty '[]'.
+    def test_editOneResourceManyCallSites_everyCallSiteRewritten(self):
+        self._checkEditBuffersOnly([
+["""
+[TextureOverrideRaidenBlend]
+if $x == 1
+    vb1 = Resource1
+else
+    vb1 = Resource1
+endif
+
+[TextureOverrideRaidenHead]
+headPs0 = Resource2
+
+[Resource1]
+filename = someBlend.buf
+
+[Resource2]
+filename = somefile.buf
+""", 2, ["""
+[TextureOverrideRaidenBlend]
+if $x == 1
+    vb1 = Resource1
+else
+    vb1 = Resource1
+endif
+
+[TextureOverrideRaidenHead]
+headPs0 = Resource2
+
+[Resource1]
+filename = someBlend.buf
+
+[Resource2]
+filename = somefile.buf
+
+; --------------- Raiden Remap ---------------
+; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+[TextureOverrideRaidenBlend]
+if $x == 1
+\tif $x == 1
+\t\tvb1 = Resource1RikaRemapBlend0_0_0_0
+\tendif
+else
+\tif !($x == 1)
+\t\tvb1 = Resource1RikaRemapBlend0_0_0_1
+\tendif
+endif
+
+[TextureOverrideRaidenHead]
+if $x == 1
+\theadPs0 = Resource2RikaRemapBlend0_0_1_0
+endif
+if !($x == 1)
+\theadPs0 = Resource2RikaRemapBlend0_0_1_1
+endif
+
+[Resource1RikaRemapBlend0_0_0_0]
+filename = someRikaRemapBlend_B8g.buf
+
+[Resource1RikaRemapBlend0_0_0_1]
+filename = someRikaRemapBlend_HIj.buf
+
+[Resource2RikaRemapBlend0_0_1_0]
+filename = somefileRikaRemapBlend_Fz6.buf
+
+[Resource2RikaRemapBlend0_0_1_1]
+filename = somefileRikaRemapBlend_HHn.buf
+
+; --------------------------------------------"""]]
+])
+
+    def test_editResourceInSeveralGroups_everyReplicaWritten(self):
+        self._checkEditBuffersOnly([
+["""
+[TextureOverrideRaidenBlend]
+vb1 = Resource1
+
+[TextureOverrideRaidenHead]
+headPs0 = Resource2
+headPs0 = Resource4
+
+[Resource1]
+filename = someBlend.buf
+
+[Resource2]
+filename = somefile.buf
+
+[Resource4]
+filename = somefile2.buf
+""", 2, ["""
+[TextureOverrideRaidenBlend]
+vb1 = Resource1
+
+[TextureOverrideRaidenHead]
+headPs0 = Resource2
+headPs0 = Resource4
+
+[Resource1]
+filename = someBlend.buf
+
+[Resource2]
+filename = somefile.buf
+
+[Resource4]
+filename = somefile2.buf
+
+; --------------- Raiden Remap ---------------
+; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+[TextureOverrideRaidenBlend]
+if 1
+\tvb1 = Resource1RikaRemapBlend0_0_0_0
+endif
+if 1
+\tvb1 = Resource1RikaRemapBlend0_0_0_1
+endif
+
+[TextureOverrideRaidenHead]
+if 1
+\theadPs0 = Resource2RikaRemapBlend0_0_1_0
+endif
+if 1
+\theadPs0 = Resource4RikaRemapBlend0_0_1_0
+endif
+
+[Resource1RikaRemapBlend0_0_0_0]
+filename = someRikaRemapBlend_B8g.buf
+
+[Resource1RikaRemapBlend0_0_0_1]
+filename = someRikaRemapBlend_HIj.buf
+
+[Resource2RikaRemapBlend0_0_1_0]
+filename = somefileRikaRemapBlend_Fz6.buf
+
+[Resource4RikaRemapBlend0_0_1_0]
+filename = somefile2RikaRemapBlend_Fz6.buf
+
+; --------------------------------------------"""]]
+])
+
+    def _checkEditBuffersOnly(self, tests):
+        self.create()
+        self._fixer.graphGroupEdits = [FRB.ResGroupCollect(["OG"],
+                                                           {(0, "", "remapBlend"): {(0, "head", ""): "headVb1", (0, "body", ""): "bodyVb1", (0, "", "blend"): "vb1"},
+                                                            (0, "", "remapNormalTex"): {(0, "head", ""): "headPs0"}},
+                                                           {(0, "", "remapBlend"): {"OG": FRB.RemapBlendReplace((0, "", "remapBlend"))},
+                                                            (0, "", "remapNormalTex"): {"OG": FRB.RemapBlendReplace((0, "", "remapNormalTex"))}},
+                                                           {"OG": FRB.IniGroupedResBuilder(FRB.RemapIniGroupedResource, args = ["testResGroup"])},
+                                                           id = 0)]
+
+        for iniTxt, expectedResourceCount, expectedIniTxt in tests:
+            self.clearHashStates()
+            self.writeIniTxt(iniTxt)
+            self._iniFile.clear()
+
+            self._iniFile.parse()
+            resultFix = list(self._iniFile.fix().values())
+            self.assertEqual(len(self._iniFile.getGroupedResources()), expectedResourceCount)
+            self.assertEqual(resultFix, expectedIniTxt)
+
+    def _checkEditDifferentInis(self, keepCase):
         self.create()
         self._fixer.graphGroupEdits = [FRB.ResGroupCollect(["OG"],
                                                            {(0, "", "remapBlend"): {(0, "head", ""): "headVb1", (0, "body", ""): "bodyVb1", (0, "", "blend"): "vb1"},
@@ -75,7 +265,6 @@ headVb1 = Resource1
 [Resource1]
 filename = someBlend.buf
 
-
 ; --------------- Raiden Remap ---------------
 ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
@@ -109,7 +298,6 @@ filename = someBlend.buf
 
 [Resource2]
 filename = somefile.buf
-
 
 ; --------------- Raiden Remap ---------------
 ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
@@ -182,7 +370,6 @@ filename = someBlend2.buf
 key = 4
 filename = somefile2.buf
 
-
 ; --------------- Raiden Remap ---------------
 ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
@@ -209,10 +396,10 @@ if 1
 \theadPs0 = ResourceRikaNormalMapRemapTex0_0_1_1
 endif
 if 1
-\theadPs0 = ResourceRikaNormalMap1RemapTex0_0_1_0
+\theadPs0 = ResourceRikaNormalMapRemapTex0_0_1_2
 endif
 if 1
-\theadPs0 = ResourceRikaNormalMap1RemapTex0_0_1_1
+\theadPs0 = ResourceRikaNormalMapRemapTex0_0_1_3
 endif
 
 [Resource1RikaRemapBlend0_0_0_0]
@@ -234,14 +421,14 @@ filename = someRikaRemapBlend2_HIj.buf
 [ResourceRikaNormalMapRemapTex0_0_1_0]
 filename = RikaNormalMapRemapTex_Fz6.dds
 
-[ResourceRikaNormalMap1RemapTex0_0_1_0]
-filename = RikaNormalMap1RemapTex_Fz6.dds
-
 [ResourceRikaNormalMapRemapTex0_0_1_1]
 filename = RikaNormalMapRemapTex_HHn.dds
 
-[ResourceRikaNormalMap1RemapTex0_0_1_1]
-filename = RikaNormalMap1RemapTex_HHn.dds
+[ResourceRikaNormalMapRemapTex0_0_1_2]
+filename = RikaNormalMapRemapTex_If0.dds
+
+[ResourceRikaNormalMapRemapTex0_0_1_3]
+filename = RikaNormalMapRemapTex_G24.dds
 
 ; --------------------------------------------"""]],
 
@@ -346,41 +533,40 @@ filename = someBlend3.buf
 key = 6
 filename = somefile3.buf
 
-
 ; --------------- Raiden Remap ---------------
 ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
 [TextureOverrideRaidenBlend]
 if $x > 10
-\tif $y == 8 && ($x > 10) && $x != 8
+\tif $y == 8 && !($x <= 10)
 \t\tvb1 = Resource1RikaRemapBlend0_0_0_0
 \tendif
 else if $x >= 5
-\tif ($x >= 5) && ($x <= 6)
+\tif $x <= 6 && $x <= 10 && $x >= 5
 \t\tvb1 = Resource3RikaRemapBlend0_0_0_0
 \tendif
 \tif $x == 8
 \t\tvb1 = Resource3RikaRemapBlend0_0_0_1
 \tendif
-\tif $y == 8 && ($x >= 5) && ($x <= 10) && $x != 8
+\tif !($x == 8) && $y == 8 && $x <= 10 && $x >= 5
 \t\tvb1 = Resource3RikaRemapBlend0_0_0_2
 \tendif
 else
-\tif $x < 5
+\tif $x <= 10 && !($x >= 5)
 \t\tvb1 = Resource5RikaRemapBlend0_0_0_0
 \tendif
-\tif $y == 8 && ($x < 5) && $x != 8
+\tif $y == 8 && $x <= 10 && !($x >= 5)
 \t\tvb1 = Resource5RikaRemapBlend0_0_0_1
 \tendif
 endif
 
 [TextureOverrideRaidenHead]
 if $x <= 6
-\tif ($x >= 5) && ($x <= 6)
+\tif $x <= 6 && $x <= 10 && $x >= 5
 \t\theadPs0 = ResourceRikaNormalMapRemapTex0_0_1_0
 \tendif
-\tif $x < 5
+\tif $x <= 10 && !($x >= 5)
 \t\theadPs0 = ResourceRikaNormalMapRemapTex0_0_1_1
 \tendif
 endif
@@ -388,7 +574,7 @@ endif
 [TextureOverrideRaiden2Head]
 if $x == 8
 \tif $x == 8
-\t\theadPs0 = ResourceRikaNormalMap1RemapTex0_0_1_0
+\t\theadPs0 = ResourceRikaNormalMapRemapTex0_0_1_2
 \tendif
 else
 \trun = TextureOverrideRaiden3Head
@@ -396,14 +582,14 @@ endif
 
 [TextureOverrideRaiden3Head]
 if $y == 8
-\tif $y == 8 && ($x > 10) && $x != 8
-\t\theadPs0 = ResourceRikaNormalMap2RemapTex0_0_1_0
+\tif $y == 8 && !($x <= 10)
+\t\theadPs0 = ResourceRikaNormalMapRemapTex0_0_1_3
 \tendif
-\tif $y == 8 && ($x >= 5) && ($x <= 10) && $x != 8
-\t\theadPs0 = ResourceRikaNormalMap2RemapTex0_0_1_1
+\tif !($x == 8) && $y == 8 && $x <= 10 && $x >= 5
+\t\theadPs0 = ResourceRikaNormalMapRemapTex0_0_1_4
 \tendif
-\tif $y == 8 && ($x < 5) && $x != 8
-\t\theadPs0 = ResourceRikaNormalMap2RemapTex0_0_1_2
+\tif $y == 8 && $x <= 10 && !($x >= 5)
+\t\theadPs0 = ResourceRikaNormalMapRemapTex0_0_1_5
 \tendif
 endif
 
@@ -434,20 +620,20 @@ filename = someRikaRemapBlend2_NHd.buf
 [ResourceRikaNormalMapRemapTex0_0_1_0]
 filename = RikaNormalMapRemapTex_Fz6.dds
 
-[ResourceRikaNormalMap1RemapTex0_0_1_0]
-filename = RikaNormalMap1RemapTex_Fz6.dds
-
-[ResourceRikaNormalMap2RemapTex0_0_1_0]
-filename = RikaNormalMap2RemapTex_Fz6.dds
-
 [ResourceRikaNormalMapRemapTex0_0_1_1]
 filename = RikaNormalMapRemapTex_HHn.dds
 
-[ResourceRikaNormalMap2RemapTex0_0_1_1]
-filename = RikaNormalMap2RemapTex_HHn.dds
+[ResourceRikaNormalMapRemapTex0_0_1_2]
+filename = RikaNormalMapRemapTex_If0.dds
 
-[ResourceRikaNormalMap2RemapTex0_0_1_2]
-filename = RikaNormalMap2RemapTex_If0.dds
+[ResourceRikaNormalMapRemapTex0_0_1_3]
+filename = RikaNormalMapRemapTex_G24.dds
+
+[ResourceRikaNormalMapRemapTex0_0_1_4]
+filename = RikaNormalMapRemapTex_BsT.dds
+
+[ResourceRikaNormalMapRemapTex0_0_1_5]
+filename = RikaNormalMapRemapTex_PjK.dds
 
 ; --------------------------------------------"""]],
 
@@ -518,7 +704,6 @@ filename = someBlend2.buf
 key = 4
 filename = somefile2.buf
 
-
 ; --------------- Raiden Remap ---------------
 ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
@@ -542,22 +727,20 @@ endif
 
 ; --------------------------------------------"""]]
 ]
-        
+
+        tests = [test for ind, test in enumerate(tests) if keepCase(ind)]
         for test in tests:
             self.clearHashStates()
             iniTxt = test[0]
             expectedResourceCount = test[1]
             expectedIniTxt = test[2]
 
+            self.writeIniTxt(iniTxt)
             self._iniFile.clear()
-            self._iniFile._iniParser = self._parser
-            self._iniFile._iniFixer = self._fixer
-
-            self._iniFile.fileTxt = iniTxt
 
             self._iniFile.parse()
             resultFix = self._iniFile.fix()
-            resultResources = self._iniFile.resources
+            resultResources = self._iniFile.getGroupedResources()
 
             self.assertEqual(len(resultResources), expectedResourceCount)
 
@@ -571,7 +754,7 @@ endif
 
                 self.assertEqual(currentResultFix, currentExpectedFix)
 
-    def test_editDifferentInisWithRemaps_resGroupCollected(self):
+    def _checkEditDifferentInisWithRemaps(self, keepCase):
         self.create()
         self._fixer.graphGroupEdits = [FRB.ResGroupCollect(["OG", "Semi", "Full"],
                                                            {(0, "", "remapBlend"): {(0, "head", ""): "headVb1", (0, "body", ""): "bodyVb1", (0, "", "blend"): "vb1"},
@@ -586,9 +769,8 @@ endif
                                                              "Semi": FRB.IniGroupedResBuilder(FRB.RemapIniGroupedResource, args = ["SemitestResGroup"]),
                                                              "Full": FRB.IniGroupedResBuilder(FRB.RemapIniGroupedResource, args = ["FulltestResGroup"])},
                                                              trackKeys = True,
-                                                             keysToTrack = {"OG": {"hash"},
-                                                                            "Semi": {"hash"},
-                                                                            "Full": {"hash"}},
+                                                             keysToTrack = {(0, "", "remapBlend"): {(0, "head", ""): {"hash"}, (0, "body", ""): {"hash"}, (0, "", "blend"): {"hash"}},
+                                                                            (0, "", "remapNormalTex"): {(0, "head", ""): {"hash"}}},
                                                              remaps = {(0, "head", ""): {"Semi": (0, "Semi", "headGone", lambda name: name + "Semi"),
                                                                                          "Full": (0, "Full", "headGone", lambda name: name + "Full")},
                                                                        (0, "body", ""): {"Full": (0, "Full", "bodyGone", lambda name: name + "Full")},
@@ -636,7 +818,6 @@ headVb1 = Resource1
 [Resource1]
 filename = someBlend.buf
 
-
 ; --------------- Raiden Remap ---------------
 ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
@@ -673,7 +854,6 @@ filename = someBlend.buf
 
 [Resource2]
 filename = somefile.buf
-
 
 ; --------------- Raiden Remap ---------------
 ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
@@ -718,7 +898,6 @@ filename = someBlend.buf
 
 [Resource2]
 filename = somefile.buf
-
 
 ; --------------- Raiden Remap ---------------
 ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
@@ -815,7 +994,6 @@ filename = someBlend2.buf
 key = 4
 filename = somefile2.buf
 
-
 ; --------------- Raiden Remap ---------------
 ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
@@ -829,10 +1007,10 @@ if 1
 \theadPs0 = ResourceRikaNormalMapRemapTex0_1_1_1
 endif
 if 1
-\theadPs0 = ResourceRikaNormalMap1RemapTex0_1_1_0
+\theadPs0 = ResourceRikaNormalMapRemapTex0_1_1_2
 endif
 if 1
-\theadPs0 = ResourceRikaNormalMap1RemapTex0_1_1_1
+\theadPs0 = ResourceRikaNormalMapRemapTex0_1_1_3
 endif
 
 [TextureOverrideRaidenHeadFull]
@@ -844,10 +1022,10 @@ if 1
 \theadPs0 = ResourceRikaNormalMapRemapTex0_2_1_1
 endif
 if 1
-\theadPs0 = ResourceRikaNormalMap1RemapTex0_2_1_0
+\theadPs0 = ResourceRikaNormalMapRemapTex0_2_1_2
 endif
 if 1
-\theadPs0 = ResourceRikaNormalMap1RemapTex0_2_1_1
+\theadPs0 = ResourceRikaNormalMapRemapTex0_2_1_3
 endif
 
 [TextureOverrideRaidenBlendFull]
@@ -884,14 +1062,14 @@ filename = someRikaRemapBlend2_HIj.buf
 [ResourceRikaNormalMapRemapTex0_0_1_0]
 filename = RikaNormalMapRemapTex_Fz6.dds
 
-[ResourceRikaNormalMap1RemapTex0_0_1_0]
-filename = RikaNormalMap1RemapTex_Fz6.dds
-
 [ResourceRikaNormalMapRemapTex0_0_1_1]
 filename = RikaNormalMapRemapTex_HHn.dds
 
-[ResourceRikaNormalMap1RemapTex0_0_1_1]
-filename = RikaNormalMap1RemapTex_HHn.dds
+[ResourceRikaNormalMapRemapTex0_0_1_2]
+filename = RikaNormalMapRemapTex_If0.dds
+
+[ResourceRikaNormalMapRemapTex0_0_1_3]
+filename = RikaNormalMapRemapTex_G24.dds
 
 [Resource1RikaRemapBlend0_1_0_0]
 key = 1
@@ -912,14 +1090,14 @@ filename = someRikaRemapBlend2_JmC.buf
 [ResourceRikaNormalMapRemapTex0_1_1_0]
 filename = RikaNormalMapRemapTex_OOZ.dds
 
-[ResourceRikaNormalMap1RemapTex0_1_1_0]
-filename = RikaNormalMap1RemapTex_OOZ.dds
-
 [ResourceRikaNormalMapRemapTex0_1_1_1]
 filename = RikaNormalMapRemapTex_FbM.dds
 
-[ResourceRikaNormalMap1RemapTex0_1_1_1]
-filename = RikaNormalMap1RemapTex_FbM.dds
+[ResourceRikaNormalMapRemapTex0_1_1_2]
+filename = RikaNormalMapRemapTex_9c.dds
+
+[ResourceRikaNormalMapRemapTex0_1_1_3]
+filename = RikaNormalMapRemapTex_K6N.dds
 
 [Resource1RikaRemapBlend0_2_0_0]
 key = 1
@@ -940,14 +1118,14 @@ filename = someRikaRemapBlend2_HWh.buf
 [ResourceRikaNormalMapRemapTex0_2_1_0]
 filename = RikaNormalMapRemapTex_Mnb.dds
 
-[ResourceRikaNormalMap1RemapTex0_2_1_0]
-filename = RikaNormalMap1RemapTex_Mnb.dds
-
 [ResourceRikaNormalMapRemapTex0_2_1_1]
 filename = RikaNormalMapRemapTex_N2i.dds
 
-[ResourceRikaNormalMap1RemapTex0_2_1_1]
-filename = RikaNormalMap1RemapTex_N2i.dds
+[ResourceRikaNormalMapRemapTex0_2_1_2]
+filename = RikaNormalMapRemapTex_C+F.dds
+
+[ResourceRikaNormalMapRemapTex0_2_1_3]
+filename = RikaNormalMapRemapTex_MXX.dds
 
 ; --------------------------------------------"""]],
 
@@ -1008,7 +1186,6 @@ filename = someBlend2.buf
 key = 4
 filename = somefile2.buf
 
-
 ; --------------- Raiden Remap ---------------
 ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
@@ -1020,7 +1197,7 @@ if 1
 \theadPs0 = ResourceRikaNormalMapRemapTex0_1_1_0
 endif
 if 1
-\theadPs0 = ResourceRikaNormalMap1RemapTex0_1_1_0
+\theadPs0 = ResourceRikaNormalMapRemapTex0_1_1_1
 endif
 
 [TextureOverrideRaidenHeadFull]
@@ -1030,7 +1207,7 @@ if 1
 \theadPs0 = ResourceRikaNormalMapRemapTex0_2_1_0
 endif
 if 1
-\theadPs0 = ResourceRikaNormalMap1RemapTex0_2_1_0
+\theadPs0 = ResourceRikaNormalMapRemapTex0_2_1_1
 endif
 
 [TextureOverrideRaidenBlendFull]
@@ -1055,8 +1232,8 @@ filename = someRikaRemapBlend_HIj.buf
 [ResourceRikaNormalMapRemapTex0_0_1_0]
 filename = RikaNormalMapRemapTex_Fz6.dds
 
-[ResourceRikaNormalMap1RemapTex0_0_1_0]
-filename = RikaNormalMap1RemapTex_Fz6.dds
+[ResourceRikaNormalMapRemapTex0_0_1_1]
+filename = RikaNormalMapRemapTex_HHn.dds
 
 [Resource1RikaRemapBlend0_1_0_0]
 key = 1
@@ -1069,8 +1246,8 @@ filename = someRikaRemapBlend_JmC.buf
 [ResourceRikaNormalMapRemapTex0_1_1_0]
 filename = RikaNormalMapRemapTex_OOZ.dds
 
-[ResourceRikaNormalMap1RemapTex0_1_1_0]
-filename = RikaNormalMap1RemapTex_OOZ.dds
+[ResourceRikaNormalMapRemapTex0_1_1_1]
+filename = RikaNormalMapRemapTex_FbM.dds
 
 [Resource1RikaRemapBlend0_2_0_0]
 key = 1
@@ -1083,8 +1260,8 @@ filename = someRikaRemapBlend_HWh.buf
 [ResourceRikaNormalMapRemapTex0_2_1_0]
 filename = RikaNormalMapRemapTex_Mnb.dds
 
-[ResourceRikaNormalMap1RemapTex0_2_1_0]
-filename = RikaNormalMap1RemapTex_Mnb.dds
+[ResourceRikaNormalMapRemapTex0_2_1_1]
+filename = RikaNormalMapRemapTex_N2i.dds
 
 ; --------------------------------------------"""]],
 
@@ -1199,7 +1376,6 @@ filename = someBlend3.buf
 key = 6
 filename = somefile3.buf
 
-
 ; --------------- Raiden Remap ---------------
 ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
@@ -1220,10 +1396,10 @@ endif
 
 [TextureOverrideRaiden3HeadSemi]
 if $y == 8
-\tif $y == 8 && ($x > 10) && $x != 8
+\tif $y == 8 && !($x <= 10)
 \t\theadPs0 = ResourceRikaNormalMapRemapTex0_1_1_0
 \tendif
-\tif $y == 8 && ($x < 5) && $x != 8
+\tif $y == 8 && $x <= 10 && !($x >= 5)
 \t\theadPs0 = ResourceRikaNormalMapRemapTex0_1_1_1
 \tendif
 endif
@@ -1244,10 +1420,10 @@ endif
 
 [TextureOverrideRaiden3HeadFull]
 if $y == 8
-\tif $y == 8 && ($x > 10) && $x != 8
+\tif $y == 8 && !($x <= 10)
 \t\theadPs0 = ResourceRikaNormalMapRemapTex0_2_1_0
 \tendif
-\tif $y == 8 && ($x < 5) && $x != 8
+\tif $y == 8 && $x <= 10 && !($x >= 5)
 \t\theadPs0 = ResourceRikaNormalMapRemapTex0_2_1_1
 \tendif
 endif
@@ -1255,14 +1431,14 @@ endif
 [TextureOverrideRaidenBlendFull]
 hash = blend
 if $x > 10
-\tif $y == 8 && ($x > 10) && $x != 8
+\tif $y == 8 && !($x <= 10)
 \t\tvb1 = Resource1RikaRemapBlend0_2_0_0
 \tendif
 else if $x >= 5
 \thash = peepee
 \tvb1 = Resource3
 else
-\tif $y == 8 && ($x < 5) && $x != 8
+\tif $y == 8 && $x <= 10 && !($x >= 5)
 \t\tvb1 = Resource5RikaRemapBlend0_2_0_0
 \tendif
 endif
@@ -1312,6 +1488,7 @@ filename = RikaNormalMapRemapTex_N2i.dds
 
 ; --------------------------------------------"""]]
 ]
+        tests = [test for ind, test in enumerate(tests) if keepCase(ind)]
         sameTopology = [False, True]
 
         for fixSameTopology in sameTopology:
@@ -1323,15 +1500,12 @@ filename = RikaNormalMapRemapTex_N2i.dds
                 expectedResourceCount = test[1]
                 expectedIniTxt = test[2]
 
+                self.writeIniTxt(iniTxt)
                 self._iniFile.clear()
-                self._iniFile._iniParser = self._parser
-                self._iniFile._iniFixer = self._fixer
-
-                self._iniFile.fileTxt = iniTxt
 
                 self._iniFile.parse()
                 resultFix = self._iniFile.fix()
-                resultResources = self._iniFile.resources
+                resultResources = self._iniFile.getGroupedResources()
 
                 self.assertEqual(len(resultResources), expectedResourceCount)
 

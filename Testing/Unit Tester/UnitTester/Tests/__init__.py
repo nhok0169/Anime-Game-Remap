@@ -48,6 +48,8 @@ from .test_BaseIniFixer import BaseIniFixerTest
 from .test_GIMIParser import GIMIParserTest
 from .test_IniBuilders import IniParseBuilderTest, IniFixBuilderTest, IniRemoveBuilderTest
 from .test_StrategyOverrides import StrategyOverridesTest
+from .test_GIMICharBuilders import GIMICharBuildersTest
+from .test_GIMIComponentBuilders import GIMIComponentBuildersTest
 from .test_GIMISectionClassifier import GIMISectionClassifierTest
 from .test_BaseIniParser import BaseIniParserTest
 from .test_GraphGroupRemap import GraphGroupRemapTest
@@ -177,4 +179,6 @@ __all__ += ["IniGraphGroupTest"]
 __all__ += ["BaseIniParserTest", "GIMISectionClassifierTest"]
 __all__ += ["IniParseBuilderTest", "IniFixBuilderTest", "IniRemoveBuilderTest"]
 __all__ += ["StrategyOverridesTest"]
+__all__ += ["GIMICharBuildersTest"]
+__all__ += ["GIMIComponentBuildersTest"]
 __all__ += ["BaseIniFixerTest"]

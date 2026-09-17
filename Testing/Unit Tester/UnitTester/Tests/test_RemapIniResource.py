@@ -62,6 +62,24 @@ class RemapIniDownloadTest(BaseUnitTest):
         rid = FRB.RemapIniDownload("C:/mods/EiRemap", "a.dds", download)
         self.assertIsInstance(rid, FRB.RemapIniResource)
 
+    def test_fix_withFixFunc_statsTheCallbackRecordsAreKept(self):
+        # The callback used to be handed a COPY of the stats, so everything it recorded was lost
+        # and the copy-back after it copied back nothing
+        seen = []
+
+        def fixFunc(resource, downloadStats):
+            seen.append(resource.srcPath)
+            downloadStats.addHit(resource.srcPath)
+            return False
+
+        download = FRB.FileDownload("http://example.com/a.dds", "a.dds")
+        rid = FRB.RemapIniDownload(self.tmpPath, "a.dds", download, fixFunc = fixFunc)
+        downloadStats = FRB.CachedFileStats()
+
+        self.assertFalse(rid.fix(downloadStats))
+        self.assertEqual(seen, [rid.srcPath])
+        self.compareSet(downloadStats.hit, {rid.srcPath})
+
     def test_fix_realEndToEndDownload(self):
         src = self._makeSrcFile("src.txt", "some content")
         dstFolder = os.path.join(self.tmpPath, "dst")

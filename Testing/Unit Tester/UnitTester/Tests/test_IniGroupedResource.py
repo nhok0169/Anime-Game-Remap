@@ -49,6 +49,20 @@ class IniGroupedResourceTest(BaseUnitTest):
         self.assertTrue(result)
         self.assertEqual(calls, ["blendGroup"])
 
+    def test_fixFunc_readsBackTheSameCallable(self):
+        def fixFunc(group):
+            return True
+
+        g = FRB.IniGroupedResource("blendGroup", fixFunc = fixFunc)
+        self.assertIs(g.fixFunc, fixFunc)
+
+        g.fixFunc = None
+        self.assertIsNone(g.fixFunc)
+        self.assertFalse(bool(g.fix()))
+
+        g.fixFunc = fixFunc
+        self.assertIs(copy.deepcopy(g).fixFunc, fixFunc)
+
     # ================================================
     # ================ resources dict ================
     # (real ResGroupCollect-style usage: tuple keys, placeholder tuple values)

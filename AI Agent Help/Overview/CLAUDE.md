@@ -850,6 +850,35 @@ usually means a non-owning wrapper outlived its C++ object and stayed in `pybind
 The probe for that whole family is one line --- build a fresh object and ask whether you get your own
 wrapper back. See Architecture's keep-alive section, and Testing's note on the `.ini` fixture classes.
 
+**52. MERGING A SPAWNED TASK'S WORKTREE BACK: DIFF AGAINST THE MAIN CHECKOUT, NOT AGAINST THE
+BRANCH POINT (2026-09-17).** A background task gets a worktree carrying the working tree AS IT WAS
+when it was spawned. If anything else lands in the main checkout meanwhile --- another spawned task,
+you, the maintainer --- then `git status` inside that worktree lists ITS work and YOURS together, and
+copying its files back wholesale silently reverts whatever arrived after it branched. Two tasks
+spawned from one session hit this the same afternoon: the second worktree still contained the
+`renewStrategies()` test workaround that the first had DELETED from main, so taking its test files
+whole would have resurrected a workaround for an already-fixed bug --- and the suite would still have
+been green, because the workaround works.
+
+The procedure that costs two minutes:
+
+- `diff -q` each candidate file between the worktree and the main checkout's CURRENT copy. Files that
+  compare equal are not theirs to bring (mine included `PyBlendEdit.cpp` and a core test that both
+  sessions had inherited unchanged).
+- Take only the files their task owned, and for each one grep for the names of anything that changed
+  in main while they worked (`renewStrategies` here) before copying.
+- **The guides need the same treatment.** Both sessions edited `AI Agent Help/Testing/CLAUDE.md` from
+  different bases; the merge was to keep main's newer paragraph and splice in only their new section,
+  never to copy the file.
+- Then rebuild and run the suite. A merge that compiles proves nothing about which version of a
+  paragraph survived.
+
+**And committing a change set of this size needs the argument list chunked**: `git add` with ~1000
+paths raises `FileNotFoundError: [WinError 206] The filename or extension is too long` from
+`CreateProcess`, having staged nothing. The repo has over a thousand Integration Tester goldens, so
+any mass `add`, `checkout --` or `rm --cached` hits it. Chunk the paths (100 per call) inside the
+Python script that trap 6 of the top-level `CLAUDE.md` already tells you to use for path-list work.
+
 <br>
 
 ## Operating norms

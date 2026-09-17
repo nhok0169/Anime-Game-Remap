@@ -36,7 +36,7 @@ these were found by counting the log lines rather than reading the summary. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Verifying".
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is fifty short habits, none of
+feature or bug request here: the habits that pay" first.** It is fifty-two short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -303,6 +303,19 @@ Two consequences, both the opposite of what this file used to say:
   only the credit header. That is the stub, not a bug. Check
   `ls "Anime Game Remap (for all users)/api/src/cpp/core/src/data/IniFixData/"` before concluding
   anything --- the list grows, and this paragraph will go stale the same way the last one did.
+
+**THE UNIT TESTER IS GREEN ON BOTH OPERATING SYSTEMS NOW, AND "THE BASELINE HAS 7 ERRORS" IS DEAD
+ADVICE (2026-09-17).** Windows: **2288 tests, 0 failures, 0 errors**. Linux: the same **2288**, 0
+errors, **11** failures, all of them test-side assumptions older than this work (10 assert a Windows
+path literal, which POSIX reads as relative; 1 is the open `IfTemplateTree` question). The seven
+`baseIniFileTest.py` classes that had run **zero** tests since the pure-Python `IniFile` was deleted
+run again, so **any error is yours**, and "a change only those classes cover is unverified" no longer
+holds. Two things to know before writing a test that needs an `.ini` file: it is a REAL temporary file
+with a runtime `ModType` passed through `overrideModTypes` and the strategy injected via
+`CppStrategyOverrides` (assigning `_iniParser` is gone with the pure-Python class), and a
+Python-built parser must not be reused across `IniFile.clear()`. See
+[Testing](AI%20Agent%20Help/Testing/CLAUDE.md)'s "The `.ini` fixture classes run on the C++ `IniFile`",
+which also lists the behaviours whose expectations moved on purpose.
 
 **The Integration Tester works again and its goldens are CURRENT C++ output (2026-09-17)** --- regenerated
 on Linux after its fixtures gained real hashes (the C++ parsers match by hash, so the old hash-less

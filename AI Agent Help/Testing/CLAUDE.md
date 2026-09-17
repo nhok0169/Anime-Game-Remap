@@ -597,7 +597,17 @@ re-verify rather than assuming stale entries are still accurate**, in either dir
 > and the C++ `IniClassifier` (see "The `.ini` fixture classes run on the C++ `IniFile`" further
 > down), and the two `expectedFailure`s that box used to carry are gone --- the `ResGroupCollect`
 > bug they pinned is fixed. **Anything red is yours.**
-> Linux has not been re-measured since the box below; expect its Windows-path assertions to remain.
+>
+> **Linux, same day, same commit: the same 2288 tests, 0 errors, 11 failures**, every one of them a
+> test-side assumption that predates this work --- **10** assert a Windows path literal
+> (`self.assertEqual(r.srcPath..., "C:/mods/shared/EiBlend.buf")`, which POSIX reads as a RELATIVE
+> path and prefixes with the launch directory) in `test_IniResource`, `test_IniFixResourceModel`,
+> `test_RemapBlendResource`, `test_RemapTexAddResource`, `test_BaseResEdit` and `test_ResEdits`, and
+> the 11th is the open `test_IfTemplateTree.test_nestedAndElifBranches_multiLevelTree` question below.
+> The two Linux failures the box further down lists as stale (`texCreate_numbersSuccessiveTexturesApart`
+> and `versionAndDownloadModeConvert`) are gone, and so are its 7 errors. **The two platforms now run
+> the same NUMBER of tests, which is the first thing to check** --- a Linux count below Windows means
+> registration aborted, not that fewer tests exist.
 >
 > **Previous baseline — verified 2026-09-06: 2005 tests, 0 failures, 7 errors, all from ONE cause.**
 > **Re-verified 2026-09-08: 2038 tests, 0 failures, still exactly these same 7 errors and the

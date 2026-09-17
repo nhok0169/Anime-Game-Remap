@@ -32,6 +32,11 @@ RemoveAllFolder = "*"
 BuildFolder = "cbuild"
 APITopBuildFolderPath = os.path.join(PathToProject, BuildFolder)
 
+# the environment variable that --buildLocation falls back to, so a machine whose checkout sits on a slow
+#   drive (an external USB disk, in the case that prompted this) can keep its build tree elsewhere without
+#   passing the option on every run
+BuildLocationEnvVar = "AGREMAP_BUILD_LOCATION"
+
 PreBuildFolder = "cebuild"
 APITopPreBuildFolderPath = os.path.join(PathToProject, PreBuildFolder)
 

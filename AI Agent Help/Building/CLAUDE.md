@@ -242,6 +242,12 @@ file by hand.
   at the repo root — these are safe to delete and let the next build regenerate
   (`-b /`, `-pir /`, `-p /` to do that explicitly; `*` instead of `/` nukes every suffixed
   variant too).
+- `-bl`/`--buildLocation <folder>` puts `cbuild<suffix>` in another folder instead of the repo
+  root, falling back to the `AGREMAP_BUILD_LOCATION` environment variable (2026-09-17). `-b` then
+  removes build folders *there*. Only the build tree moves; `cext`/`cebuild` stay at the root. A
+  build folder that is a symlink or junction is emptied by `-b` and the link kept. Point it at a
+  NEW location: CMake records its build folder's path, so a tree copied to the new place by hand
+  will not configure.
 - `-e core` builds only the C++ core as a static lib for external C++ consumption (no Python
   bindings) — not what you want for a normal Python-visible feature.
 - `-s`/`--skipBuild` reinstalls without recompiling; `-i`/`--installKeep` preserves the previous
@@ -383,10 +389,13 @@ Things to know about the junction:
 * Nothing else changed: APIBuilder, CMake and ninja all see the same `E:\...\cbuild` path, so the
   `CMakeCache.txt`'s recorded directory still matches. **Moving a build tree any other way (copying
   it to a new path and pointing at that) breaks the cache**; that is why it is a junction.
-* **`main.py -b /` (and `-b *`) now ABORT** with `OSError: Cannot call rmtree on a symbolic link`
-  -- Python 3.8+ `shutil.rmtree` refuses a junction (tested on 3.9.3), and APIBuilder's
-  `is_symlink()` guard does not recognise one. Nothing is deleted. To wipe the tree and keep it on
-  the SSD, empty `C:\Users\3dark\AGRemapBuild\cbuild` yourself and run `main.py` without `-b`.
+* **`main.py -b /` empties the junction's target and keeps the junction** (2026-09-17). Before
+  that it aborted with `OSError: Cannot call rmtree on a symbolic link` -- Python 3.8+
+  `shutil.rmtree` refuses a junction, and APIBuilder's `is_symlink()` guard did not recognise one
+  (a real symlink was silently skipped instead).
+* **The junction was the stopgap; `-bl` / `AGREMAP_BUILD_LOCATION` is the option now.** It is the
+  one to use in a new worktree or a fresh clone, where no junction exists and `cbuild` would land
+  on the USB drive again.
 * On a machine where `cbuild` is a plain folder, none of this applies -- check with
   `Get-Item <repo>\cbuild | Select LinkType,Target` before reasoning about disk speed.
 

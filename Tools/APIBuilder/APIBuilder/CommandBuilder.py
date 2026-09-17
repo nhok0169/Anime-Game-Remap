@@ -2,7 +2,7 @@ import sys
 import os
 import re
 
-from .constants.Paths import UtilitiesPath, APIPyFolderPath, APITopBuildFolderPath, APITopPreInstallFolderPath, APITopPreBuildFolderPath, PathToProject, PreBuildFolder, PreInstallFolder, BuildFolder, RemoveAllFolder
+from .constants.Paths import UtilitiesPath, APIPyFolderPath, APITopBuildFolderPath, APITopPreInstallFolderPath, APITopPreBuildFolderPath, PathToProject, PreBuildFolder, PreInstallFolder, BuildFolder, RemoveAllFolder, BuildLocationEnvVar
 from .constants.CommandOpts import CommandOpts, ShortCommandOpts
 from .constants.BuildEnv import BuildEnv
 
@@ -41,9 +41,12 @@ By default, will use the {BuildEnv.Dev} environment mode""")
 """)
         self._argParser.add_argument(ShortCommandOpts.BuildRemove.value, CommandOpts.BuildRemove.value, action='store', type=str, help=f"""The specific build folder to remove. By default, will not remove any build folders. Below are the following accepted syntax:
 
-{exampleFolderSuffix}/ : Deletes the prebuild folder at {exampleBuildFolderPath}. Note that the name the build folder suffix name cannot contain whitespace or slashes.
-/ : Deletes the prebuild folder at {APITopBuildFolderPath}
-* : Deletes all the prebuild folders at {PathToProject}                                                                       
+{exampleFolderSuffix}/ : Deletes the build folder at {exampleBuildFolderPath}. Note that the name the build folder suffix name cannot contain whitespace or slashes.
+/ : Deletes the build folder at {APITopBuildFolderPath}
+* : Deletes all the build folders at {PathToProject}
+
+The folders above are under the build location, which is {PathToProject} unless {CommandOpts.BuildLocation} (or the {BuildLocationEnvVar} environment variable) says otherwise.
+A build folder that is a symbolic link or a directory junction has its contents deleted and the link itself kept, so the build tree stays wherever the link points.
 """)
         self._argParser.add_argument(ShortCommandOpts.PreInstallRemove.value, CommandOpts.PreInstallRemove.value, action='store', type=str, help=f"""The specific external preinstall folder to remove. By default, will not remove any preinstall folders. Below are the following accepted syntax:
                                      
@@ -67,6 +70,11 @@ Note that the suffix name cannot contain whitespaces or slashes""")
 Note that the suffix name cannot contain whitepspsace or slashes""")
         self._argParser.add_argument(ShortCommandOpts.BuildSuffix.value, CommandOpts.BuildSuffix.value, action="store", type=str, help=f"""The suffix name to add to the build folder path. By default, the build folder is specified at: {APITopBuildFolderPath}
 Note that the suffix name cannot contain whitespace or slashes
+""")
+        self._argParser.add_argument(ShortCommandOpts.BuildLocation.value, CommandOpts.BuildLocation.value, action="store", type=str, help=f"""The folder in which the build folder ({BuildFolder}, plus any {CommandOpts.BuildSuffix}) is created. By default, the {BuildLocationEnvVar} environment variable if it is set, otherwise {PathToProject}
+
+Useful when the checkout sits on a slow drive: the build tree is where nearly all of a build's disk writes go, so keeping it on a fast local drive can make a rebuild several times faster.
+Note that CMake records its build folder's path, so moving an existing build folder by hand breaks it; point this option at a new location and let the next build configure a fresh one there.
 """)
 
     def _parseEnv(self):
@@ -108,6 +116,15 @@ Note that the suffix name cannot contain whitespace or slashes
     def _parseBuildSuffix(self):
         self._parseSuffixName("buildSuffix")
 
+    def _parseBuildLocation(self):
+        buildLocation = self._args.buildLocation
+        if (buildLocation is None or buildLocation == ""):
+            buildLocation = os.environ.get(BuildLocationEnvVar) or PathToProject
+
+        # note: resolved now, against the directory the command was run from -- the APIBuilder chdirs into
+        #   the API before it builds, so a relative path left alone would silently mean somewhere else
+        self._args.buildLocation = os.path.abspath(os.path.expanduser(buildLocation))
+
     def _parseRemoveFolder(self, argName: str):
         folder = getattr(self._args, argName)
         if (folder is None):
@@ -146,6 +163,7 @@ Note that the suffix name cannot contain whitespace or slashes
         self._parsePreBuildSuffix()
         self._parseBuildSuffix()
         self._parsePreInstallSuffix()
+        self._parseBuildLocation()
 
         self._parsePreBuildRemove()
         self._parsePreInstallRemove()

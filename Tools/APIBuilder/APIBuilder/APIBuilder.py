@@ -1,4 +1,5 @@
 import shutil
+import stat
 import subprocess
 import os
 import sys
@@ -17,7 +18,8 @@ class APIBuilder():
     _PackageName = "FixRaidenBoss2"
 
     def __init__(self, env: BuildEnv = BuildEnv.Dev, installPath: str = APIPyFolderPath, cleanPreBuild: Optional[str] = None, cleanPreInstall: Optional[str] = None, cleanBuild: Optional[str] = None, 
-                 cleanInstall: bool = True, makeBuild: bool = True, addDocs: bool = False, addCredits: bool = False, makePreBuild: bool = False, makePreInstall: bool = False, buildSuffix: str = "", preBuildSuffix: str = "", preInstallSuffix: str = ""):
+                 cleanInstall: bool = True, makeBuild: bool = True, addDocs: bool = False, addCredits: bool = False, makePreBuild: bool = False, makePreInstall: bool = False, buildSuffix: str = "", preBuildSuffix: str = "", preInstallSuffix: str = "",
+                 buildLocation: str = PathToProject):
         self.env = env
         self.installPath = installPath
         self.cleanPreBuild = cleanPreBuild
@@ -28,6 +30,7 @@ class APIBuilder():
         self.addDocs = addDocs
         self.addCredits = addCredits
         self.buildSuffix = buildSuffix
+        self.buildLocation = buildLocation
         self.preBuildSuffix = preBuildSuffix
         self.preInstallSuffix = preInstallSuffix
         self.makePreBuild = makePreBuild
@@ -54,7 +57,7 @@ class APIBuilder():
             self.removePrefixedFolder(PathToProject, PreInstallFolder, self.cleanPreInstall)
 
         if (self.cleanBuild is not None):
-            self.removePrefixedFolder(PathToProject, BuildFolder, self.cleanBuild)
+            self.removePrefixedFolder(self.buildLocation, BuildFolder, self.cleanBuild)
 
         if (self.cleanInstall):
             self.cleanInstalls()
@@ -77,22 +80,60 @@ class APIBuilder():
         creditsUpdater = CreditsUpdater(APISrcFolderPaths)
         creditsUpdater.update()
 
+    # _isLink(path): Whether 'path' is a symbolic link or a Windows directory junction
+    # note: Path.is_symlink() is False for a junction before Python 3.12, and shutil.rmtree() refuses both
+    #   ("Cannot call rmtree on a symbolic link"), so a build folder kept on another drive through a junction
+    #   used to abort every --buildRemove run, and one kept there through a symlink was silently skipped
+    @classmethod
+    def _isLink(cls, path: Path) -> bool:
+        if (path.is_symlink()):
+            return True
+
+        try:
+            attributes = getattr(os.lstat(path), "st_file_attributes", 0)
+        except OSError:
+            return False
+
+        return bool(attributes & getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0))
+
+    # _removeFolder(folder): Deletes a build folder. A link keeps its place and loses its contents, so a build
+    #   tree deliberately kept on another drive stays there
+    @classmethod
+    def _removeFolder(cls, folder: Path):
+        if (cls._isLink(folder)):
+            if (not folder.is_dir()):
+                return
+
+            print(f"Emptying the linked build folder at {folder} (the link itself is kept)")
+            for child in folder.iterdir():
+                if (cls._isLink(child)):
+                    # a link inside is removed as a link, never followed
+                    try:
+                        os.unlink(child)
+                    except (IsADirectoryError, PermissionError):
+                        os.rmdir(child)
+                elif (child.is_dir()):
+                    shutil.rmtree(child)
+                else:
+                    child.unlink()
+            return
+
+        if (folder.is_dir()):
+            shutil.rmtree(folder)
+        elif (folder.exists()):
+            folder.unlink()
+
     def removePrefixedFolder(self, srcFolder: str, folderPrefix: str, folderSuffix: str):
         if (folderSuffix == RemoveAllFolder):
             srcFolder = Path(srcFolder)
 
             for item in srcFolder.glob(f"{folderPrefix}*"):
-                if item.is_file() or item.is_symlink():
-                    item.unlink()
-                elif item.is_dir():
-                    shutil.rmtree(item)
+                self._removeFolder(item)
 
         else:
             folderSuffix = folderSuffix[:-1]
             targetFolder = Path(srcFolder) / f"{folderPrefix}{folderSuffix}"
-    
-            if targetFolder.is_dir() and not targetFolder.is_symlink():
-                shutil.rmtree(targetFolder)
+            self._removeFolder(targetFolder)
 
     def cleanInstalls(self):
         basePath = Path(APIPath).resolve()
@@ -131,7 +172,7 @@ class APIBuilder():
             #   slashes" restriction CommandBuilder enforces on suffix names
             self._preBuildFolder = f"{APITopPreBuildFolderPath}{self.preBuildSuffix}"
             self._preInstallFolder = f"{APITopPreInstallFolderPath}{self.preInstallSuffix}"
-            self._buildFolder = f"{APITopBuildFolderPath}{self.buildSuffix}"
+            self._buildFolder = os.path.join(self.buildLocation, f"{BuildFolder}{self.buildSuffix}")
 
             self._extBuildFolders.z3 = os.path.join(self._preBuildFolder, "z3")
             self._extInstallFolders.z3 = os.path.join(self._preInstallFolder, "z3")

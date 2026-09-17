@@ -9,5 +9,6 @@ if __name__ == '__main__':
                             cleanInstall = not args.installKeep, makeBuild = not args.skipBuild, addDocs = args.addDocs,
                             addCredits = args.addCredits,
                             makePreBuild = args.makePreBuild, makePreInstall = args.makePreInstall,
-                            preBuildSuffix = args.prebuildSuffix, buildSuffix = args.buildSuffix, preInstallSuffix = args.preinstallSuffix)
+                            preBuildSuffix = args.prebuildSuffix, buildSuffix = args.buildSuffix, preInstallSuffix = args.preinstallSuffix,
+                            buildLocation = args.buildLocation)
     apiBuilder()

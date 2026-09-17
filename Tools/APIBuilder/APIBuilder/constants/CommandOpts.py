@@ -19,6 +19,7 @@ class CommandOpts(StrEnum):
     MakePreBuild = "--makePreBuild"
     MakePreInstall = "--makePreInstall"
     BuildSuffix = "--buildSuffix"
+    BuildLocation = "--buildLocation"
     PrebuildSuffix = "--prebuildSuffix"
     PreinstallSuffix = "--preinstallSuffix"
 
@@ -36,5 +37,6 @@ class ShortCommandOpts(StrEnum):
     MakePreBuild = "-pb"
     MakePreInstall = "-pi"
     BuildSuffix = "-bs"
+    BuildLocation = "-bl"
     PrebuildSuffix = "-ps"
     PreinstallSuffix = "-pis"

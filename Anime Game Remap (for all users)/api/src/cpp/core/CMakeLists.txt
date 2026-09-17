@@ -435,6 +435,21 @@ if(AGREMAP_PCH_LIB AND NOT AGREMAP_SCCACHE)
         <stdexcept>
         <cstddef>
         <cstdint>
+        # Added 2026-09-17: each of these reaches 165-245 of the project's translation units.
+        #   <filesystem> and <chrono> are deliberately NOT here -- heavy, and only 34 TUs want them.
+        <variant>
+        <deque>
+        <map>
+        <list>
+        <queue>
+        <tuple>
+        <type_traits>
+        <limits>
+        <cmath>
+        <exception>
+        <coroutine>
+        <tsl/ordered_map.h>
+        <tsl/ordered_set.h>
     )
 
     # xxhash.c is C; a C++ PCH cannot apply to it, and CMake would otherwise try.

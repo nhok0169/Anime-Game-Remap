@@ -254,6 +254,23 @@ if(AGREMAP_PCH AND NOT AGREMAP_SCCACHE)
         <functional>
         <cstddef>
         <cstdint>
+        # Added 2026-09-17, same list and reasoning as AGRemapCore's PCH.
+        <string_view>
+        <set>
+        <algorithm>
+        <stdexcept>
+        <variant>
+        <deque>
+        <map>
+        <list>
+        <queue>
+        <type_traits>
+        <limits>
+        <cmath>
+        <exception>
+        <coroutine>
+        <tsl/ordered_map.h>
+        <tsl/ordered_set.h>
     )
 endif()
 

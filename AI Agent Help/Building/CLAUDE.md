@@ -502,6 +502,29 @@ classic fixer path, not the multi-component one; GCC 13 compiles all 28 instanti
 * **A standalone `core/tests` executable must link `AGRemapCore.lib`**, which the Windows and Linux
   runners already do. One built from a hand-picked source list will now fail to link these members.
 
+### More headers in both PCHs: small, consistent, kept (2026-09-17)
+
+Both precompiled headers gained the third-party and standard headers that reach 165-245 TUs each:
+`<variant>`, `<deque>`, `<map>`, `<list>`, `<queue>`, `<tuple>`, `<type_traits>`, `<limits>`,
+`<cmath>`, `<exception>`, `<coroutine>`, `tsl/ordered_map.h`, `tsl/ordered_set.h` (and, in the
+binding PCH, the `<string_view>` / `<set>` / `<algorithm>` / `<stdexcept>` the core one already
+had). `<filesystem>` and `<chrono>` stay out: heavy, and only 34 TUs want them.
+
+| measured, game open | before | after |
+| --- | --- | --- |
+| the same 8 TUs, compiled alone | 185s | **173s (-7%)**, 1-2s of front end each |
+| full project rebuild, `-j14` | 951s | 929s (-2%, inside run-to-run noise) |
+| PCH size, `AGRemapCore` / `core` | -- | 113 MB / 261 MB |
+
+Same acceptance as above: identical bound surface, byte-identical CLI output. **One caveat that
+grows with the list:** a force-included header hides a missing `#include` in the source. The
+`AGREMAP_SCCACHE` configuration builds without either PCH, so it is the build that would catch one.
+
+**And a smoke run can lose a download on its own.** One of the four runs taken for this change was
+missing `Yasu/ShenheHeadDiffuseRemapDL.dds` -- a file downloaded during the run -- and the re-run of
+the same module, and of the previous one, were both identical to the baseline. Re-run a comparison
+before blaming a build change for a missing `*RemapDL*` file.
+
 ## Build speed: five switches, and what each one actually measured
 
 Added 2026-09-08 after profiling the build end to end. **Every number here is a stopwatch on this

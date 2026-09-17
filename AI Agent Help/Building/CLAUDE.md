@@ -352,6 +352,118 @@ exclusion is the cheapest thing to try. Measure it before believing it.
   and confirm `ninja: no work to do.` before calling anything a no-op** --- a wrong label survives
   repetition perfectly well. Per-platform scratch files avoid the whole problem.
 
+## On the maintainer's laptop, `cbuild` is a JUNCTION to the internal SSD (2026-09-16)
+
+The repo lives on `E:`, which on the maintainer's laptop is an **external USB drive**
+(`TOSHIBA EXTERNAL_USB`, ~18 MB/s sequential write). That, not the compiler, was why Windows
+rebuilds took 10-30 minutes there while Linux -- whose `~/cbuildlin-native` sits on the internal
+NVMe -- took five. So repo-root `cbuild` is now a directory junction:
+
+```
+E:\...\Fix-Raiden-Boss\cbuild  ==>  C:\Users\3dark\AGRemapBuild\cbuild
+```
+
+Measured the same afternoon, same sources, same load, `ninja core`:
+
+| step | `cbuild` on the USB drive | on the SSD |
+| --- | --- | --- |
+| one `core/src` `.cpp` + archive + link | 171s (archiving `AGRemapCore.lib`, ~655 MB: **133s**) | **20.5s** (archive 4s) |
+| one `py/src` binding `.cpp` + link | 101s | **32s** |
+| ~400 project objects recompiled (header change / CMake re-run) | 24 min | 22 min |
+
+**The last row did not move, and it will not from any disk change**: that machine is a 6-core /
+12-thread i7-10750H with 16 GB, and those compiles total ~17,750 CPU-seconds (`bindings.cpp` ~290s,
+`GIMIComponentFixer.cpp` / `GIMIMergeFixer.cpp` ~250s each), run under memory pressure -- the game
+is often open holding ~7 GB, and the pagefile grew by 2 GB during the build. The "Build speed"
+figures below are from a 24-thread, 31 GB Xeon and do not transfer to it. Batch edits so a header
+change is paid once.
+
+Things to know about the junction:
+
+* Nothing else changed: APIBuilder, CMake and ninja all see the same `E:\...\cbuild` path, so the
+  `CMakeCache.txt`'s recorded directory still matches. **Moving a build tree any other way (copying
+  it to a new path and pointing at that) breaks the cache**; that is why it is a junction.
+* **`main.py -b /` (and `-b *`) now ABORT** with `OSError: Cannot call rmtree on a symbolic link`
+  -- Python 3.8+ `shutil.rmtree` refuses a junction (tested on 3.9.3), and APIBuilder's
+  `is_symlink()` guard does not recognise one. Nothing is deleted. To wipe the tree and keep it on
+  the SSD, empty `C:\Users\3dark\AGRemapBuild\cbuild` yourself and run `main.py` without `-b`.
+* On a machine where `cbuild` is a plain folder, none of this applies -- check with
+  `Get-Item <repo>\cbuild | Select LinkType,Target` before reasoning about disk speed.
+
+### Build speed on a small machine: what the time is, and the two changes it led to (2026-09-16)
+
+Asked to "split the slow files", the measurement said no. Over a full build the 30 slowest
+translation units are only **29%** of the compile time; `PyIntTools.cpp`, which includes pybind11
+and one small header, took 139s in the parallel build and **12.4s alone**. On 6 cores / 16 GB the
+cost is a per-TU floor multiplied ~10x by contention, so splitting a file ADDS translation units that
+each pay the floor. Compile one TU alone with `/Bt+` to see front end vs back end before deciding
+anything:
+
+| TU, alone | total | front end | back end | includes | obj |
+| --- | --- | --- | --- | --- | --- |
+| `bindings.cpp` (before) | 53s | 45s | 8s | 429 | 3 MB |
+| `GIMIComponentFixer.cpp` | 79s | 40s | 39s | 253 | 57 MB |
+| `PyIniSectionGraph.cpp` | 39s | 16s | 23s | 69 | 29 MB |
+| `IniFileFixContext.cpp` | 31s | 21s | 10s | 193 | 14 MB |
+| `PyIntTools.cpp` | 12s | 5s | 7s | 2 | 3.5 MB |
+| `StringTools.cpp` (no pybind11) | 3s | 2.5s | 0.4s | 11 | 0.2 MB |
+
+What came of it:
+
+1. **`bindings.cpp` declares the 167 `initCppXxx` functions instead of including 162 binding
+   headers**: 53s -> **5.4s** alone, and it no longer recompiles when any binding header changes.
+2. **`/Zc:inline` for MSVC** (`api/CMakeLists.txt`): objects ~2.2 GB -> 0.94 GB,
+   `AGRemapCore.lib` 678 -> 227 MB, `.pyd` link 13-28s -> 4s; one core `.cpp` to a rebuilt `.pyd`
+   20-36s -> **8.4s**, one binding `.cpp` 32-37s -> 21s. Compile time per TU barely moves.
+
+Both were accepted on byte-identical output: the module's full bound surface (221 names, every
+member and docstring), and the real CLI over a copy of `multiFix/select` -- 90 files, compared
+against two runs of the unchanged module that first agreed with each other.
+
+**Tried and rejected: `/O1`** -- the back end of a pybind11 TU costs the same at `/O1` as `/O2`
+(21.7s vs 22.6s; 76.3s vs 79.1s). **Fewer parallel jobs: measured, no gain with the game closed.**
+Rebuilding the 405 project edges (`AGRemapCore` + `core`, objects and PCHs deleted, third-party
+libs left built):
+
+| `ninja -j` | wall | CPU-seconds | min free RAM |
+| --- | --- | --- | --- |
+| 14 (default) | **760s** | 10,424 | 0.16 GB |
+| 8 | 788s | 6,222 | 1.67 GB |
+| 6 | 849s | 5,048 | 1.68 GB |
+
+CPU sat at ~100% in all three: fewer jobs make each compile cheaper but no faster overall, so leave
+the default. **Re-run with the game open (~6 GB private), the default still wins:**
+
+| `ninja -j`, game open | wall | hard page-ins/s (avg) | min free RAM |
+| --- | --- | --- | --- |
+| 14 (default) | **1177s** | 3414 | 0.17 GB |
+| 8 | 1360s | 1398 | 0.50 GB |
+
+Paging more than doubles at `-j14` and it is still 3 minutes faster. The game itself costs ~55% on
+the same rebuild (760s -> 1177s); closing it is the only job-count-shaped lever that pays.
+**`AGREMAP_SCCACHE` on the same laptop (game open), against the PCH figures above:**
+
+| | PCH (default) | sccache |
+| --- | --- | --- |
+| 405 project edges, nothing cached | **1177s** | 1742s (+48%) |
+| same, every object deleted, cache full | 1177s | **127s** (401/401 hits) |
+| one core `.cpp` edited + relink | **8.4s** | 12.7s (miss) / 8.1s (hit) |
+| one binding `.cpp` edited + relink | **21.3s** | 33.3s (miss) / 8.8s (hit) |
+
+So PCH stays the default for editing, where every compile is new content; sccache only pays when
+content repeats (CMake re-runs, reverts, branch switches, a wiped or fresh tree). **And on a machine
+that also builds under WSL it does not run at all out of the box:** WSL mirrors `localhost` ports to
+Windows, a Linux `sccache` (here the snap service) holds the default port 4226, and every Windows
+compile then fails with `Failed to send data to or receive data from server` / `failed to fill whole
+buffer` -- configure succeeds, because it only checks that `sccache` is on `PATH`. Set
+`SCCACHE_SERVER_PORT` (e.g. `4227`) for the Windows side; `Get-NetTCPConnection -LocalPort 4226`
+naming `wslrelay` is the tell.
+
+**Not yet tried:** cutting the core front end,
+which is the project's own template headers -- `IniSectionGraph.h`, `IniFixBuilder.h`,
+`BaseIniFixer.h`, `ModType.h` each reach 100-170 TUs with 40-66 project headers behind them. No
+third-party header is the problem: `z3++.h` reaches 6 TUs, `<regex>` none.
+
 ## Build speed: five switches, and what each one actually measured
 
 Added 2026-09-08 after profiling the build end to end. **Every number here is a stopwatch on this
@@ -942,8 +1054,10 @@ source list that a brand-new file needs adding to by hand, or it's silently just
 - **`core/CMakeLists.txt`**: a new `core/src/.../Xxx.cpp` needs its own line in
   `add_library(AGRemapCore STATIC ...)`'s source list.
 - **`py/CMakeLists.txt`**: a new `py/src/.../PyXxx.cpp` needs its own line in
-  `pybind11_add_module(core ...)`'s source list, *and* `PyXxx.h`'s `initCppXxx(m)` needs an
-  explicit `#include` + call added inside `PYBIND11_MODULE(core, m) { ... }` in `bindings.cpp` —
+  `pybind11_add_module(core ...)`'s source list, *and* its `initCppXxx(m)` needs a one-line
+  `void initCppXxx(pybind11::module_ &m);` **declaration** at the top of `bindings.cpp` plus the
+  call inside `PYBIND11_MODULE(core, m) { ... }` — **not** an `#include "PyXxx.h"`, which that file
+  deliberately stopped doing on 2026-09-16 (see "Build speed on a small machine") —
   adding the `.cpp` to CMake without wiring the `init` call compiles and links fine, the new
   class/method is just silently absent from the Python-visible module.
 - **`cy/CMakeLists.txt`**: a new `cy/src/.../Xxx.pyx` needs its own

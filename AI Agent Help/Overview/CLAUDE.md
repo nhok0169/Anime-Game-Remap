@@ -12,9 +12,14 @@ ways: a standalone script, a CLI, and a Python API (`pip install AnimeGameRemap`
 the monorepo for all of it, plus its docs site and test suites.
 
 Two remotes/branches matter:
-- **`nhok0169`** — the main/release branch.
+- **`master`** — the main/release branch. It was called **`nhok0169`** until 2026-09-18, when
+  `development` was merged into it and it was renamed; since that merge it carries the C++ core and
+  the submodules too. Older notes, commit messages and issue threads still say `nhok0169` --- read
+  that as `master`. **Never create a branch named `nhok0169` again**: every released package fetches
+  its downloads from `github.com/.../raw/nhok0169/...`, which works only through GitHub's redirect for
+  a renamed branch, and a new branch of that name would end the redirect.
 - **`development`** — the active development branch (what you're usually on; branch new work off
-  this, not off `nhok0169`).
+  this, not off `master`).
 
 ## Repo layout
 
@@ -886,7 +891,7 @@ Python script that trap 6 of the top-level `CLAUDE.md` already tells you to use 
 
 ## Operating norms
 
-- Don't push or open a PR unless asked. If you do, branch off `development`, not `nhok0169`.
+- Don't push or open a PR unless asked. If you do, branch off `development`, not `master`.
 - **Splitting overlapping changes into separate commits without `git add -p`** (which the tools
   here cannot drive): build each intermediate version of a shared file in a Python script, stage it
   with `git hash-object -w --path=<repo path> <temp file>` (the `--path` applies the CRLF
@@ -903,43 +908,49 @@ Python script that trap 6 of the top-level `CLAUDE.md` already tells you to use 
   content stops matching what you read minutes ago, consider a concurrent editor before concluding
   your own patch misfired. (Check your own backgrounded tasks first -- a backgrounded patch script
   that already applied looks identical to someone else's edit.)
-- **Switching to `nhok0169` is not a cheap `git checkout` -- it removes your working directory and
-  strands `development`'s submodules.** Confirmed hands-on 2026-09-06, doing a data-only change
-  that had to land on both branches. Three things bite, in order:
-  - **`api/src/cpp` does not exist on `nhok0169`** -- that branch predates the entire C++ core, and
+- **Checking out anything from before 2026-09-18 on the release line is not a cheap `git checkout`
+  -- it removes your working directory and strands `development`'s submodules.** Until that date the
+  release branch (`nhok0169`, now `master`) predated the whole C++ core; `master` itself is safe now,
+  but a release tag, an old branch, or any commit of it from before the merge is not. Check with
+  `git ls-tree <ref> --name-only "Anime Game Remap (for all users)/api/src"` first. Confirmed hands-on
+  2026-09-06, doing a data-only change that then had to land on both branches. Three things bite, in
+  order:
+  - **`api/src/cpp` does not exist on such a ref** -- it predates the entire C++ core, and
     its API package is `api/src/FixRaidenBoss2/` rather than `api/src/py/FixRaidenBoss2/`. If your
     session's working directory is anywhere under `api/src/cpp`, move it to the repo root *first*;
     otherwise every command after the checkout runs from a path git has just deleted. Check what a
     branch actually contains with `git ls-tree <branch> --name-only <path>` before switching.
-  - **`development` has submodules; `nhok0169` has no `.gitmodules` at all.** After the switch,
+  - **`development` has submodules; the pre-merge release line has no `.gitmodules` at all.** After the switch,
     `api/extern/` (utf8proc, xxHash, z3, curl, Compressonator, common, ordered-map) survives as a
     plain *untracked* directory full of nested git repos, alongside `api/src/py/`, `api/cbuild/`,
     `api/wheelhouse/`, `cbuild/` and `cebuild/` -- ~11k untracked files in total, because git
     cannot remove a directory that still holds ignored/untracked content. **Never `git add -A` on
-    `nhok0169`**: it would record those nested repos as bare gitlinks with no `.gitmodules` to
+    such a ref**: it would record those nested repos as bare gitlinks with no `.gitmodules` to
     resolve them, which no clone can check out. Stage explicit paths instead
     (`git add "Data/Mod Downloads"`), then confirm nothing else came along with
     `git diff --cached --name-only | grep -v "^<your path>/"`.
-  - **Leave the leftovers where they are.** They are untracked on `nhok0169` and harmless; deleting
+  - **Leave the leftovers where they are.** They are untracked there and harmless; deleting
     them costs a full submodule re-clone and native rebuild when you switch back to `development`.
-  - **Content under `Data/` is shared byte-for-byte between the two branches**, so a data-only
-    change there generally has to be committed twice, once on each — see
+  - **A data-only change no longer has to be committed twice.** Before the merge, `Data/` was
+    shared byte-for-byte between the two branches and a change had to land on each; now it goes to
+    `development` like everything else and reaches `master` through the next merge --- except that the
+    DOWNLOADS are read from `master` at run time, so a new asset is not live for users until then. See
     [Creating Remaps](../CreatingRemaps/CLAUDE.md)'s "The download assets" section.
 - **If you're running in a `git worktree` (not the user's main checkout), don't trust that its
   branch is actually based on `development` just because that's the norm** — verify before relying
   on any file being present. Confirmed the hard way: a worktree's branch had been created off
-  `nhok0169` at a point that predates the entire C++ core (`api/src/cpp`) existing, so a task
+  `nhok0169` (now `master`) at a point that predates the entire C++ core (`api/src/cpp`) existing, so a task
   referencing a `core/` file failed with "no such file" until this was diagnosed. Check with
-  `git log --oneline -3` (does it look like `nhok0169`-style single-fix commits, or
+  `git log --oneline -3` (does it look like pre-merge `nhok0169`-style single-fix commits, or
   `development`-style porting/feature commits?) and, if a specific file is expected,
   `git ls-tree -r --name-only HEAD -- <path>` before assuming the checkout matches the task. If the
   branch is wrong and has no commits of its own yet, `git checkout -B <branch> development` resets
   it cleanly; if it already has real commits on the wrong base, surface the mismatch and ask before
-  rebasing/merging — a same-branch rebase across a long-diverged pair of branches (`nhok0169` vs
+  rebasing/merging — a same-branch rebase across a long-diverged pair of branches (pre-merge `nhok0169` vs
   `development`) can hit real conflicts in live, unrelated code (confirmed: conflicts in active
   Python fixer logic and a delete/modify conflict, not just incidental files), so treat it as risky
   enough to check with the user rather than resolving blindly.
-  - **A C++/`core` task handed to a worktree whose branch is `nhok0169`-based has to be done in the
+  - **A C++/`core` task handed to a worktree whose branch is based on the pre-merge `nhok0169` has to be done in the
     user's main checkout**, because `api/src/cpp` is not in that branch at all — and that checkout
     is `development`, usually with *another agent* editing it at the same time. Workable, not a
     blocker, but read [Building](../Building/CLAUDE.md)'s "Another agent is holding the Windows

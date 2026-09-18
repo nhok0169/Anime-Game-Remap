@@ -12,11 +12,10 @@
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/AnimeGameRemap?style=for-the-badge&label=AG%20Remap%20Pypi%20Monthly)](https://pypi.org/project/AnimeGameRemap)
 
 [![Documentation Status](https://readthedocs.org/projects/anime-game-remap/badge/?version=latest&style=for-the-badge)](https://anime-game-remap.readthedocs.io/en/latest/?badge=latest)
-[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/unit-tests.yml?label=Unit%20Tests&style=for-the-badge)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/unit-tests.yml)
-[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/integration-tests.yml?label=Integration%20Tests&style=for-the-badge)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/integration-tests.yml)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/tests.yml?branch=master&label=Unit%2FIntegration%20Tests&style=for-the-badge)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/tests.yml)
 
 
-<a href="https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api"><img alt="" src="https://github.com/nhok0169/Anime-Game-Remap/raw/nhok0169/Docs/src/_static/images/AGRemapBanner.png" style="width:750px; height: auto;"></a>
+<a href="https://github.com/nhok0169/Anime-Game-Remap/tree/master/Anime%20Game%20Remap%20(for%20all%20users)/api"><img alt="" src="https://github.com/nhok0169/Anime-Game-Remap/raw/master/Docs/src/_static/images/AGRemapBanner.png" style="width:750px; height: auto;"></a>
 
 <br>
 
@@ -82,7 +81,7 @@ https://anime-game-remap.readthedocs.io/en/latest/
 **Mega Merged Mods:** https://www.youtube.com/watch?v=08co5ct7zeg  
 
 ### More Features
-[More examples here](https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Examples)
+[More examples here](https://github.com/nhok0169/Anime-Game-Remap/tree/master/Examples)
 
 <br>
 
@@ -176,7 +175,7 @@ Below is a ***preview*** that gives a feel of using the API
 
 <br>
 
-*eg. Running the following code under [this folder](https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Testing/Integration%20Tester/IntegrationTester/Tests/MixedModsTests/inputs/Mods)*
+*eg. Running the following code under [this folder](https://github.com/nhok0169/Anime-Game-Remap/tree/master/Testing/Integration%20Tester/IntegrationTester/Tests/MixedModsTests/inputs/Mods)*
 
 ```python
 import AnimeGameRemap as AGR

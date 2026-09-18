@@ -646,8 +646,9 @@ beside its stub and steps aside for one that is. So **a pybind11 class you add w
 `core.pyi` renders on your machine and is absent from the published site**, and a stale artifact publishes
 a signature the library no longer has --- `git status` on those two is part of finishing a docs change.
 Its config was fatal to any branch carrying the C++ API --- it pip-installed the API *and* ran Doxygen from
-a working directory where the Doxyfile's relative `INPUT` means nothing --- which the published `latest` had
-not noticed only because the default branch `nhok0169` is still the pure-Python library. Test the
+a working directory where the Doxyfile's relative `INPUT` means nothing --- which the published `latest` did
+not notice only because the default branch (`nhok0169`, now `master`) was still the pure-Python library
+until 2026-09-18. Test the
 published path with `AGREMAP_DOCS_STUBS=force` in front of the usual Sphinx command; see
 [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md).
 
@@ -679,10 +680,11 @@ path written down anywhere, this line included** -- see **Building**'s prerequis
 stripped, never runs, and still exits 0 -- so the "build" silently leaves the *previous* `.pyd` in
 place for your tests. Launch build/test batch files from the **PowerShell** tool with
 `cmd /c "<full path>"` instead, and verify by the `.pyd`'s mtime (see **Building**); (5) checking
-out `nhok0169` **deletes `api/src/cpp` out from under you** (that branch predates the C++ core) and
-strands `development`'s submodules under `api/extern/` as part of ~11k untracked files, so move your
-working directory to the repo root before switching and **never `git add -A` there** -- see
-**Overview**'s operating norms; (6) **every repo path contains both spaces and parentheses**
+out a release ref from before 2026-09-18 **deletes `api/src/cpp` out from under you** (the release
+branch, `nhok0169` then and `master` now, predated the C++ core until `development` was merged into it
+that day) and strands `development`'s submodules under `api/extern/` as part of ~11k untracked files,
+so move your working directory to the repo root before switching and **never `git add -A` there** --
+see **Overview**'s operating norms, which also say why **no branch may be named `nhok0169` again**; (6) **every repo path contains both spaces and parentheses**
 (`Anime Game Remap (for all users)`), so an unquoted shell variable holding a path silently
 shatters into pieces -- `for f in $(git diff --name-only ...); do git checkout -- $f; done` reports
 `error: pathspec 'Anime' did not match any file(s)` and **changes nothing while looking like it

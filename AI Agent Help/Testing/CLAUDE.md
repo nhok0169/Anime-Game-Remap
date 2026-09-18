@@ -1179,7 +1179,7 @@ unrelated causes, and both will come back unless you know them:
   match it. `core/tests/FileService_walkOrder_test.cpp` pins the rule --- and **it cannot fail on
   Windows**, because NTFS sorts for it: run it on Linux, where it failed 3 of 3 against the unsorted
   build.
-- **A merge from `nhok0169` wrote goldens no code ever produced.** `ccfbf338` merged the pure-Python
+- **A merge from `nhok0169` (now `master`) wrote goldens no code ever produced.** `ccfbf338` merged the pure-Python
   branch into `development`, and git's line-by-line merge applied that branch's 2025 golden edits on
   top of the freshly regenerated C++ ones: `oldVers/AmberCN.ini` and `select/Jean/merged.ini` came out
   matching **neither** parent. The current output matched the pre-merge goldens byte for byte, so they

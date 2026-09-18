@@ -75,7 +75,7 @@ namespace AGRemapCore {
 // characters have never shown it.
 //
 // The cost is a redundant fetch, not a broken binding -- the download resolves to the real asset
-// now that Data/Mod Downloads is published on the nhok0169 branch the downloader reads
+// now that Data/Mod Downloads is published on the master branch the downloader reads
 // (DownloadTools' base URL). Before that merge it 404'd and the output carried
 // `ps-t1 = ResourceBennettFaceDiffuseRemapDL` naming a file that was never written, which is the
 // worse failure and the one to watch for if a character's assets are ever unpublished again.

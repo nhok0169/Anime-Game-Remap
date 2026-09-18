@@ -234,5 +234,5 @@ is the live one. Same rule as the rest of this folder: nothing tests it, run bef
   (2026-09-17).
 - **Do not `git add -A`, and quote every path.** Every path in this repo contains both spaces and
   parentheses. Stage explicit path lists, ideally from a python script with a real argument list ---
-  see [Overview](../Overview/CLAUDE.md)'s operating norms for the `nhok0169` submodule hazard that
-  makes `git add -A` genuinely dangerous here.
+  see [Overview](../Overview/CLAUDE.md)'s operating norms for the submodule hazard (checking out a
+  pre-2026-09-18 release ref) that makes `git add -A` genuinely dangerous here.

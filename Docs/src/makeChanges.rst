@@ -34,7 +34,7 @@ Once you are done making changes, you want compile your changes to be updated wi
 You can do this by running the `CI Pipeline`_
 
 Steps on how to run the CI Pipeline are here:
-https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Tools/CIPipeline
+https://github.com/nhok0169/Anime-Game-Remap/tree/master/Tools/CIPipeline
 
 :raw-html:`<br />`
 :raw-html:`<br />`
@@ -57,7 +57,7 @@ I. Unit Tests
 This is the first line of defense to see whether your changes may break other modules within the software.
 
 For steps on how to run the Unit tester, see the link below:
-https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Testing/Unit%20Tester
+https://github.com/nhok0169/Anime-Game-Remap/tree/master/Testing/Unit%20Tester
 
 .. important::
     If you have created a new module in the software, it is recommended that you build
@@ -97,7 +97,7 @@ These tests verify whether the overall features of the softare are working prope
 different types of folder/file structures
 
 For steps on how to run the Integration tester, see the link below:
-https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Testing/Integration%20Tester
+https://github.com/nhok0169/Anime-Game-Remap/tree/master/Testing/Integration%20Tester
 
 You can check out the specific integration tests here
 
@@ -128,14 +128,14 @@ Once your PR is approved, we will merge your changes back to the `AG Remap repo`
 
 .. _Github repo: https://github.com/nhok0169/Anime-Game-Remap
 .. _AG Remap repo: https://github.com/nhok0169/Anime-Game-Remap
-.. _The API: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api
-.. _The API Mirror: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/apiMirror
-.. _The Script: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/script%20build/src/FixRaidenBoss2
+.. _The API: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Anime%20Game%20Remap%20(for%20all%20users)/api
+.. _The API Mirror: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Anime%20Game%20Remap%20(for%20all%20users)/apiMirror
+.. _The Script: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Anime%20Game%20Remap%20(for%20all%20users)/script%20build/src/FixRaidenBoss2
 .. _regression testing: https://en.wikipedia.org/wiki/Regression_testing
-.. _CI Pipeline: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Tools/CIPipeline
-.. _Unit tests: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Testing/Unit%20Tester
-.. _Integration tests: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Testing/Integration%20Tester
+.. _CI Pipeline: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Tools/CIPipeline
+.. _Unit tests: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Testing/Unit%20Tester
+.. _Integration tests: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Testing/Integration%20Tester
 .. _unittest: https://docs.python.org/3/library/unittest.html
-.. _the different unit tests here: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Testing/Unit%20Tester/UnitTester/Tests
-.. _specific integration tests here: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Testing/Integration%20Tester/IntegrationTester/Tests
+.. _the different unit tests here: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Testing/Unit%20Tester/UnitTester/Tests
+.. _specific integration tests here: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Testing/Integration%20Tester/IntegrationTester/Tests
 .. _Pull Request (PR): https://github.com/nhok0169/Anime-Game-Remap/pulls

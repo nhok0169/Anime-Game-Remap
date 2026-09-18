@@ -25,7 +25,7 @@ namespace AGRemapCore {
 
     const std::string& DownloadTools::downloadFolder() {
         static const std::string folder =
-            "https://github.com/nhok0169/Anime-Game-Remap/raw/nhok0169/Data/Mod%20Downloads";
+            "https://github.com/nhok0169/Anime-Game-Remap/raw/master/Data/Mod%20Downloads";
         return folder;
     }
 

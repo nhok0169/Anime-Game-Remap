@@ -5,10 +5,10 @@ Build system pipeline used to transform the source code into deliverible code fo
 <br>
 
 ### Order of Processes to be Run on Pipeline
-1. [API Builder](https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Tools/APIBuilder) (compiles the API's binaries and its documentation)
-2. [Script Builder](https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Tools/ScriptBuilder)
-3. [API Mirror Builder](https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Tools/APIMirrorBuilder)
-4. [Tool Stats Updater](https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Tools/ToolStatsUpdater)
+1. [API Builder](https://github.com/nhok0169/Anime-Game-Remap/tree/master/Tools/APIBuilder) (compiles the API's binaries and its documentation)
+2. [Script Builder](https://github.com/nhok0169/Anime-Game-Remap/tree/master/Tools/ScriptBuilder)
+3. [API Mirror Builder](https://github.com/nhok0169/Anime-Game-Remap/tree/master/Tools/APIMirrorBuilder)
+4. [Tool Stats Updater](https://github.com/nhok0169/Anime-Game-Remap/tree/master/Tools/ToolStatsUpdater)
 
 <br>
 
@@ -37,7 +37,7 @@ python3 main.py
 ### `--env/-e`
 
 What environment to build the deliverables for. The same environments as the
-[Script Builder](https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Tools/ScriptBuilder)'s,
+[Script Builder](https://github.com/nhok0169/Anime-Game-Remap/tree/master/Tools/ScriptBuilder)'s,
 since that is the stage the environment reaches:
 
 | Env | How the compiled script reaches the API | Options the script gains |
@@ -52,7 +52,7 @@ python3 main.py --env dev
 <br>
 
 > [!IMPORTANT]
-> This defaults to `prod` where the [Script Builder](https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Tools/ScriptBuilder)
+> This defaults to `prod` where the [Script Builder](https://github.com/nhok0169/Anime-Game-Remap/tree/master/Tools/ScriptBuilder)
 > defaults to `dev`, on purpose. The pipeline writes the deliverables that get committed, and a
 > `dev` script looks for the API at a path on whichever machine compiled it -- shipping one is
 > broken for every user. Reach for the Script Builder on its own when you are working *on* the

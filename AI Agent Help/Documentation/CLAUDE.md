@@ -376,10 +376,12 @@ AGREMAP_DOCS_STUBS=force py -3 -m sphinx -b html -E --keep-going src build/html
 care about renders under that, it will render on the site.
 
 Two things were wrong in `.readthedocs.yaml` before this, and each one is fatal on a branch that
-carries the C++ API. **Note carefully which branch that is**: `nhok0169`, the default branch, predates
-the C++ core, and its own copy of this file pip-installs a pure-Python package quite happily --- so the
-published `latest` was not broken, it was building a *different library*. These two would have taken
-the site down the moment this branch became what Read the Docs builds:
+carries the C++ API --- which since 2026-09-18 is **every** branch that matters: `development` was merged
+into the default branch that day, and it was renamed from `nhok0169` to `master`. Before that merge
+the default branch still held the pure-Python library, and ITS copy of this file pip-installed a
+pure-Python package quite happily --- so the published `latest` was not broken, it was building a
+*different library*. These two would have taken the site down with that merge had they not been fixed
+first:
 
 - `python: install: - method: pip / path: ...api` --- the impossible build above, made doubly
   impossible by there being no `submodules:` key, so the externs it needs were never even cloned.
@@ -391,9 +393,11 @@ the site down the moment this branch became what Read the Docs builds:
 
 **What this file cannot tell you is which branch Read the Docs actually builds.** That lives in the
 project's own dashboard: the default version behind `/en/latest/`, and which versions are activated. The
-repo's default branch is `nhok0169` (pre-C++), so a docs change on `development` reaches the site only
-once that is true of whatever version is being served --- worth confirming there before concluding that a
-published page is wrong.
+repo's default branch is `master`, so a docs change on `development` reaches the site at the next merge.
+**If the dashboard's "Default branch" was ever set explicitly to `nhok0169`, it has to be changed to
+`master` by hand** --- Read the Docs does not follow a GitHub branch rename, and `latest` stops building
+when the branch it names no longer exists. Worth confirming there before concluding that a published
+page is wrong.
 
 ## `apiExamples.rst` is GENERATED from the Integration Tester --- edit the test, not the page (2026-09-17)
 

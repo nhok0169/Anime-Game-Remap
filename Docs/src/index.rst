@@ -40,13 +40,9 @@ Welcome to Anime Game Remap's documentation!
     :target: https://anime-game-remap.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. image:: https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/unit-tests.yml?label=Unit%20Tests&style=for-the-badge
-    :target: https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/unit-tests.yml
-    :alt: Unit Tester Status
-
-.. image:: https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/integration-tests.yml?label=Integration%20Tests&style=for-the-badge
-    :target: https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/integration-tests.yml
-    :alt: Integration Tester Status
+.. image:: https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/tests.yml?branch=master&label=Unit%2FIntegration%20Tests&style=for-the-badge
+    :target: https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/tests.yml
+    :alt: Unit/Integration Tests Status
 
 
 .. image:: ./_static/images/AGRemapBanner.png
@@ -100,7 +96,7 @@ Getting Started
 ---------------
 
 - **Tutorial**: :doc:`tutorial`
-- **Examples**: Lot of examples are available `here <https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Examples>`_
+- **Examples**: Lot of examples are available `here <https://github.com/nhok0169/Anime-Game-Remap/tree/master/Examples>`_
 - **Command Options**: :doc:`commandOpts`
 - **Remap Grading**: :doc:`remapGrading`
 

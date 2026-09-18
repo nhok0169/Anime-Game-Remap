@@ -22,7 +22,7 @@ from .TexcoordByteSizeData import TexcoordByteSizeData
 
 
 ##### Script
-GithubDownloadFolder = r"https://github.com/nhok0169/Anime-Game-Remap/raw/nhok0169/Data/Mod%20Downloads"
+GithubDownloadFolder = r"https://github.com/nhok0169/Anime-Game-Remap/raw/master/Data/Mod%20Downloads"
 
 FileDownloadData = {
     4.0: {ModTypeIdTools.getName(ModTypeId.Amber): {"": {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberHeadDiffuse.dds", f"AmberHeadDiffuse{IniKeywords.RemapDL.value}.dds")),

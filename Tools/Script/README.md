@@ -1,6 +1,6 @@
 # AG Remap's Script
 
-The source for [AG Remap's single-file script](https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/script%20build/src/FixRaidenBoss2/AGRemap.py).
+The source for [AG Remap's single-file script](https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/script%20build/src/FixRaidenBoss2/AGRemap.py).
 
 <br>
 

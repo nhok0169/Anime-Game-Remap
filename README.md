@@ -12,11 +12,10 @@
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/AnimeGameRemap?style=for-the-badge&label=AG%20Remap%20Pypi%20Monthly)](https://pypi.org/project/AnimeGameRemap)
 
 [![Documentation Status](https://readthedocs.org/projects/anime-game-remap/badge/?version=latest&style=for-the-badge)](https://anime-game-remap.readthedocs.io/en/latest/?badge=latest)
-[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/unit-tests.yml?label=Unit%20Tests&style=for-the-badge)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/unit-tests.yml)
-[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/integration-tests.yml?label=Integration%20Tests&style=for-the-badge)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/integration-tests.yml)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/tests.yml?branch=master&label=Unit%2FIntegration%20Tests&style=for-the-badge)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/tests.yml)
 
 
-<a href="https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api"><img alt="" src="https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Docs/src/_static/images/AGRemapBanner.png" style="width:750px; height: auto;"></a>
+<a href="https://github.com/nhok0169/Anime-Game-Remap/tree/master/Anime%20Game%20Remap%20(for%20all%20users)/api"><img alt="" src="https://github.com/nhok0169/Anime-Game-Remap/blob/master/Docs/src/_static/images/AGRemapBanner.png" style="width:750px; height: auto;"></a>
 
 <br>
 
@@ -32,7 +31,7 @@ The ***Official*** library to help remap the mods installed on a character onto 
 
 
 ## How To Run:
-Go to [this link](https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/README.md) for more info.
+Go to [this link](https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/README.md) for more info.
 
 
 <br>

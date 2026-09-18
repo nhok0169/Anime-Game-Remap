@@ -149,7 +149,7 @@ void testInvalidUrlThrows(const std::string& scratchDir) {
 // CURL_USE_SCHANNEL, so it validates against the OS's own certificate store rather than a bundled
 // CA file) rather than just the local "file://" transfers above.
 const std::string RealHttpsUrl =
-    "https://github.com/nhok0169/Anime-Game-Remap/raw/nhok0169/Data/Mod%20Downloads/GI/Amber/4_0/AmberHeadDiffuse.dds";
+    "https://github.com/nhok0169/Anime-Game-Remap/raw/master/Data/Mod%20Downloads/GI/Amber/4_0/AmberHeadDiffuse.dds";
 
 void testRealHttpsDownload(const std::string& scratchDir) {
     std::filesystem::path destFolder = std::filesystem::path(scratchDir) / "curl_test_https_dest";

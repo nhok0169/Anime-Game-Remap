@@ -182,7 +182,13 @@ jobs:
         #   left alone)
         CIBW_BEFORE_BUILD_LINUX: sccache --show-stats
         CIBW_BEFORE_BUILD_MACOS: sccache --show-stats
-      run: python -m cibuildwheel --output-dir wheelhouse
+
+      # the PACKAGE is the API folder, which holds pyproject.toml; with no argument cibuildwheel looks
+      #   in the repo root and finds none. It is still run FROM the root, because on Linux what it
+      #   copies into the container as /project is the current directory, not the package -- and the
+      #   z3 at /project/cext<os> and sccache at /project/.sccache-bin are at the root. '--output-dir'
+      #   is relative to the current directory, so the wheels still land in ./wheelhouse
+      run: python -m cibuildwheel "Anime Game Remap (for all users)/api" --output-dir wheelhouse
 
 
     # -------------------------------------------------

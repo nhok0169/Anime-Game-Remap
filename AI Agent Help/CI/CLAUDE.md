@@ -149,6 +149,13 @@ Measured and read off `python-publish.yml` on 2026-09-18; the wheel half has nev
     unless given `inline_comment_prefixes` --- the first Warm Caches run died on
     `docker: invalid reference format` for exactly that. The action now refuses anything but a clean
     `image@sha256:<64 hex>` reference, with an error that says so.
+  - **cibuildwheel is given the PACKAGE directory and run from the repo ROOT**:
+    `python -m cibuildwheel "Anime Game Remap (for all users)/api" --output-dir wheelhouse`. With no
+    argument it looks for `pyproject.toml` in the current directory and fails at once with `Could not
+    find any of {setup.py, setup.cfg, pyproject.toml} at root of package` (the first pre-release,
+    2026-09-18 -- the argument had never been there). Do not `cd` into the API instead: on Linux
+    what cibuildwheel copies into the container as `/project` is the CURRENT directory, and the
+    `/project/cext<os>` z3 and `/project/.sccache-bin` paths are the repo root's.
   - **Linux z3 is built on the runner, inside the manylinux image cibuildwheel uses**, with the workspace
     mounted at `/project` --- where cibuildwheel puts its copy of the project, so the paths z3 recorded
     at install time hold. The image is read from the pinned cibuildwheel's own

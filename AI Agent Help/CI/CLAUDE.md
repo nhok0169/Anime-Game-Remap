@@ -177,6 +177,33 @@ Measured and read off `python-publish.yml` on 2026-09-18; the wheel half has nev
     `CURL_CA_BUNDLE` or the first well-known bundle that exists, on every OS but Windows (Schannel).
     **A wheel that builds and imports can still be unable to download anything** --- test a
     download on a DIFFERENT distro from the one it was built on.
+  - **libc++ has no floating-point `std::from_chars`** (the macOS Intel wheel, Xcode 16.4:
+    `call to deleted function 'from_chars'` in `BufFile.cpp`, 2026-09-18). MSVC and libstdc++ do,
+    so nothing on Windows or Linux could show it. `BufFile`'s dump parser now uses `from_chars` for a
+    double only where `__cpp_lib_to_chars` says the library implements it, and otherwise a `strtod`
+    fallback held to `from_chars`' grammar (no leading `+`/whitespace/hex, overflow left at 0, and
+    the locale's decimal point swapped in) -- proved identical to `from_chars` on 42 inputs by
+    compiling the lifted function both ways with g++. **Any new floating-point `from_chars` in core needs the same guard**; integral ones are fine,
+    and so is floating-point `to_chars` at the 14.0 target (`BufFile` already uses it).
+  - **The ARM wheels cannot build Compressonator's SIMD kernels** (Linux aarch64:
+    `unknown value 'haswell' for '-march'`, 2026-09-18). cmp_core builds three x86-only libraries
+    (`<immintrin.h>`, `-march=nehalem/haswell/knl`) and its BC1 dispatch names all three, so they
+    cannot just be dropped -- that fails at link. `core/cmake/CompressonatorNoSIMD.cpp` defines them
+    as the portable scalar kernel and `core/CMakeLists.txt` links it instead, on ALL of Unix: the SIMD
+    path never ran on Linux (cmp_math skips CPU detection there) and on macOS it chose from
+    uninitialised memory. Proved on x86 Linux against the vendored sources: zero SIMD files compiled,
+    identical BC1 bytes, and an identical direct kernel call. `common_def.h` UNDEFINES the `ASPM_GPU`
+    cmp_core's CMake sets for Unix, so any reading of cmp_core that trusts that define is wrong ---
+    this session's first attempt did, and only the link failure showed it.
+  - **Two Windows-only wheel failures, both "Could not find a package configuration file provided
+    by Z3"** (2026-09-18). (1) cibuildwheel's `archs = auto` builds a 32-bit `win32` wheel on Windows
+    as well as `AMD64`, and z3 is built for the runner's 64-bit architecture only -- hence
+    `CIBW_ARCHS: auto64` (Linux and macOS `auto` are 64-bit already). (2) cibuildwheel parses
+    `CIBW_ENVIRONMENT*` like a shell and **drops every backslash, quoted or not** (checked against its
+    own `environment.py`), so `${{ github.workspace }}` -- `D:\a\...` on Windows -- reached CMake as
+    `D:aAnime-Game-Remap...`. A step writes the forward-slash path to `AGREMAP_Z3_PREFIX` and
+    `CIBW_ENVIRONMENT_WINDOWS` refers to that; `checkWorkflowWiring.py` fails if a Windows path creeps
+    back in. The error text is the same for both, and the 32-bit wheel builds first, so it hides (2).
   - **cibuildwheel is given the PACKAGE directory and run from the repo ROOT**:
     `python -m cibuildwheel "Anime Game Remap (for all users)/api" --output-dir wheelhouse`. With no
     argument it looks for `pyproject.toml` in the current directory and fails at once with `Could not

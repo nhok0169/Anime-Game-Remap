@@ -15,11 +15,15 @@
 #include "AGRemapCore/model/files/BufFile.h"
 
 #include <algorithm>
+#include <cctype>
+#include <cerrno>
 #include <charconv>
+#include <clocale>
 #include <cmath>
 #include <cstdlib>
 #include <fstream>
 #include <stdexcept>
+#include <string>
 #include <unordered_map>
 #include <utility>
 
@@ -743,6 +747,56 @@ namespace AGRemapCore {
             return result;
         }
 
+        // A double out of [begin, end), as std::from_chars(begin, end, value) would parse it, where
+        //   the standard library has no floating-point from_chars. That is libc++ -- Apple's included,
+        //   where Xcode 16.4 (the macOS Intel wheel runner) has only the integral overloads and the
+        //   double one is a compile error ("call to deleted function 'from_chars'"). libc++ does not
+        //   define __cpp_lib_to_chars, so every macOS build takes this path, and MSVC and libstdc++,
+        //   which do, keep from_chars exactly as before.
+        //
+        //   strtod wants a terminated string and reads the decimal point from the C locale (LC_NUMERIC),
+        //   which from_chars never does -- so the text is copied, and a '.' becomes the locale's point
+        //   before parsing. Unparseable text leaves 0, as from_chars leaves the value untouched.
+        double parseDumpDouble(const char* begin, const char* end) {
+            double value = 0.0;
+
+#if defined(__cpp_lib_to_chars) && __cpp_lib_to_chars >= 201611L
+            std::from_chars(begin, end, value);
+#else
+            std::string text(begin, end);
+
+            // from_chars' grammar, not strtod's: strtod also takes leading whitespace, a leading '+'
+            //   and hex ("0x1p3" is 8 to strtod, 0 to from_chars, which stops at the 'x')
+            if (text.empty() || std::isspace(static_cast<unsigned char>(text[0])) || text[0] == '+') {
+                return value;
+            }
+
+            std::size_t digitsStart = (text[0] == '-') ? 1 : 0;
+            if (text.size() > digitsStart + 1 && text[digitsStart] == '0' && (text[digitsStart + 1] == 'x' || text[digitsStart + 1] == 'X')) {
+                text.resize(digitsStart + 1);
+            }
+
+            const std::lconv* numeric = std::localeconv();
+            char point = (numeric != nullptr && numeric->decimal_point != nullptr && numeric->decimal_point[0] != '\0')
+                ? numeric->decimal_point[0] : '.';
+            if (point != '.') {
+                std::replace(text.begin(), text.end(), '.', point);
+            }
+
+            // too big for a double: strtod gives +/-HUGE_VAL (infinity), from_chars reports
+            //   result_out_of_range and leaves the value alone. A subnormal, which strtod may also flag
+            //   ERANGE, is a real value to both, so only the overflow is refused
+            char* stop = nullptr;
+            errno = 0;
+            double parsed = std::strtod(text.c_str(), &stop);
+            if (stop != text.c_str() && !(errno == ERANGE && std::isinf(parsed))) {
+                value = parsed;
+            }
+#endif
+
+            return value;
+        }
+
         // One text value as the BufValue alternative its data type expects. Parsed through
         // from_chars rather than strtod/strtoll, since that needs no null terminator (so the text
         // can stay a view into the dump) and raises nothing on a malformed value -- anything
@@ -769,9 +823,7 @@ namespace AGRemapCore {
                 return BufValue(value);
             }
 
-            double value = 0.0;
-            std::from_chars(begin, end, value);
-            return BufValue(value);
+            return BufValue(parseDumpDouble(begin, end));
         }
 
         BufValue zeroDumpValue(int kind) {

@@ -94,6 +94,48 @@ runs:
         python -m pip install -r requirements.txt
         python main.py -pb -pi -s -i -ps "${{ inputs.os }}" -pis "${{ inputs.os }}"
 
+    # -------------------------------------------------
+    # OpenSSL, for the macOS wheels only
+    #
+    # The vendored curl needs OpenSSL on macOS (curl dropped Apple's own TLS), and the runner's is
+    # Homebrew's: built for the RUNNER's macOS, so delocate refuses to put it in a wheel for an older
+    # one ("Library dependencies do not satisfy target MacOS version 14.0: .../libssl.3.dylib has a
+    # minimum target of 26.0"). So OpenSSL is built here, static, for the deployment target, and
+    # python-publish.yml points curl at it -- linked into libcurl, so there is no dylib to bundle.
+    # Windows uses Schannel and Linux the manylinux image's EPEL OpenSSL, so neither needs this.
+    #
+    # Its own cache entry, keyed by the version and the target, so a z3 entry already warmed on master
+    # stays valid. Bumping OpenSSL: change both values below -- the sha256 is checked, and is the one
+    # published beside the release's tarball.
+    # -------------------------------------------------
+    - name: Restore the wheels' OpenSSL (macOS)
+      id: openssl-cache
+      if: runner.os == 'macOS'
+      uses: actions/cache@v4
+      with:
+        path: cextssl${{ inputs.os }}
+        key: externs-cibw-${{ inputs.os }}-mac${{ inputs.macos-deployment-target }}-openssl-3.5.8
+
+    - name: Build OpenSSL (macOS)
+      if: runner.os == 'macOS' && steps.openssl-cache.outputs.cache-hit != 'true'
+      shell: bash
+      env:
+        MACOSX_DEPLOYMENT_TARGET: ${{ inputs.macos-deployment-target }}
+        OPENSSL_VERSION: "3.5.8"
+        OPENSSL_SHA256: a8f84a39918ec6415ce765d9b429d313ba97b8143169c172e734b9514464f5b2
+      run: |
+        set -euo pipefail
+        prefix="$GITHUB_WORKSPACE/cextssl${{ inputs.os }}"
+        work="$RUNNER_TEMP/openssl-src"
+        rm -rf "$work" && mkdir -p "$work" && cd "$work"
+        curl -fsSL -o openssl.tar.gz "https://github.com/openssl/openssl/releases/download/openssl-$OPENSSL_VERSION/openssl-$OPENSSL_VERSION.tar.gz"
+        echo "$OPENSSL_SHA256  openssl.tar.gz" | shasum -a 256 -c -
+        tar xzf openssl.tar.gz --strip-components=1
+        ./Configure "darwin64-$(uname -m)-cc" no-shared no-tests no-docs --prefix="$prefix" --libdir=lib "-mmacosx-version-min=$MACOSX_DEPLOYMENT_TARGET"
+        make -j"$(sysctl -n hw.ncpu)" build_libs
+        make install_dev
+        ls "$prefix/lib"
+
     # Windows likewise builds on the host -- in one cmd shell, since '-G Ninja' needs the MSVC
     #   environment in the same shell that runs the build
     - name: Build z3 (Windows)

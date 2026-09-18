@@ -590,6 +590,19 @@ set(BUILD_LIBCURL_DOCS OFF CACHE BOOL "" FORCE)
 set(BUILD_MISC_DOCS OFF CACHE BOOL "" FORCE)
 
 set(CURL_USE_LIBPSL OFF CACHE BOOL "" FORCE)
+
+# Only what FileDownload needs: HTTPS through the one TLS library (plus zlib, which is the system's on
+#   every platform). Left to itself, curl's CMake links every optional library it can FIND -- on a
+#   macOS runner that was Homebrew's libssh2, libidn2, brotli, zstd and nghttp2 (and their own
+#   libunistring and libintl), each built for the RUNNER's macOS, which delocate then refused to put
+#   in a wheel for an older one (2026-09-18). Off explicitly, so what the library links does not
+#   depend on what the build machine happens to have installed.
+set(CURL_USE_LIBSSH2 OFF CACHE BOOL "" FORCE)
+set(USE_LIBIDN2 OFF CACHE BOOL "" FORCE)
+set(USE_NGHTTP2 OFF CACHE BOOL "" FORCE)
+set(CURL_BROTLI OFF CACHE STRING "" FORCE)
+set(CURL_ZSTD OFF CACHE STRING "" FORCE)
+set(CURL_DISABLE_LDAP ON CACHE BOOL "" FORCE)
 set(CURL_DISABLE_INSTALL ON CACHE BOOL "" FORCE)
 
 if(WIN32)

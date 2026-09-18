@@ -359,7 +359,12 @@ The 9 extra Linux failures are deterministic (identical sets across repeated run
 - **1 is unexplained and worth treating as a real open question**, not baseline noise:
   `test_IfTemplateTree.test_nestedAndElifBranches_multiLevelTree` fails `3 != 1` on node part
   counts. Deterministic per platform but differing between them — the signature of iteration-order
-  dependence over an unordered container, though that remains a hypothesis.
+  dependence over an unordered container, though that remains a hypothesis. **RESOLVED 2026-09-18: it was iteration order,
+  and it was a real (if harmless-to-output) product defect.** `IfTemplateNode::children_` was a
+  `std::unordered_map` keyed by node id; MSVC iterated it in insertion order and libstdc++ in
+  REVERSE, so the `children` dict Python receives listed a chain's branches backwards on Linux only.
+  It is a `tsl::ordered_map` now, insertion (= branch) order everywhere. Core's own two readers fold
+  the children with an `and` and a set union, which is why no fix output ever differed.
 
 ### The numbers above are a *snapshot*, and the migration moves them constantly
 
@@ -598,7 +603,11 @@ re-verify rather than assuming stale entries are still accurate**, in either dir
 > down), and the two `expectedFailure`s that box used to carry are gone --- the `ResGroupCollect`
 > bug they pinned is fixed. **Anything red is yours.**
 >
-> **Linux, same day, same commit: the same 2288 tests, 0 errors, 11 failures**, every one of them a
+> **Linux, 2026-09-18: the same 2288 tests, 0 failures, 0 errors** --- see "The first CI run" for
+> the three causes of the 11 below, two of which were product bugs, not the test-side assumptions
+> this box used to call all of them.
+>
+> *Before that* --- **Linux, 2026-09-17: the same 2288 tests, 0 errors, 11 failures**, then read as a
 > test-side assumption that predates this work --- **10** assert a Windows path literal
 > (`self.assertEqual(r.srcPath..., "C:/mods/shared/EiBlend.buf")`, which POSIX reads as a RELATIVE
 > path and prefixes with the launch directory) in `test_IniResource`, `test_IniFixResourceModel`,
@@ -1155,6 +1164,66 @@ the committed script is CRLF and bash chokes on `set -u\r`), then
 `produceOutputs` or `runSuite` takes about **10-13 minutes** with the checkout on `/mnt/e`; a single
 test about 45 seconds. Install `directory-tree` with `pip install --target ~/itlib` rather than into
 the shared dev venv.
+
+**THE FIRST CI RUN FAILED 8 OF 24, AND NOT ONE OF THEM WAS A REGRESSION (2026-09-18).** Two
+unrelated causes, and both will come back unless you know them:
+
+- **NTFS hands a folder's entries back SORTED; ext4 hands them back in hash order --- and the output
+  depended on it.** `FileService::getFilesAndDirs` sorted nothing (nor did the `os.walk` it ports), so
+  the order `RemapService` visits mod folders and a folder's `.ini` files in was whatever the
+  filesystem said. That order reaches the output: which `.ini` is fixed first decides the names its
+  fix generates, and which mod is visited last decides what `summaryLog.txt` opens with. Every Windows
+  run, and every golden produced from the checkout on `/mnt/e`, saw NTFS order; the GitHub Actions
+  runner is ext4. The walk now sorts into NTFS order (ASCII case-folded, compared component by
+  component so a recursive walk stays pre-order), which changed nothing on Windows and made Linux
+  match it. `core/tests/FileService_walkOrder_test.cpp` pins the rule --- and **it cannot fail on
+  Windows**, because NTFS sorts for it: run it on Linux, where it failed 3 of 3 against the unsorted
+  build.
+- **A merge from `nhok0169` wrote goldens no code ever produced.** `ccfbf338` merged the pure-Python
+  branch into `development`, and git's line-by-line merge applied that branch's 2025 golden edits on
+  top of the freshly regenerated C++ ones: `oldVers/AmberCN.ini` and `select/Jean/merged.ini` came out
+  matching **neither** parent. The current output matched the pre-merge goldens byte for byte, so they
+  were restored. **After any merge that touches `Tests/*/expected_*`, compare each changed golden's
+  blob against both parents** (`git rev-parse <merge>^1:<path>` / `^2:` / `<merge>:`) --- a golden
+  equal to neither is not an expectation of anything, and a test built on it fails for a reason
+  that has nothing to do with the code.
+
+**To see what CI sees, run the suite from an ext4 copy, not from `/mnt/e`.** A CI-shaped copy is the
+tracked files with LF endings, which is exactly what this gives:
+
+```bash
+git -c core.autocrlf=false archive HEAD -- Testing Tools/Utilities \
+    "Anime Game Remap (for all users)/api/src/py" "Anime Game Remap (for all users)/script build" \
+  | tar -x -C ~/itest-ext4          # then copy the five Linux .so files into its FixRaidenBoss2/
+AG_REMAP_REPO=~/itest-ext4 bash integrationTest.sh runSuite
+```
+
+It is also four times faster (about 2.5 minutes against 8-13). Note that ext4's hash order differs
+between machines too: the same unsorted build failed 9 tests here and 8 on the runner. A failure that
+moves between machines is an ordering question before it is anything else.
+
+**The Unit Tester's 11 Linux failures went the same day, and they were NOT all test-side, as this
+guide had said.** Three causes:
+
+- **8 were the tests' own**: they handed the core a mod folder of `C:/mods/EiRemap`, absolute only on
+  Windows, and POSIX resolved it against the launch directory. They now use `ModsRoot` /
+  `nativePath` from `baseUnitTest.py` --- `C:/mods` on Windows, byte for byte what they always used,
+  and `/mods` elsewhere. **A new test that needs an absolute path uses those**, not a drive letter.
+- **2 were the pure-Python `IniNamingTools`**: `getFixedFile` / `getFixedElementFile` built a path to
+  write INTO a `.ini` with `os.path.join`, so on Linux they returned `./x` where the core, and every
+  `.ini` the product writes, says `.\x`. They now parse with `PureWindowsPath` and join with `ntpath`
+  --- which on Windows *are* `pathlib.Path` and `os.path`, so Windows output is provably unchanged
+  (checked: identical over four inputs). `getFixedTexFile` was left OS-native on purpose, because the
+  core's is too.
+- **1 was `IfTemplateNode.children`'s order** --- the "open question" further down, resolved there.
+
+**One thing this turned up and deliberately did NOT fix**: the core's `IniNamingTools::getFixedFile`
+and `getFixedElementFile` build their input with `fs::path(file)` rather than
+`FileService::strToPath`, so on Linux a backslash in the `.ini` value is not a separator ---
+`.\Sub\RaidenBlend.buf` comes back `.\.\Sub\RaidenBlendrikaRemapFix.buf` on Linux and
+`.\Sub\...` on Windows. The same file on disk, different `.ini` text. It is also the call
+Architecture's UTF-8 path rule bans in `core/`. Fixing it may move the Integration Tester's
+Linux-produced goldens, so it wants its own change and its own golden check.
 
 What the 2026-09-17 repair changed, each of which is a trap for whoever touches it next:
 

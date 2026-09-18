@@ -954,7 +954,12 @@ across repeated runs, so not `unordered_map` ordering flakiness:
   `test_IfTemplateTree.test_nestedAndElifBranches_multiLevelTree`, failing `3 != 1` on node part
   counts. Deterministic per platform but different between platforms, which is the signature of
   iteration-order dependence over an unordered container — but that is a hypothesis, not a
-  conclusion. Treat it as the one genuinely open question from this port.
+  conclusion. Treat it as the one genuinely open question from this port. **RESOLVED 2026-09-18: it was iteration order,
+  and it was a real (if harmless-to-output) product defect.** `IfTemplateNode::children_` was a
+  `std::unordered_map` keyed by node id; MSVC iterated it in insertion order and libstdc++ in
+  REVERSE, so the `children` dict Python receives listed a chain's branches backwards on Linux only.
+  It is a `tsl::ordered_map` now, insertion (= branch) order everywhere. Core's own two readers fold
+  the children with an `and` and a set union, which is why no fix output ever differed.
 
 ### The VM's RAM sets the build parallelism, not its cores -- and getting it wrong WEDGES WSL (2026-09-14)
 

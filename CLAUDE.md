@@ -305,9 +305,12 @@ Two consequences, both the opposite of what this file used to say:
   anything --- the list grows, and this paragraph will go stale the same way the last one did.
 
 **THE UNIT TESTER IS GREEN ON BOTH OPERATING SYSTEMS NOW, AND "THE BASELINE HAS 7 ERRORS" IS DEAD
-ADVICE (2026-09-17).** Windows: **2288 tests, 0 failures, 0 errors**. Linux: the same **2288**, 0
-errors, **11** failures, all of them test-side assumptions older than this work (10 assert a Windows
-path literal, which POSIX reads as relative; 1 is the open `IfTemplateTree` question). The seven
+ADVICE (2026-09-17).** Windows: **2288 tests, 0 failures, 0 errors**. Linux: the same **2288**, and
+**0 failures too since 2026-09-18** --- the 11 it used to report were called "test-side assumptions",
+and TWO of them were product bugs: the pure-Python `IniNamingTools.getFixedFile` wrote `./x` into a
+`.ini` path on Linux where the core writes `.\x`, and `IfTemplateNode.children` listed branches in
+reverse on Linux (an `unordered_map`). **A failure that happens on only one OS is a finding, not a
+baseline** --- see [Testing](AI%20Agent%20Help/Testing/CLAUDE.md)'s "The first CI run". The seven
 `baseIniFileTest.py` classes that had run **zero** tests since the pure-Python `IniFile` was deleted
 run again, so **any error is yours**, and "a change only those classes cover is unverified" no longer
 holds. Two things to know before writing a test that needs an `.ini` file: it is a REAL temporary file

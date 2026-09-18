@@ -177,6 +177,26 @@ Measured and read off `python-publish.yml` on 2026-09-18; the wheel half has nev
     `CURL_CA_BUNDLE` or the first well-known bundle that exists, on every OS but Windows (Schannel).
     **A wheel that builds and imports can still be unable to download anything** --- test a
     download on a DIFFERENT distro from the one it was built on.
+  - **delvewheel does not look inside the wheel unless told to** (the Windows wheel,
+    2026-09-18: `Unable to find library: libz3.dll`). The API's CMake installs libz3, libcurl and
+    utf8proc beside `core.pyd`, and delvewheel searches only `PATH` (and `--add-path`) for a
+    dependency -- the wheel's own files are consulted only with `--ignore-existing`, and their OWN
+    dependencies (msvcp140.dll) are then vendored only with `--analyze-existing` too. Both are in
+    `api/pyproject.toml`'s `repair-wheel-command`. Reproduced on a wheel built from the Windows dev
+    build's package folder, with delvewheel 1.13.1 under WSL: the old command fails exactly as CI
+    did, the new one keeps the three DLLs and vendors msvcp140.dll into `fixraidenboss2.libs/`.
+  - **The macOS wheels link NOTHING from Homebrew** (2026-09-18). delocate refused the first arm64
+    wheel: curl had linked Homebrew's OpenSSL, libssh2, libidn2, brotli, zstd and nghttp2 (plus
+    libunistring and libintl), all built for the runner's macOS 26 against a 14.0 wheel. Two
+    changes: `core/CMakeLists.txt` switches those optional curl dependencies OFF on every platform
+    (FileDownload only needs HTTPS), and the wheel-externs action builds **OpenSSL 3.5.8 static**
+    for the deployment target on macOS (`cextssl<os>`, its own cache entry, the tarball's sha256
+    checked), which `CIBW_ENVIRONMENT_MACOS` hands curl as `OPENSSL_ROOT_DIR` +
+    `OPENSSL_USE_STATIC_LIBS`. The same recipe was proved on Linux: curl found the static OpenSSL,
+    listed no optional library, linked no `libssl`/`libcrypto` dynamically, and downloaded over
+    https. **If delocate names another Homebrew library, switch it off in curl's options -- never
+    raise `MACOSX_DEPLOYMENT_TARGET` to match the runner**, which is what its message suggests.
+    To bump OpenSSL, change the version and sha256 in the action together.
   - **libc++ has no floating-point `std::from_chars`** (the macOS Intel wheel, Xcode 16.4:
     `call to deleted function 'from_chars'` in `BufFile.cpp`, 2026-09-18). MSVC and libstdc++ do,
     so nothing on Windows or Linux could show it. `BufFile`'s dump parser now uses `from_chars` for a

@@ -84,4 +84,4 @@ jobs:
         with:
           os: ${{ matrix.os }}
           # must equal the MACOSX_DEPLOYMENT_TARGET python-publish.yml builds the wheels with
-          macos-deployment-target: "11.0"
+          macos-deployment-target: "14.0"

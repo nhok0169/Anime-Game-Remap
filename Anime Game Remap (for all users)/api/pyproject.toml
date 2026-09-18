@@ -56,4 +56,8 @@ skip = "pp*"
 
 [tool.cibuildwheel.windows]
 before-build = "pip install delvewheel"
-repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel}"
+# --ignore-existing: use the libz3/libcurl/utf8proc DLLs CMake already installs beside core.pyd
+#   (src/cpp/py/CMakeLists.txt) -- delvewheel otherwise looks for them only on PATH, and fails with
+#   "Unable to find library: libz3.dll". --analyze-existing: still vendor what THOSE need (the MSVC
+#   runtime, msvcp140.dll), which --ignore-existing alone would skip.
+repair-wheel-command = "delvewheel repair --ignore-existing --analyze-existing -w {dest_dir} {wheel}"

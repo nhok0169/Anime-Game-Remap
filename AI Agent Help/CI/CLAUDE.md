@@ -149,6 +149,18 @@ Measured and read off `python-publish.yml` on 2026-09-18; the wheel half has nev
     unless given `inline_comment_prefixes` --- the first Warm Caches run died on
     `docker: invalid reference format` for exactly that. The action now refuses anything but a clean
     `image@sha256:<64 hex>` reference, with an error that says so.
+  - **The macOS wheels are the first libc++ build this project has had**, and libc++ collides with
+    vendored code libstdc++ and MSVC never did: Compressonator's `common_def.h` does
+    `#define __local const`, and libc++ (Xcode 26 SDK) has a function of that name in `<algorithm>`,
+    `<iterator>`, `<deque>` and `<ranges>`, so every one of those included after it fails with
+    `expected unqualified-id` at `_Traits::__local(...)` (2026-09-18). Fixed by ORDER, not by editing
+    the submodule: `core/cmake/CompressonatorPrelude.h` is force-included ahead of every vendored
+    source and reads those headers before the macro exists. It also carries the older `stdint.h`
+    repair, and it has to stay the ONE `-include`: CMake de-duplicates compile options, so a second
+    `add_compile_options(-include x.h)` loses its `-include` and hands `x.h` to the compiler as
+    another input file (`cannot specify '-o' with '-c' ... with multiple files` -- proved on a
+    throwaway project). Nothing on Windows or Linux can reproduce the original error, so the next
+    macOS wheel run is its only test; a new libc++ header naming `__local` goes in the prelude.
   - **cibuildwheel is given the PACKAGE directory and run from the repo ROOT**:
     `python -m cibuildwheel "Anime Game Remap (for all users)/api" --output-dir wheelhouse`. With no
     argument it looks for `pyproject.toml` in the current directory and fails at once with `Could not

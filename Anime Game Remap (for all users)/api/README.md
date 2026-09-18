@@ -27,7 +27,7 @@ The ***Official*** library to help remap the mods installed on a character onto 
 
 |   |   |
 |---|---|
-| **[Albert Gold](https://github.com/Alex-Au1)** *(Active Maintainer)* | [![](https://dcbadge.limes.pink/api/shield/367087171154214914?theme=discord-inverted)](discord://-/users/367087171154214914) |
+| **[Albert Gold](https://github.com/Alex-Au1)** *(Active Maintainer)* | [![](https://dcbadge.limes.pink/api/shield/367087171154214914?theme=discord-inverted)](https://discord.com/users/367087171154214914) |
 | **[NK](https://github.com/nhok0169)** *(Original Author)* | [![](https://dcbadge.limes.pink/api/shield/277117247523389450?theme=discord-inverted)](https://discordlookup.com/user/277117247523389450) |
 
 #### Special Thanks

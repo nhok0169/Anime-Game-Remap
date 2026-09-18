@@ -515,15 +515,23 @@ set(PROJECT_SOURCE_DIR ${COMPRESSONATOR_SRC})
 if(MSVC)
     add_compile_options(/Zc:strictStrings-)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    # Compressonator's applications/_plugins/common headers (cmp_fileio.h, utilfuncs.h) refer to
-    #   uintmax_t/uint16_t without including <cstdint>. MSVC pulls those in transitively, GCC 13+
-    #   does not, so on Linux they fail with "'uintmax_t' does not name a type" / "'uint16_t' was
-    #   not declared in this scope" -- plus a cascading, misleading "redefinition of 'float
-    #   HalfToFloat'" that is really just the same unparsed declaration seen twice.
-    # Force-including the header fixes it without patching the vendored submodule (whose changes
-    #   this repo can't commit anyway). stdint.h rather than <cstdint> so it stays valid for
-    #   Compressonator's C sources too, and because the code uses these names unqualified.
-    add_compile_options(-include stdint.h)
+    # Two repairs to the vendored submodule (whose changes this repo can't commit), both by force-
+    #   including cmake/CompressonatorPrelude.h ahead of every source added below -- its comment has
+    #   the detail:
+    #
+    #   1. Compressonator's applications/_plugins/common headers (cmp_fileio.h, utilfuncs.h) refer to
+    #      uintmax_t/uint16_t without including <cstdint>. MSVC pulls those in transitively, GCC 13+
+    #      does not, so on Linux they fail with "'uintmax_t' does not name a type" / "'uint16_t' was
+    #      not declared in this scope" -- plus a cascading, misleading "redefinition of 'float
+    #      HalfToFloat'" that is really just the same unparsed declaration seen twice.
+    #   2. cmp_core's common_def.h does '#define __local const', which breaks every libc++ header
+    #      included after it ("expected unqualified-id" at '_Traits::__local(...)') -- the macOS
+    #      wheels, from the Xcode 26 SDK on. The prelude reads those headers first.
+    #
+    # ONE -include, and it has to stay one: CMake de-duplicates compile options, so a second
+    #   'add_compile_options(-include other.h)' silently loses its '-include' and passes the bare
+    #   header path to the compiler as another input. Add to the prelude instead.
+    add_compile_options(-include "${CMAKE_CURRENT_LIST_DIR}/cmake/CompressonatorPrelude.h")
 endif()
 
 add_subdirectory(

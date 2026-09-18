@@ -117,6 +117,39 @@ if (__name__ == "__main__"):
                     if (outName not in outputs):
                         problems.append(f"{name}: job '{jobId}' reads needs.{depJob}.outputs.{outName}, which {depTarget} does not declare")
 
+    # every local action a step uses must exist
+    for name, doc in docs.items():
+        for jobId, job in (doc.get("jobs") or {}).items():
+            for step in job.get("steps") or []:
+                uses = step.get("uses")
+                if (isinstance(uses, str) and uses.startswith("./") and not (Root / uses[2:] / "action.yml").exists()):
+                    problems.append(f"{name}: job '{jobId}' uses '{uses}', which has no action.yml")
+
+    # the wheels' z3 is warmed on master by warm-caches.yml and restored by python-publish.yml: the cache
+    #   key includes the runner and the macOS target, so a runner or target in one and not the other is a
+    #   release that silently builds z3 from cold on that runner
+    def wheelExterns(fileName, jobId):
+        job = ((docs.get(fileName) or {}).get("jobs") or {}).get(jobId) or {}
+        runners = ((job.get("strategy") or {}).get("matrix") or {}).get("os") or []
+        targets = {str((s.get("with") or {}).get("macos-deployment-target"))
+                   for s in job.get("steps") or [] if str(s.get("uses", "")).endswith("wheel-externs")}
+        env = {}
+        for s in job.get("steps") or []:
+            env.update(s.get("env") or {})
+        return sorted(runners), targets, env
+
+    if ("python-publish.yml" in docs and "warm-caches.yml" in docs):
+        pubRunners, pubTargets, pubEnv = wheelExterns("python-publish.yml", "build-wheels")
+        warmRunners, warmTargets, _ = wheelExterns("warm-caches.yml", "wheel-externs")
+        if (pubRunners != warmRunners):
+            problems.append(f"wheel runners differ: python-publish.yml {pubRunners} vs warm-caches.yml {warmRunners}")
+        if (pubTargets != warmTargets or len(pubTargets) != 1):
+            problems.append(f"macOS deployment target differs: python-publish.yml {pubTargets} vs warm-caches.yml {warmTargets}")
+        macEnv = str(pubEnv.get("CIBW_ENVIRONMENT_MACOS", ""))
+        for target in pubTargets:
+            if (f"MACOSX_DEPLOYMENT_TARGET={target}" not in macEnv):
+                problems.append(f"python-publish.yml builds z3 for macOS {target} but its wheels with '{macEnv}'")
+
     entryPoints = [n for n in docs if "workflow_call" not in triggers(docs[n]) or len(triggers(docs[n])) > 1]
     for name in entryPoints:
         d = depth(docs, name)

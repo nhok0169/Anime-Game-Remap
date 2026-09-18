@@ -30,7 +30,7 @@ fail (exit 1, naming the job) on a copy with that one line removed.
 | `mirror-publish-workflow.yml` / `mirror-publish.yml` | reusable / manual | build and publish **AnimeGameRemap**; last in a release because it pins `FixRaidenBoss2==<version>` |
 | `utility-publish.yml` | manual only | **AGRemapUtils**, which has its own version --- deliberately not on a release, which would re-publish an unchanged version and fail as a duplicate |
 | `build.yml` | manual | a matrix build, for trying an OS |
-| `warm-caches.yml` | **push to `master`** (not prose-only merges) | the testers' build once (ubuntu-latest, Python 3.12 -- test-workflow.yml's defaults, which are part of the cache key), so its caches are saved ON `master`, where every branch and PR can read them |
+| `warm-caches.yml` | **push to `master`** (not prose-only merges), manual | the testers' build once (ubuntu-latest, Python 3.12 -- test-workflow.yml's defaults, which are part of the cache key), so its caches are saved ON `master`, where every branch and PR can read them; and, per wheel runner, the wheels' z3 through `.github/actions/wheel-externs` --- so a release restores it too |
 
 No workflow runs the testers on a push: they cost enough that a pull request, the schedule and each
 publish are the gates. The one push trigger is `warm-caches.yml`, a build on `master` alone.
@@ -121,6 +121,58 @@ had nothing to save until `CIBW_BEFORE_ALL_LINUX` copied `cebuild<os>` / `cext<o
 back to the runner needs the same. Test a command like that with its `${{ }}` expressions filled in
 and `bash -n` before shipping it: that is what caught `$folderubuntu-latest` --- a variable named
 `folderubuntu`, where `${folder}ubuntu-latest` was meant.
+
+## A release, and what it costs
+
+Measured and read off `python-publish.yml` on 2026-09-18; the wheel half has never run yet.
+
+- **Runners:** `ubuntu-latest`, `ubuntu-24.04-arm`, `windows-latest`, **`macos-15-intel`**, `macos-latest`.
+  It said `macos-13` until GitHub removed that image outright --- a job asking for a removed label never
+  gets a runner, and nothing in the repo says so. Check
+  [actions/runner-images](https://github.com/actions/runner-images) before trusting any runner label here.
+- **No musllinux wheels (`CIBW_SKIP: "*-musllinux_*"`).** cibuildwheel builds each Linux platform in its
+  own container from a fresh copy of the project, one after another, and the step that copies z3 back out
+  to the runner (so the cache can save it) hands the musllinux container the MANYLINUX z3 --- it skips
+  building its own and links glibc into a musl wheel. A restored cache does the same. Shipping musllinux
+  needs per-libc `cebuild`/`cext` folders first (suffix them with `$AUDITWHEEL_PLAT` inside the container).
+- **A release runs on its TAG**: it can restore `master`'s caches but saves only for that tag, and no tag
+  can read another's. So the wheels' z3 has to be saved ON `master`, and since 2026-09-18 it is:
+  **`.github/actions/wheel-externs`** is the ONE definition of that build, used by both
+  `python-publish.yml`'s wheel jobs and `warm-caches.yml`'s `wheel-externs` job (every merge, or by
+  hand). With a warm `master` a release skips z3 on every runner --- roughly 30-45 minutes instead of
+  1.5-2.5 hours; cold, it is still the latter. Run Warm Caches by hand before a first release.
+  - **Linux z3 is built on the runner, inside the manylinux image cibuildwheel uses**, with the workspace
+    mounted at `/project` --- where cibuildwheel puts its copy of the project, so the paths z3 recorded
+    at install time hold. The image is read from the pinned cibuildwheel's own
+    `pinned_docker_images.cfg`, and cibuildwheel's version lives in ONE file,
+    `.github/cibuildwheel-requirements.txt` (4.2.1). `CIBW_BEFORE_ALL_LINUX` builds nothing any more.
+  - **The cache key** is runner + a "flavour" + the z3 submodule commit. The flavour is the manylinux
+    image digest on Linux and `mac<target>` on macOS, so bumping cibuildwheel or the target misses
+    rather than restoring a z3 built for something else.
+  - **macOS targets 11.0, in two places that must agree**: the z3 build and the wheels'
+    `MACOSX_DEPLOYMENT_TARGET`. Built on the runner's own macOS with no target, z3 would need macOS 15,
+    and delocate refuses a library needing a newer macOS than the wheel claims.
+  - `checkWorkflowWiring.py` fails if the two workflows' runner lists or macOS targets differ, or if the
+    wheels are built for a different target than z3. **None of this has run yet**: the first Warm Caches
+    run is the test, and the Linux build inside the manylinux image is the step with no local precedent.
+  - **The Linux and macOS wheels compile through sccache** (2026-09-18) --- its LOCAL disk cache, set up
+    by `mozilla-actions/sccache-action` and switched on with `CMAKE_ARGS=-DAGREMAP_SCCACHE=ON` in
+    `CIBW_ENVIRONMENT_*` (scikit-build-core adds `CMAKE_ARGS` to `pyproject.toml`'s own `cmake.args`).
+    The C++ core is identical for every python version, so it compiles once per runner and only the
+    bindings compile per version. **With `CIBW_BUILD: "cp312-*"` that is one wheel per runner and saves
+    nothing yet** --- it is in place for widening. Linux builds in cibuildwheel's container, so the
+    action's static musl binary is copied into the project (`.sccache-bin/`) and put on `PATH`;
+    `CIBW_BEFORE_BUILD_LINUX` / `_MACOS` print `--show-stats` before each wheel. **Not Windows**:
+    scikit-build-core uses the Visual Studio generator there, which ignores a compiler launcher, and
+    `AGREMAP_SCCACHE` would still turn the precompiled headers off --- to add it, force
+    `CMAKE_GENERATOR=Ninja` with the MSVC environment set up first. Nothing is shared across releases
+    (tag-scoped caches).
+- **Trimming z3's build is not the fix:** by ninja's own totals the default target is 888 steps and
+  `libz3` alone 872 --- `test-z3` (1017) is not in the default build at all.
+- **Widening `CIBW_BUILD` to every python** multiplies the per-wheel extension build (~15 min each, LTO on,
+  no sccache) by the version count, twice over on Linux if musllinux returns --- close to GitHub's
+  **6-hour per-job limit**. Split the wheel jobs by python version, or compile through a local sccache
+  inside the container, before widening it.
 
 ## Badges
 

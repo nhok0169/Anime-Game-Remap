@@ -14,6 +14,14 @@ name: Warm Caches
 #
 # note: only the build, never the testers: those are the expensive part, and the pull request that
 #   was just merged has already run them. A merge that touches nothing but prose is skipped.
+#
+# note: the wheel-externs job does the same for RELEASES. A release runs on its tag, which can restore
+#   master's caches but not another tag's, so this is the only way a release finds z3 already built
+#   on its five wheel runners. It uses the same action python-publish.yml does, and its runner list and
+#   macOS deployment target must equal that file's -- Tools/Misc/Diagnostics/checkWorkflowWiring.py
+#   checks both. On a hit each runner only restores (which also keeps the entry from being evicted);
+#   it builds only when the z3 submodule, the pinned manylinux image or the macOS target has moved.
+#   Run it by hand (workflow_dispatch) to warm everything before a first release.
 
 on:
   push:
@@ -22,6 +30,7 @@ on:
       - "**/*.md"
       - "Docs/**"
       - "AI Agent Help/**"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -39,3 +48,36 @@ jobs:
     with:
       os: ubuntu-latest
       python-version: "3.12"
+
+  wheel-externs:
+    name: Wheel z3 (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # must equal python-publish.yml's build-wheels matrix
+        os:
+          - ubuntu-latest
+          - ubuntu-24.04-arm
+          - windows-latest
+          - macos-15-intel
+          - macos-latest
+
+    steps:
+      - name: Checkout, submodules and all
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: The wheels' z3
+        uses: ./.github/actions/wheel-externs
+        with:
+          os: ${{ matrix.os }}
+          # must equal the MACOSX_DEPLOYMENT_TARGET python-publish.yml builds the wheels with
+          macos-deployment-target: "11.0"

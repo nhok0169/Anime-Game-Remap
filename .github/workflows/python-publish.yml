@@ -45,11 +45,18 @@ jobs:
 # more than one architecture from a single runner; macOS needs a runner per architecture, because a
 # macOS runner only builds for its own.
 #
-#   ubuntu-latest      manylinux + musllinux, x86_64
-#   ubuntu-24.04-arm   manylinux + musllinux, aarch64
+#   ubuntu-latest      manylinux, x86_64
+#   ubuntu-24.04-arm   manylinux, aarch64
 #   windows-latest     AMD64
-#   macos-13           x86_64   -- the last Intel runner image
+#   macos-15-intel     x86_64   -- an Intel runner. 'macos-13' was, until GitHub removed that image
+#                                  entirely; a job asking for it never gets a runner
 #   macos-latest       arm64    -- Apple Silicon
+#
+# note: no musllinux wheels, for now (CIBW_SKIP below). cibuildwheel builds each Linux platform in its
+#   own container from a copy of the project, and the z3 in that copy is the one the wheel-externs
+#   action built in the MANYLINUX image -- a musllinux wheel would link a glibc z3. To ship musllinux,
+#   build a second z3 in the musllinux image into its own cebuild/cext folders and point the musllinux
+#   CMAKE_PREFIX_PATH at them.
 # -------------------------------------------------
   build-wheels:
     name: Build wheels (${{ matrix.os }})
@@ -64,7 +71,7 @@ jobs:
           - ubuntu-latest
           - ubuntu-24.04-arm
           - windows-latest
-          - macos-13
+          - macos-15-intel
           - macos-latest
 
     steps:
@@ -85,84 +92,65 @@ jobs:
         python-version: "3.12"
 
 
+    # the version is pinned in ONE file, which the wheel-externs action reads too: the manylinux image
+    #   it builds z3 in is the one this exact cibuildwheel uses
     - name: Install cibuildwheel
-      run: python -m pip install cibuildwheel
+      run: python -m pip install -r .github/cibuildwheel-requirements.txt
 
 
     # -------------------------------------------------
-    # The external dependencies, per OS
+    # z3, restored from the cache or built
     #
-    # Following the project's '[build folder][OS name]' convention, so each runner gets its own
-    # 'cebuild<os>' / 'cext<os>' and the caches never collide -- the same suffix options a local
-    # Linux build uses ('-ps lin' giving 'cebuildlin').
+    # The ONE definition of this build lives in .github/actions/wheel-externs, shared with
+    # warm-caches.yml, which saves it on master on every merge. A release runs on its tag and can
+    # restore master's caches but not another tag's -- so without that, every release built z3 on
+    # every runner. Each runner gets its own 'cebuild<os>' / 'cext<os>', per the '[folder][OS]'
+    # convention.
     # -------------------------------------------------
-    - name: Work out the names this run uses
-      id: naming
-      shell: bash
-      run: |
-        echo "suffix=${{ matrix.os }}" >> "$GITHUB_OUTPUT"
-        echo "z3=$(git rev-parse "HEAD:Anime Game Remap (for all users)/api/extern/z3")" >> "$GITHUB_OUTPUT"
-
-
-    # z3 is the expensive one -- measured at roughly 45 minutes from cold. APIBuilder skips both the
-    #   prebuild and the preinstall whenever their folder already exists, so restoring this cache
-    #   removes that cost outright rather than merely shortening it.
-    - name: Cache the external dependencies
-      uses: actions/cache@v4
+    - name: The wheels' z3
+      uses: ./.github/actions/wheel-externs
       with:
-        path: |
-          cebuild${{ steps.naming.outputs.suffix }}
-          cext${{ steps.naming.outputs.suffix }}
-        key: externs-cibw-${{ matrix.os }}-z3-${{ steps.naming.outputs.z3 }}
+        os: ${{ matrix.os }}
+        macos-deployment-target: "11.0"
 
 
     # -------------------------------------------------
-    # The externs on macOS, where the wheel is built on the host itself -- so a host build is
-    # exactly what the wheel links against. '-s' skips the API build, since scikit-build-core builds
-    # the extension as part of the wheel and all that is wanted here is z3 built and installed.
+    # sccache, for the Linux and macOS wheels
+    #
+    # Each runner builds one wheel per python version, and the C++ core -- most of the compile, and
+    # identical for every version -- would otherwise be recompiled for each one. Through sccache it
+    # compiles once per runner; only the bindings, which include Python's headers, compile per version.
+    # Its LOCAL disk cache, not GitHub's: the reuse is within one runner's run, and a release could not
+    # read another release's entries anyway (tag-scoped). So with ONE python in CIBW_BUILD it saves
+    # nothing yet -- it is here for when CIBW_BUILD widens.
+    #
+    # NOT Windows: scikit-build-core builds there with the Visual Studio generator, which ignores a
+    # compiler launcher, and AGREMAP_SCCACHE would still turn the precompiled headers off.
     # -------------------------------------------------
-    - name: Build the external dependencies (macOS)
-      if: runner.os == 'macOS'
+    - name: Set up sccache
+      if: runner.os != 'Windows'
+      uses: mozilla-actions/sccache-action@v0.0.11
+
+    # Linux wheels build inside cibuildwheel's container, from its COPY of the project -- so the
+    #   binary goes into the project, and CIBW_ENVIRONMENT_LINUX puts it on PATH. The action's Linux
+    #   build is a static musl one, which runs in the manylinux image as it is
+    - name: Put sccache where the Linux container can see it
+      if: runner.os == 'Linux'
       shell: bash
       run: |
-        python -m pip install cmake ninja
-        python -m pip install -r requirements.txt
-        python main.py -pb -pi -s -i \
-          -ps "${{ steps.naming.outputs.suffix }}" \
-          -pis "${{ steps.naming.outputs.suffix }}"
-      working-directory: ./Tools/APIBuilder
-
-
-    # Windows likewise builds on the host -- but APIBuilder configures with '-G Ninja', which needs
-    #   the MSVC environment in the SAME shell, so this is one cmd step that sets it up and builds
-    - name: Build the external dependencies (Windows)
-      if: runner.os == 'Windows'
-      shell: cmd
-      run: |
-        python -m pip install cmake ninja
-        for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do set "VSPATH=%%i"
-        if not defined VSPATH (
-          echo [FAIL] could not locate a Visual Studio with the C++ toolchain
-          exit /b 1
-        )
-        call "%VSPATH%\VC\Auxiliary\Build\vcvarsall.bat" x64
-        if errorlevel 1 exit /b 1
-        cd Tools\APIBuilder
-        python -m pip install -r requirements.txt
-        python main.py -pb -pi -s -i -ps "${{ steps.naming.outputs.suffix }}" -pis "${{ steps.naming.outputs.suffix }}"
+        mkdir -p .sccache-bin
+        cp "$SCCACHE_PATH" .sccache-bin/sccache
+        chmod +x .sccache-bin/sccache
 
 
     # -------------------------------------------------
     # Run cibuildwheel
     #
-    # Linux is the one platform whose externs the steps above CANNOT build: its wheels are built
-    # inside a manylinux container, so a z3 from the Ubuntu host would be against the wrong libc.
-    # CIBW_BEFORE_ALL_LINUX runs in that container, once per platform. The project -- submodules
-    # included, since they are part of the checked-out tree -- is COPIED into it at /project, not
-    # mounted: so a cache restored on the host does reach the container (and APIBuilder then skips the
-    # z3 build), but what the container builds does NOT come back by itself. The last line copies the
-    # two folders out through /host, where cibuildwheel mounts the runner's filesystem, so the cache
-    # step has something to save. 'python3', because manylinux does not put 'python' on PATH.
+    # z3 is already in the workspace by now, for every platform: on Linux the wheel-externs action
+    # built it inside the same manylinux image cibuildwheel uses, with the workspace mounted at
+    # /project -- which is where cibuildwheel puts its COPY of the project, so the paths z3 recorded at
+    # install time still hold. Nothing is built in CIBW_BEFORE_ALL any more, and nothing has to be copied
+    # back out of the container.
     # -------------------------------------------------
     - name: Build wheels
       env:
@@ -171,24 +159,29 @@ jobs:
         #   api/pyproject.toml already keeps PyPy out either way.
         CIBW_BUILD: "cp312-*"
 
-        CIBW_BEFORE_ALL_LINUX: >
-          python3 -m pip install cmake ninja &&
-          cd /project/Tools/APIBuilder &&
-          python3 -m pip install -r requirements.txt &&
-          python3 main.py -pb -pi -s -i
-          -ps "${{ steps.naming.outputs.suffix }}"
-          -pis "${{ steps.naming.outputs.suffix }}" &&
-          for folder in cebuild cext; do
-          mkdir -p "/host${{ github.workspace }}/${folder}${{ steps.naming.outputs.suffix }}" &&
-          cp -a "/project/${folder}${{ steps.naming.outputs.suffix }}/." "/host${{ github.workspace }}/${folder}${{ steps.naming.outputs.suffix }}/" ;
-          done
+        # see the note at the top of this job: musllinux would link the manylinux z3
+        CIBW_SKIP: "*-musllinux_*"
+
+        # the image z3 was built in by the wheel-externs action -- named here so cibuildwheel's default
+        #   cannot move under it (the digest itself comes from the pinned cibuildwheel's own list)
+        CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
+        CIBW_MANYLINUX_AARCH64_IMAGE: manylinux_2_28
 
         # where the build then finds z3. CMake reads CMAKE_PREFIX_PATH out of the environment, so
         #   this is the whole of what scikit-build-core needs to be told. Forward slashes on Windows
         #   too -- CMake wants them, and a backslash would escape in a cache entry.
-        CIBW_ENVIRONMENT_LINUX: CMAKE_PREFIX_PATH=/project/cext${{ steps.naming.outputs.suffix }}/z3
-        CIBW_ENVIRONMENT_MACOS: CMAKE_PREFIX_PATH=${{ github.workspace }}/cext${{ steps.naming.outputs.suffix }}/z3
-        CIBW_ENVIRONMENT_WINDOWS: CMAKE_PREFIX_PATH=${{ github.workspace }}/cext${{ steps.naming.outputs.suffix }}/z3
+        #   CMAKE_ARGS is added to api/pyproject.toml's own cmake.args by scikit-build-core, and
+        #   AGREMAP_SCCACHE makes the API's CMake compile everything through sccache (see above)
+        CIBW_ENVIRONMENT_LINUX: CMAKE_PREFIX_PATH=/project/cext${{ matrix.os }}/z3 PATH="/project/.sccache-bin:$PATH" CMAKE_ARGS="-DAGREMAP_SCCACHE=ON"
+        # the same macOS the wheel-externs action built z3 for, or delocate refuses the library
+        CIBW_ENVIRONMENT_MACOS: CMAKE_PREFIX_PATH=${{ github.workspace }}/cext${{ matrix.os }}/z3 MACOSX_DEPLOYMENT_TARGET=11.0 CMAKE_ARGS="-DAGREMAP_SCCACHE=ON"
+        CIBW_ENVIRONMENT_WINDOWS: CMAKE_PREFIX_PATH=${{ github.workspace }}/cext${{ matrix.os }}/z3
+
+        # before each wheel, how sccache has done so far -- from the second python version on, the core's
+        #   compiles should be hits. Linux and macOS only (api/pyproject.toml's Windows before-build is
+        #   left alone)
+        CIBW_BEFORE_BUILD_LINUX: sccache --show-stats
+        CIBW_BEFORE_BUILD_MACOS: sccache --show-stats
       run: python -m cibuildwheel --output-dir wheelhouse
 
 

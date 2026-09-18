@@ -43,10 +43,17 @@ runs:
           python -m pip install -r .github/cibuildwheel-requirements.txt > /dev/null
           image=$(python -c "
         import configparser, importlib.resources, platform
-        cfg = configparser.ConfigParser()
+        cfg = configparser.ConfigParser(inline_comment_prefixes=('#',))
         cfg.read_string((importlib.resources.files('cibuildwheel') / 'resources' / 'pinned_docker_images.cfg').read_text())
         print(cfg[platform.machine()]['manylinux_2_28'])
         ")
+          # the pinned list ends each entry with a '# <date>' comment, which configparser keeps unless told
+          #   not to -- and a reference with it attached is 'invalid reference format' to docker. Refuse
+          #   anything but a clean digest reference, here, with a message that says why
+          if ! echo "$image" | grep -Eq '^[a-z0-9./_-]+@sha256:[0-9a-f]{64}$'; then
+            echo "::error::not a pinned image reference: '$image'"
+            exit 1
+          fi
           echo "image=$image" >> "$GITHUB_OUTPUT"
           echo "flavour=$(echo "$image" | sed 's/.*@sha256:\(............\).*/\1/')" >> "$GITHUB_OUTPUT"
           echo "manylinux image: $image"

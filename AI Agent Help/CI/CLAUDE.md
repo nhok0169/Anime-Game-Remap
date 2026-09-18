@@ -30,7 +30,7 @@ fail (exit 1, naming the job) on a copy with that one line removed.
 | `mirror-publish-workflow.yml` / `mirror-publish.yml` | reusable / manual | build and publish **AnimeGameRemap**; last in a release because it pins `FixRaidenBoss2==<version>` |
 | `utility-publish.yml` | manual only | **AGRemapUtils**, which has its own version --- deliberately not on a release, which would re-publish an unchanged version and fail as a duplicate |
 | `build.yml` | manual | a matrix build, for trying an OS |
-| `warm-caches.yml` | **push to `master`** (not prose-only merges), manual | the testers' build once (ubuntu-latest, Python 3.12 -- test-workflow.yml's defaults, which are part of the cache key), so its caches are saved ON `master`, where every branch and PR can read them; and, per wheel runner, the wheels' z3 through `.github/actions/wheel-externs` --- so a release restores it too |
+| `warm-caches.yml` | **push to `master`** (not prose-only merges), manual | the testers' build once (ubuntu-latest, Python 3.12 -- test-workflow.yml's defaults, which are part of the cache key), so its caches are saved ON `master`, where every branch and PR can read them; and, **only when run by hand**, the wheels' z3 per wheel runner through `.github/actions/wheel-externs` --- so a release shortly after restores it |
 
 No workflow runs the testers on a push: they cost enough that a pull request, the schedule and each
 publish are the gates. The one push trigger is `warm-caches.yml`, a build on `master` alone.
@@ -138,9 +138,17 @@ Measured and read off `python-publish.yml` on 2026-09-18; the wheel half has nev
 - **A release runs on its TAG**: it can restore `master`'s caches but saves only for that tag, and no tag
   can read another's. So the wheels' z3 has to be saved ON `master`, and since 2026-09-18 it is:
   **`.github/actions/wheel-externs`** is the ONE definition of that build, used by both
-  `python-publish.yml`'s wheel jobs and `warm-caches.yml`'s `wheel-externs` job (every merge, or by
-  hand). With a warm `master` a release skips z3 on every runner --- roughly 30-45 minutes instead of
-  1.5-2.5 hours; cold, it is still the latter. Run Warm Caches by hand before a first release.
+  `python-publish.yml`'s wheel jobs and `warm-caches.yml`'s `wheel-externs` job --- which runs **only by
+  hand** (the maintainer's call: the wheels are needed only to publish, so merges do not pay for five
+  runners). With a warm `master` a release skips z3 on every runner --- roughly 30-45 minutes instead of
+  1.5-2.5 hours; cold, it is still the latter. **Run Warm Caches by hand before a release**; an entry
+  unused for 7 days is evicted, so a release more than a week after the last warm-up is cold again. A
+  publish started by hand ON `master` (python-publish's workflow_dispatch) also saves on `master`; one
+  started by a GitHub release saves only for its tag.
+  - **The pinned image list has a `# <date>` comment after every entry**, which `configparser` keeps
+    unless given `inline_comment_prefixes` --- the first Warm Caches run died on
+    `docker: invalid reference format` for exactly that. The action now refuses anything but a clean
+    `image@sha256:<64 hex>` reference, with an error that says so.
   - **Linux z3 is built on the runner, inside the manylinux image cibuildwheel uses**, with the workspace
     mounted at `/project` --- where cibuildwheel puts its copy of the project, so the paths z3 recorded
     at install time hold. The image is read from the pinned cibuildwheel's own

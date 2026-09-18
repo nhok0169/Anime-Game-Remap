@@ -19,9 +19,10 @@ name: Warm Caches
 #   master's caches but not another tag's, so this is the only way a release finds z3 already built
 #   on its five wheel runners. It uses the same action python-publish.yml does, and its runner list and
 #   macOS deployment target must equal that file's -- Tools/Misc/Diagnostics/checkWorkflowWiring.py
-#   checks both. On a hit each runner only restores (which also keeps the entry from being evicted);
-#   it builds only when the z3 submodule, the pinned manylinux image or the macOS target has moved.
-#   Run it by hand (workflow_dispatch) to warm everything before a first release.
+#   checks both. It runs ONLY by hand (workflow_dispatch), not on a merge: the wheels are needed only
+#   to publish. Run it before a release; what it saves on master stays restorable for 7 days unused.
+#   On a hit each runner only restores; it builds only when the z3 submodule, the pinned manylinux
+#   image or the macOS target has moved.
 
 on:
   push:
@@ -49,8 +50,11 @@ jobs:
       os: ubuntu-latest
       python-version: "3.12"
 
+  # only when run by hand -- the wheels are needed only to publish, so a merge does not pay for five
+  #   runners. Run this before a release: a release can restore what it saves on master for 7 days
   wheel-externs:
     name: Wheel z3 (${{ matrix.os }})
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ${{ matrix.os }}
 
     strategy:

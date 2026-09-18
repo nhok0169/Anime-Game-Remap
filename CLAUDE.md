@@ -634,6 +634,20 @@ moved to `src/py/` during the C++ migration, none of which anything reported.
 **Read [Tools](AI%20Agent%20Help/Tools/CLAUDE.md) before touching anything under `Tools/`, and run
 the tool before you change it.**
 
+**THE PUBLISHED DOCS COMPILE NOTHING, SO TWO TRACKED ARTIFACTS *ARE* THE SITE (2026-09-17).** Read the
+Docs installs `Docs/requirements.txt` and runs Sphinx --- no submodules, no CMake, no Doxygen and no pip
+install of the API, since that would mean building z3 (~45 minutes) against a build time limit.
+`coreAPI.rst` renders from the committed `core/xml` and `api.rst` from the committed `core.pyi`, through
+`Docs/src/extensions/compiledStubs.py`, which stands in for every extension module that is *not* built
+beside its stub and steps aside for one that is. So **a pybind11 class you add without regenerating
+`core.pyi` renders on your machine and is absent from the published site**, and a stale artifact publishes
+a signature the library no longer has --- `git status` on those two is part of finishing a docs change.
+Its config was fatal to any branch carrying the C++ API --- it pip-installed the API *and* ran Doxygen from
+a working directory where the Doxyfile's relative `INPUT` means nothing --- which the published `latest` had
+not noticed only because the default branch `nhok0169` is still the pure-Python library. Test the
+published path with `AGREMAP_DOCS_STUBS=force` in front of the usual Sphinx command; see
+[Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md).
+
 **Seven repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
 visible from the code:** (1) nearly every tracked text file is **CRLF** (`core.autocrlf=true`), so an
 exact-string patch script must normalise to LF before matching and write CRLF back, or every anchor

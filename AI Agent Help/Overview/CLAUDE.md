@@ -685,8 +685,11 @@ reading ~1400 XML files across `/mnt/e` spent over 40 minutes on `coreAPI` alone
 `api/pyproject.toml`, `api/src/py` and `api/src/cpp/core/xml` to one Linux-side tree with the same
 relative layout (`conf.py` resolves them relatively), and install `Docs/requirements.txt` with
 `pip install --target ~/sphinxlib` on `PYTHONPATH`, so the shared dev venv is not modified. The
-whole build is then about three minutes. Baseline: **26 warnings, 0 errors**, every warning from the
-hand-written tutorial / examples pages; a warning or error naming `api` or `coreAPI` is yours. Then
+whole build is then about three minutes. Baseline: **16 warnings, 0 errors** (re-measured 2026-09-17
+--- see [Documentation](../Documentation/CLAUDE.md) for the breakdown and why the **26** this line used to
+carry is stale), almost all of them from the hand-written tutorial / examples pages; a warning or error
+naming `api` or `coreAPI` is yours. Two of the 16 are intersphinx inventory failures caused by the
+Windows machine's proxy, so a Linux-side build of the same tree can legitimately report **14**. Then
 grep the rendered HTML for the new class, as the Documentation guide says.
 
 **43. FIX THE WRITER, NOT THE SHARED READER (2026-09-16).** When one fixer's output is not undone,

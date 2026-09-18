@@ -2,6 +2,34 @@
 # Read the Docs configuration file
 # See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
 
+# NOTHING IS COMPILED HERE, AND NOTHING NEEDS TO BE.
+#
+# The API is a C++/Cython/Python project now, but both generated descriptions of its compiled half are
+# tracked in the repo, and the docs are built off those:
+#
+#   * 'api/src/cpp/core/xml'     the Doxygen XML that breathe reads for coreAPI.rst
+#   * 'FixRaidenBoss2/*.pyi'     the pybind11-stubgen stubs, carrying the full docstring of every class,
+#                                method and property, which Docs/src/extensions/pyiStubs.py serves to
+#                                autodoc and attributetable in place of the extension modules
+#                                themselves (see conf.py)
+#
+# so this file deliberately does NOT:
+#
+#   * pip install the API ('python: install: - method: pip'). That runs scikit-build-core, which runs
+#     CMake, which does 'find_package(Z3 CONFIG REQUIRED)' -- so it would need every submodule cloned
+#     and z3 built, measured at roughly 45 minutes from cold, against a build time limit. conf.py puts
+#     'api/src/py' on sys.path instead, and the pure-Python layer imports nothing but the standard
+#     library.
+#   * run Doxygen ('build: jobs: pre_build'). 'core/xml' is committed and pinned to Doxygen 1.17.0, and
+#     the command that used to be here could not have worked in any case: the Doxyfile's
+#     'INPUT = include src' and its empty 'OUTPUT_DIRECTORY' are relative to the working directory,
+#     which for a job is the checkout root -- so Doxygen looked for './include' and './src' at the top
+#     of the repo and would have written './xml' there rather than into the folder breathe reads.
+#   * clone submodules. They are only needed in order to compile.
+#
+# Regenerating either artifact is a maintainer's job, on a machine with the pinned tool versions -- see
+# AI Agent Help/Documentation/CLAUDE.md.
+
 # Required
 version: 2
 
@@ -11,11 +39,11 @@ build:
    tools:
      python: "3.10"
 
-   jobs:
-      pre_build:
-         - doxygen "Anime Game Remap (for all users)/api/src/cpp/core/Doxyfile"
-
 # Build documentation in the docs/ directory with Sphinx
+#
+# note: fail_on_warning stays false on purpose. The build has a standing baseline of warnings (its
+#   current number is in AI Agent Help/Documentation/CLAUDE.md); what matters is a change against that
+#   baseline, which is measured locally rather than by failing every build here.
 sphinx:
    configuration: Docs/src/conf.py
    fail_on_warning: false
@@ -25,9 +53,7 @@ sphinx:
 # formats:
 #    - pdf
 
-# Optionally declare the Python requsirements required to build your docs
+# Optionally declare the Python requirements required to build your docs
 python:
    install:
     - requirements: Docs/requirements.txt
-    - method: pip
-      path: Anime Game Remap (for all users)/api

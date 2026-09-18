@@ -36,8 +36,13 @@ namespace AGRC = AGRemapCore;
  ``std::function`` caster cannot hand a callable back to `Python`_ as the *same* callable it was
  built from (it re-wraps it in a fresh ``cpp_function``), so a getter reconstructing from a parsed
  ``std::function`` member would break ``someEdit.partFilter is theFilterYouPassed``, a contract
- ``test_GraphInherit.py`` pins with ``assertIs``. The C++ members are re-derived from these at the
- start of every ``edit`` (see #refresh)
+ ``test_GraphInherit.py`` pins with ``assertIs``. ``adder`` is kept the same way. The C++ members
+ are re-derived from these at the start of every ``edit`` (see #refresh)
+ :raw-html:`<br />` :raw-html:`<br />`
+
+ An edit a `Python`_ ``adder`` hands back is run through a real ``GraphGroupEdit`` rather than cast
+ to its C++ base, so a pure-`Python`_ subclass overriding only ``edit`` still has its own ``edit``
+ run
  @endrst
  */
 class PyGraphInherit: public AGRC::GraphInherit<std::string, std::string> {
@@ -67,6 +72,24 @@ class PyGraphInherit: public AGRC::GraphInherit<std::string, std::string> {
         py::object partFilterObj;
 
         /**
+         * @brief
+         @rst
+         The exact `Python`_ callable given for ``adder``, or ``None``
+         @endrst
+         */
+        py::object adderObj;
+
+        /**
+         * @brief
+         @rst
+         The ``ini`` of the ``editFromIni`` call in progress, or ``None`` -- published on the
+         instance for the duration of the forwarded ``edit`` call, because ``edit``'s signature has
+         nowhere to carry it (the same arrangement as ``PyRegFillMissing::currentIni``)
+         @endrst
+         */
+        py::object currentIni = py::none();
+
+        /**
          * @brief Constructs a new graph-inheriting edit
          *
          * @param srcObj The Python tuple id of the source graph
@@ -74,20 +97,24 @@ class PyGraphInherit: public AGRC::GraphInherit<std::string, std::string> {
          * @param reg The name of the register used to reference the root `sections`_ of the graph at 'dst'
          * @param latest Whether to insert the KVPs at the back instead of the front
          * @param partFilterObj The Python filter callable, or ``None``
+         * @param adderObj The Python adder callable, or ``None``
          */
-        PyGraphInherit(py::object srcObj, py::object dstObj, std::string reg, bool latest, py::object partFilterObj);
+        PyGraphInherit(py::object srcObj, py::object dstObj, std::string reg, bool latest, py::object partFilterObj,
+                       py::object adderObj);
 
         /**
          * @brief
          @rst
-         Re-derives the inherited C++ ``src``/``dst``/``partFilter`` members from their `Python`_
-         counterparts -- called at the start of every ``edit`` so an in-place reassignment of any of
-         them is honoured, exactly as it was for the pure-Python original
+         Re-derives the inherited C++ ``src``/``dst``/``partFilter``/``adder`` members from their
+         `Python`_ counterparts -- called at the start of every ``edit`` so an in-place reassignment
+         of any of them is honoured, exactly as it was for the pure-Python original
          @endrst
          *
-         * @param modType The ``modType`` ``edit`` was called with -- captured by the rebuilt filter, since the C++ side has no ``ModType`` to hand over
+         * @param groups The graph-groups view the current edit is running against -- the rebuilt adder hands the source graph to `Python`_ through it, and so is only valid during that edit
+         * @param graphGroups The `Python`_ list 'groups' is a view over
+         * @param modType The ``modType`` ``edit`` was called with -- captured by the rebuilt filter and adder, since the C++ side has no ``ModType`` to hand over
          */
-        void refresh(const py::object &modType);
+        void refresh(PyIniGraphGroups &groups, const py::list &graphGroups, const py::object &modType);
 };
 
 

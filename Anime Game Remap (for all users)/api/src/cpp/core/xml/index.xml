@@ -1521,13 +1521,22 @@
     <member refid="class_a_g_remap_core_1_1_graph_inherit_1a4f854455afac3f3b3df1d4e63eced71c" kind="typedef"><name>IterData</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_inherit_1ad7390d4e4e849430ff2d1594b1659f05" kind="typedef"><name>OrderRanges</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_inherit_1a3cf6041fcddc42bb1be2c639bd4dd5c8" kind="typedef"><name>PartFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_inherit_1abe180f10a6adda9cfcce872ae0c5675c" kind="typedef"><name>KVPs</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_inherit_1ad7979923674f9fe18e85287d2980de5e" kind="typedef"><name>RegEdit</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_inherit_1ac482024339f9d2c8751fae1da561f0bc" kind="typedef"><name>GraphEdit</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_inherit_1a14d5f3f6966df59849f81edd63f2456d" kind="typedef"><name>AddEdit</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_inherit_1a00e0a58a6293385365b5aeb812abd6da" kind="typedef"><name>Adder</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_inherit_1ae57ce7ca6e7c5fe09a8c4977ff184b7d" kind="variable"><name>src</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_inherit_1a1bf71bfe24dd2aea1c3d429ba9a10103" kind="variable"><name>dst</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_inherit_1a952f37375e5015ba2b861c81f527d7f6" kind="variable"><name>reg</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_inherit_1aa48c630c95759056c036d9ed81284eef" kind="variable"><name>latest</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_inherit_1a2be93882177ebbd60607b432a1f5b8ec" kind="variable"><name>partFilter</name></member>
-    <member refid="class_a_g_remap_core_1_1_graph_inherit_1a72def427e69d0e63dc3dc7865ce12e7b" kind="function"><name>GraphInherit</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_inherit_1a17a99f05c28cf5d87f376d55afc659af" kind="variable"><name>adder</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_inherit_1ad4a4f10199c7fa40393209a39c052ebb" kind="function"><name>GraphInherit</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_inherit_1a7dee68f4166fcc35813e215871413ecf" kind="function"><name>edit</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_inherit_1a821135adeb849d731113e1a0e518546c" kind="function"><name>editFromIni</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_inherit_1abbe0a51a2e871d248b569732e354862b" kind="function"><name>editImpl</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_inherit_1a72f0bff74f8382c046e09ba1184cf308" kind="function"><name>addWithEdit</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_graph_part_edit" kind="class"><name>AGRemapCore::GraphPartEdit</name>
     <member refid="class_a_g_remap_core_1_1_graph_part_edit_1a8e08490647f0b9c208b9bf1430e57365" kind="typedef"><name>Owner</name></member>

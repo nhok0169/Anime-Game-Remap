@@ -8562,6 +8562,14 @@ class GraphInherit(BaseIniGraphGroupEdit):
     Merges the graph at 'dst' into the graph at 'src', by inserting consecutive `KVPs`_ into 'src' that
     reference every root `section`_ of the graph at 'dst'
     
+    Each `KVP`_ is ``<reg> = <a root of dst>``, so besides the ``run =`` call the name suggests, this
+    can also compose a graph of resources into a graph that uses them. For example, with 'dst' as the
+    graph of ``[ResourceHeadDiffuse]`` and 'reg' as ``ps-t0``, a ``[TextureOverrideComponent0]`` in
+    'src' that binds no textures of its own gains ``ps-t0 = ResourceHeadDiffuse``
+    
+    Where the `KVPs`_ go is decided by 'adder' when one is given, and otherwise by 'latest' and
+    'partFilter' (see :meth:`edit`)
+    
     .. note::
         This only inserts the reference `KVPs`_ into 'src' -- the `sections`_ of 'dst' themselves are
         left untouched (and still need to be reachable/present elsewhere for the reference to resolve,
@@ -8570,6 +8578,27 @@ class GraphInherit(BaseIniGraphGroupEdit):
     .. note::
         If either the graph at 'src' or the graph at 'dst' cannot be found, nothing is inserted and the
         original 'graphGroups' is returned as-is -- no exception is raised
+    
+    Examples
+    --------
+    Binding a diffuse and a light map into a section that binds neither, after its ``hash`` and
+    ``match_*`` `KVPs`_ (and after any ``ps-t`` register an earlier edit already bound there):
+    
+    .. code-block:: python
+        :linenos:
+    
+        def afterHeader(iterData, modType, ini):
+            part = iterData.part
+            if ("hash" not in part):
+                return FRB.Ranges.createEmpty()
+    
+            header = [i for i in range(len(part)) if (part[i][0] in {"hash", "match_first_index", "match_index_count"} or part[i][0].startswith("ps-t"))]
+            return FRB.Ranges([(max(header) + 1, None)])
+    
+        addAtFront = lambda srcGraph, kvps, ini, modType, modName: FRB.RegAdd(kvps, latest = False)
+    
+        edits = [FRB.GraphInherit((0, "", "Component0"), (0, "", "HeadDiffuse"), "ps-t0", partFilter = afterHeader, adder = addAtFront),
+                 FRB.GraphInherit((0, "", "Component0"), (0, "", "HeadLightMap"), "ps-t1", partFilter = afterHeader, adder = addAtFront)]
     
     Parameters
     ----------
@@ -8587,7 +8616,7 @@ class GraphInherit(BaseIniGraphGroupEdit):
         The name of the register used to reference the root `sections`_ of the graph at 'dst'
     
     latest: :class:`bool`
-        Whether to insert the `KVPs`_ at the back of the areas to insert, instead of at the front :raw-html:`<br />` :raw-html:`<br />`
+        Whether to insert the `KVPs`_ at the back of the areas to insert, instead of at the front. Unused when 'adder' is given :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``True``
     
@@ -8599,18 +8628,49 @@ class GraphInherit(BaseIniGraphGroupEdit):
         front/back (based on 'latest') of every root `section`_ of the graph at 'src', instead of being
         filtered through every :class:`IfContentPart` of the graph :raw-html:`<br />` :raw-html:`<br />`
     
+        When 'adder' is given, this is instead the key filter the edit 'adder' returns is run with, the
+        same way a :class:`GraphGroupEdit` hands its 'keyFilters' to its edits :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    adder: Optional[Callable[[:class:`IniSectionGraph`, List[Tuple[:class:`str`, :class:`str`]], Optional[:class:`IniFile`], :class:`ModType`, :class:`str`], Optional[Union[:class:`BaseRegEdit`, :class:`BaseIniGraphEdit`]]]]
+        Decides how the reference `KVPs`_ are added to the graph at 'src'. It is called once per edit
+        with: :raw-html:`<br />` :raw-html:`<br />`
+    
+        #. The graph at 'src'
+        #. The `KVPs`_ to add, as ``(reg, rootName)`` pairs in the order of the roots of the graph at 'dst'
+        #. The .ini file being fixed, or ``None`` when the edit was not given one
+        #. The type of mod to fix
+        #. The name of the mod to fix to
+    
+        and returns either:
+    
+        * a :class:`BaseRegEdit` or :class:`BaseIniGraphEdit` built from the `KVPs`_ (eg. a
+          :class:`RegAdd` or a :class:`RegSurroundedAdd`), which is then run over the graph at 'src'
+          the same way a :class:`GraphGroupEdit` would run it, with 'partFilter' as its key filter
+        * ``None``, when the adder already inserted the `KVPs`_ itself
+    
+        If this value is ``None``, 'latest' and 'partFilter' decide instead :raw-html:`<br />` :raw-html:`<br />`
+    
         **Default**: ``None``
         
     """
-    def __init__(self, src: typing.Any, dst: typing.Any, reg: str, latest: bool = True, partFilter: typing.Any = None) -> None:
+    def __init__(self, src: typing.Any, dst: typing.Any, reg: str, latest: bool = True, partFilter: typing.Any = None, adder: typing.Any = None) -> None:
         ...
     def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
         """
         Inserts the reference `KVPs`_ from the graph at :attr:`dst` into the graph at :attr:`src`
         
-        With no :attr:`partFilter`, the `KVPs`_ go straight to the very front/back (based on :attr:`latest`)
-        of every root `section`_ of the graph at :attr:`src`. With one, they instead go at the
-        earliest/latest valid index of every :class:`IfContentPart` the filter accepts
+        With an :attr:`adder`, the adder decides: the edit it returns is run over the graph at :attr:`src`
+        with :attr:`partFilter` as its key filter, or, if it returns ``None``, it is taken to have inserted
+        the `KVPs`_ itself
+        
+        Without one, and with no :attr:`partFilter`, the `KVPs`_ go straight to the very front/back (based
+        on :attr:`latest`) of every root `section`_ of the graph at :attr:`src`. With a :attr:`partFilter`,
+        they instead go at the earliest/latest valid index of every :class:`IfContentPart` the filter
+        accepts
+        
+        Nothing is added, and :attr:`adder` is not called, when the graph at :attr:`dst` has no roots
         
         Parameters
         ----------
@@ -8618,7 +8678,7 @@ class GraphInherit(BaseIniGraphGroupEdit):
             The group of graphs to edit for each .ini file
         
         modType: Optional[:class:`ModType`]
-            The type of mod to fix. Only ever handed to :attr:`partFilter`
+            The type of mod to fix. Only ever handed to :attr:`partFilter` and :attr:`adder`
         
         modName: :class:`str`
             The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
@@ -8630,6 +8690,42 @@ class GraphInherit(BaseIniGraphGroupEdit):
         List[:class:`IniGraphGroup`]
             The same list that was passed in, after editing
         """
+    def editFromIni(self, graphGroups: list, ini: typing.Any, modType: typing.Any, modName: str = '') -> typing.Any:
+        """
+        The same as :meth:`edit`, except that 'ini' is also handed to :attr:`partFilter`, :attr:`adder`,
+        and the edit the adder returns
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        ini: Optional[:class:`IniFile`]
+            The .ini file being fixed
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in, after editing
+        """
+    @property
+    def adder(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`IniSectionGraph`, List[Tuple[:class:`str`, :class:`str`]], Optional[:class:`IniFile`], :class:`ModType`, :class:`str`], Optional[Union[:class:`BaseRegEdit`, :class:`BaseIniGraphEdit`]]]]:
+        Decides how the reference `KVPs`_ are added to the graph at :attr:`src` -- see the class's own
+        'adder' parameter
+        """
+    @adder.setter
+    def adder(self, arg1: typing.Any) -> None:
+        ...
     @property
     def dst(self) -> typing.Any:
         """
@@ -8643,7 +8739,7 @@ class GraphInherit(BaseIniGraphGroupEdit):
     def latest(self) -> bool:
         """
         :class:`bool`: Whether to insert the `KVPs`_ at the back of the areas to insert, instead of at the
-        front
+        front. Unused when :attr:`adder` is set
         """
     @latest.setter
     def latest(self, arg0: bool) -> None:
@@ -8653,7 +8749,8 @@ class GraphInherit(BaseIniGraphGroupEdit):
         """
         Optional[Callable[[:class:`SectionIterData`, :class:`ModType`, Optional[:class:`IniFile`]], :class:`Ranges`]]:
         The filter used to indicate which areas of some :class:`IfContentPart` within the graph at
-        :attr:`src` are valid to insert the `KVPs`_
+        :attr:`src` are valid to insert the `KVPs`_. When :attr:`adder` is set, this is instead the key
+        filter the adder's edit is run with
         """
     @partFilter.setter
     def partFilter(self, arg1: typing.Any) -> None:

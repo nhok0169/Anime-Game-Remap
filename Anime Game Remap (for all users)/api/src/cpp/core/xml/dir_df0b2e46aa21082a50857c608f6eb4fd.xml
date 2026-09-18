@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_df0b2e46aa21082a50857c608f6eb4fd" kind="dir">
+    <compoundname>src/data/IniParseData</compoundname>
+    <innerdir refid="dir_d49ad82d10232c160eed6ba219ad3aaf">src/data/IniParseData/Amber</innerdir>
+    <innerdir refid="dir_1e8e8ff531a45b15b2a1b32c90f76189">src/data/IniParseData/AmberCN</innerdir>
+    <innerdir refid="dir_4d073ffe7e5884fe0e88349e2cc46089">src/data/IniParseData/Arlecchino</innerdir>
+    <innerdir refid="dir_7ac17031a85c6838d8ac0b2a7aa8ecf4">src/data/IniParseData/Ayaka</innerdir>
+    <innerdir refid="dir_6ca3b3aa0c19f7d811f2283134f3a928">src/data/IniParseData/AyakaSpringbloom</innerdir>
+    <innerdir refid="dir_02ac7716888046425712158f06bd61c8">src/data/IniParseData/Barbara</innerdir>
+    <innerdir refid="dir_2078836bcd6a988550c40e8beac7d66a">src/data/IniParseData/BarbaraSummertime</innerdir>
+    <innerdir refid="dir_25a7db1bb6bc60a250ad437f8aee695a">src/data/IniParseData/CherryHuTao</innerdir>
+    <innerdir refid="dir_450e4e7d6c7802f35860bef9745d587e">src/data/IniParseData/Diluc</innerdir>
+    <innerdir refid="dir_48ca439cd3f0dd8745dcafe93acdcd14">src/data/IniParseData/DilucFlamme</innerdir>
+    <innerdir refid="dir_79055539973bb8cddcafa6daa48935aa">src/data/IniParseData/Fischl</innerdir>
+    <innerdir refid="dir_675b2561485c3855222b2f197566b5ca">src/data/IniParseData/FischlHighness</innerdir>
+    <innerdir refid="dir_4c07bae995c5cc50642edcdf79d1fc4d">src/data/IniParseData/Ganyu</innerdir>
+    <innerdir refid="dir_ad80a4237678595fdf99b257fc82bbe0">src/data/IniParseData/GanyuTwilight</innerdir>
+    <innerdir refid="dir_90562ba89d96831babf486e4a218b503">src/data/IniParseData/HuTao</innerdir>
+    <innerdir refid="dir_87fb242d167096057e876e88c40baf04">src/data/IniParseData/Jean</innerdir>
+    <innerdir refid="dir_69f495faac9173f16762bdb6c9e64df4">src/data/IniParseData/JeanCN</innerdir>
+    <innerdir refid="dir_634cbc2cf3960cea55393c919c41fd4e">src/data/IniParseData/JeanSea</innerdir>
+    <innerdir refid="dir_6c9c3f659a6e1f024d2c1efb03453fc0">src/data/IniParseData/Kaeya</innerdir>
+    <innerdir refid="dir_91b134d1210ff6618861f227f028a2dd">src/data/IniParseData/KaeyaSailwind</innerdir>
+    <innerdir refid="dir_051cf47f59257529ff82060018c7b784">src/data/IniParseData/Keqing</innerdir>
+    <innerdir refid="dir_275b458d757bb3633b3c9344062ab299">src/data/IniParseData/KeqingOpulent</innerdir>
+    <innerdir refid="dir_224a61668d3dfd08b052540df0d0bcf4">src/data/IniParseData/Kirara</innerdir>
+    <innerdir refid="dir_275bbc05eeb377b2a33a4c6bc33d7282">src/data/IniParseData/KiraraBoots</innerdir>
+    <innerdir refid="dir_c95d08b69d6bb321320e249ca059d504">src/data/IniParseData/Klee</innerdir>
+    <innerdir refid="dir_0a8fb8e1dfff43262d73a5e048f010e0">src/data/IniParseData/KleeBlossomingStarlight</innerdir>
+    <innerdir refid="dir_6bf610a32b06791c3ce4ea5e8d96f2d8">src/data/IniParseData/Lisa</innerdir>
+    <innerdir refid="dir_7d73376d641d75fa42fe2a1657940aff">src/data/IniParseData/LisaStudent</innerdir>
+    <innerdir refid="dir_8f5bf5a9e6f82f5ebb05da8e603ecbc8">src/data/IniParseData/Mona</innerdir>
+    <innerdir refid="dir_7354bd2ec5e57e0ae2ee0931671ab40f">src/data/IniParseData/MonaCN</innerdir>
+    <innerdir refid="dir_2773a236b14999538cfd7d8ef10f588d">src/data/IniParseData/Nilou</innerdir>
+    <innerdir refid="dir_ef1c0834780db492af873d1d7b53d149">src/data/IniParseData/NilouBreeze</innerdir>
+    <innerdir refid="dir_0adc358d87518781b54f054970880751">src/data/IniParseData/Ningguang</innerdir>
+    <innerdir refid="dir_8ed2680fbdaf5e2ad830e12ec38b1ab9">src/data/IniParseData/NingguangOrchid</innerdir>
+    <innerdir refid="dir_7f84deb5e2bd66c228fb7ce5b7c32fa6">src/data/IniParseData/Raiden</innerdir>
+    <innerdir refid="dir_bb96075b8dcb2abe1eb63e775e9cdf73">src/data/IniParseData/Rosaria</innerdir>
+    <innerdir refid="dir_2a7e1139a0e074c94ed8909e65eccfb9">src/data/IniParseData/RosariaCN</innerdir>
+    <innerdir refid="dir_084a89b1559e7238ff05fb14adfe88be">src/data/IniParseData/Shenhe</innerdir>
+    <innerdir refid="dir_601096fb9f5fdad2d849e89c78fa0437">src/data/IniParseData/ShenheFrostFlower</innerdir>
+    <innerdir refid="dir_2d7db9eeba00ad3c7d5e27d473bca82b">src/data/IniParseData/Xiangling</innerdir>
+    <innerdir refid="dir_2b95a8b1d45df4a66fd92adb3920cea4">src/data/IniParseData/XianglingCheer</innerdir>
+    <innerdir refid="dir_e189eea1a30d4108bc5e85b76d61afec">src/data/IniParseData/Xingqiu</innerdir>
+    <innerdir refid="dir_abe2f63a4c8bf5636c10b30b75ce7782">src/data/IniParseData/XingqiuBamboo</innerdir>
+    <innerdir refid="dir_4e076e793e6a6743d550721ce3e0e51b">src/data/IniParseData/Yelan</innerdir>
+    <innerdir refid="dir_213d24b3c6fff506f3a307d486eee033">src/data/IniParseData/YelanTranquil</innerdir>
+    <innerfile refid="_g_i_m_i_char_parser_8cpp">GIMICharParser.cpp</innerfile>
+    <innerfile refid="_g_i_m_i_component_parser_8cpp">GIMIComponentParser.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniParseData/"/>
+  </compounddef>
+</doxygen>

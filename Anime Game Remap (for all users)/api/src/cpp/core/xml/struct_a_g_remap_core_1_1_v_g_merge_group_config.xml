@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_v_g_merge_group_config" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::VGMergeGroupConfig</compoundname>
+    <includes refid="_v_g_merge_group_resource_8h" local="no">VGMergeGroupResource.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_merge_group_config_1a8f81e888fe8bd57b492efb8f60ca2c39" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_v_g_merge_component_files" kindref="compound">VGMergeComponentFiles</ref> &gt;</type>
+        <definition>std::vector&lt;VGMergeComponentFiles&gt; AGRemapCore::VGMergeGroupConfig::components</definition>
+        <argsstring></argsstring>
+        <name>components</name>
+        <qualifiedname>AGRemapCore::VGMergeGroupConfig::components</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every component of the source, in merge order. The first takes offset 0, so its index
+buffers pass through unchanged -- worth putting the biggest there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="101" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_merge_group_config_1a4ccbab3ff1866244490bc874b3bf79ed" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_v_g_merge_object" kindref="compound">VGMergeObject</ref> &gt;</type>
+        <definition>std::vector&lt;VGMergeObject&gt; AGRemapCore::VGMergeGroupConfig::objects</definition>
+        <argsstring></argsstring>
+        <name>objects</name>
+        <qualifiedname>AGRemapCore::VGMergeGroupConfig::objects</qualifiedname>
+        <briefdescription>
+<para>The target&apos;s drawn objects. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="106" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What a :cpp:class:`VGMergeGroupResource` needs beyond its members: every component of the
+SOURCE (the merge is joint -- an index buffer&apos;s offset is the sum of the vertices before its
+component) and which source objects each target object draws
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="93" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="93" bodyend="107"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1a8f81e888fe8bd57b492efb8f60ca2c39" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupConfig</scope><name>components</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1a4ccbab3ff1866244490bc874b3bf79ed" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupConfig</scope><name>objects</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

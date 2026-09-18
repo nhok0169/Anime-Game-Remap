@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_klee_blossoming_starlight_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::KleeBlossomingStarlightParser</compoundname>
+    <includes refid="_klee_blossoming_starlight_parser_8h" local="no">KleeBlossomingStarlightParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_klee_blossoming_starlight_parser_1aef2c7a6476ba91d7cd31b7061dbb9a9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::KleeBlossomingStarlightParser::KleeBlossomingStarlightParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>KleeBlossomingStarlightParser</name>
+        <qualifiedname>AGRemapCore::KleeBlossomingStarlightParser::KleeBlossomingStarlightParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_klee_blossoming_starlight_parser_1a33747706ca8f47b75c3fe77091fe79e6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::KleeBlossomingStarlightParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::KleeBlossomingStarlightParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era KleeBlossomingStarlight ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::kleeBlossomingStarlight4_0` returns, and documented
+there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.h" line="45" column="45" bodyfile="src/data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+KleeBlossomingStarlight&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`KleeBlossomingStarlightFixer`: the fixer&apos;s mod objects are the ones this parser
+classifies, and neither half makes sense alone
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.h" bodystart="32" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_klee_blossoming_starlight_parser_1aef2c7a6476ba91d7cd31b7061dbb9a9c" prot="public" virt="non-virtual"><scope>AGRemapCore::KleeBlossomingStarlightParser</scope><name>KleeBlossomingStarlightParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_klee_blossoming_starlight_parser_1a33747706ca8f47b75c3fe77091fe79e6" prot="public" virt="non-virtual"><scope>AGRemapCore::KleeBlossomingStarlightParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

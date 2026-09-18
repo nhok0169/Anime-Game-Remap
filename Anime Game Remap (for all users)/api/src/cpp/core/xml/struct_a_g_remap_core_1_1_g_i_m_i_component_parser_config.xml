@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMIComponentParserConfig</compoundname>
+    <includes refid="_g_i_m_i_component_parser_8h" local="no">GIMIComponentParser.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot" prot="public">AGRemapCore::GIMIComponentParserConfig::Slot</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component" prot="public">AGRemapCore::GIMIComponentParserConfig::Component</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1abb6bbbcf2e357924068a8ca817f2bbc3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref></type>
+        <definition>ModTypeId AGRemapCore::GIMIComponentParserConfig::modTypeId</definition>
+        <argsstring></argsstring>
+        <name>modTypeId</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::modTypeId</qualifiedname>
+        <briefdescription>
+<para>The mod type a <computeroutput>.ini</computeroutput> of this skin classifies as, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>YelanTranquil</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="33" column="19" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1af04f859b594b3d9b4931c49cb71a62f3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIComponentParserConfig::downloadCharFolder</definition>
+        <argsstring></argsstring>
+        <name>downloadCharFolder</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::downloadCharFolder</qualifiedname>
+        <briefdescription>
+<para>The folder under <computeroutput>Data/Mod Downloads/GI/</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="38" column="21" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1af3e9fe680b7eb09dfb51aedc6aaa7fa4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIComponentParserConfig::downloadVersionFolder</definition>
+        <argsstring></argsstring>
+        <name>downloadVersionFolder</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::downloadVersionFolder</qualifiedname>
+        <briefdescription>
+<para>The version subfolder, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>5_7</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="43" column="21" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1ad5224a4cc050501b7b5ad4635b1f8621" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIComponentParserConfig::downloadPrefix</definition>
+        <argsstring></argsstring>
+        <name>downloadPrefix</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::downloadPrefix</qualifiedname>
+        <briefdescription>
+<para>The download file prefix <ndash/> NOT derivable from <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1af04f859b594b3d9b4931c49cb71a62f3" kindref="member">downloadCharFolder</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="48" column="21" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a97cdb5130602390cfa64ec9bdbd43b6d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component" kindref="compound">Component</ref> &gt;</type>
+        <definition>std::vector&lt;Component&gt; AGRemapCore::GIMIComponentParserConfig::components</definition>
+        <argsstring></argsstring>
+        <name>components</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::components</qualifiedname>
+        <briefdescription>
+<para>Every component of the skin. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="160" column="21" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1af496b5ab6ceb3858b94b8e6f9488bdcb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::GIMIComponentParserConfig::positionStride</definition>
+        <argsstring></argsstring>
+        <name>positionStride</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::positionStride</qualifiedname>
+        <initializer>= 40</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="162" column="13" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a1c62f9cd930d935ad549bf06324eeec8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::GIMIComponentParserConfig::blendStride</definition>
+        <argsstring></argsstring>
+        <name>blendStride</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::blendStride</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="163" column="13" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What :cpp:func:`makeGIMIComponentParser` needs to read a mod built for a skin of SEVERAL
+components -- the parser counterpart of :cpp:struct:`GIMICharParserConfig`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="29" column="5" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="29" bodyend="164"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a1c62f9cd930d935ad549bf06324eeec8" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig</scope><name>blendStride</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a97cdb5130602390cfa64ec9bdbd43b6d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig</scope><name>components</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1af04f859b594b3d9b4931c49cb71a62f3" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig</scope><name>downloadCharFolder</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1ad5224a4cc050501b7b5ad4635b1f8621" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig</scope><name>downloadPrefix</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1af3e9fe680b7eb09dfb51aedc6aaa7fa4" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig</scope><name>downloadVersionFolder</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1abb6bbbcf2e357924068a8ca817f2bbc3" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig</scope><name>modTypeId</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1af496b5ab6ceb3858b94b8e6f9488bdcb" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig</scope><name>positionStride</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

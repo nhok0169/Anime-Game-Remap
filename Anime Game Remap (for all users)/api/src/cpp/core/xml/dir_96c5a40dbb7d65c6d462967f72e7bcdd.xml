@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_96c5a40dbb7d65c6d462967f72e7bcdd" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/NilouBreeze</compoundname>
+    <innerfile refid="_nilou_breeze_fixer_8h">NilouBreezeFixer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/NilouBreeze/"/>
+  </compounddef>
+</doxygen>

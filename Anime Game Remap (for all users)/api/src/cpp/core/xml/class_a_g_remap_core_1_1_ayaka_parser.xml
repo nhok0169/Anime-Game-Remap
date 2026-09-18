@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ayaka_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::AyakaParser</compoundname>
+    <includes refid="_ayaka_parser_8h" local="no">AyakaParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ayaka_parser_1a3a39e431b4adbc1fdbda44c8c1e92df2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::AyakaParser::AyakaParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>AyakaParser</name>
+        <qualifiedname>AGRemapCore::AyakaParser::AyakaParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Ayaka/AyakaParser.h" line="37" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ayaka_parser_1abb698204917d5c8a375fa81d851469fd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::AyakaParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::AyakaParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era Ayaka ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::ayaka4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Ayaka/AyakaParser.h" line="46" column="45" bodyfile="src/data/IniParseData/Ayaka/AyakaParser.cpp" bodystart="44" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Ayaka&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`AyakaFixer`; the two agree on the mod object names by hand, and
+neither half makes sense alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Ayaka and AyakaSpringbloom are a base/skin pair and remap onto each other
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Ayaka/AyakaParser.h" line="34" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Ayaka/AyakaParser.h" bodystart="34" bodyend="47"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ayaka_parser_1a3a39e431b4adbc1fdbda44c8c1e92df2" prot="public" virt="non-virtual"><scope>AGRemapCore::AyakaParser</scope><name>AyakaParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_ayaka_parser_1abb698204917d5c8a375fa81d851469fd" prot="public" virt="non-virtual"><scope>AGRemapCore::AyakaParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

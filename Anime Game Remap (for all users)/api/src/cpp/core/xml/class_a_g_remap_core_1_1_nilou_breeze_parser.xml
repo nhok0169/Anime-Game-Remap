@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_nilou_breeze_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::NilouBreezeParser</compoundname>
+    <includes refid="_nilou_breeze_parser_8h" local="no">NilouBreezeParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_nilou_breeze_parser_1a631e3768ef2192c6d0de6b8b06e697e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::NilouBreezeParser::NilouBreezeParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>NilouBreezeParser</name>
+        <qualifiedname>AGRemapCore::NilouBreezeParser::NilouBreezeParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/NilouBreeze/NilouBreezeParser.h" line="37" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_nilou_breeze_parser_1a6916bc81d8b657012fd5fc7edbd29897" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::NilouBreezeParser::v4_8</definition>
+        <argsstring>()</argsstring>
+        <name>v4_8</name>
+        <qualifiedname>AGRemapCore::NilouBreezeParser::v4_8</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.8-era NilouBreeze ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::nilouBreeze4_8` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/NilouBreeze/NilouBreezeParser.h" line="46" column="45" bodyfile="src/data/IniParseData/NilouBreeze/NilouBreezeParser.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+NilouBreeze&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`NilouBreezeFixer`; the two agree on the mod object names by hand,
+and neither half makes sense alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+NilouBreeze is Nilou&apos;s summer skin, and the two remap onto each other
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/NilouBreeze/NilouBreezeParser.h" line="34" column="5" bodyfile="include/AGRemapCore/data/IniParseData/NilouBreeze/NilouBreezeParser.h" bodystart="34" bodyend="47"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_nilou_breeze_parser_1a631e3768ef2192c6d0de6b8b06e697e2" prot="public" virt="non-virtual"><scope>AGRemapCore::NilouBreezeParser</scope><name>NilouBreezeParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_nilou_breeze_parser_1a6916bc81d8b657012fd5fc7edbd29897" prot="public" virt="non-virtual"><scope>AGRemapCore::NilouBreezeParser</scope><name>v4_8</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

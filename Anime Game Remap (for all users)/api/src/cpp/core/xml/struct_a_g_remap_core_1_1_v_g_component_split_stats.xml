@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_v_g_component_split_stats" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::VGComponentSplitStats</compoundname>
+    <includes refid="_v_g_component_split_8h" local="no">VGComponentSplit.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a287fb32688c4220d2640b40c9b522487" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::VGComponentSplitStats::vertexCount</definition>
+        <argsstring></argsstring>
+        <name>vertexCount</name>
+        <qualifiedname>AGRemapCore::VGComponentSplitStats::vertexCount</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="74" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a41bbf09e1ac9eac00385b6f8625e6c88" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::VGComponentSplitStats::keptVertices</definition>
+        <argsstring></argsstring>
+        <name>keptVertices</name>
+        <qualifiedname>AGRemapCore::VGComponentSplitStats::keptVertices</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="75" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_stats_1af9e7217315e56747b5f50d14f9d9049a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; AGRemapCore::VGComponentSplitStats::trianglesKept</definition>
+        <argsstring></argsstring>
+        <name>trianglesKept</name>
+        <qualifiedname>AGRemapCore::VGComponentSplitStats::trianglesKept</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="76" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a2c3e7ca5bddd9b405808e20d7b8c14be" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; AGRemapCore::VGComponentSplitStats::trianglesDropped</definition>
+        <argsstring></argsstring>
+        <name>trianglesDropped</name>
+        <qualifiedname>AGRemapCore::VGComponentSplitStats::trianglesDropped</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="77" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a9d124a3a6b84f4ed5931995a9fa0d036" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::VGComponentSplitStats::renormalised</definition>
+        <argsstring></argsstring>
+        <name>renormalised</name>
+        <qualifiedname>AGRemapCore::VGComponentSplitStats::renormalised</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="78" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_stats_1ac7897eed97d64310d334d605ad7d7767" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::VGComponentSplitStats::neighbourSkinned</definition>
+        <argsstring></argsstring>
+        <name>neighbourSkinned</name>
+        <qualifiedname>AGRemapCore::VGComponentSplitStats::neighbourSkinned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="79" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a3a68e3236f770be1598c9c6a4df101b1" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::VGComponentSplitStats::sentinels</definition>
+        <argsstring></argsstring>
+        <name>sentinels</name>
+        <qualifiedname>AGRemapCore::VGComponentSplitStats::sentinels</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="80" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Counts worth reporting about one component&apos;s split. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="73" column="5" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="73" bodyend="81"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a41bbf09e1ac9eac00385b6f8625e6c88" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>keptVertices</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1ac7897eed97d64310d334d605ad7d7767" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>neighbourSkinned</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a9d124a3a6b84f4ed5931995a9fa0d036" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>renormalised</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a3a68e3236f770be1598c9c6a4df101b1" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>sentinels</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a2c3e7ca5bddd9b405808e20d7b8c14be" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>trianglesDropped</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1af9e7217315e56747b5f50d14f9d9049a" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>trianglesKept</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a287fb32688c4220d2640b40c9b522487" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>vertexCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

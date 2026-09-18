@@ -1,0 +1,407 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_file_download" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::FileDownload</compoundname>
+    <includes refid="_file_download_8h" local="no">FileDownload.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_download_1ab6ff09cb4e4f175816d2bc1d7e6fc422" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::FileDownload::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>AGRemapCore::FileDownload::url</qualifiedname>
+        <briefdescription>
+<para>The link to the file download. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="149" column="25" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_download_1a213340408fb5c9a6220a260cc1da7f2e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::FileDownload::filename</definition>
+        <argsstring></argsstring>
+        <name>filename</name>
+        <qualifiedname>AGRemapCore::FileDownload::filename</qualifiedname>
+        <briefdescription>
+<para>The base name of the file (with extension). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="154" column="25" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_download_1a006c4cc9e5ed188c885c2ec70075df0e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::FileDownload::cache</definition>
+        <argsstring></argsstring>
+        <name>cache</name>
+        <qualifiedname>AGRemapCore::FileDownload::cache</qualifiedname>
+        <briefdescription>
+<para>Whether to copy the previously-downloaded file if possible, instead of downloading another copy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="159" column="18" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_download_1aaa47a6fe66479ff76e3e330c8bb7d4e6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::FileDownload::maxAttempts</definition>
+        <argsstring></argsstring>
+        <name>maxAttempts</name>
+        <qualifiedname>AGRemapCore::FileDownload::maxAttempts</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How many times #download asks for the file in total before giving up -- ``1`` to
+never retry :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Only failures worth asking again about are retried. ``Could not resolve host`` is a
+DNS hiccup and the request stands a real chance next time; a ``404`` is an answer,
+and asking three times just prints the same thing three times. #download decides
+which is which from the `libcurl`_ result -- and, for an HTTP error, from the status
+code, since ``503`` and ``404`` arrive as the same ``CURLE_HTTP_RETURNED_ERROR``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="174" column="17" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_download_1a2faee36e8fb7fc5aa7e2908d4a8ec66b" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds AGRemapCore::FileDownload::retryDelay</definition>
+        <argsstring></argsstring>
+        <name>retryDelay</name>
+        <qualifiedname>AGRemapCore::FileDownload::retryDelay</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How long to wait before the FIRST retry, DOUBLED for each one after it
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Backing off rather than hammering: whatever was briefly wrong (a resolver that has
+not come back, a rate limit) is more likely to be over after a second than after no
+time at all. With the defaults a file that never comes back costs 1s + 2s of waiting
+on top of its three attempts
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="188" column="39" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="188" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_download_1a0b8a942744a1bd1e8e09205a4009979a" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(int attempt, int attempts, const std::string &amp;reason, std::chrono::milliseconds wait)&gt;</type>
+        <definition>std::function&lt;void(int attempt, int attempts, const std::string&amp; reason, std::chrono::milliseconds wait)&gt; AGRemapCore::FileDownload::onRetry</definition>
+        <argsstring></argsstring>
+        <name>onRetry</name>
+        <qualifiedname>AGRemapCore::FileDownload::onRetry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Called just before each retry, if set -- with the attempt that just failed, how many
+there are in total, why it failed, and how long #download is about to wait
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A hook rather than a logger, because this class has no view and should not grow one:
+:cpp:class:`RemapIniDownload` owns the :cpp:class:`BaseLogger` and wires this up in
+its own ``fix``. Left unset a retry is silent, which is only right for a caller that
+has nowhere to say it
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="204" column="2" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_download_1a0f8d741b6e3b391fae41fb9fb9a626a2" prot="protected" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; AGRemapCore::FileDownload::prevPath_</definition>
+        <argsstring></argsstring>
+        <name>prevPath_</name>
+        <qualifiedname>AGRemapCore::FileDownload::prevPath_</qualifiedname>
+        <briefdescription>
+<para>The previous full path to the downloaded file, if any. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="261" column="27" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_file_download_1a6b874e5b494e6f457dcc139397ceff0d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::FileDownload::FileDownload</definition>
+        <argsstring>(std::string url, std::string filename, bool cache=true)</argsstring>
+        <name>FileDownload</name>
+        <qualifiedname>AGRemapCore::FileDownload::FileDownload</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>cache</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new file download. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The link to the file download </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The base name of the file (with extension) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cache</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to copy the previously-downloaded file if possible, instead of downloading another copy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="142" column="22" bodyfile="src/tools/files/FileDownload.cpp" bodystart="155" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_file_download_1a7b88857c911d0cabd6a014ad3dbf8347" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::FileDownload::~FileDownload</definition>
+        <argsstring>()=default</argsstring>
+        <name>~FileDownload</name>
+        <qualifiedname>AGRemapCore::FileDownload::~FileDownload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="144" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_file_download_1a1ff069ea62a7358b41b12a4e42535740" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::FileDownload::download</definition>
+        <argsstring>(const std::string &amp;folder, std::optional&lt; std::string &gt; proxy=std::nullopt)</argsstring>
+        <name>download</name>
+        <qualifiedname>AGRemapCore::FileDownload::download</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>folder</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>proxy</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Downloads the required file via `libcurl`_ -- see this class&apos;s own doc comment
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>folder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The folder to store the downloaded file (created if it doesn&apos;t already exist) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>proxy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The link to the proxy server used for any internet network access, if any</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The full path to the downloaded file</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the download fails for any reason (curl init failure, transfer error, non-2xx HTTP status, or the destination file couldn&apos;t be opened) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="220" column="33" bodyfile="src/tools/files/FileDownload.cpp" bodystart="227" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_file_download_1af281e79b0e606198f1bfeaa04bdb2229" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::tuple&lt; std::string, bool, bool &gt;</type>
+        <definition>std::tuple&lt; std::string, bool, bool &gt; AGRemapCore::FileDownload::get</definition>
+        <argsstring>(const std::string &amp;folder, std::optional&lt; std::string &gt; proxy=std::nullopt, DownloadCache *sharedCache=nullptr)</argsstring>
+        <name>get</name>
+        <qualifiedname>AGRemapCore::FileDownload::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>folder</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>proxy</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_download_cache" kindref="compound">DownloadCache</ref> *</type>
+          <declname>sharedCache</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the required file -- either from #download, or (if #cache is ``true`` and a
+previous download already exists) by copying the previously-downloaded file instead
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>folder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The folder to store the downloaded file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>proxy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The link to the proxy server used for any internet network access, if any </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sharedCache</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The run&apos;s own cache of what has already been fetched, if any <ndash/> see <ref refid="class_a_g_remap_core_1_1_download_cache" kindref="compound">DownloadCache</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple containing, in order: the path to the downloaded file; whether a download actually occurred; whether a previous download to the file already existed before this call </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="237" column="24" bodyfile="src/tools/files/FileDownload.cpp" bodystart="278" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_file_download_1a02012658002add21812c32b3c0078294" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::FileDownload::cachedPath</definition>
+        <argsstring>(const DownloadCache *sharedCache=nullptr) const</argsstring>
+        <name>cachedPath</name>
+        <qualifiedname>AGRemapCore::FileDownload::cachedPath</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_download_cache" kindref="compound">DownloadCache</ref> *</type>
+          <declname>sharedCache</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The file :cpp:func:`get` would COPY from instead of downloading, or nothing if it
+would have to go to the network :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Public so a caller can say which of the two is about to happen BEFORE it happens --
+the reason :cpp:func:`RemapIniDownload::fix` can name the right one of
+&quot;Downloading&quot; / &quot;Copying download&quot; in a line it prints before the work rather than
+after it
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sharedCache</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The run&apos;s own cache of what has already been fetched, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="254" column="27" bodyfile="src/tools/files/FileDownload.cpp" bodystart="259" bodyend="276"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Class to handle file downloads from some server :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python ``FileDownload`` class (``tools/files/FileDownload.py``) --
+:cpp:func:`get`&apos;s caching decision logic (whether to re-download, copy a cached file, or
+re-download after a failed copy) is fully ported and independently testable :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   :cpp:func:`download` is backed by `libcurl`_&apos;s easy API (``curl_easy_*``), matching the
+   Python original&apos;s use of the `requests`_ package -- entirely confined to
+   ``FileDownload.cpp``, so this public header (and every other public ``AGRemapCore`` header
+   that transitively includes it) stays free of any ``&lt;curl/curl.h&gt;`` dependency, the same
+   &quot;wrap a third-party C library without leaking it into public headers&quot; posture this codebase
+   already takes for `Z3`_ (see the Architecture doc&apos;s own section on that). Unlike `Z3`_
+   though, no persistent per-instance state needs wrapping here -- a download is a single,
+   self-contained ``curl_easy_init``/``curl_easy_perform``/``curl_easy_cleanup`` sequence local
+   to one #download call, so no pimpl is needed at all, just keeping the ``#include`` itself
+   out of the header. #download is declared ``virtual`` regardless, so a subclass (eg. a test
+   double) can still override it without needing to touch #get&apos;s own caching logic
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/files/FileDownload.h" line="132" column="5" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="132" bodyend="262"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_file_download_1a006c4cc9e5ed188c885c2ec70075df0e" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>cache</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_download_1a02012658002add21812c32b3c0078294" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>cachedPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_download_1a1ff069ea62a7358b41b12a4e42535740" prot="public" virt="virtual"><scope>AGRemapCore::FileDownload</scope><name>download</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_download_1a6b874e5b494e6f457dcc139397ceff0d" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>FileDownload</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_download_1a213340408fb5c9a6220a260cc1da7f2e" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>filename</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_download_1af281e79b0e606198f1bfeaa04bdb2229" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>get</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_download_1aaa47a6fe66479ff76e3e330c8bb7d4e6" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>maxAttempts</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_download_1a0b8a942744a1bd1e8e09205a4009979a" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>onRetry</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_download_1a0f8d741b6e3b391fae41fb9fb9a626a2" prot="protected" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>prevPath_</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_download_1a2faee36e8fb7fc5aa7e2908d4a8ec66b" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>retryDelay</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_download_1ab6ff09cb4e4f175816d2bc1d7e6fc422" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>url</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_download_1a7b88857c911d0cabd6a014ad3dbf8347" prot="public" virt="virtual"><scope>AGRemapCore::FileDownload</scope><name>~FileDownload</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

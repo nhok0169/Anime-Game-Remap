@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_v_g_merge_object" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::VGMergeObject</compoundname>
+    <includes refid="_v_g_merge_group_resource_8h" local="no">VGMergeGroupResource.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_merge_object_1a6bb4dab5708d5ee063acf5a15462e22a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::VGMergeObject::srcPath</definition>
+        <argsstring></argsstring>
+        <name>srcPath</name>
+        <qualifiedname>AGRemapCore::VGMergeObject::srcPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The source ``.ib`` this object&apos;s group member was collected from -- the representative,
+which is :cpp:member:`members`&apos; first entry. The member resource is matched by this path
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="71" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_merge_object_1afa4468e82b8b37a70c19cfe530fea069" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; AGRemapCore::VGMergeObject::members</definition>
+        <argsstring></argsstring>
+        <name>members</name>
+        <qualifiedname>AGRemapCore::VGMergeObject::members</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The source objects this target object draws, as ``(component, .ib path)``, in draw order.
+More than one means a MERGE into a single draw -- YelanTranquil&apos;s ``Bang`` and ``Eye`` both
+land on Yelan&apos;s head -- which is what saves the second ``.ini`` file a collision would
+otherwise cost
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="82" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+One object of the TARGET, and the source objects drawn through it
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="63" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="63" bodyend="83"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_v_g_merge_object_1afa4468e82b8b37a70c19cfe530fea069" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeObject</scope><name>members</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_merge_object_1a6bb4dab5708d5ee063acf5a15462e22a" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeObject</scope><name>srcPath</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_a61de74a9eb81356db1a26a1c88cca6e" kind="dir">
+    <compoundname>src/tools/idGenerator</compoundname>
+    <innerfile refid="_uuid_id_generator_8cpp">UuidIdGenerator.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/tools/idGenerator/"/>
+  </compounddef>
+</doxygen>

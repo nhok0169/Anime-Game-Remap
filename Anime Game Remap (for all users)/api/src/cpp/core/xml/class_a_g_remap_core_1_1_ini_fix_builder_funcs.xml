@@ -1,0 +1,2535 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_fix_builder_funcs" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniFixBuilderFuncs</compoundname>
+    <includes refid="_ini_fix_builder_data_8h" local="no">IniFixBuilderData.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af7b200c0d6b973068cfb9e85e3c5dec0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniFixBuilderFuncs::IniFixBuilderFuncs</definition>
+        <argsstring>()=delete</argsstring>
+        <name>IniFixBuilderFuncs</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::IniFixBuilderFuncs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="58" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0974b6741bb33f11bd90e970ec6139e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::amber4_0</definition>
+        <argsstring>()</argsstring>
+        <name>amber4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::amber4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.amber4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="67" column="43" bodyfile="src/data/IniFixData/Amber/AmberFixer.cpp" bodystart="25" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1abd749b014af1828758e230e1e695fb5a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::amberCN4_0</definition>
+        <argsstring>()</argsstring>
+        <name>amberCN4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::amberCN4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.amberCN4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="76" column="43" bodyfile="src/data/IniFixData/AmberCN/AmberCNFixer.cpp" bodystart="25" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad85989457f41de20dabf44c7fd63893d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ayaka4_0</definition>
+        <argsstring>()</argsstring>
+        <name>ayaka4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ayaka4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.ayaka4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="85" column="43" bodyfile="src/data/IniFixData/Ayaka/AyakaFixer.cpp" bodystart="207" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1adbc199f8e389fbdd5f0b1b799bf67b75" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ayakaSpringbloom4_0</definition>
+        <argsstring>()</argsstring>
+        <name>ayakaSpringbloom4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ayakaSpringbloom4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.ayakaSpringbloom4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="94" column="43" bodyfile="src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp" bodystart="174" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a55f7ea96d73a646b109349011145b9a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::barbara4_0</definition>
+        <argsstring>()</argsstring>
+        <name>barbara4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::barbara4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.barbara4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="103" column="43" bodyfile="src/data/IniFixData/Barbara/BarbaraFixer.cpp" bodystart="25" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1add0429d552651400c62a1ae46bcdd614" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::barbaraSummertime4_0</definition>
+        <argsstring>()</argsstring>
+        <name>barbaraSummertime4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::barbaraSummertime4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.barbaraSummertime4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="112" column="43" bodyfile="src/data/IniFixData/BarbaraSummertime/BarbaraSummertimeFixer.cpp" bodystart="25" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a3258100d255dda7a3450abffba6c8866" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::diluc4_0</definition>
+        <argsstring>()</argsstring>
+        <name>diluc4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::diluc4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.diluc4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="121" column="43" bodyfile="src/data/IniFixData/Diluc/DilucFixer.cpp" bodystart="25" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a781c93ad532b9140088691ba3073e4c0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::dilucFlamme4_0</definition>
+        <argsstring>()</argsstring>
+        <name>dilucFlamme4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::dilucFlamme4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.dilucFlamme4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="130" column="43" bodyfile="src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp" bodystart="52" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1acc4d3d68cfc6c8cf4f087f35b5674edf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::fischl4_0</definition>
+        <argsstring>()</argsstring>
+        <name>fischl4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::fischl4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.fischl4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="139" column="43" bodyfile="src/data/IniFixData/Fischl/FischlFixer.cpp" bodystart="23" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a39c31827effba616fa60a05c07382cea" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::fischlHighness4_0</definition>
+        <argsstring>()</argsstring>
+        <name>fischlHighness4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::fischlHighness4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.fischlHighness4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="148" column="43" bodyfile="src/data/IniFixData/FischlHighness/FischlHighnessFixer.cpp" bodystart="22" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a20390f0564983d57cd6a0209f1ce3dbd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ganyu4_0</definition>
+        <argsstring>()</argsstring>
+        <name>ganyu4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ganyu4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.ganyu4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="157" column="43" bodyfile="src/data/IniFixData/Ganyu/GanyuFixer.cpp" bodystart="70" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a494b699f9aa9200c66799efd183abcc0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::hutao4_0</definition>
+        <argsstring>()</argsstring>
+        <name>hutao4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::hutao4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.hutao4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="166" column="43" bodyfile="src/data/IniFixData/HuTao/HuTaoFixer.cpp" bodystart="87" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9bcd8dd7bd9b21e41eb1b1558b2628d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::jeanCN4_0ToJeanSea</definition>
+        <argsstring>()</argsstring>
+        <name>jeanCN4_0ToJeanSea</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::jeanCN4_0ToJeanSea</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.jean4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="175" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="99" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9a29630f9ee227698abde2def6ba7dfb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::jeanCN4_0ToJean</definition>
+        <argsstring>()</argsstring>
+        <name>jeanCN4_0ToJean</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::jeanCN4_0ToJean</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="176" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="70" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a5062bc5dbc1e64b84e26a0e79cb74164" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::jean4_0ToJeanSea</definition>
+        <argsstring>()</argsstring>
+        <name>jean4_0ToJeanSea</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::jean4_0ToJeanSea</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="177" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="101" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a2c30d3cc8e2e0aad05cf8116c90aec07" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::jean4_0ToJeanCN</definition>
+        <argsstring>()</argsstring>
+        <name>jean4_0ToJeanCN</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::jean4_0ToJeanCN</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="178" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="71" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aae46ec7ab9a54f120a748ad11f1c8598" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::jeanSea4_0</definition>
+        <argsstring>()</argsstring>
+        <name>jeanSea4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::jeanSea4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.jeanCN4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.jeanSea4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="195" column="43" bodyfile="src/data/IniFixData/JeanSea/JeanSeaFixer.cpp" bodystart="58" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6d8c71e7df7a9441c9717a71303cbbe3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::kaeya4_0</definition>
+        <argsstring>()</argsstring>
+        <name>kaeya4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::kaeya4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.kaeya4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="204" column="43" bodyfile="src/data/IniFixData/Kaeya/KaeyaFixer.cpp" bodystart="33" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a207232ffe796db234f88b95ceded7bad" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::kaeyaSailwind4_0</definition>
+        <argsstring>()</argsstring>
+        <name>kaeyaSailwind4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::kaeyaSailwind4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.kaeyaSailwind4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="213" column="43" bodyfile="src/data/IniFixData/KaeyaSailwind/KaeyaSailwindFixer.cpp" bodystart="32" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6ab0844a5879a15eecf0b865a6204244" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::keqing4_0</definition>
+        <argsstring>()</argsstring>
+        <name>keqing4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::keqing4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.keqing4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="222" column="43" bodyfile="src/data/IniFixData/Keqing/KeqingFixer.cpp" bodystart="46" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0eebc7bb9cbc1c8a05b12ae48dc9640b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::keqingOpulent4_0</definition>
+        <argsstring>()</argsstring>
+        <name>keqingOpulent4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::keqingOpulent4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.keqingOpulent4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="231" column="43" bodyfile="src/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp" bodystart="64" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a4e0aed395c70c902002ec7916d263773" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::kirara4_0</definition>
+        <argsstring>()</argsstring>
+        <name>kirara4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::kirara4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.kirara4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="240" column="43" bodyfile="src/data/IniFixData/Kirara/KiraraFixer.cpp" bodystart="101" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a66a6e9c99282a673ffbcbbf89887bd53" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::klee4_0</definition>
+        <argsstring>()</argsstring>
+        <name>klee4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::klee4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.klee4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="249" column="43" bodyfile="src/data/IniFixData/Klee/KleeFixer.cpp" bodystart="43" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a55ab1a4c2395403b8948cae4aba67644" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::kleeBlossomingStarlight4_0</definition>
+        <argsstring>()</argsstring>
+        <name>kleeBlossomingStarlight4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::kleeBlossomingStarlight4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.kleeBlossomingStarlight4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="258" column="43" bodyfile="src/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.cpp" bodystart="35" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a25df67fe18557060ec7fe7b1afdf3ce1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::lisa4_0</definition>
+        <argsstring>()</argsstring>
+        <name>lisa4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::lisa4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.lisa4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="267" column="43" bodyfile="src/data/IniFixData/Lisa/LisaFixer.cpp" bodystart="108" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a625bf7c8aa3ea395a97222386e0a6b45" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::lisaStudent4_0</definition>
+        <argsstring>()</argsstring>
+        <name>lisaStudent4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::lisaStudent4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.lisaStudent4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="276" column="43" bodyfile="src/data/IniFixData/LisaStudent/LisaStudentFixer.cpp" bodystart="23" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ab53bc01233ba0b59932def13aaab8a8a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::mona4_0</definition>
+        <argsstring>()</argsstring>
+        <name>mona4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::mona4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.mona4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="285" column="43" bodyfile="src/data/IniFixData/Mona/MonaFixer.cpp" bodystart="25" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a32891466cc387a0010e6986d83f73260" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::monaCN4_0</definition>
+        <argsstring>()</argsstring>
+        <name>monaCN4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::monaCN4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.monaCN4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="294" column="43" bodyfile="src/data/IniFixData/MonaCN/MonaCNFixer.cpp" bodystart="25" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a5bd08419706104000ac4c03823146843" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::nilou4_0</definition>
+        <argsstring>()</argsstring>
+        <name>nilou4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::nilou4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.nilou4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="303" column="43" bodyfile="src/data/IniFixData/Nilou/NilouFixer.cpp" bodystart="36" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a35b5c48495747cf1dc83237b64c678cc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ningguang4_0</definition>
+        <argsstring>()</argsstring>
+        <name>ningguang4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ningguang4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.ningguang4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="312" column="43" bodyfile="src/data/IniFixData/Ningguang/NingguangFixer.cpp" bodystart="27" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a153c89fd8adf8a46ceba2e93a174ee51" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ningguangOrchid4_0</definition>
+        <argsstring>()</argsstring>
+        <name>ningguangOrchid4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ningguangOrchid4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.ningguangOrchid4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="321" column="43" bodyfile="src/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp" bodystart="27" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a4efac3f1cd36ba13a731bc9894ad7e65" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::giDefault</definition>
+        <argsstring>()</argsstring>
+        <name>giDefault</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::giDefault</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.giDefault`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="330" column="43" bodyfile="src/data/IniFixBuilderData.cpp" bodystart="29" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a16960ce595eb8499137893f38dc3c4af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::rosaria4_0</definition>
+        <argsstring>()</argsstring>
+        <name>rosaria4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::rosaria4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.rosaria4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="339" column="43" bodyfile="src/data/IniFixData/Rosaria/RosariaFixer.cpp" bodystart="25" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a62d47ce9fcabbec4612623328d3656ac" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::rosariaCN4_0</definition>
+        <argsstring>()</argsstring>
+        <name>rosariaCN4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::rosariaCN4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.rosariaCN4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="348" column="43" bodyfile="src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp" bodystart="25" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9449758657ce3e63dcdf8f8b2c18164e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::shenhe4_0</definition>
+        <argsstring>()</argsstring>
+        <name>shenhe4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::shenhe4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.shenhe4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="357" column="43" bodyfile="src/data/IniFixData/Shenhe/ShenheFixer.cpp" bodystart="26" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1adff7aadaf4ae47cad172685235d0ffe2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::xiangling4_0</definition>
+        <argsstring>()</argsstring>
+        <name>xiangling4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::xiangling4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 4.0 fix remapping **Xiangling onto XianglingCheer** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A **merge** of all three of her objects onto the skin&apos;s head, across THREE ``.ini`` files, and
+the only live fix still registered at 4.0 rather than 6.1. Its head re-issues ``ORFix``, whose
+maintainers baked the GI 6.1 register swap into the library itself -- so a part already calling
+it needed no 6.1 row. See ``data/IniFixData/Xiangling/XianglingFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="371" column="43" bodyfile="src/data/IniFixData/Xiangling/XianglingFixer.cpp" bodystart="52" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a897f1cee434f3283d5ce43400507c9d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::xingqiu4_0</definition>
+        <argsstring>()</argsstring>
+        <name>xingqiu4_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::xingqiu4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.xingqiu4_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="380" column="43" bodyfile="src/data/IniFixData/Xingqiu/XingqiuFixer.cpp" bodystart="26" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a98c2bbd162b6936117dfec47c9460492" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ganyuTwilight4_4</definition>
+        <argsstring>()</argsstring>
+        <name>ganyuTwilight4_4</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ganyuTwilight4_4</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.ganyuTwilight4_4`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="389" column="43" bodyfile="src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp" bodystart="63" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac150329c9c728686b286ec2d1602a450" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::shenheFrostFlower4_4</definition>
+        <argsstring>()</argsstring>
+        <name>shenheFrostFlower4_4</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::shenheFrostFlower4_4</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.shenheFrostFlower4_4`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="398" column="43" bodyfile="src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp" bodystart="57" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a31523fd6e953baa4f48a77e978c6b680" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::xingqiuBamboo4_4</definition>
+        <argsstring>()</argsstring>
+        <name>xingqiuBamboo4_4</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::xingqiuBamboo4_4</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.xingqiuBamboo4_4`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="407" column="43" bodyfile="src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp" bodystart="27" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a8fcb1ae12e6208e97433a72b1bdac40c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::kiraraBoots4_8</definition>
+        <argsstring>()</argsstring>
+        <name>kiraraBoots4_8</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::kiraraBoots4_8</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.kiraraBoots4_8`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="416" column="43" bodyfile="src/data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp" bodystart="88" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a7ed4a4f962446e40337154058fd5b19f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::nilouBreeze4_8</definition>
+        <argsstring>()</argsstring>
+        <name>nilouBreeze4_8</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::nilouBreeze4_8</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.nilouBreeze4_8`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="425" column="43" bodyfile="src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp" bodystart="103" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1add3cd0fd523a0124373ee797f3fd568a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::kaeya5_0</definition>
+        <argsstring>()</argsstring>
+        <name>kaeya5_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::kaeya5_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.kaeya5_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="434" column="43" bodyfile="src/data/IniFixData/Kaeya/KaeyaFixer.cpp" bodystart="61" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a1473c7a5b9e5d1a9b956138183092df8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::kaeyaSailwind5_0</definition>
+        <argsstring>()</argsstring>
+        <name>kaeyaSailwind5_0</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::kaeyaSailwind5_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.kaeyaSailwind5_0`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="443" column="43" bodyfile="src/data/IniFixData/KaeyaSailwind/KaeyaSailwindFixer.cpp" bodystart="66" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a1220a1dc58682b9f9e2a01619d5a1fb5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::cherryHuTao5_3</definition>
+        <argsstring>()</argsstring>
+        <name>cherryHuTao5_3</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::cherryHuTao5_3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.cherryHuTao5_3`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="452" column="43" bodyfile="src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp" bodystart="80" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad7bf9ba56cb7c626e5766706ef1b8400" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::xianglingCheer5_3</definition>
+        <argsstring>()</argsstring>
+        <name>xianglingCheer5_3</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::xianglingCheer5_3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.xianglingCheer5_3`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="461" column="43" bodyfile="src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp" bodystart="48" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad9983ac17822db4b1174674b6aad6ee0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ayaka5_4</definition>
+        <argsstring>()</argsstring>
+        <name>ayaka5_4</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ayaka5_4</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.ayaka5_4`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="470" column="43" bodyfile="src/data/IniFixData/Ayaka/AyakaFixer.cpp" bodystart="165" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6681df3163efd701aa26dcae3ddf0bf4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::arlecchino5_4</definition>
+        <argsstring>()</argsstring>
+        <name>arlecchino5_4</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::arlecchino5_4</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.arlecchino5_4`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="479" column="43" bodyfile="src/data/IniFixData/Arlecchino/ArlecchinoFixer.cpp" bodystart="53" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a2f555bb392e8672223c8037b4c32ef77" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::nilouBreeze5_4</definition>
+        <argsstring>()</argsstring>
+        <name>nilouBreeze5_4</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::nilouBreeze5_4</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.nilouBreeze5_4`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="488" column="43" bodyfile="src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp" bodystart="66" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a16218a17f1f82c459b3021560bf49b63" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::lisa5_4</definition>
+        <argsstring>()</argsstring>
+        <name>lisa5_4</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::lisa5_4</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.lisa5_4`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="497" column="43" bodyfile="src/data/IniFixData/Lisa/LisaFixer.cpp" bodystart="71" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a621336a295032319e4bed03e0284d599" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::jeanCN5_5ToJeanSea</definition>
+        <argsstring>()</argsstring>
+        <name>jeanCN5_5ToJeanSea</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::jeanCN5_5ToJeanSea</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.jean5_5`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="506" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="28" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a5cb9bda55a57e1121cc82e35f2bdbe00" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::jeanCN5_5ToJean</definition>
+        <argsstring>()</argsstring>
+        <name>jeanCN5_5ToJean</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::jeanCN5_5ToJean</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="507" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="52" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0c7e4b3b2514a5a05dc92adee9812455" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::jean5_5ToJeanSea</definition>
+        <argsstring>()</argsstring>
+        <name>jean5_5ToJeanSea</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::jean5_5ToJeanSea</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="508" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="28" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a99846febaa843ca6f189cdde71e16699" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::jean5_5ToJeanCN</definition>
+        <argsstring>()</argsstring>
+        <name>jean5_5ToJeanCN</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::jean5_5ToJeanCN</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="509" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="52" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a58f3fc8436a68a77bd67707a436245b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::hutao5_6</definition>
+        <argsstring>()</argsstring>
+        <name>hutao5_6</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::hutao5_6</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.jeanCN5_5`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.hutao5_6`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="526" column="43" bodyfile="src/data/IniFixData/HuTao/HuTaoFixer.cpp" bodystart="45" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a78afb2884b2597a7142f6c857968feab" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ayaka5_6</definition>
+        <argsstring>()</argsstring>
+        <name>ayaka5_6</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ayaka5_6</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.ayaka5_6`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="535" column="43" bodyfile="src/data/IniFixData/Ayaka/AyakaFixer.cpp" bodystart="123" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1add051c73246ce03f05fb96b935122e04" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ayakaSpringbloom5_6</definition>
+        <argsstring>()</argsstring>
+        <name>ayakaSpringbloom5_6</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ayakaSpringbloom5_6</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.ayakaSpringbloom5_6`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="544" column="43" bodyfile="src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp" bodystart="128" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ab194bb3d4062215bfb52bd57a6fff1df" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::amber5_7</definition>
+        <argsstring>()</argsstring>
+        <name>amber5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::amber5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.amber5_7`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="553" column="43" bodyfile="src/data/IniFixData/Amber/AmberFixer.cpp" bodystart="56" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a729b0838d55f1c9c2d363fab75136a38" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::amberCN5_7</definition>
+        <argsstring>()</argsstring>
+        <name>amberCN5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::amberCN5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.amberCN5_7`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="562" column="43" bodyfile="src/data/IniFixData/AmberCN/AmberCNFixer.cpp" bodystart="56" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a03db8cea571febb25bba99f4d9cff7cd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ayaka5_7</definition>
+        <argsstring>()</argsstring>
+        <name>ayaka5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ayaka5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.ayaka5_7`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="571" column="43" bodyfile="src/data/IniFixData/Ayaka/AyakaFixer.cpp" bodystart="83" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae950197c794bd6194de4d0e294d12bd9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ayaka6_1</definition>
+        <argsstring>()</argsstring>
+        <name>ayaka6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ayaka6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **Ayaka onto AyakaSpringbloom** -- **not** a stub
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Three objects one-to-one, and the busiest of its batch: every object shifts up a slot to
+meet the skin, three textures are edited, and the normal map the skin reads is INVENTED
+-- a muted purple, not the flat blue. See ``data/IniFixData/Ayaka/AyakaFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="584" column="43" bodyfile="src/data/IniFixData/Ayaka/AyakaFixer.cpp" bodystart="252" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a5ba9b0def66f3f11ba4a182219fb1878" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ayakaSpringbloom5_7</definition>
+        <argsstring>()</argsstring>
+        <name>ayakaSpringbloom5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ayakaSpringbloom5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.ayakaSpringbloom5_7`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="593" column="43" bodyfile="src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp" bodystart="93" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9a67338ff488b318dbed46ee674ac66f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ayakaSpringbloom6_1</definition>
+        <argsstring>()</argsstring>
+        <name>ayakaSpringbloom6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ayakaSpringbloom6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **AyakaSpringbloom onto Ayaka** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A **merge**, and the only one of its batch: two of the skin&apos;s objects land on one of
+Ayaka&apos;s, so the fix writes TWO ``.ini`` files. It also SWAPS head and body -- Ayaka&apos;s
+head is drawn from the skin&apos;s body -- and carries six texture edits, every one gated on
+what the register is bound to. See ``data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="607" column="43" bodyfile="src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp" bodystart="215" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aa33a8b79c2bd9f70a2ab7e94e7e39f68" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::arlecchino5_7</definition>
+        <argsstring>()</argsstring>
+        <name>arlecchino5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::arlecchino5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 5.7 fix that remaps an Arlecchino mod onto ArlecchinoBoss -- **not** a stub
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+She has no 6.1 row in the pure-Python table, so this one serves 6.1 as well --
+the same arrangement :cpp:func:`IniFixBuilderFuncs::nilou5_7` has. See
+:cpp:class:`ArlecchinoFixer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="620" column="43" bodyfile="src/data/IniFixData/Arlecchino/ArlecchinoFixer.cpp" bodystart="75" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a44b1635d17aba65a1a130af1f802c239" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::barbara5_7</definition>
+        <argsstring>()</argsstring>
+        <name>barbara5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::barbara5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.barbara5_7`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="629" column="43" bodyfile="src/data/IniFixData/Barbara/BarbaraFixer.cpp" bodystart="57" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1afb608367425328c571a1f39510aeb07e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::barbaraSummertime5_7</definition>
+        <argsstring>()</argsstring>
+        <name>barbaraSummertime5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::barbaraSummertime5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.barbaraSummertime5_7`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="638" column="43" bodyfile="src/data/IniFixData/BarbaraSummertime/BarbaraSummertimeFixer.cpp" bodystart="57" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac8e97910da767640595e8a3368d2afa5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::diluc5_7</definition>
+        <argsstring>()</argsstring>
+        <name>diluc5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::diluc5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.diluc5_7`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="647" column="43" bodyfile="src/data/IniFixData/Diluc/DilucFixer.cpp" bodystart="64" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae78e0322e5eea8a0f8ec2f4631b7a814" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::dilucFlamme5_7</definition>
+        <argsstring>()</argsstring>
+        <name>dilucFlamme5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::dilucFlamme5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.dilucFlamme5_7`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="656" column="43" bodyfile="src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp" bodystart="87" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1acdc7dfb80d413d8d017ee1b8d081503c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::fischl5_7</definition>
+        <argsstring>()</argsstring>
+        <name>fischl5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::fischl5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.fischl5_7`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="665" column="43" bodyfile="src/data/IniFixData/Fischl/FischlFixer.cpp" bodystart="60" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1acf49b414f7e20cc84eab45e344be5497" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::fischlHighness5_7</definition>
+        <argsstring>()</argsstring>
+        <name>fischlHighness5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::fischlHighness5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.fischlHighness5_7`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="674" column="43" bodyfile="src/data/IniFixData/FischlHighness/FischlHighnessFixer.cpp" bodystart="56" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a41a2de9e899a0a41c0957623b33d8b73" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ganyu5_7</definition>
+        <argsstring>()</argsstring>
+        <name>ganyu5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ganyu5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.ganyu5_7`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="683" column="43" bodyfile="src/data/IniFixData/Ganyu/GanyuFixer.cpp" bodystart="42" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aacc5733b4d1d7e1d577f3c8a30734c06" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ganyuTwilight5_7</definition>
+        <argsstring>()</argsstring>
+        <name>ganyuTwilight5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ganyuTwilight5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.ganyuTwilight5_7`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="692" column="43" bodyfile="src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp" bodystart="35" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6794b68f220da79f6845cf64dee75a63" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::kirara5_7</definition>
+        <argsstring>()</argsstring>
+        <name>kirara5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::kirara5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.kirara5_7`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="701" column="43" bodyfile="src/data/IniFixData/Kirara/KiraraFixer.cpp" bodystart="70" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aaaac387799ec8d41dc0a69165a22ca3e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::kiraraBoots5_7</definition>
+        <argsstring>()</argsstring>
+        <name>kiraraBoots5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::kiraraBoots5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.kiraraBoots5_7`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="710" column="43" bodyfile="src/data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp" bodystart="45" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9c8a7722534b2e898168134d0baa801e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::kirara6_1</definition>
+        <argsstring>()</argsstring>
+        <name>kirara6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::kirara6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **Kirara onto KiraraBoots** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Three objects one-to-one, and the first fix to use a CONDITIONAL register shift: her
+dress moves down a slot, but only where what is bound there still looks like the
+texture being moved, so a mod whose author already hand-fixed it is left alone. See
+``data/IniFixData/Kirara/KiraraFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="724" column="43" bodyfile="src/data/IniFixData/Kirara/KiraraFixer.cpp" bodystart="128" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a73ea170ddb740b6332ed03c08c7cb207" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::kiraraBoots6_1</definition>
+        <argsstring>()</argsstring>
+        <name>kiraraBoots6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::kiraraBoots6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **KiraraBoots onto Kirara** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The mirror of :cpp:func:`kirara6_1`: her HEAD shifts up rather than her dress down, and
+the fix INVENTS the normal map Kirara reads and this skin never had -- a yellow one, not
+the flat blue every other character here creates. See
+``data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="738" column="43" bodyfile="src/data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp" bodystart="115" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0e7045f9ee279083b5a86cce953103ad" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::lisa5_7</definition>
+        <argsstring>()</argsstring>
+        <name>lisa5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::lisa5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.lisa5_7`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="747" column="43" bodyfile="src/data/IniFixData/Lisa/LisaFixer.cpp" bodystart="46" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac3ff016eddfc8d3dbef39321b6eb8c49" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::nilou5_7</definition>
+        <argsstring>()</argsstring>
+        <name>nilou5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::nilou5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 5.7 fix remapping **Nilou onto NilouBreeze** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Three objects one-to-one, and registered at 5.7 with **no 6.1 row** for the same reason
+:cpp:func:`xiangling4_0` has none: every object re-issues ``ORFix``, which carries the GI
+6.1 register swap. Its normal-map removal is conditional on the register&apos;s VALUE, so a mod
+whose author already hand-fixed it is left alone. See
+``data/IniFixData/Nilou/NilouFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="762" column="43" bodyfile="src/data/IniFixData/Nilou/NilouFixer.cpp" bodystart="75" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6f412cdab20a7bbde429fbb5f50d9d3c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::nilouBreeze5_7</definition>
+        <argsstring>()</argsstring>
+        <name>nilouBreeze5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::nilouBreeze5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.nilouBreeze5_7`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="771" column="43" bodyfile="src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp" bodystart="45" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aa347c93e0e387e599b54d5b723d951b2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::nilouBreeze6_1</definition>
+        <argsstring>()</argsstring>
+        <name>nilouBreeze6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::nilouBreeze6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **NilouBreeze onto Nilou** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The plainest fix of its batch: three objects one-to-one, one unread register dropped from
+each, and ``NNFix`` re-issued everywhere (the template&apos;s default, so the fix does not even
+name it). See ``data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="784" column="43" bodyfile="src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp" bodystart="144" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad331b37599c6f8a283a1bd1f9754276e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::shenheFrostFlower5_7</definition>
+        <argsstring>()</argsstring>
+        <name>shenheFrostFlower5_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::shenheFrostFlower5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the pure-Python ``IniFixBuilderFuncs.shenheFrostFlower5_7`` -- returns
+:cpp:func:`IniFixBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="793" column="43" bodyfile="src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp" bodystart="28" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aacf5fdfd98f282dd6a39c3b89064f7a8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::raiden6_1</definition>
+        <argsstring>()</argsstring>
+        <name>raiden6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::raiden6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The pure-Python ``IniFixBuilderFuncs.raiden6_1`` -- **not** a stub, unlike every other
+method here :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Builds a :cpp:class:`GIMIFixer` over the four mod objects
+:cpp:func:`IniParseBuilderFuncs::raiden6_1` classifies, doing three things:
+
+#. **Remaps the** ``Blend.buf``. A :cpp:class:`ResRegCollect` over the
+   ``(&quot;&quot;, &quot;blend&quot;)`` graph collects every ``vb1`` reference and hands it to a
+   :cpp:class:`RemapBlendReplace`. Its ``partPredicates`` entry windows collection to
+   the order indices governed by a ``hash`` naming Raiden&apos;s own ``blend_vb``, so a
+   `section`_ carrying several hashes contributes only the references belonging to
+   this one
+#. **Reissues the texture fixes on head/body/dress.** A :cpp:class:`GraphGroupEdit`
+   first drops every ``run =`` into the external ``ORFix`` library
+   (:cpp:member:`IniKeywords::ORFixPath` and :cpp:member:`IniKeywords::NNFixPath`
+   both), then uses :cpp:class:`RegDelimitedAdd` to reissue ``NNFix`` immediately
+   before every ``drawindexed`` and once at the end of any path that draws nothing
+#. **Hides the originals.** ``head``/``body``/``dress`` go into
+   :cpp:member:`GIMIFixer::hiddenModObjs`, since this fix rewrites them in place
+   rather than adding beside them. ``blend`` deliberately does not -- its `section`_
+   is what the remapped ``Blend.buf`` is referenced from
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="821" column="43" bodyfile="src/data/IniFixData/Raiden/RaidenFixer.cpp" bodystart="423" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9427e3264381a4f320b7274f36432cb2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::amber6_1</definition>
+        <argsstring>()</argsstring>
+        <name>amber6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::amber6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The pure-Python ``IniFixBuilderFuncs.amber6_1`` -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The same skeleton as \ref raiden6_1, differing where remapping onto a **CN skin**
+differs from remapping onto a boss that shares the source&apos;s geometry:
+
+#. **Both** the ``hash`` and the ``match_first_index`` are remapped, on every mod
+   object -- the two models are genuinely different, where Raiden&apos;s boss draws the same
+   geometry and only her blend weights change
+#. The shared ``drawindexed`` is removed from ``(&quot;&quot;, &quot;ib&quot;)`` and re-issued per drawn
+   object with :cpp:class:`RegFillMissing`, since each remapped object now draws its
+   own geometry
+#. ``position`` and ``texcoord`` are remapped too
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="841" column="43" bodyfile="src/data/IniFixData/Amber/AmberFixer.cpp" bodystart="100" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a661dfacbd96e0b869af40b4a0088679d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::amberCN6_1</definition>
+        <argsstring>()</argsstring>
+        <name>amberCN6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::amberCN6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The pure-Python ``IniFixBuilderFuncs.amberCN6_1`` -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+AmberCN remapped onto Amber. The standard GIMI character shape -- see
+:cpp:func:`makeGIMICharFixer` -- with AmberCN&apos;s own choices in
+``data/IniFixData/AmberCN/AmberCNFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="854" column="43" bodyfile="src/data/IniFixData/AmberCN/AmberCNFixer.cpp" bodystart="100" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a602df28d19c544748750d6dd58710597" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::mona6_1</definition>
+        <argsstring>()</argsstring>
+        <name>mona6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::mona6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The pure-Python ``IniFixBuilderFuncs.mona6_1`` -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Mona remapped onto MonaCN. The standard GIMI character shape -- see
+:cpp:func:`makeGIMICharFixer` -- with Mona&apos;s own choices in
+``data/IniFixData/Mona/MonaFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="867" column="43" bodyfile="src/data/IniFixData/Mona/MonaFixer.cpp" bodystart="62" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac35a533ecb2f66985f79e9b93bc330c1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::jean6_1ToJeanCN</definition>
+        <argsstring>()</argsstring>
+        <name>jean6_1ToJeanCN</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::jean6_1ToJeanCN</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **Jean onto JeanCN** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The ordinary CN-skin remap. The standard GIMI character shape -- see
+:cpp:func:`makeGIMICharFixer` -- with Jean&apos;s own choices in
+``data/IniFixData/Jean/JeanFixer.cpp`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Jean is the first character with **two** fixers rather than one, because her two
+targets are different shapes -- see :cpp:class:`JeanFixer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="883" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="132" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af5565464258b27878c912f72b6c8acf8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::jean6_1ToJeanSea</definition>
+        <argsstring>()</argsstring>
+        <name>jean6_1ToJeanSea</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::jean6_1ToJeanSea</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **Jean onto JeanSea** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The same shape plus a **split**: JeanSea draws a ``dress`` Jean has no geometry for, so
+Jean&apos;s ``body`` graph is emitted once as each. See
+:cpp:member:`GIMICharFixerConfig::objSplits` and ``data/IniFixData/Jean/JeanFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="896" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="145" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6742f7ff459bf36bba3774085ae3aee6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::barbara6_1ToBarbaraSummertime</definition>
+        <argsstring>()</argsstring>
+        <name>barbara6_1ToBarbaraSummertime</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::barbara6_1ToBarbaraSummertime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix that remaps a Barbara mod onto BarbaraSummertime -- see
+:cpp:class:`BarbaraFixer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="905" column="43" bodyfile="src/data/IniFixData/Barbara/BarbaraFixer.cpp" bodystart="102" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a093b95e7f6369b543728d319bdd85ded" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::diluc6_1ToDilucFlamme</definition>
+        <argsstring>()</argsstring>
+        <name>diluc6_1ToDilucFlamme</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::diluc6_1ToDilucFlamme</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix that remaps a Diluc mod onto DilucFlamme -- see
+:cpp:class:`DilucFixer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="914" column="43" bodyfile="src/data/IniFixData/Diluc/DilucFixer.cpp" bodystart="114" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a96c1b9e323a32ada1dd3fa21e215e0c7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::dilucFlamme6_1ToDiluc</definition>
+        <argsstring>()</argsstring>
+        <name>dilucFlamme6_1ToDiluc</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::dilucFlamme6_1ToDiluc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix that remaps a DilucFlamme mod onto Diluc -- see
+:cpp:class:`DilucFlammeFixer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="923" column="43" bodyfile="src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp" bodystart="134" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9d34d76f2ad402aad16bf9a689a8fbca" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::fischl6_1ToFischlHighness</definition>
+        <argsstring>()</argsstring>
+        <name>fischl6_1ToFischlHighness</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::fischl6_1ToFischlHighness</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix that remaps a Fischl mod onto FischlHighness -- see
+:cpp:class:`FischlFixer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="932" column="43" bodyfile="src/data/IniFixData/Fischl/FischlFixer.cpp" bodystart="109" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a4d30c6355e5f62720ad0c0282f03f914" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::fischlHighness6_1ToFischl</definition>
+        <argsstring>()</argsstring>
+        <name>fischlHighness6_1ToFischl</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::fischlHighness6_1ToFischl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix that remaps a FischlHighness mod onto Fischl -- see
+:cpp:class:`FischlHighnessFixer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="941" column="43" bodyfile="src/data/IniFixData/FischlHighness/FischlHighnessFixer.cpp" bodystart="107" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a33b7f195763e39051e2ab540cf8563c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::kaeya6_1ToKaeyaSailwind</definition>
+        <argsstring>()</argsstring>
+        <name>kaeya6_1ToKaeyaSailwind</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::kaeya6_1ToKaeyaSailwind</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix that remaps a Kaeya mod onto KaeyaSailwind -- see
+:cpp:class:`KaeyaFixer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="950" column="43" bodyfile="src/data/IniFixData/Kaeya/KaeyaFixer.cpp" bodystart="99" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6ccac9632b8b20ff0dc3aa9359225736" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::kaeyaSailwind6_1ToKaeya</definition>
+        <argsstring>()</argsstring>
+        <name>kaeyaSailwind6_1ToKaeya</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::kaeyaSailwind6_1ToKaeya</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix that remaps a KaeyaSailwind mod onto Kaeya -- see
+:cpp:class:`KaeyaSailwindFixer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="959" column="43" bodyfile="src/data/IniFixData/KaeyaSailwind/KaeyaSailwindFixer.cpp" bodystart="110" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a23e17262d0e5fe14b0afa1140006dece" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::barbaraSummertime6_1ToBarbara</definition>
+        <argsstring>()</argsstring>
+        <name>barbaraSummertime6_1ToBarbara</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::barbaraSummertime6_1ToBarbara</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix that remaps a BarbaraSummertime mod onto Barbara -- see
+:cpp:class:`BarbaraSummertimeFixer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="968" column="43" bodyfile="src/data/IniFixData/BarbaraSummertime/BarbaraSummertimeFixer.cpp" bodystart="102" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a8a4d361d6f2dc2db3921fedbf8207cc8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::klee6_1ToKleeBlossomingStarlight</definition>
+        <argsstring>()</argsstring>
+        <name>klee6_1ToKleeBlossomingStarlight</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::klee6_1ToKleeBlossomingStarlight</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix that remaps a Klee mod onto KleeBlossomingStarlight -- see
+:cpp:class:`KleeFixer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="977" column="43" bodyfile="src/data/IniFixData/Klee/KleeFixer.cpp" bodystart="82" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a72531afa10544b4e49b921daded42617" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::kleeBlossomingStarlight6_1ToKlee</definition>
+        <argsstring>()</argsstring>
+        <name>kleeBlossomingStarlight6_1ToKlee</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::kleeBlossomingStarlight6_1ToKlee</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix that remaps a KleeBlossomingStarlight mod onto Klee -- see
+:cpp:class:`KleeBlossomingStarlightFixer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="986" column="43" bodyfile="src/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.cpp" bodystart="74" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a57983389fe21b5b85ddb0ad5350ab0fd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::lisa6_1ToLisaStudent</definition>
+        <argsstring>()</argsstring>
+        <name>lisa6_1ToLisaStudent</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::lisa6_1ToLisaStudent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix that remaps a Lisa mod onto LisaStudent -- see
+:cpp:class:`LisaFixer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="995" column="43" bodyfile="src/data/IniFixData/Lisa/LisaFixer.cpp" bodystart="161" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a320e66aafe2167f913b92c3fd9fe6e45" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::lisaStudent6_1ToLisa</definition>
+        <argsstring>()</argsstring>
+        <name>lisaStudent6_1ToLisa</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::lisaStudent6_1ToLisa</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix that remaps a LisaStudent mod onto Lisa -- see
+:cpp:class:`LisaStudentFixer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1004" column="43" bodyfile="src/data/IniFixData/LisaStudent/LisaStudentFixer.cpp" bodystart="55" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a76545c0b834fe6d7891f4ba88205b731" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::jeanCN6_1ToJean</definition>
+        <argsstring>()</argsstring>
+        <name>jeanCN6_1ToJean</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::jeanCN6_1ToJean</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **JeanCN onto Jean** -- **not** a stub. The mirror of
+:cpp:func:`jean6_1ToJeanCN`, in ``data/IniFixData/JeanCN/JeanCNFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1013" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="130" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad17176dacf2bef265c6121b4c931d66d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::jeanCN6_1ToJeanSea</definition>
+        <argsstring>()</argsstring>
+        <name>jeanCN6_1ToJeanSea</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::jeanCN6_1ToJeanSea</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **JeanCN onto JeanSea** -- **not** a stub. The same split as
+:cpp:func:`jean6_1ToJeanSea`, in ``data/IniFixData/JeanCN/JeanCNFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1022" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="143" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a11237d9c643796eae3317ba6f9b2f1a2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::jeanSea6_1ToJean</definition>
+        <argsstring>()</argsstring>
+        <name>jeanSea6_1ToJean</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::jeanSea6_1ToJean</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **JeanSea onto Jean** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The **merge**: JeanSea&apos;s ``body`` and ``dress`` both become Jean&apos;s ``body``, which takes
+a second generated ``.ini`` file. See :cpp:class:`JeanSeaFixer` and
+:cpp:member:`GIMICharFixerConfig::objSplits`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1035" column="43" bodyfile="src/data/IniFixData/JeanSea/JeanSeaFixer.cpp" bodystart="98" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aaef6ad6485abd2e10d0ef71995cc1b61" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::jeanSea6_1ToJeanCN</definition>
+        <argsstring>()</argsstring>
+        <name>jeanSea6_1ToJeanCN</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::jeanSea6_1ToJeanCN</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **JeanSea onto JeanCN** -- **not** a stub. The same merge as
+:cpp:func:`jeanSea6_1ToJean`, in ``data/IniFixData/JeanSea/JeanSeaFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1044" column="43" bodyfile="src/data/IniFixData/JeanSea/JeanSeaFixer.cpp" bodystart="103" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad079e157a42e14e740a12c895956e517" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ningguang6_1</definition>
+        <argsstring>()</argsstring>
+        <name>ningguang6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ningguang6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **Ningguang onto NingguangOrchid** -- **not** a stub
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The standard GIMI character shape -- see :cpp:func:`makeGIMICharFixer` -- plus a
+``ps-t3`` strip the target does not read and the ``DarkDiffuse`` head edit. Ningguang&apos;s
+own choices are in ``data/IniFixData/Ningguang/NingguangFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1057" column="43" bodyfile="src/data/IniFixData/Ningguang/NingguangFixer.cpp" bodystart="59" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a87fe735eaa66a6c3bd0809a6176286e3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ningguangOrchid6_1</definition>
+        <argsstring>()</argsstring>
+        <name>ningguangOrchid6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ningguangOrchid6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **NingguangOrchid onto Ningguang** -- **not** a stub. The plain
+shape, with none of Ningguang&apos;s extras; see ``data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp``
+for why the asymmetry is real
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1067" column="43" bodyfile="src/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp" bodystart="65" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a117dd88dbf2c1bed4302a42bd5535bb1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ganyu6_1</definition>
+        <argsstring>()</argsstring>
+        <name>ganyu6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ganyu6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **Ganyu onto GanyuTwilight** -- **not** a stub
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The direction that **gains a normal map**, and the exact mirror of
+:cpp:func:`ganyuTwilight6_1`: Ganyu predates GI 3.x&apos;s normal maps, GanyuTwilight
+has one, so the head&apos;s registers shift **up** a slot and the fix invents the
+texture that fills the hole. See ``data/IniFixData/Ganyu/GanyuFixer.cpp`` and
+:cpp:member:`GIMICharFixerConfig::texAdds`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1082" column="43" bodyfile="src/data/IniFixData/Ganyu/GanyuFixer.cpp" bodystart="101" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a8ce4d8df4df9c57849e9061b4484016f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::xianglingCheer6_1</definition>
+        <argsstring>()</argsstring>
+        <name>xianglingCheer6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::xianglingCheer6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **XianglingCheer onto Xiangling** -- **not** a stub
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The **split** that undoes :cpp:func:`xiangling4_0`&apos;s merge, and the direction that loses a
+normal map. See ``data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1094" column="43" bodyfile="src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp" bodystart="80" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a66dfebe8b94d048ce3a096f743f92c04" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::hutao6_1</definition>
+        <argsstring>()</argsstring>
+        <name>hutao6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::hutao6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **HuTao onto CherryHuTao** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A **split of both objects**, two becoming four, plus a created normal map and a moved draw
+call. See ``data/IniFixData/HuTao/HuTaoFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1106" column="43" bodyfile="src/data/IniFixData/HuTao/HuTaoFixer.cpp" bodystart="134" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac1431b8ec88a3bfc072d627ae7f5774e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::cherryHuTao6_1</definition>
+        <argsstring>()</argsstring>
+        <name>cherryHuTao6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::cherryHuTao6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **CherryHuTao onto HuTao** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The most involved fix here: a **merge** of four objects onto two, three texture edits,
+reflection sections to strip, and a register shift that belongs to only half the copies --
+see :cpp:member:`GIMICharFixerConfig::srcObjRegRemaps` and
+``data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1120" column="43" bodyfile="src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp" bodystart="127" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a460f8688ed8fdae3fc3c01462769ee12" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::xingqiu6_1</definition>
+        <argsstring>()</argsstring>
+        <name>xingqiu6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::xingqiu6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **Xingqiu onto XingqiuBamboo** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A **split** of the head alone, across the skin&apos;s ``head`` and ``dress``. See
+``data/IniFixData/Xingqiu/XingqiuFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1132" column="43" bodyfile="src/data/IniFixData/Xingqiu/XingqiuFixer.cpp" bodystart="62" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af6f586c9f2714a8cda742b17ab22a9a6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::xingqiuBamboo6_1</definition>
+        <argsstring>()</argsstring>
+        <name>xingqiuBamboo6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::xingqiuBamboo6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **XingqiuBamboo onto Xingqiu** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The **merge** back onto Xingqiu, whose head takes both the skin&apos;s head and its outer robe.
+See ``data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1144" column="43" bodyfile="src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp" bodystart="55" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae921150e751a2da9ddf5dd886d02a080" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::keqing6_1</definition>
+        <argsstring>()</argsstring>
+        <name>keqing6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::keqing6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **Keqing onto KeqingOpulent** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A **merge**: KeqingOpulent has no ``dress``, so Keqing&apos;s dress and head both land on the
+target&apos;s head and the fix writes a second ``.ini`` file for the loser. See
+``data/IniFixData/Keqing/KeqingFixer.cpp`` and
+:cpp:member:`GIMICharFixerConfig::objSplits`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1157" column="43" bodyfile="src/data/IniFixData/Keqing/KeqingFixer.cpp" bodystart="87" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1adc42fafd0ec85f87004a4e2819daad49" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::keqingOpulent6_1</definition>
+        <argsstring>()</argsstring>
+        <name>keqingOpulent6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::keqingOpulent6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **KeqingOpulent onto Keqing** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The **split** that undoes :cpp:func:`keqing6_1`&apos;s merge: one body mesh emitted twice, at
+Keqing&apos;s body and dress indices. See
+``data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1170" column="43" bodyfile="src/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp" bodystart="98" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a97ad3d2acf77e47e43ea622ab1784e93" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::shenhe6_1</definition>
+        <argsstring>()</argsstring>
+        <name>shenhe6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::shenhe6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **Shenhe onto ShenheFrostFlower** -- **not** a stub
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A **split** of the dress alone, across the skin&apos;s ``dress`` and ``extra``, plus the
+dress&apos;s ``ps-t2`` / ``ps-t3`` shift. See ``data/IniFixData/Shenhe/ShenheFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1182" column="43" bodyfile="src/data/IniFixData/Shenhe/ShenheFixer.cpp" bodystart="62" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a03a66c29497cbde2ffb563ef829a9cec" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::shenheFrostFlower6_1</definition>
+        <argsstring>()</argsstring>
+        <name>shenheFrostFlower6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::shenheFrostFlower6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **ShenheFrostFlower onto Shenhe** -- **not** a stub
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The **widest merge** here: the skin&apos;s head, body and extra all come through Shenhe&apos;s one
+body draw call, so the fix writes THREE ``.ini`` files. See
+``data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1195" column="43" bodyfile="src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp" bodystart="83" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28595767d856f1adb7ef7b92962a53b1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ganyuTwilight6_1</definition>
+        <argsstring>()</argsstring>
+        <name>ganyuTwilight6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ganyuTwilight6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **GanyuTwilight onto Ganyu** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The direction that **loses a normal map**: GanyuTwilight is a post-GI-3.x model with one
+on ``ps-t0``, Ganyu predates it, so the head&apos;s registers shift down a slot. See
+``data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp`` and
+:cpp:member:`GIMICharFixerConfig::objRegRemaps`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1209" column="43" bodyfile="src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp" bodystart="94" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a7efbb5fcdca598296116646ea2e8cfb0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::monaCN6_1</definition>
+        <argsstring>()</argsstring>
+        <name>monaCN6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::monaCN6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The pure-Python ``IniFixBuilderFuncs.monaCN6_1`` -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+MonaCN remapped onto Mona. The standard GIMI character shape -- see
+:cpp:func:`makeGIMICharFixer` -- with MonaCN&apos;s own choices in
+``data/IniFixData/MonaCN/MonaCNFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1222" column="43" bodyfile="src/data/IniFixData/MonaCN/MonaCNFixer.cpp" bodystart="62" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae03d94ddd49d371eac3dd2be878a2512" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::rosaria6_1</definition>
+        <argsstring>()</argsstring>
+        <name>rosaria6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::rosaria6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The pure-Python ``IniFixBuilderFuncs.rosaria6_1`` -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Rosaria remapped onto RosariaCN. The standard GIMI character shape -- see
+:cpp:func:`makeGIMICharFixer` -- with Rosaria&apos;s own choices in
+``data/IniFixData/Rosaria/RosariaFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1235" column="43" bodyfile="src/data/IniFixData/Rosaria/RosariaFixer.cpp" bodystart="64" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aa659acec18dfa20826ff1baef35a7c10" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::rosariaCN6_1</definition>
+        <argsstring>()</argsstring>
+        <name>rosariaCN6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::rosariaCN6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The pure-Python ``IniFixBuilderFuncs.rosariaCN6_1`` -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+RosariaCN remapped onto Rosaria. The standard GIMI character shape -- see
+:cpp:func:`makeGIMICharFixer` -- with RosariaCN&apos;s own choices in
+``data/IniFixData/RosariaCN/RosariaCNFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1248" column="43" bodyfile="src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp" bodystart="64" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::yelanTranquilBody6_1</definition>
+        <argsstring>()</argsstring>
+        <name>yelanTranquilBody6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::yelanTranquilBody6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **Yelan onto YelanTranquil&apos;s Body** -- **not** a stub
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The first remap onto a skin of SEVERAL components: one fixer per component, three
+rows, all built from one :cpp:class:`GIMIComponentFixerConfig` by
+:cpp:func:`makeGIMIComponentFixer`. See ``data/IniFixData/Yelan/YelanFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1261" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="135" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a52b8823aca4f15e712953d93319cd846" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::yelanTranquilBang6_1</definition>
+        <argsstring>()</argsstring>
+        <name>yelanTranquilBang6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::yelanTranquilBang6_1</qualifiedname>
+        <briefdescription>
+<para>The 6.1 fix remapping <bold>Yelan onto YelanTranquil&apos;s Bang</bold> <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" kindref="member">yelanTranquilBody6_1</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1266" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="140" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28abe81ceeed138ca10039b96346910d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::yelanTranquilEye6_1</definition>
+        <argsstring>()</argsstring>
+        <name>yelanTranquilEye6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::yelanTranquilEye6_1</qualifiedname>
+        <briefdescription>
+<para>The 6.1 fix remapping <bold>Yelan onto YelanTranquil&apos;s Eye</bold> <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" kindref="member">yelanTranquilBody6_1</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1271" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="145" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a02974b8d07fc3de5d09e72a10ba4c8c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::yelanTranquilToYelan6_1</definition>
+        <argsstring>()</argsstring>
+        <name>yelanTranquilToYelan6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::yelanTranquilToYelan6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **YelanTranquil onto Yelan** -- the inverse of
+:cpp:func:`yelanTranquilBody6_1` and the first remap of a skin of SEVERAL components
+onto a target of ONE :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+ONE row, not three: the target draws through one set of buffer hashes, so the source&apos;s
+components are merged into one ``.ini`` file over one set of buffers. See
+:cpp:func:`makeGIMIMergeFixer` and ``data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1285" column="43" bodyfile="src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp" bodystart="151" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Defines how the :cpp:class:`IniFixBuilder` arguments for some mod are built for a
+particular game version -- the C++ counterpart to the pure-Python ``IniFixBuilderFuncs``
+class (``data/IniFixBuilderData.py``) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+One static method per (mod, version-it-changed-at) pair, named exactly as in the original,
+each returning the :cpp:type:`IniFixBuilder::Factory` for that pair
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   **This warning used to say every method here was a stub except** ``raiden6_1``, and
+   that it returned a do-nothing :cpp:class:`BaseIniFixer`. Both halves are long dead:
+   forty-four characters have real fixes at 6.1, the historical 4.0 rows are filled in
+   too, and :cpp:func:`IniFixBuilder::defaultFactory` builds a real ``GIMIFixer``
+   rather than a bare base :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+   What remains stubbed is a shrinking list in the 5.x groups. A method that returns
+   ``defaultFactory()`` is USUALLY one of those -- but not always:
+   :cpp:func:`IniFixBuilderFuncs::giDefault` returns it because that is genuinely its
+   fix. Read the method before assuming which
+
+.. note::
+   The pure-Python original also carries shared constants and predicates such as ``TexFxRemove``,
+   ``ORFixRemove``, ``IbRemapData`` and ``_isNormalMap``.
+   Those exist only to build the arguments the real generators pass, so while every method
+   below is a stub they would be dead code -- port them alongside the first generator that
+   actually needs them
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="55" column="5" bodyfile="include/AGRemapCore/data/IniFixBuilderData.h" bodystart="55" bodyend="1287"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0974b6741bb33f11bd90e970ec6139e9" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>amber4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ab194bb3d4062215bfb52bd57a6fff1df" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>amber5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9427e3264381a4f320b7274f36432cb2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>amber6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1abd749b014af1828758e230e1e695fb5a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>amberCN4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a729b0838d55f1c9c2d363fab75136a38" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>amberCN5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a661dfacbd96e0b869af40b4a0088679d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>amberCN6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6681df3163efd701aa26dcae3ddf0bf4" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>arlecchino5_4</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aa33a8b79c2bd9f70a2ab7e94e7e39f68" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>arlecchino5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad85989457f41de20dabf44c7fd63893d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ayaka4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad9983ac17822db4b1174674b6aad6ee0" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ayaka5_4</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a78afb2884b2597a7142f6c857968feab" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ayaka5_6</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a03db8cea571febb25bba99f4d9cff7cd" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ayaka5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae950197c794bd6194de4d0e294d12bd9" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ayaka6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1adbc199f8e389fbdd5f0b1b799bf67b75" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ayakaSpringbloom4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1add051c73246ce03f05fb96b935122e04" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ayakaSpringbloom5_6</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a5ba9b0def66f3f11ba4a182219fb1878" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ayakaSpringbloom5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9a67338ff488b318dbed46ee674ac66f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ayakaSpringbloom6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a55f7ea96d73a646b109349011145b9a7" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>barbara4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a44b1635d17aba65a1a130af1f802c239" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>barbara5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6742f7ff459bf36bba3774085ae3aee6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>barbara6_1ToBarbaraSummertime</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1add0429d552651400c62a1ae46bcdd614" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>barbaraSummertime4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1afb608367425328c571a1f39510aeb07e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>barbaraSummertime5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a23e17262d0e5fe14b0afa1140006dece" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>barbaraSummertime6_1ToBarbara</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a1220a1dc58682b9f9e2a01619d5a1fb5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>cherryHuTao5_3</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac1431b8ec88a3bfc072d627ae7f5774e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>cherryHuTao6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a3258100d255dda7a3450abffba6c8866" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>diluc4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac8e97910da767640595e8a3368d2afa5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>diluc5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a093b95e7f6369b543728d319bdd85ded" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>diluc6_1ToDilucFlamme</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a781c93ad532b9140088691ba3073e4c0" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>dilucFlamme4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae78e0322e5eea8a0f8ec2f4631b7a814" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>dilucFlamme5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a96c1b9e323a32ada1dd3fa21e215e0c7" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>dilucFlamme6_1ToDiluc</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1acc4d3d68cfc6c8cf4f087f35b5674edf" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>fischl4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1acdc7dfb80d413d8d017ee1b8d081503c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>fischl5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9d34d76f2ad402aad16bf9a689a8fbca" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>fischl6_1ToFischlHighness</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a39c31827effba616fa60a05c07382cea" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>fischlHighness4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1acf49b414f7e20cc84eab45e344be5497" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>fischlHighness5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a4d30c6355e5f62720ad0c0282f03f914" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>fischlHighness6_1ToFischl</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a20390f0564983d57cd6a0209f1ce3dbd" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ganyu4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a41a2de9e899a0a41c0957623b33d8b73" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ganyu5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a117dd88dbf2c1bed4302a42bd5535bb1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ganyu6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a98c2bbd162b6936117dfec47c9460492" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ganyuTwilight4_4</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aacc5733b4d1d7e1d577f3c8a30734c06" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ganyuTwilight5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28595767d856f1adb7ef7b92962a53b1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ganyuTwilight6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a4efac3f1cd36ba13a731bc9894ad7e65" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>giDefault</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a494b699f9aa9200c66799efd183abcc0" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>hutao4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a58f3fc8436a68a77bd67707a436245b4" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>hutao5_6</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a66dfebe8b94d048ce3a096f743f92c04" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>hutao6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af7b200c0d6b973068cfb9e85e3c5dec0" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>IniFixBuilderFuncs</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a2c30d3cc8e2e0aad05cf8116c90aec07" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jean4_0ToJeanCN</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a5062bc5dbc1e64b84e26a0e79cb74164" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jean4_0ToJeanSea</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a99846febaa843ca6f189cdde71e16699" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jean5_5ToJeanCN</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0c7e4b3b2514a5a05dc92adee9812455" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jean5_5ToJeanSea</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac35a533ecb2f66985f79e9b93bc330c1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jean6_1ToJeanCN</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af5565464258b27878c912f72b6c8acf8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jean6_1ToJeanSea</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9a29630f9ee227698abde2def6ba7dfb" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jeanCN4_0ToJean</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9bcd8dd7bd9b21e41eb1b1558b2628d8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jeanCN4_0ToJeanSea</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a5cb9bda55a57e1121cc82e35f2bdbe00" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jeanCN5_5ToJean</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a621336a295032319e4bed03e0284d599" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jeanCN5_5ToJeanSea</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a76545c0b834fe6d7891f4ba88205b731" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jeanCN6_1ToJean</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad17176dacf2bef265c6121b4c931d66d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jeanCN6_1ToJeanSea</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aae46ec7ab9a54f120a748ad11f1c8598" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jeanSea4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a11237d9c643796eae3317ba6f9b2f1a2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jeanSea6_1ToJean</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aaef6ad6485abd2e10d0ef71995cc1b61" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jeanSea6_1ToJeanCN</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6d8c71e7df7a9441c9717a71303cbbe3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>kaeya4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1add3cd0fd523a0124373ee797f3fd568a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>kaeya5_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a33b7f195763e39051e2ab540cf8563c5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>kaeya6_1ToKaeyaSailwind</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a207232ffe796db234f88b95ceded7bad" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>kaeyaSailwind4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a1473c7a5b9e5d1a9b956138183092df8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>kaeyaSailwind5_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6ccac9632b8b20ff0dc3aa9359225736" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>kaeyaSailwind6_1ToKaeya</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6ab0844a5879a15eecf0b865a6204244" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>keqing4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae921150e751a2da9ddf5dd886d02a080" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>keqing6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0eebc7bb9cbc1c8a05b12ae48dc9640b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>keqingOpulent4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1adc42fafd0ec85f87004a4e2819daad49" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>keqingOpulent6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a4e0aed395c70c902002ec7916d263773" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>kirara4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6794b68f220da79f6845cf64dee75a63" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>kirara5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9c8a7722534b2e898168134d0baa801e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>kirara6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a8fcb1ae12e6208e97433a72b1bdac40c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>kiraraBoots4_8</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aaaac387799ec8d41dc0a69165a22ca3e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>kiraraBoots5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a73ea170ddb740b6332ed03c08c7cb207" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>kiraraBoots6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a66a6e9c99282a673ffbcbbf89887bd53" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>klee4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a8a4d361d6f2dc2db3921fedbf8207cc8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>klee6_1ToKleeBlossomingStarlight</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a55ab1a4c2395403b8948cae4aba67644" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>kleeBlossomingStarlight4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a72531afa10544b4e49b921daded42617" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>kleeBlossomingStarlight6_1ToKlee</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a25df67fe18557060ec7fe7b1afdf3ce1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>lisa4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a16218a17f1f82c459b3021560bf49b63" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>lisa5_4</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0e7045f9ee279083b5a86cce953103ad" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>lisa5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a57983389fe21b5b85ddb0ad5350ab0fd" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>lisa6_1ToLisaStudent</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a625bf7c8aa3ea395a97222386e0a6b45" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>lisaStudent4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a320e66aafe2167f913b92c3fd9fe6e45" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>lisaStudent6_1ToLisa</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ab53bc01233ba0b59932def13aaab8a8a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>mona4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a602df28d19c544748750d6dd58710597" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>mona6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a32891466cc387a0010e6986d83f73260" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>monaCN4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a7efbb5fcdca598296116646ea2e8cfb0" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>monaCN6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a5bd08419706104000ac4c03823146843" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>nilou4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac3ff016eddfc8d3dbef39321b6eb8c49" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>nilou5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a7ed4a4f962446e40337154058fd5b19f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>nilouBreeze4_8</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a2f555bb392e8672223c8037b4c32ef77" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>nilouBreeze5_4</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6f412cdab20a7bbde429fbb5f50d9d3c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>nilouBreeze5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aa347c93e0e387e599b54d5b723d951b2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>nilouBreeze6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a35b5c48495747cf1dc83237b64c678cc" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ningguang4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad079e157a42e14e740a12c895956e517" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ningguang6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a153c89fd8adf8a46ceba2e93a174ee51" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ningguangOrchid4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a87fe735eaa66a6c3bd0809a6176286e3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ningguangOrchid6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aacf5fdfd98f282dd6a39c3b89064f7a8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>raiden6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a16960ce595eb8499137893f38dc3c4af" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>rosaria4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae03d94ddd49d371eac3dd2be878a2512" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>rosaria6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a62d47ce9fcabbec4612623328d3656ac" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>rosariaCN4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aa659acec18dfa20826ff1baef35a7c10" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>rosariaCN6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9449758657ce3e63dcdf8f8b2c18164e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>shenhe4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a97ad3d2acf77e47e43ea622ab1784e93" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>shenhe6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac150329c9c728686b286ec2d1602a450" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>shenheFrostFlower4_4</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad331b37599c6f8a283a1bd1f9754276e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>shenheFrostFlower5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a03a66c29497cbde2ffb563ef829a9cec" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>shenheFrostFlower6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1adff7aadaf4ae47cad172685235d0ffe2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>xiangling4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad7bf9ba56cb7c626e5766706ef1b8400" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>xianglingCheer5_3</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a8ce4d8df4df9c57849e9061b4484016f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>xianglingCheer6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a897f1cee434f3283d5ce43400507c9d8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>xingqiu4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a460f8688ed8fdae3fc3c01462769ee12" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>xingqiu6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a31523fd6e953baa4f48a77e978c6b680" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>xingqiuBamboo4_4</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af6f586c9f2714a8cda742b17ab22a9a6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>xingqiuBamboo6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a52b8823aca4f15e712953d93319cd846" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>yelanTranquilBang6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>yelanTranquilBody6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28abe81ceeed138ca10039b96346910d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>yelanTranquilEye6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a02974b8d07fc3de5d09e72a10ba4c8c5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>yelanTranquilToYelan6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

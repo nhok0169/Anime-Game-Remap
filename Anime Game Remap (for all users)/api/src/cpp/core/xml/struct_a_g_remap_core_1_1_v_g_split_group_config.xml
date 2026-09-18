@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_v_g_split_group_config" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::VGSplitGroupConfig</compoundname>
+    <includes refid="_v_g_split_group_resource_8h" local="no">VGSplitGroupResource.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1a3e9174cf0f745d58259601f8e4b5c6f4" prot="public" static="no">
+        <type>std::function&lt; <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref>(const <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &amp;)&gt;</type>
+        <definition>using AGRemapCore::VGSplitGroupConfig::LineEdit = std::function&lt;ByteVec(const ByteVec&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LineEdit</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupConfig::LineEdit</qualifiedname>
+        <briefdescription>
+<para>A per-line edit of a vertex buffer, applied before the lines are filtered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="41" column="9" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1a4e8b12263210463aab075475aaafa2bd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::VGSplitGroupConfig::component</definition>
+        <argsstring></argsstring>
+        <name>component</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupConfig::component</qualifiedname>
+        <briefdescription>
+<para>The component this group&apos;s files are written for. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="46" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1ad3072152740b4cd107fd883aac2a7f22" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_v_g_component_spec" kindref="compound">VGComponentSpec</ref> &gt;</type>
+        <definition>std::vector&lt;VGComponentSpec&gt; AGRemapCore::VGSplitGroupConfig::specs</definition>
+        <argsstring></argsstring>
+        <name>specs</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupConfig::specs</qualifiedname>
+        <briefdescription>
+<para>Every component of the target. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="51" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1afa1fede04d255fc720b9bc56c67b1a80" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::VGSplitGroupConfig::ibPaths</definition>
+        <argsstring></argsstring>
+        <name>ibPaths</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupConfig::ibPaths</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The source ``.ib`` of every drawn object, in draw order. The split needs all of them even
+when this group holds only one: a cut component&apos;s vertex set is the union over every
+object&apos;s kept triangles, so a group that saw one object would write a blend the other
+object&apos;s index buffer cannot index. Empty: the group&apos;s own ``ib`` members, in member order
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="62" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1a421459c2130b60316250d30bbb86d1c6" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a3e9174cf0f745d58259601f8e4b5c6f4" kindref="member">LineEdit</ref></type>
+        <definition>LineEdit AGRemapCore::VGSplitGroupConfig::texcoordLineEdit</definition>
+        <argsstring></argsstring>
+        <name>texcoordLineEdit</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupConfig::texcoordLineEdit</qualifiedname>
+        <briefdescription>
+<para>Applied to every line of the <computeroutput>Texcoord.buf</computeroutput> before filtering, or empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="67" column="18" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1ab2f3ce8c9cbd2704ce0e7461327073f9" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a3e9174cf0f745d58259601f8e4b5c6f4" kindref="member">LineEdit</ref></type>
+        <definition>LineEdit AGRemapCore::VGSplitGroupConfig::positionLineEdit</definition>
+        <argsstring></argsstring>
+        <name>positionLineEdit</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupConfig::positionLineEdit</qualifiedname>
+        <briefdescription>
+<para>Applied to every line of the <computeroutput>Position.buf</computeroutput> before filtering, or empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="72" column="18" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What a :cpp:class:`VGSplitGroupResource` needs to know beyond its members: which component of
+the target it writes, every component of the target (the split is joint -- which triangles a
+cut component gets depends on what the negative-index components keep), and which of the mod&apos;s
+index buffers take part
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="37" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="37" bodyend="73"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a4e8b12263210463aab075475aaafa2bd" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>component</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1afa1fede04d255fc720b9bc56c67b1a80" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>ibPaths</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a3e9174cf0f745d58259601f8e4b5c6f4" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>LineEdit</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ab2f3ce8c9cbd2704ce0e7461327073f9" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>positionLineEdit</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ad3072152740b4cd107fd883aac2a7f22" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>specs</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a421459c2130b60316250d30bbb86d1c6" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>texcoordLineEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_5b19de6b0f65de17ef4f2279d39d7fe4" kind="dir">
+    <compoundname>include/AGRemapCore/view</compoundname>
+    <innerfile refid="_base_logger_8h">BaseLogger.h</innerfile>
+    <innerfile refid="_logger_8h">Logger.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/view/"/>
+  </compounddef>
+</doxygen>

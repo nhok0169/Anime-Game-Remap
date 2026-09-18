@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_keqing_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::KeqingParser</compoundname>
+    <includes refid="_keqing_parser_8h" local="no">KeqingParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_keqing_parser_1a1821197de90da7a0f50d1dec74855e84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::KeqingParser::KeqingParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>KeqingParser</name>
+        <qualifiedname>AGRemapCore::KeqingParser::KeqingParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Keqing/KeqingParser.h" line="39" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_keqing_parser_1ae9b52d8cd9f3c9871dc8d63525bfeafa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::KeqingParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::KeqingParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era Keqing ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::keqing4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Keqing/KeqingParser.h" line="48" column="45" bodyfile="src/data/IniParseData/Keqing/KeqingParser.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Keqing&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`KeqingFixer`; the two agree on the mod object names by hand, and
+neither half makes sense alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Keqing and KeqingOpulent are a base/skin pair and remap onto each other -- and
+the pair is this repo&apos;s worked example of a MERGE and its inverse SPLIT, since
+KeqingOpulent has no ``dress`` of her own
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Keqing/KeqingParser.h" line="36" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Keqing/KeqingParser.h" bodystart="36" bodyend="49"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_keqing_parser_1a1821197de90da7a0f50d1dec74855e84" prot="public" virt="non-virtual"><scope>AGRemapCore::KeqingParser</scope><name>KeqingParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_keqing_parser_1ae9b52d8cd9f3c9871dc8d63525bfeafa" prot="public" virt="non-virtual"><scope>AGRemapCore::KeqingParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

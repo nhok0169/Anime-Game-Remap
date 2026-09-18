@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_c2153338231c5adbf3d11cc38df4ae3c" kind="dir">
+    <compoundname>include/AGRemapCore/model/strategies/bufEditors</compoundname>
+    <innerfile refid="_base_buf_editor_8h">BaseBufEditor.h</innerfile>
+    <innerfile refid="_buf_editor_8h">BufEditor.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/bufEditors/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_02ac7716888046425712158f06bd61c8" kind="dir">
+    <compoundname>src/data/IniParseData/Barbara</compoundname>
+    <innerfile refid="_barbara_parser_8cpp">BarbaraParser.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniParseData/Barbara/"/>
+  </compounddef>
+</doxygen>

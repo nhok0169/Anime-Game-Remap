@@ -1,0 +1,358 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_material_band_remap_filter" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::MaterialBandRemapFilter</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_tex_filter" prot="public" virt="non-virtual">AGRemapCore::BaseTexFilter</basecompoundref>
+    <includes refid="_material_band_remap_filter_8h" local="no">MaterialBandRemapFilter.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band" prot="public">AGRemapCore::MaterialBandRemapFilter::Band</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_material_band_remap_filter_1ab298bcc5ff66159283b3f5b362b715a5" prot="public" static="no">
+        <type>std::function&lt; bool(int, int, int)&gt;</type>
+        <definition>using AGRemapCore::MaterialBandRemapFilter::ColourPredicate = std::function&lt;bool(int, int, int)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ColourPredicate</name>
+        <qualifiedname>AGRemapCore::MaterialBandRemapFilter::ColourPredicate</qualifiedname>
+        <briefdescription>
+<para>A test on the diffuse colour under a pixel, as <computeroutput>(red, green, blue)</computeroutput> in 0-255. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="68" column="13" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_material_band_remap_filter_1aabff524bb62e40de3acc8bd84bed5bdc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band" kindref="compound">Band</ref> &gt;</type>
+        <definition>std::vector&lt;Band&gt; AGRemapCore::MaterialBandRemapFilter::bands</definition>
+        <argsstring></argsstring>
+        <name>bands</name>
+        <qualifiedname>AGRemapCore::MaterialBandRemapFilter::bands</qualifiedname>
+        <briefdescription>
+<para>The moves to apply, all from the ORIGINAL alpha. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="146" column="25" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_material_band_remap_filter_1a26c9608f7ff0fe72fcf743ee1550df10" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::MaterialBandRemapFilter::diffusePath</definition>
+        <argsstring></argsstring>
+        <name>diffusePath</name>
+        <qualifiedname>AGRemapCore::MaterialBandRemapFilter::diffusePath</qualifiedname>
+        <briefdescription>
+<para>The diffuse to read the gates against. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="151" column="25" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_material_band_remap_filter_1aca63e1bc2ecd93df9a1dca7fbf9f553a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::MaterialBandRemapFilter::MaterialBandRemapFilter</definition>
+        <argsstring>(std::vector&lt; Band &gt; bands={}, std::string diffusePath=&quot;&quot;)</argsstring>
+        <name>MaterialBandRemapFilter</name>
+        <qualifiedname>AGRemapCore::MaterialBandRemapFilter::MaterialBandRemapFilter</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band" kindref="compound">Band</ref> &gt;</type>
+          <declname>bands</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>diffusePath</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new material band remap filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bands</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The moves to apply, all from the ORIGINAL alpha; the FIRST whose source range contains a pixel&apos;s band is the one that applies </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>diffusePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The diffuse to read the gates against. If this names no readable file, every gate passes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="141" column="22" bodyfile="src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp" bodystart="31" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_material_band_remap_filter_1a90ba658b7f2e6fd5f24ecc0f60925f20" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::MaterialBandRemapFilter::transform</definition>
+        <argsstring>(TextureFile &amp;texFile) override</argsstring>
+        <name>transform</name>
+        <qualifiedname>AGRemapCore::MaterialBandRemapFilter::transform</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_tex_filter_1a93d99b0e0a407d94d8b77dd7f4400cad">transform</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref> &amp;</type>
+          <declname>texFile</declname>
+        </param>
+        <briefdescription>
+<para>Applies a transformation to &apos;texFile&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>texFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture to be edited </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="153" column="18" bodyfile="src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp" bodystart="47" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_material_band_remap_filter_1aefba7cbb83a817741c885edabf4f82f5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::MaterialBandRemapFilter::skinColoured</definition>
+        <argsstring>(int red, int green, int blue)</argsstring>
+        <name>skinColoured</name>
+        <qualifiedname>AGRemapCore::MaterialBandRemapFilter::skinColoured</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>red</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>green</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>blue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether a colour looks like SKIN -- warm, not too dark, red at least green at least
+blue, and separated enough to not be a grey :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Measured off two characters&apos; identity mods rather than chosen; white fur and a white
+eye sclera are the same colour, so this deliberately does not try to separate them
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>red</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The red channel, 0-255 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>green</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The green channel, 0-255 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>blue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The blue channel, 0-255 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="169" column="25" bodyfile="src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp" bodystart="35" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_material_band_remap_filter_1abe25107d45ae8fb599c0206157e83c16" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::MaterialBandRemapFilter::whiteFurColoured</definition>
+        <argsstring>(int red, int green, int blue)</argsstring>
+        <name>whiteFurColoured</name>
+        <qualifiedname>AGRemapCore::MaterialBandRemapFilter::whiteFurColoured</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>red</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>green</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>blue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether a colour looks like WHITE FUR -- bright, and close to grey
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>red</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The red channel, 0-255 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>green</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The green channel, 0-255 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>blue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The blue channel, 0-255 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="181" column="25" bodyfile="src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp" bodystart="40" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_material_band_remap_filter_1ace0098cad5445b882f530134e0da4806" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref>(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt; TexEditor::Filter(const std::string &amp;)&gt; AGRemapCore::MaterialBandRemapFilter::lightMapEdit</definition>
+        <argsstring>(std::vector&lt; Band &gt; bands)</argsstring>
+        <name>lightMapEdit</name>
+        <qualifiedname>AGRemapCore::MaterialBandRemapFilter::lightMapEdit</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band" kindref="compound">Band</ref> &gt;</type>
+          <declname>bands</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The per-object light map edit both fixer templates&apos; ``lightMapEdit`` field wants: a
+function that, given an object&apos;s diffuse, returns the filter to run over its light map
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+So a character&apos;s whole band legend is one table handed to one call, rather than a
+hand-written closure per direction
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bands</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The moves to apply </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="196" column="34" bodyfile="src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp" bodystart="129" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseTexFilter`
+
+Moves a light map&apos;s MATERIAL BANDS from one skin&apos;s legend onto another&apos;s, optionally
+conditioned on the DIFFUSE underneath each pixel :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   **A light map&apos;s alpha channel is a material band** -- the shader reads it to decide how to
+   shade the pixel (skin, hair, cloth, metal, fur) -- and **the legend differs per skin**. Two
+   characters remapped onto one another agree on some bands and disagree on others, so a remap
+   that copies a light map across unchanged shades the wrong material: a shawl painted on the
+   fur band renders as skin, grey stockings come out beige.
+
+.. note::
+   **Why the diffuse gate exists.** A mod need not follow its own character&apos;s legend at all,
+   because **a mod that is itself a PORT carries some THIRD character&apos;s bands** -- a Clorinde
+   port of a Yelan skin keeps Clorinde&apos;s legend, with hair where the target expects skin.
+   Lifting that hair onto the skin ramp put speckles all over it. So a move may be conditioned
+   on the colour under the pixel actually looking like the material being moved. A move whose
+   source band cannot be mistaken for anything else needs no gate; a move off band ``0`` -- the
+   DEFAULT that a lazy or ported mod leaves everything on -- always does.
+
+.. warning::
+   Every decision is made from the **ORIGINAL** alpha, never from a value an earlier band
+   wrote. The moves are typically a *permutation* of the bands, and applied in sequence a
+   permutation chases itself: ``0 -&gt; 255``, then ``255 -&gt; 121``, and band 0 has landed on 121.
+
+Where the light map and the diffuse differ in size the diffuse is sampled nearest-neighbour,
+and **a diffuse that is absent or cannot be read makes every gate PASS** -- the band legend is
+the better of the two guesses when there is nothing to check against
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseTexFilter</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_filter"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::MaterialBandRemapFilter</label>
+        <link refid="class_a_g_remap_core_1_1_material_band_remap_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseTexFilter</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_filter"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::MaterialBandRemapFilter</label>
+        <link refid="class_a_g_remap_core_1_1_material_band_remap_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="61" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" bodystart="61" bodyend="197"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_material_band_remap_filter_1aabff524bb62e40de3acc8bd84bed5bdc" prot="public" virt="non-virtual"><scope>AGRemapCore::MaterialBandRemapFilter</scope><name>bands</name></member>
+      <member refid="class_a_g_remap_core_1_1_material_band_remap_filter_1ab298bcc5ff66159283b3f5b362b715a5" prot="public" virt="non-virtual"><scope>AGRemapCore::MaterialBandRemapFilter</scope><name>ColourPredicate</name></member>
+      <member refid="class_a_g_remap_core_1_1_material_band_remap_filter_1a26c9608f7ff0fe72fcf743ee1550df10" prot="public" virt="non-virtual"><scope>AGRemapCore::MaterialBandRemapFilter</scope><name>diffusePath</name></member>
+      <member refid="class_a_g_remap_core_1_1_material_band_remap_filter_1ace0098cad5445b882f530134e0da4806" prot="public" virt="non-virtual"><scope>AGRemapCore::MaterialBandRemapFilter</scope><name>lightMapEdit</name></member>
+      <member refid="class_a_g_remap_core_1_1_material_band_remap_filter_1aca63e1bc2ecd93df9a1dca7fbf9f553a" prot="public" virt="non-virtual"><scope>AGRemapCore::MaterialBandRemapFilter</scope><name>MaterialBandRemapFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a7380f6c35e0b7641018c1b8e9b82ed1f" prot="public" virt="non-virtual"><scope>AGRemapCore::MaterialBandRemapFilter</scope><name>operator()</name></member>
+      <member refid="class_a_g_remap_core_1_1_material_band_remap_filter_1aefba7cbb83a817741c885edabf4f82f5" prot="public" virt="non-virtual"><scope>AGRemapCore::MaterialBandRemapFilter</scope><name>skinColoured</name></member>
+      <member refid="class_a_g_remap_core_1_1_material_band_remap_filter_1a90ba658b7f2e6fd5f24ecc0f60925f20" prot="public" virt="virtual"><scope>AGRemapCore::MaterialBandRemapFilter</scope><name>transform</name></member>
+      <member refid="class_a_g_remap_core_1_1_material_band_remap_filter_1abe25107d45ae8fb599c0206157e83c16" prot="public" virt="non-virtual"><scope>AGRemapCore::MaterialBandRemapFilter</scope><name>whiteFurColoured</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a3c6cf0921cb9288dbffedfd8239187bf" prot="public" virt="virtual"><scope>AGRemapCore::MaterialBandRemapFilter</scope><name>~BaseTexFilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

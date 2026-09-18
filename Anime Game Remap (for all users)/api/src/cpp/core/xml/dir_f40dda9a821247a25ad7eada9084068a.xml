@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f40dda9a821247a25ad7eada9084068a" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/GanyuTwilight</compoundname>
+    <innerfile refid="_ganyu_twilight_parser_8h">GanyuTwilightParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/GanyuTwilight/"/>
+  </compounddef>
+</doxygen>

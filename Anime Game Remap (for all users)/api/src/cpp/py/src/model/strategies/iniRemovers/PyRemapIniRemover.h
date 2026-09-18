@@ -1,0 +1,163 @@
+#ifndef AGRemapPyBind_PyRemapIniRemover_H
+#define AGRemapPyBind_PyRemapIniRemover_H
+
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
+#include <memory>
+#include <optional>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
+#include <pybind11/pybind11.h>
+
+#include "PyBaseIniRemover.h"
+#include "AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h"
+#include "AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h"
+#include "AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h"
+
+
+namespace py = pybind11;
+namespace AGRC = AGRemapCore;
+
+
+/**
+ * @brief
+ @rst
+ The `Python`_-backed :cpp:class:`AGRemapCore::IniRemoveContext` -- calls straight back into a real
+ `Python`_ ``IniFile`` object :raw-html:`<br />` :raw-html:`<br />`
+
+ Every method here forwards through genuine `Python`_ attribute lookup rather than reimplementing
+ what ``IniFile`` does. That is load-bearing, not stylistic: the unit-test harness patches
+ ``builtins.open``/``os.path`` at the `Python`_ level, so a ``std::filesystem`` call here would
+ bypass every mock -- the same trap the ``iniresources`` port hit
+ @endrst
+ */
+class PyIniRemoveContext: public AGRC::IniRemoveContext<std::string, std::string> {
+    public:
+        using Base = AGRC::IniRemoveContext<std::string, std::string>;
+        using Section = Base::Section;
+        using Assets = Base::Assets;
+
+        /**
+         * @brief Constructs a context over one Python ``IniFile``
+         *
+         * @param ini The Python ``IniFile``, or ``None``
+         */
+        explicit PyIniRemoveContext(py::object ini = py::none());
+
+        /**
+         * @brief The Python ``IniFile``, or ``None``
+         */
+        py::object ini;
+
+        /**
+         * @brief
+         @rst
+         Re-derives #coreCtx from #ini: a bound core ``IniFile`` gets a
+         :cpp:class:`AGRemapCore::IniFileRemoveContext` over itself and every method below forwards to
+         it, anything else takes the `Python`_ attribute path :raw-html:`<br />` :raw-html:`<br />`
+
+         Call it after assigning #ini. Without it a remover built from `Python`_ over today's
+         ``IniFile`` -- which is the C++ class -- asked it for ``sectionIfTemplates``/``fileLines``/
+         ``_isFixed``, attributes of the pure-`Python`_ ``IniFile`` deleted on 2026-09-03, and every
+         ``remove()`` raised ``AttributeError``. Same rule as ``PyIniFixContext::syncCoreCtx``
+         @endrst
+         */
+        void syncCoreCtx();
+
+        bool hasIni() const override;
+        std::string iniFolder() const override;
+        std::optional<AGRC::Version> version() const override;
+        std::vector<Assets*> modTypeHashes() const override;
+        std::vector<std::string> readFileLines() override;
+        std::unordered_map<std::string, Section*> sectionIfTemplates() const override;
+        std::string fileTxt() const override;
+        void setFileTxt(std::string txt) override;
+        std::string write() override;
+        void clearRead() override;
+        void removeBackup() override;
+        void setIsFixed(bool isFixed) override;
+
+    private:
+        // Set only while #ini is a bound core IniFile -- see syncCoreCtx
+        std::unique_ptr<AGRC::IniFileRemoveContext> coreCtx;
+};
+
+
+/**
+ * @brief The core :cpp:class:`AGRemapCore::RemapIniRemover` specialization this binds
+ */
+using PyRemapIniRemoverCore = AGRC::RemapIniRemover<std::string, std::string, std::hash<std::string>, std::equal_to<std::string>, PyBaseIniRemover>;
+
+
+/**
+ * @brief
+ @rst
+ The `pybind11`_-facing ``RemapIniRemover`` :raw-html:`<br />` :raw-html:`<br />`
+
+ Keeps the caller's own `Python`_ ``IniFile`` on
+ :cpp:member:`PyBaseIniRemover::iniFileObj` and re-points #ctxImpl at it at the start of every
+ :cpp:func:`remove` (see #refresh) -- the same "the `Python`_ attribute is the truth, the core
+ members are derived from it" contract ``PyGIMIParser`` keeps, and a real requirement here: the
+ pure-Python original is constructed once per ``.ini`` file but its ``iniFile`` attribute is a
+ plain, assignable one
+ @endrst
+ */
+class PyRemapIniRemover: public PyRemapIniRemoverCore {
+    public:
+        using Core = PyRemapIniRemoverCore;
+
+        /**
+         * @brief Constructs a new remover
+         *
+         * @param iniFile The Python ``IniFile`` to remove the fix from
+         */
+        explicit PyRemapIniRemover(py::object iniFile = py::none());
+
+        /**
+         * @brief The .ini file the fix is being removed from, behind its interface
+         */
+        PyIniRemoveContext ctxImpl;
+
+        /**
+         * @brief
+         @rst
+         Re-points #ctxImpl at whatever :cpp:member:`PyBaseIniRemover::iniFileObj` currently holds
+         @endrst
+         */
+        void refresh();
+
+        std::string remove(bool parse = false, bool writeBack = true,
+                           AGRC::IniRemovalContext context = AGRC::IniRemovalContext()) override;
+
+        /**
+         * @brief
+         @rst
+         :cpp:func:`AGRemapCore::RemapIniRemover::getRemovedResources`, as a
+         ``Dict[str, List[IniResource]]``
+         @endrst
+         */
+        py::object removedResourcesToPy() const;
+
+        /**
+         * @brief The .ini-domain customization points every Python-facing remover uses
+         */
+        static Core::RemoverConfig makeConfig();
+};
+
+
+void initCppRemapIniRemover(pybind11::module_ &m);
+
+#endif

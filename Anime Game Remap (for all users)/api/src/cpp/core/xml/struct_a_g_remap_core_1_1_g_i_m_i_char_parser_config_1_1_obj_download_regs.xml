@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMICharParserConfig::ObjDownloadRegs</compoundname>
+    <includes refid="_g_i_m_i_char_parser_8h" local="no">GIMICharParser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a651cc76cf802078e181c9b6fc750600c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharParserConfig::ObjDownloadRegs::obj</definition>
+        <argsstring></argsstring>
+        <name>obj</name>
+        <qualifiedname>AGRemapCore::GIMICharParserConfig::ObjDownloadRegs::obj</qualifiedname>
+        <briefdescription>
+<para>The mod object these registers are for, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>"head"</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="144" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a6e47a983ee1dc111d278e7678f30e2c3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharParserConfig::ObjDownloadRegs::diffuseReg</definition>
+        <argsstring></argsstring>
+        <name>diffuseReg</name>
+        <qualifiedname>AGRemapCore::GIMICharParserConfig::ObjDownloadRegs::diffuseReg</qualifiedname>
+        <initializer>= &quot;ps-t0&quot;</initializer>
+        <briefdescription>
+<para>The register this object&apos;s diffuse hangs off. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="149" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a62e9c0dd7f26da38a416e095378deb03" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharParserConfig::ObjDownloadRegs::lightMapReg</definition>
+        <argsstring></argsstring>
+        <name>lightMapReg</name>
+        <qualifiedname>AGRemapCore::GIMICharParserConfig::ObjDownloadRegs::lightMapReg</qualifiedname>
+        <initializer>= &quot;ps-t1&quot;</initializer>
+        <briefdescription>
+<para>The register this object&apos;s lightmap hangs off. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="154" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a39607e33f163d473dedef1b6fe2753dc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharParserConfig::ObjDownloadRegs::normalMapReg</definition>
+        <argsstring></argsstring>
+        <name>normalMapReg</name>
+        <qualifiedname>AGRemapCore::GIMICharParserConfig::ObjDownloadRegs::normalMapReg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The register this object&apos;s NORMAL MAP hangs off, or empty for no normal map
+download at all -- which is the usual case :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Only the 4.0-era characters that shipped one want this; a modern character&apos;s
+normal map is invented by the fix (``GIMICharFixerConfig::texAdds``) rather than
+fetched
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="167" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Which registers ONE object&apos;s downloaded textures hang off, when they are not the
+usual ``ps-t0``/``ps-t1`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Why this is not a constant.** A download has to land on the register the mod&apos;s own
+shader would have bound that texture to, and GI moved those: a 4.0-era character
+reads its diffuse from ``ps-t1`` and its lightmap from ``ps-t2``, leaving ``ps-t0``
+for a normal map, while a modern one uses ``ps-t0``/``ps-t1``. Put a download on the
+wrong slot and the shader samples a lightmap as a diffuse :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+It varies **per object as well as per version** -- Kirara&apos;s head is the 4.0 layout
+while her body and dress are already the modern one -- so this is keyed by object
+and every object not named here keeps the defaults
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="139" column="9" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="139" bodyend="168"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a6e47a983ee1dc111d278e7678f30e2c3" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig::ObjDownloadRegs</scope><name>diffuseReg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a62e9c0dd7f26da38a416e095378deb03" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig::ObjDownloadRegs</scope><name>lightMapReg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a39607e33f163d473dedef1b6fe2753dc" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig::ObjDownloadRegs</scope><name>normalMapReg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a651cc76cf802078e181c9b6fc750600c" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig::ObjDownloadRegs</scope><name>obj</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

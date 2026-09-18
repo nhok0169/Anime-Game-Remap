@@ -119,7 +119,8 @@ API
 
 - **Setup**: :doc:`apiSetup`
 - **Simple Examples**: :doc:`apiExamples`
-- **API Reference**: :doc:`api`
+- **Python API Reference**: :doc:`api`
+- **C++ Core API Reference**: :doc:`coreAPI`
 
 .. toctree::
   :caption: API
@@ -128,6 +129,7 @@ API
   apiSetup
   apiExamples
   api
+  coreAPI
 
 :raw-html:`<br />`
 

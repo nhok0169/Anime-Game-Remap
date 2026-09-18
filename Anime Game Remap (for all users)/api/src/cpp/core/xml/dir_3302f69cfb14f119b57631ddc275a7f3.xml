@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_3302f69cfb14f119b57631ddc275a7f3" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/Shenhe</compoundname>
+    <innerfile refid="_shenhe_parser_8h">ShenheParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Shenhe/"/>
+  </compounddef>
+</doxygen>

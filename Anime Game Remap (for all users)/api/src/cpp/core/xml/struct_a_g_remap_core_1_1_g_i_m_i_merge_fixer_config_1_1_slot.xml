@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMIMergeFixerConfig::Slot</compoundname>
+    <includes refid="_g_i_m_i_merge_fixer_8h" local="no">GIMIMergeFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a380f992221311764e7e65ea1b0ab1eb0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIMergeFixerConfig::Slot::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::Slot::name</qualifiedname>
+        <briefdescription>
+<para>The slot&apos;s name on the source, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>A</computeroutput> <ndash/> matches the parser&apos;s mod object </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="43" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1acf808a2381d511005662ead192b6d702" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIMergeFixerConfig::Slot::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::Slot::index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The slot&apos;s ``match_first_index`` on the SOURCE, as a literal :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The fixer is built before the parser parses, so it finds the mod&apos;s files by hash over
+:cpp:func:`IniFile::getIfTemplates` and needs this to tell one slot&apos;s section from
+another&apos;s. Carried here rather than read from :cpp:class:`Indices` for the reason
+``IndexData.cpp``&apos;s own note records -- the components&apos; slot indices are deliberately
+not in that table
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="58" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a35c232ffceca263e9e7da6a8fcfeea54" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIMergeFixerConfig::Slot::to</definition>
+        <argsstring></argsstring>
+        <name>to</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::Slot::to</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The TARGET object it is drawn through, eg. ``body``. Two slots naming the same one are
+MERGED into a single draw, their index buffers concatenated
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="67" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a88f723c6a871094a697d730f56233568" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GIMIMergeFixerConfig::Slot::normalMap</definition>
+        <argsstring></argsstring>
+        <name>normalMap</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::Slot::normalMap</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+``true`` when this slot&apos;s section reads a normal map on ``ps-t0`` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The target has no slot for one, so it is dropped and the rest shifted down
+(``ps-t1`` -&gt; ``ps-t0``, ``ps-t2`` -&gt; ``ps-t1``) -- the GanyuTwilight -&gt; Ganyu shape
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="79" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a7fa587445c3646f13eec5b2d9eb79ac9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIMergeFixerConfig::Slot::borrowFrom</definition>
+        <argsstring></argsstring>
+        <name>borrowFrom</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::Slot::borrowFrom</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Where a slot with no textures of its own borrows them, as ``component;slot`` -- empty
+when it has its own :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+YelanTranquil&apos;s ``Bang`` and ``Eye`` have none: the game draws both with her Body slot
+A&apos;s set. A mod may leave those sections with an ``ib`` and nothing else, and the
+remapped draw then binds no texture at all -- which is worse than untextured, because
+``ORFix`` / ``NNFix`` re-slot whatever is bound whether or not the section bound it. A
+slot that ends up with nothing gets no fix call either
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="94" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1aff40506e757fd6a412f9f9058d830f34" prot="public" static="no" mutable="no">
+        <type>long long</type>
+        <definition>long long AGRemapCore::GIMIMergeFixerConfig::Slot::indexCount</definition>
+        <argsstring></argsstring>
+        <name>indexCount</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::Slot::indexCount</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The GAME model&apos;s index count for this slot, used only when the mod does not have the
+slot&apos;s ``ib`` on disk :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The same fallback as :cpp:member:`Component::vertexCount` and for the same reason: a
+slot the mod does not have at all gets its ``ib`` from a download, and downloads are
+fetched in ``fixResources``, AFTER the ``.ini`` file is written. A slot the mod DOES
+have is measured from its own file, so a modded mesh of a different size is unaffected
+-- one YelanTranquil edit draws 10782 indices out of a Bang the game draws 7692 from
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Only ever read for a target object SEVERAL source slots land on, which is the only
+place an index count is needed -- see :cpp:member:`Slot::to`. ``0`` means &quot;measure it&quot;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="113" column="23" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One draw slot of one source component, and where it lands. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="39" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="39" bodyend="114"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a7fa587445c3646f13eec5b2d9eb79ac9" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Slot</scope><name>borrowFrom</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1acf808a2381d511005662ead192b6d702" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Slot</scope><name>index</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1aff40506e757fd6a412f9f9058d830f34" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Slot</scope><name>indexCount</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a380f992221311764e7e65ea1b0ab1eb0" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Slot</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a88f723c6a871094a697d730f56233568" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Slot</scope><name>normalMap</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a35c232ffceca263e9e7da6a8fcfeea54" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Slot</scope><name>to</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

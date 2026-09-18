@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_string_tools_8h" kind="file" language="C++">
+    <compoundname>StringTools.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="_remap_service_8cpp" local="yes">src/RemapService.cpp</includedby>
+    <includedby refid="_download_mode_8cpp" local="yes">src/constants/DownloadMode.cpp</includedby>
+    <includedby refid="_game_type_8cpp" local="yes">src/constants/GameType.cpp</includedby>
+    <includedby refid="_game_type_id_8cpp" local="yes">src/constants/GameTypeId.cpp</includedby>
+    <includedby refid="_if_pred_part_type_8cpp" local="yes">src/constants/IfPredPartType.cpp</includedby>
+    <includedby refid="_mod_type_id_8cpp" local="yes">src/constants/ModTypeId.cpp</includedby>
+    <includedby refid="_g_i_m_i_char_fixer_8cpp" local="yes">src/data/IniFixData/GIMICharFixer.cpp</includedby>
+    <includedby refid="_g_i_m_i_component_fixer_8cpp" local="yes">src/data/IniFixData/GIMIComponentFixer.cpp</includedby>
+    <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
+    <includedby refid="_mod_branches_8cpp" local="yes">src/data/IniFixData/ModBranches.cpp</includedby>
+    <includedby refid="_reg_val_checks_8cpp" local="yes">src/data/IniFixData/RegValChecks.cpp</includedby>
+    <includedby refid="_ini_naming_tools_8cpp" local="yes">src/model/IniNamingTools.cpp</includedby>
+    <includedby refid="_version_8cpp" local="yes">src/model/Version.cpp</includedby>
+    <includedby refid="_ini_file_8cpp" local="yes">src/model/files/IniFile.cpp</includedby>
+    <includedby refid="_texture_file_8cpp" local="yes">src/model/files/TextureFile.cpp</includedby>
+    <includedby refid="_if_pred_part_8cpp" local="yes">src/model/iftemplate/IfPredPart.cpp</includedby>
+    <includedby refid="_mod_type_8cpp" local="yes">src/model/strategies/ModType.cpp</includedby>
+    <includedby refid="_ini_classifier_8cpp" local="yes">src/model/strategies/iniClassifiers/IniClassifier.cpp</includedby>
+    <includedby refid="_heading_8cpp" local="yes">src/tools/Heading.cpp</includedby>
+    <includedby refid="_string_tools_8cpp" local="yes">src/tools/StringTools.cpp</includedby>
+    <includedby refid="_base_tokenizer_8cpp" local="yes">src/tools/parsing/BaseTokenizer.cpp</includedby>
+    <includedby refid="_parse_context_8cpp" local="yes">src/tools/parsing/ParseContext.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/tools/StringTools.h</label>
+        <link refid="_string_tools_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>string_view</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/tools/StringTools.h</label>
+        <link refid="_string_tools_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/constants/DownloadMode.cpp</label>
+        <link refid="_download_mode_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/constants/GameType.cpp</label>
+        <link refid="_game_type_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/constants/GameTypeId.cpp</label>
+        <link refid="_game_type_id_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/constants/IfPredPartType.cpp</label>
+        <link refid="_if_pred_part_type_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/constants/ModTypeId.cpp</label>
+        <link refid="_mod_type_id_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/data/IniFixData/GIMICharFixer.cpp</label>
+        <link refid="_g_i_m_i_char_fixer_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/data/IniFixData/GIMIComponentFixer.cpp</label>
+        <link refid="_g_i_m_i_component_fixer_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
+        <link refid="_g_i_m_i_merge_fixer_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/data/IniFixData/ModBranches.cpp</label>
+        <link refid="_mod_branches_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/data/IniFixData/RegValChecks.cpp</label>
+        <link refid="_reg_val_checks_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/model/IniNamingTools.cpp</label>
+        <link refid="_ini_naming_tools_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/model/Version.cpp</label>
+        <link refid="_version_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/model/files/IniFile.cpp</label>
+        <link refid="_ini_file_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/model/files/TextureFile.cpp</label>
+        <link refid="_texture_file_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/model/iftemplate/IfPredPart.cpp</label>
+        <link refid="_if_pred_part_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/model/strategies/ModType.cpp</label>
+        <link refid="_mod_type_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/model/strategies/iniClassifiers/IniClassifier.cpp</label>
+        <link refid="_ini_classifier_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/tools/Heading.cpp</label>
+        <link refid="_heading_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/tools/StringTools.cpp</label>
+        <link refid="_string_tools_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/tools/parsing/BaseTokenizer.cpp</label>
+        <link refid="_base_tokenizer_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/tools/parsing/ParseContext.cpp</label>
+        <link refid="_parse_context_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_string_tools" prot="public">AGRemapCore::StringTools</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_StringTools_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_StringTools_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="class_a_g_remap_core_1_1_string_tools" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_string_tools" kindref="compound">StringTools</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::int8_t<sp/><ref refid="class_a_g_remap_core_1_1_string_tools_1a6b222148ff1b101737b4e9e1591758b3" kindref="member">compareStrPtrs</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>*strPtr1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>*strPtr2);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_string_tools_1ac1038b37e63b7b266c13725193f60c99" kindref="member">countGrapheme</ref>(std::string_view<sp/>txt);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_string_tools_1a9b3c50f415349916ea2d45c1531e29e5" kindref="member">isSpace</ref>(std::string_view<sp/>grapheme);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string_view&gt;<sp/><ref refid="class_a_g_remap_core_1_1_string_tools_1afdf4db7232319e516684662793a80665" kindref="member">splitlines</ref>(std::string_view<sp/>txt);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="class_a_g_remap_core_1_1_string_tools_1a4e73dad6ee5689594d1b04452d29abba" kindref="member">strip</ref>(std::string_view<sp/>txt);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="class_a_g_remap_core_1_1_string_tools_1a6cd686a93edd620ac7f44163ebad12b8" kindref="member">lstrip</ref>(std::string_view<sp/>txt);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="class_a_g_remap_core_1_1_string_tools_1a075b59ee14bdca80cbaedef14d0360e9" kindref="member">rstrip</ref>(std::string_view<sp/>txt);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_string_tools_1a5b88bfbb46ba6dc0ee952d0bcc37d77f" kindref="member">toLower</ref>(std::string_view<sp/>txt);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="class_a_g_remap_core_1_1_string_tools_1abc11402ae792e8fd8c6a5aae0cd83873" kindref="member">firstGraphemes</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="class_a_g_remap_core_1_1_string_tools_1afa58138e01e3648847d238ce624e53dd" kindref="member">lastGraphemes</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_string_tools_1af15183a589c39a0bb7dc678e7e7db1a1" kindref="member">startsWith</ref>(std::string_view<sp/>txt,<sp/>std::string_view<sp/>prefix);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_string_tools_1ab66a14cb70eea88081a9bc2f76512a2f" kindref="member">endsWith</ref>(std::string_view<sp/>txt,<sp/>std::string_view<sp/>suffix);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_string_tools_1a615fcb1a68846faf533d36d9d149a176" kindref="member">equalsIgnoreCase</ref>(std::string_view<sp/>txt1,<sp/>std::string_view<sp/>txt2);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_string_tools_1a386314c4c89382a978e63c19eabf5c80" kindref="member">endsWithIgnoreCase</ref>(std::string_view<sp/>txt,<sp/>std::string_view<sp/>suffix);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_string_tools_1a9c777d0d82c7f85eadef40c47f7f9d1b" kindref="member">containsIgnoreCase</ref>(std::string_view<sp/>txt,<sp/>std::string_view<sp/>target);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_string_tools_1ae9965a9a69cc4cf6a529be9df026f184" kindref="member">eraseAll</ref>(std::string&amp;<sp/>txt,<sp/>std::string_view<sp/>target);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/StringTools.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_v_g_merge_group_resource" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::VGMergeGroupResource</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource" prot="public" virt="non-virtual">AGRemapCore::RemapIniGroupedResource</basecompoundref>
+    <includes refid="_v_g_merge_group_resource_8h" local="no">VGMergeGroupResource.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_merge_group_resource_1a11e909032bdaf93f765e84728f929894" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_v_g_merge_group_config" kindref="compound">VGMergeGroupConfig</ref></type>
+        <definition>VGMergeGroupConfig AGRemapCore::VGMergeGroupResource::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>AGRemapCore::VGMergeGroupResource::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="160" column="32" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_merge_group_resource_1a9a90d75d99768998eef8faa20ab9cbc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::VGMergeGroupResource::VGMergeGroupResource</definition>
+        <argsstring>(std::string name, std::unordered_map&lt; std::string, std::unique_ptr&lt; IniResource &gt; &gt; resources, VGMergeGroupConfig config, std::function&lt; bool(IniGroupedResource &amp;)&gt; fixFunc=nullptr, bool isBuilt=true)</argsstring>
+        <name>VGMergeGroupResource</name>
+        <qualifiedname>AGRemapCore::VGMergeGroupResource::VGMergeGroupResource</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &gt; &gt;</type>
+          <declname>resources</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_v_g_merge_group_config" kindref="compound">VGMergeGroupConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(<ref refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource_1ad9484a31db82da19d581cae76f33ce3d" kindref="member">IniGroupedResource</ref> &amp;)&gt;</type>
+          <declname>fixFunc</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isBuilt</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new group. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the group </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resources</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group&apos;s members, keyed by resource type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source&apos;s components and the target&apos;s objects </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixFunc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Custom function for fixing the group, overriding <ref refid="class_a_g_remap_core_1_1_v_g_merge_group_resource_1a0d11b77152476bbf6f327f4c936bb0a5" kindref="member">_fix</ref> if given </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isBuilt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the group is ready to be fixed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="156" column="13" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="152" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_merge_group_resource_1a0d11b77152476bbf6f327f4c936bb0a5" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::VGMergeGroupResource::_fix</definition>
+        <argsstring>() override</argsstring>
+        <name>_fix</name>
+        <qualifiedname>AGRemapCore::VGMergeGroupResource::_fix</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a89d96bfc7e70ffecb8541843a53b10f2">_fix</reimplements>
+        <briefdescription>
+<para>Fixes the resource. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1abf9062268d77338804d50a56eba71eb3" kindref="member">fixFunc</ref> for the real, per-instance behavior</para>
+<para><simplesect kind="return"><para>Whether the resource was fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="163" column="18" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="157" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`RemapIniGroupedResource`
+
+A group of one mod&apos;s buffers, fixed by :cpp:func:`fixVGMergeGroup` -- see there
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AGRemapCore::IniGroupedResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_grouped_resource"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::RemapIniGroupedResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::RemapIniResourceMixin</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::VGMergeGroupResource</label>
+        <link refid="class_a_g_remap_core_1_1_v_g_merge_group_resource"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::IniGroupedResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_grouped_resource"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::RemapIniGroupedResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::RemapIniResourceMixin</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::VGMergeGroupConfig</label>
+        <link refid="struct_a_g_remap_core_1_1_v_g_merge_group_config"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::VGMergeGroupResource</label>
+        <link refid="class_a_g_remap_core_1_1_v_g_merge_group_resource"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="145" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="145" bodyend="164"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_v_g_merge_group_resource_1a0d11b77152476bbf6f327f4c936bb0a5" prot="protected" virt="virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>_fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1af7289275d3ea094ccf2b704821c036ac" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>addResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_merge_group_resource_1a11e909032bdaf93f765e84728f929894" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>config</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1ad3682833e5e7e59892b1a9a0a0010b7b" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9e2f42c3e3f4b4917097adb233ff4d49" prot="public" virt="virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>fixEncounteredError</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a2e2c425dd00a8928fe0b0d17ddb1153d" prot="public" virt="virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>fixExists</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1abf9062268d77338804d50a56eba71eb3" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>fixFunc</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a834d81a7a3c140d3f92f8fc9ae2eeffd" prot="public" virt="virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>fixIsFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a5808b71b65e90b59fe5cab5e85c7bae1" prot="public" virt="virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>hasRequired</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource_1ad9484a31db82da19d581cae76f33ce3d" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>IniGroupedResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource_1a3ba7c1c9c108a81ded6b8a90f9693844" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>IniGroupedResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource_1a1e41492849be4dad06792e63bcd6bc8a" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>IniGroupedResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1ad81a32c63df4b98a022b7760390bac43" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>isBuilt</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a120f751bdcbc61bb5a4250cf9af4d409" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>isMissing</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a67ed5fe1ecf770d7075014acfbade161" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>logger</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a197fd7cd70ea7f09515c735390d78fe4" prot="public" virt="virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>memberResources</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a428e831585c4e6a1d66c149631a230a9" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>name</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a8f3dbfc08d6e833588a7c7e12a90bfb6" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1ac722aca40727fcbe1e6452dc79ad5313" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a94f04ef8bda03cf46992f546bed9cef4" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>resources</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9acac27178b78b45048a4069138ee623" prot="public" virt="virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>srcEncounteredError</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a6206223d798977172f9b26c4e880b027" prot="public" virt="virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>srcIsFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_merge_group_resource_1a9a90d75d99768998eef8faa20ab9cbc5" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>VGMergeGroupResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1aecb977f1d91aabf1a16b07e17a7d4346" prot="public" virt="virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>~IniGroupedResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1aab8ed5f480a8417202e9ce5029145ba3" prot="public" virt="virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>~RemapIniResourceMixin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMIMergeFixerConfig::Component</compoundname>
+    <includes refid="_g_i_m_i_merge_fixer_8h" local="no">GIMIMergeFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a068618ed142582f5aa27ad806b04ee3d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIMergeFixerConfig::Component::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::Component::name</qualifiedname>
+        <briefdescription>
+<para>The component&apos;s name, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>Body</computeroutput> <ndash/> matches the parser&apos;s mod objects </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="123" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1ac7a5209932913b4fe21846d38c9bbdbf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot" kindref="compound">Slot</ref> &gt;</type>
+        <definition>std::vector&lt;Slot&gt; AGRemapCore::GIMIMergeFixerConfig::Component::slots</definition>
+        <argsstring></argsstring>
+        <name>slots</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::Component::slots</qualifiedname>
+        <briefdescription>
+<para>The component&apos;s draw slots. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="128" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1aecebc1423a6c0dfa0a66f841803542b6" prot="public" static="no" mutable="no">
+        <type>long long</type>
+        <definition>long long AGRemapCore::GIMIMergeFixerConfig::Component::vertexCount</definition>
+        <argsstring></argsstring>
+        <name>vertexCount</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::Component::vertexCount</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The GAME model&apos;s vertex count for this component, used only when the mod does not have
+the component at all :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A mod may simply be missing one -- an NSFW YelanTranquil edit has no ``Eye`` -- and the
+parser then hangs that component&apos;s downloads off `sections`_ it invents for it. Those
+downloads are not on disk yet when the ``.ini`` file is written: the service fetches
+them in ``fixResources``, AFTER ``IniFile::fix``. So the count that goes into ``draw``
+and ``override_vertex_count``, and the vertex offsets every later component&apos;s index
+buffers are shifted by, cannot be measured from the file here :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+It does not have to be: a downloaded buffer is by definition the game&apos;s own, so its
+length is this number. A component the mod DOES have is still measured, so a modded
+mesh of a different size is unaffected :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+``0`` means &quot;measure it or drop the component&quot;, which is the right behaviour for a
+component that is missing AND has no download to fall back on
+
+.. note::
+   The same number as the parse-side ``GIMIComponentParserConfig::Component::vertexCount``,
+   and for the same reason -- see that field for why it is not in :cpp:class:`VertexCounts`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="156" column="23" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One component of the SOURCE. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="119" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="119" bodyend="157"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a068618ed142582f5aa27ad806b04ee3d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1ac7a5209932913b4fe21846d38c9bbdbf" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>slots</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1aecebc1423a6c0dfa0a66f841803542b6" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>vertexCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

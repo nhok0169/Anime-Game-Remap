@@ -1,37 +1,73 @@
+import os
+import shutil
 import sys
-import re
-import unittest.mock as mock
+import tempfile
 from typing import List, Dict, Union, Tuple
 
-from .baseFileUnitTest import BaseFileUnitTest
+from .baseUnitTest import BaseUnitTest
 from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
 
 sys.path.insert(1, Configs[ConfigKeys.SysPath])
-import src.FixRaidenBoss2 as FRB
+import src.py.FixRaidenBoss2 as FRB
 
 
-class BaseIniFileTest(BaseFileUnitTest):
+class BaseIniFileTest(BaseUnitTest):
+    """
+    Base for tests that need a real :class:`FRB.IniFile` over :attr:`_iniTxt`.
+
+    Everything here is the C++-backed API:
+
+    - The .ini text is written to a real file in a per-test temporary folder. The C++
+      :class:`FRB.IniFile` reads and writes through ``std::filesystem``, so Python-level mocks of
+      ``open``/``FileService.read`` would be bypassed silently. That is also why this derives from
+      :class:`BaseUnitTest` and not :class:`BaseFileUnitTest`: the latter's fake folder tree mocks
+      ``os.path``/``os.remove``/``os.walk`` (and overwrites ``os.sep``), which the C++ side never
+      sees and which break ``tempfile``.
+    - The classifier is this class's OWN :class:`FRB.IniClassifier`, holding Raiden plus two made-up
+      mod types, so nothing here depends on (or disturbs) the global classifier other tests use.
+    - The made-up mod types (``rika``, ``kyrie``) are runtime :class:`FRB.ModType` objects under ids no
+      shipped mod type uses, handed to each :class:`FRB.IniFile` through ``overrideModTypes`` rather
+      than registered globally.
+    """
+
+    RikaModTypeId = 1000001
+    KyrieModTypeId = 1000002
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls._iniClassifier = FRB.IniClassifier()
-        cls._iniClassifierBuilder = FRB.IniClassifierBuilder()
-        cls._iniClassifier.build(cls._iniClassifierBuilder)
+
+        # Another test class clears the global registry; Raiden is resolved through it.
+        FRB.CppGlobalModTypes.registerAll()
+
+        gi = int(FRB.GameTypeId.GI)
+        cls._raidenModTypeId = int(FRB.ModTypeId.Raiden)
 
         cls._iniFile = None
-        cls._file = "C:/SomeFolder/DataFiles/Vault/Mods/CuteLittleEi.ini"
+        cls._tempFolder = None
+        cls._file = None
 
-        cls._customModTypes = {"rika": FRB.ModType("Bernkastel", FRB.Hashes(), FRB.Indices(), FRB.VertexCounts(), aliases = ["Frederica Bernkastel", "Bern-chan", "Rika Furude", "Nipah!"]),
-                               "kyrie": FRB.ModType("Kyrie", FRB.Hashes(), FRB.Indices(), FRB.VertexCounts())}
-        
-        cls._iniClassifierBuilder.addGIModType(cls._iniClassifier, cls._customModTypes["rika"], {"littleblacknekowitch": re.compile(r"\[[^\[\]]*littleblacknekowitch[^\[\]]*\]")})
-        cls._iniClassifierBuilder.addGIModType(cls._iniClassifier, cls._customModTypes["kyrie"], {"agnusdei": re.compile(r"\[\s*agnusdei\s*\]")})
-        
         cls._setupCustomModTypes()
-        cls._modTypes = { FRB.ModTypes.Raiden.value, 
-                          cls._customModTypes["rika"] }
-        
+        cls._overrideModTypes = {modType.modTypeId: modType for modType in cls._customModTypes.values()}
+        cls._raidenModType = next(modType for modType in FRB.CppGlobalModTypes.all() if modType.modTypeId == cls._raidenModTypeId)
+
+        # The made-up mod types borrow Raiden's builders. Those are the shipped TABLE builders, which
+        # consult CppStrategyOverrides by mod name first -- that is how useStrategies below puts a
+        # test's own parser/fixer behind IniFile.parse()/fix() for whichever of the three a .ini file
+        # classifies as.
+        for modType in cls._customModTypes.values():
+            modType.iniParseBuilder = cls._raidenModType.iniParseBuilder
+            modType.iniFixBuilder = cls._raidenModType.iniFixBuilder
+            modType.iniRemoveBuilder = cls._raidenModType.iniRemoveBuilder
+
+        cls._iniClassifier = FRB.IniClassifier()
+        cls._iniClassifier.addGIModType(FRB.ModTypeIdData(gi, cls._raidenModTypeId), set(), {"raiden", "shogun"})
+        cls._iniClassifier.addGIModType(FRB.ModTypeIdData(gi, cls.RikaModTypeId), set(), {"littleblacknekowitch"})
+        cls._iniClassifier.addGIModType(FRB.ModTypeIdData(gi, cls.KyrieModTypeId), set(), {"agnusdei"})
+
+        # What the .ini file may be classified as, and what it falls back to when nothing matches
+        cls._modTypes = {cls._raidenModTypeId, cls.RikaModTypeId}
         cls._defaultModType = cls._customModTypes["kyrie"]
         cls._defaultIniTxt = r"""
                     [Constants]
@@ -206,35 +242,44 @@ class BaseIniFileTest(BaseFileUnitTest):
 
     @classmethod
     def _setupCustomModTypes(cls):
-        rikaModType = cls._customModTypes["rika"]
-        kyrieModType = cls._customModTypes["kyrie"]
+        gi = int(FRB.GameTypeId.GI)
 
-        rikaModType.hashes.addMap({"rika": {"rika"}}, {1.0: {"rika": {"blend_vb": "kuroneko", "draw_vb": "hanyu", "texcoord_vb": "rena's going to take you home"}},
-                                                       2.0: {"rika": {"blend_vb": "nipah nipah!2", "draw_vb": "hanyu2"}},
-                                                       3.0: {"rika": {"blend_vb": "nipah nipah!3", "texcoord_vb": "rena's going to take you home3"}}})
-        
-        kyrieModType.hashes.addMap({"kyrie": {"kyrie"}}, {2.0: {"kyrie": {"blend_vb": "Dies Irae"}},
-                                                          2.3: {"kyrie": {"blend_vb": "gloria"}},
-                                                          2.4: {"kyrie": {"blend_vb": "sanctus"}},
-                                                          2.5: {"kyrie": {"blend_vb": "credo"}}})
-        
-        kyrieModType.indices.addMap({"kyrie": {"kyrie"}}, {3.0: {"kyrie": {"head": "eleison"}},
-                                                           3.9: {"kyrie": {"head": "missa tota"}}})
+        rikaHashes = FRB.Hashes({"rika": ["rika"]})
+        rikaHashes.addRepoRows([(["1.0", "rika", "blend_vb"], "kuroneko"), (["1.0", "rika", "draw_vb"], "hanyu"),
+                                (["1.0", "rika", "texcoord_vb"], "rena's going to take you home"),
+                                (["2.0", "rika", "blend_vb"], "nipah nipah!2"), (["2.0", "rika", "draw_vb"], "hanyu2"),
+                                (["2.0", "rika", "ib"], "Himatsubushi-hen"),
+                                (["3.0", "rika", "blend_vb"], "nipah nipah!3"), (["3.0", "rika", "texcoord_vb"], "rena's going to take you home3")])
+
+        rikaIndices = FRB.Indices({"rika": ["rika"]})
+        rikaIndices.addRepoRows([(["2.3", "rika", "", "head"], "macaron"), (["3.7", "rika", "", "body"], "uryu uryu! Slap by Rosa...")])
+
+        kyrieHashes = FRB.Hashes({"kyrie": ["kyrie"]})
+        kyrieHashes.addRepoRows([(["2.0", "kyrie", "blend_vb"], "Dies Irae"), (["2.3", "kyrie", "blend_vb"], "gloria"),
+                                 (["2.4", "kyrie", "blend_vb"], "sanctus"), (["2.5", "kyrie", "blend_vb"], "credo")])
+
+        kyrieIndices = FRB.Indices({"kyrie": ["kyrie"]})
+        kyrieIndices.addRepoRows([(["3.0", "kyrie", "", "head"], "eleison"), (["3.9", "kyrie", "", "head"], "missa tota")])
+
+        cls._customModTypes = {"rika": FRB.ModType(gi, cls.RikaModTypeId, "Bernkastel", ["Frederica Bernkastel", "Bern-chan", "Rika Furude", "Nipah!"],
+                                                   rikaHashes, rikaIndices),
+                               "kyrie": FRB.ModType(gi, cls.KyrieModTypeId, "Kyrie", [], kyrieHashes, kyrieIndices)}
 
     @classmethod
     def setupIniTxt(cls, newIniTxt: str):
         cls._iniTxt = newIniTxt
-        cls._iniTxtLines = cls._iniTxt.split("\n")
-        if (cls._iniTxt):
-            fileLinesLen = len(cls._iniTxtLines)
-            for i in range(fileLinesLen):
-                if (i < fileLinesLen - 1):
-                    cls._iniTxtLines[i] += "\n"
-        else:
-            cls._iniTxtLines = []
+        cls._iniTxtLines = cls._iniTxt.splitlines(keepends = True)
+
+    def writeIniTxt(self, txt: str):
+        """Puts 'txt' on disk as this test's .ini file -- the C++ IniFile reads it from there"""
+        with open(self._file, "w", encoding = FRB.FileEncodings.UTF8.value, newline = "") as f:
+            f.write(txt)
 
     def createIniFile(self):
-        self._iniFile = FRB.IniFile(file = self._file, txt = self._iniTxt, modTypes = self._modTypes, defaultModType = self._defaultModType, iniClassifier = self._iniClassifier)
+        self.writeIniTxt(self._iniTxt)
+        self._iniFile = FRB.IniFile(file = self._file, iniClassifier = self._iniClassifier,
+                                    filteredFromModTypeIds = self._modTypes, overrideModTypes = self._overrideModTypes)
+        self._iniFile.defaultModTypeIds = [self._defaultModType.modTypeId]
 
     def compareIniFixResourceModel(self, model1: FRB.IniFixResourceModel, model2: FRB.IniFixResourceModel):
         self.assertEqual(model1.iniFolderPath, model2.iniFolderPath)
@@ -279,7 +324,7 @@ class BaseIniFileTest(BaseFileUnitTest):
 
     def compareIfPredPart(self, result: FRB.IfPredPart, expected: FRB.IfPredPart):
         self.assertEqual(result.type, expected.type)
-        self.assertEqual(result.pred, expected.pred)
+        self.assertEqual(result.src, expected.src)
 
     def compareIfContentPartSrc(self, result: Dict[str, List[Tuple[int, str]]], expected: Dict[str, List[Tuple[int, str]]]):
         self.compareDict(result, expected, 
@@ -294,17 +339,40 @@ class BaseIniFileTest(BaseFileUnitTest):
         self.compareIfContentPartSrc(result.src, expected.src)
         self.compareIfContentOrder(result._order, expected._order)
 
-    def getOpenPatch(self):
-        return self.patches["builtins.open"]
+    def useStrategies(self, parser = None, fixer = None):
+        """
+        Makes :meth:`FRB.IniFile.parse`/:meth:`FRB.IniFile.fix` use 'parser'/'fixer' for every mod type
+        this class's .ini files can classify as.
 
-    def disableFile(self, filePrefix = FRB.FilePrefixes.BackupFilePrefix.value):
-        result = self._file.replace(".ini", ".txt")
-        result = f"{filePrefix}{result}"
-        self._file = result
+        The C++ :class:`FRB.IniFile` builds its strategies from each mod type's builders, so a test's
+        own strategy has to be registered where those builders look: :class:`FRB.CppStrategyOverrides`,
+        keyed by mod name (and, for a fixer, by every mod it remaps onto). The pure-Python
+        ``IniFile`` let a test assign ``_iniParser``/``_iniFixer`` instead; those attributes are gone.
+        The overrides are process-wide, so they are cleared when the test ends.
+        """
+
+        FRB.CppStrategyOverrides.clear()
+        self.addCleanup(FRB.CppStrategyOverrides.clear)
+
+        for modType in [self._raidenModType, *self._customModTypes.values()]:
+            if (parser is not None):
+                FRB.CppStrategyOverrides.setParser(modType.name, lambda iniFile, modTypeId: parser)
+
+            if (fixer is not None):
+                for toModName in modType.getModsToFix():
+                    FRB.CppStrategyOverrides.setFixer(modType.name, toModName, lambda fixParser, toModName, modTypeId: fixer)
+
+    def readIniFileOnDisk(self) -> str:
+        """What the .ini file on disk says now -- where a fix or a removal that writes back lands"""
+        with open(self._file, "r", encoding = FRB.FileEncodings.UTF8.value, newline = "") as f:
+            return f.read()
 
     def setUp(self):
         super().setUp()
         self.maxDiff = None
-        self.patch("src.FixRaidenBoss2.FileService.read", side_effect = lambda file, fileCode, postProcessor: self._iniTxtLines)
-        self.patch("builtins.open", new_callable=mock.mock_open())
-        self.patch("src.FixRaidenBoss2.FileService.disableFile", side_effect = lambda file, filePrefix = FRB.FilePrefixes.BackupFilePrefix.value: self.disableFile(filePrefix = filePrefix))
+
+        # A fresh folder per test: a fix or a removal writes the .ini file back (and may leave a
+        # backup beside it), so a shared file would carry one test's result into the next.
+        self._tempFolder = tempfile.mkdtemp(prefix = "AGRemapIniTest")
+        self._file = FRB.FileService.parseOSPath(os.path.join(self._tempFolder, "CuteLittleEi.ini"))
+        self.addCleanup(shutil.rmtree, self._tempFolder, True)

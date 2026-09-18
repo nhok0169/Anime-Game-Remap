@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_a_g_remap_core_1_1_0d155160370172325352133136103102022030060116341005" kind="namespace" language="C++">
+    <compoundname>AGRemapCore::@155160370172325352133136103102022030060116341005</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp" line="28" column="5"/>
+  </compounddef>
+</doxygen>

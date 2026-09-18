@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_klee_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::KleeParser</compoundname>
+    <includes refid="_klee_parser_8h" local="no">KleeParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_klee_parser_1af246bfeba18f04bb461b0bc5575c5343" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::KleeParser::KleeParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>KleeParser</name>
+        <qualifiedname>AGRemapCore::KleeParser::KleeParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Klee/KleeParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_klee_parser_1a5ed67ce1c1d15ee120eb871263c2ee3d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::KleeParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::KleeParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era Klee ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::klee4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Klee/KleeParser.h" line="44" column="45" bodyfile="src/data/IniParseData/Klee/KleeParser.cpp" bodystart="44" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Klee&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`KleeFixer`: the fixer&apos;s mod objects are the ones this parser
+classifies, and neither half makes sense alone
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Klee/KleeParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Klee/KleeParser.h" bodystart="32" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_klee_parser_1af246bfeba18f04bb461b0bc5575c5343" prot="public" virt="non-virtual"><scope>AGRemapCore::KleeParser</scope><name>KleeParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_klee_parser_1a5ed67ce1c1d15ee120eb871263c2ee3d" prot="public" virt="non-virtual"><scope>AGRemapCore::KleeParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

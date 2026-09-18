@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_6ca3b3aa0c19f7d811f2283134f3a928" kind="dir">
+    <compoundname>src/data/IniParseData/AyakaSpringbloom</compoundname>
+    <innerfile refid="_ayaka_springbloom_parser_8cpp">AyakaSpringbloomParser.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniParseData/AyakaSpringbloom/"/>
+  </compounddef>
+</doxygen>

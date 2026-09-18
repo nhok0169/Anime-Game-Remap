@@ -31,7 +31,27 @@ sys.path.insert(0, os.path.abspath('..'))
 sys.path.append(os.path.abspath('extensions'))
 
 # path to the overall library
-sys.path.append(os.path.abspath('../../Anime Game Remap (for all users)/api/src'))
+#
+# note: insert(0, ...) rather than append(...) -- this has to take precedence over site-packages.
+#   AnimeGameRemap/FixRaidenBoss2 is a published PyPI package, so a machine that has it pip-installed
+#   (very easy to end up with, e.g. from testing the released build) would otherwise have autodoc and
+#   the attributetable extension document *that* copy instead of the local one. The failure is not
+#   subtle once the two versions diverge -- the released 4.5.4 lacks classes that exist on
+#   development, giving "Extension error (attributetable): module 'FixRaidenBoss2' has no attribute
+#   'BaseIniGraphEdit'" -- but it is very easy to misread as a docs bug rather than a shadowing one.
+sys.path.insert(0, os.path.abspath('../../Anime Game Remap (for all users)/api/src/py'))
+
+# the API's compiled modules may simply not be built here -- on Read the Docs they never are, since
+#   building them would mean cloning every submodule and compiling z3 (~45 minutes, against a build
+#   time limit). Nothing needs to be compiled for the docs, because everything that DESCRIBES the
+#   compiled half is tracked: 'core/xml' for the C++ reference (read by breathe, see the bottom of this
+#   file), and 'core.pyi' plus the Cython sources for everything autodoc and attributetable import
+#   here. This steps aside for any module that IS built, so a maintainer's build is unchanged.
+import compiledStubs
+
+for message in compiledStubs.install(os.path.abspath('../../Anime Game Remap (for all users)/api/src/py/FixRaidenBoss2'),
+                                     os.path.abspath('../../Anime Game Remap (for all users)/api/src/cy/src')):
+    print(f"[compiledStubs] {message}")
 
 # -----------------------------------------
 
@@ -46,7 +66,9 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.autosectionlabel',
     "sphinx_design",
-    'attributetable'
+    'attributetable',
+    "cppattributetable",
+    "breathe"
 ]
 
 intersphinx_mapping = {
@@ -67,6 +89,15 @@ epub_show_urls = 'footnote'
 
 # don't add the module names
 add_module_names = False
+toc_object_entries = False
+
+autodoc_typehints = "description"
+
+# Force autosectionlabel to prepend the filename to all section headings
+#
+# Note: If you want to reference some heading, do something like this:
+#   :ref:\coreAPI:Tools
+autosectionlabel_prefix_document = True
 
 
 # add the edit on github link
@@ -87,3 +118,10 @@ html_static_path = ['_static']
 html_css_files = [
     'css/styles.css',
 ]
+
+breathe_projects = {
+    "AGRemapCore": os.path.abspath('../../Anime Game Remap (for all users)/api/src/cpp/core/xml')
+}
+
+breathe_default_project = "AGRemapCore"
+doxygen_xml_dir = breathe_projects["AGRemapCore"]

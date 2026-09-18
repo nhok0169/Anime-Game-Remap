@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_file_prefixes" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::FilePrefixes</compoundname>
+    <includes refid="_file_prefixes_8h" local="no">FilePrefixes.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_prefixes_1a4c0d8a4cee932769c60a822cac7e9ea1" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FilePrefixes::BackupFilePrefix</definition>
+        <argsstring></argsstring>
+        <name>BackupFilePrefix</name>
+        <qualifiedname>AGRemapCore::FilePrefixes::BackupFilePrefix</qualifiedname>
+        <initializer>= &quot;RemapBKUP&quot;</initializer>
+        <briefdescription>
+<para>What a disabled (backed-up) file&apos;s name is prefixed with. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FilePrefixes.h" line="36" column="45" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_prefixes_1ae45cd2272a266589ad2aac300697be0a" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FilePrefixes::OldBackupFilePrefixV3</definition>
+        <argsstring></argsstring>
+        <name>OldBackupFilePrefixV3</name>
+        <qualifiedname>AGRemapCore::FilePrefixes::OldBackupFilePrefixV3</qualifiedname>
+        <initializer>= &quot;DISABLED_BossFixBackup_&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What version 3 of this software prefixed a disabled (backed-up) file&apos;s name with
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Only ever *recognized*, never written -- a mod folder fixed by an old version of this
+software can still hold one, and :cpp:func:`RemapService::fix` has to know not to
+treat it as a mod&apos;s own ``.ini`` file
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FilePrefixes.h" line="49" column="45" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_prefixes_1ad02b9c45bf54f99f697cd709c11cc485" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FilePrefixes::OldBackupFilePrefixV4_3</definition>
+        <argsstring></argsstring>
+        <name>OldBackupFilePrefixV4_3</name>
+        <qualifiedname>AGRemapCore::FilePrefixes::OldBackupFilePrefixV4_3</qualifiedname>
+        <initializer>= &quot;DISABLED_RemapBackup_&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What version 4.3 of this software prefixed a disabled (backed-up) file&apos;s name with --
+recognized but never written, exactly as #OldBackupFilePrefixV3 is
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FilePrefixes.h" line="58" column="45" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Prefixes this software puts on the files it renames :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A complete port of the pure-Python ``FilePrefixes`` enum (``constants/FilePrefixes.py``)
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/FilePrefixes.h" line="30" column="5" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="30" bodyend="59"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_file_prefixes_1a4c0d8a4cee932769c60a822cac7e9ea1" prot="public" virt="non-virtual"><scope>AGRemapCore::FilePrefixes</scope><name>BackupFilePrefix</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_prefixes_1ae45cd2272a266589ad2aac300697be0a" prot="public" virt="non-virtual"><scope>AGRemapCore::FilePrefixes</scope><name>OldBackupFilePrefixV3</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_prefixes_1ad02b9c45bf54f99f697cd709c11cc485" prot="public" virt="non-virtual"><scope>AGRemapCore::FilePrefixes</scope><name>OldBackupFilePrefixV4_3</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::MaterialBandRemapFilter::Band</compoundname>
+    <includes refid="_material_band_remap_filter_8h" local="no">MaterialBandRemapFilter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band_1ae9b85f8dc652051c6db05b3981a51ea1" prot="public" static="no" mutable="no">
+        <type>std::uint8_t</type>
+        <definition>std::uint8_t AGRemapCore::MaterialBandRemapFilter::Band::low</definition>
+        <argsstring></argsstring>
+        <name>low</name>
+        <qualifiedname>AGRemapCore::MaterialBandRemapFilter::Band::low</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The lowest alpha of the SOURCE band, inclusive. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="79" column="30" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band_1a7d78005e2d3de0767992a1bef1af425a" prot="public" static="no" mutable="no">
+        <type>std::uint8_t</type>
+        <definition>std::uint8_t AGRemapCore::MaterialBandRemapFilter::Band::high</definition>
+        <argsstring></argsstring>
+        <name>high</name>
+        <qualifiedname>AGRemapCore::MaterialBandRemapFilter::Band::high</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The highest alpha of the SOURCE band, inclusive. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="84" column="30" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band_1a50c8f3ab580a6e1555338ec177780cc0" prot="public" static="no" mutable="no">
+        <type>std::uint8_t</type>
+        <definition>std::uint8_t AGRemapCore::MaterialBandRemapFilter::Band::to</definition>
+        <argsstring></argsstring>
+        <name>to</name>
+        <qualifiedname>AGRemapCore::MaterialBandRemapFilter::Band::to</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The alpha to write. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="89" column="30" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band_1a6793a4390db9bcdce023b4ad4a154279" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_material_band_remap_filter_1ab298bcc5ff66159283b3f5b362b715a5" kindref="member">ColourPredicate</ref></type>
+        <definition>ColourPredicate AGRemapCore::MaterialBandRemapFilter::Band::when</definition>
+        <argsstring></argsstring>
+        <name>when</name>
+        <qualifiedname>AGRemapCore::MaterialBandRemapFilter::Band::when</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The test the diffuse under the pixel must pass for the move to happen. An empty
+predicate moves the band unconditionally
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="98" column="33" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band_1a77eec52f57fcd6affa838ff7e5e6c6e1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::MaterialBandRemapFilter::Band::negate</definition>
+        <argsstring></argsstring>
+        <name>negate</name>
+        <qualifiedname>AGRemapCore::MaterialBandRemapFilter::Band::negate</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether #when is inverted -- the move happens where the diffuse does **not** pass
+it. A hair band is often best described as &quot;not skin&quot;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="107" column="22" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band_1acd54614149ccb1cbc7ed91bf4b9ce677" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::MaterialBandRemapFilter::Band::Band</definition>
+        <argsstring>()=default</argsstring>
+        <name>Band</name>
+        <qualifiedname>AGRemapCore::MaterialBandRemapFilter::Band::Band</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="109" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band_1a0f984098781b8d1fac1c168d888aba51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::MaterialBandRemapFilter::Band::Band</definition>
+        <argsstring>(std::uint8_t band, std::uint8_t to, ColourPredicate when=nullptr, bool negate=false)</argsstring>
+        <name>Band</name>
+        <qualifiedname>AGRemapCore::MaterialBandRemapFilter::Band::Band</qualifiedname>
+        <param>
+          <type>std::uint8_t</type>
+          <declname>band</declname>
+        </param>
+        <param>
+          <type>std::uint8_t</type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_material_band_remap_filter_1ab298bcc5ff66159283b3f5b362b715a5" kindref="member">ColourPredicate</ref></type>
+          <declname>when</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>negate</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a move off a single band. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>band</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source band </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The alpha to write </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>when</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The test the diffuse must pass; empty to move unconditionally </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>negate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether &apos;when&apos; is inverted </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="119" column="17" bodyfile="src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp" bodystart="24" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band_1a80ed2153804a3cea6a2afee25b15dca7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::MaterialBandRemapFilter::Band::Band</definition>
+        <argsstring>(std::uint8_t low, std::uint8_t high, std::uint8_t to, ColourPredicate when=nullptr, bool negate=false)</argsstring>
+        <name>Band</name>
+        <qualifiedname>AGRemapCore::MaterialBandRemapFilter::Band::Band</qualifiedname>
+        <param>
+          <type>std::uint8_t</type>
+          <declname>low</declname>
+        </param>
+        <param>
+          <type>std::uint8_t</type>
+          <declname>high</declname>
+        </param>
+        <param>
+          <type>std::uint8_t</type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_material_band_remap_filter_1ab298bcc5ff66159283b3f5b362b715a5" kindref="member">ColourPredicate</ref></type>
+          <declname>when</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>negate</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a move off a range of bands. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>low</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The lowest alpha of the source band, inclusive </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>high</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The highest alpha of the source band, inclusive </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The alpha to write </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>when</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The test the diffuse must pass; empty to move unconditionally </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>negate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether &apos;when&apos; is inverted </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="130" column="17" bodyfile="src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp" bodystart="27" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One band move: a source band (or range) onto a target band, optionally gated on the diffuse. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" line="74" column="13" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h" bodystart="74" bodyend="131"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band_1acd54614149ccb1cbc7ed91bf4b9ce677" prot="public" virt="non-virtual"><scope>AGRemapCore::MaterialBandRemapFilter::Band</scope><name>Band</name></member>
+      <member refid="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band_1a0f984098781b8d1fac1c168d888aba51" prot="public" virt="non-virtual"><scope>AGRemapCore::MaterialBandRemapFilter::Band</scope><name>Band</name></member>
+      <member refid="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band_1a80ed2153804a3cea6a2afee25b15dca7" prot="public" virt="non-virtual"><scope>AGRemapCore::MaterialBandRemapFilter::Band</scope><name>Band</name></member>
+      <member refid="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band_1a7d78005e2d3de0767992a1bef1af425a" prot="public" virt="non-virtual"><scope>AGRemapCore::MaterialBandRemapFilter::Band</scope><name>high</name></member>
+      <member refid="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band_1ae9b85f8dc652051c6db05b3981a51ea1" prot="public" virt="non-virtual"><scope>AGRemapCore::MaterialBandRemapFilter::Band</scope><name>low</name></member>
+      <member refid="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band_1a77eec52f57fcd6affa838ff7e5e6c6e1" prot="public" virt="non-virtual"><scope>AGRemapCore::MaterialBandRemapFilter::Band</scope><name>negate</name></member>
+      <member refid="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band_1a50c8f3ab580a6e1555338ec177780cc0" prot="public" virt="non-virtual"><scope>AGRemapCore::MaterialBandRemapFilter::Band</scope><name>to</name></member>
+      <member refid="struct_a_g_remap_core_1_1_material_band_remap_filter_1_1_band_1a6793a4390db9bcdce023b4ad4a154279" prot="public" virt="non-virtual"><scope>AGRemapCore::MaterialBandRemapFilter::Band</scope><name>when</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

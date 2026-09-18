@@ -1,0 +1,1212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_classifier" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniClassifier</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_ini_classifier" prot="public" virt="non-virtual">AGRemapCore::BaseIniClassifier</basecompoundref>
+    <includes refid="_ini_classifier_8h" local="no">IniClassifier.h</includes>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_classifier_1ab59eb1bc76a6d2e948fee1a7c47985cc" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniClassifier::checkHasTextureOverride</definition>
+        <argsstring></argsstring>
+        <name>checkHasTextureOverride</name>
+        <qualifiedname>AGRemapCore::IniClassifier::checkHasTextureOverride</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether :cpp:func:`readSectionName` should require a `section`_ name to start with
+``TextureOverride`` before doing anything else with it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Set once at construction; unaffected by :cpp:func:`clear`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="176" column="18" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_classifier_1a81652a40ca227e7222d9d5edc6ec71b1" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_d_f_a" kindref="compound">BaseDFA</ref>&lt; std::string, std::string &gt;</type>
+        <definition>BaseDFA&lt;std::string, std::string&gt; AGRemapCore::IniClassifier::stateDFA</definition>
+        <argsstring></argsstring>
+        <name>stateDFA</name>
+        <qualifiedname>AGRemapCore::IniClassifier::stateDFA</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>DFA</computeroutput>_ used to keep track of the states seen so far while reading a .ini file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="181" column="21" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_classifier_1a40ad21a9072e05d4f0bfa430be17ab00" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_set&lt; int &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_set&lt;int&gt; &gt; AGRemapCore::IniClassifier::hashGameTypeIds</definition>
+        <argsstring></argsstring>
+        <name>hashGameTypeIds</name>
+        <qualifiedname>AGRemapCore::IniClassifier::hashGameTypeIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Identifies which :cpp:enum:`GameTypeId`\\s a hash belongs to :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are hash values and the values are the ids for the :cpp:enum:`GameTypeId`\\s
+that hash identifies (normally just a single id, but a set to account for the
+theoretical case where the same hash is registered for more than one game type)
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The values are plain ``int``\\s rather than :cpp:enum:`GameTypeId` itself, so a
+   custom game type using some id not registered in :cpp:enum:`GameTypeId` can still be
+   stored here
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="199" column="32" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_classifier_1a0d4ec916aa314624af0eb10ef6e0624a" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, <ref refid="class_a_g_remap_core_1_1_mod_type_id_data" kindref="compound">ModTypeIdData</ref> &gt;</type>
+        <definition>std::unordered_map&lt;int, ModTypeIdData&gt; AGRemapCore::IniClassifier::modTypes</definition>
+        <argsstring></argsstring>
+        <name>modTypes</name>
+        <qualifiedname>AGRemapCore::IniClassifier::modTypes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The registered :cpp:class:`ModTypeIdData` for each :cpp:enum:`ModTypeId` seen :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the ids for the :cpp:enum:`ModTypeId`\\s registered (see #hashGameTypeIds
+for why these are plain ``int``\\s rather than :cpp:enum:`ModTypeId` itself) and the
+values are the corresponding :cpp:class:`ModTypeIdData`\\s
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="211" column="32" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_classifier_1a95f023be80ffd80c985db86dc44e1ea9" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" kindref="compound">BaseAhoCorasickDFA</ref>&lt; std::unordered_set&lt; int &gt; &gt;</type>
+        <definition>BaseAhoCorasickDFA&lt;std::unordered_set&lt;int&gt; &gt; AGRemapCore::IniClassifier::sectionKeywordsDFA</definition>
+        <argsstring></argsstring>
+        <name>sectionKeywordsDFA</name>
+        <qualifiedname>AGRemapCore::IniClassifier::sectionKeywordsDFA</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `DFA`_ (using `Aho-Corasick`_) used to search for keywords within a `section`_ name
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The values are the ids for the :cpp:enum:`GameTypeId`\\s a found keyword identifies --
+see #hashGameTypeIds for why these are plain ``int``\\s rather than :cpp:enum:`GameTypeId`
+itself
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="224" column="32" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_classifier_1aa583e737433f0998efedef224c9d6aa4" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_set&lt; int &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_set&lt;int&gt; &gt; AGRemapCore::IniClassifier::keywordGameTypeIds</definition>
+        <argsstring></argsstring>
+        <name>keywordGameTypeIds</name>
+        <qualifiedname>AGRemapCore::IniClassifier::keywordGameTypeIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Identifies which :cpp:enum:`GameTypeId`\\s a `section`_ keyword belongs to :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are `section`_ keywords and the values are the ids for the
+:cpp:enum:`GameTypeId`\\s that keyword identifies (normally just a single id, but a
+set to account for the theoretical case where the same keyword is registered for more
+than one game type) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+See #hashGameTypeIds for why these are plain ``int``\\s rather than :cpp:enum:`GameTypeId`
+itself
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="240" column="32" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_classifier_1aa0c6369b683bf4bcfbf8969d2480182d" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, int &gt;</type>
+        <definition>std::unordered_map&lt;int, int&gt; AGRemapCore::IniClassifier::modTypeIdDistribution</definition>
+        <argsstring></argsstring>
+        <name>modTypeIdDistribution</name>
+        <qualifiedname>AGRemapCore::IniClassifier::modTypeIdDistribution</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A distribution of the :cpp:enum:`ModTypeId`\\s seen so far :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the ids for the :cpp:enum:`ModTypeId`\\s seen (see #hashGameTypeIds for why
+these are plain ``int``\\s rather than :cpp:enum:`ModTypeId` itself) and the values are
+how many times that :cpp:enum:`ModTypeId` has been seen
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="252" column="32" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_classifier_1a6b025fffdc9b430af55a6a5d17d4a974" prot="protected" static="no" mutable="no">
+        <type>std::unordered_set&lt; int &gt;</type>
+        <definition>std::unordered_set&lt;int&gt; AGRemapCore::IniClassifier::savedWuWaModTypeIds</definition>
+        <argsstring></argsstring>
+        <name>savedWuWaModTypeIds</name>
+        <qualifiedname>AGRemapCore::IniClassifier::savedWuWaModTypeIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ids for the WuWa :cpp:enum:`ModTypeId`\\s that are potential candidates to
+classify a .ini file as, for future reference :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+See #hashGameTypeIds for why these are plain ``int``\\s rather than :cpp:enum:`ModTypeId`
+itself
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="264" column="32" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_classifier_1ac90b6608956a321b3aefcd807b6e2533" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniClassifier::currentSectionIsRemap</definition>
+        <argsstring></argsstring>
+        <name>currentSectionIsRemap</name>
+        <qualifiedname>AGRemapCore::IniClassifier::currentSectionIsRemap</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the `section`_ currently being read (the most recent one seen by
+:cpp:func:`readSectionName`) has the substring ``Remap`` in its name :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Updated unconditionally at the top of every :cpp:func:`readSectionName` call (so it
+always reflects the *actual* most recent `section`_, regardless of
+#checkHasTextureOverride), and consulted by :cpp:func:`readLine` to skip reading a
+``hash =`` `KVP`_ found inside such a `section`_ -- a previously-fixed .ini file has
+its fix-added `sections`_ (redirecting to whichever mod(s) it was fixed to) named with
+``Remap`` in them, and their hashes shouldn&apos;t count toward classification, or an
+already-fixed Jean mod (fixed to also cover JeanCN/JeanSea) would misclassify as all
+three instead of just Jean :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+``false`` before any `section`_ has been seen yet in the current read
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="284" column="18" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_classifier_1a83d3c8d46aa615438594a29cf95b718a" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_set&lt; int &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_set&lt;int&gt; &gt; AGRemapCore::IniClassifier::acceptModTypeIds</definition>
+        <argsstring></argsstring>
+        <name>acceptModTypeIds</name>
+        <qualifiedname>AGRemapCore::IniClassifier::acceptModTypeIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Identifies which :cpp:enum:`ModTypeId`\\s an accepting `DFA`_ state (a ``accept&lt;ModTypeId&gt;``
+or ``save&lt;ModTypeId&gt;`` state in #stateDFA) is associated with :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the names of the accepting states in #stateDFA and the values are the ids
+for the :cpp:enum:`ModTypeId`\\s associated with that accepting state (normally just a
+single id, but a set to account for the theoretical case where 2 different
+:cpp:class:`ModTypeIdData`\\s share the same hash) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+See #hashGameTypeIds for why these are plain ``int``\\s rather than :cpp:enum:`ModTypeId`
+itself
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="301" column="32" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a275baa833454b1467d536ccd9e1f3914" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniClassifier::IniClassifier</definition>
+        <argsstring>(bool checkHasTextureOverride=true)</argsstring>
+        <name>IniClassifier</name>
+        <qualifiedname>AGRemapCore::IniClassifier::IniClassifier</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>checkHasTextureOverride</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs the classifier, setting #stateDFA to its initial state:
+
+.. code-block::
+
+   start --- game:&lt;GameTypeId::WuWa&gt; --&gt; isWuwa
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>checkHasTextureOverride</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See <ref refid="class_a_g_remap_core_1_1_ini_classifier_1ab59eb1bc76a6d2e948fee1a7c47985cc" kindref="member">checkHasTextureOverride</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="57" column="22" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="43" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a01a2d1469fa2249efa8a572031bb2e5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_classify_stats" kindref="compound">IniClassifyStats</ref></type>
+        <definition>IniClassifyStats AGRemapCore::IniClassifier::classify</definition>
+        <argsstring>(const std::string &amp;iniTxt, GameTypeIdFilter gameTypeIds=std::nullopt) override</argsstring>
+        <name>classify</name>
+        <qualifiedname>AGRemapCore::IniClassifier::classify</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_classifier_1a85d0554a82e30ada9fa65e23b153d2d2">classify</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>iniTxt</declname>
+        </param>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a1c7d00ecf5f9baa55407d51862675a7f" kindref="member">GameTypeIdFilter</ref></type>
+          <declname>gameTypeIds</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Determines the type of mod given the full text from the mod&apos;s .ini file
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniTxt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The full text of the .ini file to read from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gameTypeIds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The games the .ini file may belong to, or <computeroutput>std::nullopt</computeroutput> for every game</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The stats about the classification of the .ini file </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="59" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="83" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1aad41616e8b910771a14d4c5bceda86f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_classify_stats" kindref="compound">IniClassifyStats</ref></type>
+        <definition>IniClassifyStats AGRemapCore::IniClassifier::classify</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;iniTxt, GameTypeIdFilter gameTypeIds=std::nullopt) override</argsstring>
+        <name>classify</name>
+        <qualifiedname>AGRemapCore::IniClassifier::classify</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_classifier_1a09c70ae17c1a3843ae981b8d81652857">classify</reimplements>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>iniTxt</declname>
+        </param>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a1c7d00ecf5f9baa55407d51862675a7f" kindref="member">GameTypeIdFilter</ref></type>
+          <declname>gameTypeIds</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Resets #modTypeIdDistribution, #savedWuWaModTypeIds, and #currentSectionIsRemap
+(transient, per-classification state that must not leak into a later, unrelated call),
+reads through &apos;iniTxt&apos; line by line via :cpp:func:`readLine`, then adds whichever
+:cpp:enum:`ModTypeId`\\s ended up with the highest count in #modTypeIdDistribution to
+the result&apos;s ``modType`` -- ties are all included, sorted in ascending order
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="71" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="96" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a94808d984d60f7eec58bf82a79eab07a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniClassifier::checkIsMod</definition>
+        <argsstring>(const std::string &amp;iniTxt, GameTypeIdFilter gameTypeIds=std::nullopt) override</argsstring>
+        <name>checkIsMod</name>
+        <qualifiedname>AGRemapCore::IniClassifier::checkIsMod</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_classifier_1ad3ea02b710c2c5dcc81b3d5ab6ac79b0">checkIsMod</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>iniTxt</declname>
+        </param>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a1c7d00ecf5f9baa55407d51862675a7f" kindref="member">GameTypeIdFilter</ref></type>
+          <declname>gameTypeIds</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Determines whether the mod&apos;s .ini file belongs to a mod, given the full text from the
+.ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Cheaper than :cpp:func:`classify` when only this yes/no answer is needed -- see
+:cpp:func:`classify`&apos;s own doc comment for what &quot;belongs to a mod&quot; means
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniTxt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The full text of the .ini file to read from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gameTypeIds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The games the .ini file may belong to, or <computeroutput>std::nullopt</computeroutput> for every game</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the .ini file belongs to a mod </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="73" column="18" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="150" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1ac51ea2ac54ab2153943faeb6cc8b4bd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniClassifier::checkIsMod</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;iniTxt, GameTypeIdFilter gameTypeIds=std::nullopt) override</argsstring>
+        <name>checkIsMod</name>
+        <qualifiedname>AGRemapCore::IniClassifier::checkIsMod</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_classifier_1a2680937545ebe4631989615282b60307">checkIsMod</reimplements>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>iniTxt</declname>
+        </param>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a1c7d00ecf5f9baa55407d51862675a7f" kindref="member">GameTypeIdFilter</ref></type>
+          <declname>gameTypeIds</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Same as :cpp:func:`classify`, except it resets #modTypeIdDistribution/
+#savedWuWaModTypeIds/#currentSectionIsRemap and reads through &apos;iniTxt&apos; line by line via
+:cpp:func:`readLine` the exact same way, but returns ``true`` immediately, without
+reading any further lines, the moment ``stats.isMod`` first becomes ``true`` -- cheaper than
+:cpp:func:`classify` when only this yes/no answer is needed, since it never runs the
+tie-breaking #modTypeIdDistribution pass and can stop reading partway through the file
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="86" column="18" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="159" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a8e32ea373f491d44e901d12332f2aa55" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniClassifier::checkIsFixedMod</definition>
+        <argsstring>(const std::string &amp;iniTxt, bool *isFixed, bool *isMod, GameTypeIdFilter gameTypeIds=std::nullopt) override</argsstring>
+        <name>checkIsFixedMod</name>
+        <qualifiedname>AGRemapCore::IniClassifier::checkIsFixedMod</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_classifier_1a05ba4bfc53b84fd1b89d0a9ecef8ae40">checkIsFixedMod</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>iniTxt</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>isFixed</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>isMod</declname>
+        </param>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a1c7d00ecf5f9baa55407d51862675a7f" kindref="member">GameTypeIdFilter</ref></type>
+          <declname>gameTypeIds</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Determines whether the mod&apos;s .ini file is fixed and/or belongs to a mod, given the
+full text from the .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Cheaper than :cpp:func:`classify` when only these yes/no answers are needed -- see
+:cpp:func:`classify`&apos;s own doc comment for what &quot;belongs to a mod&quot;/&quot;is fixed&quot; mean
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniTxt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The full text of the .ini file to read from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isFixed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Set to whether the .ini file is fixed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isMod</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Set to whether the .ini file belongs to a mod </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gameTypeIds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The games the .ini file may belong to, or <computeroutput>std::nullopt</computeroutput> for every game </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="88" column="18" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="179" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1ac40a32694a490029d27039154d6b0d57" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniClassifier::checkIsFixedMod</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;iniTxt, bool *isFixed, bool *isMod, GameTypeIdFilter gameTypeIds=std::nullopt) override</argsstring>
+        <name>checkIsFixedMod</name>
+        <qualifiedname>AGRemapCore::IniClassifier::checkIsFixedMod</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_classifier_1ab00d529bcb9df8d989bbdbe1528bec06">checkIsFixedMod</reimplements>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>iniTxt</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>isFixed</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>isMod</declname>
+        </param>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a1c7d00ecf5f9baa55407d51862675a7f" kindref="member">GameTypeIdFilter</ref></type>
+          <declname>gameTypeIds</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Same as :cpp:func:`checkIsMod`, except it also tracks ``stats.isFixed`` and sets
+&apos;*isFixed&apos;/&apos;*isMod&apos; from the resultant ``stats.isFixed``/``stats.isMod`` once it stops
+reading -- it stops (without reading any further lines) the moment ``stats.isMod``
+**and** ``stats.isFixed`` have both become ``true``, rather than as soon as
+``stats.isMod`` alone becomes ``true``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniTxt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The lines of text of the .ini file to read from, with each line ending with a newline character </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isFixed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Set to whether the .ini file is fixed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isMod</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Set to whether the .ini file belongs to a mod </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gameTypeIds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The set of :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref></computeroutput> the .ini file may be meant for, or <computeroutput>std::nullopt</computeroutput> for every game </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="105" column="18" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="188" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a97fd5d0e4221b234c2ede6b61bba55d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniClassifier::addGIModType</definition>
+        <argsstring>(const ModTypeIdData &amp;modType, const std::unordered_set&lt; std::string &gt; &amp;hashes, const std::unordered_set&lt; std::string &gt; &amp;sectionKeywords)</argsstring>
+        <name>addGIModType</name>
+        <qualifiedname>AGRemapCore::IniClassifier::addGIModType</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type_id_data" kindref="compound">ModTypeIdData</ref> &amp;</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>hashes</declname>
+        </param>
+        <param>
+          <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>sectionKeywords</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Registers a GI mod type into #stateDFA :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Fails (returns ``false``) without registering anything if ``modType.modTypeId`` is
+already registered in #modTypes, or if ``modType.gameTypeId`` isn&apos;t
+:cpp:enumerator:`GameTypeId::GI`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod type to register </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hashes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hashes that identify &apos;modType&apos; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sectionKeywords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>section</computeroutput>_ keywords that identify &apos;modType&apos;</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether &apos;modType&apos; was newly registered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="123" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="488" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1ac98b7208907ada1e218b2eb90be8c004" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniClassifier::addWuWaModType</definition>
+        <argsstring>(const ModTypeIdData &amp;modType, const std::unordered_set&lt; std::string &gt; &amp;hashes)</argsstring>
+        <name>addWuWaModType</name>
+        <qualifiedname>AGRemapCore::IniClassifier::addWuWaModType</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type_id_data" kindref="compound">ModTypeIdData</ref> &amp;</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>hashes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Registers a WuWa mod type into #stateDFA :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Fails (returns ``false``) without registering anything if ``modType.modTypeId`` is
+already registered in #modTypes, or if ``modType.gameTypeId`` isn&apos;t
+:cpp:enumerator:`GameTypeId::WuWa`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod type to register </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hashes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hashes that identify &apos;modType&apos;</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether &apos;modType&apos; was newly registered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="140" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="554" bodyend="604"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a9603ef1e7819c57507374522cce4973a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type_id_data" kindref="compound">ModTypeIdData</ref></type>
+        <definition>ModTypeIdData AGRemapCore::IniClassifier::getModType</definition>
+        <argsstring>(int modTypeId)</argsstring>
+        <name>getModType</name>
+        <qualifiedname>AGRemapCore::IniClassifier::getModType</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>modTypeId</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the registered :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type_id_data" kindref="compound">ModTypeIdData</ref></computeroutput> for a :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modTypeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id for the :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref></computeroutput> to retrieve the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type_id_data" kindref="compound">ModTypeIdData</ref></computeroutput> for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown if &apos;modTypeId&apos; is not registered in <ref refid="class_a_g_remap_core_1_1_ini_classifier_1a0d4ec916aa314624af0eb10ef6e0624a" kindref="member">modTypes</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The corresponding :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type_id_data" kindref="compound">ModTypeIdData</ref></computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="151" column="35" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="606" bodyend="608"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a11e767c0c4f9c226f9c9947fd0c6c6cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniClassifier::clear</definition>
+        <argsstring>() override</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::IniClassifier::clear</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_classifier_1ad53042dba08800872c82c3abac13880a">clear</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Clears the state of the classifier, resetting it back to the state it was in when no
+mod types were registered yet -- i.e. #stateDFA back to its initial state (see the
+constructor&apos;s doc comment) and #hashGameTypeIds, #modTypes, #sectionKeywordsDFA,
+#keywordGameTypeIds, #modTypeIdDistribution, #savedWuWaModTypeIds, and
+#acceptModTypeIds all emptied, and #currentSectionIsRemap reset to ``false``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="163" column="18" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="69" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1ab736c0bb92733c2e7559bed86ee9e596" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniClassifier::setupStateDFA</definition>
+        <argsstring>()</argsstring>
+        <name>setupStateDFA</name>
+        <qualifiedname>AGRemapCore::IniClassifier::setupStateDFA</qualifiedname>
+        <briefdescription>
+<para>Sets <ref refid="class_a_g_remap_core_1_1_ini_classifier_1a81652a40ca227e7222d9d5edc6ec71b1" kindref="member">stateDFA</ref> to its initial state (see the constructor&apos;s doc comment). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="306" column="18" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="63" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a849d88e536551106a34674e0f9519ea0" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniClassifier::readLine</definition>
+        <argsstring>(const std::string &amp;line, IniClassifyStats &amp;stats, GameTypeIdFilter gameTypeIds=std::nullopt)</argsstring>
+        <name>readLine</name>
+        <qualifiedname>AGRemapCore::IniClassifier::readLine</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>line</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_classify_stats" kindref="compound">IniClassifyStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a1c7d00ecf5f9baa55407d51862675a7f" kindref="member">GameTypeIdFilter</ref></type>
+          <declname>gameTypeIds</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Reads a single line in a .ini file, mutating &apos;stats&apos; with whatever the line reveals
+about the classification of the .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If &apos;line&apos; starts with :cpp:member:`IniKeywords::HideOriginalComment`, that prefix is
+stripped and the remainder is read via a recursive call to this same method, as if it
+had been the original line all along -- a previously-fixed .ini file has its original
+`section`_ commented out this way (every line of it, including the `section`_ header,
+individually prefixed), and the classifier still needs to see through that to correctly
+identify the original mod :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Otherwise, does a high-level read of &apos;line&apos; (already stripped of leading/trailing
+whitespace by the caller, or by the recursive call above), then delegates the actual
+work to whichever subfunction below applies:
+
+* If &apos;line&apos; starts with ``hash``, any amount of whitespace, then ``=``, the value part
+  after the ``=`` is passed to :cpp:func:`readHash` -- unless #currentSectionIsRemap is
+  ``true``, in which case the hash is skipped entirely (not passed to
+  :cpp:func:`readHash` at all)
+* If &apos;line&apos; starts with ``$\\WWMIv1``, :cpp:func:`markWuWa` is called
+* If &apos;line&apos; starts with a `section`_ header (``[X]``, where ``X`` contains none of
+  ``[``, ``]``, or a .ini comment character), ``X`` is passed to
+  :cpp:func:`readSectionName`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The line in the .ini file to read, already stripped of leading/trailing whitespace </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The resultant stats to mutate based off the classification result found from &apos;line&apos; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gameTypeIds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The set of :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref></computeroutput> the .ini file may be meant for, or <computeroutput>std::nullopt</computeroutput> for every game </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="339" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="209" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a5b84330a143409b44db6ca1cf0b7aa6c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniClassifier::readHash</definition>
+        <argsstring>(std::string_view hash, IniClassifyStats &amp;stats)</argsstring>
+        <name>readHash</name>
+        <qualifiedname>AGRemapCore::IniClassifier::readHash</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>hash</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_classify_stats" kindref="compound">IniClassifyStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Reads the value part of a ``hash = &lt;value&gt;`` `KVP`_ found from a line in the .ini file,
+mutating &apos;stats&apos; with whatever the value reveals about the classification of the .ini file
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Transitions #stateDFA via the ``hash:&lt;hash&gt;`` keyword; does nothing if that transition
+is invalid :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If the transition lands on an accepting state and #stateDFA was previously on
+``isWuwa`` (i.e. ``$\\WWMIv1`` was already seen and &apos;hash&apos; is registered for a WuWa mod
+type), the match is already confirmed: for each :cpp:enum:`ModTypeId` from
+#acceptModTypeIds, :cpp:func:`incModTypeCountByHash` is called (setting ``stats.isMod``
+to ``true`` if any were called), #stateDFA takes the ``reset`` transition, and this
+method returns :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Otherwise, for each :cpp:enum:`GameTypeId` &apos;hash&apos; is registered under (see
+#hashGameTypeIds), #stateDFA attempts the ``game:&lt;GameTypeId&gt;`` transition; if it lands
+on an accepting state, the associated :cpp:enum:`ModTypeId`\\s (see #acceptModTypeIds)
+are added to #savedWuWaModTypeIds (for :cpp:enumerator:`GameTypeId::WuWa`) or passed to
+:cpp:func:`incModTypeCountByHash` (otherwise, setting ``stats.isMod`` to ``true`` if any
+were called). Between each :cpp:enum:`GameTypeId` tried, #stateDFA takes the
+``prev:hash:&lt;hash&gt;`` back edge to return to the ``foundHash:&lt;hash&gt;`` state, except after
+the last one, where it takes the ``reset`` transition instead
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value part of the <computeroutput>hash</computeroutput> <computeroutput>KVP</computeroutput>_ </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The resultant stats to mutate based off the classification result found from &apos;hash&apos; </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="371" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="276" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1af9341384b3aa6a01a9c8a742c891db9c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniClassifier::markWuWa</definition>
+        <argsstring>(IniClassifyStats &amp;stats)</argsstring>
+        <name>markWuWa</name>
+        <qualifiedname>AGRemapCore::IniClassifier::markWuWa</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_classify_stats" kindref="compound">IniClassifyStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Marks &apos;stats&apos; with whatever a ``$\\WWMIv1`` marker line reveals about the classification
+of the .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Does nothing unless #stateDFA is currently on the ``start`` state, in which case it
+transitions #stateDFA to ``isWuwa`` (via the ``game:&lt;GameTypeId::WuWa&gt;`` keyword) and, if
+#savedWuWaModTypeIds isn&apos;t empty, increases each of those ids&apos; #modTypeIdDistribution
+count via :cpp:func:`incModTypeCountByHash`, sets ``stats.isMod`` to ``true``, and
+clears #savedWuWaModTypeIds
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The resultant stats to mutate based off finding a <computeroutput>$\\WWMIv1</computeroutput> marker line </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="388" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="352" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1ac43e6ba304255cbb47c2d492c6b994e9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniClassifier::readSectionName</definition>
+        <argsstring>(std::string_view sectionName, IniClassifyStats &amp;stats, GameTypeIdFilter gameTypeIds=std::nullopt)</argsstring>
+        <name>readSectionName</name>
+        <qualifiedname>AGRemapCore::IniClassifier::readSectionName</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>sectionName</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_classify_stats" kindref="compound">IniClassifyStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a1c7d00ecf5f9baa55407d51862675a7f" kindref="member">GameTypeIdFilter</ref></type>
+          <declname>gameTypeIds</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Reads the name of a `section`_ found from a line in the .ini file, mutating &apos;stats&apos; with
+whatever the section name reveals about the classification of the .ini file
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+#currentSectionIsRemap is updated (to whether &apos;sectionName&apos; has the substring
+``Remap``) unconditionally, before anything else in this method -- same reasoning as
+the ``stats.isMod`` check right below: it must reflect the *actual* most recent
+`section`_ regardless of #checkHasTextureOverride, since :cpp:func:`readLine` consults
+it for every ``hash =`` line, not just ones inside `sections`_ this method goes on to
+fully process :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If &apos;sectionName&apos; starts with ``TextureOverride`` or ``ShaderOverride``, ``stats.isMod``
+is set to ``true`` -- this check runs unconditionally, before #checkHasTextureOverride
+is considered, so a ``ShaderOverride`` `section`_ is still recognized as belonging to a
+mod even when #checkHasTextureOverride goes on to block it from any further,
+keyword-based classification below :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If #checkHasTextureOverride is ``true``, does nothing further unless &apos;sectionName&apos;
+starts with ``TextureOverride`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If &apos;sectionName&apos; contains the substring ``Remap``, ``stats.isFixed`` is set to
+``true`` and this method returns immediately, without searching &apos;sectionName&apos; for a
+registered keyword or counting any match toward #modTypeIdDistribution -- same
+reasoning as :cpp:func:`readLine`&apos;s ``hash =`` skip for a `section`_ whose name
+contains ``Remap``: a section-keyword match there is a fix-added redirect to some
+other :cpp:enum:`ModTypeId` this .ini was already fixed to (e.g. a ``JeanCN``/
+``JeanSea`` ``RemapFix`` `section`_ inside an already-fixed ``Jean`` .ini), and
+shouldn&apos;t count either :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Otherwise, searches &apos;sectionName&apos; for the maximal registered keyword via #sectionKeywordsDFA --
+if &apos;gameTypeIds&apos; has a value, only keywords registered under one of those
+games (see #keywordGameTypeIds) are considered. Does nothing if no
+keyword is found :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Otherwise, transitions #stateDFA to the matched keyword&apos;s ``sectionName:&lt;keyword&gt;``
+state; does nothing if that transition is invalid :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+For each :cpp:enum:`GameTypeId` the matched keyword is registered under, #stateDFA
+attempts the ``game:&lt;GameTypeId&gt;`` transition; if it lands on an accepting state, each
+associated :cpp:enum:`ModTypeId` (see #acceptModTypeIds) is passed to
+:cpp:func:`incModTypeCountBySectionName`. Between each :cpp:enum:`GameTypeId` tried,
+#stateDFA takes the ``prev:sectionName:&lt;keyword&gt;`` back edge to return to the
+``sectionName:&lt;keyword&gt;`` state, except after the last one, where it takes the
+``reset`` transition instead
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sectionName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ (the <computeroutput>X</computeroutput> in <computeroutput>[X]</computeroutput>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The resultant stats to mutate based off the classification result found from &apos;sectionName&apos; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gameTypeIds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The set of :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref></computeroutput> the .ini file may be meant for, or <computeroutput>std::nullopt</computeroutput> for every game </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="443" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="372" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a47f97987b8ee1c07990a31d60bb95d9a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniClassifier::incModTypeCountBySectionName</definition>
+        <argsstring>(int modTypeId)</argsstring>
+        <name>incModTypeCountBySectionName</name>
+        <qualifiedname>AGRemapCore::IniClassifier::incModTypeCountBySectionName</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>modTypeId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Increases #modTypeIdDistribution&apos;s count for ``modTypeId`` by 1, for a match found by
+`section`_ name
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modTypeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id for the :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref></computeroutput> to increase the count for </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="454" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="610" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a3975c033c329810a6277a48bb03ae14b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniClassifier::incModTypeCountByHash</definition>
+        <argsstring>(int modTypeId)</argsstring>
+        <name>incModTypeCountByHash</name>
+        <qualifiedname>AGRemapCore::IniClassifier::incModTypeCountByHash</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>modTypeId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Increases #modTypeIdDistribution&apos;s count for ``modTypeId`` by 2, for a match found by hash
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modTypeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id for the :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref></computeroutput> to increase the count for </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="464" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="614" bodyend="616"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseIniClassifier`
+
+Class to help classify the type of mod given the mod&apos;s .ini files
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniClassifier</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_classifier"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IniClassifier</label>
+        <link refid="class_a_g_remap_core_1_1_ini_classifier"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>AGRemapCore::BaseAhoCorasickDFA&lt; std::unordered_set&lt; int &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseDFA&lt; std::string, std::string &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_d_f_a"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>states</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BaseIniClassifier</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_classifier"/>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::BaseTrie&lt; std::unordered_set&lt; int &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_trie"/>
+        <childnode refid="7" relation="usage">
+          <edgelabel>keywords</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BiMap&lt; std::string, std::uint64_t, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt;, std::hash&lt; std::uint64_t &gt;, std::equal_to&lt; std::uint64_t &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_bi_map"/>
+      </node>
+      <node id="7">
+        <label>AGRemapCore::BiMap&lt; std::uint64_t, std::string, std::hash&lt; std::uint64_t &gt;, std::equal_to&lt; std::uint64_t &gt;, AGRemapCore::StringViewHash, std::equal_to&lt; void &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_bi_map"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IniClassifier</label>
+        <link refid="class_a_g_remap_core_1_1_ini_classifier"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>stateDFA</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>sectionKeywordsDFA</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="42" column="5" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" bodystart="42" bodyend="465"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1a83d3c8d46aa615438594a29cf95b718a" prot="protected" virt="non-virtual"><scope>AGRemapCore::IniClassifier</scope><name>acceptModTypeIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1a97fd5d0e4221b234c2ede6b61bba55d0" prot="public" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>addGIModType</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1ac98b7208907ada1e218b2eb90be8c004" prot="public" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>addWuWaModType</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1ab59eb1bc76a6d2e948fee1a7c47985cc" prot="protected" virt="non-virtual"><scope>AGRemapCore::IniClassifier</scope><name>checkHasTextureOverride</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1a8e32ea373f491d44e901d12332f2aa55" prot="public" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>checkIsFixedMod</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1ac40a32694a490029d27039154d6b0d57" prot="public" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>checkIsFixedMod</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1a94808d984d60f7eec58bf82a79eab07a" prot="public" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>checkIsMod</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1ac51ea2ac54ab2153943faeb6cc8b4bd8" prot="public" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>checkIsMod</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1a01a2d1469fa2249efa8a572031bb2e5e" prot="public" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>classify</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1aad41616e8b910771a14d4c5bceda86f4" prot="public" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>classify</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1a11e767c0c4f9c226f9c9947fd0c6c6cd" prot="public" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1ac90b6608956a321b3aefcd807b6e2533" prot="protected" virt="non-virtual"><scope>AGRemapCore::IniClassifier</scope><name>currentSectionIsRemap</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1a9603ef1e7819c57507374522cce4973a" prot="public" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>getModType</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1a40ad21a9072e05d4f0bfa430be17ab00" prot="protected" virt="non-virtual"><scope>AGRemapCore::IniClassifier</scope><name>hashGameTypeIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1a3975c033c329810a6277a48bb03ae14b" prot="protected" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>incModTypeCountByHash</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1a47f97987b8ee1c07990a31d60bb95d9a" prot="protected" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>incModTypeCountBySectionName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1a275baa833454b1467d536ccd9e1f3914" prot="public" virt="non-virtual"><scope>AGRemapCore::IniClassifier</scope><name>IniClassifier</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1aa583e737433f0998efedef224c9d6aa4" prot="protected" virt="non-virtual"><scope>AGRemapCore::IniClassifier</scope><name>keywordGameTypeIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1af9341384b3aa6a01a9c8a742c891db9c" prot="protected" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>markWuWa</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1aa0c6369b683bf4bcfbf8969d2480182d" prot="protected" virt="non-virtual"><scope>AGRemapCore::IniClassifier</scope><name>modTypeIdDistribution</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1a0d4ec916aa314624af0eb10ef6e0624a" prot="protected" virt="non-virtual"><scope>AGRemapCore::IniClassifier</scope><name>modTypes</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1a5b84330a143409b44db6ca1cf0b7aa6c" prot="protected" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>readHash</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1a849d88e536551106a34674e0f9519ea0" prot="protected" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>readLine</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1ac43e6ba304255cbb47c2d492c6b994e9" prot="protected" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>readSectionName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1a6b025fffdc9b430af55a6a5d17d4a974" prot="protected" virt="non-virtual"><scope>AGRemapCore::IniClassifier</scope><name>savedWuWaModTypeIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1a95f023be80ffd80c985db86dc44e1ea9" prot="protected" virt="non-virtual"><scope>AGRemapCore::IniClassifier</scope><name>sectionKeywordsDFA</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1ab736c0bb92733c2e7559bed86ee9e596" prot="protected" virt="non-virtual"><scope>AGRemapCore::IniClassifier</scope><name>setupStateDFA</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1a81652a40ca227e7222d9d5edc6ec71b1" prot="protected" virt="non-virtual"><scope>AGRemapCore::IniClassifier</scope><name>stateDFA</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_classifier_1a5ba64d331b108ed7e8acd58b6e703ab2" prot="public" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>~BaseIniClassifier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

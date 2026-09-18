@@ -1,0 +1,323 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_v_g_split_group_res_builder" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::VGSplitGroupResBuilder</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder" prot="public" virt="non-virtual">AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::GroupedResBuilder</basecompoundref>
+    <includes refid="_v_g_split_group_res_builder_8h" local="no">VGSplitGroupResBuilder.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a8ad693978ec25999af3557462377c94f" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect" kindref="compound">ResGroupCollect</ref>&lt;&gt;::GraphId</type>
+        <definition>using AGRemapCore::VGSplitGroupResBuilder::GraphId = ResGroupCollect&lt;&gt;::GraphId</definition>
+        <argsstring></argsstring>
+        <name>GraphId</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupResBuilder::GraphId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="55" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a04bde8cef9a9e412be99a87e25131224" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::VGSplitGroupResBuilder::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupResBuilder::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="76" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a0fdc74c7dde21720556636851a5b72f2" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config" kindref="compound">VGSplitGroupConfig</ref></type>
+        <definition>VGSplitGroupConfig AGRemapCore::VGSplitGroupResBuilder::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupResBuilder::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="77" column="32" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a6a396eaab349d0051e0894aff4cc7f57" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+        <definition>IniFile* AGRemapCore::VGSplitGroupResBuilder::iniFile_</definition>
+        <argsstring></argsstring>
+        <name>iniFile_</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupResBuilder::iniFile_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="78" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a785839d34d60bb24ee6c5e86282d9147" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource" kindref="compound">VGSplitGroupResource</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;VGSplitGroupResource&gt; &gt; AGRemapCore::VGSplitGroupResBuilder::groups_</definition>
+        <argsstring></argsstring>
+        <name>groups_</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupResBuilder::groups_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="79" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a2884ef9a9611d10158c8a62422f91a2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::VGSplitGroupResBuilder::VGSplitGroupResBuilder</definition>
+        <argsstring>(std::string name, VGSplitGroupConfig config, IniFile *iniFile)</argsstring>
+        <name>VGSplitGroupResBuilder</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupResBuilder::VGSplitGroupResBuilder</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config" kindref="compound">VGSplitGroupConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>iniFile</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a builder for one component&apos;s groups. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What every built group is called, eg. <computeroutput>"YelanYelanTranquilBodyBuffers"</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The split <ndash/> which component, every component&apos;s spec, the ib paths, the line edits </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>iniFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>.ini</computeroutput> file the built groups are stored into <ndash/> borrowed, may be <computeroutput>nullptr</computeroutput> (then nothing is stored) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="64" column="13" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp" bodystart="24" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a70e7202b8345ffea120b80fc9478c593" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref> *</type>
+        <definition>IniGroupedResource * AGRemapCore::VGSplitGroupResBuilder::build</definition>
+        <argsstring>() override</argsstring>
+        <name>build</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupResBuilder::build</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a39ab0721dbc274ae70e51ee9bca589c5">build</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds a fresh grouped resource that is **not** yet marked built
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The implementation keeps ownership; the returned pointer must stay valid until
+the edit finishes
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="66" column="32" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp" bodystart="28" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1ad8b3b59dc89f8eea1b60e45c20f56e00" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::VGSplitGroupResBuilder::store</definition>
+        <argsstring>(IniGroupedResource &amp;resource) override</argsstring>
+        <name>store</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupResBuilder::store</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a29ab622c29be739e620ecc3118a3463e">store</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref> &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Hands a finished grouped resource to the <computeroutput>.ini</computeroutput> file it belongs to. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The grouped resource, already marked built and fully populated </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="67" column="18" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp" bodystart="36" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a9ee12db695e9631e061e80fd0f687a27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::VGSplitGroupResBuilder::addResource</definition>
+        <argsstring>(IniGroupedResource &amp;group, const GraphId &amp;resType, IniResource &amp;resource) override</argsstring>
+        <name>addResource</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupResBuilder::addResource</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref> &amp;</type>
+          <declname>group</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a8ad693978ec25999af3557462377c94f" kindref="member">GraphId</ref> &amp;</type>
+          <declname>resType</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="68" column="18" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp" bodystart="50" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a9ce1b82aff0e878e820e5b9c457e309a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource" kindref="compound">VGSplitGroupResource</ref> &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::shared_ptr&lt; VGSplitGroupResource &gt; &gt; &amp; AGRemapCore::VGSplitGroupResBuilder::groups</definition>
+        <argsstring>() const</argsstring>
+        <name>groups</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupResBuilder::groups</qualifiedname>
+        <briefdescription>
+<para>The groups built so far <ndash/> owned here, shared with the <computeroutput>.ini</computeroutput> file once stored. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="73" column="31" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp" bodystart="70" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`ResGroupCollect::GroupedResBuilder`
+
+The plain-C++ builder of a :cpp:class:`VGSplitGroupResource` for a :cpp:class:`ResGroupCollect`
+-- the core-side counterpart of the `pybind11`_ layer&apos;s ``PyGroupedResBuilder``, which wraps a
+`Python`_ ``IniGroupedResBuilder`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Every grouped resource a C++ fixer builds goes through one of these: :cpp:func:`build` makes a
+fresh, not-yet-built group carrying the split&apos;s configuration, :cpp:func:`addResource` files
+each member the collect built (a :cpp:class:`BufReplace`&apos;s :cpp:class:`IniFixResource`) into
+it, and :cpp:func:`store` hands the finished group to the ``.ini`` file&apos;s
+:cpp:func:`IniFile::getGroupedResources` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   **The member is COPIED into the group, not moved.** The collect hands over a reference to a
+   model whose owner is the resource-edit context&apos;s capture buffer (see
+   :cpp:func:`IniFileResEditContext::storeResource`), which outlives nothing but the edit --
+   and a :cpp:class:`IniGroupedResource` owns its members outright. An
+   :cpp:class:`IniFixResource` is four strings, so a fresh one built from the same type and
+   paths is the same resource; the captured original is never fixed on its own, since a
+   captured model never reaches :cpp:func:`IniFile::getResources`
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::GroupedResBuilder</label>
+        <link refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::VGSplitGroupResBuilder</label>
+        <link refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>AGRemapCore::BaseIniClassifier</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_classifier"/>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::IniFile</label>
+        <link refid="class_a_g_remap_core_1_1_ini_file"/>
+        <childnode refid="5" relation="usage">
+          <edgelabel>iniClassifier_</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>z3Ctx_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::GroupedResBuilder</label>
+        <link refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder"/>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::VGSplitGroupConfig</label>
+        <link refid="struct_a_g_remap_core_1_1_v_g_split_group_config"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::VGSplitGroupResBuilder</label>
+        <link refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>iniFile_</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::Z3Context</label>
+        <link refid="class_a_g_remap_core_1_1_z3_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="53" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="53" bodyend="80"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a9ee12db695e9631e061e80fd0f687a27" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>addResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a826316b4f5b2e90beff9381ac9c884e9" prot="public" virt="pure-virtual" ambiguityscope="AGRemapCore::ResGroupCollect::GroupedResBuilder::"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>addResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a70e7202b8345ffea120b80fc9478c593" prot="public" virt="virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>build</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a0fdc74c7dde21720556636851a5b72f2" prot="private" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>config_</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a8ad693978ec25999af3557462377c94f" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>GraphId</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a9ce1b82aff0e878e820e5b9c457e309a" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>groups</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a785839d34d60bb24ee6c5e86282d9147" prot="private" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>groups_</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a6a396eaab349d0051e0894aff4cc7f57" prot="private" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>iniFile_</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a04bde8cef9a9e412be99a87e25131224" prot="private" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>name_</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1ad8b3b59dc89f8eea1b60e45c20f56e00" prot="public" virt="virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>store</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a2884ef9a9611d10158c8a62422f91a2b" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>VGSplitGroupResBuilder</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a2086e068e6e5148293c3b7033f84b100" prot="public" virt="virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>~GroupedResBuilder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

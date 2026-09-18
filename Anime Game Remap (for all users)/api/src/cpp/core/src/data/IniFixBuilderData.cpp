@@ -1,0 +1,594 @@
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
+#include "AGRemapCore/data/IniFixBuilderData.h"
+
+#include <optional>
+#include <string>
+#include <vector>
+
+#include "AGRemapCore/constants/ModTypeId.h"
+#include "AGRemapCore/model/Version.h"
+#include "AGRemapCore/model/assets/Row.h"
+
+
+namespace AGRemapCore {
+    // Every generator is a stub for now -- see IniFixBuilderFuncs' own warning. They are
+    // written out one-per-method rather than collapsed into a single shared stub so that each
+    // can be filled in independently.
+    IniFixBuilder::Factory IniFixBuilderFuncs::giDefault() {
+        // THE FALLBACK ROW, and it needs no config: its pure-Python body is
+        // (GIMIFixer, [], {}) -- a plain GIMI fixer with no object awareness at all -- and
+        // IniFixBuilder::defaultFactory already builds exactly that, handed renderIfTemplate
+        // as its section renderer.
+        //
+        // So this line was never a stub; it was the implementation, sitting among the stubs
+        // and spelled identically to them. That is the whole reason it stayed on the list.
+        // It is what Raiden falls back to at 4.0 and ArlecchinoBoss at 4.6.
+        return IniFixBuilder::defaultFactory();
+    }
+
+    namespace {
+        // Four index columns: fromVersion, fromModName, toVersion, toModName -- with the two
+        // VERSION columns at positions 0 and 2. A fixer is chosen for a (source mod at a
+        // source version) -> (target mod at a target version) pair, so both ends carry a
+        // version, which is why this table is a ModAssets rather than a ModDictAssets.
+        std::vector<Row<std::string, IniFixBuilder::Factory>> buildRows() {
+            return {
+                // ===== Amber @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Amber),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::AmberCN)}, IniFixBuilderFuncs::amber4_0()},
+
+                // ===== AmberCN @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::AmberCN),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::Amber)}, IniFixBuilderFuncs::amberCN4_0()},
+
+                // ===== Ayaka @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Ayaka),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::AyakaSpringbloom)}, IniFixBuilderFuncs::ayaka4_0()},
+
+                // ===== AyakaSpringBloom @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::AyakaSpringbloom),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::Ayaka)}, IniFixBuilderFuncs::ayakaSpringbloom4_0()},
+
+                // ===== Barbara @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Barbara),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::BarbaraSummertime)}, IniFixBuilderFuncs::barbara4_0()},
+
+                // ===== BarbaraSummertime @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::BarbaraSummertime),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::Barbara)}, IniFixBuilderFuncs::barbaraSummertime4_0()},
+
+                // ===== Diluc @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Diluc),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::DilucFlamme)}, IniFixBuilderFuncs::diluc4_0()},
+
+                // ===== DilucFlamme @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::DilucFlamme),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::Diluc)}, IniFixBuilderFuncs::dilucFlamme4_0()},
+
+                // ===== Fischl @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Fischl),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::FischlHighness)}, IniFixBuilderFuncs::fischl4_0()},
+
+                // ===== FischlHighness @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::FischlHighness),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::Fischl)}, IniFixBuilderFuncs::fischlHighness4_0()},
+
+                // ===== Ganyu @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Ganyu),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::GanyuTwilight)}, IniFixBuilderFuncs::ganyu4_0()},
+
+                // ===== HuTao @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::HuTao),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::CherryHuTao)}, IniFixBuilderFuncs::hutao4_0()},
+
+                // ===== Jean @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Jean),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::JeanCN)}, IniFixBuilderFuncs::jean4_0ToJeanCN()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Jean),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::JeanSea)}, IniFixBuilderFuncs::jean4_0ToJeanSea()},
+
+                // ===== JeanCN @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanCN),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::Jean)}, IniFixBuilderFuncs::jeanCN4_0ToJean()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanCN),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::JeanSea)}, IniFixBuilderFuncs::jeanCN4_0ToJeanSea()},
+
+                // ===== JeanSea @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanSea),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::Jean)}, IniFixBuilderFuncs::jeanSea4_0()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanSea),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::JeanCN)}, IniFixBuilderFuncs::jeanSea4_0()},
+
+                // ===== Kaeya @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Kaeya),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::KaeyaSailwind)}, IniFixBuilderFuncs::kaeya4_0()},
+
+                // ===== KaeyaSailwind @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::KaeyaSailwind),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::Kaeya)}, IniFixBuilderFuncs::kaeyaSailwind4_0()},
+
+                // ===== Keqing @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Keqing),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::KeqingOpulent)}, IniFixBuilderFuncs::keqing4_0()},
+
+                // ===== KeqingOpulent @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::KeqingOpulent),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::Keqing)}, IniFixBuilderFuncs::keqingOpulent4_0()},
+
+                // ===== Kirara @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Kirara),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::KiraraBoots)}, IniFixBuilderFuncs::kirara4_0()},
+
+                // ===== Klee @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Klee),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::KleeBlossomingStarlight)}, IniFixBuilderFuncs::klee4_0()},
+
+                // ===== KleeBlossomingStarlight @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::KleeBlossomingStarlight),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::Klee)}, IniFixBuilderFuncs::kleeBlossomingStarlight4_0()},
+
+                // ===== Lisa @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Lisa),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::LisaStudent)}, IniFixBuilderFuncs::lisa4_0()},
+
+                // ===== LisaStudent @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::LisaStudent),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::Lisa)}, IniFixBuilderFuncs::lisaStudent4_0()},
+
+                // ===== Mona @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Mona),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::MonaCN)}, IniFixBuilderFuncs::mona4_0()},
+
+                // ===== MonaCN @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::MonaCN),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::Mona)}, IniFixBuilderFuncs::monaCN4_0()},
+
+                // ===== Nilou @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Nilou),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::NilouBreeze)}, IniFixBuilderFuncs::nilou4_0()},
+
+                // ===== Ningguang @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Ningguang),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::NingguangOrchid)}, IniFixBuilderFuncs::ningguang4_0()},
+
+                // ===== NingguangOrchid @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::NingguangOrchid),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::Ningguang)}, IniFixBuilderFuncs::ningguangOrchid4_0()},
+
+                // ===== Raiden @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Raiden),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::RaidenBoss)}, IniFixBuilderFuncs::giDefault()},
+
+                // ===== NilouBreeze @ toVersion 6.1 =====
+                //
+                // Her base has no 6.1 row on purpose -- Nilou -> NilouBreeze re-issues ORFix, which
+                // already carries the 6.1 register swap, so nilou5_7 serves 6.1 too.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::NilouBreeze),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Nilou)}, IniFixBuilderFuncs::nilouBreeze6_1()},
+
+                // ===== Kirara @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Kirara),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::KiraraBoots)}, IniFixBuilderFuncs::kirara6_1()},
+
+                // ===== KiraraBoots @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::KiraraBoots),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Kirara)}, IniFixBuilderFuncs::kiraraBoots6_1()},
+
+                // ===== Ayaka @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Ayaka),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::AyakaSpringbloom)}, IniFixBuilderFuncs::ayaka6_1()},
+
+                // ===== AyakaSpringbloom @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::AyakaSpringbloom),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Ayaka)}, IniFixBuilderFuncs::ayakaSpringbloom6_1()},
+
+                // ===== Amber @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Amber),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::AmberCN)}, IniFixBuilderFuncs::amber6_1()},
+
+                // ===== AmberCN @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::AmberCN),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Amber)}, IniFixBuilderFuncs::amberCN6_1()},
+
+                // ===== Mona @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Mona),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::MonaCN)}, IniFixBuilderFuncs::mona6_1()},
+
+                // ===== MonaCN @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::MonaCN),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Mona)}, IniFixBuilderFuncs::monaCN6_1()},
+
+                // ===== Rosaria @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Rosaria),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::RosariaCN)}, IniFixBuilderFuncs::rosaria6_1()},
+
+                // ===== RosariaCN @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::RosariaCN),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Rosaria)}, IniFixBuilderFuncs::rosariaCN6_1()},
+
+                // ===== Jean @ toVersion 6.1 =====
+                //
+                // TWO ROWS, TWO FIXERS -- and this is what replaces the pure-Python MultiModFixer.
+                // The original held a {target -> fixer} map inside one fixer because its table was
+                // keyed only by the source; this one is keyed by the pair, so the two targets are
+                // simply two rows. They are genuinely different fixes: JeanCN is an ordinary CN
+                // remap, JeanSea splits Jean's body into a body and a dress.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Jean),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::JeanCN)}, IniFixBuilderFuncs::jean6_1ToJeanCN()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Jean),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::JeanSea)}, IniFixBuilderFuncs::jean6_1ToJeanSea()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Barbara),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::BarbaraSummertime)}, IniFixBuilderFuncs::barbara6_1ToBarbaraSummertime()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Diluc),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::DilucFlamme)}, IniFixBuilderFuncs::diluc6_1ToDilucFlamme()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::DilucFlamme),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Diluc)}, IniFixBuilderFuncs::dilucFlamme6_1ToDiluc()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Fischl),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::FischlHighness)}, IniFixBuilderFuncs::fischl6_1ToFischlHighness()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::FischlHighness),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Fischl)}, IniFixBuilderFuncs::fischlHighness6_1ToFischl()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Kaeya),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::KaeyaSailwind)}, IniFixBuilderFuncs::kaeya6_1ToKaeyaSailwind()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::KaeyaSailwind),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Kaeya)}, IniFixBuilderFuncs::kaeyaSailwind6_1ToKaeya()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::BarbaraSummertime),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Barbara)}, IniFixBuilderFuncs::barbaraSummertime6_1ToBarbara()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Klee),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::KleeBlossomingStarlight)}, IniFixBuilderFuncs::klee6_1ToKleeBlossomingStarlight()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::KleeBlossomingStarlight),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Klee)}, IniFixBuilderFuncs::kleeBlossomingStarlight6_1ToKlee()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Lisa),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::LisaStudent)}, IniFixBuilderFuncs::lisa6_1ToLisaStudent()},
+
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::LisaStudent),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Lisa)}, IniFixBuilderFuncs::lisaStudent6_1ToLisa()},
+
+                // ===== JeanCN @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanCN),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Jean)}, IniFixBuilderFuncs::jeanCN6_1ToJean()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanCN),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::JeanSea)}, IniFixBuilderFuncs::jeanCN6_1ToJeanSea()},
+
+                // ===== JeanSea @ toVersion 6.1 =====
+                //
+                // The other direction of the same family, and the one that MERGES -- see
+                // JeanSeaFixer for why that writes a second .ini file.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanSea),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Jean)}, IniFixBuilderFuncs::jeanSea6_1ToJean()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanSea),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::JeanCN)}, IniFixBuilderFuncs::jeanSea6_1ToJeanCN()},
+
+                // ===== Ganyu @ toVersion 6.1 =====
+                //
+                // The pair: this one GAINS a normal map and the one below LOSES it. Read them
+                // together -- between them they are the worked example of remapping across the
+                // GI 3.x normal-map boundary in both directions.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Ganyu),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::GanyuTwilight)}, IniFixBuilderFuncs::ganyu6_1()},
+
+                // ===== GanyuTwilight @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::GanyuTwilight),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Ganyu)}, IniFixBuilderFuncs::ganyuTwilight6_1()},
+
+                // ===== Ningguang @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Ningguang),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::NingguangOrchid)}, IniFixBuilderFuncs::ningguang6_1()},
+
+                // ===== NingguangOrchid @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::NingguangOrchid),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Ningguang)}, IniFixBuilderFuncs::ningguangOrchid6_1()},
+
+                // ===== Yelan @ toVersion 6.1 =====
+                //
+                // THREE rows for one source: the target skin is three components, each a fix
+                // target of its own (ModTypeId::YelanTranquilBody etc.) so the naming, the hash
+                // remap and the merge all work unchanged. See makeGIMIComponentFixer.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Yelan),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::YelanTranquilBody)}, IniFixBuilderFuncs::yelanTranquilBody6_1()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Yelan),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::YelanTranquilBang)}, IniFixBuilderFuncs::yelanTranquilBang6_1()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Yelan),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::YelanTranquilEye)}, IniFixBuilderFuncs::yelanTranquilEye6_1()},
+
+                // ===== YelanTranquil @ toVersion 6.1 (2026-09-14) =====
+                //
+                // ONE row where the direction above needs three: a skin of several components onto
+                // a target of ONE draws through one set of buffer hashes, so the components are
+                // merged rather than split and two source slots landing on one target object become
+                // one draw. See makeGIMIMergeFixer.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::YelanTranquil),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Yelan)}, IniFixBuilderFuncs::yelanTranquilToYelan6_1()},
+
+                // ===== Bennett @ toVersion 6.1 (2026-09-15) =====
+                // TWO rows where Yelan has three, one per target COMPONENT that actually receives
+                // geometry: each of BennettAdventure's components is a fix target of its own
+                // (ModTypeId::BennettAdventureBody etc.), so the naming, the hash rows and the index
+                // rows are all keyed by the component rather than by the skin.
+                //
+                // NO Bang row, deliberately. Bennett has no hair bone, so his forward Bang
+                // vertex-group row is empty and a Bang fixer would draw nothing -- his hair arrives
+                // through the Body component instead. See BennettFixer.cpp's closing note for what
+                // that leaves unhandled.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Bennett),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::BennettAdventureBody)}, IniFixBuilderFuncs::bennettAdventureBody6_1()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Bennett),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::BennettAdventureEye)}, IniFixBuilderFuncs::bennettAdventureEye6_1()},
+
+                // ===== BennettAdventure @ toVersion 6.1 (2026-09-15) =====
+                // ONE row, and one .ini group out: the merge is keyed by the SKIN rather than
+                // by its components, because the target is one mesh.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::BennettAdventure),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Bennett)}, IniFixBuilderFuncs::bennettAdventureToBennett6_1()},
+
+                // ===== Keqing @ toVersion 6.1 =====
+                //
+                // The pair: this one MERGES (Keqing's dress and head onto KeqingOpulent's head)
+                // and the one below SPLITS it back apart. Between them they are the worked
+                // example of remapping between characters that draw a different NUMBER of
+                // objects -- and the merge is what makes a fix write more than one .ini file.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Keqing),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::KeqingOpulent)}, IniFixBuilderFuncs::keqing6_1()},
+
+                // ===== KeqingOpulent @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::KeqingOpulent),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Keqing)}, IniFixBuilderFuncs::keqingOpulent6_1()},
+
+                // ===== Shenhe @ toVersion 6.1 =====
+                //
+                // The other pair of the same kind, and a wider one: the skin draws a fourth
+                // object, so this splits one object into two and the one below merges three
+                // into one across THREE .ini files.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Shenhe),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::ShenheFrostFlower)}, IniFixBuilderFuncs::shenhe6_1()},
+
+                // ===== ShenheFrostFlower @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::ShenheFrostFlower),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Shenhe)}, IniFixBuilderFuncs::shenheFrostFlower6_1()},
+
+                // ===== XianglingCheer @ toVersion 6.1 =====
+                //
+                // NO Xiangling ROW HERE, and that is deliberate rather than missing -- hers stays
+                // at toVersion 4.0 above. Her fix's head re-issues ORFix, and ORFix's maintainers
+                // baked the GI 6.1 diffuse/lightmap register swap into the library itself, so a
+                // part that was already calling it needed no new row. The pure-Python table has
+                // no xiangling6_1 for the same reason.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::XianglingCheer),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Xiangling)}, IniFixBuilderFuncs::xianglingCheer6_1()},
+
+                // ===== HuTao @ toVersion 6.1 =====
+                //
+                // The pair: this one SPLITS two objects into four and the one below merges them
+                // back. Between them they are the widest split and the most involved merge here.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::HuTao),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::CherryHuTao)}, IniFixBuilderFuncs::hutao6_1()},
+
+                // ===== CherryHuTao @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::CherryHuTao),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::HuTao)}, IniFixBuilderFuncs::cherryHuTao6_1()},
+
+                // ===== Xingqiu @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Xingqiu),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::XingqiuBamboo)}, IniFixBuilderFuncs::xingqiu6_1()},
+
+                // ===== XingqiuBamboo @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::XingqiuBamboo),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Xingqiu)}, IniFixBuilderFuncs::xingqiuBamboo6_1()},
+                // ===== Raiden @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Raiden),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::RaidenBoss)}, IniFixBuilderFuncs::raiden6_1()},
+
+                // ===== Rosaria @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Rosaria),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::RosariaCN)}, IniFixBuilderFuncs::rosaria4_0()},
+
+                // ===== RosariaCN @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::RosariaCN),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::Rosaria)}, IniFixBuilderFuncs::rosariaCN4_0()},
+
+                // ===== Shenhe @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Shenhe),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::ShenheFrostFlower)}, IniFixBuilderFuncs::shenhe4_0()},
+
+                // ===== Xiangling @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Xiangling),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::XianglingCheer)}, IniFixBuilderFuncs::xiangling4_0()},
+
+                // ===== Xingqiu @ toVersion 4.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Xingqiu),
+                  "4.0", ModTypeIdTools::getName(ModTypeId::XingqiuBamboo)}, IniFixBuilderFuncs::xingqiu4_0()},
+
+                // ===== GanyuTwilight @ toVersion 4.4 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::GanyuTwilight),
+                  "4.4", ModTypeIdTools::getName(ModTypeId::Ganyu)}, IniFixBuilderFuncs::ganyuTwilight4_4()},
+
+                // ===== ShenheFrostFlower @ toVersion 4.4 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::ShenheFrostFlower),
+                  "4.4", ModTypeIdTools::getName(ModTypeId::Shenhe)}, IniFixBuilderFuncs::shenheFrostFlower4_4()},
+
+                // ===== XingqiuBamboo @ toVersion 4.4 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::XingqiuBamboo),
+                  "4.4", ModTypeIdTools::getName(ModTypeId::Xingqiu)}, IniFixBuilderFuncs::xingqiuBamboo4_4()},
+
+                // ===== Arlecchino @ toVersion 4.6 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Arlecchino),
+                  "4.6", ModTypeIdTools::getName(ModTypeId::ArlecchinoBoss)}, IniFixBuilderFuncs::giDefault()},
+
+                // ===== KiraraBoots @ toVersion 4.8 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::KiraraBoots),
+                  "4.8", ModTypeIdTools::getName(ModTypeId::Kirara)}, IniFixBuilderFuncs::kiraraBoots4_8()},
+
+                // ===== NilouBreeze @ toVersion 4.8 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::NilouBreeze),
+                  "4.8", ModTypeIdTools::getName(ModTypeId::Nilou)}, IniFixBuilderFuncs::nilouBreeze4_8()},
+
+                // ===== Kaeya @ toVersion 5.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Kaeya),
+                  "5.0", ModTypeIdTools::getName(ModTypeId::KaeyaSailwind)}, IniFixBuilderFuncs::kaeya5_0()},
+
+                // ===== KaeyaSailwind @ toVersion 5.0 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::KaeyaSailwind),
+                  "5.0", ModTypeIdTools::getName(ModTypeId::Kaeya)}, IniFixBuilderFuncs::kaeyaSailwind5_0()},
+
+                // ===== CherryHuTao @ toVersion 5.3 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::CherryHuTao),
+                  "5.3", ModTypeIdTools::getName(ModTypeId::HuTao)}, IniFixBuilderFuncs::cherryHuTao5_3()},
+
+                // ===== XianglingCheer @ toVersion 5.3 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::XianglingCheer),
+                  "5.3", ModTypeIdTools::getName(ModTypeId::Xiangling)}, IniFixBuilderFuncs::xianglingCheer5_3()},
+
+                // ===== Ayaka @ toVersion 5.4 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Ayaka),
+                  "5.4", ModTypeIdTools::getName(ModTypeId::AyakaSpringbloom)}, IniFixBuilderFuncs::ayaka5_4()},
+
+                // ===== Arlecchino @ toVersion 5.4 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Arlecchino),
+                  "5.4", ModTypeIdTools::getName(ModTypeId::ArlecchinoBoss)}, IniFixBuilderFuncs::arlecchino5_4()},
+
+                // ===== NilouBreeze @ toVersion 5.4 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::NilouBreeze),
+                  "5.4", ModTypeIdTools::getName(ModTypeId::Nilou)}, IniFixBuilderFuncs::nilouBreeze5_4()},
+
+                // ===== Lisa @ toVersion 5.4 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Lisa),
+                  "5.4", ModTypeIdTools::getName(ModTypeId::LisaStudent)}, IniFixBuilderFuncs::lisa5_4()},
+
+                // ===== Jean @ toVersion 5.5 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Jean),
+                  "5.5", ModTypeIdTools::getName(ModTypeId::JeanCN)}, IniFixBuilderFuncs::jean5_5ToJeanCN()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Jean),
+                  "5.5", ModTypeIdTools::getName(ModTypeId::JeanSea)}, IniFixBuilderFuncs::jean5_5ToJeanSea()},
+
+                // ===== JeanCN @ toVersion 5.5 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanCN),
+                  "5.5", ModTypeIdTools::getName(ModTypeId::Jean)}, IniFixBuilderFuncs::jeanCN5_5ToJean()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanCN),
+                  "5.5", ModTypeIdTools::getName(ModTypeId::JeanSea)}, IniFixBuilderFuncs::jeanCN5_5ToJeanSea()},
+
+                // ===== HuTao @ toVersion 5.6 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::HuTao),
+                  "5.6", ModTypeIdTools::getName(ModTypeId::CherryHuTao)}, IniFixBuilderFuncs::hutao5_6()},
+
+                // ===== Ayaka @ toVersion 5.6 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Ayaka),
+                  "5.6", ModTypeIdTools::getName(ModTypeId::AyakaSpringbloom)}, IniFixBuilderFuncs::ayaka5_6()},
+
+                // ===== AyakaSpringBloom @ toVersion 5.6 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::AyakaSpringbloom),
+                  "5.6", ModTypeIdTools::getName(ModTypeId::Ayaka)}, IniFixBuilderFuncs::ayakaSpringbloom5_6()},
+
+                // ===== Amber @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Amber),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::AmberCN)}, IniFixBuilderFuncs::amber5_7()},
+
+                // ===== AmberCN @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::AmberCN),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::Amber)}, IniFixBuilderFuncs::amberCN5_7()},
+
+                // ===== Ayaka @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Ayaka),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::AyakaSpringbloom)}, IniFixBuilderFuncs::ayaka5_7()},
+
+                // ===== AyakaSpringBloom @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::AyakaSpringbloom),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::Ayaka)}, IniFixBuilderFuncs::ayakaSpringbloom5_7()},
+
+                // ===== Arlecchino @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Arlecchino),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::ArlecchinoBoss)}, IniFixBuilderFuncs::arlecchino5_7()},
+
+                // ===== Barbara @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Barbara),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::BarbaraSummertime)}, IniFixBuilderFuncs::barbara5_7()},
+
+                // ===== BarbaraSummertime @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::BarbaraSummertime),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::Barbara)}, IniFixBuilderFuncs::barbaraSummertime5_7()},
+
+                // ===== Diluc @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Diluc),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::DilucFlamme)}, IniFixBuilderFuncs::diluc5_7()},
+
+                // ===== DilucFlamme @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::DilucFlamme),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::Diluc)}, IniFixBuilderFuncs::dilucFlamme5_7()},
+
+                // ===== Fischl @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Fischl),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::FischlHighness)}, IniFixBuilderFuncs::fischl5_7()},
+
+                // ===== FischlHighness @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::FischlHighness),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::Fischl)}, IniFixBuilderFuncs::fischlHighness5_7()},
+
+                // ===== Ganyu @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Ganyu),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::GanyuTwilight)}, IniFixBuilderFuncs::ganyu5_7()},
+
+                // ===== GanyuTwilight @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::GanyuTwilight),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::Ganyu)}, IniFixBuilderFuncs::ganyuTwilight5_7()},
+
+                // ===== Kirara @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Kirara),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::KiraraBoots)}, IniFixBuilderFuncs::kirara5_7()},
+
+                // ===== KiraraBoots @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::KiraraBoots),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::Kirara)}, IniFixBuilderFuncs::kiraraBoots5_7()},
+
+                // ===== Lisa @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Lisa),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::LisaStudent)}, IniFixBuilderFuncs::lisa5_7()},
+
+                // ===== Nilou @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Nilou),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::NilouBreeze)}, IniFixBuilderFuncs::nilou5_7()},
+
+                // ===== NilouBreeze @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::NilouBreeze),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::Nilou)}, IniFixBuilderFuncs::nilouBreeze5_7()},
+
+                // ===== ShenheFrostFlower @ toVersion 5.7 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::ShenheFrostFlower),
+                  "5.7", ModTypeIdTools::getName(ModTypeId::Shenhe)}, IniFixBuilderFuncs::shenheFrostFlower5_7()},
+            };
+        }
+    }
+
+    const std::shared_ptr<const IniFixBuilder::ArgsRepo>& IniFixBuilderData::repo() {
+        // Function-local static: built once, on first use, thread-safely -- and crucially after
+        // ModTypeIdTools' own registry is ready, which the row keys depend on.
+        static const std::shared_ptr<const IniFixBuilder::ArgsRepo> table =
+            std::make_shared<const IniFixBuilder::ArgsRepo>(
+                // isVersionColumn: fromVersion and toVersion are versions; the two mod names are not.
+                std::vector<bool>{true, false, true, false},
+                [](const std::string& raw) { return Version::parse(raw); },
+                buildRows());
+
+        return table;
+    }
+}

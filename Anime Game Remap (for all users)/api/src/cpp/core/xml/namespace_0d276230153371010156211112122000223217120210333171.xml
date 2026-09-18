@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d276230153371010156211112122000223217120210333171" kind="namespace" language="C++">
+    <compoundname>@276230153371010156211112122000223217120210333171</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/RemapServiceCLI.cpp" line="42" column="1"/>
+  </compounddef>
+</doxygen>

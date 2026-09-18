@@ -1,0 +1,534 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_remap_ini_resource_8h" kind="file" language="C++">
+    <compoundname>RemapIniResource.h</compoundname>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes refid="_ini_resource_8h" local="yes">AGRemapCore/model/iniresources/IniResource.h</includes>
+    <includes refid="_remap_stats_8h" local="yes">AGRemapCore/model/stats/RemapStats.h</includes>
+    <includes refid="_file_download_8h" local="yes">AGRemapCore/tools/files/FileDownload.h</includes>
+    <includedby refid="_remap_blend_resource_8h" local="yes">include/AGRemapCore/model/iniresources/RemapBlendResource.h</includedby>
+    <includedby refid="_remap_position_resource_8h" local="yes">include/AGRemapCore/model/iniresources/RemapPositionResource.h</includedby>
+    <includedby refid="_remap_tex_resource_8h" local="yes">include/AGRemapCore/model/iniresources/RemapTexResource.h</includedby>
+    <includedby refid="_v_g_merge_group_resource_8h" local="yes">include/AGRemapCore/model/iniresources/VGMergeGroupResource.h</includedby>
+    <includedby refid="_v_g_split_group_resource_8h" local="yes">include/AGRemapCore/model/iniresources/VGSplitGroupResource.h</includedby>
+    <includedby refid="_ini_parse_download_data_8h" local="yes">include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</includedby>
+    <includedby refid="_remap_service_8cpp" local="yes">src/RemapService.cpp</includedby>
+    <includedby refid="_remap_ini_resource_8cpp" local="yes">src/model/iniresources/RemapIniResource.cpp</includedby>
+    <incdepgraph>
+      <node id="6">
+        <label>AGRemapCore/model/iniresources/IniResource.h</label>
+        <link refid="_ini_resource_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/model/iniresources/RemapIniResource.h</label>
+        <link refid="_remap_ini_resource_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>AGRemapCore/model/stats/CachedFileStats.h</label>
+        <link refid="_cached_file_stats_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>AGRemapCore/model/stats/FileStats.h</label>
+        <link refid="_file_stats_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>AGRemapCore/model/stats/RemapStats.h</label>
+        <link refid="_remap_stats_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>AGRemapCore/tools/files/FileDownload.h</label>
+        <link refid="_file_download_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>AGRemapCore/view/BaseLogger.h</label>
+        <link refid="_base_logger_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cstddef</label>
+      </node>
+      <node id="12">
+        <label>deque</label>
+      </node>
+      <node id="13">
+        <label>exception</label>
+      </node>
+      <node id="2">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="20">
+        <label>tuple</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>unordered_set</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/AGRemapCore/model/iniresources/RemapBlendResource.h</label>
+        <link refid="_remap_blend_resource_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/model/iniresources/RemapIniResource.h</label>
+        <link refid="_remap_ini_resource_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/AGRemapCore/model/iniresources/RemapPositionResource.h</label>
+        <link refid="_remap_position_resource_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/AGRemapCore/model/iniresources/RemapTexResource.h</label>
+        <link refid="_remap_tex_resource_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/AGRemapCore/model/iniresources/VGMergeGroupResource.h</label>
+        <link refid="_v_g_merge_group_resource_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>include/AGRemapCore/model/iniresources/VGSplitGroupResource.h</label>
+        <link refid="_v_g_split_group_resource_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h</label>
+        <link refid="_v_g_merge_group_res_builder_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h</label>
+        <link refid="_v_g_split_group_res_builder_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/PositionEdit.h</label>
+        <link refid="_position_edit_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h</label>
+        <link refid="_tex_creator_edit_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</label>
+        <link refid="_tex_editor_edit_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h</label>
+        <link refid="_v_g_remap_blend_edit_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
+        <link refid="_g_i_m_i_parser_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
+        <link refid="_ini_parse_download_data_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/AGRemapCore/tools/DownloadTools.h</label>
+        <link refid="_download_tools_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/data/IniFixData/GIMICharFixer.cpp</label>
+        <link refid="_g_i_m_i_char_fixer_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/data/IniFixData/GIMIComponentFixer.cpp</label>
+        <link refid="_g_i_m_i_component_fixer_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
+        <link refid="_g_i_m_i_merge_fixer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
+        <link refid="_raiden_fixer_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/data/IniParseData/GIMICharParser.cpp</label>
+        <link refid="_g_i_m_i_char_parser_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
+        <link refid="_g_i_m_i_component_parser_8cpp"/>
+      </node>
+      <node id="31">
+        <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
+        <link refid="_raiden_parser_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/model/iniresources/RemapBlendResource.cpp</label>
+        <link refid="_remap_blend_resource_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/model/iniresources/RemapIniResource.cpp</label>
+        <link refid="_remap_ini_resource_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/model/iniresources/RemapPositionResource.cpp</label>
+        <link refid="_remap_position_resource_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/model/iniresources/RemapTexResource.cpp</label>
+        <link refid="_remap_tex_resource_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/model/iniresources/VGMergeGroupResource.cpp</label>
+        <link refid="_v_g_merge_group_resource_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/model/iniresources/VGSplitGroupResource.cpp</label>
+        <link refid="_v_g_split_group_resource_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
+        <link refid="_ini_file_fix_context_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp</label>
+        <link refid="_v_g_merge_group_res_builder_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
+        <link refid="_v_g_split_group_res_builder_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
+        <link refid="_ini_file_parse_context_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
+        <link refid="_ini_parse_builder_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/tools/DownloadTools.cpp</label>
+        <link refid="_download_tools_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin" prot="public">AGRemapCore::RemapIniResourceMixin</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_resource" prot="public">AGRemapCore::RemapIniResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_fix_resource" prot="public">AGRemapCore::RemapIniFixResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource" prot="public">AGRemapCore::RemapIniGroupedResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_download" prot="public">AGRemapCore::RemapIniDownload</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_RemapIniResource_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_RemapIniResource_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_resource_8h" kindref="compound">AGRemapCore/model/iniresources/IniResource.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_remap_stats_8h" kindref="compound">AGRemapCore/model/stats/RemapStats.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_file_download_8h" kindref="compound">AGRemapCore/tools/files/FileDownload.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin" kindref="compound">RemapIniResourceMixin</ref><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="52" refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1aab8ed5f480a8417202e9ce5029145ba3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1aab8ed5f480a8417202e9ce5029145ba3" kindref="member">~RemapIniResourceMixin</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9acac27178b78b45048a4069138ee623" kindref="member">srcEncounteredError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a6206223d798977172f9b26c4e880b027" kindref="member">srcIsFixed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9e2f42c3e3f4b4917097adb233ff4d49" kindref="member">fixEncounteredError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a834d81a7a3c140d3f92f8fc9ae2eeffd" kindref="member">fixIsFixed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a2e2c425dd00a8928fe0b0d17ddb1153d" kindref="member">fixExists</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a5808b71b65e90b59fe5cab5e85c7bae1" kindref="member">hasRequired</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="class_a_g_remap_core_1_1_remap_ini_resource" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_remap_ini_resource" kindref="compound">RemapIniResource</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" kindref="member">IniResource</ref>,<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin" kindref="compound">RemapIniResourceMixin</ref><sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" kindref="member">IniResource::IniResource</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_resource_1ae692ae425c1870f916320b252cbdc03b" kindref="member">hasRequired</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_resource_1a490ee356d15c7c5b896d949d90e91153" kindref="member">fixExists</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="class_a_g_remap_core_1_1_remap_ini_fix_resource" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_remap_ini_fix_resource" kindref="compound">RemapIniFixResource</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1a937e1e64d43384b1ee81e234f0f0a035" kindref="member">IniFixResource</ref>,<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin" kindref="compound">RemapIniResourceMixin</ref><sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_fix_resource_1a937e1e64d43384b1ee81e234f0f0a035" kindref="member">IniFixResource::IniFixResource</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1ab3e243f4ef62ea99c38095373d7f940f" kindref="member">hasRequired</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1a9dd483f2278d47a391bed8f6ce9650db" kindref="member">fixExists</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource" kindref="compound">RemapIniGroupedResource</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource_1ad9484a31db82da19d581cae76f33ce3d" kindref="member">IniGroupedResource</ref>,<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin" kindref="compound">RemapIniResourceMixin</ref><sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1ad9484a31db82da19d581cae76f33ce3d" kindref="member">IniGroupedResource::IniGroupedResource</ref>;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="class_a_g_remap_core_1_1_remap_ini_download" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_remap_ini_download_1ac21ee68a2b59405636910259756f1686" kindref="member">RemapIniDownload</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_resource" kindref="compound">RemapIniResource</ref><sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_download_1ac21ee68a2b59405636910259756f1686" kindref="member">RemapIniDownload</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>iniFolderPath,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" kindref="member">srcPath</ref>,<sp/>std::unique_ptr&lt;FileDownload&gt;<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_download_1ad301de08ed891db2da94992b22ef9608" kindref="member">download</ref>,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_resource_1a1a89276cd64472806d89e52ec4bed401" kindref="member">type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;download&quot;</highlight><highlight class="normal">,<sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(<ref refid="class_a_g_remap_core_1_1_remap_ini_download_1ac21ee68a2b59405636910259756f1686" kindref="member">RemapIniDownload</ref>&amp;,<sp/><ref refid="class_a_g_remap_core_1_1_cached_file_stats" kindref="compound">CachedFileStats</ref>&amp;)&gt;<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_download_1a51f4013b1e88a8c456928cf3facad8fc" kindref="member">fixFunc</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211" refid="class_a_g_remap_core_1_1_remap_ini_download_1ad301de08ed891db2da94992b22ef9608" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;FileDownload&gt;<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_download_1ad301de08ed891db2da94992b22ef9608" kindref="member">download</ref>;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="class_a_g_remap_core_1_1_remap_ini_download_1a51f4013b1e88a8c456928cf3facad8fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;bool(<ref refid="class_a_g_remap_core_1_1_remap_ini_download_1ac21ee68a2b59405636910259756f1686" kindref="member">RemapIniDownload</ref>&amp;,<sp/><ref refid="class_a_g_remap_core_1_1_cached_file_stats" kindref="compound">CachedFileStats</ref>&amp;)&gt;<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_download_1a51f4013b1e88a8c456928cf3facad8fc" kindref="member">fixFunc</ref>;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="class_a_g_remap_core_1_1_remap_ini_download_1a5564b71a96e469e0badf1257adc4a4df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_download_cache" kindref="compound">DownloadCache</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_download_1a5564b71a96e469e0badf1257adc4a4df" kindref="member">downloadCache</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_download_1a2416a9d04223e3061c41c5058dcf826d" kindref="member">willDownload</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_download_1a4e870b7ef7ca10501fa59686022a392c" kindref="member">srcEncounteredError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_download_1a756215d3b4c62354b41a0d9b4e97a6de" kindref="member">srcIsFixed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_download_1a640b59b131ca24ca2f822d5dc7d9b88b" kindref="member">fixEncounteredError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_download_1a472ec8c72649da923abfab155629b064" kindref="member">fixIsFixed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_download_1af81aaf1fa980ad9d7ca1520093c6e8a9" kindref="member">fixExists</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_download_1a29aed6745543fde48545ffc3cc73e0db" kindref="member">fix</ref>(<ref refid="class_a_g_remap_core_1_1_cached_file_stats" kindref="compound">CachedFileStats</ref>&amp;<sp/>downloadStats,<sp/>std::optional&lt;std::string&gt;<sp/>proxy<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_download_1a9783946ca97152054d9984f7a9be3053" kindref="member">remapFix</ref>(<ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref>&amp;<sp/>stats,<sp/>std::optional&lt;std::string&gt;<sp/>proxy<sp/>=<sp/>std::nullopt,</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;&amp;<sp/>downloadHandler<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;&amp;<sp/>cacheHitHandler<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_download_1a1e1cb58368e12f4b6ed79bb173ab0813" kindref="member">_fix</ref>(<ref refid="class_a_g_remap_core_1_1_cached_file_stats" kindref="compound">CachedFileStats</ref>&amp;<sp/>downloadStats,<sp/>std::optional&lt;std::string&gt;<sp/>proxy);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h"/>
+  </compounddef>
+</doxygen>

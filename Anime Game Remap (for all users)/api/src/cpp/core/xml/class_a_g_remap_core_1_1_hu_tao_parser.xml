@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_hu_tao_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::HuTaoParser</compoundname>
+    <includes refid="_hu_tao_parser_8h" local="no">HuTaoParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hu_tao_parser_1a417f2aac6aef4a2be99f0e156f6fc920" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::HuTaoParser::HuTaoParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>HuTaoParser</name>
+        <qualifiedname>AGRemapCore::HuTaoParser::HuTaoParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/HuTao/HuTaoParser.h" line="39" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hu_tao_parser_1a89313bc2e944ede9a0eebc28355d1670" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::HuTaoParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::HuTaoParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era HuTao ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::hutao4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/HuTao/HuTaoParser.h" line="48" column="45" bodyfile="src/data/IniParseData/HuTao/HuTaoParser.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+HuTao&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`HuTaoFixer`; the two agree on the mod object names by hand, and
+neither half makes sense alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+HuTao and CherryHuTao are a base/skin pair and remap onto each other. The skin
+draws FOUR objects to HuTao&apos;s two, so this direction is a split and the other a
+merge
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/HuTao/HuTaoParser.h" line="36" column="5" bodyfile="include/AGRemapCore/data/IniParseData/HuTao/HuTaoParser.h" bodystart="36" bodyend="49"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_hu_tao_parser_1a417f2aac6aef4a2be99f0e156f6fc920" prot="public" virt="non-virtual"><scope>AGRemapCore::HuTaoParser</scope><name>HuTaoParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_hu_tao_parser_1a89313bc2e944ede9a0eebc28355d1670" prot="public" virt="non-virtual"><scope>AGRemapCore::HuTaoParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

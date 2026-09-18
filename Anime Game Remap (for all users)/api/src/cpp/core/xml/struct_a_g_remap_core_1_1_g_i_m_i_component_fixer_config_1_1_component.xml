@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMIComponentFixerConfig::Component</compoundname>
+    <includes refid="_g_i_m_i_component_fixer_8h" local="no">GIMIComponentFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ac3fbf31f6884ea7073a5eb5aeceb6313" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIComponentFixerConfig::Component::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::name</qualifiedname>
+        <briefdescription>
+<para>The component&apos;s name, as the vertex-group table&apos;s component column spells it, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>"Body"</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="79" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1abc2e02f12cd1943aad220c26f9fbc09a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIComponentFixerConfig::Component::modTypeName</definition>
+        <argsstring></argsstring>
+        <name>modTypeName</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::modTypeName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The :cpp:enum:`ModTypeId` that stands for this component as a fix TARGET -- the name
+the :cpp:class:`IniFixBuilderData` row, the hash rows and the index rows are keyed by,
+eg. ``YelanTranquilBody``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="89" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ad008bff7447c546064b38ebc309a3683" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIComponentFixerConfig::Component::slot</definition>
+        <argsstring></argsstring>
+        <name>slot</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::slot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The target&apos;s draw slot the mod is drawn through -- the object name of the component&apos;s
+:cpp:class:`Indices` row that holds the slot&apos;s ``match_first_index``, eg. ``&quot;C&quot;``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="98" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a604b4ce3410b8e5e720a59d807bb8e89" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIComponentFixerConfig::Component::slotIndex</definition>
+        <argsstring></argsstring>
+        <name>slotIndex</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::slotIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The slot&apos;s ``match_first_index`` on the target, eg. ``&quot;67374&quot;`` -- written onto every
+copied object&apos;s section :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Held here rather than in :cpp:class:`IndexData`, deliberately: a reverse lookup there
+resolves through the newest version bucket holding a value, so a slot at index ``0``
+filed under a 5.x skin would shadow every classic character&apos;s head (index ``0`` at
+4.0). See the note in ``IndexData.cpp``. Empty falls back to the table, for a target
+whose rows are safe to file
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="113" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1acf7ef1b1d9d5108f03f885580d4d9d63" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GIMIComponentFixerConfig::Component::negativeIndex</definition>
+        <argsstring></argsstring>
+        <name>negativeIndex</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::negativeIndex</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+``true``: the **negative-index** strategy (the component draws the whole mod, every
+bone of another component becomes a sentinel, and the ib is trimmed); ``false``: the
+**graph cut** (the component takes the triangles the negative-index components leave,
+and every buffer is filtered to the vertices it uses). See :cpp:class:`VGComponentSpec`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="124" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a41fc1fe25b79dd9a3fecf1691285ca04" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GIMIComponentFixerConfig::Component::normalMap</definition>
+        <argsstring></argsstring>
+        <name>normalMap</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::normalMap</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the slot&apos;s shader reads the normal-map layout -- ``ps-t0`` normal map,
+``ps-t1`` diffuse, ``ps-t2`` lightmap, re-slotted by ``ORFix`` -- in which case the
+mod&apos;s ``ps-t0`` / ``ps-t1`` are shifted up, a flat normal map is created on ``ps-t0``
+and ``ORFix`` is re-issued. ``false``: ``ps-t0`` diffuse / ``ps-t1`` lightmap under
+``NNFix``, textures untouched
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="136" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7760edfd8956346f514455eced0a1ad7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GIMIComponentFixerConfig::Component::face</definition>
+        <argsstring></argsstring>
+        <name>face</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::face</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether this component&apos;s fix carries the face graph (and swaps its registers) <ndash/> exactly one component should. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="141" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One component of the target skin, and how the mod is drawn through it. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="75" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="75" bodyend="142"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7760edfd8956346f514455eced0a1ad7" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>face</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1abc2e02f12cd1943aad220c26f9fbc09a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>modTypeName</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ac3fbf31f6884ea7073a5eb5aeceb6313" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1acf7ef1b1d9d5108f03f885580d4d9d63" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>negativeIndex</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a41fc1fe25b79dd9a3fecf1691285ca04" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>normalMap</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ad008bff7447c546064b38ebc309a3683" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>slot</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a604b4ce3410b8e5e720a59d807bb8e89" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>slotIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

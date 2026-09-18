@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_fa2dd574e0a9a0fa92d1c8a0d97ee85c" kind="dir">
+    <compoundname>src/data/IniFixData/DilucFlamme</compoundname>
+    <innerfile refid="_diluc_flamme_fixer_8cpp">DilucFlammeFixer.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniFixData/DilucFlamme/"/>
+  </compounddef>
+</doxygen>

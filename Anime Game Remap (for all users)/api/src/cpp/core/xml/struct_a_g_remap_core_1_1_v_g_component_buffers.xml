@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_v_g_component_buffers" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::VGComponentBuffers</compoundname>
+    <includes refid="_v_g_component_split_8h" local="no">VGComponentSplit.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_buffers_1a6d17ca995d2e27c5780fc65c017b8df8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; AGRemapCore::VGComponentBuffers::vertices</definition>
+        <argsstring></argsstring>
+        <name>vertices</name>
+        <qualifiedname>AGRemapCore::VGComponentBuffers::vertices</qualifiedname>
+        <briefdescription>
+<para>The mod&apos;s vertex indices this component draws, ascending (every one for a negative-index component). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="93" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_buffers_1a8cc100196898eb4c2a5252867ad559e6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::array&lt; double, 4 &gt; &gt;</type>
+        <definition>std::vector&lt;std::array&lt;double, 4&gt; &gt; AGRemapCore::VGComponentBuffers::weights</definition>
+        <argsstring></argsstring>
+        <name>weights</name>
+        <qualifiedname>AGRemapCore::VGComponentBuffers::weights</qualifiedname>
+        <briefdescription>
+<para>Per kept vertex, its 4 weights in the component&apos;s bones (renormalised for a cut). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="98" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_buffers_1af6acea6bfc6e7bfa1f02732a86db70b6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::array&lt; long long, 4 &gt; &gt;</type>
+        <definition>std::vector&lt;std::array&lt;long long, 4&gt; &gt; AGRemapCore::VGComponentBuffers::indices</definition>
+        <argsstring></argsstring>
+        <name>indices</name>
+        <qualifiedname>AGRemapCore::VGComponentBuffers::indices</qualifiedname>
+        <briefdescription>
+<para>Per kept vertex, its 4 bone indices in the component&apos;s numbering (negative sentinels for negative index). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="103" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_buffers_1af31995f273590e9ea3a2b62261e8c290" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; std::array&lt; unsigned long long, 3 &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;std::array&lt;unsigned long long, 3&gt; &gt; &gt; AGRemapCore::VGComponentBuffers::ibs</definition>
+        <argsstring></argsstring>
+        <name>ibs</name>
+        <qualifiedname>AGRemapCore::VGComponentBuffers::ibs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Per source index buffer, the triangles this component draws -- renumbered into
+\ref vertices for a cut, in the mod&apos;s own numbering for negative index
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="112" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_buffers_1aa627441cc2157e41b6a71c60d2dff78a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt;bool&gt; AGRemapCore::VGComponentBuffers::live</definition>
+        <argsstring></argsstring>
+        <name>live</name>
+        <qualifiedname>AGRemapCore::VGComponentBuffers::live</qualifiedname>
+        <briefdescription>
+<para>Negative index only: per mod vertex, whether it carries no sentinel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="117" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_buffers_1ab4e698d9e91a2e0210f31705a4077ce4" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_v_g_component_split_stats" kindref="compound">VGComponentSplitStats</ref></type>
+        <definition>VGComponentSplitStats AGRemapCore::VGComponentBuffers::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>AGRemapCore::VGComponentBuffers::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="119" column="31" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What one component gets out of a split: the vertices it draws and its buffers over them
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::VGComponentBuffers</label>
+        <link refid="struct_a_g_remap_core_1_1_v_g_component_buffers"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::VGComponentSplitStats</label>
+        <link refid="struct_a_g_remap_core_1_1_v_g_component_split_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="89" column="5" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="89" bodyend="120"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1af31995f273590e9ea3a2b62261e8c290" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>ibs</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1af6acea6bfc6e7bfa1f02732a86db70b6" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>indices</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1aa627441cc2157e41b6a71c60d2dff78a" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>live</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1ab4e698d9e91a2e0210f31705a4077ce4" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>stats</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1a6d17ca995d2e27c5780fc65c017b8df8" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>vertices</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1a8cc100196898eb4c2a5252867ad559e6" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>weights</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_yelan_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::YelanFixer</compoundname>
+    <includes refid="_yelan_fixer_8h" local="no">YelanFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yelan_fixer_1a91073f903752bde40a88307f2cadb310" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::YelanFixer::YelanFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>YelanFixer</name>
+        <qualifiedname>AGRemapCore::YelanFixer::YelanFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Yelan/YelanFixer.h" line="38" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yelan_fixer_1afac87e038471a0a23af1167576848b1c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::YelanFixer::body6_1</definition>
+        <argsstring>()</argsstring>
+        <name>body6_1</name>
+        <qualifiedname>AGRemapCore::YelanFixer::body6_1</qualifiedname>
+        <briefdescription>
+<para>The fixer onto YelanTranquil&apos;s <computeroutput>Body</computeroutput> component <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" kindref="member">IniFixBuilderFuncs::yelanTranquilBody6_1</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Yelan/YelanFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="150" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yelan_fixer_1a20255725471bd5512e358cf1ef3ce5d7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::YelanFixer::bang6_1</definition>
+        <argsstring>()</argsstring>
+        <name>bang6_1</name>
+        <qualifiedname>AGRemapCore::YelanFixer::bang6_1</qualifiedname>
+        <briefdescription>
+<para>The fixer onto YelanTranquil&apos;s <computeroutput>Bang</computeroutput> component <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a52b8823aca4f15e712953d93319cd846" kindref="member">IniFixBuilderFuncs::yelanTranquilBang6_1</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Yelan/YelanFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="155" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yelan_fixer_1a53938d09b224a4525b75cbd96d159f0b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::YelanFixer::eye6_1</definition>
+        <argsstring>()</argsstring>
+        <name>eye6_1</name>
+        <qualifiedname>AGRemapCore::YelanFixer::eye6_1</qualifiedname>
+        <briefdescription>
+<para>The fixer onto YelanTranquil&apos;s <computeroutput>Eye</computeroutput> component <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28abe81ceeed138ca10039b96346910d" kindref="member">IniFixBuilderFuncs::yelanTranquilEye6_1</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Yelan/YelanFixer.h" line="53" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="160" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Yelan&apos;s own ``.ini`` fixers -- the first remap onto a skin of SEVERAL COMPONENTS
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+YelanTranquil (5.7) is a ``Body``, a ``Bang`` and an ``Eye``, so Yelan is fixed by THREE
+fixers, one per component, built from one :cpp:class:`GIMIComponentFixerConfig` -- see
+:cpp:func:`makeGIMIComponentFixer` for the shape and ``data/IniFixData/Yelan/YelanFixer.cpp``
+for Yelan&apos;s own choices (which slot each component draws through, the texture recipe, the
+band legend). Pair it with :cpp:class:`YelanParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Yelan/YelanFixer.h" line="35" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Yelan/YelanFixer.h" bodystart="35" bodyend="54"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_yelan_fixer_1a20255725471bd5512e358cf1ef3ce5d7" prot="public" virt="non-virtual"><scope>AGRemapCore::YelanFixer</scope><name>bang6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_yelan_fixer_1afac87e038471a0a23af1167576848b1c" prot="public" virt="non-virtual"><scope>AGRemapCore::YelanFixer</scope><name>body6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_yelan_fixer_1a53938d09b224a4525b75cbd96d159f0b" prot="public" virt="non-virtual"><scope>AGRemapCore::YelanFixer</scope><name>eye6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_yelan_fixer_1a91073f903752bde40a88307f2cadb310" prot="public" virt="non-virtual"><scope>AGRemapCore::YelanFixer</scope><name>YelanFixer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

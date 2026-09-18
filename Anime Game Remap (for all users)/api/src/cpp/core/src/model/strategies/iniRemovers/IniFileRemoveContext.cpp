@@ -1,0 +1,173 @@
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
+#include "AGRemapCore/tools/files/FileService.h"
+#include "AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h"
+
+#include <filesystem>
+#include <utility>
+
+#include "AGRemapCore/constants/FileExt.h"
+#include "AGRemapCore/constants/FilePrefixes.h"
+#include "AGRemapCore/model/assets/Hashes.h"
+#include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/strategies/ModType.h"
+
+
+namespace AGRemapCore {
+    IniFileRemoveContext::IniFileRemoveContext(IniFile* iniFile): iniFile_(iniFile) {}
+
+
+    IniFile* IniFileRemoveContext::getIniFile() const {
+        return iniFile_;
+    }
+
+
+    bool IniFileRemoveContext::hasIni() const {
+        return iniFile_ != nullptr;
+    }
+
+
+    std::string IniFileRemoveContext::iniFolder() const {
+        if (!hasIni() || !iniFile_->getFile().has_value()) {
+            return "";
+        }
+
+        return FileService::pathToStr(FileService::strToPath(*iniFile_->getFile()).parent_path());
+    }
+
+
+    std::optional<Version> IniFileRemoveContext::version() const {
+        if (!hasIni()) {
+            return std::nullopt;
+        }
+
+        return iniFile_->fromVersion;
+    }
+
+
+    std::vector<IniFileRemoveContext::Assets*> IniFileRemoveContext::modTypeHashes() const {
+        std::vector<Assets*> result;
+        if (!hasIni()) {
+            return result;
+        }
+
+        // Classified lazily here rather than by the remover: see IniRemoveContext's own note on why
+        // there is no classify() on that interface. IniFile::removeFix has already done this by the
+        // time it reaches a remover, so this only fires for a caller driving one directly.
+        if (!iniFile_->isClassified()) {
+            iniFile_->classify();
+        }
+
+        for (const std::pair<const int, ModType>& entry : iniFile_->getModTypes()) {
+            if (entry.second.hashes != nullptr) {
+                result.push_back(entry.second.hashes.get());
+            }
+        }
+
+        return result;
+    }
+
+
+    std::vector<std::string> IniFileRemoveContext::readFileLines() {
+        if (!hasIni()) {
+            return {};
+        }
+
+        if (!iniFile_->fileLinesRead()) {
+            iniFile_->readFileLines();
+        }
+
+        return iniFile_->getFileLines();
+    }
+
+
+    std::unordered_map<std::string, IniFileRemoveContext::Section*> IniFileRemoveContext::sectionIfTemplates() const {
+        std::unordered_map<std::string, Section*> result;
+        if (!hasIni()) {
+            return result;
+        }
+
+        for (const auto& entry : iniFile_->getIfTemplates()) {
+            if (entry.second != nullptr) {
+                result.emplace(entry.first, entry.second.get());
+            }
+        }
+
+        return result;
+    }
+
+
+    std::string IniFileRemoveContext::fileTxt() const {
+        if (!hasIni()) {
+            return "";
+        }
+
+        return iniFile_->getFileTxt();
+    }
+
+
+    void IniFileRemoveContext::setFileTxt(std::string txt) {
+        if (!hasIni()) {
+            return;
+        }
+
+        iniFile_->setFileTxt(std::move(txt));
+    }
+
+
+    std::string IniFileRemoveContext::write() {
+        if (!hasIni()) {
+            return "";
+        }
+
+        return iniFile_->write();
+    }
+
+
+    void IniFileRemoveContext::removeBackup() {
+        if (!hasIni() || !iniFile_->getFile().has_value()) {
+            return;
+        }
+
+        // The same name disableIni builds: the backup prefix on the stem, and a .txt extension
+        // rather than .ini. Spelled out here rather than shared, because the two are opposites --
+        // one of them changing without the other is exactly the bug worth having a compile-visible
+        // second copy for.
+        std::filesystem::path path = FileService::strToPath(*iniFile_->getFile());
+        std::filesystem::path backup = path.parent_path() /
+            (FilePrefixes::BackupFilePrefix + FileService::pathToStr(path.stem()) + FileExt::Txt);
+
+        // No existence check first: remove() reports "there was nothing there" the same way it
+        // reports success, and a backup that is already gone is not a failure.
+        std::error_code err;
+        std::filesystem::remove(backup, err);
+    }
+
+
+    void IniFileRemoveContext::clearRead() {
+        if (!hasIni()) {
+            return;
+        }
+
+        iniFile_->clearRead();
+    }
+
+
+    void IniFileRemoveContext::setIsFixed(bool isFixed) {
+        // Deliberately nothing -- see IniRemoveContext::setIsFixed's own note. IniFile::isFixed is
+        // protected and owned by IniFile::classify; re-classify the file if the flag matters after a
+        // removal.
+        (void)isFixed;
+    }
+}

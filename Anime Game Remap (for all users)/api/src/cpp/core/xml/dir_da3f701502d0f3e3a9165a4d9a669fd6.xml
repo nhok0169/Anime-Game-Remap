@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_da3f701502d0f3e3a9165a4d9a669fd6" kind="dir">
+    <compoundname>include/AGRemapCore/model/strategies/iniParsers</compoundname>
+    <innerfile refid="_base_ini_parser_8h">BaseIniParser.h</innerfile>
+    <innerfile refid="_g_i_m_i_parser_8h">GIMIParser.h</innerfile>
+    <innerfile refid="_g_i_m_i_section_classifier_8h">GIMISectionClassifier.h</innerfile>
+    <innerfile refid="_ini_file_parse_context_8h">IniFileParseContext.h</innerfile>
+    <innerfile refid="_ini_parse_builder_8h">IniParseBuilder.h</innerfile>
+    <innerfile refid="_ini_parse_context_8h">IniParseContext.h</innerfile>
+    <innerfile refid="_ini_parse_download_data_8h">IniParseDownloadData.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMICharFixerConfig::TexEdit</compoundname>
+    <includes refid="_g_i_m_i_char_fixer_8h" local="no">GIMICharFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a9735a54d56164aae8282dadda180e75b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharFixerConfig::TexEdit::obj</definition>
+        <argsstring></argsstring>
+        <name>obj</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::TexEdit::obj</qualifiedname>
+        <briefdescription>
+<para>The <bold>target</bold> object whose graph holds the register. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="320" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a39ca307a32996a7468170f1ae8b78ced" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharFixerConfig::TexEdit::reg</definition>
+        <argsstring></argsstring>
+        <name>reg</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::TexEdit::reg</qualifiedname>
+        <briefdescription>
+<para>The register the texture hangs off, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>"ps-t1"</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="325" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a3c6eb56d8eabc8c3fcfca3d2a01b221b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharFixerConfig::TexEdit::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::TexEdit::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What the edited texture is called in the ``.ini`` file it is written into, eg.
+``&quot;ShadeLightMap&quot;``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="334" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1ac448394b3e69c0d5ab719c8d99602245" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref></type>
+        <definition>TexEditor::Filter AGRemapCore::GIMICharFixerConfig::TexEdit::filter</definition>
+        <argsstring></argsstring>
+        <name>filter</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::TexEdit::filter</qualifiedname>
+        <briefdescription>
+<para>What the edit does to the texture. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="339" column="31" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a41b313846e2d65589cb2e31b08b27a3d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GIMICharFixerConfig::TexEdit::compress</definition>
+        <argsstring></argsstring>
+        <name>compress</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::TexEdit::compress</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the edited texture is written back compressed -- see
+:cpp:func:`TexEditor::getCompress` for the speed/size trade. **Default**: ``true``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="348" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a4badb9f98af2304fe702194eb7687366" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharFixerConfig::TexEdit::srcObj</definition>
+        <argsstring></argsstring>
+        <name>srcObj</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::TexEdit::srcObj</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Which **source** object&apos;s copy this edit belongs to, or empty (the default) for
+every copy of \ref obj :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Only meaningful under a **merge**, where several sources land on one target and each
+arrives in a group of its own. Xiangling is the worked example: her ``DarkDiffuse``
+edit is declared on her head, and her head, body and dress all merge onto
+XianglingCheer&apos;s head -- so without this the body and dress copies are darkened too,
+which the pure-Python output shows they are not
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="363" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1abfb197f86cf7866283e9d9813ecba1ac" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharFixerConfig::TexEdit::toReg</definition>
+        <argsstring></argsstring>
+        <name>toReg</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::TexEdit::toReg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The register to bind the EDITED texture to, when it should sit alongside the original
+rather than replace it -- empty (the usual case) rebinds \ref reg itself
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A plain texture edit is a MOVE: \ref reg ends up pointing at the edited file and the
+original is referenced by nothing. Naming a target here makes it a COPY instead
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**This is a PRE-edit register, exactly like** \ref reg, and for the face that matters
+more than anywhere else: the face&apos;s diffuse and lightmap registers are SWAPPED after
+the collectors run, so a copy that should end up on ``ps-t0`` is named ``ps-t1`` here.
+Kirara is the worked example
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="382" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="382" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a1b2d44bf8b8ad465709ffe641095a904" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a2a9626fb8b6cec32a7ad71d9b368a9a5" kindref="member">RegValCheck</ref></type>
+        <definition>RegValCheck AGRemapCore::GIMICharFixerConfig::TexEdit::check</definition>
+        <argsstring></argsstring>
+        <name>check</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::TexEdit::check</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+An optional test over what \ref reg is bound TO, so the edit fires only on the
+occurrences that match -- empty (the usual case) edits every one
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Same idea as \ref RegRef&apos;s check and for the same reason (see \ref RegValChecks), but
+this one decides which occurrences are COLLECTED rather than which are moved. A mod
+that binds different things to one register across its ``$swapvar`` branches, or one
+whose author already hand-fixed the 6.1 swap, needs the edit to apply to some and not
+others :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+AyakaSpringbloom is the worked example: her head&apos;s ``ps-t2`` carries a shade lightmap on
+one branch and something else on another, and only the first is hers to edit
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="401" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="401" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One texture edit <ndash/> a texture the fix rewrites and repoints a register at. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="316" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="316" bodyend="402"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a1b2d44bf8b8ad465709ffe641095a904" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::TexEdit</scope><name>check</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a41b313846e2d65589cb2e31b08b27a3d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::TexEdit</scope><name>compress</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1ac448394b3e69c0d5ab719c8d99602245" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::TexEdit</scope><name>filter</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a3c6eb56d8eabc8c3fcfca3d2a01b221b" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::TexEdit</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a9735a54d56164aae8282dadda180e75b" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::TexEdit</scope><name>obj</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a39ca307a32996a7468170f1ae8b78ced" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::TexEdit</scope><name>reg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a4badb9f98af2304fe702194eb7687366" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::TexEdit</scope><name>srcObj</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1abfb197f86cf7866283e9d9813ecba1ac" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::TexEdit</scope><name>toReg</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

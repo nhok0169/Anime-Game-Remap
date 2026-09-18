@@ -1,603 +1,47 @@
 .. role:: raw-html(raw)
     :format: html
 
-:tocdepth: 3
+=====================
+Python API Reference
+=====================
 
-API Reference
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Model
+*****
+
+Classes that represent the actual mod-fixing domain -- the structure of a ``.ini`` file, mod
+content, and the remap graph. Contrast with `Tools`_ below, which has no notion of what a "mod"
+or a ``.ini`` file even is.
+
+:raw-html:`<br />`
+
+BaseBufEditor
 =============
 
-:raw-html:`<br />`
-:raw-html:`<br />`
+.. attributetable:: FixRaidenBoss2.BaseBufEditor
 
-Mod Fix
--------
-
-:raw-html:`<br />`
-
-RemapService
-~~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.RemapService
-
-.. autoclass:: FixRaidenBoss2.RemapService
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-Mod
-~~~
-
-.. attributetable:: FixRaidenBoss2.Mod
-
-.. autoclass:: FixRaidenBoss2.Mod
+.. autoclass:: FixRaidenBoss2.BaseBufEditor
     :inherited-members:
     :members:
     :private-members:
-
-:raw-html:`<br />`
-
-ModType
-~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.ModType
-
-.. autoclass:: FixRaidenBoss2.ModType
-    :inherited-members:
-    :members:
-
-
-:raw-html:`<br />`
-
-ModTypeBuilder
-~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.ModTypeBuilder
-
-.. autoclass:: FixRaidenBoss2.ModTypeBuilder
-    :inherited-members:
-    :members:
-
-:raw-html:`<br />`
-
-GIBuilder
-~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.GIBuilder
-
-.. autoclass:: FixRaidenBoss2.GIBuilder
-    :inherited-members:
-    :members:
-
-:raw-html:`<br />`
-
-ModAssets
-~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.ModAssets
-
-.. autoclass:: FixRaidenBoss2.ModAssets
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-ModDictAssets
-~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.ModDictAssets
-
-.. autoclass:: FixRaidenBoss2.ModDictAssets
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-ModDoubleDictAssets
-~~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.ModDoubleDictAssets
-
-.. autoclass:: FixRaidenBoss2.ModDoubleDictAssets
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-ModMappedAssets
-~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.ModMappedAssets
-
-.. autoclass:: FixRaidenBoss2.ModMappedAssets
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-ModIdAssets
-~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.ModIdAssets
-
-.. autoclass:: FixRaidenBoss2.ModIdAssets
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-VGRemap
-~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.VGRemap
-
-.. autoclass:: FixRaidenBoss2.VGRemap
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-VGRemaps
-~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.VGRemaps
-
-.. autoclass:: FixRaidenBoss2.VGRemaps
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IniParseBuilderArgs
-~~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniParseBuilderArgs
-
-.. autoclass:: FixRaidenBoss2.IniParseBuilderArgs
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IniFixBuilderArgs
-~~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniFixBuilderArgs
-
-.. autoclass:: FixRaidenBoss2.IniFixBuilderArgs
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-Hashes
-~~~~~~
-
-.. attributetable:: FixRaidenBoss2.Hashes
-
-.. autoclass:: FixRaidenBoss2.Hashes
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-Indices
-~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.Indices
-
-.. autoclass:: FixRaidenBoss2.Indices
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-:raw-html:`<br />`
-
-
-Mod Files
----------
-
-Entities for representing some common used files in mods.
-
-:raw-html:`<br />`
-
-File
-~~~~~
-
-.. attributetable:: FixRaidenBoss2.File
-
-.. autoclass:: FixRaidenBoss2.File
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IniFile
-~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniFile
-
-.. autoclass:: FixRaidenBoss2.IniFile
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-BlendFile
-~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BlendFile
-
-.. autoclass:: FixRaidenBoss2.BlendFile
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-BufFile
-~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BufFile
-
-.. autoclass:: FixRaidenBoss2.BufFile
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-TextureFile
-~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.TextureFile
-
-.. autoclass:: FixRaidenBoss2.TextureFile
-    :inherited-members:
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-:raw-html:`<br />`
-
-Ini Parts
----------
-
-The different parts that are within a .ini file.
-
-:raw-html:`<br />`
-
-IfTemplate
-~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IfTemplate
-
-.. autoclass:: FixRaidenBoss2.IfTemplate
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IfTemplatePart
-~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IfTemplatePart
-
-.. autoclass:: FixRaidenBoss2.IfTemplatePart
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IfPredPart
-~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IfPredPart
-
-.. autoclass:: FixRaidenBoss2.IfPredPart
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IfContentPart
-~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IfContentPart
-
-.. autoclass:: FixRaidenBoss2.IfContentPart
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-KeyRemapData
-~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.KeyRemapData
-
-.. autoclass:: FixRaidenBoss2.KeyRemapData
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-RemappedKeyData
-~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.RemappedKeyData
-
-.. autoclass:: FixRaidenBoss2.RemappedKeyData
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IfTemplateTree
-~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IfTemplateTree
-
-.. autoclass:: FixRaidenBoss2.IfTemplateTree
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IfTemplateNonEmptyNodeTree
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IfTemplateNonEmptyNodeTree
-
-.. autoclass:: FixRaidenBoss2.IfTemplateNonEmptyNodeTree
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IfTemplateNormTree
-~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IfTemplateNormTree
-
-.. autoclass:: FixRaidenBoss2.IfTemplateNormTree
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IfTemplateNode
-~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IfTemplateNode
-
-.. autoclass:: FixRaidenBoss2.IfTemplateNode
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IniSectionGraph
-~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniSectionGraph
-
-.. autoclass:: FixRaidenBoss2.IniSectionGraph
-    :inherited-members:
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-:raw-html:`<br />`
-
-Ini Classifiers
-----------------
-
-These entities help identify what type of mod the software is fixing
 
 :raw-html:`<br />`
 
 BaseIniClassifier
-~~~~~~~~~~~~~~~~~~
+=================
 
 .. attributetable:: FixRaidenBoss2.BaseIniClassifier
 
 .. autoclass:: FixRaidenBoss2.BaseIniClassifier
-    :inherited-members:
     :members:
     :private-members:
-
-:raw-html:`<br />`
-
-IniClassifier
-~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniClassifier
-
-.. autoclass:: FixRaidenBoss2.IniClassifier
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-BaseIniClassifierBuilder
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BaseIniClassifierBuilder
-
-.. autoclass:: FixRaidenBoss2.BaseIniClassifierBuilder
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IniClassifierBuilder
-~~~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniClassifierBuilder
-
-.. autoclass:: FixRaidenBoss2.IniClassifierBuilder
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IniClassifyStats
-~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniClassifyStats
-
-.. autoclass:: FixRaidenBoss2.IniClassifyStats
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IniClsActionArgs
-~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniClsActionArgs
-
-.. autoclass:: FixRaidenBoss2.IniClsActionArgs
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IniClsAction
-~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniClsAction
-
-.. autoclass:: FixRaidenBoss2.IniClsAction
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IniClsCond
-~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniClsCond
-
-.. autoclass:: FixRaidenBoss2.IniClsCond
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IniClsTransitionVals
-~~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniClsTransitionVals
-
-.. autoclass:: FixRaidenBoss2.IniClsTransitionVals
-    :inherited-members:
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-:raw-html:`<br />`
-
-Ini Parsers
------------
-
-Entities to help read and analyze a .ini file.
-
-:raw-html:`<br />`
-
-BaseIniParser
-~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BaseIniParser
-
-.. autoclass:: FixRaidenBoss2.BaseIniParser
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IniParseBuilder
-~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniParseBuilder
-
-.. autoclass:: FixRaidenBoss2.IniParseBuilder
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-GIMIParser
-~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.GIMIParser
-
-.. autoclass:: FixRaidenBoss2.GIMIParser
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-GIMIObjParser
-~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.GIMIObjParser
-
-.. autoclass:: FixRaidenBoss2.GIMIObjParser
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-:raw-html:`<br />`
-
-Ini Fixers
------------
-
-The classes below help perform correction on .ini files after the .ini file has been parsed by the :ref:`Ini Parsers`
 
 :raw-html:`<br />`
 
 BaseIniFixer
-~~~~~~~~~~~~~
+============
 
 .. attributetable:: FixRaidenBoss2.BaseIniFixer
 
@@ -608,289 +52,142 @@ BaseIniFixer
 
 :raw-html:`<br />`
 
-IniFixBuilder
-~~~~~~~~~~~~~
+BaseIniGraphEdit
+================
 
-.. attributetable:: FixRaidenBoss2.IniFixBuilder
+.. attributetable:: FixRaidenBoss2.BaseIniGraphEdit
 
-.. autoclass:: FixRaidenBoss2.IniFixBuilder
+.. autoclass:: FixRaidenBoss2.BaseIniGraphEdit
     :inherited-members:
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-GIMIFixer
-~~~~~~~~~~
+BaseIniGraphGroupEdit
+=====================
 
-.. attributetable:: FixRaidenBoss2.GIMIFixer
+.. attributetable:: FixRaidenBoss2.BaseIniGraphGroupEdit
 
-.. autoclass:: FixRaidenBoss2.GIMIFixer
+.. autoclass:: FixRaidenBoss2.BaseIniGraphGroupEdit
     :inherited-members:
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-GIMIObjReplaceFixer
-~~~~~~~~~~~~~~~~~~~~
+BaseIniGraphPartEdit
+====================
 
-.. attributetable:: FixRaidenBoss2.GIMIObjReplaceFixer
+.. attributetable:: FixRaidenBoss2.BaseIniGraphPartEdit
 
-.. autoclass:: FixRaidenBoss2.GIMIObjReplaceFixer
+.. autoclass:: FixRaidenBoss2.BaseIniGraphPartEdit
     :inherited-members:
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-GIMIObjSplitFixer
-~~~~~~~~~~~~~~~~~~~~
+BaseIniParser
+=============
 
-.. attributetable:: FixRaidenBoss2.GIMIObjSplitFixer
+.. attributetable:: FixRaidenBoss2.BaseIniParser
 
-.. autoclass:: FixRaidenBoss2.GIMIObjSplitFixer
+.. autoclass:: FixRaidenBoss2.BaseIniParser
     :inherited-members:
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-GIMIObjMergeFixer
-~~~~~~~~~~~~~~~~~~~~
+BaseIniPartEdit
+===============
 
-.. attributetable:: FixRaidenBoss2.GIMIObjMergeFixer
+.. attributetable:: FixRaidenBoss2.BaseIniPartEdit
 
-.. autoclass:: FixRaidenBoss2.GIMIObjMergeFixer
+.. autoclass:: FixRaidenBoss2.BaseIniPartEdit
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BasePixelTransform
+==================
+
+.. attributetable:: FixRaidenBoss2.BasePixelTransform
+
+.. autoclass:: FixRaidenBoss2.BasePixelTransform
     :inherited-members:
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-GIMIObjRegEditFixer
-~~~~~~~~~~~~~~~~~~~~
+BaseRegEdit
+===========
 
-.. attributetable:: FixRaidenBoss2.GIMIObjRegEditFixer
+.. attributetable:: FixRaidenBoss2.BaseRegEdit
 
-.. autoclass:: FixRaidenBoss2.GIMIObjRegEditFixer
+.. autoclass:: FixRaidenBoss2.BaseRegEdit
     :inherited-members:
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-MultiModFixer
-~~~~~~~~~~~~~~
+BaseResEdit
+===========
 
-.. attributetable:: FixRaidenBoss2.MultiModFixer
+.. attributetable:: FixRaidenBoss2.BaseResEdit
 
-.. autoclass:: FixRaidenBoss2.MultiModFixer
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-:raw-html:`<br />`
-
-Ini Removers
-------------
-
-These entities help remove fixes from .ini files that were made from previous runs.
-
-:raw-html:`<br />`
-
-BaseIniRemover
-~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BaseIniRemover
-
-.. autoclass:: FixRaidenBoss2.BaseIniRemover
+.. autoclass:: FixRaidenBoss2.BaseResEdit
     :inherited-members:
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-IniRemoveBuilder
-~~~~~~~~~~~~~~~~~
+BaseTexEditor
+=============
 
-.. attributetable:: FixRaidenBoss2.IniRemoveBuilder
+.. attributetable:: FixRaidenBoss2.BaseTexEditor
 
-.. autoclass:: FixRaidenBoss2.IniRemoveBuilder
+.. autoclass:: FixRaidenBoss2.BaseTexEditor
     :inherited-members:
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-IniRemover
-~~~~~~~~~~~~
+BaseTexFilter
+=============
 
-.. attributetable:: FixRaidenBoss2.IniRemover
+.. attributetable:: FixRaidenBoss2.BaseTexFilter
 
-.. autoclass:: FixRaidenBoss2.IniRemover
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-:raw-html:`<br />`
-
-Register Editting Filters
--------------------------
-
-Used for subclasses of the :ref:`GIMIObjRegEditFixer` class to handle editting registers within an :ref:`IfTemplate` in the .ini file
-
-
-:raw-html:`<br />`
-
-BaseRegEditFilter
-~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BaseRegEditFilter
-
-.. autoclass:: FixRaidenBoss2.BaseRegEditFilter
+.. autoclass:: FixRaidenBoss2.BaseTexFilter
     :inherited-members:
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-RegEditFilter
-~~~~~~~~~~~~~~
+BinaryFile
+==========
 
-.. attributetable:: FixRaidenBoss2.RegEditFilter
+.. attributetable:: FixRaidenBoss2.BinaryFile
 
-.. autoclass:: FixRaidenBoss2.RegEditFilter
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.BinaryFile
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-RegNewVals
-~~~~~~~~~~~~~~
+BlendFile
+=========
 
-.. attributetable:: FixRaidenBoss2.RegNewVals
+.. attributetable:: FixRaidenBoss2.BlendFile
 
-.. autoclass:: FixRaidenBoss2.RegNewVals
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-RegRemap
-~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.RegRemap
-
-.. autoclass:: FixRaidenBoss2.RegRemap
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-RegRemove
-~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.RegRemove
-
-.. autoclass:: FixRaidenBoss2.RegRemove
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-RegTexAdd
-~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.RegTexAdd
-
-.. autoclass:: FixRaidenBoss2.RegTexAdd
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-RegTexEdit
-~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.RegTexEdit
-
-.. autoclass:: FixRaidenBoss2.RegTexEdit
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-:raw-html:`<br />`
-
-Buffer Files
-~~~~~~~~~~~~
-
-Some data related to .buf files
-
-:raw-html:`<br />`
-
-BufType
-~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BufType
-
-.. autoclass:: FixRaidenBoss2.BufType
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-BufDataType
-~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BufDataType
-
-.. autoclass:: FixRaidenBoss2.BufDataType
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-BufBaseInt
-~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BufBaseInt
-
-.. autoclass:: FixRaidenBoss2.BufBaseInt
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-BufSignedInt
-~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BufSignedInt
-
-.. autoclass:: FixRaidenBoss2.BufSignedInt
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-BufUnSignedInt
-~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BufUnSignedInt
-
-.. autoclass:: FixRaidenBoss2.BufUnSignedInt
+.. autoclass:: FixRaidenBoss2.BlendFile
     :inherited-members:
     :members:
     :private-members:
@@ -898,7 +195,7 @@ BufUnSignedInt
 :raw-html:`<br />`
 
 BufBaseFloat
-~~~~~~~~~~~~
+============
 
 .. attributetable:: FixRaidenBoss2.BufBaseFloat
 
@@ -909,8 +206,68 @@ BufBaseFloat
 
 :raw-html:`<br />`
 
+BufBaseInt
+==========
+
+.. attributetable:: FixRaidenBoss2.BufBaseInt
+
+.. autoclass:: FixRaidenBoss2.BufBaseInt
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufDataType
+===========
+
+.. attributetable:: FixRaidenBoss2.BufDataType
+
+.. autoclass:: FixRaidenBoss2.BufDataType
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufEditor
+=========
+
+.. attributetable:: FixRaidenBoss2.BufEditor
+
+.. autoclass:: FixRaidenBoss2.BufEditor
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufElementType
+==============
+
+.. attributetable:: FixRaidenBoss2.BufElementType
+
+.. autoclass:: FixRaidenBoss2.BufElementType
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufFile
+=======
+
+.. attributetable:: FixRaidenBoss2.BufFile
+
+.. autoclass:: FixRaidenBoss2.BufFile
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 BufFloat
-~~~~~~~~
+========
 
 .. attributetable:: FixRaidenBoss2.BufFloat
 
@@ -922,7 +279,7 @@ BufFloat
 :raw-html:`<br />`
 
 BufFloat16
-~~~~~~~~~~
+==========
 
 .. attributetable:: FixRaidenBoss2.BufFloat16
 
@@ -933,8 +290,42 @@ BufFloat16
 
 :raw-html:`<br />`
 
+BufSignedInt
+============
+
+.. attributetable:: FixRaidenBoss2.BufSignedInt
+
+.. autoclass:: FixRaidenBoss2.BufSignedInt
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufTools
+========
+
+.. attributetable:: FixRaidenBoss2.BufTools
+
+.. autoclass:: FixRaidenBoss2.BufTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufType
+=======
+
+.. attributetable:: FixRaidenBoss2.BufType
+
+.. autoclass:: FixRaidenBoss2.BufType
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 BufUnorm
-~~~~~~~~~
+========
 
 .. attributetable:: FixRaidenBoss2.BufUnorm
 
@@ -945,229 +336,31 @@ BufUnorm
 
 :raw-html:`<br />`
 
-BufElementType
-~~~~~~~~~~~~~~
+BufUnSignedInt
+==============
 
-.. attributetable:: FixRaidenBoss2.BufElementType
+.. attributetable:: FixRaidenBoss2.BufUnSignedInt
 
-.. autoclass:: FixRaidenBoss2.BufElementType
+.. autoclass:: FixRaidenBoss2.BufUnSignedInt
     :inherited-members:
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-BaseBufEditor
-~~~~~~~~~~~~~
+CallGraph
+=========
 
-.. attributetable:: FixRaidenBoss2.BaseBufEditor
+.. attributetable:: FixRaidenBoss2.CallGraph
 
-.. autoclass:: FixRaidenBoss2.BaseBufEditor
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-BufEditor
-~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BufEditor
-
-.. autoclass:: FixRaidenBoss2.BufEditor
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-:raw-html:`<br />`
-
-Models
-------
-
-Some internal data models used in the project.
-
-:raw-html:`<br />`
-
-Model
-~~~~~~
-
-.. attributetable:: FixRaidenBoss2.Model
-
-.. autoclass:: FixRaidenBoss2.Model
-    :inherited-members:
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-IniResourceModel
-~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniResourceModel
-
-.. autoclass:: FixRaidenBoss2.IniResourceModel
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IniFixResourceModel
-~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniFixResourceModel
-
-.. autoclass:: FixRaidenBoss2.IniFixResourceModel
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IniSrcResourceModel
-~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniSrcResourceModel
-
-.. autoclass:: FixRaidenBoss2.IniSrcResourceModel
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IniTexModel
-~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniTexModel
-
-.. autoclass:: FixRaidenBoss2.IniTexModel
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-IniDownloadModel
-~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniDownloadModel
-
-.. autoclass:: FixRaidenBoss2.IniDownloadModel
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-DownloadData
-~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.DownloadData
-
-.. autoclass:: FixRaidenBoss2.DownloadData
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-BlendDownloadData
-~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BlendDownloadData
-
-.. autoclass:: FixRaidenBoss2.BlendDownloadData
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-FileStats
-~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.FileStats
-
-.. autoclass:: FixRaidenBoss2.FileStats
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-CachedFileStats
-~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.CachedFileStats
-
-.. autoclass:: FixRaidenBoss2.CachedFileStats
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-RemapStats
-~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.RemapStats
-
-.. autoclass:: FixRaidenBoss2.RemapStats
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-:raw-html:`<br />`
-
-Texture Editing
-----------------
-
-Classes to help with editting texture files.
-
-:raw-html:`<br />`
-
-BaseTexEditor
-~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BaseTexEditor
-
-.. autoclass:: FixRaidenBoss2.BaseTexEditor
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-TexEditor
-~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.TexEditor
-
-.. autoclass:: FixRaidenBoss2.TexEditor
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-TexCreator
-~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.TexCreator
-
-.. autoclass:: FixRaidenBoss2.TexCreator
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.CallGraph
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
 Colour
-~~~~~~~~
+======
 
 .. attributetable:: FixRaidenBoss2.Colour
 
@@ -1179,7 +372,7 @@ Colour
 :raw-html:`<br />`
 
 ColourRange
-~~~~~~~~~~~~
+===========
 
 .. attributetable:: FixRaidenBoss2.ColourRange
 
@@ -1188,144 +381,10 @@ ColourRange
     :members:
     :private-members:
 
-
-:raw-html:`<br />`
-:raw-html:`<br />`
-
-Texture Filters
-----------------
-
-Classes to transform the image within a :ref:`TextureFile`
-
-:raw-html:`<br />`
-
-BaseTexFilter
-~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BaseTexFilter
-
-.. autoclass:: FixRaidenBoss2.BaseTexFilter
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-GammaFilter
-~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.GammaFilter
-
-.. autoclass:: FixRaidenBoss2.GammaFilter
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-InvertAlphaFilter
-~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.InvertAlphaFilter
-
-.. autoclass:: FixRaidenBoss2.InvertAlphaFilter
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-ColourReplaceFilter
-~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.ColourReplaceFilter
-
-.. autoclass:: FixRaidenBoss2.ColourReplaceFilter
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-TransparencyAdjustFilter
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.TransparencyAdjustFilter
-
-.. autoclass:: FixRaidenBoss2.TransparencyAdjustFilter
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-HueAdjust
-~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.HueAdjust
-
-.. autoclass:: FixRaidenBoss2.HueAdjust
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-PixelFilter
-~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.PixelFilter
-
-.. autoclass:: FixRaidenBoss2.PixelFilter
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-TexMetadataFilter
-~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.TexMetadataFilter
-
-.. autoclass:: FixRaidenBoss2.TexMetadataFilter
-    :inherited-members:
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-:raw-html:`<br />`
-
-Pixel Transforms
-----------------
-
-Classes to help transform a single pixel within a texture file.
-
-:raw-html:`<br />`
-
-.. warning::
-    These transforms are used by the :class:`FixRaidenBoss2.PixelFilter` class to iterate through every pixel of an image 
-    using Python's for loops. It is recommended to try to use the different filters inherited from the :class:`FixRaidenBoss2.BaseTexFilter` 
-    class since those filters have more capability to interact with `Pillow`_ API or the `Numpy`_ API, 
-    where their implementation are written at the C++ level, allowing images to be editted **A LOT** faster.
-
-:raw-html:`<br />`
-
-BasePixelTransform
-~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BasePixelTransform
-
-.. autoclass:: FixRaidenBoss2.BasePixelTransform
-    :inherited-members:
-    :members:
-    :private-members:
-
 :raw-html:`<br />`
 
 ColourReplace
-~~~~~~~~~~~~~~~
+=============
 
 .. attributetable:: FixRaidenBoss2.ColourReplace
 
@@ -1336,8 +395,20 @@ ColourReplace
 
 :raw-html:`<br />`
 
+ColourReplaceFilter
+===================
+
+.. attributetable:: FixRaidenBoss2.ColourReplaceFilter
+
+.. autoclass:: FixRaidenBoss2.ColourReplaceFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 CorrectGamma
-~~~~~~~~~~~~~~~
+============
 
 .. attributetable:: FixRaidenBoss2.CorrectGamma
 
@@ -1348,8 +419,505 @@ CorrectGamma
 
 :raw-html:`<br />`
 
+CppBaseIniFixer
+===============
+
+.. attributetable:: FixRaidenBoss2.CppBaseIniFixer
+
+.. autoclass:: FixRaidenBoss2.CppBaseIniFixer
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppBaseIniParser
+================
+
+.. attributetable:: FixRaidenBoss2.CppBaseIniParser
+
+.. autoclass:: FixRaidenBoss2.CppBaseIniParser
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppBaseIniRemover
+=================
+
+.. attributetable:: FixRaidenBoss2.CppBaseIniRemover
+
+.. autoclass:: FixRaidenBoss2.CppBaseIniRemover
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppBasePixelTransform
+=====================
+
+.. attributetable:: FixRaidenBoss2.CppBasePixelTransform
+
+.. autoclass:: FixRaidenBoss2.CppBasePixelTransform
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppBaseTexEditor
+================
+
+.. attributetable:: FixRaidenBoss2.CppBaseTexEditor
+
+.. autoclass:: FixRaidenBoss2.CppBaseTexEditor
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppBaseTexFilter
+================
+
+.. attributetable:: FixRaidenBoss2.CppBaseTexFilter
+
+.. autoclass:: FixRaidenBoss2.CppBaseTexFilter
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppBufFile
+==========
+
+.. attributetable:: FixRaidenBoss2.CppBufFile
+
+.. autoclass:: FixRaidenBoss2.CppBufFile
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppColour
+=========
+
+.. attributetable:: FixRaidenBoss2.CppColour
+
+.. autoclass:: FixRaidenBoss2.CppColour
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppColourRange
+==============
+
+.. attributetable:: FixRaidenBoss2.CppColourRange
+
+.. autoclass:: FixRaidenBoss2.CppColourRange
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppColourReplace
+================
+
+.. attributetable:: FixRaidenBoss2.CppColourReplace
+
+.. autoclass:: FixRaidenBoss2.CppColourReplace
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppColourReplaceFilter
+======================
+
+.. attributetable:: FixRaidenBoss2.CppColourReplaceFilter
+
+.. autoclass:: FixRaidenBoss2.CppColourReplaceFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppCorrectGamma
+===============
+
+.. attributetable:: FixRaidenBoss2.CppCorrectGamma
+
+.. autoclass:: FixRaidenBoss2.CppCorrectGamma
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppGammaFilter
+==============
+
+.. attributetable:: FixRaidenBoss2.CppGammaFilter
+
+.. autoclass:: FixRaidenBoss2.CppGammaFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppGlobalModTypes
+=================
+
+.. attributetable:: FixRaidenBoss2.CppGlobalModTypes
+
+.. autoclass:: FixRaidenBoss2.CppGlobalModTypes
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppHighlightShadow
+==================
+
+.. attributetable:: FixRaidenBoss2.CppHighlightShadow
+
+.. autoclass:: FixRaidenBoss2.CppHighlightShadow
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppHueAdjust
+============
+
+.. attributetable:: FixRaidenBoss2.CppHueAdjust
+
+.. autoclass:: FixRaidenBoss2.CppHueAdjust
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppIniFixBuilderArgs
+====================
+
+.. attributetable:: FixRaidenBoss2.CppIniFixBuilderArgs
+
+.. autoclass:: FixRaidenBoss2.CppIniFixBuilderArgs
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppIniParseBuilderArgs
+======================
+
+.. attributetable:: FixRaidenBoss2.CppIniParseBuilderArgs
+
+.. autoclass:: FixRaidenBoss2.CppIniParseBuilderArgs
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppIniRemoveBuilderArgs
+=======================
+
+.. attributetable:: FixRaidenBoss2.CppIniRemoveBuilderArgs
+
+.. autoclass:: FixRaidenBoss2.CppIniRemoveBuilderArgs
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppInvertAlpha
+==============
+
+.. attributetable:: FixRaidenBoss2.CppInvertAlpha
+
+.. autoclass:: FixRaidenBoss2.CppInvertAlpha
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppInvertAlphaFilter
+====================
+
+.. attributetable:: FixRaidenBoss2.CppInvertAlphaFilter
+
+.. autoclass:: FixRaidenBoss2.CppInvertAlphaFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppPixelFilter
+==============
+
+.. attributetable:: FixRaidenBoss2.CppPixelFilter
+
+.. autoclass:: FixRaidenBoss2.CppPixelFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppTempControl
+==============
+
+.. attributetable:: FixRaidenBoss2.CppTempControl
+
+.. autoclass:: FixRaidenBoss2.CppTempControl
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppTexCreator
+=============
+
+.. attributetable:: FixRaidenBoss2.CppTexCreator
+
+.. autoclass:: FixRaidenBoss2.CppTexCreator
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppTexEditor
+============
+
+.. attributetable:: FixRaidenBoss2.CppTexEditor
+
+.. autoclass:: FixRaidenBoss2.CppTexEditor
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppTextureFile
+==============
+
+.. attributetable:: FixRaidenBoss2.CppTextureFile
+
+.. autoclass:: FixRaidenBoss2.CppTextureFile
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppTintTransform
+================
+
+.. attributetable:: FixRaidenBoss2.CppTintTransform
+
+.. autoclass:: FixRaidenBoss2.CppTintTransform
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppTransparency
+===============
+
+.. attributetable:: FixRaidenBoss2.CppTransparency
+
+.. autoclass:: FixRaidenBoss2.CppTransparency
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppTransparencyAdjustFilter
+===========================
+
+.. attributetable:: FixRaidenBoss2.CppTransparencyAdjustFilter
+
+.. autoclass:: FixRaidenBoss2.CppTransparencyAdjustFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GameTypeId
+==========
+
+.. autoclass:: FixRaidenBoss2.GameTypeId
+    :members:
+
+:raw-html:`<br />`
+
+GameTypeIdTools
+===============
+
+.. attributetable:: FixRaidenBoss2.GameTypeIdTools
+
+.. autoclass:: FixRaidenBoss2.GameTypeIdTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GammaFilter
+===========
+
+.. attributetable:: FixRaidenBoss2.GammaFilter
+
+.. autoclass:: FixRaidenBoss2.GammaFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GIBuilder
+=========
+
+.. attributetable:: FixRaidenBoss2.GIBuilder
+
+.. autoclass:: FixRaidenBoss2.GIBuilder
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GIMIFixer
+=========
+
+.. attributetable:: FixRaidenBoss2.GIMIFixer
+
+.. autoclass:: FixRaidenBoss2.GIMIFixer
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GIMIParser
+==========
+
+.. attributetable:: FixRaidenBoss2.GIMIParser
+
+.. autoclass:: FixRaidenBoss2.GIMIParser
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GIMISectionClassifier
+=====================
+
+.. attributetable:: FixRaidenBoss2.GIMISectionClassifier
+
+.. autoclass:: FixRaidenBoss2.GIMISectionClassifier
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GraphGroupEdit
+==============
+
+.. attributetable:: FixRaidenBoss2.GraphGroupEdit
+
+.. autoclass:: FixRaidenBoss2.GraphGroupEdit
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GraphGroupRemap
+===============
+
+.. attributetable:: FixRaidenBoss2.GraphGroupRemap
+
+.. autoclass:: FixRaidenBoss2.GraphGroupRemap
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GraphGroupRemove
+================
+
+.. attributetable:: FixRaidenBoss2.GraphGroupRemove
+
+.. autoclass:: FixRaidenBoss2.GraphGroupRemove
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GraphInherit
+============
+
+.. attributetable:: FixRaidenBoss2.GraphInherit
+
+.. autoclass:: FixRaidenBoss2.GraphInherit
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GraphRemove
+===========
+
+.. attributetable:: FixRaidenBoss2.GraphRemove
+
+.. autoclass:: FixRaidenBoss2.GraphRemove
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GraphRename
+===========
+
+.. attributetable:: FixRaidenBoss2.GraphRename
+
+.. autoclass:: FixRaidenBoss2.GraphRename
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+Hashes
+======
+
+.. attributetable:: FixRaidenBoss2.Hashes
+
+.. autoclass:: FixRaidenBoss2.Hashes
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 HighlightShadow
-~~~~~~~~~~~~~~~
+===============
 
 .. attributetable:: FixRaidenBoss2.HighlightShadow
 
@@ -1358,11 +926,251 @@ HighlightShadow
     :members:
     :private-members:
 
+:raw-html:`<br />`
+
+HueAdjust
+=========
+
+.. attributetable:: FixRaidenBoss2.HueAdjust
+
+.. autoclass:: FixRaidenBoss2.HueAdjust
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IbFile
+======
+
+.. attributetable:: FixRaidenBoss2.IbFile
+
+.. autoclass:: FixRaidenBoss2.IbFile
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfContentPart
+=============
+
+.. attributetable:: FixRaidenBoss2.IfContentPart
+
+.. autoclass:: FixRaidenBoss2.IfContentPart
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfContentPartColourChange
+==========================
+
+.. attributetable:: FixRaidenBoss2.IfContentPartColourChange
+
+.. autoclass:: FixRaidenBoss2.IfContentPartColourChange
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfContentPartColouring
+=======================
+
+.. attributetable:: FixRaidenBoss2.IfContentPartColouring
+
+.. autoclass:: FixRaidenBoss2.IfContentPartColouring
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfPredParser
+============
+
+.. attributetable:: FixRaidenBoss2.IfPredParser
+
+.. autoclass:: FixRaidenBoss2.IfPredParser
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfPredPart
+==========
+
+.. attributetable:: FixRaidenBoss2.IfPredPart
+
+.. autoclass:: FixRaidenBoss2.IfPredPart
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfPredTokenizer
+===============
+
+.. attributetable:: FixRaidenBoss2.IfPredTokenizer
+
+.. autoclass:: FixRaidenBoss2.IfPredTokenizer
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfTemplate
+==========
+
+.. attributetable:: FixRaidenBoss2.IfTemplate
+
+.. autoclass:: FixRaidenBoss2.IfTemplate
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfTemplateNode
+==============
+
+.. attributetable:: FixRaidenBoss2.IfTemplateNode
+
+.. autoclass:: FixRaidenBoss2.IfTemplateNode
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfTemplatePart
+==============
+
+.. attributetable:: FixRaidenBoss2.IfTemplatePart
+
+.. autoclass:: FixRaidenBoss2.IfTemplatePart
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfTemplateTree
+==============
+
+.. attributetable:: FixRaidenBoss2.IfTemplateTree
+
+.. autoclass:: FixRaidenBoss2.IfTemplateTree
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+Indices
+=======
+
+.. attributetable:: FixRaidenBoss2.Indices
+
+.. autoclass:: FixRaidenBoss2.Indices
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniClassifier
+=============
+
+.. attributetable:: FixRaidenBoss2.IniClassifier
+
+.. autoclass:: FixRaidenBoss2.IniClassifier
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniClassifyStats
+================
+
+.. attributetable:: FixRaidenBoss2.IniClassifyStats
+
+.. autoclass:: FixRaidenBoss2.IniClassifyStats
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniFile
+=======
+
+.. attributetable:: FixRaidenBoss2.IniFile
+
+.. autoclass:: FixRaidenBoss2.IniFile
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniFixBuilder
+=============
+
+.. attributetable:: FixRaidenBoss2.IniFixBuilder
+
+.. autoclass:: FixRaidenBoss2.IniFixBuilder
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniFixingContext
+================
+
+.. attributetable:: FixRaidenBoss2.IniFixingContext
+
+.. autoclass:: FixRaidenBoss2.IniFixingContext
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniParseBuilder
+===============
+
+.. attributetable:: FixRaidenBoss2.IniParseBuilder
+
+.. autoclass:: FixRaidenBoss2.IniParseBuilder
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniRemoveBuilder
+================
+
+.. attributetable:: FixRaidenBoss2.IniRemoveBuilder
+
+.. autoclass:: FixRaidenBoss2.IniRemoveBuilder
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniSectionGraph
+===============
+
+.. attributetable:: FixRaidenBoss2.IniSectionGraph
+
+.. autoclass:: FixRaidenBoss2.IniSectionGraph
+    :inherited-members:
+    :members:
+    :private-members:
 
 :raw-html:`<br />`
 
 InvertAlpha
-~~~~~~~~~~~~~
+===========
 
 .. attributetable:: FixRaidenBoss2.InvertAlpha
 
@@ -1373,8 +1181,375 @@ InvertAlpha
 
 :raw-html:`<br />`
 
+InvertAlphaFilter
+=================
+
+.. attributetable:: FixRaidenBoss2.InvertAlphaFilter
+
+.. autoclass:: FixRaidenBoss2.InvertAlphaFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ModDictAssets
+=============
+
+.. attributetable:: FixRaidenBoss2.ModDictAssets
+
+.. autoclass:: FixRaidenBoss2.ModDictAssets
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ModMappedAssets
+===============
+
+.. attributetable:: FixRaidenBoss2.ModMappedAssets
+
+.. autoclass:: FixRaidenBoss2.ModMappedAssets
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ModType
+=======
+
+.. attributetable:: FixRaidenBoss2.ModType
+
+.. autoclass:: FixRaidenBoss2.ModType
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ModTypeId
+=========
+
+.. autoclass:: FixRaidenBoss2.ModTypeId
+    :members:
+
+:raw-html:`<br />`
+
+MultiModFixer
+=============
+
+.. attributetable:: FixRaidenBoss2.MultiModFixer
+
+.. autoclass:: FixRaidenBoss2.MultiModFixer
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ModTypeIdData
+=============
+
+.. attributetable:: FixRaidenBoss2.ModTypeIdData
+
+.. autoclass:: FixRaidenBoss2.ModTypeIdData
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ModTypeIdTools
+==============
+
+.. attributetable:: FixRaidenBoss2.ModTypeIdTools
+
+.. autoclass:: FixRaidenBoss2.ModTypeIdTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+PixelFilter
+===========
+
+.. attributetable:: FixRaidenBoss2.PixelFilter
+
+.. autoclass:: FixRaidenBoss2.PixelFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+PositionFile
+============
+
+.. attributetable:: FixRaidenBoss2.PositionFile
+
+.. autoclass:: FixRaidenBoss2.PositionFile
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegAdd
+======
+
+.. attributetable:: FixRaidenBoss2.RegAdd
+
+.. autoclass:: FixRaidenBoss2.RegAdd
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegBottomAdd
+============
+
+.. attributetable:: FixRaidenBoss2.RegBottomAdd
+
+.. autoclass:: FixRaidenBoss2.RegBottomAdd
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegBranchAdd
+============
+
+.. attributetable:: FixRaidenBoss2.RegBranchAdd
+
+.. autoclass:: FixRaidenBoss2.RegBranchAdd
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegDelimitedAdd
+===============
+
+.. attributetable:: FixRaidenBoss2.RegDelimitedAdd
+
+.. autoclass:: FixRaidenBoss2.RegDelimitedAdd
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegDelimitedAddMode
+===================
+
+.. autoclass:: FixRaidenBoss2.RegDelimitedAddMode
+    :members:
+
+:raw-html:`<br />`
+
+RegFillMissing
+==============
+
+.. attributetable:: FixRaidenBoss2.RegFillMissing
+
+.. autoclass:: FixRaidenBoss2.RegFillMissing
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegNewVals
+==========
+
+.. attributetable:: FixRaidenBoss2.RegNewVals
+
+.. autoclass:: FixRaidenBoss2.RegNewVals
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegRemap
+========
+
+.. attributetable:: FixRaidenBoss2.RegRemap
+
+.. autoclass:: FixRaidenBoss2.RegRemap
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegRemove
+=========
+
+.. attributetable:: FixRaidenBoss2.RegRemove
+
+.. autoclass:: FixRaidenBoss2.RegRemove
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegRestrict
+===========
+
+.. attributetable:: FixRaidenBoss2.RegRestrict
+
+.. autoclass:: FixRaidenBoss2.RegRestrict
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegSurroundedAdd
+================
+
+.. attributetable:: FixRaidenBoss2.RegSurroundedAdd
+
+.. autoclass:: FixRaidenBoss2.RegSurroundedAdd
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RemapBlendReplace
+=================
+
+.. attributetable:: FixRaidenBoss2.RemapBlendReplace
+
+.. autoclass:: FixRaidenBoss2.RemapBlendReplace
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RemapTexEditResource
+====================
+
+.. attributetable:: FixRaidenBoss2.RemapTexEditResource
+
+.. autoclass:: FixRaidenBoss2.RemapTexEditResource
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ResCreate
+=========
+
+.. attributetable:: FixRaidenBoss2.ResCreate
+
+.. autoclass:: FixRaidenBoss2.ResCreate
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ResGroupCollect
+===============
+
+.. attributetable:: FixRaidenBoss2.ResGroupCollect
+
+.. autoclass:: FixRaidenBoss2.ResGroupCollect
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ResIdentity
+===========
+
+.. attributetable:: FixRaidenBoss2.ResIdentity
+
+.. autoclass:: FixRaidenBoss2.ResIdentity
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ResRegCollect
+=============
+
+.. attributetable:: FixRaidenBoss2.ResRegCollect
+
+.. autoclass:: FixRaidenBoss2.ResRegCollect
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ResReplace
+==========
+
+.. attributetable:: FixRaidenBoss2.ResReplace
+
+.. autoclass:: FixRaidenBoss2.ResReplace
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+SectionIterData
+================
+
+.. attributetable:: FixRaidenBoss2.SectionIterData
+
+.. autoclass:: FixRaidenBoss2.SectionIterData
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+SectionIterQueryData
+======================
+
+.. attributetable:: FixRaidenBoss2.SectionIterQueryData
+
+.. autoclass:: FixRaidenBoss2.SectionIterQueryData
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+SympyParser
+===========
+
+.. attributetable:: FixRaidenBoss2.SympyParser
+
+.. autoclass:: FixRaidenBoss2.SympyParser
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+SympyTokenizer
+==============
+
+.. attributetable:: FixRaidenBoss2.SympyTokenizer
+
+.. autoclass:: FixRaidenBoss2.SympyTokenizer
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 TempControl
-~~~~~~~~~~~~~
+===========
 
 .. attributetable:: FixRaidenBoss2.TempControl
 
@@ -1385,8 +1560,67 @@ TempControl
 
 :raw-html:`<br />`
 
+TexCreate
+=========
+
+.. attributetable:: FixRaidenBoss2.TexCreate
+
+.. autoclass:: FixRaidenBoss2.TexCreate
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TexCreator
+==========
+
+.. attributetable:: FixRaidenBoss2.TexCreator
+
+.. autoclass:: FixRaidenBoss2.TexCreator
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TexEditor
+=========
+
+.. attributetable:: FixRaidenBoss2.TexEditor
+
+.. autoclass:: FixRaidenBoss2.TexEditor
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TexReplace
+==========
+
+.. attributetable:: FixRaidenBoss2.TexReplace
+
+.. autoclass:: FixRaidenBoss2.TexReplace
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TextureFile
+===========
+
+.. attributetable:: FixRaidenBoss2.TextureFile
+
+.. autoclass:: FixRaidenBoss2.TextureFile
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 TintTransform
-~~~~~~~~~~~~~
+=============
 
 .. attributetable:: FixRaidenBoss2.TintTransform
 
@@ -1398,7 +1632,7 @@ TintTransform
 :raw-html:`<br />`
 
 Transparency
-~~~~~~~~~~~~~
+============
 
 .. attributetable:: FixRaidenBoss2.Transparency
 
@@ -1408,605 +1642,317 @@ Transparency
     :private-members:
 
 :raw-html:`<br />`
-:raw-html:`<br />`
 
-Views
------
+TransparencyAdjustFilter
+========================
 
-Different display views for the project.
+.. attributetable:: FixRaidenBoss2.TransparencyAdjustFilter
 
-:raw-html:`<br />`
-
-Logger
-~~~~~~
-
-.. attributetable:: FixRaidenBoss2.Logger
-
-.. autoclass:: FixRaidenBoss2.Logger
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-Heading
-~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.Heading
-
-.. autoclass:: FixRaidenBoss2.Heading
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-:raw-html:`<br />`
-
-Enums
------
-
-Some useful Enumerations and constants.
-
-:raw-html:`<br />`
-
-ModTypeNames
-~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.ModTypeNames
-
-.. autoclass:: FixRaidenBoss2.ModTypeNames
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-ModTypes
-~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.ModTypes
-
-.. autoclass:: FixRaidenBoss2.ModTypes
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-ModData
-~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.ModData
-
-.. autoclass:: FixRaidenBoss2.ModData
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-ModDataAssets
-~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.ModDataAssets
-
-.. autoclass:: FixRaidenBoss2.ModDataAssets
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-ByteSize
-~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.ByteSize
-
-.. autoclass:: FixRaidenBoss2.ByteSize
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-BufFormatNames
-~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BufFormatNames
-
-.. autoclass:: FixRaidenBoss2.BufFormatNames
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-BufDataTypeNames
-~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BufDataTypeNames
-
-.. autoclass:: FixRaidenBoss2.BufDataTypeNames
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-BufElementNames
-~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BufElementNames
-
-.. autoclass:: FixRaidenBoss2.BufElementNames
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-BufDataTypes
-~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BufDataTypes
-
-.. autoclass:: FixRaidenBoss2.BufDataTypes
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-BufElementTypes
-~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.BufElementTypes
-
-.. autoclass:: FixRaidenBoss2.BufElementTypes
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-IniKeywords
-~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IniKeywords
-
-.. autoclass:: FixRaidenBoss2.IniKeywords
-    :members:
-
-:raw-html:`<br />`
-
-IfPredPartType
-~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.IfPredPartType
-
-.. autoclass:: FixRaidenBoss2.IfPredPartType
-    :inherited-members:
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-ColourConsts
-~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.ColourConsts
-
-.. autoclass:: FixRaidenBoss2.ColourConsts
-    :inherited-members:
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-Colours
-~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.Colours
-
-.. autoclass:: FixRaidenBoss2.Colours
+.. autoclass:: FixRaidenBoss2.TransparencyAdjustFilter
     :inherited-members:
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-ColourRanges
-~~~~~~~~~~~~
+VbFile
+======
 
-.. attributetable:: FixRaidenBoss2.ColourRanges
+.. attributetable:: FixRaidenBoss2.VbFile
 
-.. autoclass:: FixRaidenBoss2.ColourRanges
-    :inherited-members:
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-ImgFormats
-~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.ImgFormats
-
-.. autoclass:: FixRaidenBoss2.ImgFormats
+.. autoclass:: FixRaidenBoss2.VbFile
     :inherited-members:
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-TexMetadataNames
-~~~~~~~~~~~~~~~~~
+VGRemap
+=======
 
-.. attributetable:: FixRaidenBoss2.TexMetadataNames
+.. attributetable:: FixRaidenBoss2.VGRemap
 
-.. autoclass:: FixRaidenBoss2.TexMetadataNames
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-DownloadMode
-~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.DownloadMode
-
-.. autoclass:: FixRaidenBoss2.DownloadMode
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-FileExt
-~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.FileExt
-
-.. autoclass:: FixRaidenBoss2.FileExt
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-FileTypes
-~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.FileTypes
-
-.. autoclass:: FixRaidenBoss2.FileTypes
-    :inherited-members:
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-GlobalIniClassifiers
-~~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.GlobalIniClassifiers
-
-.. autoclass:: FixRaidenBoss2.GlobalIniClassifiers
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-GlobalClassifiers
-~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.GlobalClassifiers
-
-.. autoclass:: FixRaidenBoss2.GlobalClassifiers
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-GlobalIniRemoveBuilders
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.GlobalIniRemoveBuilders
-
-.. autoclass:: FixRaidenBoss2.GlobalIniRemoveBuilders
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-GlobalPackageManager
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.GlobalPackageManager
-
-.. autoclass:: FixRaidenBoss2.GlobalPackageManager
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.VGRemap
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
 
-Utilities
----------
+:raw-html:`<br />`
+:raw-html:`<br />`
 
-Some useful utility classes.
+Tools
+*****
+
+Generic, reusable-outside-this-project building blocks -- data structures, algorithms, and
+string/hash/graph utilities with no notion of what a "mod" or a ``.ini`` file even is. Contrast
+with `Model`_ above, which is specifically about the mod-fixing domain.
 
 :raw-html:`<br />`
 
-FileService
-~~~~~~~~~~~
+appendAllToOrderedMultiMap
+==========================
 
-.. attributetable:: FixRaidenBoss2.FileService
-
-.. autoclass:: FixRaidenBoss2.FileService
-    :members:
-    :private-members:
-
+.. autofunction:: FixRaidenBoss2.appendAllToOrderedMultiMap
 
 :raw-html:`<br />`
 
+BaseSLR1Parser
+==============
 
-DictTools
-~~~~~~~~~
+.. attributetable:: FixRaidenBoss2.BaseSLR1Parser
 
-.. attributetable:: FixRaidenBoss2.DictTools
-
-.. autoclass:: FixRaidenBoss2.DictTools
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-TextTools
-~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.TextTools
-
-.. autoclass:: FixRaidenBoss2.TextTools
+.. autoclass:: FixRaidenBoss2.BaseSLR1Parser
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-IntTools
-~~~~~~~~~
+BaseTokenizer
+=============
 
-.. attributetable:: FixRaidenBoss2.IntTools
+.. attributetable:: FixRaidenBoss2.BaseTokenizer
 
-.. autoclass:: FixRaidenBoss2.IntTools
+.. autoclass:: FixRaidenBoss2.BaseTokenizer
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-HashTools
-~~~~~~~~~
+CppAhoCorasickDFA
+=================
 
-.. attributetable:: FixRaidenBoss2.HashTools
+.. attributetable:: FixRaidenBoss2.CppAhoCorasickDFA
 
-.. autoclass:: FixRaidenBoss2.HashTools
+.. autoclass:: FixRaidenBoss2.CppAhoCorasickDFA
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-FilePath
-~~~~~~~~~
+CppAlgo
+=======
 
-.. attributetable:: FixRaidenBoss2.FilePath
+.. attributetable:: FixRaidenBoss2.CppAlgo
 
-.. autoclass:: FixRaidenBoss2.FilePath
+.. autoclass:: FixRaidenBoss2.CppAlgo
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-FileDownload
-~~~~~~~~~~~~
+CppHashTools
+============
 
-.. attributetable:: FixRaidenBoss2.FileDownload
+.. attributetable:: FixRaidenBoss2.CppHashTools
 
-.. autoclass:: FixRaidenBoss2.FileDownload
+.. autoclass:: FixRaidenBoss2.CppHashTools
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-Cache
-~~~~~
+CppIntTools
+===========
 
-.. attributetable:: FixRaidenBoss2.Cache
+.. attributetable:: FixRaidenBoss2.CppIntTools
 
-.. autoclass:: FixRaidenBoss2.Cache
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-LruCache
-~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.LruCache
-
-.. autoclass:: FixRaidenBoss2.LruCache
-    :inherited-members:
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-Node
-~~~~
-
-.. attributetable:: FixRaidenBoss2.Node
-
-.. autoclass:: FixRaidenBoss2.Node
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.CppIntTools
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-HeapNode
-~~~~~~~~
+CppListTools
+============
 
-.. attributetable:: FixRaidenBoss2.HeapNode
+.. attributetable:: FixRaidenBoss2.CppListTools
 
-.. autoclass:: FixRaidenBoss2.HeapNode
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.CppListTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+OrderedMultiMap
+===================
+
+.. attributetable:: FixRaidenBoss2.OrderedMultiMap
+
+.. autoclass:: FixRaidenBoss2.OrderedMultiMap
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+OrderedMultiMapSqrt
+========================
+
+.. attributetable:: FixRaidenBoss2.OrderedMultiMapSqrt
+
+.. autoclass:: FixRaidenBoss2.OrderedMultiMapSqrt
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppTrie
+=======
+
+.. attributetable:: FixRaidenBoss2.CppTrie
+
+.. autoclass:: FixRaidenBoss2.CppTrie
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CyAlgo
+======
+
+.. attributetable:: FixRaidenBoss2.CyAlgo
+
+.. autoclass:: FixRaidenBoss2.CyAlgo
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CyDictTools
+===========
+
+.. attributetable:: FixRaidenBoss2.CyDictTools
+
+.. autoclass:: FixRaidenBoss2.CyDictTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CyHashTools
+===========
+
+.. attributetable:: FixRaidenBoss2.CyHashTools
+
+.. autoclass:: FixRaidenBoss2.CyHashTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CyListTools
+===========
+
+.. attributetable:: FixRaidenBoss2.CyListTools
+
+.. autoclass:: FixRaidenBoss2.CyListTools
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
 DFA
-~~~~
+====
 
 .. attributetable:: FixRaidenBoss2.DFA
 
 .. autoclass:: FixRaidenBoss2.DFA
-    :inherited-members:
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-Trie
-~~~~
+FilteredTokenizer
+=================
 
-.. attributetable:: FixRaidenBoss2.Trie
+.. attributetable:: FixRaidenBoss2.FilteredTokenizer
 
-.. autoclass:: FixRaidenBoss2.Trie
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.FilteredTokenizer
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-BaseAhoCorasickDFA
-~~~~~~~~~~~~~~~~~~
+GraphTools
+==========
 
-.. attributetable:: FixRaidenBoss2.BaseAhoCorasickDFA
+.. attributetable:: FixRaidenBoss2.GraphTools
 
-.. autoclass:: FixRaidenBoss2.BaseAhoCorasickDFA
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.GraphTools
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-FastAhoCorasickDFA
-~~~~~~~~~~~~~~~~~~
+Hash128
+=======
 
-.. attributetable:: FixRaidenBoss2.FastAhoCorasickDFA
+.. attributetable:: FixRaidenBoss2.Hash128
 
-.. autoclass:: FixRaidenBoss2.FastAhoCorasickDFA
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.Hash128
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-AhoCorasickDFA
-~~~~~~~~~~~~~~
+Hash64
+======
 
-.. attributetable:: FixRaidenBoss2.AhoCorasickDFA
+.. attributetable:: FixRaidenBoss2.Hash64
 
-.. autoclass:: FixRaidenBoss2.AhoCorasickDFA
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.Hash64
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-AhoCorasickBuilder
-~~~~~~~~~~~~~~~~~~
+IOrderedMultiMap
+=================
 
-.. attributetable:: FixRaidenBoss2.AhoCorasickBuilder
+.. attributetable:: FixRaidenBoss2.IOrderedMultiMap
 
-.. autoclass:: FixRaidenBoss2.AhoCorasickBuilder
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.IOrderedMultiMap
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-AhoCorasickSingleton
-~~~~~~~~~~~~~~~~~~~~~
+KeyRemapData
+===============
 
-.. attributetable:: FixRaidenBoss2.AhoCorasickSingleton
+.. attributetable:: FixRaidenBoss2.KeyRemapData
 
-.. autoclass:: FixRaidenBoss2.AhoCorasickSingleton
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.KeyRemapData
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-Algo
-~~~~
+OrderedMultiMapIterator
+=========================
 
-.. attributetable:: FixRaidenBoss2.Algo
+.. attributetable:: FixRaidenBoss2.OrderedMultiMapIterator
 
-.. autoclass:: FixRaidenBoss2.Algo
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.OrderedMultiMapIterator
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-Builder
-~~~~~~~
+OrderedMultiMapSqrtIterator
+=============================
 
-.. attributetable:: FixRaidenBoss2.Builder
+.. attributetable:: FixRaidenBoss2.OrderedMultiMapSqrtIterator
 
-.. autoclass:: FixRaidenBoss2.Builder
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-FlyweightBuilder
-~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.FlyweightBuilder
-
-.. autoclass:: FixRaidenBoss2.FlyweightBuilder
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-PackageManager
-~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.PackageManager
-
-.. autoclass:: FixRaidenBoss2.PackageManager
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.OrderedMultiMapSqrtIterator
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
 PackageData
-~~~~~~~~~~~~~~~~~
+===========
 
 .. attributetable:: FixRaidenBoss2.PackageData
 
@@ -2017,180 +1963,2039 @@ PackageData
 
 :raw-html:`<br />`
 
-ConcurrentManager
-~~~~~~~~~~~~~~~~~
+PackageManager
+==============
 
-.. attributetable:: FixRaidenBoss2.ConcurrentManager
+.. attributetable:: FixRaidenBoss2.PackageManager
 
-.. autoclass:: FixRaidenBoss2.ConcurrentManager
+.. autoclass:: FixRaidenBoss2.PackageManager
     :inherited-members:
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-ThreadManager
-~~~~~~~~~~~~~~~
+ParseContext
+============
 
-.. attributetable:: FixRaidenBoss2.ThreadManager
+.. attributetable:: FixRaidenBoss2.ParseContext
 
-.. autoclass:: FixRaidenBoss2.ThreadManager
+.. autoclass:: FixRaidenBoss2.ParseContext
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ParseNode
+=========
+
+.. attributetable:: FixRaidenBoss2.ParseNode
+
+.. autoclass:: FixRaidenBoss2.ParseNode
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ParseTree
+=========
+
+.. attributetable:: FixRaidenBoss2.ParseTree
+
+.. autoclass:: FixRaidenBoss2.ParseTree
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+Ranges
+======
+
+.. attributetable:: FixRaidenBoss2.Ranges
+
+.. autoclass:: FixRaidenBoss2.Ranges
     :inherited-members:
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-ProcessManager
-~~~~~~~~~~~~~~~
+RemappedKeyData
+===================
 
-.. attributetable:: FixRaidenBoss2.ProcessManager
+.. attributetable:: FixRaidenBoss2.RemappedKeyData
 
-.. autoclass:: FixRaidenBoss2.ProcessManager
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.RemappedKeyData
     :members:
     :private-members:
 
 :raw-html:`<br />`
-:raw-html:`<br />`
 
-Exceptions
-----------
+RemapService
+============
 
-:raw-html:`<br />`
+.. attributetable:: FixRaidenBoss2.RemapService
 
-Error
-~~~~~
-
-.. attributetable:: FixRaidenBoss2.Error
-
-.. autoclass:: FixRaidenBoss2.Error
+.. autoclass:: FixRaidenBoss2.RemapService
     :members:
     :private-members:
 
-
 :raw-html:`<br />`
 
-FileException
-~~~~~~~~~~~~~
+RemapServiceCLI
+===============
 
-.. attributetable:: FixRaidenBoss2.FileException
+.. attributetable:: FixRaidenBoss2.RemapServiceCLI
 
-.. autoclass:: FixRaidenBoss2.FileException
-    :inherited-members:
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-DuplicateFileException
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.DuplicateFileException
-
-.. autoclass:: FixRaidenBoss2.DuplicateFileException
-    :inherited-members:
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-MissingFileException
-~~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.MissingFileException
-
-.. autoclass:: FixRaidenBoss2.MissingFileException
-    :inherited-members:
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
-
-RemapMissingBlendFile
-~~~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.RemapMissingBlendFile
-
-.. autoclass:: FixRaidenBoss2.RemapMissingBlendFile
+.. autoclass:: FixRaidenBoss2.RemapServiceCLI
     :inherited-members:
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-BufFileNotRecognized
-~~~~~~~~~~~~~~~~~~~~~~
+ReplaceIf
+=========
 
-.. attributetable:: FixRaidenBoss2.BufFileNotRecognized
+.. attributetable:: FixRaidenBoss2.ReplaceIf
 
-.. autoclass:: FixRaidenBoss2.BufFileNotRecognized
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.ReplaceIf
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-BadBufData
-~~~~~~~~~~~
+ReplaceList
+============
 
-.. attributetable:: FixRaidenBoss2.BadBufData
+.. attributetable:: FixRaidenBoss2.ReplaceList
 
-.. autoclass:: FixRaidenBoss2.BadBufData
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.ReplaceList
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-ConflictingOptions
-~~~~~~~~~~~~~~~~~~
+Token
+=====
 
-.. attributetable:: FixRaidenBoss2.ConflictingOptions
+.. attributetable:: FixRaidenBoss2.Token
 
-.. autoclass:: FixRaidenBoss2.ConflictingOptions
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.Token
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-InvalidModType
-~~~~~~~~~~~~~~
+Trie
+====
 
-.. attributetable:: FixRaidenBoss2.InvalidModType
+.. attributetable:: FixRaidenBoss2.Trie
 
-.. autoclass:: FixRaidenBoss2.InvalidModType
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.Trie
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-InvalidDownloadMode
-~~~~~~~~~~~~~~~~~~~
+Z3Context
+=========
 
-.. attributetable:: FixRaidenBoss2.InvalidDownloadMode
+.. attributetable:: FixRaidenBoss2.Z3Context
 
-.. autoclass:: FixRaidenBoss2.InvalidDownloadMode
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.Z3Context
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-NoModType
-~~~~~~~~~~
+Z3Predicate
+===========
 
-.. attributetable:: FixRaidenBoss2.NoModType
+.. attributetable:: FixRaidenBoss2.Z3Predicate
 
-.. autoclass:: FixRaidenBoss2.NoModType
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.Z3Predicate
     :members:
     :private-members:
+
+:raw-html:`<br />`
+
+.. Mod Fix
+.. -------
+
+.. :raw-html:`<br />`
+
+.. NOTE: 'RemapService' and 'RemapServiceCLI' are documented for real further up this file, in the
+.. alphabetical run. The pure-Python 'RemapService' and 'Mod' this disabled block used to point at
+.. were deleted on 2026-09-05 -- 'Mod' has no replacement at all (its folder walk is
+.. AGRemapCore::RemapService's now), which is why no block for it remains here.
+
+.. :raw-html:`<br />`
+
+.. ModType
+.. ~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ModType
+
+.. .. autoclass:: FixRaidenBoss2.ModType
+..     :inherited-members:
+..     :members:
+
+
+.. :raw-html:`<br />`
+
+.. ModTypeBuilder
+.. ~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ModTypeBuilder
+
+.. .. autoclass:: FixRaidenBoss2.ModTypeBuilder
+..     :inherited-members:
+..     :members:
+
+.. :raw-html:`<br />`
+
+.. GIBuilder
+.. ~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.GIBuilder
+
+.. .. autoclass:: FixRaidenBoss2.GIBuilder
+..     :inherited-members:
+..     :members:
+
+.. :raw-html:`<br />`
+
+.. ModAssets
+.. ~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ModAssets
+
+.. .. autoclass:: FixRaidenBoss2.ModAssets
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. VGRemap
+.. ~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.VGRemap
+
+.. .. autoclass:: FixRaidenBoss2.VGRemap
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. VGRemaps
+.. ~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.VGRemaps
+
+.. .. autoclass:: FixRaidenBoss2.VGRemaps
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. IniParseBuilderArgs
+.. ~~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.IniParseBuilderArgs
+
+.. .. autoclass:: FixRaidenBoss2.IniParseBuilderArgs
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. IniFixBuilderArgs
+.. ~~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.IniFixBuilderArgs
+
+.. .. autoclass:: FixRaidenBoss2.IniFixBuilderArgs
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+.. :raw-html:`<br />`
+
+
+.. Mod Files
+.. ---------
+
+.. Entities for representing some common used files in mods.
+
+.. :raw-html:`<br />`
+
+.. File
+.. ~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.File
+
+.. .. autoclass:: FixRaidenBoss2.File
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. IniFile
+.. ~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.IniFile
+
+.. .. autoclass:: FixRaidenBoss2.IniFile
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. BufFile
+.. ~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BufFile
+
+.. .. autoclass:: FixRaidenBoss2.BufFile
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. TextureFile
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.TextureFile
+
+.. .. autoclass:: FixRaidenBoss2.TextureFile
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+.. :raw-html:`<br />`
+
+.. Ini Parts
+.. ---------
+
+.. The different parts that are within a .ini file.
+
+.. :raw-html:`<br />`
+
+.. IfPredPart
+.. ~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.IfPredPart
+
+.. .. autoclass:: FixRaidenBoss2.IfPredPart
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. IfContentPart
+.. ~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.IfContentPart
+
+.. .. autoclass:: FixRaidenBoss2.IfContentPart
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. KeyRemapData
+.. ~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.KeyRemapData
+
+.. .. autoclass:: FixRaidenBoss2.KeyRemapData
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. RemappedKeyData
+.. ~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.RemappedKeyData
+
+.. .. autoclass:: FixRaidenBoss2.RemappedKeyData
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. IfPredParser
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.IfPredParser
+
+.. .. autoclass:: FixRaidenBoss2.IfPredParser
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+.. :raw-html:`<br />`
+
+.. Ini Parsers
+.. -----------
+
+.. Entities to help read and analyze a .ini file.
+
+.. :raw-html:`<br />`
+
+.. IniParseBuilder
+.. ~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.IniParseBuilder
+
+.. .. autoclass:: FixRaidenBoss2.IniParseBuilder
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. GIMIObjParser
+.. ~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.GIMIObjParser
+
+.. .. autoclass:: FixRaidenBoss2.GIMIObjParser
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+.. :raw-html:`<br />`
+
+.. Ini Fixers
+.. -----------
+
+.. The classes below help perform correction on .ini files after the .ini file has been parsed by the :ref:`Ini Parsers`
+
+.. :raw-html:`<br />`
+
+.. IniFixBuilder
+.. ~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.IniFixBuilder
+
+.. .. autoclass:: FixRaidenBoss2.IniFixBuilder
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. GIMIObjReplaceFixer
+.. ~~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.GIMIObjReplaceFixer
+
+.. .. autoclass:: FixRaidenBoss2.GIMIObjReplaceFixer
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. GIMIObjSplitFixer
+.. ~~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.GIMIObjSplitFixer
+
+.. .. autoclass:: FixRaidenBoss2.GIMIObjSplitFixer
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. GIMIObjMergeFixer
+.. ~~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.GIMIObjMergeFixer
+
+.. .. autoclass:: FixRaidenBoss2.GIMIObjMergeFixer
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. GIMIObjRegEditFixer
+.. ~~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.GIMIObjRegEditFixer
+
+.. .. autoclass:: FixRaidenBoss2.GIMIObjRegEditFixer
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. MultiModFixer
+.. ~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.MultiModFixer
+
+.. .. autoclass:: FixRaidenBoss2.MultiModFixer
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+.. :raw-html:`<br />`
+
+.. Ini Removers
+.. ------------
+
+.. These entities help remove fixes from .ini files that were made from previous runs.
+
+.. :raw-html:`<br />`
+
+.. BaseIniRemover
+.. ~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BaseIniRemover
+
+.. .. autoclass:: FixRaidenBoss2.BaseIniRemover
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. IniRemoveBuilder
+.. ~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.IniRemoveBuilder
+
+.. .. autoclass:: FixRaidenBoss2.IniRemoveBuilder
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. RemapIniRemover
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.RemapIniRemover
+
+.. .. autoclass:: FixRaidenBoss2.RemapIniRemover
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+.. :raw-html:`<br />`
+
+.. Register Editting Filters
+.. -------------------------
+
+.. Used for subclasses of the :ref:`GIMIObjRegEditFixer` class to handle editting registers within an :ref:`IfTemplate` in the .ini file
+
+
+.. :raw-html:`<br />`
+
+.. BaseRegEditFilter
+.. ~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BaseRegEditFilter
+
+.. .. autoclass:: FixRaidenBoss2.BaseRegEditFilter
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. RegEditFilter
+.. ~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.RegEditFilter
+
+.. .. autoclass:: FixRaidenBoss2.RegEditFilter
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. RegNewVals
+.. ~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.RegNewVals
+
+.. .. autoclass:: FixRaidenBoss2.RegNewVals
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. RegRemap
+.. ~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.RegRemap
+
+.. .. autoclass:: FixRaidenBoss2.RegRemap
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. RegRemove
+.. ~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.RegRemove
+
+.. .. autoclass:: FixRaidenBoss2.RegRemove
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. RegTexAdd
+.. ~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.RegTexAdd
+
+.. .. autoclass:: FixRaidenBoss2.RegTexAdd
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. RegTexEdit
+.. ~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.RegTexEdit
+
+.. .. autoclass:: FixRaidenBoss2.RegTexEdit
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+.. :raw-html:`<br />`
+
+.. Buffer Files
+.. ~~~~~~~~~~~~
+
+.. Some data related to .buf files
+
+.. :raw-html:`<br />`
+
+.. BufType
+.. ~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BufType
+
+.. .. autoclass:: FixRaidenBoss2.BufType
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. BufDataType
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BufDataType
+
+.. .. autoclass:: FixRaidenBoss2.BufDataType
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. BufBaseInt
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BufBaseInt
+
+.. .. autoclass:: FixRaidenBoss2.BufBaseInt
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. BufSignedInt
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BufSignedInt
+
+.. .. autoclass:: FixRaidenBoss2.BufSignedInt
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. BufUnSignedInt
+.. ~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BufUnSignedInt
+
+.. .. autoclass:: FixRaidenBoss2.BufUnSignedInt
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. BufBaseFloat
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BufBaseFloat
+
+.. .. autoclass:: FixRaidenBoss2.BufBaseFloat
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. BufFloat
+.. ~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BufFloat
+
+.. .. autoclass:: FixRaidenBoss2.BufFloat
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. BufFloat16
+.. ~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BufFloat16
+
+.. .. autoclass:: FixRaidenBoss2.BufFloat16
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. BufUnorm
+.. ~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BufUnorm
+
+.. .. autoclass:: FixRaidenBoss2.BufUnorm
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. BufElementType
+.. ~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BufElementType
+
+.. .. autoclass:: FixRaidenBoss2.BufElementType
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+.. :raw-html:`<br />`
+
+.. Models
+.. ------
+
+.. Some internal data models used in the project.
+
+.. :raw-html:`<br />`
+
+.. Model
+.. ~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.Model
+
+.. .. autoclass:: FixRaidenBoss2.Model
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. IniResourceModel
+.. ~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.IniResourceModel
+
+.. .. autoclass:: FixRaidenBoss2.IniResourceModel
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. IniFixResourceModel
+.. ~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.IniFixResourceModel
+
+.. .. autoclass:: FixRaidenBoss2.IniFixResourceModel
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. IniSrcResourceModel
+.. ~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.IniSrcResourceModel
+
+.. .. autoclass:: FixRaidenBoss2.IniSrcResourceModel
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. IniTexModel
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.IniTexModel
+
+.. .. autoclass:: FixRaidenBoss2.IniTexModel
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. IniDownloadModel
+.. ~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.IniDownloadModel
+
+.. .. autoclass:: FixRaidenBoss2.IniDownloadModel
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. DownloadData
+.. ~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.DownloadData
+
+.. .. autoclass:: FixRaidenBoss2.DownloadData
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. BlendDownloadData
+.. ~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BlendDownloadData
+
+.. .. autoclass:: FixRaidenBoss2.BlendDownloadData
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. FileStats
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.FileStats
+
+.. .. autoclass:: FixRaidenBoss2.FileStats
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. CachedFileStats
+.. ~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.CachedFileStats
+
+.. .. autoclass:: FixRaidenBoss2.CachedFileStats
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. RemapStats
+.. ~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.RemapStats
+
+.. .. autoclass:: FixRaidenBoss2.RemapStats
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+.. :raw-html:`<br />`
+
+.. Texture Editing
+.. ----------------
+
+.. Classes to help with editting texture files.
+
+.. :raw-html:`<br />`
+
+.. BaseTexEditor
+.. ~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BaseTexEditor
+
+.. .. autoclass:: FixRaidenBoss2.BaseTexEditor
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. TexEditor
+.. ~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.TexEditor
+
+.. .. autoclass:: FixRaidenBoss2.TexEditor
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. TexCreator
+.. ~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.TexCreator
+
+.. .. autoclass:: FixRaidenBoss2.TexCreator
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. Colour
+.. ~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.Colour
+
+.. .. autoclass:: FixRaidenBoss2.Colour
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. ColourRange
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ColourRange
+
+.. .. autoclass:: FixRaidenBoss2.ColourRange
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+.. :raw-html:`<br />`
+
+.. Texture Filters
+.. ----------------
+
+.. Classes to transform the image within a :ref:`TextureFile`
+
+.. :raw-html:`<br />`
+
+.. BaseTexFilter
+.. ~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BaseTexFilter
+
+.. .. autoclass:: FixRaidenBoss2.BaseTexFilter
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. GammaFilter
+.. ~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.GammaFilter
+
+.. .. autoclass:: FixRaidenBoss2.GammaFilter
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. InvertAlphaFilter
+.. ~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.InvertAlphaFilter
+
+.. .. autoclass:: FixRaidenBoss2.InvertAlphaFilter
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. ColourReplaceFilter
+.. ~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ColourReplaceFilter
+
+.. .. autoclass:: FixRaidenBoss2.ColourReplaceFilter
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. TransparencyAdjustFilter
+.. ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.TransparencyAdjustFilter
+
+.. .. autoclass:: FixRaidenBoss2.TransparencyAdjustFilter
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. HueAdjust
+.. ~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.HueAdjust
+
+.. .. autoclass:: FixRaidenBoss2.HueAdjust
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. PixelFilter
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.PixelFilter
+
+.. .. autoclass:: FixRaidenBoss2.PixelFilter
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. TexMetadataFilter
+.. ~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.TexMetadataFilter
+
+.. .. autoclass:: FixRaidenBoss2.TexMetadataFilter
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+.. :raw-html:`<br />`
+
+.. Pixel Transforms
+.. ----------------
+
+.. Classes to help transform a single pixel within a texture file.
+
+.. :raw-html:`<br />`
+
+.. .. warning::
+..     These transforms are used by the :class:`FixRaidenBoss2.PixelFilter` class to iterate through every pixel of an image 
+..     using Python's for loops. It is recommended to try to use the different filters inherited from the :class:`FixRaidenBoss2.BaseTexFilter` 
+..     class since those filters have more capability to interact with `Pillow`_ API or the `Numpy`_ API, 
+..     where their implementation are written at the C++ level, allowing images to be editted **A LOT** faster.
+
+.. :raw-html:`<br />`
+
+.. BasePixelTransform
+.. ~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BasePixelTransform
+
+.. .. autoclass:: FixRaidenBoss2.BasePixelTransform
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. ColourReplace
+.. ~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ColourReplace
+
+.. .. autoclass:: FixRaidenBoss2.ColourReplace
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. CorrectGamma
+.. ~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.CorrectGamma
+
+.. .. autoclass:: FixRaidenBoss2.CorrectGamma
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. HighlightShadow
+.. ~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.HighlightShadow
+
+.. .. autoclass:: FixRaidenBoss2.HighlightShadow
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. InvertAlpha
+.. ~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.InvertAlpha
+
+.. .. autoclass:: FixRaidenBoss2.InvertAlpha
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. TempControl
+.. ~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.TempControl
+
+.. .. autoclass:: FixRaidenBoss2.TempControl
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. TintTransform
+.. ~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.TintTransform
+
+.. .. autoclass:: FixRaidenBoss2.TintTransform
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. Transparency
+.. ~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.Transparency
+
+.. .. autoclass:: FixRaidenBoss2.Transparency
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+.. :raw-html:`<br />`
+
+.. Views
+.. -----
+
+.. Different display views for the project.
+
+.. :raw-html:`<br />`
+
+.. BaseLogger
+.. ~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BaseLogger
+
+.. .. autoclass:: FixRaidenBoss2.BaseLogger
+..     :members:
+
+.. :raw-html:`<br />`
+
+.. Logger
+.. ~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.Logger
+
+.. .. autoclass:: FixRaidenBoss2.Logger
+..     :inherited-members:
+..     :members:
+
+.. :raw-html:`<br />`
+
+.. Heading
+.. ~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.Heading
+
+.. .. autoclass:: FixRaidenBoss2.Heading
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+.. :raw-html:`<br />`
+
+.. Enums
+.. -----
+
+.. Some useful Enumerations and constants.
+
+.. :raw-html:`<br />`
+
+.. DeferredEnum
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.DeferredEnum
+
+.. .. autoclass:: FixRaidenBoss2.DeferredEnum
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. StrEnum
+.. ~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.StrEnum
+
+.. .. autoclass:: FixRaidenBoss2.StrEnum
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. ModTypeNames
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ModTypeNames
+
+.. .. autoclass:: FixRaidenBoss2.ModTypeNames
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. ModTypes
+.. ~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ModTypes
+
+.. .. autoclass:: FixRaidenBoss2.ModTypes
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. ModData
+.. ~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ModData
+
+.. .. autoclass:: FixRaidenBoss2.ModData
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. ModDataAssets
+.. ~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ModDataAssets
+
+.. .. autoclass:: FixRaidenBoss2.ModDataAssets
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. ByteSize
+.. ~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ByteSize
+
+.. .. autoclass:: FixRaidenBoss2.ByteSize
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. BufFormatNames
+.. ~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BufFormatNames
+
+.. .. autoclass:: FixRaidenBoss2.BufFormatNames
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. BufDataTypeNames
+.. ~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BufDataTypeNames
+
+.. .. autoclass:: FixRaidenBoss2.BufDataTypeNames
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. BufElementNames
+.. ~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BufElementNames
+
+.. .. autoclass:: FixRaidenBoss2.BufElementNames
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. BufDataTypes
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BufDataTypes
+
+.. .. autoclass:: FixRaidenBoss2.BufDataTypes
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. BufElementTypes
+.. ~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BufElementTypes
+
+.. .. autoclass:: FixRaidenBoss2.BufElementTypes
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. IniKeywords
+.. ~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.IniKeywords
+
+.. .. autoclass:: FixRaidenBoss2.IniKeywords
+..     :members:
+
+.. :raw-html:`<br />`
+
+.. IfPredPartType
+.. ~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.IfPredPartType
+
+.. .. autoclass:: FixRaidenBoss2.IfPredPartType
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. ColourConsts
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ColourConsts
+
+.. .. autoclass:: FixRaidenBoss2.ColourConsts
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. Colours
+.. ~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.Colours
+
+.. .. autoclass:: FixRaidenBoss2.Colours
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. ColourRanges
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ColourRanges
+
+.. .. autoclass:: FixRaidenBoss2.ColourRanges
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. ImgFormats
+.. ~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ImgFormats
+
+.. .. autoclass:: FixRaidenBoss2.ImgFormats
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. TexMetadataNames
+.. ~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.TexMetadataNames
+
+.. .. autoclass:: FixRaidenBoss2.TexMetadataNames
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. DownloadMode
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.DownloadMode
+
+.. .. autoclass:: FixRaidenBoss2.DownloadMode
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. FileExt
+.. ~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.FileExt
+
+.. .. autoclass:: FixRaidenBoss2.FileExt
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. FileTypes
+.. ~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.FileTypes
+
+.. .. autoclass:: FixRaidenBoss2.FileTypes
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. GlobalClassifiers
+.. ~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.GlobalClassifiers
+
+.. .. autoclass:: FixRaidenBoss2.GlobalClassifiers
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. GlobalIniRemoveBuilders
+.. ~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.GlobalIniRemoveBuilders
+
+.. .. autoclass:: FixRaidenBoss2.GlobalIniRemoveBuilders
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. GlobalPackageManager
+.. ~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.GlobalPackageManager
+
+.. .. autoclass:: FixRaidenBoss2.GlobalPackageManager
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+
+.. Utilities
+.. ---------
+
+.. Some useful utility classes.
+
+.. :raw-html:`<br />`
+
+.. FileService
+.. ~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.FileService
+
+.. .. autoclass:: FixRaidenBoss2.FileService
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+
+.. DictTools
+.. ~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.DictTools
+
+.. .. autoclass:: FixRaidenBoss2.DictTools
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. TextTools
+.. ~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.TextTools
+
+.. .. autoclass:: FixRaidenBoss2.TextTools
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. IntTools
+.. ~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.IntTools
+
+.. .. autoclass:: FixRaidenBoss2.IntTools
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. HashTools
+.. ~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.HashTools
+
+.. .. autoclass:: FixRaidenBoss2.HashTools
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. FilePath
+.. ~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.FilePath
+
+.. .. autoclass:: FixRaidenBoss2.FilePath
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. FileDownload
+.. ~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.FileDownload
+
+.. .. autoclass:: FixRaidenBoss2.FileDownload
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. Cache
+.. ~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.Cache
+
+.. .. autoclass:: FixRaidenBoss2.Cache
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. LruCache
+.. ~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.LruCache
+
+.. .. autoclass:: FixRaidenBoss2.LruCache
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. Node
+.. ~~~~
+
+.. .. attributetable:: FixRaidenBoss2.Node
+
+.. .. autoclass:: FixRaidenBoss2.Node
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. HeapNode
+.. ~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.HeapNode
+
+.. .. autoclass:: FixRaidenBoss2.HeapNode
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. DFA
+.. ~~~~
+
+.. .. attributetable:: FixRaidenBoss2.DFA
+
+.. .. autoclass:: FixRaidenBoss2.DFA
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. Trie
+.. ~~~~
+
+.. .. attributetable:: FixRaidenBoss2.Trie
+
+.. .. autoclass:: FixRaidenBoss2.Trie
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. BaseAhoCorasickDFA
+.. ~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BaseAhoCorasickDFA
+
+.. .. autoclass:: FixRaidenBoss2.BaseAhoCorasickDFA
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. FastAhoCorasickDFA
+.. ~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.FastAhoCorasickDFA
+
+.. .. autoclass:: FixRaidenBoss2.FastAhoCorasickDFA
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. AhoCorasickDFA
+.. ~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.AhoCorasickDFA
+
+.. .. autoclass:: FixRaidenBoss2.AhoCorasickDFA
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. AhoCorasickBuilder
+.. ~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.AhoCorasickBuilder
+
+.. .. autoclass:: FixRaidenBoss2.AhoCorasickBuilder
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. AhoCorasickSingleton
+.. ~~~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.AhoCorasickSingleton
+
+.. .. autoclass:: FixRaidenBoss2.AhoCorasickSingleton
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. ParseTree
+.. ~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ParseTree
+
+.. .. autoclass:: FixRaidenBoss2.ParseTree
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. BaseSLR1Parser
+.. ~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BaseSLR1Parser
+
+.. .. autoclass:: FixRaidenBoss2.BaseSLR1Parser
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. Algo
+.. ~~~~
+
+.. .. attributetable:: FixRaidenBoss2.Algo
+
+.. .. autoclass:: FixRaidenBoss2.Algo
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. Builder
+.. ~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.Builder
+
+.. .. autoclass:: FixRaidenBoss2.Builder
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. FlyweightBuilder
+.. ~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.FlyweightBuilder
+
+.. .. autoclass:: FixRaidenBoss2.FlyweightBuilder
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. PackageManager
+.. ~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.PackageManager
+
+.. .. autoclass:: FixRaidenBoss2.PackageManager
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. PackageData
+.. ~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.PackageData
+
+.. .. autoclass:: FixRaidenBoss2.PackageData
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. ConcurrentManager
+.. ~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ConcurrentManager
+
+.. .. autoclass:: FixRaidenBoss2.ConcurrentManager
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. ThreadManager
+.. ~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ThreadManager
+
+.. .. autoclass:: FixRaidenBoss2.ThreadManager
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. ProcessManager
+.. ~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ProcessManager
+
+.. .. autoclass:: FixRaidenBoss2.ProcessManager
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+.. :raw-html:`<br />`
+
+.. Exceptions
+.. ----------
+
+.. :raw-html:`<br />`
+
+.. Error
+.. ~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.Error
+
+.. .. autoclass:: FixRaidenBoss2.Error
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. FileException
+.. ~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.FileException
+
+.. .. autoclass:: FixRaidenBoss2.FileException
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. DuplicateFileException
+.. ~~~~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.DuplicateFileException
+
+.. .. autoclass:: FixRaidenBoss2.DuplicateFileException
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. MissingFileException
+.. ~~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.MissingFileException
+
+.. .. autoclass:: FixRaidenBoss2.MissingFileException
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+
+.. :raw-html:`<br />`
+
+.. RemapMissingBlendFile
+.. ~~~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.RemapMissingBlendFile
+
+.. .. autoclass:: FixRaidenBoss2.RemapMissingBlendFile
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. BufFileNotRecognized
+.. ~~~~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BufFileNotRecognized
+
+.. .. autoclass:: FixRaidenBoss2.BufFileNotRecognized
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. BadBufData
+.. ~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BadBufData
+
+.. .. autoclass:: FixRaidenBoss2.BadBufData
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. ConflictingOptions
+.. ~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.ConflictingOptions
+
+.. .. autoclass:: FixRaidenBoss2.ConflictingOptions
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. InvalidModType
+.. ~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.InvalidModType
+
+.. .. autoclass:: FixRaidenBoss2.InvalidModType
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. InvalidDownloadMode
+.. ~~~~~~~~~~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.InvalidDownloadMode
+
+.. .. autoclass:: FixRaidenBoss2.InvalidDownloadMode
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. NoModType
+.. ~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.NoModType
+
+.. .. autoclass:: FixRaidenBoss2.NoModType
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
+.. :raw-html:`<br />`
+
+.. SyntaxErr
+.. ~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.SyntaxErr
+
+.. .. autoclass:: FixRaidenBoss2.SyntaxErr
+..     :inherited-members:
+..     :members:
+..     :private-members:
+
 
 
 .. _ConfigParser: https://docs.python.org/3/library/configparser.html#configparser.ConfigParser
@@ -2219,6 +4024,7 @@ NoModType
 .. _Module: https://docs.   python.org/3/tutorial/modules.html
 .. _PIL.Image: https://pillow.readthedocs.io/en/stable/reference/Image.html#module-PIL.Image
 .. _PIL.PixelAccess: https://pillow.readthedocs.io/en/stable/reference/PixelAccess.html
+.. _PIL.ImageEnhance: https://pillow.readthedocs.io/en/stable/reference/ImageEnhance.html#module-PIL.ImageEnhance
 .. _ORFix: https://github.com/leotorrez/LeoTools/blob/main/releases/ORFix.ini
 .. _Highlight Shadow Approximation Reference: https://stackoverflow.com/questions/51591445/what-is-the-algorithm-behind-photoshops-highlight-or-shadow-alteration
 .. _Direct Draw Surface: https://en.wikipedia.org/wiki/DirectDraw_Surface
@@ -2235,6 +4041,7 @@ NoModType
 .. _DFA (Deterministic Finite Automaton): https://en.wikipedia.org/wiki/Deterministic_finite_automaton
 .. _graph: https://en.wikipedia.org/wiki/Graph_theory
 .. _trie: https://en.wikipedia.org/wiki/Trie
+.. _Compressonator: https://github.com/GPUOpen-Tools/compressonator
 .. _Aho-Corasick: https://www.geeksforgeeks.org/aho-corasick-algorithm-pattern-searching/
 .. _pyahocorasick: https://github.com/WojciechMula/pyahocorasick
 .. _pyahocorasick.Automaton: https://pyahocorasick.readthedocs.io/en/latest/#api-reference
@@ -2243,6 +4050,7 @@ NoModType
 .. _heap: https://en.wikipedia.org/wiki/Heap_(data_structure)
 .. _standard heap solution: https://medium.com/@vidyasagarr7/mastering-the-k-way-merge-algorithmic-pattern-for-technical-interviews-6db0e00a049f
 .. _Maximal Munch: https://en.wikipedia.org/wiki/Maximal_munch
+.. _Simplified Maximal Munch: https://en.wikipedia.org/wiki/Maximal_munch
 .. _Thread: https://docs.python.org/3/library/threading.html#thread-objects
 .. _pickle: https://www.geeksforgeeks.org/understanding-python-pickling-example/
 .. _dill: https://pypi.org/project/dill/
@@ -2261,11 +4069,58 @@ NoModType
 .. _unsigned normalized integers: https://learn.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-data-conversion
 .. _endianness: https://en.wikipedia.org/wiki/Endianness
 .. _getitem operator: https://docs.python.org/3/reference/datamodel.html#object.__getitem__
-.. _ordered_set: https://github.com/rspeer/ordered-set
-.. _numpy: https://github.com/numpy/numpy
+.. _orderedset: https://github.com/simonpercivall/orderedset
+.. _OrderedSet: https://github.com/simonpercivall/orderedset
 .. _vacuously true: https://en.wikipedia.org/wiki/Vacuous_truth
 .. _requests: https://pypi.org/project/requests/
 .. _standard base 64: https://en.wikipedia.org/wiki/Base64
 .. _builtin hash: https://docs.python.org/3/library/functions.html#hash
+.. _built-in filter: https://docs.python.org/3/library/functions.html#filter
 .. _hashlib: https://docs.python.org/3/library/hashlib.html
 .. _packaging.version.Version: https://packaging.pypa.io/en/latest/version.html#packaging.version.Versions
+.. _PEP 440: https://peps.python.org/pep-0440/
+.. _Enum: https://docs.python.org/3/library/enum.html
+.. _ASCII: https://en.wikipedia.org/wiki/ASCII
+.. _SLR(1): https://en.wikipedia.org/wiki/Simple_LR_parser
+.. _CFG (Context Free Grammer): https://en.wikipedia.org/wiki/Context-free_grammar
+.. _CFG: https://en.wikipedia.org/wiki/Context-free_grammar
+.. _First Set: https://www.geeksforgeeks.org/compiler-design/first-set-in-syntax-analysis/
+.. _Nullable Set: https://cs.stackexchange.com/questions/125274/defining-nullable-symbols-and-the-first-set-of-a-grammar
+.. _Follow Set: https://www.geeksforgeeks.org/compiler-design/follow-set-in-syntax-analysis/
+.. _sympy: https://www.sympy.org/en/index.html
+.. _sympy.Symbol: https://docs.sympy.org/latest/modules/core.html#sympy.core.symbol.Symbol
+.. _sympy.Boolean: https://docs.sympy.org/latest/modules/logic.html#sympy.logic.boolalg.Boolean
+.. _sympy logic query: https://docs.sympy.org/latest/modules/logic.html
+.. _sympy's pretty function: https://docs.sympy.org/latest/tutorials/intro-tutorial/printing.html#unicode-pretty-printer
+.. _post-order traversal: https://www.geeksforgeeks.org/dsa/postorder-traversal-of-binary-tree/
+.. _python's builtin regex: https://docs.python.org/3/library/re.html
+.. _regex library: https://pypi.org/project/regex/
+.. _pandas: https://pandas.pydata.org/
+.. _pandas DataFrame: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html
+.. _pandas.DataFrame: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html
+.. _numpy: https://numpy.org/
+.. _numpy array: https://numpy.org/doc/2.4/reference/generated/numpy.ndarray.html
+.. _numpy.ndarray: https://numpy.org/doc/2.4/reference/generated/numpy.ndarray.html
+.. _Blender: https://www.blender.org/
+.. _DXGI format: https://learn.microsoft.com/en-us/windows/win32/api/dxgiformat/ne-dxgiformat-dxgi_format
+.. _Generator: https://wiki.python.org/moin/Generators
+.. _SimpleNamespace: https://docs.python.org/3/library/types.html#types.SimpleNamespace
+.. _multipath pruning: https://artint.info/2e/html2e/ArtInt2e.Ch3.S7.SS2.html
+.. _cycle pruning: https://artint.info/2e/html2e/ArtInt2e.Ch3.S7.SS1.html
+.. _satisfiable (SAT) problems: https://en.wikipedia.org/wiki/Boolean_satisfiability_problem
+
+.. _call graph: https://en.wikipedia.org/wiki/Call_graph
+.. _call-with-return: https://en.wikipedia.org/wiki/Subroutine
+.. _goto: https://en.wikipedia.org/wiki/Goto
+.. _Python: https://www.python.org/
+.. _branch: https://en.wikipedia.org/wiki/Branch_(computer_science)
+.. _BFS: https://en.wikipedia.org/wiki/Breadth-first_search
+.. _dataflow analysis: https://en.wikipedia.org/wiki/Data-flow_analysis
+.. _MUST: https://en.wikipedia.org/wiki/Data-flow_analysis
+.. _available expressions: https://en.wikipedia.org/wiki/Available_expression_set
+.. _very busy expressions: https://en.wikipedia.org/wiki/Data-flow_analysis
+.. _fixpoint: https://en.wikipedia.org/wiki/Fixed_point_(mathematics)
+.. _fixpoint iteration: https://en.wikipedia.org/wiki/Data-flow_analysis
+.. _worklist algorithm: https://en.wikipedia.org/wiki/Data-flow_analysis
+.. _Kildall's algorithm: https://en.wikipedia.org/wiki/Data-flow_analysis
+.. _Z3: https://github.com/Z3Prover/z3

@@ -1,0 +1,52 @@
+name: Build and Test
+
+# Builds the API once, then runs both testers against that one build, at the same time.
+#
+# note: the build is not optional and not an optimisation. 'FixRaidenBoss2/__init__.py' does an
+#   unconditional 'from .core import ...' and nothing compiled is tracked, so neither tester can even
+#   import the library without it.
+#
+# note: 'python-version' is handed to the testers as well as to the build, on purpose. A compiled
+#   extension is built for ONE python, so the two must agree or the testers fail at import in a way
+#   that reads like a broken build.
+
+on:
+  workflow_call:
+    inputs:
+      os:
+        description: The runner to build and test on
+        type: string
+        default: ubuntu-latest
+      python-version:
+        description: The python the extension is built for, and therefore tested on
+        type: string
+        default: "3.12"
+    outputs:
+      artifact-name:
+        description: The built API package, so a caller can reuse this build rather than repeat it
+        value: ${{ jobs.build.outputs.artifact-name }}
+
+jobs:
+  build:
+    name: Build
+    uses: './.github/workflows/build-workflow.yml'
+    with:
+      os: ${{ inputs.os }}
+      python-version: ${{ inputs.python-version }}
+
+  # both testers depend on the same build and on nothing else, so they run side by side
+  unit-tests:
+    name: Unit Tests
+    needs: build
+    uses: './.github/workflows/unit-test-workflow.yml'
+    with:
+      artifact: ${{ needs.build.outputs.artifact-name }}
+      python-version: ${{ inputs.python-version }}
+
+  integration-tests:
+    name: Integration Tests
+    needs: build
+    uses: './.github/workflows/integration-test-workflow.yml'
+    with:
+      artifact: ${{ needs.build.outputs.artifact-name }}
+      python-version: ${{ inputs.python-version }}

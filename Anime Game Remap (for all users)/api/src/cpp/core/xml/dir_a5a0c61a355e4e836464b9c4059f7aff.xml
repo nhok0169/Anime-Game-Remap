@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_a5a0c61a355e4e836464b9c4059f7aff" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData</compoundname>
+    <innerdir refid="dir_e50a7282ab34e67f2f5626e3b5b4dcb7">include/AGRemapCore/data/IniFixData/Amber</innerdir>
+    <innerdir refid="dir_7c3825a4c1c6e30567892c2c82d1d79d">include/AGRemapCore/data/IniFixData/AmberCN</innerdir>
+    <innerdir refid="dir_4a2de50e9176a0a0642760cba2d9c24c">include/AGRemapCore/data/IniFixData/Arlecchino</innerdir>
+    <innerdir refid="dir_c5633d18bae00f3345bdcaa77fec631a">include/AGRemapCore/data/IniFixData/Ayaka</innerdir>
+    <innerdir refid="dir_4621004885c65db449d3f45fdb56cee2">include/AGRemapCore/data/IniFixData/AyakaSpringbloom</innerdir>
+    <innerdir refid="dir_920c1f41c5ae3b42bcdb988d03ff2092">include/AGRemapCore/data/IniFixData/Barbara</innerdir>
+    <innerdir refid="dir_f50db978cf27bf6ebc2731f38393c974">include/AGRemapCore/data/IniFixData/BarbaraSummertime</innerdir>
+    <innerdir refid="dir_d1b567bca0b06600843b7d9f38f46df1">include/AGRemapCore/data/IniFixData/CherryHuTao</innerdir>
+    <innerdir refid="dir_d1728c614685f0d6f2c0a9ae37adf6f8">include/AGRemapCore/data/IniFixData/Diluc</innerdir>
+    <innerdir refid="dir_03f504ccc2ed6e737bbb223254e02d03">include/AGRemapCore/data/IniFixData/DilucFlamme</innerdir>
+    <innerdir refid="dir_0a7a4ff6dadb1f0a626ea9d5667013ff">include/AGRemapCore/data/IniFixData/Fischl</innerdir>
+    <innerdir refid="dir_7ed86f4b39131d8165a454694b3b7ca4">include/AGRemapCore/data/IniFixData/FischlHighness</innerdir>
+    <innerdir refid="dir_dd227d0c7091ddb972c5107b4c261efe">include/AGRemapCore/data/IniFixData/Ganyu</innerdir>
+    <innerdir refid="dir_44b622da4111ee25856dc8aa53124065">include/AGRemapCore/data/IniFixData/GanyuTwilight</innerdir>
+    <innerdir refid="dir_ec98e033ca230c3ac062bec77d63f4a6">include/AGRemapCore/data/IniFixData/HuTao</innerdir>
+    <innerdir refid="dir_74d54c7a32a47143803c9d36719e25a9">include/AGRemapCore/data/IniFixData/Jean</innerdir>
+    <innerdir refid="dir_75c1b3e7f285cde3741879908052ac6a">include/AGRemapCore/data/IniFixData/JeanCN</innerdir>
+    <innerdir refid="dir_5272137dd65ff0a5fa8ef6d3cdb74a95">include/AGRemapCore/data/IniFixData/JeanSea</innerdir>
+    <innerdir refid="dir_dfa007c56161e9c527bbb16f1199a223">include/AGRemapCore/data/IniFixData/Kaeya</innerdir>
+    <innerdir refid="dir_b150485d4d6d18843cba2e513238102b">include/AGRemapCore/data/IniFixData/KaeyaSailwind</innerdir>
+    <innerdir refid="dir_af224d4ea180b8ffe0311d87e0fdb2a0">include/AGRemapCore/data/IniFixData/Keqing</innerdir>
+    <innerdir refid="dir_044e003d26bf8dfd38538b32f7cce1d9">include/AGRemapCore/data/IniFixData/KeqingOpulent</innerdir>
+    <innerdir refid="dir_c55a7f5468fb6f990fe8d2b49e3c5a0a">include/AGRemapCore/data/IniFixData/Kirara</innerdir>
+    <innerdir refid="dir_80a0b110dc92d112f83afb1d4bb91024">include/AGRemapCore/data/IniFixData/KiraraBoots</innerdir>
+    <innerdir refid="dir_0fff0d26da250c925b19a0d63db46d2f">include/AGRemapCore/data/IniFixData/Klee</innerdir>
+    <innerdir refid="dir_f5200bc037c000bf6e359b4a01719aa6">include/AGRemapCore/data/IniFixData/KleeBlossomingStarlight</innerdir>
+    <innerdir refid="dir_d6c8264a764f19a09e6bc94af0dbed8d">include/AGRemapCore/data/IniFixData/Lisa</innerdir>
+    <innerdir refid="dir_b821292843f65316d92d3eec2f62ffb6">include/AGRemapCore/data/IniFixData/LisaStudent</innerdir>
+    <innerdir refid="dir_51831c5eb17d14b6b1e155442fb0ff32">include/AGRemapCore/data/IniFixData/Mona</innerdir>
+    <innerdir refid="dir_a74f4936aa2782804106f1404d9582bd">include/AGRemapCore/data/IniFixData/MonaCN</innerdir>
+    <innerdir refid="dir_1ad4a3f5ab066418fc335a1a83dd89af">include/AGRemapCore/data/IniFixData/Nilou</innerdir>
+    <innerdir refid="dir_96c5a40dbb7d65c6d462967f72e7bcdd">include/AGRemapCore/data/IniFixData/NilouBreeze</innerdir>
+    <innerdir refid="dir_014da131f24c46cd92baed22e944d3e0">include/AGRemapCore/data/IniFixData/Ningguang</innerdir>
+    <innerdir refid="dir_23025117cb77cdd89e191ac52c40cc57">include/AGRemapCore/data/IniFixData/NingguangOrchid</innerdir>
+    <innerdir refid="dir_ba41a1edc8ab32d416c89098812218ee">include/AGRemapCore/data/IniFixData/Raiden</innerdir>
+    <innerdir refid="dir_9de4c67aea98370665bf5c50fd59364c">include/AGRemapCore/data/IniFixData/Rosaria</innerdir>
+    <innerdir refid="dir_669629d19ef82c48a0daa445d6c4f306">include/AGRemapCore/data/IniFixData/RosariaCN</innerdir>
+    <innerdir refid="dir_244ba1f005a76af8d67f555e142b7cf6">include/AGRemapCore/data/IniFixData/Shenhe</innerdir>
+    <innerdir refid="dir_d424eeff78e7690622520953bba2483f">include/AGRemapCore/data/IniFixData/ShenheFrostFlower</innerdir>
+    <innerdir refid="dir_80a72dd480c6ee2910ca349033f34373">include/AGRemapCore/data/IniFixData/Xiangling</innerdir>
+    <innerdir refid="dir_f4fc5d9a8a4f0170c0a374b18f7150b9">include/AGRemapCore/data/IniFixData/XianglingCheer</innerdir>
+    <innerdir refid="dir_1fa005bb91d3b538d90613440943d3dc">include/AGRemapCore/data/IniFixData/Xingqiu</innerdir>
+    <innerdir refid="dir_38a9d25ddc7b140e2484d581dcc18f49">include/AGRemapCore/data/IniFixData/XingqiuBamboo</innerdir>
+    <innerdir refid="dir_4b23f89fa91d874fac459d33c91dc40b">include/AGRemapCore/data/IniFixData/Yelan</innerdir>
+    <innerdir refid="dir_4161e81800e2d961cbbaa3c3b0108169">include/AGRemapCore/data/IniFixData/YelanTranquil</innerdir>
+    <innerfile refid="_dark_diffuse_8h">DarkDiffuse.h</innerfile>
+    <innerfile refid="_g_i_m_i_char_fixer_8h">GIMICharFixer.h</innerfile>
+    <innerfile refid="_g_i_m_i_component_fixer_8h">GIMIComponentFixer.h</innerfile>
+    <innerfile refid="_g_i_m_i_merge_fixer_8h">GIMIMergeFixer.h</innerfile>
+    <innerfile refid="_jean_shading_8h">JeanShading.h</innerfile>
+    <innerfile refid="_reg_val_checks_8h">RegValChecks.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/"/>
+  </compounddef>
+</doxygen>

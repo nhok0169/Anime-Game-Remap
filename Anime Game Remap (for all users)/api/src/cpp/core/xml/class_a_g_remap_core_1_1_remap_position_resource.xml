@@ -1,0 +1,402 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_remap_position_resource" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RemapPositionResource</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_remap_ini_fix_resource" prot="public" virt="non-virtual">AGRemapCore::RemapIniFixResource</basecompoundref>
+    <includes refid="_remap_position_resource_8h" local="no">RemapPositionResource.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_position_resource_1aed98e34e157928b538abf9bd2c9d7a5f" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_buf_file_1adbaba98ac1cd226a2f05090a64291afd" kindref="member">BufFile::Filter</ref></type>
+        <definition>BufFile::Filter AGRemapCore::RemapPositionResource::edit</definition>
+        <argsstring></argsstring>
+        <name>edit</name>
+        <qualifiedname>AGRemapCore::RemapPositionResource::edit</qualifiedname>
+        <briefdescription>
+<para>What to do to each vertex. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapPositionResource.h" line="74" column="29" bodyfile="include/AGRemapCore/model/iniresources/RemapPositionResource.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_position_resource_1aa06733a25234853fc1142c27e380ed86" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(<ref refid="class_a_g_remap_core_1_1_remap_position_resource_1a226c4fdee07b3796bde257b267c4fd2d" kindref="member">RemapPositionResource</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;bool(RemapPositionResource&amp;)&gt; AGRemapCore::RemapPositionResource::fixFunc</definition>
+        <argsstring></argsstring>
+        <name>fixFunc</name>
+        <qualifiedname>AGRemapCore::RemapPositionResource::fixFunc</qualifiedname>
+        <briefdescription>
+<para>Custom function for fixing the resource, overriding <ref refid="class_a_g_remap_core_1_1_remap_position_resource_1a510dbcc6b9ec4d58b2f76890b7b49162" kindref="member">_fix</ref> if set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapPositionResource.h" line="79" column="27" bodyfile="include/AGRemapCore/model/iniresources/RemapPositionResource.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_position_resource_1a226c4fdee07b3796bde257b267c4fd2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RemapPositionResource::RemapPositionResource</definition>
+        <argsstring>(const std::string &amp;iniFolderPath, const std::string &amp;srcPath, const std::string &amp;fixedPath, BufFile::Filter edit, std::string type=&quot;position&quot;, std::function&lt; bool(RemapPositionResource &amp;)&gt; fixFunc=nullptr)</argsstring>
+        <name>RemapPositionResource</name>
+        <qualifiedname>AGRemapCore::RemapPositionResource::RemapPositionResource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>iniFolderPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>srcPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fixedPath</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_buf_file_1adbaba98ac1cd226a2f05090a64291afd" kindref="member">BufFile::Filter</ref></type>
+          <declname>edit</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>type</declname>
+          <defval>&quot;position&quot;</defval>
+        </param>
+        <param>
+          <type>std::function&lt; bool(RemapPositionResource &amp;)&gt;</type>
+          <declname>fixFunc</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new position resource. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniFolderPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The path to the folder of the .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>srcPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixedPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the fixed resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>edit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+What to do to each vertex -- the same per-line filter :cpp:func:`BufFile::fix` takes,
+and the direct equivalent of the pure-Python ``BufEditor(filters = [...])``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name for the type of resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixFunc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Custom function for fixing the resource, overriding <ref refid="class_a_g_remap_core_1_1_remap_position_resource_1a510dbcc6b9ec4d58b2f76890b7b49162" kindref="member">_fix</ref> if given </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapPositionResource.h" line="66" column="13" bodyfile="src/model/iniresources/RemapPositionResource.cpp" bodystart="25" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_position_resource_1a2e25b1fe9926445f6350ac383dc193c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapPositionResource::srcEncounteredError</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>srcEncounteredError</name>
+        <qualifiedname>AGRemapCore::RemapPositionResource::srcEncounteredError</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9acac27178b78b45048a4069138ee623">srcEncounteredError</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the (unfixed) resource has previously encountered an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the resource has encountered an error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapPositionResource.h" line="81" column="18" bodyfile="src/model/iniresources/RemapPositionResource.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_position_resource_1a29fa2ea4330c20878fbe156c0282ae89" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapPositionResource::srcIsFixed</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>srcIsFixed</name>
+        <qualifiedname>AGRemapCore::RemapPositionResource::srcIsFixed</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a6206223d798977172f9b26c4e880b027">srcIsFixed</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the (unfixed) resource was already fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the resource was already fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapPositionResource.h" line="82" column="18" bodyfile="src/model/iniresources/RemapPositionResource.cpp" bodystart="37" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_position_resource_1a4de88e85d271cb088fbd77dc1cbc459f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapPositionResource::fixEncounteredError</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>fixEncounteredError</name>
+        <qualifiedname>AGRemapCore::RemapPositionResource::fixEncounteredError</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9e2f42c3e3f4b4917097adb233ff4d49">fixEncounteredError</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the fixed resource has previously encountered an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the fixed resource has encountered an error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapPositionResource.h" line="83" column="18" bodyfile="src/model/iniresources/RemapPositionResource.cpp" bodystart="41" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_position_resource_1a670f70ea23c0af28d1a15896dd7fa181" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapPositionResource::fixIsFixed</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>fixIsFixed</name>
+        <qualifiedname>AGRemapCore::RemapPositionResource::fixIsFixed</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a834d81a7a3c140d3f92f8fc9ae2eeffd">fixIsFixed</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the fixed resource was already fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the fixed resource was already fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapPositionResource.h" line="84" column="18" bodyfile="src/model/iniresources/RemapPositionResource.cpp" bodystart="45" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_position_resource_1a97ec6a7a89647f99f045a985f322334c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapPositionResource::fix</definition>
+        <argsstring>()</argsstring>
+        <name>fix</name>
+        <qualifiedname>AGRemapCore::RemapPositionResource::fix</qualifiedname>
+        <briefdescription>
+<para>Edits the position file <ndash/> calls <ref refid="class_a_g_remap_core_1_1_remap_position_resource_1aa06733a25234853fc1142c27e380ed86" kindref="member">fixFunc</ref> if set, otherwise <ref refid="class_a_g_remap_core_1_1_remap_position_resource_1a510dbcc6b9ec4d58b2f76890b7b49162" kindref="member">_fix</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapPositionResource.h" line="89" column="18" bodyfile="src/model/iniresources/RemapPositionResource.cpp" bodystart="64" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_position_resource_1a510dbcc6b9ec4d58b2f76890b7b49162" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapPositionResource::_fix</definition>
+        <argsstring>()</argsstring>
+        <name>_fix</name>
+        <qualifiedname>AGRemapCore::RemapPositionResource::_fix</qualifiedname>
+        <briefdescription>
+<para>Reads <ref refid="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" kindref="member">srcPath</ref>, runs <ref refid="class_a_g_remap_core_1_1_remap_position_resource_1aed98e34e157928b538abf9bd2c9d7a5f" kindref="member">edit</ref> over every vertex and writes <ref refid="class_a_g_remap_core_1_1_ini_fix_resource_1a3ce7acb06c3113444317ead9d91e3ca8" kindref="member">fixedPath</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapPositionResource.h" line="96" column="18" bodyfile="src/model/iniresources/RemapPositionResource.cpp" bodystart="50" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`RemapIniFixResource`
+
+Class for fixing a ``Position.buf`` file used by the overall remap process -- the position
+counterpart of :cpp:class:`RemapBlendResource`, and built the same way :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+**Most remaps need nothing of the sort.** A position buffer holds where the mesh&apos;s vertices
+ARE, and remapping a mod onto another character does not move them -- of the 47 pairs in the
+pure-Python ``PositionEditorData`` table, 46 are ``None``. The exception is a pair whose two
+models were authored around different origins: Xiangling and XianglingCheer sit about 0.78
+units apart in Y, so a mod remapped between them lands in mid-air unless every vertex is
+translated to match :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The stats predicates read :cpp:member:`RemapStats::position`, not
+   :cpp:member:`RemapStats::blend`. Copying the blend resource and leaving them pointing at the
+   blend counts a position file as a blend, which is how a summary comes to report more
+   ``Blend.buf`` files than the mod has
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AGRemapCore::IniFixResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_fix_resource"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::IniResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::RemapIniFixResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_fix_resource"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::RemapIniResourceMixin</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RemapPositionResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_position_resource"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::IniFixResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_fix_resource"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::IniResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::RemapIniFixResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_fix_resource"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::RemapIniResourceMixin</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RemapPositionResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_position_resource"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/iniresources/RemapPositionResource.h" line="49" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapPositionResource.h" bodystart="49" bodyend="97"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_remap_position_resource_1a510dbcc6b9ec4d58b2f76890b7b49162" prot="protected" virt="non-virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>_fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_position_resource_1aed98e34e157928b538abf9bd2c9d7a5f" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>edit</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_position_resource_1a97ec6a7a89647f99f045a985f322334c" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_1a3ce7acb06c3113444317ead9d91e3ca8" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>fixedPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_position_resource_1a4de88e85d271cb088fbd77dc1cbc459f" prot="public" virt="virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>fixEncounteredError</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1a9dd483f2278d47a391bed8f6ce9650db" prot="public" virt="virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>fixExists</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_position_resource_1aa06733a25234853fc1142c27e380ed86" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>fixFunc</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_position_resource_1a670f70ea23c0af28d1a15896dd7fa181" prot="public" virt="virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>fixIsFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1ab3e243f4ef62ea99c38095373d7f940f" prot="public" virt="virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>hasRequired</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1a937e1e64d43384b1ee81e234f0f0a035" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>IniFixResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>IniResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1af3227dca50052425c7a215be3ab41e84" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>logger</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_position_resource_1a226c4fdee07b3796bde257b267c4fd2d" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>RemapPositionResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_position_resource_1a2e25b1fe9926445f6350ac383dc193c3" prot="public" virt="virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>srcEncounteredError</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_position_resource_1a29fa2ea4330c20878fbe156c0282ae89" prot="public" virt="virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>srcIsFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>srcPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1a1a89276cd64472806d89e52ec4bed401" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>type</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1ab4dc362ba0c8f578c5ff9b753378cf87" prot="public" virt="virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>~IniResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1aab8ed5f480a8417202e9ce5029145ba3" prot="public" virt="virtual"><scope>AGRemapCore::RemapPositionResource</scope><name>~RemapIniResourceMixin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

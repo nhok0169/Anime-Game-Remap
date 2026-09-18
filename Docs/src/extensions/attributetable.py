@@ -185,6 +185,7 @@ class TableElement(NamedTuple):
     fullname: str
     label: str
     badge: Optional[attributetablebadge]
+    children: Sequence["TableElement"] = ()
 
 
 def process_attributetable(app: Sphinx, doctree: nodes.Node, fromdocname: str) -> None:
@@ -247,7 +248,7 @@ def get_class_results(
                 label = f'{name}.{attr}'
                 badge = attributetablebadge('cls', 'cls')
                 badge['badge-type'] = _('classmethod')
-            elif inspect.isfunction(value):
+            elif inspect.isfunction(value) or inspect.ismethoddescriptor(value):
                 if doc.startswith(('A decorator', 'A shortcut decorator')):
                     # finicky but surprisingly consistent
                     key = _('Methods')

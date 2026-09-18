@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_6dacdda535e02a8003b9ede585fc89cd" kind="dir">
+    <compoundname>include/AGRemapCore/model/strategies/texEditors</compoundname>
+    <innerdir refid="dir_1b5bd3c237e58cb0a8249ddbcdf3a979">include/AGRemapCore/model/strategies/texEditors/pixelTransforms</innerdir>
+    <innerdir refid="dir_78e3a4cd3927c0938466d29079858313">include/AGRemapCore/model/strategies/texEditors/texFilters</innerdir>
+    <innerfile refid="_base_tex_editor_8h">BaseTexEditor.h</innerfile>
+    <innerfile refid="_tex_creator_8h">TexCreator.h</innerfile>
+    <innerfile refid="_tex_editor_8h">TexEditor.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/texEditors/"/>
+  </compounddef>
+</doxygen>

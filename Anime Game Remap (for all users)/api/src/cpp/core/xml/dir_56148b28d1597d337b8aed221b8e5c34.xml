@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_56148b28d1597d337b8aed221b8e5c34" kind="dir">
+    <compoundname>include/AGRemapCore/tools/orderedMultiMap</compoundname>
+    <innerfile refid="_base_ordered_multi_map_8h">BaseOrderedMultiMap.h</innerfile>
+    <innerfile refid="_i_ordered_multi_map_8h">IOrderedMultiMap.h</innerfile>
+    <innerfile refid="_ordered_multi_map_8h">OrderedMultiMap.h</innerfile>
+    <innerfile refid="_ordered_multi_map_adapter_8h">OrderedMultiMapAdapter.h</innerfile>
+    <innerfile refid="_ordered_multi_map_sqrt_8h">OrderedMultiMapSqrt.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/"/>
+  </compounddef>
+</doxygen>

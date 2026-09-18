@@ -1,0 +1,343 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_v_g_split_group_resource_8h" kind="file" language="C++">
+    <compoundname>VGSplitGroupResource.h</compoundname>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes refid="_buf_value_8h" local="yes">AGRemapCore/model/buffers/BufValue.h</includes>
+    <includes refid="_v_g_component_split_8h" local="yes">AGRemapCore/model/buffers/VGComponentSplit.h</includes>
+    <includes refid="_remap_ini_resource_8h" local="yes">AGRemapCore/model/iniresources/RemapIniResource.h</includes>
+    <includedby refid="_v_g_split_group_res_builder_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h</includedby>
+    <includedby refid="_g_i_m_i_component_fixer_8cpp" local="yes">src/data/IniFixData/GIMIComponentFixer.cpp</includedby>
+    <includedby refid="_v_g_split_group_resource_8cpp" local="yes">src/model/iniresources/VGSplitGroupResource.cpp</includedby>
+    <incdepgraph>
+      <node id="13">
+        <label>AGRemapCore/model/VGRemap.h</label>
+        <link refid="_v_g_remap_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>AGRemapCore/model/buffers/BufValue.h</label>
+        <link refid="_buf_value_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>AGRemapCore/model/buffers/VGComponentSplit.h</label>
+        <link refid="_v_g_component_split_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>AGRemapCore/model/iniresources/IniResource.h</label>
+        <link refid="_ini_resource_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>AGRemapCore/model/iniresources/RemapIniResource.h</label>
+        <link refid="_remap_ini_resource_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/model/iniresources/VGSplitGroupResource.h</label>
+        <link refid="_v_g_split_group_resource_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>AGRemapCore/model/stats/CachedFileStats.h</label>
+        <link refid="_cached_file_stats_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>AGRemapCore/model/stats/FileStats.h</label>
+        <link refid="_file_stats_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>AGRemapCore/model/stats/RemapStats.h</label>
+        <link refid="_remap_stats_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>AGRemapCore/tools/files/FileDownload.h</label>
+        <link refid="_file_download_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>AGRemapCore/view/BaseLogger.h</label>
+        <link refid="_base_logger_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>array</label>
+      </node>
+      <node id="26">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>cstddef</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="19">
+        <label>deque</label>
+      </node>
+      <node id="20">
+        <label>exception</label>
+      </node>
+      <node id="2">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="27">
+        <label>tuple</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="17">
+        <label>unordered_set</label>
+      </node>
+      <node id="9">
+        <label>variant</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/model/iniresources/VGSplitGroupResource.h</label>
+        <link refid="_v_g_split_group_resource_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h</label>
+        <link refid="_v_g_split_group_res_builder_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/data/IniFixData/GIMIComponentFixer.cpp</label>
+        <link refid="_g_i_m_i_component_fixer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/model/iniresources/VGSplitGroupResource.cpp</label>
+        <link refid="_v_g_split_group_resource_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
+        <link refid="_v_g_split_group_res_builder_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="struct_a_g_remap_core_1_1_v_g_split_group_config" prot="public">AGRemapCore::VGSplitGroupConfig</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_v_g_split_group_resource" prot="public">AGRemapCore::VGSplitGroupResource</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_VGSplitGroupResource_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_VGSplitGroupResource_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_value_8h" kindref="compound">AGRemapCore/model/buffers/BufValue.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_v_g_component_split_8h" kindref="compound">AGRemapCore/model/buffers/VGComponentSplit.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_remap_ini_resource_8h" kindref="compound">AGRemapCore/model/iniresources/RemapIniResource.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_logger" kindref="compound">BaseLogger</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="struct_a_g_remap_core_1_1_v_g_split_group_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config" kindref="compound">VGSplitGroupConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a3e9174cf0f745d58259601f8e4b5c6f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a3e9174cf0f745d58259601f8e4b5c6f4" kindref="member">LineEdit</ref><sp/>=<sp/>std::function&lt;<ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a4e8b12263210463aab075475aaafa2bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a4e8b12263210463aab075475aaafa2bd" kindref="member">component</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ad3072152740b4cd107fd883aac2a7f22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;VGComponentSpec&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ad3072152740b4cd107fd883aac2a7f22" kindref="member">specs</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1afa1fede04d255fc720b9bc56c67b1a80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1afa1fede04d255fc720b9bc56c67b1a80" kindref="member">ibPaths</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a421459c2130b60316250d30bbb86d1c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a3e9174cf0f745d58259601f8e4b5c6f4" kindref="member">LineEdit</ref><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a421459c2130b60316250d30bbb86d1c6" kindref="member">texcoordLineEdit</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ab2f3ce8c9cbd2704ce0e7461327073f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a3e9174cf0f745d58259601f8e4b5c6f4" kindref="member">LineEdit</ref><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ab2f3ce8c9cbd2704ce0e7461327073f9" kindref="member">positionLineEdit</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a27bf55b7bda9b241d64b7ce37fd368a1" kindref="member">fixVGSplitGroup</ref>(<ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref>&amp;<sp/>group,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config" kindref="compound">VGSplitGroupConfig</ref>&amp;<sp/>config,<sp/><ref refid="class_a_g_remap_core_1_1_base_logger" kindref="compound">BaseLogger</ref>*<sp/>logger);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="class_a_g_remap_core_1_1_v_g_split_group_resource" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a5ef8dd91208c9e496d1d69a3b105bf3d" kindref="member">VGSplitGroupResource</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource" kindref="compound">RemapIniGroupedResource</ref><sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a5ef8dd91208c9e496d1d69a3b105bf3d" kindref="member">VGSplitGroupResource</ref>(std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a428e831585c4e6a1d66c149631a230a9" kindref="member">name</ref>,<sp/>std::unordered_map&lt;std::string,<sp/>std::unique_ptr&lt;IniResource&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a94f04ef8bda03cf46992f546bed9cef4" kindref="member">resources</ref>,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config" kindref="compound">VGSplitGroupConfig</ref><sp/><ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a0b87cf990fbb56f6f75837b5cdf74933" kindref="member">config</ref>,<sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(<ref refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource_1ad9484a31db82da19d581cae76f33ce3d" kindref="member">IniGroupedResource</ref>&amp;)&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1abf9062268d77338804d50a56eba71eb3" kindref="member">fixFunc</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1ad81a32c63df4b98a022b7760390bac43" kindref="member">isBuilt</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a0b87cf990fbb56f6f75837b5cdf74933" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config" kindref="compound">VGSplitGroupConfig</ref><sp/><ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a0b87cf990fbb56f6f75837b5cdf74933" kindref="member">config</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a379cdbb292000313b31b99161b90cbf0" kindref="member">_fix</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h"/>
+  </compounddef>
+</doxygen>

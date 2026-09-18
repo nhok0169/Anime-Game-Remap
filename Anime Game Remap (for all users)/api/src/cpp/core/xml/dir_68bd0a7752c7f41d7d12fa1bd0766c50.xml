@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_68bd0a7752c7f41d7d12fa1bd0766c50" kind="dir">
+    <compoundname>include/AGRemapCore/model/stats</compoundname>
+    <innerfile refid="_cached_file_stats_8h">CachedFileStats.h</innerfile>
+    <innerfile refid="_file_stats_8h">FileStats.h</innerfile>
+    <innerfile refid="_remap_stats_8h">RemapStats.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/stats/"/>
+  </compounddef>
+</doxygen>

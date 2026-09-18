@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_cherry_hu_tao_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::CherryHuTaoParser</compoundname>
+    <includes refid="_cherry_hu_tao_parser_8h" local="no">CherryHuTaoParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_cherry_hu_tao_parser_1ab0a306208a65622ea980af6a9ae45769" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::CherryHuTaoParser::CherryHuTaoParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>CherryHuTaoParser</name>
+        <qualifiedname>AGRemapCore::CherryHuTaoParser::CherryHuTaoParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/CherryHuTao/CherryHuTaoParser.h" line="39" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_cherry_hu_tao_parser_1a7f612de768465f81091d4bb5d98a365b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::CherryHuTaoParser::v5_3</definition>
+        <argsstring>()</argsstring>
+        <name>v5_3</name>
+        <qualifiedname>AGRemapCore::CherryHuTaoParser::v5_3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 5.3-era CherryHuTao ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::cherryHutao5_3` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/CherryHuTao/CherryHuTaoParser.h" line="48" column="45" bodyfile="src/data/IniParseData/CherryHuTao/CherryHuTaoParser.cpp" bodystart="45" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+CherryHuTao&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`CherryHuTaoFixer`; the two agree on the mod object names by hand, and
+neither half makes sense alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+FOUR drawn objects, two more than HuTao. The fixer is the most involved in the
+repo: three texture edits, reflection sections to strip, a register shift and a
+TexFx re-issue
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/CherryHuTao/CherryHuTaoParser.h" line="36" column="5" bodyfile="include/AGRemapCore/data/IniParseData/CherryHuTao/CherryHuTaoParser.h" bodystart="36" bodyend="49"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_cherry_hu_tao_parser_1ab0a306208a65622ea980af6a9ae45769" prot="public" virt="non-virtual"><scope>AGRemapCore::CherryHuTaoParser</scope><name>CherryHuTaoParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_cherry_hu_tao_parser_1a7f612de768465f81091d4bb5d98a365b" prot="public" virt="non-virtual"><scope>AGRemapCore::CherryHuTaoParser</scope><name>v5_3</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

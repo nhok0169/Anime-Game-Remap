@@ -1,0 +1,585 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_binary_file_8h" kind="file" language="C++">
+    <compoundname>BinaryFile.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">variant</includes>
+    <includes refid="_buf_value_8h" local="yes">AGRemapCore/model/buffers/BufValue.h</includes>
+    <includedby refid="_blend_file_8h" local="yes">include/AGRemapCore/model/files/BlendFile.h</includedby>
+    <includedby refid="_buf_file_8h" local="yes">include/AGRemapCore/model/files/BufFile.h</includedby>
+    <includedby refid="_ib_file_8h" local="yes">include/AGRemapCore/model/files/IbFile.h</includedby>
+    <includedby refid="_position_file_8h" local="yes">include/AGRemapCore/model/files/PositionFile.h</includedby>
+    <includedby refid="_vb_file_8h" local="yes">include/AGRemapCore/model/files/VbFile.h</includedby>
+    <includedby refid="_binary_file_8cpp" local="yes">src/model/files/BinaryFile.cpp</includedby>
+    <includedby refid="_v_g_merge_group_resource_8cpp" local="yes">src/model/iniresources/VGMergeGroupResource.cpp</includedby>
+    <includedby refid="_v_g_split_group_resource_8cpp" local="yes">src/model/iniresources/VGSplitGroupResource.cpp</includedby>
+    <incdepgraph>
+      <node id="4">
+        <label>AGRemapCore/model/buffers/BufValue.h</label>
+        <link refid="_buf_value_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/model/files/BinaryFile.h</label>
+        <link refid="_binary_file_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>variant</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="15">
+        <label>include/AGRemapCore/data/IniFixData/GIMICharFixer.h</label>
+        <link refid="_g_i_m_i_char_fixer_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/model/files/BinaryFile.h</label>
+        <link refid="_binary_file_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/model/files/BlendFile.h</label>
+        <link refid="_blend_file_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/AGRemapCore/model/files/BufFile.h</label>
+        <link refid="_buf_file_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+      </node>
+      <node id="58">
+        <label>include/AGRemapCore/model/files/IbFile.h</label>
+        <link refid="_ib_file_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="60">
+        <label>include/AGRemapCore/model/files/PositionFile.h</label>
+        <link refid="_position_file_8h"/>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="63">
+        <label>include/AGRemapCore/model/files/VbFile.h</label>
+        <link refid="_vb_file_8h"/>
+        <childnode refid="64" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/model/iniresources/RemapBlendResource.h</label>
+        <link refid="_remap_blend_resource_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="65">
+        <label>include/AGRemapCore/model/iniresources/RemapPositionResource.h</label>
+        <link refid="_remap_position_resource_8h"/>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="67">
+        <label>include/AGRemapCore/model/strategies/bufEditors/BaseBufEditor.h</label>
+        <link refid="_base_buf_editor_8h"/>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+      </node>
+      <node id="68">
+        <label>include/AGRemapCore/model/strategies/bufEditors/BufEditor.h</label>
+        <link refid="_buf_editor_8h"/>
+        <childnode refid="69" relation="include">
+        </childnode>
+      </node>
+      <node id="66">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/PositionEdit.h</label>
+        <link refid="_position_edit_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h</label>
+        <link refid="_v_g_remap_blend_edit_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/data/IniFixData/Amber/AmberFixer.cpp</label>
+        <link refid="_amber_fixer_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/data/IniFixData/AmberCN/AmberCNFixer.cpp</label>
+        <link refid="_amber_c_n_fixer_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/data/IniFixData/Arlecchino/ArlecchinoFixer.cpp</label>
+        <link refid="_arlecchino_fixer_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/data/IniFixData/Ayaka/AyakaFixer.cpp</label>
+        <link refid="_ayaka_fixer_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp</label>
+        <link refid="_ayaka_springbloom_fixer_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/data/IniFixData/Barbara/BarbaraFixer.cpp</label>
+        <link refid="_barbara_fixer_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/data/IniFixData/BarbaraSummertime/BarbaraSummertimeFixer.cpp</label>
+        <link refid="_barbara_summertime_fixer_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp</label>
+        <link refid="_cherry_hu_tao_fixer_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/data/IniFixData/Diluc/DilucFixer.cpp</label>
+        <link refid="_diluc_fixer_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp</label>
+        <link refid="_diluc_flamme_fixer_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/data/IniFixData/Fischl/FischlFixer.cpp</label>
+        <link refid="_fischl_fixer_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/data/IniFixData/FischlHighness/FischlHighnessFixer.cpp</label>
+        <link refid="_fischl_highness_fixer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/data/IniFixData/GIMICharFixer.cpp</label>
+        <link refid="_g_i_m_i_char_fixer_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/data/IniFixData/GIMIComponentFixer.cpp</label>
+        <link refid="_g_i_m_i_component_fixer_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/data/IniFixData/Ganyu/GanyuFixer.cpp</label>
+        <link refid="_ganyu_fixer_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp</label>
+        <link refid="_ganyu_twilight_fixer_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/data/IniFixData/HuTao/HuTaoFixer.cpp</label>
+        <link refid="_hu_tao_fixer_8cpp"/>
+      </node>
+      <node id="31">
+        <label>src/data/IniFixData/Jean/JeanFixer.cpp</label>
+        <link refid="_jean_fixer_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/data/IniFixData/JeanCN/JeanCNFixer.cpp</label>
+        <link refid="_jean_c_n_fixer_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/data/IniFixData/JeanSea/JeanSeaFixer.cpp</label>
+        <link refid="_jean_sea_fixer_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/data/IniFixData/Kaeya/KaeyaFixer.cpp</label>
+        <link refid="_kaeya_fixer_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/data/IniFixData/KaeyaSailwind/KaeyaSailwindFixer.cpp</label>
+        <link refid="_kaeya_sailwind_fixer_8cpp"/>
+      </node>
+      <node id="36">
+        <label>src/data/IniFixData/Keqing/KeqingFixer.cpp</label>
+        <link refid="_keqing_fixer_8cpp"/>
+      </node>
+      <node id="37">
+        <label>src/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp</label>
+        <link refid="_keqing_opulent_fixer_8cpp"/>
+      </node>
+      <node id="38">
+        <label>src/data/IniFixData/Kirara/KiraraFixer.cpp</label>
+        <link refid="_kirara_fixer_8cpp"/>
+      </node>
+      <node id="39">
+        <label>src/data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp</label>
+        <link refid="_kirara_boots_fixer_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/data/IniFixData/Klee/KleeFixer.cpp</label>
+        <link refid="_klee_fixer_8cpp"/>
+      </node>
+      <node id="41">
+        <label>src/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.cpp</label>
+        <link refid="_klee_blossoming_starlight_fixer_8cpp"/>
+      </node>
+      <node id="42">
+        <label>src/data/IniFixData/Lisa/LisaFixer.cpp</label>
+        <link refid="_lisa_fixer_8cpp"/>
+      </node>
+      <node id="43">
+        <label>src/data/IniFixData/LisaStudent/LisaStudentFixer.cpp</label>
+        <link refid="_lisa_student_fixer_8cpp"/>
+      </node>
+      <node id="44">
+        <label>src/data/IniFixData/Mona/MonaFixer.cpp</label>
+        <link refid="_mona_fixer_8cpp"/>
+      </node>
+      <node id="45">
+        <label>src/data/IniFixData/MonaCN/MonaCNFixer.cpp</label>
+        <link refid="_mona_c_n_fixer_8cpp"/>
+      </node>
+      <node id="46">
+        <label>src/data/IniFixData/Nilou/NilouFixer.cpp</label>
+        <link refid="_nilou_fixer_8cpp"/>
+      </node>
+      <node id="47">
+        <label>src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp</label>
+        <link refid="_nilou_breeze_fixer_8cpp"/>
+      </node>
+      <node id="48">
+        <label>src/data/IniFixData/Ningguang/NingguangFixer.cpp</label>
+        <link refid="_ningguang_fixer_8cpp"/>
+      </node>
+      <node id="49">
+        <label>src/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp</label>
+        <link refid="_ningguang_orchid_fixer_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
+        <link refid="_raiden_fixer_8cpp"/>
+      </node>
+      <node id="50">
+        <label>src/data/IniFixData/Rosaria/RosariaFixer.cpp</label>
+        <link refid="_rosaria_fixer_8cpp"/>
+      </node>
+      <node id="51">
+        <label>src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp</label>
+        <link refid="_rosaria_c_n_fixer_8cpp"/>
+      </node>
+      <node id="52">
+        <label>src/data/IniFixData/Shenhe/ShenheFixer.cpp</label>
+        <link refid="_shenhe_fixer_8cpp"/>
+      </node>
+      <node id="53">
+        <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
+        <link refid="_shenhe_frost_flower_fixer_8cpp"/>
+      </node>
+      <node id="54">
+        <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
+        <link refid="_xiangling_fixer_8cpp"/>
+      </node>
+      <node id="55">
+        <label>src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp</label>
+        <link refid="_xiangling_cheer_fixer_8cpp"/>
+      </node>
+      <node id="56">
+        <label>src/data/IniFixData/Xingqiu/XingqiuFixer.cpp</label>
+        <link refid="_xingqiu_fixer_8cpp"/>
+      </node>
+      <node id="57">
+        <label>src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp</label>
+        <link refid="_xingqiu_bamboo_fixer_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/model/buffers/VGComponentSplit.cpp</label>
+        <link refid="_v_g_component_split_8cpp"/>
+      </node>
+      <node id="72">
+        <label>src/model/files/BinaryFile.cpp</label>
+        <link refid="_binary_file_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/model/files/BlendFile.cpp</label>
+        <link refid="_blend_file_8cpp"/>
+      </node>
+      <node id="71">
+        <label>src/model/files/BufFile.cpp</label>
+        <link refid="_buf_file_8cpp"/>
+      </node>
+      <node id="59">
+        <label>src/model/files/IbFile.cpp</label>
+        <link refid="_ib_file_8cpp"/>
+      </node>
+      <node id="61">
+        <label>src/model/files/PositionFile.cpp</label>
+        <link refid="_position_file_8cpp"/>
+      </node>
+      <node id="64">
+        <label>src/model/files/VbFile.cpp</label>
+        <link refid="_vb_file_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/model/iniresources/RemapBlendResource.cpp</label>
+        <link refid="_remap_blend_resource_8cpp"/>
+      </node>
+      <node id="62">
+        <label>src/model/iniresources/RemapPositionResource.cpp</label>
+        <link refid="_remap_position_resource_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/model/iniresources/VGMergeGroupResource.cpp</label>
+        <link refid="_v_g_merge_group_resource_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/model/iniresources/VGSplitGroupResource.cpp</label>
+        <link refid="_v_g_split_group_resource_8cpp"/>
+      </node>
+      <node id="70">
+        <label>src/model/strategies/bufEditors/BaseBufEditor.cpp</label>
+        <link refid="_base_buf_editor_8cpp"/>
+      </node>
+      <node id="69">
+        <label>src/model/strategies/bufEditors/BufEditor.cpp</label>
+        <link refid="_buf_editor_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_binary_file" prot="public">AGRemapCore::BinaryFile</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_BinaryFile_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_BinaryFile_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_value_8h" kindref="compound">AGRemapCore/model/buffers/BufValue.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref><sp/>=<sp/>std::variant&lt;std::string,<sp/>ByteVec&gt;;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="class_a_g_remap_core_1_1_binary_file" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_binary_file_1a2bd5a0dea0d3721e3924febb7e916ed9" kindref="member">BinaryFile</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_binary_file_1a2bd5a0dea0d3721e3924febb7e916ed9" kindref="member">BinaryFile</ref>(<ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref><sp/>src);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="class_a_g_remap_core_1_1_binary_file_1a403d1d7ed483dd886a78b36ee109dd6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_binary_file_1a403d1d7ed483dd886a78b36ee109dd6d" kindref="member">~BinaryFile</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_binary_file_1a5a11fc978b1651a88646a252d122fdd8" kindref="member">getSrc</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_binary_file_1aa02ddd15f95514374873a5fa2a41cca2" kindref="member">setSrc</ref>(<ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref><sp/>src);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_binary_file_1a3a80217f9979453c697a4d1c4b709926" kindref="member">getData</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref><sp/><ref refid="class_a_g_remap_core_1_1_binary_file_1a516ededfe804043f2a93cc35d43d7f53" kindref="member">read</ref>();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="89" refid="class_a_g_remap_core_1_1_binary_file_1a443bf8bb2ae564fc382a079ce73caac5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref><sp/><ref refid="class_a_g_remap_core_1_1_binary_file_1a443bf8bb2ae564fc382a079ce73caac5" kindref="member">src_</ref>;</highlight></codeline>
+<codeline lineno="90" refid="class_a_g_remap_core_1_1_binary_file_1a70d6840d6ff225a4fd844cc23ca595f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref><sp/><ref refid="class_a_g_remap_core_1_1_binary_file_1a70d6840d6ff225a4fd844cc23ca595f5" kindref="member">data_</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/model/files/BinaryFile.h"/>
+  </compounddef>
+</doxygen>

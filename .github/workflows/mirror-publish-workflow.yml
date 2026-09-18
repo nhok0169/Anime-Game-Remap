@@ -1,0 +1,62 @@
+name: Publish the Mirror
+
+# Builds the mirror's distribution and publishes AnimeGameRemap to PyPI.
+#
+# note: no build and no tests here -- whoever calls this has already done them. It is a reusable
+#   workflow precisely so the release flow can run it AFTER FixRaidenBoss2 has published: the mirror
+#   pins 'FixRaidenBoss2==<version>', so publishing it first would ship a package whose only
+#   dependency does not exist yet.
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    name: Build distribution
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.x"
+    - name: Install pypa/build
+      run: >-
+        python3 -m
+        pip install
+        build
+        --user
+    - name: Build a binary wheel and a source tarball
+      run: python3 -m build
+      working-directory: './Anime Game Remap (for all users)/apiMirror'
+    - name: Store the distribution packages
+      uses: actions/upload-artifact@v4
+      with:
+        name: mirror-package-distributions
+        path: 'Anime Game Remap (for all users)/apiMirror/dist/'
+        if-no-files-found: error
+
+  publish-to-pypi:
+    name: >-
+      Publish AnimeGameRemap Package to PyPI
+    needs:
+    - build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: pypi
+      url: https://pypi.org/p/AnimeGameRemap
+
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+
+    steps:
+    - name: Download all the dists
+      uses: actions/download-artifact@v4
+      with:
+        name: mirror-package-distributions
+        path: dist/
+
+    - name: Publish distribution to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1

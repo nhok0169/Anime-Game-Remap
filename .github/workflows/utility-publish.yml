@@ -8,9 +8,12 @@
 
 name: Upload AG Remap Utility Package
 
+# note: deliberately NOT on a release. AGRemapUtils carries its own version, set separately in
+#   Utils/constants/toolStats.py, and a release of the libraries says nothing about whether the
+#   utility library changed -- so a release used to re-publish whatever version it already had, which
+#   PyPI rejects as a duplicate and which shows up as a failed job on an otherwise clean release.
+#   Publish it by hand when its own version has moved.
 on:
-  release:
-    types: [published]
   workflow_dispatch:
 
 permissions:

@@ -4,7 +4,8 @@ __pycache__/
 *$py.class
 
 # C extensions
-*.so
+*.so*
+*.pyd
 
 # auto-generated Sphinx api docs
 /docs/generated
@@ -131,5 +132,12 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# the build folder in the documentation
-build/
+# cmake build folder
+cbuild*/
+cebuild*/
+cext*/
+
+.cursor
+
+# VGRemapFinder's cached dump reads
+Tools/VGRemapFinder/.benchmarkCache/

@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_v_g_merge_component_files" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::VGMergeComponentFiles</compoundname>
+    <includes refid="_v_g_merge_group_resource_8h" local="no">VGMergeGroupResource.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_merge_component_files_1aee09fbf7167c026554b04a42ee79ecb4" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec" kindref="compound">VGMergeComponentSpec</ref></type>
+        <definition>VGMergeComponentSpec AGRemapCore::VGMergeComponentFiles::spec</definition>
+        <argsstring></argsstring>
+        <name>spec</name>
+        <qualifiedname>AGRemapCore::VGMergeComponentFiles::spec</qualifiedname>
+        <briefdescription>
+<para>The component and its own vertex group row. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="39" column="30" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_merge_component_files_1a71576195213776857d6263285e5f7326" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::VGMergeComponentFiles::blendPath</definition>
+        <argsstring></argsstring>
+        <name>blendPath</name>
+        <qualifiedname>AGRemapCore::VGMergeComponentFiles::blendPath</qualifiedname>
+        <briefdescription>
+<para>This component&apos;s <computeroutput>Blend.buf</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="44" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_merge_component_files_1a05d00f3518bea0dc438eece7448b9da0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::VGMergeComponentFiles::positionPath</definition>
+        <argsstring></argsstring>
+        <name>positionPath</name>
+        <qualifiedname>AGRemapCore::VGMergeComponentFiles::positionPath</qualifiedname>
+        <briefdescription>
+<para>This component&apos;s <computeroutput>Position.buf</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="49" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_merge_component_files_1a1f4fbd2386356aaaa72ee1dc7f3e1b7a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::VGMergeComponentFiles::texcoordPath</definition>
+        <argsstring></argsstring>
+        <name>texcoordPath</name>
+        <qualifiedname>AGRemapCore::VGMergeComponentFiles::texcoordPath</qualifiedname>
+        <briefdescription>
+<para>This component&apos;s <computeroutput>Texcoord.buf</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="54" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+One source component&apos;s files, as a :cpp:class:`VGMergeGroupResource` finds them on disk
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::VGMergeComponentFiles</label>
+        <link refid="struct_a_g_remap_core_1_1_v_g_merge_component_files"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>spec</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::VGMergeComponentSpec</label>
+        <link refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>remap</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::VGRemap</label>
+        <link refid="class_a_g_remap_core_1_1_v_g_remap"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="35" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="35" bodyend="55"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_files_1a71576195213776857d6263285e5f7326" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeComponentFiles</scope><name>blendPath</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_files_1a05d00f3518bea0dc438eece7448b9da0" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeComponentFiles</scope><name>positionPath</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_files_1aee09fbf7167c026554b04a42ee79ecb4" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeComponentFiles</scope><name>spec</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_files_1a1f4fbd2386356aaaa72ee1dc7f3e1b7a" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeComponentFiles</scope><name>texcoordPath</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

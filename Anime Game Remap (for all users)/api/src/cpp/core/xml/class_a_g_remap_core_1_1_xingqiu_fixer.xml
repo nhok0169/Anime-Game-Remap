@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_xingqiu_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::XingqiuFixer</compoundname>
+    <includes refid="_xingqiu_fixer_8h" local="no">XingqiuFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_xingqiu_fixer_1a620502b7f2286dad28eebb639a3da3b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::XingqiuFixer::XingqiuFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>XingqiuFixer</name>
+        <qualifiedname>AGRemapCore::XingqiuFixer::XingqiuFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Xingqiu/XingqiuFixer.h" line="37" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_xingqiu_fixer_1a4d714e5632dc2ac7629831882e1a1442" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>static IniFixBuilder::Factory AGRemapCore::XingqiuFixer::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::XingqiuFixer::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 4.0 fix -- what :cpp:func:`IniFixBuilderFuncs::xingqiu4_0` returns,
+and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Xingqiu/XingqiuFixer.h" line="46" column="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_xingqiu_fixer_1a735a8870086060971f1937ae8d94bc1a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::XingqiuFixer::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::XingqiuFixer::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer for a 6.1-era Xingqiu ``.ini`` file -- what
+:cpp:func:`IniFixBuilderFuncs::xingqiu6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Xingqiu/XingqiuFixer.h" line="55" column="43" bodyfile="src/data/IniFixData/Xingqiu/XingqiuFixer.cpp" bodystart="90" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Xingqiu&apos;s own ``.ini`` fixers, one per game version he needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`XingqiuParser`, and read it next to :cpp:class:`XingqiuBambooFixer`
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A SPLIT of the head alone, across the skin&apos;s ``head`` and ``dress``
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Xingqiu/XingqiuFixer.h" line="34" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Xingqiu/XingqiuFixer.h" bodystart="34" bodyend="56"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_xingqiu_fixer_1a4d714e5632dc2ac7629831882e1a1442" prot="public" virt="non-virtual"><scope>AGRemapCore::XingqiuFixer</scope><name>v4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_xingqiu_fixer_1a735a8870086060971f1937ae8d94bc1a" prot="public" virt="non-virtual"><scope>AGRemapCore::XingqiuFixer</scope><name>v6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_xingqiu_fixer_1a620502b7f2286dad28eebb639a3da3b3" prot="public" virt="non-virtual"><scope>AGRemapCore::XingqiuFixer</scope><name>XingqiuFixer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

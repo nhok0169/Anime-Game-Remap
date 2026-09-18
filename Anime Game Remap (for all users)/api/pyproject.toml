@@ -1,24 +1,59 @@
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = [
+  "scikit-build-core>=0.9",
+  "pybind11>=2.10",
+  "numpy",
+  "cython"
+]
+build-backend = "scikit_build_core.build"
 
 [project]
 name = "FixRaidenBoss2"
-version = "4.6.4"
+version = "5.0.0a1"
 authors = [
   {name="NK", email="qqqqaaaapppp0000@gmail.com"},
   {name="Albert Gold", email="AlexXianZhenYuAu@gmail.com"}
 ]
 description = "A library to help remap the mods installed on a character onto the skins of the character"
 readme = "README.md"
-requires-python = ">=3.6"
+requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+]
+dependencies = [
+	"numpy>=1.26.4"
 ]
 
 [project.urls]
 Homepage = "https://github.com/nhok0169/Anime-Game-Remap"
 Documentation = "https://anime-game-remap.readthedocs.io/en/latest/"
 Repository = "https://github.com/nhok0169/Anime-Game-Remap"
+
+# -------------------------------------------------
+# scikit-build-core configuration
+# -------------------------------------------------
+
+[tool.scikit-build]
+cmake.version = ">=3.18"
+wheel.packages = [
+  "src/py/FixRaidenBoss2"
+]
+cmake.args = [
+  "-DBUILD_MODE=cibuildwheel"
+]
+
+[tool.scikit-build.sdist]
+include = [
+  "CMakeLists.txt",
+  "src/**"
+]
+
+# PyPy is not fully compatible with modern pybind11 + CPython-specific APIs
+[tool.cibuildwheel]
+skip = "pp*"
+
+[tool.cibuildwheel.windows]
+before-build = "pip install delvewheel"
+repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel}"

@@ -1,11 +1,14 @@
+import gc
 import sys, os
+import weakref
+from ordered_set import OrderedSet
 
 from .baseIniFileTest import BaseIniFileTest
 from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
 
 sys.path.insert(1, Configs[ConfigKeys.SysPath])
-import src.FixRaidenBoss2 as FRB
+import src.py.FixRaidenBoss2 as FRB
 
 
 class GIMIParserTest(BaseIniFileTest):
@@ -15,112 +18,538 @@ class GIMIParserTest(BaseIniFileTest):
 
         cls._parser = None
 
+    # includeKeyDefs = False leaves the 'hash' and 'match_first_index' lines themselves out of the
+    # editable ranges (IfContentPartColouring::getRanges' contract). So the RegNewVals on 'hash' below
+    # can never fire, and a section that goes on to define match_first_index ([DaDaIb2]) gets no edit
+    # at all -- the pure-Python edits ignored both, and this test used to expect that.
+    def _getIbOnly(self, iterData: FRB.SectionIterData, modType: FRB.ModType, ini: FRB.IniFile):
+        result = iterData.colouring.getRanges(keysExists = {"hash": True, "match_first_index": False}, keyFilters = {"hash": lambda ind, val: modType.hashes.hasFrom(val, version = ini.fromVersion, nonVersionVals = {"type": "ib"})}, includeKeyDefs = False)
+        return result
+
     def createParser(self):
-        self._parser = FRB.GIMIParser(self._iniFile)
+        self._parser = FRB.GIMIParser(self._iniFile, modObjs = OrderedSet([("", "blend"), ("", "texcoord"), ("", "body"), ("", "ib")]), 
+                                      downloads = {("", "texcoord"): {"vb0": FRB.DownloadData("testPosition", FRB.FileDownload("anotherURL", "anotherBaseFile")),
+                                                                      "vb1": FRB.DownloadData("testTexture", FRB.FileDownload("someURL", "someBaseFile"))},
+                                                   ("", "blend"): {"ps-t0": FRB.DownloadData("testDiffuse", FRB.FileDownload("unknownURL", "unknownBaseFile"), refToSection = True),
+                                                                   "ps-t1": FRB.DownloadData("testLightMap", FRB.FileDownload("uniqueURL", "uniqueBaseFile"), refToSection = False)}},
+                                      commandEdits = FRB.GraphGroupEdit(edits = [{("", "blend"): [FRB.RegFillMissing("handling2", [("handling2", "skip"), ("drawindexed2", "auto")], fillMode = FRB.RegFillMissingMode.TopdownCover, dependOnDownload = True),
+                                                                                                  FRB.RegFillMissing("ib", "null", dependOnDownload = True)],
+                                                                                  ("", "body"): [FRB.RegFillMissing("ps-t999", "DigitOverflow")],
+                                                                                  ("", "ib"): [FRB.RegFillMissing("ps-t2,147,483,647", "DigitUnderflow"), FRB.RegNewVals({"hash": "Matsuribayashi-hen"})]}],
+                                                                        trackKeys = [{("", "ib"): True}],
+                                                                        keysToTrack = [{("", "ib"): {"hash", "match_first_index"}}],
+                                                                        keyFilters = [{("", "ib"): self._getIbOnly}]))
 
     def create(self):
         self.createIniFile()
         self.createParser()
-        self._iniFile._iniParser = self._parser
+        self.useStrategies(parser = self._parser)
 
-    # ====================== _makeRemapModels ============================
-
-    def test_differentSavedResourceIfTemplates_remapModelsCreated(self):
+    def createNamedParser(self):
         self.create()
-        modType = "Kyrie"
+        self._parser.trackKeys = False
+        self._parser.objTargetFuncs = []
 
-        testObjs = [[{}, {}],
-                    [{"hello": FRB.IfTemplate([])}, {"hello": FRB.IniFixResourceModel("", {}, origPaths = {})}],
-                    [{"Mahler": FRB.IfTemplate([FRB.IfPredPart("Bolero", FRB.IfPredPartType.If), 
-                                                FRB.IfContentPart({"filename": [(0, "./hello/world.haku")]}, 2), 
-                                                FRB.IfContentPart({"filename": [(0, "../../Backups/Buffers/Ei.elf")]}, 3), 
-                                                FRB.IfPredPart("dfdfdf", FRB.IfPredPartType.EndIf), 
-                                                FRB.IfContentPart({"peepeepoopoo": [(0, "rip piggy")]}, 3)]),
-                      "Ravel": FRB.IfTemplate([FRB.IfContentPart({"Jeux D'eau": [(0, "Une piece difficile pour la piano")]}, 0)]),
-                      "Debussy": FRB.IfTemplate([FRB.IfContentPart({"Reverie": [(0, "Je reve d'etre ailleurs")], "filename": [(1, "poopoopeepee/piggy rip")]}, 0)])}, 
-                      {"Mahler": FRB.IniFixResourceModel("", {1: {modType: ["hello/worldKyrieRemapBlend.buf"]}, 2: {modType: ["../../Backups/Buffers/EiKyrieRemapBlend.buf"]}}, origPaths = {1: ["hello/world.haku"], 2: ["../../Backups/Buffers/Ei.elf"]}),
-                       "Ravel": FRB.IniFixResourceModel("", {}, origPaths = {}),
-                       "Debussy": FRB.IniFixResourceModel("", {0: {modType: ["poopoopeepee/piggy ripKyrieRemapBlend.buf"]}}, origPaths = {0: ["poopoopeepee/piggy rip"]})}]]
-        
-        for testObj in testObjs:
-            self._iniFile.clear()
-            self._parser.blendResourceCommandsGraph._sections = testObj[0]
-            self._parser._modsToFix = {modType}
-            self._parser._makeRemapModels(self._iniFile.remapBlendModels, self._parser.blendResourceCommandsGraph)
-            expected = testObj[1]
-            expectedLen = len(expected)
+    def createKeyedParser(self):
+        self.create()
 
-            self.assertEqual(len(self._iniFile.remapBlendModels), expectedLen)
-            self.compareSet(set(self._iniFile.remapBlendModels.keys()), set(expected.keys()))
+        sectionClassifier = FRB.GIMISectionClassifier.buildDefaultClassifierFromIni(self._iniFile)
+        sectionClassifier.hashKeyOnlyToModObj = {
+            "blend_vb": ("", "blend"), 
+            "texcoord_vb": ("", "texcoord"),
+            "ib": ("", "ib")
+        }
 
-            for sectionName in self._iniFile.remapBlendModels:
-                resultModel = self._iniFile.remapBlendModels[sectionName]
-                expected[sectionName].iniFolderPath = os.path.dirname(self._file)
-                self.compareIniFixResourceModel(resultModel, expected[sectionName])
+        sectionClassifier.indexKeyToModObj = {
+            "ib": {("", "body"): ("", "body")}
+        }
 
-    # ====================================================================
+        self._parser.trackKeys = True
+        self._parser.keysToTrack = {FRB.IniKeywords.Hash.value, FRB.IniKeywords.MatchFirstIndex.value}
+        self._parser.objTargetFuncs = [sectionClassifier]
+
     # ====================== parse =======================================
 
-    def test_textureOverrideRootFound_parsedDataFromIniTxt(self):
-        self.setupIniTxt(self._defaultIniTxt)
+    def test_textureOverrideRootFoundByName_parsedDataFromIniTxt(self):
+        tests = [
+                 [self._defaultIniTxt, 
+"""[TextureOverrideRaidenShogunBlend]
+handling2 = skip
+drawindexed2 = auto
+ps-t0 = ResourceRaidenTestDiffuseRemapDL
+run = CommandListRaidenShogunBlend
+handling = skip
+draw = 21916,0
+ps-t1 = ResourceRaidenTestLightMapRemapDL
+ib = null
+
+[CommandListRaidenShogunBlend]
+if $swapmain == 0
+\tif $swapvar == 0 && $swapvarn == 0
+\t\tvb1 = ResourceRaidenShogunBlend.0
+\t\tps-t1 = ResourceRaidenTestLightMapRemapDL
+\telse
+\t\tvb1 = ResourceEiBlendsHerBlenderInsteadOfHerSmoothie
+\t\tps-t1 = ResourceRaidenTestLightMapRemapDL
+\tendif
+else if $swapmain == 1
+\trun = SubSubTextureOverride
+\tps-t1 = ResourceRaidenTestLightMapRemapDL
+endif
+
+[SubSubTextureOverride]
+if $swapoffice == 0 && $swapglasses == 0
+\tvb1 = GIMINeedsResourcesToAllStartWithResource
+\tps-t1 = ResourceRaidenTestLightMapRemapDL
+endif
+
+[TextureOverrideRaidenTexcoordRemapFix]
+vb0 = ResourceRaidenTestPositionRemapDL
+vb1 = ResourceRaidenTestTextureRemapDL
+
+[ResourceRaidenTestDiffuseRemapDL]
+filename = unknownBaseFile
+
+[ResourceRaidenTestLightMapRemapDL]
+filename = uniqueBaseFile
+
+[ResourceRaidenTestPositionRemapDL]
+filename = anotherBaseFile
+
+[ResourceRaidenTestTextureRemapDL]
+filename = someBaseFile""", 4]]
+
+        for test in tests:
+            iniTxt = test[0]
+            self.setupIniTxt(iniTxt)
+            self.createNamedParser()
+            self._iniFile.parse()
+
+            expected = test[1]
+            expectedDownloadCount = test[2]
+
+            result = []
+            graphs = self._parser.commandGraphs
+            for modObj in graphs:
+                graphStr = graphs[modObj].toStr()
+                if (graphStr):
+                    result.append(graphs[modObj].toStr())
+
+            downloadGraphs = self._parser.downloadResourceGraphs
+            for modObj in downloadGraphs:
+                for reg in downloadGraphs[modObj]:
+                    graphStr = downloadGraphs[modObj][reg].toStr()
+                    if (graphStr):
+                        result.append(graphStr)
+
+            result = "\n\n".join(result)
+
+            self.assertEqual(result, expected)
+            self.assertEqual(len(self._iniFile.getFileDownloads()), expectedDownloadCount)
+
+    def test_textureOverrideRootFoundByKVP_parsedDataFromIniTxt(self):
+        tests = [
+                 [self._defaultIniTxt, 
+"""[TextureOverrideRaidenBlendRemapFix]
+handling2 = skip
+drawindexed2 = auto
+ps-t0 = ResourceRaidenTestDiffuseRemapDL
+ps-t1 = ResourceRaidenTestLightMapRemapDL
+ib = null
+
+[TextureOverrideRaidenTexcoordRemapFix]
+vb0 = ResourceRaidenTestPositionRemapDL
+vb1 = ResourceRaidenTestTextureRemapDL
+
+[ResourceRaidenTestPositionRemapDL]
+filename = anotherBaseFile
+
+[ResourceRaidenTestTextureRemapDL]
+filename = someBaseFile
+
+[ResourceRaidenTestDiffuseRemapDL]
+filename = unknownBaseFile
+
+[ResourceRaidenTestLightMapRemapDL]
+filename = uniqueBaseFile""", 4],
+
+[
+"""
+[TextureOverridelittleblacknekowitchBlend]
+hash = rikaTheWitchOfFate
+
+[GoogooGaaGaaBlend]
+hash = kuroneko
+
+[NanaTex]
+hash = rena's going to take you home3
+
+[DaDaIb]
+hash = Himatsubushi-hen
+
+[DaDaIb2]
+hash = Himatsubushi-hen
+match_first_index = protocolSignalGenerator
+
+[DaDaBody]
+hash = Himatsubushi-hen
+match_first_index = uryu uryu! Slap by Rosa...
+"""
+,
+"""[GoogooGaaGaaBlend]
+handling2 = skip
+drawindexed2 = auto
+ps-t0 = ResourceBernkastelTestDiffuseRemapDL
+hash = kuroneko
+ps-t1 = ResourceBernkastelTestLightMapRemapDL
+ib = null
+
+[NanaTex]
+hash = rena's going to take you home3
+vb0 = ResourceBernkastelTestPositionRemapDL
+
+[DaDaBody]
+hash = Himatsubushi-hen
+match_first_index = uryu uryu! Slap by Rosa...
+ps-t999 = DigitOverflow
+
+[DaDaIb]
+hash = Himatsubushi-hen
+ps-t2,147,483,647 = DigitUnderflow
+
+[DaDaIb2]
+hash = Himatsubushi-hen
+match_first_index = protocolSignalGenerator
+
+[ResourceBernkastelTestPositionRemapDL]
+filename = anotherBaseFile
+
+[ResourceBernkastelTestTextureRemapDL]
+filename = someBaseFile
+
+[ResourceBernkastelTestDiffuseRemapDL]
+filename = unknownBaseFile
+
+[ResourceBernkastelTestLightMapRemapDL]
+filename = uniqueBaseFile""", 4]]
+
+        for test in tests:
+            iniTxt = test[0]
+            self.setupIniTxt(iniTxt)
+            
+            self.createKeyedParser()
+            self._parser.trackKeys = True
+            self._parser.keysToTrack = {FRB.IniKeywords.Hash.value, FRB.IniKeywords.MatchFirstIndex.value}
+
+            self._iniFile.parse()
+
+            expected = test[1]
+            expectedDownloadCount = test[2]
+
+            result = []
+            graphs = self._parser.commandGraphs
+            for modObj in graphs:
+                graphStr = graphs[modObj].toStr()
+                if (graphStr):
+                    result.append(graphStr)
+
+            downloadGraphs = self._parser.downloadResourceGraphs
+            for modObj in downloadGraphs:
+                for reg in downloadGraphs[modObj]:
+                    downloadStr = downloadGraphs[modObj][reg].toStr()
+                    if (downloadStr):
+                        result.append(downloadStr)
+
+            result = "\n\n".join(result)
+
+            self.assertEqual(result, expected)
+            self.assertEqual(len(self._iniFile.getFileDownloads()), expectedDownloadCount)
+
+    # ====================================================================
+    # ==================== structure / attributes ========================
+
+    def test_parser_isABaseIniParser(self):
         self.create()
+
+        # The C++ GIMIParser is registered with BaseIniParser as its real pybind11 base, so this is
+        # genuine inheritance, not just a documented claim.
+        self.assertIsInstance(self._parser, FRB.BaseIniParser)
+        self.assertIs(self._parser._iniFile, self._iniFile)
+
+    def test_modObjs_isTheCallersOwnObject(self):
+        self.create()
+        modObjs = OrderedSet([("bang", "B"), ("", "head")])
+
+        self._parser.modObjs = modObjs
+        self.assertIs(self._parser.modObjs, modObjs)
+
+    def test_components_derivedFromModObjs(self):
+        self.create()
+        self._parser.modObjs = OrderedSet([("bang", "B"), ("bang", "C"), ("", "head")])
+        self.compareSet(self._parser.components, {"bang", ""})
+
+    def test_objTargetFuncs_isTheCallersOwnList(self):
+        self.create()
+        funcs = []
+
+        self._parser.objTargetFuncs = funcs
+        self.assertIs(self._parser.objTargetFuncs, funcs)
+
+    def test_downloads_isTheCallersOwnDict(self):
+        self.create()
+        downloads = {}
+
+        self._parser.downloads = downloads
+        self.assertIs(self._parser.downloads, downloads)
+
+    def test_commandGraphs_isTheSameDictEveryAccess(self):
+        self.create()
+
+        # editCommands() hands this exact dict to an IniGraphGroup and reads it back out, so the
+        # aliasing has to survive -- a fresh copy per access would silently break every edit.
+        self.assertIs(self._parser.commandGraphs, self._parser.commandGraphs)
+
+    def test_commandGraphs_assignable(self):
+        self.create()
+        graphs = {}
+
+        self._parser.commandGraphs = graphs
+        self.assertIs(self._parser.commandGraphs, graphs)
+
+    def test_tempKwargs_startsEmptyAndIsClearedByClear(self):
+        self.create()
+        self.compareDict(self._parser.tempKwargs, {})
+
+        self._parser.tempKwargs["scratch"] = 42
+        self.assertEqual(self._parser.tempKwargs["scratch"], 42)
+
+        self._parser.clear()
+        self.compareDict(self._parser.tempKwargs, {})
+
+    def test_clear_emptiesTheParsedGraphs(self):
+        self.setupIniTxt(self._defaultIniTxt)
+        self.createNamedParser()
         self._iniFile.parse()
 
-        expectedBlendCommands = {"TextureOverrideRaidenShogunBlend": FRB.IfTemplate([FRB.IfContentPart({"run": [(0, "CommandListRaidenShogunBlend")],
-                                                                                      "handling": [(1, "skip")],
-                                                                                      "draw": [(2, "21916,0")]}, 0)]),
-                                 "CommandListRaidenShogunBlend": FRB.IfTemplate([FRB.IfPredPart("                    if $swapmain == 0\n", FRB.IfPredPartType.If),
-                                                                                    FRB.IfPredPart("                        if $swapvar == 0 && $swapvarn == 0\n", FRB.IfPredPartType.If),
-                                                                                        FRB.IfContentPart({"vb1": [(0, "ResourceRaidenShogunBlend.0")]}, 2),
-                                                                                    FRB.IfPredPart("                        else\n", FRB.IfPredPartType.Else),
-                                                                                        FRB.IfContentPart({"vb1": [(0, "ResourceEiBlendsHerBlenderInsteadOfHerSmoothie")]}, 2),
-                                                                                    FRB.IfPredPart("                        endif\n", FRB.IfPredPartType.EndIf),
-                                                                                 FRB.IfPredPart("                    else if $swapmain == 1\n", FRB.IfPredPartType.Elif),
-                                                                                    FRB.IfContentPart({"run": [(0, "SubSubTextureOverride")] }, 1),
-                                                                                 FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf)]),
-                                 "SubSubTextureOverride": FRB.IfTemplate([FRB.IfPredPart("                    if $swapoffice == 0 && $swapglasses == 0\n", FRB.IfPredPartType.If),
-                                                                            FRB.IfContentPart({"vb1": [(0, "GIMINeedsResourcesToAllStartWithResource")]}, 1),
-                                                                          FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf)])}
-        expectedBlendRemapNames = {"TextureOverrideRaidenShogunBlend": {"RaidenBoss": "TextureOverrideRaidenShogunRaidenBossRemapBlend"},
-                                   "CommandListRaidenShogunBlend": {"RaidenBoss": "CommandListRaidenShogunRaidenBossRemapBlend"},
-                                   "SubSubTextureOverride": {"RaidenBoss": "SubSubTextureOverrideRaidenBossRemapBlend"}}
-        
-        expectedResourceCommands = {"ResourceRaidenShogunBlend.0": FRB.IfTemplate([FRB.IfContentPart({"type": [(0, "Buffer")],
-                                                                                    "stride": [(1, "32")],
-                                                                                    "filename": [(2, "..\..\..\../../../../../../2-BunnyRaidenShogun\RaidenShogunBlend.buf")]}, 0)]),
-                                    "ResourceEiBlendsHerBlenderInsteadOfHerSmoothie": FRB.IfTemplate([FRB.IfContentPart({"type": [(0, "Buffer")],
-                                                                                                       "stride": [(1, "32")]}, 0),
-                                                                                                      FRB.IfPredPart("                    if $swapmain == 1\n", FRB.IfPredPartType.If),
-                                                                                                            FRB.IfContentPart({"filename": [(0, "M:\AnotherDrive\CuteLittleEi.buf")]}, 1),
-                                                                                                      FRB.IfPredPart("                    else\n", FRB.IfPredPartType.Else),
-                                                                                                            FRB.IfContentPart({"run": [(0, "RaidenPuppetCommandResource")]}, 1),
-                                                                                                      FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf)]),
-                                    "GIMINeedsResourcesToAllStartWithResource": FRB.IfTemplate([FRB.IfContentPart({"type": [(0, "Buffer")],
-                                                                                                 "stride": [(1, "32")],
-                                                                                                 "filename": [(2, "./../AAA/BBBB\CCCCCC\DDDDDRemapBlend.buf")]}, 0)]),
-                                    "RaidenPuppetCommandResource": FRB.IfTemplate([FRB.IfContentPart({"type": [(0, "Buffer")],
-                                                                                    "stride": [(1, "32")],
-                                                                                    "filename": [(2, "./Dont/Use\If/Statements\Or/SubCommands\In/Resource\Sections.buf")]}, 0)])}
-        expectedResourceCommandsRemapNames = {"ResourceRaidenShogunBlend.0": {"RaidenBoss": "ResourceRaidenShogunRaidenBossRemapBlend.0"},
-                                              "ResourceEiBlendsHerBlenderInsteadOfHerSmoothie": {"RaidenBoss": "ResourceEiBlendsHerRaidenBossRemapBlenderInsteadOfHerSmoothie"},
-                                              "GIMINeedsResourcesToAllStartWithResource": {"RaidenBoss": "ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend"},
-                                              "RaidenPuppetCommandResource": {"RaidenBoss": "ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend"}}
-        
-        self.compareDictIfTemplate(self._parser.blendCommandsGraph.sections, expectedBlendCommands)
-        self.compareDictOfDict(self._parser.blendCommandsGraph.remapNames, expectedBlendRemapNames)
-        self.compareDictIfTemplate(self._parser.blendResourceCommandsGraph.sections, expectedResourceCommands)
-        self.compareDictOfDict(self._parser.blendResourceCommandsGraph.remapNames, expectedResourceCommandsRemapNames)
+        self.assertTrue(len(self._parser.commandGraphs) > 0)
 
-        self._iniFile.fileTxt = ""
+        self._parser.clear()
+        self.compareDict(self._parser.commandGraphs, {})
+        self.compareDict(self._parser.downloadResourceGraphs, {})
+        self.assertIsNone(self._parser.globalGraph)
+
+    # ====================================================================
+    # ============== classifyByTextureOverrideName =======================
+
+    def test_classifyByTextureOverrideName_matchingSuffix_classified(self):
+        self.create()
+        result = FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "TextureOverrideRaidenShogunBlend")
+        self.compareList(result, [("", "blend")])
+
+    def test_classifyByTextureOverrideName_caseAndWhitespaceInsensitive(self):
+        self.create()
+        result = FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "   textureoverrideRAIDENSHOGUNblend  ")
+        self.compareList(result, [("", "blend")])
+
+    def test_classifyByTextureOverrideName_alreadyRemapped_notClassified(self):
+        self.create()
+
+        # A section this software wrote itself -- 'remap' anywhere after the prefix disqualifies it.
+        result = FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "TextureOverrideRaidenShogunRemapBlend")
+        self.compareList(result, [])
+
+    def test_classifyByTextureOverrideName_notATextureOverride_notClassified(self):
+        self.create()
+        self.compareList(FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "CommandListRaidenShogunBlend"), [])
+        self.compareList(FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "ResourceRaidenShogunBlend.0"), [])
+
+    def test_classifyByTextureOverrideName_noMatchingModObj_notClassified(self):
+        self.create()
+        self.compareList(FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "TextureOverrideRaidenShogunDress"), [])
+
+    def test_classifyByTextureOverrideName_matchMustBeASuffix(self):
+        self.create()
+
+        # 'blend' occurs, but not at the end -- it names some other object, not this one.
+        self.compareList(FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "TextureOverrideRaidenBlendExtras"), [])
+
+    def test_classifyByTextureOverrideName_explicitModObjs_overridesTheParsers(self):
+        self.create()
+        result = FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "TextureOverrideHuTaoBody",
+                                                              modObjs = OrderedSet([("", "Body")]))
+        self.compareList(result, [("", "Body")])
+
+    def test_classifyByTextureOverrideName_componentAndObjectConcatenated(self):
+        self.create()
+        result = FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "TextureOverrideYelanBangB",
+                                                              modObjs = OrderedSet([("Bang", "B")]))
+        self.compareList(result, [("Bang", "B")])
+
+    def test_classifyByTextureOverrideName_fromRoots_buildsTheGlobalGraph(self):
+        self.create()
+        self._parser.clear()
+        self.assertIsNone(self._parser.globalGraph)
+
+        FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "TextureOverrideRaidenShogunBlend", fromRoots = True)
+        self.assertIsNotNone(self._parser.globalGraph)
+
+    # ====================================================================
+    # ========================= parse's result ===========================
+
+    def _parseResult(self):
+        self.setupIniTxt(self._defaultIniTxt)
+        self.createNamedParser()
+        return self._parser.parse()
+
+    def test_parse_returnsExactlyOneGraphGroup(self):
+        result = self._parseResult()
+
+        self.assertIsInstance(result, list)
+        self.assertEqual(len(result), 1)
+        self.assertIsInstance(result[0], FRB.IniGraphGroup)
+
+    def test_parse_groupHoldsCommandGraphsThenDownloadGraphs(self):
+        result = self._parseResult()
+        graphs = result[0].graphs
+
+        # Command graphs keep their own (component, mod object) key; download resource graphs get
+        # the reserved "download" component plus the download's own name.
+        expected = [("", "blend"), ("", "texcoord"), ("", "body"), ("", "ib")]
+        expected = [modObj for modObj in expected if modObj in self._parser.commandGraphs]
+
+        # Download graphs come in the order the parse FOUND them (downloadResourceGraphs is an
+        # ordered map filled as the walk reaches each register), not the order of 'downloads'.
+        downloadGraphs = self._parser.downloadResourceGraphs
+        expected += [(FRB.IniGraphModObjKeywords.Download.value, self._parser.downloads[modObj][reg].name)
+                     for modObj in downloadGraphs for reg in downloadGraphs[modObj]]
+        self.assertEqual(len(expected), 8)
+
+        self.compareList(list(graphs.keys()), expected)
+
+    def test_parse_groupSharesTheParsersOwnGraphObjects(self):
+        result = self._parseResult()
+        graphs = result[0].graphs
+
+        for modObj in self._parser.commandGraphs:
+            # Identity: a Python IniGraphGroup holds references, so nothing is copied on the way out.
+            self.assertIs(graphs[modObj], self._parser.commandGraphs[modObj])
+
+        downloadGraphs = self._parser.downloadResourceGraphs
+        for modObj in downloadGraphs:
+            for reg in downloadGraphs[modObj]:
+                name = self._parser.downloads[modObj][reg].name
+                self.assertIs(graphs[(FRB.IniGraphModObjKeywords.Download.value, name)], downloadGraphs[modObj][reg])
+
+    def test_parse_groupsDictIsFresh_notCommandGraphsItself(self):
+        result = self._parseResult()
+
+        # Adding to the returned group must not also add to the parser's own commandGraphs.
+        self.assertIsNot(result[0].graphs, self._parser.commandGraphs)
+
+        before = len(self._parser.commandGraphs)
+        result[0].graphs[("scratch", "entry")] = None
+        self.assertEqual(len(self._parser.commandGraphs), before)
+
+    def test_parse_oneDownloadSharedByTwoRegisters_builtAndDownloadedOnce(self):
+        self.setupIniTxt(self._defaultIniTxt)
+        self.createNamedParser()
+
+        # The same DownloadData under two registers of one mod object. A .ini file can only hold
+        # one section of a given name, so it is built -- and downloaded -- once, and both
+        # registers' resource graphs point at that one section.
+        shared = FRB.DownloadData("sharedDownload", FRB.FileDownload("sharedURL", "sharedBaseFile"))
+        self._parser.downloads = {("", "texcoord"): {"vb0": shared, "vb1": shared}}
+
         self._iniFile.parse()
 
-        self.compareDict(self._parser.blendCommandsGraph.sections, {})
-        self.compareDict(self._parser.blendCommandsGraph.remapNames, {})
-        self.compareDict(self._parser.blendResourceCommandsGraph.sections, {})
-        self.compareDict(self._parser.blendResourceCommandsGraph.remapNames, {})
-        self.compareList(self._parser.blendCommandsGraph.runSequence, [])
-        self.compareList(self._parser.blendResourceCommandsGraph.runSequence, [])
+        self.assertEqual(len(self._iniFile.getFileDownloads()), 1)
 
-        # TODO: Add case for getting the sections not related to [TextureOverride.*Blend]
+        graphs = self._parser.collectParseResult()[0].graphs
+        downloadKeys = [modObj for modObj in graphs if modObj[0] == FRB.IniGraphModObjKeywords.Download.value]
+        self.compareList(downloadKeys, [(FRB.IniGraphModObjKeywords.Download.value, "sharedDownload")])
+
+        resourceGraphs = self._parser.downloadResourceGraphs[("", "texcoord")]
+        self.assertIsNot(resourceGraphs["vb0"], resourceGraphs["vb1"])
+        self.compareList(sorted(resourceGraphs["vb0"].sections.keys()),
+                         sorted(resourceGraphs["vb1"].sections.keys()))
+
+    def test_parse_downloadGraphsKeyedByTheDownloadsNameNotItsRegister(self):
+        result = self._parseResult()
+        graphs = result[0].graphs
+
+        # The register a download is referenced from ("vb0", "ps-t1", ...) never appears in the
+        # key -- only the download's own name does, so the same resource reached from two places
+        # would be one entry.
+        downloadKeys = [modObj for modObj in graphs if modObj[0] == FRB.IniGraphModObjKeywords.Download.value]
+        self.compareList(sorted(name for _, name in downloadKeys),
+                         sorted(["testPosition", "testTexture", "testDiffuse", "testLightMap"]))
+
+    def test_parse_noDownloads_groupIsJustTheCommandGraphs(self):
+        self.setupIniTxt(self._defaultIniTxt)
+        self.createNamedParser()
+        self._parser.downloads = {}
+
+        graphs = self._parser.parse()[0].graphs
+        self.compareList(list(graphs.keys()), list(self._parser.commandGraphs.keys()))
+
+    # ====================================================================
+    # ================= reused across IniFile.clear() ====================
+
+    # A parser REUSED across IniFile.clear() used to keep every graph it had built, and those graphs
+    # kept pybind11 wrappers for sections and parts the .ini file had freed. A wrapper outliving its
+    # object stays registered at that address, so the next object allocated there was cast back to
+    # the STALE wrapper. The symptom was an access violation in an unrelated test much later
+    # (test_GraphInherit); these tests pin the mechanism instead, which fails reliably.
+
+    def _parseRounds(self, rounds: int = 3):
+        self.setupIniTxt(self._defaultIniTxt)
+        self.createNamedParser()
+
+        for _ in range(rounds):
+            self.writeIniTxt(self._iniTxt)
+            self._iniFile.clear()
+            self._iniFile.parse()
+
+    def _countStaleSectionWrappers(self, tries: int = 500) -> int:
+        stale = 0
+        for _ in range(tries):
+            section = FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")]}, 0)], name = "s")
+            graph = FRB.IniSectionGraph({"s": section}, ["s"])
+
+            # The graph's keep-alive pins whatever wrapper pybind11 finds for this address. When
+            # that is not 'section' itself, 'section' is no longer kept alive by the graph.
+            if (graph.sections["s"] is not section):
+                stale += 1
+
+        return stale
+
+    def test_clear_releasesThePreviousParsesGraphs(self):
+        self._parseRounds(rounds = 1)
+
+        graphs = [self._parser.globalGraph, *self._parser.commandGraphs.values()]
+        downloadGraphs = self._parser.downloadResourceGraphs
+        graphs += [graph for regGraphs in downloadGraphs.values() for graph in regGraphs.values()]
+        graphs = [graph for graph in graphs if graph is not None]
+        self.assertGreater(len(graphs), 1)
+
+        refs = [weakref.ref(graph) for graph in graphs]
+        graphs = downloadGraphs = None
+
+        self._iniFile.clear()
+        gc.collect()
+
+        self.assertEqual([ref for ref in refs if ref() is not None], [])
+
+    def test_reusedAcrossClear_newSectionsGetTheirOwnWrappers(self):
+        self._parseRounds()
+        self.assertEqual(self._countStaleSectionWrappers(), 0)
+
+    def test_reusedAcrossClear_noStaleWrappersBeforeTheNextParse(self):
+        self._parseRounds()
+
+        # clear() frees the sections straight away -- the parser's graphs must already be gone
+        # then, not only once the next parse clears the parser.
+        self._iniFile.clear()
+        self.assertEqual(self._countStaleSectionWrappers(), 0)
 
     # ====================================================================

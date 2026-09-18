@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_b39b5091e8d1d2be4b7fc59d57749634" kind="dir">
+    <compoundname>src/view</compoundname>
+    <innerfile refid="_base_logger_8cpp">BaseLogger.cpp</innerfile>
+    <innerfile refid="_logger_8cpp">Logger.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/view/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_reg_val_checks" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RegValChecks</compoundname>
+    <includes refid="_reg_val_checks_8h" local="no">RegValChecks.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_val_checks_1ab0495b93770836021f0e395853b63846" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RegValChecks::RegValChecks</definition>
+        <argsstring>()=delete</argsstring>
+        <name>RegValChecks</name>
+        <qualifiedname>AGRemapCore::RegValChecks::RegValChecks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/RegValChecks.h" line="73" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_val_checks_1a68a4d8675202b55ebfceb4aef669f179" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RegValChecks::isDiffuse</definition>
+        <argsstring>(const std::string &amp;val)</argsstring>
+        <name>isDiffuse</name>
+        <qualifiedname>AGRemapCore::RegValChecks::isDiffuse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Whether &apos;val&apos; names a diffuse texture. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register&apos;s value <ndash/> a resource section name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/RegValChecks.h" line="80" column="25" bodyfile="src/data/IniFixData/RegValChecks.cpp" bodystart="39" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_val_checks_1af85c39288b274ab9c0ccd726c78cc1b8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RegValChecks::isLightMap</definition>
+        <argsstring>(const std::string &amp;val)</argsstring>
+        <name>isLightMap</name>
+        <qualifiedname>AGRemapCore::RegValChecks::isLightMap</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Whether &apos;val&apos; names a lightmap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register&apos;s value <ndash/> a resource section name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/RegValChecks.h" line="87" column="25" bodyfile="src/data/IniFixData/RegValChecks.cpp" bodystart="43" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_val_checks_1aac369dee4db5780ab4b05cc7a609d43c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RegValChecks::isNormalMap</definition>
+        <argsstring>(const std::string &amp;val)</argsstring>
+        <name>isNormalMap</name>
+        <qualifiedname>AGRemapCore::RegValChecks::isNormalMap</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Whether &apos;val&apos; names a normal map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register&apos;s value <ndash/> a resource section name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/RegValChecks.h" line="94" column="25" bodyfile="src/data/IniFixData/RegValChecks.cpp" bodystart="47" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_val_checks_1a982420d2b36a3c35c58d3bf871d7735e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RegValChecks::isMetalMap</definition>
+        <argsstring>(const std::string &amp;val)</argsstring>
+        <name>isMetalMap</name>
+        <qualifiedname>AGRemapCore::RegValChecks::isMetalMap</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Whether &apos;val&apos; names a metal map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register&apos;s value <ndash/> a resource section name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/RegValChecks.h" line="101" column="25" bodyfile="src/data/IniFixData/RegValChecks.cpp" bodystart="51" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_val_checks_1a2fe7f193adb647b041740b0b7df1acc2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RegValChecks::isShadow</definition>
+        <argsstring>(const std::string &amp;val)</argsstring>
+        <name>isShadow</name>
+        <qualifiedname>AGRemapCore::RegValChecks::isShadow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Whether &apos;val&apos; names a shadow ramp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register&apos;s value <ndash/> a resource section name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/RegValChecks.h" line="108" column="25" bodyfile="src/data/IniFixData/RegValChecks.cpp" bodystart="55" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The ready-made tests a :cpp:class:`GIMICharFixerConfig`&apos;s ``RegRef`` can be conditional on --
+&quot;is the thing bound to this register a lightmap?&quot;, and its four siblings
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**WHAT THEY ARE ACTUALLY FOR: a mod that has ALREADY been fixed by hand.** GI swapped which
+registers a character&apos;s shader reads its diffuse and its lightmap out of (the same swap behind
+the white cheek spots -- see the face diffuse section in
+:doc:`Creating Remaps &lt;/AI Agent Help/CreatingRemaps/CLAUDE&gt;`). There are two ways a mod author
+can answer that :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+1. **Re-issue NNFix / ORFix.** The better answer, and the one this software prefers: those
+   libraries carry the correction, so whatever the game changes NEXT is handled by updating
+   them rather than every mod.
+2. **Swap the registers by hand**, which is the same thing this software&apos;s own ``regEdits``
+   do.
+
+A mod that took route 2 arrives with its registers *already* where the fix was going to move
+them. Applying the shift again would undo the author&apos;s work. So the shift is made conditional:
+move ``ps-t2`` **only if what is sitting there still looks like a lightmap**, and otherwise
+(``RegRemapRule::keepIfNoneMatch``) leave it exactly where it is
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**This is a heuristic, and it is one on purpose -- there is no reliable way to tell a lightmap
+from a diffuse.** Both are just textures; nothing in a ``.dds`` says which slot it belongs in.
+What is left is the name the mod author gave the resource section, following the GIMI
+convention (``ResourceKiraraBodyLightMap``), so these are substring tests on that name,
+mirroring the pure-Python ``IniFixBuilderData._isLightMap`` family exactly
+(``val.lower().find(&quot;lightmap&quot;) != -1``). Anything stricter stops matching real mods
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   **Reading the texture&apos;s CONTENT instead was considered and deliberately rejected.** Judging
+   a lightmap by its colours would misread any mod that recolours a character on purpose --
+   paint someone head to toe in green goo and their diffuse starts looking like a lightmap. A
+   name is a weaker signal than the pixels, but it is the author&apos;s own statement of intent,
+   and it does not punish them for making an unusual mod :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+   The failure mode this leaves is someone naming a lightmap &quot;diffuse&quot;. That is not a case to
+   defend against: a person doing it is deliberately breaking their own fix, and no heuristic
+   survives an author working against it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+   Case-insensitive by lowercasing ASCII only, like the original. These match section names,
+   not user-facing text, so the grapheme-aware :cpp:class:`StringTools` path buys nothing here
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/RegValChecks.h" line="70" column="5" bodyfile="include/AGRemapCore/data/IniFixData/RegValChecks.h" bodystart="70" bodyend="109"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_reg_val_checks_1a68a4d8675202b55ebfceb4aef669f179" prot="public" virt="non-virtual"><scope>AGRemapCore::RegValChecks</scope><name>isDiffuse</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_val_checks_1af85c39288b274ab9c0ccd726c78cc1b8" prot="public" virt="non-virtual"><scope>AGRemapCore::RegValChecks</scope><name>isLightMap</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_val_checks_1a982420d2b36a3c35c58d3bf871d7735e" prot="public" virt="non-virtual"><scope>AGRemapCore::RegValChecks</scope><name>isMetalMap</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_val_checks_1aac369dee4db5780ab4b05cc7a609d43c" prot="public" virt="non-virtual"><scope>AGRemapCore::RegValChecks</scope><name>isNormalMap</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_val_checks_1a2fe7f193adb647b041740b0b7df1acc2" prot="public" virt="non-virtual"><scope>AGRemapCore::RegValChecks</scope><name>isShadow</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_val_checks_1ab0495b93770836021f0e395853b63846" prot="public" virt="non-virtual"><scope>AGRemapCore::RegValChecks</scope><name>RegValChecks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

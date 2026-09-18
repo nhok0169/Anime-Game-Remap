@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_v_g_merge_group_res_builder" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::VGMergeGroupResBuilder</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder" prot="public" virt="non-virtual">AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::GroupedResBuilder</basecompoundref>
+    <includes refid="_v_g_merge_group_res_builder_8h" local="no">VGMergeGroupResBuilder.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a2e999c940a50435fc104969544bf7135" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect" kindref="compound">ResGroupCollect</ref>&lt;&gt;::GraphId</type>
+        <definition>using AGRemapCore::VGMergeGroupResBuilder::GraphId = ResGroupCollect&lt;&gt;::GraphId</definition>
+        <argsstring></argsstring>
+        <name>GraphId</name>
+        <qualifiedname>AGRemapCore::VGMergeGroupResBuilder::GraphId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" line="47" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a416f6964a9e758520e6204399f758df3" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::VGMergeGroupResBuilder::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>AGRemapCore::VGMergeGroupResBuilder::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" line="68" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a89cac6c5acd37b4328440c08dc6e686e" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_v_g_merge_group_config" kindref="compound">VGMergeGroupConfig</ref></type>
+        <definition>VGMergeGroupConfig AGRemapCore::VGMergeGroupResBuilder::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>AGRemapCore::VGMergeGroupResBuilder::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" line="69" column="32" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1aced6c238a5d5d46d5f238dc4b343e93c" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+        <definition>IniFile* AGRemapCore::VGMergeGroupResBuilder::iniFile_</definition>
+        <argsstring></argsstring>
+        <name>iniFile_</name>
+        <qualifiedname>AGRemapCore::VGMergeGroupResBuilder::iniFile_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" line="70" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a8024749e775de879cef9c7db4c19fc6c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_v_g_merge_group_resource" kindref="compound">VGMergeGroupResource</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;VGMergeGroupResource&gt; &gt; AGRemapCore::VGMergeGroupResBuilder::groups_</definition>
+        <argsstring></argsstring>
+        <name>groups_</name>
+        <qualifiedname>AGRemapCore::VGMergeGroupResBuilder::groups_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" line="71" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a75ef5043802aee83d9a3eb4b4e9ee701" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::VGMergeGroupResBuilder::VGMergeGroupResBuilder</definition>
+        <argsstring>(std::string name, VGMergeGroupConfig config, IniFile *iniFile)</argsstring>
+        <name>VGMergeGroupResBuilder</name>
+        <qualifiedname>AGRemapCore::VGMergeGroupResBuilder::VGMergeGroupResBuilder</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_v_g_merge_group_config" kindref="compound">VGMergeGroupConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>iniFile</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a builder for a source&apos;s merged groups. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What every built group is called, eg. <computeroutput>"YelanTranquilYelanBuffers"</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The merge <ndash/> every source component&apos;s files and row, and the target&apos;s objects </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>iniFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>.ini</computeroutput> file the built groups are stored into <ndash/> borrowed, may be <computeroutput>nullptr</computeroutput> (then nothing is stored) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" line="56" column="13" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp" bodystart="24" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1ae33164ce3573ba6053fa88bd2d7001fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref> *</type>
+        <definition>IniGroupedResource * AGRemapCore::VGMergeGroupResBuilder::build</definition>
+        <argsstring>() override</argsstring>
+        <name>build</name>
+        <qualifiedname>AGRemapCore::VGMergeGroupResBuilder::build</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a39ab0721dbc274ae70e51ee9bca589c5">build</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds a fresh grouped resource that is **not** yet marked built
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The implementation keeps ownership; the returned pointer must stay valid until
+the edit finishes
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" line="58" column="32" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp" bodystart="28" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a625a04d7aa20c5ede695cf1747843e8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::VGMergeGroupResBuilder::store</definition>
+        <argsstring>(IniGroupedResource &amp;resource) override</argsstring>
+        <name>store</name>
+        <qualifiedname>AGRemapCore::VGMergeGroupResBuilder::store</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a29ab622c29be739e620ecc3118a3463e">store</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref> &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Hands a finished grouped resource to the <computeroutput>.ini</computeroutput> file it belongs to. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The grouped resource, already marked built and fully populated </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" line="59" column="18" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp" bodystart="36" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a1ae031e54d762b3995527743e47f8388" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::VGMergeGroupResBuilder::addResource</definition>
+        <argsstring>(IniGroupedResource &amp;group, const GraphId &amp;resType, IniResource &amp;resource) override</argsstring>
+        <name>addResource</name>
+        <qualifiedname>AGRemapCore::VGMergeGroupResBuilder::addResource</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref> &amp;</type>
+          <declname>group</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a2e999c940a50435fc104969544bf7135" kindref="member">GraphId</ref> &amp;</type>
+          <declname>resType</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" line="60" column="18" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp" bodystart="50" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1af948aab3935bd4b8330a99526f630eb2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_v_g_merge_group_resource" kindref="compound">VGMergeGroupResource</ref> &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::shared_ptr&lt; VGMergeGroupResource &gt; &gt; &amp; AGRemapCore::VGMergeGroupResBuilder::groups</definition>
+        <argsstring>() const</argsstring>
+        <name>groups</name>
+        <qualifiedname>AGRemapCore::VGMergeGroupResBuilder::groups</qualifiedname>
+        <briefdescription>
+<para>The groups built so far <ndash/> owned here, shared with the <computeroutput>.ini</computeroutput> file once stored. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" line="65" column="31" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp" bodystart="70" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`ResGroupCollect::GroupedResBuilder`
+
+The plain-C++ builder of a :cpp:class:`VGMergeGroupResource` for a :cpp:class:`ResGroupCollect`
+-- the merge&apos;s counterpart of :cpp:class:`VGSplitGroupResBuilder`, and the same three steps:
+:cpp:func:`build` makes a fresh, not-yet-built group carrying the merge&apos;s configuration,
+:cpp:func:`addResource` files each member the collect built into it, and :cpp:func:`store` hands
+the finished group to the ``.ini`` file&apos;s :cpp:func:`IniFile::getGroupedResources`
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   **The member is COPIED into the group, not moved**, for the same reason the split&apos;s builder
+   copies -- see :cpp:class:`VGSplitGroupResBuilder`&apos;s own note
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::GroupedResBuilder</label>
+        <link refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::VGMergeGroupResBuilder</label>
+        <link refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>AGRemapCore::BaseIniClassifier</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_classifier"/>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::IniFile</label>
+        <link refid="class_a_g_remap_core_1_1_ini_file"/>
+        <childnode refid="5" relation="usage">
+          <edgelabel>iniClassifier_</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>z3Ctx_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::GroupedResBuilder</label>
+        <link refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder"/>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::VGMergeGroupConfig</label>
+        <link refid="struct_a_g_remap_core_1_1_v_g_merge_group_config"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::VGMergeGroupResBuilder</label>
+        <link refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>iniFile_</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::Z3Context</label>
+        <link refid="class_a_g_remap_core_1_1_z3_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" line="45" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" bodystart="45" bodyend="72"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a1ae031e54d762b3995527743e47f8388" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResBuilder</scope><name>addResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a826316b4f5b2e90beff9381ac9c884e9" prot="public" virt="pure-virtual" ambiguityscope="AGRemapCore::ResGroupCollect::GroupedResBuilder::"><scope>AGRemapCore::VGMergeGroupResBuilder</scope><name>addResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1ae33164ce3573ba6053fa88bd2d7001fa" prot="public" virt="virtual"><scope>AGRemapCore::VGMergeGroupResBuilder</scope><name>build</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a89cac6c5acd37b4328440c08dc6e686e" prot="private" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResBuilder</scope><name>config_</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a2e999c940a50435fc104969544bf7135" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResBuilder</scope><name>GraphId</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1af948aab3935bd4b8330a99526f630eb2" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResBuilder</scope><name>groups</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a8024749e775de879cef9c7db4c19fc6c" prot="private" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResBuilder</scope><name>groups_</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1aced6c238a5d5d46d5f238dc4b343e93c" prot="private" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResBuilder</scope><name>iniFile_</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a416f6964a9e758520e6204399f758df3" prot="private" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResBuilder</scope><name>name_</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a625a04d7aa20c5ede695cf1747843e8a" prot="public" virt="virtual"><scope>AGRemapCore::VGMergeGroupResBuilder</scope><name>store</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a75ef5043802aee83d9a3eb4b4e9ee701" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResBuilder</scope><name>VGMergeGroupResBuilder</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a2086e068e6e5148293c3b7033f84b100" prot="public" virt="virtual"><scope>AGRemapCore::VGMergeGroupResBuilder</scope><name>~GroupedResBuilder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,74 @@
+#ifndef AGRemapCore_VGRemapData_H
+#define AGRemapCore_VGRemapData_H
+
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "AGRemapCore/model/VGRemap.h"
+
+
+namespace AGRemapCore {
+    namespace Data {
+
+        /**
+         * @brief
+         @rst
+         The vertex group remap table backing :cpp:class:`VGRemaps` -- the C++-side counterpart to the
+         pure-Python ``VGRemapData`` (``data/VGRemapData.py``) :raw-html:`<br />` :raw-html:`<br />`
+
+         Rows are ``({fromVersion, fromChar, fromComp, toVersion, toChar, toComp}, remap)`` -- **six**
+         index columns, of which **two** (``fromVersion`` at position 0 and ``toVersion`` at position
+         3) are version columns :raw-html:`<br />` :raw-html:`<br />`
+
+         .. note::
+            That two-version-column shape is what sets this table apart from every other one in
+            ``data/``. The hash, index, vertex-count and builder-args tables all have exactly one
+            version column and so are :cpp:class:`ModDictAssets`; this one cannot be, and
+            :cpp:class:`VGRemaps` uses :cpp:class:`ModAssets` instead -- see that class
+
+         .. note::
+            The value is a whole :cpp:class:`VGRemap` object, not a scalar -- 58 rows carrying 5542
+            index pairs between them (measured 2026-09-13)
+
+         .. note::
+            ``fromComp`` and ``toComp`` are ``""`` on all but six rows -- the ``Yelan`` <->
+            ``YelanTranquil`` remap, which is per-component (``Body``, ``Bang``, ``Eye``) in both
+            directions and so is the first thing to use these two columns for real. An empty
+            component is still a real key value, not a "missing" marker, exactly as with the
+            component columns in :cpp:func:`Data::getIndexDataRows` and
+            :cpp:func:`Data::getVertexCountDataRows`
+
+         .. danger::
+            Mechanically generated from the real, live pure-Python data (never hand-transcribed -- a
+            script imported the actual module, ran ``vgRemapDataBuilder.build()`` and walked the
+            resulting 6-deep dict), then verified row-for-row and pair-for-pair against it. Future
+            remap updates edit :cpp:func:`getVGRemapDataRows`'s literal directly (see
+            ``VGRemapData.cpp``) :raw-html:`<br />` :raw-html:`<br />`
+
+            **The two have since diverged on purpose: this table has six rows the pure-Python one
+            does not** -- the ``Yelan`` <-> ``YelanTranquil`` remap was added here only, so
+            ``vgRemapDataBuilder.build()`` still yields 52 rows / 5229 pairs against this table's 58
+            / 5542. So this table can no longer be regenerated from that builder: doing so would
+            silently drop Yelan. The same caveat :cpp:func:`Data::getVertexCountDataRows` carries
+         @endrst
+         */
+        const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataRows();
+
+    }
+}
+
+#endif

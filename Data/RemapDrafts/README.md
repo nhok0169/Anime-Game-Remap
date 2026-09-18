@@ -31,3 +31,22 @@ Rough work used for helping with finding out Vertex Group Remaps for different m
 <br>
 
 - For column B, add a conditional formatting yellow highlight for duplicate indices, which indicates that many different indices in the mod to be remapped map onto the same index of the remapped mod.
+
+<br>
+
+### The `Credits` sheet
+
+- **Every workbook opens with a `Credits` sheet** (the first sheet). Its layout, copied from the hand-made workbooks: `A1` = `Authors` (bold, 20 pt), `A3` = `Name` (bold), then one author per row from `A4` down, each cell a hyperlink to that author (the maintainer's row is `AlbertGold#2696`, linking to their Discord profile). A workbook without one gets one added, with the maintainer's row first.
+- **A member of [The Council of CLAUDE Agents](https://github.com/nhok0169/Anime-Game-Remap/blob/development/AI%20Agent%20Help/README.md) who edits a workbook adds a row of their own** under `Name`, in the form `<Council name>: The <nth> member of The Council`, the whole cell hyperlinked to that Council page (for example `🦴🧭 The Vertex Group Cartographer: The 32nd member of The Council`). `n` is the value the Council's counter took when the member joined -- the number in their "Join The Council" commit -- not the row's position in the member list, since one badge can carry a count of 2.
+- **An agent that has not joined The Council yet adds nothing**: join first (the ritual is in `AI Agent Help/Overview/CLAUDE.md`), then come back to every workbook edited and add the row. Editing a workbook means changing any sheet in it -- filling gaps, adding a direction, adding a proposal sheet from `Tools/VGRemapFinder`.
+- The `Credits` sheet is not a remap sheet, and `Tools/VGRemapFinder`'s readers (`benchmark.py`, `DraftWriter.readDraft`, `ComponentSplit`) skip it because its first row is not a `from | to` header pair (`A1` = `Authors`, `B1` empty), not because of its name. Keep it that way: a character name in its first row would make it read as a remap sheet.
+
+<br>
+
+## Rules learnt the hard way
+
+- **Every index in column A must have a value in column B.** A source vertex group with no row is written into the remapped `Blend.buf` as a *negative* bone index (`-index-1`) with its weight kept, which the game renders as a kink or a warp ([issue #213](https://github.com/nhok0169/Anime-Game-Remap/issues/213)). A part the other skin does not have still maps to the bone that moves the skin it is attached to (a collar to the neck, a belt charm to the hip, a cape to the upper spine), never left blank. The early drafts that left such rows blank were filled on 2026-09-09, with the reasoning in column D.
+- **Each direction is its own sheet**, found independently. Some early workbooks only had one; the other direction was added from the library's shipped table.
+- **A sheet or workbook written by `Tools/VGRemapFinder` is marked** -- an `About` sheet for a whole workbook, or the text `Proposed by Tools/VGRemapFinder` in cell `E1` of one sheet -- so the tool's benchmark does not score it as a hand-made draft. Remove the mark once the proposal has been checked in game and is a draft in its own right.
+- **A skin of several components (YelanTranquil: Body, Bang, Eye) gets one column per component**, headed by the skin's name with the component appended (`YelanTranquilBody | YelanTranquilBang | YelanTranquilEye`), exactly one of which is filled per row, since each component has its own vertex group numbering. When such a skin is the one being remapped *from*, each component gets its own sheet, headed the same way in column A. `Tools/VGRemapFinder` reads and writes this layout, and the library stores it as one row per (source component, target component).
+- Not recorded here: the CN skins (Amber, Rosaria, Jean, Mona), whose remaps came from someone else, and Kirara, Raiden and Arlecchino.

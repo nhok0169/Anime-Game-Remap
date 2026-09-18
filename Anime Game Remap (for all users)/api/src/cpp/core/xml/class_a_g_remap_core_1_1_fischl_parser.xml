@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_fischl_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::FischlParser</compoundname>
+    <includes refid="_fischl_parser_8h" local="no">FischlParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_fischl_parser_1a6d2ebeb5ae877221f0b166370329e547" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::FischlParser::FischlParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>FischlParser</name>
+        <qualifiedname>AGRemapCore::FischlParser::FischlParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Fischl/FischlParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_fischl_parser_1af5063f2da72c9150b3e244bde3038e96" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::FischlParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::FischlParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era Fischl ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::fischl4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Fischl/FischlParser.h" line="44" column="45" bodyfile="src/data/IniParseData/Fischl/FischlParser.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Fischl&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`FischlFixer`: the fixer&apos;s mod objects are the ones this parser
+classifies, and neither half makes sense alone
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Fischl/FischlParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Fischl/FischlParser.h" bodystart="32" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_fischl_parser_1a6d2ebeb5ae877221f0b166370329e547" prot="public" virt="non-virtual"><scope>AGRemapCore::FischlParser</scope><name>FischlParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_fischl_parser_1af5063f2da72c9150b3e244bde3038e96" prot="public" virt="non-virtual"><scope>AGRemapCore::FischlParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

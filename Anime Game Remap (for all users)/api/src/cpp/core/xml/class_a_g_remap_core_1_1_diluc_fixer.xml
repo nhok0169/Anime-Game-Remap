@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_diluc_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::DilucFixer</compoundname>
+    <includes refid="_diluc_fixer_8h" local="no">DilucFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_diluc_fixer_1a26d057a9cdc3dcec76789cd88447433f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::DilucFixer::DilucFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>DilucFixer</name>
+        <qualifiedname>AGRemapCore::DilucFixer::DilucFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Diluc/DilucFixer.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_diluc_fixer_1a51a87304d0056d0bbeae0054d9969374" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::DilucFixer::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::DilucFixer::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 4.0 fix that remaps a Diluc mod onto DilucFlamme -- what
+:cpp:func:`IniFixBuilderFuncs::diluc4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Diluc/DilucFixer.h" line="44" column="43" bodyfile="src/data/IniFixData/Diluc/DilucFixer.cpp" bodystart="110" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_diluc_fixer_1a37befe03a3231bed34bcd44272089f42" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::DilucFixer::v6_1ToDilucFlamme</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1ToDilucFlamme</name>
+        <qualifiedname>AGRemapCore::DilucFixer::v6_1ToDilucFlamme</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fix that remaps a Diluc mod onto DilucFlamme at 6.1 -- what
+:cpp:func:`IniFixBuilderFuncs::diluc6_1ToDilucFlamme` returns, and documented
+there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Diluc/DilucFixer.h" line="54" column="43" bodyfile="src/data/IniFixData/Diluc/DilucFixer.cpp" bodystart="133" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Diluc&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`DilucParser`: the mod objects this fixer remaps are the ones
+that parser classifies, and neither half makes sense alone
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Diluc/DilucFixer.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Diluc/DilucFixer.h" bodystart="32" bodyend="55"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_diluc_fixer_1a26d057a9cdc3dcec76789cd88447433f" prot="public" virt="non-virtual"><scope>AGRemapCore::DilucFixer</scope><name>DilucFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_diluc_fixer_1a51a87304d0056d0bbeae0054d9969374" prot="public" virt="non-virtual"><scope>AGRemapCore::DilucFixer</scope><name>v4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_diluc_fixer_1a37befe03a3231bed34bcd44272089f42" prot="public" virt="non-virtual"><scope>AGRemapCore::DilucFixer</scope><name>v6_1ToDilucFlamme</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

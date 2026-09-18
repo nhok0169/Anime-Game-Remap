@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_d6174293af9280e26c8b931dc8cd156b" kind="dir">
+    <compoundname>src/tools/grapheme</compoundname>
+    <innerfile refid="_grapheme_iterator_8cpp">GraphemeIterator.cpp</innerfile>
+    <innerfile refid="_grapheme_range_8cpp">GraphemeRange.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/tools/grapheme/"/>
+  </compounddef>
+</doxygen>

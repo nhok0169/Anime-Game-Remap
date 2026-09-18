@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_e9d04ec6215c664d49bb005712e7d917" kind="dir">
+    <compoundname>src/data/IniFixData/Lisa</compoundname>
+    <innerfile refid="_lisa_fixer_8cpp">LisaFixer.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniFixData/Lisa/"/>
+  </compounddef>
+</doxygen>

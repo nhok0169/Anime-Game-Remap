@@ -1,0 +1,426 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_file_service" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::FileService</compoundname>
+    <includes refid="_file_service_8h" local="no">FileService.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_file_service_1a12aee01b2903d731d6adb7b052a0daf9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::FileService::pathToStr</definition>
+        <argsstring>(const std::filesystem::path &amp;path)</argsstring>
+        <name>pathToStr</name>
+        <qualifiedname>AGRemapCore::FileService::pathToStr</qualifiedname>
+        <param>
+          <type>const std::filesystem::path &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A ``std::filesystem::path`` as a **UTF-8** ``std::string``
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. danger::
+   **Use this instead of** ``path.string()`` **, always.** On Windows ``string()``
+   converts through the process&apos;s *active code page*, which throws
+   ``std::system_error`` (&quot;No mapping for the Unicode character exists in the target
+   multi-byte code page&quot;) the moment a path holds a character that page cannot
+   represent -- and there is no such character in most code pages for, say, a Chinese
+   file name :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+   That is not hypothetical: a real Mona CN mod ships a file called ``命令.txt``, and
+   it took down the **entire run** -- the folder walk threw before a single ``.ini``
+   file was fixed. Measured, the same path gives ``string()`` -&gt; throws and
+   ``u8string()`` -&gt; 17 correct UTF-8 bytes
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The path to convert </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileService.h" line="64" column="32" bodyfile="src/tools/files/FileService.cpp" bodystart="22" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_file_service_1a90ef14f9d1679c06f89f7b6a05271d01" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path AGRemapCore::FileService::strToPath</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>strToPath</name>
+        <qualifiedname>AGRemapCore::FileService::strToPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A ``std::filesystem::path`` built from a **UTF-8** ``std::string`` -- the inverse of
+\ref pathToStr :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. danger::
+   **Use this instead of** ``std::filesystem::path(str)`` **, and instead of passing a
+   narrow string straight to a** ``std::filesystem`` **function or an** ``fstream``.
+   Those all read the bytes as the active code page, so a UTF-8 name round-trips into a
+   *different* path -- silently, and usually into &quot;file not found&quot; rather than an error
+   that says what happened
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The UTF-8 path to convert </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileService.h" line="82" column="42" bodyfile="src/tools/files/FileService.cpp" bodystart="38" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_file_service_1a449f10ebdecfb2c6219541feed507a80" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::FileService::pathToIniStr</definition>
+        <argsstring>(const std::filesystem::path &amp;path)</argsstring>
+        <name>pathToIniStr</name>
+        <qualifiedname>AGRemapCore::FileService::pathToIniStr</qualifiedname>
+        <param>
+          <type>const std::filesystem::path &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Like :cpp:func:`pathToStr`, but for a path about to be WRITTEN INTO a ``.ini`` file
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A ``.ini`` is consumed by a Windows game, so the separator in it is a backslash no
+matter which OS produced the file. ``std::filesystem`` joins with the NATIVE one, so
+without this a mod fixed on Linux comes out holding ``./Sub/tex.dds`` where the same
+fix on Windows writes ``.\Sub\tex.dds`` -- a pointless difference in a file the user
+may well carry between machines, and one that makes the two platforms&apos; output
+impossible to compare byte for byte :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Reading such a path back is :cpp:func:`strToPath`&apos;s job, which understands the
+backslash on POSIX as well
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The path to render for a <computeroutput>.ini</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The path as UTF-8, separated the way the game expects </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileService.h" line="105" column="32" bodyfile="src/tools/files/FileService.cpp" bodystart="29" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_file_service_1af4b1cd4dc7de8e98dfb68cec6c384a75" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::FileService::absPathOfRelPath</definition>
+        <argsstring>(const std::string &amp;dstPath, const std::string &amp;relFolder)</argsstring>
+        <name>absPathOfRelPath</name>
+        <qualifiedname>AGRemapCore::FileService::absPathOfRelPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dstPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>relFolder</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the absolute path of a (possibly relative) file path with respect to a
+certain folder :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Unlike the pure-Python original (which always normalizes through Windows-style
+   ``ntpath`` rules first, then swaps in the host OS&apos;s separator), this uses
+   ``std::filesystem`` directly and returns the host platform&apos;s own native separator
+   style throughout -- matching this codebase&apos;s existing precedent (see
+   :cpp:class:`IniNamingTools`&apos;s own path-joining methods) rather than replicating
+   Python&apos;s Windows-first normalization quirk
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dstPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target file path to resolve </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>relFolder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The folder &apos;dstPath&apos; is relative to, if it isn&apos;t already absolute</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The absolute path for &apos;dstPath&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileService.h" line="128" column="32" bodyfile="src/tools/files/FileService.cpp" bodystart="71" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_file_service_1aa92b672a02bc0b5b26a00fb4f4e5abe9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::FileService::defaultPath</definition>
+        <argsstring>()</argsstring>
+        <name>defaultPath</name>
+        <qualifiedname>AGRemapCore::FileService::defaultPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The folder the software was started from :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Ports the pure-Python ``FilePathConsts.DefaultPath``
+(``constants/FilePathConsts.py``), including its *when* -- that constant is the
+process&apos;s working directory as it stood when the package was first imported, **not**
+whatever the working directory happens to be at the moment it&apos;s read. So this is
+captured once, on the first call, and every later call gets that same answer even if
+something has since called ``chdir``
+</verbatim></para>
+<para><simplesect kind="return"><para>The folder the software was started from </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileService.h" line="145" column="38" bodyfile="src/tools/files/FileService.cpp" bodystart="82" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_file_service_1a1354f348d142e91845467da4f076501d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::FileService::parseOSPath</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>parseOSPath</name>
+        <qualifiedname>AGRemapCore::FileService::parseOSPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Normalizes a string containing some sort of file path :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Carries the same caveat as :cpp:func:`absPathOfRelPath`: the pure-Python original
+normalizes through Windows-style ``ntpath`` rules and then swaps in the host OS&apos;s
+separator, whereas this uses ``std::filesystem`` directly and stays in the host
+platform&apos;s own native separator style throughout
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string containing some sort of file path</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The normalized file path </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileService.h" line="163" column="32" bodyfile="src/tools/files/FileService.cpp" bodystart="90" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_file_service_1a44ac64f58cd3b48b2d0f93461e7485a2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::FileService::getPath</definition>
+        <argsstring>(const std::optional&lt; std::string &gt; &amp;path)</argsstring>
+        <name>getPath</name>
+        <qualifiedname>AGRemapCore::FileService::getPath</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves a file path, falling back to :cpp:func:`defaultPath` when none was given
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Ports the pure-Python ``FileService.getPath``/``FilePathConsts.getPath``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to retrieve, if any</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>&apos;path&apos; when it has a value, and :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_file_service_1aa92b672a02bc0b5b26a00fb4f4e5abe9" kindref="member">defaultPath</ref></computeroutput> otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileService.h" line="178" column="32" bodyfile="src/tools/files/FileService.cpp" bodystart="94" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_file_service_1add9b4070a288f7d12a696dcf03fe0638" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::vector&lt; std::string &gt;, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; std::vector&lt; std::string &gt;, std::vector&lt; std::string &gt; &gt; AGRemapCore::FileService::getFilesAndDirs</definition>
+        <argsstring>(const std::string &amp;path, bool recursive=false)</argsstring>
+        <name>getFilesAndDirs</name>
+        <qualifiedname>AGRemapCore::FileService::getFilesAndDirs</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>recursive</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the files and folders contained in a certain folder :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Ports the pure-Python ``FileService.getFilesAndDirs``, including its two rather
+different shapes: non-recursively this lists only the folder&apos;s *direct* children,
+while recursively it is an ``os.walk`` -- every descendant file and every descendant
+folder, at any depth, flattened into the same two lists :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A folder that cannot be read (it doesn&apos;t exist, or the OS refuses) yields two empty
+lists rather than throwing, matching how :cpp:func:`RemapService::fix` treats an
+unreadable folder as simply having nothing to visit
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The folder to look inside </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>recursive</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to recursively check every folder underneath &apos;path&apos;</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The files within the folder, then the folders within it </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileService.h" line="202" column="30" bodyfile="src/tools/files/FileService.cpp" bodystart="102" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_file_service_1a6e81c2ff3686891a1b31a3f54323df9c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::FileService::getRelPath</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;start)</argsstring>
+        <name>getRelPath</name>
+        <qualifiedname>AGRemapCore::FileService::getRelPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Tries to get the path of a file/folder relative to another folder :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Ports the pure-Python ``FileService.getRelPath``, including its fallback: when no
+relative path exists -- eg. the two paths sit on different mounts (a ``C:/`` drive
+file against a ``D:/`` drive folder) -- the original path is handed back untouched
+rather than an error being raised
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file/folder to get the relative path of </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The folder &apos;path&apos; should be expressed relative to</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>&apos;path&apos; relative to &apos;start&apos;, or &apos;path&apos; itself when that isn&apos;t possible </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileService.h" line="222" column="32" bodyfile="src/tools/files/FileService.cpp" bodystart="152" bodyend="163"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Tools for handling with files and folders :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   This is a **partial** port of the pure-Python ``FileService`` class
+   (``tools/files/FileService.py``) -- only #absPathOfRelPath is included so far, since it&apos;s
+   the one method the ``iniresources`` model classes need. Add more methods as later-ported
+   subsystems need them
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/files/FileService.h" line="39" column="5" bodyfile="include/AGRemapCore/tools/files/FileService.h" bodystart="39" bodyend="223"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_file_service_1af4b1cd4dc7de8e98dfb68cec6c384a75" prot="public" virt="non-virtual"><scope>AGRemapCore::FileService</scope><name>absPathOfRelPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_service_1aa92b672a02bc0b5b26a00fb4f4e5abe9" prot="public" virt="non-virtual"><scope>AGRemapCore::FileService</scope><name>defaultPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_service_1add9b4070a288f7d12a696dcf03fe0638" prot="public" virt="non-virtual"><scope>AGRemapCore::FileService</scope><name>getFilesAndDirs</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_service_1a44ac64f58cd3b48b2d0f93461e7485a2" prot="public" virt="non-virtual"><scope>AGRemapCore::FileService</scope><name>getPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_service_1a6e81c2ff3686891a1b31a3f54323df9c" prot="public" virt="non-virtual"><scope>AGRemapCore::FileService</scope><name>getRelPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_service_1a1354f348d142e91845467da4f076501d" prot="public" virt="non-virtual"><scope>AGRemapCore::FileService</scope><name>parseOSPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_service_1a449f10ebdecfb2c6219541feed507a80" prot="public" virt="non-virtual"><scope>AGRemapCore::FileService</scope><name>pathToIniStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_service_1a12aee01b2903d731d6adb7b052a0daf9" prot="public" virt="non-virtual"><scope>AGRemapCore::FileService</scope><name>pathToStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_service_1a90ef14f9d1679c06f89f7b6a05271d01" prot="public" virt="non-virtual"><scope>AGRemapCore::FileService</scope><name>strToPath</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

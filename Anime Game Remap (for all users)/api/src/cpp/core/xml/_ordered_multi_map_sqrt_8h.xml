@@ -1,0 +1,2983 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_ordered_multi_map_sqrt_8h" kind="file" language="C++">
+    <compoundname>OrderedMultiMapSqrt.h</compoundname>
+    <includes local="no">cmath</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">list</includes>
+    <includes local="no">set</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">tsl/ordered_set.h</includes>
+    <includes refid="_base_ordered_multi_map_8h" local="yes">AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</includes>
+    <includes local="yes">OrderedMultiMapSqrt.tpp</includes>
+    <includedby refid="_ordered_multi_map_adapter_8h" local="yes">include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</includedby>
+    <incdepgraph>
+      <node id="24">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="26">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="21">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</label>
+        <link refid="_base_ordered_multi_map_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h</label>
+        <link refid="_ordered_multi_map_sqrt_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>OrderedMultiMapSqrt.tpp</label>
+      </node>
+      <node id="25">
+        <label>Ranges.tpp</label>
+      </node>
+      <node id="10">
+        <label>algorithm</label>
+      </node>
+      <node id="2">
+        <label>cmath</label>
+      </node>
+      <node id="22">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>list</label>
+      </node>
+      <node id="11">
+        <label>map</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="23">
+        <label>queue</label>
+      </node>
+      <node id="5">
+        <label>set</label>
+      </node>
+      <node id="13">
+        <label>stdexcept</label>
+      </node>
+      <node id="19">
+        <label>tsl/ordered_map.h</label>
+      </node>
+      <node id="8">
+        <label>tsl/ordered_set.h</label>
+      </node>
+      <node id="14">
+        <label>tuple</label>
+      </node>
+      <node id="15">
+        <label>type_traits</label>
+      </node>
+      <node id="16">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>unordered_set</label>
+      </node>
+      <node id="7">
+        <label>utility</label>
+      </node>
+      <node id="17">
+        <label>variant</label>
+      </node>
+      <node id="18">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="8">
+        <label>include/AGRemapCore/RemapService.h</label>
+        <link refid="_remap_service_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/AGRemapCore/RemapServiceCLI.h</label>
+        <link refid="_remap_service_c_l_i_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/AGRemapCore/constants/GIBuilder.h</label>
+        <link refid="_g_i_builder_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>include/AGRemapCore/constants/GlobalModTypes.h</label>
+        <link refid="_global_mod_types_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>include/AGRemapCore/constants/ModTypeId.h</label>
+        <link refid="_mod_type_id_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
+        </childnode>
+        <childnode refid="84" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="92">
+        <label>include/AGRemapCore/constants/StrategyOverrides.h</label>
+        <link refid="_strategy_overrides_8h"/>
+        <childnode refid="93" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+        <childnode refid="94" relation="include">
+        </childnode>
+      </node>
+      <node id="95">
+        <label>include/AGRemapCore/data/IniFixBuilderData.h</label>
+        <link refid="_ini_fix_builder_data_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+        <childnode refid="96" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
+        </childnode>
+        <childnode refid="98" relation="include">
+        </childnode>
+        <childnode refid="99" relation="include">
+        </childnode>
+        <childnode refid="100" relation="include">
+        </childnode>
+        <childnode refid="101" relation="include">
+        </childnode>
+        <childnode refid="102" relation="include">
+        </childnode>
+        <childnode refid="103" relation="include">
+        </childnode>
+        <childnode refid="104" relation="include">
+        </childnode>
+        <childnode refid="105" relation="include">
+        </childnode>
+        <childnode refid="106" relation="include">
+        </childnode>
+        <childnode refid="107" relation="include">
+        </childnode>
+        <childnode refid="108" relation="include">
+        </childnode>
+        <childnode refid="109" relation="include">
+        </childnode>
+        <childnode refid="110" relation="include">
+        </childnode>
+        <childnode refid="111" relation="include">
+        </childnode>
+        <childnode refid="112" relation="include">
+        </childnode>
+        <childnode refid="113" relation="include">
+        </childnode>
+        <childnode refid="114" relation="include">
+        </childnode>
+        <childnode refid="115" relation="include">
+        </childnode>
+        <childnode refid="116" relation="include">
+        </childnode>
+        <childnode refid="117" relation="include">
+        </childnode>
+        <childnode refid="118" relation="include">
+        </childnode>
+        <childnode refid="119" relation="include">
+        </childnode>
+        <childnode refid="120" relation="include">
+        </childnode>
+        <childnode refid="121" relation="include">
+        </childnode>
+        <childnode refid="122" relation="include">
+        </childnode>
+        <childnode refid="123" relation="include">
+        </childnode>
+        <childnode refid="124" relation="include">
+        </childnode>
+        <childnode refid="125" relation="include">
+        </childnode>
+        <childnode refid="126" relation="include">
+        </childnode>
+        <childnode refid="127" relation="include">
+        </childnode>
+        <childnode refid="128" relation="include">
+        </childnode>
+        <childnode refid="129" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+        <childnode refid="130" relation="include">
+        </childnode>
+        <childnode refid="131" relation="include">
+        </childnode>
+        <childnode refid="132" relation="include">
+        </childnode>
+        <childnode refid="133" relation="include">
+        </childnode>
+        <childnode refid="134" relation="include">
+        </childnode>
+        <childnode refid="135" relation="include">
+        </childnode>
+        <childnode refid="136" relation="include">
+        </childnode>
+        <childnode refid="137" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+      </node>
+      <node id="138">
+        <label>include/AGRemapCore/data/IniFixData/Amber/AmberFixer.h</label>
+        <link refid="_amber_fixer_8h"/>
+        <childnode refid="96" relation="include">
+        </childnode>
+      </node>
+      <node id="139">
+        <label>include/AGRemapCore/data/IniFixData/AmberCN/AmberCNFixer.h</label>
+        <link refid="_amber_c_n_fixer_8h"/>
+        <childnode refid="97" relation="include">
+        </childnode>
+      </node>
+      <node id="140">
+        <label>include/AGRemapCore/data/IniFixData/Arlecchino/ArlecchinoFixer.h</label>
+        <link refid="_arlecchino_fixer_8h"/>
+        <childnode refid="98" relation="include">
+        </childnode>
+      </node>
+      <node id="141">
+        <label>include/AGRemapCore/data/IniFixData/Ayaka/AyakaFixer.h</label>
+        <link refid="_ayaka_fixer_8h"/>
+        <childnode refid="99" relation="include">
+        </childnode>
+      </node>
+      <node id="142">
+        <label>include/AGRemapCore/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.h</label>
+        <link refid="_ayaka_springbloom_fixer_8h"/>
+        <childnode refid="100" relation="include">
+        </childnode>
+      </node>
+      <node id="143">
+        <label>include/AGRemapCore/data/IniFixData/Barbara/BarbaraFixer.h</label>
+        <link refid="_barbara_fixer_8h"/>
+        <childnode refid="101" relation="include">
+        </childnode>
+      </node>
+      <node id="144">
+        <label>include/AGRemapCore/data/IniFixData/BarbaraSummertime/BarbaraSummertimeFixer.h</label>
+        <link refid="_barbara_summertime_fixer_8h"/>
+        <childnode refid="102" relation="include">
+        </childnode>
+      </node>
+      <node id="145">
+        <label>include/AGRemapCore/data/IniFixData/CherryHuTao/CherryHuTaoFixer.h</label>
+        <link refid="_cherry_hu_tao_fixer_8h"/>
+        <childnode refid="103" relation="include">
+        </childnode>
+      </node>
+      <node id="146">
+        <label>include/AGRemapCore/data/IniFixData/Diluc/DilucFixer.h</label>
+        <link refid="_diluc_fixer_8h"/>
+        <childnode refid="104" relation="include">
+        </childnode>
+      </node>
+      <node id="147">
+        <label>include/AGRemapCore/data/IniFixData/DilucFlamme/DilucFlammeFixer.h</label>
+        <link refid="_diluc_flamme_fixer_8h"/>
+        <childnode refid="105" relation="include">
+        </childnode>
+      </node>
+      <node id="148">
+        <label>include/AGRemapCore/data/IniFixData/Fischl/FischlFixer.h</label>
+        <link refid="_fischl_fixer_8h"/>
+        <childnode refid="106" relation="include">
+        </childnode>
+      </node>
+      <node id="149">
+        <label>include/AGRemapCore/data/IniFixData/FischlHighness/FischlHighnessFixer.h</label>
+        <link refid="_fischl_highness_fixer_8h"/>
+        <childnode refid="107" relation="include">
+        </childnode>
+      </node>
+      <node id="150">
+        <label>include/AGRemapCore/data/IniFixData/GIMICharFixer.h</label>
+        <link refid="_g_i_m_i_char_fixer_8h"/>
+        <childnode refid="96" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
+        </childnode>
+        <childnode refid="98" relation="include">
+        </childnode>
+        <childnode refid="99" relation="include">
+        </childnode>
+        <childnode refid="100" relation="include">
+        </childnode>
+        <childnode refid="101" relation="include">
+        </childnode>
+        <childnode refid="102" relation="include">
+        </childnode>
+        <childnode refid="103" relation="include">
+        </childnode>
+        <childnode refid="104" relation="include">
+        </childnode>
+        <childnode refid="105" relation="include">
+        </childnode>
+        <childnode refid="106" relation="include">
+        </childnode>
+        <childnode refid="107" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="108" relation="include">
+        </childnode>
+        <childnode refid="109" relation="include">
+        </childnode>
+        <childnode refid="110" relation="include">
+        </childnode>
+        <childnode refid="111" relation="include">
+        </childnode>
+        <childnode refid="112" relation="include">
+        </childnode>
+        <childnode refid="113" relation="include">
+        </childnode>
+        <childnode refid="114" relation="include">
+        </childnode>
+        <childnode refid="115" relation="include">
+        </childnode>
+        <childnode refid="116" relation="include">
+        </childnode>
+        <childnode refid="117" relation="include">
+        </childnode>
+        <childnode refid="118" relation="include">
+        </childnode>
+        <childnode refid="119" relation="include">
+        </childnode>
+        <childnode refid="120" relation="include">
+        </childnode>
+        <childnode refid="121" relation="include">
+        </childnode>
+        <childnode refid="122" relation="include">
+        </childnode>
+        <childnode refid="123" relation="include">
+        </childnode>
+        <childnode refid="124" relation="include">
+        </childnode>
+        <childnode refid="125" relation="include">
+        </childnode>
+        <childnode refid="126" relation="include">
+        </childnode>
+        <childnode refid="127" relation="include">
+        </childnode>
+        <childnode refid="128" relation="include">
+        </childnode>
+        <childnode refid="129" relation="include">
+        </childnode>
+        <childnode refid="130" relation="include">
+        </childnode>
+        <childnode refid="131" relation="include">
+        </childnode>
+        <childnode refid="132" relation="include">
+        </childnode>
+        <childnode refid="133" relation="include">
+        </childnode>
+        <childnode refid="134" relation="include">
+        </childnode>
+        <childnode refid="135" relation="include">
+        </childnode>
+        <childnode refid="136" relation="include">
+        </childnode>
+        <childnode refid="137" relation="include">
+        </childnode>
+      </node>
+      <node id="151">
+        <label>include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h</label>
+        <link refid="_g_i_m_i_component_fixer_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+      </node>
+      <node id="152">
+        <label>include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h</label>
+        <link refid="_g_i_m_i_merge_fixer_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+      </node>
+      <node id="153">
+        <label>include/AGRemapCore/data/IniFixData/Ganyu/GanyuFixer.h</label>
+        <link refid="_ganyu_fixer_8h"/>
+        <childnode refid="108" relation="include">
+        </childnode>
+      </node>
+      <node id="154">
+        <label>include/AGRemapCore/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.h</label>
+        <link refid="_ganyu_twilight_fixer_8h"/>
+        <childnode refid="109" relation="include">
+        </childnode>
+      </node>
+      <node id="155">
+        <label>include/AGRemapCore/data/IniFixData/HuTao/HuTaoFixer.h</label>
+        <link refid="_hu_tao_fixer_8h"/>
+        <childnode refid="110" relation="include">
+        </childnode>
+      </node>
+      <node id="156">
+        <label>include/AGRemapCore/data/IniFixData/Jean/JeanFixer.h</label>
+        <link refid="_jean_fixer_8h"/>
+        <childnode refid="111" relation="include">
+        </childnode>
+      </node>
+      <node id="157">
+        <label>include/AGRemapCore/data/IniFixData/JeanCN/JeanCNFixer.h</label>
+        <link refid="_jean_c_n_fixer_8h"/>
+        <childnode refid="112" relation="include">
+        </childnode>
+      </node>
+      <node id="158">
+        <label>include/AGRemapCore/data/IniFixData/JeanSea/JeanSeaFixer.h</label>
+        <link refid="_jean_sea_fixer_8h"/>
+        <childnode refid="113" relation="include">
+        </childnode>
+      </node>
+      <node id="159">
+        <label>include/AGRemapCore/data/IniFixData/Kaeya/KaeyaFixer.h</label>
+        <link refid="_kaeya_fixer_8h"/>
+        <childnode refid="114" relation="include">
+        </childnode>
+      </node>
+      <node id="160">
+        <label>include/AGRemapCore/data/IniFixData/KaeyaSailwind/KaeyaSailwindFixer.h</label>
+        <link refid="_kaeya_sailwind_fixer_8h"/>
+        <childnode refid="115" relation="include">
+        </childnode>
+      </node>
+      <node id="161">
+        <label>include/AGRemapCore/data/IniFixData/Keqing/KeqingFixer.h</label>
+        <link refid="_keqing_fixer_8h"/>
+        <childnode refid="116" relation="include">
+        </childnode>
+      </node>
+      <node id="162">
+        <label>include/AGRemapCore/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.h</label>
+        <link refid="_keqing_opulent_fixer_8h"/>
+        <childnode refid="117" relation="include">
+        </childnode>
+      </node>
+      <node id="163">
+        <label>include/AGRemapCore/data/IniFixData/Kirara/KiraraFixer.h</label>
+        <link refid="_kirara_fixer_8h"/>
+        <childnode refid="118" relation="include">
+        </childnode>
+      </node>
+      <node id="164">
+        <label>include/AGRemapCore/data/IniFixData/KiraraBoots/KiraraBootsFixer.h</label>
+        <link refid="_kirara_boots_fixer_8h"/>
+        <childnode refid="119" relation="include">
+        </childnode>
+      </node>
+      <node id="165">
+        <label>include/AGRemapCore/data/IniFixData/Klee/KleeFixer.h</label>
+        <link refid="_klee_fixer_8h"/>
+        <childnode refid="120" relation="include">
+        </childnode>
+      </node>
+      <node id="166">
+        <label>include/AGRemapCore/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.h</label>
+        <link refid="_klee_blossoming_starlight_fixer_8h"/>
+        <childnode refid="121" relation="include">
+        </childnode>
+      </node>
+      <node id="167">
+        <label>include/AGRemapCore/data/IniFixData/Lisa/LisaFixer.h</label>
+        <link refid="_lisa_fixer_8h"/>
+        <childnode refid="122" relation="include">
+        </childnode>
+      </node>
+      <node id="168">
+        <label>include/AGRemapCore/data/IniFixData/LisaStudent/LisaStudentFixer.h</label>
+        <link refid="_lisa_student_fixer_8h"/>
+        <childnode refid="123" relation="include">
+        </childnode>
+      </node>
+      <node id="169">
+        <label>include/AGRemapCore/data/IniFixData/Mona/MonaFixer.h</label>
+        <link refid="_mona_fixer_8h"/>
+        <childnode refid="124" relation="include">
+        </childnode>
+      </node>
+      <node id="170">
+        <label>include/AGRemapCore/data/IniFixData/MonaCN/MonaCNFixer.h</label>
+        <link refid="_mona_c_n_fixer_8h"/>
+        <childnode refid="125" relation="include">
+        </childnode>
+      </node>
+      <node id="171">
+        <label>include/AGRemapCore/data/IniFixData/Nilou/NilouFixer.h</label>
+        <link refid="_nilou_fixer_8h"/>
+        <childnode refid="126" relation="include">
+        </childnode>
+      </node>
+      <node id="172">
+        <label>include/AGRemapCore/data/IniFixData/NilouBreeze/NilouBreezeFixer.h</label>
+        <link refid="_nilou_breeze_fixer_8h"/>
+        <childnode refid="127" relation="include">
+        </childnode>
+      </node>
+      <node id="173">
+        <label>include/AGRemapCore/data/IniFixData/Ningguang/NingguangFixer.h</label>
+        <link refid="_ningguang_fixer_8h"/>
+        <childnode refid="128" relation="include">
+        </childnode>
+      </node>
+      <node id="174">
+        <label>include/AGRemapCore/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.h</label>
+        <link refid="_ningguang_orchid_fixer_8h"/>
+        <childnode refid="129" relation="include">
+        </childnode>
+      </node>
+      <node id="175">
+        <label>include/AGRemapCore/data/IniFixData/Raiden/RaidenFixer.h</label>
+        <link refid="_raiden_fixer_8h"/>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="176">
+        <label>include/AGRemapCore/data/IniFixData/Rosaria/RosariaFixer.h</label>
+        <link refid="_rosaria_fixer_8h"/>
+        <childnode refid="130" relation="include">
+        </childnode>
+      </node>
+      <node id="177">
+        <label>include/AGRemapCore/data/IniFixData/RosariaCN/RosariaCNFixer.h</label>
+        <link refid="_rosaria_c_n_fixer_8h"/>
+        <childnode refid="131" relation="include">
+        </childnode>
+      </node>
+      <node id="178">
+        <label>include/AGRemapCore/data/IniFixData/Shenhe/ShenheFixer.h</label>
+        <link refid="_shenhe_fixer_8h"/>
+        <childnode refid="132" relation="include">
+        </childnode>
+      </node>
+      <node id="179">
+        <label>include/AGRemapCore/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.h</label>
+        <link refid="_shenhe_frost_flower_fixer_8h"/>
+        <childnode refid="133" relation="include">
+        </childnode>
+      </node>
+      <node id="180">
+        <label>include/AGRemapCore/data/IniFixData/Xiangling/XianglingFixer.h</label>
+        <link refid="_xiangling_fixer_8h"/>
+        <childnode refid="134" relation="include">
+        </childnode>
+      </node>
+      <node id="181">
+        <label>include/AGRemapCore/data/IniFixData/XianglingCheer/XianglingCheerFixer.h</label>
+        <link refid="_xiangling_cheer_fixer_8h"/>
+        <childnode refid="135" relation="include">
+        </childnode>
+      </node>
+      <node id="182">
+        <label>include/AGRemapCore/data/IniFixData/Xingqiu/XingqiuFixer.h</label>
+        <link refid="_xingqiu_fixer_8h"/>
+        <childnode refid="136" relation="include">
+        </childnode>
+      </node>
+      <node id="183">
+        <label>include/AGRemapCore/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.h</label>
+        <link refid="_xingqiu_bamboo_fixer_8h"/>
+        <childnode refid="137" relation="include">
+        </childnode>
+      </node>
+      <node id="184">
+        <label>include/AGRemapCore/data/IniFixData/Yelan/YelanFixer.h</label>
+        <link refid="_yelan_fixer_8h"/>
+        <childnode refid="80" relation="include">
+        </childnode>
+      </node>
+      <node id="185">
+        <label>include/AGRemapCore/data/IniFixData/YelanTranquil/YelanTranquilFixer.h</label>
+        <link refid="_yelan_tranquil_fixer_8h"/>
+        <childnode refid="81" relation="include">
+        </childnode>
+      </node>
+      <node id="218">
+        <label>include/AGRemapCore/data/IniParseBuilderData.h</label>
+        <link refid="_ini_parse_builder_data_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="211" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+      </node>
+      <node id="219">
+        <label>include/AGRemapCore/data/IniParseData/Amber/AmberParser.h</label>
+        <link refid="_amber_parser_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="220">
+        <label>include/AGRemapCore/data/IniParseData/AmberCN/AmberCNParser.h</label>
+        <link refid="_amber_c_n_parser_8h"/>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="221">
+        <label>include/AGRemapCore/data/IniParseData/Arlecchino/ArlecchinoParser.h</label>
+        <link refid="_arlecchino_parser_8h"/>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="222">
+        <label>include/AGRemapCore/data/IniParseData/Ayaka/AyakaParser.h</label>
+        <link refid="_ayaka_parser_8h"/>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="223">
+        <label>include/AGRemapCore/data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.h</label>
+        <link refid="_ayaka_springbloom_parser_8h"/>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="224">
+        <label>include/AGRemapCore/data/IniParseData/Barbara/BarbaraParser.h</label>
+        <link refid="_barbara_parser_8h"/>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="225">
+        <label>include/AGRemapCore/data/IniParseData/BarbaraSummertime/BarbaraSummertimeParser.h</label>
+        <link refid="_barbara_summertime_parser_8h"/>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="226">
+        <label>include/AGRemapCore/data/IniParseData/CherryHuTao/CherryHuTaoParser.h</label>
+        <link refid="_cherry_hu_tao_parser_8h"/>
+        <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="227">
+        <label>include/AGRemapCore/data/IniParseData/Diluc/DilucParser.h</label>
+        <link refid="_diluc_parser_8h"/>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="228">
+        <label>include/AGRemapCore/data/IniParseData/DilucFlamme/DilucFlammeParser.h</label>
+        <link refid="_diluc_flamme_parser_8h"/>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="229">
+        <label>include/AGRemapCore/data/IniParseData/Fischl/FischlParser.h</label>
+        <link refid="_fischl_parser_8h"/>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="230">
+        <label>include/AGRemapCore/data/IniParseData/FischlHighness/FischlHighnessParser.h</label>
+        <link refid="_fischl_highness_parser_8h"/>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/AGRemapCore/data/IniParseData/GIMICharParser.h</label>
+        <link refid="_g_i_m_i_char_parser_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+      </node>
+      <node id="76">
+        <label>include/AGRemapCore/data/IniParseData/GIMIComponentParser.h</label>
+        <link refid="_g_i_m_i_component_parser_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+      </node>
+      <node id="231">
+        <label>include/AGRemapCore/data/IniParseData/Ganyu/GanyuParser.h</label>
+        <link refid="_ganyu_parser_8h"/>
+        <childnode refid="45" relation="include">
+        </childnode>
+      </node>
+      <node id="232">
+        <label>include/AGRemapCore/data/IniParseData/GanyuTwilight/GanyuTwilightParser.h</label>
+        <link refid="_ganyu_twilight_parser_8h"/>
+        <childnode refid="46" relation="include">
+        </childnode>
+      </node>
+      <node id="233">
+        <label>include/AGRemapCore/data/IniParseData/HuTao/HuTaoParser.h</label>
+        <link refid="_hu_tao_parser_8h"/>
+        <childnode refid="47" relation="include">
+        </childnode>
+      </node>
+      <node id="234">
+        <label>include/AGRemapCore/data/IniParseData/Jean/JeanParser.h</label>
+        <link refid="_jean_parser_8h"/>
+        <childnode refid="48" relation="include">
+        </childnode>
+      </node>
+      <node id="235">
+        <label>include/AGRemapCore/data/IniParseData/JeanCN/JeanCNParser.h</label>
+        <link refid="_jean_c_n_parser_8h"/>
+        <childnode refid="49" relation="include">
+        </childnode>
+      </node>
+      <node id="236">
+        <label>include/AGRemapCore/data/IniParseData/JeanSea/JeanSeaParser.h</label>
+        <link refid="_jean_sea_parser_8h"/>
+        <childnode refid="50" relation="include">
+        </childnode>
+      </node>
+      <node id="237">
+        <label>include/AGRemapCore/data/IniParseData/Kaeya/KaeyaParser.h</label>
+        <link refid="_kaeya_parser_8h"/>
+        <childnode refid="51" relation="include">
+        </childnode>
+      </node>
+      <node id="238">
+        <label>include/AGRemapCore/data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.h</label>
+        <link refid="_kaeya_sailwind_parser_8h"/>
+        <childnode refid="52" relation="include">
+        </childnode>
+      </node>
+      <node id="239">
+        <label>include/AGRemapCore/data/IniParseData/Keqing/KeqingParser.h</label>
+        <link refid="_keqing_parser_8h"/>
+        <childnode refid="53" relation="include">
+        </childnode>
+      </node>
+      <node id="240">
+        <label>include/AGRemapCore/data/IniParseData/KeqingOpulent/KeqingOpulentParser.h</label>
+        <link refid="_keqing_opulent_parser_8h"/>
+        <childnode refid="54" relation="include">
+        </childnode>
+      </node>
+      <node id="241">
+        <label>include/AGRemapCore/data/IniParseData/Kirara/KiraraParser.h</label>
+        <link refid="_kirara_parser_8h"/>
+        <childnode refid="55" relation="include">
+        </childnode>
+      </node>
+      <node id="242">
+        <label>include/AGRemapCore/data/IniParseData/KiraraBoots/KiraraBootsParser.h</label>
+        <link refid="_kirara_boots_parser_8h"/>
+        <childnode refid="56" relation="include">
+        </childnode>
+      </node>
+      <node id="243">
+        <label>include/AGRemapCore/data/IniParseData/Klee/KleeParser.h</label>
+        <link refid="_klee_parser_8h"/>
+        <childnode refid="57" relation="include">
+        </childnode>
+      </node>
+      <node id="244">
+        <label>include/AGRemapCore/data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.h</label>
+        <link refid="_klee_blossoming_starlight_parser_8h"/>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="245">
+        <label>include/AGRemapCore/data/IniParseData/Lisa/LisaParser.h</label>
+        <link refid="_lisa_parser_8h"/>
+        <childnode refid="59" relation="include">
+        </childnode>
+      </node>
+      <node id="246">
+        <label>include/AGRemapCore/data/IniParseData/LisaStudent/LisaStudentParser.h</label>
+        <link refid="_lisa_student_parser_8h"/>
+        <childnode refid="60" relation="include">
+        </childnode>
+      </node>
+      <node id="247">
+        <label>include/AGRemapCore/data/IniParseData/Mona/MonaParser.h</label>
+        <link refid="_mona_parser_8h"/>
+        <childnode refid="61" relation="include">
+        </childnode>
+      </node>
+      <node id="248">
+        <label>include/AGRemapCore/data/IniParseData/MonaCN/MonaCNParser.h</label>
+        <link refid="_mona_c_n_parser_8h"/>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="249">
+        <label>include/AGRemapCore/data/IniParseData/Nilou/NilouParser.h</label>
+        <link refid="_nilou_parser_8h"/>
+        <childnode refid="63" relation="include">
+        </childnode>
+      </node>
+      <node id="250">
+        <label>include/AGRemapCore/data/IniParseData/NilouBreeze/NilouBreezeParser.h</label>
+        <link refid="_nilou_breeze_parser_8h"/>
+        <childnode refid="64" relation="include">
+        </childnode>
+      </node>
+      <node id="251">
+        <label>include/AGRemapCore/data/IniParseData/Ningguang/NingguangParser.h</label>
+        <link refid="_ningguang_parser_8h"/>
+        <childnode refid="65" relation="include">
+        </childnode>
+      </node>
+      <node id="252">
+        <label>include/AGRemapCore/data/IniParseData/NingguangOrchid/NingguangOrchidParser.h</label>
+        <link refid="_ningguang_orchid_parser_8h"/>
+        <childnode refid="66" relation="include">
+        </childnode>
+      </node>
+      <node id="253">
+        <label>include/AGRemapCore/data/IniParseData/Raiden/RaidenParser.h</label>
+        <link refid="_raiden_parser_8h"/>
+        <childnode refid="211" relation="include">
+        </childnode>
+      </node>
+      <node id="254">
+        <label>include/AGRemapCore/data/IniParseData/Rosaria/RosariaParser.h</label>
+        <link refid="_rosaria_parser_8h"/>
+        <childnode refid="67" relation="include">
+        </childnode>
+      </node>
+      <node id="255">
+        <label>include/AGRemapCore/data/IniParseData/RosariaCN/RosariaCNParser.h</label>
+        <link refid="_rosaria_c_n_parser_8h"/>
+        <childnode refid="68" relation="include">
+        </childnode>
+      </node>
+      <node id="256">
+        <label>include/AGRemapCore/data/IniParseData/Shenhe/ShenheParser.h</label>
+        <link refid="_shenhe_parser_8h"/>
+        <childnode refid="69" relation="include">
+        </childnode>
+      </node>
+      <node id="257">
+        <label>include/AGRemapCore/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.h</label>
+        <link refid="_shenhe_frost_flower_parser_8h"/>
+        <childnode refid="70" relation="include">
+        </childnode>
+      </node>
+      <node id="258">
+        <label>include/AGRemapCore/data/IniParseData/Xiangling/XianglingParser.h</label>
+        <link refid="_xiangling_parser_8h"/>
+        <childnode refid="71" relation="include">
+        </childnode>
+      </node>
+      <node id="259">
+        <label>include/AGRemapCore/data/IniParseData/XianglingCheer/XianglingCheerParser.h</label>
+        <link refid="_xiangling_cheer_parser_8h"/>
+        <childnode refid="72" relation="include">
+        </childnode>
+      </node>
+      <node id="260">
+        <label>include/AGRemapCore/data/IniParseData/Xingqiu/XingqiuParser.h</label>
+        <link refid="_xingqiu_parser_8h"/>
+        <childnode refid="73" relation="include">
+        </childnode>
+      </node>
+      <node id="261">
+        <label>include/AGRemapCore/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.h</label>
+        <link refid="_xingqiu_bamboo_parser_8h"/>
+        <childnode refid="74" relation="include">
+        </childnode>
+      </node>
+      <node id="262">
+        <label>include/AGRemapCore/data/IniParseData/Yelan/YelanParser.h</label>
+        <link refid="_yelan_parser_8h"/>
+        <childnode refid="75" relation="include">
+        </childnode>
+      </node>
+      <node id="263">
+        <label>include/AGRemapCore/data/IniParseData/YelanTranquil/YelanTranquilParser.h</label>
+        <link refid="_yelan_tranquil_parser_8h"/>
+        <childnode refid="77" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/AGRemapCore/model/CallGraph.h</label>
+        <link refid="_call_graph_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/AGRemapCore/model/IniGraphGroup.h</label>
+        <link refid="_ini_graph_group_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="187" relation="include">
+        </childnode>
+        <childnode refid="188" relation="include">
+        </childnode>
+        <childnode refid="216" relation="include">
+        </childnode>
+        <childnode refid="208" relation="include">
+        </childnode>
+        <childnode refid="214" relation="include">
+        </childnode>
+        <childnode refid="212" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/AGRemapCore/model/IniSectionGraph.h</label>
+        <link refid="_ini_section_graph_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="264" relation="include">
+        </childnode>
+        <childnode refid="188" relation="include">
+        </childnode>
+        <childnode refid="208" relation="include">
+        </childnode>
+        <childnode refid="270" relation="include">
+        </childnode>
+      </node>
+      <node id="274">
+        <label>include/AGRemapCore/model/SectionIterData.h</label>
+        <link refid="_section_iter_data_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="275" relation="include">
+        </childnode>
+        <childnode refid="264" relation="include">
+        </childnode>
+        <childnode refid="192" relation="include">
+        </childnode>
+        <childnode refid="199" relation="include">
+        </childnode>
+        <childnode refid="195" relation="include">
+        </childnode>
+        <childnode refid="198" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/AGRemapCore/model/files/IniFile.h</label>
+        <link refid="_ini_file_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/model/iftemplate/IfContentPart.h</label>
+        <link refid="_if_content_part_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="274" relation="include">
+        </childnode>
+        <childnode refid="276" relation="include">
+        </childnode>
+        <childnode refid="277" relation="include">
+        </childnode>
+        <childnode refid="284" relation="include">
+        </childnode>
+        <childnode refid="278" relation="include">
+        </childnode>
+        <childnode refid="285" relation="include">
+        </childnode>
+        <childnode refid="192" relation="include">
+        </childnode>
+        <childnode refid="286" relation="include">
+        </childnode>
+        <childnode refid="208" relation="include">
+        </childnode>
+        <childnode refid="215" relation="include">
+        </childnode>
+      </node>
+      <node id="276">
+        <label>include/AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
+        <link refid="_if_content_part_colour_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="274" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="275" relation="include">
+        </childnode>
+        <childnode refid="208" relation="include">
+        </childnode>
+        <childnode refid="214" relation="include">
+        </childnode>
+      </node>
+      <node id="277">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplate.h</label>
+        <link refid="_if_template_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="274" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="278" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="188" relation="include">
+        </childnode>
+        <childnode refid="280" relation="include">
+        </childnode>
+        <childnode refid="208" relation="include">
+        </childnode>
+        <childnode refid="214" relation="include">
+        </childnode>
+        <childnode refid="213" relation="include">
+        </childnode>
+        <childnode refid="215" relation="include">
+        </childnode>
+        <childnode refid="282" relation="include">
+        </childnode>
+        <childnode refid="270" relation="include">
+        </childnode>
+        <childnode refid="210" relation="include">
+        </childnode>
+      </node>
+      <node id="284">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
+        <link refid="_if_template_node_8h"/>
+        <childnode refid="277" relation="include">
+        </childnode>
+        <childnode refid="285" relation="include">
+        </childnode>
+      </node>
+      <node id="278">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplateRender.h</label>
+        <link refid="_if_template_render_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+        <childnode refid="279" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+      </node>
+      <node id="285">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
+        <link refid="_if_template_tree_8h"/>
+        <childnode refid="277" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>include/AGRemapCore/model/strategies/ModType.h</label>
+        <link refid="_mod_type_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h</label>
+        <link refid="_base_ini_fixer_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="91" relation="include">
+        </childnode>
+        <childnode refid="186" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="89">
+        <label>include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h</label>
+        <link refid="_g_i_m_i_fixer_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+      </node>
+      <node id="275">
+        <label>include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h</label>
+        <link refid="_g_i_m_i_obj_part_filter_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="187">
+        <label>include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h</label>
+        <link refid="_ini_file_fix_context_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+      </node>
+      <node id="91">
+        <label>include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</label>
+        <link refid="_ini_fix_builder_8h"/>
+        <childnode refid="92" relation="include">
+        </childnode>
+        <childnode refid="95" relation="include">
+        </childnode>
+        <childnode refid="138" relation="include">
+        </childnode>
+        <childnode refid="139" relation="include">
+        </childnode>
+        <childnode refid="140" relation="include">
+        </childnode>
+        <childnode refid="141" relation="include">
+        </childnode>
+        <childnode refid="142" relation="include">
+        </childnode>
+        <childnode refid="143" relation="include">
+        </childnode>
+        <childnode refid="144" relation="include">
+        </childnode>
+        <childnode refid="145" relation="include">
+        </childnode>
+        <childnode refid="146" relation="include">
+        </childnode>
+        <childnode refid="147" relation="include">
+        </childnode>
+        <childnode refid="148" relation="include">
+        </childnode>
+        <childnode refid="149" relation="include">
+        </childnode>
+        <childnode refid="150" relation="include">
+        </childnode>
+        <childnode refid="151" relation="include">
+        </childnode>
+        <childnode refid="152" relation="include">
+        </childnode>
+        <childnode refid="153" relation="include">
+        </childnode>
+        <childnode refid="154" relation="include">
+        </childnode>
+        <childnode refid="155" relation="include">
+        </childnode>
+        <childnode refid="156" relation="include">
+        </childnode>
+        <childnode refid="157" relation="include">
+        </childnode>
+        <childnode refid="158" relation="include">
+        </childnode>
+        <childnode refid="159" relation="include">
+        </childnode>
+        <childnode refid="160" relation="include">
+        </childnode>
+        <childnode refid="161" relation="include">
+        </childnode>
+        <childnode refid="162" relation="include">
+        </childnode>
+        <childnode refid="163" relation="include">
+        </childnode>
+        <childnode refid="164" relation="include">
+        </childnode>
+        <childnode refid="165" relation="include">
+        </childnode>
+        <childnode refid="166" relation="include">
+        </childnode>
+        <childnode refid="167" relation="include">
+        </childnode>
+        <childnode refid="168" relation="include">
+        </childnode>
+        <childnode refid="169" relation="include">
+        </childnode>
+        <childnode refid="170" relation="include">
+        </childnode>
+        <childnode refid="171" relation="include">
+        </childnode>
+        <childnode refid="172" relation="include">
+        </childnode>
+        <childnode refid="173" relation="include">
+        </childnode>
+        <childnode refid="174" relation="include">
+        </childnode>
+        <childnode refid="175" relation="include">
+        </childnode>
+        <childnode refid="176" relation="include">
+        </childnode>
+        <childnode refid="177" relation="include">
+        </childnode>
+        <childnode refid="178" relation="include">
+        </childnode>
+        <childnode refid="179" relation="include">
+        </childnode>
+        <childnode refid="180" relation="include">
+        </childnode>
+        <childnode refid="181" relation="include">
+        </childnode>
+        <childnode refid="182" relation="include">
+        </childnode>
+        <childnode refid="183" relation="include">
+        </childnode>
+        <childnode refid="184" relation="include">
+        </childnode>
+        <childnode refid="185" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+      </node>
+      <node id="189">
+        <label>include/AGRemapCore/model/strategies/iniFixers/IniFixContext.h</label>
+        <link refid="_ini_fix_context_8h"/>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="190" relation="include">
+        </childnode>
+      </node>
+      <node id="186">
+        <label>include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h</label>
+        <link refid="_multi_mod_fixer_8h"/>
+      </node>
+      <node id="190">
+        <label>include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h</label>
+        <link refid="_remap_ini_fix_context_8h"/>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="187" relation="include">
+        </childnode>
+      </node>
+      <node id="264">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h</label>
+        <link refid="_base_ini_graph_edit_8h"/>
+        <childnode refid="265" relation="include">
+        </childnode>
+        <childnode refid="266" relation="include">
+        </childnode>
+        <childnode refid="267" relation="include">
+        </childnode>
+        <childnode refid="268" relation="include">
+        </childnode>
+        <childnode refid="269" relation="include">
+        </childnode>
+        <childnode refid="193" relation="include">
+        </childnode>
+      </node>
+      <node id="265">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h</label>
+        <link refid="_graph_rename_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="266">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h</label>
+        <link refid="_reg_bottom_add_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="267">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h</label>
+        <link refid="_reg_delimited_add_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="268">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h</label>
+        <link refid="_reg_fill_missing_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="269">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h</label>
+        <link refid="_reg_surrounded_add_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+      </node>
+      <node id="191">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h</label>
+        <link refid="_base_ini_graph_group_edit_8h"/>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="192" relation="include">
+        </childnode>
+        <childnode refid="194" relation="include">
+        </childnode>
+        <childnode refid="199" relation="include">
+        </childnode>
+        <childnode refid="200" relation="include">
+        </childnode>
+        <childnode refid="195" relation="include">
+        </childnode>
+        <childnode refid="198" relation="include">
+        </childnode>
+        <childnode refid="201" relation="include">
+        </childnode>
+        <childnode refid="208" relation="include">
+        </childnode>
+      </node>
+      <node id="192">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h</label>
+        <link refid="_graph_group_edit_8h"/>
+        <childnode refid="193" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="193">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h</label>
+        <link refid="_graph_group_part_edits_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="194">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h</label>
+        <link refid="_graph_group_remap_8h"/>
+        <childnode refid="195" relation="include">
+        </childnode>
+        <childnode refid="198" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="199">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h</label>
+        <link refid="_graph_inherit_8h"/>
+      </node>
+      <node id="200">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h</label>
+        <link refid="_graph_remove_8h"/>
+      </node>
+      <node id="188">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h</label>
+        <link refid="_i_ini_graph_groups_8h"/>
+        <childnode refid="187" relation="include">
+        </childnode>
+        <childnode refid="189" relation="include">
+        </childnode>
+        <childnode refid="191" relation="include">
+        </childnode>
+        <childnode refid="212" relation="include">
+        </childnode>
+        <childnode refid="213" relation="include">
+        </childnode>
+      </node>
+      <node id="281">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.h</label>
+        <link refid="_ini_file_res_edit_context_8h"/>
+        <childnode refid="198" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="280">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h</label>
+        <link refid="_ini_res_edit_context_8h"/>
+        <childnode refid="281" relation="include">
+        </childnode>
+        <childnode refid="201" relation="include">
+        </childnode>
+      </node>
+      <node id="195">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h</label>
+        <link refid="_res_group_collect_8h"/>
+        <childnode refid="196" relation="include">
+        </childnode>
+        <childnode refid="197" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="198">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h</label>
+        <link refid="_res_reg_collect_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="196">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h</label>
+        <link refid="_v_g_merge_group_res_builder_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="197">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h</label>
+        <link refid="_v_g_split_group_res_builder_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="202">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BlendEdit.h</label>
+        <link refid="_blend_edit_8h"/>
+        <childnode refid="86" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="203">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BufEdit.h</label>
+        <link refid="_buf_edit_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="204">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/PositionEdit.h</label>
+        <link refid="_position_edit_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+      </node>
+      <node id="201">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h</label>
+        <link refid="_res_edit_8h"/>
+        <childnode refid="195" relation="include">
+        </childnode>
+        <childnode refid="198" relation="include">
+        </childnode>
+        <childnode refid="202" relation="include">
+        </childnode>
+        <childnode refid="203" relation="include">
+        </childnode>
+        <childnode refid="204" relation="include">
+        </childnode>
+        <childnode refid="205" relation="include">
+        </childnode>
+      </node>
+      <node id="206">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h</label>
+        <link refid="_tex_creator_edit_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="205">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h</label>
+        <link refid="_tex_edit_8h"/>
+        <childnode refid="206" relation="include">
+        </childnode>
+        <childnode refid="207" relation="include">
+        </childnode>
+      </node>
+      <node id="207">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</label>
+        <link refid="_tex_editor_edit_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="86">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h</label>
+        <link refid="_v_g_remap_blend_edit_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="286">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h</label>
+        <link refid="_base_reg_edit_8h"/>
+        <childnode refid="193" relation="include">
+        </childnode>
+        <childnode refid="287" relation="include">
+        </childnode>
+        <childnode refid="288" relation="include">
+        </childnode>
+        <childnode refid="289" relation="include">
+        </childnode>
+        <childnode refid="290" relation="include">
+        </childnode>
+        <childnode refid="291" relation="include">
+        </childnode>
+      </node>
+      <node id="287">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h</label>
+        <link refid="_reg_add_8h"/>
+      </node>
+      <node id="288">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h</label>
+        <link refid="_reg_asset_remap_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="289">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h</label>
+        <link refid="_reg_new_vals_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="290">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h</label>
+        <link refid="_reg_remap_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="291">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h</label>
+        <link refid="_reg_remove_8h"/>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="216">
+        <label>include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
+        <link refid="_base_ini_parser_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="208" relation="include">
+        </childnode>
+        <childnode refid="217" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+      </node>
+      <node id="208">
+        <label>include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
+        <link refid="_g_i_m_i_parser_8h"/>
+        <childnode refid="209" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="211" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="94" relation="include">
+        </childnode>
+      </node>
+      <node id="214">
+        <label>include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</label>
+        <link refid="_g_i_m_i_section_classifier_8h"/>
+        <childnode refid="208" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="211" relation="include">
+        </childnode>
+      </node>
+      <node id="212">
+        <label>include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h</label>
+        <link refid="_ini_file_parse_context_8h"/>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="211" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="94" relation="include">
+        </childnode>
+      </node>
+      <node id="217">
+        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</label>
+        <link refid="_ini_parse_builder_8h"/>
+        <childnode refid="92" relation="include">
+        </childnode>
+        <childnode refid="218" relation="include">
+        </childnode>
+        <childnode refid="219" relation="include">
+        </childnode>
+        <childnode refid="220" relation="include">
+        </childnode>
+        <childnode refid="221" relation="include">
+        </childnode>
+        <childnode refid="222" relation="include">
+        </childnode>
+        <childnode refid="223" relation="include">
+        </childnode>
+        <childnode refid="224" relation="include">
+        </childnode>
+        <childnode refid="225" relation="include">
+        </childnode>
+        <childnode refid="226" relation="include">
+        </childnode>
+        <childnode refid="227" relation="include">
+        </childnode>
+        <childnode refid="228" relation="include">
+        </childnode>
+        <childnode refid="229" relation="include">
+        </childnode>
+        <childnode refid="230" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="231" relation="include">
+        </childnode>
+        <childnode refid="232" relation="include">
+        </childnode>
+        <childnode refid="233" relation="include">
+        </childnode>
+        <childnode refid="234" relation="include">
+        </childnode>
+        <childnode refid="235" relation="include">
+        </childnode>
+        <childnode refid="236" relation="include">
+        </childnode>
+        <childnode refid="237" relation="include">
+        </childnode>
+        <childnode refid="238" relation="include">
+        </childnode>
+        <childnode refid="239" relation="include">
+        </childnode>
+        <childnode refid="240" relation="include">
+        </childnode>
+        <childnode refid="241" relation="include">
+        </childnode>
+        <childnode refid="242" relation="include">
+        </childnode>
+        <childnode refid="243" relation="include">
+        </childnode>
+        <childnode refid="244" relation="include">
+        </childnode>
+        <childnode refid="245" relation="include">
+        </childnode>
+        <childnode refid="246" relation="include">
+        </childnode>
+        <childnode refid="247" relation="include">
+        </childnode>
+        <childnode refid="248" relation="include">
+        </childnode>
+        <childnode refid="249" relation="include">
+        </childnode>
+        <childnode refid="250" relation="include">
+        </childnode>
+        <childnode refid="251" relation="include">
+        </childnode>
+        <childnode refid="252" relation="include">
+        </childnode>
+        <childnode refid="253" relation="include">
+        </childnode>
+        <childnode refid="254" relation="include">
+        </childnode>
+        <childnode refid="255" relation="include">
+        </childnode>
+        <childnode refid="256" relation="include">
+        </childnode>
+        <childnode refid="257" relation="include">
+        </childnode>
+        <childnode refid="258" relation="include">
+        </childnode>
+        <childnode refid="259" relation="include">
+        </childnode>
+        <childnode refid="260" relation="include">
+        </childnode>
+        <childnode refid="261" relation="include">
+        </childnode>
+        <childnode refid="262" relation="include">
+        </childnode>
+        <childnode refid="263" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="94" relation="include">
+        </childnode>
+      </node>
+      <node id="213">
+        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h</label>
+        <link refid="_ini_parse_context_8h"/>
+        <childnode refid="208" relation="include">
+        </childnode>
+        <childnode refid="214" relation="include">
+        </childnode>
+        <childnode refid="212" relation="include">
+        </childnode>
+        <childnode refid="215" relation="include">
+        </childnode>
+      </node>
+      <node id="215">
+        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
+        <link refid="_ini_parse_download_data_8h"/>
+        <childnode refid="208" relation="include">
+        </childnode>
+        <childnode refid="209" relation="include">
+        </childnode>
+      </node>
+      <node id="271">
+        <label>include/AGRemapCore/model/strategies/iniRemovers/GlobalRemapIniRemover.h</label>
+        <link refid="_global_remap_ini_remover_8h"/>
+        <childnode refid="272" relation="include">
+        </childnode>
+      </node>
+      <node id="283">
+        <label>include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h</label>
+        <link refid="_ini_file_remove_context_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="282">
+        <label>include/AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h</label>
+        <link refid="_ini_remove_context_8h"/>
+        <childnode refid="283" relation="include">
+        </childnode>
+        <childnode refid="270" relation="include">
+        </childnode>
+      </node>
+      <node id="270">
+        <label>include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h</label>
+        <link refid="_remap_ini_remover_8h"/>
+        <childnode refid="271" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="273" relation="include">
+        </childnode>
+      </node>
+      <node id="209">
+        <label>include/AGRemapCore/tools/DownloadTools.h</label>
+        <link refid="_download_tools_8h"/>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="210" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</label>
+        <link refid="_ordered_multi_map_adapter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h</label>
+        <link refid="_ordered_multi_map_sqrt_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/RemapServiceCLI.cpp</label>
+        <link refid="_remap_service_c_l_i_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/constants/GIBuilder.cpp</label>
+        <link refid="_g_i_builder_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/constants/GlobalIniClassifiers.cpp</label>
+        <link refid="_global_ini_classifiers_8cpp"/>
+      </node>
+      <node id="272">
+        <label>src/constants/GlobalIniRemoveBuilders.cpp</label>
+        <link refid="_global_ini_remove_builders_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/constants/GlobalModTypes.cpp</label>
+        <link refid="_global_mod_types_8cpp"/>
+      </node>
+      <node id="78">
+        <label>src/constants/ModTypeId.cpp</label>
+        <link refid="_mod_type_id_8cpp"/>
+      </node>
+      <node id="93">
+        <label>src/constants/StrategyOverrides.cpp</label>
+        <link refid="_strategy_overrides_8cpp"/>
+      </node>
+      <node id="79">
+        <label>src/data/IniFixBuilderData.cpp</label>
+        <link refid="_ini_fix_builder_data_8cpp"/>
+      </node>
+      <node id="96">
+        <label>src/data/IniFixData/Amber/AmberFixer.cpp</label>
+        <link refid="_amber_fixer_8cpp"/>
+      </node>
+      <node id="97">
+        <label>src/data/IniFixData/AmberCN/AmberCNFixer.cpp</label>
+        <link refid="_amber_c_n_fixer_8cpp"/>
+      </node>
+      <node id="98">
+        <label>src/data/IniFixData/Arlecchino/ArlecchinoFixer.cpp</label>
+        <link refid="_arlecchino_fixer_8cpp"/>
+      </node>
+      <node id="99">
+        <label>src/data/IniFixData/Ayaka/AyakaFixer.cpp</label>
+        <link refid="_ayaka_fixer_8cpp"/>
+      </node>
+      <node id="100">
+        <label>src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp</label>
+        <link refid="_ayaka_springbloom_fixer_8cpp"/>
+      </node>
+      <node id="101">
+        <label>src/data/IniFixData/Barbara/BarbaraFixer.cpp</label>
+        <link refid="_barbara_fixer_8cpp"/>
+      </node>
+      <node id="102">
+        <label>src/data/IniFixData/BarbaraSummertime/BarbaraSummertimeFixer.cpp</label>
+        <link refid="_barbara_summertime_fixer_8cpp"/>
+      </node>
+      <node id="103">
+        <label>src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp</label>
+        <link refid="_cherry_hu_tao_fixer_8cpp"/>
+      </node>
+      <node id="104">
+        <label>src/data/IniFixData/Diluc/DilucFixer.cpp</label>
+        <link refid="_diluc_fixer_8cpp"/>
+      </node>
+      <node id="105">
+        <label>src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp</label>
+        <link refid="_diluc_flamme_fixer_8cpp"/>
+      </node>
+      <node id="106">
+        <label>src/data/IniFixData/Fischl/FischlFixer.cpp</label>
+        <link refid="_fischl_fixer_8cpp"/>
+      </node>
+      <node id="107">
+        <label>src/data/IniFixData/FischlHighness/FischlHighnessFixer.cpp</label>
+        <link refid="_fischl_highness_fixer_8cpp"/>
+      </node>
+      <node id="87">
+        <label>src/data/IniFixData/GIMICharFixer.cpp</label>
+        <link refid="_g_i_m_i_char_fixer_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/data/IniFixData/GIMIComponentFixer.cpp</label>
+        <link refid="_g_i_m_i_component_fixer_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
+        <link refid="_g_i_m_i_merge_fixer_8cpp"/>
+      </node>
+      <node id="108">
+        <label>src/data/IniFixData/Ganyu/GanyuFixer.cpp</label>
+        <link refid="_ganyu_fixer_8cpp"/>
+      </node>
+      <node id="109">
+        <label>src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp</label>
+        <link refid="_ganyu_twilight_fixer_8cpp"/>
+      </node>
+      <node id="110">
+        <label>src/data/IniFixData/HuTao/HuTaoFixer.cpp</label>
+        <link refid="_hu_tao_fixer_8cpp"/>
+      </node>
+      <node id="111">
+        <label>src/data/IniFixData/Jean/JeanFixer.cpp</label>
+        <link refid="_jean_fixer_8cpp"/>
+      </node>
+      <node id="112">
+        <label>src/data/IniFixData/JeanCN/JeanCNFixer.cpp</label>
+        <link refid="_jean_c_n_fixer_8cpp"/>
+      </node>
+      <node id="113">
+        <label>src/data/IniFixData/JeanSea/JeanSeaFixer.cpp</label>
+        <link refid="_jean_sea_fixer_8cpp"/>
+      </node>
+      <node id="114">
+        <label>src/data/IniFixData/Kaeya/KaeyaFixer.cpp</label>
+        <link refid="_kaeya_fixer_8cpp"/>
+      </node>
+      <node id="115">
+        <label>src/data/IniFixData/KaeyaSailwind/KaeyaSailwindFixer.cpp</label>
+        <link refid="_kaeya_sailwind_fixer_8cpp"/>
+      </node>
+      <node id="116">
+        <label>src/data/IniFixData/Keqing/KeqingFixer.cpp</label>
+        <link refid="_keqing_fixer_8cpp"/>
+      </node>
+      <node id="117">
+        <label>src/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp</label>
+        <link refid="_keqing_opulent_fixer_8cpp"/>
+      </node>
+      <node id="118">
+        <label>src/data/IniFixData/Kirara/KiraraFixer.cpp</label>
+        <link refid="_kirara_fixer_8cpp"/>
+      </node>
+      <node id="119">
+        <label>src/data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp</label>
+        <link refid="_kirara_boots_fixer_8cpp"/>
+      </node>
+      <node id="120">
+        <label>src/data/IniFixData/Klee/KleeFixer.cpp</label>
+        <link refid="_klee_fixer_8cpp"/>
+      </node>
+      <node id="121">
+        <label>src/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.cpp</label>
+        <link refid="_klee_blossoming_starlight_fixer_8cpp"/>
+      </node>
+      <node id="122">
+        <label>src/data/IniFixData/Lisa/LisaFixer.cpp</label>
+        <link refid="_lisa_fixer_8cpp"/>
+      </node>
+      <node id="123">
+        <label>src/data/IniFixData/LisaStudent/LisaStudentFixer.cpp</label>
+        <link refid="_lisa_student_fixer_8cpp"/>
+      </node>
+      <node id="124">
+        <label>src/data/IniFixData/Mona/MonaFixer.cpp</label>
+        <link refid="_mona_fixer_8cpp"/>
+      </node>
+      <node id="125">
+        <label>src/data/IniFixData/MonaCN/MonaCNFixer.cpp</label>
+        <link refid="_mona_c_n_fixer_8cpp"/>
+      </node>
+      <node id="126">
+        <label>src/data/IniFixData/Nilou/NilouFixer.cpp</label>
+        <link refid="_nilou_fixer_8cpp"/>
+      </node>
+      <node id="127">
+        <label>src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp</label>
+        <link refid="_nilou_breeze_fixer_8cpp"/>
+      </node>
+      <node id="128">
+        <label>src/data/IniFixData/Ningguang/NingguangFixer.cpp</label>
+        <link refid="_ningguang_fixer_8cpp"/>
+      </node>
+      <node id="129">
+        <label>src/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp</label>
+        <link refid="_ningguang_orchid_fixer_8cpp"/>
+      </node>
+      <node id="88">
+        <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
+        <link refid="_raiden_fixer_8cpp"/>
+      </node>
+      <node id="130">
+        <label>src/data/IniFixData/Rosaria/RosariaFixer.cpp</label>
+        <link refid="_rosaria_fixer_8cpp"/>
+      </node>
+      <node id="131">
+        <label>src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp</label>
+        <link refid="_rosaria_c_n_fixer_8cpp"/>
+      </node>
+      <node id="132">
+        <label>src/data/IniFixData/Shenhe/ShenheFixer.cpp</label>
+        <link refid="_shenhe_fixer_8cpp"/>
+      </node>
+      <node id="133">
+        <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
+        <link refid="_shenhe_frost_flower_fixer_8cpp"/>
+      </node>
+      <node id="134">
+        <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
+        <link refid="_xiangling_fixer_8cpp"/>
+      </node>
+      <node id="135">
+        <label>src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp</label>
+        <link refid="_xiangling_cheer_fixer_8cpp"/>
+      </node>
+      <node id="136">
+        <label>src/data/IniFixData/Xingqiu/XingqiuFixer.cpp</label>
+        <link refid="_xingqiu_fixer_8cpp"/>
+      </node>
+      <node id="137">
+        <label>src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp</label>
+        <link refid="_xingqiu_bamboo_fixer_8cpp"/>
+      </node>
+      <node id="80">
+        <label>src/data/IniFixData/Yelan/YelanFixer.cpp</label>
+        <link refid="_yelan_fixer_8cpp"/>
+      </node>
+      <node id="81">
+        <label>src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</label>
+        <link refid="_yelan_tranquil_fixer_8cpp"/>
+      </node>
+      <node id="82">
+        <label>src/data/IniParseBuilderData.cpp</label>
+        <link refid="_ini_parse_builder_data_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/data/IniParseData/Amber/AmberParser.cpp</label>
+        <link refid="_amber_parser_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/data/IniParseData/AmberCN/AmberCNParser.cpp</label>
+        <link refid="_amber_c_n_parser_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/data/IniParseData/Arlecchino/ArlecchinoParser.cpp</label>
+        <link refid="_arlecchino_parser_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/data/IniParseData/Ayaka/AyakaParser.cpp</label>
+        <link refid="_ayaka_parser_8cpp"/>
+      </node>
+      <node id="36">
+        <label>src/data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.cpp</label>
+        <link refid="_ayaka_springbloom_parser_8cpp"/>
+      </node>
+      <node id="37">
+        <label>src/data/IniParseData/Barbara/BarbaraParser.cpp</label>
+        <link refid="_barbara_parser_8cpp"/>
+      </node>
+      <node id="38">
+        <label>src/data/IniParseData/BarbaraSummertime/BarbaraSummertimeParser.cpp</label>
+        <link refid="_barbara_summertime_parser_8cpp"/>
+      </node>
+      <node id="39">
+        <label>src/data/IniParseData/CherryHuTao/CherryHuTaoParser.cpp</label>
+        <link refid="_cherry_hu_tao_parser_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/data/IniParseData/Diluc/DilucParser.cpp</label>
+        <link refid="_diluc_parser_8cpp"/>
+      </node>
+      <node id="41">
+        <label>src/data/IniParseData/DilucFlamme/DilucFlammeParser.cpp</label>
+        <link refid="_diluc_flamme_parser_8cpp"/>
+      </node>
+      <node id="42">
+        <label>src/data/IniParseData/Fischl/FischlParser.cpp</label>
+        <link refid="_fischl_parser_8cpp"/>
+      </node>
+      <node id="43">
+        <label>src/data/IniParseData/FischlHighness/FischlHighnessParser.cpp</label>
+        <link refid="_fischl_highness_parser_8cpp"/>
+      </node>
+      <node id="44">
+        <label>src/data/IniParseData/GIMICharParser.cpp</label>
+        <link refid="_g_i_m_i_char_parser_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
+        <link refid="_g_i_m_i_component_parser_8cpp"/>
+      </node>
+      <node id="45">
+        <label>src/data/IniParseData/Ganyu/GanyuParser.cpp</label>
+        <link refid="_ganyu_parser_8cpp"/>
+      </node>
+      <node id="46">
+        <label>src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp</label>
+        <link refid="_ganyu_twilight_parser_8cpp"/>
+      </node>
+      <node id="47">
+        <label>src/data/IniParseData/HuTao/HuTaoParser.cpp</label>
+        <link refid="_hu_tao_parser_8cpp"/>
+      </node>
+      <node id="48">
+        <label>src/data/IniParseData/Jean/JeanParser.cpp</label>
+        <link refid="_jean_parser_8cpp"/>
+      </node>
+      <node id="49">
+        <label>src/data/IniParseData/JeanCN/JeanCNParser.cpp</label>
+        <link refid="_jean_c_n_parser_8cpp"/>
+      </node>
+      <node id="50">
+        <label>src/data/IniParseData/JeanSea/JeanSeaParser.cpp</label>
+        <link refid="_jean_sea_parser_8cpp"/>
+      </node>
+      <node id="51">
+        <label>src/data/IniParseData/Kaeya/KaeyaParser.cpp</label>
+        <link refid="_kaeya_parser_8cpp"/>
+      </node>
+      <node id="52">
+        <label>src/data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.cpp</label>
+        <link refid="_kaeya_sailwind_parser_8cpp"/>
+      </node>
+      <node id="53">
+        <label>src/data/IniParseData/Keqing/KeqingParser.cpp</label>
+        <link refid="_keqing_parser_8cpp"/>
+      </node>
+      <node id="54">
+        <label>src/data/IniParseData/KeqingOpulent/KeqingOpulentParser.cpp</label>
+        <link refid="_keqing_opulent_parser_8cpp"/>
+      </node>
+      <node id="55">
+        <label>src/data/IniParseData/Kirara/KiraraParser.cpp</label>
+        <link refid="_kirara_parser_8cpp"/>
+      </node>
+      <node id="56">
+        <label>src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp</label>
+        <link refid="_kirara_boots_parser_8cpp"/>
+      </node>
+      <node id="57">
+        <label>src/data/IniParseData/Klee/KleeParser.cpp</label>
+        <link refid="_klee_parser_8cpp"/>
+      </node>
+      <node id="58">
+        <label>src/data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.cpp</label>
+        <link refid="_klee_blossoming_starlight_parser_8cpp"/>
+      </node>
+      <node id="59">
+        <label>src/data/IniParseData/Lisa/LisaParser.cpp</label>
+        <link refid="_lisa_parser_8cpp"/>
+      </node>
+      <node id="60">
+        <label>src/data/IniParseData/LisaStudent/LisaStudentParser.cpp</label>
+        <link refid="_lisa_student_parser_8cpp"/>
+      </node>
+      <node id="61">
+        <label>src/data/IniParseData/Mona/MonaParser.cpp</label>
+        <link refid="_mona_parser_8cpp"/>
+      </node>
+      <node id="62">
+        <label>src/data/IniParseData/MonaCN/MonaCNParser.cpp</label>
+        <link refid="_mona_c_n_parser_8cpp"/>
+      </node>
+      <node id="63">
+        <label>src/data/IniParseData/Nilou/NilouParser.cpp</label>
+        <link refid="_nilou_parser_8cpp"/>
+      </node>
+      <node id="64">
+        <label>src/data/IniParseData/NilouBreeze/NilouBreezeParser.cpp</label>
+        <link refid="_nilou_breeze_parser_8cpp"/>
+      </node>
+      <node id="65">
+        <label>src/data/IniParseData/Ningguang/NingguangParser.cpp</label>
+        <link refid="_ningguang_parser_8cpp"/>
+      </node>
+      <node id="66">
+        <label>src/data/IniParseData/NingguangOrchid/NingguangOrchidParser.cpp</label>
+        <link refid="_ningguang_orchid_parser_8cpp"/>
+      </node>
+      <node id="211">
+        <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
+        <link refid="_raiden_parser_8cpp"/>
+      </node>
+      <node id="67">
+        <label>src/data/IniParseData/Rosaria/RosariaParser.cpp</label>
+        <link refid="_rosaria_parser_8cpp"/>
+      </node>
+      <node id="68">
+        <label>src/data/IniParseData/RosariaCN/RosariaCNParser.cpp</label>
+        <link refid="_rosaria_c_n_parser_8cpp"/>
+      </node>
+      <node id="69">
+        <label>src/data/IniParseData/Shenhe/ShenheParser.cpp</label>
+        <link refid="_shenhe_parser_8cpp"/>
+      </node>
+      <node id="70">
+        <label>src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp</label>
+        <link refid="_shenhe_frost_flower_parser_8cpp"/>
+      </node>
+      <node id="71">
+        <label>src/data/IniParseData/Xiangling/XianglingParser.cpp</label>
+        <link refid="_xiangling_parser_8cpp"/>
+      </node>
+      <node id="72">
+        <label>src/data/IniParseData/XianglingCheer/XianglingCheerParser.cpp</label>
+        <link refid="_xiangling_cheer_parser_8cpp"/>
+      </node>
+      <node id="73">
+        <label>src/data/IniParseData/Xingqiu/XingqiuParser.cpp</label>
+        <link refid="_xingqiu_parser_8cpp"/>
+      </node>
+      <node id="74">
+        <label>src/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.cpp</label>
+        <link refid="_xingqiu_bamboo_parser_8cpp"/>
+      </node>
+      <node id="75">
+        <label>src/data/IniParseData/Yelan/YelanParser.cpp</label>
+        <link refid="_yelan_parser_8cpp"/>
+      </node>
+      <node id="77">
+        <label>src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp</label>
+        <link refid="_yelan_tranquil_parser_8cpp"/>
+      </node>
+      <node id="83">
+        <label>src/data/IniRemoveBuilderData.cpp</label>
+        <link refid="_ini_remove_builder_data_8cpp"/>
+      </node>
+      <node id="84">
+        <label>src/data/VGRemapData.cpp</label>
+        <link refid="_v_g_remap_data_8cpp"/>
+      </node>
+      <node id="85">
+        <label>src/data/VertexCountData.cpp</label>
+        <link refid="_vertex_count_data_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/model/files/IniFile.cpp</label>
+        <link refid="_ini_file_8cpp"/>
+      </node>
+      <node id="279">
+        <label>src/model/iftemplate/IfTemplateRender.cpp</label>
+        <link refid="_if_template_render_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/model/strategies/ModType.cpp</label>
+        <link refid="_mod_type_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
+        <link refid="_ini_file_fix_context_8cpp"/>
+      </node>
+      <node id="90">
+        <label>src/model/strategies/iniFixers/IniFixBuilder.cpp</label>
+        <link refid="_ini_fix_builder_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.cpp</label>
+        <link refid="_ini_file_res_edit_context_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp</label>
+        <link refid="_v_g_merge_group_res_builder_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
+        <link refid="_v_g_split_group_res_builder_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
+        <link refid="_ini_file_parse_context_8cpp"/>
+      </node>
+      <node id="94">
+        <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
+        <link refid="_ini_parse_builder_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</label>
+        <link refid="_ini_file_remove_context_8cpp"/>
+      </node>
+      <node id="273">
+        <label>src/model/strategies/iniRemovers/IniRemoveBuilder.cpp</label>
+        <link refid="_ini_remove_builder_8cpp"/>
+      </node>
+      <node id="210">
+        <label>src/tools/DownloadTools.cpp</label>
+        <link refid="_download_tools_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry" prot="public">AGRemapCore::sqrt_detail::SqrtEntry</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" prot="public">AGRemapCore::sqrt_detail::SqrtBlock</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash" prot="public">AGRemapCore::sqrt_detail::SqrtHandleHash</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt" prot="public">AGRemapCore::OrderedMultiMapSqrt</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <innernamespace refid="namespace_a_g_remap_core_1_1sqrt__detail">AGRemapCore::sqrt_detail</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_OrderedMultiMapSqrt_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_OrderedMultiMapSqrt_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;list&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tsl/ordered_set.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_ordered_multi_map_8h" kindref="compound">AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>storage<sp/>details<sp/>for<sp/>OrderedMultiMapSqrt<sp/>--<sp/>not<sp/>part<sp/>of<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>public<sp/>API,<sp/>kept<sp/>in<sp/>a<sp/>`sqrt_detail`<sp/>namespace<sp/>with<sp/>plain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(non-Doxygen)<sp/>comments.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespace_a_g_remap_core_1_1sqrt__detail" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1sqrt__detail" kindref="compound">sqrt_detail</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry" kindref="compound">SqrtEntry</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" kindref="compound">SqrtBlock</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="39" refid="namespace_a_g_remap_core_1_1sqrt__detail_1a96f85c4f58f7e42fd572819432810271" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a96f85c4f58f7e42fd572819432810271" kindref="member">SqrtEntryList</ref><sp/>=<sp/>std::list&lt;SqrtEntry&lt;K,<sp/>V&gt;&gt;;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="42" refid="namespace_a_g_remap_core_1_1sqrt__detail_1a14200d5ae3de54da181623cf777f9c87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a14200d5ae3de54da181623cf777f9c87" kindref="member">SqrtHandle</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a96f85c4f58f7e42fd572819432810271" kindref="member">SqrtEntryList&lt;K, V&gt;::iterator</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="45" refid="namespace_a_g_remap_core_1_1sqrt__detail_1a422f24763fd55fb7b8a7061c8d5943b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a422f24763fd55fb7b8a7061c8d5943b0" kindref="member">SqrtBlockContainer</ref><sp/>=<sp/>std::list&lt;SqrtBlock&lt;K,<sp/>V&gt;&gt;;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="48" refid="namespace_a_g_remap_core_1_1sqrt__detail_1a66d2657206c6ae46d2c5012f32bd7d96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a66d2657206c6ae46d2c5012f32bd7d96" kindref="member">SqrtBlockIt</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a422f24763fd55fb7b8a7061c8d5943b0" kindref="member">SqrtBlockContainer&lt;K, V&gt;::iterator</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="51" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry" kindref="compound">SqrtEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a7df15199364fd338a452bca980949930" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>K<sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a7df15199364fd338a452bca980949930" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="53" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a3162ba9e6375307d19c069d3c211c5ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>V<sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a3162ba9e6375307d19c069d3c211c5ac" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="54" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a56a7c5dd386c136f9a3e4974f29b6395" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a56a7c5dd386c136f9a3e4974f29b6395" kindref="member">pos</ref>;</highlight></codeline>
+<codeline lineno="55" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a1ac8918dc792889fda4e5df0415e8803" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>std::list&lt;SqrtHandle&lt;K,<sp/>V&gt;&gt;::iterator<sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a1ac8918dc792889fda4e5df0415e8803" kindref="member">self</ref>;<sp/></highlight><highlight class="comment">//<sp/>KeyBucket<sp/>backlink,<sp/>same<sp/>role<sp/>as<sp/>the<sp/>list<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1aca1a705c2e039e84e4998ba5fe80ebdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a66d2657206c6ae46d2c5012f32bd7d96" kindref="member">SqrtBlockIt&lt;K, V&gt;</ref><sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1aca1a705c2e039e84e4998ba5fe80ebdd" kindref="member">ownerBlock</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>which<sp/>block<sp/>currently<sp/>owns<sp/>this<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="60" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" kindref="compound">SqrtBlock</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block_1ac1a39f3ba030d7a1e41024f26e547ec8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a96f85c4f58f7e42fd572819432810271" kindref="member">SqrtEntryList&lt;K, V&gt;</ref><sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block_1ac1a39f3ba030d7a1e41024f26e547ec8" kindref="member">items</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Defined<sp/>here<sp/>(not<sp/>nested<sp/>in<sp/>OrderedMultiMapSqrt)<sp/>for<sp/>the<sp/>same</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>reason<sp/>as<sp/>detail::ListHandleHash<sp/>in<sp/>OrderedMultiMap.h.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="67" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash" kindref="compound">SqrtHandleHash</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash_1a9dfd9dc54078aec03b57db848e8ba405" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash_1a9dfd9dc54078aec03b57db848e8ba405" kindref="member">operator()</ref>(<ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a14200d5ae3de54da181623cf777f9c87" kindref="member">SqrtHandle&lt;K, V&gt;</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyHash<sp/>=<sp/>std::hash&lt;K&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyEqual<sp/>=<sp/>std::equal_to&lt;K&gt;&gt;</highlight></codeline>
+<codeline lineno="105" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_ordered_multi_map" kindref="compound">BaseOrderedMultiMap</ref>&lt;OrderedMultiMapSqrt&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;,<sp/>K,<sp/>V,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sqrt_detail::SqrtHandle&lt;K,<sp/>V&gt;,<sp/>sqrt_detail::SqrtHandleHash&lt;K,<sp/>V&gt;,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>KeyHash,<sp/>KeyEqual&gt;<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="110" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>=<sp/><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a14200d5ae3de54da181623cf777f9c87" kindref="member">sqrt_detail::SqrtHandle&lt;K, V&gt;</ref>;</highlight></codeline>
+<codeline lineno="111" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1374788e8cc757aa37ffe5a6ef52650c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1374788e8cc757aa37ffe5a6ef52650c" kindref="member">HandleHash</ref><sp/>=<sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash" kindref="compound">sqrt_detail::SqrtHandleHash&lt;K, V&gt;</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="114" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a03f452881b146d49ea6613fdac0c8ef8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a03f452881b146d49ea6613fdac0c8ef8" kindref="member">Entry</ref><sp/>=<sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry" kindref="compound">sqrt_detail::SqrtEntry&lt;K, V&gt;</ref>;</highlight></codeline>
+<codeline lineno="115" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab8c2604adac18fcfdad26c8e32e9a6d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab8c2604adac18fcfdad26c8e32e9a6d3" kindref="member">Block</ref><sp/>=<sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" kindref="compound">sqrt_detail::SqrtBlock&lt;K, V&gt;</ref>;</highlight></codeline>
+<codeline lineno="116" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1acb9a29ac68969611c71f6941edd80c54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1acb9a29ac68969611c71f6941edd80c54" kindref="member">BlockContainer</ref><sp/>=<sp/><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a422f24763fd55fb7b8a7061c8d5943b0" kindref="member">sqrt_detail::SqrtBlockContainer&lt;K, V&gt;</ref>;</highlight></codeline>
+<codeline lineno="117" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7706ec0742d1f459a422813b494f5ae7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7706ec0742d1f459a422813b494f5ae7" kindref="member">BlockIt</ref><sp/>=<sp/><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a66d2657206c6ae46d2c5012f32bd7d96" kindref="member">sqrt_detail::SqrtBlockIt&lt;K, V&gt;</ref>;</highlight></codeline>
+<codeline lineno="118" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a509d78d97002f86d2a9be49fa03662ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a509d78d97002f86d2a9be49fa03662ad" kindref="member">Base</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_base_ordered_multi_map" kindref="compound">BaseOrderedMultiMap&lt;OrderedMultiMapSqrt&lt;K, V, KeyHash, KeyEqual&gt;</ref>,<sp/>K,<sp/>V,<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref>,<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1374788e8cc757aa37ffe5a6ef52650c" kindref="member">HandleHash</ref>,<sp/>KeyHash,<sp/>KeyEqual&gt;;</highlight></codeline>
+<codeline lineno="119" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6936532baac2c64f6ea93df6c49f4018" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a509d78d97002f86d2a9be49fa03662ad" kindref="member">Base</ref>;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mutable:<sp/>rawBegin()<sp/>etc.<sp/>need<sp/>non-const<sp/>iterators<sp/>even<sp/>when</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>called<sp/>const<sp/>(see<sp/>the<sp/>same<sp/>note<sp/>in<sp/>OrderedMultiMap.h).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7fab24a68f587a2ba0a30e2901ee0a63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1acb9a29ac68969611c71f6941edd80c54" kindref="member">BlockContainer</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7fab24a68f587a2ba0a30e2901ee0a63" kindref="member">blocks_</ref>;</highlight></codeline>
+<codeline lineno="124" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a3fe6a1c501952b2bc69d49269666b369" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a3fe6a1c501952b2bc69d49269666b369" kindref="member">totalSize_</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="134" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a204317f8662d6d38676c4489742278c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a204317f8662d6d38676c4489742278c1" kindref="member">OrderedMultiMapSqrt</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a818c50afb84cb5d5057eec643be316bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a818c50afb84cb5d5057eec643be316bf" kindref="member">operator=</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ad592541b56d421e2a083ab1b3fe2427f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ad592541b56d421e2a083ab1b3fe2427f" kindref="member">OrderedMultiMapSqrt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>&amp;<sp/>other);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ae136f4de72fe78c0409c1428abf86aea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ae136f4de72fe78c0409c1428abf86aea" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>&amp;<sp/>other);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6cb2be0d8dd7454c2546d3e3f929fb74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6cb2be0d8dd7454c2546d3e3f929fb74" kindref="member">OrderedMultiMapSqrt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;K,<sp/>V&gt;&gt;&amp;<sp/>items);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ac267ee1965eb2b010444242b3dd2d3ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ac267ee1965eb2b010444242b3dd2d3ee" kindref="member">OrderedMultiMapSqrt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;K,<sp/>std::vector&lt;std::pair&lt;long<sp/>long,<sp/>V&gt;&gt;,<sp/>KeyHash,<sp/>KeyEqual&gt;&amp;<sp/>indexed);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1422faffe3c54d265e41dfefde1f1fe9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1422faffe3c54d265e41dfefde1f1fe9" kindref="member">OrderedMultiMapSqrt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;K,<sp/>std::vector&lt;std::pair&lt;long<sp/>long,<sp/>V&gt;&gt;&gt;&amp;<sp/>indexed);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a5827abe5c6faaef286b93b51548401c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;K,<sp/>V&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a5827abe5c6faaef286b93b51548401c2" kindref="member">entries</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a2534f4539ae24f22caa4c9b5f58c548a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;OrderedMultiMapSqrt&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a2534f4539ae24f22caa4c9b5f58c548a" kindref="member">splitByInds</ref>(</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tsl::ordered_set&lt;long<sp/>long&gt;&amp;<sp/>inds,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeSplitKVP<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeEmptyParts<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>sortIndices<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1acadbe2e9843e42ac0470e1f3d3070ac5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;OrderedMultiMapSqrt&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1acadbe2e9843e42ac0470e1f3d3070ac5" kindref="member">splitByInds</ref>(</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::set&lt;long<sp/>long&gt;&amp;<sp/>inds,</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeSplitKVP<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeEmptyParts<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>sortIndices<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aed5055c1d32a39dcbd81f3dc73719ebb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;OrderedMultiMapSqrt&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aed5055c1d32a39dcbd81f3dc73719ebb" kindref="member">splitByInds</ref>(</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_set&lt;long<sp/>long&gt;&amp;<sp/>inds,</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeSplitKVP<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeEmptyParts<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Turns<sp/>computeSplitGroups()&apos;s<sp/>handle<sp/>groups<sp/>into<sp/>actual<sp/>new</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OrderedMultiMapSqrt<sp/>instances<sp/>--<sp/>this<sp/>is<sp/>the<sp/>piece<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>couldn&apos;t<sp/>live<sp/>in<sp/>Base<sp/>(Derived<sp/>is<sp/>still<sp/>incomplete<sp/>at<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>point<sp/>Base&apos;s<sp/>class<sp/>template<sp/>is<sp/>instantiated,<sp/>so<sp/>a<sp/>method</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>defined<sp/>directly<sp/>in<sp/>Base<sp/>can<sp/>never<sp/>return<sp/>anything<sp/>naming</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Derived).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a690752302fd67914b3be184c573a3ac6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;OrderedMultiMapSqrt&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a690752302fd67914b3be184c573a3ac6" kindref="member">groupsToParts</ref>(std::vector&lt;std::vector&lt;Handle&gt;&gt;&amp;&amp;<sp/>groups)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>primitives<sp/>required<sp/>by<sp/>BaseOrderedMultiMap<sp/>------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a01cb82f06f6a5ff18488d511c221fa9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a01cb82f06f6a5ff18488d511c221fa9f" kindref="member">rawSize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6d4588e81af926ff508db90965d255a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6d4588e81af926ff508db90965d255a4" kindref="member">rawBegin</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab32802f1c0991c57a456c6da6594931b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab32802f1c0991c57a456c6da6594931b" kindref="member">rawEnd</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1c3f66e4c2301263ad139722ddf5532d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1c3f66e4c2301263ad139722ddf5532d" kindref="member">rawNext</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a3fc21998515e0e3ec2be17060ccdf1b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a3fc21998515e0e3ec2be17060ccdf1b9" kindref="member">rawPrev</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a9a7bea8b47a82857fd6999c47969b70a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a9a7bea8b47a82857fd6999c47969b70a" kindref="member">rawAtIndex</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>idx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aafe581f39ada2d6cf50fb8da2d26b9e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aafe581f39ada2d6cf50fb8da2d26b9e5" kindref="member">rawInsertBefore</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>pos,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="304" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a39fa6c227e27aac3a3f9566f2adf62ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a39fa6c227e27aac3a3f9566f2adf62ad" kindref="member">rawErase</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a332d59e49ebe2f71032bec558a1904ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a332d59e49ebe2f71032bec558a1904ff" kindref="member">rawKey</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a8260f5a0318c65f8e18ac2c5b9776eeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a8260f5a0318c65f8e18ac2c5b9776eeb" kindref="member">rawValue</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a90f6e8c6d2d13f477c397693a0be7f44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a90f6e8c6d2d13f477c397693a0be7f44" kindref="member">rawSetValue</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="309" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aa786290d8a7b5c28ab3f68a424aff200" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aa786290d8a7b5c28ab3f68a424aff200" kindref="member">rawPos</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="310" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7fff8c577c503774bf38dc80645ef2d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7fff8c577c503774bf38dc80645ef2d0" kindref="member">rawSetPos</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>p);</highlight></codeline>
+<codeline lineno="311" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a02a06cd7be81b97908ccd5f3c868526a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>std::list&lt;Handle&gt;::iterator<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a02a06cd7be81b97908ccd5f3c868526a" kindref="member">rawSelf</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="312" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab38ccc0d92ca00b278222482e3a41ac1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab38ccc0d92ca00b278222482e3a41ac1" kindref="member">rawSetSelf</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>std::list&lt;Handle&gt;::iterator<sp/><ref refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a283e269c293b3f94e02a373ffb76bc68" kindref="member">self</ref>);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wipes<sp/>everything<sp/>(used<sp/>by<sp/>remapKeys(),<sp/>which<sp/>rebuilds<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>scratch),<sp/>restoring<sp/>the<sp/>&quot;always<sp/>&gt;=<sp/>1<sp/>block&quot;<sp/>invariant.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6627a790aae1ac84791f95de4e075cb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6627a790aae1ac84791f95de4e075cb2" kindref="member">rawClear</ref>();</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Physically<sp/>relinks<sp/>every<sp/>currently-existing<sp/>entry<sp/>to<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>`order`<sp/>exactly<sp/>(order.size()<sp/>==<sp/>rawSize(),<sp/>a<sp/>permutation<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>all<sp/>current<sp/>handles).<sp/>Used<sp/>by<sp/>reorder().<sp/>Deliberately<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>implemented<sp/>as<sp/>splice-one-at-a-time-with-incremental-</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>rebalancing:<sp/>since<sp/>reorder()<sp/>is<sp/>already<sp/>O(n)<sp/>overall</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>regardless<sp/>of<sp/>backing<sp/>structure,<sp/>a<sp/>full<sp/>rebuild<sp/>into<sp/>fresh,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>evenly-sized<sp/>blocks<sp/>costs<sp/>nothing<sp/>extra<sp/>in<sp/>complexity<sp/>class</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>sidesteps<sp/>the<sp/>whole<sp/>class<sp/>of<sp/>bug<sp/>that<sp/>incremental</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>rebalancing<sp/>produced<sp/>elsewhere<sp/>in<sp/>this<sp/>codebase<sp/>(see</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>BaseOrderedMultiMap.tpp&apos;s<sp/>insertAllAtImpl<sp/>for<sp/>that<sp/>story).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a47f923d17b1853582245d147126ea1f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a47f923d17b1853582245d147126ea1f7" kindref="member">rawRelinkInOrder</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Handle&gt;&amp;<sp/>order);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>rebalancing<sp/>---------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a25b24795a33d5fa0d71a3b4b9324c5c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a25b24795a33d5fa0d71a3b4b9324c5c1" kindref="member">targetBlockSize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="333" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a0c043111819ffb92a8b103afaa753b7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a0c043111819ffb92a8b103afaa753b7f" kindref="member">relinkOwner</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab8c2604adac18fcfdad26c8e32e9a6d3" kindref="member">Block</ref>&amp;<sp/>blk,<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7706ec0742d1f459a422813b494f5ae7" kindref="member">BlockIt</ref><sp/>blkIt);</highlight></codeline>
+<codeline lineno="334" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a2aac35863a1d78b669f75ff718451aab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a2aac35863a1d78b669f75ff718451aab" kindref="member">rebalanceAfterInsert</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7706ec0742d1f459a422813b494f5ae7" kindref="member">BlockIt</ref><sp/>blk);</highlight></codeline>
+<codeline lineno="335" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a8d1384731b0d3ca0b1abc6df4f605c00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a8d1384731b0d3ca0b1abc6df4f605c00" kindref="member">rebalanceAfterErase</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7706ec0742d1f459a422813b494f5ae7" kindref="member">BlockIt</ref><sp/>blk);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;OrderedMultiMapSqrt.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h"/>
+  </compounddef>
+</doxygen>

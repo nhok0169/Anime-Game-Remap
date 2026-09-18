@@ -94,12 +94,32 @@ Options
        | *eg. raiden,arlecchino,ayaya*
        |
        | See below for the different names/aliases of the supported types of mods.
+   * - -g str, -\-game str
+     - | Fixes mods only for the specified games.
+       | By default, if this option is not specified, will fix mods for all the supported games.
+       |
+       | Please specify the types of games using the game type's name or alias,
+       | then seperate each name/alias with a comma(,)
+       | *eg. GI,WuWa*
+       |
+       | See :ref:`Game Types <commandOpts:Game Types>` for the different names/aliases of the supported types of games.
+   * - -c, -\-compressTextures
+     - | Whether to compress the textures the fix writes.
+       |
+       | **By default textures are left uncompressed**, which is what the older pure-Python
+       | versions always did. Pick your poison: do you want the fix to run faster, but your
+       | textures take up more space, OR your fix to run slower, but textures take minimal
+       | space.
+       |
+       | This option only *permits* compression. Specifying it lets each mod type's own
+       | texture edits decide for themselves; an edit that deliberately writes an
+       | uncompressed texture still does so.
    * - -dl str, -\-download str
      - | The download mode to handle file downloads need. The below are the available download modes:
        | 
-       | See :ref:`Download Modes` for details on the available download modes.
+       | See :ref:`Download Modes <commandOpts:Download Modes>` for details on the available download modes.
        |
-       | By default, the download mode used is: **HardTexDriven**
+       | By default, the download mode used is: **Normal**
    * - -p str, -\-proxy str
      - | The link to the proxy server for those whose internet access must go through a proxy. 
        | The software will make all internet network requests through this proxy
@@ -169,6 +189,24 @@ Below are the supported types of mods
        | BarbaraBikini
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(barbarasummertime).*\]``
+   * - **Bennett**
+     - | Benny
+     - | check if the .ini file contains a section matching the regex,
+       | ``^\s*\[\s*textureoverride.*(bennett)((?!adventure).)*\]``
+   * - **BennettAdventure**
+     - | AdventureBennett,
+       | AdventureBenny,
+       | BennettNatlan,
+       | BennettSummer,
+       | BennyAdventure,
+       | BennyNatlan,
+       | BennySummer,
+       | NatlanBennett,
+       | NatlanBenny,
+       | SummerBennett,
+       | SummerBenny
+     - | check if the .ini file contains a section matching the regex,
+       | ``^\s*\[\s*textureoverride.*(bennettadventure).*\]``
    * - **CherryHuTao**
      - | 77thDirectoroftheWangshengFuneralParlorCherry, 
        | 77thDirectoroftheWangshengFuneralParlorLanternRite, 
@@ -441,6 +479,46 @@ Below are the supported types of mods
        | XingqiuLanternRite
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(xingqiubamboo).*\]``
+   * - **Yelan**
+     - | ShenhesBestie,
+       | TsaritsaJacketStealer
+     - | check if the .ini file contains a section matching the regex,
+       | ``^\s*\[\s*textureoverride.*(yelan)((?!tranquil).)*\]``
+   * - **YelanTranquil**
+     - | YelanTranquilBanquet,
+       | TranquilBanquetYelan,
+       | YelanSummer,
+       | SummerYelan,
+       | ShenhesSummerBestie,
+       | TsaritsaJacketStealerButDoesntNeedItSinceItIsSummer
+     - | check if the .ini file contains a section matching the regex,
+       | ``^\s*\[\s*textureoverride.*(yelantranquil).*\]``
+
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Game Types
+----------
+
+Below are the supported types of games
+
+:raw-html:`<br />`
+
+.. note::
+    The names/aliases for the game types are not case sensitive
+
+.. list-table::
+   :widths: 25 75
+   :header-rows: 1
+
+   * - Name
+     - Aliases
+   * - **GI**
+     - | Genshin,
+       | GenshinImpact
+   * - **WuWa**
+     - | WutheringWaves
 
 
 :raw-html:`<br />`
@@ -459,37 +537,12 @@ Below are the differents download modes supported by the software.
      - Description
    * - **Disabled**
      - Will not perform any file downloads for any mods
+   * - **Normal**
+     - | Only perform file downloads at places in a .ini file where a resource is missing
+       |
+       | This is the default when the option is not specified
    * - **Always**
-     - Will always perform file downloads for every mod
-   * - **AlwaysTex**
-     - Only download textures or .ib files
-   * - **AlwaysBuf**
-     - Only download .buf files, if possible
-   * - **Tex**
-     - Only download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
-   * - **Buf**
-     - Only download .buf files if there is a specified branch in the .vb `sections`_ that does not reference the files
-   * - **HardTexDriven**
-     - | Will perform file downloads based off the following heuristics:
-       |
-       |    1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
-       |    2. If any texture/.ib downloads needed to be performed, then download .buf files at specified branches with missing resources
-   * - **HardTexDrivenAll**
-     - | Will perform file downloads based off the following heuristics:
-       |
-       |    1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
-       |    2. If any texture/.ib downloads needed to be performed, then download model .buf files at specified/unspecified branch cases with missing resources
-   * - **SoftTexDriven**
-     - | Will perform file downloads based off the following heuristics:
-       |
-       |    1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
-       |    2. Download .buf files if either texture/.ib downloads needed to be performed or there are specified branch cases with missing resources
-   * - **SoftTexDrivenAll**
-     - | Will perform file downloads based off the following heuristics:
-       |
-       |    1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
-       |    2. Download .buf files if either texture/.ib downloads needed to be performed or there are specified/unspecified branch cases with missing resources
-
+     - Will always perform file downloads for every mod, if possible, using pessimistic assumptions
 
 .. _section: https://en.wikipedia.org/wiki/INI_file#Sections
 .. _sections: https://en.wikipedia.org/wiki/INI_file#Sections

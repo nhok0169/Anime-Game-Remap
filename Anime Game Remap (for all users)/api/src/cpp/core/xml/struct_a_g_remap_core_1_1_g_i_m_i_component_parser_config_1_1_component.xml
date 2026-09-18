@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMIComponentParserConfig::Component</compoundname>
+    <includes refid="_g_i_m_i_component_parser_8h" local="no">GIMIComponentParser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1abac19b72746490f530acccbe5dfda15f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIComponentParserConfig::Component::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::Component::name</qualifiedname>
+        <briefdescription>
+<para>The component&apos;s name, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>Body</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="117" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a5f52bf20bdfc1d051e27558913a513ba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIComponentParserConfig::Component::modTypeName</definition>
+        <argsstring></argsstring>
+        <name>modTypeName</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::Component::modTypeName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The mod type NAME its hashes are filed under in ``HashData``, eg. ``YelanTranquilBody``
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Not the same as the skin&apos;s own name: each component of a multi-component skin is a
+:cpp:enum:`ModTypeId` of its own so the forward direction can target it, and its hashes
+live under that name. This is why one classifier per component is needed rather than one
+for the parser: a single hash filter can only name one of them
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="131" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a83fe498c7f95f3fc7915a9770fa0d867" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot" kindref="compound">Slot</ref> &gt;</type>
+        <definition>std::vector&lt;Slot&gt; AGRemapCore::GIMIComponentParserConfig::Component::slots</definition>
+        <argsstring></argsstring>
+        <name>slots</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::Component::slots</qualifiedname>
+        <briefdescription>
+<para>The component&apos;s draw slots, in draw order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="136" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a9f0c968f73928f58529964da96584dbb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::GIMIComponentParserConfig::Component::texcoordStride</definition>
+        <argsstring></argsstring>
+        <name>texcoordStride</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::Component::texcoordStride</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>This component&apos;s <computeroutput>Texcoord.buf</computeroutput> stride <ndash/> 20 with a second UV set, 12 without. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="141" column="17" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a4cf927721f3cd103885114e8897e9576" prot="public" static="no" mutable="no">
+        <type>long long</type>
+        <definition>long long AGRemapCore::GIMIComponentParserConfig::Component::vertexCount</definition>
+        <argsstring></argsstring>
+        <name>vertexCount</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::Component::vertexCount</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The GAME model&apos;s vertex count for this component, for the downloaded blend&apos;s ``draw``
+line. ``0`` leaves the line out :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+In the config rather than :cpp:class:`VertexCounts` because that table&apos;s rows all carry
+an empty component column, and ``VertexCounts_test`` asserts so deliberately -- the day
+a real per-component count is filed there, that tripwire is the thing that says so
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="154" column="23" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One component of the skin <ndash/> its own buffers, its own hashes, its own draw slots. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="113" column="9" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="113" bodyend="155"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a5f52bf20bdfc1d051e27558913a513ba" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Component</scope><name>modTypeName</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1abac19b72746490f530acccbe5dfda15f" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Component</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a83fe498c7f95f3fc7915a9770fa0d867" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Component</scope><name>slots</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a9f0c968f73928f58529964da96584dbb" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Component</scope><name>texcoordStride</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a4cf927721f3cd103885114e8897e9576" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Component</scope><name>vertexCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

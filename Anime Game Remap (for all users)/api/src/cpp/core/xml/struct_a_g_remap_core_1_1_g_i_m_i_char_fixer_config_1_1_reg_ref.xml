@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_ref" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMICharFixerConfig::RegRef</compoundname>
+    <includes refid="_g_i_m_i_char_fixer_8h" local="no">GIMICharFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_ref_1a02932c03f3f80334e96e09459ec173ef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharFixerConfig::RegRef::reg</definition>
+        <argsstring></argsstring>
+        <name>reg</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::RegRef::reg</qualifiedname>
+        <briefdescription>
+<para>The register. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="93" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_ref_1a79697d4f279270765b3985f35ba6280b" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a2a9626fb8b6cec32a7ad71d9b368a9a5" kindref="member">RegValCheck</ref></type>
+        <definition>RegValCheck AGRemapCore::GIMICharFixerConfig::RegRef::check</definition>
+        <argsstring></argsstring>
+        <name>check</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::RegRef::check</qualifiedname>
+        <briefdescription>
+<para>The optional test over the register&apos;s value <ndash/> empty means &quot;always&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="98" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_ref_1a0cca7e929f14983bd158b7e43883d87c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GIMICharFixerConfig::RegRef::RegRef</definition>
+        <argsstring>(const char *reg)</argsstring>
+        <name>RegRef</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::RegRef::RegRef</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>reg</declname>
+        </param>
+        <briefdescription>
+<para>Constructs an unconditional reference <ndash/> every occurrence of &apos;reg&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register, eg. <computeroutput>"ps-t2"</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="75" column="13" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_ref_1a9bd9d57ce902043e7d9fbffabeb72b99" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GIMICharFixerConfig::RegRef::RegRef</definition>
+        <argsstring>(std::string reg)</argsstring>
+        <name>RegRef</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::RegRef::RegRef</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>reg</declname>
+        </param>
+        <briefdescription>
+<para>Constructs an unconditional reference <ndash/> every occurrence of &apos;reg&apos;.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register, eg. <computeroutput>"ps-t2"</computeroutput>    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="80" column="13" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_ref_1a97fef737b78785354649b50939d354ab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GIMICharFixerConfig::RegRef::RegRef</definition>
+        <argsstring>(std::string reg, RegValCheck check)</argsstring>
+        <name>RegRef</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::RegRef::RegRef</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a2a9626fb8b6cec32a7ad71d9b368a9a5" kindref="member">RegValCheck</ref></type>
+          <declname>check</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a reference that applies only where &apos;check&apos; says so. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register, eg. <computeroutput>"ps-t2"</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>check</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The test over that register&apos;s value <ndash/> see <ref refid="class_a_g_remap_core_1_1_reg_val_checks" kindref="compound">RegValChecks</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="88" column="13" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A register named in a :cpp:class:`GIMICharFixerConfig`, optionally conditional on what
+that register is bound TO :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+``&quot;ps-t2&quot;`` on its own means every occurrence of the register. ``{&quot;ps-t2&quot;,
+RegValChecks::isLightMap}`` means only the ones whose value looks like a lightmap -- which
+is how a mod that binds two different things to one slot across its ``$swapvar`` branches
+gets each branch treated correctly :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Implicitly constructible from a string, so every config written before this existed still
+reads (and compiles) exactly as it did
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="68" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="68" bodyend="99"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_ref_1a79697d4f279270765b3985f35ba6280b" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::RegRef</scope><name>check</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_ref_1a02932c03f3f80334e96e09459ec173ef" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::RegRef</scope><name>reg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_ref_1a0cca7e929f14983bd158b7e43883d87c" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::RegRef</scope><name>RegRef</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_ref_1a9bd9d57ce902043e7d9fbffabeb72b99" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::RegRef</scope><name>RegRef</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_ref_1a97fef737b78785354649b50939d354ab" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::RegRef</scope><name>RegRef</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

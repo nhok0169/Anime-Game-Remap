@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_xiangling_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::XianglingParser</compoundname>
+    <includes refid="_xiangling_parser_8h" local="no">XianglingParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_xiangling_parser_1aa4f885fc02d4ceeaa91c41c2c47aa71e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::XianglingParser::XianglingParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>XianglingParser</name>
+        <qualifiedname>AGRemapCore::XianglingParser::XianglingParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Xiangling/XianglingParser.h" line="38" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_xiangling_parser_1abf01f70510a7aaecdea32529a7bb0782" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::XianglingParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::XianglingParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era Xiangling ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::xiangling4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Xiangling/XianglingParser.h" line="47" column="45" bodyfile="src/data/IniParseData/Xiangling/XianglingParser.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Xiangling&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`XianglingFixer`; the two agree on the mod object names by hand, and
+neither half makes sense alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Xiangling and XianglingCheer are a base/skin pair and remap onto each other. The
+skin has no ``dress``, so this direction is a MERGE
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Xiangling/XianglingParser.h" line="35" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Xiangling/XianglingParser.h" bodystart="35" bodyend="48"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_xiangling_parser_1abf01f70510a7aaecdea32529a7bb0782" prot="public" virt="non-virtual"><scope>AGRemapCore::XianglingParser</scope><name>v4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_xiangling_parser_1aa4f885fc02d4ceeaa91c41c2c47aa71e" prot="public" virt="non-virtual"><scope>AGRemapCore::XianglingParser</scope><name>XianglingParser</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

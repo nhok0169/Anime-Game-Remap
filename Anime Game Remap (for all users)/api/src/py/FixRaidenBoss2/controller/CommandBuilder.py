@@ -1,0 +1,186 @@
+##### Credits
+
+# ===== Anime Game Remap (AG Remap) =====
+# Authors: Albert Gold#2696, NK#1321
+#
+# if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+# Special Thanks:
+#   nguen#2011 (for support)
+#   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+#   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+##### EndCredits
+
+
+##### ExtImports
+import argparse
+from typing import List
+##### EndExtImports
+
+##### LocalImports
+from ..tools.TextTools import TextTools
+from .CommandFormatter import CommandFormatter
+from .enums.CommandOpts import CommandOpts
+from .enums.ShortCommandOpts import ShortCommandOpts
+from ..constants.FileTypes import FileTypes
+from ..constants.FileExt import FileExt
+from ..constants.DownloadMode import DownloadMode
+##### EndLocalImports
+
+
+##### Script
+# CommandBuilder: Class for building the command
+class CommandBuilder():
+    def __init__(self):
+        self._argParser = argparse.ArgumentParser(description='Ports mods from characters onto their skin counterparts', formatter_class=CommandFormatter)
+        self._addArguments()
+        self._args = argparse.Namespace()
+
+
+    def parse(self) -> argparse.Namespace:
+        self._args = self._argParser.parse_args()
+        self.parseArgs()
+        return self._args
+
+    def parseArgs(self):
+        if (self._args.types is not None):
+            self._args.types = self._args.types.split(",")
+
+        if (self._args.remappedTypes is not None):
+            self._args.remappedTypes = self._args.remappedTypes.split(",")
+
+        # Split the same way the mod type options are, so a game is named by name/alias exactly as a
+        # mod type is -- RemapServiceCLI resolves each one through GameTypeIdTools.findByName.
+        if (self._args.game is not None):
+            self._args.game = self._args.game.split(",")
+
+    def _addArguments(self):
+        self._argParser.add_argument(ShortCommandOpts.Src.value, CommandOpts.Src.value, action='store', type=str, help="The starting path to run this fix. If this option is not specified, then will run the fix from the current directory.")
+        self._argParser.add_argument(ShortCommandOpts.Version.value, CommandOpts.Version.value, action='store', type=str, help="The game version we want the fix to be compatible with. If this option is not specified, then will use the latest game version")
+
+        # The other half of the fix table's key, and a separate option because it is a separate
+        # selection -- the usual case is an old mod fixed with the newest fix, which one option
+        # feeding both cannot say.
+        self._argParser.add_argument(ShortCommandOpts.FromVersion.value, CommandOpts.FromVersion.value, action='store', type=str, help=f"The game version the mods being fixed were made for. This picks how the mods are read -- which hashes/indices they are looked up by -- where {CommandOpts.Version.value} picks the fix that is written. If this option is not specified, then will read the mods as the latest game version")
+        self._argParser.add_argument(ShortCommandOpts.DeleteBackup.value, CommandOpts.DeleteBackup.value, action='store_true', help=f'deletes backup copies of the original {FileExt.Ini.value} files')
+        self._argParser.add_argument(ShortCommandOpts.FixOnly.value, CommandOpts.FixOnly.value, action='store_true', help='only fixes the mod without cleaning any previous runs of the script')
+        self._argParser.add_argument(ShortCommandOpts.Revert.value, CommandOpts.Revert.value, action='store_true', help='Undo the previous runs of the script')
+        self._argParser.add_argument(ShortCommandOpts.HideOriginal.value, CommandOpts.HideOriginal.value, action = 'store_true', help="Show only the mod on the remapped character and do not show the mod on the original character")
+        self._argParser.add_argument(ShortCommandOpts.Log.value, CommandOpts.Log.value, action='store', type=str, help=f'The folder location to log the printed out text into a seperate {FileExt.Txt.value} file. If this option is not specified, then will not log the printed out text.')
+        self._argParser.add_argument(ShortCommandOpts.All.value, CommandOpts.All.value, action='store_true', help=f"""Parses all {FileTypes.Ini.value}s that the program encounters. This option supersedes the {CommandOpts.Types.value} option
+
+For {FileTypes.Ini.value} where a mod cannot be identified, usually, you would also need to specify what particular mod the {FileTypes.Ini.value} defaults to using the {CommandOpts.DefaultType.value} option. 
+Otherwise, you will be defaulted to fixing 'raiden' mods.""")
+        self._argParser.add_argument(ShortCommandOpts.DefaultType.value, CommandOpts.DefaultType.value, action='store', type=str, help=f'''The default mod type to use if the {FileTypes.Ini.value} belongs to some unknown mod.
+
+- If {CommandOpts.ForceType.value} is set to True, this option has not effect                          
+- If the {CommandOpts.All.value} is set to True and no values are specified for this option, the default argument for this option is set to 'raiden'
+- Otherwise, this option has not effect and any unknown mods will be skipped
+
+See below for the different names/aliases of the supported types of mods.''')
+        
+        self._argParser.add_argument(ShortCommandOpts.ForceType.value, CommandOpts.ForceType.value, action='store', type=str, help=f"""Forcibly assumes the mod type for all {FileTypes.Ini.value} parsed.
+
+This option supersedes the {CommandOpts.Types.value} option and the {CommandOpts.All.value} option.
+
+See below for the different names/aliases of the supported types of mods.""")
+
+        self._argParser.add_argument(ShortCommandOpts.Types.value, CommandOpts.Types.value, action='store', type=str, help=f'''Parses {FileTypes.Ini.value}s that the program encounters for only specific types of mods. If the {CommandOpts.Types.value} option has been specified, this option has no effect. 
+By default, if this option is not specified, will parse the {FileTypes.Ini.value}s for all the supported types of mods. 
+
+Please specify the types of mods using the the mod type's name or alias, then seperate each name/alias with a comma(,)
+eg. raiden,arlecchino,ayaya
+
+See below for the different names/aliases of the supported types of mods.''')
+
+        self._argParser.add_argument(ShortCommandOpts.FixedTypes.value, CommandOpts.FixedTypes.value, action='store', type=str, help=f"""From all the mods to fix, specified by the {CommandOpts.Types.value} option, will specifically remap those mods to the mods specified by this option. 
+For a mod specified by the {CommandOpts.Types.value} option, if none of its corresponding remapped mods are specified by this option, then the mod specified by the {CommandOpts.Types.value} option will be remapped to all its corresponding mods.
+ 
+-------------------
+eg.
+
+If this program was ran with the following options:
+{CommandOpts.Types.value} kequeen,jean
+{CommandOpts.FixedTypes.value} jeanSea
+
+the program will do the following remap:
+keqing --> keqingOpulent
+Jean --> JeanSea
+
+Note that Jean will not remap to JeanCN
+-------------------
+
+
+By default, if this option is not specified, will remap all the mods specified in {CommandOpts.Types.value} to their corresponding remapped mods. 
+
+Please specify the types of mods using the the mod type's name or alias, then seperate each name/alias with a comma(,)
+eg. raiden,arlecchino,ayaya
+
+See below for the different names/aliases of the supported types of mods.""")
+
+        # '.value' on both, like every other option here -- passing the enum MEMBERS makes
+        # argparse raise from this constructor (it indexes the option string), so the CLI died
+        # before parsing a single argument. Same for --compressTextures below.
+        self._argParser.add_argument(ShortCommandOpts.GameType.value, CommandOpts.GameType.value, action='store', type=str, help=f"""Fixes mods only for the specified games. By default, fixes mods for all games.
+        
+Please specify the types of games by their names/aliases, then seperate each name/alias with a comma(,)
+eg. GI,WuWa
+
+See below for the different names/aliases of the supported type of games""")
+        self._argParser.add_argument(ShortCommandOpts.Compress.value, CommandOpts.Compress.value, action='store_true', help=f"""Whether to compress the textures the fix writes. By default textures are left uncompressed, which is faster but takes up more space. Pick your poison, do you want the fix to run faster, but your textures take up more space OR your fix to run slower, but textures take minimal space.""")
+
+        allDownloadModes = list(map(lambda mode: f"\n- {TextTools.capitalize(mode.value)}", DownloadMode))
+        allDownloadModes = "".join(allDownloadModes)
+
+        # 'HardTexDriven' used to be named here and no longer exists on the enum, which made this
+        # line raise an AttributeError -- from CommandBuilder's constructor, so the CLI died before
+        # parsing a single argument. Kept pointing at whatever RemapServiceCLI actually defaults to
+        # rather than at a hard-coded name, so a future default change cannot make the help lie.
+        defaultDownloadModeStr = TextTools.capitalize(DownloadMode.Normal.value)
+        self._argParser.add_argument(ShortCommandOpts.Download.value, CommandOpts.Download.value, action = 'store', type=str, help=f"""The download mode to handle file downloads need. Below is a condensed list of all the available download modes. By default, '{defaultDownloadModeStr}' is selected
+For more info on the download modes, please visit the link below:
+https://anime-game-remap.readthedocs.io/en/latest/commandOpts.html#download-modes
+{allDownloadModes}
+""")
+        self._argParser.add_argument(ShortCommandOpts.Proxy.value, CommandOpts.Proxy.value, action='store', type=str, help="The link to the proxy server for those whose internet access must go through a proxy. The software will make all internet network requests through this proxy")
+
+    def addArgument(self, *args, **kwargs):
+        """
+        Adds a new option to the command
+
+        :raw-html:`<br />`
+
+        Takes the same arguments as `argparse's add_argument`_
+
+        :raw-html:`<br />`
+
+        .. note::
+            This exists for the software that *wraps* this CLI -- the script build has options of its
+            own (whether to update the API's package, whether to accept prereleases) that only make
+            sense there. Registering them here rather than parsing them separately is what puts them
+            into the same ``--help`` as every option below, instead of leaving them undiscoverable.
+        """
+
+        self._argParser.add_argument(*args, **kwargs)
+
+
+    def addEpilog(self, epilog: str):
+        self._argParser.epilog = epilog
+
+    def addEpilogs(self, epilogs: List[str]):
+        """
+        Sets the epilog to several sections, one after another
+
+        :raw-html:`<br />`
+
+        :meth:`addEpilog` *replaces* the epilog, so the supported mod types and the supported game
+        types cannot each be added with their own call -- the second would silently drop the first
+
+        Parameters
+        ----------
+        epilogs: List[:class:`str`]
+            The sections to show, in order
+        """
+
+        self.addEpilog("\n\n".join(epilogs))
+##### EndScript

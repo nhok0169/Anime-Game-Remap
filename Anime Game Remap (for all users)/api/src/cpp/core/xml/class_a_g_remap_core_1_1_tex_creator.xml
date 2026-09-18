@@ -1,0 +1,282 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_tex_creator" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::TexCreator</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_tex_editor" prot="public" virt="non-virtual">AGRemapCore::BaseTexEditor</basecompoundref>
+    <includes refid="_tex_creator_8h" local="no">TexCreator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_creator_1abe2252562890e05e91e4948a79eb230f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::TexCreator::width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <qualifiedname>AGRemapCore::TexCreator::width</qualifiedname>
+        <briefdescription>
+<para>The width, in pixels, of the texture to create. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="40" column="17" bodyfile="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_creator_1a463ecef32181e84856c8459025f4972b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::TexCreator::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <qualifiedname>AGRemapCore::TexCreator::height</qualifiedname>
+        <briefdescription>
+<para>The height, in pixels, of the texture to create. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="45" column="17" bodyfile="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_creator_1a2847b159925d14e3c583e9ab05620cc7" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref></type>
+        <definition>Colour AGRemapCore::TexCreator::colour</definition>
+        <argsstring></argsstring>
+        <name>colour</name>
+        <qualifiedname>AGRemapCore::TexCreator::colour</qualifiedname>
+        <briefdescription>
+<para>The fill colour of the texture to create. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="50" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_creator_1aede5501158683ed58030ea99e7792c5a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::TexCreator::compress</definition>
+        <argsstring></argsstring>
+        <name>compress</name>
+        <qualifiedname>AGRemapCore::TexCreator::compress</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the created texture is written in a compressed format, or as a plain 32-bit
+uncompressed ``.dds`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The :cpp:class:`TexCreator` counterpart of :cpp:func:`TexEditor::getCompress`, and
+carried for the same reason: BCn encoding is almost the entire cost of writing a
+texture, so a caller that would rather have a bigger file sooner can say so. A created
+texture has never been :cpp:func:`TextureFile::open`-ed, so the format it compresses to
+is :cpp:member:`TextureFile::DefaultFormat` rather than a remembered one
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``true``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="68" column="18" bodyfile="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_creator_1a0e069c97cf8c3e037c8a83a2660fac17" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::TexCreator::mipmaps</definition>
+        <argsstring></argsstring>
+        <name>mipmaps</name>
+        <qualifiedname>AGRemapCore::TexCreator::mipmaps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the created texture is written with its full mip chain -- the
+:cpp:class:`TexCreator` counterpart of :cpp:func:`TexEditor::getMipmaps`, handed to
+:cpp:func:`TextureFile::save` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="80" column="18" bodyfile="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_creator_1a8e4c66bea5fa6741af340762e0f3e6cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::TexCreator::TexCreator</definition>
+        <argsstring>(int width, int height, Colour colour=Colour(), bool compress=true, bool mipmaps=false)</argsstring>
+        <name>TexCreator</name>
+        <qualifiedname>AGRemapCore::TexCreator::TexCreator</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref></type>
+          <declname>colour</declname>
+          <defval><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref>()</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>compress</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>mipmaps</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new texture creator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The width, in pixels, of the texture to create </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The height, in pixels, of the texture to create </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>colour</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fill colour of the texture to create, defaulting to opaque white </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compress</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the created texture is compressed <ndash/> see <ref refid="class_a_g_remap_core_1_1_tex_creator_1aede5501158683ed58030ea99e7792c5a" kindref="member">compress</ref>. <bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mipmaps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the created texture carries its mip chain <ndash/> see <ref refid="class_a_g_remap_core_1_1_tex_creator_1a0e069c97cf8c3e037c8a83a2660fac17" kindref="member">mipmaps</ref>. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="91" column="13" bodyfile="src/model/strategies/texEditors/TexCreator.cpp" bodystart="25" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_creator_1acc36b44cd394cbca8e6f2a01ad5d83b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::TexCreator::fix</definition>
+        <argsstring>(TextureFile &amp;texFile, const std::string &amp;fixedTexFile) override</argsstring>
+        <name>fix</name>
+        <qualifiedname>AGRemapCore::TexCreator::fix</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_tex_editor_1a4998e8531c8704b35f0dd90b9c58924e">fix</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref> &amp;</type>
+          <declname>texFile</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fixedTexFile</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+No-op if a file already exists at ``texFile.getSrc()``. Otherwise, builds a new
+#width by #height texture, filled entirely with #colour, and saves it to
+&apos;fixedTexFile&apos;
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>texFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture <computeroutput>.dds</computeroutput> file to be modified </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixedTexFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the fixed texture file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="104" column="18" bodyfile="src/model/strategies/texEditors/TexCreator.cpp" bodystart="28" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseTexEditor`
+
+Creates a brand new ``.dds`` file if the file does not already exist
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseTexEditor</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_editor"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::TexCreator</label>
+        <link refid="class_a_g_remap_core_1_1_tex_creator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseTexEditor</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_editor"/>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::Colour</label>
+        <link refid="class_a_g_remap_core_1_1_colour"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::TexCreator</label>
+        <link refid="class_a_g_remap_core_1_1_tex_creator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>colour</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="34" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" bodystart="34" bodyend="105"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_tex_creator_1a2847b159925d14e3c583e9ab05620cc7" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreator</scope><name>colour</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_creator_1aede5501158683ed58030ea99e7792c5a" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreator</scope><name>compress</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_creator_1acc36b44cd394cbca8e6f2a01ad5d83b0" prot="public" virt="virtual"><scope>AGRemapCore::TexCreator</scope><name>fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_creator_1a463ecef32181e84856c8459025f4972b" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreator</scope><name>height</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_creator_1a0e069c97cf8c3e037c8a83a2660fac17" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreator</scope><name>mipmaps</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_creator_1a8e4c66bea5fa6741af340762e0f3e6cf" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreator</scope><name>TexCreator</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_creator_1abe2252562890e05e91e4948a79eb230f" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreator</scope><name>width</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tex_editor_1aacc8b86353427bd8ef23074a4745ba9f" prot="public" virt="virtual"><scope>AGRemapCore::TexCreator</scope><name>~BaseTexEditor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,2 +1,4 @@
 dist/
 *.egg-info/
+wheelhouse/
+**/py/FixRaidenBoss2/*.dll

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f275c964bba2106f1ed4be7d5ddc67db" kind="dir">
+    <compoundname>src/data/IniFixData/XianglingCheer</compoundname>
+    <innerfile refid="_xiangling_cheer_fixer_8cpp">XianglingCheerFixer.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniFixData/XianglingCheer/"/>
+  </compounddef>
+</doxygen>

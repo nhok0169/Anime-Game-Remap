@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_9284f728596c9034c5c7da03f1cd7425" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/Xiangling</compoundname>
+    <innerfile refid="_xiangling_parser_8h">XianglingParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Xiangling/"/>
+  </compounddef>
+</doxygen>

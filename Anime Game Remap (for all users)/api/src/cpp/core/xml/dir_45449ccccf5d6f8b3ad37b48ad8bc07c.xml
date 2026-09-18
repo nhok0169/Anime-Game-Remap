@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_45449ccccf5d6f8b3ad37b48ad8bc07c" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/Kaeya</compoundname>
+    <innerfile refid="_kaeya_parser_8h">KaeyaParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Kaeya/"/>
+  </compounddef>
+</doxygen>

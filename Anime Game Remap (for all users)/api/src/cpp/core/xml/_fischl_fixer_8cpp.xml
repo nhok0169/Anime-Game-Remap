@@ -1,0 +1,1085 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_fischl_fixer_8cpp" kind="file" language="C++">
+    <compoundname>FischlFixer.cpp</compoundname>
+    <includes refid="_fischl_fixer_8h" local="yes">AGRemapCore/data/IniFixData/Fischl/FischlFixer.h</includes>
+    <includes refid="_ini_comments_8h" local="yes">AGRemapCore/constants/IniComments.h</includes>
+    <includes refid="_ini_fix_builder_data_8h" local="yes">AGRemapCore/data/IniFixBuilderData.h</includes>
+    <includes refid="_g_i_m_i_char_fixer_8h" local="yes">AGRemapCore/data/IniFixData/GIMICharFixer.h</includes>
+    <incdepgraph>
+      <node id="38">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="80">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="79">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="44">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="53">
+        <label>CallGraph.tpp</label>
+      </node>
+      <node id="59">
+        <label>AGRemapCore/constants/IfPredPartType.h</label>
+        <link refid="_if_pred_part_type_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="81">
+        <label>AGRemapCore/constants/IniComments.h</label>
+        <link refid="_ini_comments_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="82">
+        <label>AGRemapCore/data/IniFixBuilderData.h</label>
+        <link refid="_ini_fix_builder_data_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore/data/IniFixData/Fischl/FischlFixer.h</label>
+        <link refid="_fischl_fixer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="83">
+        <label>AGRemapCore/data/IniFixData/GIMICharFixer.h</label>
+        <link refid="_g_i_m_i_char_fixer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="84" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+        <childnode refid="93" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>AGRemapCore/model/CallGraph.h</label>
+        <link refid="_call_graph_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>AGRemapCore/model/IniGraphGroup.h</label>
+        <link refid="_ini_graph_group_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>AGRemapCore/model/IniSectionGraph.h</label>
+        <link refid="_ini_section_graph_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+      </node>
+      <node id="54">
+        <label>AGRemapCore/model/SectionIterData.h</label>
+        <link refid="_section_iter_data_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>AGRemapCore/model/Version.h</label>
+        <link refid="_version_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>AGRemapCore/model/assets/ModAssets.h</label>
+        <link refid="_mod_assets_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>AGRemapCore/model/assets/Row.h</label>
+        <link refid="_row_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="86">
+        <label>AGRemapCore/model/buffers/BufDataType.h</label>
+        <link refid="_buf_data_type_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="85">
+        <label>AGRemapCore/model/buffers/BufElementType.h</label>
+        <link refid="_buf_element_type_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="87">
+        <label>AGRemapCore/model/buffers/BufType.h</label>
+        <link refid="_buf_type_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="88">
+        <label>AGRemapCore/model/buffers/BufValue.h</label>
+        <link refid="_buf_value_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="89">
+        <label>AGRemapCore/model/files/BinaryFile.h</label>
+        <link refid="_binary_file_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="84">
+        <label>AGRemapCore/model/files/BufFile.h</label>
+        <link refid="_buf_file_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>AGRemapCore/model/iftemplate/IfContentPart.h</label>
+        <link refid="_if_content_part_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
+        <link refid="_if_content_part_colour_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+      </node>
+      <node id="58">
+        <label>AGRemapCore/model/iftemplate/IfPredPart.h</label>
+        <link refid="_if_pred_part_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="57">
+        <label>AGRemapCore/model/iftemplate/IfTemplate.h</label>
+        <link refid="_if_template_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+      </node>
+      <node id="63">
+        <label>AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
+        <link refid="_if_template_node_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>AGRemapCore/model/iftemplate/IfTemplatePart.h</label>
+        <link refid="_if_template_part_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="67">
+        <label>AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
+        <link refid="_if_template_tree_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h</label>
+        <link refid="_base_ini_fixer_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</label>
+        <link refid="_ini_fix_builder_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="77">
+        <label>AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</label>
+        <link refid="_ini_fixing_context_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="78">
+        <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
+        <link refid="_base_ini_parser_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+      </node>
+      <node id="91">
+        <label>AGRemapCore/model/strategies/texEditors/BaseTexEditor.h</label>
+        <link refid="_base_tex_editor_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="90">
+        <label>AGRemapCore/model/strategies/texEditors/TexCreator.h</label>
+        <link refid="_tex_creator_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="91" relation="include">
+        </childnode>
+        <childnode refid="92" relation="include">
+        </childnode>
+      </node>
+      <node id="93">
+        <label>AGRemapCore/model/strategies/texEditors/TexEditor.h</label>
+        <link refid="_tex_editor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="91" relation="include">
+        </childnode>
+      </node>
+      <node id="92">
+        <label>AGRemapCore/model/textures/Colour.h</label>
+        <link refid="_colour_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="71">
+        <label>AGRemapCore/tools/Generator.h</label>
+        <link refid="_generator_8h"/>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>AGRemapCore/tools/idGenerator/BaseIdGenerator.h</label>
+        <link refid="_base_id_generator_8h"/>
+      </node>
+      <node id="31">
+        <label>AGRemapCore/tools/idGenerator/IncIdGenerator.h</label>
+        <link refid="_inc_id_generator_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="64">
+        <label>AGRemapCore/tools/nodes/Node.h</label>
+        <link refid="_node_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</label>
+        <link refid="_base_ordered_multi_map_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h</label>
+        <link refid="_i_ordered_multi_map_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h</label>
+        <link refid="_ordered_multi_map_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</label>
+        <link refid="_ordered_multi_map_adapter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h</label>
+        <link refid="_ordered_multi_map_sqrt_8h"/>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+      </node>
+      <node id="60">
+        <label>AGRemapCore/tools/parsing/ParseContext.h</label>
+        <link refid="_parse_context_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="61">
+        <label>AGRemapCore/tools/z3/Z3Context.h</label>
+        <link refid="_z3_context_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="62">
+        <label>AGRemapCore/tools/z3/Z3Predicate.h</label>
+        <link refid="_z3_predicate_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/data/IniFixData/Fischl/FischlFixer.cpp</label>
+        <link refid="_fischl_fixer_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
+        </childnode>
+      </node>
+      <node id="74">
+        <label>Generator.tpp</label>
+      </node>
+      <node id="52">
+        <label>IfContentPart.tpp</label>
+      </node>
+      <node id="56">
+        <label>IfContentPartColour.tpp</label>
+      </node>
+      <node id="69">
+        <label>IfTemplate.tpp</label>
+      </node>
+      <node id="66">
+        <label>IfTemplateNode.tpp</label>
+      </node>
+      <node id="68">
+        <label>IfTemplateTree.tpp</label>
+      </node>
+      <node id="33">
+        <label>IncIdGenerator.tpp</label>
+      </node>
+      <node id="76">
+        <label>IniGraphGroup.tpp</label>
+      </node>
+      <node id="75">
+        <label>IniSectionGraph.tpp</label>
+      </node>
+      <node id="17">
+        <label>ModAssets.tpp</label>
+      </node>
+      <node id="65">
+        <label>Node.tpp</label>
+      </node>
+      <node id="48">
+        <label>OrderedMultiMap.tpp</label>
+      </node>
+      <node id="51">
+        <label>OrderedMultiMapSqrt.tpp</label>
+      </node>
+      <node id="39">
+        <label>Ranges.tpp</label>
+      </node>
+      <node id="70">
+        <label>SectionIterData.tpp</label>
+      </node>
+      <node id="28">
+        <label>algorithm</label>
+      </node>
+      <node id="50">
+        <label>cmath</label>
+      </node>
+      <node id="72">
+        <label>coroutine</label>
+      </node>
+      <node id="12">
+        <label>cstddef</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="23">
+        <label>deque</label>
+      </node>
+      <node id="73">
+        <label>exception</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="41">
+        <label>list</label>
+      </node>
+      <node id="42">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="37">
+        <label>queue</label>
+      </node>
+      <node id="24">
+        <label>set</label>
+      </node>
+      <node id="15">
+        <label>stdexcept</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="21">
+        <label>tsl/ordered_map.h</label>
+      </node>
+      <node id="46">
+        <label>tsl/ordered_set.h</label>
+      </node>
+      <node id="43">
+        <label>tuple</label>
+      </node>
+      <node id="29">
+        <label>type_traits</label>
+      </node>
+      <node id="19">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>unordered_set</label>
+      </node>
+      <node id="9">
+        <label>utility</label>
+      </node>
+      <node id="25">
+        <label>variant</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_fischl_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/Fischl/FischlFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_comments_8h" kindref="compound">AGRemapCore/constants/IniComments.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_fix_builder_data_8h" kindref="compound">AGRemapCore/data/IniFixBuilderData.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_g_i_m_i_char_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/GIMICharFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1acc4d3d68cfc6c8cf4f087f35b5674edf" kindref="member">IniFixBuilderFuncs::fischl4_0</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>THE<sp/>4.0<sp/>FIX<sp/>for<sp/>Fischl<sp/>-&gt;<sp/>FischlHighness.<sp/>Kept<sp/>for<sp/>the<sp/>historical<sp/>record:<sp/>the<sp/>game<sp/>cannot<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>rolled<sp/>back,<sp/>so<sp/>an<sp/>A/B<sp/>against<sp/>the<sp/>old<sp/>script<sp/>at<sp/>--version<sp/>4.0<sp/>--fromVersion<sp/>4.0<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>whole<sp/>of<sp/>its<sp/>verification.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GIMICharFixerConfig<sp/>config{};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.drawnObjs<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>THE<sp/>MERGE:<sp/>FischlHighness<sp/>has<sp/>no<sp/>dress,<sp/>so<sp/>Fischl&apos;s<sp/>body<sp/>and<sp/>dress<sp/>both<sp/>land<sp/>on<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>body.<sp/>Read<sp/>objSplits<sp/>the<sp/>other<sp/>way<sp/>round<sp/>for<sp/>a<sp/>merge<sp/>--<sp/>it<sp/>is<sp/>keyed<sp/>by<sp/>SOURCE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>head<sp/>is<sp/>listed<sp/>TWICE,<sp/>and<sp/>that<sp/>is<sp/>what<sp/>an<sp/>OMITTED<sp/>object<sp/>means<sp/>in<sp/>the<sp/>pure-Python</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>merge.<sp/>Its<sp/>map<sp/>here<sp/>is<sp/>{&quot;body&quot;:<sp/>[&quot;body&quot;,<sp/>&quot;dress&quot;]}<sp/>--<sp/>the<sp/>head<sp/>is<sp/>not<sp/>mentioned<sp/>at<sp/>all<sp/>--</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>an<sp/>object<sp/>the<sp/>merge<sp/>map<sp/>does<sp/>not<sp/>name<sp/>is<sp/>emitted<sp/>into<sp/>EVERY<sp/>generated<sp/>file.<sp/>Naming<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>once,<sp/>as<sp/>jeanSea6_1<sp/>does,<sp/>is<sp/>what<sp/>restricts<sp/>it<sp/>to<sp/>the<sp/>first.<sp/>This<sp/>template&apos;s<sp/>objSplits<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>all-or-nothing,<sp/>so<sp/>&quot;in<sp/>both<sp/>files&quot;<sp/>has<sp/>to<sp/>be<sp/>spelled<sp/>out<sp/>as<sp/>two<sp/>entries<sp/>(2026-09-13).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objSplits<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">}},<sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">}},<sp/>{</highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.copyPreamble<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_comments_1a230dbe747ebb0b8f16e558c07475e949" kindref="member">IniComments::GIMIObjMergerPreamble</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>the<sp/>three<sp/>6.1-era<sp/>defaults<sp/>this<sp/>row<sp/>predates<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>face<sp/>register<sp/>swap<sp/>corrects<sp/>something<sp/>GI<sp/>6.x<sp/>did<sp/>to<sp/>the<sp/>shader;<sp/>at<sp/>4.0<sp/>the<sp/>diffuse</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>still<sp/>belongs<sp/>on<sp/>faceDiffuseReg.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.swapFaceRegs<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Nothing<sp/>in<sp/>this<sp/>row&apos;s<sp/>pure-Python<sp/>body<sp/>removes<sp/>the<sp/>mod&apos;s<sp/>own<sp/>ORFix/NNFix<sp/>calls,<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>nothing<sp/>re-issues<sp/>them,<sp/>so<sp/>both<sp/>halves<sp/>of<sp/>that<sp/>machinery<sp/>stay<sp/>off.<sp/>Leaving<sp/>the<sp/>removal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>on<sp/>would<sp/>delete<sp/>the<sp/>modder&apos;s<sp/>call<sp/>with<sp/>nothing<sp/>putting<sp/>it<sp/>back.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.removeSrcFixCalls<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...and<sp/>the<sp/>default<sp/>NNFix<sp/>re-issue.<sp/>An<sp/>objFixCalls<sp/>entry<sp/>REPLACES<sp/>the<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>its<sp/>target,<sp/>including<sp/>with<sp/>an<sp/>empty<sp/>list,<sp/>and<sp/>it<sp/>is<sp/>keyed<sp/>by<sp/>TARGET<sp/>--<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>split&apos;s<sp/>second<sp/>copy<sp/>is<sp/>its<sp/>own<sp/>target<sp/>and<sp/>needs<sp/>its<sp/>own<sp/>entry.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objFixCalls<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>std::vector&lt;std::string&gt;{}},</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>std::vector&lt;std::string&gt;{}}};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kindref="member">makeGIMICharFixer</ref>(std::move(config));</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1acdc7dfb80d413d8d017ee1b8d081503c" kindref="member">IniFixBuilderFuncs::fischl5_7</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>THE<sp/>5.7<sp/>FIX,<sp/>which<sp/>is<sp/>fischl4_0<sp/>plus<sp/>ONE<sp/>thing:<sp/>the<sp/>draw<sp/>call<sp/>moves.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verified<sp/>only<sp/>against<sp/>the<sp/>old<sp/>script<sp/>at<sp/>--version<sp/>5.7<sp/>--fromVersion<sp/>5.7;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>game<sp/>cannot<sp/>be<sp/>rolled<sp/>back<sp/>to<sp/>play<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GIMICharFixerConfig<sp/>config{};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.drawnObjs<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>THE<sp/>MERGE:<sp/>FischlHighness<sp/>has<sp/>no<sp/>dress,<sp/>so<sp/>Fischl&apos;s<sp/>body<sp/>and<sp/>dress<sp/>both<sp/>land<sp/>on<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>body.<sp/>Read<sp/>objSplits<sp/>the<sp/>other<sp/>way<sp/>round<sp/>for<sp/>a<sp/>merge<sp/>--<sp/>it<sp/>is<sp/>keyed<sp/>by<sp/>SOURCE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>head<sp/>is<sp/>listed<sp/>TWICE,<sp/>and<sp/>that<sp/>is<sp/>what<sp/>an<sp/>OMITTED<sp/>object<sp/>means<sp/>in<sp/>the<sp/>pure-Python</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>merge.<sp/>Its<sp/>map<sp/>here<sp/>is<sp/>{&quot;body&quot;:<sp/>[&quot;body&quot;,<sp/>&quot;dress&quot;]}<sp/>--<sp/>the<sp/>head<sp/>is<sp/>not<sp/>mentioned<sp/>at<sp/>all<sp/>--</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>an<sp/>object<sp/>the<sp/>merge<sp/>map<sp/>does<sp/>not<sp/>name<sp/>is<sp/>emitted<sp/>into<sp/>EVERY<sp/>generated<sp/>file.<sp/>Naming<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>once,<sp/>as<sp/>jeanSea6_1<sp/>does,<sp/>is<sp/>what<sp/>restricts<sp/>it<sp/>to<sp/>the<sp/>first.<sp/>This<sp/>template&apos;s<sp/>objSplits<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>all-or-nothing,<sp/>so<sp/>&quot;in<sp/>both<sp/>files&quot;<sp/>has<sp/>to<sp/>be<sp/>spelled<sp/>out<sp/>as<sp/>two<sp/>entries<sp/>(2026-09-13).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objSplits<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">}},<sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">}},<sp/>{</highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.copyPreamble<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_comments_1a230dbe747ebb0b8f16e558c07475e949" kindref="member">IniComments::GIMIObjMergerPreamble</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>the<sp/>three<sp/>6.1-era<sp/>defaults<sp/>this<sp/>row<sp/>predates<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>face<sp/>register<sp/>swap<sp/>corrects<sp/>something<sp/>GI<sp/>6.x<sp/>did<sp/>to<sp/>the<sp/>shader;<sp/>at<sp/>4.0<sp/>the<sp/>diffuse</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>still<sp/>belongs<sp/>on<sp/>faceDiffuseReg.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.swapFaceRegs<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Nothing<sp/>in<sp/>this<sp/>row&apos;s<sp/>pure-Python<sp/>body<sp/>removes<sp/>the<sp/>mod&apos;s<sp/>own<sp/>ORFix/NNFix<sp/>calls,<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>nothing<sp/>re-issues<sp/>them,<sp/>so<sp/>both<sp/>halves<sp/>of<sp/>that<sp/>machinery<sp/>stay<sp/>off.<sp/>Leaving<sp/>the<sp/>removal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>on<sp/>would<sp/>delete<sp/>the<sp/>modder&apos;s<sp/>call<sp/>with<sp/>nothing<sp/>putting<sp/>it<sp/>back.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.removeSrcFixCalls<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...and<sp/>the<sp/>default<sp/>NNFix<sp/>re-issue.<sp/>An<sp/>objFixCalls<sp/>entry<sp/>REPLACES<sp/>the<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>its<sp/>target,<sp/>including<sp/>with<sp/>an<sp/>empty<sp/>list,<sp/>and<sp/>it<sp/>is<sp/>keyed<sp/>by<sp/>TARGET<sp/>--<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>split&apos;s<sp/>second<sp/>copy<sp/>is<sp/>its<sp/>own<sp/>target<sp/>and<sp/>needs<sp/>its<sp/>own<sp/>entry.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objFixCalls<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>std::vector&lt;std::string&gt;{}},</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>std::vector&lt;std::string&gt;{}}};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>5.7:<sp/>THE<sp/>DRAW<sp/>CALL<sp/>MOVES<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>pure-Python<sp/>row<sp/>says<sp/>this<sp/>as<sp/>IbRemapData<sp/>+<sp/>IbDrawIndexedRename<sp/>+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IbTempToDrawIndexed<sp/>with<sp/>a<sp/>postModel<sp/>RegRemove<sp/>of<sp/>the<sp/>original<sp/>&apos;ib&apos;<sp/>--<sp/>stash<sp/>the<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>on<sp/>a<sp/>temp<sp/>register,<sp/>rename<sp/>that<sp/>register&apos;s<sp/>VALUE<sp/>to<sp/>&apos;drawindexed&apos;,<sp/>remap<sp/>the<sp/>temp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>register<sp/>onto<sp/>the<sp/>real<sp/>key,<sp/>drop<sp/>what<sp/>was<sp/>there.<sp/>One<sp/>flag<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Applies<sp/>to<sp/>head,<sp/>body<sp/>and<sp/>dress,<sp/>over<sp/>the<sp/>4.0<sp/>merge.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.moveDrawIndexed<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kindref="member">makeGIMICharFixer</ref>(std::move(config));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9d34d76f2ad402aad16bf9a689a8fbca" kindref="member">IniFixBuilderFuncs::fischl6_1ToFischlHighness</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GIMICharFixerConfig<sp/>config{};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.drawnObjs<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>THE<sp/>MERGE,<sp/>with<sp/>the<sp/>head<sp/>duplicated<sp/>into<sp/>both<sp/>.ini<sp/>files<sp/>exactly<sp/>as<sp/>DilucFlamme&apos;s<sp/>is<sp/>--</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>fischl6_1&apos;s<sp/>{&quot;head&quot;:<sp/>[&quot;head&quot;,<sp/>&quot;head&quot;]}.<sp/>Her<sp/>dress<sp/>comes<sp/>through<sp/>FischlHighness&apos;s<sp/>body.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objSplits<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">}},<sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">}},<sp/>{</highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.copyPreamble<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_comments_1a230dbe747ebb0b8f16e558c07475e949" kindref="member">IniComments::GIMIObjMergerPreamble</ref>;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>register<sp/>edits<sp/>and<sp/>no<sp/>texture<sp/>edits<sp/>at<sp/>all:<sp/>fischl6_1<sp/>carries<sp/>the<sp/>Ib*<sp/>entries<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>nothing<sp/>else<sp/>beyond<sp/>the<sp/>NNFix<sp/>re-issue<sp/>the<sp/>template<sp/>does<sp/>by<sp/>default.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.moveDrawIndexed<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kindref="member">makeGIMICharFixer</ref>(std::move(config));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_fischl_fixer_1a87fdd6ac9d8fb15552430f810b9cb4c5" kindref="member">FischlFixer::v6_1ToFischlHighness</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9d34d76f2ad402aad16bf9a689a8fbca" kindref="member">IniFixBuilderFuncs::fischl6_1ToFischlHighness</ref>();</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/data/IniFixData/Fischl/FischlFixer.cpp"/>
+  </compounddef>
+</doxygen>

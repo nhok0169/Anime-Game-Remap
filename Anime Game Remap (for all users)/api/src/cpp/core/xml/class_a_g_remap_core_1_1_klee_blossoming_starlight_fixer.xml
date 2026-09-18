@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_klee_blossoming_starlight_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::KleeBlossomingStarlightFixer</compoundname>
+    <includes refid="_klee_blossoming_starlight_fixer_8h" local="no">KleeBlossomingStarlightFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_klee_blossoming_starlight_fixer_1a15d4588f5fa5eca3d499ee1cf12c53b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::KleeBlossomingStarlightFixer::KleeBlossomingStarlightFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>KleeBlossomingStarlightFixer</name>
+        <qualifiedname>AGRemapCore::KleeBlossomingStarlightFixer::KleeBlossomingStarlightFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_klee_blossoming_starlight_fixer_1acccb76f01705fdf740408ae055fc91a4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>static IniFixBuilder::Factory AGRemapCore::KleeBlossomingStarlightFixer::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::KleeBlossomingStarlightFixer::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 4.0 fix -- what :cpp:func:`IniFixBuilderFuncs::kleeBlossomingStarlight4_0` returns,
+and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.h" line="44" column="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_klee_blossoming_starlight_fixer_1a6ceec8043eb15e18be4c7e58a2a6b542" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::KleeBlossomingStarlightFixer::v6_1ToKlee</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1ToKlee</name>
+        <qualifiedname>AGRemapCore::KleeBlossomingStarlightFixer::v6_1ToKlee</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fix that remaps a KleeBlossomingStarlight mod onto Klee at 6.1 -- what
+:cpp:func:`IniFixBuilderFuncs::kleeBlossomingStarlight6_1ToKlee` returns, and
+documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.h" line="54" column="43" bodyfile="src/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.cpp" bodystart="104" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+KleeBlossomingStarlight&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`KleeBlossomingStarlightParser`: the mod objects this fixer remaps are the ones
+that parser classifies, and neither half makes sense alone
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.h" bodystart="32" bodyend="55"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_klee_blossoming_starlight_fixer_1a15d4588f5fa5eca3d499ee1cf12c53b9" prot="public" virt="non-virtual"><scope>AGRemapCore::KleeBlossomingStarlightFixer</scope><name>KleeBlossomingStarlightFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_klee_blossoming_starlight_fixer_1acccb76f01705fdf740408ae055fc91a4" prot="public" virt="non-virtual"><scope>AGRemapCore::KleeBlossomingStarlightFixer</scope><name>v4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_klee_blossoming_starlight_fixer_1a6ceec8043eb15e18be4c7e58a2a6b542" prot="public" virt="non-virtual"><scope>AGRemapCore::KleeBlossomingStarlightFixer</scope><name>v6_1ToKlee</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

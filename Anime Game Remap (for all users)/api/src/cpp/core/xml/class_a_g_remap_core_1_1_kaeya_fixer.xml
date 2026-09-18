@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_kaeya_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::KaeyaFixer</compoundname>
+    <includes refid="_kaeya_fixer_8h" local="no">KaeyaFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_kaeya_fixer_1ab8f60baf1082c597234aa2d68183e3b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::KaeyaFixer::KaeyaFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>KaeyaFixer</name>
+        <qualifiedname>AGRemapCore::KaeyaFixer::KaeyaFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Kaeya/KaeyaFixer.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_kaeya_fixer_1a292e0d9f1233bdcf663d0c29f4a1e92d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::KaeyaFixer::v6_1ToKaeyaSailwind</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1ToKaeyaSailwind</name>
+        <qualifiedname>AGRemapCore::KaeyaFixer::v6_1ToKaeyaSailwind</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fix that remaps a Kaeya mod onto KaeyaSailwind at 6.1 -- what
+:cpp:func:`IniFixBuilderFuncs::kaeya6_1ToKaeyaSailwind` returns, and documented
+there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Kaeya/KaeyaFixer.h" line="45" column="43" bodyfile="src/data/IniFixData/Kaeya/KaeyaFixer.cpp" bodystart="134" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Kaeya&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`KaeyaParser`: the mod objects this fixer remaps are the ones
+that parser classifies, and neither half makes sense alone
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Kaeya/KaeyaFixer.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Kaeya/KaeyaFixer.h" bodystart="32" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_kaeya_fixer_1ab8f60baf1082c597234aa2d68183e3b9" prot="public" virt="non-virtual"><scope>AGRemapCore::KaeyaFixer</scope><name>KaeyaFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_kaeya_fixer_1a292e0d9f1233bdcf663d0c29f4a1e92d" prot="public" virt="non-virtual"><scope>AGRemapCore::KaeyaFixer</scope><name>v6_1ToKaeyaSailwind</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

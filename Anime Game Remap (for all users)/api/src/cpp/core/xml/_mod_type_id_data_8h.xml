@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_mod_type_id_data_8h" kind="file" language="C++">
+    <compoundname>ModTypeIdData.h</compoundname>
+    <includedby refid="_ini_classifier_8h" local="yes">include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h</includedby>
+    <includedby refid="_ini_classify_stats_8h" local="yes">include/AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h</includedby>
+    <includedby refid="_global_ini_classifiers_8cpp" local="yes">src/constants/GlobalIniClassifiers.cpp</includedby>
+    <includedby refid="_mod_type_id_data_8cpp" local="yes">src/model/strategies/ModTypeIdData.cpp</includedby>
+    <invincdepgraph>
+      <node id="10">
+        <label>include/AGRemapCore/RemapService.h</label>
+        <link refid="_remap_service_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/AGRemapCore/RemapServiceCLI.h</label>
+        <link refid="_remap_service_c_l_i_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/constants/GlobalIniClassifiers.h</label>
+        <link refid="_global_ini_classifiers_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/AGRemapCore/model/files/IniFile.h</label>
+        <link refid="_ini_file_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/model/strategies/ModTypeIdData.h</label>
+        <link refid="_mod_type_id_data_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h</label>
+        <link refid="_base_ini_classifier_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h</label>
+        <link refid="_ini_classifier_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h</label>
+        <link refid="_ini_classify_stats_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/RemapServiceCLI.cpp</label>
+        <link refid="_remap_service_c_l_i_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/constants/GlobalIniClassifiers.cpp</label>
+        <link refid="_global_ini_classifiers_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/data/IniFixData/GIMIComponentFixer.cpp</label>
+        <link refid="_g_i_m_i_component_fixer_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
+        <link refid="_g_i_m_i_merge_fixer_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
+        <link refid="_g_i_m_i_component_parser_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/model/files/IniFile.cpp</label>
+        <link refid="_ini_file_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/model/strategies/ModType.cpp</label>
+        <link refid="_mod_type_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/model/strategies/ModTypeIdData.cpp</label>
+        <link refid="_mod_type_id_data_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/model/strategies/iniClassifiers/BaseIniClassifier.cpp</label>
+        <link refid="_base_ini_classifier_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/model/strategies/iniClassifiers/IniClassifier.cpp</label>
+        <link refid="_ini_classifier_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/model/strategies/iniClassifiers/IniClassifyStats.cpp</label>
+        <link refid="_ini_classify_stats_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
+        <link refid="_ini_file_fix_context_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.cpp</label>
+        <link refid="_ini_file_res_edit_context_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp</label>
+        <link refid="_v_g_merge_group_res_builder_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
+        <link refid="_v_g_split_group_res_builder_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
+        <link refid="_ini_file_parse_context_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</label>
+        <link refid="_ini_file_remove_context_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_mod_type_id_data" prot="public">AGRemapCore::ModTypeIdData</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_ModTypeIdData_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_ModTypeIdData_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="class_a_g_remap_core_1_1_mod_type_id_data" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_mod_type_id_data_1a2b9bdb779dccb7e67627fd4f1714b5b6" kindref="member">ModTypeIdData</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_data_1a2b9bdb779dccb7e67627fd4f1714b5b6" kindref="member">ModTypeIdData</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_data_1a011f421a61bd0e37a038358dfaaafabc" kindref="member">gameTypeId</ref>,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_data_1add0e2d9ae5be3d69af6776568c79f828" kindref="member">modTypeId</ref>);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="class_a_g_remap_core_1_1_mod_type_id_data_1a011f421a61bd0e37a038358dfaaafabc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_data_1a011f421a61bd0e37a038358dfaaafabc" kindref="member">gameTypeId</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="class_a_g_remap_core_1_1_mod_type_id_data_1add0e2d9ae5be3d69af6776568c79f828" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_data_1add0e2d9ae5be3d69af6776568c79f828" kindref="member">modTypeId</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/model/strategies/ModTypeIdData.h"/>
+  </compounddef>
+</doxygen>

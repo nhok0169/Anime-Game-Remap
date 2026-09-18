@@ -1,0 +1,429 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_reg_restrict" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RegRestrict</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_reg_edit" prot="public" virt="non-virtual">AGRemapCore::BaseRegEdit&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
+    <includes refid="_reg_restrict_8h" local="no">RegRestrict.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_restrict_1adc1c4c3af51bf16adba111391513332b" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_reg_edit" kindref="compound">BaseRegEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::RegRestrict&lt; K, V, KeyHash, KeyEqual &gt;::Base = BaseRegEdit&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Base</name>
+        <qualifiedname>AGRemapCore::RegRestrict::Base</qualifiedname>
+        <briefdescription>
+<para>The base class this edit derives from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" line="74" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_restrict_1a72e53e6f72b47570ff8f06a914bf2d11" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">Base::ContentPart</ref></type>
+        <definition>using AGRemapCore::RegRestrict&lt; K, V, KeyHash, KeyEqual &gt;::ContentPart = typename Base::ContentPart</definition>
+        <argsstring></argsstring>
+        <name>ContentPart</name>
+        <qualifiedname>AGRemapCore::RegRestrict::ContentPart</qualifiedname>
+        <briefdescription>
+<para>The type of part this edits the registers of.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" line="79" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_restrict_1ad1727055b266bcfea85a86a274977105" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac47be87ca1b9a964e4234fa4dd37f1b6" kindref="member">Base::OrderRanges</ref></type>
+        <definition>using AGRemapCore::RegRestrict&lt; K, V, KeyHash, KeyEqual &gt;::OrderRanges = typename Base::OrderRanges</definition>
+        <argsstring></argsstring>
+        <name>OrderRanges</name>
+        <qualifiedname>AGRemapCore::RegRestrict::OrderRanges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ranges of valid `KVP`_ order indices -- ``long long`` because that is the type
+:cpp:class:`IfContentPart` keys its order indices by
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" line="84" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_restrict_1ad4e30a36a63fef0e9d32e00d9428aadc" prot="public" static="no">
+        <type>std::function&lt; bool(const K &amp;)&gt;</type>
+        <definition>using AGRemapCore::RegRestrict&lt; K, V, KeyHash, KeyEqual &gt;::KeyFilter = std::function&lt;bool(const K&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>KeyFilter</name>
+        <qualifiedname>AGRemapCore::RegRestrict::KeyFilter</qualifiedname>
+        <briefdescription>
+<para>Decides whether this edit governs a key at all. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" line="89" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_restrict_1aa88205be99174c6ea0bfd093cd2616d9" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::vector&lt; K &gt; &gt;</type>
+        <definition>std::optional&lt;std::vector&lt;K&gt; &gt; AGRemapCore::RegRestrict&lt; K, V, KeyHash, KeyEqual &gt;::allowedKeys</definition>
+        <argsstring></argsstring>
+        <name>allowedKeys</name>
+        <qualifiedname>AGRemapCore::RegRestrict::allowedKeys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The governed keys a part may keep, or ``std::nullopt`` to keep every governed key (and
+only remove repeated bindings) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" line="100" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_restrict_1ae4ebdfe2deba2963f28b2470ee80ae16" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_restrict_1ad4e30a36a63fef0e9d32e00d9428aadc" kindref="member">KeyFilter</ref></type>
+        <definition>KeyFilter AGRemapCore::RegRestrict&lt; K, V, KeyHash, KeyEqual &gt;::keyFilter</definition>
+        <argsstring></argsstring>
+        <name>keyFilter</name>
+        <qualifiedname>AGRemapCore::RegRestrict::keyFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Which keys this edit governs -- empty governs every key :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: empty
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" line="110" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_restrict_1a20a98324593a85a30297daf790ad244c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RegRestrict&lt; K, V, KeyHash, KeyEqual &gt;::keepFirstOnly</definition>
+        <argsstring></argsstring>
+        <name>keepFirstOnly</name>
+        <qualifiedname>AGRemapCore::RegRestrict::keepFirstOnly</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether a governed key bound more than once in a part keeps only its FIRST binding
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``true``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" line="121" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_restrict_1aac90dd5c3aed307fea6d34877a5f5ef9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RegRestrict&lt; K, V, KeyHash, KeyEqual &gt;::RegRestrict</definition>
+        <argsstring>(std::optional&lt; std::vector&lt; K &gt; &gt; allowedKeys=std::nullopt, KeyFilter keyFilter={}, bool keepFirstOnly=true)</argsstring>
+        <name>RegRestrict</name>
+        <qualifiedname>AGRemapCore::RegRestrict::RegRestrict</qualifiedname>
+        <param>
+          <type>std::optional&lt; std::vector&lt; K &gt; &gt;</type>
+          <declname>allowedKeys</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_restrict_1ad4e30a36a63fef0e9d32e00d9428aadc" kindref="member">KeyFilter</ref></type>
+          <declname>keyFilter</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>keepFirstOnly</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new register-restricting edit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>allowedKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The governed keys a part may keep, or <computeroutput>std::nullopt</computeroutput> for all of them. <bold>Default</bold>: <computeroutput>std::nullopt</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keyFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which keys this edit governs, or empty for every key. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keepFirstOnly</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether a repeated governed key keeps only its first binding. <bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" line="130" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_restrict_1ad52992e2f8a5b3cff6df5c3a7f778bc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_restrict_1a72e53e6f72b47570ff8f06a914bf2d11" kindref="member">ContentPart</ref> &amp;</type>
+        <definition>ContentPart &amp; AGRemapCore::RegRestrict&lt; K, V, KeyHash, KeyEqual &gt;::edit</definition>
+        <argsstring>(ContentPart &amp;part, const std::string &amp;sectionName, const ModType *modType=nullptr, const std::string &amp;modName=&quot;&quot;, const OrderRanges *partRanges=nullptr) override</argsstring>
+        <name>edit</name>
+        <qualifiedname>AGRemapCore::RegRestrict::edit</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_reg_edit_1a51e7f02678a8697b0268971bfed885a0">edit</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_restrict_1a72e53e6f72b47570ff8f06a914bf2d11" kindref="member">ContentPart</ref> &amp;</type>
+          <declname>part</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sectionName</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_restrict_1ad1727055b266bcfea85a86a274977105" kindref="member">OrderRanges</ref> *</type>
+          <declname>partRanges</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Removes every governed key of &apos;part&apos; that is not in \\ref allowedKeys, and -- with
+\\ref keepFirstOnly -- every binding of a governed key after its first
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>part</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The part of the <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput> being edited, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sectionName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ being edited. Unused by this edit </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix. Unused by this edit. <bold>Default</bold>: <computeroutput>nullptr</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. Unused by this edit. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partRanges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The valid order indices to process for &apos;part&apos;, or <computeroutput>nullptr</computeroutput> for all of them. <bold>Default</bold>: <computeroutput>nullptr</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same part that was passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" line="148" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseRegEdit`
+
+Restricts the registers an :cpp:class:`IfContentPart` binds to the ones its TARGET reads, and to
+one binding each :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A remapped `section`_ inherits its registers from the MOD&apos;s `section`_, and a mod binds whatever
+its SOURCE reads. Against a different target that surplus is not harmless: the target&apos;s shader
+reads the extra register as something else, where the target&apos;s own mod leaves it unbound so the
+GAME&apos;s texture serves it. And a register bound twice keeps only the LAST binding, silently -- so a
+fix that moves one texture onto a register the mod already fills loses the texture it moved.
+
+.. code-block:: ini
+
+   ; restricted to ps-t0, ps-t1 and ps-t2, over the keys that are ps-t registers
+   ps-t1 = ResourceDiffuse
+   ps-t0 = ResourceNormalMap
+   ps-t2 = ResourceLightMap
+   ps-t2 = ResourceMetalMap       ; removed: ps-t2 is already bound above
+   ps-t3 = ResourceShadowRamp     ; removed: the target does not read ps-t3
+   ib = ResourceIb                ; untouched: not a key this edit governs
+
+Only the keys \\ref keyFilter accepts are governed; every other key is left exactly as it is.
+
+.. note::
+   The unit is ONE part, not a `section`_. A merged mod binds ``ps-t2`` once in each branch of an
+   ``if`` / ``else if`` chain, and each branch is its own part: those are separate paths through
+   the `section`_, not one register bound twice, and restricting per `section`_ would keep only
+   the first branch&apos;s
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in the parts this edits </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in the parts this edits </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AGRemapCore::BaseIniGraphPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BaseRegEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_reg_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RegRestrict&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_restrict"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::BaseIniGraphPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BaseRegEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_reg_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RegRestrict&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_restrict"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" line="68" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h" bodystart="68" bodyend="150"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_reg_restrict_1aa88205be99174c6ea0bfd093cd2616d9" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRestrict</scope><name>allowedKeys</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_restrict_1adc1c4c3af51bf16adba111391513332b" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRestrict</scope><name>Base</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::RegRestrict</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_restrict_1a72e53e6f72b47570ff8f06a914bf2d11" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRestrict</scope><name>ContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_restrict_1ad52992e2f8a5b3cff6df5c3a7f778bc9" prot="public" virt="virtual"><scope>AGRemapCore::RegRestrict</scope><name>edit</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_reg_edit_1a6abe7383ceb199aa774a8afcab9090e1" prot="public" virt="virtual"><scope>AGRemapCore::RegRestrict</scope><name>editFromIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_restrict_1a20a98324593a85a30297daf790ad244c" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRestrict</scope><name>keepFirstOnly</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_restrict_1ad4e30a36a63fef0e9d32e00d9428aadc" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRestrict</scope><name>KeyFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_restrict_1ae4ebdfe2deba2963f28b2470ee80ae16" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRestrict</scope><name>keyFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_restrict_1ad1727055b266bcfea85a86a274977105" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRestrict</scope><name>OrderRanges</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_reg_edit_1ae5d1c6a6be300c91788ed43aedae5481" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRestrict</scope><name>RangeSpec</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_restrict_1aac90dd5c3aed307fea6d34877a5f5ef9" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRestrict</scope><name>RegRestrict</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_reg_edit_1a8a91f054bda96df86a050433d03c992d" prot="protected" virt="non-virtual"><scope>AGRemapCore::RegRestrict</scope><name>toRangeSpec</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::RegRestrict</scope><name>~BaseIniPartEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

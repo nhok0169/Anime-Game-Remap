@@ -1,66 +1,48 @@
- Mods --> 
-# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods --> 
-# Mods --> WARNING: The following *.ini files were skipped due to warnings (see log above):
-# Mods --> 
-# Mods --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
-# Mods --> 	--- KeyError ---
-# Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
-# Mods --> 
-# Mods --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
-# Mods --> 	--- KeyError ---
-# Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
-# Mods --> 
-# Mods --> 
-# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods --> 
-# Mods --> 
-# Mods --> 
-# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods --> 
-# Mods --> WARNING: The following Blend.buf files were skipped due to warnings (see log above):
-# Mods --> 
-# Mods --> ===== Mod: Mods/Ei/Raiden/Body/Center =====
-# Mods --> 
-# Mods --> - Ei/Raiden/Body/whoopsIReferencedTheWrongThingRaidenBossRemapBlend.buf:
-# Mods --> 	--- FileNotFoundError ---
-# Mods --> 	[Errno 2] No such file or directory: 'absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf'
-# Mods --> 
-# Mods --> ===========================================
-# Mods --> ===== Mod: Mods/Ayaka =====
-# Mods --> 
-# Mods --> - Ayaka/ayakaAyakaSpringBloomRemapBlend.buf:
-# Mods --> 	--- BufFileNotRecognized ---
-# Mods --> 	ERROR: Blend.buf file format not recognized for ayakaBlend.buf at absolute/path/Mods/Ayaka
-# Mods --> 
-# Mods --> ===========================
-# Mods --> 
-# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods --> 
-# Mods --> 
-# Mods --> 
-# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods --> 
-# Mods --> WARNING: The following mods were skipped due to warnings (see log above):
-# Mods --> 
-# Mods --> - absolute/path/Mods/Arlecchino/Ugly:
-# Mods --> 	--- KeyError ---
-# Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
-# Mods --> 
-# Mods --> 
-# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods --> 
-# Mods --> 
-# Mods --> 
-# Mods --> ========== Summary ==========
-# Mods --> 
-# Mods --> - Out of 11 found mods, fixed 10 mods and skipped 1 mods
-# Mods --> - Out of the 12 *.ini files within the found mods, fixed 10 *.ini files and skipped 2 *.ini files
-# Mods --> - Out of the 15 Blend.buf files within the found mods, fixed 13 Blend.buf files and skipped 2 Blend.buf files
-# Mods --> - Removed fix from up to 12 *.ini files
-# Mods --> 
-# Mods --> =============================
-# Mods --> 
+  --> 
+#  --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#  --> 
+#  --> WARNING: The following *.ini files were skipped due to warnings (see log above):
+#  --> 
+#  --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
+#  --> 	--- St12out_of_range ---
+#  --> 	The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
+#  --> 
+#  --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
+#  --> 	--- St12out_of_range ---
+#  --> 	The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
+#  --> 
+#  --> 
+#  --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#  --> 
+#  --> 
+#  --> 
+#  --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#  --> 
+#  --> WARNING: The following Blend.buf files were skipped due to warnings (see log above):
+#  --> 
+#  --> ===== Mod: Mods =====
+#  --> 
+#  --> - Ayaka/ayakaBlend.buf:
+#  --> 	--- N11AGRemapCore20BufFileNotRecognizedE ---
+#  --> 	Blend.buf file format not recognized for absolute/path/Mods/Ayaka/ayakaBlend.buf
+#  --> 
+#  --> - Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf:
+#  --> 	--- St13runtime_error ---
+#  --> 	Unable to open file: absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf
+#  --> 
+#  --> =====================
+#  --> 
+#  --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#  --> 
+#  --> 
+#  --> 
+#  --> ========== Summary ==========
+#  --> 
+#  --> - Out of the 12 *.ini files within the found mods, fixed 10 *.ini files and skipped 2 *.ini files
+#  --> - Out of the 15 Blend.buf files within the found mods, fixed 13 Blend.buf files and skipped 2 Blend.buf files
+#  --> 
+#  --> =============================
+#  --> 
 
 
 Creating log file, RemapFixLog.txt

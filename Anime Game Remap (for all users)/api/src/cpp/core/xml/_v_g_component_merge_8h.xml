@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_v_g_component_merge_8h" kind="file" language="C++">
+    <compoundname>VGComponentMerge.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includes refid="_v_g_remap_8h" local="yes">AGRemapCore/model/VGRemap.h</includes>
+    <includes refid="_buf_value_8h" local="yes">AGRemapCore/model/buffers/BufValue.h</includes>
+    <includes refid="_v_g_component_split_8h" local="yes">AGRemapCore/model/buffers/VGComponentSplit.h</includes>
+    <includedby refid="_v_g_merge_group_resource_8h" local="yes">include/AGRemapCore/model/iniresources/VGMergeGroupResource.h</includedby>
+    <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
+    <includedby refid="_v_g_component_merge_8cpp" local="yes">src/model/buffers/VGComponentMerge.cpp</includedby>
+    <incdepgraph>
+      <node id="7">
+        <label>AGRemapCore/model/VGRemap.h</label>
+        <link refid="_v_g_remap_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>AGRemapCore/model/buffers/BufValue.h</label>
+        <link refid="_buf_value_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/model/buffers/VGComponentMerge.h</label>
+        <link refid="_v_g_component_merge_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>AGRemapCore/model/buffers/VGComponentSplit.h</label>
+        <link refid="_v_g_component_split_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>array</label>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>utility</label>
+      </node>
+      <node id="11">
+        <label>variant</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/model/buffers/VGComponentMerge.h</label>
+        <link refid="_v_g_component_merge_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/model/iniresources/VGMergeGroupResource.h</label>
+        <link refid="_v_g_merge_group_resource_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h</label>
+        <link refid="_v_g_merge_group_res_builder_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
+        <link refid="_g_i_m_i_merge_fixer_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/model/buffers/VGComponentMerge.cpp</label>
+        <link refid="_v_g_component_merge_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/model/iniresources/VGMergeGroupResource.cpp</label>
+        <link refid="_v_g_merge_group_resource_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp</label>
+        <link refid="_v_g_merge_group_res_builder_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec" prot="public">AGRemapCore::VGMergeComponentSpec</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats" prot="public">AGRemapCore::VGComponentMergeStats</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_v_g_component_merge" prot="public">AGRemapCore::VGComponentMerge</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component" prot="public">AGRemapCore::VGComponentMerge::Component</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_VGComponentMerge_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_VGComponentMerge_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_v_g_remap_8h" kindref="compound">AGRemapCore/model/VGRemap.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_value_8h" kindref="compound">AGRemapCore/model/buffers/BufValue.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_v_g_component_split_8h" kindref="compound">AGRemapCore/model/buffers/VGComponentSplit.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec" kindref="compound">VGMergeComponentSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec_1a0253c789317229a5a26a3680b762c5a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec_1a0253c789317229a5a26a3680b762c5a3" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec_1ac01354111812774e6ea940409f712afe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec_1ac01354111812774e6ea940409f712afe" kindref="member">remap</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats" kindref="compound">VGComponentMergeStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="57" refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats_1a1610575c7ed59ed4e964b53cd47b052f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats_1a1610575c7ed59ed4e964b53cd47b052f" kindref="member">vertexCount</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats_1af7483bd388ef160787125312a4c1d5af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats_1af7483bd388ef160787125312a4c1d5af" kindref="member">order</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats_1aa202a4d208379287bf539456eec930ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats_1aa202a4d208379287bf539456eec930ea" kindref="member">offsets</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats_1aa3fcd5b97034867d1df10d5a6359d643" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats_1aa3fcd5b97034867d1df10d5a6359d643" kindref="member">vertices</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats_1a37eb535b47a82edc7c4f2b52b1f2f041" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats_1a37eb535b47a82edc7c4f2b52b1f2f041" kindref="member">texcoordStride</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats_1a8b6f3397f09573c971d38f9e5a7c41c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats_1a8b6f3397f09573c971d38f9e5a7c41c2" kindref="member">paddedComponents</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats_1a9d7efce036417e742ebee71ee11c0775" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>long<sp/>long&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats_1a9d7efce036417e742ebee71ee11c0775" kindref="member">unmapped</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="class_a_g_remap_core_1_1_v_g_component_merge" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a42ae22c4ccc991540a26bb9fbe615047" kindref="member">VGComponentMerge</ref><sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="120" refid="class_a_g_remap_core_1_1_v_g_component_merge_1a54ab623f03b0ceed9990137bce0c5243" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a54ab623f03b0ceed9990137bce0c5243" kindref="member">Weights</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_split_1ac512ab87f5781dc27795267e9d26a174" kindref="member">VGComponentSplit::Weights</ref>;</highlight></codeline>
+<codeline lineno="121" refid="class_a_g_remap_core_1_1_v_g_component_merge_1ad9c4e907fbac81fe2cd156f7aa9b2b01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1ad9c4e907fbac81fe2cd156f7aa9b2b01" kindref="member">Indices</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_split_1ac0e4ae55a6af2af066027cce029a84f8" kindref="member">VGComponentSplit::Indices</ref>;</highlight></codeline>
+<codeline lineno="122" refid="class_a_g_remap_core_1_1_v_g_component_merge_1ab475035d4eb477e53072ee6910838f85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1ab475035d4eb477e53072ee6910838f85" kindref="member">Triangles</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_split_1a2a68c79a4ee8bb83b1f8e15cd47847f1" kindref="member">VGComponentSplit::Triangles</ref>;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component" kindref="compound">Component</ref><sp/>{</highlight></codeline>
+<codeline lineno="128" refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a283d8f5c7e17bd6f15233db1a8276bb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec" kindref="compound">VGMergeComponentSpec</ref><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a283d8f5c7e17bd6f15233db1a8276bb5" kindref="member">spec</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a23d010ca6921aef0972b40e1a8f65891" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a54ab623f03b0ceed9990137bce0c5243" kindref="member">Weights</ref><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a23d010ca6921aef0972b40e1a8f65891" kindref="member">weights</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1afb5ef79f77d166774e85b07338d70d5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1ad9c4e907fbac81fe2cd156f7aa9b2b01" kindref="member">Indices</ref><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1afb5ef79f77d166774e85b07338d70d5c" kindref="member">indices</ref>;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a4d33008435a9ae7f759602d432789736" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a4d33008435a9ae7f759602d432789736" kindref="member">position</ref>;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a4ebeb50bd63233a15bedd7dd62a995e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a4ebeb50bd63233a15bedd7dd62a995e3" kindref="member">texcoord</ref>;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a42ae22c4ccc991540a26bb9fbe615047" kindref="member">VGComponentMerge</ref>(std::vector&lt;Component&gt;<sp/>components);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1ad9c4e907fbac81fe2cd156f7aa9b2b01" kindref="member">Indices</ref><sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a325a2bb114c57b276062381ba3a7cd37" kindref="member">remapIndices</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1ad9c4e907fbac81fe2cd156f7aa9b2b01" kindref="member">Indices</ref>&amp;<sp/>indices,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a54ab623f03b0ceed9990137bce0c5243" kindref="member">Weights</ref>&amp;<sp/>weights,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref>&amp;<sp/>remap,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;long<sp/>long&gt;&amp;<sp/>unmapped);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref><sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1ac4c488006801e3e70eed8a39af2212aa" kindref="member">padLines</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref>&amp;<sp/>src,<sp/>std::size_t<sp/>lines,<sp/>std::size_t<sp/>to);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a4769176fdede88045d1152dadb0a8041" kindref="member">blend</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a2fb5e21a1379627510bee3433730ecdb" kindref="member">position</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1af2b2109a436b5da1127fb23560a0554a" kindref="member">texcoord</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1ab475035d4eb477e53072ee6910838f85" kindref="member">Triangles</ref><sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a2a6d26a6d80c4df30dbb1e557c59967a" kindref="member">mergeIbs</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>Triangles&gt;&gt;&amp;<sp/>members)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a7d7c62569178c69930835cb7ce111248" kindref="member">offsetOf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>component)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a2755caa7c6758dc1f31f941bb954e85d" kindref="member">vertexCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats" kindref="compound">VGComponentMergeStats</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a10633ff9ad86c21bcf4be2272279e83f" kindref="member">stats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="231" refid="class_a_g_remap_core_1_1_v_g_component_merge_1a013149909f01e1d8dbe1592f355a888b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref><sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a013149909f01e1d8dbe1592f355a888b" kindref="member">blend_</ref>;</highlight></codeline>
+<codeline lineno="232" refid="class_a_g_remap_core_1_1_v_g_component_merge_1a363d9a6a42d454b31207f9058c82c4da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref><sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a363d9a6a42d454b31207f9058c82c4da" kindref="member">position_</ref>;</highlight></codeline>
+<codeline lineno="233" refid="class_a_g_remap_core_1_1_v_g_component_merge_1a3d798af548c9c685e69a84cc97afc071" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref><sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a3d798af548c9c685e69a84cc97afc071" kindref="member">texcoord_</ref>;</highlight></codeline>
+<codeline lineno="234" refid="class_a_g_remap_core_1_1_v_g_component_merge_1a9bb71fa1c363ac8499709e4bfa1da4e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::size_t&gt;<sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a9bb71fa1c363ac8499709e4bfa1da4e1" kindref="member">offsets_</ref>;</highlight></codeline>
+<codeline lineno="235" refid="class_a_g_remap_core_1_1_v_g_component_merge_1a6fbc2301b3c4c810e608e1a03f3be005" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats" kindref="compound">VGComponentMergeStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a6fbc2301b3c4c810e608e1a03f3be005" kindref="member">stats_</ref>;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,156 @@
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
+#include "AGRemapCore/data/IniParseBuilderData.h"
+
+#include <string>
+#include <vector>
+
+#include <optional>
+
+#include "AGRemapCore/constants/ModTypeId.h"
+#include "AGRemapCore/model/Version.h"
+#include "AGRemapCore/model/assets/Row.h"
+
+
+namespace AGRemapCore {
+    // Every generator is a stub for now -- see IniParseBuilderFuncs' own warning. They are
+    // written out one-per-method rather than collapsed into a single shared stub so that each
+    // can be filled in independently, and so the table below reads exactly like the
+    // pure-Python original's.
+
+    IniParseBuilder::Factory IniParseBuilderFuncs::giDefault() {
+        // THE FALLBACK PARSE ROW, and like its fix-side twin it needs no config: its
+        // pure-Python body is (GIMIParser, [], {}) -- a plain GIMI parser with no object
+        // awareness -- and IniParseBuilder::defaultFactory already builds exactly that.
+        //
+        // So this was never a stub either. It is the last line in either table that LOOKS
+        // like one, which is the whole reason to say so here.
+        return IniParseBuilder::defaultFactory();
+    }
+
+    namespace {
+        // The version index sits at position 0 and the mod name at position 1, matching the
+        // pure-Python ModAssets' own ["version", "name"] index order.
+        std::vector<Row<std::string, IniParseBuilder::Factory>> buildRows() {
+            return {
+                // ===== 4.0 =====
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Amber)}, IniParseBuilderFuncs::amber4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::AmberCN)}, IniParseBuilderFuncs::amberCN4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Ayaka)}, IniParseBuilderFuncs::ayaka4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::AyakaSpringbloom)}, IniParseBuilderFuncs::ayakaSpringbloom4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Barbara)}, IniParseBuilderFuncs::barbara4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::BarbaraSummertime)}, IniParseBuilderFuncs::barbaraSummertime4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Diluc)}, IniParseBuilderFuncs::diluc4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::DilucFlamme)}, IniParseBuilderFuncs::dilucFlamme4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Fischl)}, IniParseBuilderFuncs::fischl4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::FischlHighness)}, IniParseBuilderFuncs::fischlHighness4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Ganyu)}, IniParseBuilderFuncs::ganyu4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::HuTao)}, IniParseBuilderFuncs::hutao4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Jean)}, IniParseBuilderFuncs::jean4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::JeanCN)}, IniParseBuilderFuncs::jeanCN4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::JeanSea)}, IniParseBuilderFuncs::jeanSea4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Kaeya)}, IniParseBuilderFuncs::kaeya4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::KaeyaSailwind)}, IniParseBuilderFuncs::kaeyaSailwind4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Keqing)}, IniParseBuilderFuncs::keqing4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::KeqingOpulent)}, IniParseBuilderFuncs::keqingOpulent4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Kirara)}, IniParseBuilderFuncs::kirara4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Klee)}, IniParseBuilderFuncs::klee4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::KleeBlossomingStarlight)}, IniParseBuilderFuncs::kleeBlossomingStarlight4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Lisa)}, IniParseBuilderFuncs::lisa4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::LisaStudent)}, IniParseBuilderFuncs::lisaStudent4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Mona)}, IniParseBuilderFuncs::mona4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::MonaCN)}, IniParseBuilderFuncs::monaCN4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Nilou)}, IniParseBuilderFuncs::nilou4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Ningguang)}, IniParseBuilderFuncs::ningguang4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::NingguangOrchid)}, IniParseBuilderFuncs::ningguangOrchid4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Raiden)}, IniParseBuilderFuncs::giDefault()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Rosaria)}, IniParseBuilderFuncs::rosaria4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::RosariaCN)}, IniParseBuilderFuncs::rosariaCN4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Shenhe)}, IniParseBuilderFuncs::shenhe4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Xiangling)}, IniParseBuilderFuncs::xiangling4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Xingqiu)}, IniParseBuilderFuncs::xingqiu4_0()},
+
+                // ===== 4.4 =====
+                {{"4.4", ModTypeIdTools::getName(ModTypeId::GanyuTwilight)}, IniParseBuilderFuncs::ganyuTwilight4_4()},
+                {{"4.4", ModTypeIdTools::getName(ModTypeId::ShenheFrostFlower)}, IniParseBuilderFuncs::shenheFrostFlower4_4()},
+                {{"4.4", ModTypeIdTools::getName(ModTypeId::XingqiuBamboo)}, IniParseBuilderFuncs::xingqiuBamboo4_4()},
+
+                // ===== 4.6 =====
+                {{"4.6", ModTypeIdTools::getName(ModTypeId::Arlecchino)}, IniParseBuilderFuncs::giDefault()},
+
+                // ===== 4.8 =====
+                {{"4.8", ModTypeIdTools::getName(ModTypeId::KiraraBoots)}, IniParseBuilderFuncs::kiraraBoots4_8()},
+                {{"4.8", ModTypeIdTools::getName(ModTypeId::NilouBreeze)}, IniParseBuilderFuncs::nilouBreeze4_8()},
+
+                // ===== 5.3 =====
+                {{"5.3", ModTypeIdTools::getName(ModTypeId::CherryHuTao)}, IniParseBuilderFuncs::cherryHutao5_3()},
+                {{"5.3", ModTypeIdTools::getName(ModTypeId::XianglingCheer)}, IniParseBuilderFuncs::xianglingCheer5_3()},
+
+                // ===== 5.4 =====
+                {{"5.4", ModTypeIdTools::getName(ModTypeId::Arlecchino)}, IniParseBuilderFuncs::arlecchino5_4()},
+                {{"5.4", ModTypeIdTools::getName(ModTypeId::LisaStudent)}, IniParseBuilderFuncs::lisaStudent5_4()},
+
+                // ===== 5.5 =====
+                {{"5.5", ModTypeIdTools::getName(ModTypeId::Jean)}, IniParseBuilderFuncs::jean5_5()},
+                {{"5.5", ModTypeIdTools::getName(ModTypeId::JeanCN)}, IniParseBuilderFuncs::jeanCN5_5()},
+
+                // ===== 5.6 =====
+                {{"5.6", ModTypeIdTools::getName(ModTypeId::AyakaSpringbloom)}, IniParseBuilderFuncs::ayakaSpringbloom5_6()},
+
+                // ===== 5.7 =====
+                {{"5.7", ModTypeIdTools::getName(ModTypeId::AyakaSpringbloom)}, IniParseBuilderFuncs::ayakaSpringbloom5_7()},
+                {{"5.7", ModTypeIdTools::getName(ModTypeId::GanyuTwilight)}, IniParseBuilderFuncs::ganyuTwilight5_7()},
+                {{"5.7", ModTypeIdTools::getName(ModTypeId::Kirara)}, IniParseBuilderFuncs::kirara5_7()},
+                {{"5.7", ModTypeIdTools::getName(ModTypeId::KiraraBoots)}, IniParseBuilderFuncs::kiraraBoots5_7()},
+                {{"5.7", ModTypeIdTools::getName(ModTypeId::LisaStudent)}, IniParseBuilderFuncs::lisaStudent5_7()},
+                {{"5.7", ModTypeIdTools::getName(ModTypeId::Nilou)}, IniParseBuilderFuncs::nilou5_7()},
+
+                // ===== 6.1 =====
+                {{"6.1", ModTypeIdTools::getName(ModTypeId::Raiden)}, IniParseBuilderFuncs::raiden6_1()},
+
+                // ===== Yelan (2026-09-12) =====
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Yelan)}, IniParseBuilderFuncs::yelan4_0()},
+
+                // ===== YelanTranquil (2026-09-14) =====
+                // The first row built by makeGIMIComponentParser rather than makeGIMICharParser: a
+                // mod OF a skin that is several components. Her components' hashes are filed under
+                // their own mod type names, which is why that parser builds one classifier each.
+                {{"5.7", ModTypeIdTools::getName(ModTypeId::YelanTranquil)}, IniParseBuilderFuncs::yelanTranquil5_7()},
+
+                // ===== Bennett (2026-09-15) =====
+                // Two drawn objects, where every character above has three or four, and a
+                // Texcoord of stride 12.
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Bennett)}, IniParseBuilderFuncs::bennett4_0()},
+
+                // ===== BennettAdventure (2026-09-15) =====
+                // The second row built by makeGIMIComponentParser: a Body of two draw slots, a
+                // Bang and an Eye. Her Bang and Eye have no textures of their own and borrow
+                // Body slot A's, which is what their parse-row donors say.
+                {{"5.7", ModTypeIdTools::getName(ModTypeId::BennettAdventure)}, IniParseBuilderFuncs::bennettAdventure5_7()},
+            };
+        }
+    }
+
+    const std::shared_ptr<const IniParseBuilder::ArgsRepo>& IniParseBuilderData::repo() {
+        // Function-local static: built once, on first use, thread-safely -- and crucially after
+        // ModTypeIdTools' own registry is ready, which the row keys depend on.
+        static const std::shared_ptr<const IniParseBuilder::ArgsRepo> table =
+            std::make_shared<const IniParseBuilder::ArgsRepo>(
+                /*totalIndices*/ 2, /*versionIndexPos*/ 0,
+                [](const std::string& raw) { return Version::parse(raw); },
+                buildRows());
+
+        return table;
+    }
+}

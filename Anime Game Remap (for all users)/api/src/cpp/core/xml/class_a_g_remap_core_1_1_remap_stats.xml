@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_remap_stats" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RemapStats</compoundname>
+    <includes refid="_remap_stats_8h" local="no">RemapStats.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1a2ca31e8587d3d032b663ae61e339bed3" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref></type>
+        <definition>FileStats AGRemapCore::RemapStats::blend</definition>
+        <argsstring></argsstring>
+        <name>blend</name>
+        <qualifiedname>AGRemapCore::RemapStats::blend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stats about whether some ``Blend.buf`` files got fixed/skipped/removed -- a removed
+``Blend.buf`` file refers to a ``RemapBlend.buf`` file previously made by this software
+on a prior run
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="44" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1aefe50b51ad87a69203e5fe0e5aa06976" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref></type>
+        <definition>FileStats AGRemapCore::RemapStats::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <qualifiedname>AGRemapCore::RemapStats::position</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stats about whether some ``Position.buf`` files got fixed/skipped/removed -- a removed
+``Position.buf`` file refers to a ``RemapPosition.buf`` file previously made by this
+software on a prior run
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="54" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1ac98420338579447325f45132a39787c7" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref></type>
+        <definition>FileStats AGRemapCore::RemapStats::texcoord</definition>
+        <argsstring></argsstring>
+        <name>texcoord</name>
+        <qualifiedname>AGRemapCore::RemapStats::texcoord</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stats about whether some ``Texcoord.buf`` files got fixed/skipped/removed -- a removed
+``Texcoord.buf`` file refers to a ``RemapTexcoord.buf`` file previously made by this
+software on a prior run
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="64" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1a7f0244de901cac508ca5b1697011b26d" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref></type>
+        <definition>FileStats AGRemapCore::RemapStats::buf</definition>
+        <argsstring></argsstring>
+        <name>buf</name>
+        <qualifiedname>AGRemapCore::RemapStats::buf</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stats about whether some ``.buf`` files that are *not* one of the three specific kinds
+above got fixed/skipped/removed :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The catch-all for the ``.buf`` half of :cpp:func:`RemapIniRemover::classifyResource` -- a
+``.buf`` resource inside a fix whose `section`_ name names no particular element
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="76" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1a0d90f5d23a3135c800f7f044c26c1e91" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref></type>
+        <definition>FileStats AGRemapCore::RemapStats::other</definition>
+        <argsstring></argsstring>
+        <name>other</name>
+        <qualifiedname>AGRemapCore::RemapStats::other</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stats about whether some file of no recognized kind at all got fixed/skipped/removed
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The final catch-all of :cpp:func:`RemapIniRemover::classifyResource` -- neither a download,
+nor a ``.dds``, nor a ``.buf``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="88" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1ab6c134c115a60940dabbc21396ce4b41" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref></type>
+        <definition>FileStats AGRemapCore::RemapStats::ini</definition>
+        <argsstring></argsstring>
+        <name>ini</name>
+        <qualifiedname>AGRemapCore::RemapStats::ini</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stats about whether some .ini files got fixed/skipped/undone :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   A skipped .ini file may or may not have been previously fixed -- a path appearing
+   here does **not** imply the .ini file previously had a fix
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="101" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1a19dee02ce117c23e553a1c156b06eb1a" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref></type>
+        <definition>FileStats AGRemapCore::RemapStats::texEdit</definition>
+        <argsstring></argsstring>
+        <name>texEdit</name>
+        <qualifiedname>AGRemapCore::RemapStats::texEdit</qualifiedname>
+        <briefdescription>
+<para>Stats about whether an existing texture file has been edited/removed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="106" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1a8e2cff9ddea21cd7d431618541651835" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref></type>
+        <definition>FileStats AGRemapCore::RemapStats::texAdd</definition>
+        <argsstring></argsstring>
+        <name>texAdd</name>
+        <qualifiedname>AGRemapCore::RemapStats::texAdd</qualifiedname>
+        <briefdescription>
+<para>Stats about whether a brand new texture file created by this software has been created/removed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="111" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1a9e17d95a32ff9fd6a2d9c205a05f32f7" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_cached_file_stats" kindref="compound">CachedFileStats</ref></type>
+        <definition>CachedFileStats AGRemapCore::RemapStats::download</definition>
+        <argsstring></argsstring>
+        <name>download</name>
+        <qualifiedname>AGRemapCore::RemapStats::download</qualifiedname>
+        <briefdescription>
+<para>Stats about whether some downloaded mod files have been recently downloaded/removed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="116" column="29" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_stats_1a239da2dc2417d4cbd3bc0be21efe1990" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RemapStats::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::RemapStats::clear</qualifiedname>
+        <briefdescription>
+<para>Clears all the stats for the remap process. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="121" column="18" bodyfile="src/model/stats/RemapStats.cpp" bodystart="18" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_stats_1a3853fd921c9c931d2573a705d924f4aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref> *</type>
+        <definition>FileStats * AGRemapCore::RemapStats::get</definition>
+        <argsstring>(const std::string &amp;resourceType)</argsstring>
+        <name>get</name>
+        <qualifiedname>AGRemapCore::RemapStats::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resourceType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The bucket some kind of resource is tracked in, by name :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The names are :cpp:class:`RemapIniRemover::ResourceType`&apos;s members, which are spelled
+to match this class&apos;s own member names precisely so this lookup can exist -- it is the
+C++ counterpart to the pure-Python original&apos;s ``getattr(self.stats, resType)``, which
+a caller sorting removed resources into their buckets relied on :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+``&quot;ini&quot;`` resolves to #ini as well, even though a ``.ini`` file is never a resource
+*inside* itself -- a caller iterating every bucket by name should not have to special
+case it
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resourceType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name for the kind of resource</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The bucket, or <computeroutput>nullptr</computeroutput> when nothing is tracked under that name </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="144" column="23" bodyfile="src/model/stats/RemapStats.cpp" bodystart="30" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The file stats for the overall remap process :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python ``RemapStats`` class (``model/stats/RemapStats.py``)
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::CachedFileStats</label>
+        <link refid="class_a_g_remap_core_1_1_cached_file_stats"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::FileStats</label>
+        <link refid="class_a_g_remap_core_1_1_file_stats"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RemapStats</label>
+        <link refid="class_a_g_remap_core_1_1_remap_stats"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>blend</edgelabel>
+          <edgelabel>buf</edgelabel>
+          <edgelabel>ini</edgelabel>
+          <edgelabel>other</edgelabel>
+          <edgelabel>position</edgelabel>
+          <edgelabel>texAdd</edgelabel>
+          <edgelabel>texEdit</edgelabel>
+          <edgelabel>texcoord</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>download</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/stats/RemapStats.h" line="33" column="5" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="33" bodyend="145"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_remap_stats_1a2ca31e8587d3d032b663ae61e339bed3" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>blend</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_stats_1a7f0244de901cac508ca5b1697011b26d" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>buf</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_stats_1a239da2dc2417d4cbd3bc0be21efe1990" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_stats_1a9e17d95a32ff9fd6a2d9c205a05f32f7" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>download</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_stats_1a3853fd921c9c931d2573a705d924f4aa" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>get</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_stats_1ab6c134c115a60940dabbc21396ce4b41" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>ini</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_stats_1a0d90f5d23a3135c800f7f044c26c1e91" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>other</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_stats_1aefe50b51ad87a69203e5fe0e5aa06976" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>position</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_stats_1a8e2cff9ddea21cd7d431618541651835" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>texAdd</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_stats_1ac98420338579447325f45132a39787c7" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>texcoord</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_stats_1a19dee02ce117c23e553a1c156b06eb1a" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>texEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_yelan_tranquil_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::YelanTranquilFixer</compoundname>
+    <includes refid="_yelan_tranquil_fixer_8h" local="no">YelanTranquilFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yelan_tranquil_fixer_1a91ead935f83b3c9e98896c283a335518" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::YelanTranquilFixer::YelanTranquilFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>YelanTranquilFixer</name>
+        <qualifiedname>AGRemapCore::YelanTranquilFixer::YelanTranquilFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/YelanTranquil/YelanTranquilFixer.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yelan_tranquil_fixer_1a97ad1c83b53a4b65293f9131e30a8ec0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::YelanTranquilFixer::toYelan6_1</definition>
+        <argsstring>()</argsstring>
+        <name>toYelan6_1</name>
+        <qualifiedname>AGRemapCore::YelanTranquilFixer::toYelan6_1</qualifiedname>
+        <briefdescription>
+<para>The fix onto Yelan <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a02974b8d07fc3de5d09e72a10ba4c8c5" kindref="member">IniFixBuilderFuncs::yelanTranquilToYelan6_1</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/YelanTranquil/YelanTranquilFixer.h" line="40" column="43" bodyfile="src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp" bodystart="156" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+YelanTranquil&apos;s own fixers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The FIRST remap of a skin of SEVERAL components onto a target of ONE, and the inverse of
+:cpp:class:`YelanFixer`&apos;s direction. See :cpp:func:`makeGIMIMergeFixer`. Pair this with
+:cpp:class:`YelanTranquilParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/YelanTranquil/YelanTranquilFixer.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniFixData/YelanTranquil/YelanTranquilFixer.h" bodystart="32" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_yelan_tranquil_fixer_1a97ad1c83b53a4b65293f9131e30a8ec0" prot="public" virt="non-virtual"><scope>AGRemapCore::YelanTranquilFixer</scope><name>toYelan6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_yelan_tranquil_fixer_1a91ead935f83b3c9e98896c283a335518" prot="public" virt="non-virtual"><scope>AGRemapCore::YelanTranquilFixer</scope><name>YelanTranquilFixer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_669629d19ef82c48a0daa445d6c4f306" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/RosariaCN</compoundname>
+    <innerfile refid="_rosaria_c_n_fixer_8h">RosariaCNFixer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/RosariaCN/"/>
+  </compounddef>
+</doxygen>

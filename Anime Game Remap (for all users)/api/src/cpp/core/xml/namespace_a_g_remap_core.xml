@@ -1,0 +1,2198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_a_g_remap_core" kind="namespace" language="C++">
+    <compoundname>AGRemapCore</compoundname>
+    <innerclass refid="class_a_g_remap_core_1_1_algo" prot="public">AGRemapCore::Algo</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_amber_c_n_fixer" prot="public">AGRemapCore::AmberCNFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_amber_c_n_parser" prot="public">AGRemapCore::AmberCNParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_amber_fixer" prot="public">AGRemapCore::AmberFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_amber_parser" prot="public">AGRemapCore::AmberParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_arlecchino_fixer" prot="public">AGRemapCore::ArlecchinoFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_arlecchino_parser" prot="public">AGRemapCore::ArlecchinoParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ayaka_fixer" prot="public">AGRemapCore::AyakaFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ayaka_parser" prot="public">AGRemapCore::AyakaParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ayaka_springbloom_fixer" prot="public">AGRemapCore::AyakaSpringbloomFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ayaka_springbloom_parser" prot="public">AGRemapCore::AyakaSpringbloomParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_bad_buf_data" prot="public">AGRemapCore::BadBufData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_barbara_fixer" prot="public">AGRemapCore::BarbaraFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_barbara_parser" prot="public">AGRemapCore::BarbaraParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_barbara_summertime_fixer" prot="public">AGRemapCore::BarbaraSummertimeFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_barbara_summertime_parser" prot="public">AGRemapCore::BarbaraSummertimeParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" prot="public">AGRemapCore::BaseAhoCorasickDFA</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_buf_editor" prot="public">AGRemapCore::BaseBufEditor</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_d_f_a" prot="public">AGRemapCore::BaseDFA</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_id_generator" prot="public">AGRemapCore::BaseIdGenerator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ini_classifier" prot="public">AGRemapCore::BaseIniClassifier</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ini_fixer" prot="public">AGRemapCore::BaseIniFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ini_graph_edit" prot="public">AGRemapCore::BaseIniGraphEdit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" prot="public">AGRemapCore::BaseIniGraphGroupEdit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit" prot="public">AGRemapCore::BaseIniGraphPartEdit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ini_parser" prot="public">AGRemapCore::BaseIniParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ini_part_edit" prot="public">AGRemapCore::BaseIniPartEdit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ini_remover" prot="public">AGRemapCore::BaseIniRemover</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_logger" prot="public">AGRemapCore::BaseLogger</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ordered_multi_map" prot="public">AGRemapCore::BaseOrderedMultiMap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_pixel_transform" prot="public">AGRemapCore::BasePixelTransform</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_reg_edit" prot="public">AGRemapCore::BaseRegEdit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_res_edit" prot="public">AGRemapCore::BaseResEdit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_s_l_r1_parser" prot="public">AGRemapCore::BaseSLR1Parser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_tex_editor" prot="public">AGRemapCore::BaseTexEditor</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_tex_filter" prot="public">AGRemapCore::BaseTexFilter</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_tokenizer" prot="public">AGRemapCore::BaseTokenizer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_trie" prot="public">AGRemapCore::BaseTrie</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_bi_map" prot="public">AGRemapCore::BiMap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_binary_file" prot="public">AGRemapCore::BinaryFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_blend_file" prot="public">AGRemapCore::BlendFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_base_float" prot="public">AGRemapCore::BufBaseFloat</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_base_int" prot="public">AGRemapCore::BufBaseInt</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_data_type" prot="public">AGRemapCore::BufDataType</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_editor" prot="public">AGRemapCore::BufEditor</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_element_type" prot="public">AGRemapCore::BufElementType</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_file" prot="public">AGRemapCore::BufFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_file_not_recognized" prot="public">AGRemapCore::BufFileNotRecognized</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_float" prot="public">AGRemapCore::BufFloat</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_float16" prot="public">AGRemapCore::BufFloat16</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_replace" prot="public">AGRemapCore::BufReplace</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_signed_int" prot="public">AGRemapCore::BufSignedInt</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_type" prot="public">AGRemapCore::BufType</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_unorm" prot="public">AGRemapCore::BufUnorm</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_un_signed_int" prot="public">AGRemapCore::BufUnSignedInt</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_cache" prot="public">AGRemapCore::Cache</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_cached_file_stats" prot="public">AGRemapCore::CachedFileStats</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_call_graph" prot="public">AGRemapCore::CallGraph</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_cherry_hu_tao_fixer" prot="public">AGRemapCore::CherryHuTaoFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_cherry_hu_tao_parser" prot="public">AGRemapCore::CherryHuTaoParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_colour" prot="public">AGRemapCore::Colour</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_colour_range" prot="public">AGRemapCore::ColourRange</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_colour_replace" prot="public">AGRemapCore::ColourReplace</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_colour_replace_filter" prot="public">AGRemapCore::ColourReplaceFilter</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_correct_gamma" prot="public">AGRemapCore::CorrectGamma</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_dark_diffuse" prot="public">AGRemapCore::DarkDiffuse</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_diluc_fixer" prot="public">AGRemapCore::DilucFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_diluc_flamme_fixer" prot="public">AGRemapCore::DilucFlammeFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_diluc_flamme_parser" prot="public">AGRemapCore::DilucFlammeParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_diluc_parser" prot="public">AGRemapCore::DilucParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_download_cache" prot="public">AGRemapCore::DownloadCache</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_download_data" prot="public">AGRemapCore::DownloadData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_download_mode_tools" prot="public">AGRemapCore::DownloadModeTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_download_store" prot="public">AGRemapCore::DownloadStore</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_download_tools" prot="public">AGRemapCore::DownloadTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_file_download" prot="public">AGRemapCore::FileDownload</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_file_ext" prot="public">AGRemapCore::FileExt</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_file_prefixes" prot="public">AGRemapCore::FilePrefixes</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_file_service" prot="public">AGRemapCore::FileService</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_file_stats" prot="public">AGRemapCore::FileStats</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_file_suffixes" prot="public">AGRemapCore::FileSuffixes</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_file_types" prot="public">AGRemapCore::FileTypes</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_filtered_tokenizer" prot="public">AGRemapCore::FilteredTokenizer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_fischl_fixer" prot="public">AGRemapCore::FischlFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_fischl_highness_fixer" prot="public">AGRemapCore::FischlHighnessFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_fischl_highness_parser" prot="public">AGRemapCore::FischlHighnessParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_fischl_parser" prot="public">AGRemapCore::FischlParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_game_type" prot="public">AGRemapCore::GameType</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_game_type_id_tools" prot="public">AGRemapCore::GameTypeIdTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_gamma_filter" prot="public">AGRemapCore::GammaFilter</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ganyu_fixer" prot="public">AGRemapCore::GanyuFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ganyu_parser" prot="public">AGRemapCore::GanyuParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ganyu_twilight_fixer" prot="public">AGRemapCore::GanyuTwilightFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ganyu_twilight_parser" prot="public">AGRemapCore::GanyuTwilightParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_generator" prot="public">AGRemapCore::Generator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_g_i_builder" prot="public">AGRemapCore::GIBuilder</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" prot="public">AGRemapCore::GIMICharFixerConfig</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config" prot="public">AGRemapCore::GIMICharParserConfig</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config" prot="public">AGRemapCore::GIMIComponentFixerConfig</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config" prot="public">AGRemapCore::GIMIComponentParserConfig</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_fixer" prot="public">AGRemapCore::GIMIFixer</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config" prot="public">AGRemapCore::GIMIMergeFixerConfig</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter" prot="public">AGRemapCore::GIMIObjPartFilter</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_parser" prot="public">AGRemapCore::GIMIParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier" prot="public">AGRemapCore::GIMISectionClassifier</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_global_ini_classifiers" prot="public">AGRemapCore::GlobalIniClassifiers</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_global_ini_remove_builders" prot="public">AGRemapCore::GlobalIniRemoveBuilders</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_global_mod_types" prot="public">AGRemapCore::GlobalModTypes</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_global_remap_ini_remover" prot="public">AGRemapCore::GlobalRemapIniRemover</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_grapheme_iterator" prot="public">AGRemapCore::GraphemeIterator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_grapheme_range" prot="public">AGRemapCore::GraphemeRange</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_group_edit" prot="public">AGRemapCore::GraphGroupEdit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_group_remap" prot="public">AGRemapCore::GraphGroupRemap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_inherit" prot="public">AGRemapCore::GraphInherit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_part_edit" prot="public">AGRemapCore::GraphPartEdit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_remove" prot="public">AGRemapCore::GraphRemove</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_rename" prot="public">AGRemapCore::GraphRename</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_tools" prot="public">AGRemapCore::GraphTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_hash128" prot="public">AGRemapCore::Hash128</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_hash64" prot="public">AGRemapCore::Hash64</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_hashes" prot="public">AGRemapCore::Hashes</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_hash_int" prot="public">AGRemapCore::HashInt</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_hash_tools" prot="public">AGRemapCore::HashTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_heading" prot="public">AGRemapCore::Heading</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_highlight_shadow" prot="public">AGRemapCore::HighlightShadow</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_hue_adjust" prot="public">AGRemapCore::HueAdjust</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_hu_tao_fixer" prot="public">AGRemapCore::HuTaoFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_hu_tao_parser" prot="public">AGRemapCore::HuTaoParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ib_file" prot="public">AGRemapCore::IbFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_content_part" prot="public">AGRemapCore::IfContentPart</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_content_part_colour_change" prot="public">AGRemapCore::IfContentPartColourChange</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_content_part_colouring" prot="public">AGRemapCore::IfContentPartColouring</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_pred_parser" prot="public">AGRemapCore::IfPredParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_pred_part" prot="public">AGRemapCore::IfPredPart</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_pred_part_type_tools" prot="public">AGRemapCore::IfPredPartTypeTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_pred_tokenizer" prot="public">AGRemapCore::IfPredTokenizer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_pred_z3_generator" prot="public">AGRemapCore::IfPredZ3Generator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_template" prot="public">AGRemapCore::IfTemplate</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_template_node" prot="public">AGRemapCore::IfTemplateNode</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_template_non_empty_node_tree" prot="public">AGRemapCore::IfTemplateNonEmptyNodeTree</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_template_norm_tree" prot="public">AGRemapCore::IfTemplateNormTree</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_template_part" prot="public">AGRemapCore::IfTemplatePart</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_if_template_run_config" prot="public">AGRemapCore::IfTemplateRunConfig</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_template_tree" prot="public">AGRemapCore::IfTemplateTree</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_i_ini_graph_groups" prot="public">AGRemapCore::IIniGraphGroups</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_inc_id_generator" prot="public">AGRemapCore::IncIdGenerator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_indices" prot="public">AGRemapCore::Indices</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_boiler_plate" prot="public">AGRemapCore::IniBoilerPlate</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_classifier" prot="public">AGRemapCore::IniClassifier</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_classify_stats" prot="public">AGRemapCore::IniClassifyStats</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_comments" prot="public">AGRemapCore::IniComments</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_download_model" prot="public">AGRemapCore::IniDownloadModel</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_file" prot="public">AGRemapCore::IniFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_file_fix_context" prot="public">AGRemapCore::IniFileFixContext</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_file_parse_context" prot="public">AGRemapCore::IniFileParseContext</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_file_remove_context" prot="public">AGRemapCore::IniFileRemoveContext</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_file_res_edit_context" prot="public">AGRemapCore::IniFileResEditContext</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_fix_builder" prot="public">AGRemapCore::IniFixBuilder</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_fix_builder_data" prot="public">AGRemapCore::IniFixBuilderData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs" prot="public">AGRemapCore::IniFixBuilderFuncs</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_fix_context" prot="public">AGRemapCore::IniFixContext</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_ini_fixing_context" prot="public">AGRemapCore::IniFixingContext</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_fix_resource" prot="public">AGRemapCore::IniFixResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_fix_resource_model" prot="public">AGRemapCore::IniFixResourceModel</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_graph_group" prot="public">AGRemapCore::IniGraphGroup</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_graph_groups_vec" prot="public">AGRemapCore::IniGraphGroupsVec</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_graph_mod_obj_keywords" prot="public">AGRemapCore::IniGraphModObjKeywords</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_grouped_resource" prot="public">AGRemapCore::IniGroupedResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_keywords" prot="public">AGRemapCore::IniKeywords</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_naming_tools" prot="public">AGRemapCore::IniNamingTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_parse_builder" prot="public">AGRemapCore::IniParseBuilder</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_parse_builder_data" prot="public">AGRemapCore::IniParseBuilderData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs" prot="public">AGRemapCore::IniParseBuilderFuncs</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_parse_context" prot="public">AGRemapCore::IniParseContext</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_parse_download_data" prot="public">AGRemapCore::IniParseDownloadData</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_ini_removal_context" prot="public">AGRemapCore::IniRemovalContext</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_remove_builder" prot="public">AGRemapCore::IniRemoveBuilder</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_remove_builder_data" prot="public">AGRemapCore::IniRemoveBuilderData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs" prot="public">AGRemapCore::IniRemoveBuilderFuncs</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_remove_context" prot="public">AGRemapCore::IniRemoveContext</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_res_edit_context" prot="public">AGRemapCore::IniResEditContext</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_resource" prot="public">AGRemapCore::IniResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_resource_model" prot="public">AGRemapCore::IniResourceModel</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_section_graph" prot="public">AGRemapCore::IniSectionGraph</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_src_resource_model" prot="public">AGRemapCore::IniSrcResourceModel</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_tex_model" prot="public">AGRemapCore::IniTexModel</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_int_tools" prot="public">AGRemapCore::IntTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_invalid_download_mode" prot="public">AGRemapCore::InvalidDownloadMode</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_invalid_game_type" prot="public">AGRemapCore::InvalidGameType</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_invalid_mod_type" prot="public">AGRemapCore::InvalidModType</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_invalid_version" prot="public">AGRemapCore::InvalidVersion</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_invert_alpha" prot="public">AGRemapCore::InvertAlpha</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_invert_alpha_filter" prot="public">AGRemapCore::InvertAlphaFilter</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_i_ordered_multi_map" prot="public">AGRemapCore::IOrderedMultiMap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_jean_c_n_fixer" prot="public">AGRemapCore::JeanCNFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_jean_c_n_parser" prot="public">AGRemapCore::JeanCNParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_jean_fixer" prot="public">AGRemapCore::JeanFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_jean_parser" prot="public">AGRemapCore::JeanParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_jean_sea_fixer" prot="public">AGRemapCore::JeanSeaFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_jean_sea_parser" prot="public">AGRemapCore::JeanSeaParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_jean_shading" prot="public">AGRemapCore::JeanShading</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_kaeya_fixer" prot="public">AGRemapCore::KaeyaFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_kaeya_parser" prot="public">AGRemapCore::KaeyaParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_kaeya_sailwind_fixer" prot="public">AGRemapCore::KaeyaSailwindFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_kaeya_sailwind_parser" prot="public">AGRemapCore::KaeyaSailwindParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_keqing_fixer" prot="public">AGRemapCore::KeqingFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_keqing_opulent_fixer" prot="public">AGRemapCore::KeqingOpulentFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_keqing_opulent_parser" prot="public">AGRemapCore::KeqingOpulentParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_keqing_parser" prot="public">AGRemapCore::KeqingParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_key_remap_data" prot="public">AGRemapCore::KeyRemapData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_kirara_boots_fixer" prot="public">AGRemapCore::KiraraBootsFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_kirara_boots_parser" prot="public">AGRemapCore::KiraraBootsParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_kirara_fixer" prot="public">AGRemapCore::KiraraFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_kirara_parser" prot="public">AGRemapCore::KiraraParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_klee_blossoming_starlight_fixer" prot="public">AGRemapCore::KleeBlossomingStarlightFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_klee_blossoming_starlight_parser" prot="public">AGRemapCore::KleeBlossomingStarlightParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_klee_fixer" prot="public">AGRemapCore::KleeFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_klee_parser" prot="public">AGRemapCore::KleeParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_lisa_fixer" prot="public">AGRemapCore::LisaFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_lisa_parser" prot="public">AGRemapCore::LisaParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_lisa_student_fixer" prot="public">AGRemapCore::LisaStudentFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_lisa_student_parser" prot="public">AGRemapCore::LisaStudentParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_list_tools" prot="public">AGRemapCore::ListTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_logger" prot="public">AGRemapCore::Logger</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_lru_cache" prot="public">AGRemapCore::LruCache</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_material_band_remap_filter" prot="public">AGRemapCore::MaterialBandRemapFilter</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mod_assets" prot="public">AGRemapCore::ModAssets</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mod_data_assets" prot="public">AGRemapCore::ModDataAssets</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mod_dict_assets" prot="public">AGRemapCore::ModDictAssets</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mod_mapped_assets" prot="public">AGRemapCore::ModMappedAssets</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mod_type" prot="public">AGRemapCore::ModType</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mod_type_id_data" prot="public">AGRemapCore::ModTypeIdData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mod_type_id_tools" prot="public">AGRemapCore::ModTypeIdTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mona_c_n_fixer" prot="public">AGRemapCore::MonaCNFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mona_c_n_parser" prot="public">AGRemapCore::MonaCNParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mona_fixer" prot="public">AGRemapCore::MonaFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mona_parser" prot="public">AGRemapCore::MonaParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_multi_mod_fixer" prot="public">AGRemapCore::MultiModFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_nilou_breeze_fixer" prot="public">AGRemapCore::NilouBreezeFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_nilou_breeze_parser" prot="public">AGRemapCore::NilouBreezeParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_nilou_fixer" prot="public">AGRemapCore::NilouFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_nilou_parser" prot="public">AGRemapCore::NilouParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ningguang_fixer" prot="public">AGRemapCore::NingguangFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ningguang_orchid_fixer" prot="public">AGRemapCore::NingguangOrchidFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ningguang_orchid_parser" prot="public">AGRemapCore::NingguangOrchidParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ningguang_parser" prot="public">AGRemapCore::NingguangParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_node" prot="public">AGRemapCore::Node</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map" prot="public">AGRemapCore::OrderedMultiMap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter" prot="public">AGRemapCore::OrderedMultiMapAdapter</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt" prot="public">AGRemapCore::OrderedMultiMapSqrt</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_parse_context" prot="public">AGRemapCore::ParseContext</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_parse_node" prot="public">AGRemapCore::ParseNode</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_parse_tree" prot="public">AGRemapCore::ParseTree</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_pixel_filter" prot="public">AGRemapCore::PixelFilter</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_position_edit_replace" prot="public">AGRemapCore::PositionEditReplace</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_position_file" prot="public">AGRemapCore::PositionFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_raiden_fixer" prot="public">AGRemapCore::RaidenFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_raiden_parser" prot="public">AGRemapCore::RaidenParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ranges" prot="public">AGRemapCore::Ranges</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_add" prot="public">AGRemapCore::RegAdd</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_asset_remap" prot="public">AGRemapCore::RegAssetRemap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_bottom_add" prot="public">AGRemapCore::RegBottomAdd</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_delimited_add" prot="public">AGRemapCore::RegDelimitedAdd</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_fill_missing" prot="public">AGRemapCore::RegFillMissing</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_new_vals" prot="public">AGRemapCore::RegNewVals</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_part_edit" prot="public">AGRemapCore::RegPartEdit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_remap" prot="public">AGRemapCore::RegRemap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_remove" prot="public">AGRemapCore::RegRemove</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_surrounded_add" prot="public">AGRemapCore::RegSurroundedAdd</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_val_checks" prot="public">AGRemapCore::RegValChecks</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_blend_replace" prot="public">AGRemapCore::RemapBlendReplace</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_blend_resource" prot="public">AGRemapCore::RemapBlendResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_download" prot="public">AGRemapCore::RemapIniDownload</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_fix_context" prot="public">AGRemapCore::RemapIniFixContext</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_fix_resource" prot="public">AGRemapCore::RemapIniFixResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource" prot="public">AGRemapCore::RemapIniGroupedResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_remover" prot="public">AGRemapCore::RemapIniRemover</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_resource" prot="public">AGRemapCore::RemapIniResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin" prot="public">AGRemapCore::RemapIniResourceMixin</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remapped_key_data" prot="public">AGRemapCore::RemappedKeyData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_position_replace" prot="public">AGRemapCore::RemapPositionReplace</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_position_resource" prot="public">AGRemapCore::RemapPositionResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_service" prot="public">AGRemapCore::RemapService</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_service_c_l_i" prot="public">AGRemapCore::RemapServiceCLI</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_stats" prot="public">AGRemapCore::RemapStats</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_tex_add_resource" prot="public">AGRemapCore::RemapTexAddResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_tex_edit_resource" prot="public">AGRemapCore::RemapTexEditResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_res_create" prot="public">AGRemapCore::ResCreate</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_res_group_collect" prot="public">AGRemapCore::ResGroupCollect</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_res_identity" prot="public">AGRemapCore::ResIdentity</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_res_reg_collect" prot="public">AGRemapCore::ResRegCollect</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_res_replace" prot="public">AGRemapCore::ResReplace</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_rosaria_c_n_fixer" prot="public">AGRemapCore::RosariaCNFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_rosaria_c_n_parser" prot="public">AGRemapCore::RosariaCNParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_rosaria_fixer" prot="public">AGRemapCore::RosariaFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_rosaria_parser" prot="public">AGRemapCore::RosariaParser</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_row" prot="public">AGRemapCore::Row</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_section_iter_data" prot="public">AGRemapCore::SectionIterData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_section_iter_query_data" prot="public">AGRemapCore::SectionIterQueryData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_shenhe_fixer" prot="public">AGRemapCore::ShenheFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_shenhe_frost_flower_fixer" prot="public">AGRemapCore::ShenheFrostFlowerFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_shenhe_frost_flower_parser" prot="public">AGRemapCore::ShenheFrostFlowerParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_shenhe_parser" prot="public">AGRemapCore::ShenheParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_strategy_overrides" prot="public">AGRemapCore::StrategyOverrides</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_string_tools" prot="public">AGRemapCore::StringTools</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_string_view_hash" prot="public">AGRemapCore::StringViewHash</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_sympy_parser" prot="public">AGRemapCore::SympyParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_sympy_tokenizer" prot="public">AGRemapCore::SympyTokenizer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_syntax_err" prot="public">AGRemapCore::SyntaxErr</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_temp_control" prot="public">AGRemapCore::TempControl</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_create" prot="public">AGRemapCore::TexCreate</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_creator" prot="public">AGRemapCore::TexCreator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_creator_create" prot="public">AGRemapCore::TexCreatorCreate</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_editor" prot="public">AGRemapCore::TexEditor</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_editor_replace" prot="public">AGRemapCore::TexEditorReplace</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_replace" prot="public">AGRemapCore::TexReplace</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_text_tools" prot="public">AGRemapCore::TextTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_texture_file" prot="public">AGRemapCore::TextureFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tint_transform" prot="public">AGRemapCore::TintTransform</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_token" prot="public">AGRemapCore::Token</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_transparency" prot="public">AGRemapCore::Transparency</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_transparency_adjust_filter" prot="public">AGRemapCore::TransparencyAdjustFilter</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_uuid_id_generator" prot="public">AGRemapCore::UuidIdGenerator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_vb_file" prot="public">AGRemapCore::VbFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_version" prot="public">AGRemapCore::Version</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_version_set" prot="public">AGRemapCore::VersionSet</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_vertex_counts" prot="public">AGRemapCore::VertexCounts</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_v_g_component_buffers" prot="public">AGRemapCore::VGComponentBuffers</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_v_g_component_merge" prot="public">AGRemapCore::VGComponentMerge</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats" prot="public">AGRemapCore::VGComponentMergeStats</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_v_g_component_spec" prot="public">AGRemapCore::VGComponentSpec</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_v_g_component_split" prot="public">AGRemapCore::VGComponentSplit</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_v_g_component_split_stats" prot="public">AGRemapCore::VGComponentSplitStats</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_v_g_merge_component_files" prot="public">AGRemapCore::VGMergeComponentFiles</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec" prot="public">AGRemapCore::VGMergeComponentSpec</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_v_g_merge_group_config" prot="public">AGRemapCore::VGMergeGroupConfig</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder" prot="public">AGRemapCore::VGMergeGroupResBuilder</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_v_g_merge_group_resource" prot="public">AGRemapCore::VGMergeGroupResource</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_v_g_merge_object" prot="public">AGRemapCore::VGMergeObject</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_v_g_remap" prot="public">AGRemapCore::VGRemap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace" prot="public">AGRemapCore::VGRemapBlendReplace</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_v_g_remaps" prot="public">AGRemapCore::VGRemaps</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_v_g_split_group_config" prot="public">AGRemapCore::VGSplitGroupConfig</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder" prot="public">AGRemapCore::VGSplitGroupResBuilder</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_v_g_split_group_resource" prot="public">AGRemapCore::VGSplitGroupResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_xiangling_cheer_fixer" prot="public">AGRemapCore::XianglingCheerFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_xiangling_cheer_parser" prot="public">AGRemapCore::XianglingCheerParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_xiangling_fixer" prot="public">AGRemapCore::XianglingFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_xiangling_parser" prot="public">AGRemapCore::XianglingParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_xingqiu_bamboo_fixer" prot="public">AGRemapCore::XingqiuBambooFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_xingqiu_bamboo_parser" prot="public">AGRemapCore::XingqiuBambooParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_xingqiu_fixer" prot="public">AGRemapCore::XingqiuFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_xingqiu_parser" prot="public">AGRemapCore::XingqiuParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_yelan_fixer" prot="public">AGRemapCore::YelanFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_yelan_parser" prot="public">AGRemapCore::YelanParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_yelan_tranquil_fixer" prot="public">AGRemapCore::YelanTranquilFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_yelan_tranquil_parser" prot="public">AGRemapCore::YelanTranquilParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_z3_context" prot="public">AGRemapCore::Z3Context</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_z3_if_pred_generator" prot="public">AGRemapCore::Z3IfPredGenerator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_z3_predicate" prot="public">AGRemapCore::Z3Predicate</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core_1_1_data">AGRemapCore::Data</innernamespace>
+    <innernamespace refid="namespace_a_g_remap_core_1_1detail">AGRemapCore::detail</innernamespace>
+    <innernamespace refid="namespace_a_g_remap_core_1_1sqrt__detail">AGRemapCore::sqrt_detail</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespace_a_g_remap_core_1ad2ffe451d58071792dc814afbcf37082" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DownloadMode</name>
+        <qualifiedname>AGRemapCore::DownloadMode</qualifiedname>
+        <enumvalue id="namespace_a_g_remap_core_1ad2ffe451d58071792dc814afbcf37082ab9f5c797ebbf55adccdd8539a65a0241" prot="public">
+          <name>Disabled</name>
+          <briefdescription>
+<para>Will not perform any file downloads for any mods. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1ad2ffe451d58071792dc814afbcf37082a960b44c579bc2f6818d2daaf9e4c16f0" prot="public">
+          <name>Normal</name>
+          <briefdescription>
+<para>Only perform file downloads at places in a .ini file where a resource is missing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1ad2ffe451d58071792dc814afbcf37082a68eec46437c384d8dad18d5464ebc35c" prot="public">
+          <name>Always</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Will always perform file downloads for every mod, if possible, using pessimistic
+assumptions
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The download mode of how the software handles file downloads :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   The `Python`_-facing ``DownloadMode`` is a separate, still-pure-Python ``Enum``
+   (``constants/DownloadMode.py``) whose members carry the same three string values. The
+   binding layer maps one onto the other by that value, rather than either side being replaced
+   -- this enum exists so `AGRemapCore` stays usable with no `Python`_ at all, matching what
+   ``IniGraphReplaceMode`` already does for the same reason
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/DownloadMode.h" line="37" column="5" bodyfile="include/AGRemapCore/constants/DownloadMode.h" bodystart="37" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>GameTypeId</name>
+        <qualifiedname>AGRemapCore::GameTypeId</qualifiedname>
+        <enumvalue id="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" prot="public">
+          <name>GI</name>
+          <briefdescription>
+<para>Genshin Impact. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa872a3be216e846f86359c7d80662bff8" prot="public">
+          <name>WuWa</name>
+          <briefdescription>
+<para>Wuthering Waves. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>The names of the different supported games. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="28" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="28" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>IfPredPartType</name>
+        <qualifiedname>AGRemapCore::IfPredPartType</qualifiedname>
+        <enumvalue id="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1a786887572f6ef1c20f2d8177cb2f1639" prot="public">
+          <name>If</name>
+          <briefdescription>
+<para>The part contains the starting keyword &apos;if&apos;. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1a6a0053231db40a4539b8f783a719a54a" prot="public">
+          <name>Else</name>
+          <briefdescription>
+<para>The part contains the starting keyword &apos;else&apos;. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1aa4febedee5842ec113ebab30c44acc2a" prot="public">
+          <name>Elif</name>
+          <briefdescription>
+<para>The part contains the starting keyword &apos;elif&apos;. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1ade360e1624063d8b9de7d2c411a960d8" prot="public">
+          <name>EndIf</name>
+          <briefdescription>
+<para>The part contains the starting keyword &apos;endif&apos;. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The possible types for an :cpp:class:`IfPredPart` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python ``IfPredPartType`` enum (``constants/IfPredPartType.py``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IfPredPartType.h" line="31" column="5" bodyfile="include/AGRemapCore/constants/IfPredPartType.h" bodystart="31" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_a_g_remap_core_1a2dbbc8df1edce0183c7a4da440897236" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>IniGraphReplaceMode</name>
+        <qualifiedname>AGRemapCore::IniGraphReplaceMode</qualifiedname>
+        <enumvalue id="namespace_a_g_remap_core_1a2dbbc8df1edce0183c7a4da440897236afd038fc7f319e48f3115d92bf5bdbef9" prot="public">
+          <name>Ignore</name>
+          <briefdescription>
+<para>Keeps the already existing graph. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1a2dbbc8df1edce0183c7a4da440897236a0ebe6df8a3ac338e0512acc741823fdb" prot="public">
+          <name>Replace</name>
+          <briefdescription>
+<para>Replaces the already existing graph with a brand-new one. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1a2dbbc8df1edce0183c7a4da440897236ae7b3c0acb7168c7969b03e8aebc67ce7" prot="public">
+          <name>Combine</name>
+          <briefdescription>
+<para>Combines the already existing graph with the newly created graph. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Different replacement modes for when the :cpp:class:`IniSectionGraph` already exists when
+:cpp:class:`BaseResEdit` builds the corresponding graph :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The `Python`_-facing ``IniGraphReplaceMode`` is a separate, still-pure-Python ``Enum``
+   (``constants/IniGraphReplaceMode.py``) whose members carry the same three string values.
+   The binding layer maps one onto the other by that value, rather than either side being
+   replaced -- this enum exists so `AGRemapCore` stays usable with no `Python`_ at all
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniGraphReplaceMode.h" line="33" column="5" bodyfile="include/AGRemapCore/constants/IniGraphReplaceMode.h" bodystart="33" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ModTypeId</name>
+        <qualifiedname>AGRemapCore::ModTypeId</qualifiedname>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa88068e33c78eb72f1b371c7110846085" prot="public">
+          <name>Amber</name>
+          <briefdescription>
+<para>Amber from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c6864cba67f721294d9fcf55569ec7e" prot="public">
+          <name>AmberCN</name>
+          <briefdescription>
+<para>Amber Chinese version from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa7dcac6e40988bcfa8407fc0744f6b64e" prot="public">
+          <name>Ayaka</name>
+          <briefdescription>
+<para>Ayaka from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa1e7f0474519c381cffc792716c10572b" prot="public">
+          <name>AyakaSpringbloom</name>
+          <briefdescription>
+<para>Ayaka Fontaine skin from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a1250058bbddad5373c7200930befef" prot="public">
+          <name>Arlecchino</name>
+          <briefdescription>
+<para>Arlecchino from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0168d9b6752f47b77ff8a95c85af4448" prot="public">
+          <name>ArlecchinoBoss</name>
+          <briefdescription>
+<para>The first phase of the Arlecchino boss from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5c39b18d77d5f297ff92e4942e5522b5" prot="public">
+          <name>Barbara</name>
+          <briefdescription>
+<para>Barbara from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa3319b38550e4cbcd5a60e3888b78d737" prot="public">
+          <name>BarbaraSummertime</name>
+          <briefdescription>
+<para>Barbara summer skin from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa96a349fa5e3141731d7638ac2226468b" prot="public">
+          <name>Bennett</name>
+          <briefdescription>
+<para>Bennett from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa37709aa6812cbc1640105c16d27b2452" prot="public">
+          <name>BennettAdventure</name>
+          <briefdescription>
+<para>Bennett outfit skin (Adventure) from GI <ndash/> THREE components (Body, Bang, Eye). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa511383b00782b33bfb3bce3c9d296cb3" prot="public">
+          <name>BennettAdventureBody</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+BennettAdventure&apos;s ``Body`` component, as a fix TARGET :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The same arrangement as :cpp:enumerator:`YelanTranquilBody`, whose comment has the reasoning:
+a skin of several components is fixed by one fixer per component, and the tables those
+fixers read -- :cpp:class:`IniFixBuilderData`, :cpp:class:`HashData`,
+:cpp:class:`IndexData` -- are keyed by a mod type NAME, so each component is a mod type of
+its own for their purposes. Nothing classifies a ``.ini`` file AS one of these; the skin
+itself is :cpp:enumerator:`BennettAdventure`, whose vertex-group rows are keyed by component
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa016c466d1f01613e01cf83b500d738b0" prot="public">
+          <name>BennettAdventureBang</name>
+          <briefdescription>
+<para>BennettAdventure&apos;s <computeroutput>Bang</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>BennettAdventureBody</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa93bf0d364640f8a902230e42c47e8c58" prot="public">
+          <name>BennettAdventureEye</name>
+          <briefdescription>
+<para>BennettAdventure&apos;s <computeroutput>Eye</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>BennettAdventureBody</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadf7f24a1a17f81e22fb50aed81e3f2ba" prot="public">
+          <name>CherryHuTao</name>
+          <briefdescription>
+<para>Hu Tao Lantern Rite skin from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5320e78d8c8e41fb25604c659a6a40d" prot="public">
+          <name>Diluc</name>
+          <briefdescription>
+<para>Diluc from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab76603762eedec9d8ec5c5fdf50655bc" prot="public">
+          <name>DilucFlamme</name>
+          <briefdescription>
+<para>Diluc Red Dead of the Night skin from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fac19c51a36ea5a93b2916f4a80ee8b20a" prot="public">
+          <name>Fischl</name>
+          <briefdescription>
+<para>Fischl from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4aa63b16ef009dfa564c01885fa12a6f" prot="public">
+          <name>FischlHighness</name>
+          <briefdescription>
+<para>Fischl summer skin from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6b3dca2282dc2bfa280358c523f03e" prot="public">
+          <name>Ganyu</name>
+          <briefdescription>
+<para>Ganyu from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa41085c2bd6937ba192f729d714660581" prot="public">
+          <name>GanyuTwilight</name>
+          <briefdescription>
+<para>Ganyu Lantern Rite skin from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa26b653e77d14e3a3adc799d0eb31c689" prot="public">
+          <name>HuTao</name>
+          <briefdescription>
+<para>HuTao from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a5ea26afb2c1fdbd0e7ab0941b9b9ab" prot="public">
+          <name>Jean</name>
+          <briefdescription>
+<para>Jean from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa972f777398ac4d73ebed41ebf9e241c4" prot="public">
+          <name>JeanCN</name>
+          <briefdescription>
+<para>Jean Chinese version from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa989a6ca89cadd3fd9a5ea5776262d1a" prot="public">
+          <name>JeanSea</name>
+          <briefdescription>
+<para>Jean summer skin from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa49d681b63e092b2769fa3db299e6219a" prot="public">
+          <name>Kaeya</name>
+          <briefdescription>
+<para>Kaeya from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0fb964297bd7db3dce7f1d125cef4aa3" prot="public">
+          <name>KaeyaSailwind</name>
+          <briefdescription>
+<para>KaeyaSailwind from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab7a3b47beefd2e5f140d52a7d69cad59" prot="public">
+          <name>Keqing</name>
+          <briefdescription>
+<para>Keqing from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa77f54ae60190b025b2560be8030650a7" prot="public">
+          <name>KeqingOpulent</name>
+          <briefdescription>
+<para>Keqing Lantern Rite skin from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa40a5c73405d1aba938ecefcb63811ec4" prot="public">
+          <name>Kirara</name>
+          <briefdescription>
+<para>Kirara from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fabef5f85c6bc339b9e607e7db06668995" prot="public">
+          <name>KiraraBoots</name>
+          <briefdescription>
+<para>Kirara summer skin from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa71bc16336f99b0fbd10156507d230f9c" prot="public">
+          <name>Klee</name>
+          <briefdescription>
+<para>Klee from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa0361c17e0d59792b415e4caa20d3fa2" prot="public">
+          <name>KleeBlossomingStarlight</name>
+          <briefdescription>
+<para>Klee summer skin from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadfeacdebdd52607b78a0eca093c2ed7a" prot="public">
+          <name>Lisa</name>
+          <briefdescription>
+<para>Lisa from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fababd23694a4888b6cc972411c9e61283" prot="public">
+          <name>LisaStudent</name>
+          <briefdescription>
+<para>Lisa Sumeru skin from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6954c0d8654e0391b51cf747ed6807" prot="public">
+          <name>Mona</name>
+          <briefdescription>
+<para>Mona from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fae74ca37b1374ae9211c717b0488d4dcd" prot="public">
+          <name>MonaCN</name>
+          <briefdescription>
+<para>Mona Chinese version from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa1b6f661542962e87332f40f9aa1965d" prot="public">
+          <name>Nilou</name>
+          <briefdescription>
+<para>Nilou from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa50877824f5b3765accbb467f8d29152d" prot="public">
+          <name>NilouBreeze</name>
+          <briefdescription>
+<para>Nilou summer skin from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa00f6b3956912feb5944b9061fc723bc9" prot="public">
+          <name>Ningguang</name>
+          <briefdescription>
+<para>Ningguang from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa83a248a3890b3490a7702d9486b73ab6" prot="public">
+          <name>NingguangOrchid</name>
+          <briefdescription>
+<para>Ningguang Lantern Rite from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa370664d98f658f4ed4e620f378f73cd" prot="public">
+          <name>Raiden</name>
+          <briefdescription>
+<para>Ei from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4679529b90a8b9de219e8c9afb58aa59" prot="public">
+          <name>RaidenBoss</name>
+          <briefdescription>
+<para>The first phase of the Raiden Shogun boss from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faaba9f02c6ddcb863bed06ba63c6af73c" prot="public">
+          <name>Rosaria</name>
+          <briefdescription>
+<para>Rosaria from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faed1f7dc40e531884424feda17cc99026" prot="public">
+          <name>RosariaCN</name>
+          <briefdescription>
+<para>Rosaria Chinese version from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5958f4196ed7800bea49aac4f2d03a7" prot="public">
+          <name>Shenhe</name>
+          <briefdescription>
+<para>Shenhe from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa21217135c6d3cb5e4df67ddc7595d86c" prot="public">
+          <name>ShenheFrostFlower</name>
+          <briefdescription>
+<para>Shenhe Lantern Rite skin from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0b95de125a20e0e1f88d65a634628bf1" prot="public">
+          <name>Xiangling</name>
+          <briefdescription>
+<para>Xiangling from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa7d77eb8981f7a870f114a954053be45" prot="public">
+          <name>XianglingCheer</name>
+          <briefdescription>
+<para>Xiangling Lantern Rite skin from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c073e0c3f0b5762adedef900b334c27" prot="public">
+          <name>Xingqiu</name>
+          <briefdescription>
+<para>Xingqiu from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa256ab015385cf375b0e08394e67d35c" prot="public">
+          <name>XingqiuBamboo</name>
+          <briefdescription>
+<para>Xingqiu Lantern Rite skin from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa58c563a4e58d7d757205ecb182511a16" prot="public">
+          <name>Yelan</name>
+          <briefdescription>
+<para>Yelan from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fade76462343da2ad9d775f84c2b06cf02" prot="public">
+          <name>YelanTranquil</name>
+          <briefdescription>
+<para>Yelan summer skin (Tranquil Banquet) from GI <ndash/> THREE components (Body, Bang, Eye). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa906d88a249fbaeb076f38f7fbc1f4f76" prot="public">
+          <name>YelanTranquilBody</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+YelanTranquil&apos;s ``Body`` component, as a fix TARGET :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A skin of several components is fixed by one fixer per component (see
+:cpp:func:`makeGIMIComponentFixer`), and the tables the fixer reads --
+:cpp:class:`IniFixBuilderData`, :cpp:class:`HashData`, :cpp:class:`IndexData` -- are keyed
+by a mod type NAME. So each component is a mod type of its own for those tables&apos; purposes:
+``YelanTranquilBody`` carries the Body&apos;s hashes and slot indices, and Yelan remaps onto it.
+Like the boss ids, nothing classifies a ``.ini`` file AS one of these; the skin itself is
+:cpp:enumerator:`YelanTranquil`, whose vertex-group rows the fixer reads by component
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa35a68d0448e0f84e2c97202b3f505d64" prot="public">
+          <name>YelanTranquilBang</name>
+          <briefdescription>
+<para>YelanTranquil&apos;s <computeroutput>Bang</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>YelanTranquilBody</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faad4dd9ad68d37a02b63c30efe227558d" prot="public">
+          <name>YelanTranquilEye</name>
+          <briefdescription>
+<para>YelanTranquil&apos;s <computeroutput>Eye</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>YelanTranquilBody</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The names of the different types of mods this fix will fix from or fix to :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNames.py``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="38" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="38" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RegDelimitedAddMode</name>
+        <qualifiedname>AGRemapCore::RegDelimitedAddMode</qualifiedname>
+        <enumvalue id="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274ead74510f2e2306921c80274d079e2981a" prot="public">
+          <name>PerSegment</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Once per **delimiter-free stretch** of every path -- immediately before every accepted
+delimiter, plus once at the end of a path that has none :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The right mode for an addition whose effect is per-delimiter and does not accumulate: a
+counter, a log line, a register the next delimiter consumes and clears
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274ea123b82aabcae3a4cf39fdc4bf4108bb2" prot="public">
+          <name>PerPath</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Once per **path** -- at the last position that precedes *every* accepted delimiter on that
+path, which is the end of the path when it has none :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**The mode for re-issuing GIMI&apos;s external fix libraries** (``NNFix`` / ``ORFix``), and the
+reason this enum exists. Those command lists read the currently bound ``ps-t`` registers
+and write them back **re-slotted**, so calling one twice over the same bindings undoes it:
+``CommandListNNFix`` -&gt; ``CommandListReferenceNoNormal`` reads the diffuse out of ``ps-t0``
+and the light map out of ``ps-t1``, and ``CommandListLDX`` writes the light map back to
+``ps-t0`` and the diffuse to ``ps-t1``. Run once, fixed; run twice, back where it started,
+with the light map sampled as the albedo -- **a model rendered flat green**
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+:cpp:enumerator:`PerSegment` is correct only while no path draws more than once. A section
+whose draws sit in INDEPENDENT ``if`` blocks issues several in a single pass -- measured
+over one real mod library, **66 sections across 14 mod folders** do -- and every second draw
+of such a section came out unfixed (2026-09-14) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+What mod authors write by hand is exactly this mode: one ``run =`` at the top of the
+`section`_, after the texture registers and before anything conditional, however many
+``drawindexed`` lines follow. The pure-Python original reaches the same placement a
+different way -- it never inserts a call at all, it renames the modder&apos;s own out of the way
+and back again, which preserves wherever they put it
+
+.. note::
+   This mode assumes the addition is invalidated only by the **delimiter**, never by
+   anything between two of them. For the fix libraries that means a `section`_ must not
+   rebind its ``ps-t`` registers after drawing: measured over **33030** real
+   ``TextureOverride`` `section`_\\s, **none** do
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How often :cpp:class:`RegDelimitedAdd` places its addition along one execution path
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Both modes place the addition **as late as possible**; they differ only in how many times a
+single path gets it
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/RegDelimitedAddMode.h" line="30" column="5" bodyfile="include/AGRemapCore/constants/RegDelimitedAddMode.h" bodystart="30" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RegFillMissingMode</name>
+        <qualifiedname>AGRemapCore::RegFillMissingMode</qualifiedname>
+        <enumvalue id="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106ab09082129e5162de4092eba7e8775807" prot="public">
+          <name>FillMissing</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Finds all :cpp:class:`IfContentPart`\s missing the desired register and fills those parts
+with the register
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106a5f661b94a3970374f336519a3c5c854f" prot="public">
+          <name>TopdownCover</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Determines whether the caller/callee graph (:cpp:class:`IniSectionGraph`) contains an
+:cpp:class:`IfContentPart` missing the desired register, then adds the register to the
+roots of the graph to cover for the missing registers
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106a34ffd1ec30d863b48aae5ff2d7ee1137" prot="public">
+          <name>BottomCover</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Like :cpp:enumerator:`TopdownCover`, but the register is added at the **bottom** of each root
+-- a fresh last :cpp:class:`IfContentPart` -- so it runs after everything the root sets up
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The mode for a draw call. :cpp:enumerator:`FillMissing` fills the FIRST content part of a
+section that lacks the register, which is the whole section while it is one part -- and the
+wrong end once something has split it (a :cpp:class:`ResGroupCollect` splicing a collected
+register into an ``if`` block does), where the draw would then run before the ``ib`` and
+the textures it depends on (2026-09-12)
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Different modes for handling :cpp:class:`IfContentPart`\s with missing registers
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The `Python`_-facing ``RegFillMissingMode`` is a separate, still-pure-Python ``Enum``
+   (``constants/RegFillMissingMode.py``) whose members carry the same three string values. The
+   binding layer maps one onto the other by that value, rather than either side being replaced
+   -- this enum exists so `AGRemapCore` stays usable with no `Python`_ at all, matching what
+   ``IniGraphReplaceMode`` already does for the same reason
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/RegFillMissingMode.h" line="34" column="5" bodyfile="include/AGRemapCore/constants/RegFillMissingMode.h" bodystart="34" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1a1c7d00ecf5f9baa55407d51862675a7f" prot="public" static="no">
+        <type>std::optional&lt; std::unordered_set&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref> &gt; &gt;</type>
+        <definition>using AGRemapCore::GameTypeIdFilter = std::optional&lt;std::unordered_set&lt;GameTypeId&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>GameTypeIdFilter</name>
+        <qualifiedname>AGRemapCore::GameTypeIdFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A set of :cpp:enum:`GameTypeId`\\s to narrow something down to, where ``std::nullopt`` means
+&quot;every game&quot; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The shape the whole classification path takes its game filter in --
+:cpp:member:`RemapService::gameTypeIds` down through :cpp:class:`IniFile` to
+:cpp:func:`BaseIniClassifier::classify` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   An **empty** set is a filter that matches nothing, not &quot;every game&quot; -- the same reading
+   :cpp:member:`RemapService::fromModTypeIds` has. ``std::nullopt`` is the only way to say
+   &quot;no filter&quot;. :cpp:class:`RemapServiceCLI` is where a user naming no games at all gets
+   turned into ``std::nullopt``, since that is the ambiguity an argument parser creates
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="57" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" prot="public" static="no">
+        <type>std::variant&lt; long long, unsigned long long, double &gt;</type>
+        <definition>using AGRemapCore::BufValue = std::variant&lt;long long, unsigned long long, double&gt;</definition>
+        <argsstring></argsstring>
+        <name>BufValue</name>
+        <qualifiedname>AGRemapCore::BufValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A single decoded value for one elementary data type within a ``.buf`` file
+(:cpp:class:`BufDataType`) -- either a signed integer, an unsigned integer, or a
+`floating point`_ number :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The pure-Python original (``BufDataType.decode``) returns a plain ``Any``, since Python&apos;s
+   ``int`` is arbitrary-precision and duck typing needs no closed set of alternatives. This
+   C++ port instead caps integer decoding at 64 bits (``long long``/``unsigned long long``) --
+   every ``.buf`` format actually defined in this codebase (``BufDataTypes``: ``Float32``,
+   ``Int32``, ``UInt32``, ``UNorm8``) uses at most 4 bytes, so 64 bits leaves ample headroom
+   without needing an arbitrary-width big-integer representation
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufValue.h" line="42" column="5" bodyfile="include/AGRemapCore/model/buffers/BufValue.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref> &gt; &gt;</type>
+        <definition>using AGRemapCore::BufLineData = std::unordered_map&lt;std::string, std::vector&lt;BufValue&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>BufLineData</name>
+        <qualifiedname>AGRemapCore::BufLineData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The decoded data for one line (one vertex) of a ``.buf`` file -- the keys are the element
+keys computed by :cpp:func:`BufFile::setElements` (an element&apos;s :cpp:func:`BufType::getName`,
+suffixed with an occurrence count if the same name repeats) and the values are the decoded
+:cpp:type:`BufValue`\\s for that element, one per :cpp:class:`BufDataType` composing it
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufValue.h" line="53" column="5" bodyfile="include/AGRemapCore/model/buffers/BufValue.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" prot="public" static="no">
+        <type>std::vector&lt; std::uint8_t &gt;</type>
+        <definition>using AGRemapCore::ByteVec = std::vector&lt;std::uint8_t&gt;</definition>
+        <argsstring></argsstring>
+        <name>ByteVec</name>
+        <qualifiedname>AGRemapCore::ByteVec</qualifiedname>
+        <briefdescription>
+<para>A raw sequence of bytes <ndash/> used throughout the <computeroutput>.buf</computeroutput> file model instead of Python&apos;s <computeroutput>bytes</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufValue.h" line="59" column="5" bodyfile="include/AGRemapCore/model/buffers/BufValue.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" prot="public" static="no">
+        <type>std::variant&lt; std::string, <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &gt;</type>
+        <definition>using AGRemapCore::BinarySrc = std::variant&lt;std::string, ByteVec&gt;</definition>
+        <argsstring></argsstring>
+        <name>BinarySrc</name>
+        <qualifiedname>AGRemapCore::BinarySrc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Either a file path (``std::string``) or a raw, already-in-memory sequence of bytes -- the C++
+analogue of the pure-Python original&apos;s ``Union[str, bytes]`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="32" column="5" bodyfile="include/AGRemapCore/model/files/BinaryFile.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1a36227a8c689f83010b8c0ef64524144d" prot="public" static="no">
+        <type>std::variant&lt; <ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref>, <ref refid="class_a_g_remap_core_1_1_colour_range" kindref="compound">ColourRange</ref> &gt;</type>
+        <definition>using AGRemapCore::ColourOrRange = std::variant&lt;Colour, ColourRange&gt;</definition>
+        <argsstring></argsstring>
+        <name>ColourOrRange</name>
+        <qualifiedname>AGRemapCore::ColourOrRange</qualifiedname>
+        <briefdescription>
+<para>A single colour, or a range of colours. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="80" column="5" bodyfile="include/AGRemapCore/model/textures/ColourRange.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1aa2fa8122090a5aca56ae0d2c6d5836bc" prot="public" static="no">
+        <type>std::vector&lt; <ref refid="namespace_a_g_remap_core_1a36227a8c689f83010b8c0ef64524144d" kindref="member">ColourOrRange</ref> &gt;</type>
+        <definition>using AGRemapCore::ColourOrRangeSet = std::vector&lt;ColourOrRange&gt;</definition>
+        <argsstring></argsstring>
+        <name>ColourOrRangeSet</name>
+        <qualifiedname>AGRemapCore::ColourOrRangeSet</qualifiedname>
+        <briefdescription>
+<para>A collection of colours/colour ranges, used by filters to match against a pixel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="85" column="5" bodyfile="include/AGRemapCore/model/textures/ColourRange.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1a201bfae3c8a80329c6408df7d3244e6c" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename K</type>
+          </param>
+          <param>
+            <type>typename V</type>
+          </param>
+        </templateparamlist>
+        <type>std::vector&lt; std::variant&lt; K, <ref refid="class_a_g_remap_core_1_1_remapped_key_data" kindref="compound">RemappedKeyData</ref>&lt; K, V &gt; &gt; &gt;</type>
+        <definition>using AGRemapCore::RemapList = std::vector&lt;std::variant&lt;K, RemappedKeyData&lt;K, V&gt;&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>RemapList</name>
+        <qualifiedname>AGRemapCore::RemapList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A remap list: a sequence of remap rules for one old key, each either a plain new key
+(always fires, in place) or a :cpp:class:`RemappedKeyData` (conditional and/or
+repositioned). Shared by :cpp:class:`KeyRemapData` and
+:cpp:func:`BaseOrderedMultiMap::remapKeys` so both refer to the same type.
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in the owning ordered multimap </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in the owning ordered multimap </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="131" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1aa4d9539817b8611a57255429fd7fcb90" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename K</type>
+          </param>
+          <param>
+            <type>typename V</type>
+          </param>
+          <param>
+            <type>typename KeyHash</type>
+            <defval>std::hash&lt;K&gt;</defval>
+          </param>
+          <param>
+            <type>typename KeyEqual</type>
+            <defval>std::equal_to&lt;K&gt;</defval>
+          </param>
+        </templateparamlist>
+        <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter" kindref="compound">OrderedMultiMapAdapter</ref>&lt; <ref refid="class_a_g_remap_core_1_1_ordered_multi_map" kindref="compound">OrderedMultiMap</ref>&lt; K, V, KeyHash, KeyEqual &gt;, K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::OrderedMultiMapListAdapter = OrderedMultiMapAdapter&lt;OrderedMultiMap&lt;K, V, KeyHash, KeyEqual&gt;, K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>OrderedMultiMapListAdapter</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapListAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Shorthand for wrapping this project&apos;s own list-backed :cpp:class:`OrderedMultiMap` in an
+:cpp:class:`OrderedMultiMapAdapter`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="252" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1a954745954738c7a7642dcfd20196e796" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename K</type>
+          </param>
+          <param>
+            <type>typename V</type>
+          </param>
+          <param>
+            <type>typename KeyHash</type>
+            <defval>std::hash&lt;K&gt;</defval>
+          </param>
+          <param>
+            <type>typename KeyEqual</type>
+            <defval>std::equal_to&lt;K&gt;</defval>
+          </param>
+        </templateparamlist>
+        <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter" kindref="compound">OrderedMultiMapAdapter</ref>&lt; <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt" kindref="compound">OrderedMultiMapSqrt</ref>&lt; K, V, KeyHash, KeyEqual &gt;, K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::OrderedMultiMapSqrtAdapter = OrderedMultiMapAdapter&lt;OrderedMultiMapSqrt&lt;K, V, KeyHash, KeyEqual&gt;, K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>OrderedMultiMapSqrtAdapter</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrtAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Shorthand for wrapping this project&apos;s own sqrt-decomposed :cpp:class:`OrderedMultiMapSqrt`
+in an :cpp:class:`OrderedMultiMapAdapter`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="262" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespace_a_g_remap_core_1ae342200be5432178d9b17ba9be0979ce" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::GITransition</definition>
+        <argsstring></argsstring>
+        <name>GITransition</name>
+        <qualifiedname>AGRemapCore::GITransition</qualifiedname>
+        <initializer>= &quot;game:&quot; + std::to_string(static_cast&lt;int&gt;(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="40" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_a_g_remap_core_1adddf2f253947024ce6490784143a6bd8" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WuWaTransition</definition>
+        <argsstring></argsstring>
+        <name>WuWaTransition</name>
+        <qualifiedname>AGRemapCore::WuWaTransition</qualifiedname>
+        <initializer>= &quot;game:&quot; + std::to_string(static_cast&lt;int&gt;(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa872a3be216e846f86359c7d80662bff8" kindref="member">GameTypeId::WuWa</ref>))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="41" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::makeGIMICharFixer</definition>
+        <argsstring>(GIMICharFixerConfig config)</argsstring>
+        <name>makeGIMICharFixer</name>
+        <qualifiedname>AGRemapCore::makeGIMICharFixer</qualifiedname>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" kindref="compound">GIMICharFixerConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the fixer for a character with the **standard GIMI shape**, paired with
+:cpp:func:`makeGIMICharParser` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+What it does, for a remap onto a genuinely different model (a CN skin, or a skin&apos;s base
+character):
+
+#. remaps every ``hash`` with :cpp:class:`RegAssetRemap`, and every drawn object&apos;s
+   ``match_first_index`` with a **forward** lookup -- see :cpp:class:`RegAssetRemap`&apos;s own
+   warning for why the index cannot use the same tool
+#. rebuilds the ``Blend.buf`` through :cpp:class:`VGRemapBlendReplace`
+#. swaps the face&apos;s diffuse and lightmap registers with :cpp:class:`RegRemap` -- the cure for
+   the white cheek spots, GI 6.x having swapped which register the shader reads each out of --
+   and **hides the original face section**, the one thing it hides, because a CN pair shares
+   its ``tex_face_diffuse`` hash and the two would otherwise both bind
+#. drops the mod&apos;s own ``ORFix``/``NNFix`` calls and re-issues ``NNFix`` where it belongs
+#. renames each graph with the convention belonging to **its own kind**
+
+.. note::
+   This is **not** the shape for remapping onto a boss that shares the source&apos;s geometry --
+   that keeps the source&apos;s hashes and has to hide the originals instead. Raiden has her own
+   fixer for exactly that reason; see `Creating Remaps &lt;../CreatingRemaps/CLAUDE.md&gt;`_&apos;s
+   &quot;Two shapes of remap&quot;
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What this character does differently <ndash/> see <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" kindref="compound">GIMICharFixerConfig</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="1328" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="1328" bodyend="1332" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="647" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1afa90e717a5e7edeab5e5d9188ef93001" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::makeGIMIComponentFixer</definition>
+        <argsstring>(GIMIComponentFixerConfig config, std::string component)</argsstring>
+        <name>makeGIMIComponentFixer</name>
+        <qualifiedname>AGRemapCore::makeGIMIComponentFixer</qualifiedname>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config" kindref="compound">GIMIComponentFixerConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>component</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the fixer that remaps a classic-shape GIMI mod onto ONE component of a
+multi-component skin, from the config -- see :cpp:class:`GIMIComponentFixerConfig`
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Called once per component of the target, each result a row of :cpp:class:`IniFixBuilderData`
+keyed by that component&apos;s own :cpp:enum:`ModTypeId`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pair&apos;s config <ndash/> the same one for every component </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which of <computeroutput>config.components</computeroutput> this fixer is for, by name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="884" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="884" bodyend="888" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="246" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::makeGIMIMergeFixer</definition>
+        <argsstring>(GIMIMergeFixerConfig config)</argsstring>
+        <name>makeGIMIMergeFixer</name>
+        <qualifiedname>AGRemapCore::makeGIMIMergeFixer</qualifiedname>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config" kindref="compound">GIMIMergeFixerConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the fixer for a mod of a skin of SEVERAL components onto a single-component target
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+One fixer, not one per component: the target draws through ONE set of buffer hashes, so all of
+the source&apos;s components end up in one ``.ini`` file over one merged set of buffers
+(:cpp:class:`VGMergeGroupResource`). Several source slots landing on one target object become a
+single draw rather than a second file, which is what the merge&apos;s concatenated index buffers are
+for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   A target of several components -- a WuWa skin onto a WuWa skin -- is NOT this function&apos;s
+   shape and is deliberately left open. The pieces that would serve it are here though: the
+   slots name their target object by string, and :cpp:class:`VGComponentMerge` knows nothing
+   about the target at all
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="1366" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="1366" bodyend="1370" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="238" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::makeGIMICharParser</definition>
+        <argsstring>(GIMICharParserConfig config)</argsstring>
+        <name>makeGIMICharParser</name>
+        <qualifiedname>AGRemapCore::makeGIMICharParser</qualifiedname>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config" kindref="compound">GIMICharParserConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the parser for a character with the **standard GIMI shape**: drawn objects sharing one
+``ib`` and separated by ``match_first_index``, plus `blend`_/position/texcoord/ib named
+outright by their own hashes, plus ``(&quot;&quot;, &quot;other&quot;)`` and ``(&quot;&quot;, &quot;face&quot;)``
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Every mod object it produces:
+
+===================  ====================================================================
+Mod object           What it is
+===================  ====================================================================
+each of &apos;drawnObjs&apos;  a drawn part -- ``ib`` hash **plus** its own ``match_first_index``
+``(&quot;&quot;, &quot;ib&quot;)``       the shared draw call -- the ``ib`` hash and **no** index
+``(&quot;&quot;, &quot;blend&quot;)``    the ``Blend.buf`` the fix remaps
+``(&quot;&quot;, &quot;position&quot;)``
+``(&quot;&quot;, &quot;texcoord&quot;)``
+``(&quot;&quot;, &quot;other&quot;)``    ``draw_vb`` -- VertexLimitRaise, a hash swap and nothing else
+``(&quot;&quot;, &quot;face&quot;)``     ``tex_face_diffuse`` -- tracked so the fix can swap its REGISTERS
+===================  ====================================================================
+
+Pair it with :cpp:func:`makeGIMICharFixer`; the two agree on these names by hand, and neither
+half makes sense alone
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What this character does differently <ndash/> see <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config" kindref="compound">GIMICharParserConfig</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniParseData/GIMICharParser.cpp" line="326" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="326" bodyend="383" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="245" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a584e65cf26c955c00926e1dcbcfa8933" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::makeGIMIComponentParser</definition>
+        <argsstring>(GIMIComponentParserConfig config)</argsstring>
+        <name>makeGIMIComponentParser</name>
+        <qualifiedname>AGRemapCore::makeGIMIComponentParser</qualifiedname>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config" kindref="compound">GIMIComponentParserConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the parser for a mod of a skin made of SEVERAL components :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+:cpp:func:`makeGIMICharParser` cannot express one: its mod objects are all ``(&quot;&quot;, obj)``, its
+index map has the single key ``ib``, and its hash filter names one mod type -- while a
+multi-component skin files each component&apos;s hashes under that COMPONENT&apos;s mod type name. So this
+builds **one classifier per component**, each filtered to its own name, and a section is offered
+to each in turn; a hash value is unique to one character, so at most one answers
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The mod objects it produces are ``(component, kind)`` -- ``(&quot;Body&quot;, &quot;blend&quot;)``,
+``(&quot;Bang&quot;, &quot;position&quot;)`` -- and ``(component, slot)`` for a drawn object, which is what lets a
+fixer address one component&apos;s buffers without touching another&apos;s. The ``match_first_index`` of a
+drawn object is resolved from :cpp:member:`GIMIComponentParserConfig::Slot::index` rather than
+through :cpp:class:`Indices`; see there for why
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniParseData/GIMIComponentParser.cpp" line="318" column="30" bodyfile="src/data/IniParseData/GIMIComponentParser.cpp" bodystart="318" bodyend="334" declfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" declline="186" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a691d142e23d6f610f8f9831ce21bce5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::renderIfContentPart</definition>
+        <argsstring>(const IfContentPart&lt; std::string, std::string &gt; &amp;part, const std::string &amp;linePrefix=&quot;&quot;)</argsstring>
+        <name>renderIfContentPart</name>
+        <qualifiedname>AGRemapCore::renderIfContentPart</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref>&lt; std::string, std::string &gt; &amp;</type>
+          <declname>part</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>linePrefix</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Renders one :cpp:class:`IfContentPart` as ``.ini`` text -- one ``key = value`` line per KVP,
+in true positional order
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>part</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The part to render </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>linePrefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prepended to every line <ndash/> indentation, or a comment marker</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The rendered lines, joined by <computeroutput>"\n"</computeroutput> with no trailing newline </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/iftemplate/IfTemplateRender.cpp" line="23" column="17" bodyfile="src/model/iftemplate/IfTemplateRender.cpp" bodystart="23" bodyend="42" declfile="include/AGRemapCore/model/iftemplate/IfTemplateRender.h" declline="37" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a8c4d94255932b5ce14e08272853059fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::renderIfTemplate</definition>
+        <argsstring>(IfTemplate&lt; std::string, std::string &gt; &amp;section, const std::string &amp;linePrefix=&quot;&quot;, bool autoindent=true)</argsstring>
+        <name>renderIfTemplate</name>
+        <qualifiedname>AGRemapCore::renderIfTemplate</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string &gt; &amp;</type>
+          <declname>section</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>linePrefix</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>autoindent</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Renders one :cpp:class:`IfTemplate` -- a whole ``.ini`` `section`_ -- as text
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Free functions, not methods.** Neither :cpp:class:`IfTemplate` nor
+:cpp:class:`IfContentPart` has a ``toStr`` of its own, and that is deliberate: what a
+`section`_ looks like is the caller&apos;s business, which is why
+:cpp:type:`GIMIFixer::SectionToStr` is a callback rather than a virtual. These are the
+*default* answer a caller can reach for -- :cpp:func:`IniFixBuilder::defaultFactory` passes
+this one -- not an answer forced on every caller :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Lifted from the pybind11 layer&apos;s own ``IfTemplate.toStr`` binding, which was already C++
+working on this exact instantiation, but rendered each content part by calling back into
+`Python`_. That round-trip is why a core-only caller had no renderer at all
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>section</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>section</computeroutput>_ to render </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>linePrefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prepended to every line <ndash/> indentation, or a comment marker </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>autoindent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether to indent the body of each ``if``/``elif``/``else`` block by one tab per level.
+``endif`` and ``elif``/``else`` dedent before they are written, so they line up with their
+opening ``if``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The rendered <computeroutput>section</computeroutput>_, joined by <computeroutput>"\n"</computeroutput> with no trailing newline </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/iftemplate/IfTemplateRender.cpp" line="45" column="17" bodyfile="src/model/iftemplate/IfTemplateRender.cpp" bodystart="45" bodyend="102" declfile="include/AGRemapCore/model/iftemplate/IfTemplateRender.h" declline="69" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1ab8a2e9664037aee26807d0e777ae4568" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::fixVGMergeGroup</definition>
+        <argsstring>(IniGroupedResource &amp;group, const VGMergeGroupConfig &amp;config, BaseLogger *logger)</argsstring>
+        <name>fixVGMergeGroup</name>
+        <qualifiedname>AGRemapCore::fixVGMergeGroup</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref> &amp;</type>
+          <declname>group</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_v_g_merge_group_config" kindref="compound">VGMergeGroupConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_logger" kindref="compound">BaseLogger</ref> *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Merges a multi-component mod&apos;s buffers onto a single-component target, as a fix over a group of
+resources -- the inverse of :cpp:func:`fixVGSplitGroup` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The buffers cannot be fixed one at a time: every component&apos;s index buffer shifts by the vertices
+of the components before it, so an index buffer written without knowing the others is wrong. So
+the members are fixed together, from the one :cpp:class:`VGComponentMerge` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Members are told apart by :cpp:member:`IniResource::type`, exactly as the split does it:
+``blend``, ``position`` and ``texcoord`` (at most one each -- the merged buffer is bound to the
+target&apos;s single hash) and ``buf`` (the index buffers, matched to
+:cpp:member:`VGMergeObject::srcPath`). A target object whose component sits at offset 0 and
+draws one source object needs no member at all: its index buffer is already right
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>group</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of resources </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source&apos;s components and the target&apos;s objects </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where to narrate, or <computeroutput>nullptr</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If the group has no blend member, or a member&apos;s source path is not one of the objects&apos;</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether anything was written </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/iniresources/VGMergeGroupResource.cpp" line="49" column="10" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="49" bodyend="149" declfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" declline="135" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a27bf55b7bda9b241d64b7ce37fd368a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::fixVGSplitGroup</definition>
+        <argsstring>(IniGroupedResource &amp;group, const VGSplitGroupConfig &amp;config, BaseLogger *logger)</argsstring>
+        <name>fixVGSplitGroup</name>
+        <qualifiedname>AGRemapCore::fixVGSplitGroup</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref> &amp;</type>
+          <declname>group</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config" kindref="compound">VGSplitGroupConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_logger" kindref="compound">BaseLogger</ref> *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Splits a mod&apos;s buffers for one component of a multi-component target, as a fix over a group of
+resources -- the resource-group counterpart of :cpp:class:`RemapBlendResource` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A mod&apos;s ``Blend.buf``, ``Position.buf``, ``Texcoord.buf`` and ``.ib`` files cannot be fixed one
+at a time here: the blend decides which vertices a component keeps, the index buffers decide
+which triangles, and every vertex buffer then has to follow the same vertex set, renumbered the
+same way (issue #190). So the members are fixed together, from the one :cpp:class:`VGComponentSplit`
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Members are told apart by :cpp:member:`IniResource::type`: ``blend`` (exactly one), ``position``
+and ``texcoord`` (at most one each) and ``buf`` (the index buffers, any number, matched to
+:cpp:member:`VGSplitGroupConfig::ibPaths` by source path). Every member is an
+:cpp:class:`IniFixResource`, read from its ``srcPath`` and written to its ``fixedPath``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>group</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of resources </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What to split and for which component </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where to narrate, or <computeroutput>nullptr</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If the group has no blend member, or a vertex buffer&apos;s size is not a whole number of lines</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether anything was written </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="78" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="78" bodyend="156" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="102" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1acfa9613659a36bc4765c5f2fca7f218f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::matchesColourOrRange</definition>
+        <argsstring>(const ColourOrRange &amp;colourOrRange, const Colour &amp;colour)</argsstring>
+        <name>matchesColourOrRange</name>
+        <qualifiedname>AGRemapCore::matchesColourOrRange</qualifiedname>
+        <param>
+          <type>const <ref refid="namespace_a_g_remap_core_1a36227a8c689f83010b8c0ef64524144d" kindref="member">ColourOrRange</ref> &amp;</type>
+          <declname>colourOrRange</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref> &amp;</type>
+          <declname>colour</declname>
+        </param>
+        <briefdescription>
+<para>Whether &apos;colour&apos; matches &apos;colourOrRange&apos; (a single colour needs an exact match; a colour range needs the colour to fall within it). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>colourOrRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The single colour or colour range to check against </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>colour</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The colour to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/textures/ColourRange.cpp" line="35" column="10" bodyfile="src/model/textures/ColourRange.cpp" bodystart="35" bodyend="40" declfile="include/AGRemapCore/model/textures/ColourRange.h" declline="94" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a256e3ebef644e38a45c16d4f9b8876f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename K</type>
+          </param>
+          <param>
+            <type>typename V</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void AGRemapCore::appendAll</definition>
+        <argsstring>(IOrderedMultiMap&lt; K, V &gt; &amp;target, const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;items)</argsstring>
+        <name>appendAll</name>
+        <qualifiedname>AGRemapCore::appendAll</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt; &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;</type>
+          <declname>items</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Appends every ``(key, value)`` pair to any :cpp:class:`IOrderedMultiMap` implementation, in
+order -- a small example of code written once against the interface, working identically
+whether ``target`` is `CRTP`_-backed (via :cpp:class:`OrderedMultiMapAdapter`) or a
+user-supplied implementation, including one implemented from `Python`_.
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in the map </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in the map</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The map to append to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>items</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key-value pairs to append, in order </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="520" column="10" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="520" bodyend="524"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a0ec4dc0deddc5ddac478dbffc0c9b927" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::testFunc</definition>
+        <argsstring>()</argsstring>
+        <name>testFunc</name>
+        <qualifiedname>AGRemapCore::testFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/IntTools.cpp" line="100" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="100" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a14d658428852bf6ddb848d3f6280f030" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::testFunc2</definition>
+        <argsstring>()</argsstring>
+        <name>testFunc2</name>
+        <qualifiedname>AGRemapCore::testFunc2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/IntTools.cpp" line="136" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="136" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1aace382958ef0df880b378c4cb4c5f9ce" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::testFunc3</definition>
+        <argsstring>()</argsstring>
+        <name>testFunc3</name>
+        <qualifiedname>AGRemapCore::testFunc3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/IntTools.cpp" line="152" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="152" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a581bf633d73c25bcafbed2114415677d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::testFunc4</definition>
+        <argsstring>()</argsstring>
+        <name>testFunc4</name>
+        <qualifiedname>AGRemapCore::testFunc4</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/IntTools.cpp" line="168" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="168" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a5c6396508ceb6d71a03ad54fe3ee7fcc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::testFunc6</definition>
+        <argsstring>()</argsstring>
+        <name>testFunc6</name>
+        <qualifiedname>AGRemapCore::testFunc6</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/IntTools.cpp" line="179" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="179" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1aa6e5418f03174b1d22a058fedc62271c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::testFunc7</definition>
+        <argsstring>()</argsstring>
+        <name>testFunc7</name>
+        <qualifiedname>AGRemapCore::testFunc7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/IntTools.cpp" line="187" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="187" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a1637273fe1b7edf5229713a10ead6a30" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref></type>
+        <definition>Z3Predicate AGRemapCore::makeZ3PredicateForTesting</definition>
+        <argsstring>(std::unique_ptr&lt; Z3Predicate::Impl &gt; impl)</argsstring>
+        <name>makeZ3PredicateForTesting</name>
+        <qualifiedname>AGRemapCore::makeZ3PredicateForTesting</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate_1_1_impl" kindref="compound">Z3Predicate::Impl</ref> &gt;</type>
+          <declname>impl</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/z3/Z3Internal.h" line="90" column="24" bodyfile="src/tools/z3/Z3Internal.h" bodystart="90" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1ac4d9a901b0ff67e882e65c83b61a92c8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_z3_context_1_1_impl" kindref="compound">Z3Context::Impl</ref> &amp;</type>
+        <definition>Z3Context::Impl &amp; AGRemapCore::getZ3ContextImplForTesting</definition>
+        <argsstring>(Z3Context &amp;ctx)</argsstring>
+        <name>getZ3ContextImplForTesting</name>
+        <qualifiedname>AGRemapCore::getZ3ContextImplForTesting</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/z3/Z3Internal.h" line="96" column="28" bodyfile="src/tools/z3/Z3Internal.h" bodystart="96" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a18dc822e5cb6e69908f85249f8c6588d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="class_a_g_remap_core_1_1_z3_predicate_1_1_impl" kindref="compound">Z3Predicate::Impl</ref> &amp;</type>
+        <definition>const Z3Predicate::Impl &amp; AGRemapCore::getZ3PredicateImplForTesting</definition>
+        <argsstring>(const Z3Predicate &amp;predicate)</argsstring>
+        <name>getZ3PredicateImplForTesting</name>
+        <qualifiedname>AGRemapCore::getZ3PredicateImplForTesting</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/z3/Z3Internal.h" line="100" column="36" bodyfile="src/tools/z3/Z3Internal.h" bodystart="100" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/DownloadMode.h" line="21" column="1"/>
+  </compounddef>
+</doxygen>

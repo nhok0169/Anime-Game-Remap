@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_remap_rule" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMICharFixerConfig::RegRemapRule</compoundname>
+    <includes refid="_g_i_m_i_char_fixer_8h" local="no">GIMICharFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_remap_rule_1a46c9ad41fbe2a6b8a0e3ef3af1227b63" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharFixerConfig::RegRemapRule::from</definition>
+        <argsstring></argsstring>
+        <name>from</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::RegRemapRule::from</qualifiedname>
+        <briefdescription>
+<para>The register being renamed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="127" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_remap_rule_1ac565eba1970e298952ca139decbeb165" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_ref" kindref="compound">RegRef</ref> &gt;</type>
+        <definition>std::vector&lt;RegRef&gt; AGRemapCore::GIMICharFixerConfig::RegRemapRule::to</definition>
+        <argsstring></argsstring>
+        <name>to</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::RegRemapRule::to</qualifiedname>
+        <briefdescription>
+<para>What it becomes <ndash/> one entry per register it ends up on. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="132" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_remap_rule_1ac8c6dfe1cf25884c4d165febc991bca7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GIMICharFixerConfig::RegRemapRule::keepIfNoneMatch</definition>
+        <argsstring></argsstring>
+        <name>keepIfNoneMatch</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::RegRemapRule::keepIfNoneMatch</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether an occurrence that no conditional target matched keeps its ORIGINAL register
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Only meaningful when \ref to carries checks, and then it is usually what you want: a
+rename that fires on lightmaps should leave a diffuse sitting on the same slot alone
+rather than DELETING it, which is what happens by default when nothing matches
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="145" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_remap_rule_1a117bc06d58770929ac031e27ceac4729" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GIMICharFixerConfig::RegRemapRule::RegRemapRule</definition>
+        <argsstring>(std::string from, std::vector&lt; RegRef &gt; to, bool keepIfNoneMatch=false)</argsstring>
+        <name>RegRemapRule</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::RegRemapRule::RegRemapRule</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_ref" kindref="compound">RegRef</ref> &gt;</type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>keepIfNoneMatch</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a rename. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register being renamed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What it becomes <ndash/> one entry per register it ends up on </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keepIfNoneMatch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_remap_rule_1ac8c6dfe1cf25884c4d165febc991bca7" kindref="member">keepIfNoneMatch</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="121" column="13" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="121" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+One register rename inside \ref GIMICharFixerConfig::objRegRemaps
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Written ``{&quot;ps-t0&quot;, {&quot;ps-t0&quot;, &quot;ps-t2&quot;}}`` for the ordinary case -- one register
+becoming two -- and with \ref keepIfNoneMatch when the targets are conditional
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="112" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="112" bodyend="146"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_remap_rule_1a46c9ad41fbe2a6b8a0e3ef3af1227b63" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::RegRemapRule</scope><name>from</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_remap_rule_1ac8c6dfe1cf25884c4d165febc991bca7" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::RegRemapRule</scope><name>keepIfNoneMatch</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_remap_rule_1a117bc06d58770929ac031e27ceac4729" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::RegRemapRule</scope><name>RegRemapRule</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_reg_remap_rule_1ac565eba1970e298952ca139decbeb165" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::RegRemapRule</scope><name>to</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

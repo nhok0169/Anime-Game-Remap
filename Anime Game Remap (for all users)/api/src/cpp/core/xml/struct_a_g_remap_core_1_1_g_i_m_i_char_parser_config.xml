@@ -1,0 +1,282 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMICharParserConfig</compoundname>
+    <includes refid="_g_i_m_i_char_parser_8h" local="no">GIMICharParser.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs" prot="public">AGRemapCore::GIMICharParserConfig::ObjDownloadRegs</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a0b82cf694088de0d54d7e607a7f48f9f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref></type>
+        <definition>ModTypeId AGRemapCore::GIMICharParserConfig::modTypeId</definition>
+        <argsstring></argsstring>
+        <name>modTypeId</name>
+        <qualifiedname>AGRemapCore::GIMICharParserConfig::modTypeId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Which mod type this parses, used for the :cpp:class:`VertexCountData` lookup the downloaded
+`blend`_ needs
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="46" column="19" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a479b381ad840ba34afa440c492a13bd1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharParserConfig::downloadCharFolder</definition>
+        <argsstring></argsstring>
+        <name>downloadCharFolder</name>
+        <qualifiedname>AGRemapCore::GIMICharParserConfig::downloadCharFolder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The character&apos;s folder under ``Data/Mod Downloads/GI/``, eg. ``&quot;Amber&quot;``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="54" column="21" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1acdbdb85eea2b597cfbfd2d65634c316a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharParserConfig::downloadVersionFolder</definition>
+        <argsstring></argsstring>
+        <name>downloadVersionFolder</name>
+        <qualifiedname>AGRemapCore::GIMICharParserConfig::downloadVersionFolder</qualifiedname>
+        <briefdescription>
+<para>The version subfolder inside it, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>"4_0"</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="59" column="21" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a0dd3ccb86bc2df912cccf9c2c560a94e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharParserConfig::downloadPrefix</definition>
+        <argsstring></argsstring>
+        <name>downloadPrefix</name>
+        <qualifiedname>AGRemapCore::GIMICharParserConfig::downloadPrefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The prefix every file in that folder carries, eg. ``&quot;Amber&quot;`` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. warning::
+   **Separate from** \ref downloadCharFolder **on purpose, and not derivable from it.**
+   ``Raiden/`` holds ``RaidenShogun``-prefixed files, and one character&apos;s version
+   subfolders can disagree with each other. Read it off the folder&apos;s own contents
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="73" column="21" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1abccbd875434008aef0f29b5ca312134c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::GIMICharParserConfig::drawnObjs</definition>
+        <argsstring></argsstring>
+        <name>drawnObjs</name>
+        <qualifiedname>AGRemapCore::GIMICharParserConfig::drawnObjs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The objects that actually draw, lowercase and **in the order the game draws them** --
+``{&quot;head&quot;, &quot;body&quot;}``, or ``{&quot;head&quot;, &quot;body&quot;, &quot;dress&quot;, &quot;extra&quot;}`` for a character with more
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+They all share one ``ib`` hash and are told apart by the ``match_first_index`` that follows
+it, which is what :cpp:class:`Indices` is keyed by
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="86" column="21" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a393b1b10817618c86a42c8fdaac6c308" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::GIMICharParserConfig::texcoordStride</definition>
+        <argsstring></argsstring>
+        <name>texcoordStride</name>
+        <qualifiedname>AGRemapCore::GIMICharParserConfig::texcoordStride</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The byte size of one texcoord vertex -- **per character**, and worth checking rather than
+copying: Amber and Mona are ``12`` where Rosaria is ``20`` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   A literal because there is no C++ ``TexcoordByteSizeData`` yet, only
+   ``api/src/py/FixRaidenBoss2/data/TexcoordByteSizeData.py``, which this layer cannot
+   read. Worth porting once enough characters need it
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="101" column="13" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ab76766997c1f58f25e28583f537330b1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::GIMICharParserConfig::objsWithoutLightMap</definition>
+        <argsstring></argsstring>
+        <name>objsWithoutLightMap</name>
+        <qualifiedname>AGRemapCore::GIMICharParserConfig::objsWithoutLightMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Drawn objects that have **no lightmap** to download :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Every drawn object otherwise gets a diffuse, a lightmap and an ib declared for it, and
+a declaration whose file is not in ``Data/Mod Downloads/GI/&lt;char&gt;/&lt;version&gt;/`` writes
+a resource section naming a file nothing will ever fetch -- a dangling reference the
+``.ini`` text cannot show you :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: empty. Exactly one object in the whole asset tree needs this
+(CherryHuTao&apos;s ``extra`` at 5.3), so check the folder before reaching for it rather
+than assuming the character is like her
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="119" column="21" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ab0c8df44e6253b48f5b4bc4bc404e063" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs" kindref="compound">ObjDownloadRegs</ref> &gt;</type>
+        <definition>std::vector&lt;ObjDownloadRegs&gt; AGRemapCore::GIMICharParserConfig::objDownloadRegs</definition>
+        <argsstring></argsstring>
+        <name>objDownloadRegs</name>
+        <qualifiedname>AGRemapCore::GIMICharParserConfig::objDownloadRegs</qualifiedname>
+        <briefdescription>
+<para>Per-object register overrides for downloaded textures <ndash/> see <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs" kindref="compound">ObjDownloadRegs</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="173" column="21" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ad056881c921d745486a96e205519389b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharParserConfig::faceDownloadVersionFolder</definition>
+        <argsstring></argsstring>
+        <name>faceDownloadVersionFolder</name>
+        <qualifiedname>AGRemapCore::GIMICharParserConfig::faceDownloadVersionFolder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The version folder the FACE diffuse download lives in, when it is not the one the rest of
+this character&apos;s assets are in -- empty (the usual case) means \ref downloadVersionFolder
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Not a rule, a per-character fact, and a narrow one: of the 44 characters in
+``Data/Mod Downloads/GI`` exactly THREE file their face diffuse somewhere other than
+alongside the rest -- AyakaSpringbloom, Nilou and LisaStudent, all of whom keep it under
+``5_4`` while everything else sits in ``4_0``. Get it wrong and the download 404s, which
+is invisible until a mod turns up with no face section of its own for the fix to use
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="189" column="21" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a832770365a55d004dd36167bcafc22be" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharParserConfig::faceDownloadPrefix</definition>
+        <argsstring></argsstring>
+        <name>faceDownloadPrefix</name>
+        <qualifiedname>AGRemapCore::GIMICharParserConfig::faceDownloadPrefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The file-name prefix of the FACE diffuse download, when it is not \ref downloadPrefix --
+empty (the usual case) means that one :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Exists because one character&apos;s assets disagree with themselves:
+``AyakaSpringBloomBodyDiffuse.dds`` but ``AyakaSpringbloomFaceDiffuse.dds`` -- capital B
+for everything except the face, which took its spelling from the folder instead. A raw
+GitHub URL is case-sensitive, so this is a 404 and not a near miss
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="203" column="21" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a4499e0e3038ed4e6ca7ca7518635a671" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::GIMICharParserConfig::positionStride</definition>
+        <argsstring></argsstring>
+        <name>positionStride</name>
+        <qualifiedname>AGRemapCore::GIMICharParserConfig::positionStride</qualifiedname>
+        <initializer>= 40</initializer>
+        <briefdescription>
+<para>The byte size of one position vertex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>40</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="208" column="13" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a210742a15bd061a466663fee1ca17683" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::GIMICharParserConfig::blendStride</definition>
+        <argsstring></argsstring>
+        <name>blendStride</name>
+        <qualifiedname>AGRemapCore::GIMICharParserConfig::blendStride</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+<para>The byte size of one <computeroutput>blend</computeroutput>_ vertex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>32</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="213" column="13" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What one character&apos;s ``.ini`` file looks like, for the **standard GIMI character shape** --
+everything :cpp:func:`makeGIMICharParser` needs that is not the same for every character
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Deliberately small. If you find yourself wanting to add a field for something only one
+character does, that character probably wants a parser of its own instead -- Raiden has one
+(`RaidenParser`), because a boss remap is a different shape rather than a variation on this one
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="38" column="5" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="38" bodyend="214"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a210742a15bd061a466663fee1ca17683" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig</scope><name>blendStride</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a479b381ad840ba34afa440c492a13bd1" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig</scope><name>downloadCharFolder</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a0dd3ccb86bc2df912cccf9c2c560a94e" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig</scope><name>downloadPrefix</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1acdbdb85eea2b597cfbfd2d65634c316a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig</scope><name>downloadVersionFolder</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1abccbd875434008aef0f29b5ca312134c" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig</scope><name>drawnObjs</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a832770365a55d004dd36167bcafc22be" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig</scope><name>faceDownloadPrefix</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ad056881c921d745486a96e205519389b" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig</scope><name>faceDownloadVersionFolder</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a0b82cf694088de0d54d7e607a7f48f9f" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig</scope><name>modTypeId</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ab0c8df44e6253b48f5b4bc4bc404e063" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig</scope><name>objDownloadRegs</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ab76766997c1f58f25e28583f537330b1" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig</scope><name>objsWithoutLightMap</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a4499e0e3038ed4e6ca7ca7518635a671" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig</scope><name>positionStride</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a393b1b10817618c86a42c8fdaac6c308" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig</scope><name>texcoordStride</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

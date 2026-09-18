@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_a_g_remap_core_1_1_0d034113160116135222247300245255320177064067176266" kind="namespace" language="C++">
+    <compoundname>AGRemapCore::@034113160116135222247300245255320177064067176266</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="26" column="5"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,239 @@
+#ifndef AGRemapCore_FileService_H
+#define AGRemapCore_FileService_H
+
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
+#include <filesystem>
+#include <optional>
+#include <string>
+#include <utility>
+#include <vector>
+#include "AGRemapCore/tools/files/FileService.h"
+
+
+namespace AGRemapCore {
+
+    /**
+     * @brief
+     @rst
+     Tools for handling with files and folders :raw-html:`<br />` :raw-html:`<br />`
+
+     .. note::
+        This is a **partial** port of the pure-Python ``FileService`` class
+        (``tools/files/FileService.py``) -- only #absPathOfRelPath is included so far, since it's
+        the one method the ``iniresources`` model classes need. Add more methods as later-ported
+        subsystems need them
+     @endrst
+     */
+    class FileService {
+        public:
+
+            /**
+             * @brief
+             @rst
+             A ``std::filesystem::path`` as a **UTF-8** ``std::string``
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             .. danger::
+                **Use this instead of** ``path.string()`` **, always.** On Windows ``string()``
+                converts through the process's *active code page*, which throws
+                ``std::system_error`` ("No mapping for the Unicode character exists in the target
+                multi-byte code page") the moment a path holds a character that page cannot
+                represent -- and there is no such character in most code pages for, say, a Chinese
+                file name :raw-html:`<br />` :raw-html:`<br />`
+
+                That is not hypothetical: a real Mona CN mod ships a file called ``命令.txt``, and
+                it took down the **entire run** -- the folder walk threw before a single ``.ini``
+                file was fixed. Measured, the same path gives ``string()`` -> throws and
+                ``u8string()`` -> 17 correct UTF-8 bytes
+             @endrst
+             *
+             * @param path The path to convert
+             */
+            static std::string pathToStr(const std::filesystem::path& path);
+
+            /**
+             * @brief
+             @rst
+             A ``std::filesystem::path`` built from a **UTF-8** ``std::string`` -- the inverse of
+             \ref pathToStr :raw-html:`<br />` :raw-html:`<br />`
+
+             .. danger::
+                **Use this instead of** ``std::filesystem::path(str)`` **, and instead of passing a
+                narrow string straight to a** ``std::filesystem`` **function or an** ``fstream``.
+                Those all read the bytes as the active code page, so a UTF-8 name round-trips into a
+                *different* path -- silently, and usually into "file not found" rather than an error
+                that says what happened
+             @endrst
+             *
+             * @param path The UTF-8 path to convert
+             */
+            static std::filesystem::path strToPath(const std::string& path);
+
+            /**
+             * @brief
+             @rst
+             Like :cpp:func:`pathToStr`, but for a path about to be WRITTEN INTO a ``.ini`` file
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A ``.ini`` is consumed by a Windows game, so the separator in it is a backslash no
+             matter which OS produced the file. ``std::filesystem`` joins with the NATIVE one, so
+             without this a mod fixed on Linux comes out holding ``./Sub/tex.dds`` where the same
+             fix on Windows writes ``.\Sub\tex.dds`` -- a pointless difference in a file the user
+             may well carry between machines, and one that makes the two platforms' output
+             impossible to compare byte for byte :raw-html:`<br />` :raw-html:`<br />`
+
+             Reading such a path back is :cpp:func:`strToPath`'s job, which understands the
+             backslash on POSIX as well
+             @endrst
+             *
+             * @param path The path to render for a ``.ini``
+             *
+             * @return The path as UTF-8, separated the way the game expects
+             */
+            static std::string pathToIniStr(const std::filesystem::path& path);
+
+
+            /**
+             * @brief
+             @rst
+             Retrieves the absolute path of a (possibly relative) file path with respect to a
+             certain folder :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                Unlike the pure-Python original (which always normalizes through Windows-style
+                ``ntpath`` rules first, then swaps in the host OS's separator), this uses
+                ``std::filesystem`` directly and returns the host platform's own native separator
+                style throughout -- matching this codebase's existing precedent (see
+                :cpp:class:`IniNamingTools`'s own path-joining methods) rather than replicating
+                Python's Windows-first normalization quirk
+
+             .. note::
+                An empty 'relFolder' is the working directory, as in the pure-Python original --
+                which is what an ``.ini`` file with no path resolves its resources against
+             @endrst
+             *
+             * @param dstPath The target file path to resolve
+             * @param relFolder The folder 'dstPath' is relative to, if it isn't already absolute
+             *
+             * @return The absolute path for 'dstPath'
+             */
+            static std::string absPathOfRelPath(const std::string& dstPath, const std::string& relFolder);
+
+            /**
+             * @brief
+             @rst
+             The folder the software was started from :raw-html:`<br />` :raw-html:`<br />`
+
+             Ports the pure-Python ``FilePathConsts.DefaultPath``
+             (``constants/FilePathConsts.py``), including its *when* -- that constant is the
+             process's working directory as it stood when the package was first imported, **not**
+             whatever the working directory happens to be at the moment it's read. So this is
+             captured once, on the first call, and every later call gets that same answer even if
+             something has since called ``chdir``
+             @endrst
+             *
+             * @return The folder the software was started from
+             */
+            static const std::string& defaultPath();
+
+            /**
+             * @brief
+             @rst
+             Normalizes a string containing some sort of file path :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Carries the same caveat as :cpp:func:`absPathOfRelPath`: the pure-Python original
+             normalizes through Windows-style ``ntpath`` rules and then swaps in the host OS's
+             separator, whereas this uses ``std::filesystem`` directly and stays in the host
+             platform's own native separator style throughout
+             @endrst
+             *
+             * @param path The string containing some sort of file path
+             *
+             * @return The normalized file path
+             */
+            static std::string parseOSPath(const std::string& path);
+
+            /**
+             * @brief
+             @rst
+             Retrieves a file path, falling back to :cpp:func:`defaultPath` when none was given
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Ports the pure-Python ``FileService.getPath``/``FilePathConsts.getPath``
+             @endrst
+             *
+             * @param path The file path to retrieve, if any
+             *
+             * @return 'path' when it has a value, and :cpp:func:`defaultPath` otherwise
+             */
+            static std::string getPath(const std::optional<std::string>& path);
+
+            /**
+             * @brief
+             @rst
+             Retrieves the files and folders contained in a certain folder :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Ports the pure-Python ``FileService.getFilesAndDirs``, including its two rather
+             different shapes: non-recursively this lists only the folder's *direct* children,
+             while recursively it is an ``os.walk`` -- every descendant file and every descendant
+             folder, at any depth, flattened into the same two lists :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A folder that cannot be read (it doesn't exist, or the OS refuses) yields two empty
+             lists rather than throwing, matching how :cpp:func:`RemapService::fix` treats an
+             unreadable folder as simply having nothing to visit :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Both lists come back in **one fixed order on every OS and filesystem** --- Windows'
+             --- rather than the order the filesystem enumerates in, which on ext4 is a hash order
+             that differs between machines. The order reaches :cpp:class:`RemapService`'s output
+             (which ``.ini`` of a folder is fixed first, which mod is visited last), so it has to be
+             the same everywhere. Names compare with their ASCII letters folded to upper case, as NTFS
+             collates them, and a recursive walk is pre-order: a folder, everything under it, then
+             its next sibling
+             @endrst
+             *
+             * @param path The folder to look inside
+             * @param recursive Whether to recursively check every folder underneath 'path'
+             *
+             * @return The files within the folder, then the folders within it
+             */
+            static std::pair<std::vector<std::string>, std::vector<std::string>> getFilesAndDirs(const std::string& path,
+                                                                                                bool recursive = false);
+
+            /**
+             * @brief
+             @rst
+             Tries to get the path of a file/folder relative to another folder :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Ports the pure-Python ``FileService.getRelPath``, including its fallback: when no
+             relative path exists -- eg. the two paths sit on different mounts (a ``C:/`` drive
+             file against a ``D:/`` drive folder) -- the original path is handed back untouched
+             rather than an error being raised
+             @endrst
+             *
+             * @param path The file/folder to get the relative path of
+             * @param start The folder 'path' should be expressed relative to
+             *
+             * @return 'path' relative to 'start', or 'path' itself when that isn't possible
+             */
+            static std::string getRelPath(const std::string& path, const std::string& start);
+    };
+}
+
+#endif

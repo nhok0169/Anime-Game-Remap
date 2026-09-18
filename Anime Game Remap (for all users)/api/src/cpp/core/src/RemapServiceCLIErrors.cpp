@@ -1,0 +1,72 @@
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
+#include "AGRemapCore/RemapServiceCLIErrors.h"
+
+#include <utility>
+
+
+namespace AGRemapCore {
+
+    // The "ERROR: " prefix is the pure-Python 'Error' base class's, not this exception's own --
+    // every exception in that hierarchy carries it, so a message built here without it would read
+    // differently from the same failure raised on the Python side.
+    std::string InvalidModType::buildMessage(const std::string& modType) {
+        return "ERROR: Unable to find the type of mod by the search string, '" + modType + "'";
+    }
+
+    InvalidModType::InvalidModType(std::string modType):
+        std::runtime_error(buildMessage(modType)), modType_(std::move(modType)) {}
+
+    const std::string& InvalidModType::modType() const {
+        return modType_;
+    }
+
+
+    std::string InvalidDownloadMode::buildMessage(const std::string& downloadMode) {
+        return "ERROR: Unable to find the download mode by the string, '" + downloadMode + "'";
+    }
+
+    InvalidDownloadMode::InvalidDownloadMode(std::string downloadMode):
+        std::runtime_error(buildMessage(downloadMode)), downloadMode_(std::move(downloadMode)) {}
+
+    const std::string& InvalidDownloadMode::downloadMode() const {
+        return downloadMode_;
+    }
+
+
+    // Worded off InvalidModType's rather than InvalidDownloadMode's: a game, like a mod type, is
+    // named by a name OR an alias, so "search string" is the accurate word for what failed.
+    std::string InvalidGameType::buildMessage(const std::string& gameType) {
+        return "ERROR: Unable to find the type of game by the search string, '" + gameType + "'";
+    }
+
+    InvalidGameType::InvalidGameType(std::string gameType):
+        std::runtime_error(buildMessage(gameType)), gameType_(std::move(gameType)) {}
+
+    const std::string& InvalidGameType::gameType() const {
+        return gameType_;
+    }
+
+
+    // No "ERROR: " prefix and no mention of the offending string, both deliberate: the pure-Python
+    // original raised a plain ValueError with exactly this sentence, and it is worth staying
+    // word-for-word since it is the one that tells a user WHAT a valid version looks like.
+    InvalidVersion::InvalidVersion(std::string version):
+        std::runtime_error("Please enter a valid version that conforms to PEP 440 for the game version"),
+        version_(std::move(version)) {}
+
+    const std::string& InvalidVersion::version() const {
+        return version_;
+    }
+}

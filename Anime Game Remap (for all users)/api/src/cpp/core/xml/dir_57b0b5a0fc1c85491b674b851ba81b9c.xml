@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_57b0b5a0fc1c85491b674b851ba81b9c" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/ShenheFrostFlower</compoundname>
+    <innerfile refid="_shenhe_frost_flower_parser_8h">ShenheFrostFlowerParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/ShenheFrostFlower/"/>
+  </compounddef>
+</doxygen>

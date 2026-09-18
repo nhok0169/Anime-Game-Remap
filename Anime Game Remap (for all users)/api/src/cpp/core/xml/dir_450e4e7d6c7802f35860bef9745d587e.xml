@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_450e4e7d6c7802f35860bef9745d587e" kind="dir">
+    <compoundname>src/data/IniParseData/Diluc</compoundname>
+    <innerfile refid="_diluc_parser_8cpp">DilucParser.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniParseData/Diluc/"/>
+  </compounddef>
+</doxygen>

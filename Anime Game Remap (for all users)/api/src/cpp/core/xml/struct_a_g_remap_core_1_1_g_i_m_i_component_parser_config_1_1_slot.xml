@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMIComponentParserConfig::Slot</compoundname>
+    <includes refid="_g_i_m_i_component_parser_8h" local="no">GIMIComponentParser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a2932af3df10732450b1fb2aa9b53104a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIComponentParserConfig::Slot::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::Slot::name</qualifiedname>
+        <briefdescription>
+<para>The slot&apos;s name, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>A</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="57" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1ab05dab4e41dcc773f7a5a74b7aa05a13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIComponentParserConfig::Slot::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::Slot::index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The slot&apos;s ``match_first_index``, as a LITERAL :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Deliberately not an :cpp:class:`Indices` row, for the reason ``IndexData.cpp``&apos;s own
+note records: :cpp:func:`ModMappedAssets::getKey` buckets every row holding a value by
+version and searches only the newest bucket at or below the version asked, so a slot
+filed as ``&quot;0&quot;`` at 5.7 would make the 5.7 bucket THE bucket for ``&quot;0&quot;`` and every
+classic character&apos;s head -- index 0, filed at 4.0 -- would reverse-resolve to a slot
+named ``A`` and fall out of its own parser. So the classifier here resolves a slot from
+this literal, per component, rather than through the table
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="73" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1add81e39e9f20372a949d3e7031aa5aa6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIComponentParserConfig::Slot::diffuseReg</definition>
+        <argsstring></argsstring>
+        <name>diffuseReg</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::Slot::diffuseReg</qualifiedname>
+        <initializer>= &quot;ps-t0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="75" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a7f9413b3e951f6e6a9607570ea1a6260" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIComponentParserConfig::Slot::lightMapReg</definition>
+        <argsstring></argsstring>
+        <name>lightMapReg</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::Slot::lightMapReg</qualifiedname>
+        <initializer>= &quot;ps-t1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="76" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1ab80d7a13cce3d7c8104e057a0b3cbe24" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIComponentParserConfig::Slot::normalMapReg</definition>
+        <argsstring></argsstring>
+        <name>normalMapReg</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::Slot::normalMapReg</qualifiedname>
+        <briefdescription>
+<para>Empty when the slot&apos;s shader reads no normal map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="81" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a4af851004da0847caa989aea7721030f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GIMIComponentParserConfig::Slot::noTextures</definition>
+        <argsstring></argsstring>
+        <name>noTextures</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::Slot::noTextures</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para><computeroutput>true</computeroutput> when this slot has no textures of its own and reads another&apos;s </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="86" column="18" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a6c1989a807b4ec7842b27141bd4eff23" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIComponentParserConfig::Slot::textureDonor</definition>
+        <argsstring></argsstring>
+        <name>textureDonor</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::Slot::textureDonor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``&lt;Component&gt;;&lt;Slot&gt;`` whose textures the GAME draws this slot with, for a slot
+that binds none of its own -- empty for a slot that always has them
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A GIMI ``TextureOverride`` binds registers for the draw call its hash matches and no
+other, so a slot whose own `section`_ declares no ``ps-t`` renders with whatever the
+GAME had bound, however thoroughly the mod repainted the donor&apos;s atlas. Naming the
+donor here is what lets those textures be DOWNLOADED rather than read out of the mod
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Measured over five YelanTranquil mods: three of them leave a slot textureless, and
+reading the mod&apos;s donor instead put a repainted atlas under the game&apos;s texture
+coordinates -- one mod&apos;s hair and another&apos;s eyes came out sampling other islands
+entirely (2026-09-14)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="107" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One draw slot of one component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="53" column="9" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="53" bodyend="108"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1add81e39e9f20372a949d3e7031aa5aa6" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Slot</scope><name>diffuseReg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1ab05dab4e41dcc773f7a5a74b7aa05a13" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Slot</scope><name>index</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a7f9413b3e951f6e6a9607570ea1a6260" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Slot</scope><name>lightMapReg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a2932af3df10732450b1fb2aa9b53104a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Slot</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1ab80d7a13cce3d7c8104e057a0b3cbe24" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Slot</scope><name>normalMapReg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a4af851004da0847caa989aea7721030f" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Slot</scope><name>noTextures</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a6c1989a807b4ec7842b27141bd4eff23" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Slot</scope><name>textureDonor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

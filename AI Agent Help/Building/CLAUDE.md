@@ -240,6 +240,13 @@ file by hand.
     `git clean` for the 31 untracked ones, which belong to *other* classes that were never
     regenerated). Resyncing `core/xml` repo-wide is a legitimate task — just make it its own commit,
     not a passenger on a feature.
+  - **`Tools/Misc/Docs/doxygenSplice.py` does that selection for you (2026-09-18)**, and it also
+    handles the half the recipe above leaves out: a class you changed has a `<compound>` block in
+    `index.xml` listing its members, so a new member is missing from the tracked index until that
+    block is replaced as well. `--run <scratch>` generates without touching `core/xml`. Then
+    `<scratch>/xml --apply <Class> <Header.h>` copies those compounds' files and splices only their
+    index blocks. Run with no names, it lists what differs: **438 compounds** on 2026-09-18, of
+    which two were the session's.
   - Judge a Doxygen run by its log, not its exit code: piping `doxygen Doxyfile` through
     PowerShell's `Select-String` reported a non-zero exit while the same run redirected to a file
     exited 0. Redirect to a log and grep it for `warning:` lines mentioning *your* file.
@@ -390,6 +397,13 @@ Measured the same afternoon, same sources, same load, `ninja core`:
 | one `core/src` `.cpp` + archive + link | 171s (archiving `AGRemapCore.lib`, ~655 MB: **133s**) | **20.5s** (archive 4s) |
 | one `py/src` binding `.cpp` + link | 101s | **32s** |
 | ~400 project objects recompiled (header change / CMake re-run) | 24 min | 22 min |
+
+Re-measured 2026-09-18, on the SSD junction: **431 steps in 11m42s** (build log first to last write).
+That was the FIRST `ninja core` of a session. The tree had been left behind by other sessions'
+commits, so a one-header change set off a full rebuild. **Expect the first build of any session
+here to be the full one.** Start it in the background as soon as the code compiles in your head,
+and write the tests while it runs (see "Run long builds in the background" below). This session's
+tests, core test and docs checks were all written in that window.
 
 **The last row did not move, and it will not from any disk change**: that machine is a 6-core /
 12-thread i7-10750H with 16 GB, and those compiles total ~17,750 CPU-seconds (`bindings.cpp` ~290s,

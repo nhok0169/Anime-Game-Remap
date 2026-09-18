@@ -672,6 +672,37 @@ all three surfaces, not the core class alone.** Name them the way the family is 
   not an edit touched it, so "no edits" means the mod's own sections written again after the remap
   header, under the source's names, which the remover cannot strip.
 
+## `GraphInherit` composes a graph INTO another, and an `adder` decides where (2026-09-18)
+
+Asked for as a new `GraphCompose` edit, and built onto `GraphInherit` instead at the maintainer's
+choice: `GraphInherit` already inserted `<reg> = <each root of dst>` into `src`, which is all
+"compose" means, and nothing but tests used it. **Before building a graph-group edit, grep this
+family for one whose `reg` is a parameter** -- `reg = run` is only the default reading of the name.
+
+The use case is WuWa. A WuWa `TextureOverrideComponentN` binds no `ps-t` at all; each texture is its
+own `TextureOverride<Obj>Diffuse` with `this = Resource<Obj>Diffuse`. Composing the resource graph
+into the component with `reg = ps-t0` gives it the GI shape, `ps-t0 = Resource<Obj>Diffuse`. So
+`dst` is the graph rooted at the **resource** section: its root names are the values.
+
+- **`adder(srcGraph, kvps, ini, modType, modName)`** returns a `BaseRegEdit` / `BaseIniGraphEdit`
+  built from the KVPs, or `None` having inserted them itself. The KVPs exist only at edit time, so
+  the edit cannot be handed over pre-built -- that is why it is a factory, not an edit argument.
+- **The returned edit runs exactly as a `GraphGroupEdit` would run it on `src`**, with `partFilter` as
+  its key filter (`GraphGroupEdit::editSectionGraph` + the `RegPartEdit`/`GraphPartEdit` adapters). So
+  a `RegAdd` with **no** `partFilter` lands in EVERY part, branches included, which is almost never
+  what a register binding wants. The WuWa recipe is `RegAdd(kvps, latest = False)` with a filter
+  selecting the part holding `hash`, after its last `hash`/`match_*`/`ps-t` key -- counting `ps-t`
+  so a second compose (`ps-t1`) lands after the first rather than before it. It is pinned against
+  the real section in `test_GraphInherit.py` and in `core/tests/GraphInherit_Adder_test.cpp`.
+- **The two halves are tested in two places, on purpose.** From Python the binding runs the returned
+  edit through a real Python `GraphGroupEdit` (so a pure-Python subclass's own `edit` runs), which
+  means the core's variant dispatch is unreachable from the Python suite. The C++ test covers it, and
+  was checked by mutation: dropping the key filter, or the replacement of `src` by a graph a graph
+  edit returns, each fails it.
+- **`GraphInherit` now has an `editFromIni`** (core override + binding). Before, the base forwarded to
+  `edit` and the `.ini` never reached `partFilter`. The binding publishes the `.ini` on the instance
+  for the forwarded `self.attr("edit")` call, the `PyRegFillMissing::currentIni` arrangement.
+
 ## When adding a new graph-editing feature
 
 - Check `IniSectionGraph`/`CallGraph`/`GraphTools` first for a primitive that already does what

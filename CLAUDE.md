@@ -37,12 +37,19 @@ these were found by counting the log lines rather than reading the summary. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Verifying".
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is fifty-two short habits, none of
+feature or bug request here: the habits that pay" first.** It is fifty-four short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
 will conclude there is no coverage when there is), when a divergence from the old script is *not*
 a bug, and how to prove a refactor changed nothing.
+
+**A request for a NEW class may describe one that already exists (habit 53, 2026-09-18).**
+"Build a `GraphCompose` edit" turned out to be `GraphInherit` with one pluggable piece added, and
+the maintainer, shown that, chose to extend it. Before the first header of any new
+`regEdits`/`graphEdits`/`graphGroupEdits` class (or any strategy), grep the family for the
+primitive it would call. If something already does the core of it, show it and ask: extend,
+subclass or rename.
 
 If you're unsure which applies, start with **Overview** — it's the map the rest assume you have.
 These files were authored from hands-on, verified work in five subsystems: the C++ core / pybind11

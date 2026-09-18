@@ -161,10 +161,15 @@ Measured and read off `python-publish.yml` on 2026-09-18; the wheel half has nev
     another input file (`cannot specify '-o' with '-c' ... with multiple files` -- proved on a
     throwaway project). Nothing on Windows or Linux can reproduce the original error, so the next
     macOS wheel run is its only test; a new libc++ header naming `__local` goes in the prelude.
-  - **The Linux wheels need OpenSSL, and a CA bundle found at RUN time.** The vendored curl will
-    not configure without OpenSSL's headers, which the manylinux image lacks
-    (`CIBW_BEFORE_ALL_LINUX: dnf install -y openssl-devel`; auditwheel then bundles libssl and
-    libcrypto). The quieter half: curl's CMake records the BUILD machine's CA bundle
+  - **The Linux wheels need OpenSSL 3, and a CA bundle found at RUN time.** The vendored curl will
+    not configure without OpenSSL's headers, which the manylinux image lacks, and will not COMPILE
+    against anything older than 3.0 (`vtls/openssl.c`: `#error "OpenSSL 3.0.0 or later required"`)
+    -- which the image's own `openssl-devel` is (1.1.1, AlmaLinux 8). So it installs EPEL 8's
+    `openssl3-devel`, which lives BESIDE 1.1.1 (`/usr/include/openssl3`, `/usr/lib64/openssl3/`),
+    and `CMAKE_ARGS` hands curl's FindOpenSSL the three `OPENSSL_*` paths it would never search.
+    `manylinux_2_34` (AlmaLinux 9) has OpenSSL 3 built in, but moving to it drops Debian 10-11,
+    Ubuntu 18.10-21.04 and RHEL 8, and changes the image the wheels' z3 is built and cached in.
+    auditwheel then bundles libssl and libcrypto. The quieter half: curl's CMake records the BUILD machine's CA bundle
     (`CURL_CA_BUNDLE` in its cache), which in that image is AlmaLinux's
     `/etc/pki/tls/certs/ca-bundle.crt` -- absent on Debian and Ubuntu, where every download would
     fail with error 77 even with `/etc/ssl/certs` as a CAPATH (reproduced against the vendored curl,

@@ -195,7 +195,16 @@ namespace AGRemapCore {
 
              A folder that cannot be read (it doesn't exist, or the OS refuses) yields two empty
              lists rather than throwing, matching how :cpp:func:`RemapService::fix` treats an
-             unreadable folder as simply having nothing to visit
+             unreadable folder as simply having nothing to visit :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Both lists come back in **one fixed order on every OS and filesystem** --- Windows'
+             --- rather than the order the filesystem enumerates in, which on ext4 is a hash order
+             that differs between machines. The order reaches :cpp:class:`RemapService`'s output
+             (which ``.ini`` of a folder is fixed first, which mod is visited last), so it has to be
+             the same everywhere. Names compare with their ASCII letters folded to upper case, as NTFS
+             collates them, and a recursive walk is pre-order: a folder, everything under it, then
+             its next sibling
              @endrst
              *
              * @param path The folder to look inside

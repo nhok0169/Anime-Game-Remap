@@ -1,3 +1,4 @@
+import os
 import sys
 import unittest
 from sympy import Equivalent
@@ -11,6 +12,22 @@ sys.path.insert(1, Configs[ConfigKeys.SysPath])
 import src.py.FixRaidenBoss2 as FRB
 
 T = TypeVar("T")
+
+# A mods folder that is ABSOLUTE on the OS running the tests. 'C:/mods' is absolute only on Windows:
+#   POSIX reads it as a relative path and resolves it against the launch directory, which failed the
+#   same 8 path tests on every Linux run while the code under test was right. Windows keeps the exact
+#   literal the tests always used.
+ModsRoot = "C:/mods" if (os.name == "nt") else "/mods"
+
+
+def nativePath(path: str) -> str:
+    """
+    'path' written with the separators of the OS running the tests -- the form the C++ side reports an
+    absolute path in. On Windows this turns "C:/mods/a.buf" into the backslashed form the tests always
+    expected.
+    """
+
+    return os.path.normpath(path)
 
 class PatchService:
     def _cleanup(self, patch, target):

@@ -1,6 +1,6 @@
 import sys
 
-from .baseUnitTest import BaseUnitTest
+from .baseUnitTest import BaseUnitTest, ModsRoot
 from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
 
@@ -16,13 +16,13 @@ class IniResourceTest(BaseUnitTest):
     """
 
     def test_construction_srcPathResolvedAbsolute(self):
-        r = FRB.IniResource("blend", "C:/mods/EiRemap", "EiBlend.buf")
+        r = FRB.IniResource("blend", f"{ModsRoot}/EiRemap", "EiBlend.buf")
         self.assertEqual(r.type, "blend")
-        self.assertEqual(r.srcPath.replace("\\", "/"), "C:/mods/EiRemap/EiBlend.buf")
+        self.assertEqual(r.srcPath.replace("\\", "/"), f"{ModsRoot}/EiRemap/EiBlend.buf")
 
     def test_construction_relativeSrcPathResolved(self):
-        r = FRB.IniResource("blend", "C:/mods/EiRemap", "../shared/EiBlend.buf")
-        self.assertEqual(r.srcPath.replace("\\", "/"), "C:/mods/shared/EiBlend.buf")
+        r = FRB.IniResource("blend", f"{ModsRoot}/EiRemap", "../shared/EiBlend.buf")
+        self.assertEqual(r.srcPath.replace("\\", "/"), f"{ModsRoot}/shared/EiBlend.buf")
 
     # Unlike the deprecated pure-Python original (long since deleted), the C++ port drops the generic
     # fixFunc/fix()/_fix() override mechanism at this base level entirely -- IniResource/
@@ -34,10 +34,10 @@ class IniResourceTest(BaseUnitTest):
 
 class IniFixResourceTest(BaseUnitTest):
     def test_isInstanceOfIniResource(self):
-        r = FRB.IniFixResource("blend", "C:/mods/EiRemap", "EiBlend.buf", "RaidenBlend.buf")
+        r = FRB.IniFixResource("blend", f"{ModsRoot}/EiRemap", "EiBlend.buf", "RaidenBlend.buf")
         self.assertIsInstance(r, FRB.IniResource)
 
     def test_construction_bothSrcAndFixedPathsResolved(self):
-        r = FRB.IniFixResource("blend", "C:/mods/EiRemap", "EiBlend.buf", "RaidenBlend.buf")
-        self.assertEqual(r.srcPath.replace("\\", "/"), "C:/mods/EiRemap/EiBlend.buf")
-        self.assertEqual(r.fixedPath.replace("\\", "/"), "C:/mods/EiRemap/RaidenBlend.buf")
+        r = FRB.IniFixResource("blend", f"{ModsRoot}/EiRemap", "EiBlend.buf", "RaidenBlend.buf")
+        self.assertEqual(r.srcPath.replace("\\", "/"), f"{ModsRoot}/EiRemap/EiBlend.buf")
+        self.assertEqual(r.fixedPath.replace("\\", "/"), f"{ModsRoot}/EiRemap/RaidenBlend.buf")

@@ -1,6 +1,6 @@
 import sys
 
-from .baseUnitTest import BaseUnitTest
+from .baseUnitTest import BaseUnitTest, ModsRoot
 from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
 
@@ -17,17 +17,17 @@ class RemapTexAddResourceTest(BaseUnitTest):
 
     def test_construction_isInstanceOfRemapIniResource(self):
         creator = FRB.TexCreator(4, 4)
-        r = FRB.RemapTexAddResource("C:/mods/EiRemap", "NewTex.dds", creator)
+        r = FRB.RemapTexAddResource(f"{ModsRoot}/EiRemap", "NewTex.dds", creator)
         self.assertIsInstance(r, FRB.RemapIniResource)
 
     def test_construction_srcPathResolved(self):
         creator = FRB.TexCreator(4, 4)
-        r = FRB.RemapTexAddResource("C:/mods/EiRemap", "NewTex.dds", creator)
-        self.assertEqual(r.srcPath.replace("\\", "/"), "C:/mods/EiRemap/NewTex.dds")
+        r = FRB.RemapTexAddResource(f"{ModsRoot}/EiRemap", "NewTex.dds", creator)
+        self.assertEqual(r.srcPath.replace("\\", "/"), f"{ModsRoot}/EiRemap/NewTex.dds")
 
     def test_construction_defaultType(self):
         creator = FRB.TexCreator(4, 4)
-        r = FRB.RemapTexAddResource("C:/mods/EiRemap", "NewTex.dds", creator)
+        r = FRB.RemapTexAddResource(f"{ModsRoot}/EiRemap", "NewTex.dds", creator)
         self.assertEqual(r.type, "resourceRemapTexAdd")
 
     def test_fix_withFixFunc_invokedFromPython(self):
@@ -38,7 +38,7 @@ class RemapTexAddResourceTest(BaseUnitTest):
             return True
 
         creator = FRB.TexCreator(4, 4)
-        r = FRB.RemapTexAddResource("C:/mods/EiRemap", "NewTex.dds", creator, type = "resourceTexAdd", fixFunc = fixFunc)
+        r = FRB.RemapTexAddResource(f"{ModsRoot}/EiRemap", "NewTex.dds", creator, type = "resourceTexAdd", fixFunc = fixFunc)
         result = r.fix()
 
         self.assertTrue(result)

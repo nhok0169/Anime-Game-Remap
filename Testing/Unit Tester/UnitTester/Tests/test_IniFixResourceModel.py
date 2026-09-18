@@ -1,6 +1,6 @@
 import sys
 
-from .baseUnitTest import BaseUnitTest
+from .baseUnitTest import BaseUnitTest, ModsRoot, nativePath
 from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
 
@@ -28,47 +28,47 @@ class IniFixResourceModelTest(BaseUnitTest):
         fixedPaths = {1: {"Type1": ["hello.buf"], "Type2": ["bye.buf"]},
                       3: {"Calc1": ["nested/value.buf"]}}
 
-        model = FRB.IniFixResourceModel("C:/mods/EiRemap", fixedPaths)
+        model = FRB.IniFixResourceModel(f"{ModsRoot}/EiRemap", fixedPaths)
 
-        self.assertEqual(model.fullPaths[1]["Type1"], ["C:\\mods\\EiRemap\\hello.buf"])
-        self.assertEqual(model.fullPaths[1]["Type2"], ["C:\\mods\\EiRemap\\bye.buf"])
-        self.assertEqual(model.fullPaths[3]["Calc1"], ["C:\\mods\\EiRemap\\nested\\value.buf"])
+        self.assertEqual(model.fullPaths[1]["Type1"], [nativePath(f"{ModsRoot}/EiRemap/hello.buf")])
+        self.assertEqual(model.fullPaths[1]["Type2"], [nativePath(f"{ModsRoot}/EiRemap/bye.buf")])
+        self.assertEqual(model.fullPaths[3]["Calc1"], [nativePath(f"{ModsRoot}/EiRemap/nested/value.buf")])
         self.compareDict(model.origFullPaths, {})
 
     def test_origPaths_origFullPathsAlsoResolved(self):
         fixedPaths = {1: {"Type1": ["hello.buf"]}}
         origPaths = {1: ["orig.buf"], 2: ["another/orig.buf"]}
 
-        model = FRB.IniFixResourceModel("C:/mods/EiRemap", fixedPaths, origPaths = origPaths)
+        model = FRB.IniFixResourceModel(f"{ModsRoot}/EiRemap", fixedPaths, origPaths = origPaths)
 
-        self.assertEqual(model.origFullPaths[1], ["C:\\mods\\EiRemap\\orig.buf"])
-        self.assertEqual(model.origFullPaths[2], ["C:\\mods\\EiRemap\\another\\orig.buf"])
+        self.assertEqual(model.origFullPaths[1], [nativePath(f"{ModsRoot}/EiRemap/orig.buf")])
+        self.assertEqual(model.origFullPaths[2], [nativePath(f"{ModsRoot}/EiRemap/another/orig.buf")])
 
     def test_items_yieldsFixedFullOrigOrigFullTuples(self):
         fixedPaths = {0: {"Type1": ["hello.buf"]}}
         origPaths = {0: ["orig.buf"]}
 
-        model = FRB.IniFixResourceModel("C:/mods/EiRemap", fixedPaths, origPaths = origPaths)
+        model = FRB.IniFixResourceModel(f"{ModsRoot}/EiRemap", fixedPaths, origPaths = origPaths)
         entries = model.items()
 
         self.assertEqual(len(entries), 1)
         fixedPath, fullPath, origPath, origFullPath = entries[0]
         self.assertEqual(fixedPath, "hello.buf")
-        self.assertEqual(fullPath, "C:\\mods\\EiRemap\\hello.buf")
+        self.assertEqual(fullPath, nativePath(f"{ModsRoot}/EiRemap/hello.buf"))
         self.assertEqual(origPath, "orig.buf")
-        self.assertEqual(origFullPath, "C:\\mods\\EiRemap\\orig.buf")
+        self.assertEqual(origFullPath, nativePath(f"{ModsRoot}/EiRemap/orig.buf"))
 
     def test_items_noOrigPaths_origEntriesAreNone(self):
         fixedPaths = {0: {"Type1": ["hello.buf"]}}
 
-        model = FRB.IniFixResourceModel("C:/mods/EiRemap", fixedPaths)
+        model = FRB.IniFixResourceModel(f"{ModsRoot}/EiRemap", fixedPaths)
         _, _, origPath, origFullPath = model.items()[0]
 
         self.assertIsNone(origPath)
         self.assertIsNone(origFullPath)
 
     def test_clear_clearsAllPathData(self):
-        model = FRB.IniFixResourceModel("C:/mods/EiRemap", {0: {"Type1": ["hello.buf"]}}, origPaths = {0: ["orig.buf"]})
+        model = FRB.IniFixResourceModel(f"{ModsRoot}/EiRemap", {0: {"Type1": ["hello.buf"]}}, origPaths = {0: ["orig.buf"]})
 
         model.clear()
 
@@ -78,5 +78,5 @@ class IniFixResourceModelTest(BaseUnitTest):
         self.compareDict(model.origPaths, {})
 
     def test_isInstanceOfIniResourceModel(self):
-        model = FRB.IniFixResourceModel("C:/mods/EiRemap", {})
+        model = FRB.IniFixResourceModel(f"{ModsRoot}/EiRemap", {})
         self.assertIsInstance(model, FRB.IniResourceModel)

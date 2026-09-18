@@ -1,6 +1,6 @@
 import sys
 
-from .baseUnitTest import BaseUnitTest
+from .baseUnitTest import BaseUnitTest, ModsRoot
 from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
 
@@ -17,14 +17,14 @@ class RemapBlendResourceTest(BaseUnitTest):
 
     def test_construction_isInstanceOfRemapIniFixResource(self):
         vg = FRB.VGRemap({0: 1})
-        r = FRB.RemapBlendResource("C:/mods/EiRemap", "EiBlend.buf", "RaidenRemapBlend.buf", vg)
+        r = FRB.RemapBlendResource(f"{ModsRoot}/EiRemap", "EiBlend.buf", "RaidenRemapBlend.buf", vg)
         self.assertIsInstance(r, FRB.RemapIniFixResource)
 
     def test_construction_pathsResolved(self):
         vg = FRB.VGRemap({0: 1})
-        r = FRB.RemapBlendResource("C:/mods/EiRemap", "EiBlend.buf", "RaidenRemapBlend.buf", vg)
-        self.assertEqual(r.srcPath.replace("\\", "/"), "C:/mods/EiRemap/EiBlend.buf")
-        self.assertEqual(r.fixedPath.replace("\\", "/"), "C:/mods/EiRemap/RaidenRemapBlend.buf")
+        r = FRB.RemapBlendResource(f"{ModsRoot}/EiRemap", "EiBlend.buf", "RaidenRemapBlend.buf", vg)
+        self.assertEqual(r.srcPath.replace("\\", "/"), f"{ModsRoot}/EiRemap/EiBlend.buf")
+        self.assertEqual(r.fixedPath.replace("\\", "/"), f"{ModsRoot}/EiRemap/RaidenRemapBlend.buf")
 
     def test_fix_withFixFunc_invokedFromPythonWithRealVgRemap(self):
         calls = []
@@ -34,7 +34,7 @@ class RemapBlendResourceTest(BaseUnitTest):
             return True
 
         vg = FRB.VGRemap({0: 1, 1: 0})
-        r = FRB.RemapBlendResource("C:/mods/EiRemap", "EiBlend.buf", "RaidenRemapBlend.buf", vg,
+        r = FRB.RemapBlendResource(f"{ModsRoot}/EiRemap", "EiBlend.buf", "RaidenRemapBlend.buf", vg,
                                     type = "resourceRemapBlend", fixFunc = fixFunc)
         result = r.fix()
 
@@ -43,5 +43,5 @@ class RemapBlendResourceTest(BaseUnitTest):
 
     def test_construction_defaultType(self):
         vg = FRB.VGRemap()
-        r = FRB.RemapBlendResource("C:/mods/EiRemap", "EiBlend.buf", "RaidenRemapBlend.buf", vg)
+        r = FRB.RemapBlendResource(f"{ModsRoot}/EiRemap", "EiBlend.buf", "RaidenRemapBlend.buf", vg)
         self.assertEqual(r.type, "resourceRemapBlend")

@@ -14,6 +14,7 @@
 ##### ExtImports
 import os
 import re
+import ntpath
 import pathlib
 from typing import Tuple, Optional
 ##### EndExtImports
@@ -548,14 +549,17 @@ class IniNamingTools():
             The file path of the fixed file of the element
         """
 
-        path = pathlib.Path(file)
+        # a path INSIDE a .ini is a Windows path on every OS, so it is read and joined Windows-style
+        #   even on Linux, as the core's IniNamingTools does -- and on Windows these ARE pathlib.Path
+        #   and os.path.join, so nothing there changes
+        path = pathlib.PureWindowsPath(file)
         folder = path.parent
         baseName = path.stem
         
         if (fileExt is None):
             fileExt = path.suffix
         
-        return os.path.join(f"{folder}", f"{cls.getRemapFixName(baseName, modName = modName)}{fileExt}")
+        return ntpath.join(f"{folder}", f"{cls.getRemapFixName(baseName, modName = modName)}{fileExt}")
     
     @classmethod
     def getFixedElementFile(cls, file: str, elementName: str, modName: str = "", fileExt: Optional[str] = None) -> str:
@@ -587,7 +591,10 @@ class IniNamingTools():
             The file path of the fixed file of the element
         """
 
-        path = pathlib.Path(file)
+        # a path INSIDE a .ini is a Windows path on every OS, so it is read and joined Windows-style
+        #   even on Linux, as the core's IniNamingTools does -- and on Windows these ARE pathlib.Path
+        #   and os.path.join, so nothing there changes
+        path = pathlib.PureWindowsPath(file)
         folder = path.parent
         baseName = path.stem
         
@@ -595,10 +602,10 @@ class IniNamingTools():
             fileExt = path.suffix
 
         file = f"{cls.getRemapElementName(baseName, elementName, modName = modName)}{fileExt}"
-        if (folder == pathlib.Path(".")):
+        if (folder == pathlib.PureWindowsPath(".")):
             return file
         
-        return os.path.join(f"{folder}", file)
+        return ntpath.join(f"{folder}", file)
 
     @classmethod
     def getFixedBlendFile(cls, blendFile: str, modName: str = "") -> str:

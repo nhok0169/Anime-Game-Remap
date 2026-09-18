@@ -22,6 +22,8 @@
 #include <variant>
 #include <vector>
 
+#include <tsl/ordered_map.h>
+
 #include "AGRemapCore/model/iftemplate/IfContentPart.h"
 #include "AGRemapCore/model/iftemplate/IfPredPart.h"
 #include "AGRemapCore/tools/nodes/Node.h"
@@ -136,9 +138,23 @@ namespace AGRemapCore {
             void addIfContentPart(ContentPart* part);
 
             /**
-             * @brief The children of this node (not owned by this node -- see this class's own top-level note)
+             * @brief
+             @rst
+             The children of this node (not owned by this node -- see this class's own top-level
+             note), **in the order they were added** -- which is branch order: an ``if``'s node,
+             then each ``else if``'s, then the ``else``'s :raw-html:`<br />` :raw-html:`<br />`
+
+             Insertion-ordered on purpose. This used to be a ``std::unordered_map``, whose order is
+             whatever the standard library's hash table makes of the ids: MSVC happened to iterate
+             it in insertion order and libstdc++ in REVERSE, so the ``children`` dict Python
+             receives listed a chain's branches backwards on Linux only
+             (``test_IfTemplateTree.test_nestedAndElifBranches_multiLevelTree`` failed there, and
+             nowhere else, for exactly this). Nothing in core's own use depends on the order --
+             both readers in :cpp:class:`IfTemplate` fold the children with an ``and`` or a set
+             union -- but an order a caller can see has to be the same on every OS
+             @endrst
              */
-            const std::unordered_map<size_t, IfTemplateNode<K, V, KeyHash, KeyEqual>*>& children() const;
+            const tsl::ordered_map<size_t, IfTemplateNode<K, V, KeyHash, KeyEqual>*>& children() const;
 
             /**
              * @brief
@@ -220,7 +236,7 @@ namespace AGRemapCore {
 
         private:
             std::vector<PartsElement> parts_;
-            std::unordered_map<size_t, IfTemplateNode<K, V, KeyHash, KeyEqual>*> children_;
+            tsl::ordered_map<size_t, IfTemplateNode<K, V, KeyHash, KeyEqual>*> children_;
     };
 
 }

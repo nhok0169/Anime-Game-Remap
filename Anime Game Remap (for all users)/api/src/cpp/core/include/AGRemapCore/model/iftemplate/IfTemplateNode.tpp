@@ -52,7 +52,7 @@ namespace AGRemapCore {
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
-    const std::unordered_map<size_t, IfTemplateNode<K, V, KeyHash, KeyEqual>*>& IfTemplateNode<K, V, KeyHash, KeyEqual>::children() const {
+    const tsl::ordered_map<size_t, IfTemplateNode<K, V, KeyHash, KeyEqual>*>& IfTemplateNode<K, V, KeyHash, KeyEqual>::children() const {
         return children_;
     }
 

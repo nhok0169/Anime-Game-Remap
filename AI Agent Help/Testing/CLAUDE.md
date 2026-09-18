@@ -1165,7 +1165,8 @@ the committed script is CRLF and bash chokes on `set -u\r`), then
 test about 45 seconds. Install `directory-tree` with `pip install --target ~/itlib` rather than into
 the shared dev venv.
 
-**THE FIRST CI RUN FAILED 8 OF 24, AND NOT ONE OF THEM WAS A REGRESSION (2026-09-18).** Two
+**THE FIRST CI RUN FAILED 8 OF 24, AND NOT ONE OF THEM WAS A REGRESSION (2026-09-18).** (The workflows
+themselves -- what runs where, caches, branch protection -- are in [CI](../CI/CLAUDE.md).) Two
 unrelated causes, and both will come back unless you know them:
 
 - **NTFS hands a folder's entries back SORTED; ext4 hands them back in hash order --- and the output

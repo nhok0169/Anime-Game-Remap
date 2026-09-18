@@ -111,7 +111,7 @@ jobs:
       uses: ./.github/actions/wheel-externs
       with:
         os: ${{ matrix.os }}
-        macos-deployment-target: "11.0"
+        macos-deployment-target: "14.0"
 
 
     # -------------------------------------------------
@@ -174,7 +174,7 @@ jobs:
         #   AGREMAP_SCCACHE makes the API's CMake compile everything through sccache (see above)
         CIBW_ENVIRONMENT_LINUX: CMAKE_PREFIX_PATH=/project/cext${{ matrix.os }}/z3 PATH="/project/.sccache-bin:$PATH" CMAKE_ARGS="-DAGREMAP_SCCACHE=ON"
         # the same macOS the wheel-externs action built z3 for, or delocate refuses the library
-        CIBW_ENVIRONMENT_MACOS: CMAKE_PREFIX_PATH=${{ github.workspace }}/cext${{ matrix.os }}/z3 MACOSX_DEPLOYMENT_TARGET=11.0 CMAKE_ARGS="-DAGREMAP_SCCACHE=ON"
+        CIBW_ENVIRONMENT_MACOS: CMAKE_PREFIX_PATH=${{ github.workspace }}/cext${{ matrix.os }}/z3 MACOSX_DEPLOYMENT_TARGET=14.0 CMAKE_ARGS="-DAGREMAP_SCCACHE=ON"
         CIBW_ENVIRONMENT_WINDOWS: CMAKE_PREFIX_PATH=${{ github.workspace }}/cext${{ matrix.os }}/z3
 
         # before each wheel, how sccache has done so far -- from the second python version on, the core's

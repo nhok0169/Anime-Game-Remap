@@ -157,9 +157,16 @@ Measured and read off `python-publish.yml` on 2026-09-18; the wheel half has nev
   - **The cache key** is runner + a "flavour" + the z3 submodule commit. The flavour is the manylinux
     image digest on Linux and `mac<target>` on macOS, so bumping cibuildwheel or the target misses
     rather than restoring a z3 built for something else.
-  - **macOS targets 11.0, in two places that must agree**: the z3 build and the wheels'
+  - **macOS targets 14.0, in two places that must agree**: the z3 build and the wheels'
     `MACOSX_DEPLOYMENT_TARGET`. Built on the runner's own macOS with no target, z3 would need macOS 15,
-    and delocate refuses a library needing a newer macOS than the wheel claims.
+    and delocate refuses a library needing a newer macOS than the wheel claims. **The floor is set by
+    z3, not by us**: z3 4.17 uses `std::format`, whose float formatting calls libc++'s
+    `std::to_chars(double)`, which Apple ships only from macOS 13.3 --- below that the z3 build fails
+    with `'to_chars' is unavailable: introduced in macOS 13.3` (the first Warm Caches run, 2026-09-18,
+    at 11.0). 14.0 rather than 13.3 because a wheel's tag keeps only the major version on macOS 11+,
+    so a 13.3 wheel is `macosx_13_0` and pip would install it on 13.0-13.2, which cannot load it. Do
+    not "fix" a future availability error with `_LIBCPP_DISABLE_AVAILABILITY`: it compiles and then
+    fails to LOAD on the older macOS. A z3 bump can raise this floor again; the error names the version.
   - `checkWorkflowWiring.py` fails if the two workflows' runner lists or macOS targets differ, or if the
     wheels are built for a different target than z3. **None of this has run yet**: the first Warm Caches
     run is the test, and the Linux build inside the manylinux image is the step with no local precedent.

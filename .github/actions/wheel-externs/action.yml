@@ -20,8 +20,11 @@ inputs:
   macos-deployment-target:
     description: >
       The macOS the z3 build and the wheels target. Must equal the MACOSX_DEPLOYMENT_TARGET the wheels
-      are built with, or delocate refuses a library needing a newer macOS than the wheel claims
-    default: "11.0"
+      are built with, or delocate refuses a library needing a newer macOS than the wheel claims. At
+      least 13.3: z3 uses std::format, whose float formatting needs libc++'s std::to_chars(double),
+      which Apple ships only from 13.3 -- and 14.0 rather than 13.3, because a 13.3 wheel is TAGGED
+      macosx_13_0 and would be installed on 13.0-13.2, which cannot load it
+    default: "14.0"
 
 outputs:
   cache-hit:

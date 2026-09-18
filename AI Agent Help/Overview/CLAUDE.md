@@ -687,7 +687,7 @@ packages rather than in the fixer's anonymous namespace. Name it noun first, lik
 | `Testing/Unit Tester/.../test_Xxx.py` + `Tests/__init__.py` | tests, including one that reassigns an attribute and checks it takes effect |
 | `core.pyi` | regenerated with `pybind11_stubgen` into a SCRATCH folder, then diffed per class -- keep it only if the diff is your classes and `__all__` |
 | `Docs/src/api.rst` + `coreAPI.rst` | an alphabetical entry in the right live group |
-| `core/xml` | Doxygen into a scratch `OUTPUT_DIRECTORY`; copy the new class/header XML and the new `index.xml` -- and then EVERY compound that index names whose file is missing, or Breathe dies with `Cannot find file` on a class you never touched |
+| `core/xml` | `Tools/Misc/Docs/doxygenSplice.py --run <scratch>`, then `--apply <Class> <Header.h>` from `<scratch>/xml`: it copies your compounds' XML and splices only THEIR blocks into the tracked `index.xml`. Do not copy the regenerated `index.xml` -- on 2026-09-18 it differed from the tracked one in **438** compounds, and it names files you did not copy, so Breathe dies with `Cannot find file` on a class you never touched |
 
 A graph edit's Python test needs its `IniSectionGraph(..., z3Ctx = ...)`: without a context, a part
 outside every `if` has no query and a query-driven edit raises.
@@ -894,6 +894,42 @@ paths raises `FileNotFoundError: [WinError 206] The filename or extension is too
 `CreateProcess`, having staged nothing. The repo has over a thousand Integration Tester goldens, so
 any mass `add`, `checkout --` or `rm --cached` hits it. Chunk the paths (100 per call) inside the
 Python script that trap 6 of the top-level `CLAUDE.md` already tells you to use for path-list work.
+
+**53. A REQUEST THAT NAMES A NEW CLASS MAY DESCRIBE ONE THAT ALREADY EXISTS -- FIND IT, SHOW IT, AND
+ASK (2026-09-18).** "Build a new `GraphGroupEdit` called `GraphCompose` that inserts `<reg> = <root
+of dest>` into src" described `GraphInherit` exactly: its `reg` was already a parameter, and `run`
+is only the value its name suggests. The maintainer had forgotten it existed. Offered the choice,
+they picked **extending it** over a subclass or a rename, so the session built the only part that
+was new (a pluggable `adder`) instead of a second class. Every edit here ships with its whole
+surface (habit 41), so a near-duplicate costs twice. Two things make this cheap:
+
+- **Search by what the class DOES, not by its name.** Grep the family's headers for the primitive
+  it would call. `addKVPsToBack`, `valOfSectionName` and `roots()` together find `GraphInherit` in
+  one line. IniGraphEditing's primitive table is the index for this.
+- **Ask before the first header, with the options and what each costs.** "Extend / subclass /
+  rename" is one question with three answers the maintainer can pick in seconds. Your own reading
+  of the request cannot settle it, and that includes the name they asked for.
+
+**54. WHEN THE NEW TEST CANNOT EVEN COMPILE AGAINST THE OLD CODE, MUTATE THE NEW CODE INSTEAD
+(2026-09-18).** Habit 34 says to run a new check against the broken build first. A C++ test of a new
+API has no broken build to run against: the old headers lack the names, so "it fails on the old
+build" means only that it does not compile. The equivalent proof is to break the new code where
+the test claims to look, one line at a time, and require the test to fail. `core/tests/
+GraphInherit_Adder_test.cpp` was accepted that way: commenting out the key filter hand-off, and
+separately the replacement of `src` by a graph the edit returns, each made it fail. A patch script
+turns a mutant on and off with one expected match per anchor, and `grep -c MUTANT` confirms it is
+gone afterwards. Header-only templates make this cheap: only the test recompiles, not the `.pyd`.
+
+The same session found the reason that test had to exist at all, and it will recur. **When a
+binding reimplements a core dispatch on the Python side, the core dispatch is unreachable from the
+Python suite.** `PyGraphInherit` runs an edit handed back by a Python adder through a real Python
+`GraphGroupEdit`, so that a pure-Python subclass's own `edit` runs. That is correct, and it means
+`GraphInherit`'s own C++ variant dispatch never runs from Python. But the dispatch is exactly what
+a fixer compiled into core would use. So whenever your binding takes a different route from the
+core for a good reason, write the C++ test for the core route in the same change, because no
+Python test can ever fail for it. (Testing's "C++-only work is invisible to the Python suite" is
+the general form. This is the case where the work *looks* covered, because the Python feature is
+fully tested.)
 
 <br>
 

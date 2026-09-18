@@ -64,6 +64,13 @@ section between its `id="..."` anchor and the next section's and checking the ma
 `class="reference internal"` links inside it; the `Heading`/`BaseLogger`/`Logger` entries were
 checked exactly this way.
 
+**Which machine to build on (2026-09-18).** When the Windows `.pyd` is current, because you just
+built it, build the docs on Windows: `-E` into a scratch output folder took **5 minutes** on the
+laptop and reported the same 16. Overview's habit 42 (a Linux-side copy) is for when the Windows
+`.pyd` is older than the classes you need autodoc to see. **To refresh `core/xml` for one class**,
+use `Tools/Misc/Docs/doxygenSplice.py` rather than the whole-directory regeneration below. It
+leaves every other compound, and every other `index.xml` block, as it was.
+
 There's an established warning baseline from pre-existing, out-of-scope issues in a handful of
 hand-written `.rst` files not covered by this session's cleanup — `tutorial.rst`, `apiExamples.rst`,
 `commandOpts.rst`, `findVertexGroupRemap.rst` (undefined/duplicate labels, a couple of malformed

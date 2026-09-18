@@ -193,8 +193,13 @@ jobs:
           CMAKE_PREFIX_PATH=/project/cext${{ matrix.os }}/z3
           PATH="/project/.sccache-bin:$PATH"
           CMAKE_ARGS="-DAGREMAP_SCCACHE=ON -DOPENSSL_INCLUDE_DIR=/usr/include/openssl3 -DOPENSSL_SSL_LIBRARY=/usr/lib64/openssl3/libssl.so -DOPENSSL_CRYPTO_LIBRARY=/usr/lib64/openssl3/libcrypto.so"
-        # the same macOS the wheel-externs action built z3 for, or delocate refuses the library
-        CIBW_ENVIRONMENT_MACOS: CMAKE_PREFIX_PATH=${{ github.workspace }}/cext${{ matrix.os }}/z3 MACOSX_DEPLOYMENT_TARGET=14.0 CMAKE_ARGS="-DAGREMAP_SCCACHE=ON"
+        # the same macOS the wheel-externs action built z3 for, or delocate refuses the library. The
+        #   OPENSSL_* point curl at the static OpenSSL that action built for that macOS too, rather
+        #   than the runner's Homebrew one (built for the runner's own macOS, and refused likewise)
+        CIBW_ENVIRONMENT_MACOS: >-
+          CMAKE_PREFIX_PATH=${{ github.workspace }}/cext${{ matrix.os }}/z3
+          MACOSX_DEPLOYMENT_TARGET=14.0
+          CMAKE_ARGS="-DAGREMAP_SCCACHE=ON -DOPENSSL_ROOT_DIR=${{ github.workspace }}/cextssl${{ matrix.os }} -DOPENSSL_USE_STATIC_LIBS=ON"
         CIBW_ENVIRONMENT_WINDOWS: CMAKE_PREFIX_PATH="$AGREMAP_Z3_PREFIX"
 
         # before each wheel, how sccache has done so far -- from the second python version on, the core's

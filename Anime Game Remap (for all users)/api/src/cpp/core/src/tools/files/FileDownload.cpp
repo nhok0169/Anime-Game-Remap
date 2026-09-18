@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cstdlib>
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
@@ -108,6 +109,54 @@ namespace AGRemapCore {
             return status == 408 || status == 429 || status >= 500;
         }
 
+#ifndef _WIN32
+        // The CA bundle this machine trusts, looked up where the library RUNS.
+        //
+        // Without it libcurl uses the path its own CMake found where it was BUILT -- and a Linux
+        // wheel is built in the manylinux image (AlmaLinux), so it would carry
+        // /etc/pki/tls/certs/ca-bundle.crt, which Debian and Ubuntu do not have. Every download
+        // there then fails with CURLE_SSL_CACERT_BADFILE (77, "error adding trust anchors from
+        // file"), and a CAPATH of /etc/ssl/certs does not rescue it: curl gives up on the missing
+        // file first. Reproduced against the vendored curl on Ubuntu 22.04 before this was added.
+        //
+        // An explicit SSL_CERT_FILE / CURL_CA_BUNDLE wins, as it does for OpenSSL and the curl
+        // tool. Otherwise the first of the well-known locations that exists (Go's crypto/x509 list;
+        // /etc/ssl/cert.pem also covers macOS). Nothing found: curl's own default stays.
+        //
+        // Not on Windows: curl uses Schannel and the Windows certificate store there, and setting
+        // CURLOPT_CAINFO would switch it to a file instead.
+        const std::optional<std::string>& systemCABundle() {
+            static const std::optional<std::string> found = []() -> std::optional<std::string> {
+                for (const char* variable : {"SSL_CERT_FILE", "CURL_CA_BUNDLE"}) {
+                    const char* value = std::getenv(variable);
+                    if (value != nullptr && *value != '\0') {
+                        return std::string(value);
+                    }
+                }
+
+                static const char* const Candidates[] = {
+                    "/etc/ssl/certs/ca-certificates.crt",                  // Debian, Ubuntu, Arch, Gentoo
+                    "/etc/pki/tls/certs/ca-bundle.crt",                    // Fedora, RHEL
+                    "/etc/ssl/ca-bundle.pem",                              // openSUSE
+                    "/etc/pki/tls/cacert.pem",                             // OpenELEC
+                    "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem",   // CentOS, RHEL 7
+                    "/etc/ssl/cert.pem",                                   // Alpine, macOS
+                };
+
+                for (const char* candidate : Candidates) {
+                    std::error_code error;
+                    if (std::filesystem::is_regular_file(candidate, error)) {
+                        return std::string(candidate);
+                    }
+                }
+
+                return std::nullopt;
+            }();
+
+            return found;
+        }
+#endif
+
         struct DownloadAttempt {
             bool ok = false;
             bool worthRetrying = false;
@@ -191,6 +240,12 @@ namespace AGRemapCore {
             curl_easy_setopt(curl.get(), CURLOPT_NOSIGNAL, 1L);
             curl_easy_setopt(curl.get(), CURLOPT_ERRORBUFFER, errorBuffer);
             curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT, ConnectTimeoutSeconds);
+
+#ifndef _WIN32
+            if (const std::optional<std::string>& caBundle = systemCABundle(); caBundle.has_value()) {
+                curl_easy_setopt(curl.get(), CURLOPT_CAINFO, caBundle->c_str());
+            }
+#endif
 
             if (proxy.has_value()) {
                 // A single CURLOPT_PROXY applies to whichever protocol the request actually uses

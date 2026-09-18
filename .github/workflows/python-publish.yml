@@ -181,6 +181,13 @@ jobs:
         #   compiles should be hits. Linux and macOS only (api/pyproject.toml's Windows before-build is
         #   left alone)
         CIBW_BEFORE_BUILD_LINUX: sccache --show-stats
+
+        # the vendored curl needs OpenSSL's headers to configure (see AI Agent Help/Setup's Linux
+        #   section), and the manylinux image (AlmaLinux) does not have them. Once per container.
+        #   auditwheel then copies libssl/libcrypto into the wheel -- they are not on the manylinux
+        #   allow-list -- and FileDownload finds the user's CA bundle at run time, because the path
+        #   curl records here is AlmaLinux's
+        CIBW_BEFORE_ALL_LINUX: dnf install -y openssl-devel
         CIBW_BEFORE_BUILD_MACOS: sccache --show-stats
 
       # the PACKAGE is the API folder, which holds pyproject.toml; with no argument cibuildwheel looks

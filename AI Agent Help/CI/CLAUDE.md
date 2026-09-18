@@ -161,6 +161,17 @@ Measured and read off `python-publish.yml` on 2026-09-18; the wheel half has nev
     another input file (`cannot specify '-o' with '-c' ... with multiple files` -- proved on a
     throwaway project). Nothing on Windows or Linux can reproduce the original error, so the next
     macOS wheel run is its only test; a new libc++ header naming `__local` goes in the prelude.
+  - **The Linux wheels need OpenSSL, and a CA bundle found at RUN time.** The vendored curl will
+    not configure without OpenSSL's headers, which the manylinux image lacks
+    (`CIBW_BEFORE_ALL_LINUX: dnf install -y openssl-devel`; auditwheel then bundles libssl and
+    libcrypto). The quieter half: curl's CMake records the BUILD machine's CA bundle
+    (`CURL_CA_BUNDLE` in its cache), which in that image is AlmaLinux's
+    `/etc/pki/tls/certs/ca-bundle.crt` -- absent on Debian and Ubuntu, where every download would
+    fail with error 77 even with `/etc/ssl/certs` as a CAPATH (reproduced against the vendored curl,
+    2026-09-18). `FileDownload` therefore sets `CURLOPT_CAINFO` from `SSL_CERT_FILE` /
+    `CURL_CA_BUNDLE` or the first well-known bundle that exists, on every OS but Windows (Schannel).
+    **A wheel that builds and imports can still be unable to download anything** --- test a
+    download on a DIFFERENT distro from the one it was built on.
   - **cibuildwheel is given the PACKAGE directory and run from the repo ROOT**:
     `python -m cibuildwheel "Anime Game Remap (for all users)/api" --output-dir wheelhouse`. With no
     argument it looks for `pyproject.toml` in the current directory and fails at once with `Could not

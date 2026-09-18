@@ -8,6 +8,14 @@ Welcome to Anime Game Remap's documentation!
     :alt: Python Version
     :target: https://www.python.org/downloads/
 
+.. image:: https://img.shields.io/badge/23-004482?style=for-the-badge&label=C%2B%2B
+    :alt: C++ Version
+    :target: https://cplusplus.com/
+
+.. image:: https://img.shields.io/badge/3-007EC6?style=for-the-badge&label=Cython
+    :alt: Cython Version
+    :target: https://cython.org/
+
 .. image:: https://img.shields.io/pypi/v/FixRaidenBoss2?label=FixRaidenBoss2%20pypi&style=for-the-badge 
     :alt: FixRaidenBoss2 Pypi Version
     :target: https://pypi.org/project/FixRaidenBoss2/
@@ -58,20 +66,6 @@ Requirements
 
 - Install `Python <https://www.python.org/downloads/>`_ version 3.6 or higher
 
-:raw-html:`<br />`
-
-Optional Requirements
-~~~~~~~~~~~~~~~~~~~~~
-
-.. note::
-    You do not need to install any of the below dependencies, but you can optionally install them, if you want,
-    for some slightly better performance
-
-* `C++ Distributables 14.0 or greater <https://visualstudio.microsoft.com/visual-cpp-build-tools/>`_ or some sort of C Compiler
-
-`Used for better optimization of classifying what mod belongs to some .ini file`
-
-:raw-html:`<br />`
 :raw-html:`<br />`
 
 .. note::

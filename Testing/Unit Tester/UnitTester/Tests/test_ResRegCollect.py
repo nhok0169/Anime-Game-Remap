@@ -87,13 +87,13 @@ class ResRegCollectTest(BaseIniFileTest):
                     [ResourceRaidenShogunBlend.0]
                     type = Buffer
                     stride = 32
-                    filename = ..\..\..\../../../../../../2-BunnyRaidenShogun\RaidenShogunBlend.buf
+                    filename = ..\\..\\..\\../../../../../../2-BunnyRaidenShogun\\RaidenShogunBlend.buf
 
                     [ResourceEiBlendsHerBlenderInsteadOfHerSmoothie]
                     type = Buffer
                     stride = 32
                     if $swapmain == 1
-                        filename = M:\AnotherDrive\CuteLittleEi.buf
+                        filename = M:\\AnotherDrive\\CuteLittleEi.buf
                     else
                         run = RaidenPuppetCommandResource
                     endif
@@ -101,7 +101,7 @@ class ResRegCollectTest(BaseIniFileTest):
                     [GIMINeedsResourcesToAllStartWithResource]
                     type = Buffer
                     stride = 32
-                    filename = ./../AAA/BBBB\CCCCCC\DDDDDRemapBlend.buf
+                    filename = ./../AAA/BBBB\\CCCCCC\\DDDDDRemapBlend.buf
 
                     [TextureOverrideRaidenShogunRemapBlend]
                     run = CommandListRaidenShogunRemapBlend
@@ -110,7 +110,7 @@ class ResRegCollectTest(BaseIniFileTest):
                     [RaidenPuppetCommandResource]
                     type = Buffer
                     stride = 32
-                    filename = ./Dont/Use\If/Statements\Or/SubCommands\In/Resource\Sections.buf
+                    filename = ./Dont/Use\\If/Statements\\Or/SubCommands\\In/Resource\\Sections.buf
 
                     ; ------ some lines originally generated from the fix ---------
 
@@ -121,7 +121,7 @@ class ResRegCollectTest(BaseIniFileTest):
                     stride = 32
 
                     if $swapmain == 1
-                        filename = M:\AnotherDrive\CuteLittleEiRemapBlend.buf
+                        filename = M:\\AnotherDrive\\CuteLittleEiRemapBlend.buf
 
                     else
                         run = RaidenPuppetCommandResourceRemapBlend
@@ -132,14 +132,14 @@ class ResRegCollectTest(BaseIniFileTest):
                     stride = 32
 
                     ; where does this go?
-                    filename = ..\..\..\..\..\..\..\..\..\\2-BunnyRaidenShogun\RaidenShogunRemapBlend.buf
+                    filename = ..\\..\\..\\..\\..\\..\\..\\..\\..\\2-BunnyRaidenShogun\\RaidenShogunRemapBlend.buf
 
                     [RaidenPuppetCommandResourceRemapBlend]
                     type = Buffer
                     stride = 32
 
                     # for some reason, GIMI does not work as what you expect for this case
-                    filename = Dont\\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRemapBlend.buf
+                    filename = Dont\\Use\\If\\Statements\\Or\\SubCommands\\In\\Resource\\SectionsRemapBlend.buf
 
                     ; --------------------------------------------------------------
 
@@ -181,13 +181,13 @@ class ResRegCollectTest(BaseIniFileTest):
                     [GIMINeedsResourcesToAllStartWithResourceRemapBlend]
                     type = Buffer
                     stride = 32
-                    filename = ..\AAA\BBBB\CCCCCC\DDDDDRemapRemapBlend.buf
+                    filename = ..\\AAA\\BBBB\\CCCCCC\\DDDDDRemapRemapBlend.buf
 
                     [ResourceEiBlendsHerRemapBlenderInsteadOfHerSmoothie]
                     type = Buffer
                     stride = 32
                     if $swapmain == 1
-                        filename = M:\AnotherDrive\CuteLittleEiRemapBlend.buf
+                        filename = M:\\AnotherDrive\\CuteLittleEiRemapBlend.buf
                     else
                         run = RaidenPuppetCommandResourceRemapBlend
                     endif
@@ -195,12 +195,12 @@ class ResRegCollectTest(BaseIniFileTest):
                     [ResourceRaidenShogunRemapBlend.0]
                     type = Binaries
                     stride = 31
-                    filename = ..\..\..\..\..\..\..\..\..\\2-BunnyRaidenShogun\RaidenShogunRemapBlend.buf
+                    filename = ..\\..\\..\\..\\..\\..\\..\\..\\..\\2-BunnyRaidenShogun\\RaidenShogunRemapBlend.buf
 
                     [RaidenPuppetCommandResourceRemapBlend]
                     type = Buffer
                     stride = 32
-                    filename = Dont\\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRemapBlend.buf
+                    filename = Dont\\Use\\If\\Statements\\Or\\SubCommands\\In\\Resource\\SectionsRemapBlend.buf
 
 
                     ; -------------------------------------------------
@@ -233,13 +233,13 @@ endif
 [ResourceRaidenShogunRikaRemapBlend.0]
 type = Buffer
 stride = 32
-filename = ..\..\..\..\..\..\..\..\..\\2-BunnyRaidenShogun\RaidenShogunRikaRemapBlend.buf
+filename = ..\\..\\..\\..\\..\\..\\..\\..\\..\\2-BunnyRaidenShogun\\RaidenShogunRikaRemapBlend.buf
 
 [ResourceEiBlendsHerRikaRemapBlenderInsteadOfHerSmoothie]
 type = Buffer
 stride = 32
 if $swapmain == 1
-\tfilename = M:\AnotherDrive\CuteLittleEiRikaRemapBlend.buf
+\tfilename = M:\\AnotherDrive\\CuteLittleEiRikaRemapBlend.buf
 else
 \trun = ResourceRaidenPuppetCommandResourceRikaRemapBlend
 endif
@@ -247,12 +247,12 @@ endif
 [ResourceRaidenPuppetCommandResourceRikaRemapBlend]
 type = Buffer
 stride = 32
-filename = .\Dont\\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRikaRemapBlend.buf
+filename = .\\Dont\\Use\\If\\Statements\\Or\\SubCommands\\In\\Resource\\SectionsRikaRemapBlend.buf
 
 [ResourceGIMINeedsResourcesToAllStartWithResourceRikaRemapBlend]
 type = Buffer
 stride = 32
-filename = .\..\AAA\BBBB\CCCCCC\DDDDDRemapRikaRemapBlend.buf
+filename = .\\..\\AAA\\BBBB\\CCCCCC\\DDDDDRemapRikaRemapBlend.buf
 
 ; --------------------------------------------"""
                     ]],
@@ -347,13 +347,13 @@ filename = .\..\AAA\BBBB\CCCCCC\DDDDDRemapRikaRemapBlend.buf
                     [ResourceRaidenShogunBlend.0]
                     type = Buffer
                     stride = 32
-                    filename = ..\..\..\../../../../../../2-BunnyRaidenShogun\RaidenShogunBlend.buf
+                    filename = ..\\..\\..\\../../../../../../2-BunnyRaidenShogun\\RaidenShogunBlend.buf
 
                     [ResourceEiBlendsHerBlenderInsteadOfHerSmoothie]
                     type = Buffer
                     stride = 32
                     if $swapmain == 1
-                        filename = M:\AnotherDrive\CuteLittleEi.buf
+                        filename = M:\\AnotherDrive\\CuteLittleEi.buf
                     else
                         run = RaidenPuppetCommandResource
                     endif
@@ -361,7 +361,7 @@ filename = .\..\AAA\BBBB\CCCCCC\DDDDDRemapRikaRemapBlend.buf
                     [GIMINeedsResourcesToAllStartWithResource]
                     type = Buffer
                     stride = 32
-                    filename = ./../AAA/BBBB\CCCCCC\DDDDDRemapBlend.buf
+                    filename = ./../AAA/BBBB\\CCCCCC\\DDDDDRemapBlend.buf
 
                     [TextureOverrideRaidenShogunRemapBlend]
                     run = CommandListRaidenShogunRemapBlend
@@ -370,7 +370,7 @@ filename = .\..\AAA\BBBB\CCCCCC\DDDDDRemapRikaRemapBlend.buf
                     [RaidenPuppetCommandResource]
                     type = Buffer
                     stride = 32
-                    filename = ./Dont/Use\If/Statements\Or/SubCommands\In/Resource\Sections.buf
+                    filename = ./Dont/Use\\If/Statements\\Or/SubCommands\\In/Resource\\Sections.buf
 
                     ; ------ some lines originally generated from the fix ---------
 
@@ -381,7 +381,7 @@ filename = .\..\AAA\BBBB\CCCCCC\DDDDDRemapRikaRemapBlend.buf
                     stride = 32
 
                     if $swapmain == 1
-                        filename = M:\AnotherDrive\CuteLittleEiRemapBlend.buf
+                        filename = M:\\AnotherDrive\\CuteLittleEiRemapBlend.buf
 
                     else
                         run = RaidenPuppetCommandResourceRemapBlend
@@ -392,14 +392,14 @@ filename = .\..\AAA\BBBB\CCCCCC\DDDDDRemapRikaRemapBlend.buf
                     stride = 32
 
                     ; where does this go?
-                    filename = ..\..\..\..\..\..\..\..\..\\2-BunnyRaidenShogun\RaidenShogunRemapBlend.buf
+                    filename = ..\\..\\..\\..\\..\\..\\..\\..\\..\\2-BunnyRaidenShogun\\RaidenShogunRemapBlend.buf
 
                     [RaidenPuppetCommandResourceRemapBlend]
                     type = Buffer
                     stride = 32
 
                     # for some reason, GIMI does not work as what you expect for this case
-                    filename = Dont\\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRemapBlend.buf
+                    filename = Dont\\Use\\If\\Statements\\Or\\SubCommands\\In\\Resource\\SectionsRemapBlend.buf
 
                     ; --------------------------------------------------------------
 
@@ -441,13 +441,13 @@ filename = .\..\AAA\BBBB\CCCCCC\DDDDDRemapRikaRemapBlend.buf
                     [GIMINeedsResourcesToAllStartWithResourceRemapBlend]
                     type = Buffer
                     stride = 32
-                    filename = ..\AAA\BBBB\CCCCCC\DDDDDRemapRemapBlend.buf
+                    filename = ..\\AAA\\BBBB\\CCCCCC\\DDDDDRemapRemapBlend.buf
 
                     [ResourceEiBlendsHerRemapBlenderInsteadOfHerSmoothie]
                     type = Buffer
                     stride = 32
                     if $swapmain == 1
-                        filename = M:\AnotherDrive\CuteLittleEiRemapBlend.buf
+                        filename = M:\\AnotherDrive\\CuteLittleEiRemapBlend.buf
                     else
                         run = RaidenPuppetCommandResourceRemapBlend
                     endif
@@ -455,12 +455,12 @@ filename = .\..\AAA\BBBB\CCCCCC\DDDDDRemapRikaRemapBlend.buf
                     [ResourceRaidenShogunRemapBlend.0]
                     type = Binaries
                     stride = 31
-                    filename = ..\..\..\..\..\..\..\..\..\\2-BunnyRaidenShogun\RaidenShogunRemapBlend.buf
+                    filename = ..\\..\\..\\..\\..\\..\\..\\..\\..\\2-BunnyRaidenShogun\\RaidenShogunRemapBlend.buf
 
                     [RaidenPuppetCommandResourceRemapBlend]
                     type = Buffer
                     stride = 32
-                    filename = Dont\\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRemapBlend.buf
+                    filename = Dont\\Use\\If\\Statements\\Or\\SubCommands\\In\\Resource\\SectionsRemapBlend.buf
 
 
                     ; -------------------------------------------------
@@ -535,13 +535,13 @@ endif
 [ResourceRaidenShogunRikaJenovaLifeRemapBlend.0]
 type = Buffer
 stride = 32
-filename = ..\..\..\..\..\..\..\..\..\\2-BunnyRaidenShogun\RaidenShogunRikaJenovaLifeRemapBlend.buf
+filename = ..\\..\\..\\..\\..\\..\\..\\..\\..\\2-BunnyRaidenShogun\\RaidenShogunRikaJenovaLifeRemapBlend.buf
 
 [ResourceEiBlendsHerRikaJenovaLifeRemapBlenderInsteadOfHerSmoothie]
 type = Buffer
 stride = 32
 if $swapmain == 1
-\tfilename = M:\AnotherDrive\CuteLittleEiRikaJenovaLifeRemapBlend.buf
+\tfilename = M:\\AnotherDrive\\CuteLittleEiRikaJenovaLifeRemapBlend.buf
 else
 \trun = ResourceRaidenPuppetCommandResourceRikaJenovaLifeRemapBlend
 endif
@@ -549,23 +549,23 @@ endif
 [ResourceRaidenPuppetCommandResourceRikaJenovaLifeRemapBlend]
 type = Buffer
 stride = 32
-filename = .\Dont\\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRikaJenovaLifeRemapBlend.buf
+filename = .\\Dont\\Use\\If\\Statements\\Or\\SubCommands\\In\\Resource\\SectionsRikaJenovaLifeRemapBlend.buf
 
 [ResourceGIMINeedsResourcesToAllStartWithResourceRikaJenovaLifeRemapBlend]
 type = Buffer
 stride = 32
-filename = .\..\AAA\BBBB\CCCCCC\DDDDDRemapRikaJenovaLifeRemapBlend.buf
+filename = .\\..\\AAA\\BBBB\\CCCCCC\\DDDDDRemapRikaJenovaLifeRemapBlend.buf
 
 [ResourceRaidenShogunRikaJenovaDeathRemapBlend.0]
 type = Buffer
 stride = 32
-filename = ..\..\..\..\..\..\..\..\..\\2-BunnyRaidenShogun\RaidenShogunRikaJenovaDeathRemapBlend.buf
+filename = ..\\..\\..\\..\\..\\..\\..\\..\\..\\2-BunnyRaidenShogun\\RaidenShogunRikaJenovaDeathRemapBlend.buf
 
 [ResourceEiBlendsHerRikaJenovaDeathRemapBlenderInsteadOfHerSmoothie]
 type = Buffer
 stride = 32
 if $swapmain == 1
-\tfilename = M:\AnotherDrive\CuteLittleEiRikaJenovaDeathRemapBlend.buf
+\tfilename = M:\\AnotherDrive\\CuteLittleEiRikaJenovaDeathRemapBlend.buf
 else
 \trun = ResourceRaidenPuppetCommandResourceRikaJenovaDeathRemapBlend
 endif
@@ -573,23 +573,23 @@ endif
 [ResourceRaidenPuppetCommandResourceRikaJenovaDeathRemapBlend]
 type = Buffer
 stride = 32
-filename = .\Dont\\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRikaJenovaDeathRemapBlend.buf
+filename = .\\Dont\\Use\\If\\Statements\\Or\\SubCommands\\In\\Resource\\SectionsRikaJenovaDeathRemapBlend.buf
 
 [ResourceGIMINeedsResourcesToAllStartWithResourceRikaJenovaDeathRemapBlend]
 type = Buffer
 stride = 32
-filename = .\..\AAA\BBBB\CCCCCC\DDDDDRemapRikaJenovaDeathRemapBlend.buf
+filename = .\\..\\AAA\\BBBB\\CCCCCC\\DDDDDRemapRikaJenovaDeathRemapBlend.buf
 
 [ResourceRaidenShogunBlend.0]
 type = Buffer
 stride = 32
-filename = ..\..\..\../../../../../../2-BunnyRaidenShogun\RaidenShogunBlend.buf
+filename = ..\\..\\..\\../../../../../../2-BunnyRaidenShogun\\RaidenShogunBlend.buf
 
 [ResourceEiBlendsHerBlenderInsteadOfHerSmoothie]
 type = Buffer
 stride = 32
 if $swapmain == 1
-\tfilename = M:\AnotherDrive\CuteLittleEi.buf
+\tfilename = M:\\AnotherDrive\\CuteLittleEi.buf
 else
 \trun = RaidenPuppetCommandResource
 endif
@@ -597,12 +597,12 @@ endif
 [RaidenPuppetCommandResource]
 type = Buffer
 stride = 32
-filename = ./Dont/Use\If/Statements\Or/SubCommands\In/Resource\Sections.buf
+filename = ./Dont/Use\\If/Statements\\Or/SubCommands\\In/Resource\\Sections.buf
 
 [GIMINeedsResourcesToAllStartWithResource]
 type = Buffer
 stride = 32
-filename = ./../AAA/BBBB\CCCCCC\DDDDDRemapBlend.buf
+filename = ./../AAA/BBBB\\CCCCCC\\DDDDDRemapBlend.buf
 
 ; --------------------------------------------"""
                     ]],

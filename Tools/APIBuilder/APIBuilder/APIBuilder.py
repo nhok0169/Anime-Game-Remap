@@ -1,3 +1,4 @@
+import shlex
 import shutil
 import stat
 import subprocess
@@ -7,7 +8,7 @@ from pathlib import Path
 from typing import List, Optional
 from types import SimpleNamespace
 
-from .constants.Paths import UtilitiesPath, APIPyFolderPath, APITopBuildFolderPath, APIPath, BuildFolder, APICoreXMLFolderPath, APICoreFolderPath, BuildFolder, PathToProject, RemoveAllFolder, PreBuildFolder, PreInstallFolder, APITopPreBuildFolderPath, APIExternFolderPath, APITopPreInstallFolderPath, APISrcFolderPaths
+from .constants.Paths import UtilitiesPath, APIPyFolderPath, APITopBuildFolderPath, APIPath, BuildFolder, APICoreXMLFolderPath, APICoreFolderPath, BuildFolder, PathToProject, RemoveAllFolder, PreBuildFolder, PreInstallFolder, APITopPreBuildFolderPath, APIExternFolderPath, APITopPreInstallFolderPath, APISrcFolderPaths, CMakeArgsEnvVar
 from .constants.BuildEnv import BuildEnv
 
 sys.path.insert(1, UtilitiesPath)
@@ -195,11 +196,26 @@ class APIBuilder():
         if (not os.path.isdir(self._extInstallFolders.z3)):
             subprocess.run(["cmake", "--install", self._extBuildFolders.z3, "--prefix", self._extInstallFolders.z3])
 
+    # _extraCMakeArgs(): the extra configure options in AGREMAP_CMAKE_ARGS, split like a POSIX shell command
+    #   line on every OS -- so quote a value holding spaces, and write a path with forward slashes (CMake reads
+    #   them on Windows too, and a backslash would be taken as an escape)
+    @classmethod
+    def _extraCMakeArgs(cls) -> List[str]:
+        value = os.environ.get(CMakeArgsEnvVar, "").strip()
+        if (not value):
+            return []
+
+        return shlex.split(value)
+
     def buildAPI(self):
         self._setupBuildFolders()
         os.chdir(APIPath)
 
-        subprocess.run(["cmake", "-G", "Ninja", "-B", self._buildFolder, "-DCMAKE_BUILD_TYPE=Release", f"-DCMAKE_PREFIX_PATH={self._extInstallFolders.z3}"], check=True)
+        extraArgs = self._extraCMakeArgs()
+        if (extraArgs):
+            print(f"Adding CMake options from {CMakeArgsEnvVar}: {' '.join(extraArgs)}")
+
+        subprocess.run(["cmake", "-G", "Ninja", "-B", self._buildFolder, "-DCMAKE_BUILD_TYPE=Release", f"-DCMAKE_PREFIX_PATH={self._extInstallFolders.z3}", *extraArgs], check=True)
         subprocess.run(["cmake", "--build", self._buildFolder, "--parallel"], check=True)
         subprocess.run(["cmake", "--install", self._buildFolder,  "--prefix", f'{self.installPath}'], check=True)
 

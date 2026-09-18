@@ -1,0 +1,41 @@
+name: Warm Caches
+
+# Every push to master -- which is every merge -- builds the API once, exactly as the testers' build
+# does, so that the build's caches (z3's folders and sccache's entries) are saved ON master.
+#
+# note: why this exists. A run can restore caches from its own branch and from the default branch
+#   (master), and a pull request's are its own -- so a cache a PR saves helps nobody else, and nothing
+#   else in this repo runs on master except the schedule in tests.yml and manual runs. Without this,
+#   once master's z3 entry was evicted (7 days unused, or the 10 GB limit) every PR paid the ~45
+#   minutes again until one of those happened to run.
+#
+# note: it must build with the SAME os and python-version as test-workflow.yml's defaults, because
+#   both are part of the cache key -- a different pair would warm a cache the testers never read.
+#
+# note: only the build, never the testers: those are the expensive part, and the pull request that
+#   was just merged has already run them. A merge that touches nothing but prose is skipped.
+
+on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - "**/*.md"
+      - "Docs/**"
+      - "AI Agent Help/**"
+
+permissions:
+  contents: read
+
+# two merges in quick succession need only the later build; a cancelled run saves nothing, but the
+#   one that replaces it does
+concurrency:
+  group: warm-caches-master
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    uses: './.github/workflows/build-workflow.yml'
+    with:
+      os: ubuntu-latest
+      python-version: "3.12"

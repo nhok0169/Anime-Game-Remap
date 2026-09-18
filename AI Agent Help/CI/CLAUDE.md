@@ -30,9 +30,10 @@ fail (exit 1, naming the job) on a copy with that one line removed.
 | `mirror-publish-workflow.yml` / `mirror-publish.yml` | reusable / manual | build and publish **AnimeGameRemap**; last in a release because it pins `FixRaidenBoss2==<version>` |
 | `utility-publish.yml` | manual only | **AGRemapUtils**, which has its own version --- deliberately not on a release, which would re-publish an unchanged version and fail as a duplicate |
 | `build.yml` | manual | a matrix build, for trying an OS |
+| `warm-caches.yml` | **push to `master`** (not prose-only merges) | the testers' build once (ubuntu-latest, Python 3.12 -- test-workflow.yml's defaults, which are part of the cache key), so its caches are saved ON `master`, where every branch and PR can read them |
 
-No workflow runs on a plain push: the testers cost enough that a pull request, the schedule and each
-publish are the gates.
+No workflow runs the testers on a push: they cost enough that a pull request, the schedule and each
+publish are the gates. The one push trigger is `warm-caches.yml`, a build on `master` alone.
 
 ## Renaming a job or a workflow strands branch protection
 
@@ -69,23 +70,47 @@ The failure this prevents does not say what it is: with numpy missing, `CyDictTo
 the real `ModuleNotFoundError` --- CI installs an unpinned `cython`, and a local Cython 0.29 prints the
 honest message instead.
 
-## Caches: one works, one cannot
+## Caches: z3 as a folder, the API through sccache
 
 - **`externs-...` works, and is the one that matters.** `cebuild<os>` / `cext<os>` hold the built z3
   (~45 minutes from cold). The key is the z3 SUBMODULE's commit, and `APIBuilder` skips `-pb` / `-pi`
   whenever those folders exist, so a hit removes the cost outright. The build step prints
   `externs cache hit: true|false`.
-- **`apibuild-...` (`cbuild<os>`) restores and saves NOTHING, and never could.** Ninja decides what is
-  stale by modification time, and `actions/checkout` writes every source file --- submodules included
-  --- with the time of the checkout, so every source is newer than every restored object and all ~790
-  steps rebuild. The tell is in the log: a CMake configure of about a second (the restored
-  `CMakeCache.txt` skipping curl's checks) followed by `[1/790]` compiling utf8proc. It also spends the
-  repository's 10 GB of cache, where the least-recently-used entry is evicted --- which can be the z3
-  one. **Open as of 2026-09-18**, with a proposed fix waiting on the maintainer: compile through sccache
-  (content-keyed, so a fresh checkout does not matter; `AGREMAP_SCCACHE=ON`, which also turns the PCH
-  off since sccache will not cache it) with `mozilla-actions/sccache-action`, give `APIBuilder` a way to
-  pass CMake options (an `AGREMAP_CMAKE_ARGS` environment variable next to `AGREMAP_BUILD_LOCATION`),
-  and delete the `cbuild` cache step. Do not "fix" it by caching harder.
+- **The API's own build compiles through sccache (2026-09-18), because caching its build FOLDER
+  cannot work.** There used to be an `apibuild-...` cache of `cbuild<os>`, and it restored and saved
+  nothing: ninja decides what is stale by modification time, and `actions/checkout` writes every source
+  file --- submodules included --- with the time of the checkout, so every source was newer than every
+  restored object and all ~790 steps rebuilt. The tell was in the log: a CMake configure of about a
+  second (the restored `CMakeCache.txt` skipping curl's checks) followed by `[1/790]` compiling
+  utf8proc. It also spent the repository's 10 GB of cache, where the least-recently-used entry is
+  evicted --- possibly the z3 one. **Do not bring back a build-folder cache.**
+
+  Now `build-workflow.yml` runs `mozilla-actions/sccache-action`, and both build steps set
+  `SCCACHE_GHA_ENABLED=true` and `AGREMAP_CMAKE_ARGS=-DAGREMAP_SCCACHE=ON` --- an `APIBuilder` hook
+  (see [Tools](../Tools/CLAUDE.md)) that reaches only the API's configure, never z3's.
+  `AGREMAP_SCCACHE` sets the compiler launcher at the top of the API's CMake, so curl, Compressonator
+  and utf8proc compile through it too, and it turns the precompiled headers off, which sccache refuses
+  to cache. So a COLD CI build is somewhat slower than before, and a warm one compiles only what
+  changed. **"Report what sccache did"** prints `--show-stats` after every build, failed or not: on a
+  warm run nearly every compile should be a cache hit, and if they are all misses the cache is not
+  being reached. That hook was proved on Linux end to end (with the variable, the configure recorded
+  `AGREMAP_SCCACHE:BOOL=ON` and CMake's own "sccache was not found" guard fired, since that machine has
+  none; without it, `OFF`); the first real CI run is the test of sccache itself.
+
+- **A cache is visible only to its own branch and to the default branch.** A pull request's caches
+  belong to that PR, so the z3 cache saved during PR #219 could not be used by a manual run on `master`
+  --- which then built z3 from cold, ~45 minutes, and looked like a hang at 25. sccache stores its cache
+  in the same place under the same rule. So: **the first run on `master` after its caches are lost is
+  cold, and a cancelled run saves nothing** (`actions/cache` saves only when the job succeeds). Let it
+  finish once and every branch and PR restores from `master` afterwards; the every-3-days schedule then
+  keeps the entries from being evicted, which GitHub does after 7 days unused. A PR's own rebuild never
+  helps the NEXT PR (it is scoped to that PR), so after an eviction every PR would pay again until
+  something ran on `master` --- which is why **`warm-caches.yml` builds on every push to `master`**
+  (every merge), re-saving the caches there. Its `os` / `python-version` must stay equal to
+  `test-workflow.yml`'s defaults; change one and change both. Two more ways the schedule can stop
+  keeping things warm: GitHub **disables scheduled workflows after 60 days with no repository
+  activity**, and a merge-free stretch longer than 7 days with the schedule disabled evicts `master`'s
+  entries --- then run Testers on `master` by hand once before opening PRs.
 
 ## cibuildwheel's Linux container gets a COPY of the project
 
@@ -123,8 +148,16 @@ workflow) fills it; the schedule keeps it current.
   a branch (`.../actions/workflows/tests.yml?query=branch%3Amaster`), whether a branch or path exists
   (`.../tree/master/<path>`), whether an old URL still redirects. The local `origin/*` refs are stale
   for the same reason, so trust the page over `git branch -r`.
-- **The default branch is `master`, renamed from `nhok0169` on 2026-09-18.** Never create a branch
-  named `nhok0169` again: every released package downloads its assets from
-  `.../raw/nhok0169/Data/Mod%20Downloads`, which works only through GitHub's redirect for a renamed
-  branch (checked: it redirects), and a new branch of that name would end it. See
-  [Overview](../Overview/CLAUDE.md).
+- **The default branch is `master`, renamed from `nhok0169` on 2026-09-18.** GitHub's redirect for a renamed branch covers the WEB pages
+  (`/tree/nhok0169/...`, `/blob/...`) and **not raw file downloads**: `github.com/.../raw/nhok0169/...`
+  returns **404** (checked 2026-09-18), while `.../raw/master/...` redirects to
+  `raw.githubusercontent.com` and serves the file. Every package released before the rename downloads its
+  assets from `.../raw/nhok0169/Data/Mod%20Downloads`, so **their downloads broke with the rename**, and
+  so did `master`'s own until the URL change in `DownloadTools.cpp` / `FileDownloadData.py` reached it ---
+  the first CI run on `master` after the rename failed 5 Integration Tester tests on nothing but 404s.
+  What restores the released versions is a branch named **`nhok0169`** holding `Data/Mod Downloads`;
+  it can stay frozen at the rename point, since an old release only asks for files it already knew
+  about. **Check a URL in the exact form the product fetches** --- a `tree/` page redirecting proved
+  nothing about `raw/`, and that one untested step is what this paragraph once got backwards. See
+  [Overview](../Overview/CLAUDE.md). **A CI failure that is only missing `*RemapDL*` files, with
+  `FileDownload::download: ... 404` in the log, is this --- a download URL --- not the fix.**

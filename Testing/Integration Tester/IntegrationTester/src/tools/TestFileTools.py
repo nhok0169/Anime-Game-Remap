@@ -15,10 +15,10 @@ class TestFileTools():
     IntegrationTestOutputsFileName = 'integrationTestOutputs.txt'
     FileEncoding = "utf-8"
 
-    BinaryFiles = re.compile("\.(buf|ib)$")
-    TexFiles = re.compile("\.(dds)$")
-    FilesToNotPrintContentPattern = re.compile("\.(buf|ib|dds|py)$")
-    LogFiles = re.compile("RemapFixLog\.txt$")
+    BinaryFiles = re.compile("\\.(buf|ib)$")
+    TexFiles = re.compile("\\.(dds)$")
+    FilesToNotPrintContentPattern = re.compile("\\.(buf|ib|dds|py)$")
+    LogFiles = re.compile("RemapFixLog\\.txt$")
 
     # readTestResults(): Reads the integration test results
     @classmethod

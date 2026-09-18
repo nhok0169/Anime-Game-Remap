@@ -232,6 +232,14 @@ is the live one. Same rule as the rest of this folder: nothing tests it, run bef
   or `AGREMAP_BUILD_LOCATION`) moves only `cbuild<suffix>`; `cext`/`cebuild` stay at the repo root,
   and a location that already holds a build tree configured at another path will not configure
   (2026-09-17).
+- **`AGREMAP_CMAKE_ARGS` adds options to the API's CMake configure** (2026-09-18) --- e.g.
+  `AGREMAP_CMAKE_ARGS=-DAGREMAP_SCCACHE=ON`, which is how CI compiles through sccache. It is split like
+  a POSIX shell command line on every OS, so quote a value holding spaces and write paths with forward
+  slashes. Only the API's configure reads it, never z3's (z3 is cached as a whole folder). The tool
+  prints `Adding CMake options from AGREMAP_CMAKE_ARGS: ...` when it applies any; no line means none
+  did. A quick way to test such a change without a full build: configure into a scratch location
+  (`-i -bl <scratch>`) with an option whose effect shows up at configure time, and read
+  `AGREMAP_...:BOOL` out of the scratch tree's `CMakeCache.txt`.
 - **Do not `git add -A`, and quote every path.** Every path in this repo contains both spaces and
   parentheses. Stage explicit path lists, ideally from a python script with a real argument list ---
   see [Overview](../Overview/CLAUDE.md)'s operating norms for the submodule hazard (checking out a

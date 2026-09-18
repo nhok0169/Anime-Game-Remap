@@ -37,6 +37,11 @@ APITopBuildFolderPath = os.path.join(PathToProject, BuildFolder)
 #   passing the option on every run
 BuildLocationEnvVar = "AGREMAP_BUILD_LOCATION"
 
+# extra options for the API's own CMake configure, split like a shell command line -- e.g.
+#   AGREMAP_CMAKE_ARGS="-DAGREMAP_SCCACHE=ON", which is how CI compiles through sccache. Only the API's
+#   configure reads it, never z3's: z3 is cached as a whole folder, and its options are its own
+CMakeArgsEnvVar = "AGREMAP_CMAKE_ARGS"
+
 PreBuildFolder = "cebuild"
 APITopPreBuildFolderPath = os.path.join(PathToProject, PreBuildFolder)
 

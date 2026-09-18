@@ -15,9 +15,17 @@ Two remotes/branches matter:
 - **`master`** — the main/release branch. It was called **`nhok0169`** until 2026-09-18, when
   `development` was merged into it and it was renamed; since that merge it carries the C++ core and
   the submodules too. Older notes, commit messages and issue threads still say `nhok0169` --- read
-  that as `master`. **Never create a branch named `nhok0169` again**: every released package fetches
-  its downloads from `github.com/.../raw/nhok0169/...`, which works only through GitHub's redirect for
-  a renamed branch, and a new branch of that name would end the redirect.
+  that as `master`. **Downloads are the catch.** GitHub's redirect for a renamed branch covers the WEB pages
+  (`/tree/nhok0169/...`, `/blob/...`) and **not raw file downloads**: `github.com/.../raw/nhok0169/...`
+  returns **404** (checked 2026-09-18), while `.../raw/master/...` redirects to
+  `raw.githubusercontent.com` and serves the file. Every package released before the rename downloads its
+  assets from `.../raw/nhok0169/Data/Mod%20Downloads`, so **their downloads broke with the rename**, and
+  so did `master`'s own until the URL change in `DownloadTools.cpp` / `FileDownloadData.py` reached it ---
+  the first CI run on `master` after the rename failed 5 Integration Tester tests on nothing but 404s.
+  What restores the released versions is a branch named **`nhok0169`** holding `Data/Mod Downloads`;
+  it can stay frozen at the rename point, since an old release only asks for files it already knew
+  about. **Check a URL in the exact form the product fetches** --- a `tree/` page redirecting proved
+  nothing about `raw/`, and that one untested step is what this paragraph once got backwards.
 - **`development`** — the active development branch (what you're usually on; branch new work off
   this, not off `master`).
 

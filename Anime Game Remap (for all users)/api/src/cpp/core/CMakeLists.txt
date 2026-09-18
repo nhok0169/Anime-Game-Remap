@@ -540,6 +540,29 @@ add_subdirectory(
     EXCLUDE_FROM_ALL
 )
 
+# On Linux and macOS, CMP_Core links cmake/CompressonatorNoSIMD.cpp INSTEAD of cmp_core's three x86
+#   SIMD libraries (CMP_Core_SSE / _AVX / _AVX512) -- its comment has the detail. Those are x86-only
+#   (<immintrin.h>, and -march=nehalem/haswell/knl, which an ARM compiler rejects), so the aarch64 and
+#   arm64 wheels cannot build them at all, and CMP_Core cannot simply drop them: its BC1 dispatch names
+#   all three. The stand-ins are the portable scalar kernel under the same three names.
+#
+#   All of Unix rather than only ARM, because on Unix the SIMD kernels were never doing anything
+#   useful: cmp_math's CPU detection is skipped outright on Linux (every extension reads as absent,
+#   so the scalar kernel always ran), and on macOS it reads the flags from UNINITIALISED memory
+#   (GetCPUID is empty off Windows), which on an Intel Mac could pick AVX-512 on a CPU without it.
+#   Measured on x86 Linux: the same BC1 bytes with and without this, and the same result from a
+#   direct sse_bc1ComputeBestEndpoints call (real SSE vs the stand-in).
+#
+#   The SIMD targets were added EXCLUDE_FROM_ALL, so with nothing linking them they are not built.
+#   Windows is untouched: its detection is a real __cpuidex.
+if(UNIX)
+    add_library(AGRemapCMPCoreNoSIMD STATIC ${CMAKE_CURRENT_LIST_DIR}/cmake/CompressonatorNoSIMD.cpp)
+    target_include_directories(AGRemapCMPCoreNoSIMD PRIVATE $<TARGET_PROPERTY:CMP_Core,INCLUDE_DIRECTORIES>)
+    target_compile_definitions(AGRemapCMPCoreNoSIMD PRIVATE $<TARGET_PROPERTY:CMP_Core,COMPILE_DEFINITIONS>)
+    set_property(TARGET CMP_Core PROPERTY LINK_LIBRARIES AGRemapCMPCoreNoSIMD)
+    set_property(TARGET CMP_Core PROPERTY INTERFACE_LINK_LIBRARIES "$<LINK_ONLY:AGRemapCMPCoreNoSIMD>")
+endif()
+
 add_subdirectory(
     ${COMPRESSONATOR_SRC}/cmp_framework
     ${CMAKE_BINARY_DIR}/Compressonator/cmp_framework

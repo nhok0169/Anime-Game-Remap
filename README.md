@@ -3,6 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/pyversions/FixRaidenBoss2?style=for-the-badge)](https://www.python.org/downloads/)
 [![Static Badge](https://img.shields.io/badge/23-004482?style=for-the-badge&label=C%2B%2B)](https://cplusplus.com/)
 [![Static Badge](https://img.shields.io/badge/3-007EC6?style=for-the-badge&label=Cython)](https://cython.org/)
+
 [![PyPI - Version](https://img.shields.io/pypi/v/FixRaidenBoss2?label=FixRaidenBoss2%20pypi&style=for-the-badge)](https://pypi.org/project/FixRaidenBoss2/)
 [![PyPI - Version](https://img.shields.io/pypi/v/AnimeGameRemap?label=AG%20Remap%20pypi&style=for-the-badge)](https://pypi.org/project/AnimeGameRemap/)
 

@@ -27,7 +27,7 @@ fail (exit 1, naming the job) on a copy with that one line removed.
 | `build-workflow.yml` | reusable, manual | checkout **with submodules**, restore the z3 cache, `Tools/APIBuilder/main.py -pb -pi -i`, prove the import, upload `api/src/py/FixRaidenBoss2/` as the artifact |
 | `unit-test-workflow.yml`, `integration-test-workflow.yml` | reusable | download the artifact over the package folder, install the API's runtime dependencies, then the tester's, prove the import, run |
 | `python-publish.yml` | **release published**, manual | build and test, then wheels (`cibuildwheel`, five runners), publish **FixRaidenBoss2**, and only then the mirror |
-| `mirror-publish-workflow.yml` / `mirror-publish.yml` | reusable / manual | build and publish **AnimeGameRemap**; last in a release because it pins `FixRaidenBoss2==<version>` |
+| `mirror-build-workflow.yml` / `mirror-publish.yml` | reusable / manual | build (the reusable one) and publish **AnimeGameRemap**; last in a release because it pins `FixRaidenBoss2==<version>`. The UPLOAD is a plain job in each caller, never in the reusable workflow -- see below |
 | `utility-publish.yml` | manual only | **AGRemapUtils**, which has its own version --- deliberately not on a release, which would re-publish an unchanged version and fail as a duplicate |
 | `build.yml` | manual | a matrix build, for trying an OS |
 | `warm-caches.yml` | **push to `master`** (not prose-only merges), manual | the testers' build once (ubuntu-latest, Python 3.12 -- test-workflow.yml's defaults, which are part of the cache key), so its caches are saved ON `master`, where every branch and PR can read them; and, **only when run by hand**, the wheels' z3 per wheel runner through `.github/actions/wheel-externs` --- so a release shortly after restores it |
@@ -177,6 +177,14 @@ Measured and read off `python-publish.yml` on 2026-09-18; the wheel half has nev
     `CURL_CA_BUNDLE` or the first well-known bundle that exists, on every OS but Windows (Schannel).
     **A wheel that builds and imports can still be unable to download anything** --- test a
     download on a DIFFERENT distro from the one it was built on.
+  - **PyPI's trusted publishing refuses a token minted inside a reusable workflow**
+    (`invalid-publisher`, 2026-09-18, the AnimeGameRemap upload). Such a token carries two workflow
+    names -- `workflow_ref` (the caller) and `job_workflow_ref` (the reusable file) -- and matches no
+    publisher; the action even warns about it first. So a `pypa/gh-action-pypi-publish` step lives
+    in a plain job of the ENTRY workflow, and anything shared is only the build
+    (`mirror-build-workflow.yml` builds, `python-publish.yml` and `mirror-publish.yml` each upload).
+    Each entry workflow that uploads must be registered on PyPI as a trusted publisher of that
+    project, with the same environment (`pypi`) -- two for AnimeGameRemap, one for FixRaidenBoss2.
   - **delvewheel does not look inside the wheel unless told to** (the Windows wheel,
     2026-09-18: `Unable to find library: libz3.dll`). The API's CMake installs libz3, libcurl and
     utf8proc beside `core.pyd`, and delvewheel searches only `PATH` (and `--add-path`) for a

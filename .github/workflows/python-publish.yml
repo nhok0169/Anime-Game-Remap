@@ -172,7 +172,13 @@ jobs:
         #   too -- CMake wants them, and a backslash would escape in a cache entry.
         #   CMAKE_ARGS is added to api/pyproject.toml's own cmake.args by scikit-build-core, and
         #   AGREMAP_SCCACHE makes the API's CMake compile everything through sccache (see above)
-        CIBW_ENVIRONMENT_LINUX: CMAKE_PREFIX_PATH=/project/cext${{ matrix.os }}/z3 PATH="/project/.sccache-bin:$PATH" CMAKE_ARGS="-DAGREMAP_SCCACHE=ON"
+        #   The three OPENSSL_* point the vendored curl at EPEL's OpenSSL 3 (see CIBW_BEFORE_ALL_LINUX
+        #   below), which sits beside the image's own 1.1.1 under an 'openssl3' subfolder that
+        #   FindOpenSSL would never look in
+        CIBW_ENVIRONMENT_LINUX: >-
+          CMAKE_PREFIX_PATH=/project/cext${{ matrix.os }}/z3
+          PATH="/project/.sccache-bin:$PATH"
+          CMAKE_ARGS="-DAGREMAP_SCCACHE=ON -DOPENSSL_INCLUDE_DIR=/usr/include/openssl3 -DOPENSSL_SSL_LIBRARY=/usr/lib64/openssl3/libssl.so -DOPENSSL_CRYPTO_LIBRARY=/usr/lib64/openssl3/libcrypto.so"
         # the same macOS the wheel-externs action built z3 for, or delocate refuses the library
         CIBW_ENVIRONMENT_MACOS: CMAKE_PREFIX_PATH=${{ github.workspace }}/cext${{ matrix.os }}/z3 MACOSX_DEPLOYMENT_TARGET=14.0 CMAKE_ARGS="-DAGREMAP_SCCACHE=ON"
         CIBW_ENVIRONMENT_WINDOWS: CMAKE_PREFIX_PATH=${{ github.workspace }}/cext${{ matrix.os }}/z3
@@ -181,6 +187,18 @@ jobs:
         #   compiles should be hits. Linux and macOS only (api/pyproject.toml's Windows before-build is
         #   left alone)
         CIBW_BEFORE_BUILD_LINUX: sccache --show-stats
+
+        # the vendored curl needs OpenSSL 3's headers (its vtls/openssl.c: '#error "OpenSSL 3.0.0 or
+        #   later required"'), and the manylinux_2_28 image is AlmaLinux 8, whose own openssl-devel is
+        #   1.1.1. EPEL 8's openssl3-devel installs 3.x BESIDE it (headers under
+        #   /usr/include/openssl3, link names under /usr/lib64/openssl3, the libssl.so.3 /
+        #   libcrypto.so.3 themselves in /usr/lib64) -- CIBW_ENVIRONMENT_LINUX points curl at it.
+        #   Staying on 2_28 rather than moving to manylinux_2_34 (AlmaLinux 9, OpenSSL 3 built in)
+        #   keeps Debian 10-11, Ubuntu 18.10-21.04 and RHEL 8 installable.
+        #   auditwheel then copies libssl/libcrypto into the wheel -- they are not on the manylinux
+        #   allow-list -- and FileDownload finds the user's CA bundle at run time, because the path
+        #   curl records here is AlmaLinux's. Once per container
+        CIBW_BEFORE_ALL_LINUX: dnf install -y epel-release && dnf install -y openssl3-devel
         CIBW_BEFORE_BUILD_MACOS: sccache --show-stats
 
       # the PACKAGE is the API folder, which holds pyproject.toml; with no argument cibuildwheel looks

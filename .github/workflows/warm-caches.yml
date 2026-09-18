@@ -1,0 +1,83 @@
+name: Warm Caches
+
+# Every push to master -- which is every merge -- builds the API once, exactly as the testers' build
+# does, so that the build's caches (z3's folders and sccache's entries) are saved ON master.
+#
+# note: why this exists. A run can restore caches from its own branch and from the default branch
+#   (master), and a pull request's are its own -- so a cache a PR saves helps nobody else, and nothing
+#   else in this repo runs on master except the schedule in tests.yml and manual runs. Without this,
+#   once master's z3 entry was evicted (7 days unused, or the 10 GB limit) every PR paid the ~45
+#   minutes again until one of those happened to run.
+#
+# note: it must build with the SAME os and python-version as test-workflow.yml's defaults, because
+#   both are part of the cache key -- a different pair would warm a cache the testers never read.
+#
+# note: only the build, never the testers: those are the expensive part, and the pull request that
+#   was just merged has already run them. A merge that touches nothing but prose is skipped.
+#
+# note: the wheel-externs job does the same for RELEASES. A release runs on its tag, which can restore
+#   master's caches but not another tag's, so this is the only way a release finds z3 already built
+#   on its five wheel runners. It uses the same action python-publish.yml does, and its runner list and
+#   macOS deployment target must equal that file's -- Tools/Misc/Diagnostics/checkWorkflowWiring.py
+#   checks both. On a hit each runner only restores (which also keeps the entry from being evicted);
+#   it builds only when the z3 submodule, the pinned manylinux image or the macOS target has moved.
+#   Run it by hand (workflow_dispatch) to warm everything before a first release.
+
+on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - "**/*.md"
+      - "Docs/**"
+      - "AI Agent Help/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# two merges in quick succession need only the later build; a cancelled run saves nothing, but the
+#   one that replaces it does
+concurrency:
+  group: warm-caches-master
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    uses: './.github/workflows/build-workflow.yml'
+    with:
+      os: ubuntu-latest
+      python-version: "3.12"
+
+  wheel-externs:
+    name: Wheel z3 (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # must equal python-publish.yml's build-wheels matrix
+        os:
+          - ubuntu-latest
+          - ubuntu-24.04-arm
+          - windows-latest
+          - macos-15-intel
+          - macos-latest
+
+    steps:
+      - name: Checkout, submodules and all
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: The wheels' z3
+        uses: ./.github/actions/wheel-externs
+        with:
+          os: ${{ matrix.os }}
+          # must equal the MACOSX_DEPLOYMENT_TARGET python-publish.yml builds the wheels with
+          macos-deployment-target: "11.0"

@@ -351,7 +351,7 @@ class ModTypes(StrEnum, DeferredEnum):
         result += f"{helpHeading.open()}\n\nThe names/aliases for the mod types are not case sensitive\n\n"
 
         if (not showFullMods):
-            result += "Below contains a condensed list of all the supported mods, for more details, please visit:\nhttps://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api#mod-types\n\n"
+            result += "Below contains a condensed list of all the supported mods, for more details, please visit:\nhttps://github.com/nhok0169/Anime-Game-Remap/tree/master/Anime%20Game%20Remap%20(for%20all%20users)/api#mod-types\n\n"
 
         modTypeHelpTxt = []
         for modTypeEnum in cls:

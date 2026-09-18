@@ -1,6 +1,6 @@
 # Remap Drafts
 
-Rough work used for helping with finding out Vertex Group Remaps for different mods used [here](https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/VGRemapData.py)
+Rough work used for helping with finding out Vertex Group Remaps for different mods used [here](https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/VGRemapData.py)
 
 <br>
 

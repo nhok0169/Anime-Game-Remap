@@ -145,20 +145,20 @@ Go to `IniClassifierBuilder.py`_ and specify how software will identify whether 
 
 
 .. _GIMI Assets: https://github.com/SilentNightSound/GI-Model-Importer-Assets
-.. _ModTypeNames.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/constants/ModTypeNames.py
-.. _HashData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/HashData.py
-.. _IndexData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/IndexData.py
-.. _PositionEditorData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/PositionEditorData.py
-.. _IniParseBuilderData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/IniParseBuilderData.py
-.. _VGRemapData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/VGRemapData.py
-.. _IniFixBuilderData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/IniFixBuilderData.py
-.. _GIBuilder.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/constants/GIBuilder.py
-.. _ModTypes.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/constants/ModTypes.py
-.. _IniClassifierBuilder.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/model/strategies/iniClassifiers/IniClassifierBuilder.py
-.. _Mod Downloads: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Data/Mod%20Downloads
-.. _Dump To Mod Converter: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Tools/DumpToModConverter
-.. _FileDownloadData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/FileDownloadData.py
-.. _Mod Analyzer: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Tools/ModAnalyzer
-.. _TexcoordByteSizeData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/TexcoordByteSizeData.py
-.. _VertexCountData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/VertexCountData.py
+.. _ModTypeNames.py: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/constants/ModTypeNames.py
+.. _HashData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/HashData.py
+.. _IndexData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/IndexData.py
+.. _PositionEditorData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/PositionEditorData.py
+.. _IniParseBuilderData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/IniParseBuilderData.py
+.. _VGRemapData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/VGRemapData.py
+.. _IniFixBuilderData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/IniFixBuilderData.py
+.. _GIBuilder.py: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/constants/GIBuilder.py
+.. _ModTypes.py: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/constants/ModTypes.py
+.. _IniClassifierBuilder.py: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/model/strategies/iniClassifiers/IniClassifierBuilder.py
+.. _Mod Downloads: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Data/Mod%20Downloads
+.. _Dump To Mod Converter: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Tools/DumpToModConverter
+.. _FileDownloadData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/FileDownloadData.py
+.. _Mod Analyzer: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Tools/ModAnalyzer
+.. _TexcoordByteSizeData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/TexcoordByteSizeData.py
+.. _VertexCountData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/VertexCountData.py
 

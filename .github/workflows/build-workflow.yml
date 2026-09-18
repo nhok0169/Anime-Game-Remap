@@ -7,11 +7,22 @@ name: Build API
 #   does an unconditional 'from .core import ...' and no compiled module is tracked in git, so
 #   anything that imports the library in CI needs this to have run first.
 #
-# note: the three build folders are cached, and the prize is z3. 'APIBuilder' skips both the
+# note: z3's two build folders are cached, and that is the prize. 'APIBuilder' skips both the
 #   prebuild and the preinstall when their folders already exist, so a restored cache turns a
 #   ~45 minute z3 build into nothing at all -- no flag needed, that is just what the tool does.
 #   Each runner gets its own folders through the suffix options, per the '[folder][OS]' convention
-#   ('-bs ubuntu-latest' gives 'cbuildubuntu-latest'), so the caches never collide.
+#   ('-ps ubuntu-latest' gives 'cebuildubuntu-latest'), so the caches never collide.
+#
+# note: the API's OWN build is not cached as a folder -- it compiles through sccache instead. Ninja
+#   decides what is stale by modification time, and a checkout writes every source with the time of
+#   the checkout, so a restored build tree rebuilt all ~790 steps every run and saved nothing.
+#   sccache caches each compile by the hash of its preprocessed source and flags, so an unchanged file
+#   is served from the cache whatever its timestamp.
+#
+# note: a run can only restore caches saved on its own branch or on the default branch (master), and
+#   a pull request's are its own. So the first run on a branch with nothing on master yet is cold,
+#   and a run that is cancelled saves nothing -- let a cold master run finish, and every branch
+#   restores from it after.
 
 on:
   workflow_call:
@@ -97,15 +108,10 @@ jobs:
             cext${{ steps.naming.outputs.suffix }}
           key: externs-${{ inputs.os }}-py${{ inputs.python-version }}-z3-${{ steps.naming.outputs.z3 }}
 
-      # the API's own build tree. A near-miss is still worth restoring: CMake and ninja are
-      #   incremental, so an out-of-date tree rebuilds only what actually changed
-      - name: Cache the API build tree
-        uses: actions/cache@v4
-        with:
-          path: cbuild${{ steps.naming.outputs.suffix }}
-          key: apibuild-${{ inputs.os }}-py${{ inputs.python-version }}-${{ hashFiles('Anime Game Remap (for all users)/api/CMakeLists.txt', 'Anime Game Remap (for all users)/api/src/**') }}
-          restore-keys: |
-            apibuild-${{ inputs.os }}-py${{ inputs.python-version }}-
+      # puts sccache on PATH and gives it the credentials for the GitHub Actions cache. The API's CMake
+      #   finds it by name once AGREMAP_SCCACHE=ON (see the build steps' env)
+      - name: Set up sccache
+        uses: mozilla-actions/sccache-action@v0.0.11
 
       - name: Report what the cache gave us
         shell: bash
@@ -118,6 +124,11 @@ jobs:
       - name: Build the API
         if: runner.os != 'Windows'
         shell: bash
+        env:
+          # compile through sccache, whose cache lives in the GitHub Actions cache. AGREMAP_SCCACHE also
+          #   turns the precompiled headers off, which sccache refuses to cache
+          SCCACHE_GHA_ENABLED: "true"
+          AGREMAP_CMAKE_ARGS: -DAGREMAP_SCCACHE=ON
         run: |
           python main.py -pb -pi -i \
             -ps "${{ steps.naming.outputs.suffix }}" \
@@ -130,6 +141,11 @@ jobs:
       - name: Build the API (Windows)
         if: runner.os == 'Windows'
         shell: cmd
+        env:
+          # compile through sccache, whose cache lives in the GitHub Actions cache. AGREMAP_SCCACHE also
+          #   turns the precompiled headers off, which sccache refuses to cache
+          SCCACHE_GHA_ENABLED: "true"
+          AGREMAP_CMAKE_ARGS: -DAGREMAP_SCCACHE=ON
         run: |
           for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do set "VSPATH=%%i"
           if not defined VSPATH (
@@ -140,6 +156,14 @@ jobs:
           if errorlevel 1 exit /b 1
           cd Tools\APIBuilder
           python main.py -pb -pi -i -ps "${{ steps.naming.outputs.suffix }}" -pis "${{ steps.naming.outputs.suffix }}" -bs "${{ steps.naming.outputs.suffix }}"
+
+      # how much of the build sccache actually served -- on a warm run nearly every compile should be a
+      #   hit. Runs even when the build failed, since that is when the numbers are most wanted
+      - name: Report what sccache did
+        if: always()
+        shell: bash
+        run: |
+          if [ -n "${SCCACHE_PATH:-}" ]; then "$SCCACHE_PATH" --show-stats; else echo "sccache was not set up"; fi
 
       # the build reporting success is not the same as the library importing -- check the artifact
       - name: Prove the built library imports

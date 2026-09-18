@@ -1,0 +1,123 @@
+name: Wheel externs
+description: >
+  Restores -- or builds, then leaves for the cache to save -- the z3 the wheels link against, in
+  cebuild<os> / cext<os> at the workspace root. The ONE definition of that build: python-publish.yml's
+  wheel jobs and warm-caches.yml's master-side warming both use it, so the cache the second saves is
+  exactly what the first restores.
+
+# Why a cache on master matters: a release runs on its TAG, which can restore caches saved on master but
+#   saves only for itself, and no tag can read another's. So unless master holds these entries, every
+#   release builds z3 on every wheel runner (~45-60 minutes each).
+#
+# The key has to change whenever the BUILD would: the z3 submodule's commit, the runner, the manylinux
+#   image the Linux build runs in (read from the pinned cibuildwheel, below), and the macOS deployment
+#   target.
+
+inputs:
+  os:
+    description: The runner label -- the '[folder][OS]' suffix and part of the cache key
+    required: true
+  macos-deployment-target:
+    description: >
+      The macOS the z3 build and the wheels target. Must equal the MACOSX_DEPLOYMENT_TARGET the wheels
+      are built with, or delocate refuses a library needing a newer macOS than the wheel claims
+    default: "11.0"
+
+outputs:
+  cache-hit:
+    description: Whether z3 came from the cache
+    value: ${{ steps.cache.outputs.cache-hit }}
+
+runs:
+  using: composite
+  steps:
+    - name: Work out the key
+      id: naming
+      shell: bash
+      run: |
+        echo "z3=$(git rev-parse "HEAD:Anime Game Remap (for all users)/api/extern/z3")" >> "$GITHUB_OUTPUT"
+
+        # the Linux build runs in the image the PINNED cibuildwheel uses for manylinux_2_28, taken from
+        #   its own pinned list rather than typed here, so the two cannot drift apart
+        if [ "$RUNNER_OS" = "Linux" ]; then
+          python -m pip install -r .github/cibuildwheel-requirements.txt > /dev/null
+          image=$(python -c "
+        import configparser, importlib.resources, platform
+        cfg = configparser.ConfigParser()
+        cfg.read_string((importlib.resources.files('cibuildwheel') / 'resources' / 'pinned_docker_images.cfg').read_text())
+        print(cfg[platform.machine()]['manylinux_2_28'])
+        ")
+          echo "image=$image" >> "$GITHUB_OUTPUT"
+          echo "flavour=$(echo "$image" | sed 's/.*@sha256:\(............\).*/\1/')" >> "$GITHUB_OUTPUT"
+          echo "manylinux image: $image"
+        elif [ "$RUNNER_OS" = "macOS" ]; then
+          echo "flavour=mac${{ inputs.macos-deployment-target }}" >> "$GITHUB_OUTPUT"
+        else
+          echo "flavour=host" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Restore the wheels' z3
+      id: cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          cebuild${{ inputs.os }}
+          cext${{ inputs.os }}
+        key: externs-cibw-${{ inputs.os }}-${{ steps.naming.outputs.flavour }}-z3-${{ steps.naming.outputs.z3 }}
+
+    - name: Report what the cache gave us
+      shell: bash
+      run: |
+        echo "wheel externs cache hit: ${{ steps.cache.outputs.cache-hit }}"
+
+    # macOS builds its wheels on the host itself, so a host build IS what the wheel links against --
+    #   targeted at the same macOS the wheels are. '-s' skips the API: scikit-build-core builds that as
+    #   part of the wheel
+    - name: Build z3 (macOS)
+      if: steps.cache.outputs.cache-hit != 'true' && runner.os == 'macOS'
+      shell: bash
+      env:
+        MACOSX_DEPLOYMENT_TARGET: ${{ inputs.macos-deployment-target }}
+      run: |
+        cd Tools/APIBuilder
+        python -m pip install cmake ninja
+        python -m pip install -r requirements.txt
+        python main.py -pb -pi -s -i -ps "${{ inputs.os }}" -pis "${{ inputs.os }}"
+
+    # Windows likewise builds on the host -- in one cmd shell, since '-G Ninja' needs the MSVC
+    #   environment in the same shell that runs the build
+    - name: Build z3 (Windows)
+      if: steps.cache.outputs.cache-hit != 'true' && runner.os == 'Windows'
+      shell: cmd
+      run: |
+        python -m pip install cmake ninja
+        for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do set "VSPATH=%%i"
+        if not defined VSPATH (
+          echo [FAIL] could not locate a Visual Studio with the C++ toolchain
+          exit /b 1
+        )
+        call "%VSPATH%\VC\Auxiliary\Build\vcvarsall.bat" x64
+        if errorlevel 1 exit /b 1
+        cd Tools\APIBuilder
+        python -m pip install -r requirements.txt
+        python main.py -pb -pi -s -i -ps "${{ inputs.os }}" -pis "${{ inputs.os }}"
+
+    # Linux wheels are built inside a manylinux container, so z3 is built inside the SAME image, with
+    #   the workspace mounted at /project -- where cibuildwheel puts its copy of the project too, so the
+    #   paths z3 records at install time still hold when the wheel is built. Built here rather than in
+    #   CIBW_BEFORE_ALL because that runs in cibuildwheel's own copy of the project, which would then
+    #   have to be copied back out for the cache to see it. The image's cp312 is used explicitly: its
+    #   'python3' is not guaranteed to be new enough for APIBuilder (StrEnum needs 3.11)
+    - name: Build z3 (Linux, inside the manylinux image)
+      if: steps.cache.outputs.cache-hit != 'true' && runner.os == 'Linux'
+      shell: bash
+      run: |
+        docker run --rm -v "$GITHUB_WORKSPACE:/project" -w /project/Tools/APIBuilder "${{ steps.naming.outputs.image }}" bash -c '
+          set -e
+          export PATH=/opt/python/cp312-cp312/bin:$PATH
+          python -m pip install cmake ninja
+          python -m pip install -r requirements.txt
+          python main.py -pb -pi -s -i -ps "${{ inputs.os }}" -pis "${{ inputs.os }}"
+        '
+        # the container ran as root; hand the folders back so later steps and the cache can use them
+        sudo chown -R "$(id -u):$(id -g)" "cebuild${{ inputs.os }}" "cext${{ inputs.os }}"

@@ -7,7 +7,7 @@
 #   source code into a single script
 #
 # For more info, check out the Github to ScriptBuilder at:
-# https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Tools/ScriptBuilder
+# https://github.com/nhok0169/Anime-Game-Remap/tree/master/Tools/ScriptBuilder
 #
 # ***** ScriptBuilder Stats *****
 #

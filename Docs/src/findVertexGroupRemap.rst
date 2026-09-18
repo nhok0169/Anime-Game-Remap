@@ -189,7 +189,7 @@ you would now need to find the vertex group remap for ``Shenhe --> ShenheFrostFl
 .. _GIMI Blender Plugin: https://github.com/SilentNightSound/GI-Model-Importer/?tab=readme-ov-file#installation-instructions-3dmigoto-blender-plugin
 .. _GIMI Assets: https://github.com/SilentNightSound/GI-Model-Importer-Assets
 .. _GIMI Mona Walkthrough: https://github.com/SilentNightSound/GI-Model-Importer/blob/main/Guides/MonaWalkthrough.md
-.. _Remap Draft Format: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Data/RemapDrafts/README.md
+.. _Remap Draft Format: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Data/RemapDrafts/README.md
 .. _Always Taken Branch Predictor: https://en.wikipedia.org/wiki/Branch_predictor#Next_line_prediction
 .. _One Bit Saturating Counter Branch Predictor: https://en.wikipedia.org/wiki/Branch_predictor#One-level_branch_prediction
 .. _Branch Prediction: https://en.wikipedia.org/wiki/Branch_predictor

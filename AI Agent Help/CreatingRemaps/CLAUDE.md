@@ -1664,9 +1664,12 @@ order the edit finds no file and silently writes nothing. If you add a download 
 
 <br>
 
-**`Data/Mod Downloads` is identical on `development` and `nhok0169`**, so a data-only change here
-has to be committed on both -- read [Overview](../Overview/CLAUDE.md)'s norm on switching branches
-before you do the second one, because that checkout has teeth.
+**`Data/Mod Downloads` is what users download from `master` at run time** (`DownloadTools`' base URL,
+`github.com/.../raw/master/Data/Mod%20Downloads`). Until 2026-09-18 the release branch was the
+pure-Python `nhok0169` and a data-only change had to be committed on both branches; since
+`development` was merged into it and it was renamed `master`, an asset change goes to `development` like
+anything else --- but it is not live for users until the next merge to `master`, so a remap that needs a
+NEW download is not usable from a release until then.
 
 <br>
 

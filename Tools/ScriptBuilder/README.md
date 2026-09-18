@@ -1,13 +1,13 @@
 # AG Remap's Script Builder
 
-Compiles [the script's source code](../Script) into a [single script](https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/script%20build/src/FixRaidenBoss2/AGRemap.py)
+Compiles [the script's source code](../Script) into a [single script](https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/script%20build/src/FixRaidenBoss2/AGRemap.py)
 
 <br>
 
 > [!NOTE]
 > Essentially, this tool copies all the necessary information of each module from
 > [the script's source code](../Script) and puts them all into
-> [the script](https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/script%20build/src/FixRaidenBoss2/AGRemap.py)
+> [the script](https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/script%20build/src/FixRaidenBoss2/AGRemap.py)
 > using ***[topological ordering](https://en.wikipedia.org/wiki/Topological_sorting)***
 
 <br>

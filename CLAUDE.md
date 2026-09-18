@@ -22,6 +22,7 @@ build/test/doc pipelines from scratch when they're already written down.
 | Texture Editing | [`AI Agent Help/TextureEditing/CLAUDE.md`](AI%20Agent%20Help/TextureEditing/CLAUDE.md) | working on `TextureFile`, `TexEditor`, `TexCreator`, or a `texFilters/`/`pixelTransforms/` strategy (the Compressonator/Pillow dual-engine `.dds` pipeline, the `readPillowImg` buffer-native-vs-`.img` design, or save-format/gamma behavior) — **also read its first section if you just want to *look at* a `.dds`**, which the Read tool cannot open directly |
 | Buf Files | [`AI Agent Help/BufFiles/CLAUDE.md`](AI%20Agent%20Help/BufFiles/CLAUDE.md) | working on `BufFile`, `BlendFile`, `PositionFile`, `IbFile`, `VbFile`, the `BufDataType`/`BufElementType` family, `BufTools` or `bufEditors/` — and **mandatory before touching the 3dmigoto dump text format** (`getDumpStr`/`readDumpStr`), where this repo's own notebooks are a reverse-engineering rather than the spec, and the obvious sample folders will validate you in a circle |
 | Tools | [`AI Agent Help/Tools/CLAUDE.md`](AI%20Agent%20Help/Tools/CLAUDE.md) | touching anything under `Tools/` — the builders, the `CIPipeline`, the script, or the shared `AGRemapUtils` library. **Nothing tests this layer and it rots silently: run the tool before you change it.** One session found three tools that could not run at all, each broken by the API's package moving during the C++ migration. Also covers the `##### Script` keyword sections and the substring trap in them, and where an option goes now that the script no longer contains the API |
+| CI | [`AI Agent Help/CI/CLAUDE.md`](AI%20Agent%20Help/CI/CLAUDE.md) | touching anything under `.github/workflows`, or a CI run, badge or pull request check behaves oddly -- the map of the eleven workflows, **why renaming a job strands branch protection** (checks are matched by the job-name CHAIN), why the testers need the API's own dependencies installed, which cache works (z3) and which cannot (`cbuild`: checkout resets mtimes), cibuildwheel's copied-not-mounted container, what a "No status" badge means, and how to see the remote when `git fetch` is blocked here. **Run `Tools/Misc/Diagnostics/checkWorkflowWiring.py` before and after any workflow change** |
 | Vertex Group Remaps | [`AI Agent Help/VGRemaps/CLAUDE.md`](AI%20Agent%20Help/VGRemaps/CLAUDE.md) | touching `data/VGRemapData.cpp`, `Data/RemapDrafts/`, `Tools/VGRemapFinder`, or a **"the model is warped / kinked in game"** bug -- where the blend-weight table sits in the maintainer's 8-step remap process, the rule that **every source vertex group must map somewhere** (an unmapped one becomes a *negative* bone index, not nothing), which geometry copy matches the library's versions, and the two recipes: a new character's remap end to end, and diagnosing a deformed model in minutes |
 
 **A COUNTER THAT CAN ONLY EVER BE ZERO READS EXACTLY LIKE A ZERO THAT MEANS SOMETHING
@@ -646,8 +647,9 @@ beside its stub and steps aside for one that is. So **a pybind11 class you add w
 `core.pyi` renders on your machine and is absent from the published site**, and a stale artifact publishes
 a signature the library no longer has --- `git status` on those two is part of finishing a docs change.
 Its config was fatal to any branch carrying the C++ API --- it pip-installed the API *and* ran Doxygen from
-a working directory where the Doxyfile's relative `INPUT` means nothing --- which the published `latest` had
-not noticed only because the default branch `nhok0169` is still the pure-Python library. Test the
+a working directory where the Doxyfile's relative `INPUT` means nothing --- which the published `latest` did
+not notice only because the default branch (`nhok0169`, now `master`) was still the pure-Python library
+until 2026-09-18. Test the
 published path with `AGREMAP_DOCS_STUBS=force` in front of the usual Sphinx command; see
 [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md).
 
@@ -679,10 +681,12 @@ path written down anywhere, this line included** -- see **Building**'s prerequis
 stripped, never runs, and still exits 0 -- so the "build" silently leaves the *previous* `.pyd` in
 place for your tests. Launch build/test batch files from the **PowerShell** tool with
 `cmd /c "<full path>"` instead, and verify by the `.pyd`'s mtime (see **Building**); (5) checking
-out `nhok0169` **deletes `api/src/cpp` out from under you** (that branch predates the C++ core) and
-strands `development`'s submodules under `api/extern/` as part of ~11k untracked files, so move your
-working directory to the repo root before switching and **never `git add -A` there** -- see
-**Overview**'s operating norms; (6) **every repo path contains both spaces and parentheses**
+out a release ref from before 2026-09-18 **deletes `api/src/cpp` out from under you** (the release
+branch, `nhok0169` then and `master` now, predated the C++ core until `development` was merged into it
+that day) and strands `development`'s submodules under `api/extern/` as part of ~11k untracked files,
+so move your working directory to the repo root before switching and **never `git add -A` there** --
+see **Overview**'s operating norms, which also say why released packages NEED a branch named
+`nhok0169` (GitHub's rename redirect does not cover `raw/` downloads, so they 404 without one); (6) **every repo path contains both spaces and parentheses**
 (`Anime Game Remap (for all users)`), so an unquoted shell variable holding a path silently
 shatters into pieces -- `for f in $(git diff --name-only ...); do git checkout -- $f; done` reports
 `error: pathspec 'Anime' did not match any file(s)` and **changes nothing while looking like it

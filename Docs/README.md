@@ -9,8 +9,8 @@ AG Remap's documentation website.
 ## Building the website
 
 ### Step 1:
-On [CMD](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd), navigate to [this folder](https://github.com/nhok0169/Anime-Game-Remap/tree/update-readmes/Docs) where the 
-[Makefile](https://github.com/nhok0169/Anime-Game-Remap/blob/update-readmes/Docs/Makefile) and [make.bat](https://github.com/nhok0169/Anime-Game-Remap/blob/update-readmes/Docs/make.bat) are located
+On [CMD](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd), navigate to [this folder](https://github.com/nhok0169/Anime-Game-Remap/tree/master/Docs) where the 
+[Makefile](https://github.com/nhok0169/Anime-Game-Remap/blob/master/Docs/Makefile) and [make.bat](https://github.com/nhok0169/Anime-Game-Remap/blob/master/Docs/make.bat) are located
 
 ### Step 2:
 

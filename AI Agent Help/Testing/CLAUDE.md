@@ -1165,7 +1165,8 @@ the committed script is CRLF and bash chokes on `set -u\r`), then
 test about 45 seconds. Install `directory-tree` with `pip install --target ~/itlib` rather than into
 the shared dev venv.
 
-**THE FIRST CI RUN FAILED 8 OF 24, AND NOT ONE OF THEM WAS A REGRESSION (2026-09-18).** Two
+**THE FIRST CI RUN FAILED 8 OF 24, AND NOT ONE OF THEM WAS A REGRESSION (2026-09-18).** (The workflows
+themselves -- what runs where, caches, branch protection -- are in [CI](../CI/CLAUDE.md).) Two
 unrelated causes, and both will come back unless you know them:
 
 - **NTFS hands a folder's entries back SORTED; ext4 hands them back in hash order --- and the output
@@ -1179,7 +1180,7 @@ unrelated causes, and both will come back unless you know them:
   match it. `core/tests/FileService_walkOrder_test.cpp` pins the rule --- and **it cannot fail on
   Windows**, because NTFS sorts for it: run it on Linux, where it failed 3 of 3 against the unsorted
   build.
-- **A merge from `nhok0169` wrote goldens no code ever produced.** `ccfbf338` merged the pure-Python
+- **A merge from `nhok0169` (now `master`) wrote goldens no code ever produced.** `ccfbf338` merged the pure-Python
   branch into `development`, and git's line-by-line merge applied that branch's 2025 golden edits on
   top of the freshly regenerated C++ ones: `oldVers/AmberCN.ini` and `select/Jean/merged.ini` came out
   matching **neither** parent. The current output matched the pre-merge goldens byte for byte, so they

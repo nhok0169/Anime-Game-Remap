@@ -1,0 +1,4 @@
+# The ONE place cibuildwheel's version is set. python-publish.yml builds the wheels with it, and the
+# wheel-externs action reads the manylinux image this exact version pins, so the z3 it builds (and
+# caches on master) is built in the same container the wheels are. Bump it here and nowhere else.
+cibuildwheel==4.2.1

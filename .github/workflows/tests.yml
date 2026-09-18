@@ -1,11 +1,11 @@
 name: Testers
 
-# A pull request, the nightly schedule, or a manual run: build once, then run both testers against
+# A pull request, the schedule (every 3 days), or a manual run: build once, then run both testers against
 # that build at the same time.
 #
 # note: a push does not run this. Both testers have grown expensive enough that running them on every
 #   commit of every branch is not worth it -- a pull request still runs them before anything merges,
-#   the schedule still catches a slow regression overnight, every publish workflow runs them before
+#   the schedule still catches a slow regression within a few days, every publish workflow runs them before
 #   it ships anything, and workflow_dispatch is here to run them on demand.
 #
 # note: this replaces the separate unit-tests.yml and integration-tests.yml. Those each built the API
@@ -15,7 +15,11 @@ on:
   pull_request:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * *"
+    # every 3 days, at midnight UTC, on the default branch (master) -- which is also the only run the
+    #   README's 'Unit/Integration Tests' badge reports, since it filters on branch=master. '*/3' counts
+    #   from the 1st of each month (1, 4, 7, ... 28, 31), so across a month boundary the gap is 1 or 2
+    #   days rather than 3; cron has no true "every N days", and that is harmless here.
+    - cron: "0 0 */3 * *"
 
 jobs:
   build-and-test:

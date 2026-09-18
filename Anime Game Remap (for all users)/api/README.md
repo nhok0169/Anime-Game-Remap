@@ -44,20 +44,7 @@ https://anime-game-remap.readthedocs.io/en/latest/
 ## Requirements 
 - [Python (version 3.6 and up)](https://www.python.org/downloads/)
 
-<br>
 
-### *Optional Requirements*
-
-> [!NOTE]
-> You do not need to install any of the below dependencies, but you can optionally install them, if you want,
-> for some slightly better performance
-
-| | |
-| --- | --- |
-| [C++ Distributables 14.0 or greater](https://visualstudio.microsoft.com/visual-cpp-build-tools/) or some sort of C Compiler | Used for better optimization of classifying what mod belongs to some .ini file |
-
-<br>
-<br>
 <br>
 
 > [!WARNING]  

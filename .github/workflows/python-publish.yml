@@ -157,9 +157,12 @@ jobs:
     #
     # Linux is the one platform whose externs the steps above CANNOT build: its wheels are built
     # inside a manylinux container, so a z3 from the Ubuntu host would be against the wrong libc.
-    # CIBW_BEFORE_ALL_LINUX runs in that container, once per platform, and the project is
-    # bind-mounted at /project -- so what it writes into cext<os> still lands in the workspace and
-    # still gets cached. 'python3', because manylinux does not put 'python' on PATH.
+    # CIBW_BEFORE_ALL_LINUX runs in that container, once per platform. The project -- submodules
+    # included, since they are part of the checked-out tree -- is COPIED into it at /project, not
+    # mounted: so a cache restored on the host does reach the container (and APIBuilder then skips the
+    # z3 build), but what the container builds does NOT come back by itself. The last line copies the
+    # two folders out through /host, where cibuildwheel mounts the runner's filesystem, so the cache
+    # step has something to save. 'python3', because manylinux does not put 'python' on PATH.
     # -------------------------------------------------
     - name: Build wheels
       env:
@@ -174,7 +177,11 @@ jobs:
           python3 -m pip install -r requirements.txt &&
           python3 main.py -pb -pi -s -i
           -ps "${{ steps.naming.outputs.suffix }}"
-          -pis "${{ steps.naming.outputs.suffix }}"
+          -pis "${{ steps.naming.outputs.suffix }}" &&
+          for folder in cebuild cext; do
+          mkdir -p "/host${{ github.workspace }}/${folder}${{ steps.naming.outputs.suffix }}" &&
+          cp -a "/project/${folder}${{ steps.naming.outputs.suffix }}/." "/host${{ github.workspace }}/${folder}${{ steps.naming.outputs.suffix }}/" ;
+          done
 
         # where the build then finds z3. CMake reads CMAKE_PREFIX_PATH out of the environment, so
         #   this is the whole of what scikit-build-core needs to be told. Forward slashes on Windows

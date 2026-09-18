@@ -6,6 +6,7 @@ Title = "Anime Game Remap"
 ShortTitle = "AG Remap"
 APIVersion = "5.0.0a1"
 
+
 Authors = {
     "Albert": SoftwareContributor("Albert Gold", discName = "albertgold", oldDisName = "Albert Gold#2696"),
     "Nhok": SoftwareContributor("NK", discName = "nhok0169", oldDisName = "NK#1321")

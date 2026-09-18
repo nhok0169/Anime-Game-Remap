@@ -150,6 +150,14 @@ if (__name__ == "__main__"):
             if (f"MACOSX_DEPLOYMENT_TARGET={target}" not in macEnv):
                 problems.append(f"python-publish.yml builds z3 for macOS {target} but its wheels with '{macEnv}'")
 
+        # cibuildwheel parses CIBW_ENVIRONMENT* like a shell and DROPS every backslash, quoted or not
+        #   (checked against its own environment.py), and '${{ github.workspace }}' is 'D:\a\...' on
+        #   a Windows runner -- so a Windows value built from it reaches CMake as 'D:aAnime-...'
+        winEnv = str(pubEnv.get("CIBW_ENVIRONMENT_WINDOWS", ""))
+        if ("github.workspace" in winEnv or "\\" in winEnv):
+            problems.append("python-publish.yml: CIBW_ENVIRONMENT_WINDOWS holds a Windows path, and cibuildwheel strips its "
+                            f"backslashes -- use a forward-slash variable instead: '{winEnv}'")
+
     entryPoints = [n for n in docs if "workflow_call" not in triggers(docs[n]) or len(triggers(docs[n])) > 1]
     for name in entryPoints:
         d = depth(docs, name)

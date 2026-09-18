@@ -134,6 +134,15 @@ jobs:
     # Linux wheels build inside cibuildwheel's container, from its COPY of the project -- so the
     #   binary goes into the project, and CIBW_ENVIRONMENT_LINUX puts it on PATH. The action's Linux
     #   build is a static musl one, which runs in the manylinux image as it is
+    # cibuildwheel parses CIBW_ENVIRONMENT like a shell and drops every backslash, quoted or not, so
+    #   '${{ github.workspace }}' ('D:\a\...') cannot go into CIBW_ENVIRONMENT_WINDOWS: it reached
+    #   CMake as 'D:aAnime-Game-Remap...' and z3 was never found. The same path with forward slashes,
+    #   which CMake takes on Windows too
+    - name: The Windows z3 prefix, with forward slashes
+      if: runner.os == 'Windows'
+      shell: bash
+      run: echo "AGREMAP_Z3_PREFIX=${GITHUB_WORKSPACE//\\//}/cext${{ matrix.os }}/z3" >> "$GITHUB_ENV"
+
     - name: Put sccache where the Linux container can see it
       if: runner.os == 'Linux'
       shell: bash
@@ -162,14 +171,19 @@ jobs:
         # see the note at the top of this job: musllinux would link the manylinux z3
         CIBW_SKIP: "*-musllinux_*"
 
+        # 64-bit only, because z3 is: the wheel-externs action builds one z3 per runner, for the
+        #   runner's own architecture. Only Windows changes -- its 'auto' also builds a 32-bit (win32)
+        #   wheel, which then cannot find any z3 at all. Linux and macOS 'auto' are 64-bit already
+        CIBW_ARCHS: auto64
+
         # the image z3 was built in by the wheel-externs action -- named here so cibuildwheel's default
         #   cannot move under it (the digest itself comes from the pinned cibuildwheel's own list)
         CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
         CIBW_MANYLINUX_AARCH64_IMAGE: manylinux_2_28
 
         # where the build then finds z3. CMake reads CMAKE_PREFIX_PATH out of the environment, so
-        #   this is the whole of what scikit-build-core needs to be told. Forward slashes on Windows
-        #   too -- CMake wants them, and a backslash would escape in a cache entry.
+        #   this is the whole of what scikit-build-core needs to be told. Never '${{ github.workspace }}'
+        #   on Windows -- see 'The Windows z3 prefix' above; checkWorkflowWiring.py flags it.
         #   CMAKE_ARGS is added to api/pyproject.toml's own cmake.args by scikit-build-core, and
         #   AGREMAP_SCCACHE makes the API's CMake compile everything through sccache (see above)
         #   The three OPENSSL_* point the vendored curl at EPEL's OpenSSL 3 (see CIBW_BEFORE_ALL_LINUX
@@ -181,7 +195,7 @@ jobs:
           CMAKE_ARGS="-DAGREMAP_SCCACHE=ON -DOPENSSL_INCLUDE_DIR=/usr/include/openssl3 -DOPENSSL_SSL_LIBRARY=/usr/lib64/openssl3/libssl.so -DOPENSSL_CRYPTO_LIBRARY=/usr/lib64/openssl3/libcrypto.so"
         # the same macOS the wheel-externs action built z3 for, or delocate refuses the library
         CIBW_ENVIRONMENT_MACOS: CMAKE_PREFIX_PATH=${{ github.workspace }}/cext${{ matrix.os }}/z3 MACOSX_DEPLOYMENT_TARGET=14.0 CMAKE_ARGS="-DAGREMAP_SCCACHE=ON"
-        CIBW_ENVIRONMENT_WINDOWS: CMAKE_PREFIX_PATH=${{ github.workspace }}/cext${{ matrix.os }}/z3
+        CIBW_ENVIRONMENT_WINDOWS: CMAKE_PREFIX_PATH="$AGREMAP_Z3_PREFIX"
 
         # before each wheel, how sccache has done so far -- from the second python version on, the core's
         #   compiles should be hits. Linux and macOS only (api/pyproject.toml's Windows before-build is

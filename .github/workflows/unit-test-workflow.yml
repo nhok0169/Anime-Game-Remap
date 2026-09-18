@@ -39,15 +39,31 @@ jobs:
         name: ${{ inputs.artifact }}
         path: Anime Game Remap (for all users)/api/src/py/FixRaidenBoss2
 
+    # The tester imports the API straight from the source tree rather than pip installing it, so the
+    #   API's OWN runtime dependencies are never installed by anything else -- and a compiled module
+    #   needs them to import at all: without numpy, CyDictTools dies in its auto-generated
+    #   import_array(), whose message ('numpy.core.multiarray failed to import') does not say numpy is
+    #   missing. They are read out of api/pyproject.toml so this cannot drift from what the package
+    #   declares. tomllib is 3.11+, which the pinned python-version input satisfies.
+    - name: Install the API's runtime dependencies
+      shell: bash
+      run: |
+        python -c "import tomllib; print(chr(10).join(tomllib.load(open('Anime Game Remap (for all users)/api/pyproject.toml', 'rb'))['project']['dependencies']))" > api-requirements.txt
+        cat api-requirements.txt
+        python -m pip install -r api-requirements.txt
+
+    - name: Install Tester Dependencies
+      run: python3 -m pip install -r requirements.txt
+      working-directory: './Testing/Unit Tester'
+
+    # after every install, so a failure here is the build's and not a missing dependency
     - name: Prove the API imports before testing anything
       if: inputs.artifact != ''
       shell: bash
       run: |
         cd "Anime Game Remap (for all users)/api/src/py"
         python -c "import FixRaidenBoss2 as F; print('IMPORT OK,', len(F.__all__), 'names')"
-    - name: Install Tester Dependencies
-      run: python3 -m pip install -r requirements.txt
-      working-directory: './Testing/Unit Tester'
+
     - name: Run Unit Tests
       run: python3 main.py
       working-directory: './Testing/Unit Tester'

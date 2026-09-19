@@ -1,0 +1,20 @@
+{
+  "_": "Sanhua's texture hashes across game versions: an older hash -> the hash the game binds today (2.5). Measured, not typed: each pair is a mod's own file correlating 1.00 with the current texture (Tools/Misc/Diagnostics/wwmiTextureFix.py), or a hash the same author mapped in a mod that already carried the current hash. Feed it to wwmiTextureFix.py as --maps, beside the community tables; a mod that REPAINTED a texture cannot be matched by pixels, and this is what carries its old hash forward. 2026-09-19.",
+  "345368c9": "1c0c8b91",
+  "48616ac9": "ae6e9014",
+  "98b9635b": "68ca7071",
+  "2584190a": "cef6494f",
+  "aa70ef15": "881c236d",
+  "03d9850b": "e39835c7",
+  "4b6d52b9": "fde0f298",
+  "0521977a": "efb25eb3",
+  "5efe7892": "89ba19a1",
+  "ebeeda8c": "abda232b",
+  "16695017": "f3b217ab",
+  "11b9cadd": "f0713dc7",
+  "b222ae08": "2c0c2728",
+  "2c0c2728": "c689a8ee",
+  "1bdd0987": "1035197c",
+  "3cd03f60": "1dcc0f1d",
+  "28708ab8": "0bd3b5ab"
+}

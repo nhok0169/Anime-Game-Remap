@@ -70,7 +70,7 @@
 #     component, off the dumps:
 #         Sanhua   0 bangs a512f04f + f6bc3927 (t0 diffuse ae6e9014; drawn twice, so the eyes show
 #                    through) + an eye-region pass 94d9d5e9 that binds only globals
-#                  1 hair 69e3d321  2 face 374a4f8f  6 eyes 056f9f3c (t0 iris, t1 eye mask)
+#                  1 hair 69e3d321  2 face 374a4f8f  6 eyes 056f9f3c (t1 eye mask, t2 iris; t0 a global)
 #                  3 arm skin 7a0ab7c3 (t0 normal, t1 diffuse)
 #                  4 bodice+hat+ribbons+boots 96356f03 (t0 normal, t1 material mask, t2 diffuse)
 #                  5 skirt 96356f03
@@ -175,12 +175,50 @@
 #     several .ini files). Every variant that was clean had exactly ONE remapped section matching each
 #     Exorcist draw; every one that waved had two or three on the torso slot's draw. So the fix
 #     splits by TARGET WINDOW: the first section of a window stays in mod.ini, each further one moves
-#     into its own <stem><Target>RemapFix<n>.ini -- a complete copy of the fixed file, the mod's own
+#     into its own <stem>RemapFix<n>.ini (named as the API names a merge's copies, so either undo
+#     removes them) -- a complete copy of the fixed file, the mod's own
 #     draw sections commented out (only mod.ini serves Sanhua), every OTHER remapped slot section cut
 #     down to its skeleton merge and `handling = skip` -- so every file merges the whole skeleton and
 #     draws exactly its own share. --noSplit keeps everything in one file. The extra files are deleted
 #     before a fix and on --undo. Whether this or the component itself is what waves is what
 #     `WWMI/Sanhua2_F_split` decides.
+#
+# 12. THE EYES READ THE IRIS AT ps-t2 (fifth in-game report, 2026-09-19: everything right but the eyes).
+#     The eye pass (056f9f3c) binds the eye mask at ps-t1 and the iris at ps-t2 on both skins -- the
+#     dump's textures correlate 1.00 with the asset's c88cc1fc and 1dcc0f1d there -- and at ps-t0 a
+#     texture that matches NO asset file (an eye highlight the game keeps). The plan had put the iris
+#     at ps-t0, which the asset-era TextureUsage.json had also said was t2; the dump is the reference.
+#     Checked at the same time: ps-t5 really is 1035197c on Sanhua and 4478285f on Exorcist (1.00 each).
+#
+# 13. A TEXTURE'S ROLE COMES FROM THE HASH ITS OVERRIDE MATCHES, NOT FROM ITS FILE NAME (the frost mod,
+#     2026-09-19). The exporter names files `Components-N t=<hash>.dds`, which is what the first two
+#     mods carried and what the role lookup keyed on -- and the frost mod names its skin, bodice and
+#     skirt art `Component3.dds` / `Component3-NM.dds` / `Component3-LM.dds`, so every torso texture came
+#     back roleless and slot 3 would have drawn with the GAME's. What identifies a texture is the hash
+#     in its [TextureOverrideTexture] section (current once wwmiTextureFix has run) and that section's
+#     `this =` names the resource; the file-name hash is only the fallback for a resource no override
+#     names. A toggled override (`if $x / this = A / else / this = B`) contributes its first resource.
+#
+# 14. A MOD'S TEXTURES MAY BE DECLARED IN ANOTHER .INI ENTIRELY, BOUND BY A LIBRARY THAT IS NOT INSTALLED,
+#     AND NAMED BY COMPONENT (the cloak mod, 2026-09-19). Its LOD0/mod.ini declares no texture at all: a
+#     top-level SanhuaCloak.ini (its own namespace) holds `[ResourceDiffuse0] filename = Textures/
+#     Component0_Diffuse.dds` and sections on Sanhua's hash that hand them to RabbitFX, a shared library
+#     mod that binds them by register -- and RabbitFX is not installed here, so the mod renders with the
+#     GAME's textures even on Sanhua. So the textures are found by a run-level INDEX of every .dds under
+#     the folder the run was pointed at (skipping DISABLED-prefixed folders like the game does), and a
+#     file's role is decided in this order: the hash an override in ANY .ini of the tree matches for it
+#     (point 13), the hash in its file name, PIXEL IDENTITY with one of the game's own textures in the
+#     download folder (colour correlation >= 0.97 with one asset and < 0.90 with every other; the
+#     cloak's `Component6_Diffuse.dds` is the ps-t5 ramp by its pixels, not the iris its name says), and
+#     last the `Component<N>_<Diffuse|LM|NM>` name convention (the RabbitFX / WWMI-Tools export names) for
+#     the repainted ones a pixel match cannot place. A file the fixed .ini has no resource for is declared
+#     as the fix's own `[Resource<Role>SanhuaExorcistRemapFix] filename = ..\Textures\...`. The same
+#     mod also showed the vb6 line and the texture run landing INSIDE the first `if $draw_component_x`
+#     toggle: RegSurroundedAdd's optional after-register (drawindexed) is a MUST fact, and behind a
+#     toggle no draw is certain, so the earliest certain spot was inside the toggle -- the frost mod
+#     escaped it only because one of its draws sat outside every toggle. The add is anchored on the
+#     shared-resource override alone now. Its LOD1 / LOD2 .ini files are on Sanhua's LOD hashes, which
+#     the library does not know, so at a distance the game draws Exorcist's own LOD model.
 #
 # Not done, deliberately, until the identity mod has been seen in game: any texture edit beyond the
 # invented mask, the arm normal map's B / A channels (Sanhua's skin family stores B = 0, A = 255
@@ -191,6 +229,7 @@ import argparse
 import json
 import os
 import re
+import shutil
 import struct
 import sys
 from typing import Dict, List, Optional, Tuple
@@ -257,7 +296,9 @@ Roles = {
     "03d9850b": "skinNormal", "4b6d52b9": "skinDiffuse",
     "0521977a": "bodiceNormal", "ebeeda8c": "bodiceDiffuse", "5efe7892": "bodiceMask",
     "16695017": "skirtNormal", "2c0c2728": "skirtDiffuse", "11b9cadd": "skirtMask",
-    "1bdd0987": "t5Ramp", "0bd3b5ab": "t5Ramp", "28708ab8": "t5Ramp",
+    "1bdd0987": "t5Ramp",        # measured: the 2025 mods' file correlates 1.00 with 1035197c. 0bd3b5ab / 28708ab8 were listed here
+                                 #   as the ramp too and are NOT (0.00): a 2048 UNORM shared texture with no current twin -- and
+                                 #   two hashes on one role made the script bind whichever came first (the Witch mod's eyes, 2026-09-19)
     "48616ac9": "bangsDiffuse", "3cd03f60": "irisDiffuse",     # the 2025 'Components-0' sRGB 2048 and the 1024 sRGB the eyes share
     "345368c9": "bangsMask",                                    # the 2025 'Components-0' UNORM 2048, which the maintainer's hand remap binds at ps-t1
 }
@@ -267,7 +308,7 @@ Plan = {
     0: (0, {"ps-t0": "bangsDiffuse", "ps-t1": "bangsMask", "ps-t5": "t5Ramp"}),
     1: (1, {"ps-t0": "hairDiffuse", "ps-t1": "hairNormal", "ps-t5": "t5Ramp"}),
     2: (2, {"ps-t0": "faceMask", "ps-t1": "faceDiffuse"}),
-    6: (5, {"ps-t0": "irisDiffuse", "ps-t1": "eyeMask", "ps-t5": "t5Ramp"}),
+    6: (5, {"ps-t1": "eyeMask", "ps-t2": "irisDiffuse", "ps-t5": "t5Ramp"}),   # ps-t0 is a global the game keeps (matches no asset texture)
     4: (3, {"ps-t0": "bodiceNormal", "ps-t1": "bodiceMask", "ps-t2": "bodiceDiffuse"}),
     5: (3, {"ps-t0": "skirtNormal", "ps-t1": "skirtMask", "ps-t2": "skirtDiffuse"}),
     3: (3, {"ps-t0": "skinNormal", "ps-t1": SkinMask, "ps-t2": "skinDiffuse"}),
@@ -452,14 +493,142 @@ def keyValue(line):
     return key.strip(), value.strip()
 
 
+# ---------------------------------------------------------------------------------------------
+# the mod's textures, by role (header point 14)
+
+ServiceRoot: Optional[str] = None       # the folder the run was pointed at: a mod's textures may be declared in any .ini of it
+AssetsFolder = os.path.join(Repo, "Data", "Mod Downloads", "WuWa", SourceName, WuWaVersion.replace(".", "_"))
+
+# A planned role the mod has NO file for is bound to the SOURCE's own game texture (the mod's UVs are the
+# source's, so the target's texture -- what an unbound register samples on the target's draw -- is wrong
+# by construction: the red-camellia mod ships no bodice or skirt mask, and the Exorcist's mask at its UVs
+# put skin codes over cloth, a reddish hue over the whole body, 2026-09-19). Role -> the source's hash;
+# the API downloads the same file from the repo, the prototype copies it out of AssetsFolder. Roles whose
+# hash BOTH skins bind (eyeMask c88cc1fc, faceMask 46177147) need none: the target's texture IS the source's.
+FallbackTextures: Dict[str, str] = {
+    "bangsDiffuse": "ae6e9014", "bangsMask": "1c0c8b91", "t5Ramp": "1035197c",
+    "hairDiffuse": "68ca7071", "hairNormal": "cef6494f", "faceDiffuse": "881c236d",
+    "skinNormal": "e39835c7", "skinDiffuse": "fde0f298",
+    "bodiceNormal": "efb25eb3", "bodiceMask": "89ba19a1", "bodiceDiffuse": "abda232b",
+    "skirtNormal": "f3b217ab", "skirtMask": "f0713dc7", "skirtDiffuse": "c689a8ee",
+    "irisDiffuse": "1dcc0f1d",
+}
+IdentityMin, IdentityGap = 0.97, 0.90   # a file IS a game texture when its colour correlates >= IdentityMin with one asset and < IdentityGap with every other
+ComponentFilePattern = re.compile(r"component[\s_-]*(\d+)[\s_-]+([a-z]+)\.dds$", re.IGNORECASE)
+TypeOfSuffix = {"diffuse": "diffuse", "albedo": "diffuse", "base": "diffuse", "color": "diffuse", "colour": "diffuse", "d": "diffuse",
+                "lm": "mask", "lightmap": "mask", "mask": "mask", "m": "mask", "nm": "normal", "normal": "normal", "normalmap": "normal", "n": "normal"}
+TypeRoles = {0: {"diffuse": "bangsDiffuse", "mask": "bangsMask"},
+             1: {"diffuse": "hairDiffuse", "mask": "hairNormal", "normal": "hairNormal"},     # cef6494f reads as a mask by its pixels; the label is historical
+             2: {"diffuse": "faceDiffuse", "mask": "faceMask"},
+             3: {"diffuse": "skinDiffuse", "normal": "skinNormal"},
+             4: {"diffuse": "bodiceDiffuse", "mask": "bodiceMask", "normal": "bodiceNormal"},
+             5: {"diffuse": "skirtDiffuse", "mask": "skirtMask", "normal": "skirtNormal"},
+             6: {"diffuse": "irisDiffuse", "mask": "eyeMask"}}
+
+
+class TextureIndex():
+    """Every .dds under the run's root with the role it plays, and every .ini's resource sections -> files"""
+
+    def __init__(self, root: str):
+        self.root = root
+        self.resourcesByIni: Dict[str, Dict[str, str]] = {}      # .ini abs path -> resource section -> file abs path
+        self.roleOf: Dict[str, List[Tuple[str, str]]] = {}       # file abs path -> [(role, how it was decided)]: EVERY role its hashes name
+        self.unresolved: List[str] = []
+        self.real: Dict[str, str] = {}                           # matching key (case-folded abs path) -> the file's real spelling
+        hashesOfFile: Dict[str, List[str]] = {}
+        ddsFiles: List[str] = []
+        remapFix = FRB.IniKeywords.RemapFix.value.lower()
+        for folder, dirs, names in os.walk(root):
+            dirs[:] = sorted(d for d in dirs if (not d.upper().startswith("DISABLED")))
+            for name in sorted(names):
+                path = os.path.normcase(os.path.abspath(os.path.join(folder, name)))
+                low = name.lower()
+                if (low.endswith(".dds") and FRB.IniKeywords.RemapTex.value.lower() not in low):
+                    ddsFiles.append(path)
+                    self.real[path] = os.path.abspath(os.path.join(folder, name))
+                elif (low.endswith(".ini") and not name.upper().startswith("DISABLED") and remapFix not in low):
+                    with open(path, "r", encoding = "utf-8", errors = "replace") as f:
+                        sections = iniSections(f.read())
+                    resources: Dict[str, str] = {}
+                    for sec, lines in sections.items():
+                        if (sec.startswith("Resource") and remapFix not in sec.lower()):
+                            fileName = next((v for k, v in map(keyValue, lines) if k == "filename"), "")
+                            if (fileName.lower().endswith(".dds")):
+                                resources[sec] = os.path.normcase(os.path.abspath(os.path.join(folder, fileName.replace("\\", "/"))))
+                    self.resourcesByIni[path] = resources
+                    for sec, lines in sections.items():
+                        if (sec.startswith("TextureOverrideTexture")):
+                            kvps = [keyValue(line) for line in lines]
+                            h = next((v.lower() for k, v in kvps if k == "hash"), None)
+                            res = next((v for k, v in kvps if k == "this"), None)
+                            if (h and res in resources):
+                                hashesOfFile.setdefault(resources[res], []).append(h)
+        counts = {"hash": 0, "pixels": 0, "name": 0}
+        pending: List[str] = []
+        for f in ddsFiles:
+            match = re.search(r"t=([0-9a-fA-F]{8})\.dds$", f)
+            hashes = hashesOfFile.get(f, []) + ([match.group(1).lower()] if (match) else [])
+            # a mod declares one file under two hashes when one atlas serves two components (Upper_D.dds as
+            # both the arm skin's and the bodice's diffuse); taking the first role only left the second
+            # component unbound, drawing with the TARGET's textures (2026-09-19)
+            roles: List[Tuple[str, str]] = []
+            for h in hashes:
+                if (h in Roles and Roles[h] not in [r for r, _ in roles]):
+                    roles.append((Roles[h], f"hash {h}"))
+            if (roles):
+                self.roleOf[f] = roles; counts["hash"] += 1
+            else:
+                pending.append(f)
+        for f, h, score in self._identify(pending):
+            self.roleOf[f] = [(Roles[h], f"the game's own {h} by its pixels ({score:.2f})")]; counts["pixels"] += 1
+        for f in pending:
+            if (f in self.roleOf):
+                continue
+            match = ComponentFilePattern.search(os.path.basename(f))
+            role = TypeRoles.get(int(match.group(1)), {}).get(TypeOfSuffix.get(match.group(2).lower(), "")) if (match) else None
+            if (role):
+                self.roleOf[f] = [(role, "its name")]; counts["name"] += 1
+            else:
+                self.unresolved.append(f)
+        print(f"  textures under {os.path.basename(root)}: {len(ddsFiles)} files -- {counts['hash']} placed by hash, {counts['pixels']} by pixel identity with a game texture, "
+              f"{counts['name']} by their Component<N>_<Type> name, {len(self.unresolved)} with no role")
+
+    def _identify(self, files: List[str]):
+        """(file, asset hash, colour correlation) for every file that is one of the game's own textures under another name"""
+        if (not files or not os.path.isdir(AssetsFolder)):
+            return
+        sys.path.insert(0, os.path.join(Repo, "Tools", "Misc", "Diagnostics"))
+        import wwmiTextureFix as texFix
+        cache: Dict[str, object] = {}
+        assets = {h: texFix.decode(p, cache) for h, p in texFix.currentTextures(AssetsFolder).items() if h in Roles}
+        for f in files:
+            x = texFix.decode(f, cache)
+            if (x is None):
+                continue
+            scores = sorted(((texFix.corr(x[..., :3], y[..., :3]), h) for h, y in assets.items() if y is not None), reverse = True)
+            if (scores and scores[0][0] >= IdentityMin and (len(scores) == 1 or scores[1][0] < IdentityGap)):
+                yield f, scores[0][1], scores[0][0]
+
+
+_textureIndex: Optional[TextureIndex] = None
+
+
+def textureIndex() -> TextureIndex:
+    global _textureIndex
+    if (_textureIndex is None or _textureIndex.root != ServiceRoot):
+        _textureIndex = TextureIndex(ServiceRoot)
+    return _textureIndex
+
+
 class ModFiles():
     """
     One mod's textures by role and its draws per source component, read off the .ini file the API
-    parsed (the resources by the hash in their file names, which is how WWMI Tools names an
-    exported texture)
+    parsed and the run's texture index (header points 13 and 14): a role is bound through the .ini's
+    own resource section when it has one for that file, else through a resource the fix declares
     """
     def __init__(self, ini, parser, source):
         self.sections = iniSections(ini.fileTxt)
+        self.iniFolder = ini.folder
         self.present: List[int] = []         # source components the mod has a section for
         self.draws: Dict[int, int] = {}      # source component -> its number of drawindexed / custom-shader draws
         targets = parser._sectionTargets
@@ -471,21 +640,73 @@ class ModFiles():
             self.draws[i] = sum(1 for name in names for line in self.sections.get(name, [])
                                 if (keyValue(line)[0] == "drawindexed" or (keyValue(line)[0] == "run" and keyValue(line)[1].startswith("CustomShader"))))
 
+        # the textures: the run's index decides each file's role; this .ini binds the nearest file of each
+        # role -- through its own resource section when it has one for that file, else through a resource
+        # the fix declares (`declare`), with a path relative to this .ini's folder
+        index = textureIndex()
+        iniPath = os.path.normcase(os.path.abspath(ini.file))
+        iniFolder = os.path.dirname(iniPath)
+        resourceOfFile: Dict[str, str] = {}
+        for res, f in index.resourcesByIni.get(iniPath, {}).items():
+            resourceOfFile.setdefault(f, res)
+        real = lambda f: index.real.get(f, f)       # noqa: E731 -- the file's real spelling, for what gets written
+        self.textureFolder = next((os.path.dirname(os.path.relpath(real(f), iniFolder)).replace("\\", "/") for f in resourceOfFile), "") or "Textures"
         self.resourceOfRole: Dict[str, str] = {}
-        self.unknownTextures: List[str] = []
-        self.textureFolder = "Textures"
-        for name, lines in self.sections.items():
-            if (not name.startswith("ResourceTexture")):
+        self.declared: Dict[str, str] = {}          # role -> the file's path relative to this .ini, for a file no resource of this .ini names
+        self.unknownTextures: List[str] = [os.path.relpath(f, index.root) for f in index.unresolved]
+        byRole: Dict[str, List[Tuple[str, str]]] = {}      # role -> [(file, how)], every role of every file
+        for f, roles in index.roleOf.items():
+            for role, how in roles:
+                byRole.setdefault(role, []).append((f, how))
+
+        def rank(f: str):
+            rel = os.path.relpath(f, iniFolder).replace("\\", "/")
+            return (0 if (f in resourceOfFile) else 1, rel.count("../"), len(rel))
+        for role, cands in byRole.items():
+            cands.sort(key = lambda c: rank(c[0]))
+            best = cands[0][0]
+            if (len(cands) > 1 and rank(cands[1][0])[:2] == rank(best)[:2]):
+                # two shipped textures on one role, equally close: the first is bound and only a measurement
+                # (wwmiTextureFix's correlation) can say which is right -- say so loudly
+                print(f"    WARNING: {os.path.relpath(cands[1][0], index.root)} also has the role {role} ({cands[1][1]}), "
+                      f"already taken by {os.path.relpath(best, index.root)} ({cands[0][1]}); the first one is bound")
+            if (best in resourceOfFile):
+                self.resourceOfRole[role] = resourceOfFile[best]
+            else:
+                self.declared[role] = os.path.relpath(real(best), iniFolder).replace("/", "\\")
+
+    def fallbacks(self, roles: List[str]) -> List[str]:
+        """The resource sections for the planned 'roles' this .ini has no file for: the source's own game
+        texture, copied out of AssetsFolder into the texture folder as <Source><Role>RemapDL.dds (the name the
+        API downloads it under, so the two outputs match); binds them"""
+        out: List[str] = []
+        for role in roles:
+            if (role in self.resourceOfRole or role == SkinMask or role not in FallbackTextures):
                 continue
-            fileName = next((v for k, v in map(keyValue, lines) if k == "filename"), "")
-            if (fileName):
-                self.textureFolder = os.path.dirname(fileName.replace("\\", "/")) or self.textureFolder
-            match = re.search(r"t=([0-9a-fA-F]{8})\.dds$", fileName)
-            role = Roles.get(match.group(1).lower()) if (match) else None
-            if (role is None):
-                self.unknownTextures.append(f"{name} ({fileName})")
-            elif (role not in self.resourceOfRole):
-                self.resourceOfRole[role] = name
+            src = os.path.join(AssetsFolder, f"{SourceName}Texture{FallbackTextures[role]}.dds")
+            if (not os.path.isfile(src)):
+                print(f"    WARNING: no {os.path.basename(src)} under {AssetsFolder} for the {role} the mod lacks")
+                continue
+            fileName = f"{SourceName}{role[0].upper()}{role[1:]}{FRB.IniKeywords.RemapDL.value}.dds"
+            rel = f"{self.textureFolder}/{fileName}"
+            os.makedirs(os.path.join(self.iniFolder, self.textureFolder), exist_ok = True)
+            shutil.copyfile(src, os.path.join(self.iniFolder, self.textureFolder, fileName))
+            name = f"Resource{SourceName}{role[0].upper()}{role[1:]}{FRB.IniKeywords.RemapDL.value}"
+            self.resourceOfRole[role] = name
+            out.append("\n".join([f"[{name}]", f"filename = {rel}", ""]))
+        return out
+
+    def declare(self, fixName) -> List[str]:
+        """The resource sections this .ini needs for the files none of its own resources name; binds them"""
+        out: List[str] = []
+        for role, rel in self.declared.items():
+            # RemapRef, not RemapFix: the section sits inside the fix block and names one of the MOD's
+            # files, and the API's undo deletes every file a RemapFix section in the block names --
+            # it took 17 of the cloak mod's 19 textures before the keyword existed (2026-09-19)
+            name = f"Resource{role[0].upper()}{role[1:]}{TargetName}{FRB.IniKeywords.RemapRef.value}"
+            self.resourceOfRole[role] = name
+            out.append("\n".join([f"[{name}]", f"filename = {rel}", ""]))
+        return out
 
 
 # ---------------------------------------------------------------------------------------------
@@ -556,7 +777,8 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
 
         maskResource = fixName(f"Resource{SkinMask}")      # a 3dmigoto resource section's name starts with Resource
 
-        appended: List[str] = []
+        appended: List[str] = files.declare(fixName)     # the textures this .ini has no resource of its own for
+        appended += files.fallbacks([role for i in files.present if (i in plan) for role in plan[i][1].values()])
         # ---- the zero shape-key offset stream, unless WWMI's own pipeline is retargeted to fill vb6 ----
         zeroResource = None
         if (not shapeKeys):
@@ -601,11 +823,12 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                 appended.append("\n".join([f"[{cmdList}]", f"if {condition}"] + bindings + ["endif", ""]))
                 additions.append(("run", cmdList))
             if (additions):
-                # right after the shared-resource override (the mod's buffers are bound there): the EARLIEST spot in
-                # the window, so a component drawn in several ranges has its textures before the FIRST draw
+                # right after the shared-resource override (the mod's buffers are bound there): the EARLIEST spot
+                # after it, so a component drawn in several ranges has its textures before the FIRST draw. No
+                # after-register: `drawindexed` as one is a MUST fact, and behind a `$draw_x` toggle no draw is
+                # certain, which parked the additions INSIDE the first toggle (header point 14)
                 edits.append(FRB.RegSurroundedAdd(additions,
                                                   beforeRegs = {"run": lambda v: v == OverrideSharedResources},
-                                                  optAfterRegs = {"drawindexed": None, "run": lambda v: v.startswith("CustomShader")},
                                                   latest = False))
             edits.append(FRB.RegNewVals({"match_first_index": str(c["index_offset"]), "match_index_count": str(c["index_count"]),
                                          "$\\WWMIv1\\vg_offset": str(c["vg_offset"]), "$\\WWMIv1\\vg_count": str(c["vg_count"])}))
@@ -768,7 +991,8 @@ def splitSlotFiles(iniPath: str) -> List[str]:
                 block = skipOnly(block)
             out.extend(block)
             k = e
-        extra = f"{stem}{TargetName}{FRB.IniKeywords.RemapFix.value}{n}{ext}"
+        # named as the API names a merge's copies, so the API's own undo removes them too
+        extra = f"{stem}{FRB.IniKeywords.RemapFix.value}{n}{ext}"
         with open(extra, "w", encoding = "utf-8", newline = "") as f:
             f.write(ending.join(out))
         written.append(extra)
@@ -792,7 +1016,7 @@ def removeSplitFiles(folder: str) -> int:
     removed = 0
     for root, _, names in os.walk(folder):
         for name in names:
-            if (re.search(rf"{TargetName}{FRB.IniKeywords.RemapFix.value}\d+\.ini$", name, re.IGNORECASE)):
+            if (re.search(rf"(?:{TargetName})?{FRB.IniKeywords.RemapFix.value}\d+\.ini$", name, re.IGNORECASE)):
                 os.remove(os.path.join(root, name)); removed += 1
     return removed
 
@@ -862,6 +1086,8 @@ def main():
     folder = os.path.abspath(winToPosix(args.mod))
     if (not os.path.isdir(folder)):
         raise SystemExit(f"not a folder: {folder}")
+    global ServiceRoot
+    ServiceRoot = folder
 
     sourceType, targetType = FRB.WWMIBuilder.sanhua(), FRB.WWMIBuilder.sanhuaExorcist()
     FRB.CppStrategyOverrides.clear()

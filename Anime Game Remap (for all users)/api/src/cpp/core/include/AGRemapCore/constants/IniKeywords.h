@@ -102,6 +102,22 @@ namespace AGRemapCore {
             static inline const std::string RemapDL = Remap + "DL";
 
             /**
+             * @brief
+             @rst
+             The substring used to indicate that a resource `section`_ INSIDE a fix's block names a
+             file the fix did **not** write -- one of the mod's own, referenced by the fix
+             :raw-html:`<br />` :raw-html:`<br />`
+             An undo takes every section of the fix's block out and deletes every file those
+             sections name, which is right for a ``RemapBlend`` / ``RemapTex`` / ``RemapDL`` file the
+             fix produced and destroys the mod for a texture the fix merely bound (the WWMI fixer
+             binds a mod's textures by register, and a file no resource of the mod's own ``.ini``
+             names has to be declared somewhere). A section carrying this keyword is removed with
+             the block and its file is left alone -- see :cpp:func:`RemapIniRemover::collectRemovedResources`
+             @endrst
+             */
+            static inline const std::string RemapRef = Remap + "Ref";
+
+            /**
              * @brief The `KVP`_ key used to reference/call another `section`_
              */
             static inline const std::string Run = "run";

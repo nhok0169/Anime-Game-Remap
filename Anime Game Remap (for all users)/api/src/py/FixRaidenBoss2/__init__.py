@@ -158,6 +158,10 @@ from .core import GIMIComponentParserConfig
 from .core import GIMIMergeFixerConfig
 from .core import makeGIMIComponentParser
 from .core import makeGIMIMergeFixer
+from .core import WWMIParserConfig
+from .core import WWMIFixerConfig
+from .core import makeWWMIParser
+from .core import makeWWMIFixer
 from .core import GIMIObjPartFilter
 from .core import RegAssetRemap
 from .core import RegNewVals
@@ -367,6 +371,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "GIMIObjPartFilter", "CppIniNamingTools",
            "GIMICharParserConfig", "GIMICharFixerConfig", "makeGIMICharParser", "makeGIMICharFixer",
            "GIMIComponentParserConfig", "GIMIMergeFixerConfig", "makeGIMIComponentParser", "makeGIMIMergeFixer",
+           "WWMIParserConfig", "WWMIFixerConfig", "makeWWMIParser", "makeWWMIFixer",
            "BaseIniGraphEdit", "GraphRename", "RegFillMissing",
            "GraphRemove", "GraphInherit", "GraphGroupRemap", "GraphGroupEdit",
            "BaseResEdit", "ResIdentity", "ResReplace", "ResCreate", "RemapBlendReplace", "TexCreate", "TexReplace", "ResRegCollect", "ResGroupCollect", "BaseIniGraphGroupEdit",

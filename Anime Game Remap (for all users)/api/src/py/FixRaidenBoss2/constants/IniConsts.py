@@ -136,6 +136,12 @@ class IniKeywords(Enum):
     The substring used to indicate that the `section`_ contains some downloaded file from the internet
     """
 
+    RemapRef = f"{Remap}Ref"
+    """
+    The substring used to indicate that a resource `section`_ inside a fix's block names one of the MOD's own files,
+    only referenced by the fix -- an undo removes the section and keeps the file (see the C++ ``IniKeywords::RemapRef``)
+    """
+
     RemapIb = f"{Remap}IB"
     """
     The substring used to indicate that the `section`_ is called by ``[TextureOverride.*Ib.*]`` section.

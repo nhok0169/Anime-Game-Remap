@@ -2431,6 +2431,18 @@ working directory now.** An `.ini` built from text alone has folder `""`, and
 built a resource raised `filesystem error: cannot make absolute path` --- on any character, with
 downloads on or off. `RemapIniRemover`'s older `"."` substitution is kept but no longer load-bearing.
 
+## A resource section inside the fix block names a file the UNDO will delete (2026-09-19)
+
+`RemapIniRemover::collectRemovedResources` collects the `filename` of every section it takes out of
+the fix's block, and `RemapService` deletes each of those files. That is the contract for a
+`RemapBlend` / `RemapTex` / `RemapDL` file the fix wrote, and it is why no GI fixer ever writes a
+resource section of its own that names one of the MOD's files -- the WWMI fixer had to (it binds a
+mod's textures by register, and a file no resource of the fixed `.ini` names needs a section), and
+one undo deleted 17 of a mod's 19 textures. `IniKeywords::RemapRef` in a section's name says "this
+only references a file": the remover drops the section and skips the file
+(`RemapIniRemover::refKeyword`). Name such a section `Resource<What><Target>RemapRef`, never
+`...RemapFix`.
+
 ## A new KIND of resource is invisible until `_fixResource` is told about it
 
 `RemapService::_fixResource` dispatches on the **concrete type**, a chain of `dynamic_cast`s:

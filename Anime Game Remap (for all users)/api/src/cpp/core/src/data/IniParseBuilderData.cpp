@@ -135,8 +135,10 @@ namespace AGRemapCore {
                 // their own mod type names, which is why that parser builds one classifier each.
                 {{"5.7", ModTypeIdTools::getName(ModTypeId::YelanTranquil)}, IniParseBuilderFuncs::yelanTranquil5_7()},
 
-                // ===== WuWa: Sanhua and SanhuaExorcist (2026-09-19), STUBS =====
-                {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua)}, IniParseBuilderFuncs::wwmiStub()},
+                // ===== WuWa: Sanhua and SanhuaExorcist (2026-09-19) =====
+                // Sanhua's is the first row built by makeWWMIParser; SanhuaExorcist's stays a stub
+                // until the reverse direction has a fixer.
+                {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua)}, IniParseBuilderFuncs::sanhua2_5()},
                 {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist)}, IniParseBuilderFuncs::wwmiStub()},
 
                 // ===== Bennett (2026-09-15) =====

@@ -437,6 +437,23 @@ namespace AGRemapCore {
 
         std::string srcTxt = ctx_->fileTxt();
 
+        // The copies may hide more of the mod's own text than the mod's own file does -- see
+        // copyHiddenSectionNames. Built off the same uncommented text, with both sets hidden.
+        std::string copySrcTxt = srcTxt;
+        const bool copiesHideMore = !copyHiddenSectionNames.empty() && fixTargets_.size() > 1;
+        if (copiesHideMore) {
+            if (!hiding) {
+                uncommentedTxt = ctx_->fileTxt();
+                hiding = true;
+            }
+
+            std::unordered_set<std::string> copyHide = toHide;
+            copyHide.insert(copyHiddenSectionNames.begin(), copyHiddenSectionNames.end());
+            ctx_->setFileTxt(uncommentedTxt);
+            ctx_->hideOriginalSections(copyHide);
+            copySrcTxt = ctx_->fileTxt();
+        }
+
         for (std::size_t i = 0; i < fixTargets_.size(); ++i) {
             std::string content = groupToStr(i);
 
@@ -464,7 +481,7 @@ namespace AGRemapCore {
             // line, these sections sat outside every region the remover takes whole, so undoing a
             // fix left them behind -- a skip on one of the skin's own ib hashes, which then hid that
             // component of the unmodded skin.
-            if (i == 0 && !appendedSections.empty()) {
+            if ((i == 0 || appendedSectionsInCopies) && !appendedSections.empty()) {
                 content = content.empty() ? appendedSections
                                           : std::string(StringTools::rstrip(content)) + "\n\n" + appendedSections;
             }
@@ -490,7 +507,7 @@ namespace AGRemapCore {
                 // precedes it does not take the previous run's trailing whitespace back out. Left
                 // alone, each fix appends another blank line to the same .ini file -- small, but it
                 // grows without bound and makes two runs of the same fix differ byte for byte.
-                content = std::string(StringTools::rstrip(srcTxt)) + "\n\n" + content;
+                content = std::string(StringTools::rstrip(i == 0 ? srcTxt : copySrcTxt)) + "\n\n" + content;
             }
 
             // Copies only. Index 0 is the mod's own .ini file -- it was already there and needs no

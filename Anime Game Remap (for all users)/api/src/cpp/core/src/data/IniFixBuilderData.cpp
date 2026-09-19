@@ -319,9 +319,14 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Yelan),
                   "6.1", ModTypeIdTools::getName(ModTypeId::YelanTranquilEye)}, IniFixBuilderFuncs::yelanTranquilEye6_1()},
 
-                // ===== WuWa: Sanhua <-> SanhuaExorcist @ toVersion 2.5 (2026-09-19), STUBS =====
+                // ===== WuWa: Sanhua -> SanhuaExorcist @ toVersion 2.5 (2026-09-19) =====
+                //
+                // The first Wuthering Waves remap, through makeWWMIFixer: ONE row for the pair,
+                // where a GIMI multi-component target needs one per component -- a WWMI character's
+                // components are draw slots of one mesh, not mod types of their own. The reverse
+                // direction is still a stub.
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Sanhua),
-                  "2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist)}, IniFixBuilderFuncs::wwmiStub()},
+                  "2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist)}, IniFixBuilderFuncs::sanhuaExorcist2_5()},
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist),
                   "2.5", ModTypeIdTools::getName(ModTypeId::Sanhua)}, IniFixBuilderFuncs::wwmiStub()},
 

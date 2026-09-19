@@ -272,6 +272,33 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Whether :cpp:member:`appendedSections` goes into every generated COPY as well as the
+             mod's own ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+             A copy's sections reference the fix's own command lists and resources by name; a GIMI
+             merge is fine with those living in the mod's own file alone, and a WWMI copy was not --
+             the compiled WuWa fix drew every body part with the FIRST claimant's textures until
+             its copies carried the texture command lists and resources themselves, the way the
+             prototype's copies always had (2026-09-19). **Default**: ``false``
+             @endrst
+             */
+            bool appendedSectionsInCopies = false;
+
+            /**
+             * @brief
+             @rst
+             The mod's own sections commented out in every generated COPY, and left alone in the
+             mod's own file -- in addition to whatever #hiddenModObjs and ``hideOrig`` hide
+             everywhere :raw-html:`<br />` :raw-html:`<br />`
+             The WWMI fixer names every ``TextureOverride`` of the mod's own text here: the mod's
+             own file keeps serving the mod on its source character, and a copy exists only to carry
+             one more remapped section onto a draw the first file already claimed. **Default**: empty
+             @endrst
+             */
+            std::unordered_set<std::string> copyHiddenSectionNames;
+
+            /**
+             * @brief
+             @rst
              Mod objects whose **original** `sections`_ are commented out of the source text this
              fix appends :raw-html:`<br />` :raw-html:`<br />`
 

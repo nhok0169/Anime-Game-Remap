@@ -610,6 +610,19 @@ invents. Rendered once, after the first group's sections, inside the fix block (
 it). Empty by default; a fixer built from Python sets it in its factory
         )doc"))
 
+       .def_readwrite("appendedSectionsInCopies", &PyGIMIFixer::appendedSectionsInCopies, py::doc(R"doc(
+:class:`bool`: Whether :attr:`appendedSections` goes into every generated COPY as well as the mod's
+own ``.ini`` file. A copy's sections reference the fix's own command lists and resources by name, and
+a WWMI copy needs them in the same file (the compiled WuWa fix drew every body part with the first
+claimant's textures until its copies carried them). **Default**: ``False``
+        )doc"))
+
+       .def_readwrite("copyHiddenSectionNames", &PyGIMIFixer::copyHiddenSectionNames, py::doc(R"doc(
+Set[:class:`str`]: The mod's own sections commented out in every generated COPY and left alone in
+the mod's own file, on top of what :attr:`hiddenModObjs` hides everywhere. The WWMI fixer names every
+``TextureOverride`` of the mod's own text here. **Default**: empty
+        )doc"))
+
        .def("getModsToFix", [](PyGIMIFixer &self) {
             self.refresh();
             return self.getModsToFix();

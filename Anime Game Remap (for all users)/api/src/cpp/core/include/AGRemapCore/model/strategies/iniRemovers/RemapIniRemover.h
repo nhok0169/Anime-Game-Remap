@@ -408,6 +408,16 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The keyword in a resource `section`_'s name that says its file is one of the MOD's, only
+             referenced by the fix -- :cpp:member:`IniKeywords::RemapRef`. The section is removed with
+             the block; the file is not collected, so nothing deletes it. Empty disables the rule
+             @endrst
+             */
+            std::string refKeyword = IniKeywords::RemapRef;
+
+            /**
+             * @brief
+             @rst
              The `section`_-name substring that tells a *created* texture from an *edited* one
              :raw-html:`<br />` :raw-html:`<br />`
 

@@ -42,7 +42,7 @@ Or from the command line. On
 python3 main.py <fromFolder> <toFolder> [-o <draft.xlsx>] [-c <existingDraft.xlsx>]
 ```
 
-`fromFolder` / `toFolder` each hold one character's geometry, in either of two forms, told apart
+`fromFolder` / `toFolder` each hold one character's geometry, in any of four forms, told apart
 by what the folder holds:
 
 | Form | What the folder holds | The mod's default name |
@@ -50,8 +50,9 @@ by what the folder holds:
 | **3dmigoto dumps**, in the layout of [GI-Model-Importer-Assets](https://github.com/SilentNightSound/GI-Model-Importer-Assets)' `PlayerCharacterData` | `*-vb0=<hash>.txt` and `*-ib=<hash>.txt` | the folder's name |
 | **A mod's raw files** | `*Position.buf`, `*Blend.buf` and the `*.ib` files (`Texcoord.buf` and textures are not needed; a `*RemapBlend.buf` next to the mod's own blend is ignored) | what precedes `Position.buf` (`GanyuPosition.buf` -> `Ganyu`) |
 | **A raw 3dmigoto frame analysis** (`FrameAnalysis-<date>` straight out of the game, thousands of files) | every buffer of every draw call, named `000123-vb0=<hash>-...txt`; the character's files are picked out by its **position, blend and ib hashes** (`--fromHashes` / `--toHashes`, the `position_vb` / `blend_vb` / `ib` of a `hash.json`). Give a frame analysis without hashes to be shown which it holds | the folder's name with `FrameAnalysis-` and the date stripped |
+| **WWMI assets** (Wuthering Waves), in the layout of [WWMI-Assets](https://github.com/SpectrumQT/WWMI-Assets)' `PlayerCharacterData` | a `Metadata.json` next to one `Component N.fmt` / `.vb` / `.ib` triple per component: the `.fmt` is a 3dmigoto input layout (the vertex stride, each element's format and byte offset, the index buffer's format), the `.vb` one interleaved binary buffer, the `.ib` binary indices local to the component. Read as **one** skeleton -- see below | the folder's name (`SanhuaSkin1`; `--toName SanhuaExorcist` gives the draft's name) |
 
-Subfolders are not searched, so point at the folder that holds the files. All three forms decode
+Subfolders are not searched, so point at the folder that holds the files. The three GI forms decode
 to the same numbers (checked on Ganyu, where the mod's `.buf` files and the dumps give identical
 positions, blend data and object membership, and on Keqing, where a fresh frame analysis remapped
 onto the old dumps is an exact identity). A frame analysis dumps the same buffer once per draw
@@ -98,6 +99,34 @@ cover every source group exactly once; `getVGRemap(to, fromComp = ..., toComp = 
 
 The dumps of these skins also spell the weights element `BLENDWEIGHTS` (plural) and type the
 indices unsigned; both spellings are accepted.
+
+### Wuthering Waves: a WWMI character is several components and ONE skeleton
+
+A WWMI character is drawn as several `Component N` buffers, each with its own bone list -- Sanhua has
+seven, with 19 / 4 / 1 / 27 / 72 / 85 / 1 bones -- which looks like the multi-component shape above and
+is not. Those lists are views of one merged skeleton: `Metadata.json` gives every component a `vg_map`
+from its own bone indices to the merged ones (`"vg_map": {"0": 1, "1": 20, "2": 0, "3": 22}` for
+Sanhua's component 1, four bones the head component also uses), and a WWMI mod's blend buffer is
+written in that merged space. So the reader applies each component's `vg_map` and concatenates the
+components into the single component `""`, whose indices are the merged skeleton's (208 for Sanhua,
+190 for her Exorcist skin), with the drawn objects named `Component 0`, `Component 1`, ... in the
+comments. A merged index no component maps to is a bone no vertex uses and comes out as an empty
+group; the maintainer's hand-made Sanhua draft has exactly those rows blank, which is how the index
+space was confirmed. The proposal for the pair agrees with that draft on 86% of the rows the way the GI
+pairs do (89% in `vertices` mode), and Sanhua onto herself is an exact identity.
+
+The reader needs no API: the `.fmt` says where every element sits, and `numpy` does the rest. What it
+decodes is `POSITION`, `BLENDINDICES` (`R8G8B8A8_UINT`) and `BLENDWEIGHT` (`R8G8B8A8_UNORM`, divided
+by 255); a component whose `.fmt` declares a format outside `DumpMod.WWMIFormats` is refused with the
+format named. The shapekey-carrying components (stride 450) read the same way, since their first
+elements sit at the same offsets.
+
+```bash
+python3 main.py "WWMI-Assets/PlayerCharacterData/Sanhua" "WWMI-Assets/PlayerCharacterData/SanhuaSkin1" --toName SanhuaExorcist -v 2.5 -c "Data/RemapDrafts/SanhuaRemapDraft.xlsx"
+```
+
+`benchmark.py` knows `SanhuaExorcist` as the folder `SanhuaSkin1`, so pointed at a WWMI
+`PlayerCharacterData` it scores the Sanhua sheet (and finds no folder for the GI ones).
 
 ### Splitting a mod across a target of several components
 

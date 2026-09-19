@@ -13,11 +13,12 @@ if __name__ == "__main__":
                  "  python3 main.py \"PlayerCharacterData/Ganyu\" \"PlayerCharacterData/GanyuTwilight\" -o \"C:/scratch/GanyuRemapDraft.xlsx\" -v 4.4\n"
                  "  python3 main.py \"PlayerCharacterData/Ganyu\" \"PlayerCharacterData/GanyuTwilight\" -c \"Data/RemapDrafts/GanyuRemapDraft.xlsx\"\n"
                  "  python3 main.py \"PlayerCharacterData/Ganyu\" \"PlayerCharacterData/GanyuTwilight\" --metric center --mode nearest\n"
-                 "  python3 main.py \"Data/Mod Downloads/GI/Ganyu/4_0\" \"PlayerCharacterData/GanyuTwilight\" -o \"C:/scratch/GanyuRemapDraft.xlsx\"",
+                 "  python3 main.py \"Data/Mod Downloads/GI/Ganyu/4_0\" \"PlayerCharacterData/GanyuTwilight\" -o \"C:/scratch/GanyuRemapDraft.xlsx\"\n"
+                 "  python3 main.py \"WWMI-Assets/PlayerCharacterData/Sanhua\" \"WWMI-Assets/PlayerCharacterData/SanhuaSkin1\" --toName SanhuaExorcist -v 2.5 -c \"Data/RemapDrafts/SanhuaRemapDraft.xlsx\"",
         formatter_class = argparse.RawDescriptionHelpFormatter
     )
 
-    parser.add_argument("fromFolder", type = str, help = "the geometry of the mod to be remapped: a dump folder (*-vb0=<hash>.txt and *-ib=<hash>.txt files), the folder of a mod's raw files (*Position.buf, *Blend.buf and *.ib), or a raw 3dmigoto frame analysis folder (with --fromHashes), told apart by what it holds")
+    parser.add_argument("fromFolder", type = str, help = "the geometry of the mod to be remapped: a dump folder (*-vb0=<hash>.txt and *-ib=<hash>.txt files), the folder of a mod's raw files (*Position.buf, *Blend.buf and *.ib), a raw 3dmigoto frame analysis folder (with --fromHashes), or a WWMI assets folder for Wuthering Waves (Metadata.json with Component N.fmt/.vb/.ib files, read in the merged skeleton its vg_maps describe), told apart by what it holds")
     parser.add_argument("toFolder", type = str, help = "the geometry of the mod to remap onto, in any of those forms")
     parser.add_argument("-o", "--output", type = str, default = None, help = "the .xlsx to write the proposed remap into, in the Data/RemapDrafts format (sheets for the same directions in an existing workbook are replaced, other sheets are kept)")
     parser.add_argument("-c", "--compare", type = str, default = None, help = "an existing draft workbook to score the proposal against; the sheet is found by its header row")

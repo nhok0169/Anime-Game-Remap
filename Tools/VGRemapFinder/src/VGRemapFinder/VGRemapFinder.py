@@ -267,7 +267,8 @@ class VGRemapFinder():
         unmatched = [match.fromGroup.label for match in matches if (match.toGroup is None)]
         unused = [group.label for group in groupsTo.nonEmpty if (group.key not in targets)]
         shared = {groupsTo.get(*key).label: froms for key, froms in targets.items() if (len(froms) > 1)}
-        uncertain = sorted(matches, key = lambda match: -match.uncertainty)[:10]
+        # the empty groups score 1.0 and would fill the list with nothing to say: only real matches rank
+        uncertain = sorted((match for match in matches if (match.toGroup is not None)), key = lambda match: -match.uncertainty)[:10]
 
         chains: List[Tuple] = []
         for match in matches:
@@ -385,6 +386,11 @@ class VGRemapFinder():
         disagreements: List[str] = []
 
         for match in matches:
+            if (match.toGroup is None):
+                # a source group no vertex uses: whatever a draft puts there is a placeholder that keeps
+                #   the row complete, not a correspondence, so it can be neither right nor wrong
+                continue
+
             expectedTo = normalise(expected.get(match.fromIndex))
             if (expectedTo is None):
                 continue
@@ -400,7 +406,9 @@ class VGRemapFinder():
             disagreements.append(f"    {match.fromGroup.label}: proposed {label(match.toKey)}, expected {label(expectedTo)}, "
                                  f"uncertainty {match.uncertainty:.2f}{runnerUpNote}")
 
-        lines = [f"  agreement with the known remap: {agree}/{scored}" + (f" ({100.0 * agree / scored:.1f}%)" if scored else "")]
+        unscored = sum(1 for match in matches if (match.toGroup is None and expected.get(match.fromIndex) is not None))
+        lines = [f"  agreement with the known remap: {agree}/{scored}" + (f" ({100.0 * agree / scored:.1f}%)" if scored else "")
+                 + (f"; {unscored} rows the draft fills for groups no vertex uses are not scored" if (unscored) else "")]
         if (disagreements):
             lines.append("  disagreements:")
             lines.extend(disagreements)

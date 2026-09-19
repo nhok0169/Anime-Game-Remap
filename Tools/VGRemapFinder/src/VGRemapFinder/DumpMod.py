@@ -70,8 +70,8 @@ class DumpMod():
     space**: ``Body 64`` and ``Bang 64`` are different bones. A whole character is a
     :class:`Character`, an ordered set of these
 
-    Read from any of the three forms a GI character's geometry comes in --- see
-    :meth:`Character.fromFolder`
+    Read from any of the four forms a character's geometry comes in (three of them GI's, the
+    fourth WWMI's, for Wuthering Waves) --- see :meth:`Character.fromFolder`
 
     Parameters
     ----------
@@ -135,6 +135,30 @@ class DumpMod():
     ObjectOrder = ["Head", "Body", "Dress", "Extra"]
 
     HashJsonName = "hash.json"
+
+    # WWMI (Wuthering Waves) assets, in the layout of WWMI-Assets' PlayerCharacterData: one
+    #   'Component N.fmt' / '.vb' / '.ib' triple per component (the .fmt is a 3dmigoto input layout with
+    #   the vertex stride and the ib's format, the .vb one interleaved binary buffer, the .ib binary
+    #   indices local to the component), and a Metadata.json whose per-component 'vg_map' sends each
+    #   component's own bone indices into the character's ONE merged skeleton
+    WWMIMetadataName = "Metadata.json"
+    WWMIComponentPattern = re.compile(r"^Component (?P<index>\d+)\.(?P<ext>fmt|vb|ib)$", re.IGNORECASE)
+    WWMIComponentsKey = "components"
+    WWMIVgMapKey = "vg_map"
+    WWMIVgOffsetKey = "vg_offset"
+    WWMIVertexCountKey = "vertex_count"
+    WWMIObjectPrefix = "Component "
+
+    # the DXGI formats a .fmt may declare for the elements read here: numpy dtype, channel count, and
+    #   the divisor that turns a normalised integer into [0, 1] (None for a value used as it is)
+    WWMIFormats = {
+        "R32G32B32A32_FLOAT": ("<f4", 4, None), "R32G32B32_FLOAT": ("<f4", 3, None), "R32G32_FLOAT": ("<f4", 2, None), "R32_FLOAT": ("<f4", 1, None),
+        "R16G16B16A16_FLOAT": ("<f2", 4, None), "R16G16_FLOAT": ("<f2", 2, None), "R16_FLOAT": ("<f2", 1, None),
+        "R8G8B8A8_UINT": ("u1", 4, None), "R16G16B16A16_UINT": ("<u2", 4, None), "R32G32B32A32_UINT": ("<u4", 4, None),
+        "R8G8B8A8_UNORM": ("u1", 4, 255.0), "R16G16B16A16_UNORM": ("<u2", 4, 65535.0),
+        "R8_UINT": ("u1", 1, None), "R16_UINT": ("<u2", 1, None), "R32_UINT": ("<u4", 1, None),
+    }
+    WWMIFormatPrefix = "DXGI_FORMAT_"
 
     PositionKey = "POSITION"
     BlendIndicesKey = "BLENDINDICES"
@@ -494,6 +518,129 @@ class DumpMod():
         return stem
 
     @classmethod
+    def findWWMIComponentFiles(cls, folder: str) -> Dict[int, Dict[str, str]]:
+        """
+        Finds the ``Component N.fmt`` / ``.vb`` / ``.ib`` files of a WWMI assets folder
+
+        Parameters
+        ----------
+        folder: :class:`str`
+            The folder to search (not recursive)
+
+        Returns
+        -------
+        Dict[:class:`int`, Dict[:class:`str`, :class:`str`]]
+            Per component index, its files keyed by extension (``"fmt"``, ``"vb"``, ``"ib"``)
+        """
+
+        result: Dict[int, Dict[str, str]] = {}
+        for fileName in sorted(os.listdir(folder)):
+            match = cls.WWMIComponentPattern.match(fileName)
+            if (match is None):
+                continue
+            result.setdefault(int(match.group("index")), {})[match.group("ext").lower()] = os.path.join(folder, fileName)
+        return result
+
+    @classmethod
+    def isWWMIFolder(cls, folder: str) -> bool:
+        """
+        Whether a folder holds a character in WWMI-Assets' layout (a ``Metadata.json`` next to
+        ``Component N.fmt`` / ``.vb`` / ``.ib`` files)
+
+        Parameters
+        ----------
+        folder: :class:`str`
+            The folder to check
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the folder holds WWMI assets
+        """
+
+        return os.path.isfile(os.path.join(folder, cls.WWMIMetadataName)) and bool(cls.findWWMIComponentFiles(folder))
+
+    @classmethod
+    def readWWMIFormat(cls, path: str) -> Tuple[Dict[str, str], List[Dict[str, str]]]:
+        """
+        Reads a WWMI ``Component N.fmt``: a 3dmigoto input layout (``stride: 48``, the index
+        buffer's ``format: DXGI_FORMAT_R16_UINT``, then one ``element[N]:`` block per vertex element
+        with its ``SemanticName`` / ``SemanticIndex`` / ``Format`` / ``AlignedByteOffset``)
+
+        Parameters
+        ----------
+        path: :class:`str`
+            The ``.fmt`` file
+
+        Returns
+        -------
+        Tuple[Dict[:class:`str`, :class:`str`], List[Dict[:class:`str`, :class:`str`]]]
+            The top-level keys (``stride``, ``topology``, ``format``), and the elements in order
+        """
+
+        header: Dict[str, str] = {}
+        elements: List[Dict[str, str]] = []
+        current: Optional[Dict[str, str]] = None
+
+        with open(path, "r", encoding = "utf-8") as f:
+            for line in f:
+                line = line.rstrip("\r\n")
+                if (not line.strip()):
+                    continue
+                if (line.startswith("element[")):
+                    current = {}
+                    elements.append(current)
+                    continue
+
+                key, separator, value = line.partition(":")
+                if (not separator):
+                    continue
+                if (line[0] in " \t" and current is not None):
+                    current[key.strip()] = value.strip()
+                else:
+                    header[key.strip()] = value.strip()
+
+        return header, elements
+
+    @classmethod
+    def _wwmiDtype(cls, formatName: str, path: str) -> Tuple[str, int, Optional[float]]:
+        name = formatName.strip()
+        if (name.upper().startswith(cls.WWMIFormatPrefix)):
+            name = name[len(cls.WWMIFormatPrefix):]
+        try:
+            return cls.WWMIFormats[name.upper()]
+        except KeyError:
+            raise ValueError(f"'{os.path.basename(path)}' uses the format '{formatName}', which this tool cannot decode "
+                             f"(it knows: {', '.join(sorted(cls.WWMIFormats))})") from None
+
+    @classmethod
+    def _wwmiElement(cls, rows: np.ndarray, elements: Sequence[Dict[str, str]], name: str, path: str, semanticIndex: int = 0) -> np.ndarray:
+        """
+        Decodes one vertex element (by semantic name, with :attr:`ElementAliases` honoured) out of a
+        ``.vb`` reshaped to ``(vertexCount, stride)`` bytes
+        """
+
+        names = cls.ElementAliases.get(name, (name,))
+        element = None
+        for candidate in elements:
+            if (candidate.get("SemanticName", "").upper() in names and int(candidate.get("SemanticIndex", "0")) == semanticIndex):
+                element = candidate
+                break
+        if (element is None):
+            raise ValueError(f"'{os.path.basename(path)}' declares no '{name}' element")
+
+        dtype, count, divisor = cls._wwmiDtype(element.get("Format", ""), path)
+        offset = int(element.get("AlignedByteOffset", "0"))
+        width = np.dtype(dtype).itemsize * count
+        if (offset + width > rows.shape[1]):
+            raise ValueError(f"'{os.path.basename(path)}': the '{name}' element at byte {offset} ({width} bytes) does not fit the stride of {rows.shape[1]}")
+
+        values = np.ascontiguousarray(rows[:, offset:offset + width]).view(dtype).reshape(rows.shape[0], count)
+        if (divisor is not None):
+            return values.astype(np.float64) / divisor
+        return values
+
+    @classmethod
     def readHashJson(cls, path: str) -> List[Dict[str, object]]:
         """
         The components a ``hash.json`` (as GI-Model-Importer-Assets writes it) describes, keeping
@@ -819,6 +966,119 @@ class DumpMod():
 
         return cls(name, positions, blendIndices, blendWeights, objects, component = component)
 
+    @classmethod
+    def readWWMIFolder(cls, folder: str, name: str, silent: bool = False) -> "DumpMod":
+        """
+        Reads a character out of a WWMI assets folder (Wuthering Waves, in the layout of
+        `WWMI-Assets <https://github.com/SpectrumQT/WWMI-Assets>`_' ``PlayerCharacterData``) as
+        **one** component in the character's merged skeleton :raw-html:`<br />` :raw-html:`<br />`
+
+        A WWMI character is drawn as several ``Component N`` buffers, each with its own bone list ---
+        but unlike GI's multi-component skins those lists are views of ONE skeleton: ``Metadata.json``
+        gives every component a ``vg_map`` from its own bone indices to the merged ones (Sanhua's
+        component 1 has 4 bones, ``{0: 1, 1: 20, 2: 0, 3: 22}``, all of them bones the head component
+        also uses), and a WWMI mod's blend buffer is written in that merged space. So this reader
+        applies each component's ``vg_map`` and concatenates the components into one component
+        ``""``, whose vertex group indices are the merged skeleton's, with the drawn objects named
+        ``Component 0``, ``Component 1``, ... A merged index no component maps to is a bone no vertex
+        uses, and comes out as an empty group
+
+        Parameters
+        ----------
+        folder: :class:`str`
+            The folder holding ``Metadata.json`` and the ``Component N.fmt`` / ``.vb`` / ``.ib`` files
+
+        name: :class:`str`
+            The name of the character
+
+        silent: :class:`bool`
+            Whether to skip printing progress
+
+        Returns
+        -------
+        :class:`DumpMod`
+            The character's geometry, as one component
+
+        Raises
+        ------
+        :class:`FileNotFoundError`
+            If a component listed in ``Metadata.json`` is missing one of its three files
+
+        :class:`ValueError`
+            If a file disagrees with ``Metadata.json`` or its ``.fmt`` (a ``.vb`` not a whole number
+            of strides long, a vertex count other than the one declared, an index outside the
+            component's vertices, a bone outside its ``vg_map``)
+        """
+
+        with open(os.path.join(folder, cls.WWMIMetadataName), "r", encoding = "utf-8") as f:
+            metadata = json.load(f)
+
+        entries = metadata.get(cls.WWMIComponentsKey) or []
+        files = cls.findWWMIComponentFiles(folder)
+        if (not entries):
+            raise ValueError(f"'{os.path.join(folder, cls.WWMIMetadataName)}' lists no components")
+
+        positions: List[np.ndarray] = []
+        blendIndices: List[np.ndarray] = []
+        blendWeights: List[np.ndarray] = []
+        objects: Dict[str, np.ndarray] = {}
+        vertexOffset = 0
+
+        for componentIndex, entry in enumerate(entries):
+            own = files.get(componentIndex, {})
+            for ext in ("fmt", "vb", "ib"):
+                if (ext not in own):
+                    raise FileNotFoundError(f"'{folder}' has no 'Component {componentIndex}.{ext}' for component {componentIndex} of its {cls.WWMIMetadataName}")
+
+            if (not silent):
+                print(f"Reading Component {componentIndex}.vb")
+
+            header, elements = cls.readWWMIFormat(own["fmt"])
+            stride = int(header.get("stride", "0"))
+            if (stride <= 0):
+                raise ValueError(f"'{os.path.basename(own['fmt'])}' declares no stride")
+
+            raw = np.fromfile(own["vb"], dtype = np.uint8)
+            if (raw.size % stride != 0):
+                raise ValueError(f"'{os.path.basename(own['vb'])}' is {raw.size} bytes, not a whole number of {stride}-byte vertices")
+            vertexCount = raw.size // stride
+            declared = entry.get(cls.WWMIVertexCountKey)
+            if (declared is not None and int(declared) != vertexCount):
+                raise ValueError(f"'{os.path.basename(own['vb'])}' holds {vertexCount} vertices but {cls.WWMIMetadataName} declares {declared}")
+            rows = raw.reshape(vertexCount, stride)
+
+            componentPositions = np.asarray(cls._wwmiElement(rows, elements, cls.PositionKey, own["fmt"]), dtype = np.float64)[:, :3]
+            componentIndices = np.asarray(cls._wwmiElement(rows, elements, cls.BlendIndicesKey, own["fmt"]), dtype = np.int64)
+            componentWeights = np.asarray(cls._wwmiElement(rows, elements, cls.BlendWeightKey, own["fmt"]), dtype = np.float64)
+            if (componentIndices.shape[1] != componentWeights.shape[1]):
+                raise ValueError(f"'{os.path.basename(own['fmt'])}': {componentIndices.shape[1]} blend indices per vertex but {componentWeights.shape[1]} weights")
+
+            # the component's own bone numbering -> the merged skeleton's
+            vgMap = entry.get(cls.WWMIVgMapKey)
+            if (vgMap):
+                table = np.array([int(vgMap[str(local)]) if (str(local) in vgMap) else -1 for local in range(len(vgMap))], dtype = np.int64)
+                if ((table < 0).any()):
+                    raise ValueError(f"{cls.WWMIMetadataName}: component {componentIndex}'s {cls.WWMIVgMapKey} is not keyed 0..{len(vgMap) - 1}")
+                used = componentIndices[componentWeights > 0]
+                if (used.size and int(used.max()) >= len(table)):
+                    raise ValueError(f"'{os.path.basename(own['vb'])}' uses bone {int(used.max())} but component {componentIndex}'s {cls.WWMIVgMapKey} has {len(table)} entries")
+                componentIndices = table[np.clip(componentIndices, 0, len(table) - 1)]
+            else:
+                componentIndices = componentIndices + int(entry.get(cls.WWMIVgOffsetKey, 0))
+
+            ibDtype, _, _ = cls._wwmiDtype(header.get("format", "R16_UINT"), own["fmt"])
+            indices = np.fromfile(own["ib"], dtype = ibDtype).astype(np.int64)
+            if (indices.size and int(indices.max()) >= vertexCount):
+                raise ValueError(f"'{os.path.basename(own['ib'])}' references vertex {int(indices.max())} of a component with {vertexCount} vertices")
+            objects[f"{cls.WWMIObjectPrefix}{componentIndex}"] = np.unique(indices) + vertexOffset
+
+            positions.append(componentPositions)
+            blendIndices.append(componentIndices)
+            blendWeights.append(componentWeights)
+            vertexOffset += vertexCount
+
+        return cls(name, np.concatenate(positions), np.concatenate(blendIndices), np.concatenate(blendWeights), objects, component = "")
+
     # ---------------------------------------------------------------------------------------------
     # helpers
 
@@ -1069,10 +1329,11 @@ class Character():
     def fromFolder(cls, folder: str, name: Optional[str] = None, silent: bool = False,
                    hashes: Union[None, str, Sequence[str]] = None) -> "Character":
         """
-        Reads a character's geometry out of a folder, whichever form it is in: a raw frame
-        analysis (:meth:`fromFrameAnalysis`) if its files are named by draw call, 3dmigoto dumps
-        (:meth:`fromDumpFolder`) if the folder holds a ``*-vb0=<hash>.txt``, otherwise a mod's
-        binary files (:meth:`fromModFolder`)
+        Reads a character's geometry out of a folder, whichever form it is in: WWMI assets
+        (:meth:`fromWWMIFolder`) if the folder holds a ``Metadata.json`` and ``Component N`` files,
+        a raw frame analysis (:meth:`fromFrameAnalysis`) if its files are named by draw call,
+        3dmigoto dumps (:meth:`fromDumpFolder`) if the folder holds a ``*-vb0=<hash>.txt``,
+        otherwise a mod's binary files (:meth:`fromModFolder`)
 
         Parameters
         ----------
@@ -1104,6 +1365,8 @@ class Character():
         if (not os.path.isdir(folder)):
             raise FileNotFoundError(f"'{folder}' is not a folder")
 
+        if (DumpMod.isWWMIFolder(folder)):
+            return cls.fromWWMIFolder(folder, name = name, silent = silent)
         if (DumpMod.isFrameAnalysisFolder(folder)):
             components = cls.parseHashes(hashes)
             if (components is None):
@@ -1117,7 +1380,8 @@ class Character():
             return cls.fromModFolder(folder, name = name, silent = silent)
 
         raise FileNotFoundError(f"'{folder}' holds neither a '*-vb0=<hash>.txt' dump, nor a '*Position.buf' + '*Blend.buf' pair, "
-                                "nor a frame analysis (this tool does not search subfolders: point it at the folder that holds the files)")
+                                "nor a frame analysis, nor WWMI assets (a 'Metadata.json' with 'Component N.fmt/.vb/.ib' files) "
+                                "(this tool does not search subfolders: point it at the folder that holds the files)")
 
     @classmethod
     def fromFrameAnalysis(cls, folder: str, components: Dict[str, Dict[str, object]], name: Optional[str] = None,
@@ -1299,3 +1563,37 @@ class Character():
             components[componentName] = DumpMod.readModFiles(positionPath, blendPath, ownIbs, name, component = componentName, silent = silent)
 
         return cls(name, components)
+
+    @classmethod
+    def fromWWMIFolder(cls, folder: str, name: Optional[str] = None, silent: bool = False) -> "Character":
+        """
+        Reads a character out of a WWMI assets folder (Wuthering Waves), as the **single**
+        component ``""`` in the character's merged skeleton --- see :meth:`DumpMod.readWWMIFolder`
+        for why a WWMI character's several ``Component N`` buffers are one vertex group index space,
+        not several
+
+        Parameters
+        ----------
+        folder: :class:`str`
+            The folder holding ``Metadata.json`` and the ``Component N.fmt`` / ``.vb`` / ``.ib`` files
+
+        name: Optional[:class:`str`]
+            The character's name. If ``None``, the folder's own name is used (``SanhuaSkin1``)
+
+        silent: :class:`bool`
+            Whether to skip printing progress
+
+        Returns
+        -------
+        :class:`Character`
+            The character's geometry
+        """
+
+        folder = os.path.abspath(folder)
+        if (not os.path.isdir(folder)):
+            raise FileNotFoundError(f"'{folder}' is not a folder")
+
+        if (name is None):
+            name = os.path.basename(folder.rstrip("/\\"))
+
+        return cls(name, {"": DumpMod.readWWMIFolder(folder, name, silent = silent)})

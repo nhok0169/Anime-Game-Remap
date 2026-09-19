@@ -598,6 +598,12 @@ class CppIfContentPartTest(BaseUnitTest):
         part = FRB.IfContentPart.buildFromOrder([("hash", "abc"), ("vb0", "res")])
         self.assertEqual(part.toStr(), "hash = abc\nvb0 = res")
 
+    def test_toStr_emptyValue_rendersTheKeyAlone(self):
+        # A line with no '=' (3dmigoto's `local $var`) is read as a key with an empty value, and has
+        # to go back out without one: `local $state_id_0 = ` is not a declaration (2026-09-19)
+        part = FRB.IfContentPart.buildFromOrder([("local $state_id_0", ""), ("hash", "abc")])
+        self.assertEqual(part.toStr(), "local $state_id_0\nhash = abc")
+
     def test_toStr_withLinePrefix_prefixesEveryLine(self):
         part = FRB.IfContentPart.buildFromOrder([("hash", "abc"), ("vb0", "res")])
         self.assertEqual(part.toStr(linePrefix="  "), "  hash = abc\n  vb0 = res")

@@ -30,8 +30,14 @@ namespace AGRemapCore {
         for (std::size_t i = 0; i < count; ++i) {
             result += linePrefix;
             result += entries[i].first;
-            result += " = ";
-            result += entries[i].second;
+
+            // An empty value is a line that had no '=' when it was read -- 3dmigoto's
+            // `local $var` -- and it goes back out as it came in. See IniFile.cpp's
+            // parseSectionKVPs.
+            if (!entries[i].second.empty()) {
+                result += " = ";
+                result += entries[i].second;
+            }
 
             if (i + 1 < count) {
                 result += "\n";

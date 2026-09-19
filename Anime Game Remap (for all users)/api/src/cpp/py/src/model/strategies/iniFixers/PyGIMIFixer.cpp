@@ -603,6 +603,13 @@ List[:class:`IniGraphGroup`]: The graph groups this fixer edited, one per .ini f
 produces -- empty until :meth:`getFix` or :meth:`fix` has run
         )doc"))
 
+       .def_readwrite("appendedSections", &PyGIMIFixer::appendedSections, py::doc(R"doc(
+:class:`str`: Text of whole `sections`_ the fix writes that belong to no copied object -- a section
+that hides a draw nothing was remapped onto, a ``[ShaderOverride]`` tag, a resource the fix
+invents. Rendered once, after the first group's sections, inside the fix block (so an undo removes
+it). Empty by default; a fixer built from Python sets it in its factory
+        )doc"))
+
        .def("getModsToFix", [](PyGIMIFixer &self) {
             self.refresh();
             return self.getModsToFix();

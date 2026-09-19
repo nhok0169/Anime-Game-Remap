@@ -722,6 +722,17 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The 2.5 parser for **Sanhua** -- the first Wuthering Waves character, and the first row
+             built by :cpp:func:`makeWWMIParser`: seven draw slots on her ``vb0`` hash plus their
+             ``match_first_index``, the bone-data and shape-key overrides by a hash of their own.
+             See ``data/IniParseData/Sanhua/SanhuaParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory sanhua2_5();
+
+            /**
+             * @brief
+             @rst
              The parser for a 5.7-era YelanTranquil ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
 
              The FIRST parser for a skin of SEVERAL components -- a ``Body`` of three draw slots, a

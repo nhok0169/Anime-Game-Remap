@@ -484,6 +484,13 @@ namespace AGRemapCore {
                 continue;
             }
 
+            // A section that only REFERENCES one of the mod's own files: the section goes, the file
+            // stays. Without this, the WWMI fixer's declared texture resources had an undo delete
+            // 17 of a mod's 19 textures (2026-09-19) -- see IniKeywords::RemapRef.
+            if (!refKeyword.empty() && sectionName.find(refKeyword) != std::string::npos) {
+                continue;
+            }
+
             for (const std::unique_ptr<IfTemplatePart>& partOwned : found->second->parts()) {
                 // Only the KVP parts hold values at all; the if/elif/else/endif ones are structure.
                 // Every branch is walked, not just one -- a section naming a different file per

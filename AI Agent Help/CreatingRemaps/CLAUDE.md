@@ -1210,6 +1210,217 @@ Kept from when this section said the work was open, because it is still the chec
   `GIMIComponentFixer.cpp`, and most of it wants lifting into a shared base with the classic
   template once a second config exists.
 
+## WUWA IS COMPILED: the fourth fixer template, and four things the port found in shared code (2026-09-19)
+
+`makeWWMIFixer(config)` (`data/IniFixData/WWMIFixer.{h,cpp}`) and `makeWWMIParser(config)`
+(`data/IniParseData/WWMIParser.{h,cpp}`) are to a WuWa pair what `makeGIMICharFixer` is to the classic
+GI shape: ONE fixer row for the pair, because a WWMI character's components are draw slots of one mesh
+(matched by the `vb0` hash plus a `match_first_index`) skinned in one merged skeleton, not mod types of
+their own. Per `.ini` the fixer retargets every slot section the mod has onto the target slot the
+config's `plan` names (hash, `match_first_index`, `match_index_count`, `vg_offset`, `vg_count`, the
+shape-key checksum), binds the mod's textures BY REGISTER on the target's passes (a command list per
+source component gated on `ps == <filter>`, one `[ShaderOverride]` per distinct pass), binds a zero
+shape-key offset stream at `vb6`, remaps the blend through the library's row over the 8-byte WWMI layout
+(`WWMIBlendReplace`, a `RemapBlendReplace` handing `RemapBlendResource` the WuWa elements), hides the
+shape-key sections (`hiddenModObjs`, the whole called graph -- which also takes the cloak mod's
+`*Batch` shape-key lists the prototype's by-name list missed), skips the target slots nothing is drawn
+through, and writes one remapped section per target draw per file. That last one is the GI merge's own
+mechanism: the sources are `GraphGroupRemap`ped onto target objects named `(toMod, component<slot>)`,
+and colliding claimants of a slot land in further groups -- the copies -- in the sources' numeric order.
+Sanhua's config is `IniFixData/Sanhua/SanhuaFixer.cpp`, her texture thumbprints
+`Sanhua/SanhuaThumbprints.cpp`. Both configs are bound (`WWMIFixerConfig` / `WWMIParserConfig`,
+`makeWWMIFixer` / `makeWWMIParser`), so the next WuWa pair is prototyped as a config on
+`CppStrategyOverrides` and transcribed, like a GI character.
+
+**The acceptance is the prototype, on four mods.** `Tools/Misc/Diagnostics/abWWMI.py <mod>` undoes
+whatever fix a scratch copy carries, fixes one copy with the prototype and one through the compiled
+tables, and diffs: on the identity mod, a succubus mod, the frost mod (toggled draws, textures named
+`Component3-NM.dds`) and the RabbitFX cloak (LOD folders, textures declared in a parent's namespaced
+`.ini`), every remapped section is identical, every `RemapBlend.buf` byte-identical, the created mask
+the same colour in a different DDS container. The copies were the one thing that did NOT match at
+first, and it showed in game: the API's `<stem>RemapFix<n>.ini` carried the mod's own text plus that
+group's sections, as a GIMI merge's does, and referenced the texture command lists and resources
+living in the mod's own file -- and the first in-game run of the compiled cloak mod drew EVERY body
+part with the first claimant's textures (the arm skin's, `Images/Sanhua/2_5/
+SanhuExorcistBodyWrongTexture.png`), where the prototype's copies, each a whole copy of the fixed
+file with the originals commented out, drew it right. So `GIMIFixer` grew two knobs the WWMI fixer
+sets: `appendedSectionsInCopies` (the fix's own sections into every copy) and
+`copyHiddenSectionNames` (the mod's own `TextureOverride` sections commented out in the copies and
+left live in the mod's own file), which is the prototype's shape. The GIMI templates leave both at
+their defaults and their output is unchanged. The prototype names its copies the API's way now, so
+either undo removes both. **Whether that closes the in-game gap is the pending check.**
+
+Four findings, none of them about Sanhua:
+
+- **A builder-table factory that reads the mod type REGISTRY at table-build time reads nothing.**
+  The first parser counted the character's draw slots with `ModTypeIdTools::getModType` when
+  `makeWWMIParser` ran -- during the builder table's construction, when the registry is still empty
+  -- so it had NO slot objects, and every slot section classified as nothing while the hash-only ones
+  (the bone-data override) classified fine: a fix that logged success, hid the shape keys, wrote the
+  mask and the zero stream, and drew no component. The slots are read off the parse context's own
+  `ModType` at parse time now. Read anything you need from a ModType inside the factory's returned
+  lambda, never around it.
+- **`GraphGroupRemap` renames as it copies, before any later edit runs.** The texture run and the
+  `vb6` line are added right after `run = CommandListOverrideSharedResources` -- and by the time the
+  `RegSurroundedAdd` ran, the remap had already renamed that value with the fix suffix, so the anchor
+  never matched and nothing was added (the prototype's `GraphRename` ran AFTER its add). The add matches
+  the list under both names. The GI templates' index and register edits key on values the remap does
+  not touch, which is why none of them ever met this.
+- **AN UNDO DELETES EVERY FILE A RESOURCE SECTION INSIDE THE FIX BLOCK NAMES.** `RemapIniRemover`
+  collects the `filename` of every section it takes out and the service removes the file, which is
+  right for a `RemapBlend` / `RemapTex` / `RemapDL` file the fix produced and destroys the mod for a
+  texture the fix merely BOUND: the WWMI fixer declares `[Resource<Role>...] filename =
+  ..\Textures\Component0_Diffuse.dds` for a file no resource of the fixed `.ini` names, and one undo
+  of the cloak mod took 17 of its 19 textures. `IniKeywords::RemapRef` marks such a section now: the
+  remover drops the section and skips its file (`RemapIniRemover::refKeyword`), and both the fixer and
+  the prototype name declared resources `Resource<Role><Target>RemapRef`. A folder fixed BEFORE the
+  keyword existed still carries deletable names -- rename them in place before running anything over
+  it (the cloak folder was migrated that way).
+- **Pixel identity needs no download.** The prototype places a hash-less file by correlating it
+  against the download folder's textures, which the library cannot do at runtime (`DownloadTools::
+  urlPath` is GI-only, and 17 textures of up to 4k is a lot to fetch to answer one question).
+  `WWMIFixerConfig::textureThumbprints` holds each game texture as a 16 x 16 grayscale box average
+  (256 bytes; `Tools/Misc/Diagnostics/wwmiTextureThumbs.py` generates the table from a download
+  folder through the API's own `TextureFile`, so the arithmetic matches the fixer's `thumbprintOf`),
+  and a file correlating >= 0.97 with one entry and < 0.90 with every other IS that texture. Measured
+  on the cloak's 19 files against the 128 x 128 colour correlation: the same decision on every one.
+- **A texture FILE plays EVERY role its hashes name, not the first one (2026-09-19, the red-camellia
+  mod).** A WWMI mod declares one `.dds` under two hashes whenever one atlas serves two components:
+  `Upper_D.dds` as both the arm skin's diffuse (`4b6d52b9`) and the bodice's (`ebeeda8c`), and the
+  frost mod's `Component3.dds` as both the skin's and the skirt's. The index used to give a file the
+  role of the FIRST matching hash and stop, so the bodice had no diffuse, no normal and no mask, its
+  texture list was never written, and the mod's bodice drew on the Exorcist's slot 3 with the
+  EXORCIST'S own textures -- which on that skin's atlas reads as a body that is all red
+  (`Images/Sanhua/2_5/SanhuaExorcistBodyRed.png`), with every other part correct. The prototype had
+  the same rule, so the A/B was identical and could not see it; what found it was the prototype's
+  own per-slot table, which printed `ps-t0=GAME (mod has none)` for a component whose textures were
+  plainly in the folder. On the frost mod the same change moves two bindings off leftover VANILLA
+  files the folder happened to hold (`Components-3 t=4b6d52b9.dds`, `Components-5 t=16695017.dds`,
+  bound through `RemapRef` sections) onto the files the author binds under those hashes, which is
+  the mod's own answer. **When the table says a component has no texture, grep the mod's
+  `TextureOverrideTexture` sections for its hashes before believing it.**
+- **AND A ROLE THE MOD HAS NO FILE FOR AT ALL IS BOUND TO THE SOURCE'S OWN GAME TEXTURE, AS THE
+  FIRST WUWA DOWNLOAD (2026-09-19).** Rebinding the bodice's diffuse did not clear the red: the
+  hue was the MASK. The red-camellia mod ships no bodice mask and no skirt mask (on Sanhua that
+  costs nothing -- her vanilla bodice mask is 95% black), so on the Exorcist's draw those registers
+  kept the EXORCIST's mask, sampled at the mod's UVs, and her mask is 19% skin code `(255, 77, 0)`
+  laid out for her atlas: skin shading over random patches of cloth, a reddish hue over the whole
+  body with every diffuse right. Every earlier test mod shipped its masks, so this is a new
+  structural axis ("binds a mask / does not"), not a regression. The rule is the GI texture donor's:
+  **the mod's UVs are the source's, so the source's vanilla texture is the right default and the
+  target's is wrong by construction.** `WWMIFixerConfig::fallbackTextures` (role -> the source's
+  hash) plus `downloadCharFolder` / `downloadVersionFolder` / `downloadPrefix` bind such a register
+  to `[Resource<Prefix><Role>RemapDL]`, fetched from `Data/Mod Downloads/WuWa/<Char>/<ver>/
+  <Prefix>Texture<hash>.dds` through the same `RemapIniDownload` the GI parsers register --
+  `DownloadTools::urlPath` takes a game folder now, and the fixer pushes the download onto the
+  `.ini`'s own list at fix time, which `RemapService::fixResources` fetches after the file is
+  written. Roles whose hash both skins bind (`eyeMask`, `faceMask`) need no entry. The two mask
+  legends are NOT the same, by measurement: Sanhua's masks are `(0,0,0)` / `(203,0,0)` and the
+  Exorcist's `(0,51,0)` / `(203,51,0)` / `(255,77,0)`, and mods shipping Sanhua-legend masks have
+  drawn correctly on the Exorcist in game, so the green channel is not what the hue was.
+  The prototype copies the same file out of the download folder under the same name, so the A/B
+  stays exact. RabbitFX, which this mod also calls, was ruled out by reading its shader patch:
+  without a glow map bound through `Resource\RabbitFX\GlowMap` it changes no pixel.
+- **RabbitFX is a library the MOD calls, and the fix carries the call across untouched.** The
+  red-camellia mod's bodice section sets `$\rabbitfx\brightness`, binds `ps-t17` and runs
+  `CommandList\RabbitFX\Run`; those lines land in the remapped section unchanged, and a correctly
+  installed RabbitFX (`Mods/RabbitFX/RabbitFX.ini` with `namespace = RabbitFX`, one copy, not
+  `DISABLED`) accepts them there exactly as on Sanhua. So the red body was NOT RabbitFX -- and
+  neither would RabbitFX 8.2 read that mod's `ps-t17` on Sanhua herself: its shader patch declares
+  `t50`/`t51`/`t60`-`t65` and takes its maps through `Resource\RabbitFX\GlowMap` / `FXMap`, never
+  `t17`. A mod's effect layer working or not is the mod's business; the fix only has to carry it.
+
+Open: WuWa BUFFER downloads (a mod missing a whole component draws nothing there -- the texture
+fallback above is the only WuWa download so far); the reverse direction; the `disabled/` folder of
+a mod is still fixed (harmlessly); the LOD hashes of the skin.
+
+### WuWa triage: what the in-game symptom says (2026-09-19)
+
+Every in-game report on the compiled WuWa path so far, what it turned out to be, and where to look
+first. Read the report's WORDS against the left column before opening any code (Overview habit 55):
+
+| the report says | what it was | look first at |
+| --- | --- | --- |
+| "body all wavy", every part | the game's shape-key offset stream (`vb6`) read by vertex id, then several remapped sections on one draw window | `--shapeKeys`; one remapped section per Exorcist draw per file (the copies) |
+| the bangs wrong, the rest right | component 0 is the BANGS, on hair passes that differ per skin | `slotPasses` -- a LIST of passes per slot |
+| a chain (ribbons, tassel) curled or floating | a chain the target has no bones for, mapped per bone by the finder | `--anchor`; `wwmiBoneTally.py` |
+| every body part drawn with ONE part's textures | the copies referenced the texture lists in another file | `appendedSectionsInCopies` / `copyHiddenSectionNames` (self-contained copies) |
+| one part's textures wrong, the picture is a different texture | that component got no texture list -- a role with no file | the prototype's per-slot table: `ps-tN=GAME (mod has none)`; then whether the file is declared under TWO hashes |
+| a HUE over the body AND the clothes, every picture right | the material MASK: the mod ships none for that component, so the TARGET's mask is sampled at the mod's UVs | `fallbackTextures` -- the source's own mask, downloaded |
+| eyes wrong on one mod only | the eye pass reads the iris at `ps-t2`, mask at `ps-t1`; or two hashes on one role | the plan's eye bindings; the duplicate-role WARNING |
+
+Two things that were suspected and were NOT the cause, each ruled out by reading rather than by
+argument: RabbitFX (its shader patch changes no pixel without a glow map bound through its own
+resource; the fix carries a mod's RabbitFX lines across untouched and they work there), and the
+green channel of the mask legend (Sanhua's masks are `G = 0`, the Exorcist's `G = 51`, and
+Sanhua-legend masks draw correctly on the Exorcist in game).
+
+**The instrument that found the last three is the prototype's per-slot table** -- printed on every
+run, one line per source component: the target slot, the draw count, and every planned register with
+what it resolved to. `GAME (mod has none)` on a component whose textures are plainly in the folder is
+the tell for the file-declared-twice bug; `GAME (mod has none)` on a MASK register is the tell for the
+hue. The compiled fixer prints nothing (the maintainer asked for the GI fixers' silence), so run the
+prototype on a scratch copy when you need the table: `abWWMI.py` does, and its log keeps it.
+
+### WuWa: choosing test mods by structural axis (2026-09-19)
+
+Five Sanhua mods cover every axis the fix has met, and each axis was a bug before it was a row here.
+Test a change against all five (`abWWMI.py` per mod, before and after -- Overview habit 56), and when
+the maintainer reports a new mod, ask first which axis it sits on the other side of:
+
+| mod (where it was on 2026-09-19) | what only it exercises |
+| --- | --- |
+| the identity mod (`WWMI/SanhuaIdentity`) | every texture bound, every bone used, every band -- the baseline every other mod differs from |
+| the succubus mod (`WWMI/Sanhua4`) | a plain export: `t=<hash>` file names, one file per hash, own masks |
+| the frost mod (`WWMI/Sanhua2/sanhua-frost-final`) | draws inside `if` toggles; files named `Component3.dds` with no hash (roles from the `TextureOverrideTexture` sections); ONE file declared under TWO hashes; leftover vanilla textures in the folder that a wrong rule falls back to |
+| the RabbitFX cloak (`WWMI/Sanhua3/...`) | LOD0/1/2 folders; textures declared in a PARENT's namespaced `.ini`; 19 files the thumbprints place; RabbitFX resources by name |
+| the red camellia (`WWMI/Mods/Sanhua5/sanhua_redcamellia`) | one atlas serving two components (two hashes per file, different roles); NO bodice or skirt mask; a RabbitFX call inside the draw section; `ps-t17` the library never reads |
+
+The maintainer moves these between `WWMI/Mods` (the live folder) and its parent all the time --
+three of the five changed folders during one session. `find <WWMI> -maxdepth 3 -iname "<name>*"`
+before trusting any path written down, this table included.
+
+### The next WuWa pair: what a config needs, and how the loop runs (2026-09-19)
+
+A new WuWa character is a `WWMIFixerConfig` in `IniFixData/<Name>/<Name>Fixer.cpp` plus a
+`WWMIParserConfig`, and every field below was learned from a mod that lacked it. In the order to
+fill them, with where each comes from:
+
+1. **The target's passes per slot** (`slotPasses`) from a frame analysis of the SKIN in game, read
+   with `Tools/Misc/Diagnostics/wwmiDrawTable.py`: a LIST per slot, because the hair slots draw on
+   several shaders and the bangs are one of them.
+2. **The plan** (source component -> target slot + registers) by SHADER FAMILY of the passes, never by
+   bones: under a merged skeleton the bones say nothing. The registers per slot come from the same
+   dump; the eye pass has its own layout.
+3. **The roles by hash** (`roles`) for the CURRENT hashes off the dump AND every older hash the
+   community maps and `Data/Mod Downloads/WuWa/<Name>/<Name>HashLineage.json` know -- mods carry
+   whatever version their author exported from.
+4. **The thumbprints** (`textureThumbprints`, `Tools/Misc/Diagnostics/wwmiTextureThumbs.py` over the
+   download folder) for files no hash names; the `Component<N>_<Type>` convention (`typeRoles`) after
+   them.
+5. **The created textures** (`createdTextures`: the skin mask code measured off the TARGET's mask,
+   `(255, 77, 0)` for the Exorcist -- measure it, the legends differ per skin).
+6. **The fallbacks** (`fallbackTextures` + `downloadCharFolder` / `downloadVersionFolder` /
+   `downloadPrefix`): one entry per planned role, the SOURCE's hash, minus the roles whose hash both
+   skins bind. This needs the source's download folder committed and on `master`, since the files are
+   fetched from there at run time.
+7. **The labels** (`sourceLabels` / `targetLabels`) -- they are what the per-slot table and the hide
+   sections say, so a wrong one misleads the next reader.
+
+Then the loop, which differs from the GI one in three mechanics:
+
+- **The launcher is `WWMI/Mods/FixRaidenBoss7.py`** (the maintainer moved it there), run from that
+  folder as `py -3 FixRaidenBoss7.py -s <folder under Mods>`; it exits 255 from the ENTER prompt when
+  stdin is closed, which is not a failure. `-u` undoes.
+- **The prototype's copy beside the mods, `WWMI/Mods/sanhuaExorcistFix.py`, is what the maintainer
+  runs, and it is LF where the repo's is CRLF.** Every change to `Tools/Misc/Prototypes/
+  sanhuaExorcistFix.py` is re-copied there with the line endings converted, or the two drift and the
+  oracle they run is not the one you A/B'd against.
+- **The A/B is `abWWMI.py <mod> --scratch <folder>` per mod, before the rebuild and after** -- the
+  before folders are the only way to attribute a change when the prototype moved too (Overview
+  habit 56). A fix-then-undo cycle on the after copy (`FixRaidenBoss7.py -s <copy> -u`) must leave
+  no `Remap` text and no `Remap*` file, downloads included.
+
 ## Adding a `ModTypeId`: every place it enters (2026-09-13)
 
 Missed one and the build is fine, the tests are fine, and the type quietly does not exist. In
@@ -1271,9 +1482,11 @@ with `getIndexCount(type)` and friends, all remappable by the same reverse-then-
 section carries all four beside its hash, and a WWMI fixer will rewrite them the way a GIMI one
 rewrites the index. The rows were generated by script from WWMI-Assets' `Metadata.json`
 (`export_format`, `components`, `shapekeys`), not typed. The parse / fix / remove rows are
-`wwmiStub()` (`defaultFactory`) until the WWMI strategies exist; the prototype they will be
-transcribed from is `Tools/Misc/Prototypes/sanhuaExorcistFix.py`, which since 2026-09-19 reads
-every number it needs from these tables and nothing from `Metadata.json`.
+`wwmiStub()` (`defaultFactory`) until the WWMI strategies exist -- and since 2026-09-19 Sanhua's parse
+row is `IniParseBuilderFuncs::sanhua2_5()` (`makeWWMIParser`) and the `Sanhua -> SanhuaExorcist` fix
+row `IniFixBuilderFuncs::sanhuaExorcist2_5()` (`makeWWMIFixer`), transcribed from
+`Tools/Misc/Prototypes/sanhuaExorcistFix.py`; the reverse direction, SanhuaExorcist's parser and both
+remove rows stay stubs (the default remover handles the fix block). See "WUWA IS COMPILED" above.
 
 **And registering the first WuWa type found a latent bug in the CLASSIFIER, in the shared reader
 rather than in anything WuWa.** A WuWa `.ini` parks `IniClassifier`'s state DFA on `isWuwa` for the

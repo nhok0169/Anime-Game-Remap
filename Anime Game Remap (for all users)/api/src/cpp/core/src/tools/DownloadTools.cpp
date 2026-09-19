@@ -79,7 +79,14 @@ namespace AGRemapCore {
     std::string DownloadTools::urlPath(const std::string& charFolder, const std::string& versionFolder,
                                         const std::string& prefix, const std::string& kind,
                                         const std::string& ext) {
-        return "GI/" + charFolder + "/" + versionFolder + "/" + prefix + kind + ext;
+        return urlPath("GI", charFolder, versionFolder, prefix, kind, ext);
+    }
+
+
+    std::string DownloadTools::urlPath(const std::string& game, const std::string& charFolder,
+                                        const std::string& versionFolder, const std::string& prefix,
+                                        const std::string& kind, const std::string& ext) {
+        return game + "/" + charFolder + "/" + versionFolder + "/" + prefix + kind + ext;
     }
 
 

@@ -740,6 +740,74 @@ render targets after each draw name the components; that settled five things:
   weights byte-identical, no remapped index on a duplicate slot, and the REVERSE sheet applied by
   mistake gives different bytes (the check can fail).
 
+**THE SPLIT WORKED, AND THE FIRST REAL MOD (the Witch Sanhua merged mod) REMAPPED RIGHT BUT FOR
+THE EYES (2026-09-19)**: the eye pass reads the mask at `ps-t1` and the IRIS at `ps-t2` on both skins
+-- the dump's textures correlate 1.00 with the asset's mask and iris there -- and at `ps-t0` a
+texture matching no asset file, which the game keeps. The plan had the iris at `ps-t0`; the
+asset-era `TextureUsage.json` had said `ps-t2` too. Two rules from it: **read a slot's role off the
+dump, never off a neighbouring slot's pattern**, and a texture the dump binds that matches nothing
+in the asset folder is a global to leave alone. The same check confirmed `ps-t5` (1035197c on
+Sanhua, 4478285f on Exorcist).
+
+**FIX THE ORIGINAL MOD'S TEXTURES BEFORE REMAPPING IT (2026-09-19).** A WuWa mod written for an
+older game version has texture overrides on hashes the game no longer binds -- they never fire and
+the game's own texture shows -- and, as often, `[ResourceTexture]` sections naming files the author
+never shipped, which bind a MISSING resource and turn a material mask black. Both are silent, and a
+remap inherits both. `Tools/Misc/Diagnostics/wwmiTextureFix.py <mod> --assets <download folder>
+--maps <community hash_maps.json> --apply` resolves an old hash through the community maps or by
+the mod's file being pixel-identical to exactly one current texture, whatever its size or format
+(a repainted texture is left alone on purpose), and copies a missing referenced file in from the
+downloads. Every old -> current pair it has measured for Sanhua is in
+`Data/Mod Downloads/WuWa/Sanhua/SanhuaHashLineage.json`, to pass as `--maps` beside the community
+tables -- it is what carries a REPAINTED texture's old hash forward, which pixels cannot. The Witch Sanhua mod (2026-09-19): five overrides still on 2024-era hashes that the mod's
+own files identified as the game's bangs mask, bangs diffuse, hair diffuse, face diffuse and iris;
+two material masks (bodice, skirt) referenced and never shipped, supplied from
+`Data/Mod Downloads/WuWa/Sanhua/2_5`; four 512-square globals of that era with no current twin,
+left as dead overrides. The community fixer beside it knew one of those hashes. The frost mod
+(`sanhua-frost-final`, 821963 vertices, three `[KeySwap]` toggles with draws inside `if` branches):
+12 hashes through the lineage map, nothing missing -- and then the remap bound NO texture on the
+torso slot, because it resolved a texture's role from the `t=<hash>` in its FILE NAME and that mod
+names its art `Component3.dds` / `Component3-NM.dds` / `Component3-LM.dds`. **A texture's identity is
+the hash its `[TextureOverrideTexture]` section matches, and that section's `this =` names the
+resource**; the prototype reads roles that way now and keeps the file-name hash only as the fallback
+for a resource no override names. The toggled draws come through the remap verbatim (30 draw lines
+in, 30 out, one of them commented in both); a toggled RESOURCE (`if $x / this = A / else / this = B`)
+would contribute only its first, which no mod so far does.
+
+**THE CLOAK MOD (2026-09-19) DECLARES ITS TEXTURES IN ANOTHER `.ini` AND HANDS THEM TO A LIBRARY THAT
+IS NOT INSTALLED.** `Sanhua3/.../Sanhua Cloak - (longer)` is three LOD folders plus a top-level
+`SanhuaCloak.ini` in its own namespace: THAT file holds `[ResourceDiffuse0] filename = Textures/
+Component0_Diffuse.dds` and sections on Sanhua's hash that set `Resource\RabbitFX\Diffuse` and run
+`CommandList\RabbitFX\SetTextures` -- RabbitFX (gamebanana.com/mods/527815) being the shared WWMI
+library that binds textures by register. It is not installed on this machine, so the mod shows the
+GAME's textures on Sanhua too; `LOD0/mod.ini`, the file the API fixes, declares no texture at all, and
+the remap bound nothing. Three things changed in the prototype for it, all general: **(1)** textures
+come from a run-level INDEX of every `.dds` under the folder the run was pointed at (DISABLED-prefixed
+folders skipped, as the game does), with a file's role decided by the hash an override in ANY `.ini`
+of the tree matches for it, then the hash in its name, then **pixel identity** with one of the game's
+own textures in the download folder (colour correlation `>= 0.97` with one, `< 0.90` with every
+other -- `Component6_Diffuse.dds` is the ps-t5 RAMP by its pixels, not the iris its name says), and
+last the `Component<N>_<Diffuse|LM|NM>` name convention for the repainted ones; a file the fixed
+`.ini` has no resource for is declared as the fix's own `[Resource<Role>...RemapFix] filename =
+..\Textures\...`. **(2)** the vb6 line and the texture run had landed INSIDE the first
+`if $draw_component_x` toggle: `RegSurroundedAdd`'s optional after-register (`drawindexed`) is a MUST
+fact, and behind a toggle no draw is certain, so the earliest certain position was inside the toggle
+-- the frost mod escaped it only because one of its draws sat outside every toggle. The add is
+anchored on the shared-resource override alone now, and the identity mod's output is byte-identical
+across the change. **(3)** `--undo` and the index both leave a `disabled/` folder alone in name only:
+the API still fixes `disabled/mod.ini` (harmless, the game ignores it). Not done: the mod's
+hood / cloak KEYS are gated on `$\SanhuaCloak\object_detected`, which only its own sections on
+Sanhua's hash set, so on Exorcist the toggles sit at their persisted defaults; and its LOD1 / LOD2
+files are on Sanhua's LOD hashes, which the library does not carry, so at a distance the game draws
+Exorcist's own LOD model. **Not seen in game yet.**
+
+**THE FORWARD FIX IS COMPILED (2026-09-19)** -- `makeWWMIFixer` / `makeWWMIParser`, the fourth fixer
+template, A/B'd against this prototype on four mods with `Tools/Misc/Diagnostics/abWWMI.py`. What the
+port found (a registry empty at table-build time, the group remap renaming before later edits, an undo
+that deleted 17 of 19 textures, thumbprints in place of downloads) is in Creating Remaps' "WUWA IS
+COMPILED". The prototype stays the oracle; its copies are named `<stem>RemapFix<n>.ini` now, the
+API's way.
+
 **Both characters have DOWNLOAD FOLDERS too (2026-09-19): `Data/Mod Downloads/WuWa/<Name>/2_5`** --
 the identity mod's nine whole-mesh buffers, every asset texture as `<Name>Texture<hash>.dds`, and the
 asset's `Metadata.json` / `TextureUsage.json`; see that folder's README and Creating Remaps'
@@ -902,7 +970,7 @@ is worth knowing for every WuWa remap after this one:
   which is the collision the GIMI merge writes a second `.ini` for, and their own R&D spreads its
   sections over several files. So the prototype now splits by TARGET WINDOW (`--noSplit` to keep
   one file): the first section of a window stays in `mod.ini`, each further one goes into its own
-  complete `<stem>SanhuaExorcistRemapFix<n>.ini` -- the mod's own draw sections commented out so
+  complete `<stem>RemapFix<n>.ini` (named the API's way since the port) -- the mod's own draw sections commented out so
   only `mod.ini` serves Sanhua, every other remapped slot section cut down to its skeleton merge
   and `handling = skip` -- so every file merges the whole skeleton and draws exactly its own share.
   The extra files are deleted before a fix and on `--undo` (the API's undo does not know them); a
@@ -924,6 +992,14 @@ Two environment facts that cost time: on this machine `py -3` is 3.13 with no `o
 `core.cp313-win_amd64.pyd` is from 2026-09-08, older than the Python package around it, so `import
 FixRaidenBoss2` fails on Windows until it is rebuilt. The WWMI reader does not need the API, `-C`
 does (and would have nothing to compare against anyway).
+
+**The fix is compiled and the texture side has its own guide now (2026-09-19).** Everything above is
+the geometry; for a WuWa mod that renders with the right SHAPE and the wrong LOOK, go to Creating
+Remaps' "WuWa triage: what the in-game symptom says", "WuWa: choosing test mods by structural axis"
+and "The next WuWa pair" -- the last is the config checklist, including the two texture rules the
+compiled path learned after this section was written (a file plays every role its hashes name; a role
+the mod has no file for is bound to the source's own texture, downloaded). The maintainer moves the
+test mods between `WWMI/Mods` and its parent between turns: `find` by name before trusting a path.
 
 ## Mechanics that cost time once
 

@@ -57,6 +57,7 @@ void initCppModType(pybind11::module_ &m);
 void initCppGlobalModTypes(pybind11::module_ &m);
 void initCppGIMICharBuilders(pybind11::module_ &m);
 void initCppGIMIComponentBuilders(pybind11::module_ &m);
+void initCppWWMIBuilders(pybind11::module_ &m);
 void initCppStrategyOverrides(pybind11::module_ &m);
 void initCppGIBuilder(pybind11::module_ &m);
 void initCppWWMIBuilder(pybind11::module_ &m);
@@ -246,6 +247,7 @@ PYBIND11_MODULE(core, m) {
     initCppGlobalModTypes(m); // must come after initCppModType (its all() returns CppModTypes)
     initCppGIMICharBuilders(m); // must come after initCppTexEditor (a TexEdit filter) and before initCppStrategyOverrides (which recognises its factories)
     initCppGIMIComponentBuilders(m); // must come after initCppGIMICharBuilders (shares its PyIniParseFactory/PyIniFixFactory wrappers)
+    initCppWWMIBuilders(m); // same wrappers, same ordering; must come after initCppModTypeId and initCppColour (its configs hold a ModTypeId and a Colour)
     initCppStrategyOverrides(m); // takes Python factories; no ordering constraint of its own
     initCppGIBuilder(m); // must come after initCppModType (its methods return ModType) and initCppModTypeId (uses the ModTypeId enum)
     initCppWWMIBuilder(m); // same constraints as initCppGIBuilder

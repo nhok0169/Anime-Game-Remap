@@ -337,6 +337,19 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The 2.5 fix remapping **Sanhua onto SanhuaExorcist** -- the first Wuthering Waves remap,
+             and the first row built by :cpp:func:`makeWWMIFixer`: a multi-component character onto
+             a multi-component skin, every draw slot retargeted, the textures bound by register on the
+             target's passes, the blend remapped over the WWMI layout, and a third source component
+             landing on one target slot written into a further ``.ini`` file. See
+             ``data/IniFixData/Sanhua/SanhuaFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory sanhuaExorcist2_5();
+
+            /**
+             * @brief
+             @rst
              Stub for the pure-Python ``IniFixBuilderFuncs.rosaria4_0`` -- returns
              :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
              @endrst

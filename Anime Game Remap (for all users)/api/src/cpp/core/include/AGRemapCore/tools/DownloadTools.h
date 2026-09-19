@@ -181,6 +181,20 @@ namespace AGRemapCore {
                                         const std::string& ext);
 
             /**
+             * @brief
+             @rst
+             ``<game>/<charFolder>/<versionFolder>/<prefix><kind><ext>`` -- the five-argument form
+             with the game folder spelled out. The five-argument form is this with ``"GI"``; a WuWa
+             download passes ``"WuWa"`` (``WuWa/Sanhua/2_5/SanhuaTexture89ba19a1.dds``, the first
+             one, 2026-09-19 -- a WWMI character's textures are filed by the hash the game binds
+             them under, so 'kind' is ``"Texture" + hash`` there)
+             @endrst
+             */
+            static std::string urlPath(const std::string& game, const std::string& charFolder,
+                                        const std::string& versionFolder, const std::string& prefix,
+                                        const std::string& kind, const std::string& ext);
+
+            /**
              * @brief A plain buffer resource's `KVPs`_ -- ``type = Buffer`` and the given stride
              *
              * @param stride The byte size of one vertex in the buffer

@@ -931,6 +931,41 @@ Python test can ever fail for it. (Testing's "C++-only work is invisible to the 
 the general form. This is the case where the work *looks* covered, because the Python feature is
 fully tested.)
 
+**55. A SYMPTOM THAT SURVIVES A REAL FIX IS A SECOND BUG -- RE-READ THE REPORT'S WORDS BEFORE
+RE-ARGUING THE FIRST FIX (2026-09-19).** The red-camellia report came in as "textures correct, body
+all red". The investigation found a real bug (the bodice had no texture list at all), fixed it, and
+proved it every way the repo knows -- and the next message was "the reddish hue is still there".
+Both were true. The first fix was right and was not what the red was; the two words that decided
+the second round were already in the second report: **hue**, and **body AND clothes**. A hue over
+everything is a shading channel, not a diffuse -- the material mask -- and reading those words
+before touching anything would have gone there directly. So when a report survives a fix you have
+verified: do not re-verify the fix, and do not assume the report is stale. Ask what CLASS of bug
+the remaining words describe (a wrong picture is a binding; a tint over everything is a mask,
+a lightmap band or a shader parameter; a wrong shape is a vertex group), and go to that class.
+Two corollaries. **A hypothesis the maintainer hands you ("check whether RabbitFX is installed
+correctly") is answered with evidence both ways**: it WAS installed correctly, and it was ruled out
+by reading the library's own shader patch (no glow map bound means no pixel changes) rather than by
+argument -- the maintainer needs the negative stated as firmly as a positive. And **a report's
+wording is the cheapest instrument you have**: it costs nothing and it was right twice before any
+tool was run.
+
+**56. SNAPSHOT EVERY TEST INPUT'S OUTPUT WITH THE CURRENT BUILD BEFORE YOU REBUILD (2026-09-19).**
+The prototype-against-compiled A/B cannot measure a change that lands on both sides -- and a
+texture-index rule shared by the prototype and the fixer did exactly that, twice in one session.
+What measured it was one command per test mod, run BEFORE the rebuild, into a `before_<mod>` folder
+(`Tools/Misc/Diagnostics/abWWMI.py <mod> --scratch <folder>` keeps the compiled output there), and a
+`diff -rq` of each against the rebuilt output afterwards. That attributed every changed line to the
+change: three mods byte-identical, one mod moved by exactly two bindings that the mod's own `.ini`
+says are right, and the mod under test gained what it was supposed to gain. Without the snapshots the
+frost mod's move would have been invisible until the next in-game report. Three mechanics around it:
+**the build has to wait for those runs**, because a Python process with the module imported holds
+`core.*.pyd` open and the install step fails (the fix is to wait, and `Get-CimInstance Win32_Process
+-Filter "name = 'python.exe'"` tells you what a stray `python.exe` actually is before you kill it --
+the one found this way was an unrelated app); **`abWWMI`'s `N differ` is a baseline, not a finding**
+-- the copies differ from the prototype's by blank comment lines and always will, so the numbers that
+mean something are `0 only prototype, 0 only compiled`; and **after the rebuild, the `after_<mod>`
+folders are the next change's `before_`** -- keep them.
+
 <br>
 
 ## Operating norms

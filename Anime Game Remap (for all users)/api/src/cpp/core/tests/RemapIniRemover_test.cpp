@@ -930,6 +930,48 @@ void testCollectedResources() {
 
 
 
+void testRefResourceIsRemovedButNotCollected() {
+    // A resource section inside the block that only REFERENCES one of the mod's own files -- named
+    // with RemapRef -- goes with the block, and its file is not collected: the WWMI fixer declares
+    // the textures it binds this way, and before the keyword an undo deleted 17 of a mod's 19.
+    std::string txt =
+        OrigMod +
+        "\n" +
+        RemapHeadingOpen +
+        "\n"
+        "[TextureOverrideFooRemapFix]\n"
+        "hash = " + RaidenBossBlendHash + "\n"
+        "run = CommandListFooRemapFix\n"
+        "\n"
+        "[CommandListFooRemapFix]\n"
+        "run = ResourceBangsDiffuseFooRemapRef\n"
+        "run = ResourceFooRemapTex\n"
+        "\n"
+        "[ResourceBangsDiffuseFooRemapRef]\n"
+        "filename = Textures/Component0_Diffuse.dds\n"
+        "\n"
+        "[ResourceFooRemapTex]\n"
+        "filename = FooRemapTex.dds\n"
+        "\n" +
+        RemapHeadingClose;
+
+    Fixture fixture(txt);
+    std::string result = fixture.remover->remove(false, false);
+
+    check(result.find("RemapRef") == std::string::npos, "ref: the referencing section is removed with the block");
+    check(collectedNames(*fixture.remover, Remover::ResourceType::TexEdit) == std::vector<std::string>{"FooRemapTex.dds"},
+          "ref: the mod's own texture the section names is NOT collected, while the fix's own texture is");
+
+    // The rule is the keyword, not the file's name or location: with the keyword switched off the same
+    // section's file is collected like any other -- which is what every undo did before 2026-09-19.
+    Fixture unguarded(txt);
+    unguarded.remover->refKeyword = "";
+    unguarded.remover->remove(false, false);
+    check(contains(collectedNames(*unguarded.remover, Remover::ResourceType::TexEdit), "Component0_Diffuse.dds"),
+          "ref: without the keyword the referenced file IS collected (the check fails against the old remover)");
+}
+
+
 void testCollectedResourcesResetPerCall() {
     std::string txt = OrigMod + "\n" + RemapHeadingOpen + "\n" + FixBody + "\n" + RemapHeadingClose;
 
@@ -977,6 +1019,7 @@ int main() {
     testUnterminatedBoilerPlateSectionsJudgedByName();
     testClassifyResource();
     testCollectedResources();
+    testRefResourceIsRemovedButNotCollected();
     testCollectedResourcesResetPerCall();
     testHideOriginalCommentRemoved();
     testUnboundRemoverIsInert();

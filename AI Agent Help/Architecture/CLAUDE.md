@@ -2102,6 +2102,33 @@ takes the backup (`keepBackup`), the last one hides the original mod's `sections
 contribute a fixer --- a mod type that runs nothing must not be able to claim the file's first or
 last word.
 
+### A section line with no `=` survives the read now, and TWO renderers write it back (2026-09-19)
+
+`IniFile.cpp`'s `parseSectionKVPs` used to skip a line with no `=` / `:` as malformed -- silently,
+per its own comment. 3dmigoto's `local $var` declaration is exactly such a line, and every section
+of a WWMI mod opens its state guard with one, so the first WWMI fix rendered every slot section
+without its `local $state_id_N` and the skeleton would never have merged. The line is now read as a
+KVP whose key is the whole line and whose value is empty, and an empty-valued KVP renders as its key
+alone. **There are two renderers, and a fix has to land in both**: core's `renderIfContentPart`
+(`IfTemplateRender.cpp`), which the compiled fixers use, and the pybind `IfContentPart.toStr`
+(`PyIfContentPart.cpp`), which is what a **Python-built** fixer renders through --
+`makeFixerConfig` in `PyGIMIFixer.cpp` routes `sectionToStr` back through Python attribute lookup.
+The core change alone left the WWMI fix writing `local $state_id_0 = `, which is not a declaration.
+A KVP written as `key = ` with nothing after it now renders as `key`; no compiled character's output
+moved (the Python suite and the eight core suites pass), and 3dmigoto reads neither form as a value.
+Pinned in both trees: `core/tests/IniFile_fix_test.cpp` (`testKeylessLineRoundTrips`) and
+`test_CppIfContentPart.py` (`test_toStr_emptyValue_rendersTheKeyAlone`).
+
+Two smaller things from the same run, both about what a Python-built fixer can reach:
+`GIMIFixer::appendedSections` -- the compiled component template's channel for a section that is
+not a copied graph -- is bound as `GIMIFixer.appendedSections` (a `def_readwrite`), which is how the
+WWMI prototype emits an `if ps == <filter>` block that no register edit can add. And
+`ModMappedAssets::getKey` with **no version resolves through the newest bucket holding the value
+across BOTH games**: WuWa's rows sit at `2.5` on the same number line as GI's `4.0`-`6.1`, so a
+reverse lookup of index `0` (every GI head, filed at 6.1) never reaches a Sanhua row. A WuWa
+classifier is handed `2.5` explicitly for now; the game-scoped answer is open (see the VGRemaps
+guide's WuWa section).
+
 ### State of the core-only pipeline: parse, fix and remove are all live now
 
 Historical note, because the old text here said the opposite and you may find that claim quoted
@@ -2247,9 +2274,14 @@ practical notes:
 ## `ModType` facts that are easy to get wrong
 
 - **Constructor order is `gameTypeId, modTypeId, name, aliases, hashes, indices, vertexCounts,
-  vgRemaps, iniParseBuilder, iniFixBuilder, iniRemoveBuilder`.** Every caller passes positionally,
-  so inserting a parameter mid-list breaks `GIBuilder` plus 4-5 test files at once. Expect that and
-  budget for it; appending is cheaper when the semantics allow.
+  vgRemaps, iniParseBuilder, iniFixBuilder, iniRemoveBuilder, indexCounts, vgOffsets, vgCounts,
+  shapeKeyChecksums`.** Every caller passes positionally, so inserting a parameter mid-list breaks
+  `GIBuilder` plus 4-5 test files at once. Expect that and budget for it; appending is cheaper when
+  the semantics allow -- which is exactly why the four WuWa tables (2026-09-19) sit AFTER the three
+  builders in C++, while the Python `ModType.__init__` (which does not expose the builders) takes
+  them right after `vgRemaps` through a lambda `py::init`. The four default like `hashes`: a fresh,
+  fully-populated table each (holding only WuWa rows) with an empty remap map, so a GI mod type's
+  `getIndexCount(...)` answers `nullopt` and remaps onto nothing.
 - **Don't subclass `ModType`.** It is held **by value** in five places --- `ModTypeIdTools::_modTypes`
   / `getModType` / `registerModType`, and `IniFile::modTypes` / `overrideModTypes_` / `getModType` ---
   plus all 45 `GIBuilder` factories return it by value. Any subclass gets **sliced** and its extra

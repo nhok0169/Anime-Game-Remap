@@ -104,6 +104,13 @@ namespace AGRemapCore {
         savedWuWaModTypeIds.clear();
         currentSectionIsRemap = false;
 
+        // And the DFA itself: a WuWa .ini parks it on "isWuwa" for the rest of THAT file (every
+        // WuWa accept resets there, deliberately -- the $\WWMIv1 marker holds for the whole file),
+        // and nothing else ever moved it back. So from the first registered WuWa mod type onward
+        // (2026-09-19, Sanhua) the file AFTER a WuWa one started in a state with no GI edges and
+        // classified as nothing. Every classification starts from "start".
+        stateDFA.setCurrentStateId("start");
+
         for (const std::string& line : iniTxt) {
             // The hide-original marker comes off BEFORE the whitespace strip, so a section a
             // previous fix commented out still classifies. A hidden section reads
@@ -164,6 +171,13 @@ namespace AGRemapCore {
         savedWuWaModTypeIds.clear();
         currentSectionIsRemap = false;
 
+        // And the DFA itself: a WuWa .ini parks it on "isWuwa" for the rest of THAT file (every
+        // WuWa accept resets there, deliberately -- the $\WWMIv1 marker holds for the whole file),
+        // and nothing else ever moved it back. So from the first registered WuWa mod type onward
+        // (2026-09-19, Sanhua) the file AFTER a WuWa one started in a state with no GI edges and
+        // classified as nothing. Every classification starts from "start".
+        stateDFA.setCurrentStateId("start");
+
         for (const std::string& line : iniTxt) {
             std::string strippedLine(StringTools::strip(line));
             readLine(strippedLine, stats, gameTypeIds);
@@ -192,6 +206,13 @@ namespace AGRemapCore {
         modTypeIdDistribution.clear();
         savedWuWaModTypeIds.clear();
         currentSectionIsRemap = false;
+
+        // And the DFA itself: a WuWa .ini parks it on "isWuwa" for the rest of THAT file (every
+        // WuWa accept resets there, deliberately -- the $\WWMIv1 marker holds for the whole file),
+        // and nothing else ever moved it back. So from the first registered WuWa mod type onward
+        // (2026-09-19, Sanhua) the file AFTER a WuWa one started in a state with no GI edges and
+        // classified as nothing. Every classification starts from "start".
+        stateDFA.setCurrentStateId("start");
 
         for (const std::string& line : iniTxt) {
             std::string strippedLine(StringTools::strip(line));

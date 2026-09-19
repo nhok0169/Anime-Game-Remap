@@ -93,6 +93,12 @@ const std::vector<std::pair<std::vector<std::string>, int>>& getVertexCountDataR
         // (657320 bytes / 40). No row for BennettAdventure: as with YelanTranquil, a skin of
         // several components has no single vertex count.
         {{"4.0", ModTypeIdTools::getName(ModTypeId::Bennett), ""}, 16433},
+
+        // ===== WuWa: Sanhua and SanhuaExorcist (2026-09-19) =====
+        // The whole mesh, every draw slot together -- Metadata.json's 'vertex_count', and what a
+        // WWMI mod declares as $mesh_vertex_count.
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), ""}, 36126},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), ""}, 40896},
     };
 
     return rows;

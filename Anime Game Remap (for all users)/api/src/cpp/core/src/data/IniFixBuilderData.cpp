@@ -26,6 +26,12 @@ namespace AGRemapCore {
     // Every generator is a stub for now -- see IniFixBuilderFuncs' own warning. They are
     // written out one-per-method rather than collapsed into a single shared stub so that each
     // can be filled in independently.
+    IniFixBuilder::Factory IniFixBuilderFuncs::wwmiStub() {
+        // A REAL stub: a plain GIMI fixer does nothing useful to a WWMI .ini. The prototype it
+        // will be transcribed from is Tools/Misc/Prototypes/sanhuaExorcistFix.py.
+        return IniFixBuilder::defaultFactory();
+    }
+
     IniFixBuilder::Factory IniFixBuilderFuncs::giDefault() {
         // THE FALLBACK ROW, and it needs no config: its pure-Python body is
         // (GIMIFixer, [], {}) -- a plain GIMI fixer with no object awareness at all -- and
@@ -312,6 +318,12 @@ namespace AGRemapCore {
                   "6.1", ModTypeIdTools::getName(ModTypeId::YelanTranquilBang)}, IniFixBuilderFuncs::yelanTranquilBang6_1()},
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Yelan),
                   "6.1", ModTypeIdTools::getName(ModTypeId::YelanTranquilEye)}, IniFixBuilderFuncs::yelanTranquilEye6_1()},
+
+                // ===== WuWa: Sanhua <-> SanhuaExorcist @ toVersion 2.5 (2026-09-19), STUBS =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Sanhua),
+                  "2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist)}, IniFixBuilderFuncs::wwmiStub()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist),
+                  "2.5", ModTypeIdTools::getName(ModTypeId::Sanhua)}, IniFixBuilderFuncs::wwmiStub()},
 
                 // ===== YelanTranquil @ toVersion 6.1 (2026-09-14) =====
                 //

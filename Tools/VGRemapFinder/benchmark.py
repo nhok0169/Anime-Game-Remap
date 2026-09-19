@@ -30,6 +30,7 @@ FolderAliases = {
     "AyakaSpringBloom": "AyakaSpringbloom",
     "Ningguang Orchid": "NingguangOrchid",
     "Hutao": "HuTao",
+    "SanhuaExorcist": "SanhuaSkin1",    # WWMI-Assets' PlayerCharacterData (Wuthering Waves), if that is the folder given
 }
 
 
@@ -139,6 +140,11 @@ if __name__ == "__main__":
         matcher = VGMatcher(fromGroups, toGroups, metric = args.metric, mode = args.mode,
                             stayCost = args.stayCost, skipCost = args.skipCost, jumpCost = args.jumpCost)
         matches = matcher.match()
+
+        # a source group no vertex uses cannot be right or wrong: a draft's value there is a placeholder that
+        #   keeps the row complete, not a correspondence (Sanhua's 24 unused merged bones carry 0)
+        unusable = {match.fromIndex for match in matches if (match.toGroup is None)}
+        known = {i: t for i, t in known.items() if (i not in unusable)}
 
         agree = sum(1 for match in matches if (match.fromIndex in known and match.toIndex == known[match.fromIndex]))
         scored = len(known)

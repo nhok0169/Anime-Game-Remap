@@ -189,6 +189,38 @@ static void testRenderSection() {
 }
 
 
+// A WWMI section opens its state guard with `local $state_id_0` -- a line with no '=' at all.
+// Until 2026-09-19 the read dropped it, so a fix left `$state_id_0` undeclared and the skeleton
+// never merged. The line is read as a key with an empty value and rendered as itself.
+static void testKeylessLineRoundTrips() {
+    std::printf("testKeylessLineRoundTrips\n");
+
+    AGRC::IniFile ini(std::nullopt,
+                      "[TextureOverrideComponent0]\n"
+                      "hash = 33e4890f\n"
+                      "if $mod_enabled\n"
+                      "local $state_id_0\n"
+                      "if $state_id_0 != $state_id\n"
+                      "$state_id_0 = $state_id\n"
+                      "endif\n"
+                      "endif\n");
+
+    AGRC::IfTemplate<std::string, std::string>* section = ini.getSection("TextureOverrideComponent0");
+    check(section != nullptr, "the section was read");
+    if (section == nullptr) {
+        return;
+    }
+
+    const std::string rendered = AGRC::renderIfTemplate(*section, "", false);
+    check(rendered.find("\nlocal $state_id_0\n") != std::string::npos,
+          "a line with no '=' survives the read and renders as itself, with no ' = ' appended");
+    check(rendered.find("local $state_id_0 =") == std::string::npos,
+          "...and never as `local $state_id_0 = `, which 3dmigoto does not accept as a declaration");
+    check(rendered.find("\n$state_id_0 = $state_id\n") != std::string::npos,
+          "the KVP after it is unaffected");
+}
+
+
 static void testRenderSectionIndentsConditionals() {
     std::printf("testRenderSectionIndentsConditionals\n");
 
@@ -266,6 +298,7 @@ int main() {
 
     testRenderContentPart();
     testRenderSection();
+    testKeylessLineRoundTrips();
     testRenderSectionIndentsConditionals();
     testFixProducesAFix();
     testFileLessIniStillProducesAFix();

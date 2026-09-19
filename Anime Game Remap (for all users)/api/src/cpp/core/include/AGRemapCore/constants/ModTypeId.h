@@ -330,7 +330,26 @@ namespace AGRemapCore {
         /**
          * @brief YelanTranquil's ``Eye`` component, as a fix target -- see :cpp:enumerator:`YelanTranquilBody`
          */
-        YelanTranquilEye
+        YelanTranquilEye,
+
+        /**
+         * @brief
+         @rst
+         Sanhua from WuWa (Wuthering Waves) -- the first WWMI mod type (2026-09-19) :raw-html:`<br />` :raw-html:`<br />`
+
+         A WWMI character is drawn as several ``Component N`` slots of ONE vertex buffer sharing ONE
+         merged skeleton (each slot's ``vg_map`` in WWMI-Assets' ``Metadata.json`` maps its bones into
+         it), so unlike :cpp:enumerator:`YelanTranquil` it is a single-component mod type whose
+         slots are the ``type`` column of :cpp:class:`Indices`, :cpp:class:`IndexCounts`,
+         :cpp:class:`VGOffsets` and :cpp:class:`VGCounts`. Built by :cpp:class:`WWMIBuilder`
+         @endrst
+         */
+        Sanhua,
+
+        /**
+         * @brief Sanhua's Exorcist skin from WuWa (WWMI-Assets' ``SanhuaSkin1``) -- see :cpp:enumerator:`Sanhua`
+         */
+        SanhuaExorcist
     };
 
     /**

@@ -154,6 +154,9 @@ static const std::vector<RemapRow>& expectedRows() {
         // built by nobody -- like the boss ids), the skin itself back onto the source.
         {"Yelan", {"YelanTranquilBody", "YelanTranquilBang", "YelanTranquilEye"}, {"YelanTranquilBody", "YelanTranquilBang", "YelanTranquilEye"}},
         {"YelanTranquil", {"Yelan"}, {"Yelan"}},
+        // WuWa (2026-09-19): one skin each way, in the merged skeleton.
+        {"Sanhua", {"SanhuaExorcist"}, {"SanhuaExorcist"}},
+        {"SanhuaExorcist", {"Sanhua"}, {"Sanhua"}},
     };
     return rows;
 }
@@ -188,7 +191,7 @@ static ModTypeId idOf(const std::string& name) {
 static void testEveryRowMatchesPython() {
     std::printf("testEveryRowMatchesPython\n");
 
-    check(expectedRows().size() == 47, "the oracle itself still has all 47 rows (43 plus Yelan, YelanTranquil, Bennett and BennettAdventure)");
+    check(expectedRows().size() == 49, "the oracle itself still has all 49 rows (43 plus Yelan, YelanTranquil, Bennett and BennettAdventure, plus Sanhua and SanhuaExorcist)");
 
     for (const RemapRow& row : expectedRows()) {
         ModTypeId id = idOf(row.name);

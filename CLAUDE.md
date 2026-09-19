@@ -374,6 +374,59 @@ any sheet of one adds their own row there -- `<Council name>: The <nth> member o
 linked to the Council README -- *after* joining, never before. `Data/RemapDrafts/README.md` has the
 layout; the Council ritual in Overview has it as its last step.
 
+**THE FIRST WUWA REMAP DRAFT EXISTS (2026-09-18): Sanhua <-> SanhuaExorcist, both directions, in
+`Data/RemapDrafts/SanhuaRemapDraft.xlsx`.** `Tools/VGRemapFinder` reads WWMI-Assets' format now
+(`Metadata.json` + `Component N.fmt/.vb/.ib`, no API needed), and the thing to know before touching
+any WuWa geometry is that a WWMI character's several components are **one merged skeleton**: each
+component's `vg_map` in `Metadata.json` maps its own bone indices into it, that is the space a WWMI
+mod's blend buffer uses, and it is the space the maintainer's hand-made draft was already in (208 rows,
+blanks exactly at the 24 merged indices no component reaches). The reverse sheet was reviewed from
+three signals per row and is **not checked in game**. **Both characters are REGISTERED in the
+library (2026-09-19)**: `WWMIBuilder` (`ModTypeId::Sanhua` / `SanhuaExorcist`, game `WuWa`, no
+section keywords -- a WWMI `.ini` classifies by `vb0` hash under `$\WWMIv1`), rows in `HashData`,
+`IndexData` (typed `componentN`), `VertexCountData` and `VGRemapData` (both directions), and **four
+new `Indices`-shaped asset tables** for what GI never carried -- `IndexCounts`, `VGOffsets`,
+`VGCounts`, `ShapeKeyChecksums` -- as `ModType` members with `getIndexCount` and friends, remappable
+by the same reverse-then-forward lookup as an index. Parse / fix / remove rows are stubs. **Download
+folders for both exist** (`Data/Mod Downloads/WuWa/<Name>/2_5`: the identity mod's whole-mesh buffers,
+every asset texture by hash, the asset's manifests; nothing fetches them until `DownloadTools::urlPath`
+takes a game folder). **Registering
+it found a latent classifier bug**: a WuWa `.ini` left the shared `IniClassifier`'s DFA parked on its
+WuWa state and every GI file classified after it came back as nothing (fixed: each entry point now
+resets to `start`). See Creating Remaps' "Adding a `ModTypeId`" for the WuWa differences. **Both IDENTITY mods exist too (2026-09-19)**, built by
+`Tools/Misc/Prototypes/wwmiIdentityMod.py` into `WWMI/SanhuaIdentity` and `WWMI/SanhuaExorcistIdentity`
+--- and a WWMI mod is ONE mesh with per-component draw ranges, a Blend buffer of 8 bytes a vertex, and
+SPARSE shape keys rebuilt from the dumps, none of which a GIMI-shaped reader or writer can handle.
+**And the forward remap is PROTOTYPED (`Tools/Misc/Prototypes/sanhuaExorcistFix.py`, 2026-09-19), from
+two frame dumps read with `Tools/Misc/Diagnostics/wwmiDrawTable.py`**: shader families decide which
+target slot draws which source component (bones do not, under a merged skeleton), the material mask's
+skin code is `(255, 77, 0)` by measurement, and textures are bound by register on the target's draws
+because WuWa texture hashes drift with both streaming and game version. **It fixes IN PLACE through
+the API like the Yelan / Bennett prototypes** (a Python-built parser and fixer on `CppStrategyOverrides`,
+`RemapService` over the folder, the fix block in the mod's own `.ini`, undo and backups the API's) --
+and the GIMI pipeline took a WWMI `.ini` with three changes: a section line with no `=` (3dmigoto's
+`local $var`) used to be DROPPED on parse and now round-trips through both renderers,
+`GIMIFixer.appendedSections` is bound, and a versionless reverse lookup resolves `0` through GI's
+6.1 bucket rather than WuWa's 2.5 (the classifier is handed `2.5`; the game-scoped fix is open).
+**Seen in game once (2026-09-19): head, face, top, skirt and arms right; the bangs wrong (component 0
+is the BANGS, drawn on hair-shader passes that differ per skin -- fixed by gating on a LIST of passes)
+and the back ribbons and belt tassel curled (chains Exorcist has no counterpart for, landing 5-20 cm
+from where their vertices sit -- `--anchor ribbons` pins them to their root, the Yelan lesson 5;
+`Tools/Misc/Diagnostics/wwmiBoneTally.py` is what measured it). Then the maintainer's OWN working
+hand remap turned out to apply the SAME table without waving: what it has off is the SHAPE-KEY
+override, so `--shapeKeys` is opt-in now (Sanhua's 30805 shape-key vertices on a buffer the game
+sizes for Exorcist's 27267 is the suspect) and the bangs bind the shared default mask at `ps-t1`.
+Then a four-way bisect on that mesh found the real thing: the torso, face and eye draws read a SIXTH
+vertex stream (`vb6`) of the game's live shape-key offsets BY VERTEX ID, which WWMI's override never
+rebinds, so a mod vertex through those slots takes whatever offset the target's buffer holds at the
+same index -- 67% of the arm skin, 11% of the bodice, 1% of the skirt. Every remapped section now
+binds `vb6` to a zero-offset buffer the fix writes -- which did NOT clear it; the live lead is the
+maintainer's: every clean variant had ONE remapped section per Exorcist draw, so the fix now splits
+the extra sections of a draw window into their own `.ini` files, the GIMI merge's shape.** See
+[Vertex Group Remaps](AI%20Agent%20Help/VGRemaps/CLAUDE.md)'s "WuWa: Sanhua <-> SanhuaExorcist" ---
+including why the broken-build check for a new reader is a group COUNT and not a score, the four facts
+of a WWMI mod's anatomy, and that `py -3.11`, not `py -3`, is the Python with `openpyxl` here.
+
 **A SKIN CAN BE SEVERAL COMPONENTS, EACH WITH ITS OWN VERTEX GROUP NUMBERING (2026-09-12).**
 YelanTranquil is a `Body`, a `Bang` and an `Eye` with separate buffers, and WuWa characters are
 built that way throughout. A vertex group is `(component, index)` from here on: the finder

@@ -151,6 +151,9 @@ static const std::vector<KeywordRow>& expectedRows() {
         {"XingqiuBamboo", {"xingqiubamboo"}},
         {"Yelan", {"yelan"}},
         {"YelanTranquil", {"yelantranquil"}},
+        // The WuWa types (Sanhua, SanhuaExorcist) have no keyword rows: a WWMI .ini never names
+        // its sections after the character, so they register by vb0 hash alone -- see
+        // testWuWaTypesClassifyByVb0Hash below.
         // The skin's three component ids are fix targets only, built by nobody -- no row, as for
         // the boss ids.
     };
@@ -202,6 +205,31 @@ static void testTargetOnlyIdsHaveNoKeywords() {
     for (ModTypeId boss : {ModTypeId::RaidenBoss, ModTypeId::ArlecchinoBoss}) {
         check(ModTypeIdTools::getSectionKeywords(boss).empty(),
               ModTypeIdTools::getName(boss) + " has no keywords -- nothing classifies a .ini file AS it");
+    }
+
+    // The WuWa ids are built and classifiable, but by hash, not by name (2026-09-19).
+    for (ModTypeId wuwa : {ModTypeId::Sanhua, ModTypeId::SanhuaExorcist}) {
+        check(ModTypeIdTools::getSectionKeywords(wuwa).empty(),
+              ModTypeIdTools::getName(wuwa) + " has no keywords -- a WWMI .ini never names a section after the character");
+    }
+}
+
+
+// A WWMI mod's slot sections all carry the character's one vertex-buffer hash, under WWMI's own
+// '$\WWMIv1' marker; that hash is what the population registers for a WuWa type (2026-09-19).
+static void testWuWaTypesClassifyByVb0Hash() {
+    std::printf("testWuWaTypesClassifyByVb0Hash\n");
+
+    AGRC::IniClassifier& classifier = AGRC::GlobalIniClassifiers::classifier();
+
+    struct Case { const char* name; ModTypeId id; const char* vb0; };
+    for (const Case& c : {Case{"Sanhua", ModTypeId::Sanhua, "33e4890f"}, Case{"SanhuaExorcist", ModTypeId::SanhuaExorcist, "b101dcf3"}}) {
+        std::string ini = std::string("[Constants]\nglobal $required_wwmi_version = 0.91\n\n[CommandListRegisterMod]\n$\\WWMIv1\\required_wwmi_version = $required_wwmi_version\n\n")
+                          + "[TextureOverrideComponent0]\nhash = " + c.vb0 + "\nmatch_first_index = 0\n";
+        AGRC::IniClassifyStats stats = classifier.classify(ini);
+        check(stats.isMod, std::string(c.name) + ": a WWMI .ini is a mod");
+        check(stats.modType.find(static_cast<int>(c.id)) != stats.modType.end(),
+              std::string(c.name) + " is reachable by its vb0 hash " + c.vb0 + " under the $\\WWMIv1 marker");
     }
 }
 
@@ -425,6 +453,7 @@ int main() {
     testEveryKeywordRowMatchesPython();
     testTheThreeTwoKeywordModTypes();
     testTargetOnlyIdsHaveNoKeywords();
+    testWuWaTypesClassifyByVb0Hash();
     testGlobalClassifierArrivesPopulated();
     testMaximalMatchDisambiguatesOverlappingNames();
     testEveryModTypeIsReachable();

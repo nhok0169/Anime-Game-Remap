@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniNamingTools', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'VertexCounts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentParser', 'makeGIMIMergeFixer']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniNamingTools', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'VertexCounts', 'WWMIBuilder', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentParser', 'makeGIMIMergeFixer']
 class BaseBufEditor:
     """
     
@@ -7141,6 +7141,17 @@ class GIMIFixer(BaseIniFixer):
     def _parser(self, arg0: typing.Any) -> None:
         ...
     @property
+    def appendedSections(self) -> str:
+        """
+        :class:`str`: Text of whole `sections`_ the fix writes that belong to no copied object -- a section
+        that hides a draw nothing was remapped onto, a ``[ShaderOverride]`` tag, a resource the fix
+        invents. Rendered once, after the first group's sections, inside the fix block (so an undo removes
+        it). Empty by default; a fixer built from Python sets it in its factory
+        """
+    @appendedSections.setter
+    def appendedSections(self, arg0: str) -> None:
+        ...
+    @property
     def graphGroupEdits(self) -> typing.Any:
         """
         List[:class:`BaseIniGraphGroupEdit`]: The edits to apply to the parsed caller/callee graphs
@@ -9978,7 +9989,9 @@ class IfContentPart(IfTemplatePart):
         """
     def toStr(self, linePrefix: str = '') -> str:
         """
-        Retrieves the part as a string, one ``key = value`` line per KVP in true positional order
+        Retrieves the part as a string, one ``key = value`` line per KVP in true positional order (a KVP
+        whose value is empty -- a line that had no ``=`` when it was read, such as 3dmigoto's
+        ``local $var`` -- is written as its key alone)
         
         Parameters
         ----------
@@ -11344,6 +11357,41 @@ class IfTemplateTree:
     def root(self) -> IfTemplateNode:
         """
         Optional[:class:`IfTemplateNode`]: The root node in the parse tree
+        """
+class IndexCounts(ModMappedAssets):
+    """
+    
+    This class inherits from :class:`ModMappedAssets`
+    
+    Class for managing the ``match_index_count`` of a WWMI draw slot, pre-populated with this project's real data
+    
+    :raw-html:`<br />`
+    
+    .. note::
+        Names of the available indices used for querying with the ``get``/``hasFrom``/``getKey``/
+        ``replace``/``replaceAll`` methods (inherited from :class:`ModMappedAssets`) are:
+    
+        * version (version index)
+        * name
+        * component
+        * type
+    
+        ``component`` is ``""`` on every row: a WWMI character's draw slots share ONE merged skeleton,
+        so the slot is the ``type`` (``component0``, ``component1``, ...), exactly as
+        :class:`Indices` files a WWMI ``match_first_index``
+        
+    """
+    def __init__(self, map: typing.Any = None) -> None:
+        """
+        Constructs a new, fully-populated lookup table
+        
+        Parameters
+        ----------
+        map: Optional[Dict[Any, List[Any]]]
+            The `adjacency list`_ that maps the values to fix from to the values to fix to using the
+            predefined mods
+        
+            **Default**: ``None``
         """
 class Indices(ModMappedAssets):
     """
@@ -13798,7 +13846,7 @@ class ModType:
         **Default**: ``[]``
         
     """
-    def __init__(self, gameTypeId: typing.SupportsInt | typing.SupportsIndex, modTypeId: typing.SupportsInt | typing.SupportsIndex, name: str, aliases: collections.abc.Sequence[str] = [], hashes: Hashes = None, indices: Indices = None, vertexCounts: VertexCounts = None, vgRemaps: VGRemaps = None) -> None:
+    def __init__(self, gameTypeId: typing.SupportsInt | typing.SupportsIndex, modTypeId: typing.SupportsInt | typing.SupportsIndex, name: str, aliases: collections.abc.Sequence[str] = [], hashes: Hashes = None, indices: Indices = None, vertexCounts: VertexCounts = None, vgRemaps: VGRemaps = None, indexCounts: IndexCounts = None, vgOffsets: VGOffsets = None, vgCounts: VGCounts = None, shapeKeyChecksums: ShapeKeyChecksums = None) -> None:
         ...
     def fixIni(self, iniFile: IniFile, keepBackup: bool = True, fixOnly: bool = False) -> None:
         """
@@ -13857,6 +13905,35 @@ class ModType:
         :class:`str`
             The help text
         """
+    def getIndexCount(self, type: str, component: str = '', version: FixRaidenBoss2.core.CppVersion | None = None) -> str | None:
+        """
+        Retrieves the ``match_index_count`` of one of this mod's draw slots (WuWa)
+        
+        The four WWMI lookups (this, :meth:`getVGOffset`, :meth:`getVGCount`, :meth:`getShapeKeyChecksum`)
+        share one shape: the slot is the ``type`` (``component0``, ``component1``, ...), ``component`` is
+        ``""`` on every shipped row, and the value comes back as the string the ``.ini`` carries, as an
+        :class:`Indices` value does
+        
+        Parameters
+        ----------
+        type: :class:`str`
+            The draw slot, eg. ``component3``
+        
+        component: :class:`str`
+            The component column :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        version: Optional[:class:`CppVersion`]
+            The game version wanted :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning the latest
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The value, or ``None`` if this mod type has no row for it
+        """
     def getModsToFix(self) -> set[str]:
         """
         Retrieves the names of the mods this mod type can be fixed onto
@@ -13871,6 +13948,18 @@ class ModType:
         -------
         Set[:class:`str`]
             The names of the mods to fix to
+        """
+    def getShapeKeyChecksum(self, type: str = 'shapekeys', component: str = '', version: FixRaidenBoss2.core.CppVersion | None = None) -> str | None:
+        """
+        Retrieves the shape-key ``checksum`` of this mod (WuWa) -- see :meth:`getIndexCount`; ``type`` is ``shapekeys`` on every shipped row
+        """
+    def getVGCount(self, type: str, component: str = '', version: FixRaidenBoss2.core.CppVersion | None = None) -> str | None:
+        """
+        Retrieves the ``vg_count`` of one of this mod's draw slots (WuWa) -- see :meth:`getIndexCount`
+        """
+    def getVGOffset(self, type: str, component: str = '', version: FixRaidenBoss2.core.CppVersion | None = None) -> str | None:
+        """
+        Retrieves the ``vg_offset`` of one of this mod's draw slots (WuWa) -- see :meth:`getIndexCount`
         """
     def getVGRemap(self, modName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, fromComp: str | None = None, toComp: str | None = None) -> FixRaidenBoss2.core.VGRemap | None:
         """
@@ -13973,6 +14062,18 @@ class ModType:
     def hashes(self, arg0: Hashes) -> None:
         ...
     @property
+    def indexCounts(self) -> IndexCounts:
+        """
+        :class:`IndexCounts`: The ``match_index_count`` of each of the mod's draw slots (WuWa)
+        
+        The first of the four WWMI-only asset tables -- this, :attr:`vgOffsets`, :attr:`vgCounts` and
+        :attr:`shapeKeyChecksums` -- each an :class:`Indices` sibling keyed by the draw slot as its ``type``.
+        Same defaulting and sharing rules as :attr:`hashes`; a GI mod type's holds no row of its own
+        """
+    @indexCounts.setter
+    def indexCounts(self, arg0: IndexCounts) -> None:
+        ...
+    @property
     def indices(self) -> Indices:
         """
         :class:`Indices`: The indices related to the mod and its fix
@@ -14023,6 +14124,14 @@ class ModType:
     def name(self, arg0: str) -> None:
         ...
     @property
+    def shapeKeyChecksums(self) -> ShapeKeyChecksums:
+        """
+        :class:`ShapeKeyChecksums`: The shape-key ``checksum`` of the mod (WuWa) -- see :attr:`indexCounts`
+        """
+    @shapeKeyChecksums.setter
+    def shapeKeyChecksums(self, arg0: ShapeKeyChecksums) -> None:
+        ...
+    @property
     def vertexCounts(self) -> VertexCounts:
         """
         :class:`VertexCounts`: The vertex counts related to the mod
@@ -14031,6 +14140,22 @@ class ModType:
         """
     @vertexCounts.setter
     def vertexCounts(self, arg0: VertexCounts) -> None:
+        ...
+    @property
+    def vgCounts(self) -> VGCounts:
+        """
+        :class:`VGCounts`: The ``vg_count`` of each of the mod's draw slots (WuWa) -- see :attr:`indexCounts`
+        """
+    @vgCounts.setter
+    def vgCounts(self, arg0: VGCounts) -> None:
+        ...
+    @property
+    def vgOffsets(self) -> VGOffsets:
+        """
+        :class:`VGOffsets`: The ``vg_offset`` of each of the mod's draw slots (WuWa) -- see :attr:`indexCounts`
+        """
+    @vgOffsets.setter
+    def vgOffsets(self, arg0: VGOffsets) -> None:
         ...
     @property
     def vgRemaps(self) -> VGRemaps:
@@ -14165,6 +14290,10 @@ class ModTypeId:
       YelanTranquilBang : YelanTranquil's Bang component, as a fix target
     
       YelanTranquilEye : YelanTranquil's Eye component, as a fix target
+    
+      Sanhua : Sanhua from WuWa (Wuthering Waves) -- the first WWMI mod type; one merged skeleton whose draw slots are the 'type' column of Indices, IndexCounts, VGOffsets and VGCounts
+    
+      SanhuaExorcist : Sanhua's Exorcist skin from WuWa (WWMI-Assets' SanhuaSkin1)
     """
     Amber: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Amber: 0>
     AmberCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AmberCN: 1>
@@ -14210,6 +14339,8 @@ class ModTypeId:
     RaidenBoss: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RaidenBoss: 41>
     Rosaria: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Rosaria: 42>
     RosariaCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RosariaCN: 43>
+    Sanhua: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Sanhua: 55>
+    SanhuaExorcist: typing.ClassVar[ModTypeId]  # value = <ModTypeId.SanhuaExorcist: 56>
     Shenhe: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Shenhe: 44>
     ShenheFrostFlower: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ShenheFrostFlower: 45>
     Xiangling: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xiangling: 46>
@@ -14221,7 +14352,7 @@ class ModTypeId:
     YelanTranquilBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBang: 53>
     YelanTranquilBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBody: 52>
     YelanTranquilEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilEye: 54>
-    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'Bennett': <ModTypeId.Bennett: 8>, 'BennettAdventure': <ModTypeId.BennettAdventure: 9>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 10>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 11>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 12>, 'CherryHuTao': <ModTypeId.CherryHuTao: 13>, 'Diluc': <ModTypeId.Diluc: 14>, 'DilucFlamme': <ModTypeId.DilucFlamme: 15>, 'Fischl': <ModTypeId.Fischl: 16>, 'FischlHighness': <ModTypeId.FischlHighness: 17>, 'Ganyu': <ModTypeId.Ganyu: 18>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 19>, 'HuTao': <ModTypeId.HuTao: 20>, 'Jean': <ModTypeId.Jean: 21>, 'JeanCN': <ModTypeId.JeanCN: 22>, 'JeanSea': <ModTypeId.JeanSea: 23>, 'Kaeya': <ModTypeId.Kaeya: 24>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 25>, 'Keqing': <ModTypeId.Keqing: 26>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 27>, 'Kirara': <ModTypeId.Kirara: 28>, 'KiraraBoots': <ModTypeId.KiraraBoots: 29>, 'Klee': <ModTypeId.Klee: 30>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 31>, 'Lisa': <ModTypeId.Lisa: 32>, 'LisaStudent': <ModTypeId.LisaStudent: 33>, 'Mona': <ModTypeId.Mona: 34>, 'MonaCN': <ModTypeId.MonaCN: 35>, 'Nilou': <ModTypeId.Nilou: 36>, 'NilouBreeze': <ModTypeId.NilouBreeze: 37>, 'Ningguang': <ModTypeId.Ningguang: 38>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 39>, 'Raiden': <ModTypeId.Raiden: 40>, 'RaidenBoss': <ModTypeId.RaidenBoss: 41>, 'Rosaria': <ModTypeId.Rosaria: 42>, 'RosariaCN': <ModTypeId.RosariaCN: 43>, 'Shenhe': <ModTypeId.Shenhe: 44>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 45>, 'Xiangling': <ModTypeId.Xiangling: 46>, 'XianglingCheer': <ModTypeId.XianglingCheer: 47>, 'Xingqiu': <ModTypeId.Xingqiu: 48>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 49>, 'Yelan': <ModTypeId.Yelan: 50>, 'YelanTranquil': <ModTypeId.YelanTranquil: 51>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 52>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 53>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 54>}
+    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'Bennett': <ModTypeId.Bennett: 8>, 'BennettAdventure': <ModTypeId.BennettAdventure: 9>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 10>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 11>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 12>, 'CherryHuTao': <ModTypeId.CherryHuTao: 13>, 'Diluc': <ModTypeId.Diluc: 14>, 'DilucFlamme': <ModTypeId.DilucFlamme: 15>, 'Fischl': <ModTypeId.Fischl: 16>, 'FischlHighness': <ModTypeId.FischlHighness: 17>, 'Ganyu': <ModTypeId.Ganyu: 18>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 19>, 'HuTao': <ModTypeId.HuTao: 20>, 'Jean': <ModTypeId.Jean: 21>, 'JeanCN': <ModTypeId.JeanCN: 22>, 'JeanSea': <ModTypeId.JeanSea: 23>, 'Kaeya': <ModTypeId.Kaeya: 24>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 25>, 'Keqing': <ModTypeId.Keqing: 26>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 27>, 'Kirara': <ModTypeId.Kirara: 28>, 'KiraraBoots': <ModTypeId.KiraraBoots: 29>, 'Klee': <ModTypeId.Klee: 30>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 31>, 'Lisa': <ModTypeId.Lisa: 32>, 'LisaStudent': <ModTypeId.LisaStudent: 33>, 'Mona': <ModTypeId.Mona: 34>, 'MonaCN': <ModTypeId.MonaCN: 35>, 'Nilou': <ModTypeId.Nilou: 36>, 'NilouBreeze': <ModTypeId.NilouBreeze: 37>, 'Ningguang': <ModTypeId.Ningguang: 38>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 39>, 'Raiden': <ModTypeId.Raiden: 40>, 'RaidenBoss': <ModTypeId.RaidenBoss: 41>, 'Rosaria': <ModTypeId.Rosaria: 42>, 'RosariaCN': <ModTypeId.RosariaCN: 43>, 'Shenhe': <ModTypeId.Shenhe: 44>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 45>, 'Xiangling': <ModTypeId.Xiangling: 46>, 'XianglingCheer': <ModTypeId.XianglingCheer: 47>, 'Xingqiu': <ModTypeId.Xingqiu: 48>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 49>, 'Yelan': <ModTypeId.Yelan: 50>, 'YelanTranquil': <ModTypeId.YelanTranquil: 51>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 52>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 53>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 54>, 'Sanhua': <ModTypeId.Sanhua: 55>, 'SanhuaExorcist': <ModTypeId.SanhuaExorcist: 56>}
     def __eq__(self, other: typing.Any) -> bool:
         ...
     def __getstate__(self) -> int:
@@ -20946,6 +21077,41 @@ class SectionIterQueryDataIterator:
         ...
     def __next__(self) -> typing.Any:
         ...
+class ShapeKeyChecksums(ModMappedAssets):
+    """
+    
+    This class inherits from :class:`ModMappedAssets`
+    
+    Class for managing the shape-key ``checksum`` of a WWMI character, pre-populated with this project's real data
+    
+    :raw-html:`<br />`
+    
+    .. note::
+        Names of the available indices used for querying with the ``get``/``hasFrom``/``getKey``/
+        ``replace``/``replaceAll`` methods (inherited from :class:`ModMappedAssets`) are:
+    
+        * version (version index)
+        * name
+        * component
+        * type
+    
+        ``component`` is ``""`` on every row: a WWMI character's draw slots share ONE merged skeleton,
+        so the slot is the ``type`` (``component0``, ``component1``, ...), exactly as
+        :class:`Indices` files a WWMI ``match_first_index``
+        
+    """
+    def __init__(self, map: typing.Any = None) -> None:
+        """
+        Constructs a new, fully-populated lookup table
+        
+        Parameters
+        ----------
+        map: Optional[Dict[Any, List[Any]]]
+            The `adjacency list`_ that maps the values to fix from to the values to fix to using the
+            predefined mods
+        
+            **Default**: ``None``
+        """
 class SympyParser:
     """
     
@@ -22077,6 +22243,41 @@ class VGComponentSplitStats:
         """
         :class:`int`: The mod's vertices
         """
+class VGCounts(ModMappedAssets):
+    """
+    
+    This class inherits from :class:`ModMappedAssets`
+    
+    Class for managing the ``vg_count`` of a WWMI draw slot, pre-populated with this project's real data
+    
+    :raw-html:`<br />`
+    
+    .. note::
+        Names of the available indices used for querying with the ``get``/``hasFrom``/``getKey``/
+        ``replace``/``replaceAll`` methods (inherited from :class:`ModMappedAssets`) are:
+    
+        * version (version index)
+        * name
+        * component
+        * type
+    
+        ``component`` is ``""`` on every row: a WWMI character's draw slots share ONE merged skeleton,
+        so the slot is the ``type`` (``component0``, ``component1``, ...), exactly as
+        :class:`Indices` files a WWMI ``match_first_index``
+        
+    """
+    def __init__(self, map: typing.Any = None) -> None:
+        """
+        Constructs a new, fully-populated lookup table
+        
+        Parameters
+        ----------
+        map: Optional[Dict[Any, List[Any]]]
+            The `adjacency list`_ that maps the values to fix from to the values to fix to using the
+            predefined mods
+        
+            **Default**: ``None``
+        """
 class VGMergeComponent:
     """
     
@@ -22330,6 +22531,41 @@ class VGMergeObject:
     @srcPath.setter
     def srcPath(self, arg0: str) -> None:
         ...
+class VGOffsets(ModMappedAssets):
+    """
+    
+    This class inherits from :class:`ModMappedAssets`
+    
+    Class for managing the ``vg_offset`` of a WWMI draw slot, pre-populated with this project's real data
+    
+    :raw-html:`<br />`
+    
+    .. note::
+        Names of the available indices used for querying with the ``get``/``hasFrom``/``getKey``/
+        ``replace``/``replaceAll`` methods (inherited from :class:`ModMappedAssets`) are:
+    
+        * version (version index)
+        * name
+        * component
+        * type
+    
+        ``component`` is ``""`` on every row: a WWMI character's draw slots share ONE merged skeleton,
+        so the slot is the ``type`` (``component0``, ``component1``, ...), exactly as
+        :class:`Indices` files a WWMI ``match_first_index``
+        
+    """
+    def __init__(self, map: typing.Any = None) -> None:
+        """
+        Constructs a new, fully-populated lookup table
+        
+        Parameters
+        ----------
+        map: Optional[Dict[Any, List[Any]]]
+            The `adjacency list`_ that maps the values to fix from to the values to fix to using the
+            predefined mods
+        
+            **Default**: ``None``
+        """
 class VGRemap:
     """
     
@@ -22839,6 +23075,28 @@ class VertexCounts:
     def versionIndexPos(self) -> int:
         """
         :class:`int`: The position (0-based) of the version index within a row's index values
+        """
+class WWMIBuilder:
+    """
+    
+    Creates new :class:`ModType` objects for WuWa (Wuthering Waves) mods -- the WWMI counterpart of
+    :class:`GIBuilder`. Their parse / fix / remove rows are stubs until the WWMI strategies exist
+        
+    """
+    @staticmethod
+    def all() -> list[ModType]:
+        """
+        Every WuWa :class:`ModType`, freshly built on each call
+        """
+    @staticmethod
+    def sanhua() -> ModType:
+        """
+        Creates the :class:`ModType` for Sanhua
+        """
+    @staticmethod
+    def sanhuaExorcist() -> ModType:
+        """
+        Creates the :class:`ModType` for SanhuaExorcist (WWMI-Assets' SanhuaSkin1)
         """
 class Z3Context:
     """

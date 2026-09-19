@@ -185,6 +185,12 @@ namespace AGRemapCore {
             case static_cast<int>(ModTypeId::YelanTranquilEye):
                 return ModTypeId::YelanTranquilEye;
 
+            case static_cast<int>(ModTypeId::Sanhua):
+                return ModTypeId::Sanhua;
+
+            case static_cast<int>(ModTypeId::SanhuaExorcist):
+                return ModTypeId::SanhuaExorcist;
+
             default:
                 return std::nullopt;
         }
@@ -358,6 +364,12 @@ namespace AGRemapCore {
 
             case ModTypeId::YelanTranquilEye:
                 return "YelanTranquilEye";
+
+            case ModTypeId::Sanhua:
+                return "Sanhua";
+
+            case ModTypeId::SanhuaExorcist:
+                return "SanhuaExorcist";
 
             default:
                 return "";
@@ -554,6 +566,13 @@ namespace AGRemapCore {
 
             case ModTypeId::YelanTranquil:
                 return {ModTypeId::Yelan};
+
+            // WuWa (2026-09-19): one skin each way, both remapped in the merged skeleton.
+            case ModTypeId::Sanhua:
+                return {ModTypeId::SanhuaExorcist};
+
+            case ModTypeId::SanhuaExorcist:
+                return {ModTypeId::Sanhua};
             // Every remaining ModTypeId remaps onto nothing. That covers the two boss ids
             // (RaidenBoss, ArlecchinoBoss), which are only ever remap *targets* -- GIBuilder has
             // no factory for either.
@@ -739,6 +758,12 @@ namespace AGRemapCore {
 
             case ModTypeId::YelanTranquil:
                 return {"yelantranquil"};
+
+            // The WuWa ids (Sanhua, SanhuaExorcist) have no keywords EITHER, on purpose: a WWMI
+            // .ini names its sections [TextureOverrideComponentN], never after the character, so
+            // a section keyword could never classify one. The WuWa half of the classifier goes by
+            // the character's vb0 hash under the $\WWMIv1 marker instead (addWuWaModType, fed by
+            // GlobalIniClassifiers), which is why its population branch does not ask for keywords.
             // The two target-only ids (RaidenBoss, ArlecchinoBoss) have no keywords: nothing
             // classifies a .ini file AS them, they are only ever what a mod is remapped ONTO.
             default:

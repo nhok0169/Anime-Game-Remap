@@ -31,11 +31,28 @@ namespace AGRemapCore {
                       std::shared_ptr<Hashes> hashes, std::shared_ptr<Indices> indices,
                       std::shared_ptr<VertexCounts> vertexCounts, std::shared_ptr<VGRemaps> vgRemaps,
                       std::shared_ptr<IniParseBuilder> iniParseBuilder, std::shared_ptr<IniFixBuilder> iniFixBuilder,
-                      std::shared_ptr<IniRemoveBuilder> iniRemoveBuilder):
+                      std::shared_ptr<IniRemoveBuilder> iniRemoveBuilder,
+                      std::shared_ptr<IndexCounts> indexCounts, std::shared_ptr<VGOffsets> vgOffsets,
+                      std::shared_ptr<VGCounts> vgCounts, std::shared_ptr<ShapeKeyChecksums> shapeKeyChecksums):
         gameTypeId(gameTypeId), modTypeId(modTypeId), name(name), aliases(aliases),
         hashes(std::move(hashes)), indices(std::move(indices)), vertexCounts(std::move(vertexCounts)),
         vgRemaps(std::move(vgRemaps)),
+        indexCounts(std::move(indexCounts)), vgOffsets(std::move(vgOffsets)), vgCounts(std::move(vgCounts)), shapeKeyChecksums(std::move(shapeKeyChecksums)),
         iniParseBuilder(std::move(iniParseBuilder)), iniFixBuilder(std::move(iniFixBuilder)), iniRemoveBuilder(std::move(iniRemoveBuilder)) {
+        // The four WWMI-only tables default as hashes does: a fresh, fully-populated table each.
+        if (this->indexCounts == nullptr) {
+            this->indexCounts = std::make_shared<IndexCounts>();
+        }
+        if (this->vgOffsets == nullptr) {
+            this->vgOffsets = std::make_shared<VGOffsets>();
+        }
+        if (this->vgCounts == nullptr) {
+            this->vgCounts = std::make_shared<VGCounts>();
+        }
+        if (this->shapeKeyChecksums == nullptr) {
+            this->shapeKeyChecksums = std::make_shared<ShapeKeyChecksums>();
+        }
+
         // Mirrors the pure-Python original's own "if (hashes is None): hashes = Hashes()". Note a
         // default-constructed Hashes is fully populated, so this is a real table, not an empty one.
         // A fresh instance per ModType, exactly as the original does -- see ModType::hashes on why
@@ -153,6 +170,24 @@ namespace AGRemapCore {
         // (see its own class note). A std::nullopt leaves that column unconstrained, which is what
         // the pure-Python original expresses by simply leaving the key out of its dict.
         return vgRemaps->get({name, fromComp, modName, toComp}, {fromVersion, toVersion}, false);
+    }
+
+    // The four WWMI lookups: three non-version columns (name, component, type), as Indices --
+    // errorOnNotFound = false so a mod type with no row answers nullopt rather than throwing.
+    std::optional<std::string> ModType::getIndexCount(const std::string& type, const std::string& component, const std::optional<Version>& version) const {
+        return indexCounts == nullptr ? std::nullopt : indexCounts->get({name, component, type}, version, false);
+    }
+
+    std::optional<std::string> ModType::getVGOffset(const std::string& type, const std::string& component, const std::optional<Version>& version) const {
+        return vgOffsets == nullptr ? std::nullopt : vgOffsets->get({name, component, type}, version, false);
+    }
+
+    std::optional<std::string> ModType::getVGCount(const std::string& type, const std::string& component, const std::optional<Version>& version) const {
+        return vgCounts == nullptr ? std::nullopt : vgCounts->get({name, component, type}, version, false);
+    }
+
+    std::optional<std::string> ModType::getShapeKeyChecksum(const std::string& type, const std::string& component, const std::optional<Version>& version) const {
+        return shapeKeyChecksums == nullptr ? std::nullopt : shapeKeyChecksums->get({name, component, type}, version, false);
     }
 
     std::string ModType::getHelpStr() const {

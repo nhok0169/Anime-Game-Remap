@@ -1088,8 +1088,9 @@ namespace AGRemapCore {
          * so a bare '%' never raises); multi-line continuation lines (moot in practice -- the
          * pure-Python original already strips all leading whitespace from every line before parsing
          * a section, which incidentally neuters ConfigParser's own indentation-based continuation
-         * feature anyway); ConfigParser's stricter parse-error behavior (a malformed line with no
-         * '='/':' is silently skipped here, rather than aborting the whole section).
+         * feature anyway); ConfigParser's stricter parse-error behavior (a line with no '='/':'
+         * is kept as a key with an empty value here -- see the loop -- rather than aborting the
+         * whole section).
          */
         SectionKVPs parseSectionKVPs(const std::string& srcTxt) {
             SectionKVPs result;
@@ -1116,11 +1117,18 @@ namespace AGRemapCore {
 
                         result[key].emplace_back(orderInd, std::move(value));
                         ++orderInd;
+                    } else {
+                        // A line with no '=' or ':' delimiter (and not blank/a comment) used to be
+                        // silently skipped here, which DROPPED it from every fix: 3dmigoto's
+                        // `local $var` declaration is exactly such a line, and every section of a
+                        // WWMI mod opens its state guard with one (`local $state_id_0`), so a fix
+                        // that lost it left `$state_id_0` undeclared and the skeleton never merged
+                        // (2026-09-19). Kept as a KVP whose key is the whole line and whose value is
+                        // empty; renderIfContentPart writes an empty-valued KVP back as its key
+                        // alone, so the line round-trips byte for byte.
+                        result[line].emplace_back(orderInd, std::string());
+                        ++orderInd;
                     }
-                    // A line with no '=' or ':' delimiter (and not blank/a comment) has no direct
-                    // ConfigParser-continuation-line equivalent here (see this function's own doc
-                    // comment on why continuation lines are moot in practice) -- silently skipped
-                    // rather than aborting the whole section's parse, unlike real ConfigParser.
                 }
 
                 if (newlinePos == std::string::npos) {

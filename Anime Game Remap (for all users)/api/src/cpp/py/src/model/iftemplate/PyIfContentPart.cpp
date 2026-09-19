@@ -630,14 +630,25 @@ List[:class:`IfContentPart`]
             for (size_t i = 0; i < n; ++i) {
                 result += linePrefix;
                 result += py::str(entries[i].first).cast<std::string>();
-                result += " = ";
-                result += py::str(entries[i].second).cast<std::string>();
+
+                // The same rule as core's renderIfContentPart: an empty value is a line that had no
+                // '=' when it was read (3dmigoto's `local $var`), written back as it came in. A
+                // Python-built fixer renders through THIS path, not core's -- see makeFixerConfig
+                // in PyGIMIFixer.cpp -- which is how the first WWMI fix came out with
+                // `local $state_id_0 = ` while core already had the rule (2026-09-19).
+                const std::string value = py::str(entries[i].second).cast<std::string>();
+                if (!value.empty()) {
+                    result += " = ";
+                    result += value;
+                }
                 if (i < n - 1) result += "\n";
             }
             return result;
         }, py::arg("linePrefix") = "",
     py::doc(R"doc(
-Retrieves the part as a string, one ``key = value`` line per KVP in true positional order
+Retrieves the part as a string, one ``key = value`` line per KVP in true positional order (a KVP
+whose value is empty -- a line that had no ``=`` when it was read, such as 3dmigoto's
+``local $var`` -- is written as its key alone)
 
 Parameters
 ----------

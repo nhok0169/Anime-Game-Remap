@@ -39,6 +39,13 @@ namespace AGRemapCore {
         return IniParseBuilder::defaultFactory();
     }
 
+    IniParseBuilder::Factory IniParseBuilderFuncs::wwmiStub() {
+        // A REAL stub, unlike giDefault above: a plain BaseIniParser knows nothing of a WWMI
+        // .ini's shape. The prototype it will be transcribed from is
+        // Tools/Misc/Prototypes/sanhuaExorcistFix.py.
+        return IniParseBuilder::defaultFactory();
+    }
+
     namespace {
         // The version index sits at position 0 and the mod name at position 1, matching the
         // pure-Python ModAssets' own ["version", "name"] index order.
@@ -127,6 +134,10 @@ namespace AGRemapCore {
                 // mod OF a skin that is several components. Her components' hashes are filed under
                 // their own mod type names, which is why that parser builds one classifier each.
                 {{"5.7", ModTypeIdTools::getName(ModTypeId::YelanTranquil)}, IniParseBuilderFuncs::yelanTranquil5_7()},
+
+                // ===== WuWa: Sanhua and SanhuaExorcist (2026-09-19), STUBS =====
+                {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua)}, IniParseBuilderFuncs::wwmiStub()},
+                {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist)}, IniParseBuilderFuncs::wwmiStub()},
 
                 // ===== Bennett (2026-09-15) =====
                 // Two drawn objects, where every character above has three or four, and a

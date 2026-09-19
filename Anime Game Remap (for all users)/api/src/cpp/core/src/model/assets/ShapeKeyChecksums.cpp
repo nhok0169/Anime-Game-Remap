@@ -1,0 +1,53 @@
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
+#include "AGRemapCore/model/assets/ShapeKeyChecksums.h"
+
+#include <utility>
+
+#include "AGRemapCore/data/ShapeKeyChecksumData.h"
+#include "AGRemapCore/model/Version.h"
+#include "AGRemapCore/model/assets/ModDictAssets.h"
+#include "AGRemapCore/model/assets/Row.h"
+
+
+namespace AGRemapCore {
+    namespace {
+        // Built once and shared by every ShapeKeyChecksums instance -- see Hashes.cpp's identical note for
+        // why this is a prototype that gets copied rather than a table that gets handed out.
+        const ModDictAssets<std::string, std::string>& prototypeRepo() {
+            static const ModDictAssets<std::string, std::string> repo = []() {
+                const std::vector<std::pair<std::vector<std::string>, std::string>>& rawRows = Data::getShapeKeyChecksumDataRows();
+                std::vector<Row<std::string, std::string>> rows;
+                rows.reserve(rawRows.size());
+                for (const std::pair<std::vector<std::string>, std::string>& rawRow : rawRows) {
+                    rows.push_back(Row<std::string, std::string>{rawRow.first, rawRow.second});
+                }
+
+                // 4 total indices (version, name, component, type), version at position 0 -- the
+                // same shape as Indices.
+                return ModDictAssets<std::string, std::string>(
+                    4, 0,
+                    [](const std::string& raw) { return Version::parse(raw); },
+                    std::move(rows));
+            }();
+            return repo;
+        }
+    }
+
+
+    ShapeKeyChecksums::ShapeKeyChecksums(std::unordered_map<std::string, std::vector<std::string>> map):
+        ModMappedAssets<std::string, std::string>(prototypeRepo(), std::move(map)) {
+        nonVersionIndexNames = std::vector<std::string>{"name", "component", "type"};
+    }
+}

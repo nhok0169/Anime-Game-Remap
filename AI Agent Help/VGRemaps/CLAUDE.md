@@ -473,6 +473,7 @@ the same reason, which is what stops `benchmark.py` ever scoring the tool agains
 | `Data/Mod Downloads/GI/<Name>/<X_Y>/` | a mod-folder copy of each skin's geometry (`Position.buf`, `Blend.buf`, `*.ib`) **at the library's versions** | **the geometry to run the finder over for anything touching the table** --- group counts match the rows exactly |
 | `GI-Model-Importer-Assets/PlayerCharacterData/<Name>/` | the asset repo's 3dmigoto dumps, **re-dumped Dec 2024** | hashes (`hash.json`), and geometry for the benchmark; but a newer dump can drift from the table (Xingqiu's has 74 groups, the row 92) |
 | a raw `FrameAnalysis-*` folder | thousands of files straight from the game | proving whether a bone *moved* in an update: `--fromHashes` picks the character out |
+| `WWMI-Assets/PlayerCharacterData/<Name>/` (Wuthering Waves; `SanhuaSkin1` is the Exorcist skin) | WWMI's own dump: `Metadata.json` plus one `Component N.fmt` / `.vb` / `.ib` triple per component, **one merged skeleton** across them (the per-component `vg_map`) | the only geometry there is for a WuWa character; the finder reads it as a single component in the merged index space, which is the space WWMI mods and the hand-made Sanhua draft use |
 
 Three things the drafts will not tell you: the CN skins (Amber, Rosaria, Jean, Mona) have no
 drafts because their remaps came from someone else; Kirara, Raiden and Arlecchino have none
@@ -485,7 +486,8 @@ left as shipped; that is the maintainer's call, not yours.
 ## The tool, and the four things it is for
 
 `Tools/VGRemapFinder` (README there; `GI/GIVGRemapFinder.ipynb` for the notebook route). It
-reads any of the three geometry forms, proposes both directions, writes a drafts-format workbook,
+reads any of the four geometry forms (three of GI's, and WWMI's for Wuthering Waves --- see the Sanhua
+section below), proposes both directions, writes a drafts-format workbook,
 and scores itself against a draft (`-c`) or the shipped table (`-C`).
 
 ```bash
@@ -598,6 +600,330 @@ The reasoning for each fill is in the drafts' Comments column, so a future disag
 conversation and not an archaeology dig.
 
 <br>
+
+## WuWa: Sanhua <-> SanhuaExorcist, the first draft outside GI (2026-09-18)
+
+The maintainer had a hand-made `Sanhua -> SanhuaExorcist` sheet from a year before, incomplete, and
+no reverse; the ask was to complete the workbook with the finder rather than by hand. Three things
+about the WuWa side are worth more than the draft itself.
+
+**The WWMI assets are a different format, and the format tells you the index space.** A folder of
+`WWMI-Assets/PlayerCharacterData/<Name>/` holds `Metadata.json` and one `Component N.fmt` / `.vb` /
+`.ib` triple per component: the `.fmt` is a 3dmigoto input layout (stride, every element's format
+and byte offset, the index buffer's format), the `.vb` one interleaved binary buffer, the `.ib`
+binary indices local to the component. Sanhua has seven components with 19 / 4 / 1 / 27 / 72 / 85 / 1
+bones, which reads like YelanTranquil's shape and is not: `Metadata.json` gives each component a
+`vg_map` from its own bone indices to ONE merged skeleton, and components share bones through it
+(bone 1, the head, is in five of Sanhua's seven). A WWMI mod's blend buffer is in that merged space,
+so that is the space a remap row must be in --- and the hand-made draft already was: it has 208 rows
+for a merged skeleton whose largest index is 207, and its blank rows are *exactly* the 24 merged
+indices no component maps to. `DumpMod.readWWMIFolder` applies the maps and concatenates the
+components into the single component `""` (objects named `Component N`), needs no API, and refuses a
+`.fmt` format it does not know by name. Sanhua onto herself is an exact identity; the forward proposal
+agrees with the hand-made sheet on 86% (chains) / 89% (vertices) of scorable rows, the GI band.
+
+**The broken-build check found the tell was a COUNT, not the score (habit 34).** Reading the
+component-local bone indices with `vg_offset` added instead of through `vg_map` --- the plausible wrong
+reading --- still scored 83% of the rows with a hand-made value (74% once the placeholder rows count
+against a reader that gives those bones vertices), because the map is the identity plus an offset for
+every bone but the shared ones. What that breakage cannot fake is the group count: 209 and 191 against the draft's 208
+and 190 rows. A byte-offset breakage (indices read from the weights' bytes) never reaches the score
+at all: the reader's own bounds check refuses it (`uses bone 255 but component 0's vg_map has 19
+entries`). So the acceptance for a new reader is the count against the draft's rows plus the score
+against its values, and the bounds check is what stands between a wrong offset and a plausible 83%.
+
+**The reverse direction was reviewed from three signals per row, and the hand-made sheet's INVERSE
+was the strongest of them.** For each Exorcist bone: the chain alignment, the nearest-vertex tally,
+and which Sanhua bones the hand-made forward sheet sends to it. Of 190 rows, 19 are bones no vertex
+uses, 129 have all three agreeing, 37 have the hand-made sheet plus one tool mode against the other,
+and 5 needed a judgement (the reasons are in the comments): the back ribbon's tip (the chains are
+different lengths, so the tip goes to the tip, not the nearest bone), the two stacked hip bones (both
+tool modes wanted Sanhua 25 for both; the hand-made sheet pairs them by height), and three Sanhua
+bones the hand-made sheet had left blank that are simply the same helper bones on the other skin
+(centres 0.2--0.5 apart; the vertex tally sends such small patches to their big neighbour, the chain
+alignment does not). The face bones are renumbered between the skins (Sanhua 7 / 11 / 17 are Exorcist
+17 / 7 / 18 at identical centres), which the hand-made sheet already had right and the chain alignment
+got wrong by insisting on index order. The uncertainty column follows a fixed scheme written into the
+sheet's header cell: blank when all three agree, 0.2 for hand + one mode, 0.3 for no hand-made row,
+0.4 for a judgement against both modes. **Nothing is checked in game yet**, and there is no WuWa
+`ModType`, so no `VGRemapData.cpp` row can take it: the workbook is the deliverable.
+
+**A bone no vertex uses gets a placeholder, and the placeholder must not score.** Every earlier
+draft gives every row a value, so the 24 unused Sanhua bones and 19 unused Exorcist bones carry `0`
+with the reason in the comment. That dropped `benchmark.py` from 86% to 76% for rows the tool can be
+neither right nor wrong about, so `VGRemapFinder.compare` now skips a source group with no vertices
+and says how many it skipped.
+
+**The identity mods exist (2026-09-19): `WWMI/SanhuaIdentity` and `WWMI/SanhuaExorcistIdentity`,
+built by `Tools/Misc/Prototypes/wwmiIdentityMod.py` -- and building them is what pinned down what a
+WWMI mod IS.** Read a real one first (the maintainer's `Mods/Sanhua2`, a Blender export of the
+original through WWMI Tools 1.3.4, is the template the script copies), then these four facts:
+
+- **One mesh, several draw slots.** The game draws a character as `Component N` index ranges of ONE
+  vertex buffer (`hash = vb0_hash`), and a mod replaces all of them together: one `Meshes/Index.buf`
+  (R32_UINT, the components' local indices offset by `vertex_offset`, end to end), one Position /
+  Vector / Color / TexCoord / Blend buffer holding every component's vertices in order, and a
+  `[TextureOverrideComponentN]` per component matching on `(vb0_hash, index_offset, index_count)`
+  that binds the shared buffers and draws its own range. `$object_guid` is the total index count.
+- **The merged skeleton is the components' bone lists CONCATENATED, and `vg_map` is a de-duplication
+  on top of it.** Each draw brings its component's bones in `vs-cb4`; `SkeletonMerger.hlsl` copies
+  them into the merged buffer at that component's `vg_offset`. A bone in several components has
+  several slots holding the same matrix, and `vg_map` names the slot WWMI Tools chose per local bone
+  (the first component's). So the 24 "holes" in Sanhua's merged space are the duplicate slots, a
+  mod may address either, and every real mod, the finder and the drafts use the `vg_map` one. The
+  Blend buffer is 8 bytes a vertex: four `R8_UINT` bone indices, then four `R8_UINT` weights.
+- **Shape keys are sparse, per key, and rebuildable from the dumps.** The `.fmt` carries them as
+  per-vertex `SHAPEKEY<k>` `R16G16B16_FLOAT` deltas on the face-side components only (Sanhua: keys
+  19-85 on component 2, 0-13 on 3, 14-18 on 6). `ShapeKeyLoader.hlsl` wants `ShapeKeyOffset.buf`
+  (128 uint32s, entry k = where key k starts in the list, every entry past the last key = the total),
+  `ShapeKeyVertexId.buf` (the mod vertex ids of every (key, vertex) with a non-zero delta, key by
+  key) and `ShapeKeyVertexOffset.buf` (six halfs per entry: the position delta, then three zeros --
+  every real mod leaves them zero). Metadata's `checksum` is the sum of the first four offsets and
+  `dispatch_y` the entry count in 32s; the rebuilt buffers reproduce both for both characters (3175
+  / 963, 2376 / 853) and the maintainer's own export's first offsets (534 / 1053 / 1588). The entry
+  count is one above Metadata's `vertex_count` on both, a threshold difference in WWMI Tools that
+  the shader does not care about.
+- **Textures are overridden by hash, not bound to registers.** `[TextureOverrideTexture<N>]` with
+  `this = ResourceTexture<N>` under `$object_detected`; the slot layout of each draw is the game's
+  and `TextureUsage.json` records it. The identity ships every `Components-... t=<hash>.dds` of the
+  asset folder so a remap's texture edits have something to act on.
+
+What proves the build: every vertex buffer is byte-identical to fixed byte ranges of the raw `.vb`
+sliced independently of the script's element logic (POSITION 0-12, TANGENT+NORMAL 12-20, COLOR
+28-32, the four UV/colour elements 32-48), the Blend indices equal the finder's own `vg_map` reading,
+and the `.ini` has the template's section structure with only the numbers, hashes and texture list
+changed. **Not yet run in game.** The maintainer's own `RemapBlend.buf` in `Mods/Sanhua1` and
+`Sanhua2` was made with the API's `BufFile` given an 8-byte WWMI blend layout (`temp.py` beside each),
+which is the shape a WuWa `BlendFile` will need.
+
+**THE FORWARD PROTOTYPE EXISTS (2026-09-19): `Tools/Misc/Prototypes/sanhuaExorcistFix.py` rewrites a
+Sanhua WWMI mod for SanhuaExorcist, and it was built from two frame dumps, not from the mod format.**
+The maintainer's own year-old R&D (`WWMI/Sanhua1`, `Sanhua2`, issue #188) had the shape right --
+retarget the six slots' hash / index range / `vg_offset` / `vg_count`, remap the 8-byte blend, bind
+textures by register in the slot sections -- and said its component and register mapping was trial
+and error. `Tools/Misc/Diagnostics/wwmiDrawTable.py <FrameAnalysis> <vb0 hash> --metadata ...` reads
+the dump's `log.txt` into a per-draw table (component, shaders, every `ps-t` hash), and the `o0`
+render targets after each draw name the components; that settled five things:
+
+- **Shader families decide the slot mapping, not bones**: WWMI's merged skeleton makes every bone
+  reachable from every draw, so a source component goes through whichever target slot renders it
+  with the same slot layout. Head / hair / face / eyes have identical pixel shaders on both skins
+  (94d9d5e9 / 69e3d321 / 374a4f8f / 056f9f3c); Sanhua's bodice and skirt (96356f03: `ps-t0` normal,
+  `ps-t1` material mask, `ps-t2` diffuse) match Exorcist's torso slot 3 (3093e3c7, same layout);
+  Exorcist's slot 4 (bun and trousers, 5cc08ed6) has no mask slot and draws nothing of the mod.
+  Sanhua's **bare arms are their own component on a skin family** (7a0ab7c3: normal, diffuse) that
+  Exorcist does not have; they go through the torso slot with an INVENTED mask.
+- **The material mask legend was measured, not guessed**: on Exorcist's torso mask the texels
+  coloured `(255, 77, 0)` are 99% skin-coloured in the diffuse under them and nothing else is; the
+  shared face mask uses the same code; Sanhua's own body masks hold `(0,0,0)` / `(203,0,0)` and no
+  skin at all. The maintainer's hand-made `Components-4 light map.dds` is a solid `(255, 77, 0)` --
+  the same answer found a year earlier by trial. Open: Exorcist's non-skin texels sit at G = 50
+  where Sanhua's sit at G = 0.
+- **Texture hashes drift two ways and register binding sidesteps both**: the dump's character
+  textures are the STREAMED 512-square mips, whose hashes differ from the 2048 asset files (that is
+  what the community's `_LOWQ` overrides are for), and the asset hashes themselves changed between
+  game versions (the maintainer's mods carry a 2025 set; `wwmi_fix_23`'s `hash_maps.json` maps some
+  across). A `[TextureOverrideTexture]` matches the SOURCE's hashes, which never occur while the
+  target is drawn, so the prototype leaves them alone (they keep serving the mod on Sanhua) and
+  binds `ps-t0..2` / `ps-t5` in each remapped section through a per-component command list --
+  gated on the target's main-pass pixel shader through `[ShaderOverride] filter_index` tags
+  (`if ps == 3381.94`, the mechanism WWMI's core uses with `cs == 3381.3333`), so the outline and
+  shadow passes keep the game's textures. Slots `ps-t3` up are globals identical on both skins.
+- **A real mod's draw block is not a list of `drawindexed`**: KanouSakura's Sanhua carries
+  `run = CustomShaderTransparency` draws (a blend state and its own `drawindexed`) inside the
+  component section. The API's graph follows the `run =`, copies and renames the custom shader
+  section with the rest, and the texture command list is added right after the shared-resource
+  override -- the EARLIEST spot in its window, not the latest, because a component drawn in two
+  ranges (Sanhua1's hair) otherwise had its textures bound between its draws.
+- **The identity mod is the first test, and its blend was proved against an independent reading**:
+  `RemapBlend.buf` equals the draft applied to the finder's own `vg_map` reading of the assets,
+  weights byte-identical, no remapped index on a duplicate slot, and the REVERSE sheet applied by
+  mistake gives different bytes (the check can fail).
+
+**Both characters have DOWNLOAD FOLDERS too (2026-09-19): `Data/Mod Downloads/WuWa/<Name>/2_5`** --
+the identity mod's nine whole-mesh buffers, every asset texture as `<Name>Texture<hash>.dds`, and the
+asset's `Metadata.json` / `TextureUsage.json`; see that folder's README and Creating Remaps'
+"The download assets". Not fetched by anything yet (`DownloadTools::urlPath` is GI-only).
+
+**Sanhua and SanhuaExorcist are IN THE LIBRARY as of 2026-09-19, and the prototype runs on it.**
+`WWMIBuilder.sanhua()` / `sanhuaExorcist()` (`ModTypeId::Sanhua` / `SanhuaExorcist`, game `WuWa`)
+carry the `vb0` / `cb4` / shape-key hashes, every draw slot's `match_first_index` in `Indices` typed
+`component0..N`, and four NEW `Indices`-shaped tables for what GI never had -- `IndexCounts`
+(`match_index_count`), `VGOffsets`, `VGCounts` and `ShapeKeyChecksums` -- plus `VertexCounts` and
+both `VGRemapData` rows from the draft. The prototype reads all of it through `ModType`
+(`getIndexCount`, `getVGOffset`, `getVGCount`, `getShapeKeyChecksum`, `getVGRemap`) and remaps the
+blend through the API's own `BlendFile` given the 8-byte WWMI layout; the A/B against its
+`Metadata.json`-driven predecessor is a byte-identical `.ini` and a blend identical on every
+weighted slot (the API leaves weight-zero slots untouched where the numpy version had remapped
+them, which is the library's contract and invisible in game). The parse / fix / remove rows are
+stubs; Creating Remaps' "Adding a `ModTypeId`" has the WuWa differences.
+
+**AND SINCE LATER THAT DAY IT FIXES IN PLACE, THROUGH THE API, LIKE THE YELAN AND BENNETT
+PROTOTYPES.** `sanhuaExorcistFix.py <mod folder>` registers a Python-built `GIMIParser` and
+`GIMIFixer` through `CppStrategyOverrides` ahead of the library's stub rows and lets `RemapService`
+walk the folder: the fix is appended to the mod's own `.ini` as a `Sanhua Remap` block, the
+`SanhuaExorcistRemapBlend.buf` lands beside the mod's `Blend.buf`, a second run undoes the first,
+`--undo` removes it (and the two files it wrote) and `--hideOrig` comments the Sanhua sections out.
+The mod then renders on BOTH characters, as a GIMI mod fixed onto a different-model skin does. What
+the maintainer's question ("why does it need an output folder?") turned up is that the API's GIMI
+pipeline handles a WWMI `.ini` almost unchanged -- the classifier sorts the seven slot sections by
+`vb0` hash + `match_first_index`, the graph follows `run =` into the shared WWMI command lists and
+writes each once, renamed; `RegAssetRemap` moves the hashes and the shape-key checksum through the
+new table; `RegNewVals` retargets each slot's four numbers; `ResRegCollect` collects `vb4` out of
+the shared override copy into the RemapBlend (with a `fixFunc` supplying the 8-byte layout);
+`RegSurroundedAdd` places the texture `run =` -- and needed exactly three things:
+
+1. **A line with no `=` was dropped on parse** (`IniFile.cpp`'s `parseSectionKVPs` skipped it as
+   malformed). Every WWMI section opens its state guard with `local $state_id_N`, so the first fix
+   left the variable undeclared and the skeleton never merged. Kept as a key with an empty value
+   now, and BOTH renderers write an empty value as the key alone -- core's
+   `renderIfContentPart` and the pybind `IfContentPart.toStr`, which is the one a Python-built
+   fixer renders through (`makeFixerConfig` in `PyGIMIFixer.cpp`). The first fix after the core
+   change still wrote `local $state_id_0 = `, which is how the second renderer was found. Pinned by
+   `core/tests/IniFile_fix_test.cpp`'s `testKeylessLineRoundTrips` and
+   `test_CppIfContentPart.py`'s `test_toStr_emptyValue_rendersTheKeyAlone`.
+2. **`GIMIFixer::appendedSections` was not bound.** It is how the compiled component template
+   writes its hide section, and it is the only way a fixer emits text that is not a copied graph:
+   the per-component texture command lists (an `if ps == <filter>` block, which no register edit can
+   add), the section for the slot nothing is drawn through (hash / window / `handling = skip`, and
+   its bones still merged), the six `[ShaderOverride]` tags and the invented mask's
+   `[Resource...]`. It is a `def_readwrite` now.
+3. **A reverse lookup with no version resolves through the NEWEST bucket holding the value, across
+   both games.** `match_first_index = 0` is every GI head's index too, filed at 6.1, and that bucket
+   holds no Sanhua row, so component 0 classified as nothing while the other six (values unique to
+   the 2.5 bucket) classified fine. The prototype hands the classifier `2.5` explicitly when the
+   `.ini` carries no `fromVersion`; a compiled WWMI parser will hit the same thing through
+   `ctx_.version()`, and the real fix is a game-scoped version line or `ModMappedAssets::getKey`
+   preferring buckets that hold the filter's name -- open.
+
+Several source components through one target slot are several SECTIONS on the same draw (Sanhua's
+bodice, skirt and arm skin all match Exorcist's slot 3 window), which 3dmigoto runs in turn -- the
+same fact a GIMI mod's shared IB section relies on -- so WWMI needs no second `.ini` file.
+Verified: the blend is byte-identical to the output-folder version's; an undo restores the mod to
+its original bytes bar one trailing blank line; fixing an already-fixed mod gives the same file as
+fixing a clean one; the eight core suites and the 2301-test Python suite pass.
+
+**THE FIRST IN-GAME RUN (2026-09-19,
+`AI Agent Help/CreatingRemaps/Images/Sanhua/2_5/SanhuaExorcistWavyBody.png`) CAME BACK WITH TWO
+REPORTS -- "the body seems all wavy" and "the hair texture seems off" -- AND BOTH WERE ANSWERED
+FROM DATA, NOT FROM THE PICTURE.** The head, face, top, skirt and arms render right; what does not
+is worth knowing for every WuWa remap after this one:
+
+- **Component 0 is the BANGS, not the head, and its PASSES differ between the skins.** Its asset
+  texture `c88cc1fc` ('Components-0-6', shared with the eyes) is an eye-shape mask, and the draw
+  table shows component 0 drawn with hair-shader passes on both skins -- `a512f04f` + `f6bc3927` on
+  Sanhua, `69e3d321` (the hair shader itself) + `8fbb5532` on Exorcist -- plus an eye-region pass
+  (`94d9d5e9`) that binds only globals. The bangs are drawn twice so the eyes show through them. The
+  prototype had gated the slot on the eye-region pass and bound the eye mask there, so Sanhua's
+  bangs rendered with Exorcist's bang texture. The bangs' diffuse is `ae6e9014` ('Components-0-1'):
+  proved by converting the dump's bangs-pass `ps-t0` and the mod's file to images and finding them
+  pixel-identical, which is the check to make before assigning any role -- `TextureUsage.json`'s
+  shader hashes are from an older game version and no longer match a live dump. `SlotPasses` in the
+  script is a LIST of shaders per slot now, one `[ShaderOverride]` tag per distinct shader, and the
+  texture command list asks `if ps == a || ps == b`. The eyes bind the iris (`1dcc0f1d`) at `ps-t0`.
+- **The wavy parts are the chains Exorcist has no counterpart for, and they are wavy because of
+  REST-POSE distance, not a wrong row.** `Tools/Misc/Diagnostics/wwmiBoneTally.py` (the WuWa form
+  of `modTally.py --remap`: per source group, its vertices' centroid on the source identity mod,
+  its target bone, that bone's centroid on the target identity mod, the distance, and every chain
+  with the targets it lands on) says the finger bones match to the millimetre -- Exorcist's hand
+  is the same rig, renumbered -- and every skirt chain maps onto an Exorcist skirt chain in order,
+  3-5 cm off. The two long back ribbons (Sanhua 69-75 and 62/78/76/77/79-81 onto Exorcist 49-59
+  and 52-62) sit 5-14 cm from the bones they land on, worst at the tips (Sanhua's are longer), and
+  the front-left belt tassel (169-171 / 157 onto 162 / 164) 8-20 cm. A vertex bound to a bone whose
+  rest position is that far off is rotated about the wrong pivot once the chain bends, and those
+  ribbons bend ~90 degrees in the idle pose: they curled at her hands. That is Creating Remaps' Yelan
+  lesson 5 exactly, so the prototype grew `--anchor ribbons` (each of those chains pinned to its
+  root bone's target: the knot at the neck, the top of the belt -- rigid, no physics, no curling)
+  and `--anchor all` (every skirt chain too, for the case where the skirt is what waves), plus
+  `--vgRemap <json>` for any table at all. `WWMI/SanhuaIdentityOnExorcistAnchored` is the identity
+  mod fixed with `--anchor ribbons` (1454 vertices differ from the default, exactly the ones weighted
+  to the sixteen anchored groups, weights untouched); the default is in `Mods`. Whichever looks
+  right in game is the row for `VGRemapData.cpp`.
+- **And then the maintainer's OWN working hand remap settled which of those it is -- read the
+  thing that works before theorising about the thing that does not.** `WWMI/Sanhua2/.../mod copy
+  2.ini` (2025) renders on Exorcist without waves, and its `RemapBlend.buf`, read back per vertex
+  against its `Blend.buf`, applies the SAME table as the library row: identical on 159 of the 162
+  groups it uses, the other three its blank rows. Its ribbons are in that mesh (576 + 788 vertices)
+  and do not wave. So the table, and the rest-pose distance above, is NOT what waves. What that
+  `.ini` does differently: **its shape-key override is off** -- the `shapekey_checksum` line
+  commented out, Sanhua's own shape-key hashes kept, which never occur on Exorcist -- where the
+  prototype retargeted the shape keys onto Exorcist's buffer, handing Sanhua's 30805 shape-key
+  vertices to a dispatch the game sizes for Exorcist's 27267 (`Metadata.json`'s `shapekeys.vertex_count`,
+  `dispatch_y` 963 vs 853). Both skins carry the same 86 keys with the face keys identical in size,
+  so the KEYS are not the problem; the buffer sizes are the suspect. `--shapeKeys` is opt-in now and
+  off by default (the mod's shape-key sections are left on Sanhua's hashes, inert on Exorcist, and
+  her face does not animate there -- the same trade the hand remap made). And that `.ini` binds a
+  mask at the bangs' `ps-t1` (the 2025 `Components-0` UNORM texture); today's equivalent is the
+  shared default mask `1c0c8b91`, whose mean pixel matches what the bangs pass binds in the dump,
+  so the bangs bind it too. The `--anchor` variants stay available in case the ribbons still curl
+  with the shape keys off.
+- **Second report: the bangs are fixed, the waviness is not, and the identity mod itself is clean on
+  Sanhua.** So the difference is between the two `.ini` files on the SAME mesh, and the complete
+  diff of the hand remap against its own export is four things beyond the retarget: the arm-skin
+  component dropped, the bodice sent through slot 4 (whose VERTEX shader differs from slot 3's),
+  every `[TextureOverrideTexture]` commented out, and every shape-key section commented out -- the
+  two buffer-size overrides included, which "left alone" had kept ACTIVE. Each is a switch now
+  (`--plan rnd|rndArms`, `--shapeKeys hide|leave|retarget` with `hide` the default, and
+  `--hideTextureOverrides`; the hiding is a post-pass writing the API's `HideOrig` marker, and a
+  fix -> undo cycle restores the original to the byte), and four folders of the maintainer's mesh
+  bisect it in one session: `WWMI/Sanhua2_A_rnd` is the hand remap's configuration through the
+  prototype, `..._B_bodiceSlot3` is A with the bodice back through the torso slot, `..._C_arms` is A
+  plus the arm skin, `..._D_shapeKeysLeft` is A with the shape-key sections left active. Whichever
+  of B, C, D waves names the cause. One more thing measured on the way and worth keeping: Exorcist's
+  torso carries vertex colour R = 0 on every vertex and her coat R = 0..255 (a sway weight, by the
+  look of it) where Sanhua carries R = 255 everywhere but the face -- but the hand remap binds that
+  same `Color.buf` and does not wave, so it is not the difference between the two.
+- **THE ANSWER: A and D clean, B and C wavy -- anything drawn through the TORSO slot waves, the same
+  thing through slot 4 does not.** The torso, face and eye draws consume a SIXTH vertex stream,
+  `vb6` (stride 24; the buffer `Metadata.json` calls `shapekeys.offsets_hash`, `d709b169` on
+  Exorcist), which the game's shape-key compute fills with the live per-vertex offsets INDEXED BY
+  VERTEX ID and the vertex shader adds. WWMI's shared override rebinds `vb0`-`vb4` and leaves `vb6`
+  alone, so a mod vertex drawn through such a slot is displaced by whatever offset Exorcist's buffer
+  holds at the same index. Measured: 67% of Sanhua's arm-skin vertex ids and 11% of her bodice's
+  coincide with ids Exorcist animates (her face and torso, 4111 ids), 1-2% of the skirt, none of the
+  hair -- the reported pattern exactly, on both meshes. Slot 4's vertex shader reads no `vb6` (the
+  dump binds it on nine shader pairs, all face / torso / eye passes), which is why the hand remap's
+  bodice-through-slot-4 was clean and why dropping the arm skin "fixed" it. The fix: whenever the
+  shape keys are not retargeted, every remapped section binds `vb6` to a buffer of ZERO offsets, 24
+  bytes a vertex for the mod's `$mesh_vertex_count` (`<Target>RemapShapeKeyZero.buf`, written by the
+  fix, removed by the undo), so the arms and the bodice go back through the torso slot with their
+  own textures. `WWMI/Sanhua2_E_zeroOffsets` is that on the maintainer's mesh; the three default
+  test mods are rebuilt the same way. **This is a WWMI fact, not a Sanhua one**: any WuWa remap that
+  draws a source component through a target slot whose vertex shader reads the offset stream needs
+  either the zero stream or WWMI's own shape-key pipeline retargeted and proved to fill it.
+  And a WuWa fix is not confined to the mod's own `.ini` (maintainer, 2026-09-19): WWMI loads every
+  `.ini` in the folder, so the extra files the GIMI merge writes (`<name>RemapFix1.ini` and on) are
+  an option here too, for a fix that needs the same draw matched by more sections than one file
+  reads well with, or to keep the remap apart from the mod's text.
+- **The zero stream did NOT clear it either (fourth report), and two things reframed the bisect.**
+  The maintainer pointed out that in A and D the arms are not drawn at all, so "clean" there says
+  only that the skirt through the torso slot is fine; and that every clean variant had exactly ONE
+  remapped section matching each Exorcist draw, every wavy one two or three on the torso slot's --
+  which is the collision the GIMI merge writes a second `.ini` for, and their own R&D spreads its
+  sections over several files. So the prototype now splits by TARGET WINDOW (`--noSplit` to keep
+  one file): the first section of a window stays in `mod.ini`, each further one goes into its own
+  complete `<stem>SanhuaExorcistRemapFix<n>.ini` -- the mod's own draw sections commented out so
+  only `mod.ini` serves Sanhua, every other remapped slot section cut down to its skeleton merge
+  and `handling = skip` -- so every file merges the whole skeleton and draws exactly its own share.
+  The extra files are deleted before a fix and on `--undo` (the API's undo does not know them); a
+  fix, re-fix, undo cycle restores the export to the byte. `WWMI/Sanhua2_F_split` is the test: arms,
+  bodice and skirt all through the torso slot, one per file. If it still waves, what waves is the
+  component (arms, bodice), not the multiplicity, and the register bindings are next.
+
+The three test mods are `WWMI/SanhuaIdentityOnExorcist` (a copy of the identity mod, fixed in
+place -- also the copy in `Mods`), its `...Anchored` twin, `Sanhua2OnExorcist` and `Sanhua1OnExorcist`
+(copies of the maintainer's R&D with only the Sanhua-hash `.ini` enabled; their older-era texture
+roles -- now including the bangs' `48616ac9` and the iris' `3cd03f60` -- are inferred from format,
+size and `Components-N` tag and marked UNVERIFIED in the script). Three things it does not do, on
+purpose, until the next report: any texture edit beyond the invented mask, anything about the arm
+normal map's B / A channels (the skin family stores B = 0, A = 255 where the body families vary
+both), and the hair / head secondary passes.
+
+Two environment facts that cost time: on this machine `py -3` is 3.13 with no `openpyxl`, and
+**3.11 is the one with numpy, scipy and openpyxl** --- run the finder with `py -3.11`; and the Windows
+`core.cp313-win_amd64.pyd` is from 2026-09-08, older than the Python package around it, so `import
+FixRaidenBoss2` fails on Windows until it is rebuilt. The WWMI reader does not need the API, `-C`
+does (and would have nothing to compare against anyway).
 
 ## Mechanics that cost time once
 

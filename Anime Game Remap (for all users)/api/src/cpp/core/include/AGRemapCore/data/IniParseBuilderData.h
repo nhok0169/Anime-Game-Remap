@@ -715,6 +715,11 @@ namespace AGRemapCore {
             static IniParseBuilder::Factory yelan4_0();
 
             /**
+             * @brief The STUB every WuWa row points at until a WWMI parser exists (2026-09-19) -- :cpp:func:`IniParseBuilder::defaultFactory`
+             */
+            static IniParseBuilder::Factory wwmiStub();
+
+            /**
              * @brief
              @rst
              The parser for a 5.7-era YelanTranquil ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`

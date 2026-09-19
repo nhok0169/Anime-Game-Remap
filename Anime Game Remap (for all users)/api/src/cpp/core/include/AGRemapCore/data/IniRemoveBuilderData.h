@@ -475,6 +475,11 @@ namespace AGRemapCore {
              */
             static IniRemoveBuilder::Factory yelanTranquil4_0();
 
+            /**
+             * @brief The STUB every WuWa row points at (2026-09-19) -- :cpp:func:`IniRemoveBuilder::defaultFactory`
+             */
+            static IniRemoveBuilder::Factory wwmiStub();
+
     };
 
     /**

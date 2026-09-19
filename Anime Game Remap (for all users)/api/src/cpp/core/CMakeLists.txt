@@ -24,12 +24,17 @@ add_library(AGRemapCore STATIC
     src/constants/GameType.cpp
     src/constants/IfPredPartType.cpp
     src/constants/GIBuilder.cpp
+    src/constants/WWMIBuilder.cpp
     src/constants/GlobalIniRemoveBuilders.cpp
     src/constants/StrategyOverrides.cpp
     src/data/HashData.cpp
     src/data/IndexData.cpp
     src/data/HashToModObjData.cpp
     src/data/VertexCountData.cpp
+    src/data/IndexCountData.cpp
+    src/data/VGOffsetData.cpp
+    src/data/VGCountData.cpp
+    src/data/ShapeKeyChecksumData.cpp
     src/data/VGRemapData.cpp
     src/data/ModDataAssets.cpp
     src/data/IniParseBuilderData.cpp
@@ -182,6 +187,10 @@ add_library(AGRemapCore STATIC
     src/model/assets/Indices.cpp
     src/model/assets/VertexCounts.cpp
     src/model/assets/VGRemaps.cpp
+    src/model/assets/IndexCounts.cpp
+    src/model/assets/VGOffsets.cpp
+    src/model/assets/VGCounts.cpp
+    src/model/assets/ShapeKeyChecksums.cpp
     src/model/strategies/ModType.cpp
     src/model/strategies/iniClassifiers/IniClassifyStats.cpp
     src/model/strategies/iniClassifiers/BaseIniClassifier.cpp
@@ -355,6 +364,10 @@ set(AGREMAP_UNITY_EXCLUDE
     "src/model/assets/Indices.cpp"
     "src/model/assets/VGRemaps.cpp"
     "src/model/assets/VertexCounts.cpp"
+    "src/model/assets/IndexCounts.cpp"
+    "src/model/assets/VGOffsets.cpp"
+    "src/model/assets/VGCounts.cpp"
+    "src/model/assets/ShapeKeyChecksums.cpp"
     "src/model/buffers/BufFloat.cpp"
     "src/model/buffers/BufUnorm.cpp"
     "src/model/iftemplate/IfPredParser.cpp"

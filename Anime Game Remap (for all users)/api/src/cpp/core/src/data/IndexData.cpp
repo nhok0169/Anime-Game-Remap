@@ -13,6 +13,8 @@
 
 #include "AGRemapCore/data/IndexData.h"
 
+#include "AGRemapCore/constants/ModTypeId.h"
+
 // See IndexData.h's class-level note: mechanically generated from the real, live
 // pure-Python IndexData dict, verified row-for-row identical before being committed --
 // not hand-transcribed. Grouped/commented by version, then mod name, then component,
@@ -228,6 +230,26 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getIndexDat
         {{"5.3", "XianglingCheer", "", "head"}, "0"},
         {{"5.3", "XianglingCheer", "", "body"}, "46374"},
 
+        // ===== WuWa: Sanhua and SanhuaExorcist (2026-09-19) =====
+        // The match_first_index of every draw slot -- a WWMI character's 'components' in
+        // Metadata.json, filed as component0, component1, ... under the empty component column,
+        // since its slots share ONE merged skeleton. The slot's match_index_count, vg_offset and
+        // vg_count are the same rows in IndexCountData, VGOffsetData and VGCountData.
+        // Sanhua (2.5): 7 draw slots, from WWMI-Assets' Metadata.json
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "", "component0"}, "0"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "", "component1"}, "8199"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "", "component2"}, "15357"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "", "component3"}, "25041"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "", "component4"}, "36369"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "", "component5"}, "97047"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "", "component6"}, "142869"},
+        // SanhuaExorcist (2.5): 6 draw slots, from WWMI-Assets' Metadata.json
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "", "component0"}, "0"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "", "component1"}, "9495"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "", "component2"}, "23115"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "", "component3"}, "32799"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "", "component4"}, "130959"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "", "component5"}, "174075"},
     };
     return rows;
 }

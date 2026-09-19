@@ -22,7 +22,11 @@
 
 #include "AGRemapCore/model/assets/Hashes.h"
 #include "AGRemapCore/model/assets/Indices.h"
+#include "AGRemapCore/model/assets/IndexCounts.h"
+#include "AGRemapCore/model/assets/ShapeKeyChecksums.h"
 #include "AGRemapCore/model/assets/VertexCounts.h"
+#include "AGRemapCore/model/assets/VGCounts.h"
+#include "AGRemapCore/model/assets/VGOffsets.h"
 #include "AGRemapCore/model/assets/VGRemaps.h"
 #include "AGRemapCore/model/iftemplate/IfContentPartColour.h"
 #include "AGRemapCore/tools/Ranges.h"
@@ -163,7 +167,11 @@ namespace AGRemapCore {
                               std::shared_ptr<VGRemaps> vgRemaps = nullptr,
                               std::shared_ptr<IniParseBuilder> iniParseBuilder = nullptr,
                               std::shared_ptr<IniFixBuilder> iniFixBuilder = nullptr,
-                              std::shared_ptr<IniRemoveBuilder> iniRemoveBuilder = nullptr);
+                              std::shared_ptr<IniRemoveBuilder> iniRemoveBuilder = nullptr,
+                              std::shared_ptr<IndexCounts> indexCounts = nullptr,
+                              std::shared_ptr<VGOffsets> vgOffsets = nullptr,
+                              std::shared_ptr<VGCounts> vgCounts = nullptr,
+                              std::shared_ptr<ShapeKeyChecksums> shapeKeyChecksums = nullptr);
 
             /**
              * @brief The id for the game this type of mod belongs to
@@ -272,6 +280,36 @@ namespace AGRemapCore {
              @endrst
              */
             std::shared_ptr<VGRemaps> vgRemaps;
+
+            /**
+             * @brief
+             @rst
+             The ``match_index_count`` of each of the mod's draw slots (WuWa) :raw-html:`<br />` :raw-html:`<br />`
+
+             The first of the FOUR WWMI-only asset tables (2026-09-19), each an :cpp:class:`Indices`
+             sibling keyed ``(version, name, component, type)`` with the draw slot as ``type``:
+             this one, #vgOffsets, #vgCounts and #shapeKeyChecksums. They sit after the three
+             builders in the constructor so every earlier positional caller is untouched, and they
+             default the way #hashes does -- a fresh, fully-populated table with an empty remap map,
+             which for a GI mod type holds no row of its own and remaps onto nothing
+             @endrst
+             */
+            std::shared_ptr<IndexCounts> indexCounts;
+
+            /**
+             * @brief The ``vg_offset`` of each of the mod's draw slots (WuWa) -- see #indexCounts
+             */
+            std::shared_ptr<VGOffsets> vgOffsets;
+
+            /**
+             * @brief The ``vg_count`` of each of the mod's draw slots (WuWa) -- see #indexCounts
+             */
+            std::shared_ptr<VGCounts> vgCounts;
+
+            /**
+             * @brief The shape-key ``checksum`` of the mod (WuWa) -- see #indexCounts
+             */
+            std::shared_ptr<ShapeKeyChecksums> shapeKeyChecksums;
 
             /**
              * @brief
@@ -420,6 +458,42 @@ namespace AGRemapCore {
                                                const std::optional<Version>& toVersion = std::nullopt,
                                                const std::optional<std::string>& fromComp = std::nullopt,
                                                const std::optional<std::string>& toComp = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
+             The ``match_index_count`` of one of this mod's draw slots (WuWa) :raw-html:`<br />` :raw-html:`<br />`
+
+             The four lookups below are the same shape: the slot is the ``type`` column
+             (``component0``, ``component1``, ...), the ``component`` column is ``""`` for every
+             WWMI row, and a mod type with no row answers ``std::nullopt``. The value is the string
+             the ``.ini`` carries, as :cpp:class:`Indices` values are
+             @endrst
+             *
+             * @param type The draw slot, eg. ``component3``
+             * @param component The component column (``""`` for every shipped row)
+             * @param version The version, or ``std::nullopt`` for the latest
+             */
+            std::optional<std::string> getIndexCount(const std::string& type, const std::string& component = "",
+                                                     const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief The ``vg_offset`` of one of this mod's draw slots (WuWa) -- see #getIndexCount
+             */
+            std::optional<std::string> getVGOffset(const std::string& type, const std::string& component = "",
+                                                   const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief The ``vg_count`` of one of this mod's draw slots (WuWa) -- see #getIndexCount
+             */
+            std::optional<std::string> getVGCount(const std::string& type, const std::string& component = "",
+                                                  const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief The shape-key ``checksum`` of this mod (WuWa) -- see #getIndexCount; the ``type`` is ``shapekeys`` for every shipped row
+             */
+            std::optional<std::string> getShapeKeyChecksum(const std::string& type = "shapekeys", const std::string& component = "",
+                                                           const std::optional<Version>& version = std::nullopt) const;
 
             /**
              * @brief The help text describing this mod type, as the CLI prints it

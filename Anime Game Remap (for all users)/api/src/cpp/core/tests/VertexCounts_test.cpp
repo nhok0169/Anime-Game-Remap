@@ -115,7 +115,8 @@ void testPrePopulated() {
     // column this one has -- see VertexCountData.h's own note). So this number pins THIS table's
     // row count: bump it when a character is added here, and do NOT "correct" it by re-reading the
     // Python dict, which would silently drop Yelan.
-    check(counts.size() == 45, "45 rows -- this table's own count, two ahead of the Python dict's 43");
+    // +2 on 2026-09-19: Sanhua and SanhuaExorcist (WuWa) at 2.5.
+    check(counts.size() == 47, "47 rows -- this table's own count, four ahead of the Python dict's 43");
 
     // Same depth as Hashes now (3), one shallower than Indices (4).
     check(counts.getTotalIndices() == 3, "3 index columns (version, name, component)");
@@ -143,8 +144,9 @@ void testVersionCoverage() {
         versions.insert(v.toString());
     });
 
-    const std::set<std::string> expected = {"4.0", "4.4", "4.6", "4.8", "5.3"};
-    check(versions == expected, "covers exactly the 5 versions the Python dict lists");
+    // 2.5 is Wuthering Waves' (Sanhua / SanhuaExorcist, 2026-09-19), on the same number line.
+    const std::set<std::string> expected = {"2.5", "4.0", "4.4", "4.6", "4.8", "5.3"};
+    check(versions == expected, "covers exactly the 5 versions the Python dict lists, plus WuWa's 2.5");
 }
 
 void testLookups() {

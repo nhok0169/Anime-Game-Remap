@@ -330,6 +330,11 @@ namespace AGRemapCore {
             static IniFixBuilder::Factory giDefault();
 
             /**
+             * @brief The STUB every WuWa row points at until a WWMI fixer exists (2026-09-19) -- :cpp:func:`IniFixBuilder::defaultFactory`
+             */
+            static IniFixBuilder::Factory wwmiStub();
+
+            /**
              * @brief
              @rst
              Stub for the pure-Python ``IniFixBuilderFuncs.rosaria4_0`` -- returns

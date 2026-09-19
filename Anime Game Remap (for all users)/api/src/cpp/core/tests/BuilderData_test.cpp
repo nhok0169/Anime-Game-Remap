@@ -107,7 +107,7 @@ void testTableShape() {
 
     // Counts taken straight from the pure-Python dicts, so a row silently dropped or duplicated
     // during the port shows up here.
-    check(IniParseBuilderData::repo()->size() == 59, "the parse table has all 53 rows from IniParseBuilderData.py, plus Raiden's 6.1 row, LisaStudent's 5.4 one, Yelan's 4.0 one, YelanTranquil's 5.7 one, Bennett's 4.0 one and BennettAdventure's 5.7 one");
+    check(IniParseBuilderData::repo()->size() == 61, "the parse table has all 53 rows from IniParseBuilderData.py, plus Raiden's 6.1 row, LisaStudent's 5.4 one, Yelan's 4.0 one, YelanTranquil's 5.7 one, Bennett's 4.0 one and BennettAdventure's 5.7 one, and the two WuWa stubs (Sanhua, SanhuaExorcist at 2.5)");
     // Counted by toVersion straight out of IniFixBuilderData.cpp on 2026-09-13: 78 historical rows
     // (the 73 Python ones fanned out per target mod, which is what replaced the pure-Python
     // MultiModFixer -- Jean/JeanCN/JeanSea carry TWO each) plus 46 at 6.1 that are this port's own,
@@ -115,11 +115,12 @@ void testTableShape() {
     // enumeration that used to live here fell ten rows behind the literal without anything noticing.
     // +3 on 2026-09-15: Bennett's TWO per-component rows (no Bang -- see BennettFixer.cpp) and
     // BennettAdventure's one merge row.
-    check(IniFixBuilderData::repo()->size() == 128,
-          "the fix table has 128 rows -- 78 historical, plus the 50 at 6.1 this port added");
+    // +2 on 2026-09-19: the two WuWa stub rows, Sanhua <-> SanhuaExorcist at toVersion 2.5.
+    check(IniFixBuilderData::repo()->size() == 130,
+          "the fix table has 130 rows -- 78 historical, the 50 at 6.1 this port added, and the two WuWa stubs");
 
     // The remove table has no Python original -- one row per GI mod type, all at 4.0.
-    check(IniRemoveBuilderData::repo()->size() == 47, "the remove table has one row per GI mod type (43, plus Yelan, YelanTranquil, Bennett and BennettAdventure)");
+    check(IniRemoveBuilderData::repo()->size() == 49, "the remove table has one row per mod type (43 GI, plus Yelan, YelanTranquil, Bennett and BennettAdventure, plus the two WuWa stubs)");
 
     check(IniParseBuilderData::repo()->getTotalIndices() == 2, "the parse table has 2 index columns");
     check(IniParseBuilderData::repo()->getVersionIndexPos() == 0, "with the version at position 0");
@@ -147,16 +148,18 @@ void testVersionCoverage() {
 
 
     // 6.1 is this port's own, carrying Raiden's real parser -- the Python file stops at 5.7.
-    const std::set<std::string> expectedParse = {"4.0", "4.4", "4.6", "4.8", "5.3", "5.4", "5.5", "5.6", "5.7", "6.1"};
+    // 2.5 is Wuthering Waves' (Sanhua / SanhuaExorcist, 2026-09-19): the two games share one
+    // version number line in every table, which is why a WuWa row sits "below" every GI one.
+    const std::set<std::string> expectedParse = {"2.5", "4.0", "4.4", "4.6", "4.8", "5.3", "5.4", "5.5", "5.6", "5.7", "6.1"};
 
-    check(parseVers == expectedParse, "the parse table covers the 9 versions the Python file lists, plus 6.1");
+    check(parseVers == expectedParse, "the parse table covers the 9 versions the Python file lists, plus 6.1, plus WuWa's 2.5");
     check(parseVers.count("5.0") == 0, "and the parse table has no 5.0, matching its Python original");
 
     std::set<std::string> removeVers;
     IniRemoveBuilderData::repo()->forEachEntry([&](const std::vector<std::string>&, const Version& v, const IniRemoveBuilder::Factory&) {
         removeVers.insert(v.toString());
     });
-    check(removeVers == std::set<std::string>{"4.0"}, "the remove table sits entirely at the 4.0 baseline");
+    check(removeVers == std::set<std::string>{"2.5", "4.0"}, "the remove table sits at the 4.0 baseline, plus WuWa's 2.5");
 }
 
 void testRowsResolve() {

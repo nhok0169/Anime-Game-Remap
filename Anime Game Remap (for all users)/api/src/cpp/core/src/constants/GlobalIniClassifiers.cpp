@@ -53,7 +53,11 @@ namespace AGRemapCore {
          */
         const std::unordered_set<std::string>& identifyingHashTypes() {
             static const std::unordered_set<std::string> types = {
-                "ib", "draw_vb", "position_vb", "blend_vb", "texcoord_vb"};
+                "ib", "draw_vb", "position_vb", "blend_vb", "texcoord_vb",
+                // WuWa (2026-09-19): a WWMI mod's slot sections all carry the character's ONE
+                // vertex buffer hash, and it is unique per character -- the only hash a WWMI .ini
+                // ever writes as a 'hash =' line for its geometry.
+                "vb0"};
             return types;
         }
 
@@ -105,6 +109,16 @@ namespace AGRemapCore {
             for (const ModType& modType : GlobalModTypes::all()) {
                 std::optional<ModTypeId> modTypeId = ModTypeIdTools::getEnum(modType.modTypeId);
                 if (!modTypeId.has_value()) {
+                    continue;
+                }
+
+                // A WuWa mod type registers by its hashes alone: a WWMI .ini names its sections
+                // [TextureOverrideComponentN], never after the character, and the classifier's
+                // WuWa half already keys on the $\WWMIv1 marker plus the hash (addWuWaModType).
+                if (modType.gameTypeId == static_cast<int>(GameTypeId::WuWa)) {
+                    auto wuwaHashes = byName.find(modType.name);
+                    classifier.addWuWaModType(ModTypeIdData(static_cast<int>(GameTypeId::WuWa), modType.modTypeId),
+                                              wuwaHashes != byName.end() ? wuwaHashes->second : noHashes);
                     continue;
                 }
 

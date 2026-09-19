@@ -74,6 +74,7 @@ namespace AGRemapCore {
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::xingqiuBamboo4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::yelan4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::yelanTranquil4_0() { return IniRemoveBuilder::defaultFactory(); }
+    IniRemoveBuilder::Factory IniRemoveBuilderFuncs::wwmiStub() { return IniRemoveBuilder::defaultFactory(); }
 
     namespace {
         // The version index sits at position 0 and the mod name at position 1, matching the
@@ -128,6 +129,10 @@ namespace AGRemapCore {
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::XingqiuBamboo)}, IniRemoveBuilderFuncs::xingqiuBamboo4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Yelan)}, IniRemoveBuilderFuncs::yelan4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::YelanTranquil)}, IniRemoveBuilderFuncs::yelanTranquil4_0()},
+
+                // ===== WuWa (2026-09-19), STUBS =====
+                {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua)}, IniRemoveBuilderFuncs::wwmiStub()},
+                {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist)}, IniRemoveBuilderFuncs::wwmiStub()},
             };
         }
     }

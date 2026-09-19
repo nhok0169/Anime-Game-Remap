@@ -13,16 +13,23 @@
 
 #include "AGRemapCore/constants/GlobalModTypes.h"
 
+#include <iterator>
 #include <utility>
 
 #include "AGRemapCore/constants/GIBuilder.h"
+#include "AGRemapCore/constants/WWMIBuilder.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 
 
 namespace AGRemapCore {
 
     std::vector<ModType> GlobalModTypes::all() {
-        return GIBuilder::all();
+        // Every game's builder, aggregated here rather than at each call site -- GI first, then
+        // WuWa (2026-09-19).
+        std::vector<ModType> result = GIBuilder::all();
+        std::vector<ModType> wuwa = WWMIBuilder::all();
+        result.insert(result.end(), std::make_move_iterator(wuwa.begin()), std::make_move_iterator(wuwa.end()));
+        return result;
     }
 
     void GlobalModTypes::registerMissing() {

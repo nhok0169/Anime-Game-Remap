@@ -42,6 +42,10 @@ void initCppModAssets(pybind11::module_ &m);
 void initCppHashes(pybind11::module_ &m);
 void initCppIndices(pybind11::module_ &m);
 void initCppVertexCounts(pybind11::module_ &m);
+void initCppIndexCounts(pybind11::module_ &m);
+void initCppVGOffsets(pybind11::module_ &m);
+void initCppVGCounts(pybind11::module_ &m);
+void initCppShapeKeyChecksums(pybind11::module_ &m);
 void initCppGameTypeId(pybind11::module_ &m);
 void initCppModTypeId(pybind11::module_ &m);
 void initCppModTypeIdData(pybind11::module_ &m);
@@ -55,6 +59,7 @@ void initCppGIMICharBuilders(pybind11::module_ &m);
 void initCppGIMIComponentBuilders(pybind11::module_ &m);
 void initCppStrategyOverrides(pybind11::module_ &m);
 void initCppGIBuilder(pybind11::module_ &m);
+void initCppWWMIBuilder(pybind11::module_ &m);
 void initCppIniClassifyStats(pybind11::module_ &m);
 void initCppBaseIniClassifier(pybind11::module_ &m);
 void initCppIniClassifier(pybind11::module_ &m);
@@ -222,6 +227,10 @@ PYBIND11_MODULE(core, m) {
     initCppHashes(m);
     initCppIndices(m);
     initCppVertexCounts(m);
+    initCppIndexCounts(m); // the four WWMI tables: ModMappedAssets subclasses, so after initCppModMappedAssets like Indices
+    initCppVGOffsets(m);
+    initCppVGCounts(m);
+    initCppShapeKeyChecksums(m);
     initCppGameTypeId(m);
     initCppModTypeId(m);
     initCppModTypeIdData(m);
@@ -239,6 +248,7 @@ PYBIND11_MODULE(core, m) {
     initCppGIMIComponentBuilders(m); // must come after initCppGIMICharBuilders (shares its PyIniParseFactory/PyIniFixFactory wrappers)
     initCppStrategyOverrides(m); // takes Python factories; no ordering constraint of its own
     initCppGIBuilder(m); // must come after initCppModType (its methods return ModType) and initCppModTypeId (uses the ModTypeId enum)
+    initCppWWMIBuilder(m); // same constraints as initCppGIBuilder
     initCppIniClassifyStats(m);
     initCppBaseIniClassifier(m);
     initCppIniClassifier(m); // must come after initCppBaseIniClassifier (registers its base)

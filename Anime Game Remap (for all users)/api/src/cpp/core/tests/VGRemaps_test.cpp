@@ -122,8 +122,9 @@ void testPrePopulated() {
     // still carries an empty fromComp and toComp. So this number pins THIS table's row count: bump
     // it when a remap is added here, rather than reading it back off the Python builder, which would
     // silently drop Yelan.
-    check(Data::getVGRemapDataRows().size() == 63,
-          "63 rows -- this table's own count, eleven ahead of the Python builder's 52");
+    // +2 on 2026-09-19: Sanhua <-> SanhuaExorcist (WuWa), one row each way in the merged skeleton.
+    check(Data::getVGRemapDataRows().size() == 65,
+          "65 rows -- this table's own count, thirteen ahead of the Python builder's 52");
 }
 
 void testRealLookups() {

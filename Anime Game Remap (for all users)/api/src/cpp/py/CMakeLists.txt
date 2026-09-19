@@ -67,6 +67,10 @@ pybind11_add_module(core
     src/model/assets/PyHashes.cpp
     src/model/assets/PyIndices.cpp
     src/model/assets/PyVertexCounts.cpp
+    src/model/assets/PyIndexCounts.cpp
+    src/model/assets/PyVGOffsets.cpp
+    src/model/assets/PyVGCounts.cpp
+    src/model/assets/PyShapeKeyChecksums.cpp
     src/model/assets/PyVGRemaps.cpp
     src/model/strategies/PyModTypeIdData.cpp
     src/model/strategies/PyModType.cpp
@@ -77,6 +81,7 @@ pybind11_add_module(core
     src/constants/PyModTypeId.cpp
     src/constants/PyGlobalModTypes.cpp
     src/constants/PyGIBuilder.cpp
+    src/constants/PyWWMIBuilder.cpp
     src/constants/PyStrategyOverrides.cpp
     src/tools/parsing/PyToken.cpp
     src/tools/parsing/PyParseContext.cpp

@@ -13,6 +13,8 @@
 
 #include "AGRemapCore/data/HashData.h"
 
+#include "AGRemapCore/constants/ModTypeId.h"
+
 // See HashData.h's class-level note: mechanically generated from the real, live pure-Python
 // HashData dict, verified row-for-row identical before being committed -- not hand-transcribed.
 //
@@ -1304,6 +1306,18 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"5.4", "LisaStudent", "tex_body_diffuse"}, "02cb9df7"},
         {{"5.4", "LisaStudent", "tex_body_lightmap"}, "cbf77c41"},
 
+
+        // ===== WuWa: Sanhua and SanhuaExorcist (2026-09-19) =====
+        // Sanhua (2.5), from WWMI-Assets' Metadata.json: vb0 is the one vertex buffer every slot section matches on and the hash that identifies the character; cb4 is the bone-data constant buffer (shared by every WuWa character); the two shape-key hashes are what the ShapeKeyOffsets / ShapeKeyScale overrides match
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "vb0"}, "33e4890f"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "cb4"}, "f02baf77"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "shapekey_offsets"}, "a80e0e2b"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "shapekey_scale"}, "bf231a78"},
+        // SanhuaExorcist (2.5), from WWMI-Assets' Metadata.json: vb0 is the one vertex buffer every slot section matches on and the hash that identifies the character; cb4 is the bone-data constant buffer (shared by every WuWa character); the two shape-key hashes are what the ShapeKeyOffsets / ShapeKeyScale overrides match
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "vb0"}, "b101dcf3"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "cb4"}, "f02baf77"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "shapekey_offsets"}, "d709b169"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "shapekey_scale"}, "c0bf5479"},
     };
     return rows;
 }

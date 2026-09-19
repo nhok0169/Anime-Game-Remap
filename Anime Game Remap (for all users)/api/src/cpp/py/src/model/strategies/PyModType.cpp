@@ -28,6 +28,10 @@
 
 #include "AGRemapCore/model/assets/Hashes.h"
 #include "AGRemapCore/model/assets/Indices.h"
+#include "AGRemapCore/model/assets/IndexCounts.h"
+#include "AGRemapCore/model/assets/ShapeKeyChecksums.h"
+#include "AGRemapCore/model/assets/VGCounts.h"
+#include "AGRemapCore/model/assets/VGOffsets.h"
 #include "AGRemapCore/model/assets/VGRemaps.h"
 #include "AGRemapCore/model/assets/VertexCounts.h"
 #include "AGRemapCore/model/files/IniFile.h"
@@ -99,13 +103,42 @@ aliases: Optional[List[:class:`str`]]
         // mutations (addRepoRows/addMap), which is exactly what the pure-Python original did with
         // its ordinary object references. nullptr/None means "give me my own fully-populated
         // default", which is NOT the same as an empty table.
-        .def(py::init<int, int, const std::string &, const std::vector<std::string> &,
-                      std::shared_ptr<AGRC::Hashes>, std::shared_ptr<AGRC::Indices>,
-                      std::shared_ptr<AGRC::VertexCounts>, std::shared_ptr<AGRC::VGRemaps>>(),
+        //
+        // The four WWMI-only tables come after the builders in the C++ constructor (so no
+        // positional C++ caller moved) but are not exposed here in that position: the builders are
+        // not bound, so the lambda passes nullptr for them and forwards the tables after vgRemaps.
+        .def(py::init([](int gameTypeId, int modTypeId, const std::string &name, const std::vector<std::string> &aliases,
+                         std::shared_ptr<AGRC::Hashes> hashes, std::shared_ptr<AGRC::Indices> indices,
+                         std::shared_ptr<AGRC::VertexCounts> vertexCounts, std::shared_ptr<AGRC::VGRemaps> vgRemaps,
+                         std::shared_ptr<AGRC::IndexCounts> indexCounts, std::shared_ptr<AGRC::VGOffsets> vgOffsets,
+                         std::shared_ptr<AGRC::VGCounts> vgCounts, std::shared_ptr<AGRC::ShapeKeyChecksums> shapeKeyChecksums) {
+                 return AGRC::ModType(gameTypeId, modTypeId, name, aliases, std::move(hashes), std::move(indices),
+                                      std::move(vertexCounts), std::move(vgRemaps), nullptr, nullptr, nullptr,
+                                      std::move(indexCounts), std::move(vgOffsets), std::move(vgCounts), std::move(shapeKeyChecksums));
+             }),
              py::arg("gameTypeId"), py::arg("modTypeId"), py::arg("name"),
              py::arg("aliases") = std::vector<std::string>{},
              py::arg("hashes") = nullptr, py::arg("indices") = nullptr,
-             py::arg("vertexCounts") = nullptr, py::arg("vgRemaps") = nullptr)
+             py::arg("vertexCounts") = nullptr, py::arg("vgRemaps") = nullptr,
+             py::arg("indexCounts") = nullptr, py::arg("vgOffsets") = nullptr,
+             py::arg("vgCounts") = nullptr, py::arg("shapeKeyChecksums") = nullptr)
+
+        .def_readwrite("indexCounts", &AGRC::ModType::indexCounts,
+    py::doc(R"doc(:class:`IndexCounts`: The ``match_index_count`` of each of the mod's draw slots (WuWa)
+
+The first of the four WWMI-only asset tables -- this, :attr:`vgOffsets`, :attr:`vgCounts` and
+:attr:`shapeKeyChecksums` -- each an :class:`Indices` sibling keyed by the draw slot as its ``type``.
+Same defaulting and sharing rules as :attr:`hashes`; a GI mod type's holds no row of its own
+    )doc"))
+
+        .def_readwrite("vgOffsets", &AGRC::ModType::vgOffsets,
+    py::doc(R"doc(:class:`VGOffsets`: The ``vg_offset`` of each of the mod's draw slots (WuWa) -- see :attr:`indexCounts`)doc"))
+
+        .def_readwrite("vgCounts", &AGRC::ModType::vgCounts,
+    py::doc(R"doc(:class:`VGCounts`: The ``vg_count`` of each of the mod's draw slots (WuWa) -- see :attr:`indexCounts`)doc"))
+
+        .def_readwrite("shapeKeyChecksums", &AGRC::ModType::shapeKeyChecksums,
+    py::doc(R"doc(:class:`ShapeKeyChecksums`: The shape-key ``checksum`` of the mod (WuWa) -- see :attr:`indexCounts`)doc"))
 
         .def_readwrite("hashes", &AGRC::ModType::hashes,
     py::doc(R"doc(:class:`Hashes`: The hashes related to the mod and its fix
@@ -199,6 +232,44 @@ Returns
 Optional[:class:`int`]
     The vertex count, or ``None`` if this mod type has no row for it
         )doc"))
+
+        .def("getIndexCount", &AGRC::ModType::getIndexCount, py::arg("type"), py::arg("component") = "", py::arg("version") = py::none(), py::doc(R"doc(
+Retrieves the ``match_index_count`` of one of this mod's draw slots (WuWa)
+
+The four WWMI lookups (this, :meth:`getVGOffset`, :meth:`getVGCount`, :meth:`getShapeKeyChecksum`)
+share one shape: the slot is the ``type`` (``component0``, ``component1``, ...), ``component`` is
+``""`` on every shipped row, and the value comes back as the string the ``.ini`` carries, as an
+:class:`Indices` value does
+
+Parameters
+----------
+type: :class:`str`
+    The draw slot, eg. ``component3``
+
+component: :class:`str`
+    The component column :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``""``
+
+version: Optional[:class:`CppVersion`]
+    The game version wanted :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``, meaning the latest
+
+Returns
+-------
+Optional[:class:`str`]
+    The value, or ``None`` if this mod type has no row for it
+        )doc"))
+
+        .def("getVGOffset", &AGRC::ModType::getVGOffset, py::arg("type"), py::arg("component") = "", py::arg("version") = py::none(),
+             py::doc(R"doc(Retrieves the ``vg_offset`` of one of this mod's draw slots (WuWa) -- see :meth:`getIndexCount`)doc"))
+
+        .def("getVGCount", &AGRC::ModType::getVGCount, py::arg("type"), py::arg("component") = "", py::arg("version") = py::none(),
+             py::doc(R"doc(Retrieves the ``vg_count`` of one of this mod's draw slots (WuWa) -- see :meth:`getIndexCount`)doc"))
+
+        .def("getShapeKeyChecksum", &AGRC::ModType::getShapeKeyChecksum, py::arg("type") = "shapekeys", py::arg("component") = "", py::arg("version") = py::none(),
+             py::doc(R"doc(Retrieves the shape-key ``checksum`` of this mod (WuWa) -- see :meth:`getIndexCount`; ``type`` is ``shapekeys`` on every shipped row)doc"))
 
         .def("getVGRemap", &AGRC::ModType::getVGRemap, py::arg("modName"), py::arg("fromVersion") = py::none(),
              py::arg("toVersion") = py::none(), py::arg("fromComp") = py::none(), py::arg("toComp") = py::none(),

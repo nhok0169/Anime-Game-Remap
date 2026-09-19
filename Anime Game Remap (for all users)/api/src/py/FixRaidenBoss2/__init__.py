@@ -64,6 +64,7 @@ from .core import ModType
 from .core import CppGlobalModTypes
 from .core import CppStrategyOverrides
 from .core import GIBuilder
+from .core import WWMIBuilder
 from .core import IniClassifyStats
 from .core import BaseIniClassifier
 from .core import IniClassifier
@@ -78,6 +79,10 @@ from .core import ModAssets
 from .core import Hashes
 from .core import Indices
 from .core import VertexCounts
+from .core import IndexCounts
+from .core import VGOffsets
+from .core import VGCounts
+from .core import ShapeKeyChecksums
 from .core import VGRemaps
 from .core import BufType
 from .core import BufDataType
@@ -351,7 +356,7 @@ from .main import remapMain
 ##### EndLocalImports
 
 __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
-           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppGlobalModTypes", "CppStrategyOverrides", "IniClassifyStats", "BaseIniClassifier", "IniClassifier", "IniFile", "BaseLogger", "Logger", "CppVersion", "ModDictAssets", "ModMappedAssets", "ModAssets", "Hashes", "Indices", "VertexCounts", "VGRemaps",
+           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppGlobalModTypes", "CppStrategyOverrides", "IniClassifyStats", "BaseIniClassifier", "IniClassifier", "IniFile", "BaseLogger", "Logger", "CppVersion", "ModDictAssets", "ModMappedAssets", "ModAssets", "Hashes", "Indices", "VertexCounts", "VGRemaps", "IndexCounts", "VGOffsets", "VGCounts", "ShapeKeyChecksums",
            "CppBufFile", "BlendFile", "PositionFile", "IbFile", "VbFile", "BaseBufEditor", "BufEditor",
            "CppColour", "CppColourRange", "CppTextureFile",
            "CppBasePixelTransform", "CppCorrectGamma", "CppColourReplace", "CppHighlightShadow", "CppInvertAlpha", "CppTempControl", "CppTintTransform", "CppTransparency",
@@ -369,7 +374,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 
-           "BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "Colours", "DownloadMode", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniGraphModObjKeywords", "IniKeywords", "IniBoilerPlate", "IniGraphReplaceMode", "GameTypeNames", "GameTypes", "GIBuilder", "GlobalClassifiers", "GlobalCompilerParts", "GlobalIniRemoveBuilders", "GlobalPackageManager", "IfPredPartType", "BaseModTypeBuilder", "ModTypeNames", "ModTypes", "ModTypeBuilder", "TexMetadataNames", "TexEngine", "RegFillMissingMode", 
+           "BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "Colours", "DownloadMode", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniGraphModObjKeywords", "IniKeywords", "IniBoilerPlate", "IniGraphReplaceMode", "GameTypeNames", "GameTypes", "GIBuilder", "WWMIBuilder", "GlobalClassifiers", "GlobalCompilerParts", "GlobalIniRemoveBuilders", "GlobalPackageManager", "IfPredPartType", "BaseModTypeBuilder", "ModTypeNames", "ModTypes", "ModTypeBuilder", "TexMetadataNames", "TexEngine", "RegFillMissingMode", 
            "ShortCommandOpts", "CommandOpts",
            "HashData", "IndexData", "ModData", "ModDataAssets", "VGRemapDataBuilder", "vgRemapDataBuilder",
            "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", "InvalidDownloadMode", "InvalidGameType",

@@ -1487,6 +1487,35 @@ One `activeInis()` helper, used everywhere, is the whole fix.
 
 <br>
 
+## A SCREENSHOT STATISTIC IS ONLY AS GOOD AS ITS MASK, AND A WRONG MASK READS THE SAME (2026-09-20)
+
+Comparing a part of a character between the base and a remap means selecting its pixels out of two
+screenshots, and **a statistic over the wrong region looks exactly like one over the right region**
+-- a tidy table, plausible numbers, no error. Three versions of one such measurement were written
+in a day and the first two were wrong:
+
+| the selection | what it also took | what it said |
+| --- | --- | --- |
+| every reddish pixel in the left 45% of the frame | the character-portrait card in the corner, on two of five shots | the base has 3x our highlights |
+| the largest connected red component | the ear and the neck on four shots, the WEAPON BLADE on the fifth | the base has 3x our highlights |
+| saturated red inside a centroid window | the part | **the base is DARKER, and our contrast is already higher** |
+
+Two rounds of in-game work went into chasing the highlights that were not there. Three rules, all
+of them cheap:
+
+- **Look at the mask.** Paint the selection over a dimmed copy of each shot and read the picture
+  before the table. `Tools/Misc/Diagnostics/screenshotPart.py --preview` does exactly that, and it
+  is thirty seconds against a round of the maintainer's time.
+- **Select by SATURATION, not by hue or by position.** Skin and a saturated fabric overlap badly in
+  hue (skin passes any "R is well above G" test) and not at all in saturation -- measured, skin
+  near 0.25 and the fabric near 0.55.
+- **Normalise against a control in the SAME shot.** Screenshots are exposures. The hair (dark,
+  desaturated) and the skin (bright, warm) are in every shot and no remap round touches them, so
+  report the part as a ratio to each; a number that moves while both controls move with it is the
+  scene, not the fix.
+
+<br>
+
 ## WHEN YOU CANNOT TELL WHAT A DRAW IS USING, REPLACE THE TEXTURE WITH SOMETHING UNMISTAKABLE (2026-09-15)
 
 Bennett's remapped hair came out in patches of different white. Three hypotheses were measured,

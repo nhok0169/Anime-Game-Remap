@@ -631,8 +631,35 @@ texture while being a small-integer code per pixel (median 4, max 82), which is 
 belongs is a different material rather than a darker one. The fix binds a flat neutral there. It was
 found by BISECTING with a flat colour per register over four in-game rounds, and the two strongest
 hypotheses on the way were both wrong; the method is in "A REGISTER THE TARGET'S SHADER READS AND THE
-SOURCE'S DOES NOT". **The mask repack and the geometry fix are confirmed in game; the neutral binding
-is one round from it, and the reverse direction is unseen.** WWMI-Assets has neither of them, so everything comes from frame dumps
+SOURCE'S DOES NOT". **THEN FOUR ROUNDS WENT ON ONE PART -- her hair RIBBON, right in colour and
+wrong in surface -- and the first two of them chased a difference that was not there, because the
+MEASUREMENT was wrong.** Comparing a part between two screenshots means selecting its pixels, and a
+statistic over the wrong region reads exactly like one over the right region: "every reddish pixel
+in the left 45%" swallowed the character-portrait card in the corner, and "the largest connected red
+component" took the ear, the neck, and on one shot the WEAPON BLADE. Both tables said the base had
+three times the remap's highlights, which is the opposite of the truth. Selecting by SATURATION
+inside a centroid window, and reporting the part as a ratio to the hair and skin of the SAME shot,
+says the base is simply DARKER. See [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "A screenshot
+statistic is only as good as its mask" and `Tools/Misc/Diagnostics/screenshotPart.py`, whose
+`--preview` paints the pixels it used. Under a correct mask the ribbon was three real defects, each
+its own section in Creating Remaps: **a pass is a register layout and only the draw that SETS it
+says what it is** (of the four draws of that slot one sets the whole set and three inherit, so a
+carried-forward slot table reads as four layouts -- and that pass turns out to be the clothing
+layout with `ps-t0` and `ps-t2` exchanged, so the config had the diffuse on the detail slot and the
+normal map on the MATCAP slot; `Tools/Misc/Diagnostics/wwmiPassLayout.py`); **the mask's GREEN
+channel is how shiny a surface is**, not a material id, so the flat cloth code invented for a role
+the source lacks says "the mattest cloth on the model"; and **a shader family is a COLOUR GRADE** --
+her ribbon is painted by a hair shader and the skin has nowhere to draw it but a cloth one, which
+renders the same diffuse at x1.15 where hers renders it at (0.89, 0.69, 0.66), and the only place to
+put that back is the texture (`ColourGrades`, the GI side's `DarkDiffuse` idea, written with the
+sRGB bit or it undoes itself). **The geometry fix, the mask repack, the neutral binding and all
+three ribbon fixes are confirmed in game; the reverse direction is unseen.** What is left on the
+ribbon is a measured ceiling rather than a defect: split into a gain and an additive ambient from
+two texture points, the cloth shader's ambient floor is sRGB 44-52 per channel and the base's ribbon
+renders AT it, so the last 11 of green and 15 of blue are not reachable by any texture edit --
+brightness now matches exactly (part/hair 1.56 against 1.56) and saturation is 0.585 against 0.659.
+Past that lies routing the component through one of the target's HAIR slots, which merges it into a
+hair draw. WWMI-Assets has neither of them, so everything comes from frame dumps
 (`Tools/Misc/Prototypes/wwmiExtractDump.py`, which runs WWMI Tools' own extractor outside Blender):
 the download folders `Data/Mod Downloads/WuWa/Chisa/2_8` and `ChisaParfait/3_5`, both `ModTypeId`s
 with their hash / index / count / vg / shape-key rows, a `VGRemapData` row each way out of

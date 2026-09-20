@@ -1351,6 +1351,9 @@ first. Read the report's WORDS against the left column before opening any code (
 | a translucent RED over the clothes AND the skin, the pictures showing through | the material mask the mod DOES ship, in the SOURCE's packing: the target's shader reads it as bare skin | repack it -- ask the diffuse which value means skin on each side |
 | a translucent hue that SURVIVES a correct mask, over the parts one shader has an extra input for | a register the TARGET's pass reads and the source's does not: the skin's own map stays bound and its codes land at the mod's UVs | bind a flat neutral there; bisect which register rather than guessing |
 | eyes wrong on one mod only | the eye pass reads the iris at `ps-t2`, mask at `ps-t1`; or two hashes on one role | the plan's eye bindings; the duplicate-role WARNING |
+| one part's colour right and its surface flat -- no relief, no sheen | the plan mirrors a layout read off a draw that INHERITED its registers, or off a sibling pass that orders them differently | `wwmiPassLayout.py`: which draw sets the whole set, and what each bound texture IS by its pixels |
+| a part reads matte where the source is satin | the flat mask invented for it carries the cloth code, G = 0, which is "not shiny at all" | the medians of the TARGET's own pixels of that kind (`G > 64`) |
+| a part is the right colour and too BRIGHT or too PALE, and no register changes it | the source draws it on a different shader FAMILY, which is a colour grade | `ColourGrades` -- and measure the ambient floor before promising to reach the base |
 
 Two things that were suspected and were NOT the cause, each ruled out by reading rather than by
 argument: RabbitFX (its shader patch changes no pixel without a glow map bound through its own
@@ -1528,6 +1531,100 @@ which is worth as much as the bisect -- twice in this session a build never reac
 and the screenshot that came back was of the previous one. See Overview's habit 34's neighbour:
 **a diagnostic that cannot be confused with the thing it is diagnosing is the first thing to
 build.**
+
+### A PASS IS A REGISTER LAYOUT, AND ONLY THE DRAW THAT SETS IT SAYS WHAT IT IS (2026-09-20)
+
+`wwmiDrawTable.py` carries bindings forward the way the device does, which is right for "what was
+bound when this drew" and wrong for "what this shader reads". A slot is drawn several times a
+frame, and usually **one** of those draws issues a full `PSSetShaderResources` while the others set
+`ps-t0` and inherit the rest. In the carried-forward table all of them look fully bound, so one
+slot reads as several different layouts -- and mirroring one of the inherited ones onto the target
+mirrors *another component's leftover state*.
+
+Measured on ChisaParfait's slot 5: of its four draws, `87825a9a` sets `ps-t0`..`ps-t7`, `3df800c3`
+sets `ps-t0` (a 1x1 black), and the other two set nothing at all. And on Chisa herself that whole
+slot is drawn ONCE, by a hair shader that sets her diffuse at `ps-t0` and inherits the front hair's
+mask, normal, sheen ramp and matcap for everything else -- so "the bindings the source makes" for
+her ribbon are, literally, another object's.
+
+**And two shaders of one game need not agree about the order.** Classify each bound texture by its
+PIXELS -- a normal map is `(R, G, B = 0)` around 127, a material mask is coded (R high, G low,
+B ~126, A 0), a detail map is near black, a matcap is small -- and the layouts fall out:
+
+| pass | ps-t0 | ps-t1 | ps-t2 | ps-t3 | ps-t5 |
+| --- | --- | --- | --- | --- | --- |
+| `a99f09b6` lower body | **normal** | mask | detail | diffuse | matcap |
+| `3311e8a5` upper body | **normal** | mask | detail | diffuse | matcap |
+| `87825a9a` slot 5 | **detail** | mask | **normal** | diffuse | matcap |
+
+The slot 5 pass is the clothing layout with `ps-t0` and `ps-t2` **exchanged**. A config written
+from its neighbours put the ribbon's diffuse on the detail slot, the front hair's diffuse on the
+mask slot and the ribbon's own normal map on the MATCAP slot, and the symptom -- right colour,
+no relief, no sheen -- is not one any of those three would suggest on its own.
+`Tools/Misc/Diagnostics/wwmiPassLayout.py` prints both halves.
+
+<br>
+
+### THE MASK'S GREEN CHANNEL IS HOW SHINY THE SURFACE IS (2026-09-20)
+
+The WuWa material mask is not a small set of material ids: R and G both vary continuously (its
+dominant buckets on one atlas are `(224, 0, 120, 0)` at 13%, `(248, 0, 120, 0)` at 5%, and a long
+tail). Plotting G over each atlas says what G is -- **zero across flat fabric and high along every
+lace edge, ribbon trim and pleat highlight**. ChisaParfait's two body atlases are 3.2% and 6.1%
+above G 64; her slot 5, the frilled and beribboned one, is 29.4%.
+
+So the flat mask a fix invents for a role the source has no file for must not be the plain cloth
+code: `TargetMaskCloth`, with G = 0, tells the shader the part is the mattest cloth on the model.
+Take the medians of the target's OWN pixels of that kind instead -- for Chisa's ribbon, the 1.2M
+pixels of the skin's slot 5 mask with G > 64, which give `(222, 90, 126, 0)`.
+
+<br>
+
+### A SHADER FAMILY IS A COLOUR GRADE, AND ITS AMBIENT IS THE FLOOR A GRADE CANNOT REACH (2026-09-20)
+
+When the source draws a part on one shader family and the target has nowhere to draw it but
+another, the two render the same texture differently and **no binding can change that**. Measure it
+by reading both sides against the SAME texture -- the diffuse sampled at that component's own
+vertices -- rather than against each other:
+
+```
+the accessory diffuse at the ribbon's vertices   (148, 65, 68)
+Chisa's HAIR shader renders it                   (132, 45, 45)  = the texture x (0.89, 0.69, 0.66)
+the skin's CLOTH shader renders it               (171, 73, 78)  = the texture x (1.16, 1.12, 1.15)
+```
+
+Hers darkens and deepens; the cloth one is a near-flat brightness gain. That difference is what a
+report of "less metallic and dark red" is about, and it does not move when registers do.
+
+**Put it back in the texture.** `ColourGrades` in the Chisa prototype is a role-keyed per-channel
+gain -- the ratio of the two responses -- written as `<Role><Target>RemapTex.dds` beside the mask
+repacks and bound in its place; the GI side has been doing this since `DarkDiffuse`. Two things
+about writing one:
+
+- **the corrected copy must carry the sRGB bit.** The accessory diffuse is `BC7_UNORM_SRGB`, and an
+  untagged copy is sampled as linear -- brighter and flatter, undoing the correction and then some.
+- **check a statistic you did NOT fit.** The gain was fitted on the median RGB; the graded
+  texture's SATURATION then came out 0.658 against the base render's 0.659, which is what says the
+  model is a shader response rather than a curve through two points.
+
+**And know where it stops.** With two texture points -- the same mod fixed with the plain diffuse
+and with the graded one -- the cloth shader's response splits in linear light into a gain and an
+**additive ambient**, and that ambient is a floor no texture edit can go under:
+
+```
+          gain   ambient        the base's ribbon    a texture that would reach it
+   R      1.28   sRGB 51.6      132                  111
+   G      0.87   sRGB 43.9       45                   13
+   B      0.84   sRGB 50.2       45                  BLACK, and still too bright
+```
+
+The base's ribbon renders at or below that floor, so the last 11 of green and 15 of blue are not
+available. Measured after grading: `part / hair` **1.56** against the base's **1.56**, R 135
+against 132, and saturation 0.585 against 0.659. That is the ceiling of drawing a hair-shaded part
+through a cloth shader, and the only way past it is routing the component through one of the
+target's HAIR slots, which merges it into a hair draw.
+
+<br>
 
 ### WuWa: choosing test mods by structural axis (2026-09-19)
 

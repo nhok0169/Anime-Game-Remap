@@ -173,9 +173,10 @@ PaintNames = {0: "red", 1: "green", 2: "blue", 3: "yellow", 4: "magenta", 5: "cy
 NeutralBindings = {3: {"ps-t2": (0, 0, 0, 255)}, 4: {"ps-t2": (0, 0, 0, 255)}}
 NeutralName = "DetailZero"      # the resource / file stem of the flat map bound there
 
-ProbeColours = [("ps-t2", (0, 255, 0, 255), "green"), ("ps-t4", (0, 0, 255, 255), "blue"),
-                ("ps-t5", (255, 255, 0, 255), "yellow"), ("ps-t6", (0, 255, 255, 255), "cyan"),
-                ("ps-t7", (255, 0, 255, 255), "magenta"), ("ps-t8", (255, 128, 0, 255), "orange")]
+ProbeColours = [("ps-t2", (0, 255, 0, 255), "green"), ("ps-t3", (255, 255, 255, 255), "white"),
+                ("ps-t4", (0, 0, 255, 255), "blue"), ("ps-t5", (255, 255, 0, 255), "yellow"),
+                ("ps-t6", (0, 255, 255, 255), "cyan"), ("ps-t7", (255, 0, 255, 255), "magenta"),
+                ("ps-t8", (255, 128, 0, 255), "orange")]
 ProbeSlots = {3, 4}                             # the source components a --probe run paints; the rest are left readable
 
 # A --probe run takes an optional SPEC -- `--probe 3:ps-t4,4:ps-t5` -- naming the registers to
@@ -274,7 +275,7 @@ Roles = {
     "6ae8dd10": "faceMask", "d030af95": "faceDiffuse",
     "526b9ed0": "upperNormal", "90196068": "upperMask", "165f3a1b": "upperDiffuse",
     "2b6f8bcb": "lowerNormal", "3f0e6f21": "lowerMask", "f642139e": "lowerDiffuse",
-    "019c268e": "accessoryDiffuse", "40528957": "accessoryNormal",
+    "019c268e": "accessoryDiffuse", "40528957": "accessoryNormal", "4eaa9816": "accessorySheen",
     "226b31fc": "irisDiffuse",
     # 742c5c7b (1024 sRGB) and 8224e584 (2048 sRGB) are bound by BOTH characters -- a shared detail
     #   texture and an eye one -- so they are left to the game rather than given a role to rebind
@@ -296,7 +297,13 @@ Plan = {
     #   from, so it kept the skin's 2f911db8 through four rounds. --paint over EVERY register is what
     #   found it: painting only the role called "diffuse" left the ribbon untouched and looked like
     #   the slot was not ours at all.
-    5: (5, {"ps-t0": "accessoryDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}),
+    #   ps-t3 is the one the RIBBON reads, found by giving each of the slot's remaining registers its
+    #   own probe colour: it came back white, which was ps-t3's. Chisa binds a 256 x 128 grey stripe
+    #   ramp there (4eaa9816, an anisotropic sheen) and the skin binds her pink frilly art, so the
+    #   ribbon wore the skin's pattern. The mod ships no such file -- it is the game's -- so it comes
+    #   through FallbackTextures out of the download folder.
+    5: (5, {"ps-t0": "accessoryDiffuse", "ps-t1": "frontHairDiffuse", "ps-t3": "accessorySheen",
+            "ps-t5": "frontHairNormal"}),
     6: (6, {"ps-t1": "irisDiffuse"}),
 }
 Plans = {"default": Plan}
@@ -304,9 +311,27 @@ Labels = {0: "front hair", 1: "hair", 2: "face", 3: "upper body", 4: "lower body
 TargetLabels = {0: "front hair", 1: "hair", 2: "face", 3: "upper body", 4: "lower body",
                 5: "the skin's own (nothing maps onto it)", 6: "eyes", 7: "the skin's own, right hip (nothing maps onto it)"}
 
-# No chain of Chisa's has been shown to need pinning to its root bone yet (header, point 6); the shape
-#   is Sanhua's, {root source group: [the chain's other groups]}, for the first in-game round to fill.
-AnchorChains: Dict[str, Dict[int, List[int]]] = {}
+# THE SAILOR COLLAR HAS NO COUNTERPART ON THE SKIN, so its bones cannot all be matched well and the
+#   finder scatters them: of the bones that carry it, the targets land in the skin's HAIR window
+#   (31, 32, 37, 44, 56, 69, 70), her upper body (72, 87, 119, 120) and even her lower body (167).
+#   Bones 1.9 to 7.6 apart on Chisa end up 17 to 27 apart on the skin, which tears the collar off the
+#   shoulder -- reported in game as jagged and floating (2026-09-20).
+#
+#   Every one of those rows is already AT its nearest target by centroid, so there is nothing to
+#   correct row by row: the tear is structural, and the answer is the Yelan lesson -- pin the chain
+#   to one bone so the part stays rigid and attached instead of being pulled between several.
+#
+#   The chain is the bones whose weight lies MOSTLY on collar vertices, which are selected by
+#   sampling Chisa's own atlas at each vertex's UV (the collar is its white, low-saturation region)
+#   rather than by guessing at bone numbers -- collarAnchor.py in the session scratchpad. A bone that
+#   merely reaches the collar is left alone: 152 carries 34% of its weight but only 12% of ITS OWN
+#   weight is collar, and pinning that would rigidify the whole jacket.
+#
+#   Measured before being believed: vertices torn by more than 3 units go 372 -> 202 over the collar
+#   and 2016 -> 1829 over the whole component, so it does not buy the collar at the shoulder's cost.
+AnchorChains: Dict[str, Dict[int, List[int]]] = {
+    "collar": {233: [192, 201, 202, 204, 223, 224, 228, 229, 230, 231, 232, 234, 240, 241]},
+}
 
 
 def anchoredRemap(remap: Dict[int, int], mode: str) -> Dict[int, int]:
@@ -518,12 +543,17 @@ AssetsFolder = os.path.join(Repo, "Data", "Mod Downloads", "WuWa", SourceName, S
 # the API downloads the same file from the repo, the prototype copies it out of AssetsFolder. Roles whose
 # hash BOTH skins bind (eyeMask c88cc1fc, faceMask 46177147) need none: the target's texture IS the source's.
 FallbackTextures: Dict[str, str] = {
-    "bangsDiffuse": "ae6e9014", "bangsMask": "1c0c8b91", "t5Ramp": "1035197c",
-    "hairDiffuse": "68ca7071", "hairNormal": "cef6494f", "faceDiffuse": "881c236d",
-    "skinNormal": "e39835c7", "skinDiffuse": "fde0f298",
-    "bodiceNormal": "efb25eb3", "bodiceMask": "89ba19a1", "bodiceDiffuse": "abda232b",
-    "skirtNormal": "f3b217ab", "skirtMask": "f0713dc7", "skirtDiffuse": "c689a8ee",
-    "irisDiffuse": "1dcc0f1d",
+    # CHISA's hashes -- this table arrived as a copy of Sanhua's and sat unmeasured until 2026-09-20,
+    #   where every role name matched hers and every hash did not, so a role the mod lacked would have
+    #   fetched a file that does not exist in this folder. Only `accessorySheen` is actually reached
+    #   today: every other role here is one a mod of Chisa ships for itself.
+    "frontHairMask": "d3b9ba76", "frontHairDiffuse": "f2646d21", "frontHairNormal": "9ccd7ea7",
+    "hairMask": "a842d51f", "hairDiffuse": "cbab5910", "hairNormal": "e921181d",
+    "faceMask": "6ae8dd10", "faceDiffuse": "d030af95",
+    "upperNormal": "526b9ed0", "upperMask": "90196068", "upperDiffuse": "165f3a1b",
+    "lowerNormal": "2b6f8bcb", "lowerMask": "3f0e6f21", "lowerDiffuse": "f642139e",
+    "accessoryDiffuse": "019c268e", "accessoryNormal": "40528957", "accessorySheen": "4eaa9816",
+    "irisDiffuse": "226b31fc",
 }
 IdentityMin, IdentityGap = 0.97, 0.90   # a file IS a game texture when its colour correlates >= IdentityMin with one asset and < IdentityGap with every other
 ComponentFilePattern = re.compile(r"component[\s_-]*(\d+)[\s_-]+([a-z]+)\.dds$", re.IGNORECASE)
@@ -1274,7 +1304,7 @@ def main():
     parser.add_argument("--hideOrig", action = "store_true", help = f"comment out the mod's own {SourceName} sections, so the mod renders on {TargetName} only")
     parser.add_argument("--undo", action = "store_true", help = "remove a previous fix instead of fixing")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
-    parser.add_argument("--anchor", choices = ["ribbons", "all"], default = None,
+    parser.add_argument("--anchor", choices = sorted(AnchorChains) + ["all"], default = None,
                         help = "pin a chain the skin has no counterpart for to its root bone -- AnchorChains is empty for this pair until an in-game round needs one")
     parser.add_argument("--shapeKeys", choices = ["hide", "leave", "retarget"], default = "hide",
                         help = f"the mod's shape-key sections: 'hide' (default) comments them out like the maintainer's working hand remap, 'leave' keeps them on {SourceName}'s own hashes, 'retarget' copies them onto {TargetName}'s buffer -- see the header, points 8 and 9")

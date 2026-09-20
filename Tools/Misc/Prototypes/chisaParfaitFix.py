@@ -917,7 +917,23 @@ class WWMIBlendReplace(FRB.RemapBlendReplace):
 VertexVGFile = "BlendRemapVertexVG.buf"     # WWMI's per-vertex 16-bit merged bone ids, beside Blend.buf
 
 
-def remapWWMIBlend(vgRemap, forced: bool, vertexCount: int):
+def weightsPerVertexOf(sections) -> Optional[int]:
+    """`$\\WWMIv1\\weights_per_vertex_count` out of the mod's own .ini, wherever it sets it.
+
+    WWMI writes it beside `custom_vertex_count` in whichever command list configures the mesh, so
+    this scans every section rather than naming one."""
+    for lines in sections.values():
+        for line in lines:
+            key, value = keyValue(line)
+            if (key is not None and key.replace("\\", "/").endswith("WWMIv1/weights_per_vertex_count")):
+                try:
+                    return int(value)
+                except ValueError:
+                    return None
+    return None
+
+
+def remapWWMIBlend(vgRemap, forced: bool, declared: Optional[int], libraryVertexCount: int):
     """A RemapBlendResource fixFunc: Blend.buf -> the resource's fixed path, indices through 'vgRemap'
     (the library's row the resource carries, unless 'forced' says the script's table wins).
 
@@ -940,16 +956,27 @@ def remapWWMIBlend(vgRemap, forced: bool, vertexCount: int):
 
         blend = np.fromfile(resource.srcPath, dtype = np.uint8)
         ids16 = np.fromfile(vertexVG, dtype = "<u2")
-        # the influences a vertex has (4 for Sanhua, 8 for Chisa) is the only unknown, and the
-        #   library's vertex count gives it: Blend.buf is 2n bytes a vertex, VertexVG n uint16s
-        if (vertexCount <= 0 or blend.size % (2 * vertexCount) or ids16.size % vertexCount):
-            raise SystemExit(f"'{os.path.basename(resource.srcPath)}' is {blend.size} bytes and '{VertexVGFile}' {ids16.size * 2} "
-                             f"for {vertexCount} vertices: neither divides evenly")
-        weightsPerVertex = blend.size // (2 * vertexCount)
-        if (ids16.size // vertexCount != weightsPerVertex):
-            raise SystemExit(f"'{VertexVGFile}' holds {ids16.size // vertexCount} ids a vertex where Blend.buf holds {weightsPerVertex}")
-        rows = blend.reshape(vertexCount, 2 * weightsPerVertex)
-        ids = ids16.reshape(vertexCount, weightsPerVertex).astype(np.int64)
+
+        # THE INFLUENCES A VERTEX HAS COME FROM THE MOD, AND SO DOES ITS VERTEX COUNT (2026-09-20).
+        #   Blend.buf is 2n bytes a vertex and VertexVG n uint16s, so ONE of n and the vertex count
+        #   gives the other -- and this used to take the count from the library's VertexCountData
+        #   row. That is the SOURCE CHARACTER's count, which is the mod's only when the mod is the
+        #   identity mod: a real Chisa mod came in at 74835 vertices against her own 64588, nothing
+        #   divided, the blend was skipped, and the .ini it had already written bound a
+        #   RemapBlend.buf that was never created -- so the model did not draw at all. The mod
+        #   states n itself (`$\WWMIv1\weights_per_vertex_count`), which is the only figure here
+        #   that is a property of the export rather than of the character.
+        weights = declared if (declared and declared > 0) else None
+        if (weights is None and libraryVertexCount > 0 and not blend.size % (2 * libraryVertexCount)):
+            weights = blend.size // (2 * libraryVertexCount)      # a mod that does not say, at the library's count
+        if (not weights or blend.size % (2 * weights) or ids16.size % weights):
+            raise SystemExit(f"'{os.path.basename(resource.srcPath)}' is {blend.size} bytes and '{VertexVGFile}' "
+                             f"{ids16.size * 2} at {weights} influences a vertex: neither divides evenly")
+        vertexCount = blend.size // (2 * weights)
+        if (ids16.size // weights != vertexCount):
+            raise SystemExit(f"'{VertexVGFile}' is {ids16.size // weights} vertices where Blend.buf is {vertexCount}")
+        rows = blend.reshape(vertexCount, 2 * weights)
+        ids = ids16.reshape(vertexCount, weights).astype(np.int64)
 
         # 'remap' is this script's dict when the run forced one and the resource's own VGRemap
         #   otherwise -- the API's BlendFile takes either, a dict lookup does not
@@ -965,9 +992,10 @@ def remapWWMIBlend(vgRemap, forced: bool, vertexCount: int):
             raise SystemExit(f"a remapped bone index of {int(mapped.max())} does not fit the 8-bit Blend.buf; "
                              f"{TargetName} would need blend remap buffers of its own, which this prototype does not write")
 
-        out = np.concatenate([mapped.astype(np.uint8), rows[:, weightsPerVertex:]], axis = 1)
+        out = np.concatenate([mapped.astype(np.uint8), rows[:, weights:]], axis = 1)
         out.tofile(resource.fixedPath)
-        print(f"    blend: {rows.shape[0]} vertices x {weightsPerVertex} influences, ids taken from {VertexVGFile} "
+        note = "" if (rows.shape[0] == libraryVertexCount) else f" (the LIBRARY's row for {SourceName} says {libraryVertexCount})"
+        print(f"    blend: {rows.shape[0]} vertices x {weights} influences{note}, ids taken from {VertexVGFile} "
               f"(the mod carries a blend remap), highest remapped bone {int(mapped.max())}")
         return True
     return fix
@@ -1212,7 +1240,10 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
         blendRefs = {(0, "", f"{SlotPrefix}{i}"): (lambda reg, resName, data: not resName.strip().lower().startswith("ref "))
                      for i in files.present if (i in plan)}
         graphEdits.append(FRB.ResRegCollect({(0, "", f"{SlotPrefix}{i}"): "vb4" for i in files.present if (i in plan)},
-                                            {"blend": WWMIBlendReplace((0, "", "blend"), resType = "blend", fixFunc = remapWWMIBlend(vgRemap, forcedRemap, source["vertex_count"]))},
+                                            {"blend": WWMIBlendReplace((0, "", "blend"), resType = "blend",
+                                                                       fixFunc = remapWWMIBlend(vgRemap, forcedRemap,
+                                                                                                weightsPerVertexOf(files.sections),
+                                                                                                source["vertex_count"]))},
                                             resPredicates = blendRefs))
 
         # ---- the target slots nothing is drawn through: skipped, and their bones still merged ----
@@ -1476,6 +1507,40 @@ def runService(folder: str, args) -> None:
             print(f"  {os.path.relpath(path, folder)}")
         for path, error in s.skipped.items():
             print(f"  SKIPPED {os.path.relpath(path, folder)}: {error}")
+
+    dangling = danglingReferences(stats.ini.fixed)
+    if (dangling):
+        # A SKIPPED RESOURCE IS A DANGLING REFERENCE, AND THE .INI IS ALREADY WRITTEN. The service
+        #   catches a resource that raises, records it under `skipped`, and moves on -- but the
+        #   fixed .ini has already been written naming the file that resource was going to create,
+        #   so the mod is left binding something that is not there. A buffer 3dmigoto cannot create
+        #   is not a missing texture: the draw gets no vertex data and the model DOES NOT RENDER,
+        #   which is how a `SKIPPED ... Blend.buf` line two screens up turns into "the character
+        #   disappeared" (2026-09-20). Say it at the end, where the exit code and the last line are.
+        print(f"\n!! {len(dangling)} REFERENCE(S) IN THE FIXED .ini NAME A FILE THAT IS NOT THERE -- the mod will not render !!")
+        for iniPath, reference in dangling:
+            print(f"  {os.path.relpath(iniPath, folder)} -> {reference}")
+        print("  a resource above was skipped; fix that, or undo, before looking in game")
+
+
+def danglingReferences(iniPaths) -> List[Tuple[str, str]]:
+    """Every `filename = ...` of a fixed .ini whose file is not on disk (check_dangling.py's rule,
+    run by the fix itself rather than remembered afterwards)"""
+    out: List[Tuple[str, str]] = []
+    for iniPath in sorted(iniPaths):
+        folder = os.path.dirname(iniPath)
+        try:
+            with open(iniPath, "r", encoding = "utf-8", errors = "replace") as f:
+                lines = f.readlines()
+        except OSError:
+            continue
+        for line in lines:
+            key, value = keyValue(line)
+            if (key is None or key.lower() != "filename" or not value):
+                continue
+            if (not os.path.isfile(os.path.join(folder, value.replace("\\", os.sep).replace("/", os.sep)))):
+                out.append((iniPath, value))
+    return out
 
 
 def main():

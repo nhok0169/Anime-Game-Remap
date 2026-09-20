@@ -170,6 +170,14 @@ PaintColours = {0: (255, 0, 0, 255), 1: (0, 255, 0, 255), 2: (0, 0, 255, 255), 3
                 4: (255, 0, 255, 255), 5: (0, 255, 255, 255), 6: (255, 128, 0, 255)}
 PaintNames = {0: "red", 1: "green", 2: "blue", 3: "yellow", 4: "magenta", 5: "cyan", 6: "orange"}
 
+# --passPaint <slot>: one flat colour per PASS of that slot, on every register. A slot is drawn
+#   several times per frame by different shaders, and only the pass that actually paints a surface
+#   matters -- mirroring the source's bindings on the WRONG pass looks exactly like mirroring them
+#   badly. Whichever colour the surface takes names the pass, and then the source's own bindings for
+#   THAT pass are the ones to copy.
+PassPaintColours = [(255, 0, 0, 255), (0, 255, 0, 255), (0, 0, 255, 255), (255, 255, 0, 255)]
+PassPaintNames = ["red", "green", "blue", "yellow"]
+
 NeutralBindings = {3: {"ps-t2": (0, 0, 0, 255)}, 4: {"ps-t2": (0, 0, 0, 255)}}
 NeutralName = "DetailZero"      # the resource / file stem of the flat map bound there
 
@@ -214,7 +222,11 @@ SlotPasses = {0: ["c0ad88a930c4d853", "71f60c461ae3f166"], 1: ["71f60c461ae3f166
               #   hair ribbon and its tails (component 5 spans z 72..144), so the two missing passes
               #   drew the ribbon in ChisaParfait's pink instead of Chisa's red -- reported in game
               #   2026-09-20. passCoverage.py lists every pass per slot against this table.
-              5: ["3df800c350681ec9", "87825a9a29529f9b", "ced9a47fb6ad4d16"], 6: ["da00ec8f7c73d5e3"]}
+              # only the pass CHISA also draws her accessory on keeps the plan's map, which mirrors her
+              #   bindings exactly. The skin's other two accessory passes are shaders Chisa never
+              #   draws at all, so there is nothing of hers to mirror and they get their own map
+              #   below, from what the probe measured rather than from what she binds.
+              5: ["3df800c350681ec9"], 6: ["da00ec8f7c73d5e3"]}
 # A slot's OTHER passes bind the same art at DIFFERENT registers, so they need their own map.
 #   `21176cf6` and `32414b55` take each slot's diffuse at ps-t0 where the main pass takes it at
 #   ps-t1 (hair) or ps-t3 (clothing), and both take a per-character pair at ps-t1 / ps-t5. Generated
@@ -230,6 +242,17 @@ ExtraPassRegs = {
     2: {"259b766b59f72419": {"ps-t0": "upperDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
     3: {"21176cf68a65ab7a": {"ps-t0": "upperDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
     4: {"21176cf68a65ab7a": {"ps-t0": "lowerDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
+    # THE RIBBON IS PAINTED BY 87825a9a, AND ON IT ps-t3 IS THE COLOUR, NOT ps-t0 (2026-09-20).
+    #   Both facts are measured, because neither could be read off a dump: Chisa draws NEITHER of
+    #   these two shaders, so there is no binding of hers to mirror. A colour per PASS on this slot
+    #   came back green, which was 87825a9a's; and a colour per REGISTER came back white, which was
+    #   ps-t3's. So that register carries her accessory DIFFUSE here, where on the pass she does
+    #   draw (3df800c3) the same register carries her sheen ramp. Mirroring a source's bindings onto
+    #   a pass it never draws is a guess however carefully the tables are read.
+    5: {"87825a9a29529f9b": {"ps-t0": "accessoryDiffuse", "ps-t1": "frontHairDiffuse",
+                             "ps-t3": "accessoryDiffuse", "ps-t5": "frontHairNormal"},
+        "ced9a47fb6ad4d16": {"ps-t0": "accessoryDiffuse", "ps-t1": "frontHairDiffuse",
+                             "ps-t3": "accessoryDiffuse", "ps-t5": "frontHairNormal"}},
 }
 
 # A CHARACTER IS NOT ONLY HER vb0 MESH. Chisa and ChisaParfait both draw a SECOND mesh, vb0
@@ -881,7 +904,7 @@ def effectiveRemap(sourceType, target, remapOverride: Optional[Dict[int, int]], 
 
 
 def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = None, anchor: Optional[str] = None, shapeKeys: bool = False, probe: object = False,
-              planName: str = "default", paint: bool = False):
+              planName: str = "default", paint: bool = False, paintPass: Optional[int] = None):
     plan = Plans[planName]
     source, target = characterFromLibrary(sourceType), characterFromLibrary(targetType)
     vgRemap, forcedRemap = effectiveRemap(sourceType, target, remapOverride, anchor)
@@ -1013,6 +1036,24 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                 appended.append("\n".join([f"[{cmdList}]", f"if ps == {PassFilters[ps]}"] + extra + ["endif", ""]))
                 additions.append(("run", cmdList))
                 extraLegend.append(f"      component {i} on {ps}: {', '.join(f'{r}={v}' for r, v in sorted(extraRegs.items()))}")
+
+            if (paintPass is not None and i == paintPass):
+                # one command list per pass, each a different flat colour on every register
+                additions = [a for a in additions if a[0] != "run"]
+                for n, ps in enumerate(SlotPasses[slot]):
+                    colour, name = PassPaintColours[n % len(PassPaintColours)], PassPaintNames[n % len(PassPaintNames)]
+                    resource = fixName(f"ResourcePass{name.capitalize()}")
+                    if (resource not in painted):
+                        rel = os.path.join(files.textureFolder, f"Pass{name.capitalize()}{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
+                        os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
+                        writeSolidDds(os.path.join(ini.folder, rel), colour)
+                        appended.append("\n".join([f"[{resource}]", f"filename = {rel}", ""]))
+                        painted.add(resource)
+                    cmdList = fixName(f"CommandList{SourceName}{SlotPrefix.capitalize()}{i}Pass{n}")
+                    appended.append("\n".join([f"[{cmdList}]", f"if ps == {PassFilters[ps]}"]
+                                               + [f"    ps-t{r} = {resource}" for r in range(9)] + ["endif", ""]))
+                    additions.append(("run", cmdList))
+                    paintLegend.append(f"      component {i} on pass {ps} -> flat {name}")
 
             if (additions):
                 # right after the shared-resource override (the mod's buffers are bound there): the EARLIEST spot
@@ -1324,6 +1365,8 @@ def main():
                         help = "comment the mod's own [TextureOverrideTexture] sections out too, as the hand remap does")
     parser.add_argument("--noSplit", action = "store_true",
                         help = "keep every remapped section in mod.ini (default: one section per target draw per file, the rest in <stem>ChisaParfaitRemapFix<n>.ini -- see the header, point 11)")
+    parser.add_argument("--passPaint", type = int, default = None, metavar = "SLOT",
+                        help = "one flat colour per PASS of that source component, to see which pass paints a surface")
     parser.add_argument("--paint", action = "store_true",
                         help = "replace every slot's diffuse with a flat colour, one per source component, to see which slot draws which part")
     parser.add_argument("--probe", nargs = "?", const = True, default = False, metavar = "SPEC",
@@ -1347,7 +1390,7 @@ def main():
     retarget = (args.shapeKeys == "retarget")
     FRB.CppStrategyOverrides.setParser(SourceName, makeParser(sourceType, retarget))
     probe = parseProbeSpec(args.probe) if isinstance(args.probe, str) else args.probe
-    FRB.CppStrategyOverrides.setFixer(SourceName, TargetName, makeFixer(sourceType, targetType, remapOverride, args.anchor, retarget, probe, args.plan, args.paint))
+    FRB.CppStrategyOverrides.setFixer(SourceName, TargetName, makeFixer(sourceType, targetType, remapOverride, args.anchor, retarget, probe, args.plan, args.paint, args.passPaint))
     try:
         runService(folder, args)
     finally:

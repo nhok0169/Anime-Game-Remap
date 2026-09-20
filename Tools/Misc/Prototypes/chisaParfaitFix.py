@@ -180,6 +180,8 @@ PassPaintNames = ["red", "green", "blue", "yellow"]
 
 NeutralBindings = {3: {"ps-t2": (0, 0, 0, 255)}, 4: {"ps-t2": (0, 0, 0, 255)}}
 NeutralName = "DetailZero"      # the resource / file stem of the flat map bound there
+FlatName = "Flat"
+TargetMaskCloth = (255, 0, 126, 0)              # the skin's own dominant code, ie. ordinary cloth: R 93.6%, G 80.1%, B 84.8%, A 98.2%               # the stem of a flat map an ExtraPassRegs entry asks for by COLOUR
 
 ProbeColours = [("ps-t2", (0, 255, 0, 255), "green"), ("ps-t3", (255, 255, 255, 255), "white"),
                 ("ps-t4", (0, 0, 255, 255), "blue"), ("ps-t5", (255, 255, 0, 255), "yellow"),
@@ -204,7 +206,6 @@ def parseProbeSpec(spec: Optional[str]) -> Optional[Dict[int, List[str]]]:
     return out
 
 MaskTranslations = {"upperMask", "lowerMask"}   # the roles whose file is repacked before it is bound
-TargetMaskCloth = (255, 0, 126, 0)              # the skin's own dominant code, ie. ordinary cloth: R 93.6%, G 80.1%, B 84.8%, A 98.2%
 TargetMaskSkinR = 0                             # what she marks bare skin with, in R
 SourceMaskSkinAbove = 128                       # Chisa's R at or above this is bare skin
 ShapeKeyZero = "ShapeKeyZero"               # the zero shape-key offset stream bound at vb6 (sanhuaExorcistFix.py's header, point 10)
@@ -242,22 +243,31 @@ ExtraPassRegs = {
     2: {"259b766b59f72419": {"ps-t0": "upperDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
     3: {"21176cf68a65ab7a": {"ps-t0": "upperDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
     4: {"21176cf68a65ab7a": {"ps-t0": "lowerDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
-    # THE RIBBON IS PAINTED BY 87825a9a, AND ON IT ps-t3 IS THE COLOUR, NOT ps-t0 (2026-09-20).
-    #   Both facts are measured, because neither could be read off a dump: Chisa draws NEITHER of
-    #   these two shaders, so there is no binding of hers to mirror. A colour per PASS on this slot
-    #   came back green, which was 87825a9a's; and a colour per REGISTER came back white, which was
-    #   ps-t3's. So that register carries her accessory DIFFUSE here, where on the pass she does
-    #   draw (3df800c3) the same register carries her sheen ramp. Mirroring a source's bindings onto
-    #   a pass it never draws is a guess however carefully the tables are read.
-    #   ps-t5 is her ACCESSORY normal here, not the front hair's. On 3df800c3 she really does bind
-    #   the hair normal at that register and the mirror keeps it; on these two there is nothing to
-    #   mirror, and the hair map is a fan of high-contrast strands (9ccd7ea7) which on a ribbon reads
-    #   as a mottled, matte surface where the base is smooth satin. 40528957 is the same part's own
-    #   normal -- smooth panels with the ribbon's structure.
-    5: {"87825a9a29529f9b": {"ps-t0": "accessoryDiffuse", "ps-t1": "frontHairDiffuse",
-                             "ps-t3": "accessoryDiffuse", "ps-t5": "accessoryNormal"},
-        "ced9a47fb6ad4d16": {"ps-t0": "accessoryDiffuse", "ps-t1": "frontHairDiffuse",
-                             "ps-t3": "accessoryDiffuse", "ps-t5": "accessoryNormal"}},
+    # THE RIBBON'S PASS IS A CLOTHING SHADER WITH THE NORMAL AND THE DETAIL MAP SWAPPED (2026-09-20).
+    #   87825a9a is the pass that paints it (a colour per PASS came back green, which was its), and
+    #   it is the ONLY draw of the target's slot 5 that sets the whole register set itself -- the
+    #   other three set ps-t0 alone and inherit the rest, which is what made a carried-forward slot
+    #   table read as four different layouts. What each register HOLDS was then read off the pixels
+    #   of the textures the game binds there, against the two body clothing passes:
+    #
+    #        pass                    ps-t0            ps-t1      ps-t2            ps-t3     ps-t5
+    #        a99f09b6 (lower body)   NORMAL RG,B=0    mask       detail ~black    diffuse   matcap
+    #        3311e8a5 (upper body)   NORMAL RG,B=0    mask       detail ~black    diffuse   matcap
+    #        87825a9a (slot 5)       detail ~black    mask       NORMAL RG,B=0    diffuse   matcap
+    #
+    #   So this pass is the clothing layout with ps-t0 and ps-t2 EXCHANGED, and the earlier map had
+    #   the diffuse on the detail slot, the front hair's diffuse on the mask slot, and the ribbon's
+    #   own normal on the MATCAP slot -- which is why the ribbon came out flat and un-metallic while
+    #   its colour was right (reported in game, 2026-09-20). Only ps-t3 was ever correct.
+    #
+    #   Chisa has no accessory mask and no accessory detail map -- her ribbon is drawn on a HAIR
+    #   shader (3df800c3) that binds one texture, her diffuse at ps-t0, and inherits the front
+    #   hair's maps for the rest -- so those two registers take a flat created map rather than the
+    #   skin's own sampled at the mod's UVs, which is the material-mask bug of the round before.
+    5: {"87825a9a29529f9b": {"ps-t0": (0, 0, 0, 255), "ps-t1": TargetMaskCloth,
+                             "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse"},
+        "ced9a47fb6ad4d16": {"ps-t0": (0, 0, 0, 255), "ps-t1": TargetMaskCloth,
+                             "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse"}},
 }
 
 # A CHARACTER IS NOT ONLY HER vb0 MESH. Chisa and ChisaParfait both draw a SECOND mesh, vb0
@@ -1032,9 +1042,41 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                 condition = " || ".join(f"ps == {PassFilters[ps]}" for ps in SlotPasses[slot])
                 appended.append("\n".join([f"[{cmdList}]", f"if {condition}"] + bindings + ["endif", ""]))
                 additions.append(("run", cmdList))
+            def flat(colour):
+                """A created solid-colour resource, for a register the TARGET's shader reads and the
+                   SOURCE has no texture for. Leaving it unbound hands the target's own map to the
+                   mod's UVs, which is the material-mask bug; a flat map in the target's own legend
+                   says the one thing that is true of every pixel of the part."""
+                stem = "{}{:02X}{:02X}{:02X}{:02X}".format(FlatName, *colour)
+                resource = fixName(f"Resource{stem}")
+                if (resource not in neutrals):
+                    rel = os.path.join(files.textureFolder,
+                                       f"{stem}{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace(chr(92), "/")
+                    os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
+                    writeSolidDds(os.path.join(ini.folder, rel), colour)
+                    appended.append(chr(10).join([f"[{resource}]", f"filename = {rel}", ""]))
+                    neutrals.add(resource)
+                return resource
+
             for n, (ps, extraRegs) in enumerate(ExtraPassRegs.get(slot, {}).items()):
-                extra = [f"    {reg} = {bound(role)}" for reg, role in extraRegs.items()
-                         if (role in files.resourceOfRole)]
+                extra = [f"    {reg} = {flat(role) if isinstance(role, tuple) else bound(role)}"
+                         for reg, role in extraRegs.items()
+                         if (isinstance(role, tuple) or role in files.resourceOfRole)]
+                # a --probe spec reaches these lists too: the register that paints a surface is a
+                #   property of the PASS, and the pass that paints the ribbon is one the source
+                #   never draws, so probing only the primary list would answer about the wrong draw
+                for reg, colour, name in ProbeColours:
+                    if (reg in extraRegs or reg not in (probeRegs or [])):
+                        continue
+                    resource = fixName(f"ResourceProbe{name.capitalize()}")
+                    if (resource not in probed):
+                        probeFile = os.path.join(files.textureFolder, f"Probe{name.capitalize()}{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
+                        os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
+                        writeSolidDds(os.path.join(ini.folder, probeFile), colour)
+                        appended.append(chr(10).join([f"[{resource}]", f"filename = {probeFile}", ""]))
+                        probed.add(resource)
+                    extra.append(f"    {reg} = {resource}")
+                    probeLegend.append(f"      component {i} on {ps} {reg} -> {name}")
                 if (not extra):
                     continue
                 cmdList = fixName(f"CommandList{SourceName}{SlotPrefix.capitalize()}{i}TexturesPass{n}")

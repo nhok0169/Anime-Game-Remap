@@ -197,9 +197,35 @@ ShapeKeyStride = 24                         # bytes a vertex in that stream, off
 #   (21176cf6, 32414b55, 259b766b) bind only globals and are left to the game, as are slot 0's
 #   94d9d5e9 and slot 6's 92ca4bd9. Slot 7 is absent: nothing is drawn through it.
 SlotPasses = {0: ["c0ad88a930c4d853", "71f60c461ae3f166"], 1: ["71f60c461ae3f166"], 2: ["2060326dcea397fb"],
-              3: ["3311e8a58d8c5d20"], 4: ["a99f09b6f36e94af"], 5: ["3df800c350681ec9"], 6: ["da00ec8f7c73d5e3"]}
+              3: ["3311e8a58d8c5d20"], 4: ["a99f09b6f36e94af"],
+              # slot 5 draws on THREE art passes, not one: 87825a9a and ced9a47f bind her own
+              #   accessory diffuse at ps-t0 just as 3df800c3 does, and a pass the config does not
+              #   name renders the mod's geometry with the GAME's textures. Chisa's accessory is her
+              #   hair ribbon and its tails (component 5 spans z 72..144), so the two missing passes
+              #   drew the ribbon in ChisaParfait's pink instead of Chisa's red -- reported in game
+              #   2026-09-20. passCoverage.py lists every pass per slot against this table.
+              5: ["3df800c350681ec9", "87825a9a29529f9b", "ced9a47fb6ad4d16"], 6: ["da00ec8f7c73d5e3"]}
+# A slot's OTHER passes bind the same art at DIFFERENT registers, so they need their own map.
+#   `21176cf6` and `32414b55` take each slot's diffuse at ps-t0 where the main pass takes it at
+#   ps-t1 (hair) or ps-t3 (clothing), and both take a per-character pair at ps-t1 / ps-t5. Generated
+#   rather than judged (genPassRegs.py in the session scratchpad): for every pass the TARGET draws a
+#   slot on, whatever the SOURCE binds on that same pass for that component, wherever the two
+#   differ and the source's texture has a role. A pass left out renders the mod's geometry with the
+#   GAME's textures -- run `Tools/Misc/Diagnostics/wwmiPassCoverage.py` after changing either table.
+ExtraPassRegs = {
+    0: {"21176cf68a65ab7a": {"ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"},
+        "32414b557630d98d": {"ps-t0": "hairDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
+    1: {"21176cf68a65ab7a": {"ps-t0": "hairDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"},
+        "32414b557630d98d": {"ps-t0": "hairDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
+    2: {"259b766b59f72419": {"ps-t0": "upperDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
+    3: {"21176cf68a65ab7a": {"ps-t0": "upperDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
+    4: {"21176cf68a65ab7a": {"ps-t0": "lowerDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
+}
+
 FilterBase = 3381.71   # 3dmigoto keys [ShaderOverride] by shader hash GLOBALLY, so these sit clear of the Sanhua fix's 3381.91 and the reverse one's 3381.81
-PassFilters = {ps: f"{FilterBase + 0.01 * i:.4f}".rstrip("0") for i, ps in enumerate(dict.fromkeys(ps for passes in SlotPasses.values() for ps in passes))}
+PassFilters = {ps: f"{FilterBase + 0.01 * i:.4f}".rstrip("0")
+               for i, ps in enumerate(dict.fromkeys([ps for passes in SlotPasses.values() for ps in passes]
+                                                    + [ps for byPass in ExtraPassRegs.values() for ps in byPass]))}
 
 # Chisa's textures by the hash the game binds them under, with the role each plays in its component's
 #   MAIN pass -- read off FrameAnalysis-Chisa-2026-09-20-013225's slot table, and the kind of each
@@ -797,6 +823,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
         probeLegend: List[str] = []
         neutrals: set = set()                           # NeutralBindings: the flat map, declared once per .ini
         neutralLegend: List[str] = []
+        extraLegend: List[str] = []                     # ExtraPassRegs: the slot's other passes
         appended: List[str] = files.declare(fixName)     # the textures this .ini has no resource of its own for
         appended += files.fallbacks([role for i in files.present if (i in plan) for role in plan[i][1].values()])
         # ...and the masks whose PACKING differs between the two skins, repacked (MaskTranslations)
@@ -873,6 +900,16 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                 condition = " || ".join(f"ps == {PassFilters[ps]}" for ps in SlotPasses[slot])
                 appended.append("\n".join([f"[{cmdList}]", f"if {condition}"] + bindings + ["endif", ""]))
                 additions.append(("run", cmdList))
+            for n, (ps, extraRegs) in enumerate(ExtraPassRegs.get(slot, {}).items()):
+                extra = [f"    {reg} = {files.resourceOfRole[role]}" for reg, role in extraRegs.items()
+                         if (role in files.resourceOfRole)]
+                if (not extra):
+                    continue
+                cmdList = fixName(f"CommandList{SourceName}{SlotPrefix.capitalize()}{i}TexturesPass{n}")
+                appended.append("\n".join([f"[{cmdList}]", f"if ps == {PassFilters[ps]}"] + extra + ["endif", ""]))
+                additions.append(("run", cmdList))
+                extraLegend.append(f"      component {i} on {ps}: {', '.join(f'{r}={v}' for r, v in sorted(extraRegs.items()))}")
+
             if (additions):
                 # right after the shared-resource override (the mod's buffers are bound there): the EARLIEST spot
                 # after it, so a component drawn in several ranges has its textures before the FIRST draw. No
@@ -925,6 +962,10 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             writeSolidDds(os.path.join(ini.folder, maskFile), SkinMaskColour)
             appended.append("\n".join([f"[{maskResource}]", f"filename = {maskFile}", ""]))
 
+        if (extraLegend):
+            print("    the slot's OTHER passes, bound as the source's own game binds them:")
+            for line in extraLegend:
+                print(line)
         if (neutralLegend):
             print("    registers the target's shader reads and the source's does not, flattened:")
             for line in neutralLegend:

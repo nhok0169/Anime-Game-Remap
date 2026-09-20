@@ -75,6 +75,11 @@ namespace AGRemapCore {
             std::string iniFolder() const override;
             std::optional<Version> version() const override;
             std::vector<Assets*> modTypeHashes() const override;
+
+            /**
+             * @brief The names a fix of this file could carry -- see :cpp:func:`IniRemoveContext::modTypeNames`
+             */
+            std::vector<std::string> modTypeNames() const override;
             std::vector<std::string> readFileLines() override;
             std::unordered_map<std::string, Section*> sectionIfTemplates() const override;
             std::string fileTxt() const override;

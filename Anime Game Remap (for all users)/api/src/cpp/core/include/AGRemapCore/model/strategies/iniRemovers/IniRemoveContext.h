@@ -135,6 +135,30 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The NAMES a fix of this ``.ini`` file could have written into its `section`_ names --
+             every :cpp:class:`ModType` the file was classified as, and every mod type each of
+             those remaps onto :raw-html:`<br />` :raw-html:`<br />`
+
+             :cpp:func:`RemapIniRemover::collectCandidates` uses them to recognise a previous fix's
+             leftovers OUTSIDE the fix's own boilerplate, where the rule used to be "the name
+             contains ``Remap``" and is now "the name contains ``<modName>Remap``"
+             (:cpp:func:`IniNamingTools::getRemapName`'s own shape). The old rule took a mod's OWN
+             `sections`_ with it: a WWMI mod whose merged skeleton passes 256 bones declares
+             ``ResourceBlendRemapVertexVGBuffer`` / ``...ForwardBuffer`` / ``...ReverseBuffer``
+             for WWMI's blend remap, and an undo deleted all three ``.buf`` files -- on a mod that
+             had never been fixed, since every fix undoes first (Chisa, 2026-09-20)
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: empty, which keeps the old bare-keyword behaviour -- a context that does
+             not know its mod types (and every standalone test that builds a remover by hand) is no
+             worse off than before
+             @endrst
+             */
+            virtual std::vector<std::string> modTypeNames() const { return {}; }
+
+            /**
+             * @brief
+             @rst
              The text lines of the ``.ini`` file, reading it from disk first if that has not
              happened yet -- the equivalent of the pure-Python original's ``_readLines`` decorator
              :raw-html:`<br />` :raw-html:`<br />`

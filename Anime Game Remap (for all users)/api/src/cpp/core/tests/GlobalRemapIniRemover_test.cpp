@@ -146,11 +146,11 @@ const std::string OrigMod =
 const std::string LeftoverIni =
     OrigMod +
     "\n"
-    "[TextureOverrideFooRemapBlend]\n"
-    "vb1 = ResourceFooRemapBlend\n"
+    "[TextureOverrideFooAmberRemapBlend]\n"
+    "vb1 = ResourceFooAmberRemapBlend\n"
     "\n"
-    "[ResourceFooRemapBlend]\n"
-    "filename = FooRemapBlend.buf\n";
+    "[ResourceFooAmberRemapBlend]\n"
+    "filename = FooAmberRemapBlend.buf\n";
 
 // One file-less IniFile with no mod type at all, plus a remover of the requested kind bound to it.
 template <typename RemoverType>
@@ -182,7 +182,7 @@ void testSweepsWhatTheStrictRuleCannotSee() {
     Fixture<Strict> strict(LeftoverIni);
     std::string strictResult = strict.remover->remove(false, false);
 
-    check(strictResult.find("[TextureOverrideFooRemapBlend]") != std::string::npos,
+    check(strictResult.find("[TextureOverrideFooAmberRemapBlend]") != std::string::npos,
           "RemapIniRemover leaves an unattributable leftover standing");
     check(strict.remover->getTargetSectionNames().empty(),
           "and finds no targets at all on a file with no mod types and no boilerplate");
@@ -191,7 +191,7 @@ void testSweepsWhatTheStrictRuleCannotSee() {
     std::string result = global.remover->remove(false, false);
 
     const std::vector<std::string>& targets = global.remover->getTargetSectionNames();
-    check(contains(targets, "TextureOverrideFooRemapBlend") && contains(targets, "ResourceFooRemapBlend"),
+    check(contains(targets, "TextureOverrideFooAmberRemapBlend") && contains(targets, "ResourceFooAmberRemapBlend"),
           "GlobalRemapIniRemover makes every Remap-named leftover a target");
 
     check(result.find("Remap") == std::string::npos, "nothing Remap-named is left in the file");
@@ -251,8 +251,8 @@ void testResourcesStillComeOut() {
 
     if (blends != resources.end() && blends->second.size() == 1) {
         const std::string& srcPath = blends->second[0]->srcPath;
-        check(srcPath.find("FooRemapBlend.buf") != std::string::npos, "and it is the right file");
-        check(srcPath.find("FooBlend.buf") == std::string::npos || srcPath.find("FooRemapBlend.buf") != std::string::npos,
+        check(srcPath.find("FooAmberRemapBlend.buf") != std::string::npos, "and it is the right file");
+        check(srcPath.find("FooBlend.buf") == std::string::npos || srcPath.find("FooAmberRemapBlend.buf") != std::string::npos,
               "the surviving original's own .buf is not collected");
     }
 

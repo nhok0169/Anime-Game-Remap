@@ -288,7 +288,15 @@ Plan = {
     2: (2, {"ps-t0": "faceMask", "ps-t1": "faceDiffuse"}),
     3: (3, {"ps-t0": "upperNormal", "ps-t1": "upperMask", "ps-t3": "upperDiffuse"}),
     4: (4, {"ps-t0": "lowerNormal", "ps-t1": "lowerMask", "ps-t3": "lowerDiffuse"}),
-    5: (5, {"ps-t0": "accessoryDiffuse", "ps-t5": "accessoryNormal"}),   # UNVERIFIED: the skin's slot 5 binds no texture of its own (header)
+    # MEASURED, not guessed (2026-09-20): on the pass both skins draw this slot with (3df800c3)
+    #   Chisa binds 019c268e / f2646d21 / 9ccd7ea7 at ps-t0 / t1 / t5 -- her accessory diffuse and
+    #   then the FRONT HAIR pair, which is the per-character pair every other slot carries too. The
+    #   guess had ps-t5 as the accessory normal (40528957), which she binds on a pass the skin never
+    #   draws this slot on, and had no ps-t1 at all -- and ps-t1 is where the ribbon's colour comes
+    #   from, so it kept the skin's 2f911db8 through four rounds. --paint over EVERY register is what
+    #   found it: painting only the role called "diffuse" left the ribbon untouched and looked like
+    #   the slot was not ours at all.
+    5: (5, {"ps-t0": "accessoryDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}),
     6: (6, {"ps-t1": "irisDiffuse"}),
 }
 Plans = {"default": Plan}
@@ -914,6 +922,13 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
 
             bindings = [f"    {reg} = {bound(role)}"
                         for reg, role in regs.items() if (role == SkinMask or role in files.resourceOfRole)]
+            if (paint):
+                # --paint is a question about GEOMETRY, not about a role: bind every register the
+                #   target's passes read, so anything this slot draws is unmistakable whatever the
+                #   shader samples. A surface still showing its own art after this is not ours.
+                painted.add(fixName(f"ResourcePaint{PaintNames[i].capitalize()}"))
+                flat = fixName(f"ResourcePaint{PaintNames[i].capitalize()}")
+                bindings = [f"    ps-t{n} = {flat}" for n in range(9)]
             for reg, colour in NeutralBindings.get(i, {}).items():
                 if (reg in regs):
                     continue

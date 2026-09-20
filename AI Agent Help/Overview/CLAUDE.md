@@ -559,6 +559,16 @@ written `unitTestResults.txt` -- a crash mid-suite leaves the progress dots and 
 `python -X faulthandler main.py` names the test (a runner with `verbosity = 2` into a
 line-buffered file names it even when the fault handler shows no frames).
 
+**30b. THE GUARD IN (a) IS NOT OPTIONAL --- AN UNGUARDED NEW BINDING NAME BRICKS THE OTHER SIDE
+ENTIRELY (2026-09-20).** `FixRaidenBoss2/__init__.py` imports `WWMIBuilder` from `.core` at top
+level, while `VGComponentSplit`, `VGComponentMerge` and the promoted graph edits all sit in
+`try:`/`except ImportError` blocks at the end of that file for exactly this reason. A Windows
+`.pyd` two days behind the WuWa work therefore did not import **at all** ---
+`cannot import name 'WWMIBuilder' from 'FixRaidenBoss2.core'` --- so the whole package was dead
+rather than merely missing a name, and no amount of reading the error at the call site helps.
+**A name added to `__init__.py` before both platforms have built it goes in the guard block**, and
+the guard comes out only once the lagging `.pyd` has been rebuilt.
+
 **31. A one-off diagnostic that answered a question becomes a tool the same day.** Four scratch
 scripts found the cape, the stockings, the port's legend and the missing mip chains; the
 scratchpad dies with the session and a guide that says "sample the band under the diffuse" is
@@ -1007,6 +1017,368 @@ assertion, not the artifact** --- and when a suite's goldens do have to be regen
 platform produced them (these carry POSIX separators inside the text: a Windows run corrupts them,
 and nine of the 31 files a Linux regeneration touched differed in line endings only and had to be
 `git checkout`ed back).
+
+**60. A SPEED COMPARISON IS A WORK COMPARISON FIRST, AND THE TWO SIDES' COUNTERS DO NOT MEAN THE
+SAME THING (2026-09-20).** Habit 13 says to check that a faster implementation was doing the same
+work. Benchmarking AG Remap 4.6.4 against this library over 22 real mods found the trap in *both*
+directions, and neither was visible from the summary lines. On `Arlecchino` the old script said
+`editted 2 *.dds files and skipped 6` (six `FileNotFoundError`s) against our `editted 8 and skipped
+0` --- and **both wrote exactly 2 files**, because our counter counts EDIT OPERATIONS and the old
+one counts FILES. On `Ayaka6` the old reported `created 386 *.dds` to our `created 193`, which
+reads as the old doing twice the work; those 386 are **one** distinct content written under two
+names per toggle (`...BodyNormalMapRemapTex` *and* `...HeadNormalMapRemapTex`), so 193 of them are
+pure duplication, ~772 MB of it. The only statement that survived scrutiny came from the artifacts:
+**hash every file each side created and compare the sets of DISTINCT CONTENTS, not the counts.**
+That is what showed the geometry agreeing exactly (193 `RemapBlend.buf`, identical content sets)
+while the textures differed only in a `mips=0` vs `mips=1` header. Two corollaries for any future
+run: the defaults differ (4.6.4's download mode is `Hardtexdriven`, ours is `Normal`), so pass
+`--download Disabled` to both or you are timing the network; and texture output cannot be matched
+by NAME across engines at all, because the fix appends a random suffix
+(`...RemapTexH4H Bxs.dds` and `...RemapTexEKP H84.dds` are the same texture).
+
+**61. BYTE-IDENTICAL OUTPUT OVER REAL MODS IS A BLIND SPOT, NOT A PROOF (2026-09-20).** Habit 6
+says to prove a refactor by byte-identical output rather than by green tests. The converse is just
+as sharp: an A/B can only see the paths the corpus drives. Three texture optimisations were checked
+against 7 mods and **779 of 779 files came back identical with a real bug in them** --
+:cpp:func:`TextureFile::saveAs` passes ``compress = "does dest end in .dds"``, so a ``.png``
+destination reaches the writer with ``compress = false``, and the new fast path took that as its
+cue and wrote **a DDS into a .png file**, magic bytes and all. No mod fix ever calls ``saveAs`` with
+a non-``.dds`` name, so the corpus was structurally incapable of noticing; the Unit Tester's three
+``saveAs`` cases failed immediately. **Run both, and when one of them is silent ask which paths it
+actually exercises** -- the answer is usually narrower than the file count makes it look.
+
+**Two measurement habits from the same session, both of which cost a wrong conclusion first:**
+a phase split can hide the thing you are looking for (``write = roundTrip - decode`` quietly
+attributed 4.2s of *gamma* work to the write, so the write was optimised first and bought almost
+nothing), and **on the laptop a whole-mod timing cannot resolve anything** -- the spread is 96-158s
+for identical work on one mod, wider than most effects. Measure the operation directly, or put the
+change behind a switch and A/B it inside ONE binary, which is what ``AGREMAP_TEXCACHE=0`` is for.
+
+**62. A STAGE YOU DID NOT CHECK THE BOUNDARY OF IS A STAGE YOU INVENTED --- MAKE THE PARTS SUM TO
+THE WHOLE (2026-09-20).** Habit 61 says to split until each number names one operation. That is
+only half of it: the split also has to be *disjoint*, and nothing warns you when it is not. Asked
+where the library's 1.59s startup went, a first table blamed ``core.pyd``, because
+``import FixRaidenBoss2.core`` measured 0.458s against 0.481s for the whole package. Both figures
+were real and the conclusion was wrong: **importing a submodule imports its package first**, so
+that 0.458s was the pure-Python layer plus the extension, and the extension on its own (imported
+from the package folder, with no ``__init__`` above it) is **28ms**. The 16 MB ``libz3.dll`` that
+this repo's own writing had blamed loads in **11ms**. The whole 450ms was Python-side, and the
+answer was two things neither number could point at.
+
+Two tells were there to be read and were not:
+
+- **The parts did not sum.** 0.011 + 0.011 + 0.011 + 0.458 does not make 0.481, and three DLLs at
+  11ms each cannot be what a stage measured at 458ms is made of.
+- **A residual came out absurd.** "The Python layer on top of core" fell out as **23ms** --- for
+  149 modules. A number that flattering about the part you are *not* suspecting is a sign the
+  boundary is in the wrong place, not that the code is fast.
+
+So: measure a **floor** (``python -c pass``, and ``python -S -c pass`` for it without ``site``),
+measure each stage in a way that *excludes* the ones around it, and then check the arithmetic.
+``python -X importtime`` prints self and cumulative time per module and settles the whole question
+in one run --- prefer it to any hand-rolled ``perf_counter`` around an import, which can only ever
+see the boundary you guessed.
+
+**63. HABIT 34 FIRED, AND WHAT IT CAUGHT WAS A TEST COMPARING A THING AGAINST ITSELF (2026-09-20).**
+Every earlier note here argues that a new check should be run against the BROKEN build first. This
+is the session where doing it actually paid, and the failure was one no amount of re-reading the
+test would have found. `TextureFile_Bc7Decode_test.cpp` decodes a texture twice -- once with the new
+BC7 decoder, once through the framework, switched by `AGREMAP_BC7_DECODE` -- and requires the bytes
+to match. Run against a build with a **deliberately corrupted pixel** in the fast path, it reported
+`PASSED`.
+
+The cause was two layers down from the test's logic: it set the variable with
+``set AGREMAP_BC7_DECODE=0 && prog``, and `cmd` takes everything up to the `&&`, so the child got
+``"0 "`` **with a trailing space**. The code compared against ``"0"``, did not match, and left the
+fast path on in *both* children. The test was comparing the new decoder against the new decoder,
+and would have gone on passing forever.
+
+Three things follow, and the third is the general one:
+
+- **`set "VAR=0"`**, quoted, sets exactly what is inside the quotes.
+- **Trim an environment variable before comparing it**, wherever it is read. An option that
+  silently fails to turn off is worse than one that does not exist.
+- **A check that compares two things needs to be shown the two things differing.** "It passes" and
+  "it passes against a build I broke on purpose" are different claims, and only the second one says
+  the comparison is wired up at all. Corrupting a single byte is usually the cheapest way to ask.
+
+<br>
+
+## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)
+
+Four separate speed-ups landed in one day --- startup, the texture decode, the gamma pass, the mod
+type registry --- and **every one of them was a fixed cost nobody had measured, in a place nobody
+had guessed.** The sections after this one are the worked examples; this is the method, in the order
+to do it. (Spelled out rather than numbered, so a grep for the habit list above still
+counts only habits.)
+
+**Step one --- find the phase before you look at any code.** Split the run until each number names ONE
+operation, and **check that the parts sum to the whole** (habit 62). The three biggest wins of that
+day were all invisible until the split was right, and two wrong splits sent optimisation work at
+the wrong half first.
+
+**Step two --- print each CALL, not the total.** ``createIni`` summed to 0.59s over two calls, which reads as
+a 0.3s per-file cost. It is **0.28s then 0.004s** --- a one-time initialisation, and an entirely
+different problem with an entirely different fix. Any aggregate can hide a first-call spike.
+
+**Step three --- suspect a REPEATED fixed cost before an algorithm.** In order of what was actually found:
+an eager `numpy` import (240ms, for a method nothing calls), an automaton rebuilt once per keyword
+(0.40s), a whole-texture library call that is 85% of a texture edit (2.45s), a registry rebuilt on
+every call when it is called twice a run (0.11s). None was the "real work", all of them were the
+bill.
+
+**Step four --- add a SWITCH, and A/B inside one binary.** `AGREMAP_TEXCACHE=0` and `AGREMAP_BC7_DECODE=0`
+are the pattern: the old path stays reachable, so the same build produces both outputs and the
+comparison has no compiler, no machine state and no other change in it. **Trim the value before
+comparing it** --- `cmd`'s `set VAR=0 && prog` hands the child `"0 "`, which is how one of these
+switches silently stayed on and made its own test compare the fast path against itself (habit 63).
+
+**Step five --- acceptance is byte-identical output, not a green suite.** Every one of those four changes was
+required to produce the same bytes over the corpus (`snapshotTex.py` / `snapshotCorpus.py` +
+`diffSnapshots.py` in the session scratchpad; promote them under `Tools/Misc/Diagnostics/` if you
+re-run this, habit 31). The suite catches what the corpus cannot and vice versa --- the texture work
+shipped a real bug that **779 of 779 identical files did not see** and three `saveAs` unit tests
+caught immediately. Run both.
+
+**Step six --- do not trust a whole-mod clock on the laptop.** The spread is 96-158s for identical work on one
+mod, and `CherryHutao1` came back 4.4s and 11.5s for the same run in one session. Time the operation
+directly (`open`/`save` on one texture, `registerMissing()` on its own) or A/B through the switch.
+
+### Temporary instrumentation: how to do it here without losing work
+
+Four rounds of env-gated timers went into `bindings.cpp`, `TextureFile.cpp`, `RemapService.cpp` and
+`IniFile.cpp` that day. The shape that worked, and the one rule that matters:
+
+- A file-local `FixProfScope`-style RAII timer reading one environment variable **once** through a
+  function-local `static`, printing `name\tseconds` to `stderr`. Off by default, so the instrumented
+  build behaves exactly like the real one and can be left in place while you iterate.
+- **RESTORE FROM YOUR OWN BACKUP, NEVER `git checkout`.** Every file worth instrumenting in this
+  repo is already modified by the work in progress --- `git checkout` would throw that away. The
+  patch script copies the file aside first and restores from that copy.
+- Wrap a call by assigning through a scope (`Type x; { Scope p("name"); x = f(); }`), not by editing
+  the expression, so removing the timer later is a clean revert.
+- Grep for the marker (`FIXPROF`, `TEXPROF`) after restoring, and check `git diff --stat` shows only
+  the work you meant to keep.
+
+<br>
+
+## Startup: where the 1.59s went, and where the 0.68s that is left goes (2026-09-20)
+
+Measured on the 6-core laptop, warm, with the fix pointed at an **empty folder** --- so every number
+below is fixed cost paid by every invocation, whatever it finds. Startup mattered because the fix is
+routinely run once per mod folder: 21 invocations paid it 21 times, which is the whole of the
+"one invocation each" row in the table below.
+
+| | before | after | |
+| --- | --- | --- | --- |
+| whole CLI, empty folder | 1.59s | **0.73--0.80s** | **~2x** (4.6.4 is 0.91s) |
+| ``import FixRaidenBoss2`` | 0.53s | **0.27s** | ``numpy`` |
+| ``RemapServiceCLI(...)`` | 0.60s | **0.08s** | the name automaton |
+| ``GlobalModTypes::registerMissing()`` | 0.53s | **0.09s** | " |
+
+Confirmed independently by the 21-mod corpus fixed one invocation per mod: **108.7s -> 89.6s**,
+which is **0.911s saved per invocation** against the ~0.9s the empty-folder figures predict. Two
+measurements of different things agreeing that closely is the check worth doing --- neither number
+alone rules out having measured the harness.
+
+**Do not quote the empty-folder row more precisely than that.** Repeated 7--9 rep runs of the same
+binary landed at 0.734s, 0.788s and 0.804s; 4.6.4 measured 0.909s in the one run that alternated the
+two back to back. The direction is consistent and the **+0.58s penalty this library used to pay is
+gone**, but the two engines are now within this machine's own spread of each other, and habit 61's
+"a whole-mod timing cannot resolve anything here" applies to a whole-process timing too.
+
+**The two causes, neither of them the C++ extension:**
+
+- **An eager ``numpy`` import, for one method nothing in the library calls.** ``DictTools.pyx``
+  had ``import numpy`` / ``cimport numpy`` at module scope, costing **240ms of every run**, and the
+  only thing reaching for it was ``CyDictTools.nestedDictToNdArray`` -- whose one caller,
+  ``DictTools.nestedDictToDataFrame``, hands the array straight to a **lazily** imported ``pandas``
+  through ``GlobalPackageManager``. The library eagerly imported the heavy dependency that feeds the
+  one it was careful to defer, and ``PackageModules.Numpy`` already existed, unused, beside the
+  pandas entry. It is now imported inside the method. A ``cimport`` is not free either: it makes the
+  module init import ``numpy`` just the same, so deferring means dropping both and typing the array
+  as ``object`` --- which does give up Cython's typed-buffer indexing. Measured, that is not a
+  trade worth thinking about: the method fills a 20000-leaf array in **17ms**, and the only caller
+  then spends **1.2s** of ``pandas`` on the result.
+- **``BaseAhoCorasickDFA::add`` rebuilds the entire automaton, every call.** See Architecture's
+  "``add`` on an Aho-Corasick automaton is a full rebuild".
+
+**What the remaining 0.68s is**, so the next person does not re-derive it: ~0.06s bare interpreter,
+**~0.27s ``site``**, ~0.27s the package's 149 modules (``core.pyd`` is 28ms of that), ~0.09s
+building the mod type registry. The ``site`` figure is a **property of this machine, not of the
+library** --- ``python -S -c pass`` is 0.058s against 0.331s with ``site``, and 196ms of the
+difference is ``_sphinx_jinja2_compat.pth``, installed as a Sphinx docs dependency, importing
+``jinja2`` into every Python process on the box. Both engines pay it, so it never affected a
+comparison; it is simply the largest single item left, and it is not ours to fix.
+
+Inside that 0.27s of package modules, the biggest single items are the back-compatibility shims in
+``FixRaidenBoss2/data/``: ``HashData.py`` is 28 lines that run
+``_CppHashes().repo.toNestedDict()`` **at import time**, flattening the whole C++ hash repo into a
+Python dict so ``FixRaidenBoss2.HashData`` keeps working (9.8ms), and ``FileDownloadData`` does
+similar (5.3ms). Making those lazy means a module ``__getattr__`` on the *package* as well, since
+``__init__.py`` imports the name eagerly --- perhaps 20ms for a change to a public surface, which is
+why it was left.
+
+``ProcessManager``'s ``multiprocessing`` import (~23ms) stays, because ``Process`` is a class-level
+generic parameter and cannot be deferred without restructuring a public class.
+
+> **One thing this section first recorded as "deliberately not done" was wrong, and the correction
+> is the useful part.** It said ``registerMissing`` had to keep constructing all 49 mod types to
+> discover which are missing, because knowing the ids without building them would mean a second,
+> hand-maintained list of the 49. That framing missed a third option that was **already in the
+> codebase**: ``ModTypeIdTools::generation()``, which ``GlobalIniClassifiers`` was already using for
+> the same question. ``clear()`` is the only thing that bumps it, so remembering the generation at
+> which the shipped set was last filed makes a repeat call free, with no second list and no
+> staleness. It matters because the call is **not** once a run -- the CLI's constructor makes one
+> and the first ``classify()`` makes another, so ~0.11s was being spent rediscovering that nothing
+> was missing. **When a cost looks unavoidable, check whether the codebase has already solved the
+> same problem somewhere else** (this is habit 53's "a request for a NEW class may describe one that
+> already exists", pointed at a mechanism rather than a class).
+
+### A SMALL mod: where its ~1.4s goes, and the one thing left (2026-09-20)
+
+Nine of the 21 corpus mods take 4.6.4 under 2s, and over those nine this library was **0.91x** ---
+the one band where it still lost after the startup and texture work. Startup was not the
+explanation (0.74s against 0.80s), so the run was split again. Per small mod, medians of 3, the
+parts summing to the whole (habit 62):
+
+| phase | cost |
+| --- | --- |
+| interpreter + ``site`` + process creation | ~0.45s (of which ~0.27s is the machine's ``.pth``, not ours) |
+| ``import FixRaidenBoss2`` | ~0.28s |
+| ``argparse`` | 0.005s |
+| ``RemapServiceCLI(...)`` | ~0.11s |
+| ``fix()`` | **~0.5-0.7s** |
+
+Inside ``fix()``, for a mod with two ``.ini`` files:
+
+| | cost |
+| --- | --- |
+| ``createIni`` --- **first call 0.28s, every later call 0.004s** | a one-time init in disguise |
+| ``removeFix`` | **0.12-0.17s PER ``.ini``** |
+| ``fixResources`` | ~0.05s per ``.ini`` |
+| ``fix`` | 0.004s per ``.ini`` |
+
+Two things worth reading off that. The ``createIni`` spike is the classifier population plus the
+``registerMissing`` above, both one-time, and **an aggregate would have hidden it** --- summed over
+two calls it looks like a per-file cost of 0.15s, and it is nothing of the kind. Print the calls,
+not the total.
+
+**And what is left is ``removeFix``, which is the undo pass every fix runs first.** On a 4851-byte
+``.ini`` that has **no fix in it at all** (``isFixed == False``) it takes **0.25s**, reproducibly,
+and the whole of that is inside ``RemapIniRemover::remove`` --- ``iniRemoveBuilder->build`` is
+0.000s, so it is the removal algorithm, not the setup. That is the largest remaining item for any
+mod with more than one or two ``.ini`` files and it has **not** been investigated further: the
+remover is a from-scratch reachability algorithm the maintainer specified (see
+[Architecture](../Architecture/CLAUDE.md)), and the undo path is the one this repo has already been
+burned by --- a run once **emptied every ``.ini`` file it touched**, and only the undo and the fix
+*in sequence* was broken. Measure before touching it, and A/B the output.
+
+<br>
+
+## The old pure-Python script vs the C++ API, measured (2026-09-20)
+
+Run on the 6-core laptop, both engines under the same Python 3.9.3, over 22 mod folders of the
+maintainer's own library copied to the **internal SSD** (the mods live on the external drive, and
+timing that measures the disk) and undone to a genuinely unfixed state first. Medians of 3--4 reps,
+engine order alternated per rep, every run restored from a pristine copy outside the clock, only
+characters **both** versions support. The method is habit 60.
+
+**`--download Disabled` IS PASSED TO BOTH, and the comparison is meaningless without it.** The two
+have different download *defaults*: left off, 4.6.4 skipped all 10 download requests (and threw
+inside its own download code on `KaeyaSailwind1`) while this library fetched 18 files over the
+network, so one side was timed doing work the other refused to do, over a link neither run controls.
+
+### Final figures, after the startup and texture work of 2026-09-20
+
+| measurement | 4.6.4 | this library | |
+| --- | --- | --- | --- |
+| 21 mods, one invocation **each** | 99.1s | **61.3s** | new **1.62x faster** |
+| &nbsp;&nbsp;--- the 6 that **edit textures** | 24.4s | **18.5s** | new **1.32x faster** |
+| &nbsp;&nbsp;--- the 15 with **no texture work** | 74.7s | **42.7s** | new **1.75x faster** |
+| 21 mods, **one** invocation | 85.8s | **54.5s** | new **1.57x faster** |
+| startup alone (empty folder) | 0.80s | **0.74s** | new slightly ahead |
+| the 21, startup subtracted | 82.3s | **45.6s** | new **1.80x faster** |
+| `Ayaka6` alone (194 `.ini`, ~200 toggles) | 244.2s | **96.8s** | new **2.52x faster** |
+
+**Every row is a win now, and the history of the table is the actual lesson.** Three readings of the
+same corpus in one day:
+
+| | one invocation each | texture mods | startup |
+| --- | --- | --- | --- |
+| morning | 105.4s vs 107.9s --- **a wash** | 20.3s vs 41.7s --- **~2x SLOWER** | 1.00s vs **1.59s** |
+| after the startup work | 105.5s vs 89.6s (1.18x) | --- | 0.91s vs 0.73s |
+| after the texture work | **99.1s vs 61.3s (1.62x)** | **24.4s vs 18.5s (1.32x)** | 0.80s vs 0.74s |
+
+Two fixed costs that had nothing to do with remapping a mod decided the whole picture: a startup
+penalty (an eager `numpy` import and a quadratic automaton rebuild) turned a 1.20x win into a tie
+the moment the fix was invoked per mod folder, and a BC7 decode that was 85% of a texture edit made
+the texture half look like a fundamental weakness of the C++ pipeline when it was one library call.
+
+### And the speed is not from doing less --- checked on artifacts, not counters
+
+Habit 60: the two sides' summary counters do not mean the same thing, so the check is what landed on
+disk. Both engines fixed the same 88 `.ini` and the same 72 `Blend.buf`, both wrote **uncompressed
+32-bit `.dds`** (so neither paid a BCn encode), and every difference is accounted for:
+
+- **`.dds` 31 vs 25** is entirely `Xiangling1`, where 4.6.4 writes **9 files with 1 distinct
+  content** --- one normal map under `Body`/`Dress`/`Head` names per variant --- and this library
+  writes 3.
+- **`.ini` 146 vs 145** is the known `LisaStudent2` case, where the hash-reading classifier remaps
+  the right way round and 4.6.4 does not.
+- Textures differ between engines **only** by `mips=1` vs `mips=0`; writing the chain was a real
+  in-game fix here.
+- Every `filename =` in every live `.ini` resolves on both sides --- 2 dangling references each,
+  identical, both pre-existing in the mod (`JeanSeaDress.ib`). A fix that emits an `.ini` naming a
+  texture it never wrote is broken in game and silent everywhere else, and comparing against the
+  *other* engine cannot see it, because the two use different generated names.
+- **4.6.4 skipped 6 texture edits "due to warnings" and this library skipped 0**, so the texture row
+  above is if anything generous to the old side.
+
+Invoke the fix once per mod folder and you pay startup 21 times, which is still most of the
+difference between the first two rows --- so **say which of the two you measured**, and note that
+the per-mod shape is the first one an agent writing a harness reaches for.
+
+> **The old version of this paragraph explained that gap wrongly, and it is worth keeping as an
+> example.** It read "the cost of loading `core.pyd` (12 MB) plus `libz3` (16 MB), `libcurl` and
+> `utf8proc`" --- reasoned from the file sizes, never measured. Those three DLLs load in **11ms
+> each** and the extension in **28ms**; the real cost was an eager `numpy` import and a quadratic
+> automaton rebuild, both Python-side, and both now fixed. See the startup section above, and
+> habit 62.
+
+The split by texture work is in the table above and is **no longer where this library loses** --- it
+used to read *6 mods that edit textures: old 20.3s, new 41.7s, **~2x slower***, and that row is what
+the texture work of 2026-09-20 was aimed at. A texture edit is **7.3x cheaper** now (a 4096x4096 BC7
+round trip 2.84s -> 0.35s, faster than Pillow's 0.62s) after three byte-identical changes: a gamma
+lookup table, decoding BC7 **per block across threads** instead of through `CMP_ConvertMipTexture`,
+and one linear pass for the gamma instead of 33 million `getPixel`/`setPixel` calls. See
+[Texture Editing](../TextureEditing/CLAUDE.md)'s "AND THEN THE DECODE WAS ALL OF IT".
+
+So the C++ `.ini`-graph and buffer path is roughly twice the speed of the pure-Python one, and the
+texture pipeline no longer gives any of that back. The bigger and more branch-heavy the `.ini`, the
+better this library does: `XingqiuBamboo1` (37 sub-mods) is 46.1s -> 18.5s, and `Ayaka6` is
+244.2s -> 96.8s while producing the **same 193 `RemapBlend.buf` contents**.
+
+Three things to know before quoting any of this:
+
+- **`--compressTextures` is ours alone and it is expensive**: `Klee1` 4.9s -> 49.9s (64 MB -> 16 MB
+  of `.dds`), `CherryHutao1` 19.6s -> 278.8s (192 MB -> 48 MB). Both engines write **uncompressed
+  32-bit `.dds` by default**, so habit 13's old "Pillow has no BCn encoder, so it was 250x faster
+  at nothing" gap does **not** apply to a default run today --- it reappears only with this flag.
+- **The generated script costs nothing extra.** `FixRaidenBoss6.py` (the 1.4 MB ScriptBuilder
+  build) and a pip install of the same 4.6.4 are within 30 ms of each other, so the single-file
+  `.py` is not a timing penalty and the pip package is a fair stand-in for it. (`pip` needs
+  `--trusted-host pypi.org --trusted-host files.pythonhosted.org` from an agent's sandbox here;
+  without it the install fails on certificate verification and reads as "no such package".)
+- **Our run uses more than one core**, and more so since the BC7 decode was threaded (it was 1.25
+  averaged over the corpus run before that); 4.6.4 is single-threaded throughout, so a machine with
+  fewer cores narrows the gap --- most of all on the texture row, where the decode now scales with
+  `hardware_concurrency()`.
+
+One correctness difference surfaced while checking the work was equal, and it is a win rather than
+a caveat: on `LisaStudent2` the two engines remap in **opposite directions** (`lisaLisaStudent...`
+vs `lisaLisa...`), because the hash-reading classifier recognises that the mod's `lisa`-named
+sections sit on the LisaStudent model. 4.6.4 runs that fix the wrong way round.
 
 <br>
 

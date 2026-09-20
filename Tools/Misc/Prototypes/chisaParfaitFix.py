@@ -667,8 +667,10 @@ RoleComponent = {"frontHairMask": 0, "frontHairDiffuse": 0, "frontHairNormal": 0
                  "lowerNormal": 4, "lowerMask": 4, "lowerDiffuse": 4,
                  "accessoryDiffuse": 5, "accessoryNormal": 5,
                  "irisDiffuse": 6}
-# `Components-0-2-4-6 t=...` is shared between components and names no single one, so it is skipped
-ModComponentPattern = re.compile(r"components?[\s_-]*(\d+)[\s_-]+t=", re.IGNORECASE)
+# `Components-1-2 t=...` serves BOTH components, and skipping such a name cost a round in game:
+#   a Hanabi mod's own hair diffuse is called `Components-1-2 t=23b680fe.dds`, went unplaced, and
+#   the hair then drew with Chisa's downloaded atlas at the mod's UVs -- warm patches over black hair.
+ModComponentPattern = re.compile(r"components?[\s_-]*(\d+(?:-\d+)*)[\s_-]+t=", re.IGNORECASE)
 
 
 def kindOfShape(shape) -> Tuple[str, str]:
@@ -691,10 +693,16 @@ def kindOfShape(shape) -> Tuple[str, str]:
     return "Diffuse", "neither a set of codes nor a normal map"
 
 
-def componentOfModFile(name: str) -> Optional[int]:
-    """The single component a WWMI-exported texture's name claims, or None"""
+def componentsOfModFile(name: str) -> List[int]:
+    """Every component a WWMI-exported texture's name claims (usually one)"""
     match = ModComponentPattern.search(os.path.basename(name))
-    return int(match.group(1)) if (match) else None
+    return [int(n) for n in match.group(1).split("-")] if (match) else []
+
+
+def componentOfModFile(name: str) -> Optional[int]:
+    """The single component it claims, or None when it names none or several"""
+    components = componentsOfModFile(name)
+    return components[0] if (len(components) == 1) else None
 ComponentFilePattern = re.compile(r"component[\s_-]*(\d+)[\s_-]+([a-z]+)\.dds$", re.IGNORECASE)
 TypeOfSuffix = {"diffuse": "diffuse", "albedo": "diffuse", "base": "diffuse", "color": "diffuse", "colour": "diffuse", "d": "diffuse",
                 "lm": "mask", "lightmap": "mask", "mask": "mask", "m": "mask", "nm": "normal", "normal": "normal", "normalmap": "normal", "n": "normal"}
@@ -771,8 +779,8 @@ class TextureIndex():
                 if (other != f and set(hashes) & set(theirs)):
                     self.alternativesOf.setdefault(f, []).append(other)
         for f, h, score in self._identify(pending):
-            component = componentOfModFile(f)
-            if (component is not None and RoleComponent.get(Roles[h]) != component):
+            components = componentsOfModFile(f)
+            if (components and RoleComponent.get(Roles[h]) not in components):
                 continue                            # its own name says it belongs to another component
             self.roleOf[f] = [(Roles[h], f"the game's own {h} by its pixels ({score:.2f})")]; counts["pixels"] += 1
         counts["shape"] = 0
@@ -805,32 +813,67 @@ class TextureIndex():
         Checked against the files pixel identity DOES place: on the bunny mod every one of the eight
         it recognised gets the same role from this rule, which is the only reason to trust it on the
         eight it cannot."""
-        taken = {(componentOfModFile(f), role) for f, roles in self.roleOf.items() for role, _ in roles}
-        for f in sorted(files):
-            component = componentOfModFile(f)
+        taken = {role for roles in self.roleOf.values() for role, _ in roles}
+        # A FILE THAT NAMES ONE COMPONENT SPEAKS FOR IT; ONE THAT NAMES FOUR IS A LEFTOVER CLAIM.
+        #   `Components-0-2-4-6 t=21f813ba.dds` sorts before `Components-4 t=9b396b0d.dds` and took
+        #   the lower body's NORMAL off it, which is the role the single-component file was named
+        #   for. Singles go first and the shared files take only what is left.
+        for f in sorted(files, key = lambda p: (len(componentsOfModFile(p)) != 1, p)):
+            components = componentsOfModFile(f)
             # a file an earlier group already spoke for is not judged again on its own pixels
-            if (component is None or f in self.roleOf):
+            if (not components or f in self.roleOf):
                 continue
-            free = [r for r, c in RoleComponent.items() if (c == component and (component, r) not in taken)]
-            if (not free):
-                continue
+            free = [r for r, c in RoleComponent.items() if (c in components and r not in taken)]
             shape = self._shapeOf(f)
-            if (shape is None):
+            if (not free or shape is None):
                 continue
             wanted, why = kindOfShape(shape)
-            role = next((r for r in free if (r.endswith(wanted))), None)
-            if (role is None):
+            candidates = [r for r in free if (r.endswith(wanted))]
+            if (not candidates):
                 continue
-            taken.add((component, role))
-            yield f, role, f"component {component} in its name, and {why}"
+            named = "-".join(str(c) for c in components)
+            if (len(candidates) == 1):
+                role, why = candidates[0], f"component {named} in its name, and {why}"
+            else:
+                # A NAME LISTING SEVERAL COMPONENTS LEAVES A CHOICE, AND BRIGHTNESS CANNOT MAKE IT --
+                #   a repaint changes that. CHROMA can: the differences between the channels survive a
+                #   recolour far better than their level, and the source's own texture for each
+                #   candidate is right there to compare against. Only a CLEAR winner is taken; an
+                #   ambiguous file is better left to the download than guessed onto the wrong part.
+                ranked = sorted((d, r) for r, d in ((r, self._chromaDistance(shape[0], r)) for r in candidates)
+                                if (d is not None))
+                if (len(ranked) < 2 or ranked[0][0] > 30 or ranked[0][0] > 0.5 * ranked[1][0]):
+                    continue
+                role = ranked[0][1]
+                why = (f"components {named} in its name, {why}, and its colour balance is {ranked[0][0]:.0f} from "
+                       f"{SourceName}'s own {role} against {ranked[1][0]:.0f} from her {ranked[1][1]}")
+            taken.add(role)
+            yield f, role, why
             # a `$part_0` toggle mod offers two files for one hash -- the character's own art and
             #   its own repaint. They are one role, and the shape rule would judge the repaint on
             #   its own pixels and get a different answer (the bunny mod's recoloured hair normal
             #   reads as a mask). The one bound is whichever comes first, which is the mod's
             #   `$part_0 == 0` default.
             for other in self.alternativesOf.get(f, []):
-                if (other not in self.roleOf and componentOfModFile(other) == component):
+                if (other not in self.roleOf and set(componentsOfModFile(other)) & set(components)):
                     yield other, role, f"the same [TextureOverrideTexture] as {os.path.basename(self.real.get(f, f))}"
+
+    _chromaCache: Dict[str, object] = {}
+
+    @classmethod
+    def _chromaDistance(cls, mean, role: str):
+        """How far a texture's colour BALANCE is from the source's own texture for 'role', or None.
+
+        Levels move when a mod recolours; the differences between the channels mostly do not, so this
+        is what tells a hair diffuse from a face one without assuming either is unpainted."""
+        if (role not in cls._chromaCache):
+            asset = os.path.join(AssetsFolder, f"{SourceName}Texture{FallbackTextures.get(role, '')}.dds")
+            shape = cls._shapeOf(asset) if (FallbackTextures.get(role) and os.path.isfile(asset)) else None
+            cls._chromaCache[role] = shape[0] if (shape is not None) else None
+        theirs = cls._chromaCache[role]
+        if (theirs is None):
+            return None
+        return abs((mean[0] - mean[1]) - (theirs[0] - theirs[1])) + abs((mean[1] - mean[2]) - (theirs[1] - theirs[2]))
 
     @staticmethod
     def _shapeOf(path: str):

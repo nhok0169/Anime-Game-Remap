@@ -1352,6 +1352,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | a translucent hue that SURVIVES a correct mask, over the parts one shader has an extra input for | a register the TARGET's pass reads and the source's does not: the skin's own map stays bound and its codes land at the mod's UVs | bind a flat neutral there; bisect which register rather than guessing |
 | eyes wrong on one mod only | the eye pass reads the iris at `ps-t2`, mask at `ps-t1`; or two hashes on one role | the plan's eye bindings; the duplicate-role WARNING |
 | **the ORIGINAL mod is broken too**, not only the remap | the fix edited the mod's OWN half of the `.ini` -- the remapped sections are on the target's hashes and cannot reach the source's draws | whatever the run says it commented out; `--shapeKeys leave` |
+| ONE part wearing the source's own art in patches, everything else right | that part's texture went unplaced and fell back to a download, which is the GAME's atlas at the MOD's UVs | the run's `with no role` count, and whether the file's name lists more than one component |
 | the model does not draw AT ALL, and the run said `skipped` for a resource | the `.ini` was written before that resource failed, so it binds a file that is not there -- and a buffer 3dmigoto cannot create means no vertex data | the run's own dangling-reference line at the end; then why the resource raised |
 | one part's colour right and its surface flat -- no relief, no sheen | the plan mirrors a layout read off a draw that INHERITED its registers, or off a sibling pass that orders them differently | `wwmiPassLayout.py`: which draw sets the whole set, and what each bound texture IS by its pixels |
 | a part reads matte where the source is satin | the flat mask invented for it carries the cloth code, G = 0, which is "not shiny at all" | the medians of the TARGET's own pixels of that kind (`G > 64`) |
@@ -1595,6 +1596,31 @@ from its neighbours put the ribbon's diffuse on the detail slot, the front hair'
 mask slot and the ribbon's own normal map on the MATCAP slot, and the symptom -- right colour,
 no relief, no sheen -- is not one any of those three would suggest on its own.
 `Tools/Misc/Diagnostics/wwmiPassLayout.py` prints both halves.
+
+<br>
+
+### A TEXTURE'S NAME MAY LIST SEVERAL COMPONENTS, AND CHROMA BREAKS THE TIE (2026-09-20)
+
+WWMI's `Components-<N> t=<hash>.dds` is usually one number and is sometimes a list --
+`Components-1-2 t=23b680fe.dds`, a file serving both the hair and the face. Skipping a name that is
+not a single number cost a round in game: a Hanabi mod's own hair diffuse is called exactly that,
+went unplaced, and the hair drew with Chisa's downloaded atlas at the mod's UVs -- warm patches
+over black hair, with every other part right.
+
+A list leaves a choice between that many roles of the same kind, and **brightness cannot make it,
+because a repaint is exactly what changes brightness.** The differences BETWEEN the channels
+survive a recolour much better than their level, and the source's own texture for each candidate is
+sitting in the download folder to compare against:
+
+```
+the unplaced file             chroma  R-G   1.1   G-B  -0.6
+  against Chisa's hairDiffuse         R-G   1.8   G-B  -1.5     distance   1.6
+  against Chisa's faceDiffuse         R-G  37.9   G-B   6.6     distance  44.0
+```
+
+Take the nearest only when it is a CLEAR winner -- nearer than half the runner-up and near in
+absolute terms -- and otherwise leave the file unplaced. A role guessed onto the wrong body part is
+worse than a download: the download is at least the right art in the right place.
 
 <br>
 

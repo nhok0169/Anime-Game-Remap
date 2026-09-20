@@ -624,7 +624,15 @@ with `R = 255` where the Parfait skin marks it with `R = 0`, so her own mask tel
 that 97% of her clothes is flesh. The fix repacks the mask into the target's layout rather than
 binding the mod's, and the way to learn a legend is to ask the DIFFUSE under each region how
 flesh-coloured it is -- see "TWO SKINS OF ONE CHARACTER CAN PACK THEIR MATERIAL MASK DIFFERENTLY".
-**Neither that nor the reverse direction has been seen in game.** WWMI-Assets has neither of them, so everything comes from frame dumps
+**And a THIRD round found what the red actually was: a register the TARGET's shader reads and the
+source's does not.** The skin's clothing pass takes an `R8_UNORM` map at `ps-t2` that Chisa's has no
+input for, so hers stayed bound and its codes landed at the mod's UVs -- and it reads as a near-black
+texture while being a small-integer code per pixel (median 4, max 82), which is why `4` where `0`
+belongs is a different material rather than a darker one. The fix binds a flat neutral there. It was
+found by BISECTING with a flat colour per register over four in-game rounds, and the two strongest
+hypotheses on the way were both wrong; the method is in "A REGISTER THE TARGET'S SHADER READS AND THE
+SOURCE'S DOES NOT". **The mask repack and the geometry fix are confirmed in game; the neutral binding
+is one round from it, and the reverse direction is unseen.** WWMI-Assets has neither of them, so everything comes from frame dumps
 (`Tools/Misc/Prototypes/wwmiExtractDump.py`, which runs WWMI Tools' own extractor outside Blender):
 the download folders `Data/Mod Downloads/WuWa/Chisa/2_8` and `ChisaParfait/3_5`, both `ModTypeId`s
 with their hash / index / count / vg / shape-key rows, a `VGRemapData` row each way out of

@@ -1349,6 +1349,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | one part's textures wrong, the picture is a different texture | that component got no texture list -- a role with no file | the prototype's per-slot table: `ps-tN=GAME (mod has none)`; then whether the file is declared under TWO hashes |
 | a HUE over the body AND the clothes, every picture right | the material MASK: the mod ships none for that component, so the TARGET's mask is sampled at the mod's UVs | `fallbackTextures` -- the source's own mask, downloaded |
 | a translucent RED over the clothes AND the skin, the pictures showing through | the material mask the mod DOES ship, in the SOURCE's packing: the target's shader reads it as bare skin | repack it -- ask the diffuse which value means skin on each side |
+| a translucent hue that SURVIVES a correct mask, over the parts one shader has an extra input for | a register the TARGET's pass reads and the source's does not: the skin's own map stays bound and its codes land at the mod's UVs | bind a flat neutral there; bisect which register rather than guessing |
 | eyes wrong on one mod only | the eye pass reads the iris at `ps-t2`, mask at `ps-t1`; or two hashes on one role | the plan's eye bindings; the duplicate-role WARNING |
 
 Two things that were suspected and were NOT the cause, each ruled out by reading rather than by
@@ -1476,6 +1477,57 @@ sides differ, as BC1 against BC3 does -- that the shader underneath is not the s
 clothing pass also takes an **extra `R8_UNORM` outline map at `ps-t2`** that Chisa's has no input
 for, which is what shifts her `742c5c7b / 7a9915c5 / 30bf03f4` triple from t3-t5 to the skin's
 t4-t6. It is left bound to the skin's own, and is the next suspect if outlines look wrong.
+
+### A REGISTER THE TARGET'S SHADER READS AND THE SOURCE'S DOES NOT (2026-09-20)
+
+The two skins' clothing passes are different pixel shaders, and the skin's takes one input more:
+Chisa binds normal / mask / diffuse at `ps-t0` / `t1` / `t2`, and ChisaParfait inserts an
+`R8_UNORM` map at **`ps-t2`** and shifts the rest down one -- the same shift that moves the diffuse
+to `ps-t3`, which the plan already knew about. A remapped section binds what the plan names and
+leaves the rest to the game, so the skin's own map stayed bound at a register the mod has nothing
+for, and its values landed at the mod's UVs. In game: a translucent hue over the clothing slots
+that survives a mask repack, a geometry fix and everything else, because none of those is what
+paints it.
+
+**It reads like a near-black texture and is not one.** Measured over her two:
+
+```
+b8ea376b (slot 3): mean 3.20  median 4.0  p90 4.0  max 82  share > 8: 1.33%
+15ce7b3b (slot 4): mean 3.11  median 2.0  p90 4.0  max 82  share > 8: 1.53%
+```
+
+Values of 2, 4 and 82 out of 255 are a small-integer **code** per pixel, not a brightness. That is
+the whole reason it matters: 4 where 0 belongs is a different material, not a slightly darker one.
+The measurement was made to rule the register OUT -- if the map were as black as it looks, binding
+a flat `0` could not have changed anything -- and it ruled it in instead.
+
+The fix binds a flat neutral there (`NeutralBindings` in the prototype, a solid `.dds` the fix
+writes as `<Name><Target>RemapTex.dds` so the undo takes it back). `0` is the neutral code, which
+is what the bisect's flat green supplied in `.r`.
+
+**What is worth copying is the bisect, not the answer.** Four in-game rounds, and the reasoning
+that felt strongest was wrong twice:
+
+| round | bound flat | result | learned |
+| --- | --- | --- | --- |
+| 1 | every unplanned register, both slots | clean | some register of the set paints it |
+| 2 | `3:ps-t4`, `4:ps-t5` | both red | NOT the bright red 742c5c7b, the obvious suspect |
+| 3 | `3:{t2,t5,t6}`, `4:{t2,t4,t6}` | both clean | every culprit is in those three |
+| 4 | `3:ps-t2`, `4:ps-t2` | both clean | `ps-t2` alone, on both |
+
+Two things make that sound. **Binding more can only help**, so a subset that comes back clean
+contains every culprit and one that comes back red means at least one sits outside it -- which is
+what lets a subset test halve the search even when several registers might contribute. And **the
+two slots are independent**, so each round tests a different hypothesis on each and gets two
+answers per launch; they bind different textures at the same register, so the culprit genuinely
+could have differed between them.
+
+`--probe [SPEC]` is that instrument: with no argument it flattens every unplanned register of the
+clothing slots, and `--probe 3:ps-t4,4:ps-t5` narrows it. A probe build is also **gaudy on sight**,
+which is worth as much as the bisect -- twice in this session a build never reached the mod folder
+and the screenshot that came back was of the previous one. See Overview's habit 34's neighbour:
+**a diagnostic that cannot be confused with the thing it is diagnosing is the first thing to
+build.**
 
 ### WuWa: choosing test mods by structural axis (2026-09-19)
 

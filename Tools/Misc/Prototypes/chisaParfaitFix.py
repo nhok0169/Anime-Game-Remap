@@ -146,10 +146,44 @@ SkinMask = "SkinMask"                       # the invented mask's resource / fil
 #   ps-t2 and a different set of auxiliary maps after it, one of which (742c5c7b) is bright RED --
 #   and which of them a surface reads cannot be told from the dump. A probe build also identifies
 #   ITSELF: if the model is not gaudy, the game is not running the build you just made.
+# THE SKIN'S CLOTHING PASS TAKES A MATERIAL-DETAIL MAP AT ps-t2 THAT CHISA'S SHADER HAS NO INPUT
+#   FOR, AND IT IS WHAT PAINTED THE RED (bisected in game, 2026-09-20). Her pass binds normal / mask
+#   / diffuse at ps-t0 / t1 / t2; the skin's inserts this R8_UNORM map at ps-t2 and shifts the rest
+#   down one, which is the same shift that moves the diffuse to ps-t3. The mod ships nothing for it,
+#   so the skin's own stayed bound -- and it is authored for HER atlas, so at the mod's UVs its codes
+#   land on the wrong surfaces.
+#
+#   It reads like a near-black texture and is not one: measured over her two, the values are 2, 4 and
+#   82 out of 255 with a median of 4, which is a small-integer CODE per pixel rather than a
+#   brightness. That is why 4-where-0-belongs is a different material rather than a slightly darker
+#   one, and why flattening the register -- to `0`, the neutral code, which is what the flat green of
+#   the bisect supplied in `.r` -- is the fix rather than a workaround.
+#
+#   Bisected rather than reasoned out: the full probe was clean, ps-t4 alone (the bright red 742c5c7b,
+#   the obvious suspect) was not, {ps-t2, ps-t5, ps-t6} was, and ps-t2 alone was. Four rounds.
+NeutralBindings = {3: {"ps-t2": (0, 0, 0, 255)}, 4: {"ps-t2": (0, 0, 0, 255)}}
+NeutralName = "DetailZero"      # the resource / file stem of the flat map bound there
+
 ProbeColours = [("ps-t2", (0, 255, 0, 255), "green"), ("ps-t4", (0, 0, 255, 255), "blue"),
                 ("ps-t5", (255, 255, 0, 255), "yellow"), ("ps-t6", (0, 255, 255, 255), "cyan"),
                 ("ps-t7", (255, 0, 255, 255), "magenta"), ("ps-t8", (255, 128, 0, 255), "orange")]
 ProbeSlots = {3, 4}                             # the source components a --probe run paints; the rest are left readable
+
+# A --probe run takes an optional SPEC -- `--probe 3:ps-t4,4:ps-t5` -- naming the registers to
+#   flatten per source component, which is how the culprit is bisected once a full probe has shown
+#   that SOME register of the set paints a surface. The two clothing slots bind DIFFERENT textures
+#   at the same register (slot 3's ps-t4 is the red 742c5c7b, which slot 4 does not bind at all), so
+#   the answer is per slot and the bisect tests one suspect on each in the same round.
+def parseProbeSpec(spec: Optional[str]) -> Optional[Dict[int, List[str]]]:
+    if (not spec):
+        return None
+    out: Dict[int, List[str]] = {}
+    for entry in spec.split(","):
+        slot, _, reg = entry.strip().partition(":")
+        if (not reg):
+            raise SystemExit(f"--probe takes `<component>:<register>` entries, not {entry!r}")
+        out.setdefault(int(slot), []).append(reg.strip())
+    return out
 
 MaskTranslations = {"upperMask", "lowerMask"}   # the roles whose file is repacked before it is bound
 TargetMaskCloth = (255, 0, 126, 0)              # the skin's own dominant code, ie. ordinary cloth: R 93.6%, G 80.1%, B 84.8%, A 98.2%
@@ -739,7 +773,7 @@ def effectiveRemap(sourceType, target, remapOverride: Optional[Dict[int, int]], 
     return FRB.VGRemap(remap), forced
 
 
-def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = None, anchor: Optional[str] = None, shapeKeys: bool = False, probe: bool = False,
+def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = None, anchor: Optional[str] = None, shapeKeys: bool = False, probe: object = False,
               planName: str = "default"):
     plan = Plans[planName]
     source, target = characterFromLibrary(sourceType), characterFromLibrary(targetType)
@@ -761,6 +795,8 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
 
         probed: set = set()                             # --probe: the flat colours already declared in this .ini
         probeLegend: List[str] = []
+        neutrals: set = set()                           # NeutralBindings: the flat map, declared once per .ini
+        neutralLegend: List[str] = []
         appended: List[str] = files.declare(fixName)     # the textures this .ini has no resource of its own for
         appended += files.fallbacks([role for i in files.present if (i in plan) for role in plan[i][1].values()])
         # ...and the masks whose PACKING differs between the two skins, repacked (MaskTranslations)
@@ -802,10 +838,25 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             edits: List[object] = []
             bindings = [f"    {reg} = {maskResource if (role == SkinMask) else files.resourceOfRole[role]}"
                         for reg, role in regs.items() if (role == SkinMask or role in files.resourceOfRole)]
-            if (probe and i in ProbeSlots):
-                # every register this slot does not plan, flat and unmistakable -- see ProbeColours
+            for reg, colour in NeutralBindings.get(i, {}).items():
+                if (reg in regs):
+                    continue
+                resource = fixName(f"Resource{NeutralName}")
+                if (resource not in neutrals):
+                    neutralFile = os.path.join(files.textureFolder, f"{NeutralName}{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
+                    os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
+                    writeSolidDds(os.path.join(ini.folder, neutralFile), colour)
+                    appended.append("\n".join([f"[{resource}]", f"filename = {neutralFile}", ""]))
+                    neutrals.add(resource)
+                bindings.append(f"    {reg} = {resource}")
+                neutralLegend.append(f"      component {i} {reg}: the skin's own map is hers -- bound to a flat {colour[:3]}")
+
+            probeRegs = (probe.get(i) if isinstance(probe, dict) else (None if not probe else [r for r, _c, _n in ProbeColours]))
+            if (probeRegs and (isinstance(probe, dict) or i in ProbeSlots)):
+                # the named registers (default: every register this slot does not plan), flat and
+                #   unmistakable -- see ProbeColours
                 for reg, colour, name in ProbeColours:
-                    if (reg in regs):
+                    if (reg in regs or reg not in probeRegs):
                         continue
                     resource = fixName(f"ResourceProbe{name.capitalize()}")
                     if (resource not in probed):
@@ -874,6 +925,10 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             writeSolidDds(os.path.join(ini.folder, maskFile), SkinMaskColour)
             appended.append("\n".join([f"[{maskResource}]", f"filename = {maskFile}", ""]))
 
+        if (neutralLegend):
+            print("    registers the target's shader reads and the source's does not, flattened:")
+            for line in neutralLegend:
+                print(line)
         if (probeLegend):
             print("    --probe: every unplanned register of the clothing slots is a flat colour; whichever one")
             print("             shows on a surface is the register that paints it")
@@ -1091,8 +1146,9 @@ def main():
                         help = "comment the mod's own [TextureOverrideTexture] sections out too, as the hand remap does")
     parser.add_argument("--noSplit", action = "store_true",
                         help = "keep every remapped section in mod.ini (default: one section per target draw per file, the rest in <stem>ChisaParfaitRemapFix<n>.ini -- see the header, point 11)")
-    parser.add_argument("--probe", action = "store_true",
-                        help = "bind a flat colour to every register the clothing slots do not plan, to see in one round which one paints a surface")
+    parser.add_argument("--probe", nargs = "?", const = True, default = False, metavar = "SPEC",
+                        help = "bind a flat colour to every register the clothing slots do not plan, to see in one round which one paints a surface; "
+                               "SPEC (`3:ps-t4,4:ps-t5`) narrows it to the named registers per source component")
     parser.add_argument("--vgRemap", default = None, metavar = "JSON",
                         help = "a {source group: target group} table to write the blend with instead of the library's VGRemaps row (e.g. a draft sheet exported to json)")
     args = parser.parse_args()
@@ -1110,7 +1166,8 @@ def main():
     FRB.CppStrategyOverrides.clear()
     retarget = (args.shapeKeys == "retarget")
     FRB.CppStrategyOverrides.setParser(SourceName, makeParser(sourceType, retarget))
-    FRB.CppStrategyOverrides.setFixer(SourceName, TargetName, makeFixer(sourceType, targetType, remapOverride, args.anchor, retarget, args.probe, args.plan))
+    probe = parseProbeSpec(args.probe) if isinstance(args.probe, str) else args.probe
+    FRB.CppStrategyOverrides.setFixer(SourceName, TargetName, makeFixer(sourceType, targetType, remapOverride, args.anchor, retarget, probe, args.plan))
     try:
         runService(folder, args)
     finally:

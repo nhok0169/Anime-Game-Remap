@@ -687,6 +687,40 @@ original through WWMI Tools 1.3.4, is the template the script copies), then thes
   `this = ResourceTexture<N>` under `$object_detected`; the slot layout of each draw is the game's
   and `TextureUsage.json` records it. The identity ships every `Components-... t=<hash>.dds` of the
   asset folder so a remap's texture edits have something to act on.
+- **Four or EIGHT bone weights a vertex, and a merged skeleton that may pass 256 bones**
+  (2026-09-19, Chisa). Sanhua's Blend buffer is 8 bytes a vertex; Augusta, Iuno, Chisa and five
+  more WWMI-Assets characters carry **eight** influences (16 bytes), and their `.fmt` says
+  `R8_UINT` for an element that is 8 bytes wide -- `export_format`'s `stride` is the truth, or the
+  distance to the next element. Worse, the 8-bit bone index **cannot name every bone**: Chisa's
+  merged skeleton is 420 slots, Iuno's 413, Augusta's 375, and even 4-weight Changli reaches 275.
+  WWMI's answer is the **blend remap**, and a mod that needs one carries three more buffers:
+  `BlendRemapVertexVG.buf` (every vertex's full ids as `R16_UINT`, as many a vertex as the Blend
+  buffer has weights) and `BlendRemapForward` / `Reverse.buf` (512 `uint16`s per remapped
+  component: local -> merged and merged -> local). Per component whose vertices carry a non-zero
+  weight on a bone >= 256, the sorted distinct bones it uses -- **at most 256** -- become local ids
+  0..n-1; at load `BlendRemapper.hlsl` rewrites a private copy of `Blend.buf` through the reverse
+  map, and each frame `SkeletonRemapper.hlsl` gathers that component's own skeleton through the
+  forward one. `Blend.buf` itself keeps the merged ids **truncated** to 8 bits, which is what a
+  component with no remap reads correctly. The merged skeleton resources double (`array = 1536`).
+  `wwmiIdentityMod.py` writes all of it (WWMI Tools 1.7.3's `build_blend_remap`; **1.3.3, which is
+  what is installed here, hard-codes four ids a vertex and is wrong for an 8-weight character**).
+  The check that proves it is to run both shaders in numpy over the written files and require every
+  weighted slot to land on the bone the raw `.vb` names -- Chisa, Augusta, Iuno, Galbrena and
+  Changli pass, a swapped reverse entry and a stripped `.ini` fail. **Chisa and ChisaParfait's
+  identity mods are correct in game (2026-09-19)**, which is the first confirmation of both the
+  remap and of an asset folder taken from a frame dump.
+- **A character WWMI-Assets does not have** (Chisa, ChisaParfait) gets its asset folder from a
+  frame dump: `Tools/Misc/Prototypes/wwmiExtractDump.py` runs **WWMI Tools' own extractor** outside
+  Blender (`bpy` stubbed; it skips the `<call>.<n>-[ShaderRegex_...]` sub-call files a mod like
+  RabbitFX leaves in a dump, which the addon's name parser rejects). One folder per `vb0` hash, so
+  pick the character's by component count and shaders. Run over the Sanhua and SanhuaExorcist dumps
+  it reproduces WWMI-Assets' `.vb` / `.ib` / `.fmt` and `Metadata.json` exactly -- but **not the
+  textures**: a dump holds each one in whatever streaming state it was drawn in (most of Sanhua's
+  and Chisa's at 512 x 512 where the real texture is 2048), and 3DMigoto rehashes a texture as its
+  mips load, so **not one** of the 16 hashes the Sanhua dump yields is WWMI-Assets', though 15 are
+  pixel-identical to an asset texture. Check the extracted `.dds` sizes before trusting them, and
+  note the corollary for the live game: today's Sanhua dump binds `332a6aac` where the shipped
+  download folder and `SanhuaHashLineage.json` call `1c0c8b91` current (same pixels, both 2048).
 
 What proves the build: every vertex buffer is byte-identical to fixed byte ranges of the raw `.vb`
 sliced independently of the script's element logic (POSITION 0-12, TANGENT+NORMAL 12-20, COLOR

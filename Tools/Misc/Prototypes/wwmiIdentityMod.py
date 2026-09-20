@@ -43,6 +43,12 @@
 #     sum of the first four offsets, and the offsets built here reproduce it (3175 for Sanhua, 2376
 #     for her Exorcist skin), as they do 'dispatch_y' (the entry count in groups of 32) and the first
 #     offsets of the maintainer's own Blender-exported Sanhua mod.
+#   * Four or EIGHT bone weights a vertex, and up to 512 merged bones. A character with eight
+#     (Augusta, Iuno, Chisa) declares BLENDINDICES / BLENDWEIGHT as one R8_UINT spanning 8 bytes
+#     (Metadata's export_format says stride 8); the element's width is read up to the next one. A
+#     merged skeleton past 256 slots (Chisa: 420) cannot be indexed by the 8-bit Blend.buf, and
+#     gets WWMI's BLEND REMAP (see buildBlendRemaps): three more buffers and the .ini sections that
+#     run WWMI's BlendRemapper / SkeletonRemapper per component that needs one.
 #   * Textures are overridden by hash, not bound to registers: a [TextureOverrideTexture<N>]
 #     per .dds with 'this = ResourceTexture<N>', guarded by $object_detected. The identity ships every
 #     'Components-... t=<hash>.dds' of the asset folder (a no-op in game, since it is the game's own
@@ -74,7 +80,7 @@ def winToPosix(path: str) -> str:
 Formats = {
     "R32G32B32A32_FLOAT": ("<f4", 4), "R32G32B32_FLOAT": ("<f4", 3), "R32G32_FLOAT": ("<f4", 2), "R32_FLOAT": ("<f4", 1),
     "R16G16B16A16_FLOAT": ("<f2", 4), "R16G16B16_FLOAT": ("<f2", 3), "R16G16_FLOAT": ("<f2", 2), "R16_FLOAT": ("<f2", 1),
-    "R8G8B8A8_UINT": ("u1", 4), "R8G8B8A8_UNORM": ("u1", 4), "R8G8B8A8_SNORM": ("i1", 4), "R8G8B8_SNORM": ("i1", 3), "R8_SNORM": ("i1", 1), "R8_UINT": ("u1", 1),
+    "R8G8B8A8_UINT": ("u1", 4), "R8G8B8A8_UNORM": ("u1", 4), "R8G8B8A8_SNORM": ("i1", 4), "R8G8B8_SNORM": ("i1", 3), "R8_SNORM": ("i1", 1), "R8_UINT": ("u1", 1), "R8_UNORM": ("u1", 1),
     "R16G16B16A16_UINT": ("<u2", 4), "R16G16B16A16_UNORM": ("<u2", 4), "R16G16_UNORM": ("<u2", 2), "R16_UINT": ("<u2", 1),
     "R32G32B32A32_UINT": ("<u4", 4), "R32_UINT": ("<u4", 1),
 }
@@ -84,6 +90,9 @@ Formats = {
 # SHAPEKEY elements; the rest are byte copies of vb elements
 BufferFiles = {"Index": "Index.buf", "Position": "Position.buf", "Blend": "Blend.buf", "Vector": "Vector.buf", "Color": "Color.buf", "TexCoord": "TexCoord.buf",
                "ShapeKeyOffset": "ShapeKeyOffset.buf", "ShapeKeyVertexId": "ShapeKeyVertexId.buf", "ShapeKeyVertexOffset": "ShapeKeyVertexOffset.buf"}
+# written only for a character whose merged skeleton needs WWMI's blend remap (see buildBlendRemaps)
+BlendRemapFiles = {"BlendRemapVertexVG": "BlendRemapVertexVG.buf", "BlendRemapForward": "BlendRemapForward.buf", "BlendRemapReverse": "BlendRemapReverse.buf"}
+BufferFiles.update(BlendRemapFiles)
 ShapeKeySlots = 128
 TexturePattern = re.compile(r"^Components-[0-9-]+ t=(?P<hash>[0-9a-fA-F]{8})\.dds$")
 
@@ -162,10 +171,15 @@ class Component:
         if (element is None):
             raise SystemExit(f"Component {self.index}: the .fmt declares no {name}{semanticIndex} element")
         dtype, count = formatOf(element.get("Format", ""))
-        available = np.dtype(dtype).itemsize * count
+        offset = int(element.get("AlignedByteOffset", "0"))
+        # a character with eight bone influences a vertex (Augusta, Iuno, Chisa, ...) declares its
+        #   BLENDINDICES / BLENDWEIGHT as a single R8_UINT while each spans 8 bytes (Metadata's
+        #   export_format says stride 8): the element's real width is up to the next element
+        following = [int(e.get("AlignedByteOffset", "0")) for e in self.elements if int(e.get("AlignedByteOffset", "0")) > offset]
+        span = (min(following) if following else self.stride) - offset
+        available = max(np.dtype(dtype).itemsize * count, span if count == 1 else 0)
         if (width > available):
             raise SystemExit(f"Component {self.index}: {name}{semanticIndex} is {available} bytes in the .fmt, {width} wanted")
-        offset = int(element.get("AlignedByteOffset", "0"))
         return self.rows[:, offset:offset + width]
 
     def shapeKeys(self):
@@ -211,9 +225,13 @@ def buildVertexBuffer(components, semantics) -> bytes:
     return b"".join(part.tobytes() for part in parts)
 
 
-def buildBlend(components, semantics, useVgMap: bool) -> bytes:
-    """The Blend buffer, the bone indices sent through each component's vg_map"""
+def buildBlend(components, semantics, useVgMap: bool):
+    """(Blend buffer bytes, merged bone ids, weights): the bone indices sent through each component's
+    vg_map. A merged id above 255 is written into the 8-bit Blend buffer truncated, as WWMI Tools'
+    R8_UINT encoder does (numpy astype); the full ids go to the blend remap (buildBlendRemaps)"""
     parts = []
+    allIds = []
+    allWeights = []
     for component in components:
         columns = []
         for name, semanticIndex, fmt, stride in semantics:
@@ -227,12 +245,63 @@ def buildBlend(components, semantics, useVgMap: bool) -> bytes:
                     mapped = table[data.astype(np.int64)]
                 else:
                     mapped = data.astype(np.int64) + int(component.entry.get("vg_offset", 0))
-                if (int(mapped.max()) > 255):
-                    raise SystemExit(f"Component {component.index}: a merged bone index of {int(mapped.max())} does not fit the 8-bit Blend buffer")
+                if (int(mapped.max()) >= BlendRemapSize):
+                    raise SystemExit(f"Component {component.index}: a merged bone index of {int(mapped.max())} is past WWMI's {BlendRemapSize}-bone limit")
+                allIds.append(mapped.astype(np.uint16))
                 data = mapped.astype(np.uint8)
+            elif (name.upper() == "BLENDWEIGHT"):
+                allWeights.append(data)
             columns.append(data)
         parts.append(np.ascontiguousarray(np.concatenate(columns, axis = 1)))
-    return b"".join(part.tobytes() for part in parts)
+    return b"".join(part.tobytes() for part in parts), np.concatenate(allIds), np.concatenate(allWeights)
+
+
+# ---- WWMI's blend remap: a merged skeleton of more than 256 bones (2026-09-19, Chisa) ----
+#
+# The Blend buffer's bone indices are 8 bits, and a character whose merged skeleton passes 256 slots
+# (Chisa: 420; WWMI-Assets' Augusta, Iuno, Galbrena) has vertices weighted to bones the byte cannot
+# name. WWMI's answer, as WWMI Tools writes it (blender_export/data_models/data_model_wwmi.py's
+# build_blend_remap, identical in 1.3.3 and 1.7.3 except that 1.3.3 hard-codes four ids a vertex):
+#   * per COMPONENT whose vertices (those its index range reaches) carry a non-zero weight on a bone
+#     >= 256, a remap: the sorted distinct bones it uses (at most 256) get local ids 0..n-1;
+#     'BlendRemapForward.buf' holds 512 uint16s per remap, local -> merged, and
+#     'BlendRemapReverse.buf' 512 per remap, merged -> local. Remaps are numbered in component order.
+#   * 'BlendRemapVertexVG.buf' holds every vertex's FULL merged ids as uint16s, as many a vertex as
+#     the Blend buffer has weights (8 for Chisa).
+#   * at load, WWMI's BlendRemapper.hlsl writes a copy of Blend.buf per remapped component with each
+#     id replaced by reverse[full id]; each frame SkeletonRemapper.hlsl builds that component's own
+#     skeleton by gathering forward[local] out of the merged one; the component's draw binds both.
+#     The merged skeleton buffers grow to 512 bones (array = 1536).
+# The Blend.buf bytes themselves stay the merged ids truncated to 8 bits -- what a component with no
+# remap reads, correctly, since its ids are all below 256.
+BlendRemapSize = 512
+
+
+def buildBlendRemaps(components, ids: np.ndarray, weights: np.ndarray, indexBuffer: np.ndarray):
+    """[(component index, remap id, bone count)], forward, reverse (uint16 arrays)"""
+    remaps = []
+    forward = []
+    reverse = []
+    for component in components:
+        vertexIds = np.unique(indexBuffer[component.indexOffset:component.indexOffset + component.indices.size])
+        used = ids[vertexIds].ravel()
+        if (used.size == 0 or int(used.max()) < 256):
+            continue
+        used = np.unique(used[weights[vertexIds].ravel() > 0])
+        if (used.size == 0 or int(used.max()) < 256):
+            continue
+        if (used.size > 256):
+            raise SystemExit(f"Component {component.index} weights {used.size} distinct bones, past the 256 one remap can hold")
+        f = np.zeros(BlendRemapSize, dtype = "<u2")
+        f[np.arange(used.size)] = used
+        r = np.zeros(BlendRemapSize, dtype = "<u2")
+        r[used] = np.arange(used.size)
+        remaps.append((component.index, len(remaps), int(used.size)))
+        forward.append(f)
+        reverse.append(r)
+    if (not remaps):
+        return [], None, None
+    return remaps, np.concatenate(forward), np.concatenate(reverse)
 
 
 def buildIndex(components) -> np.ndarray:
@@ -272,20 +341,51 @@ def buildShapeKeys(components):
     return offsets, vertexIds, six, counts
 
 
-def iniText(name: str, author: str, metadata: dict, components, vertexCount: int, indexCount: int, shapeKeyCount: int, textures) -> str:
+def blendRemapIni(remaps, weightsPerVertex: int):
+    """The blend remap's own sections (WWMI Tools' merged.ini.j2 for blend_remap_count > 0)"""
+    L = ["[ResourceMergedSkeletonRemap]", "[ResourceExtraMergedSkeletonRemap]", "", "[ResourceBlendBufferOverride]", "[ResourceExtraMergedSkeletonOverride]",
+         "[ResourceMergedSkeletonOverride]", "", "[ResourceRemappedBlendBufferRW]", "[ResourceRemappedSkeletonRW]", "[ResourceExtraRemappedSkeletonRW]", ""]
+    for i, _, _ in remaps:
+        L += [f"[ResourceRemappedBlendBufferComponent{i}]", f"[ResourceRemappedSkeletonComponent{i}]", f"[ResourceExtraRemappedSkeletonComponent{i}]", ""]
+    L += ["[CommandListInitializeBlendRemaps]", "local $blend_remaps_initialized", "if !$blend_remaps_initialized",
+          "    ResourceRemappedSkeletonRW = copy ResourceMergedSkeletonRW", "    ResourceExtraRemappedSkeletonRW = copy ResourceExtraMergedSkeletonRW",
+          "    $\\WWMIv1\\custom_vertex_count = $mesh_vertex_count", f"    $\\WWMIv1\\weights_per_vertex_count = {weightsPerVertex}",
+          "    cs-t34 = ref ResourceBlendRemapReverseBuffer", "    cs-t35 = ref ResourceBlendRemapVertexVGBuffer"]
+    for i, remapId, _ in remaps:
+        L += [f"    $\\WWMIv1\\blend_remap_id = {remapId}", "    ResourceRemappedBlendBufferRW = copy ResourceBlendBufferNoStride", "    cs-u4 = ref ResourceRemappedBlendBufferRW",
+              "    run = CustomShader\\WWMIv1\\BlendRemapper", f"    ResourceRemappedBlendBufferComponent{i} = copy ResourceRemappedBlendBufferRW",
+              f"    ResourceRemappedBlendBufferComponent{i} = copy_desc ResourceBlendBuffer"]
+    L += ["    $blend_remaps_initialized = 1", "endif", ""]
+    L += ["[CommandListRemapMergedSkeleton]", "ResourceMergedSkeletonRemap = copy ResourceMergedSkeletonRW", "ResourceExtraMergedSkeletonRemap = copy ResourceExtraMergedSkeletonRW",
+          "cs-t37 = ResourceBlendRemapForwardBuffer"]
+    for i, remapId, count in remaps:
+        L += [f"$\\WWMIv1\\blend_remap_id = {remapId}", f"$\\WWMIv1\\vg_count = {count}", "cs-t38 = ResourceMergedSkeletonRemap", "cs-u5 = ResourceRemappedSkeletonRW",
+              "run = CustomShader\\WWMIv1\\SkeletonRemapper", f"ResourceRemappedSkeletonComponent{i} = copy ResourceRemappedSkeletonRW",
+              "cs-t38 = ResourceExtraMergedSkeletonRemap", "cs-u5 = ResourceExtraRemappedSkeletonRW", "run = CustomShader\\WWMIv1\\SkeletonRemapper",
+              f"ResourceExtraRemappedSkeletonComponent{i} = copy ResourceExtraRemappedSkeletonRW"]
+    return L + [""]
+
+
+def iniText(name: str, author: str, metadata: dict, components, vertexCount: int, indexCount: int, shapeKeyCount: int, textures,
+            blendStride: int = 8, remaps = (), weightsPerVertex: int = 4) -> str:
     sk = metadata.get("shapekeys") or {}
+    remapped = {i for i, _, _ in remaps}
     L = []
     L += ["; WWMI BETA-2 INI", "", "; Mod State -------------------------", "", "[Constants]",
           "global $required_wwmi_version = 0.91", f"global $object_guid = {indexCount}", f"global $mesh_vertex_count = {vertexCount}",
           f"global $shapekey_vertex_count = {shapeKeyCount}", "global $mod_id = -1000", "global $state_id = 0", "global $mod_enabled = 0", "global $object_detected = 0", ""]
-    L += ["[Present]", "if $object_detected", "    if $mod_enabled", "        post $object_detected = 0", "        run = CommandListUpdateMergedSkeleton", "    else",
+    L += ["[Present]", "if $object_detected", "    if $mod_enabled", "        post $object_detected = 0"] + (["        run = CommandListInitializeBlendRemaps"] if remaps else []) + [
+          "        run = CommandListUpdateMergedSkeleton", "    else",
           "        if $mod_id == -1000", "            run = CommandListRegisterMod", "        endif", "    endif", "endif", ""]
     L += ["[CommandListRegisterMod]", "$\\WWMIv1\\required_wwmi_version = $required_wwmi_version", "$\\WWMIv1\\object_guid = $object_guid",
           "Resource\\WWMIv1\\ModName = ref ResourceModName", "Resource\\WWMIv1\\ModAuthor = ref ResourceModAuthor", "Resource\\WWMIv1\\ModDesc = ref ResourceModDesc",
           "Resource\\WWMIv1\\ModLink = ref ResourceModLink", "Resource\\WWMIv1\\ModLogo = ref ResourceModLogo", "run = CommandList\\WWMIv1\\RegisterMod",
           "$mod_id = $\\WWMIv1\\mod_id", "if $mod_id >= 0", "    $mod_enabled = 1", "endif", ""]
     L += ["[CommandListUpdateMergedSkeleton]", "if $state_id", "    $state_id = 0", "else", "    $state_id = 1", "endif",
-          "ResourceMergedSkeleton = copy ResourceMergedSkeletonRW", "ResourceExtraMergedSkeleton = copy ResourceExtraMergedSkeletonRW", ""]
+          "ResourceMergedSkeleton = copy ResourceMergedSkeletonRW", "ResourceExtraMergedSkeleton = copy ResourceExtraMergedSkeletonRW"] + (
+          ["run = CommandListRemapMergedSkeleton"] if remaps else []) + [""]
+    if (remaps):
+        L += blendRemapIni(remaps, weightsPerVertex)
     L += ["; Resources: Mod Info -------------------------", "", "[ResourceModName]", "type = Buffer", f'data = "{name} Identity"', "",
           "[ResourceModAuthor]", "type = Buffer", f'data = "{author}"', "", "[ResourceModDesc]", "type = Buffer",
           f'data = "The identity mod of {name}: the game\'s own model out of WWMI-Assets, built by wwmiIdentityMod.py"', "",
@@ -296,15 +396,29 @@ def iniText(name: str, author: str, metadata: dict, components, vertexCount: int
           "run = CustomShader\\WWMIv1\\SkeletonMerger", "cs-cb8 = ref vs-cb3", "cs-u6 = ResourceExtraMergedSkeletonRW", "run = CustomShader\\WWMIv1\\SkeletonMerger", ""]
     L += ["[CommandListTriggerResourceOverrides]"] + [f"CheckTextureOverride = ps-t{i}" for i in range(8)] + ["CheckTextureOverride = vs-cb3", "CheckTextureOverride = vs-cb4", ""]
     L += ["[CommandListOverrideSharedResources]", "ResourceBypassVB0 = ref vb0", "ib = ResourceIndexBuffer", "vb0 = ResourcePositionBuffer", "vb1 = ResourceVectorBuffer",
-          "vb2 = ResourceTexcoordBuffer", "vb3 = ResourceColorBuffer", "vb4 = ResourceBlendBuffer", "if vs-cb3 == 3381.7777", "    vs-cb3 = ResourceExtraMergedSkeleton", "endif",
-          "if vs-cb4 == 3381.7777", "    vs-cb4 = ResourceMergedSkeleton", "endif", ""]
-    L += ["[CommandListCleanupSharedResources]", "vb0 = ref ResourceBypassVB0", ""]
+          "vb2 = ResourceTexcoordBuffer", "vb3 = ResourceColorBuffer"]
+    if (not remaps):
+        L += ["vb4 = ResourceBlendBuffer", "if vs-cb3 == 3381.7777", "    vs-cb3 = ResourceExtraMergedSkeleton", "endif",
+              "if vs-cb4 == 3381.7777", "    vs-cb4 = ResourceMergedSkeleton", "endif", ""]
+    else:
+        # the 1.3.x form; WWMI Tools 1.7.3 nests the vs-cb3 check inside the vs-cb4 one (with an elif
+        #   binding vs-cb3 to the MAIN skeleton), for the plain branch too -- this script keeps the form
+        #   of its template, which renders on WWMI 1.00
+        L += ["if ResourceBlendBufferOverride === null", "    vb4 = ResourceBlendBuffer", "    if vs-cb3 == 3381.7777", "        vs-cb3 = ref ResourceExtraMergedSkeleton", "    endif",
+              "    if vs-cb4 == 3381.7777", "        vs-cb4 = ref ResourceMergedSkeleton", "    endif", "else", "    vb4 = ref ResourceBlendBufferOverride",
+              "    if vs-cb3 == 3381.7777", "        vs-cb3 = ref ResourceExtraMergedSkeletonOverride", "    endif", "    if vs-cb4 == 3381.7777",
+              "        vs-cb4 = ref ResourceMergedSkeletonOverride", "    endif", "endif", ""]
+    L += ["[CommandListCleanupSharedResources]", "vb0 = ref ResourceBypassVB0"] + (
+          ["if ResourceBlendBufferOverride !== null", "    ResourceBlendBufferOverride = null", "    ResourceMergedSkeletonOverride = null",
+           "    ResourceExtraMergedSkeletonOverride = null", "endif"] if remaps else []) + [""]
     for component in components:
         i = component.index
         L += [f"[TextureOverrideComponent{i}]", f"hash = {metadata['vb0_hash']}", f"match_first_index = {component.indexOffset}", f"match_index_count = {component.indices.size}",
               "$object_detected = 1", "if $mod_enabled", f"    local $state_id_{i}", f"    if $state_id_{i} != $state_id", f"        $state_id_{i} = $state_id",
               f"        $\\WWMIv1\\vg_offset = {int(component.entry['vg_offset'])}", f"        $\\WWMIv1\\vg_count = {int(component.entry['vg_count'])}",
-              "        run = CommandListMergeSkeleton", "    endif", "    if ResourceMergedSkeleton !== null", "        handling = skip",
+              "        run = CommandListMergeSkeleton", "    endif", "    if ResourceMergedSkeleton !== null", "        handling = skip"] + (
+              [f"        ResourceBlendBufferOverride = ref ResourceRemappedBlendBufferComponent{i}", f"        ResourceMergedSkeletonOverride = ref ResourceRemappedSkeletonComponent{i}",
+               f"        ResourceExtraMergedSkeletonOverride = ref ResourceExtraRemappedSkeletonComponent{i}"] if i in remapped else []) + [
               "        run = CommandListTriggerResourceOverrides", "        run = CommandListOverrideSharedResources", f"        ; Draw Component {i}",
               f"        drawindexed = {component.indices.size}, {component.indexOffset}, 0", "        run = CommandListCleanupSharedResources", "    endif", "endif", ""]
     L += ["; Shading: Textures -------------------------", ""]
@@ -326,17 +440,26 @@ def iniText(name: str, author: str, metadata: dict, components, vertexCount: int
           "    if cs == 3381.4444 && ResourceMergedSkeleton !== null", "        handling = skip", "        run = CommandListMultiplyShapeKeys", "    endif", "endif", ""]
     L += ["; Resources: Shape Keys Override -------------------------", "", "[ResourceShapeKeyCBRW]", "type = RWBuffer", "format = R32G32B32A32_UINT", "array = 66", "",
           "[ResourceCustomShapeKeyValuesRW]", "type = RWBuffer", "format = R32G32B32A32_FLOAT", "array = 32", ""]
+    # 256 bones, 3 float4s each; 512 with a blend remap
+    skeletonArray = 1536 if remaps else 768
     L += ["; Resources: Skeleton Override -------------------------", "", "[ResourceMergedSkeleton]", "", "[ResourceMergedSkeletonRW]", "type = RWBuffer",
-          "format = R32G32B32A32_FLOAT", "array = 768", "", "[ResourceExtraMergedSkeleton]", "", "[ResourceExtraMergedSkeletonRW]", "type = RWBuffer",
-          "format = R32G32B32A32_FLOAT", "array = 768", ""]
+          "format = R32G32B32A32_FLOAT", f"array = {skeletonArray}", "", "[ResourceExtraMergedSkeleton]", "", "[ResourceExtraMergedSkeletonRW]", "type = RWBuffer",
+          "format = R32G32B32A32_FLOAT", f"array = {skeletonArray}", ""]
     L += ["; Resources: Buffers -------------------------", "", "[ResourceBypassVB0]", ""]
     resources = [("ResourceIndexBuffer", "DXGI_FORMAT_R32_UINT", 12, "Index"), ("ResourcePositionBuffer", "DXGI_FORMAT_R32G32B32_FLOAT", 12, "Position"),
-                 ("ResourceBlendBuffer", "DXGI_FORMAT_R8_UINT", 8, "Blend"), ("ResourceVectorBuffer", "DXGI_FORMAT_R8G8B8A8_SNORM", 8, "Vector"),
+                 ("ResourceBlendBuffer", "DXGI_FORMAT_R8_UINT", blendStride, "Blend"), ("ResourceVectorBuffer", "DXGI_FORMAT_R8G8B8A8_SNORM", 8, "Vector"),
                  ("ResourceColorBuffer", "DXGI_FORMAT_R8G8B8A8_UNORM", 4, "Color"), ("ResourceTexCoordBuffer", "DXGI_FORMAT_R16G16_FLOAT", 16, "TexCoord"),
                  ("ResourceShapeKeyOffsetBuffer", "DXGI_FORMAT_R32G32B32A32_UINT", 16, "ShapeKeyOffset"), ("ResourceShapeKeyVertexIdBuffer", "DXGI_FORMAT_R32_UINT", 4, "ShapeKeyVertexId"),
                  ("ResourceShapeKeyVertexOffsetBuffer", "DXGI_FORMAT_R16_FLOAT", 2, "ShapeKeyVertexOffset")]
+    if (remaps):
+        # no stride on these: a compute shader cannot address a Buffer declared with one
+        resources += [("ResourceBlendRemapVertexVGBuffer", "DXGI_FORMAT_R16_UINT", None, "BlendRemapVertexVG"),
+                      ("ResourceBlendRemapForwardBuffer", "DXGI_FORMAT_R16_UINT", None, "BlendRemapForward"),
+                      ("ResourceBlendRemapReverseBuffer", "DXGI_FORMAT_R16_UINT", None, "BlendRemapReverse")]
     for section, fmt, stride, bufferName in resources:
-        L += [f"[{section}]", "type = Buffer", f"format = {fmt}", f"stride = {stride}", f"filename = Meshes/{BufferFiles[bufferName]}", ""]
+        L += [f"[{section}]", "type = Buffer", f"format = {fmt}"] + ([f"stride = {stride}"] if stride is not None else []) + [f"filename = Meshes/{BufferFiles[bufferName]}", ""]
+        if (bufferName == "Blend" and remaps):
+            L += ["[ResourceBlendBufferNoStride]", "type = Buffer", f"format = {fmt}", f"filename = Meshes/{BufferFiles[bufferName]}", ""]
     L += ["; Autogenerated -------------------------", "", f"; This mod.ini is the IDENTITY mod of {name}, generated by Anime Game Remap's Tools/Misc/Prototypes/wwmiIdentityMod.py from WWMI-Assets, "
           "in the shape WWMI Tools 1.3.4 generates (WWMI v0.9.1+)", ""]
     return "\n".join(L)
@@ -384,10 +507,23 @@ def main():
             f.write(data)
         written[bufferName] = len(data)
 
-    write("Index", buildIndex(components).tobytes())
+    index = buildIndex(components)
+    write("Index", index.tobytes())
     for bufferName in ("Position", "Vector", "Color", "TexCoord"):
         write(bufferName, buildVertexBuffer(components, exportSemantics(exportFormat, bufferName)))
-    write("Blend", buildBlend(components, exportSemantics(exportFormat, "Blend"), useVgMap = not args.rawBones))
+    blendSemantics = exportSemantics(exportFormat, "Blend")
+    blend, boneIds, weights = buildBlend(components, blendSemantics, useVgMap = not args.rawBones)
+    write("Blend", blend)
+    blendStride = sum(stride for _, _, _, stride in blendSemantics)
+    weightsPerVertex = int(boneIds.shape[1])
+    remaps, forward, reverse = buildBlendRemaps(components, boneIds, weights, index)
+    for stale in BlendRemapFiles.values():
+        if (os.path.isfile(os.path.join(meshes, stale))):
+            os.remove(os.path.join(meshes, stale))
+    if (remaps):
+        write("BlendRemapVertexVG", boneIds.astype("<u2").tobytes())
+        write("BlendRemapForward", forward.tobytes())
+        write("BlendRemapReverse", reverse.tobytes())
 
     offsets, vertexIds, deltas, counts = buildShapeKeys(components)
     write("ShapeKeyOffset", offsets.tobytes())
@@ -407,7 +543,8 @@ def main():
             textures.append((fileName, match.group("hash").lower()))
 
     with open(os.path.join(modFolder, "mod.ini"), "w", encoding = "utf-8", newline = "\r\n") as f:
-        f.write(iniText(name, args.author, metadata, components, vertexCount, indexCount, shapeKeyCount, textures))
+        f.write(iniText(name, args.author, metadata, components, vertexCount, indexCount, shapeKeyCount, textures,
+                        blendStride = blendStride, remaps = remaps, weightsPerVertex = weightsPerVertex))
 
     # ---- what was built, and the checks that say the reading is the game's ----
     sk = metadata.get("shapekeys") or {}
@@ -419,7 +556,9 @@ def main():
         print(f"  Component {component.index}: {component.vertexCount} vertices from {component.vertexOffset}, {component.indices.size} indices from {component.indexOffset}, "
               f"{int(component.entry['vg_count'])} bones at merged slot {int(component.entry['vg_offset'])}"
               + (f" ({sum(1 for k, v in vgMap.items() if int(v) != int(component.entry['vg_offset']) + int(k))} of them another component's)" if (vgMap) else ""))
-    print("  buffers: " + ", ".join(f"{BufferFiles[b]} {written[b]} B" for b in BufferFiles))
+    print("  buffers: " + ", ".join(f"{BufferFiles[b]} {written[b]} B" for b in BufferFiles if b in written))
+    print(f"  blend: {weightsPerVertex} bones a vertex ({blendStride} B), highest merged bone {int(boneIds.max())}; "
+          + (f"blend remaps for components {', '.join(f'{i} (remap {r}, {n} bones)' for i, r, n in remaps)}" if remaps else "no blend remap needed"))
     keys = [k for k, c in enumerate(counts) if c]
     print(f"  shape keys: {len(keys)} keys ({keys[0]}-{keys[-1]}), {shapeKeyCount} (key, vertex) entries; first offsets {offsets[:4].tolist()} sum {checksum} "
           f"vs Metadata checksum {sk.get('checksum')} ({'OK' if checksum == sk.get('checksum') else 'MISMATCH'}); dispatch_y {dispatchY} vs {sk.get('dispatch_y')} "

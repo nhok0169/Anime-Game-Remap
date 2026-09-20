@@ -354,6 +354,12 @@ Roles = {
     #   hair, which is what "the hair has orange stains" was: a warm tint on whatever catches the
     #   light. The FRONT hair slot needs no such entry, because both skins bind b0ee686b there.
     "232c2dbc": "hairRamp",
+    # AND THE CLOTHING PASS HAS ONE TOO, WHICH IS WHAT SHADES BARE SKIN (2026-09-20). The bust
+    #   report turned out to be the DECOLLETAGE -- the chest above the kimono, which the mask marks
+    #   as skin -- and a flat colour at the target's upper-body `ps-t5` painted exactly that region.
+    #   Chisa's own upper-body draw has 4848ae14 there (a 512 x 25 ramp, mean 92, 71, 92) where the
+    #   skin's has a flat grey 7a9915c5, so her skin was being shaded through the skin's ramp.
+    "4848ae14": "skinRamp",
     "6ae8dd10": "faceMask", "d030af95": "faceDiffuse",
     "526b9ed0": "upperNormal", "90196068": "upperMask", "165f3a1b": "upperDiffuse",
     "2b6f8bcb": "lowerNormal", "3f0e6f21": "lowerMask", "f642139e": "lowerDiffuse",
@@ -369,7 +375,7 @@ Plan = {
     0: (0, {"ps-t0": "frontHairMask", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}),
     1: (1, {"ps-t0": "hairMask", "ps-t1": "hairDiffuse", "ps-t2": "hairRamp", "ps-t5": "hairNormal"}),
     2: (2, {"ps-t0": "faceMask", "ps-t1": "faceDiffuse"}),
-    3: (3, {"ps-t0": "upperNormal", "ps-t1": "upperMask", "ps-t3": "upperDiffuse"}),
+    3: (3, {"ps-t0": "upperNormal", "ps-t1": "upperMask", "ps-t3": "upperDiffuse", "ps-t5": "skinRamp"}),
     4: (4, {"ps-t0": "lowerNormal", "ps-t1": "lowerMask", "ps-t3": "lowerDiffuse"}),
     # MEASURED, not guessed (2026-09-20): on the pass both skins draw this slot with (3df800c3)
     #   Chisa binds 019c268e / f2646d21 / 9ccd7ea7 at ps-t0 / t1 / t5 -- her accessory diffuse and
@@ -652,6 +658,7 @@ FallbackTextures: Dict[str, str] = {
     #   today: every other role here is one a mod of Chisa ships for itself.
     "frontHairMask": "d3b9ba76", "frontHairDiffuse": "f2646d21", "frontHairNormal": "9ccd7ea7",
     "hairMask": "a842d51f", "hairDiffuse": "cbab5910", "hairNormal": "e921181d", "hairRamp": "232c2dbc",
+    "skinRamp": "4848ae14",
     "faceMask": "6ae8dd10", "faceDiffuse": "d030af95",
     "upperNormal": "526b9ed0", "upperMask": "90196068", "upperDiffuse": "165f3a1b",
     "lowerNormal": "2b6f8bcb", "lowerMask": "3f0e6f21", "lowerDiffuse": "f642139e",
@@ -669,6 +676,7 @@ IdentityMin, IdentityGap = 0.97, 0.90   # a file IS a game texture when its colo
 #   refused as duplicates and the upper body got nothing at all.
 RoleComponent = {"frontHairMask": 0, "frontHairDiffuse": 0, "frontHairNormal": 0,
                  "hairMask": 1, "hairDiffuse": 1, "hairNormal": 1, "hairRamp": 1,
+                 "skinRamp": 3,
                  "faceMask": 2, "faceDiffuse": 2,
                  "upperNormal": 3, "upperMask": 3, "upperDiffuse": 3,
                  "lowerNormal": 4, "lowerMask": 4, "lowerDiffuse": 4,

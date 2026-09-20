@@ -618,7 +618,13 @@ looked guilty for hours; what settled it was skinning the mod's mesh under three
 from the frame dumps' `vs-cb4` and comparing the pictures. Both are in
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "A SOURCE PAST 256 BONES CARRIES
 THREE LINES THAT UNDO THE REMAP", with the per-section check that fails against the broken build.
-**The reverse direction is still unseen.** WWMI-Assets has neither of them, so everything comes from frame dumps
+**The second round left the geometry right and the whole body under a translucent red**, which was
+the MATERIAL MASK: two skins of one character can pack it differently, and Chisa marks bare skin
+with `R = 255` where the Parfait skin marks it with `R = 0`, so her own mask tells the skin's shader
+that 97% of her clothes is flesh. The fix repacks the mask into the target's layout rather than
+binding the mod's, and the way to learn a legend is to ask the DIFFUSE under each region how
+flesh-coloured it is -- see "TWO SKINS OF ONE CHARACTER CAN PACK THEIR MATERIAL MASK DIFFERENTLY".
+**Neither that nor the reverse direction has been seen in game.** WWMI-Assets has neither of them, so everything comes from frame dumps
 (`Tools/Misc/Prototypes/wwmiExtractDump.py`, which runs WWMI Tools' own extractor outside Blender):
 the download folders `Data/Mod Downloads/WuWa/Chisa/2_8` and `ChisaParfait/3_5`, both `ModTypeId`s
 with their hash / index / count / vg / shape-key rows, a `VGRemapData` row each way out of

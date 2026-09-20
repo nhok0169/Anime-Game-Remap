@@ -65,6 +65,8 @@ import struct
 import sys
 from typing import Dict, List, Optional, Tuple
 
+import numpy as np       # the blend remap and the material-mask repack are both array work
+
 OnWindows = (sys.platform == "win32")
 
 
@@ -127,6 +129,20 @@ ShapeKeyType = "shapekeys"        # the 'type' of the ShapeKeyChecksums row
 
 SkinMaskColour = (255, 77, 0, 255)          # kept from the Sanhua config and UNMEASURED for this skin: nothing invents a mask here (header, point 1)
 SkinMask = "SkinMask"                       # the invented mask's resource / file stem, if a plan ever needs one
+
+# THE TWO SKINS PACK THEIR MATERIAL MASK DIFFERENTLY, AND BINDING THE MOD'S OWN IS WRONG (header,
+#   point 10). Chisa's clothing shader takes a BC1 mask of flat material codes and marks bare skin
+#   with R = 255; the skin's takes a BC3 one and marks bare skin with R = 0, cloth with R = 255 --
+#   the INVERSE. Asked of the diffuse under each region rather than of any name (legend.py in the
+#   session scratchpad): Chisa's R >= 128 is 99.2% flesh-coloured on the upper body and 79.7% on
+#   the lower (her bare legs, 41% of that atlas), and her R < 128 is 0.4%; the skin's R < 128 is
+#   the more flesh-like of her two by 88% to 52%. So her own mask tells the skin's shader that 97%
+#   of her jacket, blouse and skirt is bare flesh, and the whole body renders under a translucent
+#   subsurface red -- the Sanhua "cloth shaded as skin" symptom, from the opposite direction.
+MaskTranslations = {"upperMask", "lowerMask"}   # the roles whose file is repacked before it is bound
+TargetMaskCloth = (255, 0, 126, 0)              # the skin's own dominant code, ie. ordinary cloth: R 93.6%, G 80.1%, B 84.8%, A 98.2%
+TargetMaskSkinR = 0                             # what she marks bare skin with, in R
+SourceMaskSkinAbove = 128                       # Chisa's R at or above this is bare skin
 ShapeKeyZero = "ShapeKeyZero"               # the zero shape-key offset stream bound at vb6 (sanhuaExorcistFix.py's header, point 10)
 ShapeKeyStride = 24                         # bytes a vertex in that stream, off the frame dump's vb6 layout
 
@@ -277,6 +293,37 @@ def writeSolidDds(path, colour, size = 16):
     body = bytes(colour) * (w * h)
     with open(path, "wb") as f:
         f.write(bytes(header) + body)
+
+
+def translateMaterialMask(src: str, dst: str) -> float:
+    """Repack a material mask from the SOURCE's layout into the TARGET's (MaskTranslations above).
+
+    Every pixel takes the target's own cloth code, except where the source marks bare skin, which
+    keeps the target's skin value in R. The other channels are hers throughout: the source's are a
+    different shader's and mean nothing here. Returns the percentage written as cloth."""
+    tex = FRB.TextureFile(src)
+    tex.open()
+    px = np.frombuffer(tex.getPixels(), dtype = np.uint8).reshape(tex.height, tex.width, 4)
+    out = np.empty_like(px)
+    out[...] = np.array(TargetMaskCloth, dtype = np.uint8)
+    skin = px[..., 0] >= SourceMaskSkinAbove
+    out[skin, 0] = TargetMaskSkinR
+    writeDds(dst, out)
+    return 100.0 * float((~skin).mean())
+
+
+def writeDds(path, pixels):
+    """An uncompressed R8G8B8A8_UNORM DDS of 'pixels' (height x width x RGBA)"""
+    h, w = pixels.shape[0], pixels.shape[1]
+    header = bytearray(b"DDS ")
+    flags = 0x1 | 0x2 | 0x4 | 0x1000 | 0x8
+    header += struct.pack("<IIIIIII", 124, flags, h, w, w * 4, 0, 1)
+    header += b"\0" * 44
+    header += struct.pack("<II4sIIIII", 32, 0x4, b"DX10", 0, 0, 0, 0, 0)
+    header += struct.pack("<IIIII", 0x1000, 0, 0, 0, 0)
+    header += struct.pack("<IIIII", 28, 3, 0, 1, 0)
+    with open(path, "wb") as f:
+        f.write(bytes(header) + np.ascontiguousarray(pixels, dtype = np.uint8).tobytes())
 
 
 # ---------------------------------------------------------------------------------------------
@@ -504,6 +551,7 @@ class ModFiles():
         real = lambda f: index.real.get(f, f)       # noqa: E731 -- the file's real spelling, for what gets written
         self.textureFolder = next((os.path.dirname(os.path.relpath(real(f), iniFolder)).replace("\\", "/") for f in resourceOfFile), "") or "Textures"
         self.resourceOfRole: Dict[str, str] = {}
+        self.fileOfRole: Dict[str, str] = {}        # role -> the mod's own file, for a role whose packing is translated
         self.declared: Dict[str, str] = {}          # role -> the file's path relative to this .ini, for a file no resource of this .ini names
         self.unknownTextures: List[str] = [os.path.relpath(f, index.root) for f in index.unresolved]
         byRole: Dict[str, List[Tuple[str, str]]] = {}      # role -> [(file, how)], every role of every file
@@ -522,6 +570,7 @@ class ModFiles():
                 # (wwmiTextureFix's correlation) can say which is right -- say so loudly
                 print(f"    WARNING: {os.path.relpath(cands[1][0], index.root)} also has the role {role} ({cands[1][1]}), "
                       f"already taken by {os.path.relpath(best, index.root)} ({cands[0][1]}); the first one is bound")
+            self.fileOfRole[role] = real(best)
             if (best in resourceOfFile):
                 self.resourceOfRole[role] = resourceOfFile[best]
             else:
@@ -546,6 +595,26 @@ class ModFiles():
             name = f"Resource{SourceName}{role[0].upper()}{role[1:]}{FRB.IniKeywords.RemapDL.value}"
             self.resourceOfRole[role] = name
             out.append("\n".join([f"[{name}]", f"filename = {rel}", ""]))
+        return out
+
+    def translate(self, roles: List[str]) -> List[str]:
+        """The resource sections for the planned 'roles' in MaskTranslations: the mod's own file repacked
+        into the TARGET's material-mask layout, written as <Role><Target>RemapTex.dds; binds them.
+
+        RemapTex, not RemapRef: the fix writes this file, so the undo is meant to delete it."""
+        out: List[str] = []
+        for role in dict.fromkeys(roles):
+            src = self.fileOfRole.get(role)
+            if (role not in MaskTranslations or src is None or not os.path.isfile(src)):
+                continue
+            fileName = f"{role[0].upper()}{role[1:]}{TargetName}{FRB.IniKeywords.RemapTex.value}.dds"
+            rel = f"{self.textureFolder}/{fileName}"
+            os.makedirs(os.path.join(self.iniFolder, self.textureFolder), exist_ok = True)
+            moved = translateMaterialMask(src, os.path.join(self.iniFolder, self.textureFolder, fileName))
+            name = f"Resource{role[0].upper()}{role[1:]}{TargetName}{FRB.IniKeywords.RemapTex.value}"
+            self.resourceOfRole[role] = name
+            out.append("\n".join([f"[{name}]", f"filename = {rel}", ""]))
+            print(f"    {role}: repacked into {TargetName}'s layout, {moved:.1f}% of it her cloth code -> {rel}")
         return out
 
     def declare(self, fixName) -> List[str]:
@@ -599,7 +668,6 @@ def remapWWMIBlend(vgRemap, forced: bool, vertexCount: int):
             FRB.BlendFile(resource.srcPath, wwmiBlendElements()).remap(remap, fixedBlendFile = resource.fixedPath)
             return True
 
-        import numpy as np
         blend = np.fromfile(resource.srcPath, dtype = np.uint8)
         ids16 = np.fromfile(vertexVG, dtype = "<u2")
         # the influences a vertex has (4 for Sanhua, 8 for Chisa) is the only unknown, and the
@@ -681,6 +749,8 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
 
         appended: List[str] = files.declare(fixName)     # the textures this .ini has no resource of its own for
         appended += files.fallbacks([role for i in files.present if (i in plan) for role in plan[i][1].values()])
+        # ...and the masks whose PACKING differs between the two skins, repacked (MaskTranslations)
+        appended += files.translate([role for i in files.present if (i in plan) for role in plan[i][1].values()])
         # ---- the zero shape-key offset stream, unless WWMI's own pipeline is retargeted to fill vb6 ----
         zeroResource = None
         if (not shapeKeys):

@@ -1348,6 +1348,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | every body part drawn with ONE part's textures | the copies referenced the texture lists in another file | `appendedSectionsInCopies` / `copyHiddenSectionNames` (self-contained copies) |
 | one part's textures wrong, the picture is a different texture | that component got no texture list -- a role with no file | the prototype's per-slot table: `ps-tN=GAME (mod has none)`; then whether the file is declared under TWO hashes |
 | a HUE over the body AND the clothes, every picture right | the material MASK: the mod ships none for that component, so the TARGET's mask is sampled at the mod's UVs | `fallbackTextures` -- the source's own mask, downloaded |
+| a translucent RED over the clothes AND the skin, the pictures showing through | the material mask the mod DOES ship, in the SOURCE's packing: the target's shader reads it as bare skin | repack it -- ask the diffuse which value means skin on each side |
 | eyes wrong on one mod only | the eye pass reads the iris at `ps-t2`, mask at `ps-t1`; or two hashes on one role | the plan's eye bindings; the duplicate-role WARNING |
 
 Two things that were suspected and were NOT the cause, each ruled out by reading rather than by
@@ -1432,6 +1433,49 @@ grep -n "Override = ref Resource" <mod>/mod.ini
 
 Count it per SECTION, not per file: three of seven sections carried it, and a file-level "contains
 it" reads the same before and after a fix that only got one of them.
+
+### TWO SKINS OF ONE CHARACTER CAN PACK THEIR MATERIAL MASK DIFFERENTLY (2026-09-20)
+
+Binding the mod's own mask on the target's draw is not automatically right, even when the mod ships
+one and the role is correct. Chisa's clothing shader takes a **BC1** mask of flat material codes and
+marks bare skin with **R = 255**; ChisaParfait's takes a **BC3** one and marks bare skin with
+**R = 0**, cloth with R = 255. Her mask therefore tells the skin's shader that 97% of her jacket,
+blouse and skirt is flesh, and the whole body renders under a translucent subsurface red with the
+right pictures showing through it -- the Sanhua "cloth shaded as skin" symptom arriving from the
+opposite direction, and the reason that triage row needs a second half.
+
+**Ask the diffuse which value means skin; do not read it off the mask.** For each candidate region
+of a mask, take the mean colour of the diffuse underneath and how flesh-like it is. It is decisive
+in one run and it needs no game:
+
+| | R >= 128 | R < 128 |
+| --- | --- | --- |
+| Chisa upper | 2.7% of the atlas, **99.2% flesh** | 97.3%, 0.4% |
+| Chisa lower | 41.1% (her bare legs), **79.7% flesh** | 58.9%, 0.6% |
+| ChisaParfait upper | 93.9%, 52% | 6.1%, **87.8% flesh** |
+| ChisaParfait lower | 75.9%, 43% | 24.1%, **68.8% flesh** |
+
+A skin whose outfit is pale pink scores "flesh-like" on cloth too, so read the two columns against
+each other rather than against a threshold. The channel histograms say the same thing faster: a
+channel that is one value over 85-97% of an atlas is that shader's DEFAULT, and the two defaults
+here disagree on every channel (Chisa `R 0 / G 102 / B 0 / A 255`, the skin `R 255 / G 0 / B 126 /
+A 0` -- and her A is thin outlines, which BC1 cannot carry at all, so the mod hands it 255
+everywhere).
+
+The fix writes a repacked file (`<Role><Target>RemapTex.dds`, `RemapTex` so the undo deletes it) and
+binds that instead of the mod's: the target's own cloth code everywhere, her skin value in R where
+the source's mask marks skin, and her defaults in the other three channels -- the source's are a
+different shader's and mean nothing on this draw. `MaskTranslations` in the prototype names the
+roles this happens to; only the two clothing slots need it here, because the hair, face, eye and
+accessory passes are the SAME pixel shader on both skins.
+
+**Read the DXGI format of every planned role on both sides before writing the plan.** The formats
+are in a dump's `deduped/<hash>-<FORMAT>.dds` names, and they carry two different facts: which role
+a texture is (`BC7_UNORM` normal, `BC1`/`BC3` mask, `BC7_UNORM_SRGB` diffuse), and -- when the two
+sides differ, as BC1 against BC3 does -- that the shader underneath is not the same one. The skin's
+clothing pass also takes an **extra `R8_UNORM` outline map at `ps-t2`** that Chisa's has no input
+for, which is what shifts her `742c5c7b / 7a9915c5 / 30bf03f4` triple from t3-t5 to the skin's
+t4-t6. It is left bound to the skin's own, and is the next suspect if outlines look wrong.
 
 ### WuWa: choosing test mods by structural axis (2026-09-19)
 

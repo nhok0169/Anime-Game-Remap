@@ -23,6 +23,7 @@
     <innerfile refid="_reg_delimited_add_mode_8h">RegDelimitedAddMode.h</innerfile>
     <innerfile refid="_reg_fill_missing_mode_8h">RegFillMissingMode.h</innerfile>
     <innerfile refid="_strategy_overrides_8h">StrategyOverrides.h</innerfile>
+    <innerfile refid="_w_w_m_i_builder_8h">WWMIBuilder.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

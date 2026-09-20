@@ -3,11 +3,11 @@
 #  --> 
 #  --> WARNING: The following *.ini files were skipped due to warnings (see log above):
 #  --> 
-#  --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
+#  --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
 #  --> 	--- St12out_of_range ---
 #  --> 	The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
 #  --> 
-#  --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
+#  --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
 #  --> 	--- St12out_of_range ---
 #  --> 	The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
 #  --> 
@@ -22,13 +22,13 @@
 #  --> 
 #  --> ===== Mod: Mods =====
 #  --> 
-#  --> - Ayaka/ayakaBlend.buf:
-#  --> 	--- N11AGRemapCore20BufFileNotRecognizedE ---
-#  --> 	Blend.buf file format not recognized for absolute/path/Mods/Ayaka/ayakaBlend.buf
-#  --> 
 #  --> - Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf:
 #  --> 	--- St13runtime_error ---
 #  --> 	Unable to open file: absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf
+#  --> 
+#  --> - Ayaka/ayakaBlend.buf:
+#  --> 	--- N11AGRemapCore20BufFileNotRecognizedE ---
+#  --> 	Blend.buf file format not recognized for absolute/path/Mods/Ayaka/ayakaBlend.buf
 #  --> 
 #  --> =====================
 #  --> 

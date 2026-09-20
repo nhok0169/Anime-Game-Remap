@@ -16,6 +16,7 @@
     <includedby refid="_kirara_boots_fixer_8cpp" local="yes">src/data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp</includedby>
     <includedby refid="_lisa_fixer_8cpp" local="yes">src/data/IniFixData/Lisa/LisaFixer.cpp</includedby>
     <includedby refid="_nilou_breeze_fixer_8cpp" local="yes">src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp</includedby>
+    <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
     <includedby refid="_xiangling_fixer_8cpp" local="yes">src/data/IniFixData/Xiangling/XianglingFixer.cpp</includedby>
     <includedby refid="_tex_creator_8cpp" local="yes">src/model/strategies/texEditors/TexCreator.cpp</includedby>
     <incdepgraph>
@@ -157,6 +158,8 @@
         </childnode>
         <childnode refid="52" relation="include">
         </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
       </node>
       <node id="47">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h</label>
@@ -201,9 +204,11 @@
         </childnode>
         <childnode refid="35" relation="include">
         </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
         <childnode refid="42" relation="include">
         </childnode>
-        <childnode refid="53" relation="include">
+        <childnode refid="54" relation="include">
         </childnode>
       </node>
       <node id="51">
@@ -374,6 +379,10 @@
         <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
         <link refid="_shenhe_frost_flower_fixer_8cpp"/>
       </node>
+      <node id="52">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
       <node id="42">
         <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
         <link refid="_xiangling_fixer_8cpp"/>
@@ -390,11 +399,11 @@
         <label>src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp</label>
         <link refid="_xingqiu_bamboo_fixer_8cpp"/>
       </node>
-      <node id="52">
+      <node id="53">
         <label>src/model/iniresources/RemapTexResource.cpp</label>
         <link refid="_remap_tex_resource_8cpp"/>
       </node>
-      <node id="53">
+      <node id="54">
         <label>src/model/strategies/texEditors/TexCreator.cpp</label>
         <link refid="_tex_creator_8cpp"/>
       </node>

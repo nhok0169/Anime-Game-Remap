@@ -10,7 +10,11 @@
     <innerdir refid="dir_e3096fae6cb60abe644df6d10e6a272e">src/model/stats</innerdir>
     <innerdir refid="dir_fc20fd78122f92b232bb430db3d0fb49">src/model/strategies</innerdir>
     <innerdir refid="dir_ce9990a9ef7edc5fd8dda418ad63991a">src/model/textures</innerdir>
+    <innerfile refid="_call_graph_instantiation_8cpp">CallGraphInstantiation.cpp</innerfile>
+    <innerfile refid="_ini_graph_group_instantiation_8cpp">IniGraphGroupInstantiation.cpp</innerfile>
     <innerfile refid="_ini_naming_tools_8cpp">IniNamingTools.cpp</innerfile>
+    <innerfile refid="_ini_section_graph_instantiation_8cpp">IniSectionGraphInstantiation.cpp</innerfile>
+    <innerfile refid="_section_iter_data_instantiation_8cpp">SectionIterDataInstantiation.cpp</innerfile>
     <innerfile refid="_version_8cpp">Version.cpp</innerfile>
     <innerfile refid="_version_set_8cpp">VersionSet.cpp</innerfile>
     <innerfile refid="_v_g_remap_8cpp">VGRemap.cpp</innerfile>

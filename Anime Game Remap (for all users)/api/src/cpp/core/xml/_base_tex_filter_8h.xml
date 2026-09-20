@@ -24,11 +24,11 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="22" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="24" relation="include">
+        <childnode refid="25" relation="include">
         </childnode>
-        <childnode refid="28" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -84,36 +84,42 @@
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
-      </node>
-      <node id="22">
-        <label>include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h</label>
-        <link refid="_pixel_filter_8h"/>
-        <childnode refid="23" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
-      <node id="24">
+      <node id="23">
+        <label>include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h</label>
+        <link refid="_pixel_filter_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
         <label>include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h</label>
         <link refid="_transparency_adjust_filter_8h"/>
-        <childnode refid="25" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
         <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
         </childnode>
       </node>
       <node id="3">
         <label>src/data/IniFixData/Arlecchino/ArlecchinoFixer.cpp</label>
         <link refid="_arlecchino_fixer_8cpp"/>
       </node>
-      <node id="25">
+      <node id="26">
         <label>src/data/IniFixData/Ayaka/AyakaFixer.cpp</label>
         <link refid="_ayaka_fixer_8cpp"/>
       </node>
       <node id="4">
         <label>src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp</label>
         <link refid="_ayaka_springbloom_fixer_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/data/IniFixData/Bennett/BennettFixer.cpp</label>
+        <link refid="_bennett_fixer_8cpp"/>
       </node>
       <node id="5">
         <label>src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp</label>
@@ -123,7 +129,7 @@
         <label>src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp</label>
         <link refid="_diluc_flamme_fixer_8cpp"/>
       </node>
-      <node id="26">
+      <node id="27">
         <label>src/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp</label>
         <link refid="_keqing_opulent_fixer_8cpp"/>
       </node>
@@ -139,11 +145,11 @@
         <label>src/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.cpp</label>
         <link refid="_klee_blossoming_starlight_fixer_8cpp"/>
       </node>
-      <node id="19">
+      <node id="20">
         <label>src/data/IniFixData/Yelan/YelanFixer.cpp</label>
         <link refid="_yelan_fixer_8cpp"/>
       </node>
-      <node id="20">
+      <node id="21">
         <label>src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</label>
         <link refid="_yelan_tranquil_fixer_8cpp"/>
       </node>
@@ -151,7 +157,7 @@
         <label>src/model/files/TextureFile.cpp</label>
         <link refid="_texture_file_8cpp"/>
       </node>
-      <node id="28">
+      <node id="29">
         <label>src/model/strategies/texEditors/texFilters/BaseTexFilter.cpp</label>
         <link refid="_base_tex_filter_8cpp"/>
       </node>
@@ -171,15 +177,15 @@
         <label>src/model/strategies/texEditors/texFilters/InvertAlphaFilter.cpp</label>
         <link refid="_invert_alpha_filter_8cpp"/>
       </node>
-      <node id="21">
+      <node id="22">
         <label>src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp</label>
         <link refid="_material_band_remap_filter_8cpp"/>
       </node>
-      <node id="23">
+      <node id="24">
         <label>src/model/strategies/texEditors/texFilters/PixelFilter.cpp</label>
         <link refid="_pixel_filter_8cpp"/>
       </node>
-      <node id="27">
+      <node id="28">
         <label>src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp</label>
         <link refid="_transparency_adjust_filter_8cpp"/>
       </node>

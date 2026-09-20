@@ -8,6 +8,7 @@
     <derivedcompoundref refid="class_a_g_remap_core_1_1_reg_new_vals" prot="public" virt="non-virtual">AGRemapCore::RegNewVals&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_reg_remap" prot="public" virt="non-virtual">AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_reg_remove" prot="public" virt="non-virtual">AGRemapCore::RegRemove&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_reg_restrict" prot="public" virt="non-virtual">AGRemapCore::RegRestrict&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <includes refid="_base_reg_edit_8h" local="no">BaseRegEdit.h</includes>
     <templateparamlist>
       <param>
@@ -214,6 +215,7 @@ original&apos;s ``partRanges = None`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
         <reimplementedby refid="class_a_g_remap_core_1_1_reg_new_vals_1ad0c4b4fc3e91c025500cd1834da4075b">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_reg_remap_1aa21905f7d9ce2b51fbed7cb125bd889d">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_reg_remove_1aa6319b98eee53e3f0247a4a032da06ca">edit</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_reg_restrict_1ad52992e2f8a5b3cff6df5c3a7f778bc9">edit</reimplementedby>
         <param>
           <type><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">ContentPart</ref> &amp;</type>
           <declname>part</declname>
@@ -427,6 +429,12 @@ Base class for a filter that edits some registers within an :cpp:class:`IfConten
       <node id="8">
         <label>AGRemapCore::RegRemove&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_reg_remove"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>AGRemapCore::RegRestrict&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_restrict"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>

@@ -301,6 +301,14 @@ Roles = {
                                  #   two hashes on one role made the script bind whichever came first (the Witch mod's eyes, 2026-09-19)
     "48616ac9": "bangsDiffuse", "3cd03f60": "irisDiffuse",     # the 2025 'Components-0' sRGB 2048 and the 1024 sRGB the eyes share
     "345368c9": "bangsMask",                                    # the 2025 'Components-0' UNORM 2048, which the maintainer's hand remap binds at ps-t1
+    # the LIVE hashes of the game's own textures at LOD bias Ultra High (the 2026-09-20 max-LOD
+    #   frame dump, each measured 1.00 against the asset file): what a mod exported from a dump today
+    #   carries, where the asset repo's hashes are what WWMI Tools' own exports carry
+    "b0828323": "bangsDiffuse", "332a6aac": "bangsMask", "07f0a2ea": "hairDiffuse", "466478e4": "hairNormal",
+    "bf16c0c7": "faceMask", "d2765954": "faceDiffuse", "7aee2f16": "skinNormal", "fa792b59": "skinDiffuse",
+    "091a8707": "t5Ramp", "8141e933": "bodiceNormal", "02746d45": "bodiceMask", "fcecfdcb": "bodiceDiffuse",
+    "01ef7c05": "skirtNormal", "0b5be4da": "skirtMask", "1cd3181e": "skirtDiffuse", "5764478b": "irisDiffuse",
+    "d0524bfb": "eyeMask",
 }
 
 # source component -> (target slot, {ps register: role, or the invented mask})

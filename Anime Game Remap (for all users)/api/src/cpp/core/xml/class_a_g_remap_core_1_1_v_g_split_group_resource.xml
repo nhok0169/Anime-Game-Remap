@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="127" column="32" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="127" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="141" column="32" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="141" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -98,7 +98,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="123" column="13" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="159" bodyend="161"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="137" column="13" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="181" bodyend="183"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -120,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="130" column="18" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="164" bodyend="166"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="144" column="18" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="186" bodyend="188"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -187,7 +187,7 @@ A group of one mod&apos;s buffers, fixed by :cpp:func:`fixVGSplitGroup` -- see t
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="112" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="112" bodyend="131"/>
+    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="126" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="126" bodyend="145"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a379cdbb292000313b31b99161b90cbf0" prot="protected" virt="virtual"><scope>AGRemapCore::VGSplitGroupResource</scope><name>_fix</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1af7289275d3ea094ccf2b704821c036ac" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResource</scope><name>addResource</name></member>

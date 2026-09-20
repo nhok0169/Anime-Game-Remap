@@ -30,10 +30,13 @@
     <includes refid="_base_aho_corasick_d_f_a_8h" local="yes">AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</includes>
     <includes local="yes">GIMIParser.tpp</includes>
     <includedby refid="_download_tools_8h" local="yes">include/AGRemapCore/tools/DownloadTools.h</includedby>
+    <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
     <includedby refid="_g_i_m_i_char_parser_8cpp" local="yes">src/data/IniParseData/GIMICharParser.cpp</includedby>
     <includedby refid="_g_i_m_i_component_parser_8cpp" local="yes">src/data/IniParseData/GIMIComponentParser.cpp</includedby>
     <includedby refid="_raiden_parser_8cpp" local="yes">src/data/IniParseData/Raiden/RaidenParser.cpp</includedby>
+    <includedby refid="_w_w_m_i_parser_8cpp" local="yes">src/data/IniParseData/WWMIParser.cpp</includedby>
     <includedby refid="_ini_file_fix_context_8cpp" local="yes">src/model/strategies/iniFixers/IniFileFixContext.cpp</includedby>
+    <includedby refid="_g_i_m_i_parser_instantiation_8cpp" local="yes">src/model/strategies/iniParsers/GIMIParserInstantiation.cpp</includedby>
     <includedby refid="_ini_file_parse_context_8cpp" local="yes">src/model/strategies/iniParsers/IniFileParseContext.cpp</includedby>
     <includedby refid="_ini_parse_builder_8cpp" local="yes">src/model/strategies/iniParsers/IniParseBuilder.cpp</includedby>
     <incdepgraph>
@@ -57,9 +60,6 @@
       </node>
       <node id="105">
         <label>BiMap.tpp</label>
-      </node>
-      <node id="49">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="14">
         <label>AGRemapCore/constants/DownloadMode.h</label>
@@ -425,6 +425,8 @@
         <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
@@ -1087,6 +1089,9 @@
         <childnode refid="91" relation="include">
         </childnode>
       </node>
+      <node id="49">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="109">
         <label>GIMIParser.tpp</label>
       </node>
@@ -1235,17 +1240,23 @@
         <link refid="_g_i_m_i_parser_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -1257,32 +1268,52 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
       </node>
       <node id="3">
+        <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
+        <link refid="_g_i_m_i_merge_fixer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+      <node id="5">
         <label>src/data/IniParseData/GIMICharParser.cpp</label>
         <link refid="_g_i_m_i_char_parser_8cpp"/>
       </node>
-      <node id="4">
+      <node id="6">
         <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
         <link refid="_g_i_m_i_component_parser_8cpp"/>
       </node>
-      <node id="6">
+      <node id="8">
         <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
         <link refid="_raiden_parser_8cpp"/>
       </node>
-      <node id="7">
+      <node id="9">
+        <label>src/data/IniParseData/WWMIParser.cpp</label>
+        <link refid="_w_w_m_i_parser_8cpp"/>
+      </node>
+      <node id="10">
         <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
         <link refid="_ini_file_fix_context_8cpp"/>
       </node>
-      <node id="8">
+      <node id="11">
+        <label>src/model/strategies/iniParsers/GIMIParserInstantiation.cpp</label>
+        <link refid="_g_i_m_i_parser_instantiation_8cpp"/>
+      </node>
+      <node id="12">
         <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
         <link refid="_ini_file_parse_context_8cpp"/>
       </node>
-      <node id="9">
+      <node id="13">
         <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
         <link refid="_ini_parse_builder_8cpp"/>
       </node>
-      <node id="5">
+      <node id="7">
         <label>src/tools/DownloadTools.cpp</label>
         <link refid="_download_tools_8cpp"/>
       </node>
@@ -1523,7 +1554,14 @@
 <codeline lineno="740"><highlight class="normal"></highlight></codeline>
 <codeline lineno="741"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;GIMIParser.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="742"><highlight class="normal"></highlight></codeline>
-<codeline lineno="743"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="743"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="744"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>note:<sp/>every<sp/>translation<sp/>unit<sp/>that<sp/>uses<sp/>these<sp/>with<sp/>&lt;std::string,<sp/>std::string&gt;<sp/>would<sp/>otherwise</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="745"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>instantiate<sp/>all<sp/>of<sp/>their<sp/>member<sp/>bodies<sp/>itself;<sp/>they<sp/>are<sp/>compiled<sp/>once,<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="746"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>src/model/strategies/iniParsers/GIMIParserInstantiation.cpp,<sp/>instead.<sp/>Any<sp/>other<sp/>instantiation<sp/>still<sp/>happens<sp/>implicitly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="747"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">GIMIParser&lt;std::string,<sp/>std::string&gt;;</highlight></codeline>
+<codeline lineno="748"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="749"><highlight class="normal"></highlight></codeline>
+<codeline lineno="750"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h"/>
   </compounddef>

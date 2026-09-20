@@ -8,6 +8,7 @@
     <innerfile refid="_reg_new_vals_8h">RegNewVals.h</innerfile>
     <innerfile refid="_reg_remap_8h">RegRemap.h</innerfile>
     <innerfile refid="_reg_remove_8h">RegRemove.h</innerfile>
+    <innerfile refid="_reg_restrict_8h">RegRestrict.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

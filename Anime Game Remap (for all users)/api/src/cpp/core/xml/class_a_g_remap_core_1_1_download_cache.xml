@@ -61,7 +61,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="69" column="27" bodyfile="src/tools/files/FileDownload.cpp" bodystart="130" bodyend="137"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="69" column="27" bodyfile="src/tools/files/FileDownload.cpp" bodystart="179" bodyend="186"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_cache_1a9c1caed7568fea59b614ff9ed2bc7f71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -102,7 +102,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="77" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="139" bodyend="145"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="77" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="188" bodyend="194"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_cache_1a4993a56b97b75cdcbe57b740b6c84752" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -139,7 +139,7 @@ minutes of pure waiting to reach the answer it already had
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="93" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="147" bodyend="149"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="93" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="196" bodyend="198"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_cache_1a9da31704148dd44c9c6990b8f03e52fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -168,7 +168,7 @@ minutes of pure waiting to reach the answer it already had
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="100" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="151" bodyend="153"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="100" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="200" bodyend="202"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

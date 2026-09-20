@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/YelanTranquil/YelanTranquilFixer.h" line="40" column="43" bodyfile="src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp" bodystart="156" bodyend="158"/>
+        <location file="include/AGRemapCore/data/IniFixData/YelanTranquil/YelanTranquilFixer.h" line="40" column="43" bodyfile="src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp" bodystart="160" bodyend="162"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

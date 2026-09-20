@@ -1,5 +1,5 @@
 {
-  "_": "Sanhua's texture hashes across game versions: an older hash -> the hash the game binds today (2.5). Measured, not typed: each pair is a mod's own file correlating 1.00 with the current texture (Tools/Misc/Diagnostics/wwmiTextureFix.py), or a hash the same author mapped in a mod that already carried the current hash. Feed it to wwmiTextureFix.py as --maps, beside the community tables; a mod that REPAINTED a texture cannot be matched by pixels, and this is what carries its old hash forward. 2026-09-19.",
+  "_": "Sanhua's texture hashes across game versions: an older hash -> the hash the game binds today (2.5). Measured, not typed: each pair is a mod's own file correlating 1.00 with the current texture (Tools/Misc/Diagnostics/wwmiTextureFix.py), or a hash the same author mapped in a mod that already carried the current hash. Feed it to wwmiTextureFix.py as --maps, beside the community tables; a mod that REPAINTED a texture cannot be matched by pixels, and this is what carries its old hash forward. 2026-09-19. The 2026-09-20 entries are the LIVE hashes the game binds with its LOD bias on Ultra High, measured off a frame dump of that setting: 3DMigoto rehashes a texture as its mips load, so a mod exported from a dump today carries these rather than the asset repo's.",
   "345368c9": "1c0c8b91",
   "48616ac9": "ae6e9014",
   "98b9635b": "68ca7071",
@@ -16,5 +16,25 @@
   "2c0c2728": "c689a8ee",
   "1bdd0987": "1035197c",
   "3cd03f60": "1dcc0f1d",
-  "28708ab8": "0bd3b5ab"
+  "28708ab8": "0bd3b5ab",
+  "b0828323": "ae6e9014",
+  "332a6aac": "1c0c8b91",
+  "07f0a2ea": "68ca7071",
+  "466478e4": "cef6494f",
+  "bf16c0c7": "46177147",
+  "d2765954": "881c236d",
+  "7aee2f16": "e39835c7",
+  "fa792b59": "fde0f298",
+  "091a8707": "1035197c",
+  "8141e933": "efb25eb3",
+  "02746d45": "89ba19a1",
+  "fcecfdcb": "abda232b",
+  "01ef7c05": "f3b217ab",
+  "0b5be4da": "f0713dc7",
+  "1cd3181e": "c689a8ee",
+  "5764478b": "1dcc0f1d",
+  "d0524bfb": "c88cc1fc",
+  "568d001e": "bf702e2d",
+  "c620cc3a": "693b1360",
+  "a506a70d": "8383cbbf"
 }

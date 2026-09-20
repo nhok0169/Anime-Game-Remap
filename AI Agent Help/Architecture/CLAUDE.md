@@ -2413,6 +2413,34 @@ that "works on Windows": `.cast<[A-Za-z]+>\(\)\.[a-z]+\(\)` in a range-for or bo
 reference is the pattern, and a binding that returns a reference to a member is what makes it
 lethal.
 
+### The folder walk reported every batch BACKWARDS (2026-09-20)
+
+`RemapService::_fix` keeps the folders it still has to visit in a `std::deque`, pushed at the back
+by `FolderWalk::push` -- and it used to take the next folder off the **back** as well, the shape an
+iterative depth-first walk falls into. Every batch queued is already in the order it should be
+reported in (`FileService::getFilesAndDirs` sorts, pre-order, the way Windows sorts names), so
+popping the back read each batch in reverse: a `Mods` folder holding `A`, `B`, `C` was walked `C`,
+`B`, `A`, and a subtree came out *after* the sibling that follows it. Measured on the Integration
+Tester's `MixedMods` inputs, the old order was the exact reverse of the new one, top to bottom.
+
+It takes the **front** now. Nothing else changed: each batch is a whole subtree already flattened
+pre-order, so a FIFO queue walks the tree top-down in name order, and a folder found later (an
+`.ini` file's referenced folder, a folder an undo took files out of) is visited after the ones
+already queued rather than jumping the line.
+
+Two things to know before touching it again:
+
+- **The file output does not depend on the order, and one artifact does.** Fixing the same 35-file
+  fixture with both builds gave **132 output files, byte-identical**, so no `.ini`, buffer, texture
+  or backup moves. What does move is the log -- and through it
+  `Testing/Integration Tester/.../expected_*/Logs/summaryLog.txt`, whose "were skipped due to
+  warnings" list is in visiting order. That golden **is** compared (only `RemapFixLog.txt` is
+  skipped); see [Testing](../Testing/CLAUDE.md).
+- **`core/tests/RemapService_fix_test.cpp`'s `testFoldersAreVisitedInOrder` pins it**, and it was
+  written against the broken build first: it printed `C`, `B`, `A2`, `A` before the fix and the
+  expected order after. Unlike `FileService_walkOrder_test`, it fails on Windows too --- the
+  reversal is the code's, not the filesystem's.
+
 ### An undo never parses, so its folder walk is fed by what the removal TOOK (2026-09-17)
 
 `RemapService::_fix` reaches folders outside the start folder through each `.ini` file's parsed

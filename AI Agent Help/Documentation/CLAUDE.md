@@ -1003,3 +1003,35 @@ Related: reference-style rst links used in header doc comments (`` `Unicode`_ ``
 link block near the bottom, and Doxygen will not tell you when one is missing --- `TextTools.h` had
 been using two undefined ones. Targets are case-insensitive in rst, so `` `Grapheme`_ `` already
 resolves to the existing `_grapheme` entry; don't add a second.
+
+## A CHARACTER IS FOUR DOC TABLES, AND THE WAY TO FILL THEM IS TO ASK THE LIBRARY (2026-09-20)
+
+The mod-type table exists **three** times, the same rows in two formats:
+`Anime Game Remap (for all users)/api/README.md` and `apiMirror/README.md` (markdown, and they must
+stay identical to each other) and `Docs/src/commandOpts.rst` (a `list-table`). A fourth table,
+`Docs/src/remapGrading.rst`, is per REMAP rather than per character --- one row per direction, or a
+single `A <--> B` row when both directions behave the same --- and it is the page both READMEs point
+a user at for "the current limitations", so its Notes cell is where a remap's known limits belong
+(which target slots nothing is remapped onto, what is invented, what is not retargeted).
+
+**Generate the rows out of the library and diff them against the tables rather than typing them.**
+`GIBuilder.all()` / `WWMIBuilder.all()` give every type's `name`, `gameTypeId` and `aliases`; a
+30-line script comparing that to the markdown table found two bugs on 2026-09-20 that had been
+published for a long time: the tables said **BarabaraSummertime** (a misspelling --- the library's
+type is `BarbaraSummertime`, so the documented name matched nothing a user could pass to `--types`),
+and `KleeBlossomingStarlight` was missing its `ScarletFlandre` alias. Neither is visible by reading.
+
+Two things about the tables as of 2026-09-20: they carry a **Game** column (`GI` / `WuWa`) right of
+the name, matching the `Game Types` table already under them; and a WuWa row's Description is not a
+regex like every GI row's, because a WWMI `.ini` names its sections after the draw slot
+(`[TextureOverrideComponent0]`) and never after the character --- the classifier matches the
+character's own `vb0` hash instead, so the row says so.
+
+**And check `core/xml` when you add a character, not only when you add a framework class.** It had
+not been regenerated since Bennett, so every WuWa class --- including the forward `SanhuaFixer` of
+2026-09-19 --- was absent from the published `coreAPI` page while sitting in the source the whole
+time. Doxygen **1.17.0** (the pinned version) was on PATH on the maintainer's Xeon; the run takes
+about a minute, rewrites ~1440 files of which ~490 differ in content and ~100 are new, and its
+warnings are worth reading --- it flagged that `GIMIFixer::fixKey`'s doc comment had drifted away
+from its declaration, so the comment (and its two `@param`s) was being published on
+`labelTargetBlock` instead.

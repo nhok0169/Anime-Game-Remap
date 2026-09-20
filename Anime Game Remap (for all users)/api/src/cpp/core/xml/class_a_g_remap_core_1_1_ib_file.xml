@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IbFile.h" line="49" column="38" bodyfile="include/AGRemapCore/model/files/IbFile.h" bodystart="49" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IbFile.h" line="57" column="38" bodyfile="include/AGRemapCore/model/files/IbFile.h" bodystart="57" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ib_file_1ac4ed5afbc45d6968463a3b7b7474af30" prot="public" static="yes" mutable="no">
         <type>const std::size_t</type>
@@ -35,19 +35,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IbFile.h" line="54" column="38" bodyfile="include/AGRemapCore/model/files/IbFile.h" bodystart="54" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IbFile.h" line="62" column="38" bodyfile="include/AGRemapCore/model/files/IbFile.h" bodystart="62" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ib_file_1a282286f2026fadfc07c66c7960171ff9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ib_file_1a29d5e145961ea9cfa70833c5167d1e1b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
         <definition>AGRemapCore::IbFile::IbFile</definition>
-        <argsstring>(BinarySrc src)</argsstring>
+        <argsstring>(BinarySrc src, std::size_t bytesPerIndex=4)</argsstring>
         <name>IbFile</name>
         <qualifiedname>AGRemapCore::IbFile::IbFile</qualifiedname>
         <param>
           <type><ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref></type>
           <declname>src</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>bytesPerIndex</declname>
+          <defval>4</defval>
         </param>
         <briefdescription>
 <para>Constructs a new <computeroutput>.ib</computeroutput> file and immediately reads it. </para>
@@ -66,7 +71,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IbFile.h" line="61" column="22" bodyfile="src/model/files/IbFile.cpp" bodystart="38" bodyend="38"/>
+        <location file="include/AGRemapCore/model/files/IbFile.h" line="69" column="22" bodyfile="src/model/files/IbFile.cpp" bodystart="43" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ib_file_1a3b8a7a130cc408af68512e34a20eaa13" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -81,7 +86,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IbFile.h" line="66" column="25" bodyfile="src/model/files/IbFile.cpp" bodystart="40" bodyend="47"/>
+        <location file="include/AGRemapCore/model/files/IbFile.h" line="86" column="25" bodyfile="src/model/files/IbFile.cpp" bodystart="50" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ib_file_1afb7190fd3ca2553cf53578f028a63d3f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -99,7 +104,7 @@ The number of vertex indices in the file -- #VerticesPerTriangle times
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IbFile.h" line="75" column="25" bodyfile="src/model/files/IbFile.cpp" bodystart="49" bodyend="51"/>
+        <location file="include/AGRemapCore/model/files/IbFile.h" line="95" column="25" bodyfile="src/model/files/IbFile.cpp" bodystart="59" bodyend="61"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ib_file_1a3d50a736fbdc1e8d7b3e7ed610801244" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -131,7 +136,7 @@ The number of vertex indices in the file -- #VerticesPerTriangle times
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IbFile.h" line="87" column="25" bodyfile="src/model/files/IbFile.cpp" bodystart="53" bodyend="64"/>
+        <location file="include/AGRemapCore/model/files/IbFile.h" line="107" column="25" bodyfile="src/model/files/IbFile.cpp" bodystart="63" bodyend="74"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ib_file_1abec1ed566b1f76501edbbca6c8d4af15" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -171,7 +176,7 @@ vertex buffer&apos;s data uses
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IbFile.h" line="105" column="25" bodyfile="src/model/files/IbFile.cpp" bodystart="66" bodyend="72"/>
+        <location file="include/AGRemapCore/model/files/IbFile.h" line="125" column="25" bodyfile="src/model/files/IbFile.cpp" bodystart="76" bodyend="82"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ib_file_1a5827d7fff2e968a22ac8635162a198dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -214,23 +219,63 @@ handed straight in
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IbFile.h" line="120" column="18" bodyfile="src/model/files/IbFile.cpp" bodystart="74" bodyend="76"/>
+        <location file="include/AGRemapCore/model/files/IbFile.h" line="140" column="18" bodyfile="src/model/files/IbFile.cpp" bodystart="84" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ib_file_1ac15d40fa72b7aa4ca5907b582b032377" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::IbFile::bytesPerIndexOf</definition>
+        <argsstring>(const std::string &amp;dxgiFormat)</argsstring>
+        <name>bytesPerIndexOf</name>
+        <qualifiedname>AGRemapCore::IbFile::bytesPerIndexOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dxgiFormat</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How many bytes one index takes in a buffer declared with this ``format`` -- 2 for
+``DXGI_FORMAT_R16_UINT``, and 4 for ``DXGI_FORMAT_R32_UINT``, an absent format, or
+anything else, which is what every mod not saying otherwise uses
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dxgiFormat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>format</computeroutput> <computeroutput>KVP</computeroutput>_&apos;s value from the buffer&apos;s <computeroutput>section</computeroutput>_ </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/IbFile.h" line="81" column="32" bodyfile="src/model/files/IbFile.cpp" bodystart="46" bodyend="48"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ib_file_1af25731fd521a9eab2785eb26d7e7bece" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ib_file_1a07f2ebada7a81cf8adf1d2c56b969d33" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_element_type" kindref="compound">BufElementType</ref> &gt; &gt;</type>
         <definition>std::vector&lt; std::unique_ptr&lt; BufElementType &gt; &gt; AGRemapCore::IbFile::defaultElements</definition>
-        <argsstring>()</argsstring>
+        <argsstring>(std::size_t bytesPerIndex=4)</argsstring>
         <name>defaultElements</name>
         <qualifiedname>AGRemapCore::IbFile::defaultElements</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>bytesPerIndex</declname>
+          <defval>4</defval>
+        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IbFile.h" line="123" column="32" bodyfile="src/model/files/IbFile.cpp" bodystart="26" bodyend="36"/>
+        <location file="include/AGRemapCore/model/files/IbFile.h" line="143" column="32" bodyfile="src/model/files/IbFile.cpp" bodystart="26" bodyend="41"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -245,7 +290,15 @@ Used for handling ``.ib`` (index buffer) files :raw-html:`&lt;br /&gt;` :raw-htm
    Where a ``.buf`` file is split into *vertex lines*, a ``.ib`` file is split into *face
    lines* -- each line names the vertices making up one triangular face of the mod&apos;s mesh.
    Every face in a 3dmigoto mod is atomically a triangle, so a line is always
-   #VerticesPerTriangle 32-bit unsigned integers
+   #VerticesPerTriangle unsigned integers -- 32-bit by default, and 16-bit for a buffer its
+   ``.ini`` declares ``DXGI_FORMAT_R16_UINT`` (see #bytesPerIndexOf)
+
+.. warning::
+   **The width cannot be inferred from the file, and guessing is worse than failing.** A
+   16-bit buffer whose byte count happens to divide by 12 reads &quot;successfully&quot; as 32-bit, at
+   half the index count and with values far past the end of the mesh -- measured on one mod:
+   5520 indices peaking at 154,011,948 on 10137 vertices, where the declared reading is 11040
+   indices that are all valid. Pass the width the ``.ini`` declares
 </verbatim> </para>
     </detaileddescription>
     <inheritancegraph>
@@ -284,7 +337,7 @@ Used for handling ``.ib`` (index buffer) files :raw-html:`&lt;br /&gt;` :raw-htm
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/files/IbFile.h" line="43" column="5" bodyfile="include/AGRemapCore/model/files/IbFile.h" bodystart="43" bodyend="124"/>
+    <location file="include/AGRemapCore/model/files/IbFile.h" line="51" column="5" bodyfile="include/AGRemapCore/model/files/IbFile.h" bodystart="51" bodyend="144"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a7c915ab0ed85cd3e85087a0efe8437f3" prot="public" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>append</name></member>
       <member refid="class_a_g_remap_core_1_1_binary_file_1a2bd5a0dea0d3721e3924febb7e916ed9" prot="public" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>BinaryFile</name></member>
@@ -292,11 +345,12 @@ Used for handling ``.ib`` (index buffer) files :raw-html:`&lt;br /&gt;` :raw-htm
       <member refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" prot="public" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>BufFile</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a6c826bd22020a9cbef086086b9985583" prot="public" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>BufFile</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1afaa7e4eb2d165e4bf26d5f9a7962b212" prot="public" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>BufFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_ib_file_1ac15d40fa72b7aa4ca5907b582b032377" prot="public" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>bytesPerIndexOf</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1ae472031fa1c8c311b573659f0dd6f86b" prot="private" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>bytesPerLine_</name></member>
       <member refid="class_a_g_remap_core_1_1_binary_file_1a70d6840d6ff225a4fd844cc23ca595f5" prot="protected" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>data_</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1aa857f880bf4351c25d06b90c119e69da" prot="public" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>decodeAll</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a2239d3c4b85012a406b295e5d05eafb2" prot="public" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>decodeLine</name></member>
-      <member refid="class_a_g_remap_core_1_1_ib_file_1af25731fd521a9eab2785eb26d7e7bece" prot="private" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>defaultElements</name></member>
+      <member refid="class_a_g_remap_core_1_1_ib_file_1a07f2ebada7a81cf8adf1d2c56b969d33" prot="private" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>defaultElements</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a90cc6195110d6415184e903263fceab5" prot="private" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>elementKeys_</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1adf1c0236185dd52140d2844ba1bcff9e" prot="private" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>elements_</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1ad4933bfa4601410cdbc01286655b5d31" prot="public" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>encodeAll</name></member>
@@ -316,7 +370,7 @@ Used for handling ``.ib`` (index buffer) files :raw-html:`&lt;br /&gt;` :raw-htm
       <member refid="class_a_g_remap_core_1_1_ib_file_1afb7190fd3ca2553cf53578f028a63d3f" prot="public" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>getIndexCount</name></member>
       <member refid="class_a_g_remap_core_1_1_binary_file_1a5a11fc978b1651a88646a252d122fdd8" prot="public" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>getSrc</name></member>
       <member refid="class_a_g_remap_core_1_1_ib_file_1a3b8a7a130cc408af68512e34a20eaa13" prot="public" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>getTriangleCount</name></member>
-      <member refid="class_a_g_remap_core_1_1_ib_file_1a282286f2026fadfc07c66c7960171ff9" prot="public" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>IbFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_ib_file_1a29d5e145961ea9cfa70833c5167d1e1b" prot="public" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>IbFile</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a9eca1f6a567736f0875fc8a095e49b5b" prot="public" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>isValid</name></member>
       <member refid="class_a_g_remap_core_1_1_ib_file_1a3d50a736fbdc1e8d7b3e7ed610801244" prot="public" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>makeDumpHeader</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1ace8dc63cc1c9c8914be6c38a2488d47f" prot="public" virt="non-virtual"><scope>AGRemapCore::IbFile</scope><name>merge</name></member>

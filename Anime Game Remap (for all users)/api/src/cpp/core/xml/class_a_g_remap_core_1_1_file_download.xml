@@ -193,7 +193,7 @@ has nowhere to say it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="142" column="22" bodyfile="src/tools/files/FileDownload.cpp" bodystart="155" bodyend="156"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="142" column="22" bodyfile="src/tools/files/FileDownload.cpp" bodystart="204" bodyend="205"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_download_1a7b88857c911d0cabd6a014ad3dbf8347" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -262,7 +262,7 @@ Downloads the required file via `libcurl`_ -- see this class&apos;s own doc comm
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="220" column="33" bodyfile="src/tools/files/FileDownload.cpp" bodystart="227" bodyend="257"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="220" column="33" bodyfile="src/tools/files/FileDownload.cpp" bodystart="282" bodyend="312"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_download_1af281e79b0e606198f1bfeaa04bdb2229" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::tuple&lt; std::string, bool, bool &gt;</type>
@@ -322,7 +322,7 @@ previous download already exists) by copying the previously-downloaded file inst
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="237" column="24" bodyfile="src/tools/files/FileDownload.cpp" bodystart="278" bodyend="323"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="237" column="24" bodyfile="src/tools/files/FileDownload.cpp" bodystart="333" bodyend="378"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_download_1a02012658002add21812c32b3c0078294" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -360,7 +360,7 @@ after it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="254" column="27" bodyfile="src/tools/files/FileDownload.cpp" bodystart="259" bodyend="276"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="254" column="27" bodyfile="src/tools/files/FileDownload.cpp" bodystart="314" bodyend="331"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

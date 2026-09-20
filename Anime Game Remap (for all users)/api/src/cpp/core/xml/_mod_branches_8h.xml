@@ -16,6 +16,7 @@
     <includedby refid="_g_i_m_i_component_fixer_8cpp" local="yes">src/data/IniFixData/GIMIComponentFixer.cpp</includedby>
     <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
     <includedby refid="_mod_branches_8cpp" local="yes">src/data/IniFixData/ModBranches.cpp</includedby>
+    <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
     <incdepgraph>
       <node id="73">
         <label>AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.tpp</label>
@@ -28,9 +29,6 @@
       </node>
       <node id="34">
         <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="60">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="44">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
@@ -294,6 +292,8 @@
         <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
@@ -604,6 +604,9 @@
         <childnode refid="46" relation="include">
         </childnode>
       </node>
+      <node id="60">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="68">
         <label>Generator.tpp</label>
       </node>
@@ -729,6 +732,8 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniFixData/GIMIComponentFixer.cpp</label>
@@ -741,6 +746,10 @@
       <node id="4">
         <label>src/data/IniFixData/ModBranches.cpp</label>
         <link refid="_mod_branches_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="struct_a_g_remap_core_1_1_branch_val" prot="public">AGRemapCore::BranchVal</innerclass>

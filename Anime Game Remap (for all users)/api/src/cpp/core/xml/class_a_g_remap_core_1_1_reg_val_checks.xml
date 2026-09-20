@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/RegValChecks.h" line="80" column="25" bodyfile="src/data/IniFixData/RegValChecks.cpp" bodystart="39" bodyend="41"/>
+        <location file="include/AGRemapCore/data/IniFixData/RegValChecks.h" line="80" column="25" bodyfile="src/data/IniFixData/RegValChecks.cpp" bodystart="23" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_val_checks_1af85c39288b274ab9c0ccd726c78cc1b8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -76,7 +76,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/RegValChecks.h" line="87" column="25" bodyfile="src/data/IniFixData/RegValChecks.cpp" bodystart="43" bodyend="45"/>
+        <location file="include/AGRemapCore/data/IniFixData/RegValChecks.h" line="87" column="25" bodyfile="src/data/IniFixData/RegValChecks.cpp" bodystart="27" bodyend="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_val_checks_1aac369dee4db5780ab4b05cc7a609d43c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -105,7 +105,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/RegValChecks.h" line="94" column="25" bodyfile="src/data/IniFixData/RegValChecks.cpp" bodystart="47" bodyend="49"/>
+        <location file="include/AGRemapCore/data/IniFixData/RegValChecks.h" line="94" column="25" bodyfile="src/data/IniFixData/RegValChecks.cpp" bodystart="31" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_val_checks_1a982420d2b36a3c35c58d3bf871d7735e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -134,7 +134,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/RegValChecks.h" line="101" column="25" bodyfile="src/data/IniFixData/RegValChecks.cpp" bodystart="51" bodyend="53"/>
+        <location file="include/AGRemapCore/data/IniFixData/RegValChecks.h" line="101" column="25" bodyfile="src/data/IniFixData/RegValChecks.cpp" bodystart="35" bodyend="37"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_val_checks_1a2fe7f193adb647b041740b0b7df1acc2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -163,7 +163,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/RegValChecks.h" line="108" column="25" bodyfile="src/data/IniFixData/RegValChecks.cpp" bodystart="55" bodyend="57"/>
+        <location file="include/AGRemapCore/data/IniFixData/RegValChecks.h" line="108" column="25" bodyfile="src/data/IniFixData/RegValChecks.cpp" bodystart="39" bodyend="41"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

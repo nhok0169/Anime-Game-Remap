@@ -350,6 +350,16 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The fix that remaps a **SanhuaExorcist** mod onto **Sanhua** at game version ``2.5`` --
+             the reverse of :cpp:func:`sanhuaExorcist2_5`, built by :cpp:func:`makeWWMIFixer` from
+             ``IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp``'s config
+             @endrst
+             */
+            static IniFixBuilder::Factory sanhua2_5();
+
+            /**
+             * @brief
+             @rst
              Stub for the pure-Python ``IniFixBuilderFuncs.rosaria4_0`` -- returns
              :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
              @endrst

@@ -7,6 +7,7 @@
     <innerfile refid="_graph_group_edit_8h">GraphGroupEdit.h</innerfile>
     <innerfile refid="_graph_group_part_edits_8h">GraphGroupPartEdits.h</innerfile>
     <innerfile refid="_graph_group_remap_8h">GraphGroupRemap.h</innerfile>
+    <innerfile refid="_graph_group_remove_8h">GraphGroupRemove.h</innerfile>
     <innerfile refid="_graph_inherit_8h">GraphInherit.h</innerfile>
     <innerfile refid="_graph_remove_8h">GraphRemove.h</innerfile>
     <innerfile refid="_i_ini_graph_groups_8h">IIniGraphGroups.h</innerfile>

@@ -71,6 +71,29 @@ object&apos;s index buffer cannot index. Empty: the group&apos;s own ``ib`` memb
         </inbodydescription>
         <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="62" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="62" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1ad75ebe60410e2eec68015719fe4a3a0b" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::size_t&gt; AGRemapCore::VGSplitGroupConfig::ibBytesPerIndex</definition>
+        <argsstring></argsstring>
+        <name>ibBytesPerIndex</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupConfig::ibBytesPerIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How many bytes one index takes, keyed by the source ``.ib`` path -- 2 for a buffer its
+``.ini`` declares ``DXGI_FORMAT_R16_UINT``. A path that is not here is 4, which is every
+mod that does not say otherwise.
+
+The width is carried rather than inferred because it CANNOT be inferred: a 16-bit buffer
+whose byte count divides by 12 reads as 32-bit without complaint, at half the index count
+and with values past the end of the mesh. See :cpp:class:`IbFile`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="76" column="28" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1a421459c2130b60316250d30bbb86d1c6" prot="public" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a3e9174cf0f745d58259601f8e4b5c6f4" kindref="member">LineEdit</ref></type>
         <definition>LineEdit AGRemapCore::VGSplitGroupConfig::texcoordLineEdit</definition>
@@ -84,7 +107,7 @@ object&apos;s index buffer cannot index. Empty: the group&apos;s own ``ib`` memb
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="67" column="18" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="67" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="81" column="18" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="81" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1ab2f3ce8c9cbd2704ce0e7461327073f9" prot="public" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a3e9174cf0f745d58259601f8e4b5c6f4" kindref="member">LineEdit</ref></type>
@@ -99,7 +122,7 @@ object&apos;s index buffer cannot index. Empty: the group&apos;s own ``ib`` memb
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="72" column="18" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="72" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="86" column="18" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="86" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -112,9 +135,10 @@ cut component gets depends on what the negative-index components keep), and whic
 index buffers take part
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="37" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="37" bodyend="73"/>
+    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="37" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="37" bodyend="87"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a4e8b12263210463aab075475aaafa2bd" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>component</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ad75ebe60410e2eec68015719fe4a3a0b" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>ibBytesPerIndex</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1afa1fede04d255fc720b9bc56c67b1a80" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>ibPaths</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a3e9174cf0f745d58259601f8e4b5c6f4" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>LineEdit</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ab2f3ce8c9cbd2704ce0e7461327073f9" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>positionLineEdit</name></member>

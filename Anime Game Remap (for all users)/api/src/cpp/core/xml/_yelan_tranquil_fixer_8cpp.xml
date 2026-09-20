@@ -18,7 +18,7 @@
       <node id="38">
         <label>Algo.tpp</label>
       </node>
-      <node id="105">
+      <node id="109">
         <label>BaseAhoCorasickDFA.tpp</label>
       </node>
       <node id="80">
@@ -30,16 +30,13 @@
       <node id="44">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="104">
+      <node id="108">
         <label>BaseTrie.tpp</label>
       </node>
-      <node id="102">
+      <node id="106">
         <label>BiMap.tpp</label>
       </node>
-      <node id="53">
-        <label>CallGraph.tpp</label>
-      </node>
-      <node id="97">
+      <node id="101">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
         <childnode refid="6" relation="include">
@@ -80,12 +77,12 @@
         </childnode>
         <childnode refid="83" relation="include">
         </childnode>
-        <childnode refid="97" relation="include">
+        <childnode refid="101" relation="include">
         </childnode>
-        <childnode refid="98" relation="include">
+        <childnode refid="102" relation="include">
         </childnode>
       </node>
-      <node id="106">
+      <node id="110">
         <label>AGRemapCore/data/IniFixBuilderData.h</label>
         <link refid="_ini_fix_builder_data_8h"/>
         <childnode refid="5" relation="include">
@@ -93,7 +90,7 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="107">
+      <node id="111">
         <label>AGRemapCore/data/IniFixData/GIMIMergeFixer.h</label>
         <link refid="_g_i_m_i_merge_fixer_8h"/>
         <childnode refid="4" relation="include">
@@ -104,7 +101,7 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="108" relation="include">
+        <childnode refid="112" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -219,7 +216,7 @@
         <childnode refid="70" relation="include">
         </childnode>
       </node>
-      <node id="92">
+      <node id="96">
         <label>AGRemapCore/model/VGRemap.h</label>
         <link refid="_v_g_remap_8h"/>
         <childnode refid="6" relation="include">
@@ -248,6 +245,18 @@
       <node id="84">
         <label>AGRemapCore/model/assets/Hashes.h</label>
         <link refid="_hashes_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+      </node>
+      <node id="90">
+        <label>AGRemapCore/model/assets/IndexCounts.h</label>
+        <link refid="_index_counts_8h"/>
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
@@ -346,16 +355,52 @@
         </childnode>
       </node>
       <node id="91">
+        <label>AGRemapCore/model/assets/ShapeKeyChecksums.h</label>
+        <link refid="_shape_key_checksums_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+      </node>
+      <node id="93">
+        <label>AGRemapCore/model/assets/VGCounts.h</label>
+        <link refid="_v_g_counts_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+      </node>
+      <node id="94">
+        <label>AGRemapCore/model/assets/VGOffsets.h</label>
+        <link refid="_v_g_offsets_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+      </node>
+      <node id="95">
         <label>AGRemapCore/model/assets/VGRemaps.h</label>
         <link refid="_v_g_remaps_8h"/>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="92" relation="include">
+        <childnode refid="96" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="90">
+      <node id="92">
         <label>AGRemapCore/model/assets/VertexCounts.h</label>
         <link refid="_vertex_counts_8h"/>
         <childnode refid="7" relation="include">
@@ -363,7 +408,7 @@
         <childnode refid="86" relation="include">
         </childnode>
       </node>
-      <node id="110">
+      <node id="114">
         <label>AGRemapCore/model/files/TextureFile.h</label>
         <link refid="_texture_file_8h"/>
         <childnode refid="13" relation="include">
@@ -374,9 +419,9 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="111" relation="include">
+        <childnode refid="115" relation="include">
         </childnode>
-        <childnode refid="112" relation="include">
+        <childnode refid="116" relation="include">
         </childnode>
       </node>
       <node id="27">
@@ -524,6 +569,8 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
         <childnode refid="27" relation="include">
         </childnode>
         <childnode refid="58" relation="include">
@@ -586,6 +633,14 @@
         </childnode>
         <childnode refid="91" relation="include">
         </childnode>
+        <childnode refid="92" relation="include">
+        </childnode>
+        <childnode refid="93" relation="include">
+        </childnode>
+        <childnode refid="94" relation="include">
+        </childnode>
+        <childnode refid="95" relation="include">
+        </childnode>
         <childnode refid="55" relation="include">
         </childnode>
         <childnode refid="35" relation="include">
@@ -596,11 +651,11 @@
         </childnode>
         <childnode refid="78" relation="include">
         </childnode>
-        <childnode refid="93" relation="include">
+        <childnode refid="97" relation="include">
         </childnode>
-        <childnode refid="94" relation="include">
+        <childnode refid="98" relation="include">
         </childnode>
-        <childnode refid="96" relation="include">
+        <childnode refid="100" relation="include">
         </childnode>
       </node>
       <node id="18">
@@ -667,7 +722,7 @@
         <childnode refid="79" relation="include">
         </childnode>
       </node>
-      <node id="93">
+      <node id="97">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</label>
         <link refid="_ini_parse_builder_8h"/>
         <childnode refid="4" relation="include">
@@ -685,21 +740,21 @@
         <childnode refid="78" relation="include">
         </childnode>
       </node>
-      <node id="94">
+      <node id="98">
         <label>AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</label>
         <link refid="_base_ini_remover_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="95" relation="include">
+        <childnode refid="99" relation="include">
         </childnode>
       </node>
-      <node id="95">
+      <node id="99">
         <label>AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h</label>
         <link refid="_ini_removal_context_8h"/>
       </node>
-      <node id="96">
+      <node id="100">
         <label>AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</label>
         <link refid="_ini_remove_builder_8h"/>
         <childnode refid="4" relation="include">
@@ -714,16 +769,16 @@
         </childnode>
         <childnode refid="86" relation="include">
         </childnode>
-        <childnode refid="94" relation="include">
+        <childnode refid="98" relation="include">
         </childnode>
       </node>
-      <node id="109">
+      <node id="113">
         <label>AGRemapCore/model/strategies/texEditors/BaseTexEditor.h</label>
         <link refid="_base_tex_editor_8h"/>
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="108">
+      <node id="112">
         <label>AGRemapCore/model/strategies/texEditors/TexEditor.h</label>
         <link refid="_tex_editor_8h"/>
         <childnode refid="4" relation="include">
@@ -732,14 +787,14 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="109" relation="include">
+        <childnode refid="113" relation="include">
         </childnode>
       </node>
-      <node id="114">
+      <node id="118">
         <label>AGRemapCore/model/strategies/texEditors/texFilters/BaseTexFilter.h</label>
         <link refid="_base_tex_filter_8h"/>
       </node>
-      <node id="113">
+      <node id="117">
         <label>AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h</label>
         <link refid="_material_band_remap_filter_8h"/>
         <childnode refid="13" relation="include">
@@ -750,12 +805,12 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="108" relation="include">
+        <childnode refid="112" relation="include">
         </childnode>
-        <childnode refid="114" relation="include">
+        <childnode refid="118" relation="include">
         </childnode>
       </node>
-      <node id="112">
+      <node id="116">
         <label>AGRemapCore/model/textures/Colour.h</label>
         <link refid="_colour_8h"/>
         <childnode refid="12" relation="include">
@@ -777,7 +832,7 @@
         <childnode refid="38" relation="include">
         </childnode>
       </node>
-      <node id="101">
+      <node id="105">
         <label>AGRemapCore/tools/BiMap.h</label>
         <link refid="_bi_map_8h"/>
         <childnode refid="19" relation="include">
@@ -788,7 +843,7 @@
         </childnode>
         <childnode refid="43" relation="include">
         </childnode>
-        <childnode refid="102" relation="include">
+        <childnode refid="106" relation="include">
         </childnode>
       </node>
       <node id="71">
@@ -823,12 +878,12 @@
         <childnode refid="39" relation="include">
         </childnode>
       </node>
-      <node id="103">
+      <node id="107">
         <label>AGRemapCore/tools/StringHash.h</label>
         <link refid="_string_hash_8h"/>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="100" relation="include">
+        <childnode refid="104" relation="include">
         </childnode>
       </node>
       <node id="32">
@@ -989,24 +1044,24 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="98">
+      <node id="102">
         <label>AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
         <link refid="_base_aho_corasick_d_f_a_8h"/>
         <childnode refid="43" relation="include">
         </childnode>
-        <childnode refid="99" relation="include">
+        <childnode refid="103" relation="include">
         </childnode>
-        <childnode refid="105" relation="include">
+        <childnode refid="109" relation="include">
         </childnode>
       </node>
-      <node id="99">
+      <node id="103">
         <label>AGRemapCore/tools/tries/BaseTrie.h</label>
         <link refid="_base_trie_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="100" relation="include">
+        <childnode refid="104" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
@@ -1024,13 +1079,13 @@
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
-        <childnode refid="101" relation="include">
+        <childnode refid="105" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="103" relation="include">
+        <childnode refid="107" relation="include">
         </childnode>
-        <childnode refid="104" relation="include">
+        <childnode refid="108" relation="include">
         </childnode>
       </node>
       <node id="61">
@@ -1066,16 +1121,19 @@
         </childnode>
         <childnode refid="82" relation="include">
         </childnode>
-        <childnode refid="106" relation="include">
-        </childnode>
-        <childnode refid="107" relation="include">
-        </childnode>
         <childnode refid="110" relation="include">
         </childnode>
-        <childnode refid="113" relation="include">
+        <childnode refid="111" relation="include">
         </childnode>
-        <childnode refid="108" relation="include">
+        <childnode refid="114" relation="include">
         </childnode>
+        <childnode refid="117" relation="include">
+        </childnode>
+        <childnode refid="112" relation="include">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="74">
         <label>Generator.tpp</label>
@@ -1134,7 +1192,7 @@
       <node id="50">
         <label>cmath</label>
       </node>
-      <node id="111">
+      <node id="115">
         <label>compressonator.h</label>
       </node>
       <node id="72">
@@ -1179,7 +1237,7 @@
       <node id="7">
         <label>string</label>
       </node>
-      <node id="100">
+      <node id="104">
         <label>string_view</label>
       </node>
       <node id="21">
@@ -1354,27 +1412,31 @@
 <codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.components<sp/>=<sp/>{std::move(body),<sp/>std::move(bang),<sp/>std::move(eye)};</highlight></codeline>
 <codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.targetObjs<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;extra&quot;</highlight><highlight class="normal">};</highlight></codeline>
 <codeline lineno="138"><highlight class="normal"></highlight></codeline>
-<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>skins<sp/>bind<sp/>the<sp/>face<sp/>diffuse<sp/>at<sp/>ps-t1<sp/>on<sp/>the<sp/>main<sp/>pass<sp/>(dump<sp/>draws<sp/>39-41<sp/>for</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Yelan,<sp/>42-48<sp/>for<sp/>Tranquil)<sp/>--<sp/>GI<sp/>6.x<sp/>swapped<sp/>it<sp/>with<sp/>the<sp/>light<sp/>map.<sp/>A<sp/>MOD<sp/>may<sp/>still</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>write<sp/>the<sp/>pre-6.x<sp/>ps-t0<sp/>though,<sp/>and<sp/>one<sp/>of<sp/>the<sp/>two<sp/>downloads<sp/>does.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.faceReg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.lightMapEdit<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_material_band_remap_filter_1ace0098cad5445b882f530134e0da4806" kindref="member">MaterialBandRemapFilter::lightMapEdit</ref>(Bands);</highlight></codeline>
-<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.copyPreamble<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_comments_1a230dbe747ebb0b8f16e558c07475e949" kindref="member">IniComments::GIMIObjMergerPreamble</ref>;</highlight></codeline>
-<codeline lineno="145"><highlight class="normal"></highlight></codeline>
-<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config;</highlight></codeline>
-<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>As<sp/>BennettAdventure:<sp/>a<sp/>mod<sp/>carrying<sp/>none<sp/>of<sp/>a<sp/>component<sp/>merges<sp/>it<sp/>from<sp/>its<sp/>downloads.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inert<sp/>for<sp/>a<sp/>mod<sp/>that<sp/>has<sp/>all<sp/>three,<sp/>which<sp/>is<sp/>every<sp/>YelanTranquil<sp/>mod<sp/>measured<sp/>so<sp/>far.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.downloadPrefix<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;YelanTranquil&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>skins<sp/>bind<sp/>the<sp/>face<sp/>diffuse<sp/>at<sp/>ps-t1<sp/>on<sp/>the<sp/>main<sp/>pass<sp/>(dump<sp/>draws<sp/>39-41<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Yelan,<sp/>42-48<sp/>for<sp/>Tranquil)<sp/>--<sp/>GI<sp/>6.x<sp/>swapped<sp/>it<sp/>with<sp/>the<sp/>light<sp/>map.<sp/>A<sp/>MOD<sp/>may<sp/>still</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>write<sp/>the<sp/>pre-6.x<sp/>ps-t0<sp/>though,<sp/>and<sp/>one<sp/>of<sp/>the<sp/>two<sp/>downloads<sp/>does.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.faceReg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.lightMapEdit<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_material_band_remap_filter_1ace0098cad5445b882f530134e0da4806" kindref="member">MaterialBandRemapFilter::lightMapEdit</ref>(Bands);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.copyPreamble<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_comments_1a230dbe747ebb0b8f16e558c07475e949" kindref="member">IniComments::GIMIObjMergerPreamble</ref>;</highlight></codeline>
 <codeline lineno="149"><highlight class="normal"></highlight></codeline>
-<codeline lineno="150"><highlight class="normal"></highlight></codeline>
-<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a02974b8d07fc3de5d09e72a10ba4c8c5" kindref="member">IniFixBuilderFuncs::yelanTranquilToYelan6_1</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" kindref="member">makeGIMIMergeFixer</ref>(yelanConfig());</highlight></codeline>
-<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
 <codeline lineno="154"><highlight class="normal"></highlight></codeline>
-<codeline lineno="155"><highlight class="normal"></highlight></codeline>
-<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_yelan_tranquil_fixer_1a97ad1c83b53a4b65293f9131e30a8ec0" kindref="member">YelanTranquilFixer::toYelan6_1</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a02974b8d07fc3de5d09e72a10ba4c8c5" kindref="member">IniFixBuilderFuncs::yelanTranquilToYelan6_1</ref>();</highlight></codeline>
-<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a02974b8d07fc3de5d09e72a10ba4c8c5" kindref="member">IniFixBuilderFuncs::yelanTranquilToYelan6_1</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" kindref="member">makeGIMIMergeFixer</ref>(yelanConfig());</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_yelan_tranquil_fixer_1a97ad1c83b53a4b65293f9131e30a8ec0" kindref="member">YelanTranquilFixer::toYelan6_1</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a02974b8d07fc3de5d09e72a10ba4c8c5" kindref="member">IniFixBuilderFuncs::yelanTranquilToYelan6_1</ref>();</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp"/>
   </compounddef>

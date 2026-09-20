@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_call" kind="struct" language="C++" prot="private">
+    <compoundname>AGRemapCore::ResGroupCollect::ResRootCall</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_call_1a03d0a614d1b3b653242edbd087eb084d" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location" kindref="compound">ResRootLocation</ref></type>
+        <definition>ResRootLocation AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResRootCall::location</definition>
+        <argsstring></argsstring>
+        <name>location</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResRootCall::location</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="622" column="33" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="622" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_call_1a7c89a490800a904c6c6d6685943b4a4e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt;</type>
+        <definition>std::optional&lt;Z3Predicate&gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResRootCall::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResRootCall::query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="623" column="31" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="623" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::GraphId</label>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResRootLocation</label>
+        <link refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>resModObj</edgelabel>
+          <edgelabel>srcModObj</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResRootCall</label>
+        <link refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_call"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>location</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="621" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="621" bodyend="624"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_call_1a03d0a614d1b3b653242edbd087eb084d" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResRootCall</scope><name>location</name></member>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_call_1a7c89a490800a904c6c6d6685943b4a4e" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResRootCall</scope><name>query</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_w_w_m_i_builder" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIBuilder</compoundname>
+    <includes refid="_w_w_m_i_builder_8h" local="no">WWMIBuilder.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_builder_1a62a192102acf2cef6cab9bfd45590720" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::WWMIBuilder::sanhua</definition>
+        <argsstring>()</argsstring>
+        <name>sanhua</name>
+        <qualifiedname>AGRemapCore::WWMIBuilder::sanhua</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Sanhua. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="42" column="28" bodyfile="src/constants/WWMIBuilder.cpp" bodystart="105" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_builder_1a83475301b59bd0f1f8224b8049a6f820" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::WWMIBuilder::sanhuaExorcist</definition>
+        <argsstring>()</argsstring>
+        <name>sanhuaExorcist</name>
+        <qualifiedname>AGRemapCore::WWMIBuilder::sanhuaExorcist</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for SanhuaExorcist (WWMI-Assets&apos; <computeroutput>SanhuaSkin1</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="47" column="28" bodyfile="src/constants/WWMIBuilder.cpp" bodystart="109" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_builder_1a7f3fb64146cda2ed4b9f8726371be2e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &gt;</type>
+        <definition>std::vector&lt; ModType &gt; AGRemapCore::WWMIBuilder::all</definition>
+        <argsstring>()</argsstring>
+        <name>all</name>
+        <qualifiedname>AGRemapCore::WWMIBuilder::all</qualifiedname>
+        <briefdescription>
+<para>Every WuWa :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput>, freshly built on each call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="52" column="32" bodyfile="src/constants/WWMIBuilder.cpp" bodystart="114" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Creates new :cpp:class:`ModType` objects for WuWa (Wuthering Waves) mods -- the WWMI
+counterpart of :cpp:class:`GIBuilder`, added 2026-09-19 with Sanhua and her Exorcist skin as
+its first pair :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A WWMI mod type carries the same four asset tables a GI one does plus the four WWMI-only ones
+(:cpp:class:`IndexCounts`, :cpp:class:`VGOffsets`, :cpp:class:`VGCounts`,
+:cpp:class:`ShapeKeyChecksums`), all keyed by the same remap graph
+(:cpp:func:`ModTypeIdTools::getHashRemapTargets`). Its parse / fix / remove rows are STUBS
+(``defaultFactory``) until the WWMI strategies exist; the prototype of the fix is
+``Tools/Misc/Prototypes/sanhuaExorcistFix.py``
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="37" column="5" bodyfile="include/AGRemapCore/constants/WWMIBuilder.h" bodystart="37" bodyend="53"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1a7f3fb64146cda2ed4b9f8726371be2e9" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBuilder</scope><name>all</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1a62a192102acf2cef6cab9bfd45590720" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBuilder</scope><name>sanhua</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1a83475301b59bd0f1f8224b8049a6f820" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBuilder</scope><name>sanhuaExorcist</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

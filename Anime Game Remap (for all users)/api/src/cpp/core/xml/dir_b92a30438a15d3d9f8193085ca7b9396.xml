@@ -6,12 +6,16 @@
     <innerdir refid="dir_f84cfb36ef4ce5c21d7f7dc4baa85c19">include/AGRemapCore/data/IniParseData</innerdir>
     <innerfile refid="_hash_data_8h">HashData.h</innerfile>
     <innerfile refid="_hash_to_mod_obj_data_8h">HashToModObjData.h</innerfile>
+    <innerfile refid="_index_count_data_8h">IndexCountData.h</innerfile>
     <innerfile refid="_index_data_8h">IndexData.h</innerfile>
     <innerfile refid="_ini_fix_builder_data_8h">IniFixBuilderData.h</innerfile>
     <innerfile refid="_ini_parse_builder_data_8h">IniParseBuilderData.h</innerfile>
     <innerfile refid="_ini_remove_builder_data_8h">IniRemoveBuilderData.h</innerfile>
     <innerfile refid="_mod_data_assets_8h">ModDataAssets.h</innerfile>
+    <innerfile refid="_shape_key_checksum_data_8h">ShapeKeyChecksumData.h</innerfile>
     <innerfile refid="_vertex_count_data_8h">VertexCountData.h</innerfile>
+    <innerfile refid="_v_g_count_data_8h">VGCountData.h</innerfile>
+    <innerfile refid="_v_g_offset_data_8h">VGOffsetData.h</innerfile>
     <innerfile refid="_v_g_remap_data_8h">VGRemapData.h</innerfile>
     <briefdescription>
     </briefdescription>

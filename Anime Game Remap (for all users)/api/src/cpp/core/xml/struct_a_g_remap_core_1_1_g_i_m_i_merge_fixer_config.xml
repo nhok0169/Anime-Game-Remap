@@ -39,6 +39,36 @@ index buffers pass through untouched -- worth putting the biggest one there
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="171" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="171" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1afb00d98b91be3266655662c40391a023" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIMergeFixerConfig::downloadPrefix</definition>
+        <argsstring></argsstring>
+        <name>downloadPrefix</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::downloadPrefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The source character&apos;s download prefix -- the same string the parse row gives
+``GIMIComponentParserConfig::downloadPrefix``, eg. ``&quot;BennettAdventure&quot;``
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A mod may carry none of a component at all: an NSFW body edit has no reason to touch a
+character&apos;s eyes and ships no ``Eye`` sections whatsoever. The parser registers that
+component&apos;s buffers as DOWNLOADS, and the merge has to read them -- so it needs the name
+they land under, which is :cpp:func:`DownloadTools::fixedFileName` of this prefix.
+
+Without it the component&apos;s paths stay EMPTY and go into the merge as they are, which reads
+as ``Unable to open file:`` with nothing after the colon and loses that whole ``.ini``
+file&apos;s buffers. Only ever used for a path the mod itself does not supply
+
+Empty disables the fallback, which is the old behaviour
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="192" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a8ee3c323dd66da09c76585f63b966f19" prot="public" static="no" mutable="no">
         <type>std::string</type>
         <definition>std::string AGRemapCore::GIMIMergeFixerConfig::faceReg</definition>
@@ -60,7 +90,7 @@ agrees
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="185" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="185" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="206" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="206" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ab5d13699a51abbdeb17be08aaaf7d339" prot="public" static="no" mutable="no">
         <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref>(const std::string &amp;diffusePath)&gt;</type>
@@ -78,7 +108,7 @@ table. A GIMI light map&apos;s alpha is a material band, and the legend is per s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="194" column="23" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="194" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="215" column="23" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="215" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a490ec76ef342ee114af63d4681e4f0bd" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -94,7 +124,7 @@ table. A GIMI light map&apos;s alpha is a material band, and the legend is per s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="199" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="199" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="220" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="220" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1abbaec13107513e023ec38d3c302f6dae" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -116,7 +146,7 @@ separated values in one 4x4 block, which the encoder splits the difference on
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="211" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="211" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="232" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="232" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a2cadd8ab685fb8229ba09e9eb3f0c420" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -131,7 +161,7 @@ separated values in one 4x4 block, which the encoder splits the difference on
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="216" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="216" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="237" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="237" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -147,11 +177,12 @@ skin&apos;s components, this joins a skin&apos;s components into the target&apos
 see :cpp:class:`VGComponentMerge` for why several ``.ini`` files binding one hash cannot do it
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="35" column="5" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="35" bodyend="217"/>
+    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="35" column="5" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="35" bodyend="238"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a6b2883e11c3888f8c487c5680d66475d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig</scope><name>components</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1abbaec13107513e023ec38d3c302f6dae" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig</scope><name>compressTextures</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a2cadd8ab685fb8229ba09e9eb3f0c420" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig</scope><name>copyPreamble</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1afb00d98b91be3266655662c40391a023" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig</scope><name>downloadPrefix</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a8ee3c323dd66da09c76585f63b966f19" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig</scope><name>faceReg</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ab5d13699a51abbdeb17be08aaaf7d339" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig</scope><name>lightMapEdit</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a490ec76ef342ee114af63d4681e4f0bd" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig</scope><name>mipmaps</name></member>

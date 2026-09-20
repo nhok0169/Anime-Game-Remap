@@ -14,7 +14,7 @@
 <para>How to render one <computeroutput>section</computeroutput>_. </para>
         </briefdescription>
         <detaileddescription>
-<para><ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a6e3af844525b5994c4e0864ed5e8e497" kindref="member">groupToStr</ref> renders nothing when this is empty </para>
+<para><ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ad6ef77be01a727db3c636fbbf72ed51f" kindref="member">groupToStr</ref> renders nothing when this is empty </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>

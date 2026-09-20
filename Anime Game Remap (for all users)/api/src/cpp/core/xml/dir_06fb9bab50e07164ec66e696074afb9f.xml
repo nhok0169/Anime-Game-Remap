@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_06fb9bab50e07164ec66e696074afb9f" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/Sanhua</compoundname>
+    <innerfile refid="_sanhua_fixer_8h">SanhuaFixer.h</innerfile>
+    <innerfile refid="_sanhua_thumbprints_8h">SanhuaThumbprints.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Sanhua/"/>
+  </compounddef>
+</doxygen>

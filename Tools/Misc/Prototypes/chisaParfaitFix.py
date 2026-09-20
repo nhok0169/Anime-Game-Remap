@@ -757,9 +757,17 @@ class TextureIndex():
                             for res in (v for k, v in kvps if k == "this"):
                                 if (h and res in resources):
                                     hashesOfFile.setdefault(resources[res], []).append(h)
+        # A FILE NO RESOURCE SECTION NAMES IS AN ALTERNATIVE THE AUTHOR SHIPPED, NOT THE MOD'S ART
+        #   (2026-09-20). A Hanabi mod carries `1Color Variation  Remove trans/{Black,Red,White}/
+        #   Components-3 t=4c7e5ddf.dds` beside the `Textures/` copy the player actually installed:
+        #   six alternative colourways of one upper-body diffuse, for the player to copy over the
+        #   live one. They walk in before `Textures/` and sort before it, so the fix bound a
+        #   colourway the player had NOT chosen -- in game, a kimono with the wrong bust panel.
+        #   The mod's own `.ini` says which is live: it declares a resource for it.
+        self.referenced = {f for resources in self.resourcesByIni.values() for f in resources.values()}
         counts = {"hash": 0, "pixels": 0, "name": 0}
         pending: List[str] = []
-        for f in ddsFiles:
+        for f in sorted(ddsFiles, key = lambda p: (p not in self.referenced, p)):
             match = re.search(r"t=([0-9a-fA-F]{8})\.dds$", f)
             hashes = hashesOfFile.get(f, []) + ([match.group(1).lower()] if (match) else [])
             # a mod declares one file under two hashes when one atlas serves two components (Upper_D.dds as
@@ -778,6 +786,7 @@ class TextureIndex():
             for other, theirs in hashesOfFile.items():
                 if (other != f and set(hashes) & set(theirs)):
                     self.alternativesOf.setdefault(f, []).append(other)
+        pending.sort(key = lambda p: (p not in self.referenced, p))
         for f, h, score in self._identify(pending):
             components = componentsOfModFile(f)
             if (components and RoleComponent.get(Roles[h]) not in components):
@@ -818,7 +827,7 @@ class TextureIndex():
         #   `Components-0-2-4-6 t=21f813ba.dds` sorts before `Components-4 t=9b396b0d.dds` and took
         #   the lower body's NORMAL off it, which is the role the single-component file was named
         #   for. Singles go first and the shared files take only what is left.
-        for f in sorted(files, key = lambda p: (len(componentsOfModFile(p)) != 1, p)):
+        for f in sorted(files, key = lambda p: (p not in self.referenced, len(componentsOfModFile(p)) != 1, p)):
             components = componentsOfModFile(f)
             # a file an earlier group already spoke for is not judged again on its own pixels
             if (not components or f in self.roleOf):

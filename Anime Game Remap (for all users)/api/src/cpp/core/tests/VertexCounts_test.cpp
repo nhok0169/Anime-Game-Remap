@@ -116,7 +116,8 @@ void testPrePopulated() {
     // row count: bump it when a character is added here, and do NOT "correct" it by re-reading the
     // Python dict, which would silently drop Yelan.
     // +2 on 2026-09-19: Sanhua and SanhuaExorcist (WuWa) at 2.5.
-    check(counts.size() == 47, "47 rows -- this table's own count, four ahead of the Python dict's 43");
+    // +2 on 2026-09-20: Chisa (2.8) and ChisaParfait (3.5), from their frame dumps.
+    check(counts.size() == 49, "49 rows -- this table's own count, six ahead of the Python dict's 43");
 
     // Same depth as Hashes now (3), one shallower than Indices (4).
     check(counts.getTotalIndices() == 3, "3 index columns (version, name, component)");
@@ -144,9 +145,11 @@ void testVersionCoverage() {
         versions.insert(v.toString());
     });
 
-    // 2.5 is Wuthering Waves' (Sanhua / SanhuaExorcist, 2026-09-19), on the same number line.
-    const std::set<std::string> expected = {"2.5", "4.0", "4.4", "4.6", "4.8", "5.3"};
-    check(versions == expected, "covers exactly the 5 versions the Python dict lists, plus WuWa's 2.5");
+    // 2.5, 2.8 and 3.5 are Wuthering Waves' (Sanhua / SanhuaExorcist 2026-09-19, Chisa /
+    // ChisaParfait 2026-09-20), on the same number line as GI's -- the two games share it, so a
+    // WuWa version can sit between two GI ones and nothing distinguishes them here.
+    const std::set<std::string> expected = {"2.5", "2.8", "3.5", "4.0", "4.4", "4.6", "4.8", "5.3"};
+    check(versions == expected, "covers exactly the 5 versions the Python dict lists, plus WuWa's 2.5, 2.8 and 3.5");
 }
 
 void testLookups() {

@@ -191,6 +191,12 @@ namespace AGRemapCore {
             case static_cast<int>(ModTypeId::SanhuaExorcist):
                 return ModTypeId::SanhuaExorcist;
 
+            case static_cast<int>(ModTypeId::Chisa):
+                return ModTypeId::Chisa;
+
+            case static_cast<int>(ModTypeId::ChisaParfait):
+                return ModTypeId::ChisaParfait;
+
             default:
                 return std::nullopt;
         }
@@ -370,6 +376,12 @@ namespace AGRemapCore {
 
             case ModTypeId::SanhuaExorcist:
                 return "SanhuaExorcist";
+
+            case ModTypeId::Chisa:
+                return "Chisa";
+
+            case ModTypeId::ChisaParfait:
+                return "ChisaParfait";
 
             default:
                 return "";
@@ -573,6 +585,13 @@ namespace AGRemapCore {
 
             case ModTypeId::SanhuaExorcist:
                 return {ModTypeId::Sanhua};
+
+            // WuWa (2026-09-20): the second pair, the same shape as Sanhua's.
+            case ModTypeId::Chisa:
+                return {ModTypeId::ChisaParfait};
+
+            case ModTypeId::ChisaParfait:
+                return {ModTypeId::Chisa};
             // Every remaining ModTypeId remaps onto nothing. That covers the two boss ids
             // (RaidenBoss, ArlecchinoBoss), which are only ever remap *targets* -- GIBuilder has
             // no factory for either.

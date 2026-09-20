@@ -330,6 +330,15 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist),
                   "2.5", ModTypeIdTools::getName(ModTypeId::Sanhua)}, IniFixBuilderFuncs::wwmiStub()},
 
+                // ===== Chisa <-> ChisaParfait (2026-09-20), STUBS =====
+                // Both directions are stubs: the pair is registered for its asset tables, and its
+                // vertex group remap is a proposal in Data/RemapDrafts/ChisaRemapDraft.xlsx that
+                // nothing has checked in game yet.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Chisa),
+                  "3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait)}, IniFixBuilderFuncs::wwmiStub()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::ChisaParfait),
+                  "2.8", ModTypeIdTools::getName(ModTypeId::Chisa)}, IniFixBuilderFuncs::wwmiStub()},
+
                 // ===== YelanTranquil @ toVersion 6.1 (2026-09-14) =====
                 //
                 // ONE row where the direction above needs three: a skin of several components onto

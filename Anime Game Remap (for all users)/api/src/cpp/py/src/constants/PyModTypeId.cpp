@@ -136,7 +136,9 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
         .value("YelanTranquilBang", AGRC::ModTypeId::YelanTranquilBang, R"doc(YelanTranquil's Bang component, as a fix target)doc")
         .value("YelanTranquilEye", AGRC::ModTypeId::YelanTranquilEye, R"doc(YelanTranquil's Eye component, as a fix target)doc")
         .value("Sanhua", AGRC::ModTypeId::Sanhua, R"doc(Sanhua from WuWa (Wuthering Waves) -- the first WWMI mod type; one merged skeleton whose draw slots are the 'type' column of Indices, IndexCounts, VGOffsets and VGCounts)doc")
-        .value("SanhuaExorcist", AGRC::ModTypeId::SanhuaExorcist, R"doc(Sanhua's Exorcist skin from WuWa (WWMI-Assets' SanhuaSkin1))doc");
+        .value("SanhuaExorcist", AGRC::ModTypeId::SanhuaExorcist, R"doc(Sanhua's Exorcist skin from WuWa (WWMI-Assets' SanhuaSkin1))doc")
+        .value("Chisa", AGRC::ModTypeId::Chisa, R"doc(Chisa from WuWa, the second WWMI pair; her asset tables come from a frame dump, since WWMI-Assets has neither her nor her skin)doc")
+        .value("ChisaParfait", AGRC::ModTypeId::ChisaParfait, R"doc(Chisa's Parfait skin from WuWa)doc");
 
     // Also bare-named -- no pure-Python 'ModTypeIdTools' class exists to shadow either.
     py::class_<AGRC::ModTypeIdTools>(m, "ModTypeIdTools", R"doc(

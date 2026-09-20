@@ -14315,6 +14315,10 @@ class ModTypeId:
       Sanhua : Sanhua from WuWa (Wuthering Waves) -- the first WWMI mod type; one merged skeleton whose draw slots are the 'type' column of Indices, IndexCounts, VGOffsets and VGCounts
     
       SanhuaExorcist : Sanhua's Exorcist skin from WuWa (WWMI-Assets' SanhuaSkin1)
+    
+      Chisa : Chisa from WuWa, the second WWMI pair; her asset tables come from a frame dump, since WWMI-Assets has neither her nor her skin
+    
+      ChisaParfait : Chisa's Parfait skin from WuWa
     """
     Amber: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Amber: 0>
     AmberCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AmberCN: 1>
@@ -14330,6 +14334,8 @@ class ModTypeId:
     BennettAdventureBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BennettAdventureBody: 10>
     BennettAdventureEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BennettAdventureEye: 12>
     CherryHuTao: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CherryHuTao: 13>
+    Chisa: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Chisa: 57>
+    ChisaParfait: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ChisaParfait: 58>
     Diluc: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Diluc: 14>
     DilucFlamme: typing.ClassVar[ModTypeId]  # value = <ModTypeId.DilucFlamme: 15>
     Fischl: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Fischl: 16>
@@ -14373,7 +14379,7 @@ class ModTypeId:
     YelanTranquilBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBang: 53>
     YelanTranquilBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBody: 52>
     YelanTranquilEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilEye: 54>
-    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'Bennett': <ModTypeId.Bennett: 8>, 'BennettAdventure': <ModTypeId.BennettAdventure: 9>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 10>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 11>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 12>, 'CherryHuTao': <ModTypeId.CherryHuTao: 13>, 'Diluc': <ModTypeId.Diluc: 14>, 'DilucFlamme': <ModTypeId.DilucFlamme: 15>, 'Fischl': <ModTypeId.Fischl: 16>, 'FischlHighness': <ModTypeId.FischlHighness: 17>, 'Ganyu': <ModTypeId.Ganyu: 18>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 19>, 'HuTao': <ModTypeId.HuTao: 20>, 'Jean': <ModTypeId.Jean: 21>, 'JeanCN': <ModTypeId.JeanCN: 22>, 'JeanSea': <ModTypeId.JeanSea: 23>, 'Kaeya': <ModTypeId.Kaeya: 24>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 25>, 'Keqing': <ModTypeId.Keqing: 26>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 27>, 'Kirara': <ModTypeId.Kirara: 28>, 'KiraraBoots': <ModTypeId.KiraraBoots: 29>, 'Klee': <ModTypeId.Klee: 30>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 31>, 'Lisa': <ModTypeId.Lisa: 32>, 'LisaStudent': <ModTypeId.LisaStudent: 33>, 'Mona': <ModTypeId.Mona: 34>, 'MonaCN': <ModTypeId.MonaCN: 35>, 'Nilou': <ModTypeId.Nilou: 36>, 'NilouBreeze': <ModTypeId.NilouBreeze: 37>, 'Ningguang': <ModTypeId.Ningguang: 38>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 39>, 'Raiden': <ModTypeId.Raiden: 40>, 'RaidenBoss': <ModTypeId.RaidenBoss: 41>, 'Rosaria': <ModTypeId.Rosaria: 42>, 'RosariaCN': <ModTypeId.RosariaCN: 43>, 'Shenhe': <ModTypeId.Shenhe: 44>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 45>, 'Xiangling': <ModTypeId.Xiangling: 46>, 'XianglingCheer': <ModTypeId.XianglingCheer: 47>, 'Xingqiu': <ModTypeId.Xingqiu: 48>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 49>, 'Yelan': <ModTypeId.Yelan: 50>, 'YelanTranquil': <ModTypeId.YelanTranquil: 51>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 52>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 53>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 54>, 'Sanhua': <ModTypeId.Sanhua: 55>, 'SanhuaExorcist': <ModTypeId.SanhuaExorcist: 56>}
+    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'Bennett': <ModTypeId.Bennett: 8>, 'BennettAdventure': <ModTypeId.BennettAdventure: 9>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 10>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 11>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 12>, 'CherryHuTao': <ModTypeId.CherryHuTao: 13>, 'Diluc': <ModTypeId.Diluc: 14>, 'DilucFlamme': <ModTypeId.DilucFlamme: 15>, 'Fischl': <ModTypeId.Fischl: 16>, 'FischlHighness': <ModTypeId.FischlHighness: 17>, 'Ganyu': <ModTypeId.Ganyu: 18>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 19>, 'HuTao': <ModTypeId.HuTao: 20>, 'Jean': <ModTypeId.Jean: 21>, 'JeanCN': <ModTypeId.JeanCN: 22>, 'JeanSea': <ModTypeId.JeanSea: 23>, 'Kaeya': <ModTypeId.Kaeya: 24>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 25>, 'Keqing': <ModTypeId.Keqing: 26>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 27>, 'Kirara': <ModTypeId.Kirara: 28>, 'KiraraBoots': <ModTypeId.KiraraBoots: 29>, 'Klee': <ModTypeId.Klee: 30>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 31>, 'Lisa': <ModTypeId.Lisa: 32>, 'LisaStudent': <ModTypeId.LisaStudent: 33>, 'Mona': <ModTypeId.Mona: 34>, 'MonaCN': <ModTypeId.MonaCN: 35>, 'Nilou': <ModTypeId.Nilou: 36>, 'NilouBreeze': <ModTypeId.NilouBreeze: 37>, 'Ningguang': <ModTypeId.Ningguang: 38>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 39>, 'Raiden': <ModTypeId.Raiden: 40>, 'RaidenBoss': <ModTypeId.RaidenBoss: 41>, 'Rosaria': <ModTypeId.Rosaria: 42>, 'RosariaCN': <ModTypeId.RosariaCN: 43>, 'Shenhe': <ModTypeId.Shenhe: 44>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 45>, 'Xiangling': <ModTypeId.Xiangling: 46>, 'XianglingCheer': <ModTypeId.XianglingCheer: 47>, 'Xingqiu': <ModTypeId.Xingqiu: 48>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 49>, 'Yelan': <ModTypeId.Yelan: 50>, 'YelanTranquil': <ModTypeId.YelanTranquil: 51>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 52>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 53>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 54>, 'Sanhua': <ModTypeId.Sanhua: 55>, 'SanhuaExorcist': <ModTypeId.SanhuaExorcist: 56>, 'Chisa': <ModTypeId.Chisa: 57>, 'ChisaParfait': <ModTypeId.ChisaParfait: 58>}
     def __eq__(self, other: typing.Any) -> bool:
         ...
     def __getstate__(self) -> int:
@@ -23108,6 +23114,16 @@ class WWMIBuilder:
     def all() -> list[ModType]:
         """
         Every WuWa :class:`ModType`, freshly built on each call
+        """
+    @staticmethod
+    def chisa() -> ModType:
+        """
+        Creates the :class:`ModType` for Chisa
+        """
+    @staticmethod
+    def chisaParfait() -> ModType:
+        """
+        Creates the :class:`ModType` for ChisaParfait
         """
     @staticmethod
     def sanhua() -> ModType:

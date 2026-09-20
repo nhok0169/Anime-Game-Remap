@@ -687,6 +687,71 @@ original through WWMI Tools 1.3.4, is the template the script copies), then thes
   `this = ResourceTexture<N>` under `$object_detected`; the slot layout of each draw is the game's
   and `TextureUsage.json` records it. The identity ships every `Components-... t=<hash>.dds` of the
   asset folder so a remap's texture edits have something to act on.
+- **Four or EIGHT bone weights a vertex, and a merged skeleton that may pass 256 bones**
+  (2026-09-19, Chisa). Sanhua's Blend buffer is 8 bytes a vertex; Augusta, Iuno, Chisa and five
+  more WWMI-Assets characters carry **eight** influences (16 bytes), and their `.fmt` says
+  `R8_UINT` for an element that is 8 bytes wide -- `export_format`'s `stride` is the truth, or the
+  distance to the next element. Worse, the 8-bit bone index **cannot name every bone**: Chisa's
+  merged skeleton is 420 slots, Iuno's 413, Augusta's 375, and even 4-weight Changli reaches 275.
+  WWMI's answer is the **blend remap**, and a mod that needs one carries three more buffers:
+  `BlendRemapVertexVG.buf` (every vertex's full ids as `R16_UINT`, as many a vertex as the Blend
+  buffer has weights) and `BlendRemapForward` / `Reverse.buf` (512 `uint16`s per remapped
+  component: local -> merged and merged -> local). Per component whose vertices carry a non-zero
+  weight on a bone >= 256, the sorted distinct bones it uses -- **at most 256** -- become local ids
+  0..n-1; at load `BlendRemapper.hlsl` rewrites a private copy of `Blend.buf` through the reverse
+  map, and each frame `SkeletonRemapper.hlsl` gathers that component's own skeleton through the
+  forward one. `Blend.buf` itself keeps the merged ids **truncated** to 8 bits, which is what a
+  component with no remap reads correctly. The merged skeleton resources double (`array = 1536`).
+  `wwmiIdentityMod.py` writes all of it (WWMI Tools 1.7.3's `build_blend_remap`; **1.3.3, which is
+  what is installed here, hard-codes four ids a vertex and is wrong for an 8-weight character**).
+  The check that proves it is to run both shaders in numpy over the written files and require every
+  weighted slot to land on the bone the raw `.vb` names -- Chisa, Augusta, Iuno, Galbrena and
+  Changli pass, a swapped reverse entry and a stripped `.ini` fail. **Chisa and ChisaParfait's
+  identity mods are correct in game (2026-09-19)**, which is the first confirmation of both the
+  remap and of an asset folder taken from a frame dump.
+- **A character WWMI-Assets does not have** (Chisa, ChisaParfait) gets its asset folder from a
+  frame dump: `Tools/Misc/Prototypes/wwmiExtractDump.py` runs **WWMI Tools' own extractor** outside
+  Blender (`bpy` stubbed; it skips the `<call>.<n>-[ShaderRegex_...]` sub-call files a mod like
+  RabbitFX leaves in a dump, which the addon's name parser rejects). One folder per `vb0` hash, so
+  pick the character's by component count and shaders. Run over the Sanhua and SanhuaExorcist dumps
+  it reproduces WWMI-Assets' `.vb` / `.ib` / `.fmt` and `Metadata.json` exactly -- but **not the
+  textures**: a dump holds each one in whatever streaming state it was drawn in (most of Sanhua's
+  and Chisa's at 512 x 512 where the real texture is 2048), and 3DMigoto rehashes a texture as its
+  mips load, so **not one** of the 16 hashes the Sanhua dump yields is WWMI-Assets', though 15 are
+  pixel-identical to an asset texture. Check the extracted `.dds` sizes before trusting them, and
+  note the corollary for the live game: today's Sanhua dump binds `332a6aac` where the shipped
+  download folder and `SanhuaHashLineage.json` call `1c0c8b91` current (same pixels, both 2048).
+- **A DUMP'S TEXTURE RESOLUTION IS ONE GAME SETTING, AND IT IS NOT "GRAPHICS QUALITY"**
+  (2026-09-20). WuWa keeps its real graphics settings in
+  `<game>/Client/Saved/LocalStorage/LocalStorage.db` (sqlite), **not** in `GameUserSettings.ini` --
+  whose `sg.TextureQuality=3` the game ignores, so reading it says nothing. The setting that decides
+  how many mips are resident is `ImageDetail`, the in-game menu's **LOD bias**, and at its default it
+  is `0`: every character texture is dumped at 512 x 512 no matter how close the camera is (proved
+  by dumping Chisa filling the screen -- same hashes, same sizes). Set LOD bias to **Ultra High**
+  (`ImageDetail = 3`) and the same character dumps 12 textures at 2048 instead of 2. The XXMI
+  Launcher's own "Max LOD Bias" switch writes that value before launch and **does not work**: the
+  launcher set `0 -> 3` at 01:08 and the game rewrote the file at startup two minutes later, so the
+  dump still came out at 512 -- change it in the game's own menu, where it sticks. And the hashes
+  move with it (`bacb2d38` at 512 is `526b9ed0` at 2048), which is one more reason the fixer places a
+  texture by pixel thumbprint rather than by hash.
+- **NEVER DUMP A CHARACTER WITH A MOD OF THAT CHARACTER INSTALLED -- THE EXTRACTION DESCRIBES THE
+  MODDED PIPELINE AND LOOKS LIKE A DIFFERENT CHARACTER, NOT LIKE AN ERROR** (2026-09-20). Two
+  ChisaParfait dumps taken with her own IDENTITY MOD active came back with `cb4_hash` **empty** --
+  WWMI had replaced the skeleton constant buffer with its own merged one -- so WWMI Tools read every
+  component's bone count off the wrong buffer and reported a merged skeleton of **929 slots** where
+  the mod-free dump says 264, past the 512 WWMI can hold. The per-vertex positions and weights were
+  byte-identical throughout, and the textures were the MOD's copies under the mod's hashes
+  (`2b1da041`, `ae2aab3c`) rather than the game's (`a506a70d`, `d547f3c6`). Nothing failed; only the
+  numbers were wrong, and "it reproduces every time" was true and meant nothing. Take the mod out of
+  `Mods` (the maintainer's find), re-dump, and the same character extracts clean at the same
+  settings. `wwmiExtractDump.py` now prints `RE-DUMP` on an empty `cb4_hash` or a merged skeleton
+  over 512 slots, which is the cheap detector for it. A related symptom of the same frames: a
+  texture written with no hash in its file name (`t=None.dds`), recoverable from the dump's
+  `deduped/` copy (`<hash>-<FORMAT>.dds`) and recovered by the extractor -- though on a modded dump
+  what it recovers is the mod's own texture, so the warning above is the one that matters.
+  `wwmiDownloadFolder.py --texturesFrom` takes the textures from a second dump of the same
+  character, if geometry and textures ever have to come from different frames; `ChisaParfait/3_5`
+  no longer needs it.
 
 What proves the build: every vertex buffer is byte-identical to fixed byte ranges of the raw `.vb`
 sliced independently of the script's element logic (POSITION 0-12, TANGENT+NORMAL 12-20, COLOR

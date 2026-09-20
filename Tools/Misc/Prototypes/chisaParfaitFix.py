@@ -74,10 +74,46 @@ def winToPosix(path: str) -> str:
     return "/mnt/" + path[0].lower() + path[2:].replace("\\", "/")
 
 
-Repo = os.environ.get("AG_REMAP_REPO") or winToPosix(r"C:\Users\AlexX\Documents\Games\Mods\Repos\Anime-Game-Remap")
-APISrc = os.path.join(Repo, "Anime Game Remap (for all users)", "api", "src", "py")
+MainRepo = winToPosix(r"C:\Users\AlexX\Documents\Games\Mods\Repos\Anime-Game-Remap")
+
+
+def apiSrcOf(repo: str) -> str:
+    return os.path.join(repo, "Anime Game Remap (for all users)", "api", "src", "py")
+
+
+def knowsThePair(repo: str) -> bool:
+    """Whether the API built in 'repo' has Chisa registered -- asked of the BUILT module rather than
+    of the source, since that is what this script imports. A build that predates the pair raises
+    `WWMIBuilder has no attribute 'chisa'` halfway through a run otherwise, which reads like a
+    missing binding rather than the wrong checkout."""
+    package = os.path.join(apiSrcOf(repo), "FixRaidenBoss2")
+    try:
+        for fileName in os.listdir(package):
+            if (fileName.startswith("core.") and fileName.endswith(".pyd")):
+                with open(os.path.join(package, fileName), "rb") as f:
+                    return b"chisaParfait" in f.read()
+    except OSError:
+        return False
+    return False
+
+
+# AG_REMAP_REPO wins; otherwise the main checkout, and then any worktree of it -- the pair may only
+#   exist on a branch, and the copy of this script that runs beside the mods has no repo of its own
+#   to infer one from.
+_candidates = [os.environ["AG_REMAP_REPO"]] if (os.environ.get("AG_REMAP_REPO")) else []
+if (not _candidates):
+    _candidates.append(MainRepo)
+    worktrees = os.path.join(MainRepo, ".claude", "worktrees")
+    if (os.path.isdir(worktrees)):
+        _candidates += [os.path.join(worktrees, name) for name in sorted(os.listdir(worktrees))]
+
+Repo = next((candidate for candidate in _candidates if knowsThePair(candidate)), _candidates[0])
+APISrc = apiSrcOf(Repo)
 if (not os.path.isdir(APISrc)):
     raise SystemExit(f"the API's package folder is not at {APISrc}; set AG_REMAP_REPO to the repo's path on this OS")
+if (not knowsThePair(Repo)):
+    raise SystemExit(f"the API built at {Repo} does not know {'Chisa'}: build a checkout that has her registered, "
+                     f"or point AG_REMAP_REPO at one (tried: {', '.join(_candidates)})")
 sys.path.insert(0, APISrc)
 if (hasattr(os, "add_dll_directory")):
     os.add_dll_directory(os.path.join(APISrc, "FixRaidenBoss2"))

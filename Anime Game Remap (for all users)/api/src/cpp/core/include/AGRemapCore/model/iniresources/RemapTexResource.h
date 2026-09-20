@@ -17,6 +17,7 @@
 #include <functional>
 #include <string>
 
+#include "AGRemapCore/model/files/TexCache.h"
 #include "AGRemapCore/model/iniresources/RemapIniResource.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
@@ -58,6 +59,16 @@ namespace AGRemapCore {
              * @brief The texture creator used to create the ``.dds`` file if it's missing
              */
             TexCreator texCreator;
+
+            /**
+             * @brief
+             @rst
+             The run's texture cache, or ``nullptr`` for none -- handed over by
+             :cpp:class:`RemapService` exactly where a download is handed its
+             :cpp:class:`DownloadCache`. Not owned
+             @endrst
+             */
+            TexCache* texCache = nullptr;
 
             /**
              * @brief Custom function for fixing the resource, overriding #_fix if set
@@ -141,6 +152,16 @@ namespace AGRemapCore {
              * @brief The texture editor used to edit the ``.dds`` file
              */
             TexEditor texEditor;
+
+            /**
+             * @brief
+             @rst
+             The run's texture cache, or ``nullptr`` for none -- handed over by
+             :cpp:class:`RemapService` exactly where a download is handed its
+             :cpp:class:`DownloadCache`. Not owned
+             @endrst
+             */
+            TexCache* texCache = nullptr;
 
             /**
              * @brief Custom function for fixing the resource, overriding #_fix if set

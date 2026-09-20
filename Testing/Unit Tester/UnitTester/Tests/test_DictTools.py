@@ -955,5 +955,67 @@ class DictToolsTest(BaseUnitTest):
         result = FRB.DictTools.getPaths(testDict, ordered = False)
         self.comparePaths(result, [["z", "1"], ["a", "2"], ["a", "3"], ["m"]])
 
+    # ============ nestedDictToDataFrame =============
+
+    def test_nestedDict_toDataFrame(self):
+        testDict = {"a": {"1": "x", "2": "y"}, "b": {"3": "z"}}
+        result = FRB.DictTools.nestedDictToDataFrame(testDict, ["outer", "inner", "value"])
+
+        self.assertEqual(list(result.columns), ["outer", "inner", "value"])
+        self.assertEqual(result.shape, (3, 3))
+
+        rows = sorted(tuple(row) for row in result.itertuples(index = False))
+        self.assertEqual(rows, [("a", "1", "x"), ("a", "2", "y"), ("b", "3", "z")])
+
+    def test_tupleLeaves_stayWholeCells(self):
+        """
+        A leaf that is itself a sequence must occupy ONE cell
+
+        This is the trap in building an object array out of a flat list: handed a list of
+        equal-length tuples, ``numpy`` infers a second axis and spreads each leaf across its own
+        columns instead of storing it whole. The array has to be allocated at its real shape and
+        filled per element for that reason
+        """
+
+        testDict = {"a": {"1": (1, 2, 3)}, "b": {"2": (4, 5, 6)}}
+        result = FRB.DictTools.nestedDictToDataFrame(testDict, ["outer", "inner", "value"])
+
+        self.assertEqual(result.shape, (2, 3))
+        self.assertEqual(sorted(result["value"].tolist()), [(1, 2, 3), (4, 5, 6)])
+
+    def test_unevenDepths_leaveTheTrailingCellsEmpty(self):
+        """A leaf shallower than the column list fills only as far as it goes"""
+
+        testDict = {"a": {"1": "x"}, "b": "leaf"}
+        result = FRB.DictTools.nestedDictToDataFrame(testDict, ["outer", "inner", "value"])
+
+        self.assertEqual(result.shape, (2, 3))
+
+        rows = sorted(tuple(row) for row in result.itertuples(index = False))
+        self.assertEqual(rows, [("a", "1", "x"), ("b", "leaf", None)])
+
+    def test_numpyIsNotImportedJustByImportingThePackage(self):
+        """
+        ``numpy`` is reached only by :meth:`DictTools.nestedDictToDataFrame`, which hands its result
+        straight to a LAZILY imported ``pandas`` -- so importing it eagerly costs every run of the
+        CLI a quarter of a second, for a public convenience nothing in the library itself calls
+
+        Checked in a subprocess, because by the time this suite runs something else has certainly
+        imported it already
+        """
+
+        import subprocess
+
+        source = ("import sys\n"
+                  "sys.path.insert(1, {})\n"
+                  "import src.py.FixRaidenBoss2\n"
+                  "print('numpy' in sys.modules)\n").format(repr(Configs[ConfigKeys.SysPath]))
+
+        result = subprocess.run([sys.executable, "-c", source], capture_output = True, text = True)
+
+        self.assertEqual(result.returncode, 0, result.stderr[-2000:])
+        self.assertEqual(result.stdout.strip().splitlines()[-1], "False",
+                         "importing the package must not drag numpy in with it")
+
     # ================================================
 

@@ -442,6 +442,13 @@ class DictTools():
             The converted data
         """
 
+        # 'numpy' is asked for the same way 'pandas' is, and for the same reason: neither is needed
+        #   unless somebody actually converts a dictionary, and importing 'numpy' eagerly cost every
+        #   run of the CLI ~240ms (see CyDictTools.nestedDictToNdArray). Fetched here rather than
+        #   left to the Cython method's own 'import numpy' so that a machine without it gets the
+        #   package manager's install, as it already does for 'pandas'.
+        GlobalPackageManager.get(PackageModules.Numpy.value)
+
         result = cls._CyTools.nestedDictToNdArray(nestedDict, colNames)
         pd = GlobalPackageManager.get(PackageModules.Pandas.value)
         return pd.DataFrame(result, columns = colNames)

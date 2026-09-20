@@ -15,9 +15,13 @@
 # cython: language_level=3, boundscheck=False, wraparound=False, nonecheck=False, cdivision=True
 
 
-import numpy as np
-cimport numpy as np
-
+# note: 'numpy' is deliberately NOT imported here, and deliberately not 'cimport'ed either --
+#   a cimport makes the module init import it just the same, which is the whole cost being avoided.
+#   Exactly one method below reaches for it, and only to build the array it hands straight to
+#   'DictTools.nestedDictToDataFrame's LAZILY imported pandas; nothing in the library calls that.
+#   Imported at module scope it cost ~240ms of EVERY run of the CLI -- about half of what importing
+#   this package cost altogether -- so it is imported where it is used instead. See
+#   nestedDictToNdArray.
 from cpython.dict cimport PyDict_Next, PyDict_Check, PyDict_Contains
 from cpython.object cimport PyObject
 
@@ -28,9 +32,14 @@ cdef class CyDictTools():
     Cython tools for handling with Dictionaries
     """
 
-    cpdef np.ndarray nestedDictToNdArray(self, dict nestedDict, list colNames):
+    cpdef object nestedDictToNdArray(self, dict nestedDict, list colNames):
         """
         Transforms a nested dictionary into a `numpy array`_
+
+        .. note::
+            ``numpy`` is imported when this method is first called rather than when this module is
+            loaded -- the same way :meth:`DictTools.nestedDictToDataFrame` reaches for ``pandas`` --
+            so that a run that never converts a dictionary does not pay for it
 
         Parameters
         ----------
@@ -71,7 +80,12 @@ cdef class CyDictTools():
                 leafCount += 1
 
         # 2. allocate array for the result
-        cdef np.ndarray[object, ndim=2] arr = np.empty(
+        #
+        # Allocated at its real shape and filled per element below, NOT built from a flat list:
+        # handed a list whose entries are themselves equal-length sequences, numpy infers an extra
+        # axis and spreads each leaf across columns of its own instead of storing it whole.
+        import numpy as np
+        cdef object arr = np.empty(
             (leafCount, maxDepth),
             dtype=object
         )

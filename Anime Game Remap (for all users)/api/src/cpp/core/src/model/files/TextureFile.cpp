@@ -14,13 +14,23 @@
 #include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 
+#include <algorithm>
+#include <array>
 #include <atomic>
+#include <cstdlib>
 #include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <mutex>
 #include <optional>
+#include <thread>
 #include <utility>
+#include <vector>
+
+// Compressonator's block-level codec library, for the BC7 decoder below. The framework's
+// CMP_ConvertMipTexture is a whole-texture call and the only one this file needed until the decode
+// turned out to be ~85% of what editing a texture costs.
+#include "cmp_core.h"
 
 #include "AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h"
 #include "AGRemapCore/tools/StringTools.h"
@@ -215,6 +225,177 @@ namespace AGRemapCore {
             }
         }
 
+        // ===== DECODING BC7 OURSELVES =====
+        //
+        // CMP_ConvertMipTexture is the library's whole-texture decode, and on a 4096x4096 BC7
+        // texture it takes 1.95s -- about 1.9us for each 4x4 block, which is orders of magnitude
+        // more than unpacking a block should cost. Measured against the rest of a texture edit at
+        // the CLI's default settings, it IS the edit: 2.45s of decode against 0.30s of gamma and
+        // 0.05s to write the 64MB file.
+        //
+        // Compressonator's own CMP_Core exposes DecompressBlockBC7 for a single block, and calling
+        // it per block -- across threads, since the blocks are independent -- is 11.9x faster over
+        // the corpus and gives THE SAME BYTES. That second half is the part that made this
+        // shippable and the part that had to be earned: 149 distinct BC7 textures decoded both
+        // ways, all 149 identical.
+        //
+        // BC1 IS DELIBERATELY NOT CLAIMED, and this is the finding worth keeping. The corpus's one
+        // BC1 texture came back differing from the framework decode on 1456 of 67108864 bytes --
+        // off by one, on interpolated colours -- so the two decoders round BC1's 2/3-1/3 blend
+        // differently. Nothing warns about that; it was found only by decoding every texture both
+        // ways and comparing. Anything that is not BC7 falls through to the framework, which is
+        // also what happens for an odd size or a file whose data is shorter than its own
+        // dimensions claim. This can only ever be faster, never a new way to be wrong.
+
+        /**
+         * ``AGREMAP_BC7_DECODE=0`` forces the framework path, for an A/B inside one binary
+         *
+         * TRIMMED before comparing, which is not fussiness. ``cmd``'s ``set VAR=0 && prog`` hands
+         * the child ``"0 "`` -- everything up to the ``&&``, trailing space included -- so an exact
+         * comparison leaves the switch ON while the caller believes it is off. That turned this
+         * option's own test into one that compared the fast path against itself and passed against
+         * a deliberately broken build.
+         */
+        bool bc7DecodeEnabled() {
+            static const bool enabled = []() {
+                const char *raw = std::getenv("AGREMAP_BC7_DECODE");
+                if (raw == nullptr) {
+                    return true;
+                }
+
+                return StringTools::strip(std::string(raw)) != "0";
+            }();
+
+            return enabled;
+        }
+
+        /** One horizontal band of 4x4 blocks. Bands never overlap, so threads never share a pixel */
+        void decodeBc7Rows(const std::uint8_t *blocks, std::uint8_t *pixels, int width,
+                            int blocksX, int rowStart, int rowEnd) {
+            std::array<std::uint8_t, 64> block{};
+
+            for (int blockY = rowStart; blockY < rowEnd; ++blockY) {
+                for (int blockX = 0; blockX < blocksX; ++blockX) {
+                    const std::uint8_t *compressed =
+                        blocks + ((static_cast<std::size_t>(blockY) * blocksX + blockX) * 16u);
+
+                    DecompressBlockBC7(compressed, block.data(), nullptr);
+
+                    // 16 RGBA pixels, row-major within the 4x4 -- so four rows of four pixels,
+                    // each landing 'width' pixels apart in the destination.
+                    for (int row = 0; row < 4; ++row) {
+                        const std::size_t destRow = static_cast<std::size_t>(blockY) * 4u + row;
+                        const std::size_t destCol = static_cast<std::size_t>(blockX) * 4u;
+
+                        std::memcpy(pixels + ((destRow * width + destCol) * 4u),
+                                    block.data() + (static_cast<std::size_t>(row) * 16u), 16u);
+                    }
+                }
+            }
+        }
+
+        /**
+         * Decodes mip 0 of a BC7 mip set into 'pixels', or answers false for anything this does
+         * not claim -- in which case the caller uses the framework exactly as it did before
+         */
+        bool decodeBc7Level(CMP_MipSet &mipSet, std::vector<std::uint8_t> &pixels,
+                            int &width, int &height) {
+            if (!bc7DecodeEnabled() || mipSet.m_format != CMP_FORMAT_BC7) {
+                return false;
+            }
+
+            CMP_MipLevel *level = nullptr;
+            CMP_GetMipLevel(&level, &mipSet, 0, 0);
+            if (level == nullptr || level->m_pbData == nullptr) {
+                return false;
+            }
+
+            const int levelWidth = level->m_nWidth;
+            const int levelHeight = level->m_nHeight;
+
+            // A BCn texture is stored as whole 4x4 blocks, so a size that is not a multiple of 4
+            // has a partially used block at each edge. Real game textures are powers of two; rather
+            // than write an edge case nothing here can test, hand those to the framework.
+            if (levelWidth <= 0 || levelHeight <= 0 || (levelWidth % 4) != 0 || (levelHeight % 4) != 0) {
+                return false;
+            }
+
+            const std::size_t blocksX = static_cast<std::size_t>(levelWidth) / 4u;
+            const std::size_t blocksY = static_cast<std::size_t>(levelHeight) / 4u;
+
+            // A truncated file would otherwise be read past its end. 16 bytes is BC7's block size.
+            if (static_cast<std::size_t>(level->m_dwLinearSize) < blocksX * blocksY * 16u) {
+                return false;
+            }
+
+            pixels.assign(static_cast<std::size_t>(levelWidth) * levelHeight * 4u, 0u);
+
+            const std::uint8_t *blocks = level->m_pbData;
+            std::uint8_t *out = pixels.data();
+
+            // ONE BLOCK BEFORE ANY THREAD STARTS, and it is not a cache warm-up.
+            //
+            // DecompressBlockBC7 with no options runs init_BC7ramps(), which guards on a plain
+            // non-atomic static and fills a global table. Two threads arriving together both see it
+            // unset and both write -- a data race that happens to produce the right answer only
+            // because they write identical values. Decoding one block here forces that
+            // initialisation to happen exactly once, under call_once, so every call afterwards
+            // only reads it. call_once rather than a bare call because it also covers two
+            // TextureFile::open calls racing each other, which nothing does today and which would
+            // otherwise be a silent trap for whoever first decodes textures in parallel.
+            //
+            // Passing a CreateOptionsBC7 object instead would also avoid the race, but that hands
+            // the decoder a differently-initialised struct, and the bytes were only ever verified
+            // for this call.
+            static std::once_flag rampsFlag;
+            std::call_once(rampsFlag, [blocks]() {
+                std::array<std::uint8_t, 64> first{};
+                DecompressBlockBC7(blocks, first.data(), nullptr);
+            });
+
+            unsigned hardware = std::thread::hardware_concurrency();
+            if (hardware == 0) {
+                hardware = 1;
+            }
+
+            // Enough block rows each to be worth starting a thread for. A small texture decodes in
+            // under a millisecond, which is the same order as the spawn.
+            constexpr std::size_t MinRowsPerThread = 16u;
+            const std::size_t useful = std::max<std::size_t>(blocksY / MinRowsPerThread, 1u);
+            const unsigned threads =
+                static_cast<unsigned>(std::min<std::size_t>(hardware, useful));
+
+            if (threads <= 1) {
+                decodeBc7Rows(blocks, out, levelWidth, static_cast<int>(blocksX), 0,
+                              static_cast<int>(blocksY));
+            } else {
+                std::vector<std::thread> pool;
+                pool.reserve(threads);
+
+                const std::size_t perThread = (blocksY + threads - 1u) / threads;
+
+                for (unsigned worker = 0; worker < threads; ++worker) {
+                    const std::size_t rowStart = worker * perThread;
+                    const std::size_t rowEnd = std::min(rowStart + perThread, blocksY);
+                    if (rowStart >= rowEnd) {
+                        break;
+                    }
+
+                    pool.emplace_back(decodeBc7Rows, blocks, out, levelWidth,
+                                      static_cast<int>(blocksX), static_cast<int>(rowStart),
+                                      static_cast<int>(rowEnd));
+                }
+
+                for (std::thread &worker : pool) {
+                    worker.join();
+                }
+            }
+
+            width = levelWidth;
+            height = levelHeight;
+            return true;
+        }
+
         void ensureFrameworkInit() {
             static std::once_flag flag;
             std::call_once(flag, []() {
@@ -282,6 +463,124 @@ namespace AGRemapCore {
         pixels_[i + 3] = static_cast<std::uint8_t>(colour.alpha);
     }
 
+    void TextureFile::setCache(TexCache *cache) {
+        cache_ = cache;
+    }
+
+    TexCache *TextureFile::getCache() const {
+        return cache_;
+    }
+
+    std::optional<Hash128> TextureFile::hashSource() const {
+        std::ifstream in(FileService::strToPath(src_), std::ios::binary);
+        if (!in) {
+            return std::nullopt;
+        }
+
+        // Read whole rather than streamed: these are a few MB, the hash is only worth doing at all
+        // because it replaces a ~0.20s decode, and XXH3 has no incremental wrapper in this repo.
+        std::vector<char> bytes((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+        if (!in && !in.eof()) {
+            return std::nullopt;
+        }
+
+        return Hash128::hash(bytes.data(), bytes.size());
+    }
+
+    Hash128 TextureFile::writeKey(bool compress, bool mipmaps) const {
+        // The pixels decide most of it, but two writes of the SAME pixels still differ when the
+        // format or either flag differs -- an uncompressed write and a BC7 one of one image are
+        // not interchangeable files.
+        const Hash128 pixelHash = Hash128::hash(pixels_.data(), pixels_.size());
+
+        std::string key = pixelHash.toHexString();
+        key += "|" + std::to_string(width_);
+        key += "|" + std::to_string(height_);
+        key += "|" + std::to_string(static_cast<int>(format_));
+        key += "|" + std::to_string(compress ? 1 : 0);
+        key += "|" + std::to_string(mipmaps ? 1 : 0);
+
+        return Hash128::hash(key);
+    }
+
+    bool TextureFile::writeUncompressedDds(const std::string &dest) const {
+        if (pixels_.empty() || width_ <= 0 || height_ <= 0) {
+            return false;
+        }
+
+        const std::size_t expected = static_cast<std::size_t>(width_) * static_cast<std::size_t>(height_) * 4u;
+        if (pixels_.size() < expected) {
+            return false;
+        }
+
+        // The exact header CMP_SaveTexture wrote for this case, field for field: a legacy
+        // 128-byte DDS header with no DX10 block. The masks are the load-bearing part -- they say
+        // BGRA, which is why the payload below is swizzled rather than copied.
+        std::array<std::uint8_t, 128> header{};
+
+        auto put32 = [&header](std::size_t at, std::uint32_t value) {
+            header[at] = static_cast<std::uint8_t>(value & 0xFFu);
+            header[at + 1] = static_cast<std::uint8_t>((value >> 8) & 0xFFu);
+            header[at + 2] = static_cast<std::uint8_t>((value >> 16) & 0xFFu);
+            header[at + 3] = static_cast<std::uint8_t>((value >> 24) & 0xFFu);
+        };
+
+        header[0] = 'D';
+        header[1] = 'D';
+        header[2] = 'S';
+        header[3] = ' ';
+
+        put32(4, 124u);                                     // dwSize
+        put32(8, 0x0002100Fu);                              // CAPS|HEIGHT|WIDTH|PITCH|PIXELFORMAT|MIPMAPCOUNT
+        put32(12, static_cast<std::uint32_t>(height_));
+        put32(16, static_cast<std::uint32_t>(width_));
+        put32(20, static_cast<std::uint32_t>(width_) * 4u); // dwPitchOrLinearSize
+        put32(24, 0u);                                      // dwDepth
+        put32(28, 1u);                                      // dwMipMapCount -- this writer is the single-level case
+        // dwReserved1[11] at 32..75 stays zero
+
+        put32(76, 32u);                                     // ddspf.dwSize
+        put32(80, 0x41u);                                   // DDPF_ALPHAPIXELS | DDPF_RGB
+        put32(84, 0u);                                      // ddspf.dwFourCC -- none, this is uncompressed
+        put32(88, 32u);                                     // ddspf.dwRGBBitCount
+        put32(92, 0x00FF0000u);                             // red
+        put32(96, 0x0000FF00u);                             // green
+        put32(100, 0x000000FFu);                            // blue
+        put32(104, 0xFF000000u);                            // alpha
+        put32(108, 0x1000u);                                // dwCaps = DDSCAPS_TEXTURE
+        // dwCaps2/3/4 and dwReserved2 at 112..127 stay zero
+
+        std::ofstream out(FileService::strToPath(dest), std::ios::binary | std::ios::trunc);
+        if (!out) {
+            return false;
+        }
+
+        out.write(reinterpret_cast<const char*>(header.data()), static_cast<std::streamsize>(header.size()));
+
+        // Swizzled a chunk at a time rather than into a second full-size buffer: a 4096x4096
+        // texture is 64MB decoded, and this runs on a 16GB laptop with the game often open.
+        constexpr std::size_t ChunkPixels = 1u << 16;
+        std::vector<std::uint8_t> chunk(ChunkPixels * 4u);
+
+        for (std::size_t pixel = 0; pixel < expected / 4u && out; pixel += ChunkPixels) {
+            const std::size_t count = std::min(ChunkPixels, (expected / 4u) - pixel);
+
+            for (std::size_t i = 0; i < count; ++i) {
+                const std::uint8_t *src = pixels_.data() + ((pixel + i) * 4u);
+                std::uint8_t *dst = chunk.data() + (i * 4u);
+                dst[0] = src[2];    // blue
+                dst[1] = src[1];    // green
+                dst[2] = src[0];    // red
+                dst[3] = src[3];    // alpha
+            }
+
+            out.write(reinterpret_cast<const char*>(chunk.data()), static_cast<std::streamsize>(count * 4u));
+        }
+
+        out.flush();
+        return static_cast<bool>(out);
+    }
+
     void TextureFile::open() {
         std::error_code ec;
         if (!std::filesystem::is_regular_file(FileService::strToPath(src_), ec)) {
@@ -290,6 +589,31 @@ namespace AGRemapCore {
             width_ = 0;
             height_ = 0;
             return;
+        }
+
+        // Keyed on the file's CONTENT, and asked before any Compressonator work happens. Decoding
+        // is a pure function of those bytes -- no filter has run yet at this point -- so this half
+        // of the cache needs no assumption whatsoever about what the edit is going to do.
+        std::optional<Hash128> sourceHash;
+        if (cache_ != nullptr) {
+            sourceHash = hashSource();
+
+            if (sourceHash.has_value()) {
+                if (const TexCache::Decoded *hit = cache_->decoded(*sourceHash)) {
+                    pixels_ = hit->pixels;
+                    width_ = hit->width;
+                    height_ = hit->height;
+                    format_ = hit->format;
+
+                    // Restored with the pixels, never skipped: save() runs a GammaFilter when this
+                    // is set, so a hit that left it alone would apply the LAST source's gamma to
+                    // this one -- see TexCache::Decoded::gamma.
+                    gamma_ = hit->gamma;
+
+                    hasImage_ = true;
+                    return;
+                }
+            }
         }
 
         ensureFrameworkInit();
@@ -413,6 +737,25 @@ namespace AGRemapCore {
         // level 0 anyway (see CMP_GetMipLevel below), and save() writes a single level back.
         mipSetIn.m_nMipLevels = 1;
 
+        // Everything a successful decode still owes the caller, whichever way the pixels arrived.
+        // One copy rather than two: the cache being wired into only one of two places is exactly
+        // the bug that left every grouped texture uncached while the summary looked right.
+        auto finishDecode = [this, &sourceHash]() {
+            hasImage_ = true;
+
+            if (cache_ != nullptr && sourceHash.has_value()) {
+                cache_->rememberDecoded(*sourceHash,
+                                        TexCache::Decoded{pixels_, width_, height_, format_, gamma_});
+            }
+        };
+
+        // Ours if this is BC7, the framework's otherwise -- see decodeBc7Level.
+        if (decodeBc7Level(mipSetIn, pixels_, width_, height_)) {
+            CMP_FreeMipSet(&mipSetIn);
+            finishDecode();
+            return;
+        }
+
         CMP_CompressOptions options{};
         options.dwSize = sizeof(options);
         options.DestFormat = CMP_FORMAT_RGBA_8888;
@@ -447,7 +790,7 @@ namespace AGRemapCore {
         pixels_.assign(level->m_pbData, level->m_pbData + (static_cast<std::size_t>(width_) * height_ * 4));
 
         CMP_FreeMipSet(&mipSetRGBA);
-        hasImage_ = true;
+        finishDecode();
     }
 
     void TextureFile::save(bool compress, bool mipmaps) {
@@ -485,6 +828,48 @@ namespace AGRemapCore {
             return false;
         }
 
+        // Asked AFTER every filter has already run, on the pixels they produced -- so this costs
+        // nothing in correctness no matter what the chain did or what else it read. All it claims
+        // is that writing identical pixels with identical settings produces an identical file,
+        // and so the second one can be a copy.
+        std::optional<Hash128> outputKey;
+        if (cache_ != nullptr) {
+            outputKey = writeKey(compress, mipmaps);
+
+            if (std::optional<std::string> already = cache_->writtenAs(*outputKey)) {
+                std::error_code copyEc;
+                std::filesystem::copy_file(FileService::strToPath(*already),
+                                            FileService::strToPath(dest),
+                                            std::filesystem::copy_options::overwrite_existing, copyEc);
+                if (!copyEc) {
+                    return true;
+                }
+
+                // The remembered file has gone, or could not be read. Drop it and write properly --
+                // the same self-healing DownloadCache documents for a download it remembered.
+                cache_->forgetWritten(*outputKey);
+            }
+        }
+
+        // Nothing here needs Compressonator: no encode, no chain, just a header and the pixels.
+        // Falls through to the library path if our writer cannot do it, so this can only ever be
+        // faster, never a new way to fail.
+        //
+        // THE EXTENSION IS PART OF THE CONDITION, and leaving it out was a real bug caught by
+        // test_CppTextureFile's saveAs cases: saveAs passes compress = "does dest end in .dds",
+        // so every OTHER format -- the .png/.jpg "let me actually look at this texture" path --
+        // arrives here with compress = false and got a DDS written into it, magic bytes and all.
+        // Compressonator picks its writer off the extension; this one only knows how to make one
+        // kind of file, so it must only claim the case where that is the file wanted.
+        if (!compress && !mipmaps && StringTools::endsWithIgnoreCase(dest, ".dds")
+                && writeUncompressedDds(dest)) {
+            if (cache_ != nullptr && outputKey.has_value()) {
+                cache_->rememberWritten(*outputKey, dest);
+            }
+
+            return true;
+        }
+
         ensureFrameworkInit();
 
         CMP_MipSet mipSetSrc{};
@@ -515,6 +900,11 @@ namespace AGRemapCore {
             // which CMP_CreateMipSet already pointed at this same mip-0 buffer for us.
             saved = saveThroughAscii(dest, &mipSetSrc);
             CMP_FreeMipSet(&mipSetSrc);
+
+            if (saved && cache_ != nullptr && outputKey.has_value()) {
+                cache_->rememberWritten(*outputKey, dest);
+            }
+
             return saved;
         }
 
@@ -539,6 +929,10 @@ namespace AGRemapCore {
         if (status == CMP_OK) {
             saved = saveThroughAscii(dest, &mipSetOut);
             CMP_FreeMipSet(&mipSetOut);
+        }
+
+        if (saved && cache_ != nullptr && outputKey.has_value()) {
+            cache_->rememberWritten(*outputKey, dest);
         }
 
         return saved;

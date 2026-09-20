@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" line="52" column="22" bodyfile="src/model/strategies/texEditors/texFilters/GammaFilter.cpp" bodystart="24" bodyend="24"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" line="52" column="22" bodyfile="src/model/strategies/texEditors/texFilters/GammaFilter.cpp" bodystart="28" bodyend="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_gamma_filter_1a547ef278ee31223b3e33f60de93d63d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -80,7 +80,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" line="54" column="18" bodyfile="src/model/strategies/texEditors/texFilters/GammaFilter.cpp" bodystart="26" bodyend="38"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" line="54" column="18" bodyfile="src/model/strategies/texEditors/texFilters/GammaFilter.cpp" bodystart="30" bodyend="82"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

@@ -69,7 +69,7 @@ call :cpp:func:`ModTypeIdTools::clear` first to start from empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GlobalModTypes.h" line="83" column="25" bodyfile="src/constants/GlobalModTypes.cpp" bodystart="46" bodyend="50"/>
+        <location file="include/AGRemapCore/constants/GlobalModTypes.h" line="83" column="25" bodyfile="src/constants/GlobalModTypes.cpp" bodystart="77" bodyend="79"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_global_mod_types_1add98f2abc25606ce97be00805a4aeb0d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -100,7 +100,7 @@ statement from the default overruling it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GlobalModTypes.h" line="105" column="25" bodyfile="src/constants/GlobalModTypes.cpp" bodystart="35" bodyend="43"/>
+        <location file="include/AGRemapCore/constants/GlobalModTypes.h" line="105" column="25" bodyfile="src/constants/GlobalModTypes.cpp" bodystart="35" bodyend="74"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

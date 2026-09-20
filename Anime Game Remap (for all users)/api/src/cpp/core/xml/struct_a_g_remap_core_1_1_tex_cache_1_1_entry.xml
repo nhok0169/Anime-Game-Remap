@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_tex_cache_1_1_entry" kind="struct" language="C++" prot="private">
+    <compoundname>AGRemapCore::TexCache::Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_tex_cache_1_1_entry_1a6190c338f9d066afba70a1a0e21e393d" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded" kindref="compound">Decoded</ref></type>
+        <definition>Decoded AGRemapCore::TexCache::Entry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>AGRemapCore::TexCache::Entry::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="192" column="25" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_tex_cache_1_1_entry_1ac8d85cacca826a73406ed7bb735fc5a4" prot="public" static="no" mutable="no">
+        <type>std::list&lt; <ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref> &gt;::iterator</type>
+        <definition>std::list&lt;Hash128&gt;::iterator AGRemapCore::TexCache::Entry::order</definition>
+        <argsstring></argsstring>
+        <name>order</name>
+        <qualifiedname>AGRemapCore::TexCache::Entry::order</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="193" column="38" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::TexCache::Decoded</label>
+        <link refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::TexCache::Entry</label>
+        <link refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>value</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/files/TexCache.h" line="191" column="13" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="191" bodyend="194"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry_1ac8d85cacca826a73406ed7bb735fc5a4" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache::Entry</scope><name>order</name></member>
+      <member refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry_1a6190c338f9d066afba70a1a0e21e393d" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache::Entry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

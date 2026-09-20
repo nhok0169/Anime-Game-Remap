@@ -768,6 +768,30 @@ until 2026-09-18. Test the
 published path with `AGREMAP_DOCS_STUBS=force` in front of the usual Sphinx command; see
 [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md).
 
+**THE FOLDER WALK VISITED EVERY BATCH OF FOLDERS BACKWARDS UNTIL 2026-09-20.** `RemapService`'s
+walk pushed folders at the back of its queue and took them off the back as well --- the shape an
+iterative depth-first walk falls into --- and every batch it queues is already in the order it
+should be reported in, so a `Mods` folder holding `A`, `B`, `C` was walked `C`, `B`, `A`, and a
+subtree came out after the sibling that follows it. **No file output ever depended on it**: the same
+fixture fixed with both builds gave 132 byte-identical files. `summaryLog.txt` did, through its
+"skipped due to warnings" list, so the Integration Tester failed 7 of 24 and its **22 log goldens
+were regenerated on Linux**. See [Architecture](AI%20Agent%20Help/Architecture/CLAUDE.md)'s "The
+folder walk reported every batch BACKWARDS" and [Testing](AI%20Agent%20Help/Testing/CLAUDE.md).
+
+**THE CHARACTER LIST LIVES IN FOUR PLACES OUTSIDE THE LIBRARY, AND ON 2026-09-20 THREE OF THEM WERE
+WRONG.** The mod-type table is in `api/README.md`, `apiMirror/README.md` and
+`Docs/src/commandOpts.rst` (all three now with a **Game** column, `GI` / `WuWa`), the per-remap
+table is `Docs/src/remapGrading.rst`, and the Python `ModTypes` enum is a fourth list of the same
+thing. Generated from `GIBuilder`/`WWMIBuilder` and diffed, the tables turned out to carry a
+misspelled character (`BarabaraSummertime` --- a name no `--types` argument could match) and a
+missing alias, and the enum was **six characters behind** (Bennett, BennettAdventure, Yelan,
+YelanTranquil, Sanhua, SanhuaExorcist), which is what the CLI's `--help` was printing. All four are
+in step now, `--help` prints the docs link instead of a list that grows with every remap, and
+`core/xml` --- which had not been regenerated since Bennett, so every WuWa class was missing from the
+published core API --- was regenerated with the pinned Doxygen. **Generate these lists, never retype
+them**: see [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md)'s "A CHARACTER IS FOUR DOC
+TABLES" and [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Closing out a remap".
+
 **Seven repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
 visible from the code:** (1) nearly every tracked text file is **CRLF** (`core.autocrlf=true`), so an
 exact-string patch script must normalise to LF before matching and write CRLF back, or every anchor
@@ -775,7 +799,10 @@ reports "found 0"; (2) the Bash tool's heredocs eat backslashes (`\ref` arrives 
 return + `ef`), so write patch scripts with the Write tool and run them by path -- **and `sed -i`
 mangles the same things in two more ways**: it rewrites a CRLF file as **LF** (silent whole-file
 line-ending churn in your diff) and it eats the doubled backslash in this codebase's RST plurals
-(`:cpp:enum:`X`\\s` arrives as `X`s`, which is broken RST). Prefer a Python patch script for any
+(`:cpp:enum:`X`\\s` arrives as `X`s`, which is broken RST). **The same eating happens to a `py -3 -c` one-liner run
+from the Bash tool** --- `.replace('/', '\\')` arrives as `.replace('/', '\')` and Python reports an
+unterminated string literal, which reads like your own quoting and is the tool's; a one-liner that
+needs a backslash goes in a script file too (or writes it as `chr(92)`). Prefer a Python patch script for any
 file with CRLF or doc comments; if you do use `sed -i`, normalise the file back to CRLF afterwards
 and check with `git diff --stat` against `git diff --stat --ignore-cr-at-eol` (the two must agree).
 **And a swallowed `\r` keeps costing after it is committed**: git's CRLF normalisation refuses to
@@ -785,11 +812,13 @@ exactly like the line-ending churn of trap (1) and is not. If `--ignore-cr-at-eo
 diff to almost nothing, grep it for a carriage return that is not followed by a newline: `TexEdit.h`
 carried one inside `\ref resSubType` (a broken Doxygen reference) from an older heredoc until
 2026-09-11; (3) the dev Python and the VS install root have both MOVED since much of this
-documentation was written, and that pair has now flipped **four** times -- as of 2026-09-09 `py -0p` lists **3.9.3**
-(so `py -3` is 3.9 and the built module is `core.cp39-win_amd64.pyd`) and `vcvarsall.bat` lives
-under `Program Files\Microsoft Visual Studio\18\Community`, with no
-`Program Files (x86)\...\18\BuildTools` existing at all -- the exact reverse of what this line said
-two days earlier, which was itself the reverse of the day before. **Read the version off
+documentation was written, and that pair has now flipped **five** times -- as of 2026-09-20 `py -3`
+is **3.13** (the built module is `core.cp313-win_amd64.pyd`) and `vcvarsall.bat` lives under
+`Program Files (x86)\Microsoft Visual Studio\18\BuildTools`, with no
+`Program Files\Microsoft Visual Studio` existing at all -- the exact reverse of what this line said
+on 2026-09-09, which was itself the reverse of the day before. A script carrying the older reading
+fails with **`COMPILE_EXIT=9009`** (`cl` is not on the PATH because `vcvarsall.bat` was never
+found), which names nothing. **Read the version off
 `cbuild/CMakeCache.txt` and locate `vcvarsall.bat` with a `find` rather than trusting any number or
 path written down anywhere, this line included** -- see **Building**'s prerequisites;
 (4) a `.bat` launched from the Bash tool as `cmd //c C:\Users\...\build.bat` has its backslashes

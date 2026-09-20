@@ -966,6 +966,48 @@ the one found this way was an unrelated app); **`abWWMI`'s `N differ` is a basel
 mean something are `0 only prototype, 0 only compiled`; and **after the rebuild, the `after_<mod>`
 folders are the next change's `before_`** -- keep them.
 
+**57. TO PROVE A CHANGE MOVED NOTHING ELSE, BUILD BOTH SIDES AND DIFF THE TREE (2026-09-20).** Habit
+56 is the version for work that has a prototype to A/B against. When there is none --- a change to
+shared machinery, where the only question is "what ELSE moved" --- the equivalent is two builds and
+one comparison, and it costs about five minutes:
+
+```
+copy the changed sources into the scratch folder   # they are the only copy
+git checkout -- <those paths>                      # quote every path: they contain spaces and ()
+build, run the entry point over a fixture into old/
+copy the sources back, build, run the same fixture into new/
+md5 every file of both trees and compare
+```
+
+The walk-order fix came out of it as **132 files, byte-identical, nothing only-in-either** --- which
+is what made it safe to say the change moved only the order. Two things to keep in mind: pick a
+fixture with SEVERAL mod folders (`Testing/Integration Tester/.../MixedModsTests/inputs/Mods` is 35
+files and five folders, and it exercises skips, undo and downloads), and remember that **a tree diff
+does not include the log** --- capture stdout per run and compare it separately, deliberately,
+because that is where an ordering change actually shows.
+
+**58. ANY LIST OF THE LIBRARY'S CONTENTS THAT LIVES OUTSIDE THE LIBRARY IS WRONG UNTIL YOU GENERATE
+IT (2026-09-20).** Four such lists exist for mod types alone --- two READMEs, `commandOpts.rst`, and
+the Python `ModTypes` enum --- and on the day they were first generated and diffed against
+`GIBuilder`/`WWMIBuilder`, three were wrong: a misspelled name that no `--types` argument could
+match, a missing alias, and an enum six characters behind, which is what `--help` printed. None of it
+is visible by reading, all of it is a 30-line script (import the package, build `{name: (game,
+aliases)}`, parse the table, print the differences), and the script is worth keeping in the scratch
+folder for the next character. The same rule covers a count restated in a doc comment and a golden
+that duplicates library data. **Reading a list to check a list does not work; only generating one
+does.**
+
+**59. READ WHAT A SUITE COMPARES BEFORE PREDICTING WHAT IT CATCHES (2026-09-20).** The Integration
+Tester's `TestFileTools.LogFiles` is the regex `RemapFixLog\.txt$`, and `compareResults` skips only
+what it matches --- so `summaryLog.txt`, written beside it from the log's own tail, is a real
+expectation. Reading the name `isLog` and stopping there gave the confident and wrong conclusion
+that log order was invisible to the suite; the suite then failed 7 of 24 on exactly that. It cuts
+the other way too: `RemapFixLog.txt` is committed, diffs loudly, and asserts nothing. **Find the
+assertion, not the artifact** --- and when a suite's goldens do have to be regenerated, check which
+platform produced them (these carry POSIX separators inside the text: a Windows run corrupts them,
+and nine of the 31 files a Linux regeneration touched differed in line endings only and had to be
+`git checkout`ed back).
+
 <br>
 
 ## Operating norms

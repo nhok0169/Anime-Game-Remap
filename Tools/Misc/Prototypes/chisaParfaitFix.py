@@ -347,6 +347,13 @@ Roles = {
     #   own [TextureOverrideTexture] on the target too
     "d3b9ba76": "frontHairMask", "f2646d21": "frontHairDiffuse", "9ccd7ea7": "frontHairNormal",
     "a842d51f": "hairMask", "cbab5910": "hairDiffuse", "e921181d": "hairNormal",
+    # THE HAIR SHADING RAMP, AND THE TWO SKINS PUT OPPOSITE COLOURS IN IT (2026-09-20). Chisa's
+    #   `ps-t2` on her hair pass is a 256 x 256 ramp averaging (127, 149, 252) -- blue -- and
+    #   ChisaParfait's is a 512 x 512 one averaging (206, 177, 2) -- orange. Binding the mod's other
+    #   hair textures and leaving this register alone left the TARGET's orange ramp on the mod's
+    #   hair, which is what "the hair has orange stains" was: a warm tint on whatever catches the
+    #   light. The FRONT hair slot needs no such entry, because both skins bind b0ee686b there.
+    "232c2dbc": "hairRamp",
     "6ae8dd10": "faceMask", "d030af95": "faceDiffuse",
     "526b9ed0": "upperNormal", "90196068": "upperMask", "165f3a1b": "upperDiffuse",
     "2b6f8bcb": "lowerNormal", "3f0e6f21": "lowerMask", "f642139e": "lowerDiffuse",
@@ -360,7 +367,7 @@ Roles = {
 #   clothing slots is ps-t3 on the skin where Chisa's own pass reads it at ps-t2 (header, point 3).
 Plan = {
     0: (0, {"ps-t0": "frontHairMask", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}),
-    1: (1, {"ps-t0": "hairMask", "ps-t1": "hairDiffuse", "ps-t5": "hairNormal"}),
+    1: (1, {"ps-t0": "hairMask", "ps-t1": "hairDiffuse", "ps-t2": "hairRamp", "ps-t5": "hairNormal"}),
     2: (2, {"ps-t0": "faceMask", "ps-t1": "faceDiffuse"}),
     3: (3, {"ps-t0": "upperNormal", "ps-t1": "upperMask", "ps-t3": "upperDiffuse"}),
     4: (4, {"ps-t0": "lowerNormal", "ps-t1": "lowerMask", "ps-t3": "lowerDiffuse"}),
@@ -644,7 +651,7 @@ FallbackTextures: Dict[str, str] = {
     #   fetched a file that does not exist in this folder. Only `accessorySheen` is actually reached
     #   today: every other role here is one a mod of Chisa ships for itself.
     "frontHairMask": "d3b9ba76", "frontHairDiffuse": "f2646d21", "frontHairNormal": "9ccd7ea7",
-    "hairMask": "a842d51f", "hairDiffuse": "cbab5910", "hairNormal": "e921181d",
+    "hairMask": "a842d51f", "hairDiffuse": "cbab5910", "hairNormal": "e921181d", "hairRamp": "232c2dbc",
     "faceMask": "6ae8dd10", "faceDiffuse": "d030af95",
     "upperNormal": "526b9ed0", "upperMask": "90196068", "upperDiffuse": "165f3a1b",
     "lowerNormal": "2b6f8bcb", "lowerMask": "3f0e6f21", "lowerDiffuse": "f642139e",
@@ -661,7 +668,7 @@ IdentityMin, IdentityGap = 0.97, 0.90   # a file IS a game texture when its colo
 #   of that atlas) and took those roles, while the real accessory files, matching at 1.00, were
 #   refused as duplicates and the upper body got nothing at all.
 RoleComponent = {"frontHairMask": 0, "frontHairDiffuse": 0, "frontHairNormal": 0,
-                 "hairMask": 1, "hairDiffuse": 1, "hairNormal": 1,
+                 "hairMask": 1, "hairDiffuse": 1, "hairNormal": 1, "hairRamp": 1,
                  "faceMask": 2, "faceDiffuse": 2,
                  "upperNormal": 3, "upperMask": 3, "upperDiffuse": 3,
                  "lowerNormal": 4, "lowerMask": 4, "lowerDiffuse": 4,

@@ -249,10 +249,15 @@ ExtraPassRegs = {
     #   ps-t3's. So that register carries her accessory DIFFUSE here, where on the pass she does
     #   draw (3df800c3) the same register carries her sheen ramp. Mirroring a source's bindings onto
     #   a pass it never draws is a guess however carefully the tables are read.
+    #   ps-t5 is her ACCESSORY normal here, not the front hair's. On 3df800c3 she really does bind
+    #   the hair normal at that register and the mirror keeps it; on these two there is nothing to
+    #   mirror, and the hair map is a fan of high-contrast strands (9ccd7ea7) which on a ribbon reads
+    #   as a mottled, matte surface where the base is smooth satin. 40528957 is the same part's own
+    #   normal -- smooth panels with the ribbon's structure.
     5: {"87825a9a29529f9b": {"ps-t0": "accessoryDiffuse", "ps-t1": "frontHairDiffuse",
-                             "ps-t3": "accessoryDiffuse", "ps-t5": "frontHairNormal"},
+                             "ps-t3": "accessoryDiffuse", "ps-t5": "accessoryNormal"},
         "ced9a47fb6ad4d16": {"ps-t0": "accessoryDiffuse", "ps-t1": "frontHairDiffuse",
-                             "ps-t3": "accessoryDiffuse", "ps-t5": "frontHairNormal"}},
+                             "ps-t3": "accessoryDiffuse", "ps-t5": "accessoryNormal"}},
 }
 
 # A CHARACTER IS NOT ONLY HER vb0 MESH. Chisa and ChisaParfait both draw a SECOND mesh, vb0

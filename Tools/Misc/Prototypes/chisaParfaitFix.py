@@ -652,6 +652,49 @@ FallbackTextures: Dict[str, str] = {
     "irisDiffuse": "226b31fc",
 }
 IdentityMin, IdentityGap = 0.97, 0.90   # a file IS a game texture when its colour correlates >= IdentityMin with one asset and < IdentityGap with every other
+
+# THE COMPONENT IN A MOD'S FILE NAME IS THE STRONGEST ROLE SIGNAL IT HAS, AND IT IS FREE
+#   (2026-09-20). WWMI names every texture it exports `Components-<N> t=<hash>.dds`, and N is the
+#   component the mod's own .ini binds it for -- so a file can only play a role of THAT component,
+#   whatever it looks like. Without the constraint, a bunny-suit mod's `Components-3` upper-body
+#   pair correlated 0.98 and 1.00 with Chisa's ACCESSORY diffuse and normal (its art is a repaint
+#   of that atlas) and took those roles, while the real accessory files, matching at 1.00, were
+#   refused as duplicates and the upper body got nothing at all.
+RoleComponent = {"frontHairMask": 0, "frontHairDiffuse": 0, "frontHairNormal": 0,
+                 "hairMask": 1, "hairDiffuse": 1, "hairNormal": 1,
+                 "faceMask": 2, "faceDiffuse": 2,
+                 "upperNormal": 3, "upperMask": 3, "upperDiffuse": 3,
+                 "lowerNormal": 4, "lowerMask": 4, "lowerDiffuse": 4,
+                 "accessoryDiffuse": 5, "accessoryNormal": 5,
+                 "irisDiffuse": 6}
+# `Components-0-2-4-6 t=...` is shared between components and names no single one, so it is skipped
+ModComponentPattern = re.compile(r"components?[\s_-]*(\d+)[\s_-]+t=", re.IGNORECASE)
+
+
+def kindOfShape(shape) -> Tuple[str, str]:
+    """A texture's KIND from its pixels: "Mask", "Normal" or "Diffuse", with why.
+
+    CHECKED AGAINST AN ORACLE BEFORE IT WAS USED. The seventeen textures in `Roles` have known
+    roles, so they are the test set for any rule that guesses one, and the obvious rules fail it:
+    "R and G centred on 127" is true of the three CLOTHING normals and false of the two hair ones
+    (Chisa's front hair normal averages 27, 50, 101), and "saturated with a flat alpha" is true of
+    every mask AND of both hair normals. What separates those two is how many distinct colours the
+    texture holds -- a mask is a handful of codes (1 to 13 here) and a normal map is a continuous
+    field (64 to 293). This rule gets 17 of 17; the first one written got 15."""
+    mean, saturation, colours = shape
+    if (colours <= 40 and saturation >= 0.9):
+        return "Mask", f"{colours} distinct colours at full saturation, so codes rather than shading"
+    if (abs(mean[0] - 127) < 8 and abs(mean[1] - 127) < 8):
+        return "Normal", "R and G both centred on 127"
+    if (saturation >= 0.25 and colours >= 40):
+        return "Normal", f"saturated and continuous ({colours} colours)"
+    return "Diffuse", "neither a set of codes nor a normal map"
+
+
+def componentOfModFile(name: str) -> Optional[int]:
+    """The single component a WWMI-exported texture's name claims, or None"""
+    match = ModComponentPattern.search(os.path.basename(name))
+    return int(match.group(1)) if (match) else None
 ComponentFilePattern = re.compile(r"component[\s_-]*(\d+)[\s_-]+([a-z]+)\.dds$", re.IGNORECASE)
 TypeOfSuffix = {"diffuse": "diffuse", "albedo": "diffuse", "base": "diffuse", "color": "diffuse", "colour": "diffuse", "d": "diffuse",
                 "lm": "mask", "lightmap": "mask", "mask": "mask", "m": "mask", "nm": "normal", "normal": "normal", "normalmap": "normal", "n": "normal"}
@@ -698,9 +741,14 @@ class TextureIndex():
                         if (sec.startswith("TextureOverrideTexture")):
                             kvps = [keyValue(line) for line in lines]
                             h = next((v.lower() for k, v in kvps if k == "hash"), None)
-                            res = next((v for k, v in kvps if k == "this"), None)
-                            if (h and res in resources):
-                                hashesOfFile.setdefault(resources[res], []).append(h)
+                            # A GROUP MAY OFFER SEVERAL FILES FOR ONE HASH, AND THEY ARE ONE ROLE.
+                            #   A `$part_0` toggle mod writes `if $part_0 == 0 / this = ResourceTextureN
+                            #   / elif $part_0 == 1 / this = ResourceTextureN_2`, the first being the
+                            #   character's own art and the second the mod's. Taking only the first left
+                            #   the mod's own copy roleless.
+                            for res in (v for k, v in kvps if k == "this"):
+                                if (h and res in resources):
+                                    hashesOfFile.setdefault(resources[res], []).append(h)
         counts = {"hash": 0, "pixels": 0, "name": 0}
         pending: List[str] = []
         for f in ddsFiles:
@@ -717,8 +765,19 @@ class TextureIndex():
                 self.roleOf[f] = roles; counts["hash"] += 1
             else:
                 pending.append(f)
+        self.alternativesOf: Dict[str, List[str]] = {}
+        for f, hashes in hashesOfFile.items():
+            for other, theirs in hashesOfFile.items():
+                if (other != f and set(hashes) & set(theirs)):
+                    self.alternativesOf.setdefault(f, []).append(other)
         for f, h, score in self._identify(pending):
+            component = componentOfModFile(f)
+            if (component is not None and RoleComponent.get(Roles[h]) != component):
+                continue                            # its own name says it belongs to another component
             self.roleOf[f] = [(Roles[h], f"the game's own {h} by its pixels ({score:.2f})")]; counts["pixels"] += 1
+        counts["shape"] = 0
+        for f in self._byShape([p for p in pending if (p not in self.roleOf)]):
+            self.roleOf[f[0]] = [(f[1], f[2])]; counts["shape"] += 1
         for f in pending:
             if (f in self.roleOf):
                 continue
@@ -729,7 +788,62 @@ class TextureIndex():
             else:
                 self.unresolved.append(f)
         print(f"  textures under {os.path.basename(root)}: {len(ddsFiles)} files -- {counts['hash']} placed by hash, {counts['pixels']} by pixel identity with a game texture, "
-              f"{counts['name']} by their Component<N>_<Type> name, {len(self.unresolved)} with no role")
+              f"{counts['shape']} by their component and shape, {counts['name']} by their Component<N>_<Type> name, {len(self.unresolved)} with no role")
+
+    def _byShape(self, files: List[str]):
+        """(file, role, why) for a REPAINTED texture: its component says which roles it may play, and
+        its own pixels say which of them it is.
+
+        This is the case pixel identity cannot reach -- a mod that repaints a component's art matches
+        none of the game's textures -- and the component in the file name is what makes it safe: the
+        choice is between that component's two or three roles, not between all seventeen.
+
+            a NORMAL map has both R and G centred on 127, whatever its blue;
+            a MASK is fully saturated with a flat alpha (it is codes, not shading);
+            anything else is the DIFFUSE.
+
+        Checked against the files pixel identity DOES place: on the bunny mod every one of the eight
+        it recognised gets the same role from this rule, which is the only reason to trust it on the
+        eight it cannot."""
+        taken = {(componentOfModFile(f), role) for f, roles in self.roleOf.items() for role, _ in roles}
+        for f in sorted(files):
+            component = componentOfModFile(f)
+            # a file an earlier group already spoke for is not judged again on its own pixels
+            if (component is None or f in self.roleOf):
+                continue
+            free = [r for r, c in RoleComponent.items() if (c == component and (component, r) not in taken)]
+            if (not free):
+                continue
+            shape = self._shapeOf(f)
+            if (shape is None):
+                continue
+            wanted, why = kindOfShape(shape)
+            role = next((r for r in free if (r.endswith(wanted))), None)
+            if (role is None):
+                continue
+            taken.add((component, role))
+            yield f, role, f"component {component} in its name, and {why}"
+            # a `$part_0` toggle mod offers two files for one hash -- the character's own art and
+            #   its own repaint. They are one role, and the shape rule would judge the repaint on
+            #   its own pixels and get a different answer (the bunny mod's recoloured hair normal
+            #   reads as a mask). The one bound is whichever comes first, which is the mod's
+            #   `$part_0 == 0` default.
+            for other in self.alternativesOf.get(f, []):
+                if (other not in self.roleOf and componentOfModFile(other) == component):
+                    yield other, role, f"the same [TextureOverrideTexture] as {os.path.basename(self.real.get(f, f))}"
+
+    @staticmethod
+    def _shapeOf(path: str):
+        """(mean RGB, median saturation, distinct 5-bit colours) of a subsample, or None"""
+        try:
+            tex = FRB.TextureFile(path)
+            tex.open()
+            px = np.frombuffer(tex.getPixels(), dtype = np.uint8).reshape(tex.height, tex.width, 4).astype(np.float64)[::8, ::8]
+        except Exception:
+            return None
+        high, low = px[..., :3].max(axis = 2), px[..., :3].min(axis = 2)
+        return (px[..., :3].mean(axis = (0, 1)), float(np.median((high - low) / np.maximum(high, 1))),
+                len(np.unique((px[..., :3] // 32).reshape(-1, 3), axis = 0)))
 
     def _identify(self, files: List[str]):
         """(file, asset hash, colour correlation) for every file that is one of the game's own textures under another name"""

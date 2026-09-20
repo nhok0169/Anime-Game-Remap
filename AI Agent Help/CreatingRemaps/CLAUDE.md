@@ -1421,6 +1421,77 @@ Then the loop, which differs from the GI one in three mechanics:
   habit 56). A fix-then-undo cycle on the after copy (`FixRaidenBoss7.py -s <copy> -u`) must leave
   no `Remap` text and no `Remap*` file, downloads included.
 
+### The SECOND WuWa pair, Chisa <-> ChisaParfait (2026-09-20): what the checklist above did not cover
+
+Everything in "The next WuWa pair" held. These are the four things it does not say, each found by
+running `Tools/Misc/Prototypes/chisaParfaitFix.py` on the identity mod -- and none of them is about
+Chisa in particular, so expect them again on the pair after her.
+
+1. **PAIR THE SLOTS BY GEOMETRY, NOT BY SHADER FAMILY, WHEN THE PAIR IS A SKIN OF THE SAME
+   CHARACTER.** The shader-family rule exists because a merged skeleton makes bones useless for it;
+   it does not mean geometry is useless too. Both meshes are in the same rest pose, so the honest
+   measurement is per-component centroid and bounding-box overlap between the two download folders'
+   `Position.buf`s (`componentGeometry.py`, ~40 lines, in the session scratchpad): Chisa's 0, 2 and 6
+   came out at **IoU 1.00** against the skin's -- literally the same mesh, the skin keeping her head,
+   face and eyes -- and 1 / 3 / 4 at 0.72 / 0.61 / 0.35. One to one, with the skin's slots 5 and 7
+   left over. That took minutes and settled what reading shader names could not; the shader families
+   then only had to confirm it.
+2. **A SLOT'S REGISTER LAYOUT IS PER SHADER, SO THE SAME ROLE CAN SIT AT DIFFERENT REGISTERS ON THE
+   TWO SKINS.** Chisa's upper- and lower-body passes bind normal / mask / diffuse at
+   `ps-t0` / `t1` / `t2`; the skin's bind them at `ps-t0` / `t1` / **`t3`**. Bind the source's
+   texture at the source's register and the diffuse is simply never read. The cheap cross-check on
+   any such reading is the DXGI FORMAT of what each register holds in the dump: `BC7_UNORM` is the
+   normal map, `DXT1` / `DXT5` the material mask, `BC7_SRGB` the diffuse (`roleFormats.py`).
+3. **A CHARACTER PAST 256 BONES DOES NOT KEEP HER BONE IDS IN `Blend.buf`, AND REMAPPING IT IS A
+   NO-OP FOR THE COMPONENTS THAT MATTER.** Chisa's mods carry WWMI's blend remap (see the VGRemaps
+   guide): for every component that has one -- hers are 3, 4 and 5 -- the 8-bit ids in `Blend.buf`
+   are the merged ones TRUNCATED, and `BlendRemapper.hlsl` overwrites a private copy of them at load
+   from the 16-bit `BlendRemapVertexVG.buf`. So the fix builds the remapped blend from **VertexVG's**
+   ids, and the result fits 8 bits again only because the TARGET's merged skeleton is small (the
+   Parfait skin reaches bone 250). A target past 256 would need the fix to write blend remap buffers
+   of its own, which nothing does yet -- `ChisaParfait -> Chisa` is that direction.
+4. **SUCH A MOD ALSO BINDS `vb4` TWICE** -- `vb4 = ResourceBlendBuffer` when no remap is active and
+   `vb4 = ref ResourceBlendBufferOverride` when one is. `ResRegCollect` took the second, which names
+   a buffer WWMI fills at load rather than a file, and the run died looking for a section called
+   `Resourceref Resource...`. Its `resPredicates` is the hook: take the reference that names a file.
+
+**And fixing her identity mod deleted three of its own buffers before any of this** -- the undo's
+`Remap` substring test matching WWMI's own `ResourceBlendRemap*` sections. That is fixed in core
+(see "An undo recognises a fix by `<modName>Remap`" below) and is the reason to run a fix on a
+scratch COPY of a mod, never on the folder you would miss.
+
+<br>
+
+## An undo recognises a fix by `<modName>Remap`, not by `Remap` anywhere (2026-09-20)
+
+`RemapIniRemover::collectCandidates` used to treat any section OUTSIDE the fix's boilerplate whose
+name merely CONTAINED `Remap` as a previous fix's leftover; the removal closure then took everything
+those reached, and `collectRemovedResources` deleted the files they named. A mod of its own can hold
+that substring: WWMI's blend remap declares `ResourceBlendRemapVertexVGBuffer`,
+`...BlendRemapForwardBuffer` and `...BlendRemapReverseBuffer`, and an undo deleted all three `.buf`
+files **on a mod that had never been fixed** -- every fix undoing first, so the first fix of Chisa's
+identity mod destroyed it, and the blend the run then wrote was built from the truncated ids the
+game does not read. The proof it was the NAME and nothing else: rename them to `BlendRmp*` and all
+three survive.
+
+The rule now asks for `<modName>Remap` (`IniNamingTools::getRemapName`'s own shape), with the names
+coming from a new `IniRemoveContext::modTypeNames()` -- each `ModType` the `.ini` was classified as
+plus every mod type it remaps onto, since a fix's sections are named after the mod remapped TO. It is
+a virtual with a default of empty, which keeps the old behaviour for a hand-built remover, and
+nothing changes INSIDE the boilerplate, where everything is the fix's by definition. Two things worth
+keeping in mind:
+
+* **The suites' fixtures named their synthetic leftovers `<object>Remap<element>`** while their own
+  mod types are called `TestMod` and `Amber` -- fine under the old rule, meaningless under this one.
+  They now read `FooTestModRemapBlend` / `FooAmberRemapBlend`: same sections, same assertions, named
+  the way a real fix names them. When a rule tightens, a fixture that no longer satisfies it is
+  usually the thing to update -- but only after checking it is not the rule that is wrong.
+* **The first version of this kept a second clause** ("...or the keyword alone, when the section
+  declares a `hash`") purely so those suites stayed green without touching them. That is bending a
+  rule to fit its tests; it is not what shipped.
+
+<br>
+
 ## Adding a `ModTypeId`: every place it enters (2026-09-13)
 
 Missed one and the build is fine, the tests are fine, and the type quietly does not exist. In
@@ -1499,6 +1570,16 @@ run every GI mod walked after a WuWa mod. Invisible for the whole life of the C+
 no WuWa type had ever been registered. All three entry points now `setCurrentStateId("start")`. The
 lesson is the one habit 1 keeps teaching: a code path that has never had data is untested, whatever
 its test suite says.
+
+**AND THE COUNTS ARE NOT THE ONLY HARDCODED THING: THREE SUITES PIN THE EXACT SET OF VERSIONS A
+TABLE COVERS** (2026-09-20, registering Chisa at 2.8 and ChisaParfait at 3.5 -- the first pair whose
+two halves sit at DIFFERENT versions, since the maintainer files each character at the version it was
+introduced). `VertexCounts_test`'s `testVersionCoverage` compares the table's versions against a
+literal set, and `BuilderData_test` does it twice (the parse table's, and the remove table's "4.0
+baseline"). A new version breaks them however carefully the row counts were updated, and only
+`VertexCounts_test` said so first. Chisa's own counts: parse **61 -> 63**, fix **130 -> 132**, remove
+**49 -> 51**, `VertexCountData` **47 -> 49**, the `ModTypeRemaps_test` oracle **49 -> 51**,
+`VGRemapData` **65 -> 67**, and the version sets gained `2.8` and `3.5` in all three places.
 
 The counts moved with it: parse table **59 -> 61**, fix **128 -> 130**, remove **47 -> 49**,
 `VertexCountData` **45 -> 47**, `VGRemapData` **63 -> 65** (one row each way in the merged

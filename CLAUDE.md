@@ -590,6 +590,38 @@ carry the operating side: WSL through script files, restoring the maintainer's l
 surface a new graph edit ships with, building the docs on Linux, and fixing the writer rather than
 the shared reader.
 
+**AND AN UNDO USED TO RECOGNISE A FIX BY THE SUBSTRING `Remap`, WHICH A MOD'S OWN SECTION CAN HOLD
+(2026-09-20).** Outside the fix's boilerplate, any section whose name merely CONTAINED `Remap` was
+taken for a previous fix's leftover, removed, and the file it named deleted. WWMI's blend remap --
+what every Wuthering Waves character past 256 bones carries -- declares
+`ResourceBlendRemapVertexVGBuffer` and two more, so an undo deleted three `.buf` files of Chisa's
+identity mod **on a mod that had never been fixed**, every fix undoing first. `RemapIniRemover` now
+asks for `<modName>Remap` (`IniNamingTools::getRemapName`'s shape) using a new
+`IniRemoveContext::modTypeNames()`, defaulted to empty so a hand-built remover keeps the old rule;
+inside the boilerplate nothing changed. Two general lessons in it: **a keyword test over names a
+third party also writes is a landmine** (the `##### Script` substring trap again, in the remover),
+and when the two remover suites went red, the fixtures -- which named their leftovers
+`<object>Remap<element>` while their own mod types are `TestMod` and `Amber` -- were what had to
+move, not the rule. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "An undo
+recognises a fix by `<modName>Remap`".
+
+**THE SECOND WUWA PAIR IS REGISTERED AND PROTOTYPED: CHISA <-> CHISAPARFAIT (2026-09-20), NEITHER
+SEEN IN GAME.** WWMI-Assets has neither of them, so everything comes from frame dumps
+(`Tools/Misc/Prototypes/wwmiExtractDump.py`, which runs WWMI Tools' own extractor outside Blender):
+the download folders `Data/Mod Downloads/WuWa/Chisa/2_8` and `ChisaParfait/3_5`, both `ModTypeId`s
+with their hash / index / count / vg / shape-key rows, a `VGRemapData` row each way out of
+`Data/RemapDrafts/ChisaRemapDraft.xlsx` (the finder's proposal, unreviewed), and
+`Tools/Misc/Prototypes/chisaParfaitFix.py`. Four things that pair taught, all in
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The SECOND WuWa pair": pair the
+slots by GEOMETRY when the two are skins of one character (IoU 1.00 on three of them settles in
+minutes what shader names argue about), a role sits at a DIFFERENT register on the two skins (the
+diffuse moves from `ps-t2` to `ps-t3`), a character past 256 bones keeps her ids in
+`BlendRemapVertexVG.buf` rather than `Blend.buf` so remapping the latter is a no-op, and such a mod
+binds `vb4` twice. **A dump's textures also come out at 512 x 512 unless the game's LOD bias is
+Ultra High** -- one setting in its own sqlite settings store, not in `GameUserSettings.ini` -- and a
+dump taken with a mod of that character installed describes the MODDED pipeline (see
+[Vertex Group Remaps](AI%20Agent%20Help/VGRemaps/CLAUDE.md)).
+
 **TWO THINGS TO READ BEFORE ANY TASK, WHICHEVER KIND YOU HAVE (2026-09-14).** They are the two
 lenses the maintainer keeps having to re-teach, and each now has its own writing:
 

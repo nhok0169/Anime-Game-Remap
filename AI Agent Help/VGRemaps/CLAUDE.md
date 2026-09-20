@@ -718,6 +718,18 @@ original through WWMI Tools 1.3.4, is the template the script copies), then thes
   Sanhua at **86.4%**, unchanged, because her `.fmt` uses the four-channel formats and never takes
   that branch. The finder reads its own written draft back at 369/369 with the 50 no-vertex rows
   skipped, which is the check that the workbook is well formed.
+- **REMAPPING THE BLEND OF A MOD THAT HAS A BLEND REMAP MEANS REMAPPING `BlendRemapVertexVG.buf`,
+  NOT `Blend.buf`** (2026-09-20, the first Chisa fix). For every component with a remap the 8-bit ids
+  in `Blend.buf` are the merged ones **truncated**, and `BlendRemapper.hlsl` overwrites a private
+  copy of them at load out of the 16-bit `BlendRemapVertexVG.buf` -- so a fix that sends `Blend.buf`'s
+  own bytes through the vertex group table has remapped numbers the game never reads, and the three
+  components that need it most (Chisa's 3, 4 and 5 -- her big clothing slots) render on whatever the
+  truncation happened to name. The fix reads VertexVG's ids, maps those, and writes them back as 8
+  bits, which is only possible while the TARGET's merged skeleton stays under 256 (the Parfait skin
+  reaches bone 250). **The other direction is the open one**: a fix onto Chisa would have to WRITE
+  the three blend remap buffers, and nothing does that yet. The same mod also binds `vb4` twice
+  (`ResourceBlendBuffer`, and `ref ResourceBlendBufferOverride` for the remapped path) -- collect the
+  one that names a file.
 - **A character WWMI-Assets does not have** (Chisa, ChisaParfait) gets its asset folder from a
   frame dump: `Tools/Misc/Prototypes/wwmiExtractDump.py` runs **WWMI Tools' own extractor** outside
   Blender (`bpy` stubbed; it skips the `<call>.<n>-[ShaderRegex_...]` sub-call files a mod like

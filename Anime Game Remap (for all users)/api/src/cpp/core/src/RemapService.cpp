@@ -95,6 +95,9 @@ namespace AGRemapCore {
 
         // 'visiting' rather than a scan of 'dirs': the same folder can be named by many different
         // .ini files' resources, and the deque has no cheap membership test.
+        //
+        // The back, and _fix takes from the front: a folder queued first is visited first, so a
+        // batch of folders reaches the walk in the order it was found in.
         if (visiting.insert(folder).second) {
             dirs.push_back(folder);
         }
@@ -386,8 +389,16 @@ namespace AGRemapCore {
         bool firstFolder = true;
 
         while (!walk.dirs.empty()) {
-            const std::string folder = std::move(walk.dirs.back());
-            walk.dirs.pop_back();
+            // From the FRONT. Every batch queued below is already in the order the walk should
+            // report it -- FileService::getFilesAndDirs hands back a pre-order listing, sorted the
+            // way Windows sorts names (see FileService_walkOrder_test) -- so taking the folder off
+            // the back, which is the shape a stack-based depth-first walk falls into, read every
+            // one of those batches BACKWARDS. Folders A, B, C were visited C, B, A, and a subtree
+            // came out after the sibling that follows it rather than before. Taking the front
+            // keeps a batch in its own order, and since each batch is a whole subtree already
+            // flattened pre-order, the walk visits the tree top-down in name order.
+            const std::string folder = std::move(walk.dirs.front());
+            walk.dirs.pop_front();
             walk.visiting.erase(folder);
 
             if (walk.visited.count(folder) > 0) {

@@ -5,51 +5,6 @@ All mods
 ================================
 
 
-# Mods/Griffith --> Parsing the .ini file for Raiden
-# Mods/Griffith --> Cleaning up and disabling the OLD STINKY ini
-# Mods/Griffith --> Fixing the .ini file from Raiden to RaidenBoss
-# Mods/Griffith --> 
-
-# Mods/Ei/Raiden/rightWing --> the ini file, right_wing_merge.ini, is already fixed
-# Mods/Ei/Raiden/rightWing --> 
-
-# Mods/Ei/Raiden/leftWing --> the ini file, left_wing_merge.ini, is already fixed
-# Mods/Ei/Raiden/leftWing --> 
-
-# Mods/Ei/Raiden/Body/Center --> the ini file, heart.ini, is already fixed
-# Mods/Ei/Raiden/Body/Center --> 
-
-# Mods/Ei/Raiden --> the ini file, tri_merge_core.ini, is already fixed
-# Mods/Ei/Raiden --> 
-
-# Mods/Ayaka/Raiden --> the ini file, raiden.ini, is already fixed
-# Mods/Ayaka/Raiden --> 
-
-# Mods/Ayaka/Arlecchino --> the ini file, arlecchino.ini, is already fixed
-# Mods/Ayaka/Arlecchino --> 
-
-# Mods/Ayaka --> the ini file, ayaka.ini, is already fixed
-# Mods/Ayaka --> 
-
-# Mods/Arlecchino/Ugly --> Parsing the .ini file for Arlecchino
-# Mods/Arlecchino/Ugly --> Cleaning up and disabling the OLD STINKY ini
-# Mods/Arlecchino/Ugly --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> std::out_of_range: The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> 
-
-# Mods/Arlecchino/Arlecchino2 --> the ini file, DISABLED_arlecchino.ini, is already fixed
-# Mods/Arlecchino/Arlecchino2 --> 
-
-# Mods/Arlecchino/Arlecchino1 --> the ini file, DISABLED_arlecchino.ini, is already fixed
-# Mods/Arlecchino/Arlecchino1 --> 
-
 # Mods/Arlecchino --> Parsing the .ini file for Arlecchino
 # Mods/Arlecchino --> Cleaning up and disabling the OLD STINKY ini
 # Mods/Arlecchino --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
@@ -65,16 +20,61 @@ All mods
 # Mods/Arlecchino --> the ini file, good_merged.ini, is already fixed
 # Mods/Arlecchino --> 
 
+# Mods/Arlecchino/Arlecchino1 --> the ini file, DISABLED_arlecchino.ini, is already fixed
+# Mods/Arlecchino/Arlecchino1 --> 
+
+# Mods/Arlecchino/Arlecchino2 --> the ini file, DISABLED_arlecchino.ini, is already fixed
+# Mods/Arlecchino/Arlecchino2 --> 
+
+# Mods/Arlecchino/Ugly --> Parsing the .ini file for Arlecchino
+# Mods/Arlecchino/Ugly --> Cleaning up and disabling the OLD STINKY ini
+# Mods/Arlecchino/Ugly --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> std::out_of_range: The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> 
+
+# Mods/Ayaka --> the ini file, ayaka.ini, is already fixed
+# Mods/Ayaka --> 
+
+# Mods/Ayaka/Arlecchino --> the ini file, arlecchino.ini, is already fixed
+# Mods/Ayaka/Arlecchino --> 
+
+# Mods/Ayaka/Raiden --> the ini file, raiden.ini, is already fixed
+# Mods/Ayaka/Raiden --> 
+
+# Mods/Ei/Raiden --> the ini file, tri_merge_core.ini, is already fixed
+# Mods/Ei/Raiden --> 
+
+# Mods/Ei/Raiden/Body/Center --> the ini file, heart.ini, is already fixed
+# Mods/Ei/Raiden/Body/Center --> 
+
+# Mods/Ei/Raiden/leftWing --> the ini file, left_wing_merge.ini, is already fixed
+# Mods/Ei/Raiden/leftWing --> 
+
+# Mods/Ei/Raiden/rightWing --> the ini file, right_wing_merge.ini, is already fixed
+# Mods/Ei/Raiden/rightWing --> 
+
+# Mods/Griffith --> Parsing the .ini file for Raiden
+# Mods/Griffith --> Cleaning up and disabling the OLD STINKY ini
+# Mods/Griffith --> Fixing the .ini file from Raiden to RaidenBoss
+# Mods/Griffith --> 
+
 #  --> 
 #  --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #  --> 
 #  --> WARNING: The following *.ini files were skipped due to warnings (see log above):
 #  --> 
-#  --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
+#  --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
 #  --> 	--- St12out_of_range ---
 #  --> 	The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
 #  --> 
-#  --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
+#  --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
 #  --> 	--- St12out_of_range ---
 #  --> 	The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
 #  --> 

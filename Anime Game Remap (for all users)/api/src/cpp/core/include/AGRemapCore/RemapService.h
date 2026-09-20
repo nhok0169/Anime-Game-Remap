@@ -614,7 +614,17 @@ namespace AGRemapCore {
              */
             struct FolderWalk {
                 /**
-                 * @brief The folders still waiting to be visited, most recently added first
+                 * @brief
+                 @rst
+                 The folders still waiting to be visited, in the order they were found
+                 :raw-html:`<br />` :raw-html:`<br />`
+
+                 Queued at the back (#push) and taken from the front (#fix), so a folder found
+                 first is visited first. **Taking them off the back instead is the bug this shape
+                 exists to avoid**: every batch queued is already in the order it should be
+                 reported in, so a walk popping the back reads each batch backwards -- folders
+                 ``A``, ``B``, ``C`` came out ``C``, ``B``, ``A`` until 2026-09-20
+                 @endrst
                  */
                 std::deque<std::string> dirs;
 
@@ -650,7 +660,10 @@ namespace AGRemapCore {
              @rst
              Fixes every mod found from #path :raw-html:`<br />` :raw-html:`<br />`
 
-             Walks folders depth-first, starting at #path. For each folder it reaches:
+             Walks folders depth-first, starting at #path -- top-down, and in the order
+             :cpp:func:`FileService::getFilesAndDirs` reports names in, so a folder is reported
+             before everything beneath it and before the sibling that follows it. For each folder
+             it reaches:
 
              #. if the folder holds no ``.ini`` files at all, nothing is handled there -- the walk
                 just enumerates what lies beneath it (#addNeighbourFolders) and moves on

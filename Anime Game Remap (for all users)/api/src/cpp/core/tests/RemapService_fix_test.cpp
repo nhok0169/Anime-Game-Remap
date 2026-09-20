@@ -263,6 +263,60 @@ static void testWalkReachesEveryIniInTheTree() {
 }
 
 
+// The order the walk reports folders in. The tree is the plainest possible version of it -- one
+// .ini per folder, named so the visiting order is readable -- plus a nested folder under the first,
+// which pins that a subtree is finished before the next sibling starts rather than merely that the
+// siblings come out sorted.
+//
+//   walkOrder/
+//     A/
+//       a.ini
+//       A2/
+//         a2.ini
+//     B/
+//       b.ini
+//     C/
+//       c.ini
+//
+// FileService::getFilesAndDirs already hands its folders back in pre-order (that is
+// FileService_walkOrder_test's subject). What this pins is that the walk does not then read that
+// list BACKWARDS, which is what a queue pushed at the back and popped from the back does: before
+// 2026-09-20 this tree was visited C, B, A2, A.
+static void testFoldersAreVisitedInOrder() {
+    std::printf("testFoldersAreVisitedInOrder\n");
+
+    const std::filesystem::path root = scratchRoot() / "walkOrder";
+    const std::string iniTxt = "[TextureOverrideBody]\nhash = abcdabcd\n";
+
+    writeFile(root / "A" / "a.ini", iniTxt);
+    writeFile(root / "A" / "A2" / "a2.ini", iniTxt);
+    writeFile(root / "B" / "b.ini", iniTxt);
+    writeFile(root / "C" / "c.ini", iniTxt);
+
+    RecordingRemapService service(root.string());
+    service.fix();
+
+    const std::vector<std::string> expected = {norm(root / "A" / "a.ini"),
+                                               norm(root / "A" / "A2" / "a2.ini"),
+                                               norm(root / "B" / "b.ini"),
+                                               norm(root / "C" / "c.ini")};
+
+    std::vector<std::string> got;
+    for (const std::string& seen : service.handled) {
+        got.push_back(norm(seen));
+    }
+
+    checkEqual(got.size(), expected.size(), "every .ini in the tree is handled");
+    check(got == expected, "the folders are visited in order, each subtree before the next sibling");
+
+    if (got != expected) {
+        for (const std::string& seen : got) {
+            std::printf("      visited: %s\n", seen.c_str());
+        }
+    }
+}
+
+
 static void testFolderWithInisStillEnumeratesItsSubfolders() {
     std::printf("testFolderWithInisStillEnumeratesItsSubfolders\n");
 
@@ -1109,6 +1163,7 @@ int main() {
 
     testWalkReachesEveryIniInTheTree();
     testFolderWithInisStillEnumeratesItsSubfolders();
+    testFoldersAreVisitedInOrder();
     testResourceFoldersAreVisited();
     testNoFolderIsVisitedTwice();
     testWalkOfAFolderWithNoInisHandlesNothing();

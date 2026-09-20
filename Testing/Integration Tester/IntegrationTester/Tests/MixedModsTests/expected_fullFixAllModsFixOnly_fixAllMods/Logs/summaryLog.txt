@@ -3,11 +3,11 @@
 #  --> 
 #  --> WARNING: The following *.ini files were skipped due to warnings (see log above):
 #  --> 
-#  --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
+#  --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
 #  --> 	--- St12out_of_range ---
 #  --> 	The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
 #  --> 
-#  --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
+#  --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
 #  --> 	--- St12out_of_range ---
 #  --> 	The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
 #  --> 

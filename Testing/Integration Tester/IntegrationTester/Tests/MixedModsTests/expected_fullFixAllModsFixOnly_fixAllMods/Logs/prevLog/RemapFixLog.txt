@@ -5,65 +5,48 @@ All mods
 ================================
 
 
-# Mods/Griffith --> Removing the fix from griffith.ini...
-# Mods/Griffith --> Parsing the .ini file for Raiden
-# Mods/Griffith --> Fixing the .ini file from Raiden to RaidenBoss
-# Mods/Griffith --> 
+# Mods/Arlecchino --> Removing the fix from bad_merged.ini...
+# Mods/Arlecchino --> Parsing the .ini file for Arlecchino
+# Mods/Arlecchino --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> std::out_of_range: The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> Removing the fix from good_merged.ini...
+# Mods/Arlecchino --> Parsing the .ini file for Arlecchino
+# Mods/Arlecchino --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
+# Mods/Arlecchino --> Fixing the resources for good_merged.ini...
+# Mods/Arlecchino --> Fixing blend for ArlecchinoBossRemapBlend.buf...
+# Mods/Arlecchino --> Fixing blend for ArlecchinoBossRemapBlend.buf...
+# Mods/Arlecchino --> 
 
-# Mods/Ei/Raiden/rightWing --> Removing the fix from right_wing_merge.ini...
-# Mods/Ei/Raiden/rightWing --> Parsing the .ini file for Raiden
-# Mods/Ei/Raiden/rightWing --> Fixing the .ini file from Raiden to RaidenBoss
-# Mods/Ei/Raiden/rightWing --> Fixing the resources for right_wing_merge.ini...
-# Mods/Ei/Raiden/rightWing --> Fixing blend for RightWingEntityRaidenBossRemapBlend.buf...
-# Mods/Ei/Raiden/rightWing --> Fixing blend for leftWingListenerRaidenBossRemapBlend.buf...
-# Mods/Ei/Raiden/rightWing --> Fixing blend for heartListenerRaidenBossRemapBlend.buf...
-# Mods/Ei/Raiden/rightWing --> Fixing blend for leftWingControllerRaidenBossRemapBlend.buf...
-# Mods/Ei/Raiden/rightWing --> Fixing blend for heartPumpControllerRaidenBossRemapBlend.buf...
-# Mods/Ei/Raiden/rightWing --> 
+# Mods/Arlecchino/Arlecchino1 --> Removing the fix from DISABLED_arlecchino.ini...
+# Mods/Arlecchino/Arlecchino1 --> Parsing the .ini file for Arlecchino
+# Mods/Arlecchino/Arlecchino1 --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
+# Mods/Arlecchino/Arlecchino1 --> 
 
-# Mods/Ei/Raiden/leftWing --> Removing the fix from left_wing_merge.ini...
-# Mods/Ei/Raiden/leftWing --> Parsing the .ini file for Raiden
-# Mods/Ei/Raiden/leftWing --> Fixing the .ini file from Raiden to RaidenBoss
-# Mods/Ei/Raiden/leftWing --> Fixing the resources for left_wing_merge.ini...
-# Mods/Ei/Raiden/leftWing --> Fixing blend for LeftWingEntityRaidenBossRemapBlend.buf...
-# Mods/Ei/Raiden/leftWing --> Fixing blend for rightWingListenerRaidenBossRemapBlend.buf...
-# Mods/Ei/Raiden/leftWing --> Fixing blend for rightWingControllerRaidenBossRemapBlend.buf...
-# Mods/Ei/Raiden/leftWing --> 
+# Mods/Arlecchino/Arlecchino2 --> Removing the fix from DISABLED_arlecchino.ini...
+# Mods/Arlecchino/Arlecchino2 --> Parsing the .ini file for Arlecchino
+# Mods/Arlecchino/Arlecchino2 --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
+# Mods/Arlecchino/Arlecchino2 --> 
 
-# Mods/Ei/Raiden/Body/Center --> Removing the fix from heart.ini...
-# Mods/Ei/Raiden/Body/Center --> Parsing the .ini file for Raiden
-# Mods/Ei/Raiden/Body/Center --> Fixing the .ini file from Raiden to RaidenBoss
-# Mods/Ei/Raiden/Body/Center --> Fixing the resources for heart.ini...
-# Mods/Ei/Raiden/Body/Center --> Fixing blend for whoopsIReferencedTheWrongThingRaidenBossRemapBlend.buf...
-# Mods/Ei/Raiden/Body/Center --> 
-# Mods/Ei/Raiden/Body/Center --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Ei/Raiden/Body/Center --> 
-# Mods/Ei/Raiden/Body/Center --> std::runtime_error: Unable to open file: absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf
-# Mods/Ei/Raiden/Body/Center --> 
-# Mods/Ei/Raiden/Body/Center --> 
-# Mods/Ei/Raiden/Body/Center --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Ei/Raiden/Body/Center --> 
-# Mods/Ei/Raiden/Body/Center --> Fixing blend for MakotoRaidenBossRemapBlend.buf...
-# Mods/Ei/Raiden/Body/Center --> 
-
-# Mods/Ei/Raiden --> Removing the fix from tri_merge_core.ini...
-# Mods/Ei/Raiden --> Parsing the .ini file for Raiden
-# Mods/Ei/Raiden --> Fixing the .ini file from Raiden to RaidenBoss
-# Mods/Ei/Raiden --> Fixing the resources for tri_merge_core.ini...
-# Mods/Ei/Raiden --> Fixing blend for BodyEntityRaidenBossRemapBlend.buf...
-# Mods/Ei/Raiden --> 
-
-# Mods/Ayaka/Raiden --> Removing the fix from raiden.ini...
-# Mods/Ayaka/Raiden --> Parsing the .ini file for Raiden
-# Mods/Ayaka/Raiden --> Fixing the .ini file from Raiden to RaidenBoss
-# Mods/Ayaka/Raiden --> 
-
-# Mods/Ayaka/Arlecchino --> Removing the fix from arlecchino.ini...
-# Mods/Ayaka/Arlecchino --> Parsing the .ini file for Arlecchino
-# Mods/Ayaka/Arlecchino --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
-# Mods/Ayaka/Arlecchino --> Fixing the resources for arlecchino.ini...
-# Mods/Ayaka/Arlecchino --> Fixing blend for arlecchinoArlecchinoBossRemapBlend.buf...
-# Mods/Ayaka/Arlecchino --> 
+# Mods/Arlecchino/Ugly --> Removing the fix from shawshank redemption.ini...
+# Mods/Arlecchino/Ugly --> Parsing the .ini file for Arlecchino
+# Mods/Arlecchino/Ugly --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> std::out_of_range: The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> 
 
 # Mods/Ayaka --> Removing the fix from ayaka.ini...
 # Mods/Ayaka --> Parsing the .ini file for Ayaka
@@ -80,60 +63,75 @@ All mods
 # Mods/Ayaka --> 
 # Mods/Ayaka --> 
 
-# Mods/Arlecchino/Ugly --> Removing the fix from shawshank redemption.ini...
-# Mods/Arlecchino/Ugly --> Parsing the .ini file for Arlecchino
-# Mods/Arlecchino/Ugly --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> std::out_of_range: The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> 
+# Mods/Ayaka/Arlecchino --> Removing the fix from arlecchino.ini...
+# Mods/Ayaka/Arlecchino --> Parsing the .ini file for Arlecchino
+# Mods/Ayaka/Arlecchino --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
+# Mods/Ayaka/Arlecchino --> Fixing the resources for arlecchino.ini...
+# Mods/Ayaka/Arlecchino --> Fixing blend for arlecchinoArlecchinoBossRemapBlend.buf...
+# Mods/Ayaka/Arlecchino --> 
 
-# Mods/Arlecchino/Arlecchino2 --> Removing the fix from DISABLED_arlecchino.ini...
-# Mods/Arlecchino/Arlecchino2 --> Parsing the .ini file for Arlecchino
-# Mods/Arlecchino/Arlecchino2 --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
-# Mods/Arlecchino/Arlecchino2 --> Fixing the resources for DISABLED_arlecchino.ini...
-# Mods/Arlecchino/Arlecchino2 --> Fixing blend for ArlecchinoBossRemapBlend.buf...
-# Mods/Arlecchino/Arlecchino2 --> 
+# Mods/Ayaka/Raiden --> Removing the fix from raiden.ini...
+# Mods/Ayaka/Raiden --> Parsing the .ini file for Raiden
+# Mods/Ayaka/Raiden --> Fixing the .ini file from Raiden to RaidenBoss
+# Mods/Ayaka/Raiden --> 
 
-# Mods/Arlecchino/Arlecchino1 --> Removing the fix from DISABLED_arlecchino.ini...
-# Mods/Arlecchino/Arlecchino1 --> Parsing the .ini file for Arlecchino
-# Mods/Arlecchino/Arlecchino1 --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
-# Mods/Arlecchino/Arlecchino1 --> Fixing the resources for DISABLED_arlecchino.ini...
-# Mods/Arlecchino/Arlecchino1 --> Fixing blend for ArlecchinoBossRemapBlend.buf...
-# Mods/Arlecchino/Arlecchino1 --> 
+# Mods/Ei/Raiden --> Removing the fix from tri_merge_core.ini...
+# Mods/Ei/Raiden --> Parsing the .ini file for Raiden
+# Mods/Ei/Raiden --> Fixing the .ini file from Raiden to RaidenBoss
+# Mods/Ei/Raiden --> Fixing the resources for tri_merge_core.ini...
+# Mods/Ei/Raiden --> Fixing blend for BodyEntityRaidenBossRemapBlend.buf...
+# Mods/Ei/Raiden --> Fixing blend for LeftWingEntityRaidenBossRemapBlend.buf...
+# Mods/Ei/Raiden --> Fixing blend for RightWingEntityRaidenBossRemapBlend.buf...
+# Mods/Ei/Raiden --> 
 
-# Mods/Arlecchino --> Removing the fix from bad_merged.ini...
-# Mods/Arlecchino --> Parsing the .ini file for Arlecchino
-# Mods/Arlecchino --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
-# Mods/Arlecchino --> 
-# Mods/Arlecchino --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Arlecchino --> 
-# Mods/Arlecchino --> std::out_of_range: The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
-# Mods/Arlecchino --> 
-# Mods/Arlecchino --> 
-# Mods/Arlecchino --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Arlecchino --> 
-# Mods/Arlecchino --> 
-# Mods/Arlecchino --> Removing the fix from good_merged.ini...
-# Mods/Arlecchino --> Parsing the .ini file for Arlecchino
-# Mods/Arlecchino --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
-# Mods/Arlecchino --> 
+# Mods/Ei/Raiden/Body/Center --> Removing the fix from heart.ini...
+# Mods/Ei/Raiden/Body/Center --> Parsing the .ini file for Raiden
+# Mods/Ei/Raiden/Body/Center --> Fixing the .ini file from Raiden to RaidenBoss
+# Mods/Ei/Raiden/Body/Center --> Fixing the resources for heart.ini...
+# Mods/Ei/Raiden/Body/Center --> Fixing blend for whoopsIReferencedTheWrongThingRaidenBossRemapBlend.buf...
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> std::runtime_error: Unable to open file: absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> Fixing blend for rightWingListenerRaidenBossRemapBlend.buf...
+# Mods/Ei/Raiden/Body/Center --> Fixing blend for leftWingListenerRaidenBossRemapBlend.buf...
+# Mods/Ei/Raiden/Body/Center --> Fixing blend for rightWingControllerRaidenBossRemapBlend.buf...
+# Mods/Ei/Raiden/Body/Center --> Fixing blend for leftWingControllerRaidenBossRemapBlend.buf...
+# Mods/Ei/Raiden/Body/Center --> Fixing blend for MakotoRaidenBossRemapBlend.buf...
+# Mods/Ei/Raiden/Body/Center --> 
+
+# Mods/Ei/Raiden/leftWing --> Removing the fix from left_wing_merge.ini...
+# Mods/Ei/Raiden/leftWing --> Parsing the .ini file for Raiden
+# Mods/Ei/Raiden/leftWing --> Fixing the .ini file from Raiden to RaidenBoss
+# Mods/Ei/Raiden/leftWing --> Fixing the resources for left_wing_merge.ini...
+# Mods/Ei/Raiden/leftWing --> Fixing blend for heartListenerRaidenBossRemapBlend.buf...
+# Mods/Ei/Raiden/leftWing --> Fixing blend for heartPumpControllerRaidenBossRemapBlend.buf...
+# Mods/Ei/Raiden/leftWing --> 
+
+# Mods/Ei/Raiden/rightWing --> Removing the fix from right_wing_merge.ini...
+# Mods/Ei/Raiden/rightWing --> Parsing the .ini file for Raiden
+# Mods/Ei/Raiden/rightWing --> Fixing the .ini file from Raiden to RaidenBoss
+# Mods/Ei/Raiden/rightWing --> 
+
+# Mods/Griffith --> Removing the fix from griffith.ini...
+# Mods/Griffith --> Parsing the .ini file for Raiden
+# Mods/Griffith --> Fixing the .ini file from Raiden to RaidenBoss
+# Mods/Griffith --> 
 
 #  --> 
 #  --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #  --> 
 #  --> WARNING: The following *.ini files were skipped due to warnings (see log above):
 #  --> 
-#  --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
+#  --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
 #  --> 	--- St12out_of_range ---
 #  --> 	The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
 #  --> 
-#  --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
+#  --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
 #  --> 	--- St12out_of_range ---
 #  --> 	The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
 #  --> 
@@ -148,13 +146,13 @@ All mods
 #  --> 
 #  --> ===== Mod: Mods =====
 #  --> 
-#  --> - Ayaka/ayakaBlend.buf:
-#  --> 	--- N11AGRemapCore20BufFileNotRecognizedE ---
-#  --> 	Blend.buf file format not recognized for absolute/path/Mods/Ayaka/ayakaBlend.buf
-#  --> 
 #  --> - Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf:
 #  --> 	--- St13runtime_error ---
 #  --> 	Unable to open file: absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf
+#  --> 
+#  --> - Ayaka/ayakaBlend.buf:
+#  --> 	--- N11AGRemapCore20BufFileNotRecognizedE ---
+#  --> 	Blend.buf file format not recognized for absolute/path/Mods/Ayaka/ayakaBlend.buf
 #  --> 
 #  --> =====================
 #  --> 

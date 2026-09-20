@@ -51,4 +51,12 @@ Rough work used for helping with finding out Vertex Group Remaps for different m
 - **A skin of several components (YelanTranquil: Body, Bang, Eye) gets one column per component**, headed by the skin's name with the component appended (`YelanTranquilBody | YelanTranquilBang | YelanTranquilEye`), exactly one of which is filled per row, since each component has its own vertex group numbering. When such a skin is the one being remapped *from*, each component gets its own sheet, headed the same way in column A. `Tools/VGRemapFinder` reads and writes this layout, and the library stores it as one row per (source component, target component).
 - **A bone no vertex uses still gets a row**, with `0` as a placeholder and the reason in its comment (Sanhua's 24, SanhuaExorcist's 19: merged indices no component's `vg_map` reaches). Nothing can map through such a bone, so the value is a convention that keeps the row complete for transcription; `Tools/VGRemapFinder`'s comparison does not score those rows.
 - **`SanhuaRemapDraft.xlsx` is a Wuthering Waves pair** (`SanhuaExorcist` is WWMI-Assets' `SanhuaSkin1`), and its indices are WWMI's **merged skeleton** -- the space `Metadata.json`'s per-component `vg_map` maps into and the one a WWMI mod's blend buffer is written in -- not any one component's. The forward sheet is hand-made (its three blank rows with vertices were filled from the geometry, saying so); the `(tool)` forward sheet and the reverse sheet are the finder's, marked in their header cell, the reverse one reviewed row by row and not yet checked in game.
+- **`ChisaRemapDraft.xlsx` is the second Wuthering Waves pair** (2026-09-20), both directions, in the
+  same merged-skeleton space. Unlike Sanhua's it is **entirely the finder's proposal** -- no hand-made
+  sheet exists to check it against and it has not been checked in game -- so the `About` mark stays on
+  the workbook until it has. Chisa is 419 vertex groups (369 with vertices) and ChisaParfait 251 (198);
+  the placeholder rows are 50 and 53. Her geometry comes from the frame dumps that
+  `Data/Mod Downloads/WuWa/Chisa/2_8` and `ChisaParfait/3_5` were built from, since WWMI-Assets has
+  neither character, and reading it needed the finder to learn the **eight-influence** blend layout
+  (`R8_UNORM`, and an element whose real width is the distance to the next one).
 - Not recorded here: the CN skins (Amber, Rosaria, Jean, Mona), whose remaps came from someone else, and Kirara, Raiden and Arlecchino.

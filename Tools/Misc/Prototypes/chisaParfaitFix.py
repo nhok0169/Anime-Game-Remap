@@ -196,6 +196,25 @@ def anchoredRemap(remap: Dict[int, int], mode: str) -> Dict[int, int]:
 #   command list is added right after the shared-resource override and before the first draw.
 OverrideSharedResources = "CommandListOverrideSharedResources"
 
+# A character past 256 merged bones keeps her true 16-bit bone ids in BlendRemapVertexVG.buf, and the
+#   mod's own component section points the draw at WWMI's blend remap of THAT by setting these three.
+#   They must not survive into a remapped section. BlendRemapper writes vb4 = reverse[trueId] and
+#   SkeletonRemapper gathers skeleton[j] = merged[forward[j]], and the two maps are exact inverses --
+#   so the pair feeds the draw `merged[trueId]`, the SOURCE's own index, against the TARGET's merged
+#   skeleton. Every bone past the target's count reads a slot no draw ever writes (zero matrices), and
+#   the components that have a blend remap collapse towards the origin while the ones that do not
+#   render correctly: a body smeared into a drape under an intact head (2026-09-20, ChisaIdentity).
+#   Removed, the section takes the `=== null` branch, which is the fix's own remapped blend and the
+#   target's plain merged skeleton.
+#   The predicate takes only the `ref` form, because an object's graph follows its `run =` lines and
+#   the shared cleanup list sets the same three to `null` -- which is worth keeping as a safety net,
+#   and is what the unfiltered edit removed as well. (`RegRemove` takes {register: predicate or None};
+#   its constructor accepts a bare list or set too and the fixer then reads it as a mapping --
+#   "dictionary update sequence element #0 has length 27", the length of the first NAME, and the
+#   whole .ini is skipped with that as its only explanation.)
+BlendRemapOverrideRegs = {reg: (lambda _ind, val: val.strip().lower().startswith("ref "))
+                          for reg in ("ResourceBlendBufferOverride", "ResourceMergedSkeletonOverride", "ResourceExtraMergedSkeletonOverride")}
+
 _alive: List[object] = []     # Python-built edits, classifiers and resources the C++ side holds only by reference
 
 
@@ -713,6 +732,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                 edits.append(FRB.RegSurroundedAdd(additions,
                                                   beforeRegs = {"run": lambda v: v == OverrideSharedResources},
                                                   latest = False))
+            edits.append(FRB.RegRemove(BlendRemapOverrideRegs))
             edits.append(FRB.RegNewVals({"match_first_index": str(c["index_offset"]), "match_index_count": str(c["index_count"]),
                                          "$\\WWMIv1\\vg_offset": str(c["vg_offset"]), "$\\WWMIv1\\vg_count": str(c["vg_count"])}))
             edits += [hashRemap, rename]

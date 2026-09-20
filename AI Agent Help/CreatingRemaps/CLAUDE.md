@@ -1344,6 +1344,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | "body all wavy", every part | the game's shape-key offset stream (`vb6`) read by vertex id, then several remapped sections on one draw window | `--shapeKeys`; one remapped section per Exorcist draw per file (the copies) |
 | the bangs wrong, the rest right | component 0 is the BANGS, on hair passes that differ per skin | `slotPasses` -- a LIST of passes per slot |
 | a chain (ribbons, tassel) curled or floating | a chain the target has no bones for, mapped per bone by the finder | `--anchor`; `wwmiBoneTally.py` |
+| the body a smeared DRAPE under an intact head, on a source past 256 bones | the mod's own `Resource*Override = ref ...Component<N>` lines survived into the remapped sections | strip them: `RegRemove` per slot section, `ref` form only |
 | every body part drawn with ONE part's textures | the copies referenced the texture lists in another file | `appendedSectionsInCopies` / `copyHiddenSectionNames` (self-contained copies) |
 | one part's textures wrong, the picture is a different texture | that component got no texture list -- a role with no file | the prototype's per-slot table: `ps-tN=GAME (mod has none)`; then whether the file is declared under TWO hashes |
 | a HUE over the body AND the clothes, every picture right | the material MASK: the mod ships none for that component, so the TARGET's mask is sampled at the mod's UVs | `fallbackTextures` -- the source's own mask, downloaded |
@@ -1361,6 +1362,76 @@ what it resolved to. `GAME (mod has none)` on a component whose textures are pla
 the tell for the file-declared-twice bug; `GAME (mod has none)` on a MASK register is the tell for the
 hue. The compiled fixer prints nothing (the maintainer asked for the GI fixers' silence), so run the
 prototype on a scratch copy when you need the table: `abWWMI.py` does, and its log keeps it.
+
+### A SOURCE PAST 256 BONES CARRIES THREE LINES THAT UNDO THE REMAP (2026-09-20)
+
+WWMI gives a character whose merged skeleton is over 256 slots a **blend remap**: `Blend.buf`'s ids
+are 8-bit and cannot address her bones, so the true 16-bit ids live in `BlendRemapVertexVG.buf`, and
+at load `BlendRemapper.hlsl` writes a private per-component blend buffer while `SkeletonRemapper.hlsl`
+gathers a private per-component skeleton. The mod's component section points its draw at that pair:
+
+```
+ResourceBlendBufferOverride = ref ResourceRemappedBlendBufferComponent3
+ResourceMergedSkeletonOverride = ref ResourceRemappedSkeletonComponent3
+ResourceExtraMergedSkeletonOverride = ref ResourceExtraRemappedSkeletonComponent3
+```
+
+Copied into a remapped section those three are not a stale binding, they are **an inverse of the
+whole fix**. Read the two shaders rather than their names: `BlendRemapper` writes
+`vb4 = reverse[trueId]` and `SkeletonRemapper` gathers `skeleton[j] = merged[forward[j]]`, and the
+two maps are exact inverses -- so the pair hands the draw `merged[trueId]`, the **source's own**
+merged index, against the TARGET's merged skeleton. Everything below the target's bone count lands on
+an unrelated bone; everything above reads a slot no draw ever writes, which is zeros. And the
+shared override list only takes the fix's own blend in its other branch:
+
+```
+if ResourceBlendBufferOverride === null
+    vb4 = ResourceChisaParfaitRemapBlendBuffer      <- the fix's remapped blend
+else
+    vb4 = ref ResourceBlendBufferOverride           <- what the three lines select
+```
+
+In game (ChisaIdentity on ChisaParfait, 2026-09-20) that is a body smeared into a **downward drape**
+under a perfectly correct head -- because a blend remap covers only the components that need one
+(hers: 3, 4, 5), and the components without one take the correct path. The maintainer read it as
+"a secondary jello body on top of ChisaParfait", and the parts that looked *intact* were the head,
+face, hair and eyes rather than anything of the body.
+
+**Two hours went into the wrong half of that report.** The smear is maroon, Chisa's accessory is the
+only maroon thing she wears, so the accessory's vertex groups looked guilty -- 17 of its 28 map to
+target `0` in the draft. They are inert: the draft's own comment says no vertex uses those bones
+(`no vertex of Chisa uses this bone ... 0 is a placeholder`), and a tally of the written blend agrees
+(`influences on target bone 0: 0 of 5790`). What settled it was **rendering the three predictions**
+and comparing them to the screenshot, not reading the screenshot again:
+
+| what to skin the mod's mesh with | what it predicts |
+| --- | --- |
+| the source's own merged skeleton, from her dump | the reference silhouette |
+| the target's, through the remap | what the fix intends -- a clean figure, which is what proved the VG rows innocent |
+| the target's at the SOURCE's raw indices, zeros past its bone count | what the three lines feed the draw |
+
+Both skeletons can be rebuilt on disk: every draw's `vs-cb4` in a frame dump holds that component's
+bones as 3 float4 rows, and WWMI's `SkeletonMerger` writes them into the merged skeleton at the
+component's `vg_offset`, so `merged[vg_offset + i] = cb4[i]`. `wwmiDrawTable.py --json` says which
+draw is which component. Skinning the same mesh under two skeletons and comparing **edge lengths**
+is the cheap form of this and needs no picture: a component whose bones have real counterparts keeps
+its edges (median stretch 1.00, p90 1.15 over every one of Chisa's), and one that does not, does not.
+
+The fix is a `RegRemove` per slot section, matching the **`ref` form only** -- an object's graph
+follows its `run =` lines, so an unfiltered edit also deletes the `= null` lines in the shared
+cleanup list, which are worth keeping. `RegRemove` takes `{register: predicate or None}`; its
+constructor accepts a bare list or set as well, and the fixer then reads that as a mapping and skips
+the whole `.ini` with `dictionary update sequence element #0 has length 27` -- the length of the
+first register NAME -- as its only explanation.
+
+The check, which **fails against the build that shipped the bug** and passes after (Overview habit 34):
+
+```bash
+grep -n "Override = ref Resource" <mod>/mod.ini
+```
+
+Count it per SECTION, not per file: three of seven sections carried it, and a file-level "contains
+it" reads the same before and after a fix that only got one of them.
 
 ### WuWa: choosing test mods by structural axis (2026-09-19)
 

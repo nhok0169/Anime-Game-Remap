@@ -605,8 +605,20 @@ and when the two remover suites went red, the fixtures -- which named their left
 move, not the rule. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "An undo
 recognises a fix by `<modName>Remap`".
 
-**THE SECOND WUWA PAIR IS REGISTERED AND PROTOTYPED: CHISA <-> CHISAPARFAIT (2026-09-20), NEITHER
-SEEN IN GAME.** WWMI-Assets has neither of them, so everything comes from frame dumps
+**THE SECOND WUWA PAIR IS REGISTERED AND PROTOTYPED: CHISA <-> CHISAPARFAIT (2026-09-20); THE
+FORWARD DIRECTION HAS BEEN SEEN IN GAME ONCE AND WAS WRONG, FOR A REASON WORTH KNOWING BEFORE ANY
+SOURCE PAST 256 BONES.** A mod of such a character carries three lines per component --
+`Resource{BlendBuffer,MergedSkeleton,ExtraMergedSkeleton}Override = ref ...Component<N>` -- that
+point the draw at WWMI's blend remap of the SOURCE, and copied into a remapped section they are an
+inverse of the whole fix rather than a stale binding: the two shaders are exact inverses of each
+other, so the pair feeds the draw the source's OWN merged index against the target's skeleton. The
+components with a blend remap collapse into a drape while the ones without render correctly, which
+reads in game as "a secondary jello body" under an intact head. The remap data was innocent and
+looked guilty for hours; what settled it was skinning the mod's mesh under three skeletons rebuilt
+from the frame dumps' `vs-cb4` and comparing the pictures. Both are in
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "A SOURCE PAST 256 BONES CARRIES
+THREE LINES THAT UNDO THE REMAP", with the per-section check that fails against the broken build.
+**The reverse direction is still unseen.** WWMI-Assets has neither of them, so everything comes from frame dumps
 (`Tools/Misc/Prototypes/wwmiExtractDump.py`, which runs WWMI Tools' own extractor outside Blender):
 the download folders `Data/Mod Downloads/WuWa/Chisa/2_8` and `ChisaParfait/3_5`, both `ModTypeId`s
 with their hash / index / count / vg / shape-key rows, a `VGRemapData` row each way out of

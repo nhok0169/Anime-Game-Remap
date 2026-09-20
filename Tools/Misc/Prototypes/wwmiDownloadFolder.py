@@ -43,7 +43,7 @@ Manifests = ("Metadata.json", "TextureUsage.json")
 TexturePattern = re.compile(r"^Components-[0-9-]+ t=(?P<hash>[0-9a-fA-F]{8})\.dds$")
 
 
-def build(assets: str, out: str, name: str):
+def build(assets: str, out: str, name: str, texturesFrom: str = None):
     os.makedirs(out, exist_ok = True)
     with tempfile.TemporaryDirectory() as tmp:
         r = subprocess.run([sys.executable, IdentityMod, assets, tmp, "--name", name, "--noTextures"], capture_output = True, text = True)
@@ -56,14 +56,18 @@ def build(assets: str, out: str, name: str):
             if (os.path.isfile(os.path.join(tmp, "Meshes", source))):
                 shutil.copyfile(os.path.join(tmp, "Meshes", source), os.path.join(out, name + suffix))
 
-    for manifest in Manifests:
-        shutil.copyfile(os.path.join(assets, manifest), os.path.join(out, name + manifest))
+    # the textures (and the usage manifest that lists them by hash) may come from a SECOND dump of the
+    #   same character -- one taken at a higher texture LOD, when the dump that carries the usable
+    #   skeleton does not carry full-size textures (ChisaParfait, 2026-09-20)
+    textureSource = texturesFrom or assets
+    shutil.copyfile(os.path.join(assets, "Metadata.json"), os.path.join(out, name + "Metadata.json"))
+    shutil.copyfile(os.path.join(textureSource, "TextureUsage.json"), os.path.join(out, name + "TextureUsage.json"))
 
     textures = 0
-    for fileName in sorted(os.listdir(assets)):
+    for fileName in sorted(os.listdir(textureSource)):
         match = TexturePattern.match(fileName)
         if (match is not None):
-            shutil.copyfile(os.path.join(assets, fileName), os.path.join(out, f"{name}Texture{match.group('hash').lower()}.dds"))
+            shutil.copyfile(os.path.join(textureSource, fileName), os.path.join(out, f"{name}Texture{match.group('hash').lower()}.dds"))
             textures += 1
     return textures
 
@@ -74,15 +78,16 @@ def main():
     parser.add_argument("out", help = "the download folder to write, e.g. 'Data/Mod Downloads/WuWa/Chisa/3_0'")
     parser.add_argument("--name", required = True, help = "the character's ModType name, the prefix of every file")
     parser.add_argument("--check", action = "store_true", help = "write nothing; build into a temporary folder and compare it with the existing 'out'")
+    parser.add_argument("--texturesFrom", default = None, help = "take the textures and TextureUsage.json from this asset folder instead (a second dump of the same character, at a higher texture LOD)")
     args = parser.parse_args()
 
     if (not args.check):
-        textures = build(args.assets, args.out, args.name)
+        textures = build(args.assets, args.out, args.name, args.texturesFrom)
         print(f"wrote {len(Buffers)} buffers (+ blend remap buffers if any), {len(Manifests)} manifests and {textures} textures to {args.out}")
         return
 
     with tempfile.TemporaryDirectory() as tmp:
-        build(args.assets, tmp, args.name)
+        build(args.assets, tmp, args.name, args.texturesFrom)
         built, shipped = set(os.listdir(tmp)), set(os.listdir(args.out))
         same = [f for f in sorted(built & shipped) if filecmp.cmp(os.path.join(tmp, f), os.path.join(args.out, f), shallow = False)]
         differ = sorted((built & shipped) - set(same))

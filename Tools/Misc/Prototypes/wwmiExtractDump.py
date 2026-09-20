@@ -86,6 +86,46 @@ def skipSubCalls(dumpParser):
     dumpParser.os = FilteredOs()
 
 
+# 3DMigoto sometimes writes a draw's texture with NO hash in the file name
+# ('000021-ps-t0-vs=...dds' rather than '000021-ps-t0=a506a70d-vs=...dds'), and the addon then names
+# the extracted texture 't=None.dds' and records 'None-vs=...' in TextureUsage.json. The hash is not
+# lost: the same bytes are in the dump's 'deduped' folder under '<hash>-<FORMAT>.dds', which is where
+# this recovers it from (ChisaParfait, 2026-09-20: one texture of every component's main pass)
+DedupPattern = re.compile(r"^(?P<hash>[0-9a-f]{8})-")
+
+
+def recoverHashlessTextures(outputFolder: str, dumpFolder: str):
+    deduped = {}
+    for name in os.listdir(os.path.join(dumpFolder, "deduped")):
+        match = DedupPattern.match(name)
+        if (match is not None and name.lower().endswith(".dds")):
+            path = os.path.join(dumpFolder, "deduped", name)
+            deduped.setdefault(os.path.getsize(path), []).append((path, match.group("hash")))
+
+    for folder in sorted(os.listdir(outputFolder)):
+        objectFolder = os.path.join(outputFolder, folder)
+        if (not os.path.isdir(objectFolder)):
+            continue
+        for name in sorted(os.listdir(objectFolder)):
+            if (not name.endswith("t=None.dds")):
+                continue
+            path = os.path.join(objectFolder, name)
+            with open(path, "rb") as f:
+                content = f.read()
+            matches = {h for candidate, h in deduped.get(len(content), []) if open(candidate, "rb").read() == content}
+            if (len(matches) != 1):
+                print(f"  ! '{name}' has no hash and {'several deduped files match it: ' + ', '.join(sorted(matches)) if matches else 'no deduped file matches it'} -- left as is")
+                continue
+            textureHash = matches.pop()
+            os.rename(path, os.path.join(objectFolder, name.replace("t=None.dds", f"t={textureHash}.dds")))
+            usage = os.path.join(objectFolder, "TextureUsage.json")
+            with open(usage, "r", encoding = "utf-8") as f:
+                text = f.read()
+            with open(usage, "w", encoding = "utf-8") as f:
+                f.write(text.replace('"None-', f'"{textureHash}-'))
+            print(f"  recovered the hash of '{name}' from the deduped dump: {textureHash}")
+
+
 def main():
     parser = argparse.ArgumentParser(description = "a WWMI-Assets-style asset folder per character, extracted from a WuWa frame dump by WWMI Tools' own extractor")
     parser.add_argument("dump", help = "the FrameAnalysis-* folder (must hold log.txt)")
@@ -110,12 +150,31 @@ def main():
         skip_same_slot_hash_textures = False,
     )
     extractor.extract_frame_data(cfg)
+    recoverHashlessTextures(cfg.extract_output_folder, cfg.frame_dump_folder)
 
     for folder in sorted(Path(cfg.extract_output_folder).iterdir()):
         if (folder.is_dir()):
             components = len(list(folder.glob("Component *.vb")))
             textures = len(list(folder.glob("*.dds")))
             print(f"  {folder.name}: {components} components, {textures} textures")
+            for complaint in complaints(folder):
+                print(f"    ! {complaint}")
+
+
+def complaints(folder: Path):
+    """What makes an extraction unusable -- a dump taken before 3DMigoto had hashed the frame's
+    resources yields these rather than an error (ChisaParfait, 2026-09-20): the skeleton constant
+    buffer comes out unnamed, and WWMI then reads every component's bone count off the wrong buffer,
+    giving a merged skeleton far past the 512 bones WWMI can hold. Re-dump instead of shipping it"""
+    import json
+    metadata = json.loads((folder / "Metadata.json").read_text(encoding = "utf-8"))
+    if (not metadata.get("cb4_hash")):
+        yield "cb4_hash is empty: the frame's skeleton buffer was not hashed, so the bone counts below are not this character's. RE-DUMP."
+    slots = max((c["vg_offset"] + c["vg_count"] for c in metadata["components"]), default = 0)
+    if (slots > 512):
+        yield f"the merged skeleton is {slots} slots, past the 512 WWMI's skeleton buffer holds -- no mod can be built from this. RE-DUMP."
+    for name in folder.glob("*t=None.dds"):
+        yield f"'{name.name}' has no hash and none was recovered from the deduped dump"
 
 
 if (__name__ == "__main__"):

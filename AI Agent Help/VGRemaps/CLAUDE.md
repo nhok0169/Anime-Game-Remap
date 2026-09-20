@@ -721,6 +721,31 @@ original through WWMI Tools 1.3.4, is the template the script copies), then thes
   pixel-identical to an asset texture. Check the extracted `.dds` sizes before trusting them, and
   note the corollary for the live game: today's Sanhua dump binds `332a6aac` where the shipped
   download folder and `SanhuaHashLineage.json` call `1c0c8b91` current (same pixels, both 2048).
+- **A DUMP'S TEXTURE RESOLUTION IS ONE GAME SETTING, AND IT IS NOT "GRAPHICS QUALITY"**
+  (2026-09-20). WuWa keeps its real graphics settings in
+  `<game>/Client/Saved/LocalStorage/LocalStorage.db` (sqlite), **not** in `GameUserSettings.ini` --
+  whose `sg.TextureQuality=3` the game ignores, so reading it says nothing. The setting that decides
+  how many mips are resident is `ImageDetail`, the in-game menu's **LOD bias**, and at its default it
+  is `0`: every character texture is dumped at 512 x 512 no matter how close the camera is (proved
+  by dumping Chisa filling the screen -- same hashes, same sizes). Set LOD bias to **Ultra High**
+  (`ImageDetail = 3`) and the same character dumps 12 textures at 2048 instead of 2. The XXMI
+  Launcher's own "Max LOD Bias" switch writes that value before launch and **does not work**: the
+  launcher set `0 -> 3` at 01:08 and the game rewrote the file at startup two minutes later, so the
+  dump still came out at 512 -- change it in the game's own menu, where it sticks. And the hashes
+  move with it (`bacb2d38` at 512 is `526b9ed0` at 2048), which is one more reason the fixer places a
+  texture by pixel thumbprint rather than by hash.
+- **A DUMP WHOSE RESOURCES 3DMIGOTO HAS NOT HASHED LOOKS LIKE A DIFFERENT CHARACTER, NOT LIKE AN
+  ERROR** (2026-09-20). ChisaParfait dumped at Ultra High LOD comes back with `cb4_hash` EMPTY --
+  the skeleton constant buffer was not hashed -- and WWMI Tools then reads every component's bone
+  count off the wrong buffer: a merged skeleton of **929 slots** where her clean dump says 264, past
+  the 512 WWMI's skeleton buffer can hold, with the per-vertex positions and weights byte-identical
+  either way. Nothing in the extraction fails; only the numbers are wrong. `wwmiExtractDump.py`
+  now says so (empty `cb4_hash`, or a merged skeleton over 512 slots, prints `RE-DUMP`). The same
+  frame also writes a texture with no hash in its file name (`t=None.dds`) -- recoverable, because
+  the dump's `deduped/` folder holds the same bytes under `<hash>-<FORMAT>.dds`, which the extractor
+  now looks up. When a character dumps this way reproducibly (she did, twice), take the GEOMETRY
+  from a clean dump and the TEXTURES from the high-LOD one: `wwmiDownloadFolder.py --texturesFrom`
+  is that, and it is how `ChisaParfait/3_5` was built.
 
 What proves the build: every vertex buffer is byte-identical to fixed byte ranges of the raw `.vb`
 sliced independently of the script's element logic (POSITION 0-12, TANGENT+NORMAL 12-20, COLOR

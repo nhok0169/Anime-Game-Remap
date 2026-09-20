@@ -24,14 +24,23 @@ for the GI folders; the proof of a new folder is that its identity mod renders o
 `Tools/Misc/Prototypes/wwmiDownloadFolder.py` writes a folder from an asset folder, and `--check`
 compares against a shipped one (both Sanhua folders reproduce exactly).
 
+`Chisa/2_8` and `ChisaParfait/3_5` (2026-09-20) are the first folders built this way, and Chisa is
+the first character here whose merged skeleton (420 bones) needs the blend remap buffers.
+
 **A character WWMI-Assets does not have** (Chisa, ChisaParfait, 2026-09-19) gets its asset folder
 from a frame dump: `Tools/Misc/Prototypes/wwmiExtractDump.py` runs WWMI Tools' own extractor on it.
 The geometry that comes out is exact -- run on the Sanhua and SanhuaExorcist dumps it reproduces
 WWMI-Assets and both shipped folders' buffers byte for byte, and the Chisa and ChisaParfait identity
 mods built from their dumps render correctly in game (Chisa through the blend remap). **The textures are not**: a dump holds
-each texture in whatever streaming state it was drawn in (most of Sanhua's and Chisa's came out at
-512 x 512 where the full texture is 2048), and 3DMigoto rehashes a texture as its mips load, so the
-dump's hashes are the partly-loaded ones. Check the extracted `.dds` sizes before shipping them.
+each texture in whatever streaming state it was drawn in, and 3DMigoto rehashes a texture as its mips
+load, so the dump's hashes are the partly-loaded ones. **Dump with the game's LOD bias on Ultra High**
+(`ImageDetail = 3` in `Client/Saved/LocalStorage/LocalStorage.db`, set from the in-game menu -- the
+launcher's own switch is overwritten by the game at startup): at the default `0` every character
+texture is 512 x 512 however close the camera is. Check the extracted `.dds` sizes before shipping
+them, and read the extractor's warnings -- a dump whose `cb4_hash` comes back empty has bone counts
+that are not the character's (see the VGRemaps guide). ChisaParfait dumps that way at Ultra High, so
+her folder takes its geometry from a clean dump and its textures from a high-LOD one
+(`wwmiDownloadFolder.py --texturesFrom`).
 
 Not yet wired into a parser: `DownloadTools::urlPath` composes `GI/<char>/<version>/...` and needs
 a game folder before a WuWa fixer can fetch these (2026-09-19).

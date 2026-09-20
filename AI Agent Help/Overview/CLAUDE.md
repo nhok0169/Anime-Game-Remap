@@ -1487,6 +1487,29 @@ One `activeInis()` helper, used everywhere, is the whole fix.
 
 <br>
 
+## AN OPTION WHOSE ONLY TEST WAS THE IDENTITY MOD IS UNTESTED (2026-09-20)
+
+Three defaults in one prototype were adopted from the identity mod and each was wrong on the first
+real mod that met it, in a way no run could report:
+
+| the default | right on the identity mod because | what it did to a real mod |
+| --- | --- | --- |
+| the influences per vertex, inferred from the LIBRARY's vertex count | the identity mod's count IS the character's | nothing divided, the blend was skipped, and the `.ini` bound a buffer that was never written -- the model did not draw |
+| roles placed by texture hash, falling back to pixel identity | the identity mod's textures ARE the game's, so every hash hits | a mod exported for an older version matched none of 37 hashes, and a repainted atlas took another component's role at 0.98 |
+| the mod's shape-key sections commented out | the identity mod's shape-key data is the character's own | the pipeline half-disabled, on the SOURCE's draws as well -- both the mod and the remap came out as spaghetti |
+
+The pattern is the same each time: the identity mod is the character's own model, so every quantity
+it could disagree with the library about happens to agree, and every default that reads one from
+the wrong side survives. Overview's habit about identity mods being the easy case is older than
+this and was about geometry; these are about the FIGURES and the SWITCHES.
+
+So when a prototype is about to meet its first real mod, go through its defaults and ask of each
+one: **which side of the source / target / library triangle does this number come from, and would
+the identity mod tell them apart?** The three above take about a minute each to check that way and
+cost a round in game each to find.
+
+<br>
+
 ## A SCREENSHOT STATISTIC IS ONLY AS GOOD AS ITS MASK, AND A WRONG MASK READS THE SAME (2026-09-20)
 
 Comparing a part of a character between the base and a remap means selecting its pixels out of two

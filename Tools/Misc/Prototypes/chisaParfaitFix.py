@@ -1455,8 +1455,15 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
 # ---------------------------------------------------------------------------------------------
 # run
 
+# EVERY section of WWMI's shape-key pipeline, because HALF of it disabled is worse than all of it
+#   (2026-09-20). `CommandListApplyShapeKeys` was missing from this list, so `--shapeKeys hide`
+#   commented out the loader, the multiplier and their two callbacks -- everything that FILLS the
+#   shape-key buffers -- and left the APPLIER wired into the mod's own draw, adding whatever was
+#   left in those buffers to every vertex position. See the `--shapeKeys` option for why `hide` is
+#   no longer the default.
 ShapeKeySections = ["TextureOverrideShapeKeyOffsets", "TextureOverrideShapeKeyScale", "CommandListSetupShapeKeys", "CommandListLoadShapeKeys",
-                    "TextureOverrideShapeKeyLoaderCallback", "CommandListMultiplyShapeKeys", "TextureOverrideShapeKeyMultiplierCallback"]
+                    "TextureOverrideShapeKeyLoaderCallback", "CommandListMultiplyShapeKeys", "TextureOverrideShapeKeyMultiplierCallback",
+                    "CommandListApplyShapeKeys"]
 HideMarker = FRB.IniKeywords.HideOriginalComment.value
 
 
@@ -1666,8 +1673,17 @@ def main():
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--anchor", choices = sorted(AnchorChains) + ["all"], default = None,
                         help = "pin a chain the skin has no counterpart for to its root bone -- AnchorChains is empty for this pair until an in-game round needs one")
-    parser.add_argument("--shapeKeys", choices = ["hide", "leave", "retarget"], default = "hide",
-                        help = f"the mod's shape-key sections: 'hide' (default) comments them out like the maintainer's working hand remap, 'leave' keeps them on {SourceName}'s own hashes, 'retarget' copies them onto {TargetName}'s buffer -- see the header, points 8 and 9")
+    # `hide` WAS THE DEFAULT AND IT BROKE THE MOD ON ITS OWN CHARACTER (2026-09-20). It comments
+    #   sections out of the mod's OWN text, so whatever it does it does to the source's draws as
+    #   well as the remap's -- and a real mod's shape-key pipeline is not decoration: on a 114213
+    #   vertex Hanabi mod with 60791 shape-key vertices, both the original and the remap came out
+    #   as spaghetti. It was adopted from the maintainer's working hand remap, which has shape keys
+    #   off, and every mod it was tried on before was an identity mod, whose shape-key data is the
+    #   character's own. The remapped draws answer the shape-key problem their own way -- each
+    #   binds a zero offset stream at vb6 -- so hiding the mod's pipeline buys the remap nothing
+    #   and costs the original everything.
+    parser.add_argument("--shapeKeys", choices = ["hide", "leave", "retarget"], default = "leave",
+                        help = f"the mod's shape-key sections: 'leave' (default) keeps them on {SourceName}'s own hashes, 'hide' comments them out like the maintainer's working hand remap (which BREAKS a mod that really uses them, on the source as well as the target), 'retarget' copies them onto {TargetName}'s buffer -- see the header, points 8 and 9")
     parser.add_argument("--plan", choices = list(Plans), default = "default",
                         help = "which source component goes through which target slot -- only 'default' exists for this pair (one to one; see the header, point 1)")
     parser.add_argument("--hideTextureOverrides", action = "store_true",

@@ -1351,6 +1351,8 @@ first. Read the report's WORDS against the left column before opening any code (
 | a translucent RED over the clothes AND the skin, the pictures showing through | the material mask the mod DOES ship, in the SOURCE's packing: the target's shader reads it as bare skin | repack it -- ask the diffuse which value means skin on each side |
 | a translucent hue that SURVIVES a correct mask, over the parts one shader has an extra input for | a register the TARGET's pass reads and the source's does not: the skin's own map stays bound and its codes land at the mod's UVs | bind a flat neutral there; bisect which register rather than guessing |
 | eyes wrong on one mod only | the eye pass reads the iris at `ps-t2`, mask at `ps-t1`; or two hashes on one role | the plan's eye bindings; the duplicate-role WARNING |
+| **the ORIGINAL mod is broken too**, not only the remap | the fix edited the mod's OWN half of the `.ini` -- the remapped sections are on the target's hashes and cannot reach the source's draws | whatever the run says it commented out; `--shapeKeys leave` |
+| the model does not draw AT ALL, and the run said `skipped` for a resource | the `.ini` was written before that resource failed, so it binds a file that is not there -- and a buffer 3dmigoto cannot create means no vertex data | the run's own dangling-reference line at the end; then why the resource raised |
 | one part's colour right and its surface flat -- no relief, no sheen | the plan mirrors a layout read off a draw that INHERITED its registers, or off a sibling pass that orders them differently | `wwmiPassLayout.py`: which draw sets the whole set, and what each bound texture IS by its pixels |
 | a part reads matte where the source is satin | the flat mask invented for it carries the cloth code, G = 0, which is "not shiny at all" | the medians of the TARGET's own pixels of that kind (`G > 64`) |
 | a part is the right colour and too BRIGHT or too PALE, and no register changes it | the source draws it on a different shader FAMILY, which is a colour grade | `ColourGrades` -- and measure the ambient floor before promising to reach the base |
@@ -1531,6 +1533,37 @@ which is worth as much as the bisect -- twice in this session a build never reac
 and the screenshot that came back was of the previous one. See Overview's habit 34's neighbour:
 **a diagnostic that cannot be confused with the thing it is diagnosing is the first thing to
 build.**
+
+### ANYTHING A FIX HIDES IN THE MOD'S OWN TEXT CHANGES THE MOD ON ITS OWN CHARACTER (2026-09-20)
+
+The report was **"both the original mod and the remap became spaghetti"**, which is worth reading
+twice: the remapped sections are keyed on the TARGET's hashes and cannot touch the source's draws,
+so anything wrong with BOTH is something the fix did to the mod's own half of the `.ini`.
+
+There was exactly one such thing, and it was the default. `--shapeKeys hide` comments out the mod's
+own shape-key sections, which was adopted from the maintainer's working hand remap (shape keys off)
+and had only ever been run on identity mods, whose shape-key data is the character's own. A real
+mod's pipeline is not decoration -- this one carries 60791 shape-key vertices of 114213 -- and it
+is the source's as much as the target's.
+
+**And it hid HALF the pipeline, which is worse than hiding all of it.** The list named the loader,
+the multiplier and their two callbacks -- everything that FILLS the shape-key buffers -- and not
+`CommandListApplyShapeKeys`, which ADDS those buffers to every vertex position and stayed wired
+into the mod's own draw. So the applier ran over buffers nothing had filled, on the original and
+the remap alike.
+
+Two rules out of it:
+
+- **A list of sections to disable is a list of a PIPELINE, and a pipeline has to be cut at its
+  ends.** Grep what the sections you are hiding are called BY, and what they call.
+- **The remapped draws answer the shape-key problem their own way** -- each binds a zero offset
+  stream at `vb6` (see the Sanhua notes) -- so hiding the mod's pipeline buys the remap nothing and
+  costs the original everything. `leave` is the default now. The acceptance is that it changes the
+  output in exactly one way: `hide` and `leave` differ on 100 lines of that mod's file, every one
+  of them a `RemapFixHideOrig` marker on the mod's own text, and nothing inside the remap block
+  moves.
+
+<br>
 
 ### A PASS IS A REGISTER LAYOUT, AND ONLY THE DRAW THAT SETS IT SAYS WHAT IT IS (2026-09-20)
 

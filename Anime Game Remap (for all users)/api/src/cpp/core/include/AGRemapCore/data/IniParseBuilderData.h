@@ -733,6 +733,16 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The parser for a **SanhuaExorcist** mod at game version ``2.5``, built by
+             :cpp:func:`makeWWMIParser` -- her six draw slots on her ``vb0`` hash, the bone-data
+             override and the two shape-key overrides by their own hashes
+             @endrst
+             */
+            static IniParseBuilder::Factory sanhuaExorcist2_5();
+
+            /**
+             * @brief
+             @rst
              The parser for a 5.7-era YelanTranquil ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
 
              The FIRST parser for a skin of SEVERAL components -- a ``Body`` of three draw slots, a

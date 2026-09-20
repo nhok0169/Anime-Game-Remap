@@ -180,6 +180,27 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         The ``filter_index`` to tag a particular shader with, overriding the value
+         :cpp:member:`filterBase` and :cpp:member:`filterStep` would compute for it -- as a string, so
+         the value in the ``.ini`` is exactly what is written here :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         3dmigoto keys a ``[ShaderOverride]`` by its shader hash across EVERY loaded ``.ini``, not per
+         file or per namespace. Both directions of one pair tag the same shaders -- a skin and its
+         character share the hair, face and eye ones -- so a mod fixed one way and a mod fixed the
+         other way, both installed, declare overrides on those hashes twice. If the two disagree on
+         the value, whichever file 3dmigoto reads last wins and the other mod's ``if ps == <filter>``
+         never matches: its textures are silently not bound. So the SECOND pair to be written names
+         the first's values here, and gives its own shaders values the first never uses (Sanhua's
+         direction computes ``3381.91`` up; the Exorcist's names those and takes ``3381.81`` up for
+         the shaders only it tags)
+         @endrst
+         */
+        std::unordered_map<std::string, std::string> filterIndices;
+
+        /**
+         * @brief
+         @rst
          Source component -> how it is drawn on the target. A source component the mod has a
          section for but this does not name is dropped. Several sources may name one target slot
          (that is the merge, item 5 above); which lands in the mod's own ``.ini`` and which in a
@@ -338,6 +359,45 @@ namespace AGRemapCore {
          * @brief The register the mod's blend buffer is bound at. **Default**: ``"vb4"``
          */
         std::string blendReg = "vb4";
+
+        /**
+         * @brief
+         @rst
+         The SOURCE character's ``vg_map`` per component -- that component's own bone indices to the
+         merged skeleton's, as ``WWMI-Assets``' ``Metadata.json`` holds it. Needed only for a mod
+         from before WWMI grew the merged skeleton (a ``WWMI ALPHA-2 INI``, ``required_wwmi_version``
+         0.7): such a mod's sections carry no ``vg_offset``, no merge and none of the merged-skeleton
+         resources, because a draw could then only address the bones the GAME hands it for that
+         component -- so its ``Blend.buf`` holds each component's OWN indices, not the merged ones
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         With this, such a mod's blend is read per component and lifted through the map before the
+         library's row is applied, and the fix supplies the merged skeleton the mod lacks. Without
+         it, the fix REFUSES a mod of that shape rather than remapping local indices as if they were
+         merged, which scrambles every bone of the body (SanhuaExorcist3 in game: "the body became a
+         noodle mess", 2026-09-19)
+         @endrst
+         */
+        std::map<int, std::vector<int>> sourceVgMaps;
+
+        /**
+         * @brief
+         @rst
+         The float4 slots of the merged skeleton buffers the fix declares for a legacy mod -- WWMI
+         Tools' own template's size, whatever the character's bone count. **Default**: ``768``
+         @endrst
+         */
+        int mergedSkeletonSlots = 768;
+
+        /**
+         * @brief
+         @rst
+         WWMI's marker on the game's bone-data constant buffer, which a legacy mod's supplied merge
+         is gated on so a pass with something else in that slot cannot merge junk.
+         **Default**: ``"3381.7777"``
+         @endrst
+         */
+        std::string boneDataFilter = "3381.7777";
 
         /**
          * @brief

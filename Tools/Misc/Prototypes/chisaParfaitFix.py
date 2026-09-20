@@ -181,7 +181,19 @@ PassPaintNames = ["red", "green", "blue", "yellow"]
 NeutralBindings = {3: {"ps-t2": (0, 0, 0, 255)}, 4: {"ps-t2": (0, 0, 0, 255)}}
 NeutralName = "DetailZero"      # the resource / file stem of the flat map bound there
 FlatName = "Flat"
-TargetMaskCloth = (255, 0, 126, 0)              # the skin's own dominant code, ie. ordinary cloth: R 93.6%, G 80.1%, B 84.8%, A 98.2%               # the stem of a flat map an ExtraPassRegs entry asks for by COLOUR
+TargetMaskCloth = (255, 0, 126, 0)              # the skin's own dominant code, ie. ordinary cloth: R 93.6%, G 80.1%, B 84.8%, A 98.2%
+# THE MASK'S GREEN CHANNEL IS HOW SHINY THE SURFACE IS, AND A FLAT CLOTH CODE SAYS "NOT AT ALL"
+#   (2026-09-20). The skin's mask is not a small set of material ids -- R and G both vary
+#   continuously -- and plotting G over each atlas says what it is: zero across flat fabric and
+#   high along every lace edge, ribbon trim and pleat highlight. Her body atlases are 3.2% and 6.1%
+#   above G 64; her slot 5, the frilled and beribboned one, is 29.4%.
+#
+#   So a ribbon handed TargetMaskCloth is told it is the mattest cloth on the model, which is the
+#   last of the three reasons it rendered flat (the first two were the normal map on the matcap
+#   slot and the diffuse on the detail slot). These are the medians of the skin's OWN shiny
+#   accessory trim -- the pixels of her slot 5 mask with G > 64, 1.2M of them -- rather than a
+#   number chosen to look right: R 222, G 90, B 126.
+TargetMaskAccessory = (222, 90, 126, 0)               # the stem of a flat map an ExtraPassRegs entry asks for by COLOUR
 
 ProbeColours = [("ps-t2", (0, 255, 0, 255), "green"), ("ps-t3", (255, 255, 255, 255), "white"),
                 ("ps-t4", (0, 0, 255, 255), "blue"), ("ps-t5", (255, 255, 0, 255), "yellow"),
@@ -264,9 +276,11 @@ ExtraPassRegs = {
     #   shader (3df800c3) that binds one texture, her diffuse at ps-t0, and inherits the front
     #   hair's maps for the rest -- so those two registers take a flat created map rather than the
     #   skin's own sampled at the mod's UVs, which is the material-mask bug of the round before.
-    5: {"87825a9a29529f9b": {"ps-t0": (0, 0, 0, 255), "ps-t1": TargetMaskCloth,
+    #   The mask is TargetMaskAccessory, not TargetMaskCloth: see its comment for why a ribbon told
+    #   it is ordinary cloth cannot have a highlight.
+    5: {"87825a9a29529f9b": {"ps-t0": (0, 0, 0, 255), "ps-t1": TargetMaskAccessory,
                              "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse"},
-        "ced9a47fb6ad4d16": {"ps-t0": (0, 0, 0, 255), "ps-t1": TargetMaskCloth,
+        "ced9a47fb6ad4d16": {"ps-t0": (0, 0, 0, 255), "ps-t1": TargetMaskAccessory,
                              "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse"}},
 }
 

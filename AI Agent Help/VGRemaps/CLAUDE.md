@@ -734,18 +734,24 @@ original through WWMI Tools 1.3.4, is the template the script copies), then thes
   dump still came out at 512 -- change it in the game's own menu, where it sticks. And the hashes
   move with it (`bacb2d38` at 512 is `526b9ed0` at 2048), which is one more reason the fixer places a
   texture by pixel thumbprint rather than by hash.
-- **A DUMP WHOSE RESOURCES 3DMIGOTO HAS NOT HASHED LOOKS LIKE A DIFFERENT CHARACTER, NOT LIKE AN
-  ERROR** (2026-09-20). ChisaParfait dumped at Ultra High LOD comes back with `cb4_hash` EMPTY --
-  the skeleton constant buffer was not hashed -- and WWMI Tools then reads every component's bone
-  count off the wrong buffer: a merged skeleton of **929 slots** where her clean dump says 264, past
-  the 512 WWMI's skeleton buffer can hold, with the per-vertex positions and weights byte-identical
-  either way. Nothing in the extraction fails; only the numbers are wrong. `wwmiExtractDump.py`
-  now says so (empty `cb4_hash`, or a merged skeleton over 512 slots, prints `RE-DUMP`). The same
-  frame also writes a texture with no hash in its file name (`t=None.dds`) -- recoverable, because
-  the dump's `deduped/` folder holds the same bytes under `<hash>-<FORMAT>.dds`, which the extractor
-  now looks up. When a character dumps this way reproducibly (she did, twice), take the GEOMETRY
-  from a clean dump and the TEXTURES from the high-LOD one: `wwmiDownloadFolder.py --texturesFrom`
-  is that, and it is how `ChisaParfait/3_5` was built.
+- **NEVER DUMP A CHARACTER WITH A MOD OF THAT CHARACTER INSTALLED -- THE EXTRACTION DESCRIBES THE
+  MODDED PIPELINE AND LOOKS LIKE A DIFFERENT CHARACTER, NOT LIKE AN ERROR** (2026-09-20). Two
+  ChisaParfait dumps taken with her own IDENTITY MOD active came back with `cb4_hash` **empty** --
+  WWMI had replaced the skeleton constant buffer with its own merged one -- so WWMI Tools read every
+  component's bone count off the wrong buffer and reported a merged skeleton of **929 slots** where
+  the mod-free dump says 264, past the 512 WWMI can hold. The per-vertex positions and weights were
+  byte-identical throughout, and the textures were the MOD's copies under the mod's hashes
+  (`2b1da041`, `ae2aab3c`) rather than the game's (`a506a70d`, `d547f3c6`). Nothing failed; only the
+  numbers were wrong, and "it reproduces every time" was true and meant nothing. Take the mod out of
+  `Mods` (the maintainer's find), re-dump, and the same character extracts clean at the same
+  settings. `wwmiExtractDump.py` now prints `RE-DUMP` on an empty `cb4_hash` or a merged skeleton
+  over 512 slots, which is the cheap detector for it. A related symptom of the same frames: a
+  texture written with no hash in its file name (`t=None.dds`), recoverable from the dump's
+  `deduped/` copy (`<hash>-<FORMAT>.dds`) and recovered by the extractor -- though on a modded dump
+  what it recovers is the mod's own texture, so the warning above is the one that matters.
+  `wwmiDownloadFolder.py --texturesFrom` takes the textures from a second dump of the same
+  character, if geometry and textures ever have to come from different frames; `ChisaParfait/3_5`
+  no longer needs it.
 
 What proves the build: every vertex buffer is byte-identical to fixed byte ranges of the raw `.vb`
 sliced independently of the script's element logic (POSITION 0-12, TANGENT+NORMAL 12-20, COLOR

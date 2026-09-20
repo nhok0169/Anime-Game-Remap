@@ -38,9 +38,10 @@ load, so the dump's hashes are the partly-loaded ones. **Dump with the game's LO
 launcher's own switch is overwritten by the game at startup): at the default `0` every character
 texture is 512 x 512 however close the camera is. Check the extracted `.dds` sizes before shipping
 them, and read the extractor's warnings -- a dump whose `cb4_hash` comes back empty has bone counts
-that are not the character's (see the VGRemaps guide). ChisaParfait dumps that way at Ultra High, so
-her folder takes its geometry from a clean dump and its textures from a high-LOD one
-(`wwmiDownloadFolder.py --texturesFrom`).
+that are not the character's. **Take every mod of that character out of `Mods` before dumping**: with
+her own identity mod installed, ChisaParfait extracted as a 929-slot skeleton (against 264) with the
+MOD's textures under the mod's hashes, every time, and nothing reported an error. See the VGRemaps
+guide.
 
 Not yet wired into a parser: `DownloadTools::urlPath` composes `GI/<char>/<version>/...` and needs
 a game folder before a WuWa fixer can fetch these (2026-09-19).

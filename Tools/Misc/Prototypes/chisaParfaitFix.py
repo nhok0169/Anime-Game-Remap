@@ -218,6 +218,29 @@ def parseProbeSpec(spec: Optional[str]) -> Optional[Dict[int, List[str]]]:
     return out
 
 MaskTranslations = {"upperMask", "lowerMask"}   # the roles whose file is repacked before it is bound
+
+# A SHADER FAMILY IS A COLOUR GRADE, AND A TEXTURE IS THE ONLY PLACE TO PUT IT BACK (2026-09-20).
+#   Chisa's ribbon is painted by a HAIR shader (3df800c3, the only pass her component 5 is drawn on)
+#   and the skin has nowhere to draw it but a CLOTH shader, so the two treat the same diffuse
+#   differently, and no binding can change that. Measured, with both sides read against the SAME
+#   texture -- her accessory diffuse sampled at her component 5's own vertices, median (148, 65, 68)
+#   -- and each screenshot's ribbon normalised against the hair and skin in the same shot:
+#
+#       her own shader renders it   (132, 45, 45)   = the texture x (0.89, 0.69, 0.66)
+#       the remap's renders it      (171, 73, 78)   = the texture x (1.16, 1.12, 1.15)
+#
+#   So the cloth shader is a near-flat brightness gain -- no grade, no additive lift -- where hers
+#   darkens and deepens. That is the whole of the "less metallic, dark red" report, and it had not
+#   moved across four builds while the three register fixes before it moved contrast.
+#
+#   The gain below is the ratio of those two, so the graded texture through the cloth shader lands
+#   on (132, 45, 45) exactly. The check that it is not merely a curve fit: the graded texture's
+#   SATURATION comes out 0.657 against the base render's 0.659, and saturation was not fitted.
+#
+#   This is a compensation, not a fix -- the structural answer is to route the ribbon through one of
+#   the target's HAIR slots so it is drawn by the shader it was authored for, which merges it into a
+#   hair draw. Precedent for grading instead: the GI side has a shared DarkDiffuse for Ningguang.
+ColourGrades = {"accessoryDiffuse": (0.772, 0.616, 0.577)}
 TargetMaskSkinR = 0                             # what she marks bare skin with, in R
 SourceMaskSkinAbove = 128                       # Chisa's R at or above this is bare skin
 ShapeKeyZero = "ShapeKeyZero"               # the zero shape-key offset stream bound at vb6 (sanhuaExorcistFix.py's header, point 10)
@@ -502,8 +525,13 @@ def translateMaterialMask(src: str, dst: str) -> float:
     return 100.0 * float((~skin).mean())
 
 
-def writeDds(path, pixels):
-    """An uncompressed R8G8B8A8_UNORM DDS of 'pixels' (height x width x RGBA)"""
+def writeDds(path, pixels, srgb = False):
+    """An uncompressed R8G8B8A8_UNORM DDS of 'pixels' (height x width x RGBA), or its _SRGB form.
+
+    The flag is not cosmetic: a diffuse whose DX10 header does not say sRGB is sampled as linear
+    and renders bright and washed out, which is the failure this file's colour grade is correcting
+    -- so writing the corrected copy untagged would undo it and then some. A mask is genuinely
+    linear data and keeps the plain form."""
     h, w = pixels.shape[0], pixels.shape[1]
     header = bytearray(b"DDS ")
     flags = 0x1 | 0x2 | 0x4 | 0x1000 | 0x8
@@ -511,9 +539,25 @@ def writeDds(path, pixels):
     header += b"\0" * 44
     header += struct.pack("<II4sIIIII", 32, 0x4, b"DX10", 0, 0, 0, 0, 0)
     header += struct.pack("<IIIII", 0x1000, 0, 0, 0, 0)
-    header += struct.pack("<IIIII", 28, 3, 0, 1, 0)
+    header += struct.pack("<IIIII", 29 if (srgb) else 28, 3, 0, 1, 0)
     with open(path, "wb") as f:
         f.write(bytes(header) + np.ascontiguousarray(pixels, dtype = np.uint8).tobytes())
+
+
+def gradeTexture(src: str, dst: str, gain) -> tuple:
+    """Write 'src' with a per-channel gain on its RGB (ColourGrades above), alpha untouched.
+
+    Returns the median RGB before and after, so the run can say what it did rather than that it
+    ran."""
+    tex = FRB.TextureFile(src)
+    tex.open()
+    px = np.frombuffer(tex.getPixels(), dtype = np.uint8).reshape(tex.height, tex.width, 4)
+    out = px.copy()
+    for c in range(3):
+        out[..., c] = np.clip(px[..., c].astype(np.float64) * gain[c], 0, 255).astype(np.uint8)
+    writeDds(dst, out, srgb = True)
+    return (tuple(int(v) for v in np.median(px.reshape(-1, 4)[:, :3], axis = 0)),
+            tuple(int(v) for v in np.median(out.reshape(-1, 4)[:, :3], axis = 0)))
 
 
 # ---------------------------------------------------------------------------------------------
@@ -822,6 +866,27 @@ class ModFiles():
             print(f"    {role}: repacked into {TargetName}'s layout, {moved:.1f}% of it her cloth code -> {rel}")
         return out
 
+    def grade(self, roles: List[str]) -> List[str]:
+        """The resource sections for the planned 'roles' in ColourGrades: the mod's own file with a
+        per-channel gain on its RGB, written as <Role><Target>RemapTex.dds; binds them.
+
+        Same shape as translate() above, and the same reason for RemapTex rather than RemapRef: the
+        fix writes this file, so the undo is meant to delete it."""
+        out: List[str] = []
+        for role in dict.fromkeys(roles):
+            src = self.fileOfRole.get(role)
+            if (role not in ColourGrades or src is None or not os.path.isfile(src)):
+                continue
+            fileName = f"{role[0].upper()}{role[1:]}{TargetName}{FRB.IniKeywords.RemapTex.value}.dds"
+            rel = f"{self.textureFolder}/{fileName}"
+            os.makedirs(os.path.join(self.iniFolder, self.textureFolder), exist_ok = True)
+            was, now = gradeTexture(src, os.path.join(self.iniFolder, self.textureFolder, fileName), ColourGrades[role])
+            name = f"Resource{role[0].upper()}{role[1:]}{TargetName}{FRB.IniKeywords.RemapTex.value}"
+            self.resourceOfRole[role] = name
+            out.append("\n".join([f"[{name}]", f"filename = {rel}", ""]))
+            print(f"    {role}: graded by {ColourGrades[role]} for {TargetName}'s shader, median {was} -> {now} -> {rel}")
+        return out
+
     def declare(self, fixName) -> List[str]:
         """The resource sections this .ini needs for the files none of its own resources name; binds them"""
         out: List[str] = []
@@ -963,6 +1028,10 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
         appended += files.fallbacks([role for i in files.present if (i in plan) for role in plan[i][1].values()])
         # ...and the masks whose PACKING differs between the two skins, repacked (MaskTranslations)
         appended += files.translate([role for i in files.present if (i in plan) for role in plan[i][1].values()])
+        # ...and the diffuses the TARGET's shader family grades differently from the source's
+        appended += files.grade([role for i in files.present if (i in plan) for role in plan[i][1].values()]
+                                + [role for byPass in ExtraPassRegs.values() for regs in byPass.values()
+                                   for role in regs.values() if (isinstance(role, str))])
         # ---- the zero shape-key offset stream, unless WWMI's own pipeline is retargeted to fill vb6 ----
         zeroResource = None
         if (not shapeKeys):

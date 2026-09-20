@@ -735,6 +735,16 @@ class ModFiles():
             rel = f"{self.textureFolder}/{fileName}"
             os.makedirs(os.path.join(self.iniFolder, self.textureFolder), exist_ok = True)
             shutil.copyfile(src, os.path.join(self.iniFolder, self.textureFolder, fileName))
+            # a texture the game cannot load renders BLACK, which reads as a wrong colour rather than
+            #   as a broken file. This catches a file that is not an image at all; it does NOT catch
+            #   every header a GAME would reject -- a hand-written .dds carrying DX10 dimension 87
+            #   instead of 3 reads back through the API perfectly and was still the likeliest cause
+            #   of a black ribbon (2026-09-20), so the check was proved against that file and found
+            #   wanting rather than trusted.
+            check = FRB.TextureFile(os.path.join(self.iniFolder, self.textureFolder, fileName))
+            check.open()
+            if (not check.hasImage or not check.width or not check.height):
+                print(f"    WARNING: {fileName} did not open as an image -- the game will draw it black")
             name = f"Resource{SourceName}{role[0].upper()}{role[1:]}{FRB.IniKeywords.RemapDL.value}"
             self.resourceOfRole[role] = name
             out.append("\n".join([f"[{name}]", f"filename = {rel}", ""]))

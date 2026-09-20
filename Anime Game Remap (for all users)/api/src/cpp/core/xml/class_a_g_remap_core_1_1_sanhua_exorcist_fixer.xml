@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_sanhua_exorcist_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::SanhuaExorcistFixer</compoundname>
+    <includes refid="_sanhua_exorcist_fixer_8h" local="no">SanhuaExorcistFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_sanhua_exorcist_fixer_1aa657c70f638c61b3809f95dc93949328" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::SanhuaExorcistFixer::SanhuaExorcistFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>SanhuaExorcistFixer</name>
+        <qualifiedname>AGRemapCore::SanhuaExorcistFixer::SanhuaExorcistFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.h" line="31" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_sanhua_exorcist_fixer_1a12d8f622fc60fffbe3acfe6de4853ea1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::SanhuaExorcistFixer::sanhua2_5</definition>
+        <argsstring>()</argsstring>
+        <name>sanhua2_5</name>
+        <qualifiedname>AGRemapCore::SanhuaExorcistFixer::sanhua2_5</qualifiedname>
+        <briefdescription>
+<para>The 2.5 fix remapping <bold>SanhuaExorcist onto Sanhua</bold> <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a189f1be27493d65a6104e270520c0abc" kindref="member">IniFixBuilderFuncs::sanhua2_5</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.h" line="36" column="43" bodyfile="src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp" bodystart="186" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+SanhuaExorcist&apos;s own ``.ini`` fixers -- her skin&apos;s mods onto Sanhua herself, the REVERSE of
+:cpp:class:`SanhuaFixer`, through :cpp:func:`makeWWMIFixer`. Pair this with
+:cpp:class:`SanhuaExorcistParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.h" line="29" column="5" bodyfile="include/AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.h" bodystart="29" bodyend="37"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_sanhua_exorcist_fixer_1a12d8f622fc60fffbe3acfe6de4853ea1" prot="public" virt="non-virtual"><scope>AGRemapCore::SanhuaExorcistFixer</scope><name>sanhua2_5</name></member>
+      <member refid="class_a_g_remap_core_1_1_sanhua_exorcist_fixer_1aa657c70f638c61b3809f95dc93949328" prot="public" virt="non-virtual"><scope>AGRemapCore::SanhuaExorcistFixer</scope><name>SanhuaExorcistFixer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

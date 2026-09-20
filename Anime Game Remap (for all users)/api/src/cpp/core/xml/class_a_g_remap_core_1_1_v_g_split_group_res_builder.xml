@@ -17,7 +17,26 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="55" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="55" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="57" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a36386095bdde6b02b9c6f96de0c6e38f" prot="public" static="no">
+        <type>std::function&lt; <ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config" kindref="compound">VGSplitGroupConfig</ref>(const <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> *)&gt;</type>
+        <definition>using AGRemapCore::VGSplitGroupResBuilder::ConfigResolver = std::function&lt;VGSplitGroupConfig(const Z3Predicate*)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ConfigResolver</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupResBuilder::ConfigResolver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the config for one group, from the query that group&apos;s resources co-occur under
+(see :cpp:func:`ResGroupCollect::GroupedResBuilder::beginGroup`) -- ``nullptr`` for a
+group with no query at all
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="76" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="76" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -33,7 +52,21 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="76" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="76" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="108" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1af7f0242bc5faa29ecec5705e499fdc1e" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a36386095bdde6b02b9c6f96de0c6e38f" kindref="member">ConfigResolver</ref></type>
+        <definition>ConfigResolver AGRemapCore::VGSplitGroupResBuilder::configFor_</definition>
+        <argsstring></argsstring>
+        <name>configFor_</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupResBuilder::configFor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="109" column="28" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="109" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a0fdc74c7dde21720556636851a5b72f2" prot="private" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config" kindref="compound">VGSplitGroupConfig</ref></type>
@@ -47,7 +80,21 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="77" column="32" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="77" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="110" column="32" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a8ec5efc32891f274868000ee189d97ba" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt;</type>
+        <definition>std::optional&lt;Z3Predicate&gt; AGRemapCore::VGSplitGroupResBuilder::query_</definition>
+        <argsstring></argsstring>
+        <name>query_</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupResBuilder::query_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="111" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="111" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a6a396eaab349d0051e0894aff4cc7f57" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
@@ -61,7 +108,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="78" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="78" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="112" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="112" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a785839d34d60bb24ee6c5e86282d9147" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource" kindref="compound">VGSplitGroupResource</ref> &gt; &gt;</type>
@@ -75,7 +122,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="79" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="79" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="113" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="113" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -130,7 +177,118 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="64" column="13" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp" bodystart="24" bodyend="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="66" column="13" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp" bodystart="24" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1abdfa8285e34bf0f1edebdb291e24c93a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::VGSplitGroupResBuilder::VGSplitGroupResBuilder</definition>
+        <argsstring>(std::string name, ConfigResolver configFor, IniFile *iniFile)</argsstring>
+        <name>VGSplitGroupResBuilder</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupResBuilder::VGSplitGroupResBuilder</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a36386095bdde6b02b9c6f96de0c6e38f" kindref="member">ConfigResolver</ref></type>
+          <declname>configFor</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>iniFile</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A config built PER GROUP, for a source whose resources branch -- the split&apos;s side of
+:cpp:func:`VGMergeGroupResBuilder::VGMergeGroupResBuilder`&apos;s resolver :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A merged master names one variant&apos;s index buffers per ``$swapvar`` branch, and the split
+needs EVERY drawn object&apos;s index buffer of the variant it is splitting (see
+:cpp:member:`VGSplitGroupConfig::ibPaths`). One config for every group hands each
+variant the first variant&apos;s, which the group&apos;s own ``ib`` member is then not one of
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The resource group&apos;s name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>configFor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Builds the config for one group <ndash/> see <ref refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a36386095bdde6b02b9c6f96de0c6e38f" kindref="member">ConfigResolver</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>iniFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>.ini</computeroutput> file the groups are stored on </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="95" column="13" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp" bodystart="28" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1ac4003ce25d6d5fb26669841e930b8261" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::VGSplitGroupResBuilder::beginGroup</definition>
+        <argsstring>(const std::optional&lt; Z3Predicate &gt; &amp;query) override</argsstring>
+        <name>beginGroup</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupResBuilder::beginGroup</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a92cc4e94f7fd4d50f0ee13a498158de6">beginGroup</reimplements>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Announces which group #build is about to be called for, as the query every
+resource in it co-occurs under :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A group is one SATISFIABLE STATE of the mod -- one ``$swapvar`` branch of a
+merged master, one combination of independent toggles -- and this is what
+identifies it. A builder whose output depends on which state it is looking at
+needs this: the alternative is to count calls and index into a list, which is
+only correct when the caller&apos;s own ordering of the states happens to match the
+order they are collected in, and conditions in an ``.ini`` are not ordered.
+
+Test a candidate against it with #combineQueries followed by
+:cpp:func:`Z3Predicate::isSatisfiable`; reparent it into the candidates&apos; own
+:cpp:class:`Z3Context` ONCE rather than per candidate, since combining across
+contexts is a full render/re-parse round trip
+
+.. note::
+   Empty when the group carries no query at all, which is a group of one
+   unconditional resource. Default: does nothing
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The query every resource in the group co-occurs under </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="97" column="18" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp" bodystart="32" bodyend="34"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a70e7202b8345ffea120b80fc9478c593" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref> *</type>
@@ -152,7 +310,7 @@ the edit finishes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="66" column="32" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp" bodystart="28" bodyend="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="98" column="32" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp" bodystart="37" bodyend="50"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1ad8b3b59dc89f8eea1b60e45c20f56e00" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -182,7 +340,7 @@ the edit finishes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="67" column="18" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp" bodystart="36" bodyend="47"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="99" column="18" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp" bodystart="53" bodyend="64"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a9ee12db695e9631e061e80fd0f687a27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -208,7 +366,7 @@ the edit finishes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="68" column="18" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp" bodystart="50" bodyend="67"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="100" column="18" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp" bodystart="67" bodyend="84"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a9ce1b82aff0e878e820e5b9c457e309a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource" kindref="compound">VGSplitGroupResource</ref> &gt; &gt; &amp;</type>
@@ -223,7 +381,7 @@ the edit finishes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="73" column="31" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp" bodystart="70" bodyend="72"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="105" column="31" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp" bodystart="87" bodyend="89"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -304,19 +462,24 @@ it, and :cpp:func:`store` hands the finished group to the ``.ini`` file&apos;s
         <link refid="class_a_g_remap_core_1_1_z3_context"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="53" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="53" bodyend="80"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" line="55" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h" bodystart="55" bodyend="114"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a9ee12db695e9631e061e80fd0f687a27" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>addResource</name></member>
       <member refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a826316b4f5b2e90beff9381ac9c884e9" prot="public" virt="pure-virtual" ambiguityscope="AGRemapCore::ResGroupCollect::GroupedResBuilder::"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>addResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1ac4003ce25d6d5fb26669841e930b8261" prot="public" virt="virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>beginGroup</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a70e7202b8345ffea120b80fc9478c593" prot="public" virt="virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>build</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a0fdc74c7dde21720556636851a5b72f2" prot="private" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>config_</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1af7f0242bc5faa29ecec5705e499fdc1e" prot="private" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>configFor_</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a36386095bdde6b02b9c6f96de0c6e38f" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>ConfigResolver</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a8ad693978ec25999af3557462377c94f" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>GraphId</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a9ce1b82aff0e878e820e5b9c457e309a" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>groups</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a785839d34d60bb24ee6c5e86282d9147" prot="private" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>groups_</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a6a396eaab349d0051e0894aff4cc7f57" prot="private" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>iniFile_</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a04bde8cef9a9e412be99a87e25131224" prot="private" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>name_</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a8ec5efc32891f274868000ee189d97ba" prot="private" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>query_</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1ad8b3b59dc89f8eea1b60e45c20f56e00" prot="public" virt="virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>store</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a2884ef9a9611d10158c8a62422f91a2b" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>VGSplitGroupResBuilder</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1abdfa8285e34bf0f1edebdb291e24c93a" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>VGSplitGroupResBuilder</name></member>
       <member refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a2086e068e6e5148293c3b7033f84b100" prot="public" virt="virtual"><scope>AGRemapCore::VGSplitGroupResBuilder</scope><name>~GroupedResBuilder</name></member>
     </listofallmembers>
   </compounddef>

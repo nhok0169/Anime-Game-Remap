@@ -1,0 +1,738 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding" prot="public">AGRemapCore::WWMIFixerConfig::Binding</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component" prot="public">AGRemapCore::WWMIFixerConfig::SourceComponent</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_created_texture" prot="public">AGRemapCore::WWMIFixerConfig::CreatedTexture</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1acd73bbe44539d9630e1b1c1c5539a3d0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref></type>
+        <definition>ModTypeId AGRemapCore::WWMIFixerConfig::targetId</definition>
+        <argsstring></argsstring>
+        <name>targetId</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::targetId</qualifiedname>
+        <initializer>= <ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa20a11d20a03cacc27e48688909994c25" kindref="member">ModTypeId::SanhuaExorcist</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The character fixed TO -- whose ``vb0`` hash, slot windows, vertex-group offsets and
+shape-key checksum the library&apos;s WuWa tables hold
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="143" column="19" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a46ed6c4ae931ef41f7f43bc9a3bd0e38" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::version</qualifiedname>
+        <initializer>= &quot;2.5&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The game version the library files both characters under, used when the ``.ini`` carries
+no version of its own. **Default**: ``&quot;2.5&quot;``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="152" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a7b1bc5a2870168077a634aeda96f7efd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;std::string&gt; &gt; AGRemapCore::WWMIFixerConfig::slotPasses</definition>
+        <argsstring></argsstring>
+        <name>slotPasses</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::slotPasses</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Per TARGET slot, the pixel shaders that bind that slot&apos;s character textures -- read off a
+frame dump of the target (``Tools/Misc/Diagnostics/wwmiDrawTable.py``). A slot&apos;s command
+list binds on every one of them and no other pass; a pass binding only globals is not
+listed. Index = slot number
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="163" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae8378a27adad2663800c7be7b2a536a3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double AGRemapCore::WWMIFixerConfig::filterBase</definition>
+        <argsstring></argsstring>
+        <name>filterBase</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::filterBase</qualifiedname>
+        <initializer>= 3381.91</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``filter_index`` the first distinct shader of :cpp:member:`slotPasses` is tagged with;
+every further one is :cpp:member:`filterStep` higher. **Default**: ``3381.91``, beside
+WWMI&apos;s own ``3381.3333`` / ``3381.4444`` / ``3381.7777``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="173" column="16" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1accc4ba3fc20e81e3015e80416c06bca3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double AGRemapCore::WWMIFixerConfig::filterStep</definition>
+        <argsstring></argsstring>
+        <name>filterStep</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::filterStep</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+<para>See :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae8378a27adad2663800c7be7b2a536a3" kindref="member">filterBase</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>0.01</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="178" column="16" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a020c01106d4c7b635d48a408e276ebad" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; AGRemapCore::WWMIFixerConfig::filterIndices</definition>
+        <argsstring></argsstring>
+        <name>filterIndices</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::filterIndices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``filter_index`` to tag a particular shader with, overriding the value
+:cpp:member:`filterBase` and :cpp:member:`filterStep` would compute for it -- as a string, so
+the value in the ``.ini`` is exactly what is written here :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+3dmigoto keys a ``[ShaderOverride]`` by its shader hash across EVERY loaded ``.ini``, not per
+file or per namespace. Both directions of one pair tag the same shaders -- a skin and its
+character share the hair, face and eye ones -- so a mod fixed one way and a mod fixed the
+other way, both installed, declare overrides on those hashes twice. If the two disagree on
+the value, whichever file 3dmigoto reads last wins and the other mod&apos;s ``if ps == &lt;filter&gt;``
+never matches: its textures are silently not bound. So the SECOND pair to be written names
+the first&apos;s values here, and gives its own shaders values the first never uses (Sanhua&apos;s
+direction computes ``3381.91`` up; the Exorcist&apos;s names those and takes ``3381.81`` up for
+the shaders only it tags)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="199" column="28" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a35e39e37eb7c09b4dca5f93c7183d140" prot="public" static="no" mutable="no">
+        <type>std::map&lt; int, <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component" kindref="compound">SourceComponent</ref> &gt;</type>
+        <definition>std::map&lt;int, SourceComponent&gt; AGRemapCore::WWMIFixerConfig::plan</definition>
+        <argsstring></argsstring>
+        <name>plan</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::plan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Source component -&gt; how it is drawn on the target. A source component the mod has a
+section for but this does not name is dropped. Several sources may name one target slot
+(that is the merge, item 5 above); which lands in the mod&apos;s own ``.ini`` and which in a
+copy follows the source components&apos; numeric order
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="210" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1acf030c1b2001058e06dd6c474d4640dc" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; AGRemapCore::WWMIFixerConfig::roles</definition>
+        <argsstring></argsstring>
+        <name>roles</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::roles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Texture hash -&gt; role, for every version of the source&apos;s textures a mod may carry: the
+current hashes, and the older ones the community&apos;s hash maps and
+``Data/Mod Downloads/WuWa/&lt;Name&gt;/&lt;Name&gt;HashLineage.json`` know :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+A file&apos;s roles are decided in this order: the hashes the override sections (``hash =``
+plus ``this = Resource``) of ANY ``.ini`` of the mod match for it, plus the ``t=&lt;hash&gt;``
+in its file name (how WWMI Tools names an export) -- and a file plays EVERY role those
+hashes name, because a mod declares one file under two hashes when one atlas serves two
+components; then :cpp:member:`identifyTexture`; and last the
+``Component&lt;N&gt;_&lt;Diffuse|LM|NM&gt;`` name convention through :cpp:member:`typeRoles`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="227" column="28" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae28be3a422ec6c5e358409867d4b95aa" prot="public" static="no" mutable="no">
+        <type>std::map&lt; int, std::unordered_map&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::map&lt;int, std::unordered_map&lt;std::string, std::string&gt; &gt; AGRemapCore::WWMIFixerConfig::typeRoles</definition>
+        <argsstring></argsstring>
+        <name>typeRoles</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::typeRoles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Source component -&gt; ``{&quot;diffuse&quot; | &quot;mask&quot; | &quot;normal&quot; -&gt; role}``, for a file named by
+component and type and by nothing else (``Component4_NM.dds``: the RabbitFX / WWMI-Tools
+export names). The suffixes accepted: ``diffuse``, ``albedo``, ``base``, ``color``,
+``colour``, ``d`` (diffuse); ``lm``, ``lightmap``, ``mask``, ``m`` (mask); ``nm``,
+``normal``, ``normalmap``, ``n`` (normal)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="239" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab323d24041a1319407c23388e5b63e4e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_created_texture" kindref="compound">CreatedTexture</ref> &gt;</type>
+        <definition>std::vector&lt;CreatedTexture&gt; AGRemapCore::WWMIFixerConfig::createdTextures</definition>
+        <argsstring></argsstring>
+        <name>createdTextures</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::createdTextures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The textures the fix invents, each bound wherever a :cpp:member:`Binding` names its role.
+Written into the mod&apos;s texture folder as ``&lt;role&gt;&lt;target&gt;RemapTex.dds``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="248" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab9d29e393f4a5c2e406a745ef3d71d55" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::downloadGameFolder</definition>
+        <argsstring></argsstring>
+        <name>downloadGameFolder</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::downloadGameFolder</qualifiedname>
+        <initializer>= &quot;WuWa&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The game folder under ``Data/Mod Downloads`` the source&apos;s textures are fetched from.
+**Default**: ``&quot;WuWa&quot;``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="257" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a56696b3a3137daf444c348585b0e792a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::downloadCharFolder</definition>
+        <argsstring></argsstring>
+        <name>downloadCharFolder</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::downloadCharFolder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The source character&apos;s download folder, version folder and file prefix under
+:cpp:member:`downloadGameFolder` -- ``Sanhua`` / ``2_5`` / ``Sanhua`` for
+``WuWa/Sanhua/2_5/SanhuaTexture&lt;hash&gt;.dds``. Empty (the default) registers no fallback
+download at all
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="268" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ace6c6362df51b2e92ec70293b90a79ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::downloadVersionFolder</definition>
+        <argsstring></argsstring>
+        <name>downloadVersionFolder</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::downloadVersionFolder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="269" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a92953604bf82311979e3ee1028e50cae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::downloadPrefix</definition>
+        <argsstring></argsstring>
+        <name>downloadPrefix</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::downloadPrefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="270" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a4106064c188ba6977d280b3e003ba4cb" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; AGRemapCore::WWMIFixerConfig::fallbackTextures</definition>
+        <argsstring></argsstring>
+        <name>fallbackTextures</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::fallbackTextures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Role -&gt; the source&apos;s texture hash of that role, for a planned role the mod has NO file
+for: the register is bound to the SOURCE&apos;s own game texture, downloaded as
+``&lt;downloadPrefix&gt;&lt;Role&gt;RemapDL.dds`` into the mod&apos;s texture folder :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The mod&apos;s UVs are the source&apos;s, so what an unbound register samples on the target&apos;s draw
+-- the TARGET&apos;s texture -- is wrong by construction: the red-camellia mod ships no bodice
+or skirt mask, and the Exorcist&apos;s mask at its UVs put skin codes over cloth, a reddish hue
+over the whole body while every diffuse was right (2026-09-19). The same reasoning as the
+GI templates&apos; texture donor. A role whose hash BOTH skins bind needs no entry: the target&apos;s
+texture is the source&apos;s. Empty (the default) binds nothing for a missing role
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="288" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a3aa40d3d02f354b4ee403b0eb5f98355" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::optional&lt; std::string &gt;(const std::string &amp;file)&gt;</type>
+        <definition>std::function&lt;std::optional&lt;std::string&gt;(const std::string&amp; file)&gt; AGRemapCore::WWMIFixerConfig::identifyTexture</definition>
+        <argsstring></argsstring>
+        <name>identifyTexture</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::identifyTexture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+An optional hook that names the texture hash a mod file IS -- pixel identity with one of
+the game&apos;s own textures -- for a file no hash names and whose name says something else.
+The prototype measures this by image correlation against the download folder
+(``Component6_Diffuse.dds`` of one mod is the ``ps-t5`` ramp by its pixels, not the iris
+its name says). Empty skips the step
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="300" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1add1021102681615023947ad7d5195561" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::uint8_t&gt; &gt; AGRemapCore::WWMIFixerConfig::textureThumbprints</definition>
+        <argsstring></argsstring>
+        <name>textureThumbprints</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::textureThumbprints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The game&apos;s own textures by hash, each as a THUMBPRINT -- a :cpp:member:`thumbprintSize`
+square grayscale box average of the decoded file, generated from the character&apos;s download
+folder by ``Tools/Misc/Diagnostics/wwmiTextureThumbs.py``. A mod file no hash names is
+decoded, thumbprinted the same way and correlated against every entry: it IS the texture
+it correlates at least :cpp:member:`identityMin` with when every other entry stays under
+:cpp:member:`identityGap`. Measured on the cloak mod&apos;s 19 files, 16 x 16 grayscale makes
+the same decision as a full-size colour correlation on every one, and needs no download.
+Consulted after :cpp:member:`identifyTexture`; empty skips the step
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="315" column="28" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a706d3917877967ca8f9579444fce3896" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::WWMIFixerConfig::thumbprintSize</definition>
+        <argsstring></argsstring>
+        <name>thumbprintSize</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::thumbprintSize</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>The side of a thumbprint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>16</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="320" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1af925e00a15cd8cdfd2135768f9122e07" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double AGRemapCore::WWMIFixerConfig::identityMin</definition>
+        <argsstring></argsstring>
+        <name>identityMin</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::identityMin</qualifiedname>
+        <initializer>= 0.97</initializer>
+        <briefdescription>
+<para>The correlation a file needs with ONE thumbprint to be that texture. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>0.97</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="325" column="16" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab2eb2e64367fc2a00c8c140745b4769e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double AGRemapCore::WWMIFixerConfig::identityGap</definition>
+        <argsstring></argsstring>
+        <name>identityGap</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::identityGap</qualifiedname>
+        <initializer>= 0.90</initializer>
+        <briefdescription>
+<para>The correlation every OTHER thumbprint must stay under. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>0.90</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="330" column="16" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a4ef719aa694142f97f1f1311889edc53" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::WWMIFixerConfig::zeroShapeKeyStream</definition>
+        <argsstring></argsstring>
+        <name>zeroShapeKeyStream</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::zeroShapeKeyStream</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether every remapped draw binds a zero shape-key offset stream (item 3 above). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="335" column="14" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a4c0cbfa2281a9c72305762fde40ce5f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::shapeKeyStreamReg</definition>
+        <argsstring></argsstring>
+        <name>shapeKeyStreamReg</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::shapeKeyStreamReg</qualifiedname>
+        <initializer>= &quot;vb6&quot;</initializer>
+        <briefdescription>
+<para>The register the game reads that stream from. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>"vb6"</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="340" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1af78fbf4f792428e35486ea76a572ef51" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::WWMIFixerConfig::shapeKeyStride</definition>
+        <argsstring></argsstring>
+        <name>shapeKeyStride</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::shapeKeyStride</qualifiedname>
+        <initializer>= 24</initializer>
+        <briefdescription>
+<para>Bytes per vertex of that stream, off the frame dump&apos;s <computeroutput>vb6</computeroutput> layout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>24</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="345" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab0b3c94cd32d5d67a1c4917aaa72cedf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::WWMIFixerConfig::hiddenObjs</definition>
+        <argsstring></argsstring>
+        <name>hiddenObjs</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::hiddenObjs</qualifiedname>
+        <initializer>= {&quot;shapekeyOffsets&quot;, &quot;shapekeyScale&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The mod objects (of :cpp:struct:`WWMIParserConfig`&apos;s hash-only ones) whose sections are
+commented out of the mod&apos;s own text and copied nowhere. **Default**: the two shape-key
+overrides -- the maintainer&apos;s working hand remap has them off, and the mod&apos;s keys are
+sized for the source&apos;s shape-key vertex count, not the target&apos;s
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="356" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="356" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a108aff0effe591a3f937343a506eb8c7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::blendReg</definition>
+        <argsstring></argsstring>
+        <name>blendReg</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::blendReg</qualifiedname>
+        <initializer>= &quot;vb4&quot;</initializer>
+        <briefdescription>
+<para>The register the mod&apos;s blend buffer is bound at. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>"vb4"</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="361" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="361" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1afebf851a66702b21f8ae5565660b4842" prot="public" static="no" mutable="no">
+        <type>std::map&lt; int, std::vector&lt; int &gt; &gt;</type>
+        <definition>std::map&lt;int, std::vector&lt;int&gt; &gt; AGRemapCore::WWMIFixerConfig::sourceVgMaps</definition>
+        <argsstring></argsstring>
+        <name>sourceVgMaps</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::sourceVgMaps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The SOURCE character&apos;s ``vg_map`` per component -- that component&apos;s own bone indices to the
+merged skeleton&apos;s, as ``WWMI-Assets``&apos; ``Metadata.json`` holds it. Needed only for a mod
+from before WWMI grew the merged skeleton (a ``WWMI ALPHA-2 INI``, ``required_wwmi_version``
+0.7): such a mod&apos;s sections carry no ``vg_offset``, no merge and none of the merged-skeleton
+resources, because a draw could then only address the bones the GAME hands it for that
+component -- so its ``Blend.buf`` holds each component&apos;s OWN indices, not the merged ones
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+With this, such a mod&apos;s blend is read per component and lifted through the map before the
+library&apos;s row is applied, and the fix supplies the merged skeleton the mod lacks. Without
+it, the fix REFUSES a mod of that shape rather than remapping local indices as if they were
+merged, which scrambles every bone of the body (SanhuaExorcist3 in game: &quot;the body became a
+noodle mess&quot;, 2026-09-19)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="381" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a758f2bfc3ee3abb1ba148ae6a7c3af1c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::WWMIFixerConfig::mergedSkeletonSlots</definition>
+        <argsstring></argsstring>
+        <name>mergedSkeletonSlots</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::mergedSkeletonSlots</qualifiedname>
+        <initializer>= 768</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The float4 slots of the merged skeleton buffers the fix declares for a legacy mod -- WWMI
+Tools&apos; own template&apos;s size, whatever the character&apos;s bone count. **Default**: ``768``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="390" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a94ddfc5f78f130299e3d44719cf0e76d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::boneDataFilter</definition>
+        <argsstring></argsstring>
+        <name>boneDataFilter</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::boneDataFilter</qualifiedname>
+        <initializer>= &quot;3381.7777&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+WWMI&apos;s marker on the game&apos;s bone-data constant buffer, which a legacy mod&apos;s supplied merge
+is gated on so a pass with something else in that slot cannot merge junk.
+**Default**: ``&quot;3381.7777&quot;``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="400" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="400" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aaf8a9b191d52f166a43769f463dcd2d1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::sharedResourcesList</definition>
+        <argsstring></argsstring>
+        <name>sharedResourcesList</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::sharedResourcesList</qualifiedname>
+        <initializer>= &quot;CommandListOverrideSharedResources&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The command list every slot section runs to bind the mod&apos;s buffers; the texture command
+list and the zero stream are added right after it. **Default**:
+``&quot;CommandListOverrideSharedResources&quot;``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="410" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="410" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1abe6af6d31e4c2a78b4c4924470c86b91" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::slotPrefix</definition>
+        <argsstring></argsstring>
+        <name>slotPrefix</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::slotPrefix</qualifiedname>
+        <initializer>= &quot;component&quot;</initializer>
+        <briefdescription>
+<para>The mod object prefix of a draw slot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>"component"</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="415" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="415" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1afde91c6aa83f59b0dfb96a924e43ce81" prot="public" static="no" mutable="no">
+        <type>std::map&lt; int, std::string &gt;</type>
+        <definition>std::map&lt;int, std::string&gt; AGRemapCore::WWMIFixerConfig::sourceLabels</definition>
+        <argsstring></argsstring>
+        <name>sourceLabels</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::sourceLabels</qualifiedname>
+        <briefdescription>
+<para>Source component -&gt; a label for the log, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>"bangs"</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="420" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="420" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a644c193e090b6d6ba4bf83caa0f86628" prot="public" static="no" mutable="no">
+        <type>std::map&lt; int, std::string &gt;</type>
+        <definition>std::map&lt;int, std::string&gt; AGRemapCore::WWMIFixerConfig::targetLabels</definition>
+        <argsstring></argsstring>
+        <name>targetLabels</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::targetLabels</qualifiedname>
+        <briefdescription>
+<para>Target slot -&gt; a label for the log, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>"torso, arms, ribbons"</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="425" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="425" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a0ea8eef2b929fa4c8009bd32068c36a5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::copyPreamble</definition>
+        <argsstring></argsstring>
+        <name>copyPreamble</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::copyPreamble</qualifiedname>
+        <briefdescription>
+<para>What every generated <computeroutput>.ini</computeroutput> copy opens with <ndash/> see :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ab7ebcd6914b22794cef0bb9f2027d854" kindref="member">GIMIFixer::copyPreamble</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="430" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="430" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What one Wuthering Waves remap does differently -- everything :cpp:func:`makeWWMIFixer` needs
+that is not the same for every pair of WWMI characters :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A WWMI character is drawn in SEVERAL COMPONENTS (bangs, hair, face, torso, ...), each a range of
+one index buffer matched by the character&apos;s ``vb0`` hash plus a ``match_first_index``, and all
+of them skinned in ONE merged skeleton that the mod&apos;s ``[TextureOverrideComponentN]`` sections
+assemble at draw time from ``$\\WWMIv1\\vg_offset`` / ``vg_count``. So a remap between two WuWa
+characters is a **multi-component onto multi-component** remap, and every WuWa pair is: it
+never splits or merges buffers the way the GIMI templates do. What it does instead, per
+``.ini`` file (read off ``Tools/Misc/Prototypes/sanhuaExorcistFix.py``, confirmed in game on
+four Sanhua mods on 2026-09-19):
+
+#. **retargets every draw slot the mod has a section for** onto the target slot
+   :cpp:member:`plan` names -- the target&apos;s ``vb0`` hash, ``match_first_index``,
+   ``match_index_count``, ``vg_offset`` and ``vg_count`` written over the source&apos;s (the last
+   four out of the library&apos;s four ``Indices``-shaped WuWa tables), the shape-key checksum
+   remapped through :cpp:class:`ShapeKeyChecksums`, and the section and everything it calls
+   renamed with the fix suffix. A source component the plan does not name is DROPPED (its graph
+   removed), the shape-key sections are hidden (see :cpp:member:`hiddenObjs`)
+#. **binds the mod&apos;s textures by register on the target&apos;s draws**, never by hash: WuWa
+   texture hashes drift with both streaming and game version, so a hash override written today
+   is dead tomorrow. Each drawn source component gets a command list that binds the mod&apos;s
+   texture of each role the plan asks for, gated on the target slot&apos;s pixel shaders
+   (:cpp:member:`slotPasses`, each tagged by a ``[ShaderOverride]`` of its own), and run right
+   after the mod&apos;s shared-resource override. Which of the mod&apos;s files plays which role is
+   decided by a run-level index of every ``.dds`` under the mod (see :cpp:member:`roles`)
+#. **binds a zero shape-key offset stream** on every remapped draw: the torso, face and eye
+   shaders read the game&apos;s live per-vertex shape-key offsets out of a sixth vertex stream BY
+   VERTEX ID, which WWMI never rebinds, so a mod vertex through those slots would take
+   whatever offset the target&apos;s buffer holds at the same index
+#. **remaps the blend** (:cpp:member:`blendReg`, collected out of the shared-resource override)
+   through the library&apos;s vertex-group row for the pair -- an 8-byte-a-vertex WWMI layout,
+   not GIMI&apos;s 32
+#. **writes one remapped section per target draw per file**: several source components landing
+   on one target slot (a skin with one torso slot for the source&apos;s arm skin, bodice and skirt)
+   collide, and a file holding two remapped sections on one draw rendered the whole body wavy.
+   The second claimant of a slot lands in a further ``.ini`` group, written as
+   ``&lt;name&gt;RemapFix1.ini`` -- the API&apos;s merge, exactly as a GIMI merge does it
+#. **skips the target slots nothing is drawn through**, bones still merged, so the skin&apos;s own
+   geometry does not sit on top of the mod&apos;s
+
+What is deliberately NOT here yet: downloads of the target&apos;s own components (a mod missing a
+component draws nothing there), and retargeting the shape keys rather than hiding them
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="80" column="5" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="80" bodyend="431"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a108aff0effe591a3f937343a506eb8c7" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>blendReg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a94ddfc5f78f130299e3d44719cf0e76d" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>boneDataFilter</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a0ea8eef2b929fa4c8009bd32068c36a5" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>copyPreamble</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab323d24041a1319407c23388e5b63e4e" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>createdTextures</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a56696b3a3137daf444c348585b0e792a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>downloadCharFolder</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab9d29e393f4a5c2e406a745ef3d71d55" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>downloadGameFolder</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a92953604bf82311979e3ee1028e50cae" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>downloadPrefix</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ace6c6362df51b2e92ec70293b90a79ec" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>downloadVersionFolder</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a4106064c188ba6977d280b3e003ba4cb" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>fallbackTextures</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae8378a27adad2663800c7be7b2a536a3" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>filterBase</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a020c01106d4c7b635d48a408e276ebad" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>filterIndices</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1accc4ba3fc20e81e3015e80416c06bca3" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>filterStep</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab0b3c94cd32d5d67a1c4917aaa72cedf" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>hiddenObjs</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a3aa40d3d02f354b4ee403b0eb5f98355" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>identifyTexture</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab2eb2e64367fc2a00c8c140745b4769e" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>identityGap</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1af925e00a15cd8cdfd2135768f9122e07" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>identityMin</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a758f2bfc3ee3abb1ba148ae6a7c3af1c" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>mergedSkeletonSlots</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a35e39e37eb7c09b4dca5f93c7183d140" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>plan</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1acf030c1b2001058e06dd6c474d4640dc" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>roles</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a4c0cbfa2281a9c72305762fde40ce5f0" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>shapeKeyStreamReg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1af78fbf4f792428e35486ea76a572ef51" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>shapeKeyStride</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aaf8a9b191d52f166a43769f463dcd2d1" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>sharedResourcesList</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a7b1bc5a2870168077a634aeda96f7efd" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>slotPasses</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1abe6af6d31e4c2a78b4c4924470c86b91" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>slotPrefix</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1afde91c6aa83f59b0dfb96a924e43ce81" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>sourceLabels</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1afebf851a66702b21f8ae5565660b4842" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>sourceVgMaps</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1acd73bbe44539d9630e1b1c1c5539a3d0" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>targetId</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a644c193e090b6d6ba4bf83caa0f86628" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>targetLabels</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1add1021102681615023947ad7d5195561" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>textureThumbprints</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a706d3917877967ca8f9579444fce3896" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>thumbprintSize</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae28be3a422ec6c5e358409867d4b95aa" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>typeRoles</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a46ed6c4ae931ef41f7f43bc9a3bd0e38" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>version</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a4ef719aa694142f97f1f1311889edc53" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>zeroShapeKeyStream</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

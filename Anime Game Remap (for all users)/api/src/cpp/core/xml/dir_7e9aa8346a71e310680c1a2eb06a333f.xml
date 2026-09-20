@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_7e9aa8346a71e310680c1a2eb06a333f" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/Sanhua</compoundname>
+    <innerfile refid="_sanhua_parser_8h">SanhuaParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Sanhua/"/>
+  </compounddef>
+</doxygen>

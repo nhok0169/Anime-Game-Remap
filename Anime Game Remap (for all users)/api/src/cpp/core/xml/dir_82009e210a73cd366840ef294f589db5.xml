@@ -9,6 +9,8 @@
     <innerdir refid="dir_9c7e0e95efb7c80e60ddcc13b23bd057">src/data/IniFixData/AyakaSpringbloom</innerdir>
     <innerdir refid="dir_0d4844e883933c324406494b26ceaecc">src/data/IniFixData/Barbara</innerdir>
     <innerdir refid="dir_55689a2f74de097d7544f31808fe514d">src/data/IniFixData/BarbaraSummertime</innerdir>
+    <innerdir refid="dir_b4083deb9ee5df384b03ac4be66b4787">src/data/IniFixData/Bennett</innerdir>
+    <innerdir refid="dir_f9dcce53c4497ea4a936644a43852d54">src/data/IniFixData/BennettAdventure</innerdir>
     <innerdir refid="dir_5f8bbb49ea673357d6c26a09abefdccd">src/data/IniFixData/CherryHuTao</innerdir>
     <innerdir refid="dir_b4360a2d43305491b1f926ff4a496e37">src/data/IniFixData/Diluc</innerdir>
     <innerdir refid="dir_fa2dd574e0a9a0fa92d1c8a0d97ee85c">src/data/IniFixData/DilucFlamme</innerdir>
@@ -39,6 +41,8 @@
     <innerdir refid="dir_b0dfb60aa61a00d5339e94e116f1657a">src/data/IniFixData/Raiden</innerdir>
     <innerdir refid="dir_ac530672aff6b0fa50c56afbb6386140">src/data/IniFixData/Rosaria</innerdir>
     <innerdir refid="dir_c33d5cf41e8ec8882fe4c67fe582f5ae">src/data/IniFixData/RosariaCN</innerdir>
+    <innerdir refid="dir_160d8dc6efabc1a2bd3995d0b032ad74">src/data/IniFixData/Sanhua</innerdir>
+    <innerdir refid="dir_0829a34d84b916b8bc1cc7aaf67f6c17">src/data/IniFixData/SanhuaExorcist</innerdir>
     <innerdir refid="dir_687e89e440e185377acd1d5ffec708a2">src/data/IniFixData/Shenhe</innerdir>
     <innerdir refid="dir_8fce15001df50b163403cf4a2468f78c">src/data/IniFixData/ShenheFrostFlower</innerdir>
     <innerdir refid="dir_a329c711a9879038a1ad248c8eb1276d">src/data/IniFixData/Xiangling</innerdir>
@@ -52,7 +56,9 @@
     <innerfile refid="_g_i_m_i_component_fixer_8cpp">GIMIComponentFixer.cpp</innerfile>
     <innerfile refid="_g_i_m_i_merge_fixer_8cpp">GIMIMergeFixer.cpp</innerfile>
     <innerfile refid="_jean_shading_8cpp">JeanShading.cpp</innerfile>
+    <innerfile refid="_mod_branches_8cpp">ModBranches.cpp</innerfile>
     <innerfile refid="_reg_val_checks_8cpp">RegValChecks.cpp</innerfile>
+    <innerfile refid="_w_w_m_i_fixer_8cpp">WWMIFixer.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

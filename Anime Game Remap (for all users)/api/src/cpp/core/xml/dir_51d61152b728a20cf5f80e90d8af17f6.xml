@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_51d61152b728a20cf5f80e90d8af17f6" kind="dir">
+    <compoundname>src/model/strategies/iniFixers/graphGroupEdits/resEdits</compoundname>
+    <innerfile refid="_res_edit_instantiation_8cpp">ResEditInstantiation.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/strategies/iniFixers/graphGroupEdits/resEdits/"/>
+  </compounddef>
+</doxygen>

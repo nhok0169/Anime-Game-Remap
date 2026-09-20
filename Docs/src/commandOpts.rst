@@ -139,29 +139,41 @@ Below are the supported types of mods
     be all lowercase
 
 .. list-table::
-   :widths: 25 25 50
+   :widths: 20 10 25 45
    :header-rows: 1
 
    * - Name
+     - Game
      - Aliases
      - Description
    * - **Amber**
+     - GI
      - | ColleisBestie, 
        | BaronBunny
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(amber)((?!cn).)*\]``
    * - **AmberCN**
+     - GI
      - | ColleisBestieCN, 
        | BaronBunnyCN
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(ambercn).*\]``
+   * - **Arlecchino**
+     - GI
+     - | Father, Knave,
+       | Perrie, Peruere,
+       | Harlequin
+     - | check if the .ini file contains a section matching the regex,
+       | ``^\s*\[\s*textureoverride.*(arlecchino).*\]``
    * - **Ayaka**
+     - GI
      - | Ayaya, 
        | NewArchonOfEternity, 
        | Yandere
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(ayaka)((?!(springbloom)).)*\]``
    * - **AyakaSpringBloom**
+     - GI
      - | AyakaMusketeer, 
        | AyayaFontaine, 
        | AyayaMusketeer, 
@@ -173,27 +185,25 @@ Below are the supported types of mods
        | YandereFontaine
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(ayakaspringbloom).*\]``
-   * - **Arlecchino**
-     - | Father, Knave,
-       | Perrie, Peruere,
-       | Harlequin
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(arlecchino).*\]``
    * - **Barbara**
+     - GI
      - | Idol, Healer
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(barbara)((?!summertime).)*\]``
    * - **BarbaraSummertime**
+     - GI
      - | IdolSummertime,
        | HealerSummertime,
        | BarbaraBikini
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(barbarasummertime).*\]``
    * - **Bennett**
+     - GI
      - | Benny
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(bennett)((?!adventure).)*\]``
    * - **BennettAdventure**
+     - GI
      - | AdventureBennett,
        | AdventureBenny,
        | BennettNatlan,
@@ -208,6 +218,7 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(bennettadventure).*\]``
    * - **CherryHuTao**
+     - GI
      - | 77thDirectoroftheWangshengFuneralParlorCherry, 
        | 77thDirectoroftheWangshengFuneralParlorLanternRite, 
        | Cherry77thDirectoroftheWangshengFuneralParlor, 
@@ -224,6 +235,7 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(cherryhutao|hutaocherry).*\]``
    * - **Diluc**
+     - GI
      - | AngelShareOwner, 
        | DarkNightBlaze, 
        | DawnWineryMaster, 
@@ -231,11 +243,13 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(diluc)((?!flamme).)*\]``
    * - **DilucFlamme**
+     - GI
      - | DarkNightHero, 
        | RedDeadOfTheNight
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(dilucflamme).*\]``
    * - **Fischl**
+     - GI
      - | FischlvonLuftschlossNarfidort, 
        | 8thGraderSyndrome, Amy, 
        | Chunibyo, 
@@ -248,6 +262,7 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(fischl)((?!highness).)*\]``
    * - **FischlHighness**
+     - GI
      - | ImmernachtreichPrincess, 
        | OzsPrincess, 
        | PrincessAmy, 
@@ -260,10 +275,12 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(fischlhighness).*\]``
    * - **Ganyu**
+     - GI
      - | Cocogoat
      - | check if the .ini file contains a section matching the regex,
        | ^\s*\[\s*textureoverride.*(ganyu)((?!(twilight)).)*\]
    * - **GanyuTwilight**
+     - GI
      - | GanyuLanternRite,
        | LanternRiteGanyu,
        | CocogoatTwilight,
@@ -272,30 +289,36 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(ganyutwilight).*\]``
    * - **HuTao**
+     - GI
      - | 77thDirectoroftheWangshengFuneralParlor, 
        | QiqiKidnapper
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride((?!cherry).)*(hutao)((?!cherry).)*\]``
    * - **Jean**
+     - GI
      - | KleesBabySitter, 
        | ActingGrandMaster
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(jean)((?!(cn|sea)).)*\]``
    * - **JeanCN**
+     - GI
      - | KleesBabySitterCN, 
        | ActingGrandMasterCN
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(jeancn)((?!sea).)*\]``
    * - **JeanSea**
+     - GI
      - | ActingGrandMasterSea,
        | KleesBabySitterSea
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(jeansea)((?!cn).)*\]``
    * - **Kaeya**
+     - GI
      - | DilucsBrother, CavalryCaptain
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(kaeya)((?!(sailwind)).)*\]``
    * - **KaeyaSailwind**
+     - GI
      - | DilucsBrotherSailwind, 
        | CavalryCaptainSailwind, 
        | TheftKaeya, TheftDilucsBrother, 
@@ -305,12 +328,14 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(kaeyasailwind).*\]``
    * - **Keqing**
+     - GI
      - | Kequeen,
        | ZhongliSimp
        | MoraxSimp
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(keqing)((?!(opulent)).)*\]``
    * - **KeqingOpulent**
+     - GI
      - | LanternRiteKeqing,
        | KeqingLaternRite,
        | CuterKequeen,
@@ -327,11 +352,13 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(keqingopulent).*\]``
    * - **Kirara**
+     - GI
      - | CatBox, KonomiyaExpress, 
        | Nekomata
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(kirara)((?!boots).)*\]``
    * - **KiraraBoots**
+     - GI
      - | CatBoxWithBoots, 
        | KonomiyaExpressInBoots, 
        | NekomataInBoots, 
@@ -339,23 +366,28 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(kiraraboots).*\]``
    * - **Klee**
+     - GI
      - | DestroyerofWorlds, 
        | DodocoBuddy, 
        | SparkKnight
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(klee)((?!blossomingstarlight).)*\]``
    * - **KleeBlossomingStarlight**
+     - GI
      - | DodocoLittleWitchBuddy, 
        | FlandreScarlet, 
        | MagicDestroyerofWorlds, 
-       | RedVelvetMage
+       | RedVelvetMage, 
+       | ScarletFlandre
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(kleeblossomingstarlight).*\]``
    * - **Lisa**
+     - GI
      - | CutieLibrarian
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(lisa)((?!student).)*\]``
    * - **LisaStudent**
+     - GI
      - | LisaSumeru, 
        | SumeruLisa, 
        | AkademiyaLisa, 
@@ -363,18 +395,22 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(lisastudent).*\]``
    * - **Mona**
+     - GI
      - | BigHat, NoMora
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(mona)((?!(cn)).)*\]``
    * - **MonaCN**
+     - GI
      - | NoMoraCN, BigHatCN
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(monacn).*\]``
    * - **Nilou**
+     - GI
      - | BloomGirl, Dancer, Morgiana
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(nilou)((?!(breeze)).)*\]``
    * - **NilouBreeze**
+     - GI
      - | BloomGirlBreeze, 
        | BloomGirlFairy, 
        | DancerBreeze, 
@@ -390,11 +426,13 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(niloubreeze).*\]``
    * - **Ningguang**
+     - GI
      - | GeoMommy,
        | SugarMommy
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(ningguang)((?!(orchid)).)*\]``
    * - **NingguangOrchid**
+     - GI
      - | NingguangLanternRite,
        | LanternRiteNingguang,
        | GeoMommyOrchid,
@@ -406,6 +444,7 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(ningguangorchid).*\]``
    * - **Raiden**
+     - GI
      - | Ei, CrydenShogun, SmolEi, 
        | RaidenEi, Shogun, Shotgun, 
        | RaidenShotgun,
@@ -413,19 +452,38 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(raiden|shogun).*\]``
    * - **Rosaria**
+     - GI
      - | GothGirl
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(rosaria)((?!(cn)).)*\]``
    * - **RosariaCN**
+     - GI
      - | GothGirlCN
      - |  check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(rosariacn).*\]``
+   * - **Sanhua**
+     - WuWa
+     - | JinhsiBodyguard
+     - | check if the .ini file contains a section with the character's vertex buffer hash, eg. ``hash = 33e4890f``, since a WWMI .ini names its sections after the draw slot (``[TextureOverrideComponent0]``) rather than after the character
+   * - **SanhuaExorcist**
+     - WuWa
+     - | ExorcistJinhsiBodyguard, 
+       | ExorcistSanhua, 
+       | JinhsiBodyguardExorcist, 
+       | JinhsiBodyguardMoonChasing, 
+       | MoonChasingJinhsiBodyguard, 
+       | MoonChasingSanhua, 
+       | SanhuaMoonChasing, 
+       | SanhuaSkin1
+     - | check if the .ini file contains a section with the character's vertex buffer hash, eg. ``hash = b101dcf3``, since a WWMI .ini names its sections after the draw slot (``[TextureOverrideComponent0]``) rather than after the character
    * - **Shenhe**
+     - GI
      - | YelansBestie,
        | RedRopes
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(shenhe)((?!frostflower).)*\]``
    * - **ShenheFrostFlower**
+     - GI
      - | ShenheLanternRite,
        | LanternRiteShenhe,
        | YelansBestieFrostFlower,
@@ -437,6 +495,7 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(shenhefrostflower).*\]``
    * - **Xiangling**
+     - GI
      - | CookingFanatic,
        | HeadChefoftheWanminRestaurant,
        | ChefMaosDaughter,
@@ -444,6 +503,7 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(xiangling)((?!cheer|newyear).)*\]``
    * - **XianglingCheer**
+     - GI
      - | XianglingLanternRite,
        | LanternRiteXiangling,
        | CookingFanaticLanternRite,
@@ -457,12 +517,14 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(xiangling(cheer|newyear)).*\]``
    * - **Xingqiu**
+     - GI
      - | Bookworm, ChongyunsBestie, 
        | GuhuaGeek, 
        | SecondSonofTheFeiyunCommerceGuild
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(xingqiu)((?!bamboo).)*\]``
    * - **XingqiuBamboo**
+     - GI
      - | BookwormBamboo, 
        | BookwormLanternRite, 
        | ChongyunsBestieBamboo, 
@@ -480,11 +542,13 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(xingqiubamboo).*\]``
    * - **Yelan**
+     - GI
      - | ShenhesBestie,
        | TsaritsaJacketStealer
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(yelan)((?!tranquil).)*\]``
    * - **YelanTranquil**
+     - GI
      - | YelanTranquilBanquet,
        | TranquilBanquetYelan,
        | YelanSummer,
@@ -492,6 +556,7 @@ Below are the supported types of mods
        | ShenhesSummerBestie,
        | TsaritsaJacketStealerButDoesntNeedItSinceItIsSummer
      - | check if the .ini file contains a section matching the regex,
+       | ``^\s*\[\s*textureoverride.*(yelantranquil).*\]``
        | ``^\s*\[\s*textureoverride.*(yelantranquil).*\]``
 
 

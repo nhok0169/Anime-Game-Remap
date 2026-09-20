@@ -40,9 +40,14 @@
     <innerclass refid="class_a_g_remap_core_1_1_base_tex_filter" prot="public">AGRemapCore::BaseTexFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_tokenizer" prot="public">AGRemapCore::BaseTokenizer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_trie" prot="public">AGRemapCore::BaseTrie</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_bennett_adventure_fixer" prot="public">AGRemapCore::BennettAdventureFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_bennett_adventure_parser" prot="public">AGRemapCore::BennettAdventureParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_bennett_fixer" prot="public">AGRemapCore::BennettFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_bennett_parser" prot="public">AGRemapCore::BennettParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_bi_map" prot="public">AGRemapCore::BiMap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_binary_file" prot="public">AGRemapCore::BinaryFile</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_blend_file" prot="public">AGRemapCore::BlendFile</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_branch_val" prot="public">AGRemapCore::BranchVal</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_buf_base_float" prot="public">AGRemapCore::BufBaseFloat</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_buf_base_int" prot="public">AGRemapCore::BufBaseInt</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_buf_data_type" prot="public">AGRemapCore::BufDataType</innerclass>
@@ -115,6 +120,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_range" prot="public">AGRemapCore::GraphemeRange</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_group_edit" prot="public">AGRemapCore::GraphGroupEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_group_remap" prot="public">AGRemapCore::GraphGroupRemap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_group_remove" prot="public">AGRemapCore::GraphGroupRemove</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_inherit" prot="public">AGRemapCore::GraphInherit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_part_edit" prot="public">AGRemapCore::GraphPartEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_remove" prot="public">AGRemapCore::GraphRemove</innerclass>
@@ -148,6 +154,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_if_template_tree" prot="public">AGRemapCore::IfTemplateTree</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_i_ini_graph_groups" prot="public">AGRemapCore::IIniGraphGroups</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_inc_id_generator" prot="public">AGRemapCore::IncIdGenerator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_index_counts" prot="public">AGRemapCore::IndexCounts</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_indices" prot="public">AGRemapCore::Indices</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_boiler_plate" prot="public">AGRemapCore::IniBoilerPlate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_classifier" prot="public">AGRemapCore::IniClassifier</innerclass>
@@ -229,6 +236,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_lru_cache" prot="public">AGRemapCore::LruCache</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_material_band_remap_filter" prot="public">AGRemapCore::MaterialBandRemapFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_assets" prot="public">AGRemapCore::ModAssets</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mod_branches" prot="public">AGRemapCore::ModBranches</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_data_assets" prot="public">AGRemapCore::ModDataAssets</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_dict_assets" prot="public">AGRemapCore::ModDictAssets</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_mapped_assets" prot="public">AGRemapCore::ModMappedAssets</innerclass>
@@ -264,12 +272,14 @@
     <innerclass refid="class_a_g_remap_core_1_1_reg_add" prot="public">AGRemapCore::RegAdd</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_asset_remap" prot="public">AGRemapCore::RegAssetRemap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_bottom_add" prot="public">AGRemapCore::RegBottomAdd</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_branch_add" prot="public">AGRemapCore::RegBranchAdd</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_delimited_add" prot="public">AGRemapCore::RegDelimitedAdd</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_fill_missing" prot="public">AGRemapCore::RegFillMissing</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_new_vals" prot="public">AGRemapCore::RegNewVals</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_part_edit" prot="public">AGRemapCore::RegPartEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_remap" prot="public">AGRemapCore::RegRemap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_remove" prot="public">AGRemapCore::RegRemove</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_restrict" prot="public">AGRemapCore::RegRestrict</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_surrounded_add" prot="public">AGRemapCore::RegSurroundedAdd</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_val_checks" prot="public">AGRemapCore::RegValChecks</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_blend_replace" prot="public">AGRemapCore::RemapBlendReplace</innerclass>
@@ -299,8 +309,13 @@
     <innerclass refid="class_a_g_remap_core_1_1_rosaria_fixer" prot="public">AGRemapCore::RosariaFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_rosaria_parser" prot="public">AGRemapCore::RosariaParser</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_row" prot="public">AGRemapCore::Row</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_sanhua_exorcist_fixer" prot="public">AGRemapCore::SanhuaExorcistFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_sanhua_exorcist_parser" prot="public">AGRemapCore::SanhuaExorcistParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_sanhua_fixer" prot="public">AGRemapCore::SanhuaFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_sanhua_parser" prot="public">AGRemapCore::SanhuaParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_section_iter_data" prot="public">AGRemapCore::SectionIterData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_section_iter_query_data" prot="public">AGRemapCore::SectionIterQueryData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_shape_key_checksums" prot="public">AGRemapCore::ShapeKeyChecksums</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_shenhe_fixer" prot="public">AGRemapCore::ShenheFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_shenhe_frost_flower_fixer" prot="public">AGRemapCore::ShenheFrostFlowerFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_shenhe_frost_flower_parser" prot="public">AGRemapCore::ShenheFrostFlowerParser</innerclass>
@@ -335,18 +350,23 @@
     <innerclass refid="struct_a_g_remap_core_1_1_v_g_component_spec" prot="public">AGRemapCore::VGComponentSpec</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_v_g_component_split" prot="public">AGRemapCore::VGComponentSplit</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_v_g_component_split_stats" prot="public">AGRemapCore::VGComponentSplitStats</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_v_g_counts" prot="public">AGRemapCore::VGCounts</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_v_g_merge_component_files" prot="public">AGRemapCore::VGMergeComponentFiles</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec" prot="public">AGRemapCore::VGMergeComponentSpec</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_v_g_merge_group_config" prot="public">AGRemapCore::VGMergeGroupConfig</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder" prot="public">AGRemapCore::VGMergeGroupResBuilder</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_v_g_merge_group_resource" prot="public">AGRemapCore::VGMergeGroupResource</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_v_g_merge_object" prot="public">AGRemapCore::VGMergeObject</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_v_g_offsets" prot="public">AGRemapCore::VGOffsets</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_v_g_remap" prot="public">AGRemapCore::VGRemap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace" prot="public">AGRemapCore::VGRemapBlendReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_v_g_remaps" prot="public">AGRemapCore::VGRemaps</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_v_g_split_group_config" prot="public">AGRemapCore::VGSplitGroupConfig</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder" prot="public">AGRemapCore::VGSplitGroupResBuilder</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_v_g_split_group_resource" prot="public">AGRemapCore::VGSplitGroupResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_w_w_m_i_builder" prot="public">AGRemapCore::WWMIBuilder</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config" prot="public">AGRemapCore::WWMIFixerConfig</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" prot="public">AGRemapCore::WWMIParserConfig</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_xiangling_cheer_fixer" prot="public">AGRemapCore::XianglingCheerFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_xiangling_cheer_parser" prot="public">AGRemapCore::XianglingCheerParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_xiangling_fixer" prot="public">AGRemapCore::XianglingFixer</innerclass>
@@ -1003,6 +1023,30 @@ Like the boss ids, nothing classifies a ``.ini`` file AS one of these; the skin 
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e5b87c395273646f1f7267f2de3ba63" prot="public">
+          <name>Sanhua</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Sanhua from WuWa (Wuthering Waves) -- the first WWMI mod type (2026-09-19) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A WWMI character is drawn as several ``Component N`` slots of ONE vertex buffer sharing ONE
+merged skeleton (each slot&apos;s ``vg_map`` in WWMI-Assets&apos; ``Metadata.json`` maps its bones into
+it), so unlike :cpp:enumerator:`YelanTranquil` it is a single-component mod type whose
+slots are the ``type`` column of :cpp:class:`Indices`, :cpp:class:`IndexCounts`,
+:cpp:class:`VGOffsets` and :cpp:class:`VGCounts`. Built by :cpp:class:`WWMIBuilder`
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa20a11d20a03cacc27e48688909994c25" prot="public">
+          <name>SanhuaExorcist</name>
+          <briefdescription>
+<para>Sanhua&apos;s Exorcist skin from WuWa (WWMI-Assets&apos; <computeroutput>SanhuaSkin1</computeroutput>) <ndash/> see :cpp:enumerator:<computeroutput>Sanhua</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1014,7 +1058,7 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="38" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="38" bodyend="334"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="38" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="38" bodyend="353"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274e" prot="public" static="no" strong="yes">
         <type></type>
@@ -1537,7 +1581,7 @@ keyed by that component&apos;s own :cpp:enum:`ModTypeId`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="884" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="884" bodyend="888" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="246" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="1266" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="1266" bodyend="1270" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="349" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1571,7 +1615,78 @@ for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="1366" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="1366" bodyend="1370" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="238" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="1815" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="1815" bodyend="1819" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="259" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1af12ae26e99e06da23b5ca21f45b3b3eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp; AGRemapCore::sanhuaTextureThumbprints</definition>
+        <argsstring>()</argsstring>
+        <name>sanhuaTextureThumbprints</name>
+        <qualifiedname>AGRemapCore::sanhuaTextureThumbprints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The thumbprints of Sanhua&apos;s own textures (``Data/Mod Downloads/WuWa/Sanhua/2_5``), by hash --
+see :cpp:member:`WWMIFixerConfig::textureThumbprints`. Generated by
+``Tools/Misc/Diagnostics/wwmiTextureThumbs.py``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Sanhua/SanhuaThumbprints.cpp" line="26" column="30" bodyfile="src/data/IniFixData/Sanhua/SanhuaThumbprints.cpp" bodystart="26" bodyend="391" declfile="include/AGRemapCore/data/IniFixData/Sanhua/SanhuaThumbprints.h" declline="32" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1ab0c2c3c4b3706fe534ad497ae01b276d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp; AGRemapCore::sanhuaExorcistTextureThumbprints</definition>
+        <argsstring>()</argsstring>
+        <name>sanhuaExorcistTextureThumbprints</name>
+        <qualifiedname>AGRemapCore::sanhuaExorcistTextureThumbprints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The thumbprints of SanhuaExorcist&apos;s own textures (``Data/Mod Downloads/WuWa/SanhuaExorcist/2_5``),
+by hash -- see :cpp:member:`WWMIFixerConfig::textureThumbprints`. Generated by
+``Tools/Misc/Diagnostics/wwmiTextureThumbs.py``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/SanhuaExorcist/SanhuaExorcistThumbprints.cpp" line="26" column="30" bodyfile="src/data/IniFixData/SanhuaExorcist/SanhuaExorcistThumbprints.cpp" bodystart="26" bodyend="337" declfile="include/AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistThumbprints.h" declline="32" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a211bbd07ca178810a023b1f78ded1dd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::makeWWMIFixer</definition>
+        <argsstring>(WWMIFixerConfig config)</argsstring>
+        <name>makeWWMIFixer</name>
+        <qualifiedname>AGRemapCore::makeWWMIFixer</qualifiedname>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config" kindref="compound">WWMIFixerConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the fixer that remaps a mod of one Wuthering Waves character onto another -- see
+:cpp:struct:`WWMIFixerConfig`. One fixer for the pair: every source component of the mod&apos;s
+``.ini`` is handled by it, and the target&apos;s components are draw slots rather than mod types
+of their own
+</verbatim> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pair&apos;s config </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/WWMIFixer.cpp" line="1944" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="1944" bodyend="1948" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="444" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1659,6 +1774,36 @@ through :cpp:class:`Indices`; see there for why
         </inbodydescription>
         <location file="src/data/IniParseData/GIMIComponentParser.cpp" line="318" column="30" bodyfile="src/data/IniParseData/GIMIComponentParser.cpp" bodystart="318" bodyend="334" declfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" declline="186" declcolumn="30"/>
       </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a71353ecec052c71edfa6c5b90da4c4e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::makeWWMIParser</definition>
+        <argsstring>(WWMIParserConfig config)</argsstring>
+        <name>makeWWMIParser</name>
+        <qualifiedname>AGRemapCore::makeWWMIParser</qualifiedname>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" kindref="compound">WWMIParserConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the parser for a mod of one Wuthering Waves character -- see :cpp:struct:`WWMIParserConfig`
+</verbatim> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The character&apos;s config </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniParseData/WWMIParser.cpp" line="121" column="30" bodyfile="src/data/IniParseData/WWMIParser.cpp" bodystart="121" bodyend="132" declfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" declline="98" declcolumn="30"/>
+      </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a691d142e23d6f610f8f9831ce21bce5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
         <definition>std::string AGRemapCore::renderIfContentPart</definition>
@@ -1704,7 +1849,7 @@ in true positional order
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iftemplate/IfTemplateRender.cpp" line="23" column="17" bodyfile="src/model/iftemplate/IfTemplateRender.cpp" bodystart="23" bodyend="42" declfile="include/AGRemapCore/model/iftemplate/IfTemplateRender.h" declline="37" declcolumn="17"/>
+        <location file="src/model/iftemplate/IfTemplateRender.cpp" line="23" column="17" bodyfile="src/model/iftemplate/IfTemplateRender.cpp" bodystart="23" bodyend="48" declfile="include/AGRemapCore/model/iftemplate/IfTemplateRender.h" declline="37" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a8c4d94255932b5ce14e08272853059fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1779,7 +1924,7 @@ opening ``if``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iftemplate/IfTemplateRender.cpp" line="45" column="17" bodyfile="src/model/iftemplate/IfTemplateRender.cpp" bodystart="45" bodyend="102" declfile="include/AGRemapCore/model/iftemplate/IfTemplateRender.h" declline="69" declcolumn="17"/>
+        <location file="src/model/iftemplate/IfTemplateRender.cpp" line="51" column="17" bodyfile="src/model/iftemplate/IfTemplateRender.cpp" bodystart="51" bodyend="108" declfile="include/AGRemapCore/model/iftemplate/IfTemplateRender.h" declline="69" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1ab8a2e9664037aee26807d0e777ae4568" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1857,7 +2002,7 @@ draws one source object needs no member at all: its index buffer is already righ
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iniresources/VGMergeGroupResource.cpp" line="49" column="10" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="49" bodyend="149" declfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" declline="135" declcolumn="10"/>
+        <location file="src/model/iniresources/VGMergeGroupResource.cpp" line="49" column="10" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="49" bodyend="151" declfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" declline="149" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a27bf55b7bda9b241d64b7ce37fd368a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1936,7 +2081,7 @@ and ``texcoord`` (at most one each) and ``buf`` (the index buffers, any number, 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="78" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="78" bodyend="156" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="102" declcolumn="10"/>
+        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="97" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="97" bodyend="178" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="116" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1acfa9613659a36bc4765c5f2fca7f218f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>

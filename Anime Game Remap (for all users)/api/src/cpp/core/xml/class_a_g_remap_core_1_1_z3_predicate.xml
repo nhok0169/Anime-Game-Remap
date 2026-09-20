@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="172" column="29" bodyfile="include/AGRemapCore/tools/z3/Z3Predicate.h" bodystart="172" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="201" column="29" bodyfile="include/AGRemapCore/tools/z3/Z3Predicate.h" bodystart="201" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="friend">
@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="177" column="26" bodyfile="include/AGRemapCore/tools/z3/Z3Predicate.h" bodystart="177" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="206" column="26" bodyfile="include/AGRemapCore/tools/z3/Z3Predicate.h" bodystart="206" bodyend="-1"/>
       </memberdef>
       <memberdef kind="friend" id="class_a_g_remap_core_1_1_z3_predicate_1a9c4638dafe4e75a57dea5623cb5086e4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>class</type>
@@ -53,7 +53,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="178" column="26" bodyfile="include/AGRemapCore/tools/z3/Z3Predicate.h" bodystart="178" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="207" column="26" bodyfile="include/AGRemapCore/tools/z3/Z3Predicate.h" bodystart="207" bodyend="-1"/>
       </memberdef>
       <memberdef kind="friend" id="class_a_g_remap_core_1_1_z3_predicate_1a9fde4fa8b28865381ff06b5c28d96f62" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>class</type>
@@ -70,7 +70,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="183" column="26" bodyfile="include/AGRemapCore/tools/z3/Z3Predicate.h" bodystart="183" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="212" column="26" bodyfile="include/AGRemapCore/tools/z3/Z3Predicate.h" bodystart="212" bodyend="-1"/>
       </memberdef>
       <memberdef kind="friend" id="class_a_g_remap_core_1_1_z3_predicate_1a7d5e611625f853698dce78af48904865" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_z3_predicate_1a840fb154df5730a89f96949f7bb5d896" kindref="member">Z3Predicate</ref></type>
@@ -88,7 +88,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="190" column="32" bodyfile="src/tools/z3/Z3Internal.h" bodystart="90" bodyend="92"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="219" column="32" bodyfile="src/tools/z3/Z3Internal.h" bodystart="90" bodyend="92"/>
       </memberdef>
       <memberdef kind="friend" id="class_a_g_remap_core_1_1_z3_predicate_1a84c009e673ba25656e3d5d04516cca9b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_z3_predicate_1_1_impl" kindref="compound">Impl</ref> &amp;</type>
@@ -106,7 +106,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="195" column="31" bodyfile="src/tools/z3/Z3Internal.h" bodystart="100" bodyend="102"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="224" column="31" bodyfile="src/tools/z3/Z3Internal.h" bodystart="100" bodyend="102"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -324,6 +324,45 @@ A simplified, logically-equivalent form of this predicate (`Z3`_&apos;s own
         </inbodydescription>
         <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="102" column="25" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="54" bodyend="56"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_z3_predicate_1ae5375665fafca4aa15210cbcdf547f3e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_z3_predicate_1a840fb154df5730a89f96949f7bb5d896" kindref="member">Z3Predicate</ref></type>
+        <definition>Z3Predicate AGRemapCore::Z3Predicate::solverSimplify</definition>
+        <argsstring>() const</argsstring>
+        <name>solverSimplify</name>
+        <qualifiedname>AGRemapCore::Z3Predicate::solverSimplify</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A simplified, logically-equivalent form of this predicate that a PERSON has to read --
+`Z3`_&apos;s ``propagate-values`` followed by ``ctx-solver-simplify`` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+\\ref simplify is a local rewriter and leaves an ``if``/``else if`` chain&apos;s accumulated
+condition exactly as it found it: branch *n* of such a chain reads
+``x != 0 AND x != 1 AND ... AND x == n``, and a merged mod with two hundred variants
+writes a hundred and ninety-nine negations into the ``.ini`` for its last one. This one
+answers ``x == n`` -- propagating the equality evaluates the negations away in one
+rewriting pass, with no solver call and in well under a second at that size.
+
+.. note::
+   ``ctx-solver-simplify`` on its own does NOT do this, which is worth knowing before
+   reaching for the name that sounds right: it drops ONE of the eleven negations of a
+   twelve-way chain. It runs here as the second step, for what propagation cannot reach
+
+.. note::
+   Deliberately not ``solve-eqs``, which eliminates the variable instead of simplifying
+   around it and answers ``x == 11`` with an empty goal. Sound for asking whether
+   something is satisfiable, useless for writing a condition back into a mod
+</verbatim></para>
+<para><simplesect kind="return"><para>The simplified predicate </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="131" column="25" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="59" bodyend="87"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_z3_predicate_1a4ea27b9283fbec2a7004ff9adbb3be4f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool AGRemapCore::Z3Predicate::isSatisfiable</definition>
@@ -344,7 +383,7 @@ variables makes it evaluate to ``true``, checked via a real ``z3::solver`` :raw-
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="114" column="18" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="58" bodyend="62"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="143" column="18" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="89" bodyend="93"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_z3_predicate_1ae7a66508e8f15cbe8759987b07d18a31" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -378,7 +417,7 @@ identity check on the underlying ``z3::context``, not a check of logical equival
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="127" column="18" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="64" bodyend="66"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="156" column="18" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="95" bodyend="97"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_z3_predicate_1ad6dc39590610f5b8b7151c9276a1d32d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -412,7 +451,7 @@ Whether this predicate belongs to &apos;ctx&apos; (a plain identity check on the
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="140" column="18" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="68" bodyend="70"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="169" column="18" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="99" bodyend="101"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -445,7 +484,7 @@ Whether this predicate belongs to &apos;ctx&apos; (a plain identity check on the
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="149" column="32" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="72" bodyend="75"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="178" column="32" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="103" bodyend="106"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_z3_predicate_1ad59e0df9c982fbcd73153c23baee82c6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_z3_predicate_1a840fb154df5730a89f96949f7bb5d896" kindref="member">Z3Predicate</ref></type>
@@ -476,7 +515,7 @@ Whether this predicate belongs to &apos;ctx&apos; (a plain identity check on the
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="158" column="32" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="77" bodyend="80"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="187" column="32" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="108" bodyend="111"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -496,7 +535,7 @@ Whether this predicate belongs to &apos;ctx&apos; (a plain identity check on the
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="170" column="22" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="21" bodyend="21"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="199" column="22" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="21" bodyend="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_z3_predicate_1a38e6a051747432b5a6cd8468dfd36026" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_z3_predicate_1_1_impl" kindref="compound">Impl</ref> &amp;</type>
@@ -510,7 +549,7 @@ Whether this predicate belongs to &apos;ctx&apos; (a plain identity check on the
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="174" column="18" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="82" bodyend="84"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="203" column="18" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="113" bodyend="115"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_z3_predicate_1aca0cbf7dc6ed6317ebdb06eeb2a0e699" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_z3_predicate_1_1_impl" kindref="compound">Impl</ref> &amp;</type>
@@ -524,7 +563,7 @@ Whether this predicate belongs to &apos;ctx&apos; (a plain identity check on the
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="175" column="24" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="86" bodyend="88"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="204" column="24" bodyfile="src/tools/z3/Z3Predicate.cpp" bodystart="117" bodyend="119"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -539,7 +578,7 @@ never exposes any `Z3`_ type in its own header -- the real ``z3::expr`` lives be
 (:cpp:class:`Impl`, defined only in this class&apos;s own ``.cpp``)
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="36" column="5" bodyfile="include/AGRemapCore/tools/z3/Z3Predicate.h" bodystart="36" bodyend="196"/>
+    <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="36" column="5" bodyfile="include/AGRemapCore/tools/z3/Z3Predicate.h" bodystart="36" bodyend="225"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_z3_predicate_1ad6dc39590610f5b8b7151c9276a1d32d" prot="public" virt="non-virtual"><scope>AGRemapCore::Z3Predicate</scope><name>belongsTo</name></member>
       <member refid="class_a_g_remap_core_1_1_z3_predicate_1ad59e0df9c982fbcd73153c23baee82c6" prot="public" virt="non-virtual"><scope>AGRemapCore::Z3Predicate</scope><name>falseValue</name></member>
@@ -558,6 +597,7 @@ never exposes any `Z3`_ type in its own header -- the real ``z3::expr`` lives be
       <member refid="class_a_g_remap_core_1_1_z3_predicate_1aac2547bd2d627eb75f0ed8d8c7c74f86" prot="public" virt="non-virtual"><scope>AGRemapCore::Z3Predicate</scope><name>operator|</name></member>
       <member refid="class_a_g_remap_core_1_1_z3_predicate_1ae7a66508e8f15cbe8759987b07d18a31" prot="public" virt="non-virtual"><scope>AGRemapCore::Z3Predicate</scope><name>sameContext</name></member>
       <member refid="class_a_g_remap_core_1_1_z3_predicate_1a04d5c2fd87c2dc983b958d1669fc278c" prot="public" virt="non-virtual"><scope>AGRemapCore::Z3Predicate</scope><name>simplify</name></member>
+      <member refid="class_a_g_remap_core_1_1_z3_predicate_1ae5375665fafca4aa15210cbcdf547f3e" prot="public" virt="non-virtual"><scope>AGRemapCore::Z3Predicate</scope><name>solverSimplify</name></member>
       <member refid="class_a_g_remap_core_1_1_z3_predicate_1a78b6d72b096e355471100d83cdb63713" prot="public" virt="non-virtual"><scope>AGRemapCore::Z3Predicate</scope><name>toString</name></member>
       <member refid="class_a_g_remap_core_1_1_z3_predicate_1a6eef7563160bc001647acc7d8de15294" prot="public" virt="non-virtual"><scope>AGRemapCore::Z3Predicate</scope><name>trueValue</name></member>
       <member refid="class_a_g_remap_core_1_1_z3_predicate_1a9c4638dafe4e75a57dea5623cb5086e4" prot="private" virt="non-virtual"><scope>AGRemapCore::Z3Predicate</scope><name>Z3IfPredGenerator</name></member>

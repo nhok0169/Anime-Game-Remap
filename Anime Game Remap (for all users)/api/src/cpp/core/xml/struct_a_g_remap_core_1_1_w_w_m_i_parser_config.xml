@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIParserConfig</compoundname>
+    <includes refid="_w_w_m_i_parser_8h" local="no">WWMIParser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a69dad4a0209de0a402263ddff82ba5dc" prot="public" static="no" mutable="no">
+        <type><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref></type>
+        <definition>ModTypeId AGRemapCore::WWMIParserConfig::modTypeId</definition>
+        <argsstring></argsstring>
+        <name>modTypeId</name>
+        <qualifiedname>AGRemapCore::WWMIParserConfig::modTypeId</qualifiedname>
+        <initializer>= <ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e5b87c395273646f1f7267f2de3ba63" kindref="member">ModTypeId::Sanhua</ref></initializer>
+        <briefdescription>
+<para>The mod type a <computeroutput>.ini</computeroutput> of this character classifies as, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>Sanhua</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="53" column="19" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ade553798b44b928e14a0ad40c1ec20a8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIParserConfig::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>AGRemapCore::WWMIParserConfig::version</qualifiedname>
+        <initializer>= &quot;2.5&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The game version the library files the character&apos;s rows under, used when the ``.ini``
+carries no ``fromVersion`` of its own. **Default**: ``&quot;2.5&quot;``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="62" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ae136acddb4c36c678ef101f46a8df030" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIParserConfig::slotHashType</definition>
+        <argsstring></argsstring>
+        <name>slotHashType</name>
+        <qualifiedname>AGRemapCore::WWMIParserConfig::slotHashType</qualifiedname>
+        <initializer>= &quot;vb0&quot;</initializer>
+        <briefdescription>
+<para>The hash type every draw slot section matches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>"vb0"</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="67" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a0b5add8a9b297a25a19d9f97c8c324ae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIParserConfig::slotPrefix</definition>
+        <argsstring></argsstring>
+        <name>slotPrefix</name>
+        <qualifiedname>AGRemapCore::WWMIParserConfig::slotPrefix</qualifiedname>
+        <initializer>= &quot;component&quot;</initializer>
+        <briefdescription>
+<para>The <computeroutput>type</computeroutput> the library files a draw slot&apos;s index rows under, followed by the slot number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>"component"</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="72" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9702bf11e4f1c8224e36539597b68979" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; AGRemapCore::WWMIParserConfig::hashOnlyObjs</definition>
+        <argsstring></argsstring>
+        <name>hashOnlyObjs</name>
+        <qualifiedname>AGRemapCore::WWMIParserConfig::hashOnlyObjs</qualifiedname>
+        <initializer>                     = {
+{&quot;cb4&quot;, &quot;boneData&quot;}, {&quot;shapekey_offsets&quot;, &quot;shapekeyOffsets&quot;}, {&quot;shapekey_scale&quot;, &quot;shapekeyScale&quot;}}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The sections identified by a hash alone, as ``(hash type in HashData, mod object name)``
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+**Default**: the bone-data override (``cb4`` -&gt; ``boneData``) and the two shape-key
+overrides (``shapekey_offsets`` -&gt; ``shapekeyOffsets``, ``shapekey_scale`` -&gt;
+``shapekeyScale``). The shape-key ones are classified so the fixer can decide what to do
+with them -- hide them, as the shipped fix does, or retarget them -- rather than because
+the fix copies them
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="86" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="86" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What :cpp:func:`makeWWMIParser` needs to read a mod of one Wuthering Waves character -- the
+parser counterpart of :cpp:struct:`WWMIFixerConfig` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A WWMI mod is ONE mesh drawn in several ranges: every ``[TextureOverrideComponentN]`` matches
+the character&apos;s ``vb0`` hash and one draw slot&apos;s ``match_first_index``, and the buffers, the
+bone data and the shape keys are matched by hashes of their own. Nothing is named after the
+character, so a section is classified by hash and index alone -- the same
+:cpp:class:`GIMISectionClassifier` a GIMI parser uses, over the rows :cpp:class:`WWMIBuilder`
+files the character under. Every draw slot the library knows for the character (its
+:cpp:class:`Indices` rows typed ``component0``, ``component1``, ...) becomes the mod object
+``(&quot;&quot;, &quot;componentN&quot;)``, and each entry of :cpp:member:`hashOnlyObjs` becomes ``(&quot;&quot;, &lt;obj&gt;)``
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The version matters more than it does for a GIMI parser: a reverse lookup with no version
+resolves through the NEWEST bucket holding the value, and ``0`` -- component 0&apos;s index -- is
+every GI head&apos;s index too, filed at 6.1. That bucket holds no WuWa row, so without
+:cpp:member:`version` component 0 classified as nothing. The prototype every field here was
+read off is ``Tools/Misc/Prototypes/sanhuaExorcistFix.py``
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="49" column="5" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="49" bodyend="88"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9702bf11e4f1c8224e36539597b68979" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig</scope><name>hashOnlyObjs</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a69dad4a0209de0a402263ddff82ba5dc" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig</scope><name>modTypeId</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ae136acddb4c36c678ef101f46a8df030" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig</scope><name>slotHashType</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a0b5add8a9b297a25a19d9f97c8c324ae" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig</scope><name>slotPrefix</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ade553798b44b928e14a0ad40c1ec20a8" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

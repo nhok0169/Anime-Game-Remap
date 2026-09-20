@@ -21,6 +21,7 @@
     <includedby refid="_kirara_fixer_8cpp" local="yes">src/data/IniFixData/Kirara/KiraraFixer.cpp</includedby>
     <includedby refid="_klee_fixer_8cpp" local="yes">src/data/IniFixData/Klee/KleeFixer.cpp</includedby>
     <includedby refid="_klee_blossoming_starlight_fixer_8cpp" local="yes">src/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.cpp</includedby>
+    <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
     <includedby refid="_xiangling_fixer_8cpp" local="yes">src/data/IniFixData/Xiangling/XianglingFixer.cpp</includedby>
     <includedby refid="_yelan_fixer_8cpp" local="yes">src/data/IniFixData/Yelan/YelanFixer.cpp</includedby>
     <includedby refid="_yelan_tranquil_fixer_8cpp" local="yes">src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</includedby>
@@ -142,6 +143,8 @@
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniFixData/Arlecchino/ArlecchinoFixer.cpp</label>
@@ -196,58 +199,62 @@
         <link refid="_klee_blossoming_starlight_fixer_8cpp"/>
       </node>
       <node id="15">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+      <node id="16">
         <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
         <link refid="_xiangling_fixer_8cpp"/>
       </node>
-      <node id="16">
+      <node id="17">
         <label>src/data/IniFixData/Yelan/YelanFixer.cpp</label>
         <link refid="_yelan_fixer_8cpp"/>
       </node>
-      <node id="17">
+      <node id="18">
         <label>src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</label>
         <link refid="_yelan_tranquil_fixer_8cpp"/>
       </node>
-      <node id="18">
+      <node id="19">
         <label>src/model/files/TextureFile.cpp</label>
         <link refid="_texture_file_8cpp"/>
       </node>
-      <node id="19">
+      <node id="20">
         <label>src/model/iniresources/RemapTexResource.cpp</label>
         <link refid="_remap_tex_resource_8cpp"/>
       </node>
-      <node id="20">
+      <node id="21">
         <label>src/model/strategies/texEditors/TexCreator.cpp</label>
         <link refid="_tex_creator_8cpp"/>
       </node>
-      <node id="21">
+      <node id="22">
         <label>src/model/strategies/texEditors/TexEditor.cpp</label>
         <link refid="_tex_editor_8cpp"/>
       </node>
-      <node id="22">
+      <node id="23">
         <label>src/model/strategies/texEditors/texFilters/ColourReplaceFilter.cpp</label>
         <link refid="_colour_replace_filter_8cpp"/>
       </node>
-      <node id="23">
+      <node id="24">
         <label>src/model/strategies/texEditors/texFilters/GammaFilter.cpp</label>
         <link refid="_gamma_filter_8cpp"/>
       </node>
-      <node id="24">
+      <node id="25">
         <label>src/model/strategies/texEditors/texFilters/HueAdjust.cpp</label>
         <link refid="_hue_adjust_8cpp"/>
       </node>
-      <node id="25">
+      <node id="26">
         <label>src/model/strategies/texEditors/texFilters/InvertAlphaFilter.cpp</label>
         <link refid="_invert_alpha_filter_8cpp"/>
       </node>
-      <node id="26">
+      <node id="27">
         <label>src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp</label>
         <link refid="_material_band_remap_filter_8cpp"/>
       </node>
-      <node id="27">
+      <node id="28">
         <label>src/model/strategies/texEditors/texFilters/PixelFilter.cpp</label>
         <link refid="_pixel_filter_8cpp"/>
       </node>
-      <node id="28">
+      <node id="29">
         <label>src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp</label>
         <link refid="_transparency_adjust_filter_8cpp"/>
       </node>

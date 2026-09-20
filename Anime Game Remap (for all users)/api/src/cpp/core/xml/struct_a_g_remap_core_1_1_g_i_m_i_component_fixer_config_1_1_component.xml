@@ -140,13 +140,76 @@ and ``ORFix`` is re-issued. ``false``: ``ps-t0`` diffuse / ``ps-t1`` lightmap un
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="141" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="141" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae2c0b9f4af8f721add0e6a6b68f63603" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::GIMIComponentFixerConfig::Component::texcoordStride</definition>
+        <argsstring></argsstring>
+        <name>texcoordStride</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::texcoordStride</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The TARGET component&apos;s Texcoord stride, or ``0`` to write the mod&apos;s own
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A mod&apos;s Texcoord is whatever its author made it -- vanilla Bennett&apos;s is 12 (``COLOR`` +
+``TEXCOORD``) and a mod that carries a second UV set is 20 -- while the SLOT it is being
+drawn through reads a fixed layout. Hand a slot whose shader reads ``TEXCOORD1`` at
+offset 12 a 12-byte buffer, and every such read lands in the NEXT vertex&apos;s ``COLOR``.
+
+So the written buffer is brought to this width: zero-padded at the END, which is exactly
+where ``TEXCOORD1`` sits, or truncated there when the mod carries one and the target
+does not. Both directions are real, and which one a mod needs cannot be told from the
+character -- only from its own file.
+
+``0`` leaves the mod&apos;s own stride alone, which is what YelanTranquil&apos;s config relies on:
+Yelan&apos;s Texcoord is already 20, the width all three of her slots read
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="163" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7268856272e0561b22ab78e94e2d7c93" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::GIMIComponentFixerConfig::Component::slotRegisters</definition>
+        <argsstring></argsstring>
+        <name>slotRegisters</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::slotRegisters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every ``ps-t`` register the TARGET&apos;s own slot binds, or empty to leave the registers
+alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A remapped section inherits its ``ps-t`` lines from the MOD&apos;s section, and a mod binds
+whatever its SOURCE slot reads -- Bennett&apos;s body binds four (diffuse, light map, metal
+map, shadow ramp). A register beyond this list is not a harmless extra: the target&apos;s
+shader reads that slot as something else, and the target&apos;s own mod leaves it unbound
+so the GAME&apos;s texture serves it. Blank white eyes were exactly that.
+
+A register bound TWICE in one part keeps its first binding, for the same reason: the
+later one silently discards the earlier, and on a normal-map slot the shifted light map
+lands on ``ps-t2`` ahead of the mod&apos;s own metal map there.
+
+Read these off the target&apos;s identity mod, never off a mod of it. Only a literal
+``ps-t&lt;number&gt;`` is considered, so the fix&apos;s own scratch register is untouched
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="185" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
 <para>One component of the target skin, and how the mod is drawn through it. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="75" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="75" bodyend="142"/>
+    <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="75" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="75" bodyend="186"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7760edfd8956346f514455eced0a1ad7" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>face</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1abc2e02f12cd1943aad220c26f9fbc09a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>modTypeName</name></member>
@@ -155,6 +218,8 @@ and ``ORFix`` is re-issued. ``false``: ``ps-t0`` diffuse / ``ps-t1`` lightmap un
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a41fc1fe25b79dd9a3fecf1691285ca04" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>normalMap</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ad008bff7447c546064b38ebc309a3683" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>slot</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a604b4ce3410b8e5e720a59d807bb8e89" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>slotIndex</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7268856272e0561b22ab78e94e2d7c93" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>slotRegisters</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae2c0b9f4af8f721add0e6a6b68f63603" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>texcoordStride</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

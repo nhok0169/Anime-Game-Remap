@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="160" column="32" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="160" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="174" column="32" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="174" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -98,7 +98,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="156" column="13" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="152" bodyend="154"/>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="170" column="13" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="154" bodyend="156"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -120,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="163" column="18" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="157" bodyend="159"/>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="177" column="18" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="159" bodyend="161"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -187,7 +187,7 @@ A group of one mod&apos;s buffers, fixed by :cpp:func:`fixVGMergeGroup` -- see t
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="145" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="145" bodyend="164"/>
+    <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="159" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="159" bodyend="178"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_v_g_merge_group_resource_1a0d11b77152476bbf6f327f4c936bb0a5" prot="protected" virt="virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>_fix</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1af7289275d3ea094ccf2b704821c036ac" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>addResource</name></member>

@@ -2,7 +2,14 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="dir_1db9267f0b94a5ce7df9e9b178db5500" kind="dir">
     <compoundname>src/model/strategies/iniFixers/graphGroupEdits</compoundname>
+    <innerdir refid="dir_51d61152b728a20cf5f80e90d8af17f6">src/model/strategies/iniFixers/graphGroupEdits/resEdits</innerdir>
+    <innerfile refid="_base_ini_graph_group_edit_instantiation_8cpp">BaseIniGraphGroupEditInstantiation.cpp</innerfile>
+    <innerfile refid="_graph_group_edit_instantiation_8cpp">GraphGroupEditInstantiation.cpp</innerfile>
+    <innerfile refid="_graph_group_remap_instantiation_8cpp">GraphGroupRemapInstantiation.cpp</innerfile>
+    <innerfile refid="_i_ini_graph_groups_instantiation_8cpp">IIniGraphGroupsInstantiation.cpp</innerfile>
     <innerfile refid="_ini_file_res_edit_context_8cpp">IniFileResEditContext.cpp</innerfile>
+    <innerfile refid="_res_group_collect_instantiation_8cpp">ResGroupCollectInstantiation.cpp</innerfile>
+    <innerfile refid="_res_reg_collect_instantiation_8cpp">ResRegCollectInstantiation.cpp</innerfile>
     <innerfile refid="_v_g_merge_group_res_builder_8cpp">VGMergeGroupResBuilder.cpp</innerfile>
     <innerfile refid="_v_g_split_group_res_builder_8cpp">VGSplitGroupResBuilder.cpp</innerfile>
     <briefdescription>

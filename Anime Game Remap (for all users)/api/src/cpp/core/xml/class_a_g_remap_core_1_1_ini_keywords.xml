@@ -176,6 +176,32 @@ The substring used to indicate that the `section`_ contains some edited/created 
         </inbodydescription>
         <location file="include/AGRemapCore/constants/IniKeywords.h" line="102" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="102" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a1c302336451a651fa6322643cfd2f216" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::RemapRef</definition>
+        <argsstring></argsstring>
+        <name>RemapRef</name>
+        <qualifiedname>AGRemapCore::IniKeywords::RemapRef</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_ini_keywords_1a2deec4c399bc094b325907613b493568" kindref="member">Remap</ref> + &quot;Ref&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The substring used to indicate that a resource `section`_ INSIDE a fix&apos;s block names a
+file the fix did **not** write -- one of the mod&apos;s own, referenced by the fix
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+An undo takes every section of the fix&apos;s block out and deletes every file those
+sections name, which is right for a ``RemapBlend`` / ``RemapTex`` / ``RemapDL`` file the
+fix produced and destroys the mod for a texture the fix merely bound (the WWMI fixer
+binds a mod&apos;s textures by register, and a file no resource of the mod&apos;s own ``.ini``
+names has to be declared somewhere). A section carrying this keyword is removed with
+the block and its file is left alone -- see :cpp:func:`RemapIniRemover::collectRemovedResources`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="118" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aca1f91eb6175585c074f8bac0395077a" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
         <definition>const std::string AGRemapCore::IniKeywords::Run</definition>
@@ -190,7 +216,7 @@ The substring used to indicate that the `section`_ contains some edited/created 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="107" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="107" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="123" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="123" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a1135e121a755d9d4a26c68688f0a4b2c" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -209,7 +235,7 @@ The `KVP`_ key holding a `section`_&apos;s model hash -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="116" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="116" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="132" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="132" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1af7976ed49b790b6eea9902f4fe2643b9" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -229,7 +255,7 @@ objects a ``hash`` alone cannot tell apart
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="126" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="126" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="142" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="142" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ae7b06e4f9664f4c634630000ace95bc6" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -254,7 +280,7 @@ The `KVP`_ key naming the file a resource `section`_ points at :raw-html:`&lt;br
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="141" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="141" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="157" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="157" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a6d32f5bf3ed7a3dd84a053f8dec9b76c" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -273,7 +299,7 @@ a placeholder, not a real resource
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="150" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="150" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="166" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="166" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a8fe7de095b9841fb8a24b6f186134dcd" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -292,7 +318,7 @@ The `KVP`_ key naming a `section`_&apos;s index buffer -- also the last index co
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="159" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="159" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="175" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="175" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ad98707bf380b9940042e52feddd2cca6" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -308,7 +334,7 @@ The `KVP`_ key naming a `section`_&apos;s index buffer -- also the last index co
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="164" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="164" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="180" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="180" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a0a3c05fa043b21683aa21e619c60fe58" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -327,7 +353,7 @@ the two it is depends on the `section`_, not on the key
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="173" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="173" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="189" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="189" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a16ef425e1632ec1bb2442db36ca0d79a" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -346,7 +372,7 @@ this software writes, alongside \ref Draw, after a downloaded ``Blend.buf``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="182" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="182" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="198" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="198" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ac10fcc30f22cc64569c29916f36c8aa5" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -365,7 +391,7 @@ The `KVP`_ key issuing a non-indexed draw, written as ``&lt;vertex count&gt;,0``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="191" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="191" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="207" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="207" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a2d55106a94f19909c54995256dacd697" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -384,7 +410,7 @@ front of -- see :cpp:class:`RegDelimitedAdd`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="200" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="200" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="216" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="216" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1acbb83112fdf027806e264ebe988215e8" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -407,7 +433,7 @@ library, not into the mod&apos;s own `sections`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="213" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="213" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="229" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="229" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a928d0529fdf656dcb8539e202c470acc" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -430,7 +456,7 @@ external library as \ref ORFixPath :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="226" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="226" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="242" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="242" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -457,7 +483,7 @@ shifts a character&apos;s registers around leaves those two alone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="243" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="243" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="259" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="259" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a0b87898a1b13e451768835db0ff5bb31" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -479,7 +505,7 @@ one of them is actually bound, never simply because the character&apos;s row nam
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="255" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="255" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="271" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="271" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a6b01c77d87e0426ebcbbdebffa4c3506" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -495,7 +521,7 @@ one of them is actually bound, never simply because the character&apos;s row nam
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="260" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="260" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="276" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="276" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a4e4971343df444d21fd7124528dd6fde" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -517,7 +543,7 @@ follows from where its register shift left the diffuse -- not from the character
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="272" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="272" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="288" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="288" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a57f3e435d80318e03d84bae2e8b314cd" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -536,7 +562,7 @@ follows from where its register shift left the diffuse -- not from the character
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="281" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="281" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="297" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="297" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a079388fac5e35fde9ecdfe285ae8137e" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -560,7 +586,7 @@ that quietly does nothing rather than as an error
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="295" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="295" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="311" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="311" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a4cce110f0eafe9da5062b35d622598e2" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -578,7 +604,7 @@ The PRE-5.0 spelling of \ref TexFxTransparency1 -- see \ref TexFxTransparency0Pr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="303" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="303" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="319" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="319" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a8d9e5f2cafb836e8ad12adf8d5c237c8" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -597,7 +623,7 @@ see :cpp:class:`RegAssetRemap`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="312" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="312" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="328" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="328" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aa2c231b7ea5eb426e1c394d83fa4c1be" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -617,7 +643,7 @@ ef HashNotFound
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="322" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="322" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="338" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="338" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -633,7 +659,7 @@ ef HashNotFound
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="327" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="327" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="343" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="343" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -650,7 +676,7 @@ Common keywords used in the .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
    porting the whole enum speculatively up front
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/IniKeywords.h" line="35" column="5" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="35" bodyend="328"/>
+    <location file="include/AGRemapCore/constants/IniKeywords.h" line="35" column="5" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="35" bodyend="344"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ae515fbf8a74ffd3ebc5497c3bfa27509" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Blend</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ac10fcc30f22cc64569c29916f36c8aa5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Draw</name></member>
@@ -672,6 +698,7 @@ Common keywords used in the .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a2deec4c399bc094b325907613b493568" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Remap</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1aac48879e6f9613d47a4c0842a448695c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>RemapDL</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1abfe2e5d692993371b6b6108e42a42379" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>RemapFix</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a1c302336451a651fa6322643cfd2f216" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>RemapRef</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a1c69fc02c2938355e1d147c833170566" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>RemapTex</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a27d2c42c6996a4a709bb76dc8b94fe09" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Resource</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1aca1f91eb6175585c074f8bac0395077a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Run</name></member>

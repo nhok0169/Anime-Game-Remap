@@ -161,6 +161,15 @@ SkinMask = "SkinMask"                       # the invented mask's resource / fil
 #
 #   Bisected rather than reasoned out: the full probe was clean, ps-t4 alone (the bright red 742c5c7b,
 #   the obvious suspect) was not, {ps-t2, ps-t5, ps-t6} was, and ps-t2 alone was. Four rounds.
+# --paint: every slot's DIFFUSE replaced by a flat colour, one per source component, on every pass
+#   the fix covers. It answers the question no amount of reading the tables can -- WHICH slot draws
+#   the part I am looking at, and does the fix control it at all. A part that takes its slot's
+#   colour is drawn by us and the problem is which texture we chose; a part that keeps its original
+#   look is NOT drawn through any section we write, and no texture table will ever fix it.
+PaintColours = {0: (255, 0, 0, 255), 1: (0, 255, 0, 255), 2: (0, 0, 255, 255), 3: (255, 255, 0, 255),
+                4: (255, 0, 255, 255), 5: (0, 255, 255, 255), 6: (255, 128, 0, 255)}
+PaintNames = {0: "red", 1: "green", 2: "blue", 3: "yellow", 4: "magenta", 5: "cyan", 6: "orange"}
+
 NeutralBindings = {3: {"ps-t2": (0, 0, 0, 255)}, 4: {"ps-t2": (0, 0, 0, 255)}}
 NeutralName = "DetailZero"      # the resource / file stem of the flat map bound there
 
@@ -222,10 +231,34 @@ ExtraPassRegs = {
     4: {"21176cf68a65ab7a": {"ps-t0": "lowerDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
 }
 
+# A CHARACTER IS NOT ONLY HER vb0 MESH. Chisa and ChisaParfait both draw a SECOND mesh, vb0
+#   b00403dc -- the same hash on both, so the same geometry, 2 components and 65973 indices -- and
+#   the game textures it PER CHARACTER: on Chisa's draws `ps-t0 = cbab5910`, her hair diffuse, and
+#   on the skin's her own `2c990f51`. It is her hair ribbon. Nothing the fix writes touches it: the
+#   remapped sections match the vb0 hash of the MAIN mesh, and a mod's `[TextureOverrideTexture]`
+#   overrides by the hash the GAME binds, which on the skin is never Chisa's. So the ribbon kept the
+#   skin's pink pattern through three rounds of texture work, and the --paint diagnostic is what
+#   showed it: no slot's colour reached it, because no section of ours draws it.
+#
+#   The geometry is shared, so there is nothing to remap -- only the textures to rebind, on the
+#   passes where the two characters differ. Generated the same way as ExtraPassRegs.
+#
+#   CAVEAT: the section matches the hash with no index window, so it applies wherever that mesh is
+#   drawn. It is assumed to be this character's own accessory, shared between her skins; if another
+#   character turns out to draw it too, this repaints theirs as well.
+SharedMeshes = {
+    "b00403dc": {
+        "ca134b7ad59cdf8c": {"ps-t0": "hairDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"},
+        "a7bdec26cf254853": {"ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"},
+        "21a483170781cfeb": {"ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"},
+    },
+}
+
 FilterBase = 3381.71   # 3dmigoto keys [ShaderOverride] by shader hash GLOBALLY, so these sit clear of the Sanhua fix's 3381.91 and the reverse one's 3381.81
 PassFilters = {ps: f"{FilterBase + 0.01 * i:.4f}".rstrip("0")
                for i, ps in enumerate(dict.fromkeys([ps for passes in SlotPasses.values() for ps in passes]
-                                                    + [ps for byPass in ExtraPassRegs.values() for ps in byPass]))}
+                                                    + [ps for byPass in ExtraPassRegs.values() for ps in byPass]
+                                                    + [ps for byPass in SharedMeshes.values() for ps in byPass]))}
 
 # Chisa's textures by the hash the game binds them under, with the role each plays in its component's
 #   MAIN pass -- read off FrameAnalysis-Chisa-2026-09-20-013225's slot table, and the kind of each
@@ -800,7 +833,7 @@ def effectiveRemap(sourceType, target, remapOverride: Optional[Dict[int, int]], 
 
 
 def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = None, anchor: Optional[str] = None, shapeKeys: bool = False, probe: object = False,
-              planName: str = "default"):
+              planName: str = "default", paint: bool = False):
     plan = Plans[planName]
     source, target = characterFromLibrary(sourceType), characterFromLibrary(targetType)
     vgRemap, forcedRemap = effectiveRemap(sourceType, target, remapOverride, anchor)
@@ -823,6 +856,8 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
         probeLegend: List[str] = []
         neutrals: set = set()                           # NeutralBindings: the flat map, declared once per .ini
         neutralLegend: List[str] = []
+        painted: set = set()                            # --paint: the flat colours already declared
+        paintLegend: List[str] = []
         extraLegend: List[str] = []                     # ExtraPassRegs: the slot's other passes
         appended: List[str] = files.declare(fixName)     # the textures this .ini has no resource of its own for
         appended += files.fallbacks([role for i in files.present if (i in plan) for role in plan[i][1].values()])
@@ -863,7 +898,21 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             slot, regs = plan[i]
             c = target["components"][slot]
             edits: List[object] = []
-            bindings = [f"    {reg} = {maskResource if (role == SkinMask) else files.resourceOfRole[role]}"
+            def bound(role):
+                """The resource a role binds to -- or, under --paint, that slot's flat colour for a diffuse"""
+                if (paint and role.lower().endswith("diffuse") and i in PaintColours):
+                    name = fixName(f"ResourcePaint{PaintNames[i].capitalize()}")
+                    if (name not in painted):
+                        rel = os.path.join(files.textureFolder, f"Paint{PaintNames[i].capitalize()}{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
+                        os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
+                        writeSolidDds(os.path.join(ini.folder, rel), PaintColours[i])
+                        appended.append("\n".join([f"[{name}]", f"filename = {rel}", ""]))
+                        painted.add(name)
+                        paintLegend.append(f"      component {i} ({Labels.get(i, i)}): every diffuse -> flat {PaintNames[i]}")
+                    return name
+                return maskResource if (role == SkinMask) else files.resourceOfRole[role]
+
+            bindings = [f"    {reg} = {bound(role)}"
                         for reg, role in regs.items() if (role == SkinMask or role in files.resourceOfRole)]
             for reg, colour in NeutralBindings.get(i, {}).items():
                 if (reg in regs):
@@ -901,7 +950,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                 appended.append("\n".join([f"[{cmdList}]", f"if {condition}"] + bindings + ["endif", ""]))
                 additions.append(("run", cmdList))
             for n, (ps, extraRegs) in enumerate(ExtraPassRegs.get(slot, {}).items()):
-                extra = [f"    {reg} = {files.resourceOfRole[role]}" for reg, role in extraRegs.items()
+                extra = [f"    {reg} = {bound(role)}" for reg, role in extraRegs.items()
                          if (role in files.resourceOfRole)]
                 if (not extra):
                     continue
@@ -953,6 +1002,34 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                 f"        $\\WWMIv1\\vg_offset = {c['vg_offset']}", f"        $\\WWMIv1\\vg_count = {c['vg_count']}", f"        run = {fixName('CommandListMergeSkeleton')}", "    endif",
                 "    if ResourceMergedSkeleton !== null", "        handling = skip", "    endif", "endif", ""]))
 
+        # ---- the meshes OUTSIDE the character's own vb0, whose textures still have to be hers ----
+        for n, (meshHash, byPass) in enumerate(SharedMeshes.items()):
+            lines = [f"; {meshHash} is drawn by both skins with the SAME geometry and each one's own textures",
+                     f"[{fixName(f'TextureOverride{SourceName}SharedMesh{n}')}]", f"hash = {meshHash}"]
+            wrote = False
+            for ps, regs in byPass.items():
+                binds = []
+                for reg, role in regs.items():
+                    if (role not in files.resourceOfRole):
+                        continue
+                    resource = files.resourceOfRole[role]
+                    if (paint and role.lower().endswith("diffuse")):
+                        resource = fixName("ResourcePaintWhite")
+                        if (resource not in painted):
+                            rel = os.path.join(files.textureFolder, f"PaintWhite{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
+                            os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
+                            writeSolidDds(os.path.join(ini.folder, rel), (255, 255, 255, 255))
+                            appended.append("\n".join([f"[{resource}]", f"filename = {rel}", ""]))
+                            painted.add(resource)
+                            paintLegend.append(f"      the shared mesh {meshHash}: every diffuse -> flat white")
+                    binds.append(f"    {reg} = {resource}")
+                if (binds):
+                    lines += [f"if ps == {PassFilters[ps]}"] + binds + ["endif"]
+                    wrote = True
+            if (wrote):
+                appended.append("\n".join(lines + [""]))
+                print(f"    the shared mesh {meshHash}: {len(byPass)} passes rebound to {SourceName}'s own textures")
+
         # ---- the shader tags the texture command lists ask about, and the invented mask ----
         for i, (ps, filterIndex) in enumerate(PassFilters.items()):
             appended.append("\n".join([f"[{fixName(f'ShaderOverridePass{i}')}]", f"hash = {ps}", f"filter_index = {filterIndex}", ""]))
@@ -962,6 +1039,11 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             writeSolidDds(os.path.join(ini.folder, maskFile), SkinMaskColour)
             appended.append("\n".join([f"[{maskResource}]", f"filename = {maskFile}", ""]))
 
+        if (paintLegend):
+            print("    --paint: whichever colour a part takes is the slot that draws it;")
+            print("             a part that keeps its own look is drawn by NO section the fix writes")
+            for line in paintLegend:
+                print(line)
         if (extraLegend):
             print("    the slot's OTHER passes, bound as the source's own game binds them:")
             for line in extraLegend:
@@ -1187,6 +1269,8 @@ def main():
                         help = "comment the mod's own [TextureOverrideTexture] sections out too, as the hand remap does")
     parser.add_argument("--noSplit", action = "store_true",
                         help = "keep every remapped section in mod.ini (default: one section per target draw per file, the rest in <stem>ChisaParfaitRemapFix<n>.ini -- see the header, point 11)")
+    parser.add_argument("--paint", action = "store_true",
+                        help = "replace every slot's diffuse with a flat colour, one per source component, to see which slot draws which part")
     parser.add_argument("--probe", nargs = "?", const = True, default = False, metavar = "SPEC",
                         help = "bind a flat colour to every register the clothing slots do not plan, to see in one round which one paints a surface; "
                                "SPEC (`3:ps-t4,4:ps-t5`) narrows it to the named registers per source component")
@@ -1208,7 +1292,7 @@ def main():
     retarget = (args.shapeKeys == "retarget")
     FRB.CppStrategyOverrides.setParser(SourceName, makeParser(sourceType, retarget))
     probe = parseProbeSpec(args.probe) if isinstance(args.probe, str) else args.probe
-    FRB.CppStrategyOverrides.setFixer(SourceName, TargetName, makeFixer(sourceType, targetType, remapOverride, args.anchor, retarget, probe, args.plan))
+    FRB.CppStrategyOverrides.setFixer(SourceName, TargetName, makeFixer(sourceType, targetType, remapOverride, args.anchor, retarget, probe, args.plan, args.paint))
     try:
         runService(folder, args)
     finally:

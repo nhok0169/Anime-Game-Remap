@@ -139,6 +139,18 @@ SkinMask = "SkinMask"                       # the invented mask's resource / fil
 #   the more flesh-like of her two by 88% to 52%. So her own mask tells the skin's shader that 97%
 #   of her jacket, blouse and skirt is bare flesh, and the whole body renders under a translucent
 #   subsurface red -- the Sanhua "cloth shaded as skin" symptom, from the opposite direction.
+# --probe: the registers a planned slot does NOT bind, each given an unmistakable flat colour, so
+#   ONE in-game round says which one paints a surface (Overview's "WHEN YOU CANNOT TELL WHAT A DRAW
+#   IS USING, REPLACE THE TEXTURE WITH SOMETHING UNMISTAKABLE", by register rather than by slot).
+#   The two skins' clothing passes are different pixel shaders -- the skin's takes an extra R8 map at
+#   ps-t2 and a different set of auxiliary maps after it, one of which (742c5c7b) is bright RED --
+#   and which of them a surface reads cannot be told from the dump. A probe build also identifies
+#   ITSELF: if the model is not gaudy, the game is not running the build you just made.
+ProbeColours = [("ps-t2", (0, 255, 0, 255), "green"), ("ps-t4", (0, 0, 255, 255), "blue"),
+                ("ps-t5", (255, 255, 0, 255), "yellow"), ("ps-t6", (0, 255, 255, 255), "cyan"),
+                ("ps-t7", (255, 0, 255, 255), "magenta"), ("ps-t8", (255, 128, 0, 255), "orange")]
+ProbeSlots = {3, 4}                             # the source components a --probe run paints; the rest are left readable
+
 MaskTranslations = {"upperMask", "lowerMask"}   # the roles whose file is repacked before it is bound
 TargetMaskCloth = (255, 0, 126, 0)              # the skin's own dominant code, ie. ordinary cloth: R 93.6%, G 80.1%, B 84.8%, A 98.2%
 TargetMaskSkinR = 0                             # what she marks bare skin with, in R
@@ -727,7 +739,7 @@ def effectiveRemap(sourceType, target, remapOverride: Optional[Dict[int, int]], 
     return FRB.VGRemap(remap), forced
 
 
-def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = None, anchor: Optional[str] = None, shapeKeys: bool = False,
+def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = None, anchor: Optional[str] = None, shapeKeys: bool = False, probe: bool = False,
               planName: str = "default"):
     plan = Plans[planName]
     source, target = characterFromLibrary(sourceType), characterFromLibrary(targetType)
@@ -747,6 +759,8 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
 
         maskResource = fixName(f"Resource{SkinMask}")      # a 3dmigoto resource section's name starts with Resource
 
+        probed: set = set()                             # --probe: the flat colours already declared in this .ini
+        probeLegend: List[str] = []
         appended: List[str] = files.declare(fixName)     # the textures this .ini has no resource of its own for
         appended += files.fallbacks([role for i in files.present if (i in plan) for role in plan[i][1].values()])
         # ...and the masks whose PACKING differs between the two skins, repacked (MaskTranslations)
@@ -788,6 +802,20 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             edits: List[object] = []
             bindings = [f"    {reg} = {maskResource if (role == SkinMask) else files.resourceOfRole[role]}"
                         for reg, role in regs.items() if (role == SkinMask or role in files.resourceOfRole)]
+            if (probe and i in ProbeSlots):
+                # every register this slot does not plan, flat and unmistakable -- see ProbeColours
+                for reg, colour, name in ProbeColours:
+                    if (reg in regs):
+                        continue
+                    resource = fixName(f"ResourceProbe{name.capitalize()}")
+                    if (resource not in probed):
+                        probeFile = os.path.join(files.textureFolder, f"Probe{name.capitalize()}{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
+                        os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
+                        writeSolidDds(os.path.join(ini.folder, probeFile), colour)
+                        appended.append("\n".join([f"[{resource}]", f"filename = {probeFile}", ""]))
+                        probed.add(resource)
+                    bindings.append(f"    {reg} = {resource}")
+                    probeLegend.append(f"      component {i} {reg} -> {name}")
             additions: List[Tuple[str, str]] = [("vb6", zeroResource)] if (zeroResource) else []
             if (bindings):
                 cmdList = fixName(f"CommandList{SourceName}{SlotPrefix.capitalize()}{i}Textures")
@@ -845,6 +873,12 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
             writeSolidDds(os.path.join(ini.folder, maskFile), SkinMaskColour)
             appended.append("\n".join([f"[{maskResource}]", f"filename = {maskFile}", ""]))
+
+        if (probeLegend):
+            print("    --probe: every unplanned register of the clothing slots is a flat colour; whichever one")
+            print("             shows on a surface is the register that paints it")
+            for line in probeLegend:
+                print(line)
 
         _alive.extend(graphEdits)
         fixer = FRB.GIMIFixer(parser, graphGroupEdits = graphEdits, modsToFix = [toModName])
@@ -1057,6 +1091,8 @@ def main():
                         help = "comment the mod's own [TextureOverrideTexture] sections out too, as the hand remap does")
     parser.add_argument("--noSplit", action = "store_true",
                         help = "keep every remapped section in mod.ini (default: one section per target draw per file, the rest in <stem>ChisaParfaitRemapFix<n>.ini -- see the header, point 11)")
+    parser.add_argument("--probe", action = "store_true",
+                        help = "bind a flat colour to every register the clothing slots do not plan, to see in one round which one paints a surface")
     parser.add_argument("--vgRemap", default = None, metavar = "JSON",
                         help = "a {source group: target group} table to write the blend with instead of the library's VGRemaps row (e.g. a draft sheet exported to json)")
     args = parser.parse_args()
@@ -1074,7 +1110,7 @@ def main():
     FRB.CppStrategyOverrides.clear()
     retarget = (args.shapeKeys == "retarget")
     FRB.CppStrategyOverrides.setParser(SourceName, makeParser(sourceType, retarget))
-    FRB.CppStrategyOverrides.setFixer(SourceName, TargetName, makeFixer(sourceType, targetType, remapOverride, args.anchor, retarget, args.plan))
+    FRB.CppStrategyOverrides.setFixer(SourceName, TargetName, makeFixer(sourceType, targetType, remapOverride, args.anchor, retarget, args.probe, args.plan))
     try:
         runService(folder, args)
     finally:

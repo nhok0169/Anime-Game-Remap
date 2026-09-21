@@ -991,8 +991,13 @@ class DictToolsTest(BaseUnitTest):
 
         self.assertEqual(result.shape, (2, 3))
 
-        rows = sorted(tuple(row) for row in result.itertuples(index = False))
-        self.assertEqual(rows, [("a", "1", "x"), ("b", "leaf", None)])
+        # How the empty cell is spelled depends on the pandas version: an object column keeps None,
+        # pandas 3's inferred string column stores NaN. Assert that it is MISSING, not which one.
+        result = result.sort_values("outer").reset_index(drop = True)
+        self.assertEqual(result.iloc[0].tolist(), ["a", "1", "x"])
+        self.assertEqual(result.iloc[1, :2].tolist(), ["b", "leaf"])
+        self.assertTrue(result.isna().iloc[1, 2])
+        self.assertEqual(int(result.isna().to_numpy().sum()), 1)
 
     def test_numpyIsNotImportedJustByImportingThePackage(self):
         """

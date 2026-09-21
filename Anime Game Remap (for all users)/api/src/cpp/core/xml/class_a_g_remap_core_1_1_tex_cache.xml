@@ -1,0 +1,566 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_tex_cache" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::TexCache</compoundname>
+    <includes refid="_tex_cache_8h" local="no">TexCache.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded" prot="public">AGRemapCore::TexCache::Decoded</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry" prot="private">AGRemapCore::TexCache::Entry</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_cache_1ad01183dba750034a7075dea760f9affe" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::TexCache::DefaultMaxBytes</definition>
+        <argsstring></argsstring>
+        <name>DefaultMaxBytes</name>
+        <qualifiedname>AGRemapCore::TexCache::DefaultMaxBytes</qualifiedname>
+        <initializer>= 256u * 1024u * 1024u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How many bytes of decoded pixels to keep before evicting the least recently used
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Decoded pixels are RGBA8 and so far larger than the file they came from -- a
+4096x4096 texture is 64MB decoded. This is a budget rather than an entry count for
+that reason: a handful of big textures must not be allowed to hold half a gigabyte
+on the 16GB laptop this library is also developed on
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="81" column="42" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_cache_1ac0fd385a2330a9585978bcaabde81622" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::TexCache::enabled_</definition>
+        <argsstring></argsstring>
+        <name>enabled_</name>
+        <qualifiedname>AGRemapCore::TexCache::enabled_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="198" column="18" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_cache_1a14709c618eef087ac65f428b5b316600" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::TexCache::maxBytes_</definition>
+        <argsstring></argsstring>
+        <name>maxBytes_</name>
+        <qualifiedname>AGRemapCore::TexCache::maxBytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="199" column="25" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_cache_1ac42905809545c8a43b550480027bd24f" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::TexCache::bytes_</definition>
+        <argsstring></argsstring>
+        <name>bytes_</name>
+        <qualifiedname>AGRemapCore::TexCache::bytes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="200" column="25" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_cache_1a03db6464d09fb4bcb4625efc1f4f858f" prot="private" static="no" mutable="no">
+        <type>std::list&lt; <ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref> &gt;</type>
+        <definition>std::list&lt;Hash128&gt; AGRemapCore::TexCache::order_</definition>
+        <argsstring></argsstring>
+        <name>order_</name>
+        <qualifiedname>AGRemapCore::TexCache::order_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="203" column="23" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_cache_1a60d5115da7ee7af9944e4517f82fff03" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref>, <ref refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry" kindref="compound">Entry</ref> &gt;</type>
+        <definition>std::unordered_map&lt;Hash128, Entry&gt; AGRemapCore::TexCache::decoded_</definition>
+        <argsstring></argsstring>
+        <name>decoded_</name>
+        <qualifiedname>AGRemapCore::TexCache::decoded_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="204" column="32" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_cache_1ae479e287157526b9038c6916e0cbc51d" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref>, std::string &gt;</type>
+        <definition>std::unordered_map&lt;Hash128, std::string&gt; AGRemapCore::TexCache::written_</definition>
+        <argsstring></argsstring>
+        <name>written_</name>
+        <qualifiedname>AGRemapCore::TexCache::written_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="206" column="32" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_cache_1a6ea4cb92f24c03712710fe678cf602c2" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Hash128&gt; AGRemapCore::TexCache::pathOwner_</definition>
+        <argsstring></argsstring>
+        <name>pathOwner_</name>
+        <qualifiedname>AGRemapCore::TexCache::pathOwner_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="210" column="32" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_cache_1a83bbfc066da1df6e611cf8c582e01002" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::TexCache::decodeHits_</definition>
+        <argsstring></argsstring>
+        <name>decodeHits_</name>
+        <qualifiedname>AGRemapCore::TexCache::decodeHits_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="212" column="25" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_cache_1a445b82c12418833df57a7bd554c5b6b3" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::TexCache::decodeMisses_</definition>
+        <argsstring></argsstring>
+        <name>decodeMisses_</name>
+        <qualifiedname>AGRemapCore::TexCache::decodeMisses_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="213" column="25" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_cache_1a5edfe7c8179f069050bade562e021add" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::TexCache::writeHits_</definition>
+        <argsstring></argsstring>
+        <name>writeHits_</name>
+        <qualifiedname>AGRemapCore::TexCache::writeHits_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="214" column="25" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_cache_1ae24dac676926bcddeeab34e4c7cc9b68" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::TexCache::writeMisses_</definition>
+        <argsstring></argsstring>
+        <name>writeMisses_</name>
+        <qualifiedname>AGRemapCore::TexCache::writeMisses_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="215" column="25" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_cache_1a7e3fe0377e6e071441e66802f692f902" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::TexCache::TexCache</definition>
+        <argsstring>(std::size_t maxBytes=DefaultMaxBytes)</argsstring>
+        <name>TexCache</name>
+        <qualifiedname>AGRemapCore::TexCache::TexCache</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>maxBytes</declname>
+          <defval><ref refid="class_a_g_remap_core_1_1_tex_cache_1ad01183dba750034a7075dea760f9affe" kindref="member">DefaultMaxBytes</ref></defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new texture cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>maxBytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The budget for decoded pixels <ndash/> see <ref refid="class_a_g_remap_core_1_1_tex_cache_1ad01183dba750034a7075dea760f9affe" kindref="member">DefaultMaxBytes</ref>. <computeroutput>0</computeroutput> disables the decode half entirely </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="118" column="22" bodyfile="src/model/files/TexCache.cpp" bodystart="21" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_cache_1a8a427d31d205b52b13059b203a370023" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded" kindref="compound">Decoded</ref> *</type>
+        <definition>const TexCache::Decoded * AGRemapCore::TexCache::decoded</definition>
+        <argsstring>(const Hash128 &amp;source)</argsstring>
+        <name>decoded</name>
+        <qualifiedname>AGRemapCore::TexCache::decoded</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref> &amp;</type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The decoded pixels for a source file whose bytes hash to &apos;source&apos;, if they are still
+held :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Promotes the entry to most-recently-used. The pointer is invalidated by the next
+:cpp:func:`rememberDecoded`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash of the source file&apos;s bytes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="132" column="27" bodyfile="src/model/files/TexCache.cpp" bodystart="33" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_cache_1a99fe91fe242aeb143848778106683842" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::TexCache::rememberDecoded</definition>
+        <argsstring>(const Hash128 &amp;source, Decoded value)</argsstring>
+        <name>rememberDecoded</name>
+        <qualifiedname>AGRemapCore::TexCache::rememberDecoded</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref> &amp;</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded" kindref="compound">Decoded</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Records the decoded pixels for the source file whose bytes hash to &apos;source&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash of the source file&apos;s bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The decoded texture </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="140" column="18" bodyfile="src/model/files/TexCache.cpp" bodystart="54" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_cache_1a74a6d808635ed0e603d24b2bd95816ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::TexCache::writtenAs</definition>
+        <argsstring>(const Hash128 &amp;output)</argsstring>
+        <name>writtenAs</name>
+        <qualifiedname>AGRemapCore::TexCache::writtenAs</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref> &amp;</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Where an identical output was already written during this run, if anywhere
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Non-``const`` because a hit is counted here -- see :cpp:func:`getWriteHits`. Calling
+it from a ``const`` method is still fine: what a caller holds is a
+``TexCache*``, and it is the POINTER that is const there, not the cache
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash of the finished pixels plus the write&apos;s own settings </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="155" column="27" bodyfile="src/model/files/TexCache.cpp" bodystart="96" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_cache_1a3d71a62c22a2b0ff6591ac4e256538f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::TexCache::rememberWritten</definition>
+        <argsstring>(const Hash128 &amp;output, std::string path)</argsstring>
+        <name>rememberWritten</name>
+        <qualifiedname>AGRemapCore::TexCache::rememberWritten</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref> &amp;</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Records that an output hashing to &apos;output&apos; now sits at &apos;path&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash of the finished pixels plus the write&apos;s own settings </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The full path the texture was written to </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="163" column="18" bodyfile="src/model/files/TexCache.cpp" bodystart="110" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_cache_1a4ec7b682b8f0854024dafaf59287096e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::TexCache::forgetWritten</definition>
+        <argsstring>(const Hash128 &amp;output)</argsstring>
+        <name>forgetWritten</name>
+        <qualifiedname>AGRemapCore::TexCache::forgetWritten</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref> &amp;</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+<para>Forgets a remembered output <ndash/> used when copying from it failed, so the next caller writes it properly rather than retrying a copy that cannot work. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash to forget </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="171" column="18" bodyfile="src/model/files/TexCache.cpp" bodystart="130" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_cache_1a8c7160add66738c77f71dab2f0495cb1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::TexCache::getDecodeHits</definition>
+        <argsstring>() const</argsstring>
+        <name>getDecodeHits</name>
+        <qualifiedname>AGRemapCore::TexCache::getDecodeHits</qualifiedname>
+        <briefdescription>
+<para>How many decodes this run skipped. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="174" column="25" bodyfile="src/model/files/TexCache.cpp" bodystart="138" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_cache_1a33d997e27ddd8b3a62239153460acdfc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::TexCache::getDecodeMisses</definition>
+        <argsstring>() const</argsstring>
+        <name>getDecodeMisses</name>
+        <qualifiedname>AGRemapCore::TexCache::getDecodeMisses</qualifiedname>
+        <briefdescription>
+<para>How many decodes this run actually performed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="177" column="25" bodyfile="src/model/files/TexCache.cpp" bodystart="142" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_cache_1a0c65d7c8fd4334fedfd96e03759b4276" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::TexCache::getWriteHits</definition>
+        <argsstring>() const</argsstring>
+        <name>getWriteHits</name>
+        <qualifiedname>AGRemapCore::TexCache::getWriteHits</qualifiedname>
+        <briefdescription>
+<para>How many texture writes this run served with a file copy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="180" column="25" bodyfile="src/model/files/TexCache.cpp" bodystart="146" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_cache_1a2c75fbfd0d27c900b3756d2590f66b19" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::TexCache::getWriteMisses</definition>
+        <argsstring>() const</argsstring>
+        <name>getWriteMisses</name>
+        <qualifiedname>AGRemapCore::TexCache::getWriteMisses</qualifiedname>
+        <briefdescription>
+<para>How many texture writes this run actually encoded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="183" column="25" bodyfile="src/model/files/TexCache.cpp" bodystart="150" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_cache_1a782e16aaf6149aa653a8c4ccf23a6b50" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::TexCache::getBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>getBytes</name>
+        <qualifiedname>AGRemapCore::TexCache::getBytes</qualifiedname>
+        <briefdescription>
+<para>How many bytes of decoded pixels are currently held. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="186" column="25" bodyfile="src/model/files/TexCache.cpp" bodystart="154" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_cache_1af9b2493ed420ce88b4c27bb120af64a4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::TexCache::evict</definition>
+        <argsstring>()</argsstring>
+        <name>evict</name>
+        <qualifiedname>AGRemapCore::TexCache::evict</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="189" column="18" bodyfile="src/model/files/TexCache.cpp" bodystart="84" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The two things a run repeats when it edits textures: decoding the same source file, and
+writing the same pixels :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A fix edits a texture once per DESTINATION, not once per distinct image, so a mod whose
+toggles all reference the same few textures pays the full cost every time. Measured on a
+194-``.ini`` Ayaka6 mod: **579 edit operations producing 7 distinct texture contents**, and
+on a 1024x1024 ``BC7`` source at the CLI&apos;s default (uncompressed) settings each of those is
+~0.20s to decode plus ~0.26s to write, against ~0.003s for the disk I/O the write actually
+needs :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Both halves are keyed on CONTENT, and neither assumes anything about the filters.** That
+is the whole design constraint: :cpp:type:`TexEditor::Filter` is a
+``std::function&lt;void(TextureFile&amp;)&gt;``, so a chain cannot be introspected for purity or for
+what else it reads -- and at least one real filter
+(:cpp:class:`MaterialBandRemapFilter`) reads a *second* file, its diffuse gate, where an
+absent diffuse changes the result. So:
+
+- the **decode** side is keyed on the source file&apos;s bytes. Decoding is a pure function of
+  those bytes; no filter has run yet.
+- the **write** side is keyed on the finished pixel buffer plus the format/compress/mipmaps
+  the write would use. Every filter still runs, every time -- only the encode-and-write of
+  an image we have already written is replaced, with a file copy.
+
+.. note::
+   Not synchronized, and deliberately so -- one lives per :cpp:class:`RemapService`, which
+   walks its folders sequentially. Sharing one across threads needs a lock added here first,
+   exactly as :cpp:class:`DownloadCache` says of itself :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+   Nothing here checks that a remembered output is still ON DISK. It does not need to:
+   :cpp:func:`TextureFile::writeTo` falls back to a real write when the copy fails, so a
+   remembered path that has since been deleted costs one failed ``copy_file`` and self-heals
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/files/TexCache.h" line="66" column="5" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="66" bodyend="216"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1ac42905809545c8a43b550480027bd24f" prot="private" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>bytes_</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a8a427d31d205b52b13059b203a370023" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>decoded</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a60d5115da7ee7af9944e4517f82fff03" prot="private" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>decoded_</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a83bbfc066da1df6e611cf8c582e01002" prot="private" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>decodeHits_</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a445b82c12418833df57a7bd554c5b6b3" prot="private" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>decodeMisses_</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1ad01183dba750034a7075dea760f9affe" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>DefaultMaxBytes</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1ac0fd385a2330a9585978bcaabde81622" prot="private" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>enabled_</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1af9b2493ed420ce88b4c27bb120af64a4" prot="private" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>evict</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a4ec7b682b8f0854024dafaf59287096e" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>forgetWritten</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a782e16aaf6149aa653a8c4ccf23a6b50" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>getBytes</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a8c7160add66738c77f71dab2f0495cb1" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>getDecodeHits</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a33d997e27ddd8b3a62239153460acdfc" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>getDecodeMisses</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a0c65d7c8fd4334fedfd96e03759b4276" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>getWriteHits</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a2c75fbfd0d27c900b3756d2590f66b19" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>getWriteMisses</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a14709c618eef087ac65f428b5b316600" prot="private" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>maxBytes_</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a03db6464d09fb4bcb4625efc1f4f858f" prot="private" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>order_</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a6ea4cb92f24c03712710fe678cf602c2" prot="private" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>pathOwner_</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a99fe91fe242aeb143848778106683842" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>rememberDecoded</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a3d71a62c22a2b0ff6591ac4e256538f1" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>rememberWritten</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a7e3fe0377e6e071441e66802f692f902" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>TexCache</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a5edfe7c8179f069050bade562e021add" prot="private" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>writeHits_</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1ae24dac676926bcddeeab34e4c7cc9b68" prot="private" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>writeMisses_</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1ae479e287157526b9038c6916e0cbc51d" prot="private" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>written_</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_cache_1a74a6d808635ed0e603d24b2bd95816ec" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache</scope><name>writtenAs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

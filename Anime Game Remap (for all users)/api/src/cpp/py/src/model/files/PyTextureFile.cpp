@@ -134,6 +134,35 @@ colour: :class:`CppColour`
     The new colour for the pixel
         )doc"))
 
+        // keep_alive<1, 2>: the texture holds a BORROWED TexCache*, so without this a cache that
+        // Python has no other reference to is collected while this texture still points at it --
+        // and the next open() reads freed memory. The same reason PyFileDownload's own borrowed
+        // cache pointer is never handed over from Python at all.
+        .def("setCache", &AGRC::TextureFile::setCache, py::arg("cache"), py::keep_alive<1, 2>(),
+              py::doc(R"doc(
+Gives this texture a run-level :class:`TexCache`, so a source it has already decoded is not decoded
+again and an image it has already written is copied rather than re-encoded
+
+``None`` (the default) disables both, which is what every caller had before the cache existed.
+:class:`RemapService` sets this itself on the textures it fixes, so this is only needed when
+driving :class:`TextureFile` directly
+
+Parameters
+----------
+cache: Optional[:class:`TexCache`]
+    The cache to share, or ``None`` for none. The cache is kept alive for as long as this texture is
+        )doc"))
+
+        .def("getCache", &AGRC::TextureFile::getCache, py::return_value_policy::reference_internal,
+              py::doc(R"doc(
+The cache given to this texture by :meth:`setCache`
+
+Returns
+-------
+Optional[:class:`TexCache`]
+    The shared cache, or ``None`` if this texture is not caching
+        )doc"))
+
         .def("open", &AGRC::TextureFile::open, py::doc(R"doc(
 Opens the texture file at :attr:`src`, decoding it into :meth:`getPixels`
 

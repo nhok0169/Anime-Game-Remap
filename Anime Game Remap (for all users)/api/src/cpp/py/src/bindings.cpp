@@ -132,6 +132,7 @@ void initCppBaseBufEditor(pybind11::module_ &m);
 void initCppBufEditor(pybind11::module_ &m);
 void initCppColour(pybind11::module_ &m);
 void initCppColourRange(pybind11::module_ &m);
+void initCppTexCache(pybind11::module_ &m);
 void initCppTextureFile(pybind11::module_ &m);
 void initCppBasePixelTransform(pybind11::module_ &m);
 void initCppCorrectGamma(pybind11::module_ &m);
@@ -331,6 +332,7 @@ PYBIND11_MODULE(core, m) {
     initCppBufEditor(m); // must come after initCppBaseBufEditor (registers its base)
     initCppColour(m);
     initCppColourRange(m); // must come after initCppColour (constructor arg type)
+    initCppTexCache(m); // must come before initCppTextureFile (its 'setCache' signature references it)
     initCppTextureFile(m);
     initCppBasePixelTransform(m);
     initCppCorrectGamma(m); // must come after initCppBasePixelTransform (registers its base)

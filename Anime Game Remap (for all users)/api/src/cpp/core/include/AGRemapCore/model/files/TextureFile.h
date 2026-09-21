@@ -20,7 +20,9 @@
 #include <vector>
 
 #include "compressonator.h"
+#include "AGRemapCore/model/files/TexCache.h"
 #include "AGRemapCore/model/textures/Colour.h"
+#include "AGRemapCore/tools/hashing/Hash128.h"
 
 namespace AGRemapCore {
 
@@ -210,7 +212,79 @@ namespace AGRemapCore {
              */
             static constexpr CMP_FORMAT DefaultFormat = CMP_FORMAT_BC7;
 
+            /**
+             * @brief
+             @rst
+             Gives this texture a run-level :cpp:class:`TexCache`, so that a source it has already
+             decoded is not decoded again and an image it has already written is copied rather
+             than re-encoded :raw-html:`<br />` :raw-html:`<br />`
+
+             ``nullptr`` (the default) disables both, which is exactly the behaviour every caller
+             had before the cache existed. :cpp:class:`RemapService` owns one and hands it over in
+             the same place it hands a download its :cpp:class:`DownloadCache`
+             @endrst
+             *
+             * @param cache The cache to use, or ``nullptr`` for none. Not owned -- it must outlive this texture
+             */
+            void setCache(TexCache *cache);
+
+            /**
+             * @brief The cache given to this texture by #setCache, or ``nullptr``
+             */
+            TexCache *getCache() const;
+
         private:
+            /**
+             * @brief
+             @rst
+             The hash of the source file's raw bytes, or ``std::nullopt`` if it could not be read
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The decode cache is keyed on this rather than on the PATH: two mod folders routinely
+             hold byte-identical copies of the same game texture under different names, and a
+             path key would miss every one of them
+             @endrst
+             */
+            std::optional<Hash128> hashSource() const;
+
+            /**
+             * @brief The cache key for writing #getPixels with these settings -- see #writeTo
+             *
+             * @param compress Whether the write re-encodes to #format_
+             * @param mipmaps Whether the write generates a mip chain
+             */
+            Hash128 writeKey(bool compress, bool mipmaps) const;
+
+            /**
+             * @brief
+             @rst
+             Writes #getPixels to 'dest' as a plain 32-bit uncompressed ``.dds``, without handing
+             the buffer to `Compressonator`_ at all :raw-html:`<br />` :raw-html:`<br />`
+
+             **Byte-for-byte what CMP_SaveTexture produced for this case**, which is the only
+             reason it is allowed to exist: the uncompressed write turned out to be a fixed
+             128-byte legacy header followed by the pixels swizzled ``RGBA`` -> ``BGRA``, and
+             nothing else. Verified against the previous writer over every texture the corpus
+             produces :raw-html:`<br />` :raw-html:`<br />`
+
+             Worth bypassing because the library's own path costs far more than the bytes do --
+             measured on a 4096x4096 texture, 4.22s to write 64MB whose disk I/O is ~0.05s, with
+             no compression happening at all :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                Only for the ``compress = false``, ``mipmaps = false`` case. A BCn encode and a
+                mip chain both stay with `Compressonator`_, which is what actually knows how to
+                produce them :raw-html:`<br />` :raw-html:`<br />`
+
+                Also sidesteps the ASCII scratch-file dance #open needs, since ``std::ofstream``
+                takes a ``std::filesystem::path`` and is unicode-safe where the narrow C API is not
+             @endrst
+             *
+             * @param dest The file path to write to
+             * @return Whether the file was written -- ``false`` leaves the caller to fall back
+             */
+            bool writeUncompressedDds(const std::string &dest) const;
+
             /**
              * @brief Writes #getPixels to 'dest', optionally compressing it to #format_ first
              *
@@ -228,6 +302,10 @@ namespace AGRemapCore {
             bool hasImage_ = false;
             CMP_FORMAT format_ = DefaultFormat;
             std::optional<double> gamma_;
+
+            // Not owned. nullptr means "no caching", which is what every caller got before this
+            // existed -- see setCache
+            TexCache *cache_ = nullptr;
     };
 }
 

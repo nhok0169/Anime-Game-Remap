@@ -203,6 +203,43 @@ namespace AGRemapCore {
     }
 
     template <typename TrieVal>
+    std::size_t BaseAhoCorasickDFA<TrieVal>::addMany(const std::unordered_map<std::string, TrieVal> &entries) {
+        // Nothing to add means nothing to rebuild. Worth saying explicitly: the whole point of this
+        // function is that build() is expensive, and a caller filling in gaps routinely finds none.
+        if (entries.empty()) {
+            return 0;
+        }
+
+        // The same extraction add() does -- but once for the entire batch rather than once per
+        // keyword, which is the entire difference between this and calling add() in a loop.
+        std::unordered_map<std::string, TrieVal> data;
+
+        for (const auto &[keywordId, currentKeyword]: this->keywords) {
+            auto valKVP = this->vals.find(keywordId);
+            if (valKVP == this->vals.end()) continue;
+            data[currentKeyword] = valKVP->second;
+        }
+
+        std::size_t insertedNo = 0;
+
+        for (const auto &[key, val]: entries) {
+            auto it = data.find(key);
+
+            if (it == data.end()) {
+                data.emplace(key, val);
+                insertedNo++;
+            } else {
+                // Merged on exactly the terms add() merges on, so a keyword arriving in a batch and
+                // the same keyword arriving on its own cannot end up with different values.
+                it->second = this->handleDuplicate(key, it->second, val);
+            }
+        }
+
+        build(data);
+        return insertedNo;
+    }
+
+    template <typename TrieVal>
     std::uint64_t BaseAhoCorasickDFA<TrieVal>::getNextState(std::uint64_t currentStateId, std::string_view letter, bool *resIsFail) {
         std::unordered_map<std::string, std::uint64_t, StringViewHash, std::equal_to<void>> *nextStateChildren;
         std::optional<std::uint64_t> nextStateId;

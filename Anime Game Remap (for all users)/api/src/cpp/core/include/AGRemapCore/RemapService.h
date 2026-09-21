@@ -27,6 +27,7 @@
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/stats/RemapStats.h"
+#include "AGRemapCore/model/files/TexCache.h"
 #include "AGRemapCore/tools/files/FileDownload.h"
 #include "AGRemapCore/view/BaseLogger.h"
 
@@ -938,6 +939,23 @@ namespace AGRemapCore {
              */
             void _applyCompressTextures(IniResource& resource);
 
+            /**
+             * @brief
+             @rst
+             Hands 'resource' the run's :cpp:class:`TexCache` if it is one of the two that write a
+             ``.dds`` :raw-html:`<br />` :raw-html:`<br />`
+
+             Called from **both** :cpp:func:`_fixResource` and :cpp:func:`_fixGroupedResource`, and
+             that is the whole point of it being a function: a group fixes its own members, so a
+             texture inside one never reaches the first of those. Setting the cache in only one
+             place left every grouped texture uncached while the summary and the output looked
+             exactly right
+             @endrst
+             *
+             * @param resource The resource to hand the cache to, if it takes one
+             */
+            void _applyTexCache(IniResource& resource);
+
         private:
             std::string path_;
             bool pathIsCwd_ = false;
@@ -954,6 +972,12 @@ namespace AGRemapCore {
             //   because a parser is built per IniFile, so each download gets a FileDownload of
             //   its own with an empty cache -- see DownloadCache's own doc comment.
             DownloadCache downloadCache_;
+
+            // What this run has already decoded and already written, so the same source texture
+            //   is decoded once and an image written twice is copied the second time. Lives here
+            //   for the same reason downloadCache_ does: a TextureFile is built per resource, so
+            //   a per-object cache could never hit -- see TexCache's own doc comment.
+            TexCache texCache_;
 
             // The walk itself. Split out of fix() so that fix() is only the exception/logger
             //   bookkeeping wrapped around it -- the same split the pure-Python original had

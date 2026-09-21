@@ -124,6 +124,7 @@ from .test_VGRemap import VGRemapTest
 
 from .test_TexEngine import TexEngineTest
 from .test_CppColour import CppColourTest
+from .test_CppTexCache import CppTexCacheTest
 from .test_CppTextureFile import CppTextureFileTest
 from .test_TextureFile import TextureFileTest
 from .test_CppBaseTexEditor import CppBaseTexEditorTest
@@ -167,7 +168,7 @@ __all__ += ["CallGraphTest", "SectionIterDataTest", "GraphToolsTest"]
 __all__ += ["BufDataTypeTest", "BufElementTypeTest", "BinaryFileTest", "CppBufFileTest", "VGRemapTest", "BufToolsTest"]
 __all__ += ["BufFileTest", "BlendFileTest", "PositionFileTest", "IbFileTest", "VbFileTest"]
 __all__ += ["BaseBufEditorTest", "BufEditorTest"]
-__all__ += ["TexEngineTest", "CppColourTest", "CppTextureFileTest", "TextureFileTest"]
+__all__ += ["TexEngineTest", "CppColourTest", "CppTexCacheTest", "CppTextureFileTest", "TextureFileTest"]
 __all__ += ["CppBaseTexEditorTest", "BaseTexEditorTest", "CppBaseTexFilterTest", "CppGammaFilterTest"]
 __all__ += ["CppBasePixelTransformTest", "CppCorrectGammaTest", "CppColourReplaceTest", "CppHighlightShadowTest", "CppInvertAlphaTest", "CppTempControlTest", "CppTintTransformTest", "CppTransparencyTest"]
 __all__ += ["CppColourReplaceFilterTest", "CppTransparencyAdjustFilterTest", "CppInvertAlphaFilterTest", "CppHueAdjustTest", "CppPixelFilterTest", "PixelFilterTest"]

@@ -1046,6 +1046,8 @@ namespace AGRemapCore {
         // nothing about how this run was invoked. This is the last place that holds both.
         _applyCompressTextures(resource);
 
+        _applyTexCache(resource);
+
         if (RemapTexAddResource* texAdd = dynamic_cast<RemapTexAddResource*>(&resource)) {
             return texAdd->fix();
         }
@@ -1074,9 +1076,31 @@ namespace AGRemapCore {
         // above says must not happen.
         for (IniResource* member : resource.memberResources()) {
             _applyCompressTextures(*member);
+
+            // The cache has to be pushed down here for the SAME reason the compress override
+            // does, and leaving it out had the same shape of failure: the textures inside a group
+            // -- which is most of them -- silently kept decoding and re-encoding every duplicate.
+            // Measured before this line existed: a 194-toggle Ayaka6 went 112.2s -> 110.1s, while
+            // the mods whose textures are not grouped were already 1.3-1.5x faster.
+            _applyTexCache(*member);
         }
 
         return resource.fix();
+    }
+
+
+    void RemapService::_applyTexCache(IniResource& resource) {
+        // Both texture resources, for the same reason _applyCompressTextures handles both: an edit
+        // reads a .dds and writes one, an add writes one it invented, and both go through the
+        // TextureFile that the cache lives behind.
+        if (RemapTexEditResource* texEdit = dynamic_cast<RemapTexEditResource*>(&resource)) {
+            texEdit->texCache = &texCache_;
+            return;
+        }
+
+        if (RemapTexAddResource* texAdd = dynamic_cast<RemapTexAddResource*>(&resource)) {
+            texAdd->texCache = &texCache_;
+        }
     }
 
 

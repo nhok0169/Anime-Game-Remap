@@ -2655,6 +2655,53 @@ standalone test drives to prove the option is not merely recorded. That is worth
 - **`RaidenBoss` and `ArlecchinoBoss` cannot be resolved by name at all**, in either language. They
   are remap *targets* only, `GIBuilder::all()` has no factory for them, and the Python `ModTypes`
   enum has no member either. A test or an example using one as a `--remappedTypes` value fails.
+- **Register mod types in BULK** --- `ModTypeIdTools::registerModTypes`, not `registerModType` in a
+  loop. See the next section for why that is not a style preference.
+- **`GlobalModTypes::registerMissing()` is free after the first call**, and the guard is
+  `ModTypeIdTools::generation()` rather than a "done" flag. `clear()` is the only thing that bumps
+  the generation, and it is the only thing that can make a filed id absent again --- so a plain flag
+  would leave the registry empty for the rest of the process after a `clear()`, which is the exact
+  bug the same pattern in `GlobalIniClassifiers` was written to fix. Pinned by
+  `core/tests/BaseAhoCorasickDFA_AddMany_test.cpp`'s clear-then-refile case, which was run against a
+  deliberately naive flag first and failed. This matters because the call is **not** once a run:
+  `RemapServiceCLI`'s constructor makes one and the first `classify()` makes another.
+
+## `add` on an Aho-Corasick automaton is a FULL REBUILD, so a loop of them is quadratic (2026-09-20)
+
+`BaseAhoCorasickDFA::add(key, val)` reads like an insertion and is not one. A keyword's failure
+links depend on every *other* keyword, so the implementation copies every keyword it already holds
+into a fresh `std::unordered_map` and calls `build()` on the lot. Adding *n* keywords one at a time
+therefore does *n* full reconstructions over a growing set.
+
+That is easy to write without noticing, and it was: `ModTypeIdTools::registerModType` called
+`_nameDFA.add` once per name and once per alias, and `GlobalModTypes::registerMissing` called *it*
+in a loop over all 49 shipped mod types. The result was **8ms to register one mod type** and
+**0.40s of a 1.3s run** to register the library's own --- for 284 names, on a lookup nothing had
+ever complained about, because each individual call still returns instantly.
+
+The fix is `BaseAhoCorasickDFA::addMany(entries)`: the same extraction and the same
+`handleDuplicate` merge as `add`, done once for the whole batch, with **one** `build()` at the end
+and no `build()` at all for an empty batch. `registerModTypes` accumulates every name and alias and
+hands them over together, and `registerModType` is now its one-element case so the two cannot
+drift. `registerMissing` went 0.53s -> 0.09s, and its second call --- an ordinary run makes one,
+when the classifiers are populated --- now does no automaton work whatsoever.
+
+Three things to carry forward:
+
+- **`addMany` is deliberately core-only and non-`virtual`.** The bound `add` is overridable from a
+  Python subclass through the trampoline; a batch does not route through it, so binding `addMany`
+  would let a subclass's customised `add` be quietly bypassed. If Python ever needs bulk, bind it as
+  a loop over `add`'s virtual entry point.
+- **The acceptance test is equivalence, not speed**
+  (`core/tests/BaseAhoCorasickDFA_AddMany_test.cpp`): every case builds the same keywords *both*
+  ways and requires the two automatons to answer the same, on deliberately overlapping keywords
+  (`an` inside `banana`, `ana` spanning it twice), because the failure links are the only part a
+  bulk build can get wrong and the only part invisible to a check that merely asks which keywords
+  are held. It was run against a deliberately broken `addMany` first and reported 4 failures ---
+  habit 34.
+- **Anything else that adds keywords in a loop has the same bug.** The `IniClassifier`'s `stateDFA`
+  does *not*: its `addState`/`addKeywordTransition` are genuinely incremental. Check which kind you
+  have before copying a pattern.
 
 ## Adding a resource type: the base is add-vs-edit, and it is unreachable until a `resEdits/` class builds it
 

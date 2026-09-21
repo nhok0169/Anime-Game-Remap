@@ -1,0 +1,474 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_tex_cache_8h" kind="file" language="C++">
+    <compoundname>TexCache.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">list</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">compressonator.h</includes>
+    <includes refid="_hash128_8h" local="yes">AGRemapCore/tools/hashing/Hash128.h</includes>
+    <includedby refid="_remap_service_8h" local="yes">include/AGRemapCore/RemapService.h</includedby>
+    <includedby refid="_texture_file_8h" local="yes">include/AGRemapCore/model/files/TextureFile.h</includedby>
+    <includedby refid="_remap_tex_resource_8h" local="yes">include/AGRemapCore/model/iniresources/RemapTexResource.h</includedby>
+    <includedby refid="_tex_cache_8cpp" local="yes">src/model/files/TexCache.cpp</includedby>
+    <incdepgraph>
+      <node id="15">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/model/files/TexCache.h</label>
+        <link refid="_tex_cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>AGRemapCore/tools/hashing/Hash128.h</label>
+        <link refid="_hash128_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>AGRemapCore/tools/hashing/HashInt.h</label>
+        <link refid="_hash_int_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>array</label>
+      </node>
+      <node id="9">
+        <label>compressonator.h</label>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>list</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>string_view</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/AGRemapCore/RemapService.h</label>
+        <link refid="_remap_service_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/RemapServiceCLI.h</label>
+        <link refid="_remap_service_c_l_i_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/model/files/TexCache.h</label>
+        <link refid="_tex_cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/AGRemapCore/model/files/TextureFile.h</label>
+        <link refid="_texture_file_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>include/AGRemapCore/model/iniresources/RemapTexResource.h</label>
+        <link refid="_remap_tex_resource_8h"/>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h</label>
+        <link refid="_tex_creator_edit_8h"/>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</label>
+        <link refid="_tex_editor_edit_8h"/>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/RemapServiceCLI.cpp</label>
+        <link refid="_remap_service_c_l_i_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/data/IniFixData/Arlecchino/ArlecchinoFixer.cpp</label>
+        <link refid="_arlecchino_fixer_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/data/IniFixData/Ayaka/AyakaFixer.cpp</label>
+        <link refid="_ayaka_fixer_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp</label>
+        <link refid="_ayaka_springbloom_fixer_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp</label>
+        <link refid="_cherry_hu_tao_fixer_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/data/IniFixData/DarkDiffuse.cpp</label>
+        <link refid="_dark_diffuse_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp</label>
+        <link refid="_diluc_flamme_fixer_8cpp"/>
+      </node>
+      <node id="37">
+        <label>src/data/IniFixData/GIMICharFixer.cpp</label>
+        <link refid="_g_i_m_i_char_fixer_8cpp"/>
+      </node>
+      <node id="38">
+        <label>src/data/IniFixData/GIMIComponentFixer.cpp</label>
+        <link refid="_g_i_m_i_component_fixer_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
+        <link refid="_g_i_m_i_merge_fixer_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/data/IniFixData/HuTao/HuTaoFixer.cpp</label>
+        <link refid="_hu_tao_fixer_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/data/IniFixData/JeanShading.cpp</label>
+        <link refid="_jean_shading_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/data/IniFixData/Keqing/KeqingFixer.cpp</label>
+        <link refid="_keqing_fixer_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp</label>
+        <link refid="_keqing_opulent_fixer_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/data/IniFixData/Kirara/KiraraFixer.cpp</label>
+        <link refid="_kirara_fixer_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/data/IniFixData/Klee/KleeFixer.cpp</label>
+        <link refid="_klee_fixer_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.cpp</label>
+        <link refid="_klee_blossoming_starlight_fixer_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
+        <link refid="_xiangling_fixer_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/data/IniFixData/Yelan/YelanFixer.cpp</label>
+        <link refid="_yelan_fixer_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</label>
+        <link refid="_yelan_tranquil_fixer_8cpp"/>
+      </node>
+      <node id="41">
+        <label>src/model/files/TexCache.cpp</label>
+        <link refid="_tex_cache_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/model/files/TextureFile.cpp</label>
+        <link refid="_texture_file_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/model/iniresources/RemapTexResource.cpp</label>
+        <link refid="_remap_tex_resource_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/model/strategies/texEditors/TexCreator.cpp</label>
+        <link refid="_tex_creator_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/model/strategies/texEditors/TexEditor.cpp</label>
+        <link refid="_tex_editor_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/model/strategies/texEditors/texFilters/ColourReplaceFilter.cpp</label>
+        <link refid="_colour_replace_filter_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/model/strategies/texEditors/texFilters/GammaFilter.cpp</label>
+        <link refid="_gamma_filter_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/model/strategies/texEditors/texFilters/HueAdjust.cpp</label>
+        <link refid="_hue_adjust_8cpp"/>
+      </node>
+      <node id="31">
+        <label>src/model/strategies/texEditors/texFilters/InvertAlphaFilter.cpp</label>
+        <link refid="_invert_alpha_filter_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp</label>
+        <link refid="_material_band_remap_filter_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/model/strategies/texEditors/texFilters/PixelFilter.cpp</label>
+        <link refid="_pixel_filter_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp</label>
+        <link refid="_transparency_adjust_filter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_cache" prot="public">AGRemapCore::TexCache</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded" prot="public">AGRemapCore::TexCache::Decoded</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry" prot="private">AGRemapCore::TexCache::Entry</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_TexCache_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_TexCache_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;list&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;compressonator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_hash128_8h" kindref="compound">AGRemapCore/tools/hashing/Hash128.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="class_a_g_remap_core_1_1_tex_cache" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_tex_cache_1a7e3fe0377e6e071441e66802f692f902" kindref="member">TexCache</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="class_a_g_remap_core_1_1_tex_cache_1ad01183dba750034a7075dea760f9affe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1ad01183dba750034a7075dea760f9affe" kindref="member">DefaultMaxBytes</ref><sp/>=<sp/>256u<sp/>*<sp/>1024u<sp/>*<sp/>1024u;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded" kindref="compound">Decoded</ref><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1aafe381fe183fd0755582583c83caa3a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::uint8_t&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1aafe381fe183fd0755582583c83caa3a1" kindref="member">pixels</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1af9afe9b12c944df6bbabc27eb3ef1215" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1af9afe9b12c944df6bbabc27eb3ef1215" kindref="member">width</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1ae08acc71f48369e266dfe8c856b34317" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1ae08acc71f48369e266dfe8c856b34317" kindref="member">height</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1afb02c4187c37129aa52c5c4c60f1ea58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CMP_FORMAT<sp/><ref refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1afb02c4187c37129aa52c5c4c60f1ea58" kindref="member">format</ref><sp/>=<sp/>CMP_FORMAT_Unknown;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1a6c39ed803510f12ccdb2241c5442fcca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;double&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1a6c39ed803510f12ccdb2241c5442fcca" kindref="member">gamma</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a7e3fe0377e6e071441e66802f692f902" kindref="member">TexCache</ref>(std::size_t<sp/>maxBytes<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1ad01183dba750034a7075dea760f9affe" kindref="member">DefaultMaxBytes</ref>);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded" kindref="compound">Decoded</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a8a427d31d205b52b13059b203a370023" kindref="member">decoded</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref>&amp;<sp/>source);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a99fe91fe242aeb143848778106683842" kindref="member">rememberDecoded</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref>&amp;<sp/>source,<sp/><ref refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded" kindref="compound">Decoded</ref><sp/>value);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a74a6d808635ed0e603d24b2bd95816ec" kindref="member">writtenAs</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref>&amp;<sp/>output);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a3d71a62c22a2b0ff6591ac4e256538f1" kindref="member">rememberWritten</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref>&amp;<sp/>output,<sp/>std::string<sp/>path);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a4ec7b682b8f0854024dafaf59287096e" kindref="member">forgetWritten</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref>&amp;<sp/>output);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a8c7160add66738c77f71dab2f0495cb1" kindref="member">getDecodeHits</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a33d997e27ddd8b3a62239153460acdfc" kindref="member">getDecodeMisses</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a0c65d7c8fd4334fedfd96e03759b4276" kindref="member">getWriteHits</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a2c75fbfd0d27c900b3756d2590f66b19" kindref="member">getWriteMisses</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a782e16aaf6149aa653a8c4ccf23a6b50" kindref="member">getBytes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1af9b2493ed420ce88b4c27bb120af64a4" kindref="member">evict</ref>();</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry" kindref="compound">Entry</ref><sp/>{</highlight></codeline>
+<codeline lineno="192" refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry_1a6190c338f9d066afba70a1a0e21e393d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded" kindref="compound">Decoded</ref><sp/><ref refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry_1a6190c338f9d066afba70a1a0e21e393d" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="193" refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry_1ac8d85cacca826a73406ed7bb735fc5a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::list&lt;Hash128&gt;::iterator<sp/><ref refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry_1ac8d85cacca826a73406ed7bb735fc5a4" kindref="member">order</ref>;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AGREMAP_TEXCACHE=0<sp/>turns<sp/>both<sp/>halves<sp/>off,<sp/>for<sp/>measuring<sp/>the<sp/>cache<sp/>against<sp/>itself</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>in<sp/>one<sp/>binary<sp/>--<sp/>see<sp/>the<sp/>constructor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="class_a_g_remap_core_1_1_tex_cache_1ac0fd385a2330a9585978bcaabde81622" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1ac0fd385a2330a9585978bcaabde81622" kindref="member">enabled_</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199" refid="class_a_g_remap_core_1_1_tex_cache_1a14709c618eef087ac65f428b5b316600" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a14709c618eef087ac65f428b5b316600" kindref="member">maxBytes_</ref>;</highlight></codeline>
+<codeline lineno="200" refid="class_a_g_remap_core_1_1_tex_cache_1ac42905809545c8a43b550480027bd24f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1ac42905809545c8a43b550480027bd24f" kindref="member">bytes_</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>front<sp/>is<sp/>most-recently-used</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="class_a_g_remap_core_1_1_tex_cache_1a03db6464d09fb4bcb4625efc1f4f858f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::list&lt;Hash128&gt;<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a03db6464d09fb4bcb4625efc1f4f858f" kindref="member">order_</ref>;</highlight></codeline>
+<codeline lineno="204" refid="class_a_g_remap_core_1_1_tex_cache_1a60d5115da7ee7af9944e4517f82fff03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;Hash128,<sp/>Entry&gt;<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a60d5115da7ee7af9944e4517f82fff03" kindref="member">decoded_</ref>;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="class_a_g_remap_core_1_1_tex_cache_1ae479e287157526b9038c6916e0cbc51d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;Hash128,<sp/>std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1ae479e287157526b9038c6916e0cbc51d" kindref="member">written_</ref>;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>reverse<sp/>of<sp/>written_,<sp/>so<sp/>a<sp/>second<sp/>write<sp/>to<sp/>a<sp/>destination<sp/>can<sp/>invalidate<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>entry<sp/>that<sp/>still<sp/>claims<sp/>the<sp/>old<sp/>image<sp/>lives<sp/>there<sp/>--<sp/>see<sp/>rememberWritten</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="class_a_g_remap_core_1_1_tex_cache_1a6ea4cb92f24c03712710fe678cf602c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Hash128&gt;<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a6ea4cb92f24c03712710fe678cf602c2" kindref="member">pathOwner_</ref>;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="class_a_g_remap_core_1_1_tex_cache_1a83bbfc066da1df6e611cf8c582e01002" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a83bbfc066da1df6e611cf8c582e01002" kindref="member">decodeHits_</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="213" refid="class_a_g_remap_core_1_1_tex_cache_1a445b82c12418833df57a7bd554c5b6b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a445b82c12418833df57a7bd554c5b6b3" kindref="member">decodeMisses_</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="214" refid="class_a_g_remap_core_1_1_tex_cache_1a5edfe7c8179f069050bade562e021add" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1a5edfe7c8179f069050bade562e021add" kindref="member">writeHits_</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="215" refid="class_a_g_remap_core_1_1_tex_cache_1ae24dac676926bcddeeab34e4c7cc9b68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_tex_cache_1ae24dac676926bcddeeab34e4c7cc9b68" kindref="member">writeMisses_</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/model/files/TexCache.h"/>
+  </compounddef>
+</doxygen>

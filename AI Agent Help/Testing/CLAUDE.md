@@ -1429,6 +1429,10 @@ failures are Linux-only and have nothing to do with whatever you just changed. G
 number needed four fixes to the obvious runner, and each of the first three makes the run *look*
 like something it is not.
 
+> That census is from **2026-09-14** and the tree has grown since --- `ls core/tests/*_test.cpp | wc -l`
+> says **55** on 2026-09-20. Count them rather than trusting this paragraph; what the section is for
+> is the four runner fixes, not the total.
+
 **1. `Tools/Misc/Linux/buildTests.sh` locates Z3 with `find` over `$API/extern` and `cextlin`.**
 On a checkout mounted at `/mnt/e` those two `find`s take many minutes, and while they run the log
 is EMPTY and no compiler is running -- which reads exactly like a script that failed to start.

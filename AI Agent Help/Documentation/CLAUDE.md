@@ -1004,6 +1004,36 @@ link block near the bottom, and Doxygen will not tell you when one is missing --
 been using two undefined ones. Targets are case-insensitive in rst, so `` `Grapheme`_ `` already
 resolves to the existing `_grapheme` entry; don't add a second.
 
+## A DECLARATION ADDED BETWEEN A DOC COMMENT AND ITS FUNCTION STEALS THAT DOC (2026-09-20)
+
+Adding a method to a header is usually "write the doc block, write the declaration" --- and if the
+insertion point lands *after* an existing doc block and *before* the function it documents, the new
+function silently adopts it. `RemapService.h` ended up as:
+
+```cpp
+/** ... @param resource The resource whose texture writer to reconfigure */
+/** ... @param resource The resource to hand the cache to, if it takes one */
+void _applyTexCache(IniResource& resource);
+
+void _applyCompressTextures(IniResource& resource);   // documentation: none
+```
+
+Nothing about this fails. It compiles, the tests pass, the output is byte-identical --- the only
+symptom is two `@param` sections on one function and another function with no docs at all, and both
+are visible **only in Doxygen's warnings**:
+
+```
+RemapService.h:942: warning: argument resource ... has multiple @param documentation sections
+RemapService.h:942: warning: too many @param commands for AGRemapCore::RemapService::_applyTexCache
+```
+
+Which is the catch: a `doxygenSplice.py --run` prints **14 warnings naming a header** on a clean
+tree, almost all of them pre-existing and none of them yours. **Grep the run's warnings for the
+files you touched** before spicing anything --- that one line is the difference between finding
+this and shipping it. (A second of mine in the same run: `\s` for an rst plural works inside an
+`@rst` block and is `Found unknown command '\s'` outside one, so a plain `@param` line needs the
+word spelled out.)
+
 ## A CHARACTER IS FOUR DOC TABLES, AND THE WAY TO FILL THEM IS TO ASK THE LIBRARY (2026-09-20)
 
 The mod-type table exists **three** times, the same rows in two formats:

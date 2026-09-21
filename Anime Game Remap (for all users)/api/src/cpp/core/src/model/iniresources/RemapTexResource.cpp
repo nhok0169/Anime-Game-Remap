@@ -48,6 +48,7 @@ namespace AGRemapCore {
 
     bool RemapTexAddResource::_fix() {
         TextureFile texture(srcPath);
+        texture.setCache(texCache);
         texCreator.fix(texture, srcPath);
         return true;
     }
@@ -91,6 +92,7 @@ namespace AGRemapCore {
 
     bool RemapTexEditResource::_fix() {
         TextureFile texture(srcPath);
+        texture.setCache(texCache);
         texEditor.fix(texture, fixedPath);
         return true;
     }

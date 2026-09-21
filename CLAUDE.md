@@ -36,8 +36,45 @@ construction. **When a number looks right, check that it is capable of being wro
 these were found by counting the log lines rather than reading the summary. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Verifying".
 
+**HOW FAST IS THIS LIBRARY AGAINST THE OLD PURE-PYTHON SCRIPT? MEASURED, AND EVERY ROW IS A WIN NOW
+(2026-09-20).** Over 22 of the maintainer's own mods, with `--download Disabled` passed to **both**
+(their defaults differ, and without it one side is timed doing network work the other refuses):
+**1.62x** faster fixing each mod by its own invocation (99.1s vs 61.3s), **1.57x** fixing the whole
+folder in one (85.8s vs 54.5s), **2.52x** on `Ayaka6` (244.2s vs 96.8s), and slightly ahead on
+startup too (0.80s vs 0.74s).
+
+**Both rows this library used to LOSE were fixed costs with nothing to do with remapping a mod, and
+both went the same day.** Startup was **1.59s**, which made the per-mod row a dead heat (105.4s vs
+107.9s): an eager `numpy` import worth 240ms of every run, plus `BaseAhoCorasickDFA::add` rebuilding
+the whole automaton per keyword (0.40s to file the library's own 49 mod types). **The DLL sizes this
+file used to blame are not it** -- `libz3` (16 MB) loads in 11ms, `core.pyd` in 28ms. And texture
+editing was **~2x SLOWER** (20.3s vs 41.7s on the six mods that edit textures; **1.32x faster** now,
+24.4s vs 18.5s): a texture edit costs **7.3x** less than it did that morning (a 4096x4096 `BC7`
+round trip 2.84s -> 0.35s, beating Pillow's 0.62s) after three byte-identical changes -- a gamma
+lookup table, **decoding `BC7` per block across threads** instead of through
+`CMP_ConvertMipTexture`, and one linear pass for the gamma instead of 33 million
+`getPixel`/`setPixel` calls. The decode alone was **85%** of a texture edit and is 11.8x faster;
+`BC1` is deliberately NOT claimed, because the one `BC1` texture in the corpus decoded differently
+the two ways (1456 of 67M bytes, off by one) -- found only by decoding all 171 corpus textures both
+ways, which is how a format gets qualified here.
+
+See [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Startup: where the 1.59s went" and habit 62
+(a stage whose boundary you did not check is a stage you invented --- make the parts sum to the
+whole), [Architecture](AI%20Agent%20Help/Architecture/CLAUDE.md)'s "`add` on an Aho-Corasick
+automaton is a FULL REBUILD", and
+[Texture Editing](AI%20Agent%20Help/TextureEditing/CLAUDE.md)'s "AND THEN THE DECODE WAS ALL OF IT".
+The advantage also grows with the
+`.ini`: `Ayaka6` (194 `.ini`, ~200 toggles) is **244.2s -> 96.8s**, producing the same 193
+`RemapBlend.buf` contents. `--compressTextures` is ours alone and costs 10-14x
+(`CherryHutao1` 19.6s -> 278.8s for a 4x smaller file); at default settings **both** write
+uncompressed 32-bit `.dds`. Full table, method and caveats in
+[Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "The old pure-Python script vs the C++ API,
+measured", and the trap that nearly made the numbers meaningless is its habit 60: **the two sides'
+summary counters do not mean the same thing**, so compare hashed artifacts, never the reported
+counts.
+
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is fifty-four short habits, none of
+feature or bug request here: the habits that pay" first.** It is sixty-three short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -590,8 +627,9 @@ carry the operating side: WSL through script files, restoring the maintainer's l
 surface a new graph edit ships with, building the docs on Linux, and fixing the writer rather than
 the shared reader.
 
-**TWO THINGS TO READ BEFORE ANY TASK, WHICHEVER KIND YOU HAVE (2026-09-14).** They are the two
-lenses the maintainer keeps having to re-teach, and each now has its own writing:
+**THREE THINGS TO READ BEFORE ANY TASK, DEPENDING ON WHICH KIND YOU HAVE (2026-09-14, a third added
+2026-09-20).** They are the lenses the maintainer keeps having to re-teach, and each now has its own
+writing:
 
 - **A feature or a bug** --- [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s habits **34-37**
   and **55-56** (a symptom that survives a verified fix is a second bug, so re-read the report's
@@ -614,6 +652,17 @@ lenses the maintainer keeps having to re-teach, and each now has its own writing
   three careful diagnoses. The other three: crop the UV island and LOOK at it when the symptom is on
   a texture, pick test mods by STRUCTURAL axis rather than by character, and what `drawindexed =
   auto` actually does.
+- **"Make this faster"** --- [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s **"MAKE THIS FASTER:
+  the recipe, and what it has cost to skip a step"**. Four speed-ups landed in one day and **every
+  one was a fixed cost nobody had measured, in a place nobody had guessed** -- an eager `numpy`
+  import, an automaton rebuilt per keyword, a library decode that was 85% of a texture edit, a
+  registry rebuilt on each of the two calls a run makes. The recipe is six steps, and the two that
+  are skipped hardest are **print each CALL rather than the total** (a one-time 0.28s init summed
+  with a 0.004s one reads as a 0.15s per-file cost, which is a different bug with a different fix)
+  and **add a switch so the old path stays reachable** (`AGREMAP_TEXCACHE=0`, `AGREMAP_BC7_DECODE=0`)
+  so the A/B happens inside ONE binary. It also carries the env-gated instrumentation pattern and
+  its one hard rule: **restore from your own backup, never `git checkout`** -- every file worth
+  instrumenting here is already modified by the work in progress.
 
 **AND THE FIRST IN-GAME RUN OF IT FOUND TWO THINGS THAT ARE NOT ABOUT YELAN AT ALL (2026-09-14).**
 **(1) `NNFix` AND `ORFix` ARE INVOLUTIONS, so the rule is once per PATH, not once per DRAW.** They
@@ -795,7 +844,15 @@ TABLES" and [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Clo
 **Seven repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
 visible from the code:** (1) nearly every tracked text file is **CRLF** (`core.autocrlf=true`), so an
 exact-string patch script must normalise to LF before matching and write CRLF back, or every anchor
-reports "found 0"; (2) the Bash tool's heredocs eat backslashes (`\ref` arrives as a carriage
+reports "found 0". **Two corollaries that each cost a cycle on 2026-09-20.** *Assert the anchor
+count*: `str.replace` silently does nothing when it matches nothing, so a script that ends
+`print("patched")` will tell you it worked having changed not one character --- `assert
+t.count(old) == 1` before every replacement, and print which anchor failed. And *the read is half
+the line-ending bug*: `open(p, encoding="utf-8").read()` uses universal newlines and hands back LF
+regardless, so reading that way and writing with `newline=""` **converts the whole file to LF**
+without touching a single line you meant to change. Read binary (or with `newline=""`), normalise
+explicitly, write back explicitly -- then re-check `file` or `git diff --shortstat` against
+`--ignore-cr-at-eol`; (2) the Bash tool's heredocs eat backslashes (`\ref` arrives as a carriage
 return + `ef`), so write patch scripts with the Write tool and run them by path -- **and `sed -i`
 mangles the same things in two more ways**: it rewrites a CRLF file as **LF** (silent whole-file
 line-ending churn in your diff) and it eats the doubled backslash in this codebase's RST plurals
@@ -820,7 +877,11 @@ on 2026-09-09, which was itself the reverse of the day before. A script carrying
 fails with **`COMPILE_EXIT=9009`** (`cl` is not on the PATH because `vcvarsall.bat` was never
 found), which names nothing. **Read the version off
 `cbuild/CMakeCache.txt` and locate `vcvarsall.bat` with a `find` rather than trusting any number or
-path written down anywhere, this line included** -- see **Building**'s prerequisites;
+path written down anywhere, this line included**. **And the pair is per-MACHINE, not merely
+per-date (2026-09-20): on the 6-core laptop, measured the same day as the reading above, `py -3` is
+3.9.3 (module `core.cp39-win_amd64.pyd`) and the only `vcvarsall.bat` is Community under
+`Program Files` -- the exact reverse of this sentence, on the other computer.** See
+**Building**'s prerequisites;
 (4) a `.bat` launched from the Bash tool as `cmd //c C:\Users\...\build.bat` has its backslashes
 stripped, never runs, and still exits 0 -- so the "build" silently leaves the *previous* `.pyd` in
 place for your tests. Launch build/test batch files from the **PowerShell** tool with

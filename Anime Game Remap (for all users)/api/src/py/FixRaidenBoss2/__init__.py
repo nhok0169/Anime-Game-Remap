@@ -439,3 +439,14 @@ try:
     __all__ += ["RegRestrict", "RegBranchAdd", "GraphGroupRemove"]
 except ImportError:
     pass
+
+# ----- Added 2026-09-20: the run-level texture cache. Guarded for the same reason as the blocks
+# above, and this one has its own cautionary tale: WWMIBuilder was added to the TOP of this file
+# unguarded, and a .pyd two days behind it did not import AT ALL -- the whole package was dead
+# rather than merely missing a name. Windows-built only so far. Remove the guard once the Linux
+# .so carries it too.
+try:
+    from .core import TexCache
+    __all__ += ["TexCache"]
+except ImportError:
+    pass

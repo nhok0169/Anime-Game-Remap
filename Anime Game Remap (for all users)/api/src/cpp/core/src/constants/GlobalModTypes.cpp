@@ -33,19 +33,48 @@ namespace AGRemapCore {
     }
 
     void GlobalModTypes::registerMissing() {
-        for (const ModType& modType : all()) {
+        // NOTHING AT ALL when the shipped set cannot have gone missing since this last filed it.
+        //
+        // The expensive half of this function is all() -- it builds every one of the 49 shipped
+        // mod types, with their asset tables, just to ask which ids are absent -- and an ordinary
+        // run calls this at least TWICE: once from RemapServiceCLI's constructor, once when the
+        // classifiers are populated. Measured at ~0.11s a call, which on a small mod is a tenth of
+        // the whole run spent rediscovering that nothing is missing.
+        //
+        // The generation counter is the right guard rather than a plain "done" flag, and it is
+        // already used this way by GlobalIniClassifiers: ModTypeIdTools::clear() can empty the
+        // registry at any time, and it is the ONLY thing that bumps the generation. Registering a
+        // mod type does not -- which is exactly right here, because a caller that filed its own
+        // type under a shipped id is a caller this function must not overrule anyway (see the doc
+        // comment), so there would have been nothing to fill in.
+        static unsigned long long filedAtGeneration = 0;
+        const unsigned long long generation = ModTypeIdTools::generation();
+
+        if (filedAtGeneration == generation) {
+            return;
+        }
+
+        std::vector<ModType> everything = all();
+        std::vector<ModType> missing;
+
+        for (ModType& modType : everything) {
             // Only the gap-filling half of registerAll -- see this function's own doc comment for
             // why the implicit path must not overwrite.
             if (!ModTypeIdTools::getModType(modType.modTypeId).has_value()) {
-                ModTypeIdTools::registerModType(modType);
+                missing.push_back(std::move(modType));
             }
         }
+
+        // Handed over together rather than one at a time: each registration otherwise rebuilds the
+        // whole name automaton from every name already filed.
+        ModTypeIdTools::registerModTypes(missing);
+
+        // Recorded AFTER the work, so a registerModTypes that threw leaves this to be retried.
+        filedAtGeneration = generation;
     }
 
 
     void GlobalModTypes::registerAll() {
-        for (const ModType& modType : all()) {
-            ModTypeIdTools::registerModType(modType);
-        }
+        ModTypeIdTools::registerModTypes(all());
     }
 }

@@ -41,15 +41,15 @@ namespace AGRemapCore {
          * types a GIMI mod actually writes as a section's "hash = " line -- the ib, the three
          * vertex buffers, and the draw hash the VertexLimitRaise sections carry -- so they are
          * the only ones the classifier can see at all. And, measured over the whole of
-         * HashData, they are UNIQUE: across 357 rows not one of their values is claimed by two
+         * HashData, they are UNIQUE: across 377 rows not one of their values is claimed by two
          * different characters.
          *
          * The texture hashes are the opposite and must stay out. A shadow ramp or a metal map
          * is a shared asset: 'b0e08915' is filed under FORTY different names and '7eb5b84e'
          * under thirty-three, so registering those would hand a +2 vote to forty characters for
          * one line of a mod's .ini -- noise loud enough to decide a classification on its own.
-         * Even 'tex_face_diffuse', which does appear as a section hash, is shared in 27 of its
-         * 45 rows.
+         * Even 'tex_face_diffuse', which does appear as a section hash, is shared in 30 of its
+         * 49 rows.
          */
         const std::unordered_set<std::string>& identifyingHashTypes() {
             static const std::unordered_set<std::string> types = {

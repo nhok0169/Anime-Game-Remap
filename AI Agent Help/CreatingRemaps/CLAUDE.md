@@ -1506,7 +1506,7 @@ order, for a type that is BUILT (a character a `.ini` can classify as):
 **Four suites hardcode a count that steps 4-7 move, and nothing builds them**, so budget a pass over
 all four rather than only the one you remember (all measured 2026-09-13):
 `BuilderData_test.cpp` (rows per builder table), `VertexCounts_test.cpp` (**44** rows -- one per
-step 6's `VertexCountData.cpp` entry), `VGRemaps_test.cpp` (**58** rows, one per *direction* per
+step 6's `VertexCountData.cpp` entry; **48** since Citlali, 2026-09-21), `VGRemaps_test.cpp` (**58** rows then, **71** since Citlali, one per *direction* per
 *component*) and `ModTypeRemaps_test.cpp` (a **45**-row oracle). Step 4 also moves the GI mod type
 count itself, which several doc comments restate --- see the next note. Yelan moved all of these and
 nobody noticed for a day.
@@ -1566,6 +1566,14 @@ its test suite says.
 The counts moved with it: parse table **59 -> 61**, fix **128 -> 130**, remove **47 -> 49**,
 `VertexCountData` **45 -> 47**, `VGRemapData` **63 -> 65** (one row each way in the merged
 skeleton), the `ModTypeRemaps_test` oracle **47 -> 49**; the keyword oracle stays at 47.
+
+**Citlali / CitlaliWhisperofStars (2026-09-21, data only -- no parse or fix row yet)** moved them
+again, the Bennett way (two built types, three target-only component ids): GI mod types **47 ->
+49**, remove **49 -> 51**, `VertexCountData` **47 -> 48**, `VGRemapData` **65 -> 71**, the
+`ModTypeRemaps_test` oracle **49 -> 51**, the keyword oracle **47 -> 49**; the parse and fix tables
+are unchanged. The classifier's identifying-hash uniqueness was re-measured with them in: **377**
+rows, not one value claimed twice -- which holds only because the skin's unskinned face meshes,
+drawn by BOTH characters under the same hashes, are filed under neither.
 
 <br>
 

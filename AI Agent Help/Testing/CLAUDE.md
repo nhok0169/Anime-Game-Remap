@@ -29,6 +29,12 @@
 > only tell is counting the `ok`s against `ls core/tests/*_test.cpp | wc -l`. Set the environment
 > up once in the outer script and loop the `cl` invocation inside it, and **print the suite total
 > next to the pass count** so a truncated run is visible.
+>
+> **ONE SUITE WANTS AN ARGUMENT, AND A GLOB RUNNER REPORTS IT AS A FAILURE (2026-09-21).**
+> `TextureFile_Bc7Decode_test` exits **2** with a usage line when it is given no `.dds` -- its
+> header says it will generate a texture instead, and it does not. Run it with any BC7 texture
+> (`Data/Mod Downloads/GI/AmberCN/4_0/AmberCNBodyDiffuse.dds` is one) and it passes; a full Windows
+> run on that date was otherwise **56 built, 55 passed** with nothing else failing.
 
 <br>
 

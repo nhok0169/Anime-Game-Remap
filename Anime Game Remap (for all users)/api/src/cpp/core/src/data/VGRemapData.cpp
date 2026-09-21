@@ -1070,6 +1070,78 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {0, 2}, {1, 1}
          })},
 
+        // ===== from Citlali @ 1.0 (2026-09-21) =====
+        // CitlaliWhisperofStars is THREE skinned components (Body, Bangs, Eyes), each with its own vertex
+        // group index space, so Citlali's 142 groups are split across rows keyed by the target
+        // component, as Bennett's are. From Data/RemapDrafts/CitlaliRemapDraft.xlsx: Tools/VGRemapFinder
+        // over the two Data/Mod Downloads folders, then every row whose chain / vertices / nearest
+        // answers disagreed reviewed by bone position (the reasons are in the draft's Comments). The
+        // union of the three rows covers each of Citlali's 142 groups exactly once.
+        //
+        // PROPOSED, NOT YET CONFIRMED IN GAME.
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali), "",
+          "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars), "Body"},
+         VGRemap({
+            {0, 106}, {1, 0}, {2, 1}, {3, 104}, {4, 105}, {7, 106}, {8, 107}, {9, 108}, {10, 108}, {11, 112},
+            {12, 114}, {13, 108}, {14, 110}, {15, 112}, {16, 114}, {17, 109}, {18, 111}, {19, 113}, {20, 115}, {25, 56},
+            {26, 56}, {31, 56}, {32, 56}, {35, 7}, {36, 108}, {37, 7}, {38, 109}, {39, 117}, {40, 118}, {41, 74},
+            {42, 75}, {43, 2}, {44, 76}, {45, 76}, {46, 79}, {47, 85}, {48, 85}, {49, 127}, {50, 128}, {51, 129},
+            {52, 96}, {53, 98}, {54, 100}, {55, 102}, {56, 121}, {57, 97}, {58, 99}, {59, 101}, {60, 103}, {61, 122},
+            {62, 88}, {63, 90}, {64, 28}, {65, 8}, {66, 8}, {67, 77}, {68, 80}, {69, 86}, {70, 32}, {71, 32},
+            {72, 78}, {73, 81}, {74, 87}, {75, 32}, {76, 32}, {77, 88}, {78, 90}, {79, 94}, {80, 121}, {81, 121},
+            {82, 89}, {83, 91}, {84, 95}, {85, 122}, {86, 122}, {87, 3}, {88, 4}, {89, 5}, {90, 6}, {91, 7},
+            {92, 8}, {93, 9}, {94, 10}, {95, 11}, {96, 12}, {97, 13}, {98, 14}, {99, 15}, {100, 16}, {101, 17},
+            {102, 18}, {103, 19}, {104, 20}, {105, 21}, {106, 22}, {107, 23}, {108, 24}, {109, 25}, {110, 26}, {111, 27},
+            {112, 28}, {113, 29}, {114, 30}, {115, 31}, {116, 32}, {117, 33}, {118, 34}, {119, 35}, {120, 36}, {121, 37},
+            {122, 38}, {123, 39}, {124, 40}, {125, 41}, {126, 42}, {127, 43}, {128, 44}, {129, 45}, {130, 46}, {131, 47},
+            {132, 48}, {133, 49}, {134, 50}, {135, 51}, {136, 52}, {137, 53}, {138, 54}, {139, 129}, {140, 55}, {141, 56}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali), "",
+          "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars), "Bangs"},
+         VGRemap({
+            {21, 9}, {22, 9}, {23, 3}, {24, 5}, {27, 5}, {28, 7}, {29, 4}, {30, 6}, {33, 6}, {34, 8}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali), "",
+          "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars), "Eyes"},
+         VGRemap({
+            {5, 0}, {6, 1}
+         })},
+
+        // ===== from CitlaliWhisperofStars @ 1.0 (2026-09-21) =====
+        // one row per source component
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars), "Body",
+          "6.7", ModTypeIdTools::getName(ModTypeId::Citlali), ""},
+         VGRemap({
+            {0, 1}, {1, 2}, {2, 43}, {3, 87}, {4, 88}, {5, 89}, {6, 90}, {7, 91}, {8, 92}, {9, 93},
+            {10, 94}, {11, 95}, {12, 96}, {13, 97}, {14, 98}, {15, 99}, {16, 100}, {17, 101}, {18, 102}, {19, 103},
+            {20, 104}, {21, 105}, {22, 106}, {23, 107}, {24, 108}, {25, 109}, {26, 110}, {27, 111}, {28, 112}, {29, 113},
+            {30, 114}, {31, 115}, {32, 116}, {33, 117}, {34, 118}, {35, 119}, {36, 120}, {37, 121}, {38, 122}, {39, 123},
+            {40, 124}, {41, 125}, {42, 126}, {43, 127}, {44, 128}, {45, 129}, {46, 130}, {47, 131}, {48, 132}, {49, 133},
+            {50, 134}, {51, 135}, {52, 136}, {53, 137}, {54, 138}, {55, 140}, {56, 141}, {57, 141}, {58, 141}, {59, 87},
+            {60, 89}, {61, 88}, {62, 90}, {63, 87}, {64, 89}, {65, 88}, {66, 90}, {67, 140}, {68, 141}, {69, 140},
+            {70, 1}, {71, 2}, {72, 42}, {73, 42}, {74, 41}, {75, 42}, {76, 45}, {77, 67}, {78, 72}, {79, 46},
+            {80, 68}, {81, 73}, {82, 47}, {83, 68}, {84, 73}, {85, 47}, {86, 69}, {87, 74}, {88, 77}, {89, 82},
+            {90, 78}, {91, 83}, {92, 78}, {93, 83}, {94, 79}, {95, 84}, {96, 52}, {97, 57}, {98, 53}, {99, 58},
+            {100, 54}, {101, 59}, {102, 55}, {103, 60}, {104, 3}, {105, 4}, {106, 7}, {107, 8}, {108, 13}, {109, 17},
+            {110, 14}, {111, 18}, {112, 15}, {113, 19}, {114, 16}, {115, 20}, {116, 91}, {117, 39}, {118, 40}, {119, 48},
+            {120, 74}, {121, 56}, {122, 61}, {123, 52}, {124, 139}, {125, 57}, {126, 139}, {127, 49}, {128, 50}, {129, 139},
+            {130, 140}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars), "Bangs",
+          "6.7", ModTypeIdTools::getName(ModTypeId::Citlali), ""},
+         VGRemap({
+            {0, 91}, {1, 91}, {2, 35}, {3, 23}, {4, 29}, {5, 27}, {6, 33}, {7, 28}, {8, 34}, {9, 22}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars), "Eyes",
+          "6.7", ModTypeIdTools::getName(ModTypeId::Citlali), ""},
+         VGRemap({
+            {0, 5}, {1, 6}
+         })},
+
         // ===== WuWa: Sanhua <-> SanhuaExorcist (2026-09-19) =====
         // Both directions from Data/RemapDrafts/SanhuaRemapDraft.xlsx, in WWMI's MERGED skeleton
         // (the space every component's vg_map in Metadata.json maps into, and the space a WWMI

@@ -20,6 +20,9 @@
       <node id="52">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
+      <node id="67">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="1">
         <label>include/AGRemapCore/constants/GlobalModTypes.h</label>
         <link refid="_global_mod_types_8h"/>
@@ -899,9 +902,6 @@
         </childnode>
         <childnode refid="73" relation="include">
         </childnode>
-      </node>
-      <node id="67">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="86">
         <label>Generator.tpp</label>

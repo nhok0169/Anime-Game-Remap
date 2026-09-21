@@ -62,6 +62,21 @@ namespace AGRemapCore {
             case static_cast<int>(ModTypeId::CherryHuTao):
                 return ModTypeId::CherryHuTao;
 
+            case static_cast<int>(ModTypeId::Citlali):
+                return ModTypeId::Citlali;
+
+            case static_cast<int>(ModTypeId::CitlaliWhisperofStars):
+                return ModTypeId::CitlaliWhisperofStars;
+
+            case static_cast<int>(ModTypeId::CitlaliWhisperofStarsBody):
+                return ModTypeId::CitlaliWhisperofStarsBody;
+
+            case static_cast<int>(ModTypeId::CitlaliWhisperofStarsBangs):
+                return ModTypeId::CitlaliWhisperofStarsBangs;
+
+            case static_cast<int>(ModTypeId::CitlaliWhisperofStarsEyes):
+                return ModTypeId::CitlaliWhisperofStarsEyes;
+
             case static_cast<int>(ModTypeId::Diluc):
                 return ModTypeId::Diluc;
 
@@ -241,6 +256,21 @@ namespace AGRemapCore {
 
             case ModTypeId::CherryHuTao:
                 return "CherryHuTao";
+
+            case ModTypeId::Citlali:
+                return "Citlali";
+
+            case ModTypeId::CitlaliWhisperofStars:
+                return "CitlaliWhisperofStars";
+
+            case ModTypeId::CitlaliWhisperofStarsBody:
+                return "CitlaliWhisperofStarsBody";
+
+            case ModTypeId::CitlaliWhisperofStarsBangs:
+                return "CitlaliWhisperofStarsBangs";
+
+            case ModTypeId::CitlaliWhisperofStarsEyes:
+                return "CitlaliWhisperofStarsEyes";
 
             case ModTypeId::Diluc:
                 return "Diluc";
@@ -454,6 +484,16 @@ namespace AGRemapCore {
             case ModTypeId::CherryHuTao:
                 return {ModTypeId::HuTao};
 
+            // As Bennett above: the targets are the skin's three COMPONENT ids, not the skin itself.
+            // CitlaliWhisperofStars remaps back onto plain Citlali, who is one mesh. The skin's
+            // unskinned Face / Mouth / Eyebrows meshes are not components here: both characters draw
+            // them from the SAME hashes (6.7 frame dumps), so there is nothing to remap.
+            case ModTypeId::Citlali:
+                return {ModTypeId::CitlaliWhisperofStarsBody, ModTypeId::CitlaliWhisperofStarsBangs, ModTypeId::CitlaliWhisperofStarsEyes};
+
+            case ModTypeId::CitlaliWhisperofStars:
+                return {ModTypeId::Citlali};
+
             case ModTypeId::Diluc:
                 return {ModTypeId::DilucFlamme};
 
@@ -590,6 +630,9 @@ namespace AGRemapCore {
             case ModTypeId::YelanTranquil:
                 return {ModTypeId::YelanTranquilBody, ModTypeId::YelanTranquilBang, ModTypeId::YelanTranquilEye};
 
+            case ModTypeId::CitlaliWhisperofStars:
+                return {ModTypeId::CitlaliWhisperofStarsBody, ModTypeId::CitlaliWhisperofStarsBangs, ModTypeId::CitlaliWhisperofStarsEyes};
+
             // Every other mod type is one mesh. The component ids themselves included -- a
             // component has no components of its own.
             default:
@@ -647,6 +690,12 @@ namespace AGRemapCore {
 
             case ModTypeId::CherryHuTao:
                 return {"cherryhutao", "hutaocherry"};
+
+            case ModTypeId::Citlali:
+                return {"citlali"};
+
+            case ModTypeId::CitlaliWhisperofStars:
+                return {"citlaliwhisperofstars"};
 
             case ModTypeId::Diluc:
                 return {"diluc"};

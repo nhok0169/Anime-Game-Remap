@@ -26,6 +26,9 @@
       <node id="105">
         <label>BiMap.tpp</label>
       </node>
+      <node id="69">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="100">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
@@ -1014,9 +1017,6 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="69">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="88">
         <label>Generator.tpp</label>
       </node>
@@ -1250,18 +1250,24 @@
 <codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>several<sp/>components<sp/>has<sp/>no<sp/>single<sp/>vertex<sp/>count.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa96a349fa5e3141731d7638ac2226468b" kindref="member">ModTypeId::Bennett</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">},<sp/>16433},</highlight></codeline>
 <codeline lineno="96"><highlight class="normal"></highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>WuWa:<sp/>Sanhua<sp/>and<sp/>SanhuaExorcist<sp/>(2026-09-19)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>whole<sp/>mesh,<sp/>every<sp/>draw<sp/>slot<sp/>together<sp/>--<sp/>Metadata.json&apos;s<sp/>&apos;vertex_count&apos;,<sp/>and<sp/>what<sp/>a</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WWMI<sp/>mod<sp/>declares<sp/>as<sp/>$mesh_vertex_count.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;2.5&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e5b87c395273646f1f7267f2de3ba63" kindref="member">ModTypeId::Sanhua</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">},<sp/>36126},</highlight></codeline>
-<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;2.5&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa20a11d20a03cacc27e48688909994c25" kindref="member">ModTypeId::SanhuaExorcist</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">},<sp/>40896},</highlight></codeline>
-<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="103"><highlight class="normal"></highlight></codeline>
-<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rows;</highlight></codeline>
-<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"></highlight></codeline>
-<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Citlali<sp/>(2026-09-21)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>game&apos;s<sp/>own<sp/>model,<sp/>counted<sp/>off<sp/>Data/Mod<sp/>Downloads/GI/Citlali/5_3&apos;s<sp/>Position.buf</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(1084080<sp/>bytes<sp/>/<sp/>40).<sp/>No<sp/>row<sp/>for<sp/>CitlaliWhisperofStars:<sp/>a<sp/>skin<sp/>of<sp/>several<sp/>components<sp/>has</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>single<sp/>vertex<sp/>count.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;5.3&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa7a53d5ec094ed600c14afe50363e828" kindref="member">ModTypeId::Citlali</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">},<sp/>27102},</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>WuWa:<sp/>Sanhua<sp/>and<sp/>SanhuaExorcist<sp/>(2026-09-19)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>whole<sp/>mesh,<sp/>every<sp/>draw<sp/>slot<sp/>together<sp/>--<sp/>Metadata.json&apos;s<sp/>&apos;vertex_count&apos;,<sp/>and<sp/>what<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WWMI<sp/>mod<sp/>declares<sp/>as<sp/>$mesh_vertex_count.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;2.5&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e5b87c395273646f1f7267f2de3ba63" kindref="member">ModTypeId::Sanhua</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">},<sp/>36126},</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;2.5&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa20a11d20a03cacc27e48688909994c25" kindref="member">ModTypeId::SanhuaExorcist</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">},<sp/>40896},</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rows;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/data/VertexCountData.cpp"/>
   </compounddef>

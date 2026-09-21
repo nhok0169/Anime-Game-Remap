@@ -40,6 +40,9 @@
       <node id="23">
         <label>BiMap.tpp</label>
       </node>
+      <node id="84">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="10">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
@@ -1144,9 +1147,6 @@
         <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="84">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="103">
         <label>Generator.tpp</label>
       </node>
@@ -1326,15 +1326,15 @@
 <codeline lineno="41"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>types<sp/>a<sp/>GIMI<sp/>mod<sp/>actually<sp/>writes<sp/>as<sp/>a<sp/>section&apos;s<sp/>&quot;hash<sp/>=<sp/>&quot;<sp/>line<sp/>--<sp/>the<sp/>ib,<sp/>the<sp/>three</highlight></codeline>
 <codeline lineno="42"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>vertex<sp/>buffers,<sp/>and<sp/>the<sp/>draw<sp/>hash<sp/>the<sp/>VertexLimitRaise<sp/>sections<sp/>carry<sp/>--<sp/>so<sp/>they<sp/>are</highlight></codeline>
 <codeline lineno="43"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>the<sp/>only<sp/>ones<sp/>the<sp/>classifier<sp/>can<sp/>see<sp/>at<sp/>all.<sp/>And,<sp/>measured<sp/>over<sp/>the<sp/>whole<sp/>of</highlight></codeline>
-<codeline lineno="44"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>HashData,<sp/>they<sp/>are<sp/>UNIQUE:<sp/>across<sp/>357<sp/>rows<sp/>not<sp/>one<sp/>of<sp/>their<sp/>values<sp/>is<sp/>claimed<sp/>by<sp/>two</highlight></codeline>
+<codeline lineno="44"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>HashData,<sp/>they<sp/>are<sp/>UNIQUE:<sp/>across<sp/>377<sp/>rows<sp/>not<sp/>one<sp/>of<sp/>their<sp/>values<sp/>is<sp/>claimed<sp/>by<sp/>two</highlight></codeline>
 <codeline lineno="45"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>different<sp/>characters.</highlight></codeline>
 <codeline lineno="46"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
 <codeline lineno="47"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>The<sp/>texture<sp/>hashes<sp/>are<sp/>the<sp/>opposite<sp/>and<sp/>must<sp/>stay<sp/>out.<sp/>A<sp/>shadow<sp/>ramp<sp/>or<sp/>a<sp/>metal<sp/>map</highlight></codeline>
 <codeline lineno="48"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>is<sp/>a<sp/>shared<sp/>asset:<sp/>&apos;b0e08915&apos;<sp/>is<sp/>filed<sp/>under<sp/>FORTY<sp/>different<sp/>names<sp/>and<sp/>&apos;7eb5b84e&apos;</highlight></codeline>
 <codeline lineno="49"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>under<sp/>thirty-three,<sp/>so<sp/>registering<sp/>those<sp/>would<sp/>hand<sp/>a<sp/>+2<sp/>vote<sp/>to<sp/>forty<sp/>characters<sp/>for</highlight></codeline>
 <codeline lineno="50"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>one<sp/>line<sp/>of<sp/>a<sp/>mod&apos;s<sp/>.ini<sp/>--<sp/>noise<sp/>loud<sp/>enough<sp/>to<sp/>decide<sp/>a<sp/>classification<sp/>on<sp/>its<sp/>own.</highlight></codeline>
-<codeline lineno="51"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Even<sp/>&apos;tex_face_diffuse&apos;,<sp/>which<sp/>does<sp/>appear<sp/>as<sp/>a<sp/>section<sp/>hash,<sp/>is<sp/>shared<sp/>in<sp/>27<sp/>of<sp/>its</highlight></codeline>
-<codeline lineno="52"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>45<sp/>rows.</highlight></codeline>
+<codeline lineno="51"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Even<sp/>&apos;tex_face_diffuse&apos;,<sp/>which<sp/>does<sp/>appear<sp/>as<sp/>a<sp/>section<sp/>hash,<sp/>is<sp/>shared<sp/>in<sp/>30<sp/>of<sp/>its</highlight></codeline>
+<codeline lineno="52"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>49<sp/>rows.</highlight></codeline>
 <codeline lineno="53"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_set&lt;std::string&gt;&amp;<sp/>identifyingHashTypes()<sp/>{</highlight></codeline>
 <codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_set&lt;std::string&gt;<sp/>types<sp/>=<sp/>{</highlight></codeline>

@@ -327,6 +327,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_sympy_tokenizer" prot="public">AGRemapCore::SympyTokenizer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_syntax_err" prot="public">AGRemapCore::SyntaxErr</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_temp_control" prot="public">AGRemapCore::TempControl</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_cache" prot="public">AGRemapCore::TexCache</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_create" prot="public">AGRemapCore::TexCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_creator" prot="public">AGRemapCore::TexCreator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_creator_create" prot="public">AGRemapCore::TexCreatorCreate</innerclass>
@@ -681,6 +682,54 @@ itself is :cpp:enumerator:`BennettAdventure`, whose vertex-group rows are keyed 
           <name>CherryHuTao</name>
           <briefdescription>
 <para>Hu Tao Lantern Rite skin from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa7a53d5ec094ed600c14afe50363e828" prot="public">
+          <name>Citlali</name>
+          <briefdescription>
+<para>Citlali from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa3e1587ef8f372cf845cce9fa17b4a6b9" prot="public">
+          <name>CitlaliWhisperofStars</name>
+          <briefdescription>
+<para>Citlali outfit skin (Whisper of Stars) from GI <ndash/> THREE skinned components (Body, Bangs, Eyes). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faae5fe606882126d943a258856a46ab4e" prot="public">
+          <name>CitlaliWhisperofStarsBody</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+CitlaliWhisperofStars&apos;s ``Body`` component, as a fix TARGET :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The same arrangement as :cpp:enumerator:`YelanTranquilBody` and :cpp:enumerator:`BennettAdventureBody`:
+a skin of several components is fixed by one fixer per component, and the tables those fixers read
+are keyed by a mod type NAME, so each component is a mod type of its own for their purposes.
+Nothing classifies a ``.ini`` file AS one of these; the skin itself is
+:cpp:enumerator:`CitlaliWhisperofStars`, whose vertex-group rows are keyed by component
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faabd1a3bf0c3b7b86a5fc3f35d7c29019" prot="public">
+          <name>CitlaliWhisperofStarsBangs</name>
+          <briefdescription>
+<para>CitlaliWhisperofStars&apos;s <computeroutput>Bangs</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>CitlaliWhisperofStarsBody</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab3b45cc7dccb54cc200bc0c9c6f22a0b" prot="public">
+          <name>CitlaliWhisperofStarsEyes</name>
+          <briefdescription>
+<para>CitlaliWhisperofStars&apos;s <computeroutput>Eyes</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>CitlaliWhisperofStarsBody</computeroutput>. </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -1058,7 +1107,7 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="38" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="38" bodyend="353"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="38" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="38" bodyend="387"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274e" prot="public" static="no" strong="yes">
         <type></type>

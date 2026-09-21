@@ -71,7 +71,7 @@ Rows are ``({version, name, type}, hash)`` -- the exact ``(indexVals, value)`` s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/HashData.cpp" line="56" column="19" bodyfile="src/data/HashData.cpp" bodystart="56" bodyend="1323" declfile="include/AGRemapCore/data/HashData.h" declline="46" declcolumn="27"/>
+        <location file="src/data/HashData.cpp" line="56" column="19" bodyfile="src/data/HashData.cpp" bodystart="56" bodyend="1370" declfile="include/AGRemapCore/data/HashData.h" declline="46" declcolumn="27"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1a3317564d38bd694ce4c148659cb87521" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespace_a_g_remap_core_1_1_data_1a36f33a05ca8095284c5576ee6607837c" kindref="member">ModObjKey</ref></type>
@@ -232,7 +232,7 @@ shape :cpp:func:`convertRows` already expects, so building a :cpp:class:`PyModDi
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IndexData.cpp" line="27" column="19" bodyfile="src/data/IndexData.cpp" bodystart="27" bodyend="255" declfile="include/AGRemapCore/data/IndexData.h" declline="46" declcolumn="27"/>
+        <location file="src/data/IndexData.cpp" line="27" column="19" bodyfile="src/data/IndexData.cpp" bodystart="27" bodyend="260" declfile="include/AGRemapCore/data/IndexData.h" declline="46" declcolumn="27"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1a18118953c03d98065283e506885c1fa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::pair&lt; std::vector&lt; std::string &gt;, std::string &gt; &gt; &amp;</type>
@@ -304,10 +304,11 @@ Rows are ``({version, name, component}, count)`` -- the ``(indexVals, value)`` s
    **The two have since diverged on purpose, in two ways.** First, this table has a
    ``component`` column and the pure-Python dict does not -- it is still
    ``({version, name}, count)`` over there, two levels deep. Second, this table carries a
-   two rows the dict has not got: ``Yelan`` at ``4.0``, added for the
-   ``Yelan`` -&gt; ``YelanTranquil`` remap, and ``Bennett`` at ``4.0`` for
-   ``Bennett`` -&gt; ``BennettAdventure``, so this table has 45 rows against the dict&apos;s 43
-   (measured 2026-09-14) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+   rows the dict has not got: ``Yelan`` at ``4.0``, added for the
+   ``Yelan`` -&gt; ``YelanTranquil`` remap, ``Bennett`` at ``4.0`` for
+   ``Bennett`` -&gt; ``BennettAdventure``, ``Citlali`` at ``5.3`` for
+   ``Citlali`` -&gt; ``CitlaliWhisperofStars``, and the two WuWa characters, so this table has
+   48 rows against the dict&apos;s 43 (measured 2026-09-21) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
    So this table can no longer be regenerated from that dict by a naive walk -- doing so
    would silently drop the component column, shrink every row back to two index values,
@@ -317,7 +318,7 @@ Rows are ``({version, name, component}, count)`` -- the ``(indexVals, value)`` s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/VertexCountData.cpp" line="32" column="19" bodyfile="src/data/VertexCountData.cpp" bodystart="32" bodyend="105" declfile="include/AGRemapCore/data/VertexCountData.h" declline="71" declcolumn="27"/>
+        <location file="src/data/VertexCountData.cpp" line="32" column="19" bodyfile="src/data/VertexCountData.cpp" bodystart="32" bodyend="111" declfile="include/AGRemapCore/data/VertexCountData.h" declline="72" declcolumn="27"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1ad9fe4d316fb3a61a13a7a644a2456894" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::pair&lt; std::vector&lt; std::string &gt;, std::string &gt; &gt; &amp;</type>
@@ -426,7 +427,7 @@ index columns, of which **two** (``fromVersion`` at position 0 and ``toVersion``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/VGRemapData.cpp" line="27" column="19" bodyfile="src/data/VGRemapData.cpp" bodystart="27" bodyend="1132" declfile="include/AGRemapCore/data/VGRemapData.h" declline="69" declcolumn="27"/>
+        <location file="src/data/VGRemapData.cpp" line="27" column="19" bodyfile="src/data/VGRemapData.cpp" bodystart="27" bodyend="1204" declfile="include/AGRemapCore/data/VGRemapData.h" declline="69" declcolumn="27"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

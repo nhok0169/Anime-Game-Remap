@@ -84,6 +84,16 @@ namespace AGRemapCore {
             static ModType cherryHutao();
 
             /**
+             * @brief Creates the :cpp:class:`ModType` for Citlali
+             */
+            static ModType citlali();
+
+            /**
+             * @brief Creates the :cpp:class:`ModType` for CitlaliWhisperofStars
+             */
+            static ModType citlaliWhisperofStars();
+
+            /**
              * @brief Creates the :cpp:class:`ModType` for Diluc
              */
             static ModType diluc();

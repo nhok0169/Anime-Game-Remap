@@ -9,6 +9,7 @@
     <innerfile refid="_ib_file_8h">IbFile.h</innerfile>
     <innerfile refid="_ini_file_8h">IniFile.h</innerfile>
     <innerfile refid="_position_file_8h">PositionFile.h</innerfile>
+    <innerfile refid="_tex_cache_8h">TexCache.h</innerfile>
     <innerfile refid="_texture_file_8h">TextureFile.h</innerfile>
     <innerfile refid="_vb_file_8h">VbFile.h</innerfile>
     <briefdescription>

@@ -157,6 +157,7 @@ class DumpMod():
         "R8G8B8A8_UINT": ("u1", 4, None), "R16G16B16A16_UINT": ("<u2", 4, None), "R32G32B32A32_UINT": ("<u4", 4, None),
         "R8G8B8A8_UNORM": ("u1", 4, 255.0), "R16G16B16A16_UNORM": ("<u2", 4, 65535.0),
         "R8_UINT": ("u1", 1, None), "R16_UINT": ("<u2", 1, None), "R32_UINT": ("<u4", 1, None),
+        "R8_UNORM": ("u1", 1, 255.0),
     }
     WWMIFormatPrefix = "DXGI_FORMAT_"
 
@@ -632,6 +633,18 @@ class DumpMod():
         dtype, count, divisor = cls._wwmiDtype(element.get("Format", ""), path)
         offset = int(element.get("AlignedByteOffset", "0"))
         width = np.dtype(dtype).itemsize * count
+
+        # a character with EIGHT bone influences a vertex (Augusta, Iuno, Chisa) declares its
+        #   BLENDINDICES / BLENDWEIGHT as a single R8 channel spanning eight bytes -- the count is
+        #   the distance to the next element, as Metadata's export_format spells it out
+        if (count == 1 and name in (cls.BlendIndicesKey, cls.BlendWeightKey)):
+            itemSize = np.dtype(dtype).itemsize
+            following = [int(e.get("AlignedByteOffset", "0")) for e in elements if int(e.get("AlignedByteOffset", "0")) > offset]
+            span = (min(following) if following else rows.shape[1]) - offset
+            if (span > width and span % itemSize == 0):
+                count = span // itemSize
+                width = itemSize * count
+
         if (offset + width > rows.shape[1]):
             raise ValueError(f"'{os.path.basename(path)}': the '{name}' element at byte {offset} ({width} bytes) does not fit the stride of {rows.shape[1]}")
 

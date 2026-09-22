@@ -452,6 +452,25 @@ Things to know about the junction:
 * **The junction was the stopgap; `-bl` / `AGREMAP_BUILD_LOCATION` is the option now.** It is the
   one to use in a new worktree or a fresh clone, where no junction exists and `cbuild` would land
   on the USB drive again.
+
+### Building in a WORKTREE: two things it does not have (2026-09-20)
+
+A `git worktree` shares `.git` but not the two trees a build needs, and neither failure names itself:
+
+* **The `extern/` submodules are EMPTY.** `git submodule update --init --recursive` hangs here --
+  there is no network -- so copy the submodule trees from the main checkout
+  (`cp -r "<main>/Anime Game Remap (for all users)/api/extern/." "<worktree>/.../extern/"`, 127 MB),
+  which is the same commits by construction. **Then delete the copied `.git` pointer inside each
+  one** (`find .../extern -maxdepth 2 -name .git -exec rm -rf {} +`): they hold a relative
+  `gitdir:` that does not resolve from a worktree, and until they are gone EVERY `git` command in
+  the worktree fails with `fatal: not a git repository: ...` -- including `git status`, which is how
+  you notice.
+* **`cext/` is not there either**, so the build would spend ~45 minutes rebuilding z3. Copy it from
+  the main checkout as well (32 MB, z3's install tree) and the configure step finds it.
+
+With both in place a from-scratch worktree build is ~810 targets and a few minutes on the Xeon, and
+incremental rebuilds behave normally. Neither copy is tracked, so nothing of this reaches a commit --
+but `git status` will show the submodule paths until the `.git` files are removed.
 * On a machine where `cbuild` is a plain folder, none of this applies -- check with
   `Get-Item <repo>\cbuild | Select LinkType,Target` before reasoning about disk speed.
 * **A measured Windows rebuild on the junction, 2026-09-17, with the game open:** `ninja core` after

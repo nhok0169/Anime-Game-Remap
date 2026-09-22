@@ -40,6 +40,24 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getIndexCou
         {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "", "component3"}, "98160"},
         {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "", "component4"}, "43116"},
         {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "", "component5"}, "1380"},
+
+        // Chisa (2.8): 7 draw slots, from the frame dump's Metadata.json
+        {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa), "", "component0"}, "13566"},
+        {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa), "", "component1"}, "36834"},
+        {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa), "", "component2"}, "13494"},
+        {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa), "", "component3"}, "108702"},
+        {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa), "", "component4"}, "105798"},
+        {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa), "", "component5"}, "7602"},
+        {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa), "", "component6"}, "1362"},
+        // ChisaParfait (3.5): 8 draw slots, from the frame dump's Metadata.json
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component0"}, "13602"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component1"}, "64224"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component2"}, "13494"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component3"}, "87435"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component4"}, "71643"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component5"}, "28176"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component6"}, "1362"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component7"}, "540"},
     };
     return rows;
 }

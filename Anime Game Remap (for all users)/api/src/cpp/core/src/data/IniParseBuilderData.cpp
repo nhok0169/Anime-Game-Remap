@@ -141,6 +141,13 @@ namespace AGRemapCore {
                 {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua)}, IniParseBuilderFuncs::sanhua2_5()},
                 {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist)}, IniParseBuilderFuncs::sanhuaExorcist2_5()},
 
+                // ===== Chisa and ChisaParfait (2026-09-20), STUBS =====
+                // Registered for their asset tables (hashes, indices and the four WWMI-only ones);
+                // neither has a parser yet, so a .ini of theirs classifies by vb0 hash and is then
+                // parsed by nothing.
+                {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa)}, IniParseBuilderFuncs::wwmiStub()},
+                {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait)}, IniParseBuilderFuncs::wwmiStub()},
+
                 // ===== Bennett (2026-09-15) =====
                 // Two drawn objects, where every character above has three or four, and a
                 // Texcoord of stride 12.

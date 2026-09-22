@@ -124,8 +124,9 @@ void testPrePopulated() {
     // silently drop Yelan.
     // +2 on 2026-09-19: Sanhua <-> SanhuaExorcist (WuWa), one row each way in the merged skeleton.
     // +6 on 2026-09-21: Citlali <-> CitlaliWhisperofStars, three components each way.
-    check(Data::getVGRemapDataRows().size() == 71,
-          "71 rows -- this table's own count, nineteen ahead of the Python builder's 52");
+    // +2 on 2026-09-20: Chisa <-> ChisaParfait, the same shape (both proposals, unconfirmed).
+    check(Data::getVGRemapDataRows().size() == 73,
+          "73 rows -- this table's own count, xxx ahead of the Python builder's 52");
 }
 
 void testRealLookups() {

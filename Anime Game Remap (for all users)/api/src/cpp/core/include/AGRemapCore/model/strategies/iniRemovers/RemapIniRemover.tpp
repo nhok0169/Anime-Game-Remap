@@ -515,17 +515,76 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename RemoverBase>
+    bool RemapIniRemover<K, V, KeyHash, KeyEqual, RemoverBase>::nameLooksRemapped(
+            const std::string& sectionName, const std::vector<std::string>& modNames) const {
+        if (remapKeyword.empty() || sectionName.find(remapKeyword) == std::string::npos) {
+            return false;
+        }
+
+        // With no names to go on -- a hand-built remover, or a context that does not know its mod
+        // types -- the old rule: the keyword anywhere.
+        if (modNames.empty()) {
+            return true;
+        }
+
+        // Otherwise the name has to be shaped the way this software names a fix: '<modName>Remap'
+        // (IniNamingTools::getRemapName). The keyword ALONE is not enough, and the difference is not
+        // academic: WWMI's own blend remap declares ResourceBlendRemapVertexVGBuffer /
+        // ...ForwardBuffer / ...ReverseBuffer, which the old rule made candidates -- one target
+        // reaching them took the whole blend-remap web with it and deleted three .buf files of a mod
+        // that had never been fixed, every fix undoing first (Chisa, 2026-09-20).
+        for (const std::string& modName : modNames) {
+            if (!modName.empty() && sectionName.find(modName + remapKeyword) != std::string::npos) {
+                return true;
+            }
+        }
+
+        // ...or named for ANOTHER mod, by the kind this software appends after the keyword
+        // (IniNamingTools: <mod>RemapBlend / Position / Texcoord / IB, <name><mod>RemapFix / Tex / DL /
+        // Ref, and the IBRemapHide a component template writes). The mod-name test alone stopped the
+        // last remover sweeping a leftover of a different mod type -- `[TextureOverrideFooRemapBlend]`,
+        // which IniFile.removeFix has always removed (test_iniFileRemoveFix_ignoresModType) -- while
+        // WWMI's own names stay out: the keyword there is followed by VertexVG / Forward / Reverse /
+        // MergedSkeleton / "ped" / "s", or ends the name, and none of those is a kind.
+        static const std::vector<std::string> Kinds = {IniKeywords::Texcoord, IniKeywords::Position, IniKeywords::Blend, "IB",
+                                                       "Fix", "Tex", "DL", "Ref", "Hide"};
+        for (std::size_t at = sectionName.find(remapKeyword); at != std::string::npos; at = sectionName.find(remapKeyword, at + 1)) {
+            std::size_t kindAt = at + remapKeyword.size();
+            for (const std::string& kind : Kinds) {
+                if (sectionName.compare(kindAt, kind.size(), kind) != 0) {
+                    continue;
+                }
+                // the kind must END there: "RemapTex" is a kind, "RemapTexture" is not
+                std::size_t after = kindAt + kind.size();
+                if (after >= sectionName.size() || sectionName[after] < 'a' || sectionName[after] > 'z') {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename RemoverBase>
     std::vector<std::string> RemapIniRemover<K, V, KeyHash, KeyEqual, RemoverBase>::collectCandidates(const FileScan& scan) const {
         std::vector<std::string> result;
         std::unordered_set<std::string> seen;
+
+        // The names a fix of this file could have written -- see IniRemoveContext::modTypeNames.
+        std::vector<std::string> modNames = (ctx_ != nullptr) ? ctx_->modTypeNames() : std::vector<std::string>{};
 
         for (const SectionSpan& span : scan.sections) {
             bool inBoilerPlate = span.boilerPlateInd != std::string::npos;
 
             // Inside the boilerplate, everything counts, whatever it is called -- that is the whole
             // point of finding the fix by where it lives rather than by its name. Outside, only the
-            // leftovers a previous fix named.
-            if (!inBoilerPlate && span.name.find(remapKeyword) == std::string::npos) {
+            // leftovers a previous fix named: '<modName>Remap', the shape IniNamingTools::getRemapName
+            // writes, rather than a bare 'Remap' anywhere in the name. The bare test took a MOD'S OWN
+            // sections with it -- WWMI's blend remap declares ResourceBlendRemapVertexVGBuffer and two
+            // more, and an undo deleted all three .buf files on a mod that had never been fixed, every
+            // fix undoing first (Chisa, 2026-09-20).
+            if (!inBoilerPlate && !nameLooksRemapped(span.name, modNames)) {
                 continue;
             }
 

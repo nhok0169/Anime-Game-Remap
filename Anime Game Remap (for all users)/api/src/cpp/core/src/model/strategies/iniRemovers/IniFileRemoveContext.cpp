@@ -19,6 +19,7 @@
 
 #include "AGRemapCore/constants/FileExt.h"
 #include "AGRemapCore/constants/FilePrefixes.h"
+#include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/model/assets/Hashes.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/ModType.h"
@@ -72,6 +73,35 @@ namespace AGRemapCore {
         for (const std::pair<const int, ModType>& entry : iniFile_->getModTypes()) {
             if (entry.second.hashes != nullptr) {
                 result.push_back(entry.second.hashes.get());
+            }
+        }
+
+        return result;
+    }
+
+
+    std::vector<std::string> IniFileRemoveContext::modTypeNames() const {
+        std::vector<std::string> result;
+        if (!hasIni()) {
+            return result;
+        }
+
+        if (!iniFile_->isClassified()) {
+            iniFile_->classify();
+        }
+
+        // Each mod type's own name AND the names it remaps onto: a fix's sections are named after
+        // the mod they were remapped TO (IniNamingTools::getRemapName), and the .ini a remover is
+        // handed is usually classified as the SOURCE.
+        for (const std::pair<const int, ModType>& entry : iniFile_->getModTypes()) {
+            result.push_back(entry.second.name);
+
+            std::optional<ModTypeId> modTypeId = ModTypeIdTools::getEnum(entry.first);
+            if (!modTypeId.has_value()) {
+                continue;
+            }
+            for (ModTypeId target : ModTypeIdTools::getHashRemapTargets(modTypeId.value())) {
+                result.push_back(ModTypeIdTools::getName(target));
             }
         }
 

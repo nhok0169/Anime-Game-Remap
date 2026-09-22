@@ -383,7 +383,26 @@ namespace AGRemapCore {
         /**
          * @brief Sanhua's Exorcist skin from WuWa (WWMI-Assets' ``SanhuaSkin1``) -- see :cpp:enumerator:`Sanhua`
          */
-        SanhuaExorcist
+        SanhuaExorcist,
+
+        /**
+         * @brief
+         @rst
+         Chisa from WuWa (Wuthering Waves), the second WWMI pair (2026-09-20) -- see
+         :cpp:enumerator:`Sanhua` for what a WWMI mod type is :raw-html:`<br />` :raw-html:`<br />`
+
+         WWMI-Assets has neither her nor her skin, so her asset tables come from a frame dump
+         (``Tools/Misc/Prototypes/wwmiExtractDump.py``), which is also what
+         ``Data/Mod Downloads/WuWa/Chisa/2_8`` was built from. She is the first character here whose
+         merged skeleton passes 256 bones (420), so a mod of hers carries WWMI's blend remap
+         @endrst
+         */
+        Chisa,
+
+        /**
+         * @brief Chisa's Parfait skin from WuWa -- see :cpp:enumerator:`Chisa`
+         */
+        ChisaParfait
     };
 
     /**

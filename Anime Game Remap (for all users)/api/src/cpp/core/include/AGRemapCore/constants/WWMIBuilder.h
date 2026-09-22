@@ -47,6 +47,16 @@ namespace AGRemapCore {
             static ModType sanhuaExorcist();
 
             /**
+             * @brief Creates the :cpp:class:`ModType` for Chisa
+             */
+            static ModType chisa();
+
+            /**
+             * @brief Creates the :cpp:class:`ModType` for ChisaParfait
+             */
+            static ModType chisaParfait();
+
+            /**
              * @brief Every WuWa :cpp:class:`ModType`, freshly built on each call
              */
             static std::vector<ModType> all();

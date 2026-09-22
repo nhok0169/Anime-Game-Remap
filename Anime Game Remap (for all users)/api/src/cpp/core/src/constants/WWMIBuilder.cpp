@@ -111,10 +111,21 @@ namespace AGRemapCore {
         return makeWWMIModType(ModTypeId::SanhuaExorcist, {"SanhuaSkin1", "ExorcistSanhua", "SanhuaMoonChasing", "MoonChasingSanhua", "JinhsiBodyguardExorcist", "ExorcistJinhsiBodyguard", "JinhsiBodyguardMoonChasing", "MoonChasingJinhsiBodyguard"});
     }
 
+    ModType WWMIBuilder::chisa() {
+        return makeWWMIModType(ModTypeId::Chisa);
+    }
+
+    ModType WWMIBuilder::chisaParfait() {
+        // WWMI-Assets has no folder for either of them, so there is no asset-repo name to alias.
+        return makeWWMIModType(ModTypeId::ChisaParfait, {"ChisaSkin1", "ParfaitChisa"});
+    }
+
     std::vector<ModType> WWMIBuilder::all() {
         return {
             sanhua(),
             sanhuaExorcist(),
+            chisa(),
+            chisaParfait(),
         };
     }
 }

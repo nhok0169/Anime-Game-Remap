@@ -159,6 +159,8 @@ static const std::vector<RemapRow>& expectedRows() {
         // WuWa (2026-09-19): one skin each way, in the merged skeleton.
         {"Sanhua", {"SanhuaExorcist"}, {"SanhuaExorcist"}},
         {"SanhuaExorcist", {"Sanhua"}, {"Sanhua"}},
+        {"Chisa", {"ChisaParfait"}, {"ChisaParfait"}},
+        {"ChisaParfait", {"Chisa"}, {"Chisa"}},
     };
     return rows;
 }
@@ -192,9 +194,7 @@ static ModTypeId idOf(const std::string& name) {
 
 static void testEveryRowMatchesPython() {
     std::printf("testEveryRowMatchesPython\n");
-
-    check(expectedRows().size() == 51, "the oracle itself still has all 51 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali and CitlaliWhisperofStars, plus Sanhua and SanhuaExorcist)");
-
+    check(expectedRows().size() == 51, "the oracle itself still has all 51 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali and CitlaliWhisperofStars, plus the four WuWa types)");
     for (const RemapRow& row : expectedRows()) {
         ModTypeId id = idOf(row.name);
 

@@ -761,9 +761,17 @@ namespace AGRemapCore {
             // Whether 'line' closes the boilerplate region 'open' described.
             static bool isBoilerPlateClose(const std::string& line, const OpenMatch& open);
 
+            // Whether a section OUTSIDE the boilerplate looks like a previous fix's leftover: its
+            // name holds '<modName>Remap' for one of 'modNames' (IniRemoveContext::modTypeNames),
+            // or it holds the keyword and carries a `hash` for findTargets to judge it by. A
+            // hash-less section whose name merely contains 'Remap' is somebody else's -- WWMI's own
+            // blend remap declares three such resources, and removing them deleted their .buf files
+            // on a mod that had never been fixed (Chisa, 2026-09-20).
+            bool nameLooksRemapped(const std::string& sectionName, const std::vector<std::string>& modNames) const;
+
             // The names of the candidate sections found by 'scan', in file order and de-duplicated:
-            // everything inside a boilerplate region, plus everything outside one whose name
-            // contains remapKeyword.
+            // everything inside a boilerplate region, plus everything outside one that
+            // nameLooksRemapped accepts.
             std::vector<std::string> collectCandidates(const FileScan& scan) const;
 
             // The candidates this software is taken to have written -- see this class's own doc.

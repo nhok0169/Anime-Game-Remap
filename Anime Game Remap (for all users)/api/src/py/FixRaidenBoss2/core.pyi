@@ -14358,6 +14358,10 @@ class ModTypeId:
       Sanhua : Sanhua from WuWa (Wuthering Waves) -- the first WWMI mod type; one merged skeleton whose draw slots are the 'type' column of Indices, IndexCounts, VGOffsets and VGCounts
     
       SanhuaExorcist : Sanhua's Exorcist skin from WuWa (WWMI-Assets' SanhuaSkin1)
+    
+      Chisa : Chisa from WuWa, the second WWMI pair; her asset tables come from a frame dump, since WWMI-Assets has neither her nor her skin
+    
+      ChisaParfait : Chisa's Parfait skin from WuWa
     """
     Amber: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Amber: 0>
     AmberCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AmberCN: 1>
@@ -14378,6 +14382,8 @@ class ModTypeId:
     CitlaliWhisperofStarsBangs: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStarsBangs: 17>
     CitlaliWhisperofStarsBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStarsBody: 16>
     CitlaliWhisperofStarsEyes: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStarsEyes: 18>
+    Chisa: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Chisa: XXX>
+    ChisaParfait: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ChisaParfait: XXX>
     Diluc: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Diluc: 19>
     DilucFlamme: typing.ClassVar[ModTypeId]  # value = <ModTypeId.DilucFlamme: 20>
     Fischl: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Fischl: 21>
@@ -23261,6 +23267,16 @@ class WWMIBuilder:
     def all() -> list[ModType]:
         """
         Every WuWa :class:`ModType`, freshly built on each call
+        """
+    @staticmethod
+    def chisa() -> ModType:
+        """
+        Creates the :class:`ModType` for Chisa
+        """
+    @staticmethod
+    def chisaParfait() -> ModType:
+        """
+        Creates the :class:`ModType` for ChisaParfait
         """
     @staticmethod
     def sanhua() -> ModType:

@@ -1365,6 +1365,22 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "cb4"}, "f02baf77"},
         {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "shapekey_offsets"}, "d709b169"},
         {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "shapekey_scale"}, "c0bf5479"},
+
+
+        // ===== WuWa: Chisa and ChisaParfait (2026-09-20) =====
+        // The same four types, but read from the FRAME DUMPS the download folders were built from
+        // (Tools/Misc/Prototypes/wwmiExtractDump.py), since WWMI-Assets has neither character. The
+        // vb0 hashes are what GlobalIniClassifiers identifies each of them by.
+        // Chisa (2.8)
+        {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa), "vb0"}, "afa1587c"},
+        {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa), "cb4"}, "f02baf77"},
+        {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa), "shapekey_offsets"}, "e9b69bed"},
+        {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa), "shapekey_scale"}, "a01e7b59"},
+        // ChisaParfait (3.5)
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "vb0"}, "e611d493"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "cb4"}, "f02baf77"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "shapekey_offsets"}, "57bb099f"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "shapekey_scale"}, "9c738856"},
     };
     return rows;
 }

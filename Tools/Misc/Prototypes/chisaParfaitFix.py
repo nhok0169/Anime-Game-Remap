@@ -944,6 +944,24 @@ def makeParser(sourceType, shapeKeys: bool = False, plannedRoles: Optional[List[
 SectionPattern = re.compile(r"^\[(?P<name>[^\]]+)\]\s*$")
 
 
+# A SECTION NAME MAY BE DECLARED MORE THAN ONCE IN ONE FILE (2026-09-22), and what that means
+#   depends on the section. For a DECLARATION block it is plainly a concatenation -- a
+#   mod-manager-packaged mod splits its variables freely, and Chisa12 declares `[Constants]` three
+#   times in one file (the author's toggles, then the WWMI block holding
+#   `global $mesh_vertex_count`, then the menu's own constants). Keeping only the last block made
+#   the fix skip that whole `.ini` with "no `global $mesh_vertex_count` in [Constants]" while the
+#   line sat at line 208.
+#
+#   For a `TextureOverride` it is a mod-authoring ERROR whose runtime meaning is not ours to guess:
+#   3dmigoto reads only the first `hash` of a section and applies it to the whole body, so Chisa6's
+#   two `[TextureOverrideTexture202]` blocks -- `d01fdd4f -> ResourceTexture16` and
+#   `35b4ef7f -> ResourceTexture20` -- do not mean what either block says on its own. That mod is
+#   confirmed working in game, so the previous reading (the last block wins) is kept for everything
+#   not named here rather than changed on a guess. Chisa2's repeat is two IDENTICAL blocks, so it
+#   reads the same either way. Widen this set only with a case that proves the semantics.
+ConcatenatedSections = frozenset({"Constants"})
+
+
 def iniSections(text: str) -> Dict[str, List[str]]:
     """{section name: [lines]} of an .ini's text, comments included"""
     sections: Dict[str, List[str]] = {}
@@ -952,7 +970,10 @@ def iniSections(text: str) -> Dict[str, List[str]]:
         match = SectionPattern.match(line)
         if (match):
             current = match.group("name")
-            sections[current] = []
+            if (current in ConcatenatedSections):
+                sections.setdefault(current, [])
+            else:
+                sections[current] = []
         elif (current is not None):
             sections[current].append(line)
     return sections

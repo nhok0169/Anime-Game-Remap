@@ -1430,6 +1430,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | a chain (ribbons, tassel) curled or floating | a chain the target has no bones for, mapped per bone by the finder | `--anchor`; `wwmiBoneTally.py` |
 | one part "floating like jello" while everything around it is fine | the part is skinned to a target bone that is PHYSICS -- the target's HAIR component, or a jiggle pair a centre chain got split across | `vgSymmetry.py --hair <N>`; NOT a distance check, which passes |
 | a part wobbles AND leans to one side at rest | same thing: it is following a simulated bone's swing and its settled offset | the target component of every bone the part weights |
+| the whole `.ini` is SKIPPED naming a key it says is missing | the key is there, in a SECOND block of a section declared more than once | `ConcatenatedSections`; grep the file for the key before believing the message |
 | the body a smeared DRAPE under an intact head, on a source past 256 bones | the mod's own `Resource*Override = ref ...Component<N>` lines survived into the remapped sections | strip them: `RegRemove` per slot section, `ref` form only |
 | every body part drawn with ONE part's textures | the copies referenced the texture lists in another file | `appendedSectionsInCopies` / `copyHiddenSectionNames` (self-contained copies) |
 | one part's textures wrong, the picture is a different texture | that component got no texture list -- a role with no file | the prototype's per-slot table: `ps-tN=GAME (mod has none)`; then whether the file is declared under TWO hashes |
@@ -1849,6 +1850,36 @@ Two mechanics to know before you write the entry:
   bone 3 and 73% on ten accessory bones; anchoring only the ten still left the prop torn between two
   places. The finished anchor has every bone of the part on one target, which the skinning check
   shows as a cloud the size of the rest shape.
+
+### A SECTION NAME CAN BE DECLARED MORE THAN ONCE, AND A MOD MANAGER DOES IT FREELY (2026-09-22)
+
+A mod-manager-packaged mod (Chisa12: GUID filenames, buffers under a **`.assets`** extension, a
+`res/` folder of UI art and a `draw_2d.hlsl`) declares `[Constants]` **three times in one file** --
+the author's toggles, then the WWMI block, then the menu's own constants -- and `[Present]` three
+times as well. A `{section name: lines}` dict keeps one of them, so `global $mesh_vertex_count`
+sat at line 208 and the fix skipped the whole `.ini` saying it was missing.
+
+**The failure was well-named and still pointed at the wrong thing**, which is the part worth
+keeping: the message said "no `global $mesh_vertex_count` in [Constants]", and the key was in
+[Constants]. When a run names a key it cannot find, grep the file for that key before believing
+it; if it is there, the reader is what is wrong.
+
+**What a repeat MEANS is per section, so do not concatenate blindly.** For a declaration block it
+is plainly a concatenation. For a `TextureOverride` it is a mod-authoring error whose runtime
+meaning is not ours to guess -- 3dmigoto reads only the first `hash` of a section and applies it to
+the whole body -- and Chisa6 has two `[TextureOverrideTexture202]` blocks naming DIFFERENT hashes
+and different resources (`d01fdd4f -> ResourceTexture16`, `35b4ef7f -> ResourceTexture20`). That
+mod is confirmed in game, so concatenating there would have changed a working texture binding on a
+guess. `ConcatenatedSections` is the explicit set (today: `Constants`), and everything else keeps
+the previous reading until a case proves the semantics.
+
+The blast radius was measured before the change rather than after: of the Chisa mods, five repeat a
+name, and comparing the two readings on exactly the lookups the fix performs showed **only**
+Chisa12's vertex count moving (`None -> 1017868`), with Chisa2's repeat being two IDENTICAL blocks
+and Chisa6's untouched by the narrowed rule. Output afterwards: `.ini fixed: 1`, blend 1, five
+textures, 107 filename references with 0 dangling and 228 resource references with 0 undefined.
+
+<br>
 
 ### A PART SKINNED TO A PHYSICS BONE WOBBLES, AND NO DISTANCE CHECK SEES IT (2026-09-22)
 

@@ -2075,9 +2075,55 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             if (os.path.isfile(src)):
                 halves = np.fromfile(src, dtype = np.float16)
                 bad = np.isnan(halves)
+                folded = 0
                 if (bad.any()):
                     halves = halves.copy()
                     halves[bad] = 0
+
+                # ---- fold the UV TILE OFFSET out of U, so the address mode cannot matter ----
+                # A MOD MAY UV A PART INTO THE [1, 2) TILE AND RELY ON THE SAMPLER WRAPPING
+                #   (2026-09-22). Chisa13 does it for HALF of component 3 -- 47% of that component's
+                #   vertices sit at U >= 1 -- which on Chisa samples the same texels as [0, 1) and on
+                #   ChisaParfait evidently does not: one side of the body renders with its texture
+                #   detail and the other flat and pale. Reported three ways on one mod, all the same
+                #   thing: one nipple pink and the other "the same colour as her skin", the fishnet
+                #   on one thigh and not the other, and a tonal step down the torso.
+                #
+                #   NEITHER CHARACTER'S OWN MODEL EVER LEAVES [0, 1) -- both are 0.002..0.996 -- so
+                #   the game never exercises its own address mode for U >= 1, and the two passes are
+                #   free to differ there. Rather than find out which does what, take the question
+                #   away: U and U - 1 select the SAME texel under wrap, so folding is a no-op
+                #   wherever a mod already renders correctly and cannot regress one.
+                #
+                #   The exception is a triangle whose vertices straddle a tile boundary: folding
+                #   would widen its U span from a few hundredths to nearly 1 and interpolate it
+                #   backwards across the atlas. Those vertices keep what they had -- 13 triangles of
+                #   281850 on this mod, and a vertex is left alone if ANY triangle it belongs to
+                #   straddles.
+                u = halves.reshape(-1, 8)[:, 0].astype(np.float32)
+                needs = (u >= 1.0) | (u < 0.0)
+                if (needs.any()):
+                    keep = np.zeros(len(u), dtype = bool)          # vertices of a straddling triangle
+                    ibLines = next((ls for nm, ls in files.sections.items()
+                                    if (nm.lower() == "resourceindexbuffer")), [])
+                    ibFile = next((v for k, v in map(keyValue, ibLines) if k == "filename"), None)
+                    ibPath = os.path.join(ini.folder, ibFile.replace(chr(92), "/")) if (ibFile) else None
+                    if (ibPath and os.path.isfile(ibPath)):
+                        tri = np.fromfile(ibPath, dtype = np.uint32)
+                        tri = tri[:len(tri) // 3 * 3].reshape(-1, 3)
+                        tri = tri[(tri < len(u)).all(axis = 1)]
+                        tile = np.floor(np.nan_to_num(u))[tri]         # each triangle's three tiles
+                        keep[tri[tile.max(axis = 1) != tile.min(axis = 1)].ravel()] = True
+                    move = needs & ~keep
+                    if (move.any()):
+                        halves = halves.copy()
+                        rows = halves.reshape(-1, 8)
+                        rows[move, 0] = np.mod(u[move], 1.0).astype(np.float16)
+                        folded = int(move.sum())
+                        print(f"    texcoord: {folded} vertices UV'd outside [0, 1) folded back, "
+                              f"{int((needs & keep).sum())} left alone on triangles that straddle a tile "
+                              f"boundary. Wrap-equivalent, so nothing that already renders can move.")
+                if (bad.any() or folded):
                     fixedFile = os.path.join(os.path.dirname(texcoordFile.replace(chr(92), "/")), f"{toModName}{FRB.IniKeywords.Remap.value}Texcoord.buf").replace(chr(92), "/")
                     halves.tofile(os.path.join(ini.folder, fixedFile))
                     lines = texcoordLines
@@ -2085,7 +2131,9 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                     stride = next((v for k, v in map(keyValue, lines) if k == "stride"), "16")
                     texcoordResource = fixName("ResourceTexcoordNoNaN")
                     appended.append(chr(10).join([f"[{texcoordResource}]", "type = Buffer", f"format = {fmt}", f"stride = {stride}", f"filename = {fixedFile}", ""]))
-                    print(f"    vb2 (texcoords): {int(bad.sum())} NaN halves set to 0 in a remap-only copy -> {fixedFile}")
+                    did = ([f"{int(bad.sum())} NaN halves set to 0"] if (bad.any()) else []) \
+                        + ([f"{folded} U values folded into [0, 1)"] if (folded) else [])
+                    print(f"    vb2 (texcoords): {' and '.join(did)} in a remap-only copy -> {fixedFile}")
 
         # ---- the edits shared by every object: the target's hashes, the target's checksum, the names ----
         hashRemap = FRB.RegAssetRemap({"hash": (modType.hashes, FRB.IniKeywords.HashNotFound.value),

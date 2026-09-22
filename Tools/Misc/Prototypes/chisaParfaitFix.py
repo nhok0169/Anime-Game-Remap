@@ -584,8 +584,18 @@ Plan = {
     #   pass (a99f09b6) binds the same texture at ps-t6.
     3: (3, {"ps-t0": "upperNormal", "ps-t1": "upperMask", "ps-t3": "upperDiffuse",
             "ps-t8": "bodySheen"}),     # ps-t10: zeroed in NeutralBindings, see there
+    # ps-t6 KEEPS THE SKIN'S OWN RAMP (2026-09-22). The 512 x 25 "subsurface lookup" is not one ramp
+    #   but a TABLE: five bands of five rows, and the shader picks the band from the pixel's material
+    #   code -- the TARGET's codes, through the target's cb4[120..121] -- and the column from its
+    #   shading. The two skins' tables agree on the top band (rows 0-4, skin: (233,114,102) against
+    #   (239,109,112) at the dark end) and disagree everywhere else: at rows 5-9, the band cloth with
+    #   code 0 reads, the skin's are neutral -- (12,3,3) (150,134,157) (238,172,53) -- and Chisa's
+    #   magenta -- (159,30,177) (173,132,223) (248,41,121). So binding Chisa's table here, which was
+    #   chosen by comparing the two tables' MEAN colours, left skin as it was and turned Chisa6's
+    #   dark knit sweater maroon on the skin's lower pass. Read off both skins' frame dumps; the
+    #   upper pass's ps-t10 is the same table and stays zeroed (NeutralBindings) for the reason there.
     4: (4, {"ps-t0": "lowerNormal", "ps-t1": "lowerMask", "ps-t3": "lowerDiffuse",
-            "ps-t5": "bodySheen", "ps-t6": "skinRamp"}),
+            "ps-t5": "bodySheen"}),
     # MEASURED, not guessed (2026-09-20): on the pass both skins draw this slot with (3df800c3)
     #   Chisa binds 019c268e / f2646d21 / 9ccd7ea7 at ps-t0 / t1 / t5 -- her accessory diffuse and
     #   then the FRONT HAIR pair, which is the per-character pair every other slot carries too. The
@@ -2128,14 +2138,15 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                     if (line is None):
                         continue
                     if (paint and role.lower().endswith("diffuse")):
-                        resource = fixName("ResourcePaintWhite")
+                        # violet, not white: the hair it shares its textures with is white on some mods
+                        resource = fixName("ResourcePaintViolet")
                         if (resource not in painted):
-                            rel = os.path.join(files.textureFolder, f"PaintWhite{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
+                            rel = os.path.join(files.textureFolder, f"PaintViolet{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
                             os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
-                            writeSolidDds(os.path.join(ini.folder, rel), (255, 255, 255, 255))
+                            writeSolidDds(os.path.join(ini.folder, rel), (128, 0, 255, 255))
                             appended.append("\n".join([f"[{resource}]", f"filename = {rel}", ""]))
                             painted.add(resource)
-                            paintLegend.append(f"      the shared mesh {meshHash}: every diffuse -> flat white")
+                            paintLegend.append(f"      the shared mesh {meshHash}: every diffuse -> flat violet")
                         line = f"    {reg} = {resource}"
                     binds.append(line)
                 if (binds):

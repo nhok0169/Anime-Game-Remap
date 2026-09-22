@@ -206,17 +206,17 @@ const std::string RemapHeadingClose = "; ---------------------------------------
 // The three sections one remap fix writes: a hashed TextureOverride, the CommandList it runs, and
 // the Resource that CommandList points at.
 const std::string FixBody =
-    "[TextureOverrideFooRemapBlend]\n"
+    "[TextureOverrideFooTestModRemapBlend]\n"
     "hash = " + RaidenBossBlendHash + "\n"
-    "run = CommandListFooRemapBlend\n"
+    "run = CommandListFooTestModRemapBlend\n"
     "\n"
-    "[CommandListFooRemapBlend]\n"
-    "vb1 = ResourceFooRemapBlend\n"
-    "run = ResourceFooRemapBlend\n"
+    "[CommandListFooTestModRemapBlend]\n"
+    "vb1 = ResourceFooTestModRemapBlend\n"
+    "run = ResourceFooTestModRemapBlend\n"
     "\n"
-    "[ResourceFooRemapBlend]\n"
+    "[ResourceFooTestModRemapBlend]\n"
     "type = Buffer\n"
-    "filename = FooRemapBlend.buf\n";
+    "filename = FooTestModRemapBlend.buf\n";
 
 
 void testWholeFixAndBoilerPlateRemoved() {
@@ -234,15 +234,15 @@ void testWholeFixAndBoilerPlateRemoved() {
     std::string result = fixture.remover->remove(false, false);
 
     const std::vector<std::string>& targets = fixture.remover->getTargetSectionNames();
-    check(!targets.empty() && targets[0] == "TextureOverrideFooRemapBlend",
+    check(!targets.empty() && targets[0] == "TextureOverrideFooTestModRemapBlend",
           "whole fix: the hashed TextureOverride is the first target, in the .ini file's own order");
     check(!contains(targets, "TextureOverrideFooBlend"),
           "whole fix: a hashed section outside the candidate pool is not a target");
 
     const std::vector<std::string>& removed = fixture.remover->getRemovedSectionNames();
     check(removed.size() == 3, "whole fix: the target and both sections it reaches are removed");
-    check(contains(removed, "CommandListFooRemapBlend"), "whole fix: the CommandList a target runs is a descendant");
-    check(contains(removed, "ResourceFooRemapBlend"), "whole fix: the Resource that CommandList points at is a descendant");
+    check(contains(removed, "CommandListFooTestModRemapBlend"), "whole fix: the CommandList a target runs is a descendant");
+    check(contains(removed, "ResourceFooTestModRemapBlend"), "whole fix: the Resource that CommandList points at is a descendant");
 
     check(!contains(removed, "TextureOverrideFooBlend"),
           "whole fix: the original's own hashed TextureOverride is never a candidate -- it is outside the boilerplate and unnamed");
@@ -271,15 +271,15 @@ void testAncestorsAndOutsideLeftoversRemoved() {
         "\n"
         // An ancestor: outside the boilerplate, named for the fix, and it runs INTO the target.
         // Nothing reaches it and it carries no hash, so only the reverse walk can find it.
-        "[CommandListFooRemapWrapper]\n"
-        "run = TextureOverrideFooRemapBlend\n"
+        "[CommandListFooTestModRemapWrapper]\n"
+        "run = TextureOverrideFooTestModRemapBlend\n"
         "\n"
         // A leftover of a half-undone fix: outside the boilerplate, and a descendant of the target
         // purely by name. getIfTemplates keeps THIS copy (first occurrence wins), not the one
         // inside the boilerplate -- both spans still have to go.
-        "[ResourceFooRemapBlend]\n"
+        "[ResourceFooTestModRemapBlend]\n"
         "type = Buffer\n"
-        "filename = StaleFooRemapBlend.buf\n"
+        "filename = StaleFooTestModRemapBlend.buf\n"
         "\n" +
         RemapHeadingOpen +
         "\n" +
@@ -291,12 +291,12 @@ void testAncestorsAndOutsideLeftoversRemoved() {
     std::string result = fixture.remover->remove(false, false);
 
     const std::vector<std::string>& removed = fixture.remover->getRemovedSectionNames();
-    check(contains(removed, "CommandListFooRemapWrapper"),
+    check(contains(removed, "CommandListFooTestModRemapWrapper"),
           "ancestors: a candidate that runs into a target is removed even though nothing reaches it");
-    check(contains(removed, "ResourceFooRemapBlend"),
+    check(contains(removed, "ResourceFooTestModRemapBlend"),
           "ancestors: an outside-the-boilerplate leftover reached from a target is removed");
 
-    check(result.find("StaleFooRemapBlend.buf") == std::string::npos,
+    check(result.find("StaleFooTestModRemapBlend.buf") == std::string::npos,
           "ancestors: the leftover copy's own lines go too, not just the copy getIfTemplates kept");
     check(result.find("Remap") == std::string::npos,
           "ancestors: nothing named for the fix survives anywhere");
@@ -331,14 +331,14 @@ void testEverythingInTheBoilerPlateIsATarget() {
         "\n" +
         RemapHeadingOpen +
         "\n"
-        "[TextureOverrideFooRemapBlend]\n"
-        "run = CommandListFooRemapBlend\n"
+        "[TextureOverrideFooTestModRemapBlend]\n"
+        "run = CommandListFooTestModRemapBlend\n"
         "\n"
-        "[CommandListFooRemapBlend]\n"
-        "vb1 = ResourceFooRemapBlend\n"
+        "[CommandListFooTestModRemapBlend]\n"
+        "vb1 = ResourceFooTestModRemapBlend\n"
         "\n"
-        "[ResourceFooRemapBlend]\n"
-        "filename = FooRemapBlend.buf\n"
+        "[ResourceFooTestModRemapBlend]\n"
+        "filename = FooTestModRemapBlend.buf\n"
         "\n"
         // No hash, no Remap in the name, no reference from anything -- inside the boilerplate is
         // the only thing that makes this a target, and it is enough.
@@ -351,8 +351,8 @@ void testEverythingInTheBoilerPlateIsATarget() {
     std::string result = fixture.remover->remove(false, false);
 
     const std::vector<std::string>& targets = fixture.remover->getTargetSectionNames();
-    check(contains(targets, "TextureOverrideFooRemapBlend") && contains(targets, "CommandListFooRemapBlend")
-              && contains(targets, "ResourceFooRemapBlend") && contains(targets, "CommandListUnrelated"),
+    check(contains(targets, "TextureOverrideFooTestModRemapBlend") && contains(targets, "CommandListFooTestModRemapBlend")
+              && contains(targets, "ResourceFooTestModRemapBlend") && contains(targets, "CommandListUnrelated"),
           "boilerplate targets: every section the boilerplate surrounds is a target, hash or not");
 
     check(result.find("Remap") == std::string::npos, "boilerplate targets: the whole hash-less fix is removed");
@@ -362,7 +362,7 @@ void testEverythingInTheBoilerPlateIsATarget() {
           "boilerplate targets: nothing inside survives, so the boilerplate goes too");
 
     check(collectedNames(*fixture.remover, Remover::ResourceType::Blend)
-              == std::vector<std::string>{"FooRemapBlend.buf"},
+              == std::vector<std::string>{"FooTestModRemapBlend.buf"},
           "boilerplate targets: and its resource is collected");
 }
 
@@ -377,20 +377,20 @@ void testResourceReachedOnlyByVb1IsRemoved() {
         "\n" +
         RemapHeadingOpen +
         "\n"
-        "[TextureOverrideFooRemapBlend]\n"
+        "[TextureOverrideFooTestModRemapBlend]\n"
         "hash = " + RaidenBossBlendHash + "\n"
-        "vb1 = ResourceFooRemapBlend\n"
-        "ib = ResourceFooRemapIB\n"
-        "ps-t0 = ResourceFooRemapTex\n"
+        "vb1 = ResourceFooTestModRemapBlend\n"
+        "ib = ResourceFooTestModRemapIB\n"
+        "ps-t0 = ResourceFooTestModRemapTex\n"
         "\n"
-        "[ResourceFooRemapBlend]\n"
-        "filename = FooRemapBlend.buf\n"
+        "[ResourceFooTestModRemapBlend]\n"
+        "filename = FooTestModRemapBlend.buf\n"
         "\n"
-        "[ResourceFooRemapIB]\n"
-        "filename = FooRemapIB.buf\n"
+        "[ResourceFooTestModRemapIB]\n"
+        "filename = FooTestModRemapIB.buf\n"
         "\n"
-        "[ResourceFooRemapTex]\n"
-        "filename = FooRemapTex.dds\n"
+        "[ResourceFooTestModRemapTex]\n"
+        "filename = FooTestModRemapTex.dds\n"
         "\n" +
         RemapHeadingClose;
 
@@ -398,17 +398,17 @@ void testResourceReachedOnlyByVb1IsRemoved() {
     std::string result = fixture.remover->remove(false, false);
 
     const std::vector<std::string>& removed = fixture.remover->getRemovedSectionNames();
-    check(contains(removed, "ResourceFooRemapBlend"), "vb1: a Resource reached only by vb1 is removed");
-    check(contains(removed, "ResourceFooRemapIB"), "ib: a Resource reached only by ib is removed");
-    check(contains(removed, "ResourceFooRemapTex"), "ps-t0: a Resource reached only by ps-t0 is removed");
+    check(contains(removed, "ResourceFooTestModRemapBlend"), "vb1: a Resource reached only by vb1 is removed");
+    check(contains(removed, "ResourceFooTestModRemapIB"), "ib: a Resource reached only by ib is removed");
+    check(contains(removed, "ResourceFooTestModRemapTex"), "ps-t0: a Resource reached only by ps-t0 is removed");
 
     check(result.find("Remap") == std::string::npos, "vb1: nothing of the fix is left in the file");
     check(collectedNames(*fixture.remover, Remover::ResourceType::Blend)
-              == std::vector<std::string>{"FooRemapBlend.buf"}, "vb1: its .buf file is collected");
+              == std::vector<std::string>{"FooTestModRemapBlend.buf"}, "vb1: its .buf file is collected");
     check(collectedNames(*fixture.remover, Remover::ResourceType::Buf)
-              == std::vector<std::string>{"FooRemapIB.buf"}, "ib: its .buf file is collected");
+              == std::vector<std::string>{"FooTestModRemapIB.buf"}, "ib: its .buf file is collected");
     check(collectedNames(*fixture.remover, Remover::ResourceType::TexEdit)
-              == std::vector<std::string>{"FooRemapTex.dds"}, "ps-t0: its .dds file is collected");
+              == std::vector<std::string>{"FooTestModRemapTex.dds"}, "ps-t0: its .dds file is collected");
 }
 
 
@@ -419,35 +419,35 @@ void testOutsideTheBoilerPlateStillNeedsAHash() {
     std::string txt =
         OrigMod +
         "\n"
-        "[TextureOverrideStaleRemapBlend]\n"
+        "[TextureOverrideStaleTestModRemapBlend]\n"
         "hash = " + RaidenBossBlendHash + "\n"
-        "vb1 = ResourceStaleRemapBlend\n"
+        "vb1 = ResourceStaleTestModRemapBlend\n"
         "\n"
-        "[ResourceStaleRemapBlend]\n"
-        "filename = StaleRemapBlend.buf\n"
+        "[ResourceStaleTestModRemapBlend]\n"
+        "filename = StaleTestModRemapBlend.buf\n"
         "\n"
-        "[TextureOverrideUnknownRemapBlend]\n"
+        "[TextureOverrideUnknownTestModRemapBlend]\n"
         "hash = " + UnknownHash + "\n"
-        "vb1 = ResourceUnknownRemapBlend\n"
+        "vb1 = ResourceUnknownTestModRemapBlend\n"
         "\n"
-        "[ResourceUnknownRemapBlend]\n"
-        "filename = UnknownRemapBlend.buf\n";
+        "[ResourceUnknownTestModRemapBlend]\n"
+        "filename = UnknownTestModRemapBlend.buf\n";
 
     Fixture fixture(txt);
     std::string result = fixture.remover->remove(false, false);
 
     const std::vector<std::string>& targets = fixture.remover->getTargetSectionNames();
-    check(contains(targets, "TextureOverrideStaleRemapBlend"),
+    check(contains(targets, "TextureOverrideStaleTestModRemapBlend"),
           "outside: a leftover whose hash the ModType knows is a target");
-    check(!contains(targets, "TextureOverrideUnknownRemapBlend"),
+    check(!contains(targets, "TextureOverrideUnknownTestModRemapBlend"),
           "outside: a hash the ModType's table does not know makes no target");
 
-    check(result.find("[TextureOverrideStaleRemapBlend]") == std::string::npos,
+    check(result.find("[TextureOverrideStaleTestModRemapBlend]") == std::string::npos,
           "outside: the known-hash leftover is removed");
-    check(result.find("[ResourceStaleRemapBlend]") == std::string::npos,
+    check(result.find("[ResourceStaleTestModRemapBlend]") == std::string::npos,
           "outside: and so is the Resource it points at");
-    check(result.find("[TextureOverrideUnknownRemapBlend]") != std::string::npos
-              && result.find("[ResourceUnknownRemapBlend]") != std::string::npos,
+    check(result.find("[TextureOverrideUnknownTestModRemapBlend]") != std::string::npos
+              && result.find("[ResourceUnknownTestModRemapBlend]") != std::string::npos,
           "outside: the unknown-hash leftover and its Resource are both left alone");
 }
 
@@ -460,42 +460,42 @@ void testIgnoreModTypeTakesEveryCandidate() {
     std::string txt =
         OrigMod +
         "\n"
-        "[TextureOverrideStaleRemapBlend]\n"
+        "[TextureOverrideStaleTestModRemapBlend]\n"
         "hash = " + RaidenBossBlendHash + "\n"
-        "vb1 = ResourceStaleRemapBlend\n"
+        "vb1 = ResourceStaleTestModRemapBlend\n"
         "\n"
-        "[ResourceStaleRemapBlend]\n"
-        "filename = StaleRemapBlend.buf\n"
+        "[ResourceStaleTestModRemapBlend]\n"
+        "filename = StaleTestModRemapBlend.buf\n"
         "\n"
-        "[TextureOverrideUnknownRemapBlend]\n"
+        "[TextureOverrideUnknownTestModRemapBlend]\n"
         "hash = " + UnknownHash + "\n"
-        "vb1 = ResourceUnknownRemapBlend\n"
+        "vb1 = ResourceUnknownTestModRemapBlend\n"
         "\n"
-        "[ResourceUnknownRemapBlend]\n"
-        "filename = UnknownRemapBlend.buf\n"
+        "[ResourceUnknownTestModRemapBlend]\n"
+        "filename = UnknownTestModRemapBlend.buf\n"
         "\n"
-        "[TextureOverrideHashlessRemapBlend]\n"
-        "vb1 = ResourceHashlessRemapBlend\n"
+        "[TextureOverrideHashlessTestModRemapBlend]\n"
+        "vb1 = ResourceHashlessTestModRemapBlend\n"
         "\n"
-        "[ResourceHashlessRemapBlend]\n"
-        "filename = HashlessRemapBlend.buf\n";
+        "[ResourceHashlessTestModRemapBlend]\n"
+        "filename = HashlessTestModRemapBlend.buf\n";
 
     // First the strict rule, so the difference is this flag and nothing else.
     Fixture strict(txt);
     std::string strictResult = strict.remover->remove(false, false);
-    check(strictResult.find("[TextureOverrideUnknownRemapBlend]") != std::string::npos
-              && strictResult.find("[TextureOverrideHashlessRemapBlend]") != std::string::npos,
+    check(strictResult.find("[TextureOverrideUnknownTestModRemapBlend]") != std::string::npos
+              && strictResult.find("[TextureOverrideHashlessTestModRemapBlend]") != std::string::npos,
           "ignoreModType: without it, an unattributable leftover survives");
 
     Fixture fixture(txt);
     std::string result = fixture.remover->remove(false, false, AGRemapCore::IniRemovalContext(true));
 
     const std::vector<std::string>& targets = fixture.remover->getTargetSectionNames();
-    check(contains(targets, "TextureOverrideStaleRemapBlend")
-              && contains(targets, "TextureOverrideUnknownRemapBlend")
-              && contains(targets, "TextureOverrideHashlessRemapBlend"),
+    check(contains(targets, "TextureOverrideStaleTestModRemapBlend")
+              && contains(targets, "TextureOverrideUnknownTestModRemapBlend")
+              && contains(targets, "TextureOverrideHashlessTestModRemapBlend"),
           "ignoreModType: every Remap-named leftover is a target, hash or no hash");
-    check(contains(targets, "ResourceUnknownRemapBlend") && contains(targets, "ResourceHashlessRemapBlend"),
+    check(contains(targets, "ResourceUnknownTestModRemapBlend") && contains(targets, "ResourceHashlessTestModRemapBlend"),
           "ignoreModType: their Remap-named Resources are targets in their own right too");
 
     check(result.find("Remap") == std::string::npos,
@@ -519,19 +519,19 @@ void testColouringCarriesAHashIntoWhatItRuns() {
     std::string txt =
         OrigMod +
         "\n"
-        "[TextureOverrideStaleRemapBlend]\n"
+        "[TextureOverrideStaleTestModRemapBlend]\n"
         "hash = " + RaidenBossBlendHash + "\n"
-        "run = CommandListStaleRemapBlend\n"
+        "run = CommandListStaleTestModRemapBlend\n"
         "\n"
-        "[CommandListStaleRemapBlend]\n"
+        "[CommandListStaleTestModRemapBlend]\n"
         "handling = skip\n";
 
     Fixture fixture(txt);
     fixture.remover->remove(false, false);
 
     const std::vector<std::string>& targets = fixture.remover->getTargetSectionNames();
-    check(contains(targets, "TextureOverrideStaleRemapBlend"), "colouring: the section declaring the hash is a target");
-    check(contains(targets, "CommandListStaleRemapBlend"),
+    check(contains(targets, "TextureOverrideStaleTestModRemapBlend"), "colouring: the section declaring the hash is a target");
+    check(contains(targets, "CommandListStaleTestModRemapBlend"),
           "colouring: a section run by a hashed one inherits that hash's state and is a target too");
 }
 
@@ -601,15 +601,15 @@ void testUnterminatedBoilerPlateSectionsJudgedByName() {
         "\n"
         "; --------------- TestMod Remap ---------------\n"
         "\n"
-        "[TextureOverrideFooRemapBlend]\n"
-        "vb1 = ResourceFooRemapBlend\n";
+        "[TextureOverrideFooTestModRemapBlend]\n"
+        "vb1 = ResourceFooTestModRemapBlend\n";
 
     Fixture fixture(txt);
     std::string result = fixture.remover->remove(false, false);
 
     check(fixture.remover->getTargetSectionNames().empty(),
           "unterminated: an unclosed region makes no targets of the sections under it");
-    check(result.find("[TextureOverrideFooRemapBlend]") != std::string::npos,
+    check(result.find("[TextureOverrideFooTestModRemapBlend]") != std::string::npos,
           "unterminated: those sections survive");
     check(result.find("TestMod Remap") != std::string::npos, "unterminated: so does the heading line");
 }
@@ -622,9 +622,9 @@ void testNearMissCommentIsNotABoilerPlate() {
     std::string txt =
         "; ------ some lines originally generated from the fix ---------\n"
         "\n"
-        "[ResourceFooRemapBlend]\n"
+        "[ResourceFooTestModRemapBlend]\n"
         "type = Buffer\n"
-        "filename = FooRemapBlend.buf\n"
+        "filename = FooTestModRemapBlend.buf\n"
         "\n"
         "; --------------------------------------------------------------\n"
         "\n" +
@@ -654,11 +654,11 @@ void testHideOriginalCommentRemoved() {
         "\n"
         + RemapHeadingOpen +
         "\n"
-        "[TextureOverrideFooRemapBlend]\n"
-        "vb1 = ResourceFooRemapBlend\n"
+        "[TextureOverrideFooTestModRemapBlend]\n"
+        "vb1 = ResourceFooTestModRemapBlend\n"
         "\n"
-        "[ResourceFooRemapBlend]\n"
-        "filename = FooRemapBlend.buf\n"
+        "[ResourceFooTestModRemapBlend]\n"
+        "filename = FooTestModRemapBlend.buf\n"
         "\n"
         + RemapHeadingClose;
 
@@ -765,8 +765,8 @@ void testCallerSuppliedContext() {
         "\n"
         + RemapHeadingOpen +
         "\n"
-        "[TextureOverrideFooRemapBlend]\n"
-        "vb1 = ResourceFooRemapBlend\n"
+        "[TextureOverrideFooTestModRemapBlend]\n"
+        "vb1 = ResourceFooTestModRemapBlend\n"
         "\n"
         + RemapHeadingClose);
 
@@ -774,7 +774,7 @@ void testCallerSuppliedContext() {
     check(remover.getContext() == &ctx, "context seam: the remover uses the context it was handed");
 
     std::string result = remover.remove(false, false);
-    check(contains(remover.getTargetSectionNames(), "TextureOverrideFooRemapBlend"),
+    check(contains(remover.getTargetSectionNames(), "TextureOverrideFooTestModRemapBlend"),
           "context seam: the boilerplate rule works with no ModType hashes at all");
     check(result.find("Remap") == std::string::npos, "context seam: the fix is removed through the seam");
     check(ctx.txt == result, "context seam: the new text went back through setFileTxt");
@@ -795,32 +795,32 @@ void testClassifyResource() {
 
     // A download is decided by the section name alone -- the file at the other end can be anything,
     // including nothing recognizable.
-    check(remover.classifyResource("ResourceFooRemapDL", "whatever.zip") == Remover::ResourceType::Download,
+    check(remover.classifyResource("ResourceFooTestModRemapDL", "whatever.zip") == Remover::ResourceType::Download,
           "classify: a RemapDL section is a download, whatever its file is");
-    check(remover.classifyResource("ResourceFooRemapDL", "Foo.dds") == Remover::ResourceType::Download,
+    check(remover.classifyResource("ResourceFooTestModRemapDL", "Foo.dds") == Remover::ResourceType::Download,
           "classify: RemapDL wins over the .dds branch");
-    check(remover.classifyResource("ResourceFooRemapBlend.RemapDL", "Foo.buf") == Remover::ResourceType::Download,
+    check(remover.classifyResource("ResourceFooTestModRemapBlend.RemapDL", "Foo.buf") == Remover::ResourceType::Download,
           "classify: RemapDL wins over the .buf branch too");
 
-    check(remover.classifyResource("ResourceFooRemapTex", "Foo.dds") == Remover::ResourceType::TexEdit,
+    check(remover.classifyResource("ResourceFooTestModRemapTex", "Foo.dds") == Remover::ResourceType::TexEdit,
           "classify: a .dds without the texAdd keyword is a texEdit");
-    check(remover.classifyResource("ResourceFooRemapTexAdd", "Foo.dds") == Remover::ResourceType::TexAdd,
+    check(remover.classifyResource("ResourceFooTestModRemapTexAdd", "Foo.dds") == Remover::ResourceType::TexAdd,
           "classify: a .dds with the texAdd keyword is a texAdd");
-    check(remover.classifyResource("ResourceFooRemapTex", "Foo.DDS") == Remover::ResourceType::TexEdit,
+    check(remover.classifyResource("ResourceFooTestModRemapTex", "Foo.DDS") == Remover::ResourceType::TexEdit,
           "classify: the extension check ignores case");
 
-    check(remover.classifyResource("ResourceFooRemapBlend", "Foo.buf") == Remover::ResourceType::Blend,
+    check(remover.classifyResource("ResourceFooTestModRemapBlend", "Foo.buf") == Remover::ResourceType::Blend,
           "classify: a RemapBlend .buf is a blend");
-    check(remover.classifyResource("ResourceFooRemapPosition", "Foo.buf") == Remover::ResourceType::Position,
+    check(remover.classifyResource("ResourceFooTestModRemapPosition", "Foo.buf") == Remover::ResourceType::Position,
           "classify: a RemapPosition .buf is a position");
-    check(remover.classifyResource("ResourceFooRemapTexcoord", "Foo.buf") == Remover::ResourceType::Texcoord,
+    check(remover.classifyResource("ResourceFooTestModRemapTexcoord", "Foo.buf") == Remover::ResourceType::Texcoord,
           "classify: a RemapTexcoord .buf is a texcoord");
-    check(remover.classifyResource("ResourceFooRemapIB", "Foo.buf") == Remover::ResourceType::Buf,
+    check(remover.classifyResource("ResourceFooTestModRemapIB", "Foo.buf") == Remover::ResourceType::Buf,
           "classify: any other .buf is a plain buf");
 
-    check(remover.classifyResource("ResourceFooRemapBlend", "Foo.ini") == Remover::ResourceType::Other,
+    check(remover.classifyResource("ResourceFooTestModRemapBlend", "Foo.ini") == Remover::ResourceType::Other,
           "classify: neither a .dds nor a .buf is other, whatever the section is called");
-    check(remover.classifyResource("ResourceFooRemapBlend", "Foo") == Remover::ResourceType::Other,
+    check(remover.classifyResource("ResourceFooTestModRemapBlend", "Foo") == Remover::ResourceType::Other,
           "classify: an extensionless path is other");
 
     // The documented consequence of taking "RemapTexAdd" literally: nothing this software currently
@@ -842,52 +842,52 @@ void testCollectedResources() {
         "\n" +
         RemapHeadingOpen +
         "\n"
-        "[TextureOverrideFooRemapBlend]\n"
+        "[TextureOverrideFooTestModRemapBlend]\n"
         "hash = " + RaidenBossBlendHash + "\n"
-        "run = CommandListFooRemap\n"
+        "run = CommandListFooTestModRemap\n"
         "\n"
         // Every branch is walked, so both of these are collected -- and the section itself has no
         // filename of its own, so it contributes nothing.
-        "[CommandListFooRemap]\n"
+        "[CommandListFooTestModRemap]\n"
         "if $swapvar == 0\n"
-        "    run = ResourceFooRemapBlend\n"
+        "    run = ResourceFooTestModRemapBlend\n"
         "else\n"
-        "    run = ResourceFooRemapBlendAlt\n"
+        "    run = ResourceFooTestModRemapBlendAlt\n"
         "endif\n"
-        "run = ResourceFooRemapPosition\n"
-        "run = ResourceFooRemapTexcoord\n"
-        "run = ResourceFooRemapIB\n"
-        "run = ResourceFooRemapTex\n"
-        "run = ResourceFooRemapDL\n"
-        "run = ResourceFooRemapNotes\n"
+        "run = ResourceFooTestModRemapPosition\n"
+        "run = ResourceFooTestModRemapTexcoord\n"
+        "run = ResourceFooTestModRemapIB\n"
+        "run = ResourceFooTestModRemapTex\n"
+        "run = ResourceFooTestModRemapDL\n"
+        "run = ResourceFooTestModRemapNotes\n"
         "\n"
-        "[ResourceFooRemapBlend]\n"
+        "[ResourceFooTestModRemapBlend]\n"
         "if $swapvar == 0\n"
-        "    filename = FooRemapBlend.buf\n"
+        "    filename = FooTestModRemapBlend.buf\n"
         "else\n"
-        "    filename = OtherFooRemapBlend.buf\n"
+        "    filename = OtherFooTestModRemapBlend.buf\n"
         "endif\n"
         "\n"
-        "[ResourceFooRemapBlendAlt]\n"
-        "filename = AltFooRemapBlend.buf\n"
+        "[ResourceFooTestModRemapBlendAlt]\n"
+        "filename = AltFooTestModRemapBlend.buf\n"
         "\n"
-        "[ResourceFooRemapPosition]\n"
-        "filename = FooRemapPosition.buf\n"
+        "[ResourceFooTestModRemapPosition]\n"
+        "filename = FooTestModRemapPosition.buf\n"
         "\n"
-        "[ResourceFooRemapTexcoord]\n"
-        "filename = FooRemapTexcoord.buf\n"
+        "[ResourceFooTestModRemapTexcoord]\n"
+        "filename = FooTestModRemapTexcoord.buf\n"
         "\n"
-        "[ResourceFooRemapIB]\n"
-        "filename = FooRemapIB.buf\n"
+        "[ResourceFooTestModRemapIB]\n"
+        "filename = FooTestModRemapIB.buf\n"
         "\n"
-        "[ResourceFooRemapTex]\n"
-        "filename = FooRemapTex.dds\n"
+        "[ResourceFooTestModRemapTex]\n"
+        "filename = FooTestModRemapTex.dds\n"
         "\n"
-        "[ResourceFooRemapDL]\n"
-        "filename = FooRemapDL.zip\n"
+        "[ResourceFooTestModRemapDL]\n"
+        "filename = FooTestModRemapDL.zip\n"
         "\n"
-        "[ResourceFooRemapNotes]\n"
-        "filename = FooRemapNotes.txt\n"
+        "[ResourceFooTestModRemapNotes]\n"
+        "filename = FooTestModRemapNotes.txt\n"
         "\n" +
         RemapHeadingClose;
 
@@ -895,20 +895,20 @@ void testCollectedResources() {
     fixture.remover->remove(false, false);
 
     check(collectedNames(*fixture.remover, Remover::ResourceType::Blend)
-              == std::vector<std::string>{"FooRemapBlend.buf", "OtherFooRemapBlend.buf", "AltFooRemapBlend.buf"},
+              == std::vector<std::string>{"FooTestModRemapBlend.buf", "OtherFooTestModRemapBlend.buf", "AltFooTestModRemapBlend.buf"},
           "collect: every branch of a section's filename contributes its own resource, in declaration order");
     check(collectedNames(*fixture.remover, Remover::ResourceType::Position)
-              == std::vector<std::string>{"FooRemapPosition.buf"}, "collect: the position resource");
+              == std::vector<std::string>{"FooTestModRemapPosition.buf"}, "collect: the position resource");
     check(collectedNames(*fixture.remover, Remover::ResourceType::Texcoord)
-              == std::vector<std::string>{"FooRemapTexcoord.buf"}, "collect: the texcoord resource");
+              == std::vector<std::string>{"FooTestModRemapTexcoord.buf"}, "collect: the texcoord resource");
     check(collectedNames(*fixture.remover, Remover::ResourceType::Buf)
-              == std::vector<std::string>{"FooRemapIB.buf"}, "collect: the catch-all buf resource");
+              == std::vector<std::string>{"FooTestModRemapIB.buf"}, "collect: the catch-all buf resource");
     check(collectedNames(*fixture.remover, Remover::ResourceType::TexEdit)
-              == std::vector<std::string>{"FooRemapTex.dds"}, "collect: the texture resource");
+              == std::vector<std::string>{"FooTestModRemapTex.dds"}, "collect: the texture resource");
     check(collectedNames(*fixture.remover, Remover::ResourceType::Download)
-              == std::vector<std::string>{"FooRemapDL.zip"}, "collect: the download resource");
+              == std::vector<std::string>{"FooTestModRemapDL.zip"}, "collect: the download resource");
     check(collectedNames(*fixture.remover, Remover::ResourceType::Other)
-              == std::vector<std::string>{"FooRemapNotes.txt"}, "collect: the catch-all other resource");
+              == std::vector<std::string>{"FooTestModRemapNotes.txt"}, "collect: the catch-all other resource");
 
     check(fixture.remover->getRemovedResources().find(Remover::ResourceType::TexAdd)
               == fixture.remover->getRemovedResources().end(),
@@ -939,19 +939,19 @@ void testRefResourceIsRemovedButNotCollected() {
         "\n" +
         RemapHeadingOpen +
         "\n"
-        "[TextureOverrideFooRemapFix]\n"
+        "[TextureOverrideFooTestModRemapFix]\n"
         "hash = " + RaidenBossBlendHash + "\n"
-        "run = CommandListFooRemapFix\n"
+        "run = CommandListFooTestModRemapFix\n"
         "\n"
-        "[CommandListFooRemapFix]\n"
-        "run = ResourceBangsDiffuseFooRemapRef\n"
-        "run = ResourceFooRemapTex\n"
+        "[CommandListFooTestModRemapFix]\n"
+        "run = ResourceBangsDiffuseFooTestModRemapRef\n"
+        "run = ResourceFooTestModRemapTex\n"
         "\n"
-        "[ResourceBangsDiffuseFooRemapRef]\n"
+        "[ResourceBangsDiffuseFooTestModRemapRef]\n"
         "filename = Textures/Component0_Diffuse.dds\n"
         "\n"
-        "[ResourceFooRemapTex]\n"
-        "filename = FooRemapTex.dds\n"
+        "[ResourceFooTestModRemapTex]\n"
+        "filename = FooTestModRemapTex.dds\n"
         "\n" +
         RemapHeadingClose;
 
@@ -959,7 +959,7 @@ void testRefResourceIsRemovedButNotCollected() {
     std::string result = fixture.remover->remove(false, false);
 
     check(result.find("RemapRef") == std::string::npos, "ref: the referencing section is removed with the block");
-    check(collectedNames(*fixture.remover, Remover::ResourceType::TexEdit) == std::vector<std::string>{"FooRemapTex.dds"},
+    check(collectedNames(*fixture.remover, Remover::ResourceType::TexEdit) == std::vector<std::string>{"FooTestModRemapTex.dds"},
           "ref: the mod's own texture the section names is NOT collected, while the fix's own texture is");
 
     // The rule is the keyword, not the file's name or location: with the keyword switched off the same
@@ -978,7 +978,7 @@ void testCollectedResourcesResetPerCall() {
     Fixture fixture(txt);
     fixture.remover->remove(false, false);
     check(collectedNames(*fixture.remover, Remover::ResourceType::Blend)
-              == std::vector<std::string>{"FooRemapBlend.buf"}, "reset: the first call collects the fix's resource");
+              == std::vector<std::string>{"FooTestModRemapBlend.buf"}, "reset: the first call collects the fix's resource");
 
     // Nothing is left to remove the second time round, so the previous call's collection must not
     // still be sitting there.

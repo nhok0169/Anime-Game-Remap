@@ -230,6 +230,33 @@ class RemapIniRemoverTest(BaseIniFileTest):
         self._iniFile.fileTxt = iniTxt
         self.assertEqual(self._iniFile.removeFix(writeBack = False), "")
 
+    def test_iniFileRemoveFix_keepsAModsOwnRemapNames(self):
+        # ...but only a name shaped like a FIX: the keyword followed by a kind this software appends
+        # (RemapBlend, RemapFix, RemapTex, ...). WWMI's own blend remap declares these three for every
+        # character past 256 bones, and when a bare "Remap" anywhere made a candidate, an undo of a
+        # mod that had never been fixed deleted all three of its .buf files (Chisa, 2026-09-20).
+        self.create()
+
+        iniTxt = ("[ResourceBlendRemapVertexVGBuffer]\n"
+                  "filename = Meshes/BlendRemapVertexVG.buf\n"
+                  "\n"
+                  "[ResourceBlendRemapForwardBuffer]\n"
+                  "filename = Meshes/BlendRemapForward.buf\n"
+                  "\n"
+                  "[ResourceMergedSkeletonRemap]\n"
+                  "\n"
+                  "[TextureOverrideFooRemapBlend]\n"
+                  "vb1 = ResourceFooRemapBlend\n"
+                  "\n"
+                  "[ResourceFooRemapBlend]\n"
+                  "filename = FooRemapBlend.buf")
+
+        self._iniFile.fileTxt = iniTxt
+        result = self._iniFile.removeFix(writeBack = False)
+        for kept in ("[ResourceBlendRemapVertexVGBuffer]", "[ResourceBlendRemapForwardBuffer]", "[ResourceMergedSkeletonRemap]"):
+            self.assertIn(kept, result)
+        self.assertNotIn("FooRemapBlend", result)
+
     def test_hideOriginalComments_prefixStripped(self):
         # A fix applied with hideOrig comments the ORIGINAL mod out with this prefix. Removing the
         # fix has to take the prefix with it, or the .ini file is left with neither the fix nor the

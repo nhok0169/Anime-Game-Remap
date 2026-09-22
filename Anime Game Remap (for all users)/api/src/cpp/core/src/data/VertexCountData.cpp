@@ -99,6 +99,8 @@ const std::vector<std::pair<std::vector<std::string>, int>>& getVertexCountDataR
         // WWMI mod declares as $mesh_vertex_count.
         {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), ""}, 36126},
         {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), ""}, 40896},
+        {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa), ""}, 64588},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), ""}, 69411},
     };
 
     return rows;

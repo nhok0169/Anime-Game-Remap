@@ -133,6 +133,8 @@ namespace AGRemapCore {
                 // ===== WuWa (2026-09-19), STUBS =====
                 {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua)}, IniRemoveBuilderFuncs::wwmiStub()},
                 {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist)}, IniRemoveBuilderFuncs::wwmiStub()},
+                {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa)}, IniRemoveBuilderFuncs::wwmiStub()},
+                {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait)}, IniRemoveBuilderFuncs::wwmiStub()},
             };
         }
     }

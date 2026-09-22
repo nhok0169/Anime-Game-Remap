@@ -32,6 +32,29 @@
 
 <br>
 
+> **AND THE LINK LINE IS MORE THAN `AGRemapCore.lib`, AND THE INCLUDE PATHS MUST BE TAKEN WHOLE
+> (2026-09-20).** Three runs of a freshly written runner reported `COMPILE_FAILED` for every suite,
+> for three different reasons, none of them the tests:
+>
+> * **The include paths came out truncated.** Lifting them from `cbuild/build.ninja` with a
+>   whitespace-split regex cuts `-I"...\Anime Game Remap (for all users)\..."` at the first space, so
+>   every compile dies on a missing header. Match the QUOTED form whole -- this is trap 6 in
+>   `CLAUDE.md` (every path here holds spaces and parentheses), met again in a new place.
+> * **`AGRemapCore.lib` alone does not link.** It calls utf8proc (`StringTools` / `TextTools`),
+>   Compressonator (`TextureFile`) and libcurl (`FileDownload`) as well as z3, and their static libs
+>   live in the BUILD tree rather than in `cext`: `cbuild/utf8proc/utf8proc_static.lib`,
+>   `cbuild/Compressonator/cmp_compressonatorlib/CMP_Compressonator.lib`, `cmp_framework/
+>   CMP_Framework.lib`, the four `cmp_core/CMP_Core*.lib`, `cbuild/curl/lib/libcurl_imp.lib` -- plus
+>   **`ole32.lib`**, which Compressonator's DDS plugin needs for `CoInitializeEx`. Leaving them out
+>   gives `LNK2019` on `utf8proc_toupper` / `CMP_*` / `curl_*`, which reads like a broken suite.
+> * **A rebuild can flip utf8proc from a static lib to a DLL**, and then the core objects reference
+>   `__imp_utf8proc_*` and want `cbuild/utf8proc/utf8proc.lib` instead. Link whichever the tree
+>   actually has, and copy the package's `.dll`s (`libcurl.dll`, `libz3.dll`, `utf8proc.dll`) beside
+>   the test executables -- without them every suite exits `0xC0000135` having printed nothing, which
+>   looks exactly like a suite that ran and produced no output.
+
+<br>
+
 > **AND A CHECK YOU WROTE FOR THIS FIX MUST BE RUN AGAINST THE BROKEN BUILD FIRST (2026-09-14).**
 > Neither suite above can see the bugs that matter most here, so most real verification in this
 > repo is a scratch script that fixes a mod and asserts something about the output. Such a script

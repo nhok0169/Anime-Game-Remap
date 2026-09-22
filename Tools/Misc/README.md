@@ -9,6 +9,7 @@ on Linux), and finds the API through `AG_REMAP_REPO` or the repo's own layout.
 
 | Folder | What | Guide |
 | --- | --- | --- |
+| `Launchers/FixModHashes.py` | the **launcher for `Tools/ModHashFixer`** that lives in the maintainer's `WWMI/Mods/` folder, beside `FixRaidenBoss7.py` and the prototypes. `py -3 FixModHashes.py <mod> [--apply / --undo / --maps <json>]`; a bare mod name means a folder beside the launcher. It picks the checkout that has BOTH a built API knowing Wuthering Waves and the tool -- not either, because the main checkout here satisfies the first and not the second | [Tools](../../AI%20Agent%20Help/Tools/CLAUDE.md)'s `ModHashFixer` |
 | `Prototypes/overrideScript.py` | the **config route** prototype (`GIMICharParserConfig` / `GIMICharFixerConfig` handed to the shipped factories); `--ab` proves it byte-identical to the compiled fix | [Creating Remaps](../../AI%20Agent%20Help/CreatingRemaps/CLAUDE.md) |
 | `Prototypes/overrideScript2.py` | the **hand-built route** prototype (a `GIMIParser` / `GIMIFixer` from the individual edits) | same |
 | `Docs/genApiExamples.py` | **regenerates `Docs/src/apiExamples.rst`'s Input / Code / Result dropdowns** from the Integration Tester's `APIDocsTests` inputs and goldens; `--write` to write, idempotent over an up-to-date page | Documentation's "`apiExamples.rst` is GENERATED" |

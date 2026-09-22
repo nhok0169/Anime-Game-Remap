@@ -539,6 +539,29 @@ namespace AGRemapCore {
             }
         }
 
+        // ...or named for ANOTHER mod, by the kind this software appends after the keyword
+        // (IniNamingTools: <mod>RemapBlend / Position / Texcoord / IB, <name><mod>RemapFix / Tex / DL /
+        // Ref, and the IBRemapHide a component template writes). The mod-name test alone stopped the
+        // last remover sweeping a leftover of a different mod type -- `[TextureOverrideFooRemapBlend]`,
+        // which IniFile.removeFix has always removed (test_iniFileRemoveFix_ignoresModType) -- while
+        // WWMI's own names stay out: the keyword there is followed by VertexVG / Forward / Reverse /
+        // MergedSkeleton / "ped" / "s", or ends the name, and none of those is a kind.
+        static const std::vector<std::string> Kinds = {IniKeywords::Texcoord, IniKeywords::Position, IniKeywords::Blend, "IB",
+                                                       "Fix", "Tex", "DL", "Ref", "Hide"};
+        for (std::size_t at = sectionName.find(remapKeyword); at != std::string::npos; at = sectionName.find(remapKeyword, at + 1)) {
+            std::size_t kindAt = at + remapKeyword.size();
+            for (const std::string& kind : Kinds) {
+                if (sectionName.compare(kindAt, kind.size(), kind) != 0) {
+                    continue;
+                }
+                // the kind must END there: "RemapTex" is a kind, "RemapTexture" is not
+                std::size_t after = kindAt + kind.size();
+                if (after >= sectionName.size() || sectionName[after] < 'a' || sectionName[after] > 'z') {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 

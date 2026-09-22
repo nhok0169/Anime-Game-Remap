@@ -1146,6 +1146,45 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         // one exactly as its parallel chain 106-110 already ends on 39. Seven more of her hair bones
         // land on shoulder / upper-back bones (74, 75, 92-95, 111); that is where hair lies on the
         // body, and they are left as proposed until something in game says otherwise.
+        //
+        // THE TIE AND THE JACKET SHOULDERS, CORRECTED (2026-09-22): both were reported as "floating
+        // like jello" on the Chisa9 cowboy mod, and both are the same defect -- the remap broke the
+        // body's LEFT/RIGHT SYMMETRY. Neither shows up as distance: every bone involved already
+        // landed within a few units of where it belongs, which is why the earlier hair-tip check
+        // (a centroid-distance one) saw nothing here.
+        //
+        // The TIE is a three-link chain -- 225 -> 226 -> 227 -- hanging down the CENTRE of Chisa's
+        // chest, and ChisaParfait has no centre chest chain at all: her only mid-line bones there
+        // are 72 (chest) and 56 (neck). The finder matched each link to its nearest bone, which are
+        // 73 and 74 -- her BREAST PAIR at (-+3.7, 7.0, 116.5) -- putting two links on the left one
+        // and the third on the right. Those two move independently under physics, so the tie swung
+        // sideways with the difference between them. 200 is the same mistake one bone up. A chain
+        // the target cannot represent takes ONE rigid anchor (the Yelan lesson), and 72 is both the
+        // centre chest bone and where 55% of the tie's weight already goes through 152. So
+        // 200 / 225 / 226 / 227 -> 72, which puts 94% of the tie on one bone: rigid, not wobbling.
+        //
+        // The SHOULDERS are the same rule on a pair rather than on the mid-line. Chisa's shoulder
+        // bones are exact mirror pairs, and the table sent the LEFT of every pair to 119
+        // (-7.5, -5.8, 123.3) while the RIGHT ones scattered to 111, 33, 59, 60 and 32 -- so the
+        // jacket's two halves rode unrelated bones and moved independently. 119's own mirror twin
+        // is 77 (7.5, -5.7, 123.3), which took only 163, so the right side now mirrors the left
+        // exactly: 170 / 171 / 203 / 204 / 229 / 230 -> 77, and 202 / 228 -> 119. 228 also gives up
+        // a slightly better-placed left target -- 87 is 4.7 away against 119's 5.1 -- because 87 is
+        // a 140-vertex accessory bone with NO right-side twin, so no symmetric answer exists
+        // through it.
+        //
+        // Measured on the Chisa9 mod, shipped -> patched, as weight-weighted mean symmetry skew
+        // (|| reflect(target of a bone) - target of its mirror twin ||): the tie 7.89 -> 0.05 units,
+        // the coat's shoulders (z 122-140) 3.84 -> 0.63 and 3.69 -> 0.62 for its two draws, with the
+        // share of weight skewed over 6 units going 22.8% -> 1.2% and 22.1% -> 1.1%. Shirt (1.04),
+        // body (0.67) and tacet mark (2.39) are unchanged and were already symmetric.
+        //
+        // STILL OPEN, measured and NOT reported in game: the LOWER coat (z 70-112) is skewed just as
+        // badly and is untouched here -- mean 3.84, 20.5% of its weight over 6 units, worst at
+        // 205/213, 210/218, 211/219, 180/188 and 150/161. It was left alone deliberately: a blind
+        // symmetrisation of those makes placement WORSE on several pairs (the proposal that keeps
+        // the better-placed side moves 92/138 from 9.1 to 13.6 units of placement error), and
+        // nothing in game has complained about the skirt panels yet.
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Chisa), "",
           "3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), ""},
          VGRemap({
@@ -1166,13 +1205,13 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {140, 61}, {141, 0}, {142, 249}, {143, 250}, {144, 204}, {145, 181}, {146, 182}, {147, 209}, {148, 69}, {149, 167},
             {150, 125}, {151, 182}, {152, 72}, {153, 167}, {154, 75}, {155, 119}, {156, 37}, {157, 250}, {158, 203}, {159, 163},
             {160, 165}, {161, 168}, {162, 169}, {163, 77}, {164, 119}, {165, 119}, {166, 120}, {167, 123}, {168, 110}, {169, 110},
-            {170, 111}, {171, 111}, {172, 112}, {173, 76}, {174, 111}, {175, 112}, {176, 74}, {177, 76}, {178, 76}, {179, 74},
+            {170, 77}, {171, 77}, {172, 112}, {173, 76}, {174, 111}, {175, 112}, {176, 74}, {177, 76}, {178, 76}, {179, 74},
             {180, 189}, {181, 74}, {182, 189}, {183, 188}, {184, 73}, {185, 110}, {186, 110}, {187, 73}, {188, 73}, {189, 73},
             {190, 179}, {191, 180}, {192, 119}, {193, 121}, {194, 189}, {195, 74}, {196, 113}, {197, 73}, {198, 73}, {199, 124},
-            {200, 58}, {201, 119}, {202, 120}, {203, 59}, {204, 60}, {205, 235}, {206, 237}, {207, 235}, {208, 201}, {209, 202},
+            {200, 72}, {201, 119}, {202, 119}, {203, 77}, {204, 77}, {205, 235}, {206, 237}, {207, 235}, {208, 201}, {209, 202},
             {210, 181}, {211, 185}, {212, 184}, {213, 174}, {214, 175}, {215, 225}, {216, 227}, {217, 172}, {218, 173}, {219, 174},
-            {220, 172}, {221, 0}, {222, 0}, {223, 44}, {224, 32}, {225, 73}, {226, 73}, {227, 74}, {228, 87}, {229, 32},
-            {230, 33}, {231, 44}, {232, 70}, {233, 72}, {234, 69}, {235, 70}, {236, 69}, {237, 167}, {238, 37}, {239, 38},
+            {220, 172}, {221, 0}, {222, 0}, {223, 44}, {224, 32}, {225, 72}, {226, 72}, {227, 72}, {228, 119}, {229, 77},
+            {230, 77}, {231, 44}, {232, 70}, {233, 72}, {234, 69}, {235, 70}, {236, 69}, {237, 167}, {238, 37}, {239, 38},
             {240, 32}, {241, 31}, {242, 115}, {243, 80}, {244, 117}, {245, 114}, {246, 127}, {247, 129}, {248, 126}, {249, 128},
             {250, 114}, {251, 116}, {252, 80}, {253, 78}, {254, 79}, {255, 118}, {256, 130}, {257, 131}, {258, 113}, {259, 130},
             {260, 126}, {261, 128}, {262, 129}, {263, 147}, {264, 145}, {265, 146}, {266, 148}, {267, 149}, {268, 124}, {269, 148},

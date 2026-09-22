@@ -1179,6 +1179,34 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         // share of weight skewed over 6 units going 22.8% -> 1.2% and 22.1% -> 1.1%. Shirt (1.04),
         // body (0.67) and tacet mark (2.39) are unchanged and were already symmetric.
         //
+        // AND THE SHOULDERS WERE RIDING HER HAIR, which is what the wobble actually was (2026-09-22,
+        //   the round after the above). Making the mapping symmetric reduced it and did not remove
+        //   it, because SYMMETRY DOES NOT STOP A WOBBLE -- it only makes it symmetric. A WWMI
+        //   character's components are different KINDS of thing, and component 1 is the long HAIR on
+        //   both of them (z 85-151, centroid 11-12 units BEHIND the body, 14288 vertices on the
+        //   skin). Hair bones are physics-simulated, so a jacket shoulder skinned to one follows the
+        //   hair's swing (the wobble) and its settled rest offset (reported as "skewed to the
+        //   right"). Position cannot see it: the hair bones sit within 5 units of the shoulder bones
+        //   they stand in for.
+        //
+        //   Every one of Chisa's jacket-shoulder bones is contributed by her component 3, the BODY,
+        //   so a body -> hair edge is wrong by construction. Thirteen of them existed; the six the
+        //   jacket's shoulder actually weights are moved here -- 223 / 231 / 232 -> 119 and
+        //   224 / 240 / 241 -> 77, the body's own shoulder pair, each 4.7-6.3 units away and the
+        //   nearest non-hair bone to its source. That is ~13% of the shoulder band's weight, on top
+        //   of the ~7% the previous change had already taken off hair bones 32 / 33 / 59 / 60 --
+        //   and that change measurably helping in game is the evidence for this one.
+        //
+        //   Do NOT read every cross-component edge as a fault: the two characters split the TORSO at
+        //   different heights (her component 3 is z 80-154 against Chisa's 69-138), so component
+        //   3 <-> 4 edges are ordinary -- 29% of the BODY crosses that way and renders correctly.
+        //   Component 1 is the only one that is a different kind of thing.
+        //
+        //   The seven remaining body -> hair bones (148, 156, 234, 235, 236, 238, 239) are left
+        //   alone: they sit on the lower back at z 106-113, carry under 0.2% of any part measured,
+        //   and their nearest body bone is 9-13 units away, so moving them would trade an invisible
+        //   wobble for a visible pull.
+        //
         // STILL OPEN, measured and NOT reported in game: the LOWER coat (z 70-112) is skewed just as
         // badly and is untouched here -- mean 3.84, 20.5% of its weight over 6 units, worst at
         // 205/213, 210/218, 211/219, 180/188 and 150/161. It was left alone deliberately: a blind
@@ -1210,9 +1238,9 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {190, 179}, {191, 180}, {192, 119}, {193, 121}, {194, 189}, {195, 74}, {196, 113}, {197, 73}, {198, 73}, {199, 124},
             {200, 72}, {201, 119}, {202, 119}, {203, 77}, {204, 77}, {205, 235}, {206, 237}, {207, 235}, {208, 201}, {209, 202},
             {210, 181}, {211, 185}, {212, 184}, {213, 174}, {214, 175}, {215, 225}, {216, 227}, {217, 172}, {218, 173}, {219, 174},
-            {220, 172}, {221, 0}, {222, 0}, {223, 44}, {224, 32}, {225, 72}, {226, 72}, {227, 72}, {228, 119}, {229, 77},
-            {230, 77}, {231, 44}, {232, 70}, {233, 72}, {234, 69}, {235, 70}, {236, 69}, {237, 167}, {238, 37}, {239, 38},
-            {240, 32}, {241, 31}, {242, 115}, {243, 80}, {244, 117}, {245, 114}, {246, 127}, {247, 129}, {248, 126}, {249, 128},
+            {220, 172}, {221, 0}, {222, 0}, {223, 119}, {224, 77}, {225, 72}, {226, 72}, {227, 72}, {228, 119}, {229, 77},
+            {230, 77}, {231, 119}, {232, 119}, {233, 72}, {234, 69}, {235, 70}, {236, 69}, {237, 167}, {238, 37}, {239, 38},
+            {240, 77}, {241, 77}, {242, 115}, {243, 80}, {244, 117}, {245, 114}, {246, 127}, {247, 129}, {248, 126}, {249, 128},
             {250, 114}, {251, 116}, {252, 80}, {253, 78}, {254, 79}, {255, 118}, {256, 130}, {257, 131}, {258, 113}, {259, 130},
             {260, 126}, {261, 128}, {262, 129}, {263, 147}, {264, 145}, {265, 146}, {266, 148}, {267, 149}, {268, 124}, {269, 148},
             {270, 0}, {271, 0}, {272, 0}, {273, 0}, {274, 0}, {275, 0}, {276, 0}, {277, 0}, {278, 0}, {279, 0},

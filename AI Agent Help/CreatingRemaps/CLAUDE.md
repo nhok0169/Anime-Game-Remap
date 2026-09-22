@@ -1428,7 +1428,8 @@ first. Read the report's WORDS against the left column before opening any code (
 | "body all wavy", every part | the game's shape-key offset stream (`vb6`) read by vertex id, then several remapped sections on one draw window | `--shapeKeys`; one remapped section per Exorcist draw per file (the copies) |
 | the bangs wrong, the rest right | component 0 is the BANGS, on hair passes that differ per skin | `slotPasses` -- a LIST of passes per slot |
 | a chain (ribbons, tassel) curled or floating | a chain the target has no bones for, mapped per bone by the finder | `--anchor`; `wwmiBoneTally.py` |
-| one part "floating like jello" while everything around it is fine | the remap broke that part's LEFT/RIGHT symmetry -- a centre chain split across a jiggle PAIR, or two halves on bones that are not each other's mirror | `vgSymmetry.py`; NOT a distance check, which passes |
+| one part "floating like jello" while everything around it is fine | the part is skinned to a target bone that is PHYSICS -- the target's HAIR component, or a jiggle pair a centre chain got split across | `vgSymmetry.py --hair <N>`; NOT a distance check, which passes |
+| a part wobbles AND leans to one side at rest | same thing: it is following a simulated bone's swing and its settled offset | the target component of every bone the part weights |
 | the body a smeared DRAPE under an intact head, on a source past 256 bones | the mod's own `Resource*Override = ref ...Component<N>` lines survived into the remapped sections | strip them: `RegRemove` per slot section, `ref` form only |
 | every body part drawn with ONE part's textures | the copies referenced the texture lists in another file | `appendedSectionsInCopies` / `copyHiddenSectionNames` (self-contained copies) |
 | one part's textures wrong, the picture is a different texture | that component got no texture list -- a role with no file | the prototype's per-slot table: `ps-tN=GAME (mod has none)`; then whether the file is declared under TWO hashes |
@@ -1849,14 +1850,35 @@ Two mechanics to know before you write the entry:
   places. The finished anchor has every bone of the part on one target, which the skinning check
   shows as a cloud the size of the rest shape.
 
-### A REMAP THAT BREAKS THE BODY'S SYMMETRY WOBBLES, AND NO DISTANCE CHECK SEES IT (2026-09-22)
+### A PART SKINNED TO A PHYSICS BONE WOBBLES, AND NO DISTANCE CHECK SEES IT (2026-09-22)
 
-Chisa's necktie and her jacket's shoulders were both reported as "floating like jello" on one mod,
-and they are one defect: the remap was not **left/right symmetric**. This is a third way for a
-vertex group row to be wrong, after "unmapped" (a negative bone index) and "far away" (a kink) --
-and it is invisible to both, because every bone involved landed **within a few units of where it
-belongs**. The centroid-distance check that had found three hair tips a day earlier reported
-nothing here.
+Chisa's necktie and her jacket's shoulders were both reported as "floating like jello" on one mod.
+This is a third way for a vertex group row to be wrong, after "unmapped" (a negative bone index)
+and "far away" (a kink), and it is invisible to both: every bone involved landed **within a few
+units of where it belongs**, so the centroid-distance check that had found three hair tips a day
+earlier reported nothing.
+
+**The cause is the KIND of bone, not its position.** A WWMI character's components are draw slots
+of one merged skeleton and they are not interchangeable: component 1 is the long HAIR on both Chisa
+and ChisaParfait (z 85-151, centroid 11-12 units BEHIND the body, 14288 vertices on the skin), and
+hair bones are physics-simulated. Every one of Chisa's jacket-shoulder bones is contributed by her
+component 3, the BODY -- so a body -> hair edge is wrong by construction, and thirteen of them
+existed. About 13% of the jacket's shoulder band rode her hair, which is why it swung (the wobble)
+and sat leaning (reported as "skewed to the right": a simulated bone's settled rest offset).
+
+**Do not read every cross-component edge as a fault.** The two characters split the TORSO at
+different heights -- her component 3 is z 80-154 against Chisa's 69-138 -- so component 3 <-> 4
+edges are ordinary: 29% of the BODY crosses that way and renders correctly. Only components that
+are different KINDS of thing matter, and which those are is something the tool cannot know:
+`vgSymmetry.py --hair <N>` takes the index from you and prints the full edge grid so you can see
+which pairs to name.
+
+**Two rounds went on the symmetry story first, and it was only half the answer.** The remap really
+was not left/right symmetric, that really does matter, and fixing it really did help -- but on its
+own it does not stop a wobble, it only makes the wobble symmetric. The report said so plainly the
+second time ("it still wobbles"), and the lesson is the ordinary one: a partial improvement is
+evidence that the change touched the right area, NOT that the diagnosis was complete. What
+eventually settled it was asking what each target bone *is* rather than where it is.
 
 The mechanism is motion, not position. A part whose two halves ride bones that move independently
 moves with the DIFFERENCE between them, and physics bones move a lot:

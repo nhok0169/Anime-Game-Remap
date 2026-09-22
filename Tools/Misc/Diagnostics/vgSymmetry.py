@@ -44,6 +44,7 @@ import argparse
 import collections
 import glob
 import os
+import re
 import sys
 
 import numpy as np
@@ -89,6 +90,29 @@ def centroids(folder):
     return {b: acc[b] / tot[b] for b in tot}
 
 
+def windows(folder):
+    """{bone: the component index whose vg window contributes it}, from the mod's own .ini"""
+    ini = sorted(glob.glob(os.path.join(folder, "**", "*.ini"), recursive = True))[0]
+    cur, secs, out = None, {}, {}
+    for line in open(ini, encoding = "utf-8", errors = "replace").read().splitlines():
+        m = re.match(r"^\s*\[(.+)\]\s*$", line)
+        if (m):
+            cur = m.group(1)
+            secs[cur] = []
+        elif (cur):
+            secs[cur].append(line)
+    for name, body in secs.items():
+        if (not re.match(r"TextureOverrideComponent\d+$", name)):
+            continue
+        text = "\n".join(body)
+        off = re.search(r"vg_offset\s*=\s*(\d+)", text)
+        cnt = re.search(r"vg_count\s*=\s*(\d+)", text)
+        if (off and cnt):
+            for b in range(int(off.group(1)), int(off.group(1)) + int(cnt.group(1))):
+                out[b] = int(re.search(r"(\d+)$", name).group(1))
+    return out
+
+
 def mirrors(cents):
     """{bone: its reflection in x}, reciprocal pairs only"""
     out = {}
@@ -114,6 +138,9 @@ def main():
     parser.add_argument("--z", nargs = 2, type = float, metavar = ("MIN", "MAX"),
                         help = "restrict each --draw to this height band")
     parser.add_argument("--propose", action = "store_true", help = "suggest a repair per broken pair")
+    parser.add_argument("--hair", type = int, default = None, metavar = "N",
+                        help = "the component index that is PHYSICS-simulated hair on the target "
+                               "(1 for Chisa / ChisaParfait); bones of other components sent there are reported")
     args = parser.parse_args()
 
     sourceType = getattr(FRB.WWMIBuilder, args.source[0].lower() + args.source[1:])()
@@ -132,6 +159,34 @@ def main():
         if (twin is None or t not in dst or u not in dst):
             return None
         return float(np.linalg.norm(np.array([-dst[t][0], dst[t][1], dst[t][2]]) - dst[u]))
+
+    # THE ONE TO READ FIRST: a bone sent to a component that is a different KIND of thing.
+    #   A WWMI character's components are draw slots of one merged skeleton, and they are not
+    #   interchangeable: the HAIR is one of them, and hair bones are physics-simulated. A jacket
+    #   shoulder skinned to one swings with the hair (a wobble) and takes its settled rest offset
+    #   (a lean), while sitting within a few units of where it belongs -- so neither distance nor
+    #   symmetry sees it. Chisa's jacket shoulders rode ChisaParfait's hair for two rounds.
+    #   Cross-component edges are NOT faults in general: two characters split the TORSO at
+    #   different heights, and 29% of Chisa's body crosses that way and renders correctly. What is
+    #   a fault is an edge between components of different kinds, which only the caller can name.
+    sComp, dComp = windows(args.identity[0]), windows(args.identity[1])
+    if (args.hair is not None):
+        toHair = [b for b in sorted(src)
+                  if (remap.get(b) in dst and sComp.get(b) != args.hair and dComp.get(remap[b]) == args.hair)]
+        print(f"\n=== {len(toHair)} bones of another component sent to component {args.hair} "
+              f"(the one named as PHYSICS) ===")
+        for b in toHair:
+            t = remap[b]
+            alts = sorted((float(np.linalg.norm(dst[o] - src[b])), o) for o in dst
+                          if (dComp.get(o) not in (None, args.hair)))
+            near = ", ".join(f"{o} ({d:.1f})" for d, o in alts[:3])
+            print(f"  src {b:3d} (comp {sComp.get(b)}, {src[b][0]:6.1f},{src[b][1]:6.1f},{src[b][2]:6.1f})"
+                  f" -> tgt {t:3d} ({dst[t][0]:6.1f},{dst[t][1]:6.1f},{dst[t][2]:6.1f})"
+                  f"   nearest non-{args.hair}: {near}")
+    print("\n=== every source component -> target component edge (for spotting which are KINDS) ===")
+    grid = collections.Counter((sComp.get(b), dComp.get(remap[b])) for b in src if (remap.get(b) in dst))
+    for (s, t), n in sorted(grid.items(), key = lambda kv: -kv[1]):
+        print(f"  component {s} -> component {t}: {n:4d} bones" + ("" if (s == t) else "   (crosses)"))
 
     offMid = [(b, remap[b]) for b in sorted(src)
               if (remap.get(b) in dst and abs(src[b][0]) < MidLine and abs(dst[remap[b]][0]) >= MidLine)]

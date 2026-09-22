@@ -94,6 +94,34 @@ version be resolved through it. `Tools/Misc/Diagnostics/chisaHashHistory.py` sho
 
 <br>
 
+## A resource that names a file the mod does not ship
+
+**This is worse than a stale hash, and it looks like nothing at all.** A stale hash means the
+override never fires. A *dangling filename* means it fires and binds **nothing**, so the surface
+draws with the game's own art --- while every hash in the file reads correctly and every check that
+follows a hash passes.
+
+Chisa16's lower body was exactly that. `ResourceTexture15` named `Components-4 t=0c153c12.dds`,
+which the mod does not ship, while `Components-4 t=ffa1f581.dds` --- named for that very section's
+hash --- sat beside it referenced by nothing. So the game's own mask shaded the mod's legs, and
+because the game's mask is laid out for Chisa's own outfit, her **stockings were shaded as bare
+skin**.
+
+The repair is offered only where the evidence is exact: the section's own `hash` names a file the
+mod ships, under WWMI's `Components-<N> t=<hash>.dds` **exactly**, and there is only one such file.
+Two things that rule out:
+
+* a file with anything after the hash --- `Components-4 t=21f813ba off.dds` is how a modder
+  **disables** a texture, and a real Chisa mod has one sitting beside a live one. Repairing to it
+  would switch back on something its author switched off;
+* a file of the same name elsewhere in the tree (an LOD subfolder), where the path is the author's
+  business and renaming the file to itself repairs nothing.
+
+It runs before the hash work, because the file route above types the file a section *names* --- so a
+section naming nothing can be typed by nothing, and the two fixes only compose in that order.
+
+<br>
+
 ## Reading the report
 
 * **to update** --- resolved to one of this character's roles, and has moved since.
@@ -118,8 +146,8 @@ version be resolved through it. `Tools/Misc/Diagnostics/chisaHashHistory.py` sho
   older generations were derived, from the mods themselves and on hash-level evidence only.
 * **It will not touch a previous fix's sections.** Anything whose section name carries `Remap` holds
   the *target's* hashes and is correct.
-* **It will not repair a missing file.** A mod naming a `.dds` that is not on disk is a different
-  fault, and shows up as a dangling `filename =` rather than a stale `hash =`.
+* **It will not invent a file.** A resource naming a `.dds` the mod does not ship is repaired only
+  where the evidence is exact --- see below --- and otherwise reported and left alone.
 * **It changes nothing about geometry, weights or shaders.** If the mod's shape is wrong, or a part
   is missing, the hashes are not your problem.
 

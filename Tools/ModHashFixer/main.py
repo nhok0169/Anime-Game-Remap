@@ -1,4 +1,5 @@
 import argparse
+import os
 import sys
 
 from ModHashFixer.ModHashFixer import ModHashFixer
@@ -83,11 +84,17 @@ if __name__ == "__main__":
     print(f"target version: {args.version or 'the newest the library knows'}\n")
 
     changes, counts, unrecognised, newBytes = fixer.plan(known[name])
+    for resource, path, _, old, new, _ in getattr(fixer, "repairs", []):
+        print(f"  {os.path.relpath(path, fixer.mod)} [{resource}]  filename  {old} -> {new}")
     for rel, section, role, old, new in changes:
         print(f"  {rel} [{section}]  {role:22s} {old} -> {new}")
 
     print(f"\n{len(changes)} hash(es) to update, {counts['current']} already current, "
           f"{counts['geometry']} geometry left alone, {sum(unrecognised.values())} unrecognised")
+    if (getattr(fixer, "repairs", [])):
+        print(f"  ...and {len(fixer.repairs)} resource(s) naming a file this mod does not ship, repaired to the\n"
+              f"  file named for that section's own hash. A binding that names a missing file FIRES and binds\n"
+              f"  nothing, so the surface draws with the game's art while every hash reads correctly.")
     if (fixer.byFileResolved):
         print(f"  {len(fixer.byFileResolved)} of those were older than the recorded history and were typed from the\n"
               f"  FILE instead -- an inference, not a record, so these are the ones to check first if something\n"

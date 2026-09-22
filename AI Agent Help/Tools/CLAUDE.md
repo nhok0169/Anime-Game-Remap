@@ -300,6 +300,43 @@ before concluding a role cannot be checked.
 
 <br>
 
+## A DANGLING `filename` IS WORSE THAN A STALE HASH, AND IT LOOKS LIKE NOTHING (2026-09-22)
+
+The round after the file route went in, the same mod's **stockings** were still wrong. A stale hash
+means the override never fires; a resource naming a file the mod does not ship means it **fires and
+binds nothing**, so the surface draws with the game's own art while every hash in the file reads
+correctly and every check that follows a hash passes. `ResourceTexture15` named `Components-4
+t=0c153c12.dds`, absent, while `Components-4 t=ffa1f581.dds` -- named for that section's own hash --
+sat beside it referenced by nothing. `ModHashFixer.danglingRepairs` repairs exactly that shape, and
+it must run BEFORE the hash work, because the file route types the file a section *names*.
+
+**Two guards, each of which fired on a real mod on the first survey.** A file with anything after
+the hash is excluded (`Components-4 t=21f813ba off.dds` is how a modder DISABLES a texture, and
+Chisa13 has one beside a live one -- repairing to it switches back on what its author switched off);
+and a file of the same NAME elsewhere in the tree is excluded, because the path is the author's
+business. With both, the rule fires **twice in 157 mod folders**, which is the right order of
+magnitude for something that rewrites somebody's mod.
+
+**THE DIAGNOSIS WAS WRONG TWICE FIRST, BOTH TIMES FROM COMPARING AGAINST THE WRONG ATLAS.** The mod
+ships a lower mask of **three flat blocks at exactly 50/25/25** where Chisa's own holds 92 distinct
+values, and it was read as a placeholder -- "a flat mask is not a neutral mask", the guide's own
+warning, and the reason my guard refusing it was called accidentally right. That was backwards. A
+WWMI mod **replaces the mesh and its UVs**, so the mod's atlas is laid out nothing like the
+character's, and the only meaningful question is whether the mask describes the MOD's art:
+
+| mask | says bare skin over | ...of which the mod's art is flesh-coloured |
+| --- | --- | --- |
+| the mod's own `ffa1f581` | 8.1% of the atlas | **95.2%** |
+| Chisa's own `3f0e6f21` (what the game was using) | 23.9% | **44.2%** |
+
+The mod's blocky mask is *correct for its own blocky UV layout*; the game's is misaligned, and the
+55.8% it calls skin that is not flesh is the stockings, shaded with subsurface scattering. **A
+statistic about a texture is only as good as the atlas it is measured against** -- the same lesson
+as Creating Remaps' screenshot-mask section, arriving via UV layout instead of screen pixels. Render
+the mask's channel over the MOD's own diffuse and the answer is one glance.
+
+<br>
+
 ## `Tools/Misc`: the scripts the guides mention that were born outside the repo
 
 The remap prototypes, the identity-mod generator, the Yelan hand-experiment scripts and the

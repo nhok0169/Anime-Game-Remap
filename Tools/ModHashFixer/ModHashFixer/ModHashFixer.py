@@ -18,7 +18,7 @@ ApiSrc = os.path.abspath(os.path.join(Repo, "Anime Game Remap (for all users)", 
 if (os.path.isdir(os.path.join(ApiSrc, "FixRaidenBoss2"))):
     sys.path.insert(0, ApiSrc)
 import FixRaidenBoss2 as FRB                                   # noqa: E402
-from .TextureTyper import TextureTyper                         # noqa: E402
+from .TextureTyper import ExportedName, TextureTyper           # noqa: E402
 
 if (not hasattr(FRB, "WWMIBuilder")):
     raise ImportError(
@@ -157,6 +157,76 @@ class ModHashFixer():
     ThisPattern = re.compile(r"^\s*this\s*=\s*(?P<ref>\S+)\s*$", re.IGNORECASE)
     FilePattern = re.compile(r"^\s*filename\s*=\s*(?P<file>.+?)\s*$", re.IGNORECASE)
 
+    def _resourceLines(self):
+        """{resource section: (path, line index, the value)} for every ``filename =`` in the mod"""
+        out = {}
+        for path, raw in self._texts.items():
+            for section, i, line in self._lines(raw):
+                match = self.FilePattern.match(line)
+                if (match and section is not None and section.lower() not in out):
+                    out[section.lower()] = (path, i, match.group("file"))
+        return out
+
+    def _pointsAt(self):
+        """{texture section: the resource section its ``this =`` names}"""
+        out = {}
+        for path, raw in self._texts.items():
+            for section, _, line in self._lines(raw):
+                match = self.ThisPattern.match(line)
+                if (match and section is not None and section.lower() not in out):
+                    out[section.lower()] = match.group("ref").lower()
+        return out
+
+    def danglingRepairs(self):
+        """[(resource, path, line, old name, new name, texture section)] -- broken ``filename`` lines.
+
+        A DANGLING FILENAME IS NOT A STALE HASH, AND IT IS WORSE. The override fires, binds a file
+        that is not there, and the surface draws with the game's own art -- while every hash in the
+        file is correct and every check that follows a hash passes. Chisa16's lower body is exactly
+        that: ``ResourceTexture15`` names ``Components-4 t=0c153c12.dds``, which the mod does not
+        ship, while ``Components-4 t=ffa1f581.dds`` -- named for that very section's hash -- sits
+        beside it referenced by nothing. Her stockings were shaded as bare skin because of it.
+
+        The repair is only offered where the evidence is exact: the section's OWN hash names a file
+        the mod ships, under WWMI's ``Components-<N> t=<hash>.dds``, and there is exactly one such
+        file. Anything less is left alone and reported.
+        """
+        files, points, resources = self._fileOfSection(), self._pointsAt(), self._resourceLines()
+        onDisk = {}
+        for p in self._textureFiles():
+            # WWMI's export name EXACTLY -- nothing after the hash. A modder disables a texture by
+            #   renaming it, and `Components-4 t=21f813ba off.dds` sits beside a live one in a real
+            #   Chisa mod: matching the hash loosely would repair a reference by switching back on
+            #   something its author deliberately switched off.
+            if (not ExportedName.match(os.path.basename(p))):
+                continue
+            match = self.NamedHash.search(os.path.basename(p))
+            if (match):
+                onDisk.setdefault(match.group("hash").lower(), []).append(p)
+
+        out, seen = [], set()
+        for path, raw in self._texts.items():
+            for section, _, value in self._hashesIn(raw):
+                named = files.get(section.lower())
+                if (not named or os.path.isfile(named)):
+                    continue                                    # nothing wrong, or nothing to go on
+                candidates = onDisk.get(value, [])
+                resource = points.get(section.lower())
+                if (len(candidates) != 1 or resource not in resources):
+                    continue
+                where, line, old = resources[resource]
+                if ((where, line) in seen):
+                    continue
+                seen.add((where, line))
+                # keep the author's own directory and separators; only the file name was ever wrong
+                new = old[:len(old) - len(os.path.basename(old.replace("\\", "/")))] + os.path.basename(candidates[0])
+                if (new == old):
+                    # the same NAME, somewhere else in the tree -- an LOD subfolder, say. The path is
+                    #   the author's business and renaming the file to itself repairs nothing.
+                    continue
+                out.append((resource, where, line, old, new, section))
+        return out
+
     def _fileOfSection(self):
         """{section: the .dds it ultimately names}, across every .ini of the mod.
 
@@ -238,8 +308,21 @@ class ModHashFixer():
         changes, unrecognised = [], collections.Counter()
         counts = collections.Counter()
         newBytes = {}
+        # BEFORE anything else: a resource pointing at a file the mod does not ship. Repaired first
+        #   because the file route below types the file a section NAMES, and a section naming
+        #   nothing can be typed by nothing -- so the two fixes only compose in this order.
+        repairs = self.danglingRepairs() if (self.byFile) else []
+        repaired = {}
+        for resource, path, line, old, new, _ in repairs:
+            repaired.setdefault(path, {})[line] = new
+        self.repairs = repairs
+
         typer = self.typer(modType)
         files = self._fileOfSection() if (typer) else {}
+        for resource, _, _, old, new, section in repairs:                # type against the repaired name
+            if (files.get(section.lower())):
+                files[section.lower()] = os.path.join(os.path.dirname(files[section.lower()]),
+                                                      os.path.basename(new.replace("\\", "/")))
         # assigned once, over every texture file at once: the assignment is one role per file inside
         #   a component, so it cannot be decided a section at a time. The candidates come from the
         #   FOLDER rather than from what the `.ini` references, because the assignment rests on how
@@ -252,6 +335,11 @@ class ModHashFixer():
             crlf = b"\r\n" in raw
             lines = raw.decode("utf-8", "replace").replace("\r\n", "\n").split("\n")
             edited = False
+            for i, new in repaired.get(path, {}).items():
+                match = self.FilePattern.match(lines[i])
+                if (match):
+                    lines[i] = lines[i].replace(match.group("file"), new)
+                    edited = True
             for section, i, value in self._hashesIn(raw):
                 got = self._resolve(modType, value)
                 # the history first, ALWAYS: it is a record, and typing a file is an inference. Only

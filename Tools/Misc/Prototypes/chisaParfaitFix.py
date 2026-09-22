@@ -1779,7 +1779,7 @@ def effectiveRemap(sourceType, target, remapOverride: Optional[Dict[int, int]], 
 
 
 def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = None, anchor: Optional[str] = None, shapeKeys: bool = False, probe: object = False,
-              planName: str = "default", paint: bool = False, paintPass: Optional[int] = None):
+              planName: str = "default", paint: bool = False, paintPass: Optional[List[int]] = None):
     plan = Plans[planName]
     source, target = characterFromLibrary(sourceType), characterFromLibrary(targetType)
     vgRemap, forcedRemap = effectiveRemap(sourceType, target, remapOverride, anchor)
@@ -2005,7 +2005,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                 additions.append(("run", cmdList))
                 extraLegend.append(f"      component {i} on {ps}: {', '.join(f'{r}={v}' for r, v in sorted(extraRegs.items()))}")
 
-            if (paintPass is not None and i == paintPass):
+            if (paintPass and i in paintPass):
                 # one command list per pass, each a different flat colour on every register
                 additions = [a for a in additions if a[0] != "run"]
                 for n, ps in enumerate(TargetSlotPasses[slot]):
@@ -2452,8 +2452,9 @@ def main():
                         help = "comment the mod's own [TextureOverrideTexture] sections out too, as the hand remap does")
     parser.add_argument("--noSplit", action = "store_true",
                         help = "keep every remapped section in mod.ini (default: one section per target draw per file, the rest in <stem>ChisaParfaitRemapFix<n>.ini -- see the header, point 11)")
-    parser.add_argument("--passPaint", type = int, default = None, metavar = "SLOT",
-                        help = "one flat colour per PASS of that source component, to see which pass paints a surface")
+    parser.add_argument("--passPaint", type = int, nargs = "+", default = None, metavar = "SLOT",
+                        help = "one flat colour per PASS of each source component named, to see which pass paints a surface "
+                               "(several slots at once when they cover different parts of the body)")
     parser.add_argument("--paint", action = "store_true",
                         help = "replace every slot's diffuse with a flat colour, one per source component, to see which slot draws which part")
     parser.add_argument("--probe", nargs = "?", const = True, default = False, metavar = "SPEC",

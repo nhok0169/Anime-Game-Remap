@@ -697,6 +697,24 @@ OverrideSharedResources = "CommandListOverrideSharedResources"
 BlendRemapOverrideRegs = {reg: (lambda _ind, val: val.strip().lower().startswith("ref "))
                           for reg in ("ResourceBlendBufferOverride", "ResourceMergedSkeletonOverride", "ResourceExtraMergedSkeletonOverride")}
 
+# A MOD'S `CommandList\RabbitFX\SetTextures` IS DROPPED FROM A REMAPPED SECTION (2026-09-22). It binds
+#   the maps named by `Resource\RabbitFX\Diffuse` / `Lightmap` / `Normalmap` at ps-t60..t62, and the
+#   RabbitFX-patched shader then samples one of those INSTEAD of its own register wherever a flag says
+#   so -- flags SetTextures computes from the FORMAT of what the GAME has bound at ps-t0 / t1 / t2, and
+#   the shader checks positionally: the flag of ps-t0 guards whichever texture the pass samples FIRST.
+#   That holds on Chisa's passes and not on the skin's: her side-panel pass (87825a9a) samples its
+#   normal at t2 first and its R8 code map at t0 third, so the flag of the skin's BC7 normal at ps-t2
+#   put the MOD'S DIFFUSE in the code map's place -- every knit texel of Chisa6's sweater read a
+#   material code off the diffuse's red channel, and codes 0 / 1 are the panels' pink-overlay cloth
+#   (cb4[19] = (0.96, 0.64, 0.75)): the maroon dress. The same flags had the lower pass read the
+#   mod's RAW mask through t61, past the repack. The fix's own texture lists already bind every one of
+#   those maps at the target's registers (the roles resolve through the RabbitFX lines), so the
+#   remapped section only has to stop SetTextures from overriding them. `CommandList\RabbitFX\Run` --
+#   the FX and glow maps, which the patch reads at t50 / t51 by no flag -- stays.
+RabbitFXMaps = ("Diffuse", "Lightmap", "Normalmap", "Materialmap", "Cutoutmap", "Specialmap")
+RabbitFXSetTexturesRegs = {**{f"Resource\\RabbitFX\\{name}": None for name in RabbitFXMaps},
+                           "run": (lambda _ind, val: val.strip().lower() == "commandlist\\rabbitfx\\settextures")}
+
 _alive: List[object] = []     # Python-built edits, classifiers and resources the C++ side holds only by reference
 
 
@@ -1037,6 +1055,7 @@ FallbackTextures: Dict[str, str] = {
     "irisDiffuse": "226b31fc",
 }
 IdentityMin, IdentityGap = 0.97, 0.90   # a file IS a game texture when its colour correlates >= IdentityMin with one asset and < IdentityGap with every other
+LayoutMin = 0.30                        # a file naming several components takes a role only if it is laid out like the source's own texture for it
 RepaintMin, RepaintGap = 0.60, 0.30     # a file is a REPAINT of a game texture when its LUMINANCE correlates >= RepaintMin with one and < RepaintGap with every other
 
 # THE COMPONENT IN A MOD'S FILE NAME IS THE STRONGEST ROLE SIGNAL IT HAS, AND IT IS FREE
@@ -1356,6 +1375,18 @@ class TextureIndex():
             if (not candidates):
                 continue
             named = "-".join(str(c) for c in components)
+            # A SHARED FILE MUST ALSO BE LAID OUT LIKE THE ROLE IT TAKES (2026-09-22). Chisa6 ships
+            #   `Components-0-1-2-3-4 t=32d48b81.dds`, an 8 x 8 sheet of sparkle sprites: continuous and
+            #   saturated, so "Normal" by its shape, and the colour balance nearest her FRONT HAIR normal
+            #   -- which bound a sparkle atlas as the fringe's normal map, the grey stains on her hair.
+            #   Its layout correlates 0.085 with the real front hair normal; the real one, which
+            #   Chisa3 and Chisa5 ship as `Components-0-1-2-3-4-5 t=d0d2cc80.dds`, 1.000, and a repaint
+            #   keeps its layout whatever the colour (the white-hair front diffuse against the black
+            #   one: 0.999). A file naming ONE component is still judged on its shape alone.
+            if (len(components) > 1):
+                candidates = [r for r in candidates if ((self._layoutCorr(f, r) or 0.0) >= LayoutMin)]
+                if (not candidates):
+                    continue
             if (len(candidates) == 1):
                 role, why = candidates[0], f"component {named} in its name, and {why}"
             else:
@@ -1383,6 +1414,38 @@ class TextureIndex():
                     yield other, role, f"the same [TextureOverrideTexture] as {os.path.basename(self.real.get(f, f))}"
 
     _chromaCache: Dict[str, object] = {}
+    _decodeCache: Dict[str, object] = {}
+
+    @classmethod
+    def _layoutRgb(cls, path: str):
+        """A texture's RGB at 128 x 128, decoded by the library. NOT wwmiTextureFix.decode: that goes
+        through a PNG and comes back all black for a texture whose alpha is 0 everywhere -- which her
+        front hair normal is -- so every correlation with it read 0.000, the real normal's included."""
+        if (path not in cls._decodeCache):
+            try:
+                from PIL import Image
+                tex = FRB.TextureFile(path)
+                tex.open()
+                px = np.frombuffer(tex.getPixels(), dtype = np.uint8).reshape(tex.height, tex.width, 4)[..., :3]
+                cls._decodeCache[path] = np.asarray(Image.fromarray(px).resize((128, 128), Image.BOX)).astype(np.float64)
+            except Exception:
+                cls._decodeCache[path] = None
+        return cls._decodeCache[path]
+
+    @classmethod
+    def _layoutCorr(cls, path: str, role: str):
+        """How well a file's picture lines up with the source's own texture for 'role' (RGB correlation at
+        128 x 128), or None with no asset to compare against. Measured: the sparkle sheet against her
+        front hair normal 0.085, her real front hair normal shipped under another name 1.000"""
+        asset = os.path.join(AssetsFolder, f"{SourceName}Texture{FallbackTextures.get(role, '')}.dds")
+        if (not FallbackTextures.get(role) or not os.path.isfile(asset)):
+            return None
+        x, y = cls._layoutRgb(path), cls._layoutRgb(asset)
+        if (x is None or y is None):
+            return None
+        x, y = x - x.mean(), y - y.mean()
+        norm = np.linalg.norm(x) * np.linalg.norm(y)
+        return float((x * y).sum() / norm) if norm else 0.0
 
     @classmethod
     def _chromaDistance(cls, mean, role: str):
@@ -2042,6 +2105,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                                                   beforeRegs = {"run": lambda v: v == OverrideSharedResources},
                                                   latest = False))
             edits.append(FRB.RegRemove(BlendRemapOverrideRegs))
+            edits.append(FRB.RegRemove(RabbitFXSetTexturesRegs))
             # A MOD'S OWN `ps-tN =` LINES MUST NOT SURVIVE BESIDE THE TEXTURE LISTS (2026-09-21). A
             #   component that binds its textures in its own section (the Hanabi kimono's upper body:
             #   `ps-t2 = ResourceBase`, `ps-t0 = ResourceNormal`, `ps-t1 = ResourceSub`) kept those lines

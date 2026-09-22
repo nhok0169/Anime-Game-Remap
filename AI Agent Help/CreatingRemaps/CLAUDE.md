@@ -1428,6 +1428,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | "body all wavy", every part | the game's shape-key offset stream (`vb6`) read by vertex id, then several remapped sections on one draw window | `--shapeKeys`; one remapped section per Exorcist draw per file (the copies) |
 | the bangs wrong, the rest right | component 0 is the BANGS, on hair passes that differ per skin | `slotPasses` -- a LIST of passes per slot |
 | a chain (ribbons, tassel) curled or floating | a chain the target has no bones for, mapped per bone by the finder | `--anchor`; `wwmiBoneTally.py` |
+| one part "floating like jello" while everything around it is fine | the remap broke that part's LEFT/RIGHT symmetry -- a centre chain split across a jiggle PAIR, or two halves on bones that are not each other's mirror | `vgSymmetry.py`; NOT a distance check, which passes |
 | the body a smeared DRAPE under an intact head, on a source past 256 bones | the mod's own `Resource*Override = ref ...Component<N>` lines survived into the remapped sections | strip them: `RegRemove` per slot section, `ref` form only |
 | every body part drawn with ONE part's textures | the copies referenced the texture lists in another file | `appendedSectionsInCopies` / `copyHiddenSectionNames` (self-contained copies) |
 | one part's textures wrong, the picture is a different texture | that component got no texture list -- a role with no file | the prototype's per-slot table: `ps-tN=GAME (mod has none)`; then whether the file is declared under TWO hashes |
@@ -1847,6 +1848,65 @@ Two mechanics to know before you write the entry:
   bone 3 and 73% on ten accessory bones; anchoring only the ten still left the prop torn between two
   places. The finished anchor has every bone of the part on one target, which the skinning check
   shows as a cloud the size of the rest shape.
+
+### A REMAP THAT BREAKS THE BODY'S SYMMETRY WOBBLES, AND NO DISTANCE CHECK SEES IT (2026-09-22)
+
+Chisa's necktie and her jacket's shoulders were both reported as "floating like jello" on one mod,
+and they are one defect: the remap was not **left/right symmetric**. This is a third way for a
+vertex group row to be wrong, after "unmapped" (a negative bone index) and "far away" (a kink) --
+and it is invisible to both, because every bone involved landed **within a few units of where it
+belongs**. The centroid-distance check that had found three hair tips a day earlier reported
+nothing here.
+
+The mechanism is motion, not position. A part whose two halves ride bones that move independently
+moves with the DIFFERENCE between them, and physics bones move a lot:
+
+* **the tie** is a three-link chain -- 225 -> 226 -> 227 -- hanging down the CENTRE of Chisa's
+  chest, and ChisaParfait has no centre chest chain at all: her only mid-line bones there are 72
+  (chest) and 56 (neck). `Tools/VGRemapFinder` matched each link to its nearest bone, which are 73
+  and 74 -- her **breast pair** at `(-+3.7, 7.0, 116.5)` -- putting two links on the left one and
+  the third on the right;
+* **the shoulders** are the same rule on a pair rather than on the mid-line. Chisa's shoulder bones
+  are exact mirror pairs, and the table sent the LEFT of every pair to 119 while the RIGHT ones
+  scattered to 111, 33, 59, 60 and 32.
+
+**The finder optimises each bone ALONE, so nothing in it keeps a pair together.** That is the
+general statement, and it will hold for every pair it proposes: expect this class of error in any
+unreviewed row, and check for it before the first in-game round rather than after.
+
+The repair is the Yelan lesson arriving from a new direction -- *a part the target has no
+counterpart for wants ONE rigid anchor, not the finder's per-bone nearest*. For a centre chain that
+means a centre bone (the tie's four rows go to 72, which puts 94% of its weight on one bone: rigid
+beats wobbling); for a pair it means making one side the mirror of the other.
+
+`Tools/Misc/Diagnostics/vgSymmetry.py` is the check. Three things about using it:
+
+* **Report the skew GRADED, in units, never as a yes/no.** The binary "are the two targets each
+  other's exact twin" form calls a pair broken when they are 1.9 apart, which is noise, and it
+  reported **95.6%** of a part that renders perfectly. The graded form -- `|| reflect(target of b) -
+  target of b's twin ||` -- separates the real cases immediately: tie 7.89 units, shirt 1.04, body
+  0.67. Zero is perfect, a bone is about two units wide, ten units is two halves in different places.
+* **Read its `--propose` output; do not apply it wholesale.** It prints the placement error before
+  and after and flags its own suggestions that make placement WORSE -- on several of Chisa's pairs
+  symmetrising costs more than it buys, which means that pair needs a hand-picked target. Of 56
+  flagged pairs only the 12 rows behind the two reported symptoms were changed.
+* **It needs the two IDENTITY mods**, because a bone's position is taken as the centroid of the
+  vertices weighted to it. Do not substitute a `vs-cb4` translation column: that is a skinning
+  matrix, not a pose (see "Pick a rigid anchor by skinning the part").
+
+Measured on the Chisa9 mod, shipped -> patched: the tie **7.89 -> 0.05** units, the coat's shoulders
+(z 122-140) **3.84 -> 0.63** and **3.69 -> 0.62** over its two draws, with the share of weight skewed
+past 6 units going **22.8% -> 1.2%** and **22.1% -> 1.1%**. Shirt, body and tacet mark are unchanged
+and were already symmetric. **Still open and deliberately untouched:** the LOWER coat (z 70-112) is
+skewed just as badly -- mean 3.84, 20.5% of its weight past 6 units -- and nothing in game has
+complained about the skirt panels yet.
+
+**One trap in measuring any of this, which cost the first two runs.** Chisa is past 256 merged
+bones, so her true ids live in `BlendRemapVertexVG.buf` and `Blend.buf` holds **component-local**
+8-bit indices. A tally that reads `Blend.buf` for such a character measures nothing -- it made the
+coat appear to ride bones 0-11, which are component 0's window at her head -- while looking like a
+perfectly ordinary result. `vgSymmetry.py` prefers the remap buffer and falls back to `Blend.buf`
+only when there is none.
 
 ### A SOURCE PAST 256 BONES CARRIES THREE LINES THAT UNDO THE REMAP (2026-09-20)
 

@@ -18,6 +18,7 @@ ApiSrc = os.path.abspath(os.path.join(Repo, "Anime Game Remap (for all users)", 
 if (os.path.isdir(os.path.join(ApiSrc, "FixRaidenBoss2"))):
     sys.path.insert(0, ApiSrc)
 import FixRaidenBoss2 as FRB                                   # noqa: E402
+from .TextureTyper import TextureTyper                         # noqa: E402
 
 if (not hasattr(FRB, "WWMIBuilder")):
     raise ImportError(
@@ -50,7 +51,7 @@ class ModHashFixer():
     GeometryTypes = {"vb0", "cb4", "shapekey_offsets", "shapekey_scale"}
 
     def __init__(self, mod: str, character: str = None, version: str = None, geometry: bool = False,
-                 extraHashes: dict = None):
+                 extraHashes: dict = None, byFile: bool = True):
         """``extraHashes`` is your own ``{old hash: new hash}`` table, and it WINS over the library.
 
         It is what makes this usable for a character the library does not carry: the history in
@@ -60,11 +61,18 @@ class ModHashFixer():
 
         Anything resolved this way is reported under the role ``custom (yours)``, so a run never
         hides which answers came from the library and which from you.
+
+        ``byFile`` allows the second resolution route, for a hash the history cannot reach: the
+        texture FILE that section names is typed by its component and its pixels instead --- see
+        :mod:`ModHashFixer.TextureTyper`. It matters most on the body and the legs, whose older
+        hashes are the ones most often missing. Resolved that way is reported separately, and never
+        overrides an answer the history gives.
         """
         self.mod = mod
         self.character = character
         self.version = version
         self.geometry = geometry
+        self.byFile = byFile
         self.extraHashes = {str(k).lower(): str(v).lower() for k, v in (extraHashes or {}).items()}
         self.files = [p for p in glob.glob(os.path.join(glob.escape(mod), "**", "*.ini"), recursive = True)
                       if ("DISABLED" not in os.path.basename(p).upper())]
@@ -146,6 +154,70 @@ class ModHashFixer():
             if (match and section is not None and "remap" not in section.lower()):
                 yield section, i, match.group("hash").lower()
 
+    ThisPattern = re.compile(r"^\s*this\s*=\s*(?P<ref>\S+)\s*$", re.IGNORECASE)
+    FilePattern = re.compile(r"^\s*filename\s*=\s*(?P<file>.+?)\s*$", re.IGNORECASE)
+
+    def _fileOfSection(self):
+        """{section: the .dds it ultimately names}, across every .ini of the mod.
+
+        A texture section does not hold its own file: ``[TextureOverrideTexture7] this =
+        ResourceTexture7`` points at a resource section, and the ``filename =`` is over there --
+        relative to the ``.ini`` that declares it, which is why resources are resolved per file
+        before the two halves are joined.
+        """
+        resources, points = {}, {}
+        for path, raw in self._texts.items():
+            folder = os.path.dirname(path)
+            for section, _, line in self._lines(raw):
+                if (section is None):
+                    continue
+                match = self.FilePattern.match(line)
+                if (match):
+                    name = match.group("file").replace("\\", os.sep).replace("/", os.sep)
+                    resources.setdefault(section.lower(), os.path.normpath(os.path.join(folder, name)))
+                    continue
+                match = self.ThisPattern.match(line)
+                if (match):
+                    points.setdefault(section.lower(), match.group("ref").lower())
+        out = {}
+        for section, ref in points.items():
+            if (ref in resources):
+                out[section] = resources[ref]
+        for section, file in resources.items():                 # a section holding its own filename
+            out.setdefault(section, file)
+        return out
+
+    def _textureFiles(self):
+        """Every ``.dds`` under the mod -- the component's shipped set, whatever the .ini references"""
+        return sorted(glob.glob(os.path.join(glob.escape(self.mod), "**", "*.dds"), recursive = True))
+
+    NamedHash = re.compile(r"t=(?P<hash>[0-9a-fA-F]{8})", re.IGNORECASE)
+
+    @classmethod
+    def _fileIsFor(cls, path: str, value: str) -> bool:
+        """Is this file the one the game hashed as ``value``? WWMI's own name says so.
+
+        A texture exported by WWMI is called ``Components-<N> t=<hash>.dds``, so a section whose
+        ``hash =`` matches its file's name is naming its OWN texture and the file is evidence about
+        it. A section pointing at a file named for a DIFFERENT hash is not: a mod may register one
+        file under several of its historical hashes, and the extra sections then describe a texture
+        the file is not. That is the whole of the last disagreement the audit found -- a ``lowerMask``
+        section pointing at the ``lowerDiffuse``'s file -- so the route declines those.
+
+        A file whose name carries no hash at all is not WWMI-exported, and is left alone.
+        """
+        match = cls.NamedHash.search(os.path.basename(path))
+        return bool(match) and match.group("hash").lower() == value.lower()
+
+    def typer(self, modType):
+        """The character's file typer, built once per run (None when it has no usable download folder)"""
+        if (not self.byFile):
+            return None
+        if (not hasattr(self, "_typer")):
+            built = TextureTyper(modType, Repo, self.version)
+            self._typer = built if (built.ready) else None
+        return self._typer
+
     def detect(self):
         """(name, {name: how many hashes it explains}) -- who this mod is FOR.
 
@@ -166,12 +238,35 @@ class ModHashFixer():
         changes, unrecognised = [], collections.Counter()
         counts = collections.Counter()
         newBytes = {}
+        typer = self.typer(modType)
+        files = self._fileOfSection() if (typer) else {}
+        # assigned once, over every texture file at once: the assignment is one role per file inside
+        #   a component, so it cannot be decided a section at a time. The candidates come from the
+        #   FOLDER rather than from what the `.ini` references, because the assignment rests on how
+        #   many textures a component ships -- and a mod may carry a dangling `filename =` (Chisa16
+        #   points its lower-body mask section at a file that is not there, while the real one sits
+        #   beside it unreferenced), which would make that component look like it ships two of three.
+        typed = typer.assign(self._textureFiles()) if (typer) else {}
+        byFile = {}
         for path, raw in self._texts.items():
             crlf = b"\r\n" in raw
             lines = raw.decode("utf-8", "replace").replace("\r\n", "\n").split("\n")
             edited = False
             for section, i, value in self._hashesIn(raw):
                 got = self._resolve(modType, value)
+                # the history first, ALWAYS: it is a record, and typing a file is an inference. Only
+                #   a hash it cannot reach is handed to the file the section names.
+                file = files.get(section.lower())
+                if (not got and file and TextureTyper.key(file) in typed and self._fileIsFor(file, value)):
+                    role, why = typed[TextureTyper.key(file)]
+                    try:
+                        current = (modType.hashes.get((modType.name, role), self.version) if (self.version)
+                                   else modType.hashes.get((modType.name, role)))
+                    except Exception:
+                        current = None
+                    if (current):
+                        got = (role, current)
+                        byFile[value] = (role, why, os.path.basename(file))
                 if (not got):
                     unrecognised[value] += 1
                     continue
@@ -189,6 +284,9 @@ class ModHashFixer():
             if (edited):
                 body = "\n".join(lines)
                 newBytes[path] = (body.replace("\n", "\r\n") if (crlf) else body).encode("utf-8")
+        #: {old hash: (role, why, file)} for whatever the FILE route resolved this run, so a caller
+        #:   can report those apart from the ones the history explained
+        self.byFileResolved = byFile
         return changes, counts, unrecognised, newBytes
 
     # ---- writing -------------------------------------------------------------------------------

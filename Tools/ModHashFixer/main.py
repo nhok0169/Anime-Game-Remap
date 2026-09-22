@@ -38,6 +38,10 @@ if __name__ == "__main__":
     parser.add_argument("-g", "--geometry", action = "store_true",
                         help = "also retarget vb0 / cb4 / the shape-key pair. Only for a mod that does not draw AT ALL: "
                                "on a mod that draws, rewriting these breaks what works")
+    parser.add_argument("--no-by-file", dest = "byFile", action = "store_false",
+                        help = "do not fall back to typing a texture FILE by its component and pixels when its hash is "
+                               "older than the recorded history. That fallback is what reaches the body and the legs, "
+                               "whose older hashes are the ones most often missing")
 
     args = parser.parse_args()
 
@@ -46,7 +50,7 @@ if __name__ == "__main__":
         if (extra):
             print(f"{len(extra)} hash pair(s) loaded from your table(s); these win over the library\n")
         fixer = ModHashFixer(args.mod, character = args.character, version = args.version,
-                             geometry = args.geometry, extraHashes = extra)
+                             geometry = args.geometry, extraHashes = extra, byFile = args.byFile)
     except Exception as e:
         print(f"error: {e}", file = sys.stderr)
         sys.exit(1)
@@ -84,6 +88,12 @@ if __name__ == "__main__":
 
     print(f"\n{len(changes)} hash(es) to update, {counts['current']} already current, "
           f"{counts['geometry']} geometry left alone, {sum(unrecognised.values())} unrecognised")
+    if (fixer.byFileResolved):
+        print(f"  {len(fixer.byFileResolved)} of those were older than the recorded history and were typed from the\n"
+              f"  FILE instead -- an inference, not a record, so these are the ones to check first if something\n"
+              f"  still looks wrong (--no-by-file leaves them alone):")
+        for value, (role, why, file) in sorted(fixer.byFileResolved.items(), key = lambda kv: kv[1][0]):
+            print(f"    {value}  {role:18s} {file}   ({why})")
     if (unrecognised):
         print("  unrecognised -- not this character's, or older than the recorded history (left alone):")
         for value, n in unrecognised.most_common(12):

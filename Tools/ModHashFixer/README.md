@@ -32,8 +32,39 @@ python3 main.py "<mod folder>" --undo          # put the backups back
 | `-u`, `--undo` | restore the `.ini` files this tool backed up |
 | `-m`, `--maps` | your own old -> new hash tables (json, any nesting). These **win** over the library |
 | `-g`, `--geometry` | also retarget `vb0` / `cb4` / the shape-key pair. **Only for a mod that does not draw AT ALL** |
+| `--no-by-file` | switch off the second route below, so only the recorded history is used |
 
 There is a notebook too, at [`WuWa/WuWaModHashFixer.ipynb`](WuWa/WuWaModHashFixer.ipynb).
+
+<br>
+
+## The second route: the mod's own texture FILE
+
+**The body and the legs are the two roles the hash history is most likely to miss**, and that is not
+bad luck. The history was largely built by correlating mod files against the game's own textures --
+which only identifies a file a mod ships UNCHANGED. A mod that *repaints* the torso never matched, so
+a run could report every accessory fixed while the body stayed broken. That is what this route is for.
+
+When a hash is older than the recorded history, the FILE that section names is typed instead:
+
+* **the component**, from WWMI's own export name `Components-<N> t=<hash>.dds`, which says which
+  component the mod binds it for --- and the file must be named for *that section's* hash, so a
+  section pointing at another texture's file is refused;
+* **the kind** --- mask, normal map or diffuse --- from the pixels, but only as a claim about the
+  component as a whole: a file is the diffuse when it is the **only** one of that component's
+  textures that reads as one, and only where all three of that component's roles are known. A
+  component whose textures do not separate that cleanly abstains.
+
+Anything resolved this way is listed separately in the report, because it is an **inference where the
+history is a record** --- so it is the first thing to look at if something still renders wrong.
+`--no-by-file` turns it off.
+
+**Scored before it was trusted.** Every hash the *history* explains is a labelled example, so the
+route was run on those same files and compared: over 76 mod folders it agreed 121 times, abstained
+214 times and disagreed **0** times. Its first two versions disagreed 24 times and 1 time, and both
+were rejected --- typing a file on its own confused a hair normal with a hair mask and a lower
+diffuse with a lower normal, because the thresholds had been calibrated on the game's textures rather
+than on repaints of them.
 
 <br>
 
@@ -71,19 +102,20 @@ version be resolved through it. `Tools/Misc/Diagnostics/chisaHashHistory.py` sho
 * **geometry left alone** --- `vb0` / `cb4` / the shape-key pair, skipped by default. A mod whose
   `vb0` is stale does not draw **at all**, which is a different symptom from broken textures, and
   rewriting those on a mod that *does* draw breaks what works.
-* **unrecognised** --- not this character's, or older than the recorded history. Left alone, never
-  guessed. **This is the honest limit of the tool's coverage**: if a texture you care about is here,
-  its older hash is not in the library yet.
+* **typed from the file** --- older than the recorded history, and resolved by the second route
+  above. An inference rather than a record: check these first if something still looks wrong.
+* **unrecognised** --- not this character's, or older than the recorded history AND not typeable from
+  its file. Left alone, never guessed. **This is the honest limit of the tool's coverage**: if a
+  texture you care about is here, add a line to your own `--maps` table.
 
 <br>
 
 ## What it will not do
 
-* **It will not invent a hash.** A role whose older generations were never recorded cannot be
-  resolved, and the run says so rather than leaving you to infer it from a texture that did not
-  change. Extending coverage means adding rows to `HashData.cpp` --- `Tools/Misc/Diagnostics/
-  chisaHashHistory.py` is how Chisa's older generations were derived, from the mods themselves and
-  on hash-level evidence only.
+* **It will not invent a hash.** A hash it cannot resolve by the history, by your own table, or by
+  the file route's own standard of evidence is reported and left alone. Extending coverage properly
+  means adding rows to `HashData.cpp` --- `Tools/Misc/Diagnostics/chisaHashHistory.py` is how Chisa's
+  older generations were derived, from the mods themselves and on hash-level evidence only.
 * **It will not touch a previous fix's sections.** Anything whose section name carries `Remap` holds
   the *target's* hashes and is correct.
 * **It will not repair a missing file.** A mod naming a `.dds` that is not on disk is a different

@@ -1062,7 +1062,7 @@ FallbackTextures: Dict[str, str] = {
     "accessoryDiffuse": "019c268e", "accessoryNormal": "40528957", "accessorySheen": "4eaa9816",
     "irisDiffuse": "226b31fc",
 }
-IdentityMin, IdentityGap = 0.97, 0.90   # a file IS a game texture when its colour correlates >= IdentityMin with one asset and < IdentityGap with every other
+IdentityMin, IdentityGap = 0.97, 0.90   # a file IS a game texture when its colour correlates >= IdentityMin with one asset and < IdentityGap with every other (alpha settles a tie)
 LayoutMin = 0.30                        # a file naming several components takes a role only if it is laid out like the source's own texture for it
 RepaintMin, RepaintGap = 0.60, 0.30     # a file is a REPAINT of a game texture when its LUMINANCE correlates >= RepaintMin with one and < RepaintGap with every other
 
@@ -1107,6 +1107,17 @@ def kindOfShape(shape) -> Tuple[str, str]:
     return "Diffuse", "neither a set of codes nor a normal map"
 
 
+def alphaAgrees(a, b) -> bool:
+    """Whether two 128 x 128 alpha channels are the same picture: both flat at about the same level, or
+    both varying and correlated >= IdentityGap. A flat channel has no variance to correlate, so a
+    correlation alone would call every pair of opaque textures different."""
+    flatA, flatB = float(a.std()) < 1.0, float(b.std()) < 1.0
+    if (flatA or flatB):
+        return flatA and flatB and abs(float(a.mean()) - float(b.mean())) < 16
+    a, b = a - a.mean(), b - b.mean()
+    return float((a * b).sum() / (np.linalg.norm(a) * np.linalg.norm(b))) >= IdentityGap
+
+
 def componentsOfModFile(name: str) -> List[int]:
     """Every component a WWMI-exported texture's name claims (usually one)"""
     match = ModComponentPattern.search(os.path.basename(name))
@@ -1138,6 +1149,7 @@ class TextureIndex():
         self.roleOf: Dict[str, List[Tuple[str, str]]] = {}       # file abs path -> [(role, how it was decided)]: EVERY role its hashes name
         self.unresolved: List[str] = []
         self.real: Dict[str, str] = {}                           # matching key (case-folded abs path) -> the file's real spelling
+        self.defaults: set = set()                               # files some [TextureOverrideTexture] binds FIRST: the mod's default branch
         hashesOfFile: Dict[str, List[str]] = {}
         ddsFiles: List[str] = []
         remapFix = FRB.IniKeywords.RemapFix.value.lower()
@@ -1168,9 +1180,11 @@ class TextureIndex():
                             #   / elif $part_0 == 1 / this = ResourceTextureN_2`, the first being the
                             #   character's own art and the second the mod's. Taking only the first left
                             #   the mod's own copy roleless.
-                            for res in (v for k, v in kvps if k == "this"):
+                            for i, res in enumerate(v for k, v in kvps if k == "this"):
                                 if (h and res in resources):
                                     hashesOfFile.setdefault(resources[res], []).append(h)
+                                    if (i == 0):
+                                        self.defaults.add(resources[res])
         # A FILE NO RESOURCE SECTION NAMES IS AN ALTERNATIVE THE AUTHOR SHIPPED, NOT THE MOD'S ART
         #   (2026-09-20). A Hanabi mod carries `1Color Variation  Remove trans/{Black,Red,White}/
         #   Components-3 t=4c7e5ddf.dds` beside the `Textures/` copy the player actually installed:
@@ -1202,6 +1216,7 @@ class TextureIndex():
                     self.alternativesOf.setdefault(f, []).append(other)
         pending.sort(key = lambda p: (p not in self.referenced, p))
         self.shared: Dict[str, str] = {}      # file -> the shared game texture it is a copy of (SharedGameTextures)
+        identified: List[str] = []
         for f, h, score in self._identify(pending):
             if (h in SharedGameTextures):
                 self.shared[f] = h
@@ -1210,6 +1225,19 @@ class TextureIndex():
             if (components and RoleComponent.get(Roles[h]) not in components):
                 continue                            # its own name says it belongs to another component
             self.roleOf[f] = [(Roles[h], f"the game's own {h} by its pixels ({score:.2f})")]; counts["pixels"] += 1
+            identified.append(f)
+        # A TOGGLE GROUP IS ONE ROLE HOWEVER ITS FIRST MEMBER WAS PLACED (2026-09-22). A `$Char` /
+        #   `$swapvar_hair` mod offers the game's own texture and its repaint under one hash, and
+        #   pixel identity recognises only the game's copy. Only the shape rule handed its role on
+        #   to the rest of the group, so once the decode stopped blacking out textures with little
+        #   alpha and pixels placed the game's copy first, the repaint went roleless -- or was
+        #   judged on its own pixels and took another role (the bunny mod's recoloured front hair
+        #   normal became her front hair MASK). Which member is bound is `defaults`' business.
+        for f in identified:
+            for other in self.alternativesOf.get(f, []):
+                if (other not in self.roleOf and other not in self.shared and set(componentsOfModFile(other)) & set(componentsOfModFile(f))):
+                    self.roleOf[other] = [(role, f"the same [TextureOverrideTexture] as {os.path.basename(self.real.get(f, f))}") for role, _ in self.roleOf[f]]
+                    counts["pixels"] += 1
         counts["shape"] = 0
         for f in self._byShape([p for p in pending if (p not in self.roleOf and p not in self.shared)]):
             self.roleOf[f[0]] = [(f[1], f[2])]; counts["shape"] += 1
@@ -1496,8 +1524,20 @@ class TextureIndex():
             if (x is None):
                 continue
             scores = sorted(((texFix.corr(x[..., :3], y[..., :3]), h) for h, y in assets.items() if y is not None), reverse = True)
-            if (scores and scores[0][0] >= IdentityMin and (len(scores) == 1 or scores[1][0] < IdentityGap)):
-                yield f, scores[0][1], scores[0][0]
+            if (not scores or scores[0][0] < IdentityMin):
+                continue
+            # TWO GAME TEXTURES CAN SHARE A PICTURE AND DIFFER ONLY IN ALPHA (2026-09-22). Her face
+            #   mask 6ae8dd10 and the shared 742c5c7b correlate 0.93 in colour -- which the old decode
+            #   hid by blacking 742c5c7b out (Pillow shrank it premultiplied by an alpha of mean 16) --
+            #   so the gap test refused both and the shared file fell to the shape rule as a lower
+            #   body NORMAL. The face mask is opaque and 742c5c7b is not: alpha tells them apart.
+            #   It only ever breaks such a tie; a match with no rival is judged on colour as before.
+            rivals = [h for s, h in scores[1:] if (s >= IdentityGap)]
+            if (rivals):
+                if (not alphaAgrees(x[..., 3], assets[scores[0][1]][..., 3])
+                        or any(alphaAgrees(x[..., 3], assets[h][..., 3]) for h in rivals)):
+                    continue
+            yield f, scores[0][1], scores[0][0]
 
 
 # a frame analysis texture's file name: <draw>-ps-t<N>=<hash>[(<hash>)]-vs=<vs>-ps=<ps>.dds
@@ -1587,9 +1627,13 @@ class TextureRoles():
             for role, how in fileRoles:
                 byRole.setdefault(role, []).append((f, how))
 
+        # a toggle group's members tie on the first two; the mod's DEFAULT branch is bound, whichever
+        #   member it is -- the repaint (`$Char == 0` in the Taihou mod) or the game's own copy
+        #   (`$swapvar_hair == 0` in the sweater mod). Path length decided this until 2026-09-22 and
+        #   happened to agree with the default on every test mod.
         def rank(f: str):
             rel = os.path.relpath(f, iniFolder).replace("\\", "/")
-            return (0 if (f in resourceOfFile) else 1, rel.count("../"), len(rel))
+            return (0 if (f in resourceOfFile) else 1, rel.count("../"), 0 if (f in index.defaults) else 1, len(rel))
         for role, cands in byRole.items():
             cands.sort(key = lambda c: rank(c[0]))
             best = cands[0][0]

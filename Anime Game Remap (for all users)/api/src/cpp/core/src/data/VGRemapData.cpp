@@ -1135,20 +1135,31 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         // Tools/VGRemapFinder's proposal, unreviewed and NOT CONFIRMED IN GAME. Nothing reads them
         // yet either -- both fix rows are stubs -- so they are data waiting for a fixer, and the
         // draft's Uncertainty column is the review order when one exists.
+        //
+        // THREE HAIR TIPS CORRECTED (2026-09-22): the finder sent the last bone of three of Chisa's
+        // long-hair chains -- 29 and 32 onto ChisaParfait's 186, 105 onto her 248, both BODY bones
+        // at the hip -- so two strands of a mod's hair stayed stuck to her back while the rest swung
+        // (seen in game on the Chisa6 sweater mod). Each tip now takes the end of the chain its own
+        // vertices already ride after the remap, read off her identity mod's hair bones (the chain
+        // 38 -> 34 ends at z 93.7, the chain 42 -> 39 at z 90.1): 29 (tip at z 96.1, rides 36 / 37)
+        // -> 35, 32 (z 91.7, rides 36 / 37) -> 34, 105 (z 91.3, rides 40 / 41) -> 39 -- the last
+        // one exactly as its parallel chain 106-110 already ends on 39. Seven more of her hair bones
+        // land on shoulder / upper-back bones (74, 75, 92-95, 111); that is where hair lies on the
+        // body, and they are left as proposed until something in game says otherwise.
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Chisa), "",
           "3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), ""},
          VGRemap({
             {0, 0}, {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}, {7, 7}, {8, 8}, {9, 9},
             {10, 10}, {11, 11}, {12, 12}, {13, 13}, {14, 14}, {15, 15}, {16, 16}, {17, 17}, {18, 18}, {19, 19},
-            {20, 20}, {21, 21}, {22, 22}, {23, 23}, {24, 24}, {25, 25}, {26, 26}, {27, 36}, {28, 37}, {29, 186},
-            {30, 31}, {31, 32}, {32, 186}, {33, 33}, {34, 0}, {35, 47}, {36, 45}, {37, 52}, {38, 52}, {39, 43},
+            {20, 20}, {21, 21}, {22, 22}, {23, 23}, {24, 24}, {25, 25}, {26, 26}, {27, 36}, {28, 37}, {29, 35},
+            {30, 31}, {31, 32}, {32, 34}, {33, 33}, {34, 0}, {35, 47}, {36, 45}, {37, 52}, {38, 52}, {39, 43},
             {40, 42}, {41, 44}, {42, 68}, {43, 67}, {44, 39}, {45, 56}, {46, 38}, {47, 30}, {48, 32}, {49, 33},
             {50, 47}, {51, 36}, {52, 35}, {53, 34}, {54, 70}, {55, 69}, {56, 68}, {57, 44}, {58, 45}, {59, 67},
             {60, 66}, {61, 35}, {62, 35}, {63, 37}, {64, 34}, {65, 38}, {66, 39}, {67, 40}, {68, 41}, {69, 42},
             {70, 43}, {71, 44}, {72, 45}, {73, 65}, {74, 86}, {75, 88}, {76, 64}, {77, 27}, {78, 28}, {79, 29},
             {80, 30}, {81, 31}, {82, 27}, {83, 28}, {84, 29}, {85, 30}, {86, 31}, {87, 64}, {88, 63}, {89, 51},
             {90, 65}, {91, 50}, {92, 110}, {93, 110}, {94, 73}, {95, 87}, {96, 27}, {97, 28}, {98, 29}, {99, 30},
-            {100, 31}, {101, 43}, {102, 42}, {103, 41}, {104, 40}, {105, 248}, {106, 43}, {107, 42}, {108, 41}, {109, 40},
+            {100, 31}, {101, 43}, {102, 42}, {103, 41}, {104, 40}, {105, 39}, {106, 43}, {107, 42}, {108, 41}, {109, 40},
             {110, 39}, {111, 86}, {112, 43}, {113, 42}, {114, 41}, {115, 40}, {116, 39}, {117, 12}, {118, 33}, {119, 47},
             {120, 32}, {121, 54}, {122, 55}, {123, 47}, {124, 54}, {125, 55}, {126, 53}, {127, 49}, {128, 48}, {129, 32},
             {130, 33}, {131, 54}, {132, 55}, {133, 53}, {134, 49}, {135, 48}, {136, 57}, {137, 58}, {138, 59}, {139, 60},

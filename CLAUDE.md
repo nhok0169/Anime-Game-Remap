@@ -51,6 +51,17 @@ the maintainer, shown that, chose to extend it. Before the first header of any n
 primitive it would call. If something already does the core of it, show it and ask: extend,
 subclass or rename.
 
+**A PROTOTYPE IS BUILT FROM THE LIBRARY, NOT BESIDE IT (2026-09-22).** The maintainer's standing
+complaint, about every agent: prototypes under `Tools/Misc/Prototypes/` reinvent what the library
+already does. `chisaParfaitFix.py` hand-rolled its whole texture half -- re-parsing the `.ini`,
+expanding `$swapvar` toggles by string, writing `.dds` files and resource sections as text -- while
+only its blend went through `ResRegCollect`, and two shipped bugs (lost toggles, a mod's own `ps-tN`
+lines overriding the fix) were ones the section graph would have carried for free. "Otherwise I might
+as well make you write the prototype without any library." **Before writing any helper, grep
+`core.pyi` for the primitive; when the request names library classes, use them; where the library
+truly lacks something, say so in a comment and keep the custom part minimal.** Creating Remaps'
+"A prototype is built FROM the library" has the need -> class table.
+
 If you're unsure which applies, start with **Overview** — it's the map the rest assume you have.
 These files were authored from hands-on, verified work in five subsystems: the C++ core / pybind11
 `OrderedMultiMap`/`IfContentPart` layer, the Python-side `.ini` graph model and its
@@ -674,6 +685,45 @@ binds `vb4` twice. **A dump's textures also come out at 512 x 512 unless the gam
 Ultra High** -- one setting in its own sqlite settings store, not in `GameUserSettings.ini` -- and a
 dump taken with a mod of that character installed describes the MODDED pipeline (see
 [Vertex Group Remaps](AI%20Agent%20Help/VGRemaps/CLAUDE.md)).
+
+**AND THE "TWO SKINS PACK THEIR MASK INVERSELY" FINDING ABOVE IS WRONG, WHICH IS WHAT A RED STAIN
+ON A KIMONO TURNED OUT TO BE (2026-09-20).** Chisa and ChisaParfait **both** mark bare skin with
+`R = 255`. The inverse reading came from a percentage-of-flesh-like-pixels test over the two atlases
+(88% against 52%), which her pale cream atlas defeats -- "flesh-like" fires on her clothes as
+readily as on her skin -- so the repack was mapping Chisa's skin to the target's cloth code and her
+kimono to the target's SKIN code, shading the garment with subsurface scattering. **Rendering the
+two masks' R channels beside their diffuses settles it in one glance** (Chisa's is black with one
+white patch, exactly where her diffuse is flesh; the skin's is white over a bare torso), and it
+outlived four fixes aimed at registers because it was never in a register. Two corollaries: a repack
+that rewrites ONE channel leaves the others in the source's packing (her codes carry `B ~126, A 0`
+where his carry `B 0, A 255`), and G is kept from the MOD because green is how shiny a surface is.
+**And a FLAT mask is not a neutral one** -- Chisa's hair mask is a flat `(255, 0, 126, 0)`, i.e. "all
+of this is skin", which shaded the crown of the hair red; a flat texture has no UV dependence, so the
+"bind the source's, the UVs are the source's" rule does not apply and the register is better left to
+the game. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md).
+
+**AND A FIFTH ROUND, ON A KIMONO MOD, FOUND TWO MORE -- ONE OF THEM A FIX OF MINE THAT MADE THINGS
+WORSE (2026-09-20).** **(1) A REGISTER A DRAW INHERITED MAY BELONG TO A DIFFERENT CHARACTER
+ENTIRELY.** `wwmiPassLayout.py` marks an inherited register `~`, and that was read as "what Chisa
+binds there" -- but a frame dump holds everything on screen, and the draw that had last written her
+upper body's `ps-t5` appears **byte-identically in the other skin's dump too**: an NPC standing in
+both scenes. Its ramp was transcribed into the fix as hers and **the kimono came back yellow**, a
+fresh worse symptom in place of the red one being fixed. `--against <the other dump>` now marks such
+a register `!`, and the rule is that **only a `sets` line is evidence about a character**. The same
+question, asked of every candidate, also separates the three shared globals the plan was about to
+"fix" (both characters' own draws set them) from the one genuinely per-character pair: the 512 x 25
+subsurface lookup, Chisa's `06790f7e` against the skin's redder `6a9ec87e`, which is what put a red
+cast on her decollete. **(2) DO NOT PICK A RIGID ANCHOR OFF A BONE'S `vs-cb4` TRANSLATION COLUMN** --
+that is a skinning matrix, not a pose, and reading it named a bone that put her fox mask and hairpins
+90 units away at her hip. Nor score candidates by whether the part keeps its axis-aligned extents: an
+AABB is not rotation invariant, and that test rejected 267 of 272 bones including the right one. Skin
+the part with each candidate, keep the ones whose **RMS radius from the centroid** is unchanged, and
+take the one the surrounding geometry already moves with --
+`Tools/Misc/Diagnostics/wwmiAnchorSearch.py`. Also: `AnchorChains`' key is a **source** bone and the
+chain takes whatever IT maps to, so writing the target id there is a silent no-op-shaped error, and
+the part's OTHER bones have to be anchored too (27% of that prop's weight sat on a bone outside the
+chain, which left it torn between two places). Both are in
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md).
 
 **TWO THINGS TO READ BEFORE ANY TASK, WHICHEVER KIND YOU HAVE (2026-09-14).** They are the two
 lenses the maintainer keeps having to re-teach, and each now has its own writing:

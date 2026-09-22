@@ -178,10 +178,45 @@ PaintNames = {0: "red", 1: "green", 2: "blue", 3: "yellow", 4: "magenta", 5: "cy
 PassPaintColours = [(255, 0, 0, 255), (0, 255, 0, 255), (0, 0, 255, 255), (255, 255, 0, 255)]
 PassPaintNames = ["red", "green", "blue", "yellow"]
 
-NeutralBindings = {3: {"ps-t2": (0, 0, 0, 255)}, 4: {"ps-t2": (0, 0, 0, 255)}}
+# ps-t4 ON THE UPPER BODY IS THE SKIN'S OWN BLUSH/TINT OVERLAY, AND IT IS BRIGHT RED (2026-09-20).
+#   742c5c7b means (249.5, 11.8, 3.8) at alpha 15.9 -- a strong red laid on weakly, which is the
+#   literal description of the reported stain. The target's upper pass reads it; Chisa's upper pass
+#   has no counterpart (hers reads five registers, the skin's eleven), so it is the skin's own map
+#   sampled at the mod's UVs: the same bug class as ps-t2, and the same answer.
+#
+#   It was NOT tested for this symptom, and the reason is worth recording: an older bisect against a
+#   DIFFERENT red -- the one ps-t2 turned out to own -- had cleared it, and the note saying so
+#   ("ps-t4 alone, the bright red 742c5c7b, the obvious suspect, was not") was read four builds later
+#   as though it applied here too. A register cleared for one symptom is not cleared for the next.
+# AND ps-t10 IS WHAT THE KIMONO'S RED STAIN WAS (2026-09-20), found by the maintainer nulling it in
+#   the generated command list -- the same one-line test that found the hair's ps-t5. It is the
+#   512 x 25 SUBSURFACE ramp. The skin's own there (6a9ec87e) was red, and swapping in Chisa's
+#   (06790f7e) left it red, because the fault is not WHICH ramp: it is that the target's upper-body
+#   shader applies subsurface scattering to that region at all, and warm subsurface light on a
+#   decollete reads as a stain. Chisa's upper pass has no such input.
+#   Bound to a flat zero rather than left out: an unset register keeps the TARGET's own ramp, which
+#   is the red one. A zero texture samples exactly as `null` does.
+NeutralBindings = {3: {"ps-t2": (0, 0, 0, 255), "ps-t4": (0, 0, 0, 0), "ps-t10": (0, 0, 0, 0)},
+                   4: {"ps-t2": (0, 0, 0, 255)}}
 NeutralName = "DetailZero"      # the resource / file stem of the flat map bound there
 FlatName = "Flat"
-TargetMaskCloth = (255, 0, 126, 0)              # the skin's own dominant code, ie. ordinary cloth: R 93.6%, G 80.1%, B 84.8%, A 98.2%
+# THE TWO SKINS ARE **NOT** INVERTED, AND BELIEVING THEY WERE IS WHAT THE RED STAIN WAS
+#   (2026-09-20). This file used to say Chisa marks bare skin with R = 255 and the Parfait skin
+#   with R = 0 -- "the INVERSE" -- on the strength of a percentage-of-flesh-like-pixels test over
+#   the two atlases. Both skins mark bare skin with **R = 255**. The test was defeated by her atlas
+#   being pale cream throughout, so "flesh-like" fired on her clothes as readily as on her skin and
+#   the two figures (88% against 52%) were noise dressed as a measurement.
+#
+#   LOOKING at the two masks settles it in one glance, which is why Creating Remaps says to crop the
+#   island and look: Chisa's R channel is black with ONE white patch, and that patch is exactly where
+#   her diffuse shows flesh; the skin's R channel is white almost everywhere, and her diffuse there
+#   is a bare torso. The only black patches in hers are two small garment pieces.
+#
+#   So the repack was mapping Chisa's skin to the target's CLOTH code and her kimono to the target's
+#   SKIN code -- the garment shaded with subsurface scattering, which is the translucent red over the
+#   clothes this guide's own triage table already describes, arrived at from the opposite direction.
+TargetMaskSkin = (255, 0, 126, 0)               # measured: 84.9% of her upper atlas, under a bare torso
+TargetMaskCloth = (0, 0, 126, 0)                # measured: her two small garment pieces, 5.5%
 # THE MASK'S GREEN CHANNEL IS HOW SHINY THE SURFACE IS, AND A FLAT CLOTH CODE SAYS "NOT AT ALL"
 #   (2026-09-20). The skin's mask is not a small set of material ids -- R and G both vary
 #   continuously -- and plotting G over each atlas says what it is: zero across flat fabric and
@@ -195,10 +230,15 @@ TargetMaskCloth = (255, 0, 126, 0)              # the skin's own dominant code, 
 #   number chosen to look right: R 222, G 90, B 126.
 TargetMaskAccessory = (222, 90, 126, 0)               # the stem of a flat map an ExtraPassRegs entry asks for by COLOUR
 
+# ps-t9 AND ps-t10 WERE UNREACHABLE UNTIL 2026-09-20, AND THE UPPER BODY'S PASS HAS BOTH. The list
+#   stopped at ps-t8 because the pass that was being bisected then had eight registers; the skin's
+#   upper-body pass (3311e8a5) sets ELEVEN. So two of its inputs had never been probed, while the
+#   bisect they were left out of was read as having cleared the set.
 ProbeColours = [("ps-t2", (0, 255, 0, 255), "green"), ("ps-t3", (255, 255, 255, 255), "white"),
                 ("ps-t4", (0, 0, 255, 255), "blue"), ("ps-t5", (255, 255, 0, 255), "yellow"),
                 ("ps-t6", (0, 255, 255, 255), "cyan"), ("ps-t7", (255, 0, 255, 255), "magenta"),
-                ("ps-t8", (255, 128, 0, 255), "orange")]
+                ("ps-t8", (255, 128, 0, 255), "orange"), ("ps-t9", (255, 255, 255, 255), "white"),
+                ("ps-t10", (128, 0, 255, 255), "violet")]
 ProbeSlots = {3, 4}                             # the source components a --probe run paints; the rest are left readable
 
 # A --probe run takes an optional SPEC -- `--probe 3:ps-t4,4:ps-t5` -- naming the registers to
@@ -218,6 +258,17 @@ def parseProbeSpec(spec: Optional[str]) -> Optional[Dict[int, List[str]]]:
     return out
 
 MaskTranslations = {"upperMask", "lowerMask"}   # the roles whose file is repacked before it is bound
+
+# THE TWO SKINS' SHEEN TEXTURES ARE DIFFERENT KINDS OF DATA, SO THE SHEEN IS TRANSLATED TOO (2026-09-21).
+#   Chisa's bb73967a (her upper pass's ps-t3) is a matcap whose four channels are four GRAYSCALE sheen
+#   profiles: her shader 42721e1d samples it by view-space normal and blends R -> G -> B -> A by the
+#   normal map's alpha x 3, ending in ONE scalar. It only looks pink and purple viewed as RGB. The
+#   skin's own ps-t8 (4bee4070) is a HOLOGRAPHIC FOIL: rainbow RGB with a matcap ring in alpha -- her
+#   outfit's pearl. Bound raw, Chisa's packed channels were read as foil COLOUR: a white shirt mod came
+#   out pink-lavender pearly, and the Hanabi kimono carried a slight tint the maintainer had put down
+#   to the original. Translated: alpha (the intensity) is Chisa's first profile -- the one a low
+#   normal-map alpha selects -- and the RGB is that same profile as neutral gray, so no rainbow.
+SheenTranslations = {"bodySheen"}
 
 # A SHADER FAMILY IS A COLOUR GRADE, AND A TEXTURE IS THE ONLY PLACE TO PUT IT BACK (2026-09-20).
 #   Chisa's ribbon is painted by a HAIR shader (3df800c3, the only pass her component 5 is drawn on)
@@ -241,8 +292,22 @@ MaskTranslations = {"upperMask", "lowerMask"}   # the roles whose file is repack
 #   the target's HAIR slots so it is drawn by the shader it was authored for, which merges it into a
 #   hair draw. Precedent for grading instead: the GI side has a shared DarkDiffuse for Ningguang.
 ColourGrades = {"accessoryDiffuse": (0.772, 0.616, 0.577)}
-TargetMaskSkinR = 0                             # what she marks bare skin with, in R
-SourceMaskSkinAbove = 128                       # Chisa's R at or above this is bare skin
+TargetMaskSkinR = 255                           # what she marks bare skin with, in R -- the SAME as Chisa
+# CHISA'S R IS FIVE BANDS, AND ONLY THE TOP ONE IS SKIN (2026-09-21). Read off her upper-body pixel
+#   shader 42721e1d0c282918 (a hunting-mode dump): the mask's R is compared against 0.05 / 0.3 /
+#   0.5 / 0.9, R >= 0.9 selects the skin tint, and the 0.5-0.9 band joins skin only in switching the
+#   SPECULAR highlight off (`r3.w = 1 - max(band, skin)` multiplies the highlight term). So that band
+#   is matte cloth, not skin. The threshold used to be 128, which put it with skin: the shirt mod
+#   paints 60% of its shirt R = 183-186, and the repack handed all of it the target's SKIN code,
+#   which her shader draws with a pinkish pearly sheen.
+#
+#   BUT THE SAME AUTHOR PAINTS THE BARE CHEST 183 TOO (92% of the skin-coloured texels), so the
+#   band alone cannot say which is which, and moving the threshold to 0.9 alone shades her chest as
+#   cloth. The diffuse under the texel can: warm skin on the chest, neutral white on the shirt.
+#   So a code in the matte band is skin only where the diffuse is flesh-coloured
+#   (SourceMaskFleshBand), and R >= 0.9 is skin unconditionally, as her shader has it.
+SourceMaskSkinAbove = 230                       # Chisa's R at or above this (0.9) is bare skin, always
+SourceMaskFleshBand = 128                       # and at or above this, where the diffuse under it is flesh-coloured
 ShapeKeyZero = "ShapeKeyZero"               # the zero shape-key offset stream bound at vb6 (sanhuaExorcistFix.py's header, point 10)
 ShapeKeyStride = 24                         # bytes a vertex in that stream, off the frame dump's vb6 layout
 
@@ -331,10 +396,42 @@ SharedMeshes = {
 }
 
 FilterBase = 3381.71   # 3dmigoto keys [ShaderOverride] by shader hash GLOBALLY, so these sit clear of the Sanhua fix's 3381.91 and the reverse one's 3381.81
-PassFilters = {ps: f"{FilterBase + 0.01 * i:.4f}".rstrip("0")
-               for i, ps in enumerate(dict.fromkeys([ps for passes in SlotPasses.values() for ps in passes]
-                                                    + [ps for byPass in ExtraPassRegs.values() for ps in byPass]
-                                                    + [ps for byPass in SharedMeshes.values() for ps in byPass]))}
+
+# THE FIX'S OWN PASS FILTERS WERE SWITCHING RABBITFX OFF (2026-09-21). RabbitFX patches a pixel shader
+#   through its [ShaderRegexMain] and marks it `filter_index = 1718.1`; its `SetTextures` then acts
+#   only `if ps == 1718.1`. The fix tagged the very same pixel shaders with 3381.7x so its texture
+#   lists could tell the passes apart, and a shader carries ONE filter_index -- so in a dump taken with
+#   the remap installed, every remapped `SetTextures` read `if ps == 1718.1: false`, on all seven of
+#   the skin's passes RabbitFX patches (upper, lower, hair, bangs, face, both side-panel passes). And
+#   because a [ShaderOverride] is keyed by shader hash globally, it did that for ANY mod drawing with
+#   those shaders, not only this one.
+#
+#   RabbitFX patches PIXEL shaders only, so on those passes the fix tags the VERTEX shader instead
+#   and asks `vs == ...`. Two vertex shaders are shared between passes, and neither pairing needs
+#   telling apart: d83a5477 draws the bangs and hair passes (component 0 already binds one list for
+#   both, and component 1 is only drawn on the hair one), and 6594231b draws the two side-panel passes,
+#   whose lists are identical. The pixel shaders RabbitFX leaves alone keep `ps ==`.
+#   Read off FrameAnalysis-ChisaParfait-2026-09-20-020434: RabbitFX's regex files name the ps, the
+#   draw's file names pair it with its vs.
+PassVertexShaders: Dict[str, str] = {
+    "c0ad88a930c4d853": "d83a54772fc666f9", "71f60c461ae3f166": "d83a54772fc666f9",   # bangs, hair
+    "2060326dcea397fb": "683e019f389b2624",                                           # face
+    "3311e8a58d8c5d20": "d24888b5b268a084",                                           # upper body
+    "a99f09b6f36e94af": "22195a190e37d3cf",                                           # lower body
+    "87825a9a29529f9b": "6594231b96dfca5f", "ced9a47fb6ad4d16": "6594231b96dfca5f",   # the side panels
+}
+_AllPasses = list(dict.fromkeys([ps for passes in SlotPasses.values() for ps in passes]
+                                + [ps for byPass in ExtraPassRegs.values() for ps in byPass]
+                                + [ps for byPass in SharedMeshes.values() for ps in byPass]))
+ShaderFilters = {h: f"{FilterBase + 0.01 * i:.4f}".rstrip("0")          # the shader actually tagged -> its filter
+                 for i, h in enumerate(dict.fromkeys(PassVertexShaders.get(ps, ps) for ps in _AllPasses))}
+PassFilters = {ps: ShaderFilters[PassVertexShaders.get(ps, ps)] for ps in _AllPasses}
+
+
+def passTest(ps: str) -> str:
+    """The .ini condition that is true on a draw of pixel shader 'ps' -- through its vertex shader when
+    RabbitFX owns the pixel shader's filter (see PassVertexShaders)"""
+    return f"{'vs' if (ps in PassVertexShaders) else 'ps'} == {PassFilters[ps]}"
 
 # Chisa's textures by the hash the game binds them under, with the role each plays in its component's
 #   MAIN pass -- read off FrameAnalysis-Chisa-2026-09-20-013225's slot table, and the kind of each
@@ -357,9 +454,31 @@ Roles = {
     # AND THE CLOTHING PASS HAS ONE TOO, WHICH IS WHAT SHADES BARE SKIN (2026-09-20). The bust
     #   report turned out to be the DECOLLETAGE -- the chest above the kimono, which the mask marks
     #   as skin -- and a flat colour at the target's upper-body `ps-t5` painted exactly that region.
-    #   Chisa's own upper-body draw has 4848ae14 there (a 512 x 25 ramp, mean 92, 71, 92) where the
-    #   skin's has a flat grey 7a9915c5, so her skin was being shaded through the skin's ramp.
-    "4848ae14": "skinRamp",
+    #   IT IS A 512 x 25 SUBSURFACE LOOKUP, AND THE SKIN'S IS THE REDDER OF THE TWO: Chisa's
+    #   06790f7e means (143.1, 106.7, 141.2), a cool purple-pink, and the skin's 6a9ec87e means
+    #   (155.5, 121.8, 121.6). Her decollete rendering through the skin's ramp is the reported stain.
+    # THE FIRST ATTEMPT AT THIS BOUND 4848ae14 AT ps-t5 AND TURNED THE WHOLE KIMONO YELLOW, because
+    #   4848ae14 IS NOT CHISA'S. It was read off her upper-body draw's INHERITED ps-t5 -- and
+    #   whoBinds.py, asked which draws SET it, answers "another draw" in BOTH dumps: it belongs to a
+    #   third character standing in both scenes (start 0, count 47037, ps 0136ff2c, byte-identical
+    #   across the two frames). A register a draw inherits holds whatever the last draw left there,
+    #   and that draw does not have to be the same character. Only `sets` lines are evidence. The
+    #   three registers around it -- 742c5c7b, 7a9915c5, 30bf03f4 -- are set by BOTH characters' own
+    #   draws, so they are shared globals and the plan must leave them alone.
+    "06790f7e": "skinRamp",
+    # AND TWO MORE THE PLAN NEVER NAMED, FOUND THE SAME WAY (2026-09-20). Asking which draws SET
+    #   each register of the target's hair pass (71f60c46) against Chisa's own (b455d737) leaves two
+    #   per-character textures the fix was not binding, both of which the skin's shader reads:
+    #   a 512 x 4 gradient -- hers 2b16c5ac (127.8, 135.5, 135.9), the skin's 57aa5a71 (140.7,
+    #   141.3, 133.2), the warmer of the two -- and, at ps-t7, the SAME subsurface ramp the body
+    #   reads. That is why the hair kept a warm cast at the ENDS after the ps-t2 ramp was corrected:
+    #   the tips are where the hair catches the light, so a warm term shows there first.
+    "2b16c5ac": "hairTipRamp",
+    # The 512 x 512 sheen ramp, likewise per character: hers bb73967a (205.2, 160.1, 152.0) against
+    #   the skin's 4bee4070 on the upper body and 74a761f5 on the lower. Deliberately left alone on
+    #   the previous round so that one thing changed at a time; the round proved the subsurface ramp
+    #   alone does not account for the reported red, so it goes in now.
+    "bb73967a": "bodySheen",
     "6ae8dd10": "faceMask", "d030af95": "faceDiffuse",
     "526b9ed0": "upperNormal", "90196068": "upperMask", "165f3a1b": "upperDiffuse",
     "2b6f8bcb": "lowerNormal", "3f0e6f21": "lowerMask", "f642139e": "lowerDiffuse",
@@ -373,10 +492,53 @@ Roles = {
 #   clothing slots is ps-t3 on the skin where Chisa's own pass reads it at ps-t2 (header, point 3).
 Plan = {
     0: (0, {"ps-t0": "frontHairMask", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}),
-    1: (1, {"ps-t0": "hairMask", "ps-t1": "hairDiffuse", "ps-t2": "hairRamp", "ps-t5": "hairNormal"}),
+    # ps-t7 IS DELIBERATELY NOT BOUND, AND TRYING IT COST A ROUND (2026-09-20). The subsurface ramp
+    #   was mirrored onto the hair pass here at the same time as ps-t4, on the strength of both being
+    #   512 x 25 -- two changes in one round, against this file's own advice. The result says which
+    #   did what: the ENDS stopped being orange (ps-t4, a root-to-tip gradient, doing its job) and
+    #   the TOP of the hair gained a red stain. Chisa's ramp is (143.1, 106.7, 141.2), magenta where
+    #   the skin's is warm, and on a hair shader that lands where the light scatters -- the crown.
+    #   Whatever the skin's ps-t7 is for, it is not what her ps-t4 clothing register holds.
+    # REVERTED TO THE LAST STATE THE MAINTAINER CALLED ACCEPTABLE (2026-09-20), at their request:
+    #   black on top, orange only at the ENDS. Everything tried past that point made the crown RED,
+    #   which is worse, and three rounds failed to find why -- so the hair sits here until there is
+    #   a measurement rather than another hypothesis.
+    #
+    #   What was tried and undone, so it is not tried again blind:
+    #     ps-t4 = hairTipRamp (2b16c5ac)  -- FIXED the orange ends. Removed anyway: it is the only
+    #        hair change still standing when the crown first went red, and the two 512 x 4 ramps are
+    #        near-identical in their means and their ends, so it is not obviously the cause either.
+    #        This is the one to reintroduce FIRST, on its own, when the crown is understood.
+    #     ps-t7 = skinRamp (06790f7e)     -- removed; the crown stayed red without it.
+    #     ps-t0 unbound (Chisa's mask is a flat (255, 0, 126, 0), and R = 255 is what both skins
+    #        mean by bare skin) -- restored; the crown stayed red without it too.
+    # ps-t5 IS THE ONE THAT WAS PAINTING THE HAIR, AND THE MAINTAINER FOUND IT IN ONE TEST by
+    #   setting it to `null` in the generated command list (2026-09-20). Three rounds of mine had
+    #   been spent on the ramps and the mask around it. The role is correctly assigned -- the mod's
+    #   file has Chisa's own channel structure -- but the two shaders PACK that map differently,
+    #   which the means give away at a glance:
+    #
+    #       the target's own d547f3c6   R   0.0  G  86.6  B   9.3  A 255
+    #       Chisa's own      e921181d   R   8.6  G  52.7  B  41.1  A   0
+    #       the mod's file bound here   R   2.8  G 117.1  B 114.0  A   0
+    #
+    #   B and A are structurally different between the two skins, exactly as they are in the
+    #   material mask -- so the mod's map hands the target's shader a large B where it wants ~0 and
+    #   A 0 where it wants 255, and the result is a warm cast over the hair. Unbound, the slot takes
+    #   the GAME's own map, which is the right packing; its UVs are hers rather than the mod's, and
+    #   on this map that is evidently the lesser error.
+    #   NOT done for slot 0's frontHairNormal: same register, same shape of risk, untested. One at
+    #   a time.
+    1: (1, {"ps-t0": "hairMask", "ps-t1": "hairDiffuse", "ps-t2": "hairRamp"}),
     2: (2, {"ps-t0": "faceMask", "ps-t1": "faceDiffuse"}),
-    3: (3, {"ps-t0": "upperNormal", "ps-t1": "upperMask", "ps-t3": "upperDiffuse", "ps-t5": "skinRamp"}),
-    4: (4, {"ps-t0": "lowerNormal", "ps-t1": "lowerMask", "ps-t3": "lowerDiffuse"}),
+    # ps-t10 / ps-t6 is the subsurface ramp, and the two body halves read it at different registers
+    #   because the two passes bind different numbers of auxiliary maps before it. Measured off the
+    #   draws that SET them: the skin's upper pass (3311e8a5) binds 6a9ec87e at ps-t10 and its lower
+    #   pass (a99f09b6) binds the same texture at ps-t6.
+    3: (3, {"ps-t0": "upperNormal", "ps-t1": "upperMask", "ps-t3": "upperDiffuse",
+            "ps-t8": "bodySheen"}),     # ps-t10: zeroed in NeutralBindings, see there
+    4: (4, {"ps-t0": "lowerNormal", "ps-t1": "lowerMask", "ps-t3": "lowerDiffuse",
+            "ps-t5": "bodySheen", "ps-t6": "skinRamp"}),
     # MEASURED, not guessed (2026-09-20): on the pass both skins draw this slot with (3df800c3)
     #   Chisa binds 019c268e / f2646d21 / 9ccd7ea7 at ps-t0 / t1 / t5 -- her accessory diffuse and
     #   then the FRONT HAIR pair, which is the per-character pair every other slot carries too. The
@@ -419,6 +581,27 @@ TargetLabels = {0: "front hair", 1: "hair", 2: "face", 3: "upper body", 4: "lowe
 #   and 2016 -> 1829 over the whole component, so it does not buy the collar at the shoulder's cost.
 AnchorChains: Dict[str, Dict[int, List[int]]] = {
     "collar": {233: [192, 201, 202, 204, 223, 224, 228, 229, 230, 231, 232, 234, 240, 241]},
+    # THE FOX MASK AND THE HAIRPINS, which the Hanabi mod hangs off Chisa's ACCESSORY bones
+    #   (409-418) although their geometry is drawn by component 3. They are a rigid prop: all 1137
+    #   of their vertices sit in a box 4.5 x 6.4 x 14 beside her head. The finder maps those ten
+    #   bones one at a time, and the targets it picks are scattered over the whole model --
+    #   measured off the skin's own skeleton, they span 59.5 x 92.6 x 145.7, from z 45.9 at the
+    #   thigh to z 143.3 at the head. A rigid prop pulled between points that far apart is smeared
+    #   through the body, which is why it reads as "the mask is gone" rather than as anything
+    #   misplaced -- and why a flat per-component paint could not show it either, since the smear
+    #   is the same colour as the torso it is buried in.
+    #
+    #   The key is a SOURCE bone and the chain takes whatever IT maps to. Source 3 is the bone the
+    #   HEAD itself leans 83% of its weight on, and 27% of the prop's weight was already on it; the
+    #   other 73% went to bones the finder matched one at a time, which tore the prop from her head
+    #   down to her waist. Riding the head bone puts it back at (-9.5, -7.9, 137.0) -- three units
+    #   from the (-10, -6, 139.9) its author modelled it at. This is the Yelan lesson: a part the
+    #   target has no counterpart for wants ONE rigid anchor for the whole chain, not the finder's
+    #   per-bone nearest. DON'T pick that anchor by reading a bone's position out of the
+    #   translation column of its `vs-cb4` matrix -- that is a skinning matrix, not a pose, and it
+    #   named a bone that put the prop 90 units away. Skin the prop with each candidate and look at
+    #   where the cloud lands.
+    "props": {3: [409, 410, 411, 412, 413, 414, 415, 416, 417, 418]},
 }
 
 
@@ -507,70 +690,99 @@ def wwmiBlendElements():
 
 
 def writeSolidDds(path, colour, size = 16):
-    """An uncompressed R8G8B8A8_UNORM DDS of one colour"""
-    w = h = size
-    header = bytearray(b"DDS ")
-    flags = 0x1 | 0x2 | 0x4 | 0x1000 | 0x8      # caps, height, width, pixelformat, pitch
-    header += struct.pack("<IIIIIII", 124, flags, h, w, w * 4, 0, 1)
-    header += b"\0" * 44                          # reserved
-    header += struct.pack("<II4sIIIII", 32, 0x4, b"DX10", 0, 0, 0, 0, 0)   # pixel format: fourcc DX10
-    header += struct.pack("<IIIII", 0x1000, 0, 0, 0, 0)                   # caps
-    header += struct.pack("<IIIII", 28, 3, 0, 1, 0)                        # DX10: R8G8B8A8_UNORM, texture2d, 1 array
-    body = bytes(colour) * (w * h)
-    with open(path, "wb") as f:
-        f.write(bytes(header) + body)
+    """A flat texture of one colour, through the library's TexCreator (uncompressed, so the code is exact)"""
+    FRB.TexCreator(size, size, FRB.Colour(*colour), compress = False).fix(FRB.TextureFile(path), path)
 
 
-def translateMaterialMask(src: str, dst: str) -> float:
+def fleshColoured(rgb: np.ndarray) -> np.ndarray:
+    """Per pixel: warm, bright and ordered R > G >= B the way skin is -- a white or grey shirt is not"""
+    r, g, b = (rgb[..., i].astype(np.int32) for i in range(3))
+    return (r >= 150) & (r - g >= 15) & (g >= b)
+
+
+# THE TEXTURE EDITS ARE THE LIBRARY'S, AND ONLY THE PIXEL ARITHMETIC IS THIS FILE'S (2026-09-22). Each
+#   edit below is a TexEditor FILTER -- a function of the TextureFile the library opened -- handed to a
+#   TexReplace through its fixFunc (texEdit()), the way yelanTranquilFix.py edits its light maps. The
+#   library opens the file, runs the filter, writes the result with its own save (sRGB round trip
+#   included), names the file, declares its resource section and rewrites every reference to it; the
+#   undo removes it. This file used to do all of that by hand -- its own DDS writer, its own resource
+#   sections, its own names -- and the maintainer's verdict on that is in Creating Remaps' "A prototype
+#   is built FROM the library". What the library has no answer for is what these three edits COMPUTE.
+
+def pixelsOf(texFile) -> np.ndarray:
+    return np.array(texFile.img.convert("RGBA"))
+
+
+def setPixels(texFile, px: np.ndarray) -> None:
+    from PIL import Image
+    texFile.img = Image.fromarray(np.ascontiguousarray(px, dtype = np.uint8), "RGBA")
+
+
+def sheenFilter(texFile) -> None:
+    """Chisa's packed four-profile matcap as the target's foil: RGBA all her first profile (SheenTranslations)"""
+    profile = pixelsOf(texFile)[..., 0]
+    setPixels(texFile, np.stack([profile, profile, profile, profile], axis = -1))
+
+
+def maskFilter(diffusePath: Optional[str], label: str):
     """Repack a material mask from the SOURCE's layout into the TARGET's (MaskTranslations above).
 
-    Every pixel takes the target's own cloth code, except where the source marks bare skin, which
-    keeps the target's skin value in R. The other channels are hers throughout: the source's are a
-    different shader's and mean nothing here. Returns the percentage written as cloth."""
-    tex = FRB.TextureFile(src)
-    tex.open()
-    px = np.frombuffer(tex.getPixels(), dtype = np.uint8).reshape(tex.height, tex.width, 4)
-    out = np.empty_like(px)
-    out[...] = np.array(TargetMaskCloth, dtype = np.uint8)
-    skin = px[..., 0] >= SourceMaskSkinAbove
-    out[skin, 0] = TargetMaskSkinR
-    writeDds(dst, out)
-    return 100.0 * float((~skin).mean())
+    Every non-skin texel keeps the SOURCE's own R and G -- R is the shared band legend, G how shiny a
+    surface is -- and takes only the target's packing in B and A (B ~126, A 0 on her side; B 0, A 255
+    on Chisa's). Skin is R >= 0.9, or the matte band over a flesh-coloured diffuse, and takes the
+    target's whole skin code. Prints the share written as non-skin when it runs."""
+    def edit(texFile) -> None:
+        px = pixelsOf(texFile)
+        out = px.copy()
+        out[..., 2] = TargetMaskCloth[2]
+        out[..., 3] = TargetMaskCloth[3]
+        skin = px[..., 0] >= SourceMaskSkinAbove
+        band = (px[..., 0] >= SourceMaskFleshBand) & ~skin
+        if (band.any()):
+            flesh = None
+            try:
+                if (diffusePath and os.path.isfile(diffusePath)):
+                    diffuse = FRB.TextureFile(diffusePath, readPillowImg = True)
+                    diffuse.open()
+                    d = np.array(diffuse.img.convert("RGB"))
+                    ys = np.arange(px.shape[0]) * d.shape[0] // px.shape[0]
+                    xs = np.arange(px.shape[1]) * d.shape[1] // px.shape[1]
+                    flesh = fleshColoured(d[ys][:, xs, :3])
+            except Exception:
+                flesh = None
+            # with no diffuse to ask, the band keeps the old answer (skin) rather than guessing cloth
+            skin |= band & (flesh if (flesh is not None) else True)
+        out[skin] = np.array(TargetMaskSkin, dtype = np.uint8)
+        out[..., 1] = px[..., 1]
+        setPixels(texFile, out)
+        print(f"    {label}: repacked into {TargetName}'s layout, {100.0 * float((~skin).mean()):.1f}% of it non-skin")
+    return edit
 
 
-def writeDds(path, pixels, srgb = False):
-    """An uncompressed R8G8B8A8_UNORM DDS of 'pixels' (height x width x RGBA), or its _SRGB form.
-
-    The flag is not cosmetic: a diffuse whose DX10 header does not say sRGB is sampled as linear
-    and renders bright and washed out, which is the failure this file's colour grade is correcting
-    -- so writing the corrected copy untagged would undo it and then some. A mask is genuinely
-    linear data and keeps the plain form."""
-    h, w = pixels.shape[0], pixels.shape[1]
-    header = bytearray(b"DDS ")
-    flags = 0x1 | 0x2 | 0x4 | 0x1000 | 0x8
-    header += struct.pack("<IIIIIII", 124, flags, h, w, w * 4, 0, 1)
-    header += b"\0" * 44
-    header += struct.pack("<II4sIIIII", 32, 0x4, b"DX10", 0, 0, 0, 0, 0)
-    header += struct.pack("<IIIII", 0x1000, 0, 0, 0, 0)
-    header += struct.pack("<IIIII", 29 if (srgb) else 28, 3, 0, 1, 0)
-    with open(path, "wb") as f:
-        f.write(bytes(header) + np.ascontiguousarray(pixels, dtype = np.uint8).tobytes())
+def gradeFilter(gain, label: str):
+    """A per-channel gain on the RGB (ColourGrades above), alpha untouched; prints the medians it moved"""
+    def edit(texFile) -> None:
+        px = pixelsOf(texFile)
+        out = px.copy()
+        for c in range(3):
+            out[..., c] = np.clip(px[..., c].astype(np.float64) * gain[c], 0, 255).astype(np.uint8)
+        setPixels(texFile, out)
+        was = tuple(int(v) for v in np.median(px.reshape(-1, 4)[:, :3], axis = 0))
+        now = tuple(int(v) for v in np.median(out.reshape(-1, 4)[:, :3], axis = 0))
+        print(f"    {label}: graded by {gain} for {TargetName}'s shader, median {was} -> {now}")
+    return edit
 
 
-def gradeTexture(src: str, dst: str, gain) -> tuple:
-    """Write 'src' with a per-channel gain on its RGB (ColourGrades above), alpha untouched.
-
-    Returns the median RGB before and after, so the run can say what it did rather than that it
-    ran."""
-    tex = FRB.TextureFile(src)
-    tex.open()
-    px = np.frombuffer(tex.getPixels(), dtype = np.uint8).reshape(tex.height, tex.width, 4)
-    out = px.copy()
-    for c in range(3):
-        out[..., c] = np.clip(px[..., c].astype(np.float64) * gain[c], 0, 255).astype(np.uint8)
-    writeDds(dst, out, srgb = True)
-    return (tuple(int(v) for v in np.median(px.reshape(-1, 4)[:, :3], axis = 0)),
-            tuple(int(v) for v in np.median(out.reshape(-1, 4)[:, :3], axis = 0)))
+def texEdit(resModObj, subType: str, filterFunc) -> "FRB.TexReplace":
+    """A TexReplace whose file is written by a TexEditor running 'filterFunc' -- uncompressed, because a
+    mask is codes and BCn would move them"""
+    def fix(resource) -> bool:
+        editor = FRB.TexEditor([filterFunc], readPillowImg = True, compress = False)
+        editor.fix(FRB.TextureFile(resource.srcPath, readPillowImg = True), resource.fixedPath)
+        return True
+    edit = FRB.TexReplace(resModObj, FRB.TexEditor([], compress = False), fixFunc = fix, resSubType = subType)
+    _alive.extend([fix, edit])
+    return edit
 
 
 # ---------------------------------------------------------------------------------------------
@@ -587,7 +799,7 @@ def hashOnlyObjs(shapeKeys: bool) -> Dict[str, Tuple[str, str]]:
     return {**BoneDataObjs, **(ShapeKeyObjs if shapeKeys else {})}
 
 
-def makeParser(sourceType, shapeKeys: bool = False):
+def makeParser(sourceType, shapeKeys: bool = False, plannedRoles: Optional[List[str]] = None):
     """
     A GIMIParser whose sections are sorted by the API's hash / index classifier -- the seven draw
     slots by the vb0 hash plus their match_first_index, the bone-data and shape-key overrides by a
@@ -603,10 +815,28 @@ def makeParser(sourceType, shapeKeys: bool = False):
         classifier = FRB.GIMISectionClassifier(dict(hashOnly), sourceType.hashes, {"vb0": {obj: obj for obj in SlotObjs}}, sourceType.indices, version)
         classifier.hashNonVersionVals = {"name": SourceName}
         classifier.indexNonVersionVals = {"name": SourceName}
-        parser = FRB.GIMIParser(iniFile, modObjs = SlotObjs + list(hashOnly.values()), objTargetFuncs = [classifier], modTypeId = modTypeId)
+
+        # the textures: every [TextureOverrideTexture] that binds a planned role is classified as that
+        #   role's mod object (TextureRoles), and a role with no such section gets a download instead
+        text = iniFile.fileTxt if (getattr(iniFile, "fileTxt", None)) else open(iniFile.file, encoding = "utf-8", errors = "replace").read()
+        roles = TextureRoles(iniFile.file, text, plannedRoles or [])
+        _rolesByIni[os.path.normcase(os.path.abspath(iniFile.file))] = roles
+
+        def texTargets(p, sectionName, ifTemplate, single, part = None, colouring = None):
+            return [roleObj(r) for r in roles.rolesOfSection.get(sectionName, [])]
+        downloads = {}
+        for role, src in roles.downloads.items():
+            name = f"{role[0].upper()}{role[1:]}{FRB.IniKeywords.RemapDL.value}"
+            data = FRB.DownloadData(name, FRB.FileDownload(roles.downloadUrls[role], f"{SourceName}{name}.dds"))
+            downloads[roleObj(role)] = {"this": data}
+            _alive.append(data)
+        texObjs = [roleObj(r) for r in sorted(roles.graphRoles)]
+        # disjointModObjs off: one atlas may play two roles, so one override section may be two objects
+        parser = FRB.GIMIParser(iniFile, modObjs = SlotObjs + list(hashOnly.values()) + texObjs, objTargetFuncs = [classifier, texTargets],
+                                downloads = downloads, modTypeId = modTypeId, disjointModObjs = False)
         parser.trackKeys = True
         parser.keysToTrack = {"hash", "match_first_index", "match_index_count"}
-        _alive.append(classifier)
+        _alive.extend([classifier, texTargets])
         return parser
     return factory
 
@@ -651,6 +881,76 @@ AssetsFolder = os.path.join(Repo, "Data", "Mod Downloads", "WuWa", SourceName, S
 # put skin codes over cloth, a reddish hue over the whole body, 2026-09-19). Role -> the source's hash;
 # the API downloads the same file from the repo, the prototype copies it out of AssetsFolder. Roles whose
 # hash BOTH skins bind (eyeMask c88cc1fc, faceMask 46177147) need none: the target's texture IS the source's.
+# SlotBoneStandIns: per source component, {target bone: a stand-in} for a bone the skeleton its
+#   vertices are skinned with does not hold. EMPTY, and the one entry it had was WRONG (2026-09-21).
+#
+#   It held {3: {3: 8}}, on this argument: the skin's vs-cb4 is rebuilt per draw slot, bone 3 is her
+#   head on the face slot and something near the root on the upper-body slot, and her head is at no
+#   index of the upper-body slot -- so the fox mask, pins and bells (component 3, all on bone 3) were
+#   skinned to the wrong bone. All of that is true OF THE VANILLA GAME'S OWN DRAWS, and none of it
+#   applies to the remap: CommandListOverrideSharedResources replaces vs-cb4 with
+#   ResourceMergedSkeleton whenever no blend override is active (always, on the skin), and the merged
+#   skeleton is one index space for every slot, where 3 IS her head. The per-slot matrices were read
+#   off a skeleton the remapped draws never use.
+#
+#   In game the stand-in made no difference to the accessories and made the NECK wobble "like jello,
+#   disconnected from the head": merged bone 8 is not her neck, it is whatever the merger put there,
+#   and 9595 head-attached vertices -- the collar and choker among them -- rode it. Measure a remap
+#   against the skeleton the REMAPPED draw is handed; for a WWMI remap that is the merged one.
+SlotBoneStandIns: Dict[int, Dict[int, int]] = {}
+
+# WHAT A COMPONENT IS TEXTURED WITH IS SAID BY THE COMPONENT'S OWN SECTION, NOT GUESSED (2026-09-21).
+#   Three signals decide a role's file, in this order: what the component's own section BINDS (below),
+#   then a [TextureOverrideTexture] whose hash names the role, then the file's shape; and a role none
+#   of them fills falls back to the source's vanilla texture.
+#
+#   The first one is the mod's own statement, and it is what the Hanabi kimono mod actually uses: its
+#   [TextureOverrideTexture] hashes appear NOWHERE in the current game -- not in any of the eight
+#   Chisa dumps, and not in the max-LOD one (FrameAnalysis-Chisa-Max-LOD-2026-09-21-080231), which
+#   binds exactly the hashes the 512 px ones do. They are dead on this version; what textures the mod
+#   on Chisa is each component's own references:
+#
+#       component 1   Resource\RabbitFX\Diffuse = ref ResourceTexture5
+#       component 3   ps-t0 = ResourceNormal, ps-t1 = ResourceSub, ps-t2 = ResourceBase
+#       component 5   Resource\RabbitFX\Diffuse = ref ResourceTexture15      <- the body atlas: the sakura
+#       0, 2, 4, 6    nothing at all, so on Chisa they draw with her VANILLA textures
+#
+#   That corrects a guess this file made the day before: "component 4 has no file, so borrow the upper
+#   body's atlas". Component 4 binds nothing, so on Chisa it is vanilla, and the vanilla fallback was
+#   right. The side panels were component 5 all along (the --paint cyan), and the maintainer found the
+#   fix by binding ResourceBase at its ps-t3.
+#
+#   RabbitFX's Normalmap is deliberately NOT taken: RabbitFX binds its maps at ps-t60..t65 for its own
+#   patched shaders, so a RabbitFX normal is not in the game's normal packing -- the hair's
+#   ResourceTexture2 is one, and binding it at the game's ps-t5 was the orange-hair bug.
+#
+# The SOURCE's register layout per component, off Chisa's own max-LOD draws (wwmiPassLayout.py):
+SourceRegisterRoles: Dict[int, Dict[str, str]] = {
+    0: {"ps-t0": "frontHairMask", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"},
+    1: {"ps-t0": "hairMask", "ps-t1": "hairDiffuse", "ps-t2": "hairRamp", "ps-t5": "hairNormal"},
+    2: {"ps-t0": "faceMask", "ps-t1": "faceDiffuse"},
+    3: {"ps-t0": "upperNormal", "ps-t1": "upperMask", "ps-t2": "upperDiffuse"},
+    4: {"ps-t0": "lowerNormal", "ps-t1": "lowerMask", "ps-t2": "lowerDiffuse"},
+    5: {"ps-t0": "accessoryDiffuse"},
+    6: {"ps-t1": "irisDiffuse"},
+}
+# ...and the diffuse role a `Resource\RabbitFX\Diffuse = ref <resource>` in each component states
+RabbitFXDiffuseRoles: Dict[int, str] = {0: "frontHairDiffuse", 1: "hairDiffuse", 2: "faceDiffuse", 3: "upperDiffuse",
+                                        4: "lowerDiffuse", 5: "accessoryDiffuse", 6: "irisDiffuse"}
+# ...and its NORMAL MAP and LIGHT MAP too (2026-09-21). A backless-sweater mod names all three through
+#   RabbitFX on its lower body; reading only the diffuse left the real normal (4666f52a) roleless while
+#   the shape rule handed the normal slot a shared red detail texture (see SharedGameTextures) -- the
+#   dress rendered red. RabbitFX's "lightmap" is what this file calls the mask.
+RabbitFXRoles: Dict[str, Dict[int, str]] = {
+    "resource/rabbitfx/diffuse": RabbitFXDiffuseRoles,
+    "resource/rabbitfx/normalmap": {0: "frontHairNormal", 1: "hairNormal", 3: "upperNormal", 4: "lowerNormal", 5: "accessoryNormal"},
+    "resource/rabbitfx/lightmap": {0: "frontHairMask", 1: "hairMask", 2: "faceMask", 3: "upperMask", 4: "lowerMask"},
+}
+# Game textures BOTH skins bind themselves -- a shared detail map (742c5c7b, a strong red laid on at
+#   alpha ~16) and an eye one (8224e584). A mod that ships a copy under an older hash (21f813ba) must
+#   not have it placed by shape: it is not a role, it is the game's, and the game still binds it.
+SharedGameTextures = {"742c5c7b", "8224e584"}
+
 FallbackTextures: Dict[str, str] = {
     # CHISA's hashes -- this table arrived as a copy of Sanhua's and sat unmeasured until 2026-09-20,
     #   where every role name matched hers and every hash did not, so a role the mod lacked would have
@@ -658,7 +958,7 @@ FallbackTextures: Dict[str, str] = {
     #   today: every other role here is one a mod of Chisa ships for itself.
     "frontHairMask": "d3b9ba76", "frontHairDiffuse": "f2646d21", "frontHairNormal": "9ccd7ea7",
     "hairMask": "a842d51f", "hairDiffuse": "cbab5910", "hairNormal": "e921181d", "hairRamp": "232c2dbc",
-    "skinRamp": "4848ae14",
+    "skinRamp": "06790f7e", "hairTipRamp": "2b16c5ac", "bodySheen": "bb73967a",
     "faceMask": "6ae8dd10", "faceDiffuse": "d030af95",
     "upperNormal": "526b9ed0", "upperMask": "90196068", "upperDiffuse": "165f3a1b",
     "lowerNormal": "2b6f8bcb", "lowerMask": "3f0e6f21", "lowerDiffuse": "f642139e",
@@ -666,6 +966,7 @@ FallbackTextures: Dict[str, str] = {
     "irisDiffuse": "226b31fc",
 }
 IdentityMin, IdentityGap = 0.97, 0.90   # a file IS a game texture when its colour correlates >= IdentityMin with one asset and < IdentityGap with every other
+RepaintMin, RepaintGap = 0.60, 0.30     # a file is a REPAINT of a game texture when its LUMINANCE correlates >= RepaintMin with one and < RepaintGap with every other
 
 # THE COMPONENT IN A MOD'S FILE NAME IS THE STRONGEST ROLE SIGNAL IT HAS, AND IT IS FREE
 #   (2026-09-20). WWMI names every texture it exports `Components-<N> t=<hash>.dds`, and N is the
@@ -676,7 +977,7 @@ IdentityMin, IdentityGap = 0.97, 0.90   # a file IS a game texture when its colo
 #   refused as duplicates and the upper body got nothing at all.
 RoleComponent = {"frontHairMask": 0, "frontHairDiffuse": 0, "frontHairNormal": 0,
                  "hairMask": 1, "hairDiffuse": 1, "hairNormal": 1, "hairRamp": 1,
-                 "skinRamp": 3,
+                 "skinRamp": 3, "hairTipRamp": 1, "bodySheen": 3,
                  "faceMask": 2, "faceDiffuse": 2,
                  "upperNormal": 3, "upperMask": 3, "upperDiffuse": 3,
                  "lowerNormal": 4, "lowerMask": 4, "lowerDiffuse": 4,
@@ -802,16 +1103,20 @@ class TextureIndex():
                 if (other != f and set(hashes) & set(theirs)):
                     self.alternativesOf.setdefault(f, []).append(other)
         pending.sort(key = lambda p: (p not in self.referenced, p))
+        self.shared: Dict[str, str] = {}      # file -> the shared game texture it is a copy of (SharedGameTextures)
         for f, h, score in self._identify(pending):
+            if (h in SharedGameTextures):
+                self.shared[f] = h
+                continue
             components = componentsOfModFile(f)
             if (components and RoleComponent.get(Roles[h]) not in components):
                 continue                            # its own name says it belongs to another component
             self.roleOf[f] = [(Roles[h], f"the game's own {h} by its pixels ({score:.2f})")]; counts["pixels"] += 1
         counts["shape"] = 0
-        for f in self._byShape([p for p in pending if (p not in self.roleOf)]):
+        for f in self._byShape([p for p in pending if (p not in self.roleOf and p not in self.shared)]):
             self.roleOf[f[0]] = [(f[1], f[2])]; counts["shape"] += 1
         for f in pending:
-            if (f in self.roleOf):
+            if (f in self.roleOf or f in self.shared):
                 continue
             match = ComponentFilePattern.search(os.path.basename(f))
             role = TypeRoles.get(int(match.group(1)), {}).get(TypeOfSuffix.get(match.group(2).lower(), "")) if (match) else None
@@ -819,8 +1124,132 @@ class TextureIndex():
                 self.roleOf[f] = [(role, "its name")]; counts["name"] += 1
             else:
                 self.unresolved.append(f)
+        counts["luma"] = 0
+        for f, role, why in self._byLuminance([p for p in pending if (p not in self.roleOf and p not in self.shared)]):
+            self.roleOf[f] = [(role, why)]; counts["luma"] += 1
+        counts["copy"], counts["draw"] = self._byCopyAndDraw(ddsFiles)
+        self.unresolved = [f for f in self.unresolved if (f not in self.roleOf)]
         print(f"  textures under {os.path.basename(root)}: {len(ddsFiles)} files -- {counts['hash']} placed by hash, {counts['pixels']} by pixel identity with a game texture, "
-              f"{counts['shape']} by their component and shape, {counts['name']} by their Component<N>_<Type> name, {len(self.unresolved)} with no role")
+              f"{counts['shape']} by their component and shape, {counts['name']} by their Component<N>_<Type> name, {counts['luma']} as a recolour of one, "
+              f"{counts['copy']} as byte-identical copies, {counts['draw']} by the dumped draw they came from, {len(self.unresolved)} with no role")
+
+    def _byLuminance(self, files: List[str]):
+        """(file, role, why) for a RECOLOURED game texture: its shading, not its colour, is the game's.
+
+        THE SAME MOD'S BANGS WERE PINK, AND PINK IS NOT BLACK (2026-09-21). The shirt mod repaints
+        Chisa's black bangs pink and ships them as `Components-0-1-2-3-4-5 t=15cddd7c.dds`: a hash
+        no dump has, a name listing six components, and an RGB correlation with her own bangs far
+        below `IdentityMin`. It went roleless, so the bangs drew with her game diffuse -- black
+        bangs over the author's pink hair. The strands are the game's strands, though: grayscale
+        at 128 x 128, the file correlates 0.74 with her bangs diffuse and at most -0.01 with any
+        other diffuse she has, and her long-hair repaint 0.81 with her hair. A repaint that
+        CHANGES the art (the shirt over her upper-body atlas: 0.47 against 0.27) clears neither
+        threshold and is left to the rules that follow.
+
+        Only roles no file holds yet, and only diffuses -- a normal map or a mask is not shading."""
+        if (not files):
+            return
+        taken = {role for roles in self.roleOf.values() for role, _ in roles}
+        game: Dict[str, np.ndarray] = {}
+        for role, h in FallbackTextures.items():
+            asset = os.path.join(AssetsFolder, f"{SourceName}Texture{h}.dds")
+            if (role.endswith("Diffuse") and role not in taken and os.path.isfile(asset)):
+                g = self._luminanceOf(asset)
+                if (g is not None):
+                    game[role] = g
+        if (not game):
+            return
+        for f in files:
+            x = self._luminanceOf(f)
+            if (x is None):
+                continue
+            components = componentsOfModFile(f)
+            scores = sorted(((float((x * y).sum()), r) for r, y in game.items()
+                             if (not components or RoleComponent.get(r) in components)), reverse = True)
+            if (not scores or scores[0][0] < RepaintMin or (len(scores) > 1 and scores[1][0] >= RepaintGap)):
+                continue
+            role = scores[0][1]
+            runnerUp = f" against {scores[1][0]:.2f} for her {scores[1][1]}" if (len(scores) > 1) else ""
+            yield f, role, f"a recolour of {SourceName}'s own {role}: luminance {scores[0][0]:.2f}{runnerUp}"
+            del game[role]
+
+    @staticmethod
+    def _luminanceOf(path: str, size: int = 128) -> Optional[np.ndarray]:
+        """A texture's grayscale box-averaged to size x size, zero-mean and unit-norm, or None"""
+        try:
+            tex = FRB.TextureFile(path)
+            tex.open()
+            px = np.frombuffer(tex.getPixels(), dtype = np.uint8).reshape(tex.height, tex.width, 4)[..., :3].astype(np.float64)
+        except Exception:
+            return None
+        if (px.shape[0] % size or px.shape[1] % size):
+            return None
+        g = (px @ np.array([0.299, 0.587, 0.114])).reshape(size, px.shape[0] // size, size, px.shape[1] // size).mean(axis = (1, 3))
+        g -= g.mean()
+        norm = np.linalg.norm(g)
+        return (g / norm) if (norm) else None
+
+    def _byCopyAndDraw(self, ddsFiles: List[str]) -> Tuple[int, int]:
+        """(copies placed, dump-named files placed): the two things a file's NEIGHBOURS say about it.
+
+        A MOD WHOSE HASHES ARE ALL STALE STILL SAYS WHICH REGISTER EACH OF SOME FILES CAME FROM
+        (2026-09-21). A shirt mod for Chisa carries 25 texture hashes, none of them in any dump of
+        today's game, and ships its upper-body diffuse twice: as `Components-0-1-2-3-4 t=662f126a.dds`,
+        whose name lists five components and so decides nothing, and as
+        `000134-ps-t2=2970cef1-vs=...-ps=dce450ef....dds` -- a FRAME ANALYSIS file name, which states
+        the draw it was dumped from and the register it was bound at. The same draw's `ps-t0` file is
+        byte-identical to `Components-3 t=eca8e09b.dds`, which the shape rule had already placed as
+        the upper-body normal. So that draw is component 3's, and its `ps-t2` is what component 3
+        binds at `ps-t2`: the upper diffuse. Left roleless, the shirt drew with the GAME's upper
+        diffuse under the mod's UVs -- a dark, lustrous mottle over a shirt the author painted white.
+
+        Two rules, each only ever filling a file nothing else placed:
+            a byte-identical copy of a placed file plays its roles;
+            files dumped from ONE draw (same draw number and pixel shader) belong to ONE component,
+                decided by any member already placed at the register it names in SourceRegisterRoles,
+                and each other member takes that component's role at ITS register."""
+        import hashlib
+        byContent: Dict[str, List[str]] = {}
+        for f in ddsFiles:
+            try:
+                with open(f, "rb") as fh:
+                    byContent.setdefault(hashlib.md5(fh.read()).hexdigest(), []).append(f)
+            except OSError:
+                pass
+
+        def shareCopies() -> int:
+            placed = 0
+            for group in byContent.values():
+                known = next((g for g in group if (g in self.roleOf)), None)
+                if (known is None):
+                    continue
+                for g in group:
+                    if (g not in self.roleOf):
+                        self.roleOf[g] = [(role, f"byte-identical to {os.path.basename(self.real.get(known, known))}") for role, _ in self.roleOf[known]]
+                        placed += 1
+            return placed
+
+        copies = shareCopies()
+        draws: Dict[Tuple[str, str], List[Tuple[str, str]]] = {}
+        for f in ddsFiles:
+            match = DumpFilePattern.match(os.path.basename(f))
+            if (match):
+                draws.setdefault((match.group(1), match.group(4).lower()), []).append((f, f"ps-t{int(match.group(2))}"))
+        byDraw = 0
+        for (draw, ps), members in draws.items():
+            components = set()
+            for f, reg in members:
+                for role, _ in self.roleOf.get(f, []):
+                    components |= {c for c, regs in SourceRegisterRoles.items() if (regs.get(reg) == role)}
+            if (len(components) != 1):
+                continue                    # nothing placed in this draw, or its members disagree
+            component = components.pop()
+            for f, reg in members:
+                role = SourceRegisterRoles[component].get(reg)
+                if (role and f not in self.roleOf):
+                    self.roleOf[f] = [(role, f"dumped at {reg} of draw {draw} (ps {ps[:8]}), component {component}'s")]
+                    byDraw += 1
+        return copies + shareCopies(), byDraw
 
     def _byShape(self, files: List[str]):
         """(file, role, why) for a REPAINTED texture: its component says which roles it may play, and
@@ -919,7 +1348,7 @@ class TextureIndex():
         sys.path.insert(0, os.path.join(Repo, "Tools", "Misc", "Diagnostics"))
         import wwmiTextureFix as texFix
         cache: Dict[str, object] = {}
-        assets = {h: texFix.decode(p, cache) for h, p in texFix.currentTextures(AssetsFolder).items() if h in Roles}
+        assets = {h: texFix.decode(p, cache) for h, p in texFix.currentTextures(AssetsFolder).items() if (h in Roles or h in SharedGameTextures)}
         for f in files:
             x = texFix.decode(f, cache)
             if (x is None):
@@ -928,6 +1357,9 @@ class TextureIndex():
             if (scores and scores[0][0] >= IdentityMin and (len(scores) == 1 or scores[1][0] < IdentityGap)):
                 yield f, scores[0][1], scores[0][0]
 
+
+# a frame analysis texture's file name: <draw>-ps-t<N>=<hash>[(<hash>)]-vs=<vs>-ps=<ps>.dds
+DumpFilePattern = re.compile(r"^(\d{6})-ps-t(\d+)=([0-9a-fA-F]{8})(?:\([0-9a-fA-F]{8}\))?-vs=[0-9a-fA-F]+-ps=([0-9a-fA-F]+)\.dds$", re.IGNORECASE)
 
 _textureIndex: Optional[TextureIndex] = None
 
@@ -939,12 +1371,171 @@ def textureIndex() -> TextureIndex:
     return _textureIndex
 
 
+def plannedRolesOf(plan) -> List[str]:
+    """Every role the plan, the slots' other passes and the shared meshes bind"""
+    roles = [role for _slot, regs in plan.values() for role in regs.values()]
+    roles += [role for byPass in ExtraPassRegs.values() for regs in byPass.values() for role in regs.values()]
+    roles += [role for byPass in SharedMeshes.values() for regs in byPass.values() for role in regs.values()]
+    return [r for r in dict.fromkeys(roles) if (isinstance(r, str) and r != SkinMask)]
+
+
+def roleObj(role: str) -> Tuple[str, str]:
+    """The parser's mod object for a texture role -- the graph of the mod's [TextureOverrideTexture] that
+    binds it, or of the section the parser invents for its download"""
+    return ("", f"tex{role[0].upper()}{role[1:]}")
+
+
+def fileUrl(path: str) -> str:
+    """A local file as a URL the library's FileDownload accepts (spaces must be escaped)"""
+    from urllib.parse import quote
+    return "file:///" + quote(os.path.abspath(path).replace(os.sep, "/"), safe = "/:")
+
+
+# WHERE A FALLBACK TEXTURE IS FETCHED FROM: `master`, exactly as the compiled fixer's DownloadTools does,
+#   because that is what a user's run reads. --localDownloads reads the same paths out of this checkout
+#   instead -- for an asset added here and not merged yet (on 2026-09-22 four of Chisa's 2_8 textures:
+#   the two ramps, the hair-tip gradient and the accessory sheen). A mod's OWN file that no resource
+#   names is always copied locally: it is the mod's, not the download folder's.
+DownloadRoot = "https://github.com/nhok0169/Anime-Game-Remap/raw/master/Data/Mod%20Downloads"
+LocalDownloads = False
+
+
+def assetUrl(assetPath: str) -> str:
+    """The URL a download-folder asset is fetched from (DownloadRoot, or this checkout under --localDownloads)"""
+    if (LocalDownloads):
+        return fileUrl(assetPath)
+    from urllib.parse import quote
+    rel = os.path.relpath(assetPath, os.path.join(Repo, "Data", "Mod Downloads")).replace(os.sep, "/")
+    return f"{DownloadRoot}/{quote(rel)}"
+
+
+class TextureRoles():
+    """
+    Which texture each role is, for one .ini -- decided ONCE, when the parser is built, because the parser
+    is what turns the answer into graphs:
+
+    * a role the mod binds through a [TextureOverrideTexture] -> that section is classified as the role's
+      mod object (roleObj), so its whole graph -- `$swapvar` toggles and all -- is what the fixer copies;
+    * a role the mod has a file for and NO resource section, or no file at all while the plan binds it ->
+      a parser DOWNLOAD on the role's object (the mod's own file, or the source's game texture out of the
+      download folder), so it becomes a graph of the same shape;
+    * a role declared only in a component's own section with no override behind it -> bound by its
+      resource name (the one case the graph cannot carry into a pass list).
+
+    Which FILE plays a role is still this file's own placement (TextureIndex: hash, pixels, shape,
+    luminance, dumped draws) -- the library has nothing that decides what an unknown .dds is.
+    """
+    def __init__(self, iniPath: str, text: str, plannedRoles: List[str]):
+        index = textureIndex()
+        key = os.path.normcase(os.path.abspath(iniPath))
+        iniFolder = os.path.dirname(key)
+        self.sections = iniSections(text)
+        resources = index.resourcesByIni.get(key, {})
+        resourceOfFile: Dict[str, str] = {}
+        for res, f in resources.items():
+            resourceOfFile.setdefault(f, res)
+        self.fileOfResource: Dict[str, str] = {res.lower(): f for res, f in resources.items()}
+        real = lambda f: index.real.get(f, f)       # noqa: E731 -- the file's real spelling
+        self.resourceOfRole: Dict[str, str] = {}
+        self.fileOfRole: Dict[str, str] = {}
+        self.borrowed: set = set()                  # roles whose file is ANOTHER role's too (a shared atlas): never graded
+        unreferenced: Dict[str, str] = {}           # role -> a file of the mod no resource section names
+        byRole: Dict[str, List[Tuple[str, str]]] = {}
+        for f, fileRoles in index.roleOf.items():
+            for role, how in fileRoles:
+                byRole.setdefault(role, []).append((f, how))
+
+        def rank(f: str):
+            rel = os.path.relpath(f, iniFolder).replace("\\", "/")
+            return (0 if (f in resourceOfFile) else 1, rel.count("../"), len(rel))
+        for role, cands in byRole.items():
+            cands.sort(key = lambda c: rank(c[0]))
+            best = cands[0][0]
+            if (len(cands) > 1 and rank(cands[1][0])[:2] == rank(best)[:2]):
+                print(f"    WARNING: {os.path.relpath(cands[1][0], index.root)} also has the role {role} ({cands[1][1]}), "
+                      f"already taken by {os.path.relpath(best, index.root)} ({cands[0][1]}); the first one is bound")
+            self.fileOfRole[role] = real(best)
+            if (best in resourceOfFile):
+                self.resourceOfRole[role] = resourceOfFile[best]
+            else:
+                unreferenced[role] = real(best)
+
+        # a role a component's OWN section names (SourceRegisterRoles / RabbitFXRoles) wins over placement
+        for name, lines in self.sections.items():
+            match = re.fullmatch(r"TextureOverrideComponent(\d+)", name, re.IGNORECASE)
+            if (not match):
+                continue
+            component = int(match.group(1))
+            for line in lines:
+                k, value = keyValue(line)
+                if (k is None):
+                    continue
+                k = k.lower().replace(chr(92), "/")
+                role = SourceRegisterRoles.get(component, {}).get(k)
+                if (role is None and k in RabbitFXRoles):
+                    role = RabbitFXRoles[k].get(component)
+                if (role is None):
+                    continue
+                resource = value[4:].strip() if (value.lower().startswith("ref ")) else value
+                f = self.fileOfResource.get(resource.lower())
+                if (f is None):
+                    continue
+                self.resourceOfRole[role] = resource
+                self.fileOfRole[role] = f
+                unreferenced.pop(role, None)
+                print(f"    {role}: bound by component {component}'s own section ({k} = {resource})")
+        for role, f in self.fileOfRole.items():
+            if (any((other != role and g == f) for other, g in self.fileOfRole.items())):
+                self.borrowed.add(role)
+
+        # the [TextureOverrideTexture] each role is read from: ONE per role, the first whose `this` names
+        #   the role's resource -- a mod that declares one resource under several hashes (its character
+        #   screen and battle-damage copies) would otherwise hand the fixer the same list several times
+        thisOf: Dict[str, List[str]] = {}
+        for name, lines in self.sections.items():
+            if (name.lower().startswith("textureoverridetexture")):
+                thisOf[name] = [v.lower() for k, v in map(keyValue, lines) if (k == "this")]
+        self.sectionOfRole: Dict[str, str] = {}
+        for role, res in self.resourceOfRole.items():
+            sec = next((n for n, vals in thisOf.items() if (res.lower() in vals)), None)
+            if (sec):
+                self.sectionOfRole[role] = sec
+        self.rolesOfSection: Dict[str, List[str]] = {}
+        for role, sec in self.sectionOfRole.items():
+            self.rolesOfSection.setdefault(sec, []).append(role)
+
+        # the roles that become a parser download: a file no resource names, or none at all
+        self.downloads: Dict[str, str] = {}         # role -> the file
+        self.downloadUrls: Dict[str, str] = {}      # role -> where the library fetches it from
+        for role in plannedRoles:
+            if (role in self.sectionOfRole):
+                continue
+            if (role in unreferenced):
+                self.downloads[role] = unreferenced[role]
+                self.downloadUrls[role] = fileUrl(unreferenced[role])
+            elif (role in self.resourceOfRole):
+                continue
+            elif (role in FallbackTextures):
+                asset = os.path.join(AssetsFolder, f"{SourceName}Texture{FallbackTextures[role]}.dds")
+                if (os.path.isfile(asset)):
+                    self.downloads[role] = asset
+                    self.downloadUrls[role] = assetUrl(asset)
+                    self.fileOfRole.setdefault(role, asset)
+                else:
+                    print(f"    WARNING: no {os.path.basename(asset)} under {AssetsFolder} for the {role} the mod lacks")
+        self.graphRoles = set(self.sectionOfRole) | set(self.downloads)
+
+
+_rolesByIni: Dict[str, TextureRoles] = {}
+
+
+def rolesOf(ini) -> TextureRoles:
+    return _rolesByIni[os.path.normcase(os.path.abspath(ini.file))]
+
+
 class ModFiles():
-    """
-    One mod's textures by role and its draws per source component, read off the .ini file the API
-    parsed and the run's texture index (header points 13 and 14): a role is bound through the .ini's
-    own resource section when it has one for that file, else through a resource the fix declares
-    """
+    """One mod's draws per source component and the folder its textures live in, read off the .ini file
+    the API parsed; which texture each role is lives in TextureRoles"""
     def __init__(self, ini, parser, source):
         self.sections = iniSections(ini.fileTxt)
         self.iniFolder = ini.folder
@@ -958,127 +1549,12 @@ class ModFiles():
             self.present.append(i)
             self.draws[i] = sum(1 for name in names for line in self.sections.get(name, [])
                                 if (keyValue(line)[0] == "drawindexed" or (keyValue(line)[0] == "run" and keyValue(line)[1].startswith("CustomShader"))))
-
-        # the textures: the run's index decides each file's role; this .ini binds the nearest file of each
-        # role -- through its own resource section when it has one for that file, else through a resource
-        # the fix declares (`declare`), with a path relative to this .ini's folder
         index = textureIndex()
         iniPath = os.path.normcase(os.path.abspath(ini.file))
         iniFolder = os.path.dirname(iniPath)
-        resourceOfFile: Dict[str, str] = {}
-        for res, f in index.resourcesByIni.get(iniPath, {}).items():
-            resourceOfFile.setdefault(f, res)
-        real = lambda f: index.real.get(f, f)       # noqa: E731 -- the file's real spelling, for what gets written
-        self.textureFolder = next((os.path.dirname(os.path.relpath(real(f), iniFolder)).replace("\\", "/") for f in resourceOfFile), "") or "Textures"
-        self.resourceOfRole: Dict[str, str] = {}
-        self.fileOfRole: Dict[str, str] = {}        # role -> the mod's own file, for a role whose packing is translated
-        self.declared: Dict[str, str] = {}          # role -> the file's path relative to this .ini, for a file no resource of this .ini names
+        files = list(index.resourcesByIni.get(iniPath, {}).values())
+        self.textureFolder = next((os.path.dirname(os.path.relpath(index.real.get(f, f), iniFolder)).replace("\\", "/") for f in files), "") or "Textures"
         self.unknownTextures: List[str] = [os.path.relpath(f, index.root) for f in index.unresolved]
-        byRole: Dict[str, List[Tuple[str, str]]] = {}      # role -> [(file, how)], every role of every file
-        for f, roles in index.roleOf.items():
-            for role, how in roles:
-                byRole.setdefault(role, []).append((f, how))
-
-        def rank(f: str):
-            rel = os.path.relpath(f, iniFolder).replace("\\", "/")
-            return (0 if (f in resourceOfFile) else 1, rel.count("../"), len(rel))
-        for role, cands in byRole.items():
-            cands.sort(key = lambda c: rank(c[0]))
-            best = cands[0][0]
-            if (len(cands) > 1 and rank(cands[1][0])[:2] == rank(best)[:2]):
-                # two shipped textures on one role, equally close: the first is bound and only a measurement
-                # (wwmiTextureFix's correlation) can say which is right -- say so loudly
-                print(f"    WARNING: {os.path.relpath(cands[1][0], index.root)} also has the role {role} ({cands[1][1]}), "
-                      f"already taken by {os.path.relpath(best, index.root)} ({cands[0][1]}); the first one is bound")
-            self.fileOfRole[role] = real(best)
-            if (best in resourceOfFile):
-                self.resourceOfRole[role] = resourceOfFile[best]
-            else:
-                self.declared[role] = os.path.relpath(real(best), iniFolder).replace("/", "\\")
-
-    def fallbacks(self, roles: List[str]) -> List[str]:
-        """The resource sections for the planned 'roles' this .ini has no file for: the source's own game
-        texture, copied out of AssetsFolder into the texture folder as <Source><Role>RemapDL.dds (the name the
-        API downloads it under, so the two outputs match); binds them"""
-        out: List[str] = []
-        for role in roles:
-            if (role in self.resourceOfRole or role == SkinMask or role not in FallbackTextures):
-                continue
-            src = os.path.join(AssetsFolder, f"{SourceName}Texture{FallbackTextures[role]}.dds")
-            if (not os.path.isfile(src)):
-                print(f"    WARNING: no {os.path.basename(src)} under {AssetsFolder} for the {role} the mod lacks")
-                continue
-            fileName = f"{SourceName}{role[0].upper()}{role[1:]}{FRB.IniKeywords.RemapDL.value}.dds"
-            rel = f"{self.textureFolder}/{fileName}"
-            os.makedirs(os.path.join(self.iniFolder, self.textureFolder), exist_ok = True)
-            shutil.copyfile(src, os.path.join(self.iniFolder, self.textureFolder, fileName))
-            # a texture the game cannot load renders BLACK, which reads as a wrong colour rather than
-            #   as a broken file. This catches a file that is not an image at all; it does NOT catch
-            #   every header a GAME would reject -- a hand-written .dds carrying DX10 dimension 87
-            #   instead of 3 reads back through the API perfectly and was still the likeliest cause
-            #   of a black ribbon (2026-09-20), so the check was proved against that file and found
-            #   wanting rather than trusted.
-            check = FRB.TextureFile(os.path.join(self.iniFolder, self.textureFolder, fileName))
-            check.open()
-            if (not check.hasImage or not check.width or not check.height):
-                print(f"    WARNING: {fileName} did not open as an image -- the game will draw it black")
-            name = f"Resource{SourceName}{role[0].upper()}{role[1:]}{FRB.IniKeywords.RemapDL.value}"
-            self.resourceOfRole[role] = name
-            out.append("\n".join([f"[{name}]", f"filename = {rel}", ""]))
-        return out
-
-    def translate(self, roles: List[str]) -> List[str]:
-        """The resource sections for the planned 'roles' in MaskTranslations: the mod's own file repacked
-        into the TARGET's material-mask layout, written as <Role><Target>RemapTex.dds; binds them.
-
-        RemapTex, not RemapRef: the fix writes this file, so the undo is meant to delete it."""
-        out: List[str] = []
-        for role in dict.fromkeys(roles):
-            src = self.fileOfRole.get(role)
-            if (role not in MaskTranslations or src is None or not os.path.isfile(src)):
-                continue
-            fileName = f"{role[0].upper()}{role[1:]}{TargetName}{FRB.IniKeywords.RemapTex.value}.dds"
-            rel = f"{self.textureFolder}/{fileName}"
-            os.makedirs(os.path.join(self.iniFolder, self.textureFolder), exist_ok = True)
-            moved = translateMaterialMask(src, os.path.join(self.iniFolder, self.textureFolder, fileName))
-            name = f"Resource{role[0].upper()}{role[1:]}{TargetName}{FRB.IniKeywords.RemapTex.value}"
-            self.resourceOfRole[role] = name
-            out.append("\n".join([f"[{name}]", f"filename = {rel}", ""]))
-            print(f"    {role}: repacked into {TargetName}'s layout, {moved:.1f}% of it her cloth code -> {rel}")
-        return out
-
-    def grade(self, roles: List[str]) -> List[str]:
-        """The resource sections for the planned 'roles' in ColourGrades: the mod's own file with a
-        per-channel gain on its RGB, written as <Role><Target>RemapTex.dds; binds them.
-
-        Same shape as translate() above, and the same reason for RemapTex rather than RemapRef: the
-        fix writes this file, so the undo is meant to delete it."""
-        out: List[str] = []
-        for role in dict.fromkeys(roles):
-            src = self.fileOfRole.get(role)
-            if (role not in ColourGrades or src is None or not os.path.isfile(src)):
-                continue
-            fileName = f"{role[0].upper()}{role[1:]}{TargetName}{FRB.IniKeywords.RemapTex.value}.dds"
-            rel = f"{self.textureFolder}/{fileName}"
-            os.makedirs(os.path.join(self.iniFolder, self.textureFolder), exist_ok = True)
-            was, now = gradeTexture(src, os.path.join(self.iniFolder, self.textureFolder, fileName), ColourGrades[role])
-            name = f"Resource{role[0].upper()}{role[1:]}{TargetName}{FRB.IniKeywords.RemapTex.value}"
-            self.resourceOfRole[role] = name
-            out.append("\n".join([f"[{name}]", f"filename = {rel}", ""]))
-            print(f"    {role}: graded by {ColourGrades[role]} for {TargetName}'s shader, median {was} -> {now} -> {rel}")
-        return out
-
-    def declare(self, fixName) -> List[str]:
-        """The resource sections this .ini needs for the files none of its own resources name; binds them"""
-        out: List[str] = []
-        for role, rel in self.declared.items():
-            # RemapRef, not RemapFix: the section sits inside the fix block and names one of the MOD's
-            # files, and the API's undo deletes every file a RemapFix section in the block names --
-            # it took 17 of the cloak mod's 19 textures before the keyword existed (2026-09-19)
-            name = f"Resource{role[0].upper()}{role[1:]}{TargetName}{FRB.IniKeywords.RemapRef.value}"
-            self.resourceOfRole[role] = name
-            out.append("\n".join([f"[{name}]", f"filename = {rel}", ""]))
-        return out
 
 
 # ---------------------------------------------------------------------------------------------
@@ -1098,6 +1574,20 @@ class WWMIBlendReplace(FRB.RemapBlendReplace):
 VertexVGFile = "BlendRemapVertexVG.buf"     # WWMI's per-vertex 16-bit merged bone ids, beside Blend.buf
 
 
+def componentDrawsOf(sections) -> Dict[int, List[Tuple[int, int]]]:
+    """{source component: [(count, start) of every drawindexed in its own TextureOverrideComponent<N>]}"""
+    out: Dict[int, List[Tuple[int, int]]] = {}
+    for name, lines in sections.items():
+        match = re.fullmatch(r"TextureOverrideComponent(\d+)", name, re.IGNORECASE)
+        if (not match):
+            continue
+        for line in lines:
+            draw = re.match(r"\s*drawindexed\s*=\s*(\d+)\s*,\s*(\d+)", line, re.IGNORECASE)
+            if (draw):
+                out.setdefault(int(match.group(1)), []).append((int(draw.group(1)), int(draw.group(2))))
+    return out
+
+
 def weightsPerVertexOf(sections) -> Optional[int]:
     """`$\\WWMIv1\\weights_per_vertex_count` out of the mod's own .ini, wherever it sets it.
 
@@ -1114,7 +1604,8 @@ def weightsPerVertexOf(sections) -> Optional[int]:
     return None
 
 
-def remapWWMIBlend(vgRemap, forced: bool, declared: Optional[int], libraryVertexCount: int):
+def remapWWMIBlend(vgRemap, forced: bool, declared: Optional[int], libraryVertexCount: int,
+                   componentDraws: Optional[Dict[int, List[Tuple[int, int]]]] = None):
     """A RemapBlendResource fixFunc: Blend.buf -> the resource's fixed path, indices through 'vgRemap'
     (the library's row the resource carries, unless 'forced' says the script's table wins).
 
@@ -1169,6 +1660,26 @@ def remapWWMIBlend(vgRemap, forced: bool, declared: Optional[int], libraryVertex
         for source, target in remapRows.items():
             table[int(source)] = int(target)
         mapped = table[ids]
+
+        # ...then the per-slot stand-ins (SlotBoneStandIns), over each source component's own vertices
+        indexPath = os.path.join(os.path.dirname(resource.srcPath), "Index.buf")
+        if (SlotBoneStandIns and componentDraws and os.path.isfile(indexPath)):
+            index = np.fromfile(indexPath, dtype = "<u4").astype(np.int64)
+            for component, standIns in SlotBoneStandIns.items():
+                ranges = [index[start:start + count] for count, start in componentDraws.get(component, [])]
+                if (not ranges):
+                    continue
+                verts = np.unique(np.concatenate(ranges))
+                verts = verts[verts < vertexCount]
+                rowsOf = mapped[verts]
+                for old, new in standIns.items():
+                    hit = rowsOf == old
+                    if (hit.any()):
+                        rowsOf[hit] = new
+                        print(f"    component {component}: target bone {old} -> {new} on "
+                              f"{int(hit.any(axis = 1).sum())} vertices (the slot that draws them has no bone {old})")
+                mapped[verts] = rowsOf
+
         if (int(mapped.max()) > 255):
             raise SystemExit(f"a remapped bone index of {int(mapped.max())} does not fit the 8-bit Blend.buf; "
                              f"{TargetName} would need blend remap buffers of its own, which this prototype does not write")
@@ -1195,7 +1706,7 @@ def effectiveRemap(sourceType, target, remapOverride: Optional[Dict[int, int]], 
     if (missing):
         raise SystemExit(f"--vgRemap has no row for source groups the library's row maps: {missing}")
     if (anchor):
-        remap = anchoredRemap(remap, anchor)
+        remap = anchoredRemap(remap, anchor) if (anchor != "none") else remap
     targetSlots = int(target["components"][-1]["vg_offset"]) + int(target["components"][-1]["vg_count"])
     if (max(remap.values()) >= targetSlots):
         raise SystemExit(f"the remap points outside the Parfait skin's {targetSlots} merged slots")
@@ -1217,6 +1728,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
         ini = parser._iniFile
         modType = FRB.ModTypeIdTools.getModType(modTypeId)
         files = ModFiles(ini, parser, source)
+        roles = rolesOf(ini)
         if (not files.present):
             raise ValueError(f"no [TextureOverrideComponent*] section on {SourceName}'s hash {source['vb0_hash']}")
         print(f"  {os.path.relpath(ini.file, ini.folder) if ini.folder else ini.file}: {SourceName} components {files.present} -> {toModName}")
@@ -1233,14 +1745,29 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
         painted: set = set()                            # --paint: the flat colours already declared
         paintLegend: List[str] = []
         extraLegend: List[str] = []                     # ExtraPassRegs: the slot's other passes
-        appended: List[str] = files.declare(fixName)     # the textures this .ini has no resource of its own for
-        appended += files.fallbacks([role for i in files.present if (i in plan) for role in plan[i][1].values()])
-        # ...and the masks whose PACKING differs between the two skins, repacked (MaskTranslations)
-        appended += files.translate([role for i in files.present if (i in plan) for role in plan[i][1].values()])
-        # ...and the diffuses the TARGET's shader family grades differently from the source's
-        appended += files.grade([role for i in files.present if (i in plan) for role in plan[i][1].values()]
-                                + [role for byPass in ExtraPassRegs.values() for regs in byPass.values()
-                                   for role in regs.values() if (isinstance(role, str))])
+        appended: List[str] = []
+
+        # ---- the texture command lists: one per (role, register), COPIED from the role's own graph ----
+        # A list line is `run = <list>`, and the list is the mod's [TextureOverrideTexture] for that role
+        #   with its `hash` lines dropped and `this` renamed to the register (see the edits below), so the
+        #   mod's own `if $swapvar ...` toggles come with it untouched. Only the PASS a list runs on is
+        #   written here as text: no library edit wraps content in a new `if` block (the one gap).
+        clOfPair: Dict[Tuple[str, str], str] = {}           # (role, register) -> the command list's name
+
+        def regTag(reg: str) -> str:
+            return reg.replace("-", "").capitalize()
+
+        def bindLine(role, reg) -> Optional[str]:
+            """The list line binding 'role' at 'reg', or None when the mod has nothing for it"""
+            if (role == SkinMask):
+                return f"    {reg} = {maskResource}"
+            if (role in roles.graphRoles):
+                name = fixName(f"CommandList{SourceName}{role[0].upper()}{role[1:]}{regTag(reg)}")
+                clOfPair[(role, reg)] = name
+                return f"    run = {name}"
+            if (role in roles.resourceOfRole):
+                return f"    {reg} = {roles.resourceOfRole[role]}"
+            return None
         # ---- the zero shape-key offset stream, unless WWMI's own pipeline is retargeted to fill vb6 ----
         zeroResource = None
         if (not shapeKeys):
@@ -1256,6 +1783,40 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             zeroResource = fixName(f"Resource{ShapeKeyZero}")
             appended.append("\n".join([f"[{zeroResource}]", "type = Buffer", "format = DXGI_FORMAT_R32G32B32_FLOAT", f"stride = {ShapeKeyStride}", f"filename = {zeroFile}", ""]))
             print(f"    vb6 (the game's shape-key offsets, applied by vertex id): every remapped draw binds {vertexCount} zero offsets instead")
+
+        # ---- a texcoord copy with no NaN in it, when the mod's has any (2026-09-21) ----
+        # THE FOX MASK, THE HAIRPINS AND THE BELLS WERE DRAWN, PLACED AND TEXTURED CORRECTLY, AND
+        #   INVISIBLE, BECAUSE THEIR SECOND UV IS NaN. A dump taken WITH the remap installed showed every
+        #   one of their draws issued inside the upper-body section, and their vertices skinned by the
+        #   merged skeleton the draw was actually handed land on her head at the right size. What
+        #   separates them from the parts that render is the texcoord buffer: its 16 bytes a vertex are
+        #   UV0 and then six more halves, and on the fox mask and the bells halves 2..3 are NaN on EVERY
+        #   vertex (the pins on 41%), while the red ribbon drawn beside them has none and renders. The
+        #   skin's upper-body shader reads that second UV and Chisa's evidently does not, so the same
+        #   bytes that are harmless on the source poison the pixel on the target. Every other vertex of
+        #   the mesh carries ~(0, 0) there, which is what a NaN becomes in this copy. The mod's own
+        #   buffer, and its own half of the .ini, are left alone.
+        texcoordResource = None
+        # looked up without regard to case: this mod spells it ResourceTexCoordBuffer, and the first
+        #   version of this step asked for ResourceTexcoordBuffer, found nothing, and said nothing
+        texcoordLines = next((lines for name, lines in files.sections.items() if (name.lower() == "resourcetexcoordbuffer")), [])
+        texcoordFile = next((v for k, v in map(keyValue, texcoordLines) if k == "filename"), None)
+        if (texcoordFile):
+            src = os.path.join(ini.folder, texcoordFile.replace(chr(92), "/"))
+            if (os.path.isfile(src)):
+                halves = np.fromfile(src, dtype = np.float16)
+                bad = np.isnan(halves)
+                if (bad.any()):
+                    halves = halves.copy()
+                    halves[bad] = 0
+                    fixedFile = os.path.join(os.path.dirname(texcoordFile.replace(chr(92), "/")), f"{toModName}{FRB.IniKeywords.Remap.value}Texcoord.buf").replace(chr(92), "/")
+                    halves.tofile(os.path.join(ini.folder, fixedFile))
+                    lines = texcoordLines
+                    fmt = next((v for k, v in map(keyValue, lines) if k == "format"), "DXGI_FORMAT_R16G16_FLOAT")
+                    stride = next((v for k, v in map(keyValue, lines) if k == "stride"), "16")
+                    texcoordResource = fixName("ResourceTexcoordNoNaN")
+                    appended.append(chr(10).join([f"[{texcoordResource}]", "type = Buffer", f"format = {fmt}", f"stride = {stride}", f"filename = {fixedFile}", ""]))
+                    print(f"    vb2 (texcoords): {int(bad.sum())} NaN halves set to 0 in a remap-only copy -> {fixedFile}")
 
         # ---- the edits shared by every object: the target's hashes, the target's checksum, the names ----
         hashRemap = FRB.RegAssetRemap({"hash": (modType.hashes, FRB.IniKeywords.HashNotFound.value),
@@ -1276,8 +1837,8 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             slot, regs = plan[i]
             c = target["components"][slot]
             edits: List[object] = []
-            def bound(role):
-                """The resource a role binds to -- or, under --paint, that slot's flat colour for a diffuse"""
+            def bound(role, reg):
+                """The list line binding a role -- or, under --paint, that slot's flat colour for a diffuse"""
                 if (paint and role.lower().endswith("diffuse") and i in PaintColours):
                     name = fixName(f"ResourcePaint{PaintNames[i].capitalize()}")
                     if (name not in painted):
@@ -1287,11 +1848,10 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                         appended.append("\n".join([f"[{name}]", f"filename = {rel}", ""]))
                         painted.add(name)
                         paintLegend.append(f"      component {i} ({Labels.get(i, i)}): every diffuse -> flat {PaintNames[i]}")
-                    return name
-                return maskResource if (role == SkinMask) else files.resourceOfRole[role]
+                    return f"    {reg} = {name}"
+                return bindLine(role, reg)
 
-            bindings = [f"    {reg} = {bound(role)}"
-                        for reg, role in regs.items() if (role == SkinMask or role in files.resourceOfRole)]
+            bindings = [line for reg, role in regs.items() for line in [bound(role, reg)] if line]
             if (paint):
                 # --paint is a question about GEOMETRY, not about a role: bind every register the
                 #   target's passes read, so anything this slot draws is unmistakable whatever the
@@ -1302,9 +1862,16 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             for reg, colour in NeutralBindings.get(i, {}).items():
                 if (reg in regs):
                     continue
-                resource = fixName(f"Resource{NeutralName}")
+                # ONE RESOURCE PER COLOUR, NOT PER SLOT (2026-09-20). The name used to be the bare
+                #   NeutralName, so the first colour written won and every later register reused its
+                #   file: ps-t2 wanted (0, 0, 0, 255) and ps-t4 / ps-t10 wanted (0, 0, 0, 0), and all
+                #   three got the first. Harmless only because the RGB happened to agree -- the next
+                #   neutral with a different colour would have been silently discarded. flat() below
+                #   already names by colour; this now does the same.
+                stem = "{}{:02X}{:02X}{:02X}{:02X}".format(NeutralName, *colour)
+                resource = fixName(f"Resource{stem}")
                 if (resource not in neutrals):
-                    neutralFile = os.path.join(files.textureFolder, f"{NeutralName}{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
+                    neutralFile = os.path.join(files.textureFolder, f"{stem}{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
                     os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
                     writeSolidDds(os.path.join(ini.folder, neutralFile), colour)
                     appended.append("\n".join([f"[{resource}]", f"filename = {neutralFile}", ""]))
@@ -1329,9 +1896,11 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                     bindings.append(f"    {reg} = {resource}")
                     probeLegend.append(f"      component {i} {reg} -> {name}")
             additions: List[Tuple[str, str]] = [("vb6", zeroResource)] if (zeroResource) else []
+            if (texcoordResource):
+                additions.append(("vb2", texcoordResource))
             if (bindings):
                 cmdList = fixName(f"CommandList{SourceName}{SlotPrefix.capitalize()}{i}Textures")
-                condition = " || ".join(f"ps == {PassFilters[ps]}" for ps in SlotPasses[slot])
+                condition = " || ".join(dict.fromkeys(passTest(ps) for ps in SlotPasses[slot]))   # two passes may share one vertex shader
                 appended.append("\n".join([f"[{cmdList}]", f"if {condition}"] + bindings + ["endif", ""]))
                 additions.append(("run", cmdList))
             def flat(colour):
@@ -1351,9 +1920,8 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                 return resource
 
             for n, (ps, extraRegs) in enumerate(ExtraPassRegs.get(slot, {}).items()):
-                extra = [f"    {reg} = {flat(role) if isinstance(role, tuple) else bound(role)}"
-                         for reg, role in extraRegs.items()
-                         if (isinstance(role, tuple) or role in files.resourceOfRole)]
+                extra = [line for reg, role in extraRegs.items()
+                         for line in [f"    {reg} = {flat(role)}" if isinstance(role, tuple) else bound(role, reg)] if line]
                 # a --probe spec reaches these lists too: the register that paints a surface is a
                 #   property of the PASS, and the pass that paints the ribbon is one the source
                 #   never draws, so probing only the primary list would answer about the wrong draw
@@ -1372,7 +1940,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                 if (not extra):
                     continue
                 cmdList = fixName(f"CommandList{SourceName}{SlotPrefix.capitalize()}{i}TexturesPass{n}")
-                appended.append("\n".join([f"[{cmdList}]", f"if ps == {PassFilters[ps]}"] + extra + ["endif", ""]))
+                appended.append("\n".join([f"[{cmdList}]", f"if {passTest(ps)}"] + extra + ["endif", ""]))
                 additions.append(("run", cmdList))
                 extraLegend.append(f"      component {i} on {ps}: {', '.join(f'{r}={v}' for r, v in sorted(extraRegs.items()))}")
 
@@ -1389,7 +1957,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                         appended.append("\n".join([f"[{resource}]", f"filename = {rel}", ""]))
                         painted.add(resource)
                     cmdList = fixName(f"CommandList{SourceName}{SlotPrefix.capitalize()}{i}Pass{n}")
-                    appended.append("\n".join([f"[{cmdList}]", f"if ps == {PassFilters[ps]}"]
+                    appended.append("\n".join([f"[{cmdList}]", f"if {passTest(ps)}"]
                                                + [f"    ps-t{r} = {resource}" for r in range(9)] + ["endif", ""]))
                     additions.append(("run", cmdList))
                     paintLegend.append(f"      component {i} on pass {ps} -> flat {name}")
@@ -1403,12 +1971,58 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                                                   beforeRegs = {"run": lambda v: v == OverrideSharedResources},
                                                   latest = False))
             edits.append(FRB.RegRemove(BlendRemapOverrideRegs))
+            # A MOD'S OWN `ps-tN =` LINES MUST NOT SURVIVE BESIDE THE TEXTURE LISTS (2026-09-21). A
+            #   component that binds its textures in its own section (the Hanabi kimono's upper body:
+            #   `ps-t2 = ResourceBase`, `ps-t0 = ResourceNormal`, `ps-t1 = ResourceSub`) kept those lines
+            #   in the remapped copy, AFTER the `run =` of its lists -- so on every pass they overrode
+            #   what the lists had set, and the repacked mask and the neutral ps-t2 never reached the
+            #   draw. They describe the SOURCE's register layout, which the lists replace; only the
+            #   registers the lists set are dropped, so a register the mod binds for a library it
+            #   calls is left alone.
+            listed = {reg for reg, role in regs.items() if ((role, reg) in clOfPair or role == SkinMask or role in roles.resourceOfRole)}
+            listed |= {line.split("=", 1)[0].strip() for line in bindings if (not line.strip().startswith("run"))}
+            if (listed):
+                edits.append(FRB.RegRemove({reg: None for reg in sorted(listed)}))
             edits.append(FRB.RegNewVals({"match_first_index": str(c["index_offset"]), "match_index_count": str(c["index_count"]),
                                          "$\\WWMIv1\\vg_offset": str(c["vg_offset"]), "$\\WWMIv1\\vg_count": str(c["vg_count"])}))
             edits += [hashRemap, rename]
             perObj[("", f"{SlotPrefix}{i}")] = edits
 
-        graphEdits: List[object] = [FRB.GraphGroupEdit([perObj])]
+        # ---- the command lists, as graphs: each role's graph copied once per register it lands on ----
+        clRemap: Dict[Tuple[int, str, str], List[Tuple]] = {(0, *roleObj(r)): [] for r in roles.graphRoles}
+        clObjOfPair: Dict[Tuple[str, str], Tuple[str, str]] = {}
+        for (role, reg), name in clOfPair.items():
+            obj = roleObj(role)
+            clObj = ("", f"cl{role[0].upper()}{role[1:]}{regTag(reg)}")
+            clObjOfPair[(role, reg)] = clObj
+            roots = set(parser._sectionTargets.get(obj) or [])
+            base = name[:len(name) - len(fixName(""))] if (name.endswith(fixName(""))) else name
+            rename = (lambda name, base, roots: (lambda old: name if ((old in roots) or (not roots and old.startswith("TextureOverride")))
+                                                  else fixName(f"{base}{old}")))(name, base, roots)
+            clRemap[(0, *obj)].append((0, *clObj, rename))
+            # a list is not an override: its `hash` / `match_*` go, and `this` becomes the register
+            perObj[clObj] = [FRB.RegRemove({"hash": None, "match_priority": None, "match_first_index": None, "match_index_count": None}),
+                             FRB.RegRemap({"this": [reg]})]
+
+        graphEdits: List[object] = [FRB.GraphGroupRemap(remap = clRemap), FRB.GraphGroupEdit([perObj])]
+
+        # ---- the textures whose packing or grade differs between the skins: TexReplace over the lists ----
+        def listsOf(role):
+            return {(0, *clObj): reg for (r, reg), clObj in clObjOfPair.items() if (r == role)}
+        for role in sorted({r for r, _ in clObjOfPair}):
+            lists = listsOf(role)
+            label = f"{role[0].upper()}{role[1:]}"
+            if (role in MaskTranslations):
+                diffuse = roles.fileOfRole.get(role[:-len("Mask")] + "Diffuse")
+                graphEdits.append(FRB.ResRegCollect(lists, {role: texEdit((0, "", f"res{label}"), label, maskFilter(diffuse, role))}))
+            elif (role in SheenTranslations):
+                print(f"    {role}: {SourceName}'s packed sheen profiles as {TargetName}'s neutral foil")
+                graphEdits.append(FRB.ResRegCollect(lists, {role: texEdit((0, "", f"res{label}"), label, sheenFilter)}))
+            elif (role in ColourGrades and role not in roles.borrowed):
+                graphEdits.append(FRB.ResRegCollect(lists, {role: texEdit((0, "", f"res{label}"), label, gradeFilter(ColourGrades[role], role))}))
+        for role in MaskTranslations | SheenTranslations:
+            if (role in roles.resourceOfRole and role not in roles.graphRoles and any(r == role for r, _ in clOfPair)):
+                print(f"    WARNING: {role} is declared only in a component's own section, so it is bound as-is (no graph to edit)")
         if (dropped):
             graphEdits.append(FRB.GraphRemove([(0, "", f"{SlotPrefix}{i}") for i in dropped]))
 
@@ -1424,7 +2038,8 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                                             {"blend": WWMIBlendReplace((0, "", "blend"), resType = "blend",
                                                                        fixFunc = remapWWMIBlend(vgRemap, forcedRemap,
                                                                                                 weightsPerVertexOf(files.sections),
-                                                                                                source["vertex_count"]))},
+                                                                                                source["vertex_count"],
+                                                                                                componentDrawsOf(files.sections)))},
                                             resPredicates = blendRefs))
 
         # ---- the target slots nothing is drawn through: skipped, and their bones still merged ----
@@ -1448,9 +2063,9 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             for ps, regs in byPass.items():
                 binds = []
                 for reg, role in regs.items():
-                    if (role not in files.resourceOfRole):
+                    line = bindLine(role, reg)
+                    if (line is None):
                         continue
-                    resource = files.resourceOfRole[role]
                     if (paint and role.lower().endswith("diffuse")):
                         resource = fixName("ResourcePaintWhite")
                         if (resource not in painted):
@@ -1460,17 +2075,18 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                             appended.append("\n".join([f"[{resource}]", f"filename = {rel}", ""]))
                             painted.add(resource)
                             paintLegend.append(f"      the shared mesh {meshHash}: every diffuse -> flat white")
-                    binds.append(f"    {reg} = {resource}")
+                        line = f"    {reg} = {resource}"
+                    binds.append(line)
                 if (binds):
-                    lines += [f"if ps == {PassFilters[ps]}"] + binds + ["endif"]
+                    lines += [f"if {passTest(ps)}"] + binds + ["endif"]
                     wrote = True
             if (wrote):
                 appended.append("\n".join(lines + [""]))
                 print(f"    the shared mesh {meshHash}: {len(byPass)} passes rebound to {SourceName}'s own textures")
 
         # ---- the shader tags the texture command lists ask about, and the invented mask ----
-        for i, (ps, filterIndex) in enumerate(PassFilters.items()):
-            appended.append("\n".join([f"[{fixName(f'ShaderOverridePass{i}')}]", f"hash = {ps}", f"filter_index = {filterIndex}", ""]))
+        for i, (shader, filterIndex) in enumerate(ShaderFilters.items()):
+            appended.append("\n".join([f"[{fixName(f'ShaderOverridePass{i}')}]", f"hash = {shader}", f"filter_index = {filterIndex}", ""]))
         if (any(role == SkinMask for i in files.present if (i in plan) for role in plan[i][1].values())):
             maskFile = os.path.join(files.textureFolder, f"{SkinMask}{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
             os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
@@ -1506,7 +2122,14 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             if (i not in plan):
                 continue
             slot, regs = plan[i]
-            bound = ", ".join(f"{reg}={maskResource if (role == SkinMask) else files.resourceOfRole.get(role, 'GAME (mod has none)')}" for reg, role in regs.items())
+            def described(role, reg):
+                if (role == SkinMask):
+                    return maskResource
+                if ((role, reg) in clOfPair):
+                    where = roles.sectionOfRole.get(role) or f"download of {os.path.basename(roles.downloads.get(role, ''))}"
+                    return f"{role}<-{where}"
+                return roles.resourceOfRole.get(role, "GAME (mod has none)")
+            bound = ", ".join(f"{reg}={described(role, reg)}" for reg, role in regs.items())
             print(f"    slot {slot} {TargetLabels[slot]:<22} <- {i} {Labels[i]:<28} {files.draws[i]} draws  {bound}")
         for slot in range(len(target["components"])):
             if (slot not in drawnSlots):
@@ -1738,8 +2361,14 @@ def main():
     parser.add_argument("--hideOrig", action = "store_true", help = f"comment out the mod's own {SourceName} sections, so the mod renders on {TargetName} only")
     parser.add_argument("--undo", action = "store_true", help = "remove a previous fix instead of fixing")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
-    parser.add_argument("--anchor", choices = sorted(AnchorChains) + ["all"], default = None,
-                        help = "pin a chain the skin has no counterpart for to its root bone -- AnchorChains is empty for this pair until an in-game round needs one")
+    # DEFAULTS TO "props", because a plain re-run without it silently un-fixes her fox mask and
+    #   hairpins: the anchor lives in the BLEND buffer, so the last run to touch it wins, and
+    #   nothing in the output says which way it went. A mod that weights nothing to those bones is
+    #   unaffected, so there is no cost to having it on. Pass "none" to turn it off.
+    parser.add_argument("--standIn", default = None,
+                        help = "component:bone:standIn[,...] -- replace SlotBoneStandIns for this run (diagnostic)")
+    parser.add_argument("--anchor", choices = sorted(AnchorChains) + ["all", "none"], default = "props",
+                        help = "pin a chain the skin has no counterpart for to one bone (default: props)")
     # `hide` WAS THE DEFAULT AND IT BROKE THE MOD ON ITS OWN CHARACTER (2026-09-20). It comments
     #   sections out of the mod's OWN text, so whatever it does it does to the source's draws as
     #   well as the remap's -- and a real mod's shape-key pipeline is not decoration: on a 114213
@@ -1764,9 +2393,20 @@ def main():
     parser.add_argument("--probe", nargs = "?", const = True, default = False, metavar = "SPEC",
                         help = "bind a flat colour to every register the clothing slots do not plan, to see in one round which one paints a surface; "
                                "SPEC (`3:ps-t4,4:ps-t5`) narrows it to the named registers per source component")
+    parser.add_argument("--localDownloads", action = "store_true",
+                        help = "fetch the fallback textures from this checkout's Data/Mod Downloads instead of master (for assets not merged yet)")
     parser.add_argument("--vgRemap", default = None, metavar = "JSON",
                         help = "a {source group: target group} table to write the blend with instead of the library's VGRemaps row (e.g. a draft sheet exported to json)")
     args = parser.parse_args()
+    if (args.standIn is not None):
+        # --standIn component:bone:standIn[,...] replaces SlotBoneStandIns for this run -- a diagnostic
+        #   knob first: throwing a part onto a bone far from the body answers "is it drawn at all"
+        #   in one round, which no amount of measuring where it SHOULD land can
+        global SlotBoneStandIns
+        SlotBoneStandIns = {}
+        for entry in filter(None, args.standIn.split(",")):
+            component, bone, standIn = (int(x) for x in entry.split(":"))
+            SlotBoneStandIns.setdefault(component, {})[bone] = standIn
     remapOverride = None
     if (args.vgRemap):
         with open(winToPosix(args.vgRemap), "r", encoding = "utf-8") as f:
@@ -1774,13 +2414,14 @@ def main():
     folder = os.path.abspath(winToPosix(args.mod))
     if (not os.path.isdir(folder)):
         raise SystemExit(f"not a folder: {folder}")
-    global ServiceRoot
+    global ServiceRoot, LocalDownloads
     ServiceRoot = folder
+    LocalDownloads = args.localDownloads
 
     sourceType, targetType = FRB.WWMIBuilder.chisa(), FRB.WWMIBuilder.chisaParfait()
     FRB.CppStrategyOverrides.clear()
     retarget = (args.shapeKeys == "retarget")
-    FRB.CppStrategyOverrides.setParser(SourceName, makeParser(sourceType, retarget))
+    FRB.CppStrategyOverrides.setParser(SourceName, makeParser(sourceType, retarget, plannedRolesOf(Plans[args.plan])))
     probe = parseProbeSpec(args.probe) if isinstance(args.probe, str) else args.probe
     FRB.CppStrategyOverrides.setFixer(SourceName, TargetName, makeFixer(sourceType, targetType, remapOverride, args.anchor, retarget, probe, args.plan, args.paint, args.passPaint))
     try:

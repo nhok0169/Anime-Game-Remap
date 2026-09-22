@@ -11,6 +11,16 @@
 #      so it reads as several different layouts of the same slot, and mirroring one of those onto
 #      the target mirrors another component's leftover state.
 #
+#   1b. AND WHETHER THE DRAW IT INHERITED FROM IS EVEN THE SAME CHARACTER. `~` says a register was
+#      standing from an earlier draw; it does not say whose. A frame holds every character on
+#      screen, so the draw that last wrote ps-t5 may belong to an NPC three metres away, and its
+#      texture then reads as "what this character binds there". That cost an in-game round on
+#      Chisa: her upper body INHERITS 4848ae14 at ps-t5 from a draw that turns out to appear
+#      byte-identically in the other character's dump too, it was transcribed into the fix as hers,
+#      and the kimono came back yellow. `--against <the other dump>` marks such a register `!`
+#      instead of `~`: any draw whose (start, count, pixel shader) appears in BOTH dumps is
+#      something in the scene that is not either character. ONLY a `sets` line is evidence.
+#
 #   2. WHAT KIND of texture each bound one is, classified from its PIXELS rather than from where it
 #      sits: a normal map is (R, G, B=0) around 127, a material mask is coded (R high, G low,
 #      B ~126, A 0), a detail / id map is near black, a matcap or ramp is small, and what is left is
@@ -56,6 +66,7 @@ def loadApi():
 def draws(folder, starts):
     """Every DrawIndexed of the frame, with the ps-t slots THAT draw set and the ones it inherited"""
     state, fresh, pending, ps = {}, {}, None, None
+    owner = {}                       # slot -> the draw that last SET it, as (start, count, ps)
     out = []
     with open(os.path.join(folder, "log.txt"), "r", encoding = "utf-8", errors = "replace") as f:
         for line in f:
@@ -71,9 +82,14 @@ def draws(folder, starts):
                     ps = found.group(1) if (found is not None) else None
                 elif (call == "DrawIndexed"):
                     counts = DrawIndexedPattern.search(args)
-                    if (counts is not None and (not starts or int(counts.group(2)) in starts)):
-                        out.append({"draw": int(match.group("draw")), "ps": ps, "start": int(counts.group(2)),
-                                    "count": int(counts.group(1)), "bound": dict(state), "fresh": dict(fresh)})
+                    if (counts is not None):
+                        key = (int(counts.group(2)), int(counts.group(1)), ps)
+                        for slot in fresh:                 # this draw now owns what it just set
+                            owner[slot] = key
+                        if (not starts or key[0] in starts):
+                            out.append({"draw": int(match.group("draw")), "ps": ps, "start": key[0],
+                                        "count": key[1], "bound": dict(state), "fresh": dict(fresh),
+                                        "key": key, "owner": dict(owner)})
                     fresh = {}
                 continue
             if (pending == "ps-t"):
@@ -135,16 +151,26 @@ def main():
                         help = "only draws at these StartIndexLocations (a component's index_offset)")
     parser.add_argument("--downloads", default = None,
                         help = "a Data/Mod Downloads/WuWa/<Char>/<ver> folder, for a texture the dump only previewed")
+    parser.add_argument("--against", default = None,
+                        help = "the OTHER character's FrameAnalysis folder; a register inherited from a draw "
+                               "present in both is marked ! -- it belongs to neither character")
     args = parser.parse_args()
 
     FRB = loadApi()
+    mine = draws(args.folder, set())
+    shared = set()
+    if (args.against is not None):
+        shared = {e["key"] for e in mine} & {e["key"] for e in draws(args.against, set())}
+        print(f"{len(shared)} draws appear in both dumps identically -- they are not either "
+              f"character's, and a register marked ! was left standing by one of them" + os.linesep)
     for entry in draws(args.folder, set(args.starts)):
         setHere = entry["fresh"]
         print(f"draw {entry['draw']:6d}  start {entry['start']:7d}  count {entry['count']:7d}  ps={entry['ps']}"
               f"   {'sets the whole set' if (len(setHere) >= 4) else ('sets ' + ', '.join(f'ps-t{s}' for s in sorted(setHere)) if (setHere) else 'SETS NOTHING -- every register is inherited')}")
         for slot in sorted(entry["bound"]):
             texHash = entry["bound"][slot]
-            mark = " " if (slot in setHere) else "~"       # ~ = inherited from an earlier draw
+            # ~ = inherited from an earlier draw; ! = inherited from a draw that is not this character
+            mark = " " if (slot in setHere) else ("!" if (entry["owner"].get(slot) in shared) else "~")
             path = fileOf(args.folder, args.downloads, entry["draw"], slot, texHash)
             print(f"   {mark}ps-t{slot:<2d} {texHash:10s} {kindOf(path, FRB) if (path) else 'no dump of it'}")
 

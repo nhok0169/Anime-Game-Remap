@@ -1840,8 +1840,27 @@ def weightsPerVertexOf(sections) -> Optional[int]:
     return None
 
 
+def vertexVGPathOf(sections: Dict[str, List[str]], folder: str) -> Optional[str]:
+    """Where the mod keeps WWMI's 16-bit merged bone ids, read off the .ini rather than guessed.
+
+    IT IS NOT ALWAYS CALLED BlendRemapVertexVG.buf (2026-09-22). A mod-manager-packaged mod names
+    every file by GUID and gives its buffers a `.assets` extension -- Chisa12's is
+    `0d5b4f26-8e1c-4226-96c1-c0b3711883ff.assets` -- so looking for the WWMI export's own name
+    beside Blend.buf finds nothing. The `.ini` says where it is, in the resource section that binds
+    it, and that is true whatever the packaging.
+    """
+    for name, lines in sections.items():
+        if ("blendremapvertexvg" not in name.lower().replace("_", "")):
+            continue
+        for key, value in map(keyValue, lines):
+            if (key and key.lower() == "filename"):
+                return os.path.join(folder, value.replace(chr(92), "/"))
+    return None
+
+
 def remapWWMIBlend(vgRemap, forced: bool, declared: Optional[int], libraryVertexCount: int,
-                   componentDraws: Optional[Dict[int, List[Tuple[int, int]]]] = None):
+                   componentDraws: Optional[Dict[int, List[Tuple[int, int]]]] = None,
+                   vertexVGPath: Optional[str] = None):
     """A RemapBlendResource fixFunc: Blend.buf -> the resource's fixed path, indices through 'vgRemap'
     (the library's row the resource carries, unless 'forced' says the script's table wins).
 
@@ -1857,8 +1876,22 @@ def remapWWMIBlend(vgRemap, forced: bool, declared: Optional[int], libraryVertex
     can drop the remap machinery altogether -- see neutraliseBlendRemap."""
     def fix(resource) -> bool:
         remap = vgRemap if (forced or getattr(resource, "vgRemap", None) is None) else resource.vgRemap
-        vertexVG = os.path.join(os.path.dirname(resource.srcPath), VertexVGFile)
+        # THE FALLBACK BELOW IS A NO-OP DRESSED AS A FIX, so it may not be reached silently
+        #   (2026-09-22). Remapping Blend.buf's own bytes for a character past 256 bones remaps
+        #   numbers the game never reads -- the ids there are component-LOCAL -- and the result is
+        #   an exploded mesh with an intact head, which is what Chisa12 rendered as. The path used
+        #   to be `BlendRemapVertexVG.buf` beside Blend.buf, which a mod-manager-packaged mod does
+        #   not have: it names files by GUID under a `.assets` extension, so the neighbour was
+        #   missing, the fallback ran, and nothing said so. The `.ini` knows where the file is.
+        vertexVG = vertexVGPath or os.path.join(os.path.dirname(resource.srcPath), VertexVGFile)
         if (not os.path.isfile(vertexVG)):
+            if (vertexVGPath is not None):
+                raise SystemExit(f"the .ini declares a blend remap whose buffer is at '{vertexVGPath}', "
+                                 f"and that file is not there. Remapping Blend.buf instead would remap "
+                                 f"component-local ids the game never reads.")
+            print(f"    WARNING: no '{VertexVGFile}' beside '{os.path.basename(resource.srcPath)}' and the .ini "
+                  f"declares no blend remap, so Blend.buf's own ids are remapped. That is right ONLY for a "
+                  f"character whose merged skeleton is under 256 bones -- {SourceName} is not one.")
             FRB.BlendFile(resource.srcPath, wwmiBlendElements()).remap(remap, fixedBlendFile = resource.fixedPath)
             return True
 
@@ -2276,7 +2309,8 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                                                                        fixFunc = remapWWMIBlend(vgRemap, forcedRemap,
                                                                                                 weightsPerVertexOf(files.sections),
                                                                                                 source["vertex_count"],
-                                                                                                componentDrawsOf(files.sections)))},
+                                                                                                componentDrawsOf(files.sections),
+                                                                                                vertexVGPathOf(files.sections, ini.folder)))},
                                             resPredicates = blendRefs))
 
         # ---- the target slots nothing is drawn through: skipped, and their bones still merged ----

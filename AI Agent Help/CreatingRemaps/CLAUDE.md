@@ -1399,6 +1399,20 @@ Four findings, none of them about Sanhua:
   neither would RabbitFX 8.2 read that mod's `ps-t17` on Sanhua herself: its shader patch declares
   `t50`/`t51`/`t60`-`t65` and takes its maps through `Resource\RabbitFX\GlowMap` / `FXMap`, never
   `t17`. A mod's effect layer working or not is the mod's business; the fix only has to carry it.
+- **...but carrying the call is not enough if the fix TAGS the shader RabbitFX tagged (2026-09-22).**
+  Every RabbitFX regex marks the pixel shader it patches `filter_index = 1718.1`, and `Run` /
+  `SetTextures` act only `if ps == 1718.1`. A shader holds ONE filter index, so a fix that tags a
+  pixel shader with its own index for pass gating switches RabbitFX off on that pass -- globally,
+  since a `[ShaderOverride]` is keyed by hash. Chisa6's backless sweater cuts its see-through panels
+  out with an FX map; on ChisaParfait they rendered RED, because the mod paints them with the skin
+  mask code over a near-black diffuse (harmless while every pass discards them) and the fix's tag on
+  one of the upper body's passes had switched that pass's discard off. **You cannot tell from a dump
+  which shaders are RabbitFX's**: only `[ShaderRegexMain]` has its `dump = desc` lines switched on,
+  and six more regexes (Outline, SingleOutput, Eye, ...) patch shaders without a trace. So the rule
+  is **never tag a pixel shader; gate passes through their VERTEX shaders**, as an OR over every
+  vertex shader a pass is drawn with -- one pass can have several (the Parfait face pass runs on two
+  across dumps, `32414b55` on a different one per component). `chisaParfaitFix.py`'s
+  `PassVertexShaders` is the table, and a WWMI fixer config with pass gates needs the same.
 
 Open: WuWa BUFFER downloads (a mod missing a whole component draws nothing there -- the texture
 fallback above is the only WuWa download so far); the reverse direction; the `disabled/` folder of

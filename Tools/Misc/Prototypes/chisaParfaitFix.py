@@ -396,6 +396,7 @@ SharedMeshes = {
 }
 
 FilterBase = 3381.71   # 3dmigoto keys [ShaderOverride] by shader hash GLOBALLY, so these sit clear of the Sanhua fix's 3381.91 and the reverse one's 3381.81
+FilterStep = 0.001     # ~25 vertex shaders are tagged now, and a step of 0.01 would run them past 3381.81
 
 # THE FIX'S OWN PASS FILTERS WERE SWITCHING RABBITFX OFF (2026-09-21). RabbitFX patches a pixel shader
 #   through its [ShaderRegexMain] and marks it `filter_index = 1718.1`; its `SetTextures` then acts
@@ -406,32 +407,57 @@ FilterBase = 3381.71   # 3dmigoto keys [ShaderOverride] by shader hash GLOBALLY,
 #   because a [ShaderOverride] is keyed by shader hash globally, it did that for ANY mod drawing with
 #   those shaders, not only this one.
 #
-#   RabbitFX patches PIXEL shaders only, so on those passes the fix tags the VERTEX shader instead
-#   and asks `vs == ...`. Two vertex shaders are shared between passes, and neither pairing needs
-#   telling apart: d83a5477 draws the bangs and hair passes (component 0 already binds one list for
-#   both, and component 1 is only drawn on the hair one), and 6594231b draws the two side-panel passes,
-#   whose lists are identical. The pixel shaders RabbitFX leaves alone keep `ps ==`.
-#   Read off FrameAnalysis-ChisaParfait-2026-09-20-020434: RabbitFX's regex files name the ps, the
-#   draw's file names pair it with its vs.
-PassVertexShaders: Dict[str, str] = {
-    "c0ad88a930c4d853": "d83a54772fc666f9", "71f60c461ae3f166": "d83a54772fc666f9",   # bangs, hair
-    "2060326dcea397fb": "683e019f389b2624",                                           # face
-    "3311e8a58d8c5d20": "d24888b5b268a084",                                           # upper body
-    "a99f09b6f36e94af": "22195a190e37d3cf",                                           # lower body
-    "87825a9a29529f9b": "6594231b96dfca5f", "ced9a47fb6ad4d16": "6594231b96dfca5f",   # the side panels
+#   RabbitFX patches PIXEL shaders only, so the fix tags the VERTEX shader instead and asks `vs == ...`.
+#
+# AND "THE PIXEL SHADERS RABBITFX LEAVES ALONE" WAS A LIST NOBODY COULD READ (2026-09-22). The table
+#   above used to move only the passes a dump showed RabbitFX patching, and keep `ps ==` for the rest
+#   -- `21176cf6` and `32414b55` (every slot's second and third pass), `259b766b`, `3df800c3`,
+#   `da00ec8f` and the shared mesh's three. But a dump shows a patched shader only through
+#   `[ShaderRegex_RabbitFX_Main]`'s `dump = desc` lines, and RabbitFX has SIX more regexes (Eye,
+#   Transparent, SingleOutput, Outline, TexturelessOutline, ...) whose dump lines are commented out,
+#   every one of which marks its shader `1718.1` and four of which carry the same FX-map discard. So
+#   a pass could be RabbitFX's with no trace in any dump. One was: Chisa6's backless sweater cuts its
+#   see-through panels out with an FX map, and on the skin those panels rendered RED -- the mod paints
+#   them with the skin mask code (R = 255) over a near-black diffuse, which is harmless while every
+#   pass discards them and is dark skin lit red when one does not. The fix's `ps` tag on `21176cf6`,
+#   which draws the upper body too, had switched that pass's discard off.
+#   So NO pixel shader is tagged any more: every pass is gated through the vertex shaders it is drawn
+#   with. A pass can have SEVERAL -- the face pass runs on `683e019f` in some dumps and `c277738c` in
+#   others, and `32414b55` on a different one per component -- so the gate is an OR over all of them.
+#   No component draws two differently-bound passes on one vertex shader: `d83a5477` carries the bangs
+#   and hair passes (component 0 binds one list for both, component 1 is only drawn on the hair one),
+#   and `6594231b` the two side-panel passes, whose lists are identical.
+#   Read off every FrameAnalysis-ChisaParfait* dump's draw table (wwmiDrawTable.py), mesh e611d493
+#   and the shared mesh b00403dc.
+PassVertexShaders: Dict[str, List[str]] = {
+    "c0ad88a930c4d853": ["d83a54772fc666f9"], "71f60c461ae3f166": ["d83a54772fc666f9"],   # bangs, hair
+    "2060326dcea397fb": ["683e019f389b2624", "c277738ca4039045"],                         # face
+    "3311e8a58d8c5d20": ["d24888b5b268a084"],                                             # upper body
+    "a99f09b6f36e94af": ["22195a190e37d3cf"],                                             # lower body
+    "3df800c350681ec9": ["bbabe18b97a63509"],                                             # accessory
+    "87825a9a29529f9b": ["6594231b96dfca5f"], "ced9a47fb6ad4d16": ["6594231b96dfca5f"],   # the side panels
+    "da00ec8f7c73d5e3": ["72f45530b1e1f75a", "a6e9eb6303b1b631"],                         # slot 6
+    "259b766b59f72419": ["fd12d3374ac7a7dd", "1479e3f5a626af60"],                         # the face's second pass
+    "21176cf68a65ab7a": ["0ccd030bff8b515c", "5d60ebdc89fe3833"],                         # every slot's second pass
+    "32414b557630d98d": ["ba4eee7b53cf726e", "60b893ec7f585976", "f906b8aa4c220a6f",      # every slot's third pass,
+                         "3edca9a0f68c8b15", "59585b690c6e1f01", "4cf784b1b2c7ca1c"],     #   one vs per component
+    "ca134b7ad59cdf8c": ["0b22e4a80375c4d0", "a5cd08444f0fca2e"],                         # the shared mesh b00403dc
+    "a7bdec26cf254853": ["ee6166816ce9f788"],
+    "21a483170781cfeb": ["da98d2d08d937357"],
 }
 _AllPasses = list(dict.fromkeys([ps for passes in SlotPasses.values() for ps in passes]
                                 + [ps for byPass in ExtraPassRegs.values() for ps in byPass]
                                 + [ps for byPass in SharedMeshes.values() for ps in byPass]))
-ShaderFilters = {h: f"{FilterBase + 0.01 * i:.4f}".rstrip("0")          # the shader actually tagged -> its filter
-                 for i, h in enumerate(dict.fromkeys(PassVertexShaders.get(ps, ps) for ps in _AllPasses))}
-PassFilters = {ps: ShaderFilters[PassVertexShaders.get(ps, ps)] for ps in _AllPasses}
+_untagged = [ps for ps in _AllPasses if (ps not in PassVertexShaders)]
+assert (not _untagged), f"passes with no vertex shader to gate them by (read one off a dump's draw table): {_untagged}"
+ShaderFilters = {vs: f"{FilterBase + FilterStep * i:.4f}".rstrip("0")          # the vertex shader tagged -> its filter
+                 for i, vs in enumerate(dict.fromkeys(vs for ps in _AllPasses for vs in PassVertexShaders[ps]))}
 
 
 def passTest(ps: str) -> str:
-    """The .ini condition that is true on a draw of pixel shader 'ps' -- through its vertex shader when
-    RabbitFX owns the pixel shader's filter (see PassVertexShaders)"""
-    return f"{'vs' if (ps in PassVertexShaders) else 'ps'} == {PassFilters[ps]}"
+    """The .ini condition that is true on a draw of pixel shader 'ps' -- through the vertex shaders it
+    is drawn with, never the pixel shader itself (see PassVertexShaders)"""
+    return " || ".join(f"vs == {ShaderFilters[vs]}" for vs in PassVertexShaders[ps])
 
 # Chisa's textures by the hash the game binds them under, with the role each plays in its component's
 #   MAIN pass -- read off FrameAnalysis-Chisa-2026-09-20-013225's slot table, and the kind of each

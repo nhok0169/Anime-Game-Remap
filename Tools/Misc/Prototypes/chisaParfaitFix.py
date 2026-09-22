@@ -1203,8 +1203,9 @@ class TextureIndex():
             # component unbound, drawing with the TARGET's textures (2026-09-19)
             roles: List[Tuple[str, str]] = []
             for h in hashes:
-                if (h in Roles and Roles[h] not in [r for r, _ in roles]):
-                    roles.append((Roles[h], f"hash {h}"))
+                role = roleOfHash(h)
+                if (role is not None and role not in [r for r, _ in roles]):
+                    roles.append((role, f"hash {h}" + ("" if (h in Roles) else " (an older hash, by the library's history)")))
             if (roles):
                 self.roleOf[f] = roles; counts["hash"] += 1
             else:
@@ -1551,6 +1552,34 @@ def textureIndex() -> TextureIndex:
     if (_textureIndex is None or _textureIndex.root != ServiceRoot):
         _textureIndex = TextureIndex(ServiceRoot)
     return _textureIndex
+
+
+_libraryHashes = None
+HashVersions = ("3.6", "3.2", "3.1", "3.0")     # core's Chisa texture generations, newest first (HashData.cpp)
+
+
+def roleOfHash(h: str) -> Optional[str]:
+    """The role a texture hash plays for the source, asked of the LIBRARY first.
+
+    core's HashData files Chisa's textures typed by role, current and older (2026-09-22): WuWa rehashes
+    a texture between versions and a mod carries whatever hash its author dumped, so a hash this file
+    does not list used to fall through to the shape guess -- which took Chisa8's qipao diffuse
+    (`2970cef1`, an older upper-body diffuse hash) for a normal map and bound Chisa's own vanilla diffuse
+    in its place. The older rows are built by Tools/Misc/Diagnostics/chisaHashHistory.py from hash-level
+    evidence only. Roles above stays the fallback for a library that predates those rows."""
+    global _libraryHashes
+    if (_libraryHashes is None):
+        _libraryHashes = FRB.WWMIBuilder.chisa().hashes
+    # a key is (version, name, type) and getKey resolves per key at the newest version AT OR BELOW the
+    #   one asked, so one call can only see the newest generation: walk the buckets newest first
+    for version in HashVersions:
+        try:
+            name, typ = _libraryHashes.getKey(h, version)
+        except (KeyError, TypeError, ValueError):
+            continue
+        if (name == SourceName and typ in RoleComponent):
+            return typ
+    return Roles.get(h)
 
 
 def plannedRolesOf(plan) -> List[str]:

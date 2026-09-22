@@ -1319,6 +1319,29 @@ namespace AGRemapCore {
              */
             static IniFixBuilder::Factory bennettAdventureToBennett6_1();
 
+            /**
+             * @brief
+             @rst
+             The 6.7 fix remapping **Citlali onto CitlaliWhisperofStars's Body** :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The THIRD remap onto a skin of several components. One fixer per target component, all
+             three built from one :cpp:class:`GIMIComponentFixerConfig`. See
+             ``data/IniFixData/Citlali/CitlaliFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory citlaliWhisperofStarsBody6_7();
+
+            /**
+             * @brief The 6.7 fix remapping **Citlali onto CitlaliWhisperofStars's Bangs** -- see :cpp:func:`citlaliWhisperofStarsBody6_7`
+             */
+            static IniFixBuilder::Factory citlaliWhisperofStarsBangs6_7();
+
+            /**
+             * @brief The 6.7 fix remapping **Citlali onto CitlaliWhisperofStars's Eyes** -- see :cpp:func:`citlaliWhisperofStarsBody6_7`
+             */
+            static IniFixBuilder::Factory citlaliWhisperofStarsEyes6_7();
+
             static IniFixBuilder::Factory yelanTranquilBody6_1();
 
             /**

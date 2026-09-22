@@ -22099,6 +22099,11 @@ class VGComponentBuffers:
         List[List[:class:`int`]]: Per kept vertex, its 4 bone indices in the component's numbering (negative sentinels for negative index)
         """
     @property
+    def keptTriangleIds(self) -> list[list[int]]:
+        """
+        List[List[:class:`int`]]: Per source index buffer, the SOURCE index of every triangle in :attr:`ibs`, ascending -- what a mod's own ``drawindexed`` ranges are remapped through
+        """
+    @property
     def live(self) -> list[bool]:
         """
         List[:class:`bool`]: Negative index only: per mod vertex, whether it carries no sentinel

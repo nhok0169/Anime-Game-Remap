@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_citlali_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::CitlaliFixer</compoundname>
+    <includes refid="_citlali_fixer_8h" local="no">CitlaliFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_citlali_fixer_1a1374e2e760ac3201ef3085e986a404e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::CitlaliFixer::CitlaliFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>CitlaliFixer</name>
+        <qualifiedname>AGRemapCore::CitlaliFixer::CitlaliFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Citlali/CitlaliFixer.h" line="38" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_citlali_fixer_1aec8924b1751b1d0f74d7fda7f84e3968" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::CitlaliFixer::body6_7</definition>
+        <argsstring>()</argsstring>
+        <name>body6_7</name>
+        <qualifiedname>AGRemapCore::CitlaliFixer::body6_7</qualifiedname>
+        <briefdescription>
+<para>The fixer onto CitlaliWhisperofStars&apos;s <computeroutput>Body</computeroutput> <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aae3209df0e33ccb63765acd862ac2227" kindref="member">IniFixBuilderFuncs::citlaliWhisperofStarsBody6_7</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Citlali/CitlaliFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="134" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_citlali_fixer_1a16b7a60569a76b451436ef192b3856e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::CitlaliFixer::bangs6_7</definition>
+        <argsstring>()</argsstring>
+        <name>bangs6_7</name>
+        <qualifiedname>AGRemapCore::CitlaliFixer::bangs6_7</qualifiedname>
+        <briefdescription>
+<para>The fixer onto CitlaliWhisperofStars&apos;s <computeroutput>Bangs</computeroutput> <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aab710e60c9e04a9f98722c7a52885093" kindref="member">IniFixBuilderFuncs::citlaliWhisperofStarsBangs6_7</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Citlali/CitlaliFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="139" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_citlali_fixer_1a118192fe34a7f57d3236882ac24d3179" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::CitlaliFixer::eyes6_7</definition>
+        <argsstring>()</argsstring>
+        <name>eyes6_7</name>
+        <qualifiedname>AGRemapCore::CitlaliFixer::eyes6_7</qualifiedname>
+        <briefdescription>
+<para>The fixer onto CitlaliWhisperofStars&apos;s <computeroutput>Eyes</computeroutput> <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1adaae31c7cfae803ad044bb0068f7efac" kindref="member">IniFixBuilderFuncs::citlaliWhisperofStarsEyes6_7</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Citlali/CitlaliFixer.h" line="53" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="144" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Citlali&apos;s own ``.ini`` fixers -- the third remap onto a skin of SEVERAL COMPONENTS
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+CitlaliWhisperofStars (6.7) is a ``Body``, a ``Bangs`` and an ``Eyes``, so Citlali is fixed
+by THREE fixers, one per component, built from one :cpp:class:`GIMIComponentFixerConfig` --
+see :cpp:func:`makeGIMIComponentFixer` for the shape and
+``data/IniFixData/Citlali/CitlaliFixer.cpp`` for Citlali&apos;s own choices. Pair it with
+:cpp:class:`CitlaliParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Citlali/CitlaliFixer.h" line="35" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Citlali/CitlaliFixer.h" bodystart="35" bodyend="54"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_citlali_fixer_1a16b7a60569a76b451436ef192b3856e9" prot="public" virt="non-virtual"><scope>AGRemapCore::CitlaliFixer</scope><name>bangs6_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_citlali_fixer_1aec8924b1751b1d0f74d7fda7f84e3968" prot="public" virt="non-virtual"><scope>AGRemapCore::CitlaliFixer</scope><name>body6_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_citlali_fixer_1a1374e2e760ac3201ef3085e986a404e9" prot="public" virt="non-virtual"><scope>AGRemapCore::CitlaliFixer</scope><name>CitlaliFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_citlali_fixer_1a118192fe34a7f57d3236882ac24d3179" prot="public" virt="non-virtual"><scope>AGRemapCore::CitlaliFixer</scope><name>eyes6_7</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

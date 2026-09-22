@@ -67,6 +67,8 @@
     <innerclass refid="class_a_g_remap_core_1_1_call_graph" prot="public">AGRemapCore::CallGraph</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_cherry_hu_tao_fixer" prot="public">AGRemapCore::CherryHuTaoFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_cherry_hu_tao_parser" prot="public">AGRemapCore::CherryHuTaoParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_citlali_fixer" prot="public">AGRemapCore::CitlaliFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_citlali_parser" prot="public">AGRemapCore::CitlaliParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_colour" prot="public">AGRemapCore::Colour</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_colour_range" prot="public">AGRemapCore::ColourRange</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_colour_replace" prot="public">AGRemapCore::ColourReplace</innerclass>
@@ -1161,7 +1163,11 @@ and back again, which preserves wherever they put it
    This mode assumes the addition is invalidated only by the **delimiter**, never by
    anything between two of them. For the fix libraries that means a `section`_ must not
    rebind its ``ps-t`` registers after drawing: measured over **33030** real
-   ``TextureOverride`` `section`_\\s, **none** do
+   ``TextureOverride`` `section`_\\s, **none** do -- but a Citlali mod found since does (bind,
+   ``ORFix``, draw, bind again, ``ORFix``, draw), and one call per path drew its second
+   binding un-reslotted. Where the mod&apos;s own calls are already the right library, keeping
+   them is correct and re-issuing is not: see ``keepOwnFixCalls`` in
+   ``GIMIComponentFixer.cpp`` and ``Tools/Misc/Diagnostics/unfixedDraws.py``
 </verbatim> </para>
           </detaileddescription>
         </enumvalue>
@@ -1178,7 +1184,7 @@ single path gets it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/RegDelimitedAddMode.h" line="30" column="5" bodyfile="include/AGRemapCore/constants/RegDelimitedAddMode.h" bodystart="30" bodyend="78"/>
+        <location file="include/AGRemapCore/constants/RegDelimitedAddMode.h" line="30" column="5" bodyfile="include/AGRemapCore/constants/RegDelimitedAddMode.h" bodystart="30" bodyend="82"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106" prot="public" static="no" strong="yes">
         <type></type>
@@ -1630,7 +1636,7 @@ keyed by that component&apos;s own :cpp:enum:`ModTypeId`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="1266" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="1266" bodyend="1270" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="349" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="1593" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="1593" bodyend="1597" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="416" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1786,7 +1792,7 @@ half makes sense alone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/GIMICharParser.cpp" line="326" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="326" bodyend="383" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="245" declcolumn="30"/>
+        <location file="src/data/IniParseData/GIMICharParser.cpp" line="328" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="328" bodyend="385" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="262" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a584e65cf26c955c00926e1dcbcfa8933" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -2130,7 +2136,7 @@ and ``texcoord`` (at most one each) and ``buf`` (the index buffers, any number, 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="97" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="97" bodyend="178" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="116" declcolumn="10"/>
+        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="98" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="98" bodyend="190" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="116" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1acfa9613659a36bc4765c5f2fca7f218f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>

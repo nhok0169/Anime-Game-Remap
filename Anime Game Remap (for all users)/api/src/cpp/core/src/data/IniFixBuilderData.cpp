@@ -360,6 +360,17 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::BennettAdventure),
                   "6.1", ModTypeIdTools::getName(ModTypeId::Bennett)}, IniFixBuilderFuncs::bennettAdventureToBennett6_1()},
 
+                // ===== Citlali @ toVersion 6.7 (2026-09-21) =====
+                // THREE rows, one per target component: her hair has bones of its own, so the
+                // skin's Bangs receives geometry (unlike BennettAdventure's). At 6.7 because the
+                // skin's hashes are filed there -- fixing to an earlier version would find none.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali),
+                  "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStarsBody)}, IniFixBuilderFuncs::citlaliWhisperofStarsBody6_7()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali),
+                  "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStarsBangs)}, IniFixBuilderFuncs::citlaliWhisperofStarsBangs6_7()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali),
+                  "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStarsEyes)}, IniFixBuilderFuncs::citlaliWhisperofStarsEyes6_7()},
+
                 // ===== Keqing @ toVersion 6.1 =====
                 //
                 // The pair: this one MERGES (Keqing's dress and head onto KeqingOpulent's head)

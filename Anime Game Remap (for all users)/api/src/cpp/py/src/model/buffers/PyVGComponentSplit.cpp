@@ -114,6 +114,8 @@ What one component gets out of a split: the vertices it draws and its buffers ov
         .def_readonly("ibs", &AGRC::VGComponentBuffers::ibs,
                       py::doc("List[List[List[:class:`int`]]]: Per source index buffer, the triangles this component draws -- renumbered into ``vertices`` for a cut, in the mod's numbering for negative index"))
         .def_readonly("live", &AGRC::VGComponentBuffers::live, py::doc("List[:class:`bool`]: Negative index only: per mod vertex, whether it carries no sentinel"))
+        .def_readonly("keptTriangleIds", &AGRC::VGComponentBuffers::keptTriangleIds,
+                      py::doc("List[List[:class:`int`]]: Per source index buffer, the SOURCE index of every triangle in :attr:`ibs`, ascending -- what a mod's own ``drawindexed`` ranges are remapped through"))
         .def_readonly("stats", &AGRC::VGComponentBuffers::stats, py::doc(":class:`VGComponentSplitStats`: Counts worth reporting"));
 
     py::class_<AGRC::VGComponentSplit>(m, "VGComponentSplit", R"doc(

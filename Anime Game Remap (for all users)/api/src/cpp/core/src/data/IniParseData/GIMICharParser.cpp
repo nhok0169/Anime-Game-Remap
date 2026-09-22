@@ -280,7 +280,9 @@ namespace AGRemapCore {
                         faceConfig.downloadPrefix = config.faceDownloadPrefix;
                     }
 
-                    add(faceConfig, {"", "face"}, "ps-t0", "FaceDiffuse", "FaceDiffuse", ".dds");
+                    if (config.faceDownload) {
+                        add(faceConfig, {"", "face"}, "ps-t0", "FaceDiffuse", "FaceDiffuse", ".dds");
+                    }
 
                     // Per buffer kind. The blend is the one that needs downloadRefKVPs -- see
                     // DownloadTools::blendRefKVPs for why a downloaded Blend.buf has to be drawn

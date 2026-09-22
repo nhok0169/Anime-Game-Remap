@@ -53,6 +53,26 @@
 # skin-coloured, because 255 on her HEAD is her hair (the Bennett lesson: a band number means a
 # different material on each object).
 #
+# ---- A mod's own draw RANGES, through the split (2026-09-21) ----
+#
+# v1 replaced every `drawindexed` on a remapped section with the split buffer's FULL count -- Bennett's
+# fix for a stale count. Right for a mod with one draw per object, wrong for a mod with TOGGLES: those
+# draw an object as several ranges (`drawindexed = <count>, <start>, 0`), one per part a toggle shows,
+# and v1 drew the whole object once per range with nothing left to hide. Citlali1 draws her body as
+# nine. Each range is now remapped through the SOURCE index of every kept triangle -- new start = kept
+# triangles before it, new count = kept triangles inside it -- after the service run
+# (remapDrawRanges). An `auto` draw is left alone. The compiled template does the same with its own
+# DrawRangeRemap edit, and the two were written independently to be A/B'd against each other.
+#
+# ---- A mod's OWN fix calls are kept when they are already the right ones (2026-09-22) ----
+#
+# An object on the normal-map layout that calls ORFix itself, drawn through a slot that reads ORFix,
+# keeps the author's calls exactly where they are, as the pure-Python original always did. Dropping
+# them and adding one per path assumes a section never rebinds its ps-t registers after drawing, and
+# Citlali3 does: bind, ORFix, draw, bind again, ORFix, draw -- one call per path left the second
+# binding un-reslotted (flat green cloth). v1 only looked right on it because its register trim
+# deleted the second binding outright.
+#
 # Vertex colour: the skin carries G = B = 128 on every vertex; Citlali 128 on 84% of G and 51 on 16%.
 # The G/B -> 128 normalisation is kept (it is what the skin's own model carries) -- suspect it first
 # if outlines look wrong.
@@ -265,6 +285,21 @@ class ModFiles():
         self.specs = componentSpecs(components)
         split = FRB.VGComponentSplit(weights.tolist(), indices.tolist(), ibs, self.specs)
         self.results: Dict[str, FRB.VGComponentBuffers] = {c: split.split(c) for c in components}
+
+        # per component, per object: the SOURCE index of every kept triangle, ascending -- recovered
+        # from the split's own vertex mapping, independently of the core's keptTriangleIds
+        self.keptIds: Dict[str, Dict[str, List[int]]] = {}
+        for c, r in self.results.items():
+            self.keptIds[c] = {}
+            for i, name in enumerate(self.ibNames):
+                if (not len(r.ibs[i])):
+                    self.keptIds[c][name] = []
+                    continue
+                kept = np.array(r.ibs[i], dtype = np.int64)
+                if (Plan[c]["strategy"] == "graphcut"):
+                    kept = np.array(r.vertices, dtype = np.int64)[kept]
+                keys = {tuple(tri) for tri in kept.tolist()}
+                self.keptIds[c][name] = [t for t, tri in enumerate(ibs[i]) if tuple(tri) in keys]
         for c, r in self.results.items():
             s = r.stats
             kept = ", ".join(f"{n} {k}" for n, k in zip(self.ibNames, s.trianglesKept))
@@ -319,6 +354,20 @@ class ModFiles():
                 print(f"  [{sectionName}] {key}: {len(found)} variants behind `run =`, using {found[0]} (also {', '.join(found[1:])})")
             return found[0]
 
+        def allRunCalls(sectionName: str) -> List[str]:
+            """every `run =` value on the section and on everything it calls"""
+            names = [sectionName]
+            try:
+                names = list(FRB.IniSectionGraph(dict(templates), [sectionName]).sections.keys())
+            except Exception:
+                pass
+            out = []
+            for name in names:
+                for part in templates[name].parts if (name in templates) else []:
+                    if (hasattr(part, "getVals")):
+                        out += list(part.getVals("run"))
+            return out
+
         def fileOf(resource: Optional[str]) -> Optional[str]:
             if (not resource or resource.lower() == "null" or resource not in templates):
                 return None
@@ -352,10 +401,11 @@ class ModFiles():
                     print(f"  ! {template.name}: match_first_index {index} is not one of Citlali's objects, skipped")
                     continue
                 t0, t1, t2 = (fileOf(viaRun(sectionName, r)) for r in ("ps-t0", "ps-t1", "ps-t2"))
+                ownORFix = any(v.strip().lower() == ORFix.lower() for v in allRunCalls(sectionName))
                 if (t2):     # the normal-map layout: normal map, diffuse, light map
-                    objects[name] = {"ib": fileOf(viaRun(sectionName, "ib")), "layout": "normal", "NormalMap": t0, "Diffuse": t1, "LightMap": t2}
+                    objects[name] = {"ib": fileOf(viaRun(sectionName, "ib")), "layout": "normal", "NormalMap": t0, "Diffuse": t1, "LightMap": t2, "ownORFix": ownORFix}
                 else:        # the plain layout: diffuse, light map
-                    objects[name] = {"ib": fileOf(viaRun(sectionName, "ib")), "layout": "plain", "NormalMap": None, "Diffuse": t0, "LightMap": t1}
+                    objects[name] = {"ib": fileOf(viaRun(sectionName, "ib")), "layout": "plain", "NormalMap": None, "Diffuse": t0, "LightMap": t1, "ownORFix": ownORFix}
         objects = {name: objects[name] for _, name in sorted(Citlali["objects"].items()) if (name in objects)}
         return position, blend, texcoord, objects, face, faceRegs
 
@@ -418,6 +468,7 @@ def liftBands(diffusePath: Optional[str], objName: str):
 _files: Dict[str, ModFiles] = {}
 _alive: List[object] = []          # every edit handed to the API, kept alive for the run
 _written = set()                   # texture files written this run (one edit of one texture serves every component)
+_drawPlans: Dict[str, Dict[str, List[str]]] = {}     # per source .ini: per component, the objects it draws, by group
 
 
 def filesFor(ini, components: List[str]) -> ModFiles:
@@ -528,13 +579,11 @@ def makeFixer(component: str, components: List[str]):
             print(f"  face: diffuse bound on {'/'.join(sorted(files.faceRegs))} -- " + ("swapping ps-t0 <-> ps-t1" if swapFace else "already ps-t1, no swap"))
         perGroup = []
         for g in range(groups):
-            # the draw count is measured off the split index buffer, never inherited from the mod
-            setDraw = []
-            if (g < len(drawn)):
-                i = files.ibNames.index(drawn[g])
-                count = len(files.results[component].ibs[i]) * 3
-                setDraw = [FRB.RegNewVals({"drawindexed": f"{count}, 0, 0"})]
-            group = {slotObj: [dropFixCalls] + ([normalBack] if (g in shifted) else []) + [fillDraw] + setDraw + [addFix, hashRemap],
+            keepOwn = plan["normalMap"] and g < len(drawn) and files.objects[drawn[g]]["layout"] == "normal" and files.objects[drawn[g]]["ownORFix"]
+            if (keepOwn):
+                print(f"  {drawn[g]}: keeps the mod's own ORFix calls")
+            # the mod's own draw ranges are remapped after the service run -- see remapDrawRanges
+            group = {slotObj: ([] if keepOwn else [dropFixCalls]) + ([normalBack] if (g in shifted) else []) + [fillDraw] + ([] if keepOwn else [addFix]) + [hashRemap],
                      ("", "ib"): [FRB.GraphRename(lambda n: naming.getRemapIbName(n, toModName)), hashRemap, removeDraw],
                      ("", "blend"): [FRB.GraphRename(lambda n: naming.getRemapBlendName(n, toModName)), hashRemap]
                                     + ([FRB.RegNewVals({"draw": f"{files.keptVertices(component)},0"})] if cut else []),
@@ -549,6 +598,8 @@ def makeFixer(component: str, components: List[str]):
         if (drawn):
             edits.append(FRB.GraphGroupEdit(perGroup))
 
+        _drawPlans.setdefault(os.path.normcase(os.path.abspath(ini.file)), {})[component] = drawn
+
         _alive.extend(edits)
         fixer = FRB.GIMIFixer(parser, graphGroupEdits = edits, modsToFix = [toModName])
         _alive.append(fixer)
@@ -560,6 +611,49 @@ def makeFixer(component: str, components: List[str]):
 
 def componentOf(name: str) -> Optional[str]:
     return next((c for c in Skin if f"{SkinName}{c}" in name), None)
+
+
+def remapDrawRanges(folder: str) -> None:
+    """Every `drawindexed = <count>, <start>, ...` on a remapped section, through its object's kept triangles (see the header)"""
+    import bisect
+    import re
+
+    for iniPath in activeInis(folder):
+        match = re.match(r"^(.*?)RemapFix(\d+)\.ini$", os.path.basename(iniPath))
+        group = int(match.group(2)) if match else 0
+        source = os.path.join(os.path.dirname(iniPath), match.group(1) + ".ini") if match else iniPath
+        key = os.path.normcase(os.path.abspath(source))
+        if (key not in _files or key not in _drawPlans):
+            continue
+        files, plans = _files[key], _drawPlans[key]
+
+        with open(iniPath, "rb") as f:
+            iniRaw = f.read()
+        crlf = b"\r\n" in iniRaw
+        lines = iniRaw.decode("utf-8", "replace").replace("\r\n", "\n").split("\n")
+        ids, changed = None, 0
+        for n, line in enumerate(lines):
+            stripped = line.strip()
+            if (stripped.startswith("[") and stripped.endswith("]")):
+                section = stripped[1:-1]
+                component = componentOf(section)
+                drawn = plans.get(component, []) if (component is not None and "RemapFix" in section) else []
+                ids = files.keptIds[component][drawn[group]] if (group < len(drawn)) else None
+                continue
+            m = re.match(r"^(\s*drawindexed\s*=\s*)(\d+)\s*,\s*(\d+)((?:\s*,\s*-?\d+)*)\s*$", line)
+            if (ids is None or not m):
+                continue
+            count, start = int(m.group(2)), int(m.group(3))
+            lo = bisect.bisect_left(ids, start // 3)
+            hi = bisect.bisect_left(ids, (start + count) // 3)
+            rest = "".join(", " + v.strip() for v in m.group(4).split(",") if v.strip())
+            lines[n] = f"{m.group(1)}{(hi - lo) * 3}, {lo * 3}{rest}"
+            changed += 1
+        if (changed):
+            text = "\n".join(lines)
+            with open(iniPath, "wb") as f:
+                f.write((text.replace("\n", "\r\n") if crlf else text).encode("utf-8"))
+            print(f"  remapped {changed} draw range(s) in {os.path.relpath(iniPath, folder)}")
 
 
 def retargetTexcoords(folder: str) -> None:
@@ -631,9 +725,17 @@ def trimSlotRegisters(folder: str) -> None:
                 seen = set()
                 out.append(line)
                 continue
+            # a register is bound twice only within one PART: an if / else branch is a separate path
+            # (the mod's own $six toggle swaps her body diffuse in an `else`), so the count restarts
+            # at every branch line, as the compiled RegRestrict's does
+            if (re.match(r"\s*(if|else|elif|endif)\b", line)):
+                seen = set()
             reg = re.match(r"\s*(ps-t\d+)\s*=", line)
             if (allowed is not None and reg):
                 name = reg.group(1)
+                if (name in ("ps-t69", "ps-t70")):
+                    out.append(line)        # TexFx's own inputs, not a slot of the target's shader
+                    continue
                 if (name not in allowed):
                     dropped.append(f"{section}: {stripped}  (the slot does not bind {name})")
                     continue
@@ -683,8 +785,6 @@ def hideUndrawnComponents(folder: str, components: List[str]) -> None:
         if (component not in drawn):
             print(f"  ! {component} was asked for but nothing landed on it -- the skin's own {component} is hidden instead")
     missing = [c for c in Skin if c not in drawn]
-    if (not missing):
-        return
     for iniPath in activeInis(folder):
         with open(iniPath, "rb") as f:
             iniRaw = f.read()
@@ -700,9 +800,29 @@ def hideUndrawnComponents(folder: str, components: List[str]) -> None:
                 continue
             add.append(f"\n[{name}]\nhash = {Skin[component]['ib']}\nhandling = skip\n")
             print(f"  hiding the skin's own {component} draw (ib {Skin[component]['ib']})")
-        if (not add):
+        if (add):
+            iniText += "\n; The skin's own draws for components nothing was remapped onto.\n" + "".join(add)
+
+        # ---- a TexFx request must not be served by a slot nothing is remapped onto (2026-09-22) ----
+        # `run = CommandList\TexFx\TN.0` only sets $use_default_shader = 2; TexFx's outline regex
+        # serves it on the NEXT outline draw, with drawindexed = auto. The skin draws Body slot B's
+        # outline before slot A's, so the request from the mod's slot A draw was served there: the
+        # skin's whole ib (124851 indices) over the mod's vertex buffers -- a shiny web between the
+        # arms and the hair. Each unremapped slot withdraws it. Only for a mod that calls TexFx.
+        guards = []
+        if ("commandlist" + chr(92) + "texfx" + chr(92) in iniText.lower()):
+            for component in drawn:
+                for slot, first in Skin[component]["slots"].items():
+                    name = f"TextureOverride{SkinName}{component}{first}RemapTexFxGuard"
+                    if (slot == Plan[component]["slot"] or name in iniText):
+                        continue
+                    guards.append(f"\n[{name}]\nhash = {Skin[component]['ib']}\nmatch_first_index = {first}\n"
+                                  f"${chr(92)}TexFx{chr(92)}use_default_shader = -1\n")
+        if (guards):
+            print(f"  withdrawing TexFx requests on {len(guards)} unremapped slot(s)")
+            iniText += "\n; The skin's own slots nothing was remapped onto: withdraw a TexFx request.\n" + "".join(guards)
+        if (not add and not guards):
             continue
-        iniText += "\n; The skin's own draws for components nothing was remapped onto.\n" + "".join(add)
         out = iniText.replace("\n", "\r\n") if (b"\r\n" in iniRaw) else iniText
         with open(iniPath, "wb") as f:
             f.write(out.encode("utf-8"))
@@ -738,6 +858,7 @@ def main():
                                    logger = FRB.Logger() if args.verbose else None)
         pickVariant(folder, args.variant)
         service.fix()
+        remapDrawRanges(folder)
         retargetTexcoords(folder)
         trimSlotRegisters(folder)
         hideUndrawnComponents(folder, components)

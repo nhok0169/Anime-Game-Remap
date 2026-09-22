@@ -112,6 +112,16 @@ namespace AGRemapCore {
         std::vector<std::vector<std::array<unsigned long long, 3>>> ibs;
 
         /**
+         * @brief
+         @rst
+         Per source index buffer, the SOURCE index of every triangle in \ref ibs, ascending --
+         what a mod's own ``drawindexed = <count>, <start>, 0`` ranges have to be remapped through,
+         since the split removes triangles from the middle of an object as well as its end
+         @endrst
+         */
+        std::vector<std::vector<std::size_t>> keptTriangleIds;
+
+        /**
          * @brief Negative index only: per mod vertex, whether it carries no sentinel
          */
         std::vector<bool> live;

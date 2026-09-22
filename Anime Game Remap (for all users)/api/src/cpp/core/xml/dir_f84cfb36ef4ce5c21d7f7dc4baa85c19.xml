@@ -12,6 +12,7 @@
     <innerdir refid="dir_8f4b36c515683900182802782845bf84">include/AGRemapCore/data/IniParseData/Bennett</innerdir>
     <innerdir refid="dir_f71332cf529eabf47bac0dc890820406">include/AGRemapCore/data/IniParseData/BennettAdventure</innerdir>
     <innerdir refid="dir_ea91b886d191900dc774e3b6e624b24c">include/AGRemapCore/data/IniParseData/CherryHuTao</innerdir>
+    <innerdir refid="dir_63c0eac684a079921f348167fc1005bf">include/AGRemapCore/data/IniParseData/Citlali</innerdir>
     <innerdir refid="dir_ae45d0553da2ac40102f1bc13704901f">include/AGRemapCore/data/IniParseData/Diluc</innerdir>
     <innerdir refid="dir_a8267660e4cdce46678f56679dc42f53">include/AGRemapCore/data/IniParseData/DilucFlamme</innerdir>
     <innerdir refid="dir_c1f16e34d92e2d0a3976c18ef8983c4d">include/AGRemapCore/data/IniParseData/Fischl</innerdir>

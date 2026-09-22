@@ -158,7 +158,7 @@ out are grapheme indices, and a byte cursor and a grapheme cursor must be separa
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
 
-**FORTY-SEVEN characters are real now (count them with
+**FORTY-EIGHT characters are real now (Citlali, 2026-09-21; count them with
 `ls -d "Anime Game Remap (for all users)/api/src/cpp/core/src/data/IniFixData/*/"` rather than
 trusting this number -- the written one has been wrong before), in SIX different shapes, and which
 one you have decides almost everything else.** Five of them are below; the sixth is the
@@ -327,12 +327,12 @@ a section still binding its diffuse to `ps-t0` hands it to the lightmap slot. Th
 `RegRemap` (`ps-t0` <-> `ps-t1`) over the face graph --- one of the things NNFix does under the
 hood. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The face diffuse".
 
-**THE FIX IS LIVE FOR FORTY-SEVEN CHARACTERS (verified end-to-end, and every one of them in
-game). Earlier revisions of this
+**THE FIX IS LIVE FOR FORTY-EIGHT CHARACTERS (verified end-to-end, and every one of them in
+game -- Citlali through her prototype, which the compiled fix is A/B-identical to). Earlier revisions of this
 file said every `IniFixer`/`IniParser` was stubbed and that `IniFile::getResources()` comes back
 empty --- that is NO LONGER TRUE, and believing it will cost you the best verification tool the repo
 has.** Real fixers and parsers exist for **Amber, AmberCN, Arlecchino, Ayaka, AyakaSpringbloom,
-Barbara, BarbaraSummertime, Bennett, BennettAdventure, CherryHuTao, Diluc, DilucFlamme, Fischl,
+Barbara, BarbaraSummertime, Bennett, BennettAdventure, CherryHuTao, Citlali, Diluc, DilucFlamme, Fischl,
 FischlHighness, Ganyu, GanyuTwilight, HuTao, Jean, JeanCN, JeanSea, Kaeya, KaeyaSailwind, Keqing,
 KeqingOpulent, Kirara, KiraraBoots, Klee, KleeBlossomingStarlight, Lisa, LisaStudent,
 Mona, MonaCN, Nilou, NilouBreeze, Ningguang, NingguangOrchid, Raiden, Rosaria, RosariaCN, Shenhe,
@@ -342,7 +342,7 @@ and `fixResources` really does correct `Blend.buf` files and really does write t
 running the CLI over the in-repo Jean fixture and watching two `.dds` files appear.
 
 Two consequences, both the opposite of what this file used to say:
-- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these forty-seven.
+- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these forty-eight.
   Prefer it over any unit test when the change could possibly affect a fix.
 - **Characters outside that list still have no fixer**, so a run over one of *those* still writes
   only the credit header. That is the stub, not a bug. Check
@@ -673,7 +673,8 @@ The old "immediately before every `drawindexed`" rule holds only while no path d
 **66 sections across 14 mod folders** of one real library draw several times in a single pass
 (independent `if` toggles, not an exclusive chain -- and GIMI writes a chain as `else if`, so a
 tally looking for `elif` will tell you there are none). `RegDelimitedAddMode::PerPath` is the
-corrected rule and BOTH templates pass it; the acceptance test is a whole mod library fixed into
+corrected rule and ALL THREE templates pass it (the component one only since 2026-09-21 -- it was
+missed, and a Citlali mod drawing its body as nine toggled ranges got 9 `ORFix` calls on one path); the acceptance test is a whole mod library fixed into
 scratch copies -- **157 folders, 7851 remapped sections, 867 `.ini` files, 0 violations**
 (`Tools/Misc/Diagnostics/fixCallPaths.py`). The precise invariant is per path per **binding
 generation**: re-binding a `ps-t` resets the count, because a call is undone by the next only while
@@ -826,6 +827,20 @@ fixture fixed with both builds gave 132 byte-identical files. `summaryLog.txt` d
 "skipped due to warnings" list, so the Integration Tester failed 7 of 24 and its **22 log goldens
 were regenerated on Linux**. See [Architecture](AI%20Agent%20Help/Architecture/CLAUDE.md)'s "The
 folder walk reported every batch BACKWARDS" and [Testing](AI%20Agent%20Help/Testing/CLAUDE.md).
+
+**CITLALI -> CITLALIWHISPEROFSTARS IS COMPILED (2026-09-21), AND THE PORT FOUND TWO BUGS IN THE
+COMPONENT TEMPLATE THAT BENNETT AND YELAN SHARE.** A mod that draws an object as several TOGGLED
+RANGES (`drawindexed = <count>, <start>, 0`, nine for one real Citlali mod) was carried through the
+split with its own numbers -- which overrun the split buffer and, after a removal in the middle
+(her eyes), draw the wrong triangles -- and got one `ORFix` per range on one path, which undoes
+itself. The template now remaps each range through the split (`VGComponentBuffers::keptTriangleIds`,
+bound, and a file-local `DrawRangeRemap`) and passes `RegDelimitedAddMode::PerPath` like the other
+two. Bennett's prototype had the first bug differently: it replaced every count with the full split
+size, drawing a toggled object once per range with nothing left to hide. Two opt-in config fields came
+with it -- `sourceLayout` (Citlali's own sections are already the normal-map layout, so no register
+shift or invented normal map) and `faceSwapOnlyFromDiffuseReg` -- and `GIMICharParserConfig::faceDownload`.
+Bennett, Yelan and Klee mods are byte-identical across all of it. See
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "CITLALI IS COMPILED".
 
 **THE CHARACTER LIST LIVES IN FOUR PLACES OUTSIDE THE LIBRARY, AND ON 2026-09-20 THREE OF THEM WERE
 WRONG.** The mod-type table is in `api/README.md`, `apiMirror/README.md` and

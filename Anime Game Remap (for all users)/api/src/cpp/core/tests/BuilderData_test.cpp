@@ -107,7 +107,7 @@ void testTableShape() {
 
     // Counts taken straight from the pure-Python dicts, so a row silently dropped or duplicated
     // during the port shows up here.
-    check(IniParseBuilderData::repo()->size() == 61, "the parse table has all 53 rows from IniParseBuilderData.py, plus Raiden's 6.1 row, LisaStudent's 5.4 one, Yelan's 4.0 one, YelanTranquil's 5.7 one, Bennett's 4.0 one and BennettAdventure's 5.7 one, and the two WuWa stubs (Sanhua, SanhuaExorcist at 2.5)");
+    check(IniParseBuilderData::repo()->size() == 62, "the parse table has all 53 rows from IniParseBuilderData.py, plus Raiden's 6.1 row, LisaStudent's 5.4 one, Yelan's 4.0 one, YelanTranquil's 5.7 one, Bennett's 4.0 one, BennettAdventure's 5.7 one and Citlali's 5.3 one, and the two WuWa stubs (Sanhua, SanhuaExorcist at 2.5)");
     // Counted by toVersion straight out of IniFixBuilderData.cpp on 2026-09-13: 78 historical rows
     // (the 73 Python ones fanned out per target mod, which is what replaced the pure-Python
     // MultiModFixer -- Jean/JeanCN/JeanSea carry TWO each) plus 46 at 6.1 that are this port's own,
@@ -116,8 +116,9 @@ void testTableShape() {
     // +3 on 2026-09-15: Bennett's TWO per-component rows (no Bang -- see BennettFixer.cpp) and
     // BennettAdventure's one merge row.
     // +2 on 2026-09-19: the two WuWa stub rows, Sanhua <-> SanhuaExorcist at toVersion 2.5.
-    check(IniFixBuilderData::repo()->size() == 130,
-          "the fix table has 130 rows -- 78 historical, the 50 at 6.1 this port added, and the two WuWa stubs");
+    // +3 on 2026-09-21: Citlali's three per-component rows onto CitlaliWhisperofStars, at 6.7.
+    check(IniFixBuilderData::repo()->size() == 133,
+          "the fix table has 133 rows -- 78 historical, the 50 at 6.1 this port added, the two WuWa stubs and Citlali's three at 6.7");
 
     // The remove table has no Python original -- one row per GI mod type, all at 4.0.
     check(IniRemoveBuilderData::repo()->size() == 51, "the remove table has one row per mod type (43 GI, plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali and CitlaliWhisperofStars, plus the two WuWa stubs)");

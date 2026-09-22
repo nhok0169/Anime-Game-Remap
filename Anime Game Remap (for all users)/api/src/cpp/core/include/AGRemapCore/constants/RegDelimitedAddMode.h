@@ -71,7 +71,11 @@ namespace AGRemapCore {
             This mode assumes the addition is invalidated only by the **delimiter**, never by
             anything between two of them. For the fix libraries that means a `section`_ must not
             rebind its ``ps-t`` registers after drawing: measured over **33030** real
-            ``TextureOverride`` `section`_\\s, **none** do
+            ``TextureOverride`` `section`_\\s, **none** do -- but a Citlali mod found since does (bind,
+            ``ORFix``, draw, bind again, ``ORFix``, draw), and one call per path drew its second
+            binding un-reslotted. Where the mod's own calls are already the right library, keeping
+            them is correct and re-issuing is not: see ``keepOwnFixCalls`` in
+            ``GIMIComponentFixer.cpp`` and ``Tools/Misc/Diagnostics/unfixedDraws.py``
          @endrst
          */
         PerPath

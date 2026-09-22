@@ -133,6 +133,8 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Bennett/BennettFixer.cpp
     src/data/IniParseData/BennettAdventure/BennettAdventureParser.cpp
     src/data/IniFixData/BennettAdventure/BennettAdventureFixer.cpp
+    src/data/IniParseData/Citlali/CitlaliParser.cpp
+    src/data/IniFixData/Citlali/CitlaliFixer.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp
     src/data/IniFixData/Shenhe/ShenheFixer.cpp

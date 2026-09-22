@@ -852,6 +852,112 @@ next remaps take. In order, with what each step needs and where it came from for
    against the prototype's output until every buffer is byte-identical.
 6. **Then do the reverse direction**, which is its own template -- see the next section.
 
+## CITLALI IS COMPILED: the third component remap, and two bugs the template had all along (2026-09-21)
+
+`Citlali -> CitlaliWhisperofStars` is `makeGIMIComponentFixer` with a config in
+`IniFixData/Citlali/CitlaliFixer.cpp` (three rows, Body / Bangs / Eyes, at toVersion **6.7** because
+the skin's hashes are filed there) and `makeGIMICharParser` in `IniParseData/Citlali/`. The prototype
+(`Tools/Misc/Prototypes/citlaliWhisperofStarsFix.py`, confirmed in game on her identity mod and one
+real mod) is the oracle: on both, the compiled output is semantically identical `.ini` by `.ini`
+(`Tools/Misc/Diagnostics/abIni.py`, which pairs several `.ini` per folder now) and all 17 generated
+files match by content. What the port needed, in order of how much it matters:
+
+* **A MOD'S OWN DRAW RANGES HAVE TO GO THROUGH THE SPLIT.** A mod with toggles draws an object as
+  several ranges, `drawindexed = <count>, <start>, 0`, one per part a toggle shows -- nine for her
+  body on `Citlali1`. The template carried them through unchanged: the head asked for 23439 indices
+  of a split buffer holding 20451 (the Bangs took 2988), and because the split also removes triangles
+  from the MIDDLE (her eyes sit inside her body), every range after the eyes drew the wrong
+  triangles. Bennett's prototype had the opposite bug -- every count replaced with the full split
+  size, so a toggled object drew once per range with nothing left to hide. Now each range is mapped
+  through `VGComponentBuffers::keptTriangleIds` (the source index of every kept triangle, bound and
+  tested): new start = kept triangles before it, new count = kept triangles inside it; `auto` is left
+  alone. Only for a mod that does not branch -- a merged master's ranges belong to whichever variant's
+  buffer each branch binds, and are left as they were (open).
+* **THE COMPONENT TEMPLATE NEVER HAD `PerPath`.** "Both templates pass it" meant the classic and the
+  merge; this one used the default, one fix call before every `drawindexed`, and nine ranges on one
+  path became nine `ORFix` calls -- which `fixCallPaths.py` reports and which renders flat green on
+  every other range. Nothing it had been checked on drew twice on one path.
+* **A MOD'S OWN `ORFix` CALLS ARE KEPT when they are already the right ones (2026-09-22).** `PerPath`
+  assumes a section never rebinds its `ps-t` registers after drawing -- its own doc said so, measured
+  over 33030 sections -- and `Citlali3` does: bind, `ORFix`, draw, bind again, `ORFix`, draw. Dropping
+  the mod's calls and re-adding one per path left the second binding un-reslotted: flat green over
+  every cloth part in game, while `fixCallPaths.py` reported 0, because it counts a call made TWICE and
+  this is a call MISSING (`Tools/Misc/Diagnostics/unfixedDraws.py` is the check that sees it, 32 of 42
+  draws on the broken output). The fix is what the pure-Python original always did: an object on the
+  normal-map layout (no shift) whose section already calls `ORFix`, drawn through an `ORFix` slot,
+  keeps the author's calls where they are. The prototype looked right on this mod only because its
+  register trim, deduping across a whole section, had deleted the second binding outright.
+* **A MERGED MASTER'S FALL-THROUGH DOWNLOAD ANSWERED FOR EVERY STATE (2026-09-22).** A master binds a
+  buffer in an `if $swapvar == 0 / else if == 1` chain with no `else`, so the parser covers the path where
+  neither holds with the GAME's buffer as a download, referenced UNCONDITIONALLY at the top of the root
+  section -- where the chain, run after it, overrides it on every real path. But a branch list reads root
+  first and `ModBranches::pick` takes the first compatible value, so the download was every state's
+  answer. In the default `Normal` mode downloads are fetched in `fixResources`, AFTER the fixer reads
+  them, so a first run threw `Unable to open file ...RemapDL.ib` and skipped the master (`Citlali4`);
+  with the download on disk (a Bennett master on any later run) the split quietly remapped the game's
+  own buffer in place of the mod's. Now a branch list holding any file of the mod's own drops its
+  downloads (`preferAuthored` in `GIMIComponentFixer.cpp`), and a state through a download is skipped
+  when another state is fully authored, or when the download is not on disk -- so the output cannot
+  depend on what an earlier run fetched. Two things that looked like part of it and were not: `Normal`
+  mode's dangling `...RemapDL` references are downloads that 404 while `Data/Mod Downloads/GI/Citlali`
+  is not on `master` (use `--download Disabled` until it is), and three dangling split files came from
+  starting on a folder the PREVIOUS build had fixed -- a variant's undo deleted files named like the ones
+  the master had just written. From an undone copy (`--undo`, then fix) it is 0 dangling, twice over.
+  Every regression run above uses `downloadMode = "disabled"`, which is why none of this showed there.
+  The same download then reaches the RESOURCE pass: the collect hands the unconditional download ib to
+  every group beside the mod's own, and `VGSplitGroupResource` threw "is not one of the index buffers the
+  split was given" -- skipping that variant's whole group (its Blend and Position). A member that is a
+  parser download the split was not given is now written EMPTY: the fall-through path draws nothing and
+  its reference resolves. `Tools/Misc/Diagnostics/unfixedDraws.py` follows `run =` into the file's own
+  command lists now; before, a master binding and calling `ORFix` inside one read as 4 unfixed draws.
+* **TexFx's registers are not the target's slots (2026-09-22).** The slot trim (`Component::slotRegisters`,
+  `RegRestrict`) governed every `ps-t<n>`, so a mod's `ps-t69 = ResourceTransparency` was deleted while its
+  `run = CommandList\TexFx\TN.0` stayed -- the lace frill of a Citlali skirt, alpha-cut through TexFx,
+  vanished in game. `ps-t69` / `ps-t70` (`IniKeywords::PsT69` / `PsT70`) are TexFx's inputs, not a slot any
+  target lists, and are exempt now. The check: every TexFx call inside a fix block has its `ps-t69` beside it
+  (0 of 4 before, 4 of 4 after on `Citlali4`).
+* **A TexFx call is a REQUEST that the next outline draw serves, and on a skin that draw may be a slot
+  nothing was remapped onto (2026-09-22).** Keeping `ps-t69` brought the frills back and a "shiny sticky
+  web" between the arms and the hair with them. `run = CommandList\TexFx\TN.0` draws nothing: it sets
+  `$use_default_shader = 2`, and TexFx's `OutlineTransparency` shader regex serves that on the NEXT
+  outline draw it sees, with `drawindexed = auto`. On base Citlali that draw is the mod's own. The
+  skin draws Body slot B's outline (first index 60888) BEFORE slot A's, so the request the mod's slot A
+  made in the G-buffer pass was served on slot B's skipped draw -- TexFx's custom shader drew the skin's
+  whole ib (124851 indices) over the mod's remapped vertex buffers. It was not in the G-buffer at all,
+  which is why removing `ps-t69` from the Bangs and Eyes changed nothing. How it was found: a strip of
+  one render target (`o1`) cropped at the arms after every draw of the pass (draw 58 is where the
+  sleeves turn white), then `logDraw` on that draw showing `[customshader\texfx\transparencynatlan.0]
+  drawindexed = auto -> DrawIndexed(124851, 0, 0)` on an ib the fix skips. **The fix:**
+  `GIMIComponentFixerConfig::unremappedSlots` -- per remapped component, the skin's other slots' first
+  indices -- writes one `TextureOverride` per slot (`hash` + `match_first_index`) setting
+  `$\TexFx\use_default_shader = -1`, only when the mod's `.ini` calls TexFx. A slot's `TextureOverride`
+  runs before the shader regex on the same draw, and slot A's own outline draw sets the request again
+  itself, so nothing the mod asked for is lost. **Any component skin with more than one slot per
+  component needs this row filled** -- Bennett's and Yelan's slots should be checked the same way the
+  first time a TexFx mod goes onto them.
+* **`sourceLayout`** (`Plain` default / `NormalMap` / `Detect`): Bennett's sections are the plain
+  two-register layout, so the template always shifted them up and invented a normal map. Citlali's
+  are already the normal-map layout, and the shift would have put her normal map where the shader
+  reads the diffuse. `Detect` reads it per object (`ps-t2` bound => normal-map layout) -- NOT a safe
+  default, because some Bennett mods bind a metal map at `ps-t2`.
+* **`faceSwapOnlyFromDiffuseReg`**: the two-way face swap is right for a pre-6.x mod and wrong for one
+  built from a 6.x dump (every identity mod). With it on, the swap runs only when the mod binds its face
+  diffuse at `ps-t0`, and the face file is also looked for at `ps-t1`.
+* **`GIMICharParserConfig::faceDownload = false`**: the face download is registered at `ps-t0` only,
+  so a `ps-t1` mod "misses" it -- and a download folder that is not yet on `master` 404s into a
+  dangling reference. A face section only exists because the mod overrides the face, so for Citlali
+  the download could only ever fire wrongly.
+
+All five default to the old behaviour, and fixing Bennett, Yelan and Klee mods before and after every
+step stayed byte-identical (a snapshot taken with the OLD build first, per Overview's habit 56 --
+the prototype-vs-compiled A/B cannot see a change that lands on both). And two checks lied on the
+way, which is the usual story: `abIni.py` compares by line MEMBERSHIP in its diff printout, so nine
+`ORFix` lines against one showed up only as "the section differs", and the prototype's register trim
+deduped across a whole section and dropped the mod's own `$six` toggle's `else` binding -- the
+compiled `RegRestrict`, per part, was the right one.
+
+<br>
+
 ## The reverse direction is COMPILED TOO: a multi-component SOURCE onto a classic target (2026-09-14)
 
 `YelanTranquil -> Yelan` is the **third fixer template**: `GIMIMergeFixerConfig` +

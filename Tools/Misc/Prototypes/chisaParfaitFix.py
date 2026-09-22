@@ -718,8 +718,21 @@ def setPixels(texFile, px: np.ndarray) -> None:
     texFile.img = Image.fromarray(np.ascontiguousarray(px, dtype = np.uint8), "RGBA")
 
 
+def asData(texFile) -> None:
+    """Write 'texFile' back WITHOUT the library's sRGB pre-correction: its bytes are data, not colour.
+
+    The library's save pre-corrects a texture whose source was sRGB-tagged, so the linear file it
+    writes renders as the original did -- right for a diffuse (the grade below keeps it), and wrong for
+    a mask or a sheen profile, whose bytes are CODES the shader compares against thresholds: a mask
+    code 183 would come out 124 and cross from Chisa's matte band into the one below it. Chisa's masks
+    and her sheen ramp ARE sRGB-tagged (BC1 / BC7 _SRGB), and the values confirmed in game
+    (2026-09-21) are the raw ones, so these two edits turn the correction off (2026-09-22)."""
+    texFile.gamma = None
+
+
 def sheenFilter(texFile) -> None:
     """Chisa's packed four-profile matcap as the target's foil: RGBA all her first profile (SheenTranslations)"""
+    asData(texFile)
     profile = pixelsOf(texFile)[..., 0]
     setPixels(texFile, np.stack([profile, profile, profile, profile], axis = -1))
 
@@ -732,6 +745,7 @@ def maskFilter(diffusePath: Optional[str], label: str):
     on Chisa's). Skin is R >= 0.9, or the matte band over a flesh-coloured diffuse, and takes the
     target's whole skin code. Prints the share written as non-skin when it runs."""
     def edit(texFile) -> None:
+        asData(texFile)
         px = pixelsOf(texFile)
         out = px.copy()
         out[..., 2] = TargetMaskCloth[2]
@@ -2355,6 +2369,11 @@ def danglingReferences(iniPaths) -> List[Tuple[str, str]]:
 
 
 def main():
+    # a mod folder named in a non-Latin script (the shrine maiden mod's is Chinese) cannot be printed
+    # through a cp1252 pipe, and a print that raises INSIDE the fix is recorded as a skipped .ini
+    for stream in (sys.stdout, sys.stderr):
+        stream.reconfigure(encoding = "utf-8", errors = "replace")
+
     parser = argparse.ArgumentParser(description = f"{SourceName} -> {TargetName}, in place, through the API's parser, fixer and RemapService")
     parser.add_argument("mod", help = f"the mod folder (every {SourceName} .ini under it is fixed in place; DISABLED ones are skipped)")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")

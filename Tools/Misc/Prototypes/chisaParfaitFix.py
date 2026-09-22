@@ -338,6 +338,7 @@ SlotPasses = {0: ["c0ad88a930c4d853", "71f60c461ae3f166"], 1: ["71f60c461ae3f166
 #   slot on, whatever the SOURCE binds on that same pass for that component, wherever the two
 #   differ and the source's texture has a role. A pass left out renders the mod's geometry with the
 #   GAME's textures -- run `Tools/Misc/Diagnostics/wwmiPassCoverage.py` after changing either table.
+AccessoryCode = 5     # the material code slot 5's side-panel passes read at ps-t0 -- see ExtraPassRegs[5]
 ExtraPassRegs = {
     0: {"21176cf68a65ab7a": {"ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"},
         "32414b557630d98d": {"ps-t0": "hairDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
@@ -369,9 +370,16 @@ ExtraPassRegs = {
     #   skin's own sampled at the mod's UVs, which is the material-mask bug of the round before.
     #   The mask is TargetMaskAccessory, not TargetMaskCloth: see its comment for why a ribbon told
     #   it is ordinary cloth cannot have a highlight.
-    5: {"87825a9a29529f9b": {"ps-t0": (0, 0, 0, 255), "ps-t1": TargetMaskAccessory,
+    # ps-t0 IS A MATERIAL CODE MAP ON THIS PASS, AND THE COMPONENT GETS CODE 5 (2026-09-22). The shader
+    #   decodes its R byte into a code and switches on it, with the skin's cb4: 0-1 overlay the diffuse
+    #   with the side panels' PINK shade colour (cb4[19] = (0.96, 0.64, 0.75); code 0 is 75% of her own
+    #   panels), 2-3 take the matcap, 4 the tint path, 5 and up none of them -- the lit diffuse and
+    #   nothing else, the nearest thing to the hair shader Chisa draws this component with. Code 0 was
+    #   harmless on a red ribbon and turned Chisa6's dark knit dress -- which that mod draws through this
+    #   component -- maroon. Code 5 confirmed in game on both, 2026-09-22 (--accessoryCode overrides it).
+    5: {"87825a9a29529f9b": {"ps-t0": (AccessoryCode, 0, 0, 255), "ps-t1": TargetMaskAccessory,
                              "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse"},
-        "ced9a47fb6ad4d16": {"ps-t0": (0, 0, 0, 255), "ps-t1": TargetMaskAccessory,
+        "ced9a47fb6ad4d16": {"ps-t0": (AccessoryCode, 0, 0, 255), "ps-t1": TargetMaskAccessory,
                              "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse"}},
 }
 
@@ -2537,11 +2545,11 @@ def main():
                                "SPEC (`3:ps-t4,4:ps-t5`) narrows it to the named registers per source component")
     parser.add_argument("--localDownloads", action = "store_true",
                         help = "fetch the fallback textures from this checkout's Data/Mod Downloads instead of master (for assets not merged yet)")
-    parser.add_argument("--accessoryCode", type = int, default = None, metavar = "N",
-                        help = "the material code slot 5's side-panel passes are handed at ps-t0 (default 0). Their shader "
+    parser.add_argument("--accessoryCode", type = int, default = AccessoryCode, metavar = "N",
+                        help = "the material code slot 5's side-panel passes are handed at ps-t0 (default %(default)s). Their shader "
                                "(87825a9a) reads it as a code: 0-1 overlay the diffuse with the panels' PINK shade colour "
                                "cb4[19], 2-3 take the matcap, 4 the tint path, 5 and up none of them -- plain lit diffuse, "
-                               "the nearest thing to the hair shader Chisa draws this component with. An experiment switch: "
+                               "the nearest thing to the hair shader Chisa draws this component with. "
                                "Chisa6 puts a whole dress in this component and 0 turns it maroon")
     parser.add_argument("--vgRemap", default = None, metavar = "JSON",
                         help = "a {source group: target group} table to write the blend with instead of the library's VGRemaps row (e.g. a draft sheet exported to json)")

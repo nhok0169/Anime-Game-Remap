@@ -2136,9 +2136,25 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                     print(f"    vb2 (texcoords): {' and '.join(did)} in a remap-only copy -> {fixedFile}")
 
         # ---- the edits shared by every object: the target's hashes, the target's checksum, the names ----
+        # THE REVERSE LOOKUP NEEDS THE SOURCE'S VERSION, OR A VALUE THE TWO CHARACTERS SHARE RESOLVES
+        #   TO THE WRONG ONE (2026-09-22). `RegAssetRemap` is reverse-then-forward, and
+        #   `ModMappedAssets::getKey` buckets every row holding a value BY VERSION and searches only
+        #   the newest bucket at or below the version asked. Chisa and ChisaParfait have the SAME
+        #   shape-key checksum, 2610, so versionless (`ini.fromVersion` is None unless the run says
+        #   otherwise) it resolves through the 3.5 bucket to ChisaParfait, the forward half then asks
+        #   what ChisaParfait remaps to in a Chisa -> ChisaParfait fix, finds nothing, and writes the
+        #   literal `ChecksumNotFound` into `$\WWMIv1\shapekey_checksum`. `ShapeKeyOverrider` then
+        #   cannot set up, so with `--shapeKeys retarget` every shape key silently stopped being
+        #   applied -- and a mod whose body shape IS a shape key (Chisa13 drives $thighShape /
+        #   $legShape / $boobsShape off its $body toggle) then switches its clothing between variants
+        #   sized for shapes the body never takes. Asked at 2.8 the same lookup answers Chisa.
+        #   This is the same version-bucket rule the GI side hit on index `0`; the pattern at
+        #   `version = iniFile.fromVersion if ... else SourceVersion` above is the one to follow.
         hashRemap = FRB.RegAssetRemap({"hash": (modType.hashes, FRB.IniKeywords.HashNotFound.value),
                                        "$\\WWMIv1\\shapekey_checksum": (modType.shapeKeyChecksums, "ChecksumNotFound")},
-                                      toModName, SourceName, ini.fromVersion, ini.toVersion)
+                                      toModName, SourceName,
+                                      ini.fromVersion if (ini.fromVersion is not None) else SourceVersion,
+                                      ini.toVersion)
         rename = FRB.GraphRename(fixName)
         perObj: Dict[Tuple[str, str], List[object]] = {obj: [hashRemap, rename] for obj in hashOnlyObjs(shapeKeys).values()}
         print(f"  shape keys: {'retargeted to ' + toModName if shapeKeys else 'not retargeted (the mod' + chr(39) + 's own sections are hidden or left alone per --shapeKeys)'}")

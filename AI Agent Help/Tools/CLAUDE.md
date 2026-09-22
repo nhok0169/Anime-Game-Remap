@@ -195,6 +195,43 @@ with `-d`, **it regenerates the tracked `core/xml` and `core.pyi` on every run**
 [Building](../Building/CLAUDE.md)'s `-d` section for when to keep those; the short answer for a
 tooling change is that you do not.
 
+## `ModHashFixer`: the first tool aimed at a MOD AUTHOR rather than at us (2026-09-22)
+
+`Tools/ModHashFixer` repairs a WuWa mod whose textures have "broken". WWMI binds textures by hash,
+Wuthering Waves REHASHES a texture between game versions, and once the hash an author exported stops
+matching anything the game emits the override never fires and the surface draws with the GAME's own
+art. Nothing is corrupt. The tool resolves each stale hash BACKWARDS to the role it played and
+FORWARDS to that role's current hash, out of the history the library already carries in
+`data/HashData.cpp` -- so it needs no frame dump. It is the Wuthering Waves counterpart of what
+ORFix does for GI every version, and the maintainer reports that roughly half the WuWa mods they
+have are in this state with no tool on gamebanana that addresses it.
+
+It follows the layout in "How a tool is put together" (`main.py`, `README.md`, `requirements.txt`, a
+`ModHashFixer/` package) and carries a notebook at `WuWa/WuWaModHashFixer.ipynb`, in the shape the
+other tools' notebooks use --- `%pip install -r ../requirements.txt`, then Option A (pypi) or
+Option B (a checkout's `api/src/py`).
+
+Four things in it are worth copying into the next tool of this kind:
+
+* **It reports and writes nothing by default.** `--apply` writes, keeping one backup per `.ini`, and
+  `--undo` restores. The write is byte-exact on everything it does not mean to change: the round
+  trip was verified by md5 before believing it, and it preserves the file's own line endings.
+* **It never guesses.** A hash it cannot resolve is REPORTED as unrecognised and left alone, which
+  is the honest limit of its coverage -- a role whose older generations are not in `HashData` cannot
+  be placed. The same goes for geometry hashes (`vb0`, `cb4`, the shape-key pair), skipped by
+  default because a mod whose `vb0` is stale does not draw AT ALL, a different symptom, and
+  rewriting those on a mod that does draw breaks what works.
+* **It detects the character from the hashes, never from the folder name**, because a mod folder is
+  named after whatever its author or the downloader called it.
+* **THE CHECKOUT MUST WIN OVER AN INSTALLED COPY, and the obvious import order gets that wrong.**
+  Writing `try: import FixRaidenBoss2 / except ImportError: <add the checkout>` looks right and is
+  not: a STALE `FixRaidenBoss2` installed on the machine imports perfectly well, the fallback never
+  runs, and the failure surfaces as `AttributeError: no attribute 'WWMIBuilder'` from somewhere
+  unrelated. That happened here on the first run. Put the checkout on `sys.path` when there is one,
+  and then ASSERT the API is new enough with a message that says what to do about it.
+
+<br>
+
 ## `Tools/Misc`: the scripts the guides mention that were born outside the repo
 
 The remap prototypes, the identity-mod generator, the Yelan hand-experiment scripts and the

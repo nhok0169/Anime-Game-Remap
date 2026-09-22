@@ -1720,8 +1720,18 @@ class TextureRoles():
                 self.fileOfRole[role] = f
                 unreferenced.pop(role, None)
                 print(f"    {role}: bound by component {component}'s own section ({k} = {resource})")
+        # A SHARED ATLAS IS ALSO ONE THE FILE'S OWN NAME DECLARES SHARED (2026-09-22). Two roles
+        #   landing on one file is only the case where the fixer can SEE the sharing; WWMI writes the
+        #   components a texture serves into its name, and a mod may give a six-component atlas to
+        #   exactly one role. Chisa16 does: its sheer heart-print shirt is
+        #   `Components-0-1-2-3-4-5 t=cd006f06.dds`, assigned to accessoryDiffuse alone, so the
+        #   two-roles test did not fire and the accessory's colour grade ran over the whole atlas --
+        #   RGB 177/164/166 -> 88/49/43, which is a white shirt rendered salmon. The grade is
+        #   measured for ONE role's own art and means nothing on a texture six components draw from,
+        #   so a name claiming more than one component is enough to keep it out.
         for role, f in self.fileOfRole.items():
-            if (any((other != role and g == f) for other, g in self.fileOfRole.items())):
+            if (any((other != role and g == f) for other, g in self.fileOfRole.items())
+                    or len(componentsOfModFile(f)) > 1):
                 self.borrowed.add(role)
 
         # the [TextureOverrideTexture] each role is read from: ONE per role, the first whose `this` names

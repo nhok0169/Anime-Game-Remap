@@ -175,8 +175,11 @@ PaintNames = {0: "red", 1: "green", 2: "blue", 3: "yellow", 4: "magenta", 5: "cy
 #   matters -- mirroring the source's bindings on the WRONG pass looks exactly like mirroring them
 #   badly. Whichever colour the surface takes names the pass, and then the source's own bindings for
 #   THAT pass are the ones to copy.
-PassPaintColours = [(255, 0, 0, 255), (0, 255, 0, 255), (0, 0, 255, 255), (255, 255, 0, 255)]
-PassPaintNames = ["red", "green", "blue", "yellow"]
+#   Every pass the skin draws the slot on is painted (TargetSlotPasses) -- until 2026-09-22 only
+#   SlotPasses' were, so a surface drawn by `21176cf6` or by a pass the fix rebinds nothing on could
+#   never take a colour -- and no pass is red, since the symptom this tool was reached for last was.
+PassPaintColours = [(0, 255, 0, 255), (0, 0, 255, 255), (255, 255, 0, 255), (255, 0, 255, 255), (0, 255, 255, 255)]
+PassPaintNames = ["green", "blue", "yellow", "magenta", "cyan"]
 
 # ps-t4 ON THE UPPER BODY IS THE SKIN'S OWN BLUSH/TINT OVERLAY, AND IT IS BRIGHT RED (2026-09-20).
 #   742c5c7b means (249.5, 11.8, 3.8) at alpha 15.9 -- a strong red laid on weakly, which is the
@@ -444,10 +447,28 @@ PassVertexShaders: Dict[str, List[str]] = {
     "ca134b7ad59cdf8c": ["0b22e4a80375c4d0", "a5cd08444f0fca2e"],                         # the shared mesh b00403dc
     "a7bdec26cf254853": ["ee6166816ce9f788"],
     "21a483170781cfeb": ["da98d2d08d937357"],
+    "94d9d5e981938d52": ["5102d7edd774359e"],                                             # passes the fix binds nothing
+    "320a753b019eff67": ["ac592389c85c3e38", "aef4fc536fbff1e7"],                         #   on, gated only so that
+    "92ca4bd985fe6887": ["676fdbd61b302294", "89577c176b52b351"],                         #   --passPaint can reach them
+}
+
+# EVERY pass the skin draws each slot on, from the same draw tables -- a superset of SlotPasses and
+#   ExtraPassRegs, which name only the passes the fix REBINDS. A pass left off both still draws the
+#   mod's geometry, with the GAME's textures, and --passPaint is how one of those is caught painting a
+#   surface: it paints every pass here.
+TargetSlotPasses: Dict[int, List[str]] = {
+    0: ["c0ad88a930c4d853", "71f60c461ae3f166", "94d9d5e981938d52", "21176cf68a65ab7a", "32414b557630d98d"],
+    1: ["71f60c461ae3f166", "21176cf68a65ab7a", "32414b557630d98d"],
+    2: ["2060326dcea397fb", "320a753b019eff67", "259b766b59f72419", "32414b557630d98d"],
+    3: ["3311e8a58d8c5d20", "21176cf68a65ab7a", "32414b557630d98d"],
+    4: ["a99f09b6f36e94af", "21176cf68a65ab7a", "32414b557630d98d"],
+    5: ["3df800c350681ec9", "87825a9a29529f9b", "ced9a47fb6ad4d16", "32414b557630d98d"],
+    6: ["da00ec8f7c73d5e3", "92ca4bd985fe6887"],
 }
 _AllPasses = list(dict.fromkeys([ps for passes in SlotPasses.values() for ps in passes]
                                 + [ps for byPass in ExtraPassRegs.values() for ps in byPass]
-                                + [ps for byPass in SharedMeshes.values() for ps in byPass]))
+                                + [ps for byPass in SharedMeshes.values() for ps in byPass]
+                                + [ps for passes in TargetSlotPasses.values() for ps in passes]))
 _untagged = [ps for ps in _AllPasses if (ps not in PassVertexShaders)]
 assert (not _untagged), f"passes with no vertex shader to gate them by (read one off a dump's draw table): {_untagged}"
 ShaderFilters = {vs: f"{FilterBase + FilterStep * i:.4f}".rstrip("0")          # the vertex shader tagged -> its filter
@@ -1987,7 +2008,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             if (paintPass is not None and i == paintPass):
                 # one command list per pass, each a different flat colour on every register
                 additions = [a for a in additions if a[0] != "run"]
-                for n, ps in enumerate(SlotPasses[slot]):
+                for n, ps in enumerate(TargetSlotPasses[slot]):
                     colour, name = PassPaintColours[n % len(PassPaintColours)], PassPaintNames[n % len(PassPaintNames)]
                     resource = fixName(f"ResourcePass{name.capitalize()}")
                     if (resource not in painted):
@@ -1998,7 +2019,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                         painted.add(resource)
                     cmdList = fixName(f"CommandList{SourceName}{SlotPrefix.capitalize()}{i}Pass{n}")
                     appended.append("\n".join([f"[{cmdList}]", f"if {passTest(ps)}"]
-                                               + [f"    ps-t{r} = {resource}" for r in range(9)] + ["endif", ""]))
+                                               + [f"    ps-t{r} = {resource}" for r in range(11)] + ["endif", ""]))
                     additions.append(("run", cmdList))
                     paintLegend.append(f"      component {i} on pass {ps} -> flat {name}")
 

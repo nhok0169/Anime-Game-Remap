@@ -2537,9 +2537,18 @@ def main():
                                "SPEC (`3:ps-t4,4:ps-t5`) narrows it to the named registers per source component")
     parser.add_argument("--localDownloads", action = "store_true",
                         help = "fetch the fallback textures from this checkout's Data/Mod Downloads instead of master (for assets not merged yet)")
+    parser.add_argument("--accessoryCode", type = int, default = None, metavar = "N",
+                        help = "the material code slot 5's side-panel passes are handed at ps-t0 (default 0). Their shader "
+                               "(87825a9a) reads it as a code: 0-1 overlay the diffuse with the panels' PINK shade colour "
+                               "cb4[19], 2-3 take the matcap, 4 the tint path, 5 and up none of them -- plain lit diffuse, "
+                               "the nearest thing to the hair shader Chisa draws this component with. An experiment switch: "
+                               "Chisa6 puts a whole dress in this component and 0 turns it maroon")
     parser.add_argument("--vgRemap", default = None, metavar = "JSON",
                         help = "a {source group: target group} table to write the blend with instead of the library's VGRemaps row (e.g. a draft sheet exported to json)")
     args = parser.parse_args()
+    if (args.accessoryCode is not None):
+        for regs in ExtraPassRegs[5].values():
+            regs["ps-t0"] = (args.accessoryCode, 0, 0, 255)     # R is the code byte (read .yzwx); the mask's A = 0 picks its low nibble
     if (args.standIn is not None):
         # --standIn component:bone:standIn[,...] replaces SlotBoneStandIns for this run -- a diagnostic
         #   knob first: throwing a part onto a bone far from the body answers "is it drawn at all"

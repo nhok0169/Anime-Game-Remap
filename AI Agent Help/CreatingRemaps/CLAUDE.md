@@ -1898,10 +1898,18 @@ and the two clothing variants are +-16.9 and +-14.1. It is drawn, and buried ins
 colour is absent the geometry is genuinely not visible, so it is not a texture or alpha problem. Ask
 for a paint screenshot WITH the toggle pressed; it costs one round and eliminates half the tree.
 
-A mod like this wants `--shapeKeys retarget` rather than the default `leave`, which keeps the
-shape-key sections on the SOURCE's hashes where the target never emits them. Whether retarget should
-become the default for a mod that declares custom shape keys is an open question for the maintainer:
-every other Chisa mod so far is correct with `leave`.
+**`--shapeKeys retarget` IS THE DEFAULT since 2026-09-22**, the maintainer's call after testing.
+`leave`, which was the default, keeps the shape-key sections on the SOURCE's hashes where the target
+never emits them, so on the remap they never fire at all. Retargeting fills `vb6` from WWMI's own
+pipeline instead of binding the zero stream, so it subsumes what that binding was for.
+
+Two things to know about that default. It moves **every** mod, not only the ones that need it --
+nearly every Chisa mod declares shape-key sections (4 each, all at checksum 2610) -- so a mod that
+looks different after a re-fix is expected rather than surprising. And it is only safe to default
+because of the version-bucket fix below: before it, `retarget` wrote `ChecksumNotFound` and silently
+disabled every shape key while printing success, so defaulting to it would have broken every mod at
+once. **A switch is only worth defaulting once you have checked that it does what it says**, which
+in this case took reading the generated `.ini` rather than the run's own summary.
 
 <br>
 

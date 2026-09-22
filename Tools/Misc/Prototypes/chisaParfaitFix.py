@@ -2719,8 +2719,18 @@ def main():
     #   character's own. The remapped draws answer the shape-key problem their own way -- each
     #   binds a zero offset stream at vb6 -- so hiding the mod's pipeline buys the remap nothing
     #   and costs the original everything.
-    parser.add_argument("--shapeKeys", choices = ["hide", "leave", "retarget"], default = "leave",
-                        help = f"the mod's shape-key sections: 'leave' (default) keeps them on {SourceName}'s own hashes, 'hide' comments them out like the maintainer's working hand remap (which BREAKS a mod that really uses them, on the source as well as the target), 'retarget' copies them onto {TargetName}'s buffer -- see the header, points 8 and 9")
+    # RETARGET IS THE DEFAULT SINCE 2026-09-22, the maintainer's call after testing. `leave` keeps
+    #   the shape-key sections on the SOURCE's hashes, which the target never emits, so on the remap
+    #   they never fire: a mod whose body shape IS a shape key never morphs, and its clothing --
+    #   modelled in variants sized for each shape -- is then buried inside the skin (Chisa13's
+    #   $body toggle). Retargeting fills `vb6` from WWMI's own pipeline rather than binding the zero
+    #   stream, so it subsumes what that binding was for. Nearly every Chisa mod declares shape-key
+    #   sections (4 each, all at checksum 2610), so this moves all of them, not only the ones that
+    #   needed it -- and it is only safe to default because the version-bucket fix above makes the
+    #   retargeted checksum resolve to a NUMBER; before that, retarget silently disabled every
+    #   shape key while printing success.
+    parser.add_argument("--shapeKeys", choices = ["hide", "leave", "retarget"], default = "retarget",
+                        help = f"the mod's shape-key sections: 'retarget' (default) copies them onto {TargetName}'s buffer, 'leave' keeps them on {SourceName}'s own hashes (so they never fire on the target), 'hide' comments them out like the maintainer's working hand remap (which BREAKS a mod that really uses them, on the source as well as the target) -- see the header, points 8 and 9")
     parser.add_argument("--plan", choices = list(Plans), default = "default",
                         help = "which source component goes through which target slot -- only 'default' exists for this pair (one to one; see the header, point 1)")
     parser.add_argument("--hideTextureOverrides", action = "store_true",

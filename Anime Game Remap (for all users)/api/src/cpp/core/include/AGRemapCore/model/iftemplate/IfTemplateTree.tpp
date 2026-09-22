@@ -105,6 +105,15 @@ namespace AGRemapCore {
             }
         }
 
+        // An 'if' the section never closes is closed at the section's end, as 3dmigoto does -- a mod
+        // missing its last 'endif' works in game, and dropping the open block here left its content
+        // out of the tree, so every edit that walks the tree silently skipped it (2026-09-22).
+        while (!nodeStack.empty()) {
+            nodeStack.back()->addChild(node);
+            node = nodeStack.back();
+            nodeStack.pop_back();
+        }
+
         result->setRoot(root);
         return result;
     }
@@ -182,6 +191,15 @@ namespace AGRemapCore {
             }
 
             ++i;
+        }
+
+        // An 'if' the section never closes is closed at the section's end, as 3dmigoto does -- a mod
+        // missing its last 'endif' works in game, and dropping the open block here left its content
+        // out of the tree, so every edit that walks the tree silently skipped it (2026-09-22).
+        while (!nodeStack.empty()) {
+            nodeStack.back()->addChild(node);
+            node = nodeStack.back();
+            nodeStack.pop_back();
         }
 
         result->setRoot(root);
@@ -288,6 +306,15 @@ namespace AGRemapCore {
             }
 
             ++i;
+        }
+
+        // An 'if' the section never closes is closed at the section's end, as 3dmigoto does -- a mod
+        // missing its last 'endif' works in game, and dropping the open block here left its content
+        // out of the tree, so every edit that walks the tree silently skipped it (2026-09-22).
+        while (!nodeStack.empty()) {
+            nodeStack.back()->addChild(node);
+            node = nodeStack.back();
+            nodeStack.pop_back();
         }
 
         result->setRoot(root);

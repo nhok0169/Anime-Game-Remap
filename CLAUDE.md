@@ -442,6 +442,31 @@ crossing is not automatically a fault** --- two characters split the TORSO at di
 and 29% of Chisa's body maps across components correctly; what matters is a crossing between
 different KINDS.
 
+**AND ONE MOD-MANAGER-PACKAGED MOD FOUND FOUR MORE, THREE OF THEM NOTHING TO DO WITH CHISA
+(2026-09-22).** A mod packaged by a manager (GUID filenames, buffers under a `.assets` extension, a
+`res/` folder of UI art) declares `[Constants]` **three times in one file**, and a
+`{section: lines}` dict keeps one of them -- so `global $mesh_vertex_count` sat at line 208 and the
+run skipped the whole `.ini` saying it was missing. **When a run names a key it cannot find, grep
+the file for that key before believing it.** What a repeat MEANS is per section, so only
+`[Constants]` is concatenated: a repeated `TextureOverride` is a mod-authoring error whose runtime
+meaning is not ours to guess, and one confirmed-working mod has two of them naming DIFFERENT hashes.
+**A mod may also UV half a part into the [1, 2) TILE and rely on the sampler wrapping** -- one side
+of the body then renders flat and pale where the other has its detail (reported as a nipple, a
+fishnet and a tonal step, all one defect), and NEITHER character's own model ever leaves [0, 1), so
+the game never exercises its own address mode there and the two passes are free to differ. The fix
+folds U back, which is **wrap-equivalent** -- measured at 100.000% of vertices selecting the same
+texel -- so it does nothing on a pass that wraps and cannot regress one. **A mod's body shape may be
+a SHAPE KEY** with its clothing modelled in variants sized for each shape: with the shape keys not
+applied the body never morphs and the un-taken variant is buried INSIDE the skin, which reads as "the
+toggle removes her bra and stockings" -- and it vanishes in a `--paint` build too, which is the
+measurement that proves it is geometry rather than texture. And the `--shapeKeys retarget` that fixes
+it was **inert while printing success**, because a reverse lookup run VERSIONLESS resolves a value
+the two characters SHARE (their shape-key checksum, 2610) to the wrong one and writes
+`ChecksumNotFound`: `getKey('2610', None)` answers ChisaParfait and `getKey('2610', '2.8')` answers
+Chisa. **Any `<Something>NotFound` in generated output is that shape of bug**, and grepping for it is
+a cheap acceptance check. All four are in
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md).
+
 **THE FIRST WUWA REMAP DRAFT EXISTS (2026-09-18): Sanhua <-> SanhuaExorcist, both directions, in
 `Data/RemapDrafts/SanhuaRemapDraft.xlsx`.** `Tools/VGRemapFinder` reads WWMI-Assets' format now
 (`Metadata.json` + `Component N.fmt/.vb/.ib`, no API needed), and the thing to know before touching

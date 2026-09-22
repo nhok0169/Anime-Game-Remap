@@ -1431,6 +1431,9 @@ first. Read the report's WORDS against the left column before opening any code (
 | one part "floating like jello" while everything around it is fine | the part is skinned to a target bone that is PHYSICS -- the target's HAIR component, or a jiggle pair a centre chain got split across | `vgSymmetry.py --hair <N>`; NOT a distance check, which passes |
 | a part wobbles AND leans to one side at rest | same thing: it is following a simulated bone's swing and its settled offset | the target component of every bone the part weights |
 | the whole `.ini` is SKIPPED naming a key it says is missing | the key is there, in a SECOND block of a section declared more than once | `ConcatenatedSections`; grep the file for the key before believing the message |
+| ONE SIDE of the body flat and pale where the other has its detail -- a nipple, a fishnet, a tonal step at the midline | the mod UV'd that half into the [1, 2) TILE and relies on the sampler wrapping; the target's pass does not | the texcoord fold -- and check both characters' own U range first |
+| a toggle REMOVES clothing instead of changing what it should | the mod's body shape is a SHAPE KEY, the shape keys are not being applied, and the clothing variant sized for the un-taken shape is buried inside the skin | `--shapeKeys retarget`, then that the checksum it writes is a NUMBER |
+| a retarget / remap writes `<Something>NotFound` | the reverse lookup ran versionless and resolved a SHARED value to the wrong character | pass the source's version; `getKey(value, None)` against `getKey(value, <srcVer>)` |
 | the body a smeared DRAPE under an intact head, on a source past 256 bones | the mod's own `Resource*Override = ref ...Component<N>` lines survived into the remapped sections | strip them: `RegRemove` per slot section, `ref` form only |
 | every body part drawn with ONE part's textures | the copies referenced the texture lists in another file | `appendedSectionsInCopies` / `copyHiddenSectionNames` (self-contained copies) |
 | one part's textures wrong, the picture is a different texture | that component got no texture list -- a role with no file | the prototype's per-slot table: `ps-tN=GAME (mod has none)`; then whether the file is declared under TWO hashes |
@@ -1850,6 +1853,81 @@ Two mechanics to know before you write the entry:
   bone 3 and 73% on ten accessory bones; anchoring only the ten still left the prop torn between two
   places. The finished anchor has every bone of the part on one target, which the skinning check
   shows as a cloud the size of the rest shape.
+
+### A MOD MAY UV A PART INTO THE [1, 2) TILE AND RELY ON THE SAMPLER WRAPPING (2026-09-22)
+
+Chisa13 was reported three ways -- one nipple pink and the other "all pale with the same colour of
+her skin", the fishnet on one thigh and not the other, and a tonal step down the torso -- and all
+three are one half of the body rendering WITHOUT its texture detail. That is texture ADDRESSING, not
+shading, which is why nulling the material mask changed nothing.
+
+Half of the mod's component 3 sits at **U >= 1**: 47.04% of that component's vertices, and no other
+component has any. Under a wrapping sampler [1, 2) selects the same texels as [0, 1), which is why
+the mod is correct on the source.
+
+**The fact that makes this invisible until it bites: NEITHER CHARACTER'S OWN MODEL EVER LEAVES
+[0, 1).** Both are 0.002..0.996, so the game never exercises its own address mode out there and the
+two passes are free to differ. Rather than determine which wraps and which clamps, take the question
+away -- the fix folds U back into [0, 1) in the texcoord copy it already writes.
+
+**The property that makes that safe is exact, and worth reaching for whenever a fix can be made
+wrap-equivalent:** U and U - 1 are the same texel under wrap, so on a pass that wraps the change
+does nothing at all, and it can only matter on one that clamps. Measured rather than argued -- the
+written buffer selects the same texel under wrap as the mod's on **100.000%** of vertices.
+
+The one hazard is a triangle straddling a tile boundary: folding would widen its U span from a few
+hundredths to nearly 1 and interpolate it backwards across the atlas. A vertex is left alone if ANY
+triangle it belongs to straddles, which also protects deliberate TILING -- Chisa5 runs U -6.5..6.5
+and 5302 of its 5882 out-of-range vertices are protected. Over every Chisa mod: three move ZERO
+vertices, Chisa5 moves 0.84%, Chisa13 moves 10531.
+
+<br>
+
+### A MOD'S BODY SHAPE MAY BE A SHAPE KEY, AND ITS CLOTHING SIZED FOR SHAPES THE BODY NEVER TAKES (2026-09-22)
+
+Chisa13's LEFT key is `$body`, which on the mod changes body thickness and on the remap "removes her
+bra and stockings". It does neither of those things directly: `$body` sets `$thighShape` /
+`$legShape` / `$boobsShape`, which drive CUSTOM SHAPE KEYS, and separately picks between two
+complete sets of clothing geometry sized for the two shapes.
+
+So when the shape keys are not applied, the body never morphs, and the variant sized for the
+un-taken shape is NARROWER than the skin it sits on -- measured, the body is +-16.9 at the leg band
+and the two clothing variants are +-16.9 and +-14.1. It is drawn, and buried inside the body.
+
+**It vanishes in a `--paint` build too, and that is the measurement that splits it**: if the flat
+colour is absent the geometry is genuinely not visible, so it is not a texture or alpha problem. Ask
+for a paint screenshot WITH the toggle pressed; it costs one round and eliminates half the tree.
+
+A mod like this wants `--shapeKeys retarget` rather than the default `leave`, which keeps the
+shape-key sections on the SOURCE's hashes where the target never emits them. Whether retarget should
+become the default for a mod that declares custom shape keys is an open question for the maintainer:
+every other Chisa mod so far is correct with `leave`.
+
+<br>
+
+### A REVERSE LOOKUP RUN VERSIONLESS RESOLVES A SHARED VALUE TO THE WRONG CHARACTER (2026-09-22)
+
+And `--shapeKeys retarget` was INERT when it was first reached for, while printing "shape keys:
+retargeted to ChisaParfait". It wrote `$\WWMIv1\shapekey_checksum = ChecksumNotFound` into the
+retargeted setup list, so `ShapeKeyOverrider` could not set up and every shape key silently stopped
+being applied.
+
+`RegAssetRemap` is reverse-then-forward, and `ModMappedAssets::getKey` buckets every row holding a
+value BY VERSION and searches only the newest bucket at or below the version asked. **Chisa and
+ChisaParfait have the SAME shape-key checksum, 2610**, so versionless it resolves through the 3.5
+bucket to ChisaParfait, and the forward half then asks what ChisaParfait remaps to in a
+Chisa -> ChisaParfait fix and finds nothing:
+
+```
+getKey('2610', None)  -> ChisaParfait      getKey('2610', '2.8') -> Chisa
+```
+
+Pass the source's version when the `.ini` does not name one. This is the same version-bucket rule
+the GI side hit on index `0`, and it only bites a pair whose two halves SHARE a value -- Sanhua's
+checksums are 3175 and 2376, so hers never could. **Any `<Something>NotFound` in generated output is
+this shape of bug**, and it is worth grepping for as an acceptance check: the fixed file has zero.
+
+<br>
 
 ### A SECTION NAME CAN BE DECLARED MORE THAN ONCE, AND A MOD MANAGER DOES IT FREELY (2026-09-22)
 

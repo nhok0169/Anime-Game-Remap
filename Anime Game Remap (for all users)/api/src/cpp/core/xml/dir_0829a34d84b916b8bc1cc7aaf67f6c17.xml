@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_0829a34d84b916b8bc1cc7aaf67f6c17" kind="dir">
+    <compoundname>src/data/IniFixData/SanhuaExorcist</compoundname>
+    <innerfile refid="_sanhua_exorcist_fixer_8cpp">SanhuaExorcistFixer.cpp</innerfile>
+    <innerfile refid="_sanhua_exorcist_thumbprints_8cpp">SanhuaExorcistThumbprints.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniFixData/SanhuaExorcist/"/>
+  </compounddef>
+</doxygen>

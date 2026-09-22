@@ -5,31 +5,28 @@
     <includes refid="_v_g_remap_data_8h" local="yes">AGRemapCore/data/VGRemapData.h</includes>
     <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
     <incdepgraph>
-      <node id="44">
+      <node id="48">
         <label>Algo.tpp</label>
       </node>
-      <node id="104">
+      <node id="108">
         <label>BaseAhoCorasickDFA.tpp</label>
       </node>
-      <node id="90">
+      <node id="94">
         <label>BaseIniFixer.tpp</label>
       </node>
-      <node id="89">
+      <node id="93">
         <label>BaseIniParser.tpp</label>
       </node>
-      <node id="50">
+      <node id="54">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="103">
+      <node id="107">
         <label>BaseTrie.tpp</label>
       </node>
-      <node id="101">
+      <node id="105">
         <label>BiMap.tpp</label>
       </node>
-      <node id="65">
-        <label>CallGraph.tpp</label>
-      </node>
-      <node id="96">
+      <node id="100">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
         <childnode refid="7" relation="include">
@@ -41,7 +38,7 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="69">
+      <node id="73">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
         <childnode refid="7" relation="include">
@@ -64,9 +61,9 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="96" relation="include">
+        <childnode refid="100" relation="include">
         </childnode>
-        <childnode refid="97" relation="include">
+        <childnode refid="101" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -81,7 +78,7 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="64">
+      <node id="68">
         <label>AGRemapCore/model/CallGraph.h</label>
         <link refid="_call_graph_8h"/>
         <childnode refid="15" relation="include">
@@ -94,12 +91,12 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
+        <childnode refid="37" relation="include">
         </childnode>
-        <childnode refid="65" relation="include">
+        <childnode refid="69" relation="include">
         </childnode>
       </node>
-      <node id="61">
+      <node id="65">
         <label>AGRemapCore/model/IniGraphGroup.h</label>
         <link refid="_ini_graph_group_8h"/>
         <childnode refid="15" relation="include">
@@ -114,19 +111,19 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="36" relation="include">
         </childnode>
-        <childnode refid="62" relation="include">
+        <childnode refid="66" relation="include">
         </childnode>
-        <childnode refid="86" relation="include">
+        <childnode refid="90" relation="include">
         </childnode>
       </node>
-      <node id="62">
+      <node id="66">
         <label>AGRemapCore/model/IniSectionGraph.h</label>
         <link refid="_ini_section_graph_8h"/>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="63" relation="include">
+        <childnode refid="67" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
@@ -134,7 +131,7 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="34" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
@@ -144,30 +141,30 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="31" relation="include">
+        <childnode refid="35" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="64" relation="include">
+        <childnode refid="68" relation="include">
         </childnode>
-        <childnode refid="66" relation="include">
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="67" relation="include">
-        </childnode>
-        <childnode refid="81" relation="include">
-        </childnode>
         <childnode refid="71" relation="include">
-        </childnode>
-        <childnode refid="72" relation="include">
         </childnode>
         <childnode refid="85" relation="include">
         </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
       </node>
-      <node id="66">
+      <node id="70">
         <label>AGRemapCore/model/SectionIterData.h</label>
         <link refid="_section_iter_data_8h"/>
         <childnode refid="16" relation="include">
@@ -176,15 +173,15 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
         <childnode refid="33" relation="include">
         </childnode>
-        <childnode refid="29" relation="include">
+        <childnode refid="71" relation="include">
         </childnode>
-        <childnode refid="67" relation="include">
+        <childnode refid="76" relation="include">
         </childnode>
-        <childnode refid="72" relation="include">
-        </childnode>
-        <childnode refid="80" relation="include">
+        <childnode refid="84" relation="include">
         </childnode>
       </node>
       <node id="6">
@@ -225,6 +222,18 @@
         <childnode refid="14" relation="include">
         </childnode>
       </node>
+      <node id="25">
+        <label>AGRemapCore/model/assets/IndexCounts.h</label>
+        <link refid="_index_counts_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
       <node id="24">
         <label>AGRemapCore/model/assets/Indices.h</label>
         <link refid="_indices_8h"/>
@@ -237,7 +246,7 @@
         <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="27">
+      <node id="31">
         <label>AGRemapCore/model/assets/ModAssets.h</label>
         <link refid="_mod_assets_8h"/>
         <childnode refid="15" relation="include">
@@ -254,7 +263,7 @@
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="28" relation="include">
+        <childnode refid="32" relation="include">
         </childnode>
       </node>
       <node id="20">
@@ -314,16 +323,52 @@
         </childnode>
       </node>
       <node id="26">
+        <label>AGRemapCore/model/assets/ShapeKeyChecksums.h</label>
+        <link refid="_shape_key_checksums_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>AGRemapCore/model/assets/VGCounts.h</label>
+        <link refid="_v_g_counts_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>AGRemapCore/model/assets/VGOffsets.h</label>
+        <link refid="_v_g_offsets_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
         <label>AGRemapCore/model/assets/VGRemaps.h</label>
         <link refid="_v_g_remaps_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
       </node>
-      <node id="25">
+      <node id="27">
         <label>AGRemapCore/model/assets/VertexCounts.h</label>
         <link refid="_vertex_counts_8h"/>
         <childnode refid="3" relation="include">
@@ -331,10 +376,10 @@
         <childnode refid="20" relation="include">
         </childnode>
       </node>
-      <node id="33">
+      <node id="37">
         <label>AGRemapCore/model/iftemplate/IfContentPart.h</label>
         <link refid="_if_content_part_8h"/>
-        <childnode refid="34" relation="include">
+        <childnode refid="38" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
@@ -346,7 +391,7 @@
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="35" relation="include">
+        <childnode refid="39" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
@@ -356,18 +401,18 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
-        </childnode>
         <childnode refid="36" relation="include">
         </childnode>
         <childnode refid="40" relation="include">
         </childnode>
-        <childnode refid="51" relation="include">
+        <childnode refid="44" relation="include">
         </childnode>
-        <childnode refid="58" relation="include">
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
         </childnode>
       </node>
-      <node id="29">
+      <node id="33">
         <label>AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
         <link refid="_if_content_part_colour_8h"/>
         <childnode refid="16" relation="include">
@@ -376,7 +421,7 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="34" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
@@ -386,38 +431,38 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="31" relation="include">
+        <childnode refid="35" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="36" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
+        <childnode refid="37" relation="include">
         </childnode>
-        <childnode refid="41" relation="include">
+        <childnode refid="45" relation="include">
         </childnode>
-        <childnode refid="59" relation="include">
+        <childnode refid="63" relation="include">
         </childnode>
       </node>
-      <node id="68">
+      <node id="72">
         <label>AGRemapCore/model/iftemplate/IfPredPart.h</label>
         <link refid="_if_pred_part_8h"/>
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="69" relation="include">
+        <childnode refid="73" relation="include">
         </childnode>
-        <childnode refid="36" relation="include">
+        <childnode refid="40" relation="include">
         </childnode>
-        <childnode refid="70" relation="include">
+        <childnode refid="74" relation="include">
         </childnode>
-        <childnode refid="71" relation="include">
+        <childnode refid="75" relation="include">
         </childnode>
-        <childnode refid="72" relation="include">
+        <childnode refid="76" relation="include">
         </childnode>
       </node>
-      <node id="67">
+      <node id="71">
         <label>AGRemapCore/model/iftemplate/IfTemplate.h</label>
         <link refid="_if_template_8h"/>
         <childnode refid="15" relation="include">
@@ -428,7 +473,7 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="34" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
@@ -438,28 +483,28 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="31" relation="include">
+        <childnode refid="35" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
+        <childnode refid="37" relation="include">
         </childnode>
-        <childnode refid="68" relation="include">
-        </childnode>
-        <childnode refid="73" relation="include">
-        </childnode>
-        <childnode refid="36" relation="include">
+        <childnode refid="72" relation="include">
         </childnode>
         <childnode refid="77" relation="include">
         </childnode>
-        <childnode refid="70" relation="include">
+        <childnode refid="40" relation="include">
         </childnode>
-        <childnode refid="71" relation="include">
+        <childnode refid="81" relation="include">
         </childnode>
-        <childnode refid="79" relation="include">
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
         </childnode>
       </node>
-      <node id="73">
+      <node id="77">
         <label>AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
         <link refid="_if_template_node_8h"/>
         <childnode refid="15" relation="include">
@@ -472,49 +517,51 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="31" relation="include">
+        <childnode refid="35" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
+        <childnode refid="36" relation="include">
         </childnode>
-        <childnode refid="68" relation="include">
+        <childnode refid="37" relation="include">
         </childnode>
-        <childnode refid="74" relation="include">
+        <childnode refid="72" relation="include">
         </childnode>
-        <childnode refid="76" relation="include">
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
         </childnode>
       </node>
-      <node id="36">
+      <node id="40">
         <label>AGRemapCore/model/iftemplate/IfTemplatePart.h</label>
         <link refid="_if_template_part_8h"/>
         <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="37" relation="include">
+        <childnode refid="41" relation="include">
         </childnode>
       </node>
-      <node id="77">
+      <node id="81">
         <label>AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
         <link refid="_if_template_tree_8h"/>
         <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="69" relation="include">
-        </childnode>
-        <childnode refid="33" relation="include">
-        </childnode>
-        <childnode refid="68" relation="include">
-        </childnode>
         <childnode refid="73" relation="include">
         </childnode>
-        <childnode refid="36" relation="include">
+        <childnode refid="37" relation="include">
         </childnode>
-        <childnode refid="71" relation="include">
+        <childnode refid="72" relation="include">
         </childnode>
-        <childnode refid="78" relation="include">
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
         </childnode>
       </node>
       <node id="11">
@@ -538,24 +585,32 @@
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
         <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="41" relation="include">
+        <childnode refid="30" relation="include">
         </childnode>
-        <childnode refid="60" relation="include">
+        <childnode refid="33" relation="include">
         </childnode>
-        <childnode refid="91" relation="include">
+        <childnode refid="45" relation="include">
         </childnode>
-        <childnode refid="88" relation="include">
-        </childnode>
-        <childnode refid="92" relation="include">
-        </childnode>
-        <childnode refid="93" relation="include">
+        <childnode refid="64" relation="include">
         </childnode>
         <childnode refid="95" relation="include">
         </childnode>
+        <childnode refid="92" relation="include">
+        </childnode>
+        <childnode refid="96" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
+        </childnode>
+        <childnode refid="99" relation="include">
+        </childnode>
       </node>
-      <node id="60">
+      <node id="64">
         <label>AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h</label>
         <link refid="_base_ini_fixer_8h"/>
         <childnode refid="3" relation="include">
@@ -564,16 +619,16 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="61" relation="include">
+        <childnode refid="65" relation="include">
         </childnode>
-        <childnode refid="87" relation="include">
+        <childnode refid="91" relation="include">
         </childnode>
-        <childnode refid="88" relation="include">
+        <childnode refid="92" relation="include">
         </childnode>
-        <childnode refid="90" relation="include">
+        <childnode refid="94" relation="include">
         </childnode>
       </node>
-      <node id="91">
+      <node id="95">
         <label>AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</label>
         <link refid="_ini_fix_builder_8h"/>
         <childnode refid="16" relation="include">
@@ -592,12 +647,12 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
-        <childnode refid="60" relation="include">
+        <childnode refid="64" relation="include">
         </childnode>
       </node>
-      <node id="87">
+      <node id="91">
         <label>AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</label>
         <link refid="_ini_fixing_context_8h"/>
         <childnode refid="3" relation="include">
@@ -605,7 +660,7 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="88">
+      <node id="92">
         <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
         <link refid="_base_ini_parser_8h"/>
         <childnode refid="16" relation="include">
@@ -614,12 +669,12 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="61" relation="include">
+        <childnode refid="65" relation="include">
         </childnode>
-        <childnode refid="89" relation="include">
+        <childnode refid="93" relation="include">
         </childnode>
       </node>
-      <node id="92">
+      <node id="96">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</label>
         <link refid="_ini_parse_builder_8h"/>
         <childnode refid="16" relation="include">
@@ -634,24 +689,24 @@
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="88" relation="include">
+        <childnode refid="92" relation="include">
         </childnode>
       </node>
-      <node id="93">
+      <node id="97">
         <label>AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</label>
         <link refid="_base_ini_remover_8h"/>
         <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="94" relation="include">
+        <childnode refid="98" relation="include">
         </childnode>
       </node>
-      <node id="94">
+      <node id="98">
         <label>AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h</label>
         <link refid="_ini_removal_context_8h"/>
       </node>
-      <node id="95">
+      <node id="99">
         <label>AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</label>
         <link refid="_ini_remove_builder_8h"/>
         <childnode refid="16" relation="include">
@@ -666,22 +721,22 @@
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="93" relation="include">
+        <childnode refid="97" relation="include">
         </childnode>
       </node>
-      <node id="42">
+      <node id="46">
         <label>AGRemapCore/tools/Algo.h</label>
         <link refid="_algo_8h"/>
         <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="43" relation="include">
+        <childnode refid="47" relation="include">
         </childnode>
-        <childnode refid="44" relation="include">
+        <childnode refid="48" relation="include">
         </childnode>
       </node>
-      <node id="100">
+      <node id="104">
         <label>AGRemapCore/tools/BiMap.h</label>
         <link refid="_bi_map_8h"/>
         <childnode refid="8" relation="include">
@@ -690,91 +745,91 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="49" relation="include">
+        <childnode refid="53" relation="include">
         </childnode>
-        <childnode refid="101" relation="include">
+        <childnode refid="105" relation="include">
         </childnode>
       </node>
-      <node id="81">
+      <node id="85">
         <label>AGRemapCore/tools/Generator.h</label>
         <link refid="_generator_8h"/>
-        <childnode refid="82" relation="include">
+        <childnode refid="86" relation="include">
         </childnode>
-        <childnode refid="83" relation="include">
+        <childnode refid="87" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="84" relation="include">
+        <childnode refid="88" relation="include">
         </childnode>
       </node>
-      <node id="41">
+      <node id="45">
         <label>AGRemapCore/tools/Ranges.h</label>
         <link refid="_ranges_8h"/>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="34" relation="include">
         </childnode>
-        <childnode refid="35" relation="include">
+        <childnode refid="39" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="42" relation="include">
+        <childnode refid="46" relation="include">
         </childnode>
-        <childnode refid="45" relation="include">
+        <childnode refid="49" relation="include">
         </childnode>
       </node>
-      <node id="102">
+      <node id="106">
         <label>AGRemapCore/tools/StringHash.h</label>
         <link refid="_string_hash_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="99" relation="include">
+        <childnode refid="103" relation="include">
         </childnode>
       </node>
-      <node id="38">
+      <node id="42">
         <label>AGRemapCore/tools/idGenerator/BaseIdGenerator.h</label>
         <link refid="_base_id_generator_8h"/>
       </node>
-      <node id="37">
+      <node id="41">
         <label>AGRemapCore/tools/idGenerator/IncIdGenerator.h</label>
         <link refid="_inc_id_generator_8h"/>
-        <childnode refid="38" relation="include">
+        <childnode refid="42" relation="include">
         </childnode>
-        <childnode refid="39" relation="include">
+        <childnode refid="43" relation="include">
         </childnode>
       </node>
-      <node id="74">
+      <node id="78">
         <label>AGRemapCore/tools/nodes/Node.h</label>
         <link refid="_node_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="75" relation="include">
+        <childnode refid="79" relation="include">
         </childnode>
       </node>
-      <node id="46">
+      <node id="50">
         <label>AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</label>
         <link refid="_base_ordered_multi_map_8h"/>
-        <childnode refid="34" relation="include">
+        <childnode refid="38" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="47" relation="include">
+        <childnode refid="51" relation="include">
         </childnode>
-        <childnode refid="48" relation="include">
+        <childnode refid="52" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="34" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="49" relation="include">
+        <childnode refid="53" relation="include">
         </childnode>
-        <childnode refid="35" relation="include">
+        <childnode refid="39" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
@@ -782,18 +837,18 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="31" relation="include">
+        <childnode refid="35" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="36" relation="include">
         </childnode>
-        <childnode refid="41" relation="include">
+        <childnode refid="45" relation="include">
         </childnode>
-        <childnode refid="50" relation="include">
+        <childnode refid="54" relation="include">
         </childnode>
       </node>
-      <node id="40">
+      <node id="44">
         <label>AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h</label>
         <link refid="_i_ordered_multi_map_8h"/>
         <childnode refid="15" relation="include">
@@ -806,36 +861,36 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="31" relation="include">
+        <childnode refid="35" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="41" relation="include">
+        <childnode refid="45" relation="include">
         </childnode>
-        <childnode refid="46" relation="include">
+        <childnode refid="50" relation="include">
         </childnode>
       </node>
-      <node id="53">
+      <node id="57">
         <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h</label>
         <link refid="_ordered_multi_map_8h"/>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="47" relation="include">
+        <childnode refid="51" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="34" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="52" relation="include">
+        <childnode refid="56" relation="include">
         </childnode>
-        <childnode refid="46" relation="include">
+        <childnode refid="50" relation="include">
         </childnode>
-        <childnode refid="54" relation="include">
+        <childnode refid="58" relation="include">
         </childnode>
       </node>
-      <node id="51">
+      <node id="55">
         <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</label>
         <link refid="_ordered_multi_map_adapter_8h"/>
         <childnode refid="16" relation="include">
@@ -850,40 +905,40 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="36" relation="include">
         </childnode>
-        <childnode refid="52" relation="include">
+        <childnode refid="56" relation="include">
         </childnode>
-        <childnode refid="40" relation="include">
+        <childnode refid="44" relation="include">
         </childnode>
-        <childnode refid="53" relation="include">
+        <childnode refid="57" relation="include">
         </childnode>
-        <childnode refid="55" relation="include">
+        <childnode refid="59" relation="include">
         </childnode>
       </node>
-      <node id="55">
+      <node id="59">
         <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h</label>
         <link refid="_ordered_multi_map_sqrt_8h"/>
-        <childnode refid="56" relation="include">
+        <childnode refid="60" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="47" relation="include">
+        <childnode refid="51" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="34" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="52" relation="include">
+        <childnode refid="56" relation="include">
         </childnode>
-        <childnode refid="46" relation="include">
+        <childnode refid="50" relation="include">
         </childnode>
-        <childnode refid="57" relation="include">
+        <childnode refid="61" relation="include">
         </childnode>
       </node>
-      <node id="70">
+      <node id="74">
         <label>AGRemapCore/tools/parsing/ParseContext.h</label>
         <link refid="_parse_context_8h"/>
         <childnode refid="7" relation="include">
@@ -893,24 +948,24 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="97">
+      <node id="101">
         <label>AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
         <link refid="_base_aho_corasick_d_f_a_8h"/>
-        <childnode refid="49" relation="include">
+        <childnode refid="53" relation="include">
         </childnode>
-        <childnode refid="98" relation="include">
+        <childnode refid="102" relation="include">
         </childnode>
-        <childnode refid="104" relation="include">
+        <childnode refid="108" relation="include">
         </childnode>
       </node>
-      <node id="98">
+      <node id="102">
         <label>AGRemapCore/tools/tries/BaseTrie.h</label>
         <link refid="_base_trie_8h"/>
         <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="99" relation="include">
+        <childnode refid="103" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
@@ -926,31 +981,31 @@
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="31" relation="include">
+        <childnode refid="35" relation="include">
         </childnode>
-        <childnode refid="100" relation="include">
+        <childnode refid="104" relation="include">
         </childnode>
-        <childnode refid="38" relation="include">
+        <childnode refid="42" relation="include">
         </childnode>
-        <childnode refid="102" relation="include">
+        <childnode refid="106" relation="include">
         </childnode>
-        <childnode refid="103" relation="include">
+        <childnode refid="107" relation="include">
         </childnode>
       </node>
-      <node id="71">
+      <node id="75">
         <label>AGRemapCore/tools/z3/Z3Context.h</label>
         <link refid="_z3_context_8h"/>
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="72">
+      <node id="76">
         <label>AGRemapCore/tools/z3/Z3Predicate.h</label>
         <link refid="_z3_predicate_8h"/>
         <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="71" relation="include">
+        <childnode refid="75" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -961,34 +1016,37 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="84">
+      <node id="69">
+        <label>CallGraph.tpp</label>
+      </node>
+      <node id="88">
         <label>Generator.tpp</label>
       </node>
-      <node id="58">
+      <node id="62">
         <label>IfContentPart.tpp</label>
       </node>
-      <node id="59">
+      <node id="63">
         <label>IfContentPartColour.tpp</label>
       </node>
-      <node id="79">
+      <node id="83">
         <label>IfTemplate.tpp</label>
       </node>
-      <node id="76">
+      <node id="80">
         <label>IfTemplateNode.tpp</label>
       </node>
-      <node id="78">
+      <node id="82">
         <label>IfTemplateTree.tpp</label>
       </node>
-      <node id="39">
+      <node id="43">
         <label>IncIdGenerator.tpp</label>
       </node>
-      <node id="86">
+      <node id="90">
         <label>IniGraphGroup.tpp</label>
       </node>
-      <node id="85">
+      <node id="89">
         <label>IniSectionGraph.tpp</label>
       </node>
-      <node id="28">
+      <node id="32">
         <label>ModAssets.tpp</label>
       </node>
       <node id="22">
@@ -997,28 +1055,28 @@
       <node id="23">
         <label>ModMappedAssets.tpp</label>
       </node>
-      <node id="75">
+      <node id="79">
         <label>Node.tpp</label>
       </node>
-      <node id="54">
+      <node id="58">
         <label>OrderedMultiMap.tpp</label>
       </node>
-      <node id="57">
+      <node id="61">
         <label>OrderedMultiMapSqrt.tpp</label>
       </node>
-      <node id="45">
+      <node id="49">
         <label>Ranges.tpp</label>
       </node>
-      <node id="80">
+      <node id="84">
         <label>SectionIterData.tpp</label>
       </node>
-      <node id="34">
+      <node id="38">
         <label>algorithm</label>
       </node>
-      <node id="56">
+      <node id="60">
         <label>cmath</label>
       </node>
-      <node id="82">
+      <node id="86">
         <label>coroutine</label>
       </node>
       <node id="15">
@@ -1027,19 +1085,19 @@
       <node id="19">
         <label>cstdint</label>
       </node>
-      <node id="63">
+      <node id="67">
         <label>deque</label>
       </node>
-      <node id="83">
+      <node id="87">
         <label>exception</label>
       </node>
       <node id="16">
         <label>functional</label>
       </node>
-      <node id="47">
+      <node id="51">
         <label>list</label>
       </node>
-      <node id="48">
+      <node id="52">
         <label>map</label>
       </node>
       <node id="12">
@@ -1048,10 +1106,10 @@
       <node id="7">
         <label>optional</label>
       </node>
-      <node id="43">
+      <node id="47">
         <label>queue</label>
       </node>
-      <node id="30">
+      <node id="34">
         <label>set</label>
       </node>
       <node id="17">
@@ -1060,19 +1118,19 @@
       <node id="3">
         <label>string</label>
       </node>
-      <node id="99">
+      <node id="103">
         <label>string_view</label>
       </node>
-      <node id="32">
+      <node id="36">
         <label>tsl/ordered_map.h</label>
       </node>
-      <node id="52">
+      <node id="56">
         <label>tsl/ordered_set.h</label>
       </node>
-      <node id="49">
+      <node id="53">
         <label>tuple</label>
       </node>
-      <node id="35">
+      <node id="39">
         <label>type_traits</label>
       </node>
       <node id="8">
@@ -1084,7 +1142,7 @@
       <node id="4">
         <label>utility</label>
       </node>
-      <node id="31">
+      <node id="35">
         <label>variant</label>
       </node>
       <node id="5">
@@ -2169,13 +2227,70 @@
 <codeline lineno="1069"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VGRemap({</highlight></codeline>
 <codeline lineno="1070"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0,<sp/>2},<sp/>{1,<sp/>1}</highlight></codeline>
 <codeline lineno="1071"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})},</highlight></codeline>
-<codeline lineno="1072"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1073"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1074"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rows;</highlight></codeline>
-<codeline lineno="1075"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1076"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1077"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1078"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1072"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1073"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>WuWa:<sp/>Sanhua<sp/>&lt;-&gt;<sp/>SanhuaExorcist<sp/>(2026-09-19)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1074"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>directions<sp/>from<sp/>Data/RemapDrafts/SanhuaRemapDraft.xlsx,<sp/>in<sp/>WWMI&apos;s<sp/>MERGED<sp/>skeleton</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1075"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(the<sp/>space<sp/>every<sp/>component&apos;s<sp/>vg_map<sp/>in<sp/>Metadata.json<sp/>maps<sp/>into,<sp/>and<sp/>the<sp/>space<sp/>a<sp/>WWMI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1076"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mod&apos;s<sp/>Blend.buf<sp/>is<sp/>written<sp/>in)<sp/>--<sp/>so<sp/>one<sp/>row<sp/>each<sp/>way<sp/>with<sp/>empty<sp/>components,<sp/>not<sp/>one<sp/>per</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1077"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>draw<sp/>slot.<sp/>Forward:<sp/>the<sp/>maintainer&apos;s<sp/>hand-made<sp/>sheet,<sp/>its<sp/>24<sp/>unused<sp/>bones<sp/>filled<sp/>with<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1078"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>three<sp/>gaps<sp/>filled<sp/>from<sp/>the<sp/>geometry.<sp/>Reverse:<sp/>Tools/VGRemapFinder&apos;s<sp/>proposal<sp/>reviewed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1079"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>row<sp/>by<sp/>row<sp/>from<sp/>three<sp/>signals<sp/>(the<sp/>reverse<sp/>sheet<sp/>says<sp/>which).<sp/>NEITHER<sp/>IS<sp/>CONFIRMED<sp/>IN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1080"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GAME<sp/>YET;<sp/>the<sp/>forward<sp/>one<sp/>is<sp/>what<sp/>sanhuaExorcistFix.py&apos;s<sp/>outputs<sp/>carry.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1081"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;1.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e5b87c395273646f1f7267f2de3ba63" kindref="member">ModTypeId::Sanhua</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="1082"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2.5&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa20a11d20a03cacc27e48688909994c25" kindref="member">ModTypeId::SanhuaExorcist</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="1083"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VGRemap({</highlight></codeline>
+<codeline lineno="1084"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0,<sp/>0},<sp/>{1,<sp/>1},<sp/>{2,<sp/>2},<sp/>{3,<sp/>3},<sp/>{4,<sp/>4},<sp/>{5,<sp/>6},<sp/>{6,<sp/>5},<sp/>{7,<sp/>17},<sp/>{8,<sp/>8},<sp/>{9,<sp/>9},</highlight></codeline>
+<codeline lineno="1085"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{10,<sp/>10},<sp/>{11,<sp/>7},<sp/>{12,<sp/>11},<sp/>{13,<sp/>12},<sp/>{14,<sp/>13},<sp/>{15,<sp/>14},<sp/>{16,<sp/>15},<sp/>{17,<sp/>18},<sp/>{18,<sp/>16},<sp/>{19,<sp/>0},</highlight></codeline>
+<codeline lineno="1086"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{20,<sp/>20},<sp/>{21,<sp/>0},<sp/>{22,<sp/>24},<sp/>{23,<sp/>0},<sp/>{24,<sp/>0},<sp/>{25,<sp/>146},<sp/>{26,<sp/>68},<sp/>{27,<sp/>38},<sp/>{28,<sp/>37},<sp/>{29,<sp/>0},</highlight></codeline>
+<codeline lineno="1087"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{30,<sp/>22},<sp/>{31,<sp/>23},<sp/>{32,<sp/>0},<sp/>{33,<sp/>91},<sp/>{34,<sp/>32},<sp/>{35,<sp/>31},<sp/>{36,<sp/>27},<sp/>{37,<sp/>29},<sp/>{38,<sp/>26},<sp/>{39,<sp/>30},</highlight></codeline>
+<codeline lineno="1088"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{40,<sp/>28},<sp/>{41,<sp/>25},<sp/>{42,<sp/>107},<sp/>{43,<sp/>42},<sp/>{44,<sp/>41},<sp/>{45,<sp/>34},<sp/>{46,<sp/>33},<sp/>{47,<sp/>39},<sp/>{48,<sp/>40},<sp/>{49,<sp/>35},</highlight></codeline>
+<codeline lineno="1089"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{50,<sp/>36},<sp/>{51,<sp/>0},<sp/>{52,<sp/>0},<sp/>{53,<sp/>0},<sp/>{54,<sp/>47},<sp/>{55,<sp/>48},<sp/>{56,<sp/>0},<sp/>{57,<sp/>1},<sp/>{58,<sp/>0},<sp/>{59,<sp/>1},</highlight></codeline>
+<codeline lineno="1090"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{60,<sp/>24},<sp/>{61,<sp/>24},<sp/>{62,<sp/>52},<sp/>{63,<sp/>1},<sp/>{64,<sp/>0},<sp/>{65,<sp/>1},<sp/>{66,<sp/>1},<sp/>{67,<sp/>1},<sp/>{68,<sp/>0},<sp/>{69,<sp/>49},</highlight></codeline>
+<codeline lineno="1091"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{70,<sp/>50},<sp/>{71,<sp/>51},<sp/>{72,<sp/>54},<sp/>{73,<sp/>57},<sp/>{74,<sp/>58},<sp/>{75,<sp/>59},<sp/>{76,<sp/>55},<sp/>{77,<sp/>56},<sp/>{78,<sp/>53},<sp/>{79,<sp/>60},</highlight></codeline>
+<codeline lineno="1092"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{80,<sp/>61},<sp/>{81,<sp/>62},<sp/>{82,<sp/>0},<sp/>{83,<sp/>44},<sp/>{84,<sp/>45},<sp/>{85,<sp/>0},<sp/>{86,<sp/>152},<sp/>{87,<sp/>103},<sp/>{88,<sp/>104},<sp/>{89,<sp/>98},</highlight></codeline>
+<codeline lineno="1093"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{90,<sp/>0},<sp/>{91,<sp/>93},<sp/>{92,<sp/>94},<sp/>{93,<sp/>99},<sp/>{94,<sp/>100},<sp/>{95,<sp/>92},<sp/>{96,<sp/>0},<sp/>{97,<sp/>101},<sp/>{98,<sp/>102},<sp/>{99,<sp/>97},</highlight></codeline>
+<codeline lineno="1094"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{100,<sp/>105},<sp/>{101,<sp/>106},<sp/>{102,<sp/>95},<sp/>{103,<sp/>96},<sp/>{104,<sp/>157},<sp/>{105,<sp/>111},<sp/>{106,<sp/>112},<sp/>{107,<sp/>113},<sp/>{108,<sp/>0},<sp/>{109,<sp/>110},</highlight></codeline>
+<codeline lineno="1095"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{110,<sp/>109},<sp/>{111,<sp/>108},<sp/>{112,<sp/>0},<sp/>{113,<sp/>0},<sp/>{114,<sp/>122},<sp/>{115,<sp/>116},<sp/>{116,<sp/>117},<sp/>{117,<sp/>118},<sp/>{118,<sp/>114},<sp/>{119,<sp/>115},</highlight></codeline>
+<codeline lineno="1096"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{120,<sp/>119},<sp/>{121,<sp/>120},<sp/>{122,<sp/>121},<sp/>{123,<sp/>81},<sp/>{124,<sp/>83},<sp/>{125,<sp/>84},<sp/>{126,<sp/>82},<sp/>{127,<sp/>71},<sp/>{128,<sp/>85},<sp/>{129,<sp/>63},</highlight></codeline>
+<codeline lineno="1097"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{130,<sp/>64},<sp/>{131,<sp/>66},<sp/>{132,<sp/>86},<sp/>{133,<sp/>78},<sp/>{134,<sp/>88},<sp/>{135,<sp/>89},<sp/>{136,<sp/>87},<sp/>{137,<sp/>69},<sp/>{138,<sp/>90},<sp/>{139,<sp/>65},</highlight></codeline>
+<codeline lineno="1098"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{140,<sp/>70},<sp/>{141,<sp/>67},<sp/>{142,<sp/>0},<sp/>{143,<sp/>0},<sp/>{144,<sp/>77},<sp/>{145,<sp/>76},<sp/>{146,<sp/>79},<sp/>{147,<sp/>80},<sp/>{148,<sp/>72},<sp/>{149,<sp/>73},</highlight></codeline>
+<codeline lineno="1099"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{150,<sp/>74},<sp/>{151,<sp/>75},<sp/>{152,<sp/>147},<sp/>{153,<sp/>133},<sp/>{154,<sp/>148},<sp/>{155,<sp/>182},<sp/>{156,<sp/>131},<sp/>{157,<sp/>164},<sp/>{158,<sp/>142},<sp/>{159,<sp/>143},</highlight></codeline>
+<codeline lineno="1100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{160,<sp/>144},<sp/>{161,<sp/>169},<sp/>{162,<sp/>162},<sp/>{163,<sp/>170},<sp/>{164,<sp/>164},<sp/>{165,<sp/>176},<sp/>{166,<sp/>177},<sp/>{167,<sp/>151},<sp/>{168,<sp/>73},<sp/>{169,<sp/>162},</highlight></codeline>
+<codeline lineno="1101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{170,<sp/>164},<sp/>{171,<sp/>164},<sp/>{172,<sp/>156},<sp/>{173,<sp/>137},<sp/>{174,<sp/>138},<sp/>{175,<sp/>132},<sp/>{176,<sp/>134},<sp/>{177,<sp/>172},<sp/>{178,<sp/>173},<sp/>{179,<sp/>149},</highlight></codeline>
+<codeline lineno="1102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{180,<sp/>185},<sp/>{181,<sp/>186},<sp/>{182,<sp/>187},<sp/>{183,<sp/>189},<sp/>{184,<sp/>184},<sp/>{185,<sp/>188},<sp/>{186,<sp/>125},<sp/>{187,<sp/>126},<sp/>{188,<sp/>123},<sp/>{189,<sp/>155},</highlight></codeline>
+<codeline lineno="1103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{190,<sp/>153},<sp/>{191,<sp/>154},<sp/>{192,<sp/>0},<sp/>{193,<sp/>161},<sp/>{194,<sp/>141},<sp/>{195,<sp/>175},<sp/>{196,<sp/>150},<sp/>{197,<sp/>181},<sp/>{198,<sp/>178},<sp/>{199,<sp/>179},</highlight></codeline>
+<codeline lineno="1104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{200,<sp/>174},<sp/>{201,<sp/>183},<sp/>{202,<sp/>180},<sp/>{203,<sp/>124},<sp/>{204,<sp/>0},<sp/>{205,<sp/>159},<sp/>{206,<sp/>158},<sp/>{207,<sp/>160}</highlight></codeline>
+<codeline lineno="1105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})},</highlight></codeline>
+<codeline lineno="1106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;1.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa20a11d20a03cacc27e48688909994c25" kindref="member">ModTypeId::SanhuaExorcist</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="1107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2.5&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e5b87c395273646f1f7267f2de3ba63" kindref="member">ModTypeId::Sanhua</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="1108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VGRemap({</highlight></codeline>
+<codeline lineno="1109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0,<sp/>0},<sp/>{1,<sp/>1},<sp/>{2,<sp/>2},<sp/>{3,<sp/>3},<sp/>{4,<sp/>4},<sp/>{5,<sp/>6},<sp/>{6,<sp/>5},<sp/>{7,<sp/>11},<sp/>{8,<sp/>8},<sp/>{9,<sp/>9},</highlight></codeline>
+<codeline lineno="1110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{10,<sp/>10},<sp/>{11,<sp/>12},<sp/>{12,<sp/>13},<sp/>{13,<sp/>14},<sp/>{14,<sp/>15},<sp/>{15,<sp/>16},<sp/>{16,<sp/>18},<sp/>{17,<sp/>7},<sp/>{18,<sp/>17},<sp/>{19,<sp/>0},</highlight></codeline>
+<codeline lineno="1111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{20,<sp/>20},<sp/>{21,<sp/>0},<sp/>{22,<sp/>30},<sp/>{23,<sp/>31},<sp/>{24,<sp/>22},<sp/>{25,<sp/>41},<sp/>{26,<sp/>38},<sp/>{27,<sp/>36},<sp/>{28,<sp/>40},<sp/>{29,<sp/>37},</highlight></codeline>
+<codeline lineno="1112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{30,<sp/>39},<sp/>{31,<sp/>35},<sp/>{32,<sp/>34},<sp/>{33,<sp/>46},<sp/>{34,<sp/>45},<sp/>{35,<sp/>49},<sp/>{36,<sp/>50},<sp/>{37,<sp/>28},<sp/>{38,<sp/>27},<sp/>{39,<sp/>47},</highlight></codeline>
+<codeline lineno="1113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{40,<sp/>48},<sp/>{41,<sp/>44},<sp/>{42,<sp/>43},<sp/>{43,<sp/>0},<sp/>{44,<sp/>83},<sp/>{45,<sp/>84},<sp/>{46,<sp/>0},<sp/>{47,<sp/>54},<sp/>{48,<sp/>55},<sp/>{49,<sp/>69},</highlight></codeline>
+<codeline lineno="1114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{50,<sp/>70},<sp/>{51,<sp/>71},<sp/>{52,<sp/>62},<sp/>{53,<sp/>78},<sp/>{54,<sp/>72},<sp/>{55,<sp/>76},<sp/>{56,<sp/>77},<sp/>{57,<sp/>73},<sp/>{58,<sp/>74},<sp/>{59,<sp/>75},</highlight></codeline>
+<codeline lineno="1115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{60,<sp/>79},<sp/>{61,<sp/>80},<sp/>{62,<sp/>81},<sp/>{63,<sp/>129},<sp/>{64,<sp/>130},<sp/>{65,<sp/>139},<sp/>{66,<sp/>131},<sp/>{67,<sp/>141},<sp/>{68,<sp/>26},<sp/>{69,<sp/>137},</highlight></codeline>
+<codeline lineno="1116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{70,<sp/>140},<sp/>{71,<sp/>127},<sp/>{72,<sp/>148},<sp/>{73,<sp/>149},<sp/>{74,<sp/>150},<sp/>{75,<sp/>151},<sp/>{76,<sp/>145},<sp/>{77,<sp/>144},<sp/>{78,<sp/>133},<sp/>{79,<sp/>146},</highlight></codeline>
+<codeline lineno="1117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{80,<sp/>147},<sp/>{81,<sp/>123},<sp/>{82,<sp/>126},<sp/>{83,<sp/>124},<sp/>{84,<sp/>125},<sp/>{85,<sp/>128},<sp/>{86,<sp/>132},<sp/>{87,<sp/>136},<sp/>{88,<sp/>134},<sp/>{89,<sp/>135},</highlight></codeline>
+<codeline lineno="1118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{90,<sp/>138},<sp/>{91,<sp/>33},<sp/>{92,<sp/>95},<sp/>{93,<sp/>91},<sp/>{94,<sp/>92},<sp/>{95,<sp/>102},<sp/>{96,<sp/>103},<sp/>{97,<sp/>99},<sp/>{98,<sp/>89},<sp/>{99,<sp/>93},</highlight></codeline>
+<codeline lineno="1119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{100,<sp/>94},<sp/>{101,<sp/>97},<sp/>{102,<sp/>98},<sp/>{103,<sp/>87},<sp/>{104,<sp/>88},<sp/>{105,<sp/>100},<sp/>{106,<sp/>101},<sp/>{107,<sp/>42},<sp/>{108,<sp/>111},<sp/>{109,<sp/>110},</highlight></codeline>
+<codeline lineno="1120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{110,<sp/>109},<sp/>{111,<sp/>105},<sp/>{112,<sp/>106},<sp/>{113,<sp/>107},<sp/>{114,<sp/>118},<sp/>{115,<sp/>119},<sp/>{116,<sp/>115},<sp/>{117,<sp/>116},<sp/>{118,<sp/>117},<sp/>{119,<sp/>120},</highlight></codeline>
+<codeline lineno="1121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{120,<sp/>121},<sp/>{121,<sp/>122},<sp/>{122,<sp/>114},<sp/>{123,<sp/>188},<sp/>{124,<sp/>203},<sp/>{125,<sp/>186},<sp/>{126,<sp/>187},<sp/>{127,<sp/>0},<sp/>{128,<sp/>0},<sp/>{129,<sp/>0},</highlight></codeline>
+<codeline lineno="1122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{130,<sp/>0},<sp/>{131,<sp/>156},<sp/>{132,<sp/>175},<sp/>{133,<sp/>153},<sp/>{134,<sp/>176},<sp/>{135,<sp/>0},<sp/>{136,<sp/>0},<sp/>{137,<sp/>173},<sp/>{138,<sp/>174},<sp/>{139,<sp/>0},</highlight></codeline>
+<codeline lineno="1123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{140,<sp/>0},<sp/>{141,<sp/>194},<sp/>{142,<sp/>158},<sp/>{143,<sp/>159},<sp/>{144,<sp/>160},<sp/>{145,<sp/>0},<sp/>{146,<sp/>25},<sp/>{147,<sp/>152},<sp/>{148,<sp/>154},<sp/>{149,<sp/>179},</highlight></codeline>
+<codeline lineno="1124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{150,<sp/>196},<sp/>{151,<sp/>167},<sp/>{152,<sp/>86},<sp/>{153,<sp/>190},<sp/>{154,<sp/>191},<sp/>{155,<sp/>189},<sp/>{156,<sp/>172},<sp/>{157,<sp/>104},<sp/>{158,<sp/>206},<sp/>{159,<sp/>205},</highlight></codeline>
+<codeline lineno="1125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{160,<sp/>207},<sp/>{161,<sp/>193},<sp/>{162,<sp/>162},<sp/>{163,<sp/>0},<sp/>{164,<sp/>164},<sp/>{165,<sp/>0},<sp/>{166,<sp/>0},<sp/>{167,<sp/>0},<sp/>{168,<sp/>0},<sp/>{169,<sp/>161},</highlight></codeline>
+<codeline lineno="1126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{170,<sp/>163},<sp/>{171,<sp/>0},<sp/>{172,<sp/>177},<sp/>{173,<sp/>178},<sp/>{174,<sp/>200},<sp/>{175,<sp/>195},<sp/>{176,<sp/>165},<sp/>{177,<sp/>166},<sp/>{178,<sp/>198},<sp/>{179,<sp/>199},</highlight></codeline>
+<codeline lineno="1127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{180,<sp/>202},<sp/>{181,<sp/>197},<sp/>{182,<sp/>155},<sp/>{183,<sp/>201},<sp/>{184,<sp/>184},<sp/>{185,<sp/>180},<sp/>{186,<sp/>181},<sp/>{187,<sp/>182},<sp/>{188,<sp/>185},<sp/>{189,<sp/>183}</highlight></codeline>
+<codeline lineno="1128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})},</highlight></codeline>
+<codeline lineno="1129"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rows;</highlight></codeline>
+<codeline lineno="1132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1135"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/data/VGRemapData.cpp"/>
   </compounddef>

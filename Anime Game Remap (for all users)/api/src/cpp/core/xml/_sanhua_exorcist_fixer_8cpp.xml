@@ -1,0 +1,1427 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_sanhua_exorcist_fixer_8cpp" kind="file" language="C++">
+    <compoundname>SanhuaExorcistFixer.cpp</compoundname>
+    <includes refid="_sanhua_exorcist_fixer_8h" local="yes">AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="_ini_comments_8h" local="yes">AGRemapCore/constants/IniComments.h</includes>
+    <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
+    <includes refid="_ini_fix_builder_data_8h" local="yes">AGRemapCore/data/IniFixBuilderData.h</includes>
+    <includes refid="_sanhua_exorcist_thumbprints_8h" local="yes">AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistThumbprints.h</includes>
+    <includes refid="_w_w_m_i_fixer_8h" local="yes">AGRemapCore/data/IniFixData/WWMIFixer.h</includes>
+    <includes refid="_colour_8h" local="yes">AGRemapCore/model/textures/Colour.h</includes>
+    <incdepgraph>
+      <node id="38">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="109">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="80">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="79">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="44">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="108">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="106">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="101">
+        <label>AGRemapCore/constants/GameTypeId.h</label>
+        <link refid="_game_type_id_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="59">
+        <label>AGRemapCore/constants/IfPredPartType.h</label>
+        <link refid="_if_pred_part_type_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="81">
+        <label>AGRemapCore/constants/IniComments.h</label>
+        <link refid="_ini_comments_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="82">
+        <label>AGRemapCore/constants/ModTypeId.h</label>
+        <link refid="_mod_type_id_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
+        </childnode>
+        <childnode refid="101" relation="include">
+        </childnode>
+        <childnode refid="102" relation="include">
+        </childnode>
+      </node>
+      <node id="110">
+        <label>AGRemapCore/data/IniFixBuilderData.h</label>
+        <link refid="_ini_fix_builder_data_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.h</label>
+        <link refid="_sanhua_exorcist_fixer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="111">
+        <label>AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistThumbprints.h</label>
+        <link refid="_sanhua_exorcist_thumbprints_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="112">
+        <label>AGRemapCore/data/IniFixData/WWMIFixer.h</label>
+        <link refid="_w_w_m_i_fixer_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="113" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>AGRemapCore/model/CallGraph.h</label>
+        <link refid="_call_graph_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>AGRemapCore/model/IniGraphGroup.h</label>
+        <link refid="_ini_graph_group_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>AGRemapCore/model/IniSectionGraph.h</label>
+        <link refid="_ini_section_graph_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+      </node>
+      <node id="54">
+        <label>AGRemapCore/model/SectionIterData.h</label>
+        <link refid="_section_iter_data_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+      </node>
+      <node id="96">
+        <label>AGRemapCore/model/VGRemap.h</label>
+        <link refid="_v_g_remap_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>AGRemapCore/model/Version.h</label>
+        <link refid="_version_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="84">
+        <label>AGRemapCore/model/assets/Hashes.h</label>
+        <link refid="_hashes_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+      </node>
+      <node id="90">
+        <label>AGRemapCore/model/assets/IndexCounts.h</label>
+        <link refid="_index_counts_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+      </node>
+      <node id="89">
+        <label>AGRemapCore/model/assets/Indices.h</label>
+        <link refid="_indices_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>AGRemapCore/model/assets/ModAssets.h</label>
+        <link refid="_mod_assets_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="86">
+        <label>AGRemapCore/model/assets/ModDictAssets.h</label>
+        <link refid="_mod_dict_assets_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
+      </node>
+      <node id="85">
+        <label>AGRemapCore/model/assets/ModMappedAssets.h</label>
+        <link refid="_mod_mapped_assets_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>AGRemapCore/model/assets/Row.h</label>
+        <link refid="_row_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="91">
+        <label>AGRemapCore/model/assets/ShapeKeyChecksums.h</label>
+        <link refid="_shape_key_checksums_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+      </node>
+      <node id="93">
+        <label>AGRemapCore/model/assets/VGCounts.h</label>
+        <link refid="_v_g_counts_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+      </node>
+      <node id="94">
+        <label>AGRemapCore/model/assets/VGOffsets.h</label>
+        <link refid="_v_g_offsets_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+      </node>
+      <node id="95">
+        <label>AGRemapCore/model/assets/VGRemaps.h</label>
+        <link refid="_v_g_remaps_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="96" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="92">
+        <label>AGRemapCore/model/assets/VertexCounts.h</label>
+        <link refid="_vertex_counts_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>AGRemapCore/model/iftemplate/IfContentPart.h</label>
+        <link refid="_if_content_part_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
+        <link refid="_if_content_part_colour_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+      </node>
+      <node id="58">
+        <label>AGRemapCore/model/iftemplate/IfPredPart.h</label>
+        <link refid="_if_pred_part_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="57">
+        <label>AGRemapCore/model/iftemplate/IfTemplate.h</label>
+        <link refid="_if_template_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+      </node>
+      <node id="63">
+        <label>AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
+        <link refid="_if_template_node_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>AGRemapCore/model/iftemplate/IfTemplatePart.h</label>
+        <link refid="_if_template_part_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="67">
+        <label>AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
+        <link refid="_if_template_tree_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+      </node>
+      <node id="83">
+        <label>AGRemapCore/model/strategies/ModType.h</label>
+        <link refid="_mod_type_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="84" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+        <childnode refid="91" relation="include">
+        </childnode>
+        <childnode refid="92" relation="include">
+        </childnode>
+        <childnode refid="93" relation="include">
+        </childnode>
+        <childnode refid="94" relation="include">
+        </childnode>
+        <childnode refid="95" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
+        </childnode>
+        <childnode refid="98" relation="include">
+        </childnode>
+        <childnode refid="100" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h</label>
+        <link refid="_base_ini_fixer_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</label>
+        <link refid="_ini_fix_builder_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="77">
+        <label>AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</label>
+        <link refid="_ini_fixing_context_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="78">
+        <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
+        <link refid="_base_ini_parser_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+      </node>
+      <node id="97">
+        <label>AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</label>
+        <link refid="_ini_parse_builder_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+      </node>
+      <node id="98">
+        <label>AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</label>
+        <link refid="_base_ini_remover_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="99" relation="include">
+        </childnode>
+      </node>
+      <node id="99">
+        <label>AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h</label>
+        <link refid="_ini_removal_context_8h"/>
+      </node>
+      <node id="100">
+        <label>AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</label>
+        <link refid="_ini_remove_builder_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+        <childnode refid="98" relation="include">
+        </childnode>
+      </node>
+      <node id="113">
+        <label>AGRemapCore/model/textures/Colour.h</label>
+        <link refid="_colour_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="105">
+        <label>AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="106" relation="include">
+        </childnode>
+      </node>
+      <node id="71">
+        <label>AGRemapCore/tools/Generator.h</label>
+        <link refid="_generator_8h"/>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="107">
+        <label>AGRemapCore/tools/StringHash.h</label>
+        <link refid="_string_hash_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="104" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>AGRemapCore/tools/idGenerator/BaseIdGenerator.h</label>
+        <link refid="_base_id_generator_8h"/>
+      </node>
+      <node id="31">
+        <label>AGRemapCore/tools/idGenerator/IncIdGenerator.h</label>
+        <link refid="_inc_id_generator_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="64">
+        <label>AGRemapCore/tools/nodes/Node.h</label>
+        <link refid="_node_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</label>
+        <link refid="_base_ordered_multi_map_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h</label>
+        <link refid="_i_ordered_multi_map_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h</label>
+        <link refid="_ordered_multi_map_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</label>
+        <link refid="_ordered_multi_map_adapter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h</label>
+        <link refid="_ordered_multi_map_sqrt_8h"/>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+      </node>
+      <node id="60">
+        <label>AGRemapCore/tools/parsing/ParseContext.h</label>
+        <link refid="_parse_context_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="102">
+        <label>AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
+        <link refid="_base_aho_corasick_d_f_a_8h"/>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="103" relation="include">
+        </childnode>
+        <childnode refid="109" relation="include">
+        </childnode>
+      </node>
+      <node id="103">
+        <label>AGRemapCore/tools/tries/BaseTrie.h</label>
+        <link refid="_base_trie_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="104" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="105" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="107" relation="include">
+        </childnode>
+        <childnode refid="108" relation="include">
+        </childnode>
+      </node>
+      <node id="61">
+        <label>AGRemapCore/tools/z3/Z3Context.h</label>
+        <link refid="_z3_context_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="62">
+        <label>AGRemapCore/tools/z3/Z3Predicate.h</label>
+        <link refid="_z3_predicate_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp</label>
+        <link refid="_sanhua_exorcist_fixer_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
+        <childnode refid="110" relation="include">
+        </childnode>
+        <childnode refid="111" relation="include">
+        </childnode>
+        <childnode refid="112" relation="include">
+        </childnode>
+        <childnode refid="113" relation="include">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>CallGraph.tpp</label>
+      </node>
+      <node id="74">
+        <label>Generator.tpp</label>
+      </node>
+      <node id="52">
+        <label>IfContentPart.tpp</label>
+      </node>
+      <node id="56">
+        <label>IfContentPartColour.tpp</label>
+      </node>
+      <node id="69">
+        <label>IfTemplate.tpp</label>
+      </node>
+      <node id="66">
+        <label>IfTemplateNode.tpp</label>
+      </node>
+      <node id="68">
+        <label>IfTemplateTree.tpp</label>
+      </node>
+      <node id="33">
+        <label>IncIdGenerator.tpp</label>
+      </node>
+      <node id="76">
+        <label>IniGraphGroup.tpp</label>
+      </node>
+      <node id="75">
+        <label>IniSectionGraph.tpp</label>
+      </node>
+      <node id="17">
+        <label>ModAssets.tpp</label>
+      </node>
+      <node id="87">
+        <label>ModDictAssets.tpp</label>
+      </node>
+      <node id="88">
+        <label>ModMappedAssets.tpp</label>
+      </node>
+      <node id="65">
+        <label>Node.tpp</label>
+      </node>
+      <node id="48">
+        <label>OrderedMultiMap.tpp</label>
+      </node>
+      <node id="51">
+        <label>OrderedMultiMapSqrt.tpp</label>
+      </node>
+      <node id="39">
+        <label>Ranges.tpp</label>
+      </node>
+      <node id="70">
+        <label>SectionIterData.tpp</label>
+      </node>
+      <node id="28">
+        <label>algorithm</label>
+      </node>
+      <node id="50">
+        <label>cmath</label>
+      </node>
+      <node id="72">
+        <label>coroutine</label>
+      </node>
+      <node id="12">
+        <label>cstddef</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="23">
+        <label>deque</label>
+      </node>
+      <node id="73">
+        <label>exception</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="41">
+        <label>list</label>
+      </node>
+      <node id="42">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="37">
+        <label>queue</label>
+      </node>
+      <node id="24">
+        <label>set</label>
+      </node>
+      <node id="15">
+        <label>stdexcept</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="104">
+        <label>string_view</label>
+      </node>
+      <node id="21">
+        <label>tsl/ordered_map.h</label>
+      </node>
+      <node id="46">
+        <label>tsl/ordered_set.h</label>
+      </node>
+      <node id="43">
+        <label>tuple</label>
+      </node>
+      <node id="29">
+        <label>type_traits</label>
+      </node>
+      <node id="19">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>unordered_set</label>
+      </node>
+      <node id="9">
+        <label>utility</label>
+      </node>
+      <node id="25">
+        <label>variant</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_sanhua_exorcist_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_comments_8h" kindref="compound">AGRemapCore/constants/IniComments.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_type_id_8h" kindref="compound">AGRemapCore/constants/ModTypeId.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_fix_builder_data_8h" kindref="compound">AGRemapCore/data/IniFixBuilderData.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_sanhua_exorcist_thumbprints_8h" kindref="compound">AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistThumbprints.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_w_w_m_i_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/WWMIFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_colour_8h" kindref="compound">AGRemapCore/model/textures/Colour.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">Binding<sp/>=<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding" kindref="compound">WWMIFixerConfig::Binding</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>role<sp/>this<sp/>direction<sp/>invents:<sp/>SanhuaExorcist&apos;s<sp/>slot<sp/>4<sp/>(her<sp/>hair<sp/>bun<sp/>and<sp/>trousers)<sp/>is<sp/>drawn</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>by<sp/>a<sp/>shader<sp/>that<sp/>reads<sp/>NO<sp/>material<sp/>mask,<sp/>and<sp/>every<sp/>slot<sp/>of<sp/>Sanhua&apos;s<sp/>body<sp/>family<sp/>needs<sp/>one.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(0,<sp/>0,<sp/>0)<sp/>is<sp/>her<sp/>plain-cloth<sp/>code<sp/>--<sp/>96%<sp/>of<sp/>her<sp/>own<sp/>bodice<sp/>mask<sp/>and<sp/>75%<sp/>of<sp/>her<sp/>skirt&apos;s,<sp/>measured.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ClothMask<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ClothMask&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config" kindref="compound">WWMIFixerConfig</ref><sp/>sanhuaConfig()<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Every<sp/>value<sp/>here<sp/>was<sp/>read<sp/>off<sp/>Tools/Misc/Prototypes/exorcistToSanhuaFix.py,<sp/>which<sp/>was</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>confirmed<sp/>in<sp/>game<sp/>on<sp/>the<sp/>SanhuaExorcist<sp/>identity<sp/>mod<sp/>and<sp/>four<sp/>real<sp/>mods<sp/>over<sp/>2026-09-19/20.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>See<sp/>WWMIFixerConfig<sp/>for<sp/>what<sp/>each<sp/>field<sp/>does,<sp/>and<sp/>the<sp/>VGRemaps<sp/>guide&apos;s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;THE<sp/>REVERSE<sp/>DIRECTION<sp/>IS<sp/>PROTOTYPED&quot;<sp/>for<sp/>why<sp/>the<sp/>plan<sp/>is<sp/>what<sp/>it<sp/>is.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config" kindref="compound">WWMIFixerConfig</ref><sp/>config{};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1acd73bbe44539d9630e1b1c1c5539a3d0" kindref="member">targetId</ref><sp/>=<sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e5b87c395273646f1f7267f2de3ba63" kindref="member">ModTypeId::Sanhua</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.version<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2.5&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sanhua&apos;s<sp/>pixel<sp/>shaders<sp/>that<sp/>bind<sp/>CHARACTER<sp/>textures,<sp/>per<sp/>draw<sp/>slot,<sp/>off<sp/>a<sp/>frame<sp/>dump<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>her<sp/>(wwmiDrawTable.py).<sp/>Her<sp/>bangs<sp/>slot<sp/>has<sp/>two<sp/>of<sp/>its<sp/>own,<sp/>and<sp/>her<sp/>bodice<sp/>and<sp/>skirt<sp/>slots</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>share<sp/>the<sp/>body<sp/>shader.<sp/>Confirmed<sp/>unchanged<sp/>on<sp/>the<sp/>2026-09-20<sp/>max-LOD<sp/>dump.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.slotPasses<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;a512f04f32f6aa26&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;f6bc3927337f5b8c&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0:<sp/>bangs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;69e3d3219c979981&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1:<sp/>hair</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;374a4f8fc9a5ea6a&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2:<sp/>face</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;7a0ab7c3ffbea13c&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3:<sp/>arm<sp/>skin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;96356f03a963d1d2&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4:<sp/>bodice,<sp/>hat,<sp/>ribbons,<sp/>boots</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;96356f03a963d1d2&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5:<sp/>skirt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;056f9f3c356ff96e&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>6:<sp/>eyes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>shaders<sp/>Sanhua&apos;s<sp/>own<sp/>direction<sp/>already<sp/>tags<sp/>keep<sp/>ITS<sp/>values<sp/>(a<sp/>[ShaderOverride]<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>keyed<sp/>by<sp/>shader<sp/>hash<sp/>across<sp/>every<sp/>loaded<sp/>.ini,<sp/>so<sp/>a<sp/>mod<sp/>fixed<sp/>each<sp/>way,<sp/>both<sp/>installed,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>must<sp/>agree);<sp/>the<sp/>shaders<sp/>only<sp/>this<sp/>direction<sp/>tags<sp/>take<sp/>values<sp/>that<sp/>direction<sp/>never<sp/>uses.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.filterIndices<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;69e3d3219c979981&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;3381.91&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>hair<sp/>shader,<sp/>which<sp/>both<sp/>directions<sp/>tag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;374a4f8fc9a5ea6a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;3381.93&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>face<sp/>shader</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;056f9f3c356ff96e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;3381.96&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>eye<sp/>shader</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;a512f04f32f6aa26&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;3381.81&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sanhua&apos;s<sp/>own<sp/>bangs<sp/>shaders<sp/>and<sp/>body<sp/>shader:<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;f6bc3927337f5b8c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;3381.82&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>this<sp/>direction<sp/>tags<sp/>these,<sp/>so<sp/>they<sp/>take<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;7a0ab7c3ffbea13c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;3381.83&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>the<sp/>forward<sp/>direction&apos;s<sp/>numbering<sp/>never<sp/>reaches</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;96356f03a963d1d2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;3381.84&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Source<sp/>component<sp/>-&gt;<sp/>target<sp/>slot,<sp/>and<sp/>the<sp/>registers<sp/>each<sp/>pass<sp/>reads.<sp/>Shader<sp/>families<sp/>decide</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>slot.<sp/>The<sp/>BANGS<sp/>go<sp/>through<sp/>Sanhua&apos;s<sp/>HAIR<sp/>slot<sp/>rather<sp/>than<sp/>her<sp/>bangs<sp/>slot:<sp/>Exorcist<sp/>draws</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>her<sp/>bangs<sp/>with<sp/>the<sp/>hair<sp/>shader,<sp/>and<sp/>Sanhua&apos;s<sp/>own<sp/>bangs<sp/>shaders<sp/>add<sp/>a<sp/>warm<sp/>term<sp/>that<sp/>turns<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>dark-recoloured<sp/>fringe<sp/>brown<sp/>(in<sp/>game,<sp/>2026-09-19).<sp/>Her<sp/>torso<sp/>--<sp/>coat,<sp/>arms<sp/>and<sp/>ribbons<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>one<sp/>component<sp/>--<sp/>goes<sp/>through<sp/>the<sp/>bodice<sp/>slot,<sp/>and<sp/>her<sp/>hair<sp/>bun<sp/>+<sp/>trousers<sp/>through<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>skirt<sp/>slot,<sp/>both<sp/>of<sp/>Sanhua&apos;s<sp/>body<sp/>family<sp/>(ps-t0<sp/>normal,<sp/>ps-t1<sp/>mask,<sp/>ps-t2<sp/>diffuse).<sp/>Nothing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>goes<sp/>through<sp/>Sanhua&apos;s<sp/>arm-skin<sp/>slot:<sp/>its<sp/>shader<sp/>reads<sp/>no<sp/>mask<sp/>and<sp/>would<sp/>shade<sp/>the<sp/>whole</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>coat<sp/>as<sp/>skin.<sp/>Two<sp/>sources<sp/>on<sp/>the<sp/>hair<sp/>slot<sp/>is<sp/>the<sp/>merge:<sp/>one<sp/>extra<sp/>.ini<sp/>file.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.plan<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0,<sp/>{1,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t5&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t5Ramp&quot;</highlight><highlight class="normal">}}}},</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>{1,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairNormal&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t5&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t5Ramp&quot;</highlight><highlight class="normal">}}}},</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>{2,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;faceMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;faceDiffuse&quot;</highlight><highlight class="normal">}}}},</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{3,<sp/>{4,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;torsoNormal&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;torsoMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;torsoDiffuse&quot;</highlight><highlight class="normal">}}}},</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{4,<sp/>{5,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerNormal&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/>ClothMask},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerDiffuse&quot;</highlight><highlight class="normal">}}}},</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{5,<sp/>{6,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyeMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;irisDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t5&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t5Ramp&quot;</highlight><highlight class="normal">}}}},</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SanhuaExorcist&apos;s<sp/>textures<sp/>by<sp/>the<sp/>hash<sp/>they<sp/>are<sp/>filed<sp/>under,<sp/>with<sp/>the<sp/>role<sp/>each<sp/>plays<sp/>in<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>component&apos;s<sp/>main<sp/>pass<sp/>--<sp/>every<sp/>one<sp/>measured,<sp/>by<sp/>correlating<sp/>what<sp/>the<sp/>pass<sp/>binds<sp/>in<sp/>the<sp/>dump</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>against<sp/>the<sp/>asset<sp/>file.<sp/>Three<sp/>sets<sp/>of<sp/>hashes,<sp/>because<sp/>a<sp/>mod<sp/>carries<sp/>whichever<sp/>its<sp/>author</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>exported<sp/>from:<sp/>the<sp/>asset<sp/>repo&apos;s<sp/>(WWMI-Assets&apos;<sp/>SanhuaSkin1),<sp/>the<sp/>2.2<sp/>/<sp/>2.4<sp/>ones<sp/>out<sp/>of<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>repo&apos;s<sp/>git<sp/>history,<sp/>and<sp/>the<sp/>LIVE<sp/>ones<sp/>the<sp/>game<sp/>binds<sp/>at<sp/>LOD<sp/>bias<sp/>Ultra<sp/>High,<sp/>which<sp/>is<sp/>what<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mod<sp/>extracted<sp/>from<sp/>a<sp/>frame<sp/>dump<sp/>today<sp/>carries.<sp/>All<sp/>of<sp/>them<sp/>are<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data/Mod<sp/>Downloads/WuWa/SanhuaExorcist/SanhuaExorcistHashLineage.json.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.roles<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>asset<sp/>repo&apos;s<sp/>(2.5<sp/>/<sp/>2.6)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;f8d5c991&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;63c807fe&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;4478285f&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t5Ramp&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;11171f1c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;9febd992&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairNormal&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;46177147&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;faceMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;c98e83cd&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;faceDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;72739d6e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;torsoNormal&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;e0c15187&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;torsoMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;52f35e6d&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;torsoDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;221b8ad6&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerNormal&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;8e5306a9&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;c88cc1fc&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyeMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;1dcc0f1d&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;irisDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>2.2<sp/>/<sp/>2.4<sp/>ones<sp/>(sanhua_qiming<sp/>carries<sp/>these,<sp/>and<sp/>repaints<sp/>most<sp/>of<sp/>them)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;31a5f36a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;d153e37f&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;f22348f0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t5Ramp&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;9522bbc7&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;a0cf932f&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairNormal&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;464256d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;faceDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;d5a089c8&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;torsoNormal&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;6a10c291&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;torsoNormal&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;168462a9&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;torsoDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;d96aa9b8&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerNormal&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;fd078186&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;3cd03f60&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;irisDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>live<sp/>ones<sp/>(the<sp/>2026-09-20<sp/>max-LOD<sp/>dump),<sp/>each<sp/>1.00<sp/>against<sp/>the<sp/>asset<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;af3ba241&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;0442ed26&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;38074c14&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t5Ramp&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;10980f87&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;77a480f9&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairNormal&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;bf16c0c7&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;faceMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;280300b0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;faceDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;773ed913&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;torsoNormal&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;bc4f430b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;torsoMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;2dad4dfe&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;torsoDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;83b34054&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerNormal&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;dfd02e32&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;d0524bfb&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyeMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;5764478b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;irisDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>file<sp/>named<sp/>by<sp/>component<sp/>and<sp/>type<sp/>and<sp/>by<sp/>nothing<sp/>else<sp/>(Component4_NM.dds:<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RabbitFX<sp/>/<sp/>WWMI-Tools<sp/>export<sp/>names)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.typeRoles<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0,<sp/>{{</highlight><highlight class="stringliteral">&quot;diffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;mask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsMask&quot;</highlight><highlight class="normal">}}},</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>{{</highlight><highlight class="stringliteral">&quot;diffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;mask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairNormal&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;normal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairNormal&quot;</highlight><highlight class="normal">}}},</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>{{</highlight><highlight class="stringliteral">&quot;diffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;faceDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;mask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;faceMask&quot;</highlight><highlight class="normal">}}},</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{3,<sp/>{{</highlight><highlight class="stringliteral">&quot;diffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;torsoDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;mask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;torsoMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;normal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;torsoNormal&quot;</highlight><highlight class="normal">}}},</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{4,<sp/>{{</highlight><highlight class="stringliteral">&quot;diffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;normal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerNormal&quot;</highlight><highlight class="normal">}}},</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{5,<sp/>{{</highlight><highlight class="stringliteral">&quot;diffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;irisDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;mask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyeMask&quot;</highlight><highlight class="normal">}}},</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Her<sp/>own<sp/>vg_map<sp/>per<sp/>component<sp/>(WWMI-Assets&apos;<sp/>SanhuaSkin1<sp/>Metadata.json):<sp/>that<sp/>component&apos;s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>bone<sp/>indices<sp/>to<sp/>the<sp/>merged<sp/>skeleton&apos;s.<sp/>Only<sp/>a<sp/>mod<sp/>from<sp/>before<sp/>WWMI&apos;s<sp/>merged<sp/>skeleton<sp/>needs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>it<sp/>--<sp/>its<sp/>blend<sp/>holds<sp/>the<sp/>component&apos;s<sp/>OWN<sp/>indices,<sp/>and<sp/>without<sp/>this<sp/>the<sp/>fix<sp/>refuses<sp/>such<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mod<sp/>rather<sp/>than<sp/>remapping<sp/>them<sp/>as<sp/>if<sp/>they<sp/>were<sp/>merged<sp/>(SanhuaExorcist3,<sp/>2026-09-19).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.sourceVgMaps<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0,<sp/>{0,<sp/>1,<sp/>2,<sp/>3,<sp/>4,<sp/>5,<sp/>6,<sp/>7,<sp/>8,<sp/>9,<sp/>10,<sp/>11,<sp/>12,<sp/>13,<sp/>14,<sp/>15,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>16,<sp/>17,<sp/>18}},</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>{1,<sp/>20}},</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>{1}},</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{3,<sp/>{22,<sp/>23,<sp/>24,<sp/>25,<sp/>26,<sp/>27,<sp/>28,<sp/>29,<sp/>30,<sp/>31,<sp/>32,<sp/>33,<sp/>34,<sp/>35,<sp/>36,<sp/>37,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>38,<sp/>39,<sp/>40,<sp/>41,<sp/>42,<sp/>20,<sp/>44,<sp/>45,<sp/>1,<sp/>47,<sp/>48,<sp/>49,<sp/>50,<sp/>51,<sp/>52,<sp/>53,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>54,<sp/>55,<sp/>56,<sp/>57,<sp/>58,<sp/>59,<sp/>60,<sp/>61,<sp/>62,<sp/>63,<sp/>64,<sp/>65,<sp/>66,<sp/>67,<sp/>68,<sp/>69,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>70,<sp/>71,<sp/>72,<sp/>73,<sp/>74,<sp/>75,<sp/>76,<sp/>77,<sp/>78,<sp/>79,<sp/>80,<sp/>81,<sp/>82,<sp/>83,<sp/>84,<sp/>85,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>86,<sp/>87,<sp/>88,<sp/>89,<sp/>90,<sp/>91,<sp/>92,<sp/>93,<sp/>94,<sp/>95,<sp/>96,<sp/>97,<sp/>98,<sp/>99,<sp/>100,<sp/>101,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>102,<sp/>103,<sp/>104,<sp/>105,<sp/>106,<sp/>107,<sp/>108,<sp/>109,<sp/>110,<sp/>111,<sp/>112,<sp/>113,<sp/>114,<sp/>115,<sp/>116,<sp/>117,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>118,<sp/>119,<sp/>120,<sp/>121,<sp/>122,<sp/>123,<sp/>124,<sp/>125,<sp/>126}},</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{4,<sp/>{1,<sp/>4,<sp/>6,<sp/>5,<sp/>131,<sp/>132,<sp/>133,<sp/>134,<sp/>75,<sp/>80,<sp/>137,<sp/>138,<sp/>74,<sp/>79,<sp/>141,<sp/>142,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>143,<sp/>144,<sp/>68,<sp/>146,<sp/>147,<sp/>148,<sp/>149,<sp/>150,<sp/>151,<sp/>152,<sp/>153,<sp/>154,<sp/>155,<sp/>156,<sp/>157,<sp/>158,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>159,<sp/>160,<sp/>161,<sp/>162,<sp/>73,<sp/>164,<sp/>72,<sp/>24,<sp/>47,<sp/>44,<sp/>169,<sp/>170,<sp/>65,<sp/>172,<sp/>173,<sp/>174,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>175,<sp/>176,<sp/>177,<sp/>178,<sp/>179,<sp/>180,<sp/>181,<sp/>182,<sp/>183,<sp/>184,<sp/>185,<sp/>186,<sp/>187,<sp/>188,<sp/>189}},</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{5,<sp/>{1}},</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.createdTextures<sp/>=<sp/>{{ClothMask,<sp/><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref>(0,<sp/>0,<sp/>0,<sp/>255),<sp/>16}};</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>planned<sp/>role<sp/>a<sp/>mod<sp/>ships<sp/>no<sp/>file<sp/>for<sp/>is<sp/>bound<sp/>to<sp/>SanhuaExorcist&apos;s<sp/>OWN<sp/>texture<sp/>of<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>role,<sp/>downloaded<sp/>from<sp/>her<sp/>folder<sp/>--<sp/>the<sp/>mod&apos;s<sp/>UVs<sp/>are<sp/>hers,<sp/>so<sp/>the<sp/>target&apos;s<sp/>texture<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>wrong<sp/>by<sp/>construction.<sp/>eyeMask<sp/>(c88cc1fc)<sp/>and<sp/>faceMask<sp/>(46177147)<sp/>are<sp/>the<sp/>same<sp/>texture<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>both<sp/>skins,<sp/>and<sp/>so<sp/>is<sp/>the<sp/>iris<sp/>(1dcc0f1d):<sp/>they<sp/>need<sp/>no<sp/>entry.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.downloadCharFolder<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;SanhuaExorcist&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.downloadVersionFolder<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2_5&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.downloadPrefix<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;SanhuaExorcist&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.fallbackTextures<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;bangsDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;f8d5c991&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;bangsMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;63c807fe&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;t5Ramp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;4478285f&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hairDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;11171f1c&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;hairNormal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;9febd992&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;faceDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c98e83cd&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;torsoNormal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;72739d6e&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;torsoMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;e0c15187&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;torsoDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;52f35e6d&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lowerNormal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;221b8ad6&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;lowerDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;8e5306a9&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Her<sp/>own<sp/>textures&apos;<sp/>thumbprints,<sp/>so<sp/>a<sp/>file<sp/>no<sp/>hash<sp/>names<sp/>is<sp/>placed<sp/>by<sp/>what<sp/>it<sp/>IS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.textureThumbprints<sp/>=<sp/><ref refid="namespace_a_g_remap_core_1ab0c2c3c4b3706fe534ad497ae01b276d" kindref="member">sanhuaExorcistTextureThumbprints</ref>();</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.sourceLabels<sp/>=<sp/>{{0,<sp/></highlight><highlight class="stringliteral">&quot;bangs&quot;</highlight><highlight class="normal">},<sp/>{1,<sp/></highlight><highlight class="stringliteral">&quot;hair&quot;</highlight><highlight class="normal">},<sp/>{2,<sp/></highlight><highlight class="stringliteral">&quot;face&quot;</highlight><highlight class="normal">},<sp/>{3,<sp/></highlight><highlight class="stringliteral">&quot;torso,<sp/>arms,<sp/>ribbons&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{4,<sp/></highlight><highlight class="stringliteral">&quot;hair<sp/>bun,<sp/>trousers&quot;</highlight><highlight class="normal">},<sp/>{5,<sp/></highlight><highlight class="stringliteral">&quot;eyes&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.targetLabels<sp/>=<sp/>{{0,<sp/></highlight><highlight class="stringliteral">&quot;bangs&quot;</highlight><highlight class="normal">},<sp/>{1,<sp/></highlight><highlight class="stringliteral">&quot;hair&quot;</highlight><highlight class="normal">},<sp/>{2,<sp/></highlight><highlight class="stringliteral">&quot;face&quot;</highlight><highlight class="normal">},<sp/>{3,<sp/></highlight><highlight class="stringliteral">&quot;arm<sp/>skin&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{4,<sp/></highlight><highlight class="stringliteral">&quot;bodice,<sp/>hat,<sp/>ribbons,<sp/>boots&quot;</highlight><highlight class="normal">},<sp/>{5,<sp/></highlight><highlight class="stringliteral">&quot;skirt&quot;</highlight><highlight class="normal">},<sp/>{6,<sp/></highlight><highlight class="stringliteral">&quot;eyes&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.copyPreamble<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_comments_1a230dbe747ebb0b8f16e558c07475e949" kindref="member">IniComments::GIMIObjMergerPreamble</ref>;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a189f1be27493d65a6104e270520c0abc" kindref="member">IniFixBuilderFuncs::sanhua2_5</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a211bbd07ca178810a023b1f78ded1dd3" kindref="member">makeWWMIFixer</ref>(sanhuaConfig());</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_sanhua_exorcist_fixer_1a12d8f622fc60fffbe3acfe6de4853ea1" kindref="member">SanhuaExorcistFixer::sanhua2_5</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a189f1be27493d65a6104e270520c0abc" kindref="member">IniFixBuilderFuncs::sanhua2_5</ref>();</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp"/>
+  </compounddef>
+</doxygen>

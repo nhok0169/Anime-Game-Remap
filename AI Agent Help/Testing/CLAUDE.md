@@ -77,6 +77,30 @@ Two independent suites, each with its own `main.py` and `requirements.txt` — i
 requirements once per suite before first use (`python3 -m pip install -r requirements.txt` from
 that suite's directory).
 
+<br>
+
+## WHAT TO RUN FOR THE CHANGE YOU HAVE (2026-09-20)
+
+Nothing here is new; it is the rest of this file indexed by the kind of change, so a session does
+not have to read the file to find out which checks apply to it. Run everything on the row *and the
+rows above it* --- they are cumulative.
+
+| what you changed | what to run |
+| --- | --- |
+| a pure-Python file under `api/src/py` | the **Unit Tester** (`cd "Testing/Unit Tester" && py -3 main.py`): ~2 minutes, **2301 tests, OK** as of 2026-09-20. Any failure is yours |
+| a `core/` class, header or template | **`grep -rl <the changed name> core/tests/` and build every hit** --- nothing builds those files, so a shape change rots them silently (and grep for CALL SITES too, not just the type name). Build them by glob, with `/I <core>/src`, one `vcvarsall` for the whole run |
+| a pybind11 binding under `py/` | a Python test for the bound behaviour (a thorough C++ test does not cover the binding), and regenerate `core.pyi` if the signature moved --- the published docs render from it |
+| anything on the fix path (`model/strategies`, `IniFile`, the resource classes, `RemapService`) | **the real CLI over a real mod** ("A green suite does not mean the product works" below), and, when output text or ordering could move, the **Integration Tester on Linux** (24 tests). Its goldens are the only thing that compares whole mod trees |
+| shared machinery, where the question is "what ELSE moved" | build both sides and diff the tree: [Overview](../Overview/CLAUDE.md) habit **57**. A tree diff excludes the log, so capture and compare that separately |
+| a builder table row, a new `ModTypeId`, a new asset row | the four suites that **hardcode a count** (`BuilderData_test`, `VertexCounts_test`, `VGRemaps_test`, `ModTypeRemaps_test`) plus `IniClassifierPopulation_test`, none of which the Python suite builds |
+| a remap's data or config (a character's fixer/parser row, hashes, vertex groups) | neither suite sees it. The A/B against the prototype or the old script is the check, then the game --- [Creating Remaps](../CreatingRemaps/CLAUDE.md) |
+| a doc artifact (`core.pyi`, `core/xml`, the mod-type tables, an `.rst` page) | Sphinx the way the site builds it: `AGREMAP_DOCS_STUBS=force py -3 -m sphinx -b html Docs/src <out>`, and compare the **set of WARNING texts** against a baseline build with hex addresses normalised --- **161** today. The count alone hides a swap |
+| a scratch check you wrote to prove this fix | run it against the **broken** build first (habit 34). It is the single highest-yield line in this file |
+
+**And a check nobody thinks of until it bites: a Python process holding `core.*.pyd` open makes the
+next build fail** with `PermissionError: [WinError 5] Access is denied` on the install step ---
+including the Unit Tester running in another terminal. Let it finish, then build.
+
 ## Unit Tester (`Testing/Unit Tester`)
 Thin wrapper around Python's `unittest`, defaulting to testing the **API** system (points at
 `Anime Game Remap (for all users)/api`, i.e. exactly what `main.py -d` installs into). Run from
@@ -1212,6 +1236,37 @@ unrelated causes, and both will come back unless you know them:
   equal to neither is not an expectation of anything, and a test built on it fails for a reason
   that has nothing to do with the code.
 
+**`RemapFixLog.txt` is the ONLY log the comparison skips --- `summaryLog.txt` is compared (2026-09-20).**
+`TestFileTools.LogFiles` is the regex `RemapFixLog\.txt$`, and `compareResults` skips only what it
+matches. `summaryLog.txt` is written beside it by `editLogFile` (everything after the log's last
+`\n\n#`) and is compared like any other text file --- so it carries the "were skipped due to
+warnings" list, **in the order the walk visited the folders**. When the walk order was fixed on
+2026-09-20 those seven `MixedModsTests` tests failed and the 17 `APIDocsTests` ones did not, and
+every failure was that list's order. Regenerating with `produceOutputs` **on Linux** rewrote **22**
+files, every one of them a `RemapFixLog.txt` or a `summaryLog.txt`; nine more came back changed in
+**line endings only** (the Linux run writes LF over a CRLF checkout) and were restored with
+`git checkout` -- check each changed golden with `git diff --ignore-cr-at-eol` before keeping it.
+A Windows run is not an option here: it writes `Mods\Griffith` into a golden whose every other line
+says `Mods/Griffith`.
+
+**Getting the suite to run in WSL on the maintainer's Windows box took three things the guide did
+not say (2026-09-20, this checkout at `/mnt/c/Users/AlexX/...`):**
+
+1. `Tools/Misc/Linux/linuxBuild.sh` has the maintainer's **other** clone hardcoded
+   (`/mnt/e/Computer/Games/.../Fix-Raiden-Boss/...`), so it copies the freshly built `.so` into a
+   package that is not this one and reports success. The Linux build tree for this checkout is
+   `<repo>/cbuildlin` (`ninja core` there, then copy the `.so` into
+   `api/src/py/FixRaidenBoss2/` yourself).
+2. **The four Cython modules have to be built and copied too** (`ninja CyAlgo CyDictTools
+   CyHashTools CyListTools`). Without them all 25 tests ERROR with `ModuleNotFoundError: No module
+   named 'FixRaidenBoss2.CyDictTools'` --- which looks like a broken checkout and is a missing build
+   step; `linuxBuild.sh` builds `core` only.
+3. `directory-tree` must be installed at `~/itlib` (`python -m pip install --target ~/itlib
+   directory-tree==0.0.4`), which `integrationTest.sh` puts on `PYTHONPATH`.
+
+Also: `/tmp` does not survive between `wsl -e bash -c` invocations here, so a script copied to
+`/tmp` in one call is gone in the next --- copy it again in the same command that runs it.
+
 **To see what CI sees, run the suite from an ext4 copy, not from `/mnt/e`.** A CI-shaped copy is the
 tracked files with LF endings, which is exactly what this gives:
 
@@ -1396,6 +1451,10 @@ Measured on a full pass over `core/tests/*_test.cpp`: **47 files, 44 pass, 3 fai
 failures are Linux-only and have nothing to do with whatever you just changed. Getting to that
 number needed four fixes to the obvious runner, and each of the first three makes the run *look*
 like something it is not.
+
+> That census is from **2026-09-14** and the tree has grown since --- `ls core/tests/*_test.cpp | wc -l`
+> says **55** on 2026-09-20. Count them rather than trusting this paragraph; what the section is for
+> is the four runner fixes, not the total.
 
 **1. `Tools/Misc/Linux/buildTests.sh` locates Z3 with `find` over `$API/extern` and `cextlin`.**
 On a checkout mounted at `/mnt/e` those two `find`s take many minutes, and while they run the log

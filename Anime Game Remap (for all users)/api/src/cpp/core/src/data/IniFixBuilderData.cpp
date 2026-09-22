@@ -328,7 +328,7 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Sanhua),
                   "2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist)}, IniFixBuilderFuncs::sanhuaExorcist2_5()},
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist),
-                  "2.5", ModTypeIdTools::getName(ModTypeId::Sanhua)}, IniFixBuilderFuncs::wwmiStub()},
+                  "2.5", ModTypeIdTools::getName(ModTypeId::Sanhua)}, IniFixBuilderFuncs::sanhua2_5()},
 
                 // ===== Chisa <-> ChisaParfait (2026-09-20), STUBS =====
                 // Both directions are stubs: the pair is registered for its asset tables, and its

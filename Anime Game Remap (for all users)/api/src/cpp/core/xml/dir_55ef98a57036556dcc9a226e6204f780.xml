@@ -12,6 +12,7 @@
     <innerfile refid="_if_pred_part_type_8cpp">IfPredPartType.cpp</innerfile>
     <innerfile refid="_mod_type_id_8cpp">ModTypeId.cpp</innerfile>
     <innerfile refid="_strategy_overrides_8cpp">StrategyOverrides.cpp</innerfile>
+    <innerfile refid="_w_w_m_i_builder_8cpp">WWMIBuilder.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

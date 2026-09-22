@@ -21,17 +21,25 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
       </node>
-      <node id="10">
+      <node id="12">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h</label>
         <link refid="_res_reg_collect_8h"/>
-        <childnode refid="11" relation="include">
+        <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
         </childnode>
       </node>
       <node id="4">
@@ -50,15 +58,17 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="13">
+      <node id="17">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BlendEdit.h</label>
         <link refid="_blend_edit_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
         <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="15">
+      <node id="19">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BufEdit.h</label>
         <link refid="_buf_edit_8h"/>
         <childnode refid="8" relation="include">
@@ -66,10 +76,10 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="16">
+      <node id="20">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/PositionEdit.h</label>
         <link refid="_position_edit_8h"/>
-        <childnode refid="11" relation="include">
+        <childnode refid="13" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -77,52 +87,54 @@
         <link refid="_res_edit_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
       </node>
-      <node id="18">
+      <node id="22">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h</label>
         <link refid="_tex_creator_edit_8h"/>
-        <childnode refid="11" relation="include">
+        <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="17">
+      <node id="21">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h</label>
         <link refid="_tex_edit_8h"/>
-        <childnode refid="18" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
       </node>
-      <node id="19">
+      <node id="23">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</label>
         <link refid="_tex_editor_edit_8h"/>
-        <childnode refid="11" relation="include">
+        <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="14">
+      <node id="18">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h</label>
         <link refid="_v_g_remap_blend_edit_8h"/>
-        <childnode refid="11" relation="include">
+        <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="11">
+      <node id="13">
         <label>src/data/IniFixData/GIMICharFixer.cpp</label>
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
@@ -134,9 +146,25 @@
         <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
       </node>
-      <node id="12">
+      <node id="10">
+        <label>src/data/IniFixData/ModBranches.cpp</label>
+        <link refid="_mod_branches_8cpp"/>
+      </node>
+      <node id="14">
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/ResGroupCollectInstantiation.cpp</label>
+        <link refid="_res_group_collect_instantiation_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/ResRegCollectInstantiation.cpp</label>
+        <link refid="_res_reg_collect_instantiation_8cpp"/>
       </node>
       <node id="6">
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp</label>
@@ -145,6 +173,10 @@
       <node id="9">
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
         <link refid="_v_g_split_group_res_builder_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEditInstantiation.cpp</label>
+        <link refid="_res_edit_instantiation_8cpp"/>
       </node>
     </invincdepgraph>
     <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>

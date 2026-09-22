@@ -25,6 +25,8 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
       <node id="3">
         <label>src/data/IniFixData/GIMICharFixer.cpp</label>
@@ -37,6 +39,10 @@
       <node id="5">
         <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/model/strategies/iniFixers/graphEdits/RegFillMissingInstantiation.cpp</label>
+        <link refid="_reg_fill_missing_instantiation_8cpp"/>
       </node>
     </invincdepgraph>
     <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>

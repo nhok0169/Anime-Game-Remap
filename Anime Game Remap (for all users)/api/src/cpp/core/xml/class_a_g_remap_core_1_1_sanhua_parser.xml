@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_sanhua_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::SanhuaParser</compoundname>
+    <includes refid="_sanhua_parser_8h" local="no">SanhuaParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_sanhua_parser_1a56d1520cabcf25e29f014c70d3b00a8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::SanhuaParser::SanhuaParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>SanhuaParser</name>
+        <qualifiedname>AGRemapCore::SanhuaParser::SanhuaParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Sanhua/SanhuaParser.h" line="31" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_sanhua_parser_1a3ec118e48afe5ec3472cf764f47c6724" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::SanhuaParser::v2_5</definition>
+        <argsstring>()</argsstring>
+        <name>v2_5</name>
+        <qualifiedname>AGRemapCore::SanhuaParser::v2_5</qualifiedname>
+        <briefdescription>
+<para>The 2.5 parser <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac06832891ae4c3e507b130b1ebdf4a3a" kindref="member">IniParseBuilderFuncs::sanhua2_5</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Sanhua/SanhuaParser.h" line="36" column="45" bodyfile="src/data/IniParseData/Sanhua/SanhuaParser.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Sanhua&apos;s own ``.ini`` parsers -- the first Wuthering Waves character, through
+:cpp:func:`makeWWMIParser`: seven draw slots on her ``vb0`` hash, the bone-data override and
+the two shape-key overrides by their own hashes. Pair this with :cpp:class:`SanhuaFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Sanhua/SanhuaParser.h" line="29" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Sanhua/SanhuaParser.h" bodystart="29" bodyend="37"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_sanhua_parser_1a56d1520cabcf25e29f014c70d3b00a8c" prot="public" virt="non-virtual"><scope>AGRemapCore::SanhuaParser</scope><name>SanhuaParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_sanhua_parser_1a3ec118e48afe5ec3472cf764f47c6724" prot="public" virt="non-virtual"><scope>AGRemapCore::SanhuaParser</scope><name>v2_5</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

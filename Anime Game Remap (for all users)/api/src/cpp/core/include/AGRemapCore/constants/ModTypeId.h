@@ -447,6 +447,24 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Registers many :cpp:class:`ModType`\s at once, on exactly the terms
+             :cpp:func:`registerModType` registers one :raw-html:`<br />` :raw-html:`<br />`
+
+             Preferred to calling :cpp:func:`registerModType` in a loop, because the name lookup
+             behind :cpp:func:`findByName` is an `Aho-Corasick`_ automaton with no incremental add:
+             every registration reconstructs it from every name already filed. Registering the
+             library's own 49 mod types one by one cost **0.40s** of a 1.3s run for that reason,
+             against 49 names; through here the automaton is built once (see
+             :cpp:func:`BaseAhoCorasickDFA::addMany`)
+             @endrst
+             *
+             * @param modTypes The mod types to register
+             */
+            static void registerModTypes(const std::vector<ModType> &modTypes);
+
+            /**
+             * @brief
+             @rst
              Finds the :cpp:enum:`ModTypeId` whose registered :cpp:class:`ModType` name or alias
              maximally matches some string, similar to how :cpp:func:`IniClassifier::readSectionName`
              searches ``sectionKeywordsDFA`` :raw-html:`<br />` :raw-html:`<br />`

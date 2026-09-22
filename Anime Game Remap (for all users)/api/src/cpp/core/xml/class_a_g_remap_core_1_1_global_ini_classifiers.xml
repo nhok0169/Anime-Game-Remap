@@ -39,7 +39,7 @@ belongs to some mod, lazily constructed on first access and reused for every lat
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="88" column="34" bodyfile="src/constants/GlobalIniClassifiers.cpp" bodystart="139" bodyend="177"/>
+        <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="88" column="34" bodyfile="src/constants/GlobalIniClassifiers.cpp" bodystart="153" bodyend="191"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

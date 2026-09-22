@@ -10,47 +10,44 @@
       <node id="48">
         <label>Algo.tpp</label>
       </node>
-      <node id="117">
+      <node id="121">
         <label>BaseIniFixer.tpp</label>
       </node>
       <node id="90">
         <label>BaseIniGraphGroupEdit.tpp</label>
       </node>
-      <node id="116">
+      <node id="120">
         <label>BaseIniParser.tpp</label>
       </node>
       <node id="52">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="83">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="99">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="124">
+      <node id="128">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
       <node id="65">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
       <node id="94">
@@ -60,15 +57,15 @@
       <node id="82">
         <label>AGRemapCore/model/CallGraph.h</label>
         <link refid="_call_graph_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="35" relation="include">
         </childnode>
@@ -78,17 +75,17 @@
       <node id="80">
         <label>AGRemapCore/model/IniGraphGroup.h</label>
         <link refid="_ini_graph_group_8h"/>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -100,29 +97,29 @@
       <node id="81">
         <label>AGRemapCore/model/IniSectionGraph.h</label>
         <link refid="_ini_section_graph_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
         <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="45" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="82" relation="include">
         </childnode>
@@ -146,11 +143,11 @@
       <node id="34">
         <label>AGRemapCore/model/SectionIterData.h</label>
         <link refid="_section_iter_data_8h"/>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="35" relation="include">
         </childnode>
@@ -163,40 +160,52 @@
         <childnode refid="76" relation="include">
         </childnode>
       </node>
-      <node id="15">
+      <node id="16">
         <label>AGRemapCore/model/VGRemap.h</label>
         <link refid="_v_g_remap_8h"/>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
       <node id="100">
         <label>AGRemapCore/model/Version.h</label>
         <link refid="_version_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
       <node id="102">
         <label>AGRemapCore/model/assets/Hashes.h</label>
         <link refid="_hashes_8h"/>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="103" relation="include">
+        </childnode>
+      </node>
+      <node id="109">
+        <label>AGRemapCore/model/assets/IndexCounts.h</label>
+        <link refid="_index_counts_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="103" relation="include">
         </childnode>
@@ -204,49 +213,49 @@
       <node id="108">
         <label>AGRemapCore/model/assets/Indices.h</label>
         <link refid="_indices_8h"/>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="103" relation="include">
         </childnode>
       </node>
-      <node id="111">
+      <node id="115">
         <label>AGRemapCore/model/assets/ModAssets.h</label>
         <link refid="_mod_assets_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="37" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="100" relation="include">
         </childnode>
         <childnode refid="105" relation="include">
         </childnode>
-        <childnode refid="112" relation="include">
+        <childnode refid="116" relation="include">
         </childnode>
       </node>
       <node id="104">
         <label>AGRemapCore/model/assets/ModDictAssets.h</label>
         <link refid="_mod_dict_assets_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="37" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="100" relation="include">
         </childnode>
@@ -258,21 +267,21 @@
       <node id="103">
         <label>AGRemapCore/model/assets/ModMappedAssets.h</label>
         <link refid="_mod_mapped_assets_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="37" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="100" relation="include">
         </childnode>
@@ -286,75 +295,111 @@
       <node id="105">
         <label>AGRemapCore/model/assets/Row.h</label>
         <link refid="_row_8h"/>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
       <node id="110">
-        <label>AGRemapCore/model/assets/VGRemaps.h</label>
-        <link refid="_v_g_remaps_8h"/>
-        <childnode refid="4" relation="include">
+        <label>AGRemapCore/model/assets/ShapeKeyChecksums.h</label>
+        <link refid="_shape_key_checksums_8h"/>
+        <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="111" relation="include">
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="103" relation="include">
         </childnode>
       </node>
-      <node id="109">
+      <node id="112">
+        <label>AGRemapCore/model/assets/VGCounts.h</label>
+        <link refid="_v_g_counts_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="103" relation="include">
+        </childnode>
+      </node>
+      <node id="113">
+        <label>AGRemapCore/model/assets/VGOffsets.h</label>
+        <link refid="_v_g_offsets_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="103" relation="include">
+        </childnode>
+      </node>
+      <node id="114">
+        <label>AGRemapCore/model/assets/VGRemaps.h</label>
+        <link refid="_v_g_remaps_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="115" relation="include">
+        </childnode>
+      </node>
+      <node id="111">
         <label>AGRemapCore/model/assets/VertexCounts.h</label>
         <link refid="_vertex_counts_8h"/>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="104" relation="include">
         </childnode>
       </node>
-      <node id="9">
+      <node id="10">
         <label>AGRemapCore/model/buffers/BufValue.h</label>
         <link refid="_buf_value_8h"/>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="12">
+      <node id="13">
         <label>AGRemapCore/model/buffers/VGComponentSplit.h</label>
         <link refid="_v_g_component_split_8h"/>
-        <childnode refid="13" relation="include">
-        </childnode>
         <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
         <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
         </childnode>
       </node>
       <node id="98">
         <label>AGRemapCore/model/files/IniFile.h</label>
         <link refid="_ini_file_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -372,7 +417,7 @@
         </childnode>
         <childnode refid="101" relation="include">
         </childnode>
-        <childnode refid="123" relation="include">
+        <childnode refid="127" relation="include">
         </childnode>
         <childnode refid="67" relation="include">
         </childnode>
@@ -384,25 +429,25 @@
         <link refid="_if_content_part_8h"/>
         <childnode refid="36" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="37" relation="include">
         </childnode>
         <childnode refid="38" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -418,25 +463,25 @@
       <node id="61">
         <label>AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
         <link refid="_if_content_part_colour_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="45" relation="include">
         </childnode>
         <childnode refid="37" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -450,9 +495,9 @@
       <node id="64">
         <label>AGRemapCore/model/iftemplate/IfPredPart.h</label>
         <link refid="_if_pred_part_8h"/>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="65" relation="include">
         </childnode>
@@ -468,27 +513,27 @@
       <node id="63">
         <label>AGRemapCore/model/iftemplate/IfTemplate.h</label>
         <link refid="_if_template_8h"/>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="45" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="35" relation="include">
         </childnode>
@@ -510,19 +555,21 @@
       <node id="69">
         <label>AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
         <link refid="_if_template_node_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
         </childnode>
         <childnode refid="35" relation="include">
         </childnode>
@@ -536,9 +583,9 @@
       <node id="39">
         <label>AGRemapCore/model/iftemplate/IfTemplatePart.h</label>
         <link refid="_if_template_part_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="40" relation="include">
         </childnode>
@@ -546,9 +593,9 @@
       <node id="73">
         <label>AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
         <link refid="_if_template_tree_8h"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="65" relation="include">
         </childnode>
@@ -568,17 +615,17 @@
       <node id="18">
         <label>AGRemapCore/model/iniresources/IniResource.h</label>
         <link refid="_ini_resource_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
@@ -586,13 +633,13 @@
       <node id="17">
         <label>AGRemapCore/model/iniresources/RemapIniResource.h</label>
         <link refid="_remap_ini_resource_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
         <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
@@ -601,22 +648,22 @@
         <childnode refid="27" relation="include">
         </childnode>
       </node>
-      <node id="6">
+      <node id="8">
         <label>AGRemapCore/model/iniresources/VGSplitGroupResource.h</label>
         <link refid="_v_g_split_group_resource_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
@@ -626,11 +673,11 @@
         <link refid="_cached_file_stats_8h"/>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
@@ -642,11 +689,11 @@
         <link refid="_file_stats_8h"/>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
@@ -654,7 +701,7 @@
       <node id="24">
         <label>AGRemapCore/model/stats/RemapStats.h</label>
         <link refid="_remap_stats_8h"/>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
@@ -664,15 +711,15 @@
       <node id="101">
         <label>AGRemapCore/model/strategies/ModType.h</label>
         <link refid="_mod_type_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
         <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="102" relation="include">
         </childnode>
@@ -682,111 +729,119 @@
         </childnode>
         <childnode refid="110" relation="include">
         </childnode>
+        <childnode refid="111" relation="include">
+        </childnode>
+        <childnode refid="112" relation="include">
+        </childnode>
+        <childnode refid="113" relation="include">
+        </childnode>
+        <childnode refid="114" relation="include">
+        </childnode>
         <childnode refid="61" relation="include">
         </childnode>
         <childnode refid="44" relation="include">
         </childnode>
-        <childnode refid="113" relation="include">
-        </childnode>
-        <childnode refid="118" relation="include">
-        </childnode>
-        <childnode refid="115" relation="include">
-        </childnode>
-        <childnode refid="119" relation="include">
-        </childnode>
-        <childnode refid="120" relation="include">
+        <childnode refid="117" relation="include">
         </childnode>
         <childnode refid="122" relation="include">
         </childnode>
-      </node>
-      <node id="126">
-        <label>AGRemapCore/model/strategies/ModTypeIdData.h</label>
-        <link refid="_mod_type_id_data_8h"/>
-      </node>
-      <node id="123">
-        <label>AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h</label>
-        <link refid="_base_ini_classifier_8h"/>
-        <childnode refid="16" relation="include">
+        <childnode refid="119" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="123" relation="include">
         </childnode>
         <childnode refid="124" relation="include">
-        </childnode>
-        <childnode refid="125" relation="include">
-        </childnode>
-      </node>
-      <node id="125">
-        <label>AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h</label>
-        <link refid="_ini_classify_stats_8h"/>
-        <childnode refid="33" relation="include">
         </childnode>
         <childnode refid="126" relation="include">
         </childnode>
       </node>
-      <node id="113">
+      <node id="130">
+        <label>AGRemapCore/model/strategies/ModTypeIdData.h</label>
+        <link refid="_mod_type_id_data_8h"/>
+      </node>
+      <node id="127">
+        <label>AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h</label>
+        <link refid="_base_ini_classifier_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="128" relation="include">
+        </childnode>
+        <childnode refid="129" relation="include">
+        </childnode>
+      </node>
+      <node id="129">
+        <label>AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h</label>
+        <link refid="_ini_classify_stats_8h"/>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="130" relation="include">
+        </childnode>
+      </node>
+      <node id="117">
         <label>AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h</label>
         <link refid="_base_ini_fixer_8h"/>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="80" relation="include">
         </childnode>
-        <childnode refid="114" relation="include">
+        <childnode refid="118" relation="include">
         </childnode>
-        <childnode refid="115" relation="include">
+        <childnode refid="119" relation="include">
         </childnode>
-        <childnode refid="117" relation="include">
+        <childnode refid="121" relation="include">
         </childnode>
       </node>
       <node id="78">
         <label>AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h</label>
         <link refid="_base_ini_part_edit_8h"/>
       </node>
-      <node id="118">
+      <node id="122">
         <label>AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</label>
         <link refid="_ini_fix_builder_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
         <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="100" relation="include">
         </childnode>
-        <childnode refid="111" relation="include">
+        <childnode refid="115" relation="include">
         </childnode>
-        <childnode refid="113" relation="include">
+        <childnode refid="117" relation="include">
         </childnode>
       </node>
-      <node id="114">
+      <node id="118">
         <label>AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</label>
         <link refid="_ini_fixing_context_8h"/>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
       <node id="77">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h</label>
         <link refid="_base_ini_graph_group_edit_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
@@ -800,13 +855,13 @@
       <node id="91">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h</label>
         <link refid="_graph_group_remap_8h"/>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="77" relation="include">
         </childnode>
@@ -816,19 +871,19 @@
       <node id="79">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h</label>
         <link refid="_i_ini_graph_groups_8h"/>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="80" relation="include">
         </childnode>
@@ -844,17 +899,17 @@
       <node id="95">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h</label>
         <link refid="_ini_res_edit_context_8h"/>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="63" relation="include">
         </childnode>
@@ -868,25 +923,25 @@
       <node id="30">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h</label>
         <link refid="_res_group_collect_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="31" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
         <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -920,23 +975,27 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
         <childnode refid="30" relation="include">
         </childnode>
       </node>
       <node id="93">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h</label>
         <link refid="_res_edit_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -949,76 +1008,76 @@
         <childnode refid="96" relation="include">
         </childnode>
       </node>
-      <node id="115">
+      <node id="119">
         <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
         <link refid="_base_ini_parser_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
         <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="120" relation="include">
+        </childnode>
+      </node>
+      <node id="123">
+        <label>AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</label>
+        <link refid="_ini_parse_builder_8h"/>
+        <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="80" relation="include">
-        </childnode>
-        <childnode refid="116" relation="include">
-        </childnode>
-      </node>
-      <node id="119">
-        <label>AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</label>
-        <link refid="_ini_parse_builder_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="100" relation="include">
         </childnode>
         <childnode refid="104" relation="include">
         </childnode>
-        <childnode refid="115" relation="include">
+        <childnode refid="119" relation="include">
         </childnode>
       </node>
-      <node id="120">
+      <node id="124">
         <label>AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</label>
         <link refid="_base_ini_remover_8h"/>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="121" relation="include">
+        <childnode refid="125" relation="include">
         </childnode>
       </node>
-      <node id="121">
+      <node id="125">
         <label>AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h</label>
         <link refid="_ini_removal_context_8h"/>
       </node>
-      <node id="122">
+      <node id="126">
         <label>AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</label>
         <link refid="_ini_remove_builder_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
         <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="100" relation="include">
         </childnode>
         <childnode refid="104" relation="include">
         </childnode>
-        <childnode refid="120" relation="include">
+        <childnode refid="124" relation="include">
         </childnode>
       </node>
       <node id="46">
         <label>AGRemapCore/tools/Algo.h</label>
         <link refid="_algo_8h"/>
-        <childnode refid="10" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="47" relation="include">
         </childnode>
@@ -1032,7 +1091,7 @@
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
@@ -1042,15 +1101,15 @@
       <node id="23">
         <label>AGRemapCore/tools/Heading.h</label>
         <link refid="_heading_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
       <node id="44">
         <label>AGRemapCore/tools/Ranges.h</label>
         <link refid="_ranges_8h"/>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="45" relation="include">
         </childnode>
@@ -1070,15 +1129,15 @@
         <link refid="_file_download_8h"/>
         <childnode refid="28" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
@@ -1108,13 +1167,13 @@
         <link refid="_base_ordered_multi_map_8h"/>
         <childnode refid="36" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>
         <childnode refid="31" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="45" relation="include">
         </childnode>
@@ -1124,15 +1183,15 @@
         </childnode>
         <childnode refid="38" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -1144,19 +1203,19 @@
       <node id="43">
         <label>AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h</label>
         <link refid="_i_ordered_multi_map_8h"/>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="44" relation="include">
         </childnode>
@@ -1166,7 +1225,7 @@
       <node id="55">
         <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h</label>
         <link refid="_ordered_multi_map_8h"/>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>
@@ -1186,17 +1245,17 @@
       <node id="53">
         <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</label>
         <link refid="_ordered_multi_map_adapter_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -1214,7 +1273,7 @@
         <link refid="_ordered_multi_map_sqrt_8h"/>
         <childnode refid="58" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>
@@ -1234,25 +1293,25 @@
       <node id="66">
         <label>AGRemapCore/tools/parsing/ParseContext.h</label>
         <link refid="_parse_context_8h"/>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
         <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
       <node id="67">
         <label>AGRemapCore/tools/z3/Z3Context.h</label>
         <link refid="_z3_context_8h"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
       <node id="68">
         <label>AGRemapCore/tools/z3/Z3Predicate.h</label>
         <link refid="_z3_predicate_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
         <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="67" relation="include">
         </childnode>
@@ -1260,17 +1319,17 @@
       <node id="20">
         <label>AGRemapCore/view/BaseLogger.h</label>
         <link refid="_base_logger_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
         <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
@@ -1286,6 +1345,9 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
+      </node>
+      <node id="83">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="86">
         <label>Generator.tpp</label>
@@ -1320,7 +1382,7 @@
       <node id="87">
         <label>IniSectionGraph.tpp</label>
       </node>
-      <node id="112">
+      <node id="116">
         <label>ModAssets.tpp</label>
       </node>
       <node id="106">
@@ -1353,7 +1415,7 @@
       <node id="36">
         <label>algorithm</label>
       </node>
-      <node id="13">
+      <node id="14">
         <label>array</label>
       </node>
       <node id="28">
@@ -1365,10 +1427,10 @@
       <node id="85">
         <label>coroutine</label>
       </node>
-      <node id="14">
+      <node id="15">
         <label>cstddef</label>
       </node>
-      <node id="10">
+      <node id="11">
         <label>cstdint</label>
       </node>
       <node id="21">
@@ -1377,7 +1439,7 @@
       <node id="22">
         <label>exception</label>
       </node>
-      <node id="7">
+      <node id="3">
         <label>functional</label>
       </node>
       <node id="51">
@@ -1386,10 +1448,10 @@
       <node id="31">
         <label>map</label>
       </node>
-      <node id="3">
+      <node id="4">
         <label>memory</label>
       </node>
-      <node id="16">
+      <node id="5">
         <label>optional</label>
       </node>
       <node id="47">
@@ -1401,7 +1463,7 @@
       <node id="37">
         <label>stdexcept</label>
       </node>
-      <node id="4">
+      <node id="6">
         <label>string</label>
       </node>
       <node id="33">
@@ -1416,7 +1478,7 @@
       <node id="38">
         <label>type_traits</label>
       </node>
-      <node id="8">
+      <node id="9">
         <label>unordered_map</label>
       </node>
       <node id="19">
@@ -1425,10 +1487,10 @@
       <node id="32">
         <label>utility</label>
       </node>
-      <node id="11">
+      <node id="12">
         <label>variant</label>
       </node>
-      <node id="5">
+      <node id="7">
         <label>vector</label>
       </node>
     </incdepgraph>
@@ -1465,52 +1527,69 @@
 <codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name_(std::move(name)),<sp/>config_(std::move(config)),<sp/>iniFile_(iniFile)<sp/>{}</highlight></codeline>
 <codeline lineno="26"><highlight class="normal"></highlight></codeline>
 <codeline lineno="27"><highlight class="normal"></highlight></codeline>
-<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>IniGroupedResource*<sp/>VGSplitGroupResBuilder::build()<sp/>{</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>group<sp/>=<sp/>std::make_shared&lt;VGSplitGroupResource&gt;(</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name_,<sp/>std::unordered_map&lt;std::string,<sp/>std::unique_ptr&lt;IniResource&gt;&gt;{},<sp/>config_,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*isBuilt*/</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>groups_.push_back(group);</highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>group.get();</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>VGSplitGroupResBuilder::VGSplitGroupResBuilder(std::string<sp/>name,<sp/>ConfigResolver<sp/>configFor,<sp/>IniFile*<sp/>iniFile):</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name_(<ref refid="namespacestd" kindref="compound">std</ref>::move(name)),<sp/>configFor_(<ref refid="namespacestd" kindref="compound">std</ref>::move(configFor)),<sp/>iniFile_(iniFile)<sp/>{}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>VGSplitGroupResBuilder::beginGroup(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;Z3Predicate&gt;&amp;<sp/>query)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>query_<sp/>=<sp/>query;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>VGSplitGroupResBuilder::store(IniGroupedResource&amp;<sp/>resource)<sp/>{</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(iniFile_<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;VGSplitGroupResource&gt;&amp;<sp/>group<sp/>:<sp/>groups_)<sp/>{</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(group.get()<sp/>==<sp/>&amp;resource)<sp/>{</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iniFile_-&gt;getGroupedResources().push_back(group);</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"></highlight></codeline>
-<codeline lineno="49"><highlight class="normal"></highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>VGSplitGroupResBuilder::addResource(IniGroupedResource&amp;<sp/>group,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GraphId&amp;<sp/>resType,<sp/>IniResource&amp;<sp/>resource)<sp/>{</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>copy<sp/>--<sp/>see<sp/>the<sp/>class&apos;s<sp/>own<sp/>note.<sp/>The<sp/>paths<sp/>are<sp/>already<sp/>absolute,<sp/>so<sp/>the<sp/>folder<sp/>the</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>constructor<sp/>resolves<sp/>against<sp/>is<sp/>irrelevant;<sp/>the<sp/>type<sp/>is<sp/>what<sp/>fixVGSplitGroup<sp/>tells<sp/>the</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>members<sp/>apart<sp/>by,<sp/>and<sp/>BufReplace<sp/>typed<sp/>it<sp/>by<sp/>kind.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>fixedPath;</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>fixResource<sp/>=<sp/></highlight><highlight class="keyword">dynamic_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">IniFixResource*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(&amp;resource))<sp/>{</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fixedPath<sp/>=<sp/>fixResource-&gt;fixedPath;</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight></codeline>
-<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>member<sp/>=<sp/>std::make_unique&lt;IniFixResource&gt;(resource.type,<sp/>iniFile_<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>?<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>iniFile_-&gt;getFolder(),</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resource.srcPath,<sp/>fixedPath);</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>member-&gt;logger<sp/>=<sp/>resource.logger;</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"></highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Keyed<sp/>by<sp/>the<sp/>resource&apos;s<sp/>whole<sp/>mod<sp/>object<sp/>--<sp/>one<sp/>entry<sp/>per<sp/>buffer<sp/>of<sp/>the<sp/>group,<sp/>and<sp/>the</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>string<sp/>form<sp/>is<sp/>only<sp/>a<sp/>map<sp/>key<sp/>nothing<sp/>reads<sp/>back.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>key<sp/>=<sp/>std::to_string(resType.iniIndex)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;;&quot;</highlight><highlight class="normal"><sp/>+<sp/>resType.modObj.first<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;;&quot;</highlight><highlight class="normal"><sp/>+<sp/>resType.modObj.second;</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>group.addResource(key,<sp/>std::move(member));</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"></highlight></codeline>
-<codeline lineno="69"><highlight class="normal"></highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::shared_ptr&lt;VGSplitGroupResource&gt;&gt;&amp;<sp/>VGSplitGroupResBuilder::groups()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>groups_;</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>IniGroupedResource*<sp/>VGSplitGroupResBuilder::build()<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>config<sp/>for<sp/>the<sp/>group<sp/>being<sp/>built<sp/>--<sp/>see<sp/>VGMergeGroupResBuilder::build.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VGSplitGroupConfig<sp/>resolved;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VGSplitGroupConfig*<sp/>config<sp/>=<sp/>&amp;config_;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(configFor_)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resolved<sp/>=<sp/>configFor_(query_.has_value()<sp/>?<sp/>&amp;(*query_)<sp/>:<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config<sp/>=<sp/>&amp;resolved;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>group<sp/>=<sp/>std::make_shared&lt;VGSplitGroupResource&gt;(</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name_,<sp/>std::unordered_map&lt;std::string,<sp/>std::unique_ptr&lt;IniResource&gt;&gt;{},<sp/>*config,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*isBuilt*/</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>groups_.push_back(group);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>group.get();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>VGSplitGroupResBuilder::store(IniGroupedResource&amp;<sp/>resource)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(iniFile_<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;VGSplitGroupResource&gt;&amp;<sp/>group<sp/>:<sp/>groups_)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(group.get()<sp/>==<sp/>&amp;resource)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iniFile_-&gt;getGroupedResources().push_back(group);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>VGSplitGroupResBuilder::addResource(IniGroupedResource&amp;<sp/>group,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GraphId&amp;<sp/>resType,<sp/>IniResource&amp;<sp/>resource)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>copy<sp/>--<sp/>see<sp/>the<sp/>class&apos;s<sp/>own<sp/>note.<sp/>The<sp/>paths<sp/>are<sp/>already<sp/>absolute,<sp/>so<sp/>the<sp/>folder<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>constructor<sp/>resolves<sp/>against<sp/>is<sp/>irrelevant;<sp/>the<sp/>type<sp/>is<sp/>what<sp/>fixVGSplitGroup<sp/>tells<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>members<sp/>apart<sp/>by,<sp/>and<sp/>BufReplace<sp/>typed<sp/>it<sp/>by<sp/>kind.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>fixedPath;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>fixResource<sp/>=<sp/></highlight><highlight class="keyword">dynamic_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">IniFixResource*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(&amp;resource))<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fixedPath<sp/>=<sp/>fixResource-&gt;fixedPath;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>member<sp/>=<sp/>std::make_unique&lt;IniFixResource&gt;(resource.type,<sp/>iniFile_<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>?<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>iniFile_-&gt;getFolder(),</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resource.srcPath,<sp/>fixedPath);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>member-&gt;logger<sp/>=<sp/>resource.logger;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Keyed<sp/>by<sp/>the<sp/>resource&apos;s<sp/>whole<sp/>mod<sp/>object<sp/>--<sp/>one<sp/>entry<sp/>per<sp/>buffer<sp/>of<sp/>the<sp/>group,<sp/>and<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>string<sp/>form<sp/>is<sp/>only<sp/>a<sp/>map<sp/>key<sp/>nothing<sp/>reads<sp/>back.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>key<sp/>=<sp/>std::to_string(resType.iniIndex)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;;&quot;</highlight><highlight class="normal"><sp/>+<sp/>resType.modObj.first<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;;&quot;</highlight><highlight class="normal"><sp/>+<sp/>resType.modObj.second;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>group.addResource(key,<sp/>std::move(member));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::shared_ptr&lt;VGSplitGroupResource&gt;&gt;&amp;<sp/>VGSplitGroupResBuilder::groups()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>groups_;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp"/>
   </compounddef>

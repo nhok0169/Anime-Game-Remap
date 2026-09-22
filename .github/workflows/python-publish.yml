@@ -268,17 +268,32 @@ jobs:
 
 # -------------------------------------------------
 # 4. ...and only then the mirror, which pins the version just published
-#
-# note: the permissions are declared HERE rather than only inside the called workflow. A called
-#   workflow cannot hold more than its caller grants, and this file's workflow-level permissions are
-#   'contents: read' -- so without this the mirror's trusted publishing would be denied its token.
 # -------------------------------------------------
+  build-mirror:
+    name: Build AnimeGameRemap
+    needs: publish-to-pypi
+    uses: './.github/workflows/mirror-build-workflow.yml'
+
+  # a plain job, NOT inside the reusable workflow: see mirror-build-workflow.yml's note. This file is
+  #   registered on PyPI as a trusted publisher of AnimeGameRemap, with the 'pypi' environment
   publish-mirror:
     name: Publish AnimeGameRemap Package to PyPI
-    needs: publish-to-pypi
+    needs: build-mirror
+    runs-on: ubuntu-latest
+
+    environment:
+      name: pypi
+      url: https://pypi.org/p/AnimeGameRemap
 
     permissions:
-      contents: read
-      id-token: write
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
 
-    uses: './.github/workflows/mirror-publish-workflow.yml'
+    steps:
+    - name: Download the mirror's distribution
+      uses: actions/download-artifact@v4
+      with:
+        name: mirror-package-distributions
+        path: dist/
+
+    - name: Publish distribution to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1

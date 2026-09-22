@@ -4,6 +4,7 @@
     <compoundname>src/model/strategies/iniRemovers</compoundname>
     <innerfile refid="_ini_file_remove_context_8cpp">IniFileRemoveContext.cpp</innerfile>
     <innerfile refid="_ini_remove_builder_8cpp">IniRemoveBuilder.cpp</innerfile>
+    <innerfile refid="_remap_ini_remover_instantiation_8cpp">RemapIniRemoverInstantiation.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

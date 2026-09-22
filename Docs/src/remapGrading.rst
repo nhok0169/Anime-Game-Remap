@@ -199,6 +199,42 @@ Grading
    * - | **Rosaria <--> RosariaCN**
      - | :greenBold:`5.0`
      - |
+   * - | **Sanhua --> SanhuaExorcist**
+     - | :greenBold:`4.5`
+     - | Both characters are ONE mesh drawn as several components over a merged skeleton, so the remap is
+       | per draw slot rather than per object, and a slot binds one set of textures at a time.
+       |
+       | - Sanhua's bodice, skirt AND arm skin all land on SanhuaExorcist's single torso slot. They are
+       | drawn separately, each with its own bindings, and the extra draws go into their own ``.ini`` files.
+       |
+       | - SanhuaExorcist's torso shader reads a material mask where Sanhua's arm skin has none, so one is
+       | invented from her measured skin code. A mod that paints an unusual material on the arms cannot be
+       | followed.
+       |
+       | - Shape keys are not retargeted, so a mod that ships its own is drawn with the skin's expressions
+       | instead, and the per-vertex shape key offsets the game streams are zeroed rather than remapped.
+       |
+       | - SanhuaExorcist's hair bun and trousers have nothing remapped onto them, so that slot keeps
+       | drawing the skin's own geometry and textures.
+       |
+       | - A texture role the mod ships no file for is bound to Sanhua's own game texture, downloaded ---
+       | the mod's texture coordinates are hers, so only her textures agree with them.
+   * - | **SanhuaExorcist --> Sanhua**
+     - | :greenBold:`4.5`
+     - | The inverse, with the same per-slot limits. Two of Sanhua's slots --- her bangs and her arm skin ---
+       | have nothing remapped onto them and keep drawing her own geometry.
+       |
+       | - SanhuaExorcist's bangs are drawn through Sanhua's HAIR slot and hair shader rather than her bangs
+       | slot: her bangs shader reads the hair's material block shifted, with a warm row that turns a
+       | dark-painted fringe brown. Sanhua's see-through bangs pass is therefore not run for them.
+       |
+       | - SanhuaExorcist's hair bun and trousers go through Sanhua's skirt slot, whose shader reads a
+       | material mask that side of the remap has none of, so her plain-cloth code is invented for it.
+       |
+       | - Shape keys are not retargeted here either.
+       |
+       | - The vertex group table for this direction was reviewed from the geometry rather than hand-made,
+       | so a pose may deform slightly at a joint it reads wrong.
    * - | **Shenhe <--> ShenheFrostFlower**
      - | :greenBold:`4.9`
      - |

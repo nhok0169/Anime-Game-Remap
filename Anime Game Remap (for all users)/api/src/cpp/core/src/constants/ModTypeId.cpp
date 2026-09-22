@@ -792,29 +792,43 @@ namespace AGRemapCore {
 
 
     void ModTypeIdTools::registerModType(const ModType &modType) {
-        _modTypes.insert_or_assign(modType.modTypeId, modType);
+        // Deliberately the one-element case of the batch below rather than its own copy of the
+        // filing rules: the two differ only in how many times the name automaton is rebuilt, and
+        // keeping one implementation is what stops them drifting apart.
+        registerModTypes({modType});
+    }
 
-        std::unordered_set<int> modTypeIdSet;
-        modTypeIdSet.insert(modType.modTypeId);
+    void ModTypeIdTools::registerModTypes(const std::vector<ModType> &modTypes) {
+        // Accumulated and handed over in one go, because '_nameDFA.add' reconstructs the entire
+        // automaton from every name already filed -- see registerModTypes' own doc comment.
+        std::unordered_map<std::string, std::unordered_set<int>> names;
 
-        // Filed in lowercase, and findByName lowercases what it is asked, so a name or alias
-        // resolves whatever case it is typed in. The pure-Python 'ModTypes' this mirrors does
-        // exactly this -- it builds its DFA from 'modType.name.lower()' and searches with
-        // 'txt.lower()' -- and its own --help text promises it: "The names/aliases for the mod
-        // types are not case sensitive".
-        //
-        // Nothing loses the original casing by this: getName and getModType both answer out of
-        // '_modTypes', which is keyed by id and holds the ModType as it was registered. The DFA is
-        // only ever a lookup FROM text.
-        const std::string lowerName = StringTools::toLower(modType.name);
-        _nameDFA.add(lowerName, modTypeIdSet);
-        _nameGameTypeIds[lowerName].insert(modType.gameTypeId);
+        for (const ModType &modType : modTypes) {
+            _modTypes.insert_or_assign(modType.modTypeId, modType);
 
-        for (const std::string &alias : modType.aliases) {
-            const std::string lowerAlias = StringTools::toLower(alias);
-            _nameDFA.add(lowerAlias, modTypeIdSet);
-            _nameGameTypeIds[lowerAlias].insert(modType.gameTypeId);
+            // Filed in lowercase, and findByName lowercases what it is asked, so a name or alias
+            // resolves whatever case it is typed in. The pure-Python 'ModTypes' this mirrors does
+            // exactly this -- it builds its DFA from 'modType.name.lower()' and searches with
+            // 'txt.lower()' -- and its own --help text promises it: "The names/aliases for the mod
+            // types are not case sensitive".
+            //
+            // Nothing loses the original casing by this: getName and getModType both answer out of
+            // '_modTypes', which is keyed by id and holds the ModType as it was registered. The DFA
+            // is only ever a lookup FROM text.
+            const std::string lowerName = StringTools::toLower(modType.name);
+            names[lowerName].insert(modType.modTypeId);
+            _nameGameTypeIds[lowerName].insert(modType.gameTypeId);
+
+            for (const std::string &alias : modType.aliases) {
+                const std::string lowerAlias = StringTools::toLower(alias);
+                names[lowerAlias].insert(modType.modTypeId);
+                _nameGameTypeIds[lowerAlias].insert(modType.gameTypeId);
+            }
         }
+
+        // Two mod types sharing a name land in one set here, which is the same thing the DFA's own
+        // duplicate handler would have produced had they been added one after the other.
+        _nameDFA.addMany(names);
     }
 
     std::optional<ModTypeId> ModTypeIdTools::findByName(const std::string &name, std::optional<GameTypeId> gameTypeId) {

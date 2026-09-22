@@ -11,15 +11,13 @@
     <includes local="yes">RemapIniFixContext.tpp</includes>
     <includedby refid="_g_i_m_i_fixer_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h</includedby>
     <includedby refid="_ini_file_fix_context_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h</includedby>
+    <includedby refid="_remap_ini_fix_context_instantiation_8cpp" local="yes">src/model/strategies/iniFixers/RemapIniFixContextInstantiation.cpp</includedby>
     <incdepgraph>
       <node id="34">
         <label>Algo.tpp</label>
       </node>
       <node id="40">
         <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="49">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="55">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
@@ -285,6 +283,8 @@
         <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
@@ -611,6 +611,9 @@
         <childnode refid="57" relation="include">
         </childnode>
       </node>
+      <node id="49">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="70">
         <label>Generator.tpp</label>
       </node>
@@ -751,8 +754,12 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
       </node>
-      <node id="9">
+      <node id="11">
         <label>include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h</label>
         <link refid="_ini_file_fix_context_8h"/>
         <childnode refid="3" relation="include">
@@ -765,7 +772,9 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -773,7 +782,9 @@
         <link refid="_remap_ini_fix_context_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -793,12 +804,24 @@
         <link refid="_raiden_fixer_8cpp"/>
       </node>
       <node id="7">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/model/strategies/iniFixers/GIMIFixerInstantiation.cpp</label>
+        <link refid="_g_i_m_i_fixer_instantiation_8cpp"/>
+      </node>
+      <node id="9">
         <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
         <link refid="_ini_file_fix_context_8cpp"/>
       </node>
-      <node id="8">
+      <node id="10">
         <label>src/model/strategies/iniFixers/IniFixBuilder.cpp</label>
         <link refid="_ini_fix_builder_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/model/strategies/iniFixers/RemapIniFixContextInstantiation.cpp</label>
+        <link refid="_remap_ini_fix_context_instantiation_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_remap_ini_fix_context" prot="public">AGRemapCore::RemapIniFixContext</innerclass>
@@ -879,7 +902,14 @@
 <codeline lineno="224"><highlight class="normal"></highlight></codeline>
 <codeline lineno="225"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;RemapIniFixContext.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="226"><highlight class="normal"></highlight></codeline>
-<codeline lineno="227"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>note:<sp/>every<sp/>translation<sp/>unit<sp/>that<sp/>uses<sp/>these<sp/>with<sp/>&lt;std::string,<sp/>std::string&gt;<sp/>would<sp/>otherwise</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>instantiate<sp/>all<sp/>of<sp/>their<sp/>member<sp/>bodies<sp/>itself;<sp/>they<sp/>are<sp/>compiled<sp/>once,<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>src/model/strategies/iniFixers/RemapIniFixContextInstantiation.cpp,<sp/>instead.<sp/>Any<sp/>other<sp/>instantiation<sp/>still<sp/>happens<sp/>implicitly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RemapIniFixContext&lt;std::string,<sp/>std::string&gt;;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h"/>
   </compounddef>

@@ -9,6 +9,8 @@
     <innerdir refid="dir_4621004885c65db449d3f45fdb56cee2">include/AGRemapCore/data/IniFixData/AyakaSpringbloom</innerdir>
     <innerdir refid="dir_920c1f41c5ae3b42bcdb988d03ff2092">include/AGRemapCore/data/IniFixData/Barbara</innerdir>
     <innerdir refid="dir_f50db978cf27bf6ebc2731f38393c974">include/AGRemapCore/data/IniFixData/BarbaraSummertime</innerdir>
+    <innerdir refid="dir_16e2ada0df804d4b8299437d530df2c0">include/AGRemapCore/data/IniFixData/Bennett</innerdir>
+    <innerdir refid="dir_9c5117e60e9d0cd2686bba5891e06b92">include/AGRemapCore/data/IniFixData/BennettAdventure</innerdir>
     <innerdir refid="dir_d1b567bca0b06600843b7d9f38f46df1">include/AGRemapCore/data/IniFixData/CherryHuTao</innerdir>
     <innerdir refid="dir_d1728c614685f0d6f2c0a9ae37adf6f8">include/AGRemapCore/data/IniFixData/Diluc</innerdir>
     <innerdir refid="dir_03f504ccc2ed6e737bbb223254e02d03">include/AGRemapCore/data/IniFixData/DilucFlamme</innerdir>
@@ -39,6 +41,8 @@
     <innerdir refid="dir_ba41a1edc8ab32d416c89098812218ee">include/AGRemapCore/data/IniFixData/Raiden</innerdir>
     <innerdir refid="dir_9de4c67aea98370665bf5c50fd59364c">include/AGRemapCore/data/IniFixData/Rosaria</innerdir>
     <innerdir refid="dir_669629d19ef82c48a0daa445d6c4f306">include/AGRemapCore/data/IniFixData/RosariaCN</innerdir>
+    <innerdir refid="dir_06fb9bab50e07164ec66e696074afb9f">include/AGRemapCore/data/IniFixData/Sanhua</innerdir>
+    <innerdir refid="dir_b57ce82bdb733c6e5a09bf3ecd41d2ae">include/AGRemapCore/data/IniFixData/SanhuaExorcist</innerdir>
     <innerdir refid="dir_244ba1f005a76af8d67f555e142b7cf6">include/AGRemapCore/data/IniFixData/Shenhe</innerdir>
     <innerdir refid="dir_d424eeff78e7690622520953bba2483f">include/AGRemapCore/data/IniFixData/ShenheFrostFlower</innerdir>
     <innerdir refid="dir_80a72dd480c6ee2910ca349033f34373">include/AGRemapCore/data/IniFixData/Xiangling</innerdir>
@@ -52,7 +56,9 @@
     <innerfile refid="_g_i_m_i_component_fixer_8h">GIMIComponentFixer.h</innerfile>
     <innerfile refid="_g_i_m_i_merge_fixer_8h">GIMIMergeFixer.h</innerfile>
     <innerfile refid="_jean_shading_8h">JeanShading.h</innerfile>
+    <innerfile refid="_mod_branches_8h">ModBranches.h</innerfile>
     <innerfile refid="_reg_val_checks_8h">RegValChecks.h</innerfile>
+    <innerfile refid="_w_w_m_i_fixer_8h">WWMIFixer.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

@@ -9,6 +9,42 @@ Read [Architecture](../Architecture/CLAUDE.md) first if you have never touched
 
 <br>
 
+## START HERE: which kind of remap request is this (2026-09-20)
+
+This file is long and its sections were written in the order they were learned, not in the order
+you need them. Find your request below, read those sections, and skip the rest until something
+surprises you.
+
+| the request | read, in this order |
+| --- | --- |
+| **"add the remap for X -> Y"**, and X and Y are ordinary GI characters | "The loop changed" (prototype, then port), then "Start here: adding a character, in order", then "Most characters are two short files". **Pick the shape from the HASH and INDEX tables, never from the character's name** --- Arlecchino remaps onto a boss and is not the Raiden shape |
+| the target is a **skin of several components** (every GI character from Bennett on) | "Recipe: a classic-shape mod onto a multi-component skin", then [Vertex Group Remaps](../VGRemaps/CLAUDE.md)'s recipe. The reverse direction (several components onto one mesh) is "The reverse direction is COMPILED TOO" |
+| a **WuWa** pair | "The next WuWa pair: what a config needs, and how the loop runs", then "WUWA IS COMPILED". A WuWa character is ONE mesh of draw slots on a merged skeleton --- one fix row for the pair, not one per component |
+| **"the model is warped / kinked / stretched in game"** | [Vertex Group Remaps](../VGRemaps/CLAUDE.md): an unmapped source group becomes a NEGATIVE bone index, and `overrideVgRemap.py --dump` names them. Then "When the blend IS remapped and the model still kinks" |
+| **a texture symptom** --- a hue over everything, one part wearing another's art, blank white, flat green | "A `TextureOverride` BINDS REGISTERS ONLY FOR THE DRAW ITS HASH MATCHES" (parse the mod's own sections into a per-slot table before reasoning), "A REMAPPED SECTION MAY BIND ONLY WHAT THE TARGET'S SLOT BINDS", "THE FIX LIBRARIES ARE INVOLUTIONS", "WuWa triage: what the in-game symptom says", and "WHEN THE SYMPTOM IS ON A TEXTURE, CROP THE UV ISLAND AND LOOK AT IT" |
+| **"it works on one mod and not another"** | "Triage: a merged mod that works on one variant and not the others", "FIXING A MERGED MASTER", "A MERGED MOD'S DISABLED VARIANTS CARRY STALE HASHES", and "CHOOSING TEST MODS: VARY THE STRUCTURE, NOT THE CHARACTER" |
+| **"a part is missing / still the skin's own"** | "A TARGET COMPONENT NOTHING IS REMAPPED ONTO STILL DRAWS THE SKIN'S OWN GEOMETRY", "A TARGET OBJECT SEVERAL COMPONENTS MERGE ONTO IS NOT ONE DRAW", "A mod that is MISSING a whole component" |
+| **an undo left something behind** | "Undo is only as complete as what the fix wrote INSIDE its block" |
+| the remap **works and you are finishing up** | "Verifying", then "Closing out a remap" --- five files and a regenerated `core/xml`, and the vertex-group draft's `Credits` sheet |
+
+Four things hold whichever row you are on, and each has cost a session:
+
+* **The report's own words are the first instrument.** A hue over body and clothes is a mask; one
+  part in another's texture is a role with no file; a wrong shape is a vertex group. [Overview](../Overview/CLAUDE.md)'s
+  habit 55 is the long version --- and a symptom that survives a fix you verified is a *second* bug,
+  not a failed fix.
+* **A clean run is not evidence.** A fix that raises is caught per `.ini` and recorded in
+  `RemapService.stats.ini.skipped`, printed nowhere without a logger; a config written from the
+  remap's shape alone logs success and does none of the character's texture work.
+* **Diff against something.** The prototype if the character has one (`abWWMI.py` / `--ab`), the
+  old script if it does not, the previous build's output if you are changing shared machinery.
+  Byte-identical buffers say nothing about the `.ini`, and the A/B's section check compares section
+  NAMES, not their bodies.
+* **The maintainer moves mod folders between `Mods/` and its parent between turns.** A mod you
+  cannot find is one directory up, not missing.
+
+<br>
+
 ## The loop changed: prototype in Python, then port (2026-09-09)
 
 **A new remap no longer costs a rebuild per idea.** `CppStrategyOverrides` registers a parser or
@@ -776,20 +812,32 @@ Check these in order; the first is not a code problem at all, and it is the one 
 
 ## Closing out a remap: where it is documented (2026-09-16)
 
-A remap is not finished when it works in game. Three documents carry every character, and a new
-pair needs all of them:
+A remap is not finished when it works in game. **Five** places carry every character, and a new
+pair needs all of them (the list was three until 2026-09-20, and the two additions were each wrong
+for months before anyone looked):
 
 | file | what to add |
 | --- | --- |
-| `Docs/src/commandOpts.rst` | one row per mod type in the mod-type table, alphabetical: the aliases, one per line, and the classifier-regex sentence in the same style as its neighbours (`(name)((?!skinsuffix).)*` for the base, `(nameskin).*` for the skin) |
+| `Docs/src/commandOpts.rst` | one row per mod type in the mod-type table, alphabetical: the **Game** cell (`GI` / `WuWa`), the aliases one per line, and the identification sentence in the same style as its neighbours --- the classifier regex for a GI character (`(name)((?!skinsuffix).)*` for the base, `(nameskin).*` for the skin), and for a WuWa one the `vb0` hash instead, because a WWMI `.ini` names its sections after the draw slot |
 | `Anime Game Remap (for all users)/api/README.md` | the same rows in its markdown table |
+| `Anime Game Remap (for all users)/apiMirror/README.md` | **and again here** --- the two READMEs are meant to be identical, and the mirror is the one that gets forgotten (Overview's "`apiMirror` rots silently") |
 | `Docs/src/remapGrading.rst` | one entry per DIRECTION, alphabetical, with a grade and the known limits in plain words -- what the fix cannot express, what it approximates, what a mod could do that it would misread. The grade is the maintainer's call; propose one next to the closest existing pair and say so |
+| `api/src/py/FixRaidenBoss2/constants/ModTypes.py` | one `Name = (GIBuilder.name, )` (or `WWMIBuilder.name`) line plus its docstring entry. This is the list the CLI's `--help` used to print, and it had been six characters behind since Yelan --- see "Adding a `ModTypeId`" step 9 |
 
-**The aliases are read from `core/src/constants/GIBuilder.cpp`** (`makeGIModType(ModTypeId::X,
-{...})`), never retyped from memory -- the maintainer edits that list, and the docs have to follow
-it, sorted alphabetically. Rebuild the docs (Overview habit 42) and grep the rendered pages for the
-new names. When a later change retires a limitation you wrote here -- 16-bit index buffers, say --
-remove the sentence in the same change.
+**Generate the rows from the library rather than reading them off `GIBuilder.cpp`.** Import the
+built package, walk `GIBuilder`/`WWMIBuilder`, and diff `{name: (game, sorted aliases)}` against
+what each table says: the first time that was done (2026-09-20) it found a character the docs had
+**misspelled** --- `BarabaraSummertime`, a name no `--types` argument could ever match --- and an
+alias the library had and the docs did not. Both had been published for months and neither is
+visible by reading. The aliases still come from the maintainer's own list in
+`constants/{GI,WWMI}Builder.cpp`; the point is that the *transcription* is what fails.
+
+**And regenerate `core/xml`** (pinned Doxygen 1.17.0, from `api/src/cpp/core`, about a minute). The
+published `coreAPI` page renders from that committed artifact, so a character's compiled fixer and
+parser are absent from the site until it is regenerated --- every WuWa class was, from 2026-09-19
+until it was noticed a day later. Then rebuild the docs (Overview habit 42) and grep the rendered
+pages for the new names. When a later change retires a limitation you wrote here -- 16-bit index
+buffers, say -- remove the sentence in the same change.
 
 <br>
 
@@ -2248,7 +2296,15 @@ order, for a type that is BUILT (a character a `.ini` can classify as):
 7. the oracles in `core/tests/ModTypeRemaps_test.cpp` and `core/tests/IniClassifierPopulation_test.cpp`
    (both list every built type; a row with NO keyword crashes the second test, and the
    population does not hold a keyword-less type either);
-8. `core/CMakeLists.txt` for the new `.cpp` files.
+8. `core/CMakeLists.txt` for the new `.cpp` files;
+9. `api/src/py/FixRaidenBoss2/constants/ModTypes.py` -- the Python `ModTypes` enum, one
+   `Name = (GIBuilder.name, )` (or `WWMIBuilder.name`) line plus its entry in the class docstring's
+   attribute list. It is a Python-side *view* over the C++ builders, so it needs no data of its own
+   -- and it had been **six characters behind** since Yelan (2026-09-13) until 2026-09-20: Bennett,
+   BennettAdventure, Yelan, YelanTranquil, Sanhua and SanhuaExorcist. Nothing failed, because
+   nothing in the library resolves a `--types` name through it; what it fed was the CLI's `--help`
+   list, which therefore named 43 of 49 characters. `ModTypes.getAll()` / `ModTypes.search()` are
+   public API, so an API user saw the same gap.
 
 **Four suites hardcode a count that steps 4-7 move, and nothing builds them**, so budget a pass over
 all four rather than only the one you remember (all measured 2026-09-13):
@@ -2259,9 +2315,12 @@ count itself, which several doc comments restate --- see the next note. Yelan mo
 nobody noticed for a day.
 
 **The C++ tables are AHEAD of the pure-Python ones now, deliberately -- do not "resync" them.**
-`data/VertexCountData.cpp` has 44 rows against `VertexCountData.py`'s 43; `data/VGRemapData.cpp` has
-58 against `vgRemapDataBuilder.build()`'s 52; `GIBuilder::all()` builds 45 mod types against
-`ModTypes.getAll()`'s 43. The gap is Yelan / YelanTranquil, which were only ever compiled into C++.
+`data/VertexCountData.cpp` has 44 rows against `VertexCountData.py`'s 43 and `data/VGRemapData.cpp`
+has 58 against `vgRemapDataBuilder.build()`'s 52, because those pure-Python tables are frozen
+pre-migration data. **The `ModTypes` enum is NOT one of them**: it wraps the C++ builders rather
+than holding data, so it is kept in step and has been since 2026-09-20 --- `ModTypes.getAll()` and
+`GlobalModTypes::all()` both answer **49**. A gap there is a bug (step 9 above), not a deliberate
+lag.
 So when a comment or docstring says "43", read *which side it is talking about* before touching it:
 three of the four "all 43"s in `core/src/constants/GIBuilder.cpp` describe the *pure-Python*
 `GIBuilder` and are still correct. A number "corrected" by regenerating from the Python side

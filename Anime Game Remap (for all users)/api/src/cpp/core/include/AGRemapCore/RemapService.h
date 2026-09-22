@@ -27,6 +27,7 @@
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/stats/RemapStats.h"
+#include "AGRemapCore/model/files/TexCache.h"
 #include "AGRemapCore/tools/files/FileDownload.h"
 #include "AGRemapCore/view/BaseLogger.h"
 
@@ -614,7 +615,17 @@ namespace AGRemapCore {
              */
             struct FolderWalk {
                 /**
-                 * @brief The folders still waiting to be visited, most recently added first
+                 * @brief
+                 @rst
+                 The folders still waiting to be visited, in the order they were found
+                 :raw-html:`<br />` :raw-html:`<br />`
+
+                 Queued at the back (#push) and taken from the front (#fix), so a folder found
+                 first is visited first. **Taking them off the back instead is the bug this shape
+                 exists to avoid**: every batch queued is already in the order it should be
+                 reported in, so a walk popping the back reads each batch backwards -- folders
+                 ``A``, ``B``, ``C`` came out ``C``, ``B``, ``A`` until 2026-09-20
+                 @endrst
                  */
                 std::deque<std::string> dirs;
 
@@ -650,7 +661,10 @@ namespace AGRemapCore {
              @rst
              Fixes every mod found from #path :raw-html:`<br />` :raw-html:`<br />`
 
-             Walks folders depth-first, starting at #path. For each folder it reaches:
+             Walks folders depth-first, starting at #path -- top-down, and in the order
+             :cpp:func:`FileService::getFilesAndDirs` reports names in, so a folder is reported
+             before everything beneath it and before the sibling that follows it. For each folder
+             it reaches:
 
              #. if the folder holds no ``.ini`` files at all, nothing is handled there -- the walk
                 just enumerates what lies beneath it (#addNeighbourFolders) and moves on
@@ -925,6 +939,23 @@ namespace AGRemapCore {
              */
             void _applyCompressTextures(IniResource& resource);
 
+            /**
+             * @brief
+             @rst
+             Hands 'resource' the run's :cpp:class:`TexCache` if it is one of the two that write a
+             ``.dds`` :raw-html:`<br />` :raw-html:`<br />`
+
+             Called from **both** :cpp:func:`_fixResource` and :cpp:func:`_fixGroupedResource`, and
+             that is the whole point of it being a function: a group fixes its own members, so a
+             texture inside one never reaches the first of those. Setting the cache in only one
+             place left every grouped texture uncached while the summary and the output looked
+             exactly right
+             @endrst
+             *
+             * @param resource The resource to hand the cache to, if it takes one
+             */
+            void _applyTexCache(IniResource& resource);
+
         private:
             std::string path_;
             bool pathIsCwd_ = false;
@@ -941,6 +972,12 @@ namespace AGRemapCore {
             //   because a parser is built per IniFile, so each download gets a FileDownload of
             //   its own with an empty cache -- see DownloadCache's own doc comment.
             DownloadCache downloadCache_;
+
+            // What this run has already decoded and already written, so the same source texture
+            //   is decoded once and an image written twice is copied the second time. Lives here
+            //   for the same reason downloadCache_ does: a TextureFile is built per resource, so
+            //   a per-object cache could never hit -- see TexCache's own doc comment.
+            TexCache texCache_;
 
             // The walk itself. Split out of fix() so that fix() is only the exception/logger
             //   bookkeeping wrapped around it -- the same split the pure-Python original had

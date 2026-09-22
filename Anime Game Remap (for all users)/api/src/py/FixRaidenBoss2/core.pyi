@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniNamingTools', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniNamingTools', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -4859,6 +4859,15 @@ class CppTextureFile:
         src: :class:`str`
             The source file path for the texture file
         """
+    def getCache(self) -> TexCache:
+        """
+        The cache given to this texture by :meth:`setCache`
+        
+        Returns
+        -------
+        Optional[:class:`TexCache`]
+            The shared cache, or ``None`` if this texture is not caching
+        """
     def getPixel(self, x: typing.SupportsInt | typing.SupportsIndex, y: typing.SupportsInt | typing.SupportsIndex) -> CppColour:
         """
         The colour of the pixel at ('x', 'y'). No bounds checking is performed
@@ -4944,6 +4953,20 @@ class CppTextureFile:
         -------
         :class:`bool`
             Whether the file was actually written
+        """
+    def setCache(self, cache: TexCache) -> None:
+        """
+        Gives this texture a run-level :class:`TexCache`, so a source it has already decoded is not decoded
+        again and an image it has already written is copied rather than re-encoded
+        
+        ``None`` (the default) disables both, which is what every caller had before the cache existed.
+        :class:`RemapService` sets this itself on the textures it fixes, so this is only needed when
+        driving :class:`TextureFile` directly
+        
+        Parameters
+        ----------
+        cache: Optional[:class:`TexCache`]
+            The cache to share, or ``None`` for none. The cache is kept alive for as long as this texture is
         """
     def setPixel(self, x: typing.SupportsInt | typing.SupportsIndex, y: typing.SupportsInt | typing.SupportsIndex, colour: CppColour) -> None:
         """
@@ -21383,6 +21406,106 @@ class SympyTokenizer(FilteredTokenizer):
     """
     def __init__(self, setup: bool = True) -> None:
         ...
+class TexCache:
+    """
+    
+    What a run has already decoded and already written, so the same source texture is not decoded twice
+    and an image written twice is copied the second time
+    
+    :class:`RemapService` owns one of these and hands it to every texture resource as it goes, so an
+    ordinary run needs nothing here. It is exposed for the other caller: a prototype (see
+    ``Tools/Misc/Prototypes/``) that drives :class:`TextureFile` directly rather than through the
+    service, which otherwise pays the full decode-and-encode for every duplicate
+    
+    Both halves are keyed on **content**, and neither assumes anything about the filters:
+    
+    - the **decode** side is keyed on the source file's bytes, which is a pure function of them --
+      no filter has run at that point
+    - the **write** side is keyed on the finished pixel buffer. Every filter still runs, every time;
+      only the encode-and-write of an image already written is replaced, with a file copy
+    
+    That distinction is the whole design: a filter chain is an arbitrary callable and cannot be
+    inspected for what it reads, and at least one real filter (:class:`MaterialBandRemapFilter`) reads
+    a *second* file whose contents change the result
+    
+    .. note::
+        Not synchronized -- one is meant to live per run, walked sequentially. Sharing one across
+        threads needs a lock adding to the C++ class first
+    
+    Examples
+    --------
+    .. code-block:: python
+    
+        cache = TexCache()
+    
+        for src, dest in manyTextures:
+            texFile = TextureFile(src)
+            texFile.setCache(cache)
+            texFile.open()
+            texFile.save(compress = False)
+    
+        print(f"{cache.getWriteHits()} of those were already written")
+        
+    """
+    def __init__(self, maxBytes: typing.SupportsInt | typing.SupportsIndex = 268435456) -> None:
+        """
+        Constructs a new texture cache
+        
+        Parameters
+        ----------
+        maxBytes: :class:`int`
+            How many bytes of decoded pixels to hold before evicting the least recently used one.
+            Decoded pixels are RGBA8, so a 4096x4096 texture is 64MB -- this is a byte budget rather than
+            a count of textures for that reason. ``0`` disables the decode half and leaves only the write
+            half :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: 256MB
+        """
+    def getBytes(self) -> int:
+        """
+        How many bytes of decoded pixels are currently held
+        
+        Returns
+        -------
+        :class:`int`
+            The decode half's current size, which never exceeds the ``maxBytes`` it was built with
+        """
+    def getDecodeHits(self) -> int:
+        """
+        How many decodes this run skipped
+        
+        Returns
+        -------
+        :class:`int`
+            The number of times a source file's decoded pixels were already held
+        """
+    def getDecodeMisses(self) -> int:
+        """
+        How many decodes this run actually performed
+        
+        Returns
+        -------
+        :class:`int`
+            The number of source files that had to be decoded
+        """
+    def getWriteHits(self) -> int:
+        """
+        How many texture writes this run served with a file copy instead of an encode
+        
+        Returns
+        -------
+        :class:`int`
+            The number of writes whose pixels had already been written somewhere
+        """
+    def getWriteMisses(self) -> int:
+        """
+        How many texture writes this run actually encoded
+        
+        Returns
+        -------
+        :class:`int`
+            The number of writes that really wrote a file
+        """
 class TexCreate(BaseResEdit):
     """
     

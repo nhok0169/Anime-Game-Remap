@@ -135,12 +135,12 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="68">
+      <node id="86">
         <label>include/AGRemapCore/constants/GlobalIniClassifiers.h</label>
         <link refid="_global_ini_classifiers_8h"/>
-        <childnode refid="56" relation="include">
-        </childnode>
         <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="84" relation="include">
         </childnode>
       </node>
       <node id="5">
@@ -148,117 +148,11 @@
         <link refid="_mod_type_id_8h"/>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="51" relation="include">
-        </childnode>
-        <childnode refid="54" relation="include">
-        </childnode>
-        <childnode refid="55" relation="include">
+        <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="56" relation="include">
         </childnode>
-        <childnode refid="57" relation="include">
-        </childnode>
-        <childnode refid="58" relation="include">
-        </childnode>
-        <childnode refid="59" relation="include">
-        </childnode>
         <childnode refid="60" relation="include">
-        </childnode>
-        <childnode refid="61" relation="include">
-        </childnode>
-        <childnode refid="62" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="52" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
-        <childnode refid="31" relation="include">
-        </childnode>
-        <childnode refid="32" relation="include">
-        </childnode>
-        <childnode refid="33" relation="include">
-        </childnode>
-        <childnode refid="34" relation="include">
-        </childnode>
-        <childnode refid="35" relation="include">
-        </childnode>
-        <childnode refid="36" relation="include">
-        </childnode>
-        <childnode refid="37" relation="include">
-        </childnode>
-        <childnode refid="38" relation="include">
-        </childnode>
-        <childnode refid="39" relation="include">
-        </childnode>
-        <childnode refid="40" relation="include">
-        </childnode>
-        <childnode refid="41" relation="include">
-        </childnode>
-        <childnode refid="42" relation="include">
-        </childnode>
-        <childnode refid="43" relation="include">
-        </childnode>
-        <childnode refid="44" relation="include">
-        </childnode>
-        <childnode refid="45" relation="include">
-        </childnode>
-        <childnode refid="46" relation="include">
-        </childnode>
-        <childnode refid="47" relation="include">
-        </childnode>
-        <childnode refid="48" relation="include">
-        </childnode>
-        <childnode refid="49" relation="include">
-        </childnode>
-        <childnode refid="50" relation="include">
-        </childnode>
-        <childnode refid="53" relation="include">
-        </childnode>
-        <childnode refid="63" relation="include">
         </childnode>
         <childnode refid="64" relation="include">
         </childnode>
@@ -266,18 +160,160 @@
         </childnode>
         <childnode refid="66" relation="include">
         </childnode>
-      </node>
-      <node id="6">
-        <label>include/AGRemapCore/data/IniParseData/GIMICharParser.h</label>
-        <link refid="_g_i_m_i_char_parser_8h"/>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="75" relation="include">
         </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
+        </childnode>
+        <childnode refid="84" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/AGRemapCore/data/IniFixData/WWMIFixer.h</label>
+        <link refid="_w_w_m_i_fixer_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/AGRemapCore/data/IniParseData/GIMICharParser.h</label>
+        <link refid="_g_i_m_i_char_parser_8h"/>
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
@@ -358,49 +394,81 @@
         </childnode>
         <childnode refid="50" relation="include">
         </childnode>
-      </node>
-      <node id="51">
-        <label>include/AGRemapCore/data/IniParseData/GIMIComponentParser.h</label>
-        <link refid="_g_i_m_i_component_parser_8h"/>
+        <childnode refid="51" relation="include">
+        </childnode>
         <childnode refid="52" relation="include">
         </childnode>
         <childnode refid="53" relation="include">
         </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
       </node>
-      <node id="67">
+      <node id="56">
+        <label>include/AGRemapCore/data/IniParseData/GIMIComponentParser.h</label>
+        <link refid="_g_i_m_i_component_parser_8h"/>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+      </node>
+      <node id="60">
+        <label>include/AGRemapCore/data/IniParseData/WWMIParser.h</label>
+        <link refid="_w_w_m_i_parser_8h"/>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+      </node>
+      <node id="85">
         <label>include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h</label>
         <link refid="_ini_classifier_8h"/>
-        <childnode refid="68" relation="include">
+        <childnode refid="86" relation="include">
         </childnode>
-        <childnode refid="69" relation="include">
+        <childnode refid="87" relation="include">
         </childnode>
       </node>
-      <node id="70">
+      <node id="88">
         <label>include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
         <link refid="_g_i_m_i_parser_8h"/>
-        <childnode refid="71" relation="include">
+        <childnode refid="89" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="52" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
-        <childnode refid="73" relation="include">
+        <childnode refid="58" relation="include">
         </childnode>
-        <childnode refid="74" relation="include">
+        <childnode refid="92" relation="include">
         </childnode>
-        <childnode refid="75" relation="include">
+        <childnode refid="63" relation="include">
         </childnode>
-        <childnode refid="76" relation="include">
+        <childnode refid="93" relation="include">
+        </childnode>
+        <childnode refid="94" relation="include">
+        </childnode>
+        <childnode refid="95" relation="include">
+        </childnode>
+        <childnode refid="96" relation="include">
         </childnode>
       </node>
-      <node id="71">
+      <node id="89">
         <label>include/AGRemapCore/tools/DownloadTools.h</label>
         <link refid="_download_tools_8h"/>
-        <childnode refid="19" relation="include">
+        <childnode refid="90" relation="include">
         </childnode>
-        <childnode refid="52" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="72" relation="include">
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="91" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -410,16 +478,16 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="67" relation="include">
+        <childnode refid="85" relation="include">
         </childnode>
-        <childnode refid="70" relation="include">
+        <childnode refid="88" relation="include">
         </childnode>
       </node>
-      <node id="54">
+      <node id="64">
         <label>src/RemapServiceCLI.cpp</label>
         <link refid="_remap_service_c_l_i_8cpp"/>
       </node>
-      <node id="55">
+      <node id="65">
         <label>src/constants/GIBuilder.cpp</label>
         <link refid="_g_i_builder_8cpp"/>
       </node>
@@ -431,255 +499,327 @@
         <label>src/constants/GameTypeId.cpp</label>
         <link refid="_game_type_id_8cpp"/>
       </node>
-      <node id="56">
+      <node id="66">
         <label>src/constants/GlobalIniClassifiers.cpp</label>
         <link refid="_global_ini_classifiers_8cpp"/>
       </node>
-      <node id="57">
+      <node id="67">
         <label>src/constants/GlobalModTypes.cpp</label>
         <link refid="_global_mod_types_8cpp"/>
       </node>
-      <node id="58">
+      <node id="68">
         <label>src/constants/ModTypeId.cpp</label>
         <link refid="_mod_type_id_8cpp"/>
       </node>
-      <node id="59">
+      <node id="69">
+        <label>src/constants/WWMIBuilder.cpp</label>
+        <link refid="_w_w_m_i_builder_8cpp"/>
+      </node>
+      <node id="70">
+        <label>src/data/HashData.cpp</label>
+        <link refid="_hash_data_8cpp"/>
+      </node>
+      <node id="71">
+        <label>src/data/IndexCountData.cpp</label>
+        <link refid="_index_count_data_8cpp"/>
+      </node>
+      <node id="72">
+        <label>src/data/IndexData.cpp</label>
+        <link refid="_index_data_8cpp"/>
+      </node>
+      <node id="73">
         <label>src/data/IniFixBuilderData.cpp</label>
         <link refid="_ini_fix_builder_data_8cpp"/>
       </node>
-      <node id="60">
+      <node id="74">
+        <label>src/data/IniFixData/Bennett/BennettFixer.cpp</label>
+        <link refid="_bennett_fixer_8cpp"/>
+      </node>
+      <node id="90">
+        <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
+        <link refid="_g_i_m_i_merge_fixer_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/data/IniFixData/Sanhua/SanhuaFixer.cpp</label>
+        <link refid="_sanhua_fixer_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp</label>
+        <link refid="_sanhua_exorcist_fixer_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+      <node id="75">
         <label>src/data/IniFixData/Yelan/YelanFixer.cpp</label>
         <link refid="_yelan_fixer_8cpp"/>
       </node>
-      <node id="61">
+      <node id="76">
         <label>src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</label>
         <link refid="_yelan_tranquil_fixer_8cpp"/>
       </node>
-      <node id="62">
+      <node id="77">
         <label>src/data/IniParseBuilderData.cpp</label>
         <link refid="_ini_parse_builder_data_8cpp"/>
       </node>
-      <node id="7">
+      <node id="11">
         <label>src/data/IniParseData/Amber/AmberParser.cpp</label>
         <link refid="_amber_parser_8cpp"/>
       </node>
-      <node id="8">
+      <node id="12">
         <label>src/data/IniParseData/AmberCN/AmberCNParser.cpp</label>
         <link refid="_amber_c_n_parser_8cpp"/>
       </node>
-      <node id="9">
+      <node id="13">
         <label>src/data/IniParseData/Arlecchino/ArlecchinoParser.cpp</label>
         <link refid="_arlecchino_parser_8cpp"/>
       </node>
-      <node id="10">
+      <node id="14">
         <label>src/data/IniParseData/Ayaka/AyakaParser.cpp</label>
         <link refid="_ayaka_parser_8cpp"/>
       </node>
-      <node id="11">
+      <node id="15">
         <label>src/data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.cpp</label>
         <link refid="_ayaka_springbloom_parser_8cpp"/>
       </node>
-      <node id="12">
+      <node id="16">
         <label>src/data/IniParseData/Barbara/BarbaraParser.cpp</label>
         <link refid="_barbara_parser_8cpp"/>
       </node>
-      <node id="13">
+      <node id="17">
         <label>src/data/IniParseData/BarbaraSummertime/BarbaraSummertimeParser.cpp</label>
         <link refid="_barbara_summertime_parser_8cpp"/>
       </node>
-      <node id="14">
+      <node id="18">
+        <label>src/data/IniParseData/Bennett/BennettParser.cpp</label>
+        <link refid="_bennett_parser_8cpp"/>
+      </node>
+      <node id="57">
+        <label>src/data/IniParseData/BennettAdventure/BennettAdventureParser.cpp</label>
+        <link refid="_bennett_adventure_parser_8cpp"/>
+      </node>
+      <node id="19">
         <label>src/data/IniParseData/CherryHuTao/CherryHuTaoParser.cpp</label>
         <link refid="_cherry_hu_tao_parser_8cpp"/>
       </node>
-      <node id="15">
+      <node id="20">
         <label>src/data/IniParseData/Diluc/DilucParser.cpp</label>
         <link refid="_diluc_parser_8cpp"/>
       </node>
-      <node id="16">
+      <node id="21">
         <label>src/data/IniParseData/DilucFlamme/DilucFlammeParser.cpp</label>
         <link refid="_diluc_flamme_parser_8cpp"/>
       </node>
-      <node id="17">
+      <node id="22">
         <label>src/data/IniParseData/Fischl/FischlParser.cpp</label>
         <link refid="_fischl_parser_8cpp"/>
       </node>
-      <node id="18">
+      <node id="23">
         <label>src/data/IniParseData/FischlHighness/FischlHighnessParser.cpp</label>
         <link refid="_fischl_highness_parser_8cpp"/>
       </node>
-      <node id="19">
+      <node id="24">
         <label>src/data/IniParseData/GIMICharParser.cpp</label>
         <link refid="_g_i_m_i_char_parser_8cpp"/>
       </node>
-      <node id="52">
+      <node id="58">
         <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
         <link refid="_g_i_m_i_component_parser_8cpp"/>
       </node>
-      <node id="20">
+      <node id="25">
         <label>src/data/IniParseData/Ganyu/GanyuParser.cpp</label>
         <link refid="_ganyu_parser_8cpp"/>
       </node>
-      <node id="21">
+      <node id="26">
         <label>src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp</label>
         <link refid="_ganyu_twilight_parser_8cpp"/>
       </node>
-      <node id="22">
+      <node id="27">
         <label>src/data/IniParseData/HuTao/HuTaoParser.cpp</label>
         <link refid="_hu_tao_parser_8cpp"/>
       </node>
-      <node id="23">
+      <node id="28">
         <label>src/data/IniParseData/Jean/JeanParser.cpp</label>
         <link refid="_jean_parser_8cpp"/>
       </node>
-      <node id="24">
+      <node id="29">
         <label>src/data/IniParseData/JeanCN/JeanCNParser.cpp</label>
         <link refid="_jean_c_n_parser_8cpp"/>
       </node>
-      <node id="25">
+      <node id="30">
         <label>src/data/IniParseData/JeanSea/JeanSeaParser.cpp</label>
         <link refid="_jean_sea_parser_8cpp"/>
       </node>
-      <node id="26">
+      <node id="31">
         <label>src/data/IniParseData/Kaeya/KaeyaParser.cpp</label>
         <link refid="_kaeya_parser_8cpp"/>
       </node>
-      <node id="27">
+      <node id="32">
         <label>src/data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.cpp</label>
         <link refid="_kaeya_sailwind_parser_8cpp"/>
       </node>
-      <node id="28">
+      <node id="33">
         <label>src/data/IniParseData/Keqing/KeqingParser.cpp</label>
         <link refid="_keqing_parser_8cpp"/>
       </node>
-      <node id="29">
+      <node id="34">
         <label>src/data/IniParseData/KeqingOpulent/KeqingOpulentParser.cpp</label>
         <link refid="_keqing_opulent_parser_8cpp"/>
       </node>
-      <node id="30">
+      <node id="35">
         <label>src/data/IniParseData/Kirara/KiraraParser.cpp</label>
         <link refid="_kirara_parser_8cpp"/>
       </node>
-      <node id="31">
+      <node id="36">
         <label>src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp</label>
         <link refid="_kirara_boots_parser_8cpp"/>
       </node>
-      <node id="32">
+      <node id="37">
         <label>src/data/IniParseData/Klee/KleeParser.cpp</label>
         <link refid="_klee_parser_8cpp"/>
       </node>
-      <node id="33">
+      <node id="38">
         <label>src/data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.cpp</label>
         <link refid="_klee_blossoming_starlight_parser_8cpp"/>
       </node>
-      <node id="34">
+      <node id="39">
         <label>src/data/IniParseData/Lisa/LisaParser.cpp</label>
         <link refid="_lisa_parser_8cpp"/>
       </node>
-      <node id="35">
+      <node id="40">
         <label>src/data/IniParseData/LisaStudent/LisaStudentParser.cpp</label>
         <link refid="_lisa_student_parser_8cpp"/>
       </node>
-      <node id="36">
+      <node id="41">
         <label>src/data/IniParseData/Mona/MonaParser.cpp</label>
         <link refid="_mona_parser_8cpp"/>
       </node>
-      <node id="37">
+      <node id="42">
         <label>src/data/IniParseData/MonaCN/MonaCNParser.cpp</label>
         <link refid="_mona_c_n_parser_8cpp"/>
       </node>
-      <node id="38">
+      <node id="43">
         <label>src/data/IniParseData/Nilou/NilouParser.cpp</label>
         <link refid="_nilou_parser_8cpp"/>
       </node>
-      <node id="39">
+      <node id="44">
         <label>src/data/IniParseData/NilouBreeze/NilouBreezeParser.cpp</label>
         <link refid="_nilou_breeze_parser_8cpp"/>
       </node>
-      <node id="40">
+      <node id="45">
         <label>src/data/IniParseData/Ningguang/NingguangParser.cpp</label>
         <link refid="_ningguang_parser_8cpp"/>
       </node>
-      <node id="41">
+      <node id="46">
         <label>src/data/IniParseData/NingguangOrchid/NingguangOrchidParser.cpp</label>
         <link refid="_ningguang_orchid_parser_8cpp"/>
       </node>
-      <node id="73">
+      <node id="92">
         <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
         <link refid="_raiden_parser_8cpp"/>
       </node>
-      <node id="42">
+      <node id="47">
         <label>src/data/IniParseData/Rosaria/RosariaParser.cpp</label>
         <link refid="_rosaria_parser_8cpp"/>
       </node>
-      <node id="43">
+      <node id="48">
         <label>src/data/IniParseData/RosariaCN/RosariaCNParser.cpp</label>
         <link refid="_rosaria_c_n_parser_8cpp"/>
       </node>
-      <node id="44">
+      <node id="61">
+        <label>src/data/IniParseData/Sanhua/SanhuaParser.cpp</label>
+        <link refid="_sanhua_parser_8cpp"/>
+      </node>
+      <node id="62">
+        <label>src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp</label>
+        <link refid="_sanhua_exorcist_parser_8cpp"/>
+      </node>
+      <node id="49">
         <label>src/data/IniParseData/Shenhe/ShenheParser.cpp</label>
         <link refid="_shenhe_parser_8cpp"/>
       </node>
-      <node id="45">
+      <node id="50">
         <label>src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp</label>
         <link refid="_shenhe_frost_flower_parser_8cpp"/>
       </node>
-      <node id="46">
+      <node id="63">
+        <label>src/data/IniParseData/WWMIParser.cpp</label>
+        <link refid="_w_w_m_i_parser_8cpp"/>
+      </node>
+      <node id="51">
         <label>src/data/IniParseData/Xiangling/XianglingParser.cpp</label>
         <link refid="_xiangling_parser_8cpp"/>
       </node>
-      <node id="47">
+      <node id="52">
         <label>src/data/IniParseData/XianglingCheer/XianglingCheerParser.cpp</label>
         <link refid="_xiangling_cheer_parser_8cpp"/>
       </node>
-      <node id="48">
+      <node id="53">
         <label>src/data/IniParseData/Xingqiu/XingqiuParser.cpp</label>
         <link refid="_xingqiu_parser_8cpp"/>
       </node>
-      <node id="49">
+      <node id="54">
         <label>src/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.cpp</label>
         <link refid="_xingqiu_bamboo_parser_8cpp"/>
       </node>
-      <node id="50">
+      <node id="55">
         <label>src/data/IniParseData/Yelan/YelanParser.cpp</label>
         <link refid="_yelan_parser_8cpp"/>
       </node>
-      <node id="53">
+      <node id="59">
         <label>src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp</label>
         <link refid="_yelan_tranquil_parser_8cpp"/>
       </node>
-      <node id="63">
+      <node id="78">
         <label>src/data/IniRemoveBuilderData.cpp</label>
         <link refid="_ini_remove_builder_data_8cpp"/>
       </node>
-      <node id="64">
+      <node id="79">
+        <label>src/data/ShapeKeyChecksumData.cpp</label>
+        <link refid="_shape_key_checksum_data_8cpp"/>
+      </node>
+      <node id="80">
+        <label>src/data/VGCountData.cpp</label>
+        <link refid="_v_g_count_data_8cpp"/>
+      </node>
+      <node id="81">
+        <label>src/data/VGOffsetData.cpp</label>
+        <link refid="_v_g_offset_data_8cpp"/>
+      </node>
+      <node id="82">
         <label>src/data/VGRemapData.cpp</label>
         <link refid="_v_g_remap_data_8cpp"/>
       </node>
-      <node id="65">
+      <node id="83">
         <label>src/data/VertexCountData.cpp</label>
         <link refid="_vertex_count_data_8cpp"/>
       </node>
-      <node id="66">
+      <node id="84">
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
       </node>
-      <node id="69">
+      <node id="87">
         <label>src/model/strategies/iniClassifiers/IniClassifier.cpp</label>
         <link refid="_ini_classifier_8cpp"/>
       </node>
-      <node id="74">
+      <node id="93">
         <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
         <link refid="_ini_file_fix_context_8cpp"/>
       </node>
-      <node id="75">
+      <node id="94">
+        <label>src/model/strategies/iniParsers/GIMIParserInstantiation.cpp</label>
+        <link refid="_g_i_m_i_parser_instantiation_8cpp"/>
+      </node>
+      <node id="95">
         <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
         <link refid="_ini_file_parse_context_8cpp"/>
       </node>
-      <node id="76">
+      <node id="96">
         <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
         <link refid="_ini_parse_builder_8cpp"/>
       </node>
-      <node id="72">
+      <node id="91">
         <label>src/tools/DownloadTools.cpp</label>
         <link refid="_download_tools_8cpp"/>
       </node>
@@ -773,78 +913,80 @@
 <codeline lineno="67" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1ffb731c99b06c4e7c0cb30464a1e125" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1ffb731c99b06c4e7c0cb30464a1e125" kindref="member">add</ref>(std::string_view<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal<sp/>&amp;val)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="68" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a9dbc74e67c48197aee20fff03c847b75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a9dbc74e67c48197aee20fff03c847b75" kindref="member">add</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal<sp/>&amp;val)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="69"><highlight class="normal"></highlight></codeline>
-<codeline lineno="87" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1c57a9e343cc12d88c9ea3bd3a6bf86d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;std::tuple&lt;size_t,<sp/>size_t&gt;&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1c57a9e343cc12d88c9ea3bd3a6bf86d" kindref="member">findAll</ref>(std::string_view<sp/>txt);</highlight></codeline>
-<codeline lineno="88"><highlight class="normal"></highlight></codeline>
-<codeline lineno="92" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab27199a8c0f6c70e3cfb832b68e5a10c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;std::tuple&lt;size_t,<sp/>size_t&gt;&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab27199a8c0f6c70e3cfb832b68e5a10c" kindref="member">findAll</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt);</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"></highlight></codeline>
-<codeline lineno="110" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4a5be369175558c44d4588aae9891f0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::tuple&lt;size_t,<sp/>size_t&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4a5be369175558c44d4588aae9891f0b" kindref="member">findFirstAll</ref>(std::string_view<sp/>txt);</highlight></codeline>
-<codeline lineno="111"><highlight class="normal"></highlight></codeline>
-<codeline lineno="115" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a545bc4ef0cc2107cf84d2903f8c0bf9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::tuple&lt;size_t,<sp/>size_t&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a545bc4ef0cc2107cf84d2903f8c0bf9b" kindref="member">findFirstAll</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt);</highlight></codeline>
-<codeline lineno="116"><highlight class="normal"></highlight></codeline>
-<codeline lineno="125" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ae16fb84c0eddf0ed70228df94a8a38b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>*<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ae16fb84c0eddf0ed70228df94a8a38b7" kindref="member">findPtr</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*resultInd);</highlight></codeline>
-<codeline lineno="126"><highlight class="normal"></highlight></codeline>
-<codeline lineno="130" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a2b6997a40209a546482453f439273b60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>*<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a2b6997a40209a546482453f439273b60" kindref="member">findPtr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*resultInd);</highlight></codeline>
-<codeline lineno="131"><highlight class="normal"></highlight></codeline>
-<codeline lineno="137" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1acb7e1e029a9d16d72aa66731c01b5231" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1acb7e1e029a9d16d72aa66731c01b5231" kindref="member">find</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*resultInd);</highlight></codeline>
-<codeline lineno="138"><highlight class="normal"></highlight></codeline>
-<codeline lineno="142" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aa7f7c4a728b8c52b938c1b60e2074df1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aa7f7c4a728b8c52b938c1b60e2074df1" kindref="member">find</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*resultInd);</highlight></codeline>
-<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="160" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1af1c2626f99e0f512617917d689b4bbb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>*<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1af1c2626f99e0f512617917d689b4bbb7" kindref="member">findMaximalPtr</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*resultInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="103" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ad9fa7078074ab5195d9e581c7360a9fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ad9fa7078074ab5195d9e581c7360a9fe" kindref="member">addMany</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>TrieVal&gt;<sp/>&amp;entries);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1c57a9e343cc12d88c9ea3bd3a6bf86d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;std::tuple&lt;size_t,<sp/>size_t&gt;&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1c57a9e343cc12d88c9ea3bd3a6bf86d" kindref="member">findAll</ref>(std::string_view<sp/>txt);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab27199a8c0f6c70e3cfb832b68e5a10c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;std::tuple&lt;size_t,<sp/>size_t&gt;&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab27199a8c0f6c70e3cfb832b68e5a10c" kindref="member">findAll</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4a5be369175558c44d4588aae9891f0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::tuple&lt;size_t,<sp/>size_t&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4a5be369175558c44d4588aae9891f0b" kindref="member">findFirstAll</ref>(std::string_view<sp/>txt);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a545bc4ef0cc2107cf84d2903f8c0bf9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::tuple&lt;size_t,<sp/>size_t&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a545bc4ef0cc2107cf84d2903f8c0bf9b" kindref="member">findFirstAll</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ae16fb84c0eddf0ed70228df94a8a38b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>*<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ae16fb84c0eddf0ed70228df94a8a38b7" kindref="member">findPtr</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*resultInd);</highlight></codeline>
 <codeline lineno="161"><highlight class="normal"></highlight></codeline>
-<codeline lineno="165" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a840d441f7329da00b6125c5babcc2550" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>*<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a840d441f7329da00b6125c5babcc2550" kindref="member">findMaximalPtr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*resultInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="165" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a2b6997a40209a546482453f439273b60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>*<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a2b6997a40209a546482453f439273b60" kindref="member">findPtr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*resultInd);</highlight></codeline>
 <codeline lineno="166"><highlight class="normal"></highlight></codeline>
-<codeline lineno="172" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5acc94fb0742c41567d61a22a8dc31ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5acc94fb0742c41567d61a22a8dc31ca" kindref="member">findMaximal</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*resultInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="172" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1acb7e1e029a9d16d72aa66731c01b5231" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1acb7e1e029a9d16d72aa66731c01b5231" kindref="member">find</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*resultInd);</highlight></codeline>
 <codeline lineno="173"><highlight class="normal"></highlight></codeline>
-<codeline lineno="177" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5f052278dec0a07616d5996fba8f951c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5f052278dec0a07616d5996fba8f951c" kindref="member">findMaximal</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*resultInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
-<codeline lineno="178"><highlight class="normal"></highlight></codeline>
-<codeline lineno="195" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ae22cc080c8b9a2aa5e8df0b72ac7c371" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;std::vector&lt;std::string_view&gt;,<sp/>std::vector&lt;size_t&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ae22cc080c8b9a2aa5e8df0b72ac7c371" kindref="member">findMaximal</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="177" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aa7f7c4a728b8c52b938c1b60e2074df1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aa7f7c4a728b8c52b938c1b60e2074df1" kindref="member">find</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*resultInd);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1af1c2626f99e0f512617917d689b4bbb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>*<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1af1c2626f99e0f512617917d689b4bbb7" kindref="member">findMaximalPtr</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*resultInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
 <codeline lineno="196"><highlight class="normal"></highlight></codeline>
-<codeline lineno="200" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5e2c04c652cde778b9973575ab54b519" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;std::vector&lt;std::string_view&gt;,<sp/>std::vector&lt;size_t&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5e2c04c652cde778b9973575ab54b519" kindref="member">findMaximal</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="200" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a840d441f7329da00b6125c5babcc2550" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>*<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a840d441f7329da00b6125c5babcc2550" kindref="member">findMaximalPtr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*resultInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
 <codeline lineno="201"><highlight class="normal"></highlight></codeline>
-<codeline lineno="209" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4509f40e23756d226cd1b731a38abea1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;const<sp/>std::string<sp/>*,<sp/>const<sp/>TrieVal<sp/>*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4509f40e23756d226cd1b731a38abea1" kindref="member">getKVPPtr</ref>(std::string_view<sp/>txt);</highlight></codeline>
-<codeline lineno="210"><highlight class="normal"></highlight></codeline>
-<codeline lineno="214" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1abe603d1fddb6c17a1c6173a161bbc2cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;const<sp/>std::string<sp/>*,<sp/>const<sp/>TrieVal<sp/>*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1abe603d1fddb6c17a1c6173a161bbc2cb" kindref="member">getKVPPtr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt);</highlight></codeline>
-<codeline lineno="215"><highlight class="normal"></highlight></codeline>
-<codeline lineno="221" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a59ff2d03f38ff592aa1763517e8824af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;const<sp/>std::string<sp/>&amp;,<sp/>const<sp/>TrieVal<sp/>&amp;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a59ff2d03f38ff592aa1763517e8824af" kindref="member">getKVP</ref>(std::string_view<sp/>txt);</highlight></codeline>
-<codeline lineno="222"><highlight class="normal"></highlight></codeline>
-<codeline lineno="226" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aaf17ffb56d16fe0a18e518e556564563" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;const<sp/>std::string<sp/>&amp;,<sp/>const<sp/>TrieVal<sp/>&amp;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aaf17ffb56d16fe0a18e518e556564563" kindref="member">getKVP</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt);</highlight></codeline>
-<codeline lineno="227"><highlight class="normal"></highlight></codeline>
-<codeline lineno="240" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5ed40637fc4b7aca0effa425d6c58ed1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>const<sp/>TrieVal<sp/>*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5ed40637fc4b7aca0effa425d6c58ed1" kindref="member">getAll</ref>(std::string_view<sp/>txt);</highlight></codeline>
-<codeline lineno="241"><highlight class="normal"></highlight></codeline>
-<codeline lineno="245" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab9c3d87291b754459fb22258e903b21c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>const<sp/>TrieVal<sp/>*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab9c3d87291b754459fb22258e903b21c" kindref="member">getAll</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt);</highlight></codeline>
-<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="262" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a6309577c4c7bd2218cd730de6b3e2b5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;const<sp/>std::string<sp/>*,<sp/>const<sp/>TrieVal<sp/>*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a6309577c4c7bd2218cd730de6b3e2b5d" kindref="member">getMaximalPtr</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
-<codeline lineno="263"><highlight class="normal"></highlight></codeline>
-<codeline lineno="267" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab202564b093462f97b526d819956cb95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;const<sp/>std::string<sp/>*,<sp/>const<sp/>TrieVal<sp/>*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab202564b093462f97b526d819956cb95" kindref="member">getMaximalPtr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
-<codeline lineno="268"><highlight class="normal"></highlight></codeline>
-<codeline lineno="274" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7336ff71c1988a5f5965513d4459bbc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;const<sp/>std::string<sp/>&amp;,<sp/>const<sp/>TrieVal<sp/>&amp;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7336ff71c1988a5f5965513d4459bbc1" kindref="member">getMaximal</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
-<codeline lineno="275"><highlight class="normal"></highlight></codeline>
-<codeline lineno="279" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a83f8e13fafb7695f44619bd2db079e5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;const<sp/>std::string<sp/>&amp;,<sp/>const<sp/>TrieVal<sp/>&amp;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a83f8e13fafb7695f44619bd2db079e5b" kindref="member">getMaximal</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
-<codeline lineno="280"><highlight class="normal"></highlight></codeline>
-<codeline lineno="303" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7c56a8583ce6e652aca9913c4b635fb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;std::vector&lt;std::string_view&gt;,<sp/>std::vector&lt;const<sp/>TrieVal<sp/>*&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7c56a8583ce6e652aca9913c4b635fb4" kindref="member">getMaximal</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
-<codeline lineno="304"><highlight class="normal"></highlight></codeline>
-<codeline lineno="308" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1afdc47d8a0693d84a02dab139925d1c58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;std::vector&lt;std::string_view&gt;,<sp/>std::vector&lt;const<sp/>TrieVal<sp/>*&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1afdc47d8a0693d84a02dab139925d1c58" kindref="member">getMaximal</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
-<codeline lineno="309"><highlight class="normal"></highlight></codeline>
-<codeline lineno="317" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a91a6968402cfff3f0170c90ef184380e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>*<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a91a6968402cfff3f0170c90ef184380e" kindref="member">maximalStartsWithPtr</ref>(std::string_view<sp/>txt);</highlight></codeline>
-<codeline lineno="318"><highlight class="normal"></highlight></codeline>
-<codeline lineno="322" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a60e5723cbd7d8664bdb8a25af88157c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>*<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a60e5723cbd7d8664bdb8a25af88157c1" kindref="member">maximalStartsWithPtr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt);</highlight></codeline>
-<codeline lineno="323"><highlight class="normal"></highlight></codeline>
-<codeline lineno="329" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ac6f87112a5709ceff8a096f402e8d4c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ac6f87112a5709ceff8a096f402e8d4c8" kindref="member">maximalStartsWith</ref>(std::string_view<sp/>txt);</highlight></codeline>
-<codeline lineno="330"><highlight class="normal"></highlight></codeline>
-<codeline lineno="334" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a13ef9702e32ffe42653932ad586a44e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a13ef9702e32ffe42653932ad586a44e2" kindref="member">maximalStartsWith</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt);</highlight></codeline>
-<codeline lineno="335"><highlight class="normal"></highlight></codeline>
-<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="345" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a0a7ef7bbf10c11d3b346dc533f1e5fce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::uint64_t,<sp/>std::uint64_t&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a0a7ef7bbf10c11d3b346dc533f1e5fce" kindref="member">fail</ref>;</highlight></codeline>
-<codeline lineno="346"><highlight class="normal"></highlight></codeline>
-<codeline lineno="359" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1abd162866af88565e37fe6db462058dfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1abd162866af88565e37fe6db462058dfd" kindref="member">getNextState</ref>(std::uint64_t<sp/>currentStateId,<sp/>std::string_view<sp/>letter,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>*resIsFail);</highlight></codeline>
-<codeline lineno="360"><highlight class="normal"></highlight></codeline>
-<codeline lineno="378" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1848495c4280ff76af7bc5ffc1393225" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>*<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1848495c4280ff76af7bc5ffc1393225" kindref="member">selectMaximalKeyword</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::uint64_t&gt;<sp/>&amp;keywordIds,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="380"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="207" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5acc94fb0742c41567d61a22a8dc31ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5acc94fb0742c41567d61a22a8dc31ca" kindref="member">findMaximal</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*resultInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5f052278dec0a07616d5996fba8f951c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5f052278dec0a07616d5996fba8f951c" kindref="member">findMaximal</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*resultInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ae22cc080c8b9a2aa5e8df0b72ac7c371" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;std::vector&lt;std::string_view&gt;,<sp/>std::vector&lt;size_t&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ae22cc080c8b9a2aa5e8df0b72ac7c371" kindref="member">findMaximal</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5e2c04c652cde778b9973575ab54b519" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;std::vector&lt;std::string_view&gt;,<sp/>std::vector&lt;size_t&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5e2c04c652cde778b9973575ab54b519" kindref="member">findMaximal</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4509f40e23756d226cd1b731a38abea1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;const<sp/>std::string<sp/>*,<sp/>const<sp/>TrieVal<sp/>*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4509f40e23756d226cd1b731a38abea1" kindref="member">getKVPPtr</ref>(std::string_view<sp/>txt);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1abe603d1fddb6c17a1c6173a161bbc2cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;const<sp/>std::string<sp/>*,<sp/>const<sp/>TrieVal<sp/>*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1abe603d1fddb6c17a1c6173a161bbc2cb" kindref="member">getKVPPtr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a59ff2d03f38ff592aa1763517e8824af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;const<sp/>std::string<sp/>&amp;,<sp/>const<sp/>TrieVal<sp/>&amp;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a59ff2d03f38ff592aa1763517e8824af" kindref="member">getKVP</ref>(std::string_view<sp/>txt);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aaf17ffb56d16fe0a18e518e556564563" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;const<sp/>std::string<sp/>&amp;,<sp/>const<sp/>TrieVal<sp/>&amp;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aaf17ffb56d16fe0a18e518e556564563" kindref="member">getKVP</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5ed40637fc4b7aca0effa425d6c58ed1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>const<sp/>TrieVal<sp/>*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5ed40637fc4b7aca0effa425d6c58ed1" kindref="member">getAll</ref>(std::string_view<sp/>txt);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab9c3d87291b754459fb22258e903b21c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>const<sp/>TrieVal<sp/>*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab9c3d87291b754459fb22258e903b21c" kindref="member">getAll</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="297" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a6309577c4c7bd2218cd730de6b3e2b5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;const<sp/>std::string<sp/>*,<sp/>const<sp/>TrieVal<sp/>*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a6309577c4c7bd2218cd730de6b3e2b5d" kindref="member">getMaximalPtr</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab202564b093462f97b526d819956cb95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;const<sp/>std::string<sp/>*,<sp/>const<sp/>TrieVal<sp/>*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab202564b093462f97b526d819956cb95" kindref="member">getMaximalPtr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7336ff71c1988a5f5965513d4459bbc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;const<sp/>std::string<sp/>&amp;,<sp/>const<sp/>TrieVal<sp/>&amp;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7336ff71c1988a5f5965513d4459bbc1" kindref="member">getMaximal</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a83f8e13fafb7695f44619bd2db079e5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;const<sp/>std::string<sp/>&amp;,<sp/>const<sp/>TrieVal<sp/>&amp;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a83f8e13fafb7695f44619bd2db079e5b" kindref="member">getMaximal</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7c56a8583ce6e652aca9913c4b635fb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;std::vector&lt;std::string_view&gt;,<sp/>std::vector&lt;const<sp/>TrieVal<sp/>*&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7c56a8583ce6e652aca9913c4b635fb4" kindref="member">getMaximal</ref>(std::string_view<sp/>txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1afdc47d8a0693d84a02dab139925d1c58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::tuple&lt;std::vector&lt;std::string_view&gt;,<sp/>std::vector&lt;const<sp/>TrieVal<sp/>*&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1afdc47d8a0693d84a02dab139925d1c58" kindref="member">getMaximal</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a91a6968402cfff3f0170c90ef184380e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>*<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a91a6968402cfff3f0170c90ef184380e" kindref="member">maximalStartsWithPtr</ref>(std::string_view<sp/>txt);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a60e5723cbd7d8664bdb8a25af88157c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>*<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a60e5723cbd7d8664bdb8a25af88157c1" kindref="member">maximalStartsWithPtr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ac6f87112a5709ceff8a096f402e8d4c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ac6f87112a5709ceff8a096f402e8d4c8" kindref="member">maximalStartsWith</ref>(std::string_view<sp/>txt);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a13ef9702e32ffe42653932ad586a44e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a13ef9702e32ffe42653932ad586a44e2" kindref="member">maximalStartsWith</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;txt);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="380" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a0a7ef7bbf10c11d3b346dc533f1e5fce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::uint64_t,<sp/>std::uint64_t&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a0a7ef7bbf10c11d3b346dc533f1e5fce" kindref="member">fail</ref>;</highlight></codeline>
 <codeline lineno="381"><highlight class="normal"></highlight></codeline>
-<codeline lineno="382"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;BaseAhoCorasickDFA.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="383"><highlight class="normal"></highlight></codeline>
-<codeline lineno="384"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="394" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1abd162866af88565e37fe6db462058dfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1abd162866af88565e37fe6db462058dfd" kindref="member">getNextState</ref>(std::uint64_t<sp/>currentStateId,<sp/>std::string_view<sp/>letter,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>*resIsFail);</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="413" refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1848495c4280ff76af7bc5ffc1393225" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>*<ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1848495c4280ff76af7bc5ffc1393225" kindref="member">selectMaximalKeyword</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::uint64_t&gt;<sp/>&amp;keywordIds,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;KeywordPredicate&gt;<sp/>&amp;pred)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="415"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;BaseAhoCorasickDFA.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h"/>
   </compounddef>

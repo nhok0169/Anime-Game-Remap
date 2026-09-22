@@ -44,7 +44,151 @@ the encode wait is what is slowing you down.
 **A cheaper win first, though:** the fix re-encodes byte-identical source textures repeatedly. Three
 of the four `JeanBodyLightMap.dds` in one Jean mod are the same file, so the same 4096x2048 image is
 BC7-encoded three times -- ~45s of pure duplicate work. A content-hash cache on the encode would
-remove that without giving up the format.
+remove that without giving up the format. **That cache exists now** -- see the next section.
+
+## At the CLI's DEFAULT settings, NONE of the above is what costs (2026-09-20)
+
+Everything above is measured with `compress = True`. **The CLI leaves textures uncompressed
+unless `--compressTextures` is passed**, so an ordinary run encodes nothing, and the sentence
+"BCn encoding is essentially the whole cost of a texture edit" does not describe it at all. Taken
+at face value it sends you to optimise a code path a default run never enters.
+
+Measured on a 4096x4096 `BC7` source, writing uncompressed, per texture:
+
+| phase | cost |
+| --- | --- |
+| decode (`CMP_ConvertMipTexture`) | ~2.5s |
+| **`GammaFilter`** | **~4.2s** |
+| the actual write | ~0.5s (of which disk I/O is ~0.05s) |
+| Pillow's entire round trip, for scale | ~0.66s |
+
+**The gamma pass was the single most expensive thing in a default texture edit, and it looked
+like part of the write.** `save()` runs `GammaFilter` for every sRGB source (`open` sets the gamma
+from the DX10 header's sRGB bit), and it called `std::pow` three times per pixel -- 67 million
+calls for one 4096x4096 texture. `CorrectGamma::correctGamma` is a **static pure function of an
+8-bit channel value**, so it has exactly 256 possible answers; it is a 256-entry lookup table now,
+filled by calling that same function so the output is identical by construction rather than by
+approximation. `save` on that texture went **4.285s -> 0.384s**.
+
+Two more changes landed with it, both also byte-identical:
+
+- **`TexCache`** (`model/files/TexCache.h`), owned by :cpp:class:`RemapService` and handed to each
+  texture resource exactly where a download is handed its `DownloadCache`. Two halves, both keyed
+  on **content**: the decode (a pure function of the source file's bytes) and the write (keyed on
+  the finished pixel buffer, so every filter still runs and only the re-encode of an image already
+  written is replaced -- with a file copy). Keyed on content because
+  `TexEditor::Filter` is a `std::function` and cannot be introspected for purity, and at least one
+  real filter (`MaterialBandRemapFilter`) reads a *second* file.
+- **`TextureFile::writeUncompressedDds`**, which skips Compressonator for the uncompressed case.
+  The uncompressed write turned out to be a fixed 128-byte legacy header plus the pixels swizzled
+  `RGBA` -> `BGRA` and nothing else, so it is reproduced exactly. 64MB now writes in **74ms**.
+
+`TexCache` is bound as ``TexCache`` and reachable from Python
+(``texFile.setCache(cache)``), for a prototype that drives :class:`TextureFile` directly instead of
+through the service. ``setCache`` carries ``py::keep_alive<1, 2>`` because the texture holds a
+BORROWED pointer -- without it a cache Python has dropped is collected while the texture still
+reads through it. ``AGREMAP_TEXCACHE=0`` turns both halves off, for measuring the cache against
+itself in one binary.
+
+**Regenerating the two committed doc artifacts for this needed `doxygenSplice.py`, not `main.py -d`.**
+A whole-directory Doxygen run reported 1477 changed `core/xml` files, of which only ~15 were this
+work -- the rest were include-graph node REORDERING, a Doxygen artifact, plus a large number that
+`git status` listed purely because the rewrite left the index stale (`git diff` showed no content
+change at all, and `git update-index --refresh` settled them). Splicing the 14 compounds this work
+touched gave a 15-file diff with CRLF preserved. `core.pyi` has no such problem and came out clean
+at +124/-1. Note that **`core.pyi` does not parse as Python either way** -- a pre-existing
+`ModMappedAssets::replace` signature emits a non-default argument after a defaulted one, at HEAD as
+well as after a regeneration, so do not read that as something your change broke.
+
+**Three traps this work walked into, all worth knowing before touching this pipeline again:**
+
+1. **`saveAs` passes `compress = "does dest end in .dds"`.** So every *other* format -- the
+   `.png`/`.jpg` "let me actually look at this texture" path -- arrives at `writeTo` with
+   `compress = false`. The first version of the bypass took that as its cue and wrote a **DDS into
+   a `.png` file**. The mod corpus cannot see this (it only ever drives `save()` to a `.dds`), and
+   a byte-identity check over 7 mods passed with the bug present; `test_CppTextureFile`'s three
+   `saveAs` cases caught it. **Run the unit suite as well as the A/B.**
+2. **A phase split can lump two things together and hide the big one.** "Write phase = round trip
+   minus decode" attributed 4.2s of gamma work to the write, which is why the bypass was built
+   first and bought almost nothing. Split until each number names one operation.
+3. **This machine cannot measure a whole-mod change.** The spread on one mod is 96-158s for
+   identical work. Cross-build timings are worthless here; `AGREMAP_TEXCACHE=0` exists so the cache
+   can be measured against itself in ONE binary, and the per-texture numbers above come from
+   timing `open`/`save` directly rather than from a run.
+
+
+## AND THEN THE DECODE WAS ALL OF IT: `TextureFile` DECODES `BC7` ITSELF NOW (2026-09-20)
+
+The table above was measured before the gamma lookup landed. With the gamma pass down to ~0.3s, the
+remaining shape of a 4096x4096 texture edit was stark:
+
+| phase | cost |
+| --- | --- |
+| `CMP_LoadTexture` (read the file, parse the header) | 0.010s |
+| **`CMP_ConvertMipTexture` (the BC7 decode)** | **2.45s** |
+| copy the decoded level out | 0.020s |
+| `GammaFilter` | 0.30s |
+| `writeUncompressedDds` (swizzle + 64MB) | 0.05s |
+
+**2.45s for 1.05 million 4x4 blocks is 2.3us a block**, which is orders of magnitude more than
+unpacking one should cost. Compressonator's own **`cmp_core`** exposes `DecompressBlockBC7` for a
+single block, and blocks are independent, so `TextureFile` decodes BC7 itself now -- one block at a
+time, across `std::thread::hardware_concurrency()` threads by horizontal bands. On that texture the
+decode is **2.45s -> 0.21s** and the whole round trip **2.84s -> 0.35s**, which is faster than
+Pillow's 0.62s. Over 14 textures from 2048x2048 to 5120x3072, the round trip totals **22.07s ->
+3.03s (7.3x)** with everything else held constant.
+
+**`GammaFilter` was rewritten in the same pass, and it is the smaller half of the same lesson.** It
+had the lookup table already and still cost 0.30s, because it walked the image through
+`texFile.getPixel(x, y)` / `setPixel(x, y, ...)`: 33 million cross-translation-unit calls for one
+texture, plus 50 million `Colour::boundColourChannel` calls, with **LTO off for `python_dev` by
+design** so none of it inlines. One linear pass over the buffer took it to ~0.07s. The clamp went
+with it and loses nothing -- values out of an RGBA8 buffer are already 0-255 -- and the table is
+stored as `std::uint8_t` rather than `int` **because `setPixel` cast rather than clamped**, so an
+entry outside 0-255 had always been truncated. Keeping that cast is what makes the rewrite
+identical rather than nearly identical.
+
+### Why only BC7, and how that was decided
+
+`cmp_core` has `DecompressBlockBC1`/`BC2`/`BC3` too, and the fast path claims **none of them**.
+Decoding all 171 distinct textures in the corpora both ways and comparing:
+
+| format | byte-identical | differing |
+| --- | --- | --- |
+| BC7 (`CMP_FORMAT_BC7`, DXGI 98 and 99) | **149** | 0 |
+| BC1 (`CMP_FORMAT_BC1`, DXT1) | 0 | **1** |
+
+The one BC1 texture came back differing on **1456 of 67108864 bytes -- off by one**, on interpolated
+colours: the framework and the block decoder round BC1's 2/3-1/3 blend differently. Nothing warns
+about that, it is invisible in any screenshot, and it would have gone into every DXT1 texture the
+fix writes. **It was found only by decoding every texture both ways**, which is the whole argument
+for running the sweep before claiming a format rather than after. A format is qualified by running
+that sweep, not by reading the API.
+
+Everything that is not BC7 falls through to `CMP_ConvertMipTexture` exactly as before, and so does
+a texture whose dimensions are not multiples of 4 (BCn stores whole blocks, so those have partial
+blocks at the edges, and no test here can cover them) or whose data is shorter than its own
+dimensions claim. **This can only ever be faster, never a new way to be wrong** -- the rule
+`writeUncompressedDds` already follows.
+
+### Two things to know before touching it
+
+- **`DecompressBlockBC7` with `options = NULL` is not thread-safe on its first call.** It runs
+  `init_BC7ramps()`, which guards on a plain non-atomic `static` and fills a global table: two
+  threads arriving together both see it unset and both write -- a data race that happens to produce
+  the right answer only because they write identical values. One block is decoded under
+  `std::call_once` before any thread starts, so the initialisation happens once and every later call
+  only reads. Passing a `CreateOptionsBC7` object would also avoid it, and is deliberately *not*
+  done: that hands the decoder a `new`-ed struct initialised differently from the `{0}` one the NULL
+  path builds, and the bytes were only ever verified for the NULL path.
+- **`AGREMAP_BC7_DECODE=0`** forces the framework decode, so the two can be A/B'd inside one binary
+  (the `AGREMAP_TEXCACHE=0` pattern; 332 files byte-identical across the 21-mod corpus). The value
+  is **trimmed** before comparing, and that is not fussiness: `cmd`'s `set VAR=0 && prog` hands the
+  child `"0 "`, trailing space included. Written without the trim, this option's own test set the
+  variable that way, compared the fast path against **itself**, and passed against a build with a
+  deliberately corrupted pixel in it. `core/tests/TextureFile_Bc7Decode_test.cpp` sets it as
+  `set "VAR=0"` now and detects a single wrong byte in 67MB.
+
 
 ## Looking at a `.dds` (you can't `Read` one directly)
 

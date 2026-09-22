@@ -95,6 +95,9 @@ namespace AGRemapCore {
 
         // 'visiting' rather than a scan of 'dirs': the same folder can be named by many different
         // .ini files' resources, and the deque has no cheap membership test.
+        //
+        // The back, and _fix takes from the front: a folder queued first is visited first, so a
+        // batch of folders reaches the walk in the order it was found in.
         if (visiting.insert(folder).second) {
             dirs.push_back(folder);
         }
@@ -386,8 +389,16 @@ namespace AGRemapCore {
         bool firstFolder = true;
 
         while (!walk.dirs.empty()) {
-            const std::string folder = std::move(walk.dirs.back());
-            walk.dirs.pop_back();
+            // From the FRONT. Every batch queued below is already in the order the walk should
+            // report it -- FileService::getFilesAndDirs hands back a pre-order listing, sorted the
+            // way Windows sorts names (see FileService_walkOrder_test) -- so taking the folder off
+            // the back, which is the shape a stack-based depth-first walk falls into, read every
+            // one of those batches BACKWARDS. Folders A, B, C were visited C, B, A, and a subtree
+            // came out after the sibling that follows it rather than before. Taking the front
+            // keeps a batch in its own order, and since each batch is a whole subtree already
+            // flattened pre-order, the walk visits the tree top-down in name order.
+            const std::string folder = std::move(walk.dirs.front());
+            walk.dirs.pop_front();
             walk.visiting.erase(folder);
 
             if (walk.visited.count(folder) > 0) {
@@ -1035,6 +1046,8 @@ namespace AGRemapCore {
         // nothing about how this run was invoked. This is the last place that holds both.
         _applyCompressTextures(resource);
 
+        _applyTexCache(resource);
+
         if (RemapTexAddResource* texAdd = dynamic_cast<RemapTexAddResource*>(&resource)) {
             return texAdd->fix();
         }
@@ -1063,9 +1076,31 @@ namespace AGRemapCore {
         // above says must not happen.
         for (IniResource* member : resource.memberResources()) {
             _applyCompressTextures(*member);
+
+            // The cache has to be pushed down here for the SAME reason the compress override
+            // does, and leaving it out had the same shape of failure: the textures inside a group
+            // -- which is most of them -- silently kept decoding and re-encoding every duplicate.
+            // Measured before this line existed: a 194-toggle Ayaka6 went 112.2s -> 110.1s, while
+            // the mods whose textures are not grouped were already 1.3-1.5x faster.
+            _applyTexCache(*member);
         }
 
         return resource.fix();
+    }
+
+
+    void RemapService::_applyTexCache(IniResource& resource) {
+        // Both texture resources, for the same reason _applyCompressTextures handles both: an edit
+        // reads a .dds and writes one, an add writes one it invented, and both go through the
+        // TextureFile that the cache lives behind.
+        if (RemapTexEditResource* texEdit = dynamic_cast<RemapTexEditResource*>(&resource)) {
+            texEdit->texCache = &texCache_;
+            return;
+        }
+
+        if (RemapTexAddResource* texAdd = dynamic_cast<RemapTexAddResource*>(&resource)) {
+            texAdd->texCache = &texCache_;
+        }
     }
 
 

@@ -139,7 +139,7 @@ namespace AGRemapCore {
                 // Sanhua's is the first row built by makeWWMIParser; SanhuaExorcist's stays a stub
                 // until the reverse direction has a fixer.
                 {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua)}, IniParseBuilderFuncs::sanhua2_5()},
-                {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist)}, IniParseBuilderFuncs::wwmiStub()},
+                {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist)}, IniParseBuilderFuncs::sanhuaExorcist2_5()},
 
                 // ===== Chisa and ChisaParfait (2026-09-20), STUBS =====
                 // Registered for their asset tables (hashes, indices and the four WWMI-only ones);

@@ -21,6 +21,8 @@
     <includedby refid="_g_i_m_i_component_fixer_8cpp" local="yes">src/data/IniFixData/GIMIComponentFixer.cpp</includedby>
     <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
     <includedby refid="_raiden_fixer_8cpp" local="yes">src/data/IniFixData/Raiden/RaidenFixer.cpp</includedby>
+    <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
+    <includedby refid="_res_reg_collect_instantiation_8cpp" local="yes">src/model/strategies/iniFixers/graphGroupEdits/ResRegCollectInstantiation.cpp</includedby>
     <incdepgraph>
       <node id="28">
         <label>Algo.tpp</label>
@@ -30,9 +32,6 @@
       </node>
       <node id="34">
         <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="66">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="47">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
@@ -296,6 +295,8 @@
         <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
@@ -768,6 +769,9 @@
         <childnode refid="81" relation="include">
         </childnode>
       </node>
+      <node id="66">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="70">
         <label>Generator.tpp</label>
       </node>
@@ -910,6 +914,10 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniFixData/GIMICharFixer.cpp</label>
@@ -926,6 +934,14 @@
       <node id="5">
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/ResRegCollectInstantiation.cpp</label>
+        <link refid="_res_reg_collect_instantiation_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_res_reg_collect" prot="public">AGRemapCore::ResRegCollect</innerclass>
@@ -1070,7 +1086,14 @@
 <codeline lineno="351"><highlight class="normal"></highlight></codeline>
 <codeline lineno="352"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ResRegCollect.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="353"><highlight class="normal"></highlight></codeline>
-<codeline lineno="354"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>note:<sp/>every<sp/>translation<sp/>unit<sp/>that<sp/>uses<sp/>these<sp/>with<sp/>&lt;std::string,<sp/>std::string&gt;<sp/>would<sp/>otherwise</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>instantiate<sp/>all<sp/>of<sp/>their<sp/>member<sp/>bodies<sp/>itself;<sp/>they<sp/>are<sp/>compiled<sp/>once,<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>src/model/strategies/iniFixers/graphGroupEdits/ResRegCollectInstantiation.cpp,<sp/>instead.<sp/>Any<sp/>other<sp/>instantiation<sp/>still<sp/>happens<sp/>implicitly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ResRegCollect&lt;std::string,<sp/>std::string&gt;;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"/>
   </compounddef>

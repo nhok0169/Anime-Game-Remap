@@ -70,6 +70,41 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Adds many keywords at once, rebuilding the automaton **once** instead of once per
+             keyword
+
+             :cpp:func:`add` has no incremental form -- a keyword's failure links depend on every
+             other keyword, so each call copies out the keywords already held and reconstructs the
+             whole automaton from them. That makes adding *n* keywords one at a time quadratic, and
+             it is paid where it is least expected: filing the library's own mod types took 0.40s
+             of a 1.3s run, for 49 names, entirely in repeated rebuilds
+
+             Each entry is inserted or merged exactly as :cpp:func:`add` would, through
+             :cpp:member:`BaseTrie::handleDuplicate`, and an empty batch does nothing at all --
+             including no rebuild, so a caller that finds nothing to add pays nothing
+
+             .. note::
+                 Deliberately not bound for `Python`_, and deliberately not ``virtual``. The bound
+                 :cpp:func:`add` is overridable from a `Python`_ subclass, and this does not route
+                 through it -- so a subclass that had customised ``add`` would find a batch quietly
+                 bypassing it. Nothing on the `Python`_ side adds keywords in bulk today; if
+                 something does, bind it as a loop over :cpp:func:`add`'s virtual entry point rather
+                 than exposing this directly
+             @endrst
+             *
+             * @param entries The keywords to add, and the value for each
+             *
+             * @return
+             @rst
+             How many of the entries were new keywords. The rest were already held, and their
+             values merged
+             @endrst
+             */
+            std::size_t addMany(const std::unordered_map<std::string, TrieVal> &entries);
+
+            /**
+             * @brief
+             @rst
              Finds all occurences of the keywords from the `DFA`_ in the given text
              @endrst
              *

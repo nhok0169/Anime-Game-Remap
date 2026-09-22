@@ -42,6 +42,14 @@ native-code change.
   `core.cp39-win_amd64.pyd`.** All three agree, which is the thing to check — run `py -0p` and
   `ls api/src/py/FixRaidenBoss2/core.cp*.pyd` yourself and believe those two over any number in this
   file, this sentence included.
+  **And the pair is per-MACHINE, not just per-date (2026-09-20).** On the 6-core laptop — the
+  one whose `cbuild` is a junction to the internal SSD — `py -0p` lists `3.12` and `3.9`,
+  `py -3` is **3.9.3**, the module is `core.cp39-win_amd64.pyd`, and the only `vcvarsall.bat`
+  is `C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvarsall.bat`
+  — *Community* under `Program Files`, with no `Program Files (x86)` install at all, which is
+  the exact reverse of what the root `CLAUDE.md` records for the other box on the same day.
+  Neither entry is wrong; they are different computers. **Say which machine you are on before
+  quoting either, and run `py -0p` plus the `find` yourself.**
 - **`python` and `py -3` are not necessarily the same interpreter here.** Measured 2026-09-10:
   bare `python` on `PATH` is **3.9.13** (a WindowsApps entry ahead of it in `PATH` resolves there),
   while `py -3` is **3.9.3** at `AppData\Local\Programs\Python\Python39\python.exe` --- which is
@@ -276,6 +284,26 @@ file by hand.
 Run it in the background and tail the log rather than blocking — a full rebuild (with docs) takes
 noticeably longer than a small edit-compile-test loop, and `-d` additionally shells out to
 Doxygen/plantuml/mermaid.
+
+## The DEFAULT clean pass can be the whole build on a laptop --- use `-i` (2026-09-20)
+
+`APIBuilder` runs `cleanInstalls()` unless you pass `-i`/`--installKeep`, and that pass is
+`Path(APIPath).rglob('*')` over the entire API tree, stat-ing every entry to find `.pyd`/`.so`
+files to delete. On the 6-core laptop, whose checkout lives on the **external** drive, that walk
+ran **35+ minutes at ~280 file-ops/sec and had still not reached `src/py`** --- no compiler had
+started, the log was empty (stdout to a pipe is block-buffered, so pass `py -3 -u main.py` when you
+need to watch one), and the process sat at ~1 second of CPU looking hung. Killed and re-run as
+`py -3 main.py -i`, the same build finished in about ten minutes.
+
+Two things follow. **`-i` is worth reaching for on any machine whose repo is not on a fast local
+disk**, not only on a checkout shared with WSL --- though that is the other reason for it, since
+`cleanInstalls` deletes the tracked Linux `.so` binaries too (see Setup's Linux section). And when
+a build appears to hang with no output, **check the process's I/O counters before its CPU**
+(`(Get-CimInstance Win32_Process -Filter "ProcessId=N").OtherOperationCount`, sampled twice):
+near-zero CPU with a climbing op count is a file walk making slow progress, which looks exactly
+like a deadlock and is not one.
+
+<br>
 
 ## Fast iteration on C++-core-only changes
 If you're only touching `core/include` or `core/src` (no pybind11-visible API change), you don't

@@ -436,12 +436,17 @@ namespace AGRemapCore {
              :raw-html:`<br />` :raw-html:`<br />`
 
              Returns an empty string when #config has no :cpp:type:`SectionToStr`, since there is
-             then no way to turn a `section`_ into text at all
+             then no way to turn a `section`_ into text at all :raw-html:`<br />` :raw-html:`<br />`
+
+             Virtual so a fixer can see what its own edits actually produced: a graph edit that
+             cannot reach a line adds and rewrites nothing and says nothing about it, and the text
+             is the only place that shows it (:cpp:func:`makeWWMIFixer`'s fixer checks every
+             remapped section against what it meant to write here)
              @endrst
              *
              * @param groupInd Which group to render
              */
-            std::string groupToStr(std::size_t groupInd) const;
+            virtual std::string groupToStr(std::size_t groupInd) const;
 
             /**
              * @brief
@@ -470,6 +475,9 @@ namespace AGRemapCore {
              *
              * @return The key to file this group's fix under -- never empty
              */
+            virtual std::string fixKey(std::size_t groupInd,
+                                        const std::optional<std::string>& fixedFilePath) const;
+
             /**
              * @brief
              @rst
@@ -487,9 +495,6 @@ namespace AGRemapCore {
              * @return The labelled block
              */
             std::string labelTargetBlock(const std::string& content) const;
-
-            virtual std::string fixKey(std::size_t groupInd,
-                                        const std::optional<std::string>& fixedFilePath) const;
 
             /**
              * @brief

@@ -36,8 +36,45 @@ construction. **When a number looks right, check that it is capable of being wro
 these were found by counting the log lines rather than reading the summary. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Verifying".
 
+**HOW FAST IS THIS LIBRARY AGAINST THE OLD PURE-PYTHON SCRIPT? MEASURED, AND EVERY ROW IS A WIN NOW
+(2026-09-20).** Over 22 of the maintainer's own mods, with `--download Disabled` passed to **both**
+(their defaults differ, and without it one side is timed doing network work the other refuses):
+**1.62x** faster fixing each mod by its own invocation (99.1s vs 61.3s), **1.57x** fixing the whole
+folder in one (85.8s vs 54.5s), **2.52x** on `Ayaka6` (244.2s vs 96.8s), and slightly ahead on
+startup too (0.80s vs 0.74s).
+
+**Both rows this library used to LOSE were fixed costs with nothing to do with remapping a mod, and
+both went the same day.** Startup was **1.59s**, which made the per-mod row a dead heat (105.4s vs
+107.9s): an eager `numpy` import worth 240ms of every run, plus `BaseAhoCorasickDFA::add` rebuilding
+the whole automaton per keyword (0.40s to file the library's own 49 mod types). **The DLL sizes this
+file used to blame are not it** -- `libz3` (16 MB) loads in 11ms, `core.pyd` in 28ms. And texture
+editing was **~2x SLOWER** (20.3s vs 41.7s on the six mods that edit textures; **1.32x faster** now,
+24.4s vs 18.5s): a texture edit costs **7.3x** less than it did that morning (a 4096x4096 `BC7`
+round trip 2.84s -> 0.35s, beating Pillow's 0.62s) after three byte-identical changes -- a gamma
+lookup table, **decoding `BC7` per block across threads** instead of through
+`CMP_ConvertMipTexture`, and one linear pass for the gamma instead of 33 million
+`getPixel`/`setPixel` calls. The decode alone was **85%** of a texture edit and is 11.8x faster;
+`BC1` is deliberately NOT claimed, because the one `BC1` texture in the corpus decoded differently
+the two ways (1456 of 67M bytes, off by one) -- found only by decoding all 171 corpus textures both
+ways, which is how a format gets qualified here.
+
+See [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Startup: where the 1.59s went" and habit 62
+(a stage whose boundary you did not check is a stage you invented --- make the parts sum to the
+whole), [Architecture](AI%20Agent%20Help/Architecture/CLAUDE.md)'s "`add` on an Aho-Corasick
+automaton is a FULL REBUILD", and
+[Texture Editing](AI%20Agent%20Help/TextureEditing/CLAUDE.md)'s "AND THEN THE DECODE WAS ALL OF IT".
+The advantage also grows with the
+`.ini`: `Ayaka6` (194 `.ini`, ~200 toggles) is **244.2s -> 96.8s**, producing the same 193
+`RemapBlend.buf` contents. `--compressTextures` is ours alone and costs 10-14x
+(`CherryHutao1` 19.6s -> 278.8s for a 4x smaller file); at default settings **both** write
+uncompressed 32-bit `.dds`. Full table, method and caveats in
+[Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "The old pure-Python script vs the C++ API,
+measured", and the trap that nearly made the numbers meaningless is its habit 60: **the two sides'
+summary counters do not mean the same thing**, so compare hashed artifacts, never the reported
+counts.
+
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is fifty-four short habits, none of
+feature or bug request here: the habits that pay" first.** It is sixty-three short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -725,8 +762,133 @@ the part's OTHER bones have to be anchored too (27% of that prop's weight sat on
 chain, which left it torn between two places). Both are in
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md).
 
-**TWO THINGS TO READ BEFORE ANY TASK, WHICHEVER KIND YOU HAVE (2026-09-14).** They are the two
-lenses the maintainer keeps having to re-teach, and each now has its own writing:
+**AND AN UNDO USED TO RECOGNISE A FIX BY THE SUBSTRING `Remap`, WHICH A MOD'S OWN SECTION CAN HOLD
+(2026-09-20).** Outside the fix's boilerplate, any section whose name merely CONTAINED `Remap` was
+taken for a previous fix's leftover, removed, and the file it named deleted. WWMI's blend remap --
+what every Wuthering Waves character past 256 bones carries -- declares
+`ResourceBlendRemapVertexVGBuffer` and two more, so an undo deleted three `.buf` files of Chisa's
+identity mod **on a mod that had never been fixed**, every fix undoing first. `RemapIniRemover` now
+asks for `<modName>Remap` (`IniNamingTools::getRemapName`'s shape) using a new
+`IniRemoveContext::modTypeNames()`, defaulted to empty so a hand-built remover keeps the old rule;
+inside the boilerplate nothing changed. Two general lessons in it: **a keyword test over names a
+third party also writes is a landmine** (the `##### Script` substring trap again, in the remover),
+and when the two remover suites went red, the fixtures -- which named their leftovers
+`<object>Remap<element>` while their own mod types are `TestMod` and `Amber` -- were what had to
+move, not the rule. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "An undo
+recognises a fix by `<modName>Remap`".
+
+**THE SECOND WUWA PAIR IS REGISTERED AND PROTOTYPED: CHISA <-> CHISAPARFAIT (2026-09-20); THE
+FORWARD DIRECTION HAS BEEN SEEN IN GAME ONCE AND WAS WRONG, FOR A REASON WORTH KNOWING BEFORE ANY
+SOURCE PAST 256 BONES.** A mod of such a character carries three lines per component --
+`Resource{BlendBuffer,MergedSkeleton,ExtraMergedSkeleton}Override = ref ...Component<N>` -- that
+point the draw at WWMI's blend remap of the SOURCE, and copied into a remapped section they are an
+inverse of the whole fix rather than a stale binding: the two shaders are exact inverses of each
+other, so the pair feeds the draw the source's OWN merged index against the target's skeleton. The
+components with a blend remap collapse into a drape while the ones without render correctly, which
+reads in game as "a secondary jello body" under an intact head. The remap data was innocent and
+looked guilty for hours; what settled it was skinning the mod's mesh under three skeletons rebuilt
+from the frame dumps' `vs-cb4` and comparing the pictures. Both are in
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "A SOURCE PAST 256 BONES CARRIES
+THREE LINES THAT UNDO THE REMAP", with the per-section check that fails against the broken build.
+**The second round left the geometry right and the whole body under a translucent red**, which was
+the MATERIAL MASK: two skins of one character can pack it differently, and Chisa marks bare skin
+with `R = 255` where the Parfait skin marks it with `R = 0`, so her own mask tells the skin's shader
+that 97% of her clothes is flesh. The fix repacks the mask into the target's layout rather than
+binding the mod's, and the way to learn a legend is to ask the DIFFUSE under each region how
+flesh-coloured it is -- see "TWO SKINS OF ONE CHARACTER CAN PACK THEIR MATERIAL MASK DIFFERENTLY".
+**And a THIRD round found what the red actually was: a register the TARGET's shader reads and the
+source's does not.** The skin's clothing pass takes an `R8_UNORM` map at `ps-t2` that Chisa's has no
+input for, so hers stayed bound and its codes landed at the mod's UVs -- and it reads as a near-black
+texture while being a small-integer code per pixel (median 4, max 82), which is why `4` where `0`
+belongs is a different material rather than a darker one. The fix binds a flat neutral there. It was
+found by BISECTING with a flat colour per register over four in-game rounds, and the two strongest
+hypotheses on the way were both wrong; the method is in "A REGISTER THE TARGET'S SHADER READS AND THE
+SOURCE'S DOES NOT". **THEN FOUR ROUNDS WENT ON ONE PART -- her hair RIBBON, right in colour and
+wrong in surface -- and the first two of them chased a difference that was not there, because the
+MEASUREMENT was wrong.** Comparing a part between two screenshots means selecting its pixels, and a
+statistic over the wrong region reads exactly like one over the right region: "every reddish pixel
+in the left 45%" swallowed the character-portrait card in the corner, and "the largest connected red
+component" took the ear, the neck, and on one shot the WEAPON BLADE. Both tables said the base had
+three times the remap's highlights, which is the opposite of the truth. Selecting by SATURATION
+inside a centroid window, and reporting the part as a ratio to the hair and skin of the SAME shot,
+says the base is simply DARKER. See [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "A screenshot
+statistic is only as good as its mask" and `Tools/Misc/Diagnostics/screenshotPart.py`, whose
+`--preview` paints the pixels it used. Under a correct mask the ribbon was three real defects, each
+its own section in Creating Remaps: **a pass is a register layout and only the draw that SETS it
+says what it is** (of the four draws of that slot one sets the whole set and three inherit, so a
+carried-forward slot table reads as four layouts -- and that pass turns out to be the clothing
+layout with `ps-t0` and `ps-t2` exchanged, so the config had the diffuse on the detail slot and the
+normal map on the MATCAP slot; `Tools/Misc/Diagnostics/wwmiPassLayout.py`); **the mask's GREEN
+channel is how shiny a surface is**, not a material id, so the flat cloth code invented for a role
+the source lacks says "the mattest cloth on the model"; and **a shader family is a COLOUR GRADE** --
+her ribbon is painted by a hair shader and the skin has nowhere to draw it but a cloth one, which
+renders the same diffuse at x1.15 where hers renders it at (0.89, 0.69, 0.66), and the only place to
+put that back is the texture (`ColourGrades`, the GI side's `DarkDiffuse` idea, written with the
+sRGB bit or it undoes itself). **The geometry fix, the mask repack, the neutral binding and all
+three ribbon fixes are confirmed in game; the reverse direction is unseen.** What is left on the
+ribbon is a measured ceiling rather than a defect: split into a gain and an additive ambient from
+two texture points, the cloth shader's ambient floor is sRGB 44-52 per channel and the base's ribbon
+renders AT it, so the last 11 of green and 15 of blue are not reachable by any texture edit --
+brightness now matches exactly (part/hair 1.56 against 1.56) and saturation is 0.585 against 0.659.
+Past that lies routing the component through one of the target's HAIR slots, which merges it into a
+hair draw. WWMI-Assets has neither of them, so everything comes from frame dumps
+(`Tools/Misc/Prototypes/wwmiExtractDump.py`, which runs WWMI Tools' own extractor outside Blender):
+the download folders `Data/Mod Downloads/WuWa/Chisa/2_8` and `ChisaParfait/3_5`, both `ModTypeId`s
+with their hash / index / count / vg / shape-key rows, a `VGRemapData` row each way out of
+`Data/RemapDrafts/ChisaRemapDraft.xlsx` (the finder's proposal, unreviewed), and
+`Tools/Misc/Prototypes/chisaParfaitFix.py`. Four things that pair taught, all in
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The SECOND WuWa pair": pair the
+slots by GEOMETRY when the two are skins of one character (IoU 1.00 on three of them settles in
+minutes what shader names argue about), a role sits at a DIFFERENT register on the two skins (the
+diffuse moves from `ps-t2` to `ps-t3`), a character past 256 bones keeps her ids in
+`BlendRemapVertexVG.buf` rather than `Blend.buf` so remapping the latter is a no-op, and such a mod
+binds `vb4` twice. **A dump's textures also come out at 512 x 512 unless the game's LOD bias is
+Ultra High** -- one setting in its own sqlite settings store, not in `GameUserSettings.ini` -- and a
+dump taken with a mod of that character installed describes the MODDED pipeline (see
+[Vertex Group Remaps](AI%20Agent%20Help/VGRemaps/CLAUDE.md)).
+
+**AND THE "TWO SKINS PACK THEIR MASK INVERSELY" FINDING ABOVE IS WRONG, WHICH IS WHAT A RED STAIN
+ON A KIMONO TURNED OUT TO BE (2026-09-20).** Chisa and ChisaParfait **both** mark bare skin with
+`R = 255`. The inverse reading came from a percentage-of-flesh-like-pixels test over the two atlases
+(88% against 52%), which her pale cream atlas defeats -- "flesh-like" fires on her clothes as
+readily as on her skin -- so the repack was mapping Chisa's skin to the target's cloth code and her
+kimono to the target's SKIN code, shading the garment with subsurface scattering. **Rendering the
+two masks' R channels beside their diffuses settles it in one glance** (Chisa's is black with one
+white patch, exactly where her diffuse is flesh; the skin's is white over a bare torso), and it
+outlived four fixes aimed at registers because it was never in a register. Two corollaries: a repack
+that rewrites ONE channel leaves the others in the source's packing (her codes carry `B ~126, A 0`
+where his carry `B 0, A 255`), and G is kept from the MOD because green is how shiny a surface is.
+**And a FLAT mask is not a neutral one** -- Chisa's hair mask is a flat `(255, 0, 126, 0)`, i.e. "all
+of this is skin", which shaded the crown of the hair red; a flat texture has no UV dependence, so the
+"bind the source's, the UVs are the source's" rule does not apply and the register is better left to
+the game. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md).
+
+**AND A FIFTH ROUND, ON A KIMONO MOD, FOUND TWO MORE -- ONE OF THEM A FIX OF MINE THAT MADE THINGS
+WORSE (2026-09-20).** **(1) A REGISTER A DRAW INHERITED MAY BELONG TO A DIFFERENT CHARACTER
+ENTIRELY.** `wwmiPassLayout.py` marks an inherited register `~`, and that was read as "what Chisa
+binds there" -- but a frame dump holds everything on screen, and the draw that had last written her
+upper body's `ps-t5` appears **byte-identically in the other skin's dump too**: an NPC standing in
+both scenes. Its ramp was transcribed into the fix as hers and **the kimono came back yellow**, a
+fresh worse symptom in place of the red one being fixed. `--against <the other dump>` now marks such
+a register `!`, and the rule is that **only a `sets` line is evidence about a character**. The same
+question, asked of every candidate, also separates the three shared globals the plan was about to
+"fix" (both characters' own draws set them) from the one genuinely per-character pair: the 512 x 25
+subsurface lookup, Chisa's `06790f7e` against the skin's redder `6a9ec87e`, which is what put a red
+cast on her decollete. **(2) DO NOT PICK A RIGID ANCHOR OFF A BONE'S `vs-cb4` TRANSLATION COLUMN** --
+that is a skinning matrix, not a pose, and reading it named a bone that put her fox mask and hairpins
+90 units away at her hip. Nor score candidates by whether the part keeps its axis-aligned extents: an
+AABB is not rotation invariant, and that test rejected 267 of 272 bones including the right one. Skin
+the part with each candidate, keep the ones whose **RMS radius from the centroid** is unchanged, and
+take the one the surrounding geometry already moves with --
+`Tools/Misc/Diagnostics/wwmiAnchorSearch.py`. Also: `AnchorChains`' key is a **source** bone and the
+chain takes whatever IT maps to, so writing the target id there is a silent no-op-shaped error, and
+the part's OTHER bones have to be anchored too (27% of that prop's weight sat on a bone outside the
+chain, which left it torn between two places). Both are in
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md).
+
+**THREE THINGS TO READ BEFORE ANY TASK, DEPENDING ON WHICH KIND YOU HAVE (2026-09-14, a third added
+2026-09-20).** They are the lenses the maintainer keeps having to re-teach, and each now has its own
+writing:
 
 - **A feature or a bug** --- [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s habits **34-37**
   and **55-56** (a symptom that survives a verified fix is a second bug, so re-read the report's
@@ -749,6 +911,17 @@ lenses the maintainer keeps having to re-teach, and each now has its own writing
   three careful diagnoses. The other three: crop the UV island and LOOK at it when the symptom is on
   a texture, pick test mods by STRUCTURAL axis rather than by character, and what `drawindexed =
   auto` actually does.
+- **"Make this faster"** --- [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s **"MAKE THIS FASTER:
+  the recipe, and what it has cost to skip a step"**. Four speed-ups landed in one day and **every
+  one was a fixed cost nobody had measured, in a place nobody had guessed** -- an eager `numpy`
+  import, an automaton rebuilt per keyword, a library decode that was 85% of a texture edit, a
+  registry rebuilt on each of the two calls a run makes. The recipe is six steps, and the two that
+  are skipped hardest are **print each CALL rather than the total** (a one-time 0.28s init summed
+  with a 0.004s one reads as a 0.15s per-file cost, which is a different bug with a different fix)
+  and **add a switch so the old path stays reachable** (`AGREMAP_TEXCACHE=0`, `AGREMAP_BC7_DECODE=0`)
+  so the A/B happens inside ONE binary. It also carries the env-gated instrumentation pattern and
+  its one hard rule: **restore from your own backup, never `git checkout`** -- every file worth
+  instrumenting here is already modified by the work in progress.
 
 **AND THE FIRST IN-GAME RUN OF IT FOUND TWO THINGS THAT ARE NOT ABOUT YELAN AT ALL (2026-09-14).**
 **(1) `NNFix` AND `ORFix` ARE INVOLUTIONS, so the rule is once per PATH, not once per DRAW.** They
@@ -903,14 +1076,49 @@ until 2026-09-18. Test the
 published path with `AGREMAP_DOCS_STUBS=force` in front of the usual Sphinx command; see
 [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md).
 
+**THE FOLDER WALK VISITED EVERY BATCH OF FOLDERS BACKWARDS UNTIL 2026-09-20.** `RemapService`'s
+walk pushed folders at the back of its queue and took them off the back as well --- the shape an
+iterative depth-first walk falls into --- and every batch it queues is already in the order it
+should be reported in, so a `Mods` folder holding `A`, `B`, `C` was walked `C`, `B`, `A`, and a
+subtree came out after the sibling that follows it. **No file output ever depended on it**: the same
+fixture fixed with both builds gave 132 byte-identical files. `summaryLog.txt` did, through its
+"skipped due to warnings" list, so the Integration Tester failed 7 of 24 and its **22 log goldens
+were regenerated on Linux**. See [Architecture](AI%20Agent%20Help/Architecture/CLAUDE.md)'s "The
+folder walk reported every batch BACKWARDS" and [Testing](AI%20Agent%20Help/Testing/CLAUDE.md).
+
+**THE CHARACTER LIST LIVES IN FOUR PLACES OUTSIDE THE LIBRARY, AND ON 2026-09-20 THREE OF THEM WERE
+WRONG.** The mod-type table is in `api/README.md`, `apiMirror/README.md` and
+`Docs/src/commandOpts.rst` (all three now with a **Game** column, `GI` / `WuWa`), the per-remap
+table is `Docs/src/remapGrading.rst`, and the Python `ModTypes` enum is a fourth list of the same
+thing. Generated from `GIBuilder`/`WWMIBuilder` and diffed, the tables turned out to carry a
+misspelled character (`BarabaraSummertime` --- a name no `--types` argument could match) and a
+missing alias, and the enum was **six characters behind** (Bennett, BennettAdventure, Yelan,
+YelanTranquil, Sanhua, SanhuaExorcist), which is what the CLI's `--help` was printing. All four are
+in step now, `--help` prints the docs link instead of a list that grows with every remap, and
+`core/xml` --- which had not been regenerated since Bennett, so every WuWa class was missing from the
+published core API --- was regenerated with the pinned Doxygen. **Generate these lists, never retype
+them**: see [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md)'s "A CHARACTER IS FOUR DOC
+TABLES" and [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Closing out a remap".
+
 **Seven repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
 visible from the code:** (1) nearly every tracked text file is **CRLF** (`core.autocrlf=true`), so an
 exact-string patch script must normalise to LF before matching and write CRLF back, or every anchor
-reports "found 0"; (2) the Bash tool's heredocs eat backslashes (`\ref` arrives as a carriage
+reports "found 0". **Two corollaries that each cost a cycle on 2026-09-20.** *Assert the anchor
+count*: `str.replace` silently does nothing when it matches nothing, so a script that ends
+`print("patched")` will tell you it worked having changed not one character --- `assert
+t.count(old) == 1` before every replacement, and print which anchor failed. And *the read is half
+the line-ending bug*: `open(p, encoding="utf-8").read()` uses universal newlines and hands back LF
+regardless, so reading that way and writing with `newline=""` **converts the whole file to LF**
+without touching a single line you meant to change. Read binary (or with `newline=""`), normalise
+explicitly, write back explicitly -- then re-check `file` or `git diff --shortstat` against
+`--ignore-cr-at-eol`; (2) the Bash tool's heredocs eat backslashes (`\ref` arrives as a carriage
 return + `ef`), so write patch scripts with the Write tool and run them by path -- **and `sed -i`
 mangles the same things in two more ways**: it rewrites a CRLF file as **LF** (silent whole-file
 line-ending churn in your diff) and it eats the doubled backslash in this codebase's RST plurals
-(`:cpp:enum:`X`\\s` arrives as `X`s`, which is broken RST). Prefer a Python patch script for any
+(`:cpp:enum:`X`\\s` arrives as `X`s`, which is broken RST). **The same eating happens to a `py -3 -c` one-liner run
+from the Bash tool** --- `.replace('/', '\\')` arrives as `.replace('/', '\')` and Python reports an
+unterminated string literal, which reads like your own quoting and is the tool's; a one-liner that
+needs a backslash goes in a script file too (or writes it as `chr(92)`). Prefer a Python patch script for any
 file with CRLF or doc comments; if you do use `sed -i`, normalise the file back to CRLF afterwards
 and check with `git diff --stat` against `git diff --stat --ignore-cr-at-eol` (the two must agree).
 **And a swallowed `\r` keeps costing after it is committed**: git's CRLF normalisation refuses to
@@ -920,13 +1128,19 @@ exactly like the line-ending churn of trap (1) and is not. If `--ignore-cr-at-eo
 diff to almost nothing, grep it for a carriage return that is not followed by a newline: `TexEdit.h`
 carried one inside `\ref resSubType` (a broken Doxygen reference) from an older heredoc until
 2026-09-11; (3) the dev Python and the VS install root have both MOVED since much of this
-documentation was written, and that pair has now flipped **four** times -- as of 2026-09-09 `py -0p` lists **3.9.3**
-(so `py -3` is 3.9 and the built module is `core.cp39-win_amd64.pyd`) and `vcvarsall.bat` lives
-under `Program Files\Microsoft Visual Studio\18\Community`, with no
-`Program Files (x86)\...\18\BuildTools` existing at all -- the exact reverse of what this line said
-two days earlier, which was itself the reverse of the day before. **Read the version off
+documentation was written, and that pair has now flipped **five** times -- as of 2026-09-20 `py -3`
+is **3.13** (the built module is `core.cp313-win_amd64.pyd`) and `vcvarsall.bat` lives under
+`Program Files (x86)\Microsoft Visual Studio\18\BuildTools`, with no
+`Program Files\Microsoft Visual Studio` existing at all -- the exact reverse of what this line said
+on 2026-09-09, which was itself the reverse of the day before. A script carrying the older reading
+fails with **`COMPILE_EXIT=9009`** (`cl` is not on the PATH because `vcvarsall.bat` was never
+found), which names nothing. **Read the version off
 `cbuild/CMakeCache.txt` and locate `vcvarsall.bat` with a `find` rather than trusting any number or
-path written down anywhere, this line included** -- see **Building**'s prerequisites;
+path written down anywhere, this line included**. **And the pair is per-MACHINE, not merely
+per-date (2026-09-20): on the 6-core laptop, measured the same day as the reading above, `py -3` is
+3.9.3 (module `core.cp39-win_amd64.pyd`) and the only `vcvarsall.bat` is Community under
+`Program Files` -- the exact reverse of this sentence, on the other computer.** See
+**Building**'s prerequisites;
 (4) a `.bat` launched from the Bash tool as `cmd //c C:\Users\...\build.bat` has its backslashes
 stripped, never runs, and still exits 0 -- so the "build" silently leaves the *previous* `.pyd` in
 place for your tests. Launch build/test batch files from the **PowerShell** tool with

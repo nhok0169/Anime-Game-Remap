@@ -2,7 +2,9 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="_v_g_merge_group_res_builder_8h" kind="file" language="C++">
     <compoundname>VGMergeGroupResBuilder.h</compoundname>
+    <includes local="no">functional</includes>
     <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
     <includes local="no">string</includes>
     <includes local="no">vector</includes>
     <includes refid="_v_g_merge_group_resource_8h" local="yes">AGRemapCore/model/iniresources/VGMergeGroupResource.h</includes>
@@ -19,15 +21,12 @@
       <node id="52">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="83">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="65">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
-        <childnode refid="15" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="94">
@@ -37,15 +36,15 @@
       <node id="82">
         <label>AGRemapCore/model/CallGraph.h</label>
         <link refid="_call_graph_8h"/>
-        <childnode refid="13" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="35" relation="include">
         </childnode>
@@ -55,17 +54,17 @@
       <node id="80">
         <label>AGRemapCore/model/IniGraphGroup.h</label>
         <link refid="_ini_graph_group_8h"/>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -77,29 +76,29 @@
       <node id="81">
         <label>AGRemapCore/model/IniSectionGraph.h</label>
         <link refid="_ini_section_graph_8h"/>
-        <childnode refid="13" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
         <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="45" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="82" relation="include">
         </childnode>
@@ -123,11 +122,11 @@
       <node id="34">
         <label>AGRemapCore/model/SectionIterData.h</label>
         <link refid="_section_iter_data_8h"/>
-        <childnode refid="6" relation="include">
+        <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="35" relation="include">
         </childnode>
@@ -140,44 +139,44 @@
         <childnode refid="76" relation="include">
         </childnode>
       </node>
-      <node id="14">
+      <node id="15">
         <label>AGRemapCore/model/VGRemap.h</label>
         <link refid="_v_g_remap_8h"/>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-      </node>
-      <node id="9">
-        <label>AGRemapCore/model/buffers/BufValue.h</label>
-        <link refid="_buf_value_8h"/>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
         <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="12">
-        <label>AGRemapCore/model/buffers/VGComponentMerge.h</label>
-        <link refid="_v_g_component_merge_8h"/>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+      </node>
+      <node id="10">
+        <label>AGRemapCore/model/buffers/BufValue.h</label>
+        <link refid="_buf_value_8h"/>
+        <childnode refid="11" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>AGRemapCore/model/buffers/VGComponentMerge.h</label>
+        <link refid="_v_g_component_merge_8h"/>
         <childnode refid="14" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
         <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
@@ -187,17 +186,17 @@
         <link refid="_v_g_component_split_8h"/>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
         <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
         </childnode>
       </node>
       <node id="35">
@@ -205,25 +204,25 @@
         <link refid="_if_content_part_8h"/>
         <childnode refid="36" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="37" relation="include">
         </childnode>
         <childnode refid="38" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -239,25 +238,25 @@
       <node id="61">
         <label>AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
         <link refid="_if_content_part_colour_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="45" relation="include">
         </childnode>
         <childnode refid="37" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -271,9 +270,9 @@
       <node id="64">
         <label>AGRemapCore/model/iftemplate/IfPredPart.h</label>
         <link refid="_if_pred_part_8h"/>
-        <childnode refid="15" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="65" relation="include">
         </childnode>
@@ -289,27 +288,27 @@
       <node id="63">
         <label>AGRemapCore/model/iftemplate/IfTemplate.h</label>
         <link refid="_if_template_8h"/>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="45" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="35" relation="include">
         </childnode>
@@ -331,19 +330,21 @@
       <node id="69">
         <label>AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
         <link refid="_if_template_node_8h"/>
-        <childnode refid="13" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
         </childnode>
         <childnode refid="35" relation="include">
         </childnode>
@@ -357,9 +358,9 @@
       <node id="39">
         <label>AGRemapCore/model/iftemplate/IfTemplatePart.h</label>
         <link refid="_if_template_part_8h"/>
-        <childnode refid="13" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="40" relation="include">
         </childnode>
@@ -367,9 +368,9 @@
       <node id="73">
         <label>AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
         <link refid="_if_template_tree_8h"/>
-        <childnode refid="2" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="65" relation="include">
         </childnode>
@@ -389,17 +390,17 @@
       <node id="19">
         <label>AGRemapCore/model/iniresources/IniResource.h</label>
         <link refid="_ini_resource_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
@@ -407,13 +408,13 @@
       <node id="18">
         <label>AGRemapCore/model/iniresources/RemapIniResource.h</label>
         <link refid="_remap_ini_resource_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
         <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
@@ -422,24 +423,24 @@
         <childnode refid="28" relation="include">
         </childnode>
       </node>
-      <node id="5">
+      <node id="7">
         <label>AGRemapCore/model/iniresources/VGMergeGroupResource.h</label>
         <link refid="_v_g_merge_group_resource_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
@@ -449,11 +450,11 @@
         <link refid="_cached_file_stats_8h"/>
         <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
@@ -465,11 +466,11 @@
         <link refid="_file_stats_8h"/>
         <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
@@ -477,7 +478,7 @@
       <node id="25">
         <label>AGRemapCore/model/stats/RemapStats.h</label>
         <link refid="_remap_stats_8h"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
@@ -491,13 +492,13 @@
       <node id="77">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h</label>
         <link refid="_base_ini_graph_group_edit_8h"/>
-        <childnode refid="13" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="78" relation="include">
         </childnode>
@@ -509,13 +510,13 @@
       <node id="91">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h</label>
         <link refid="_graph_group_remap_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
         <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="77" relation="include">
         </childnode>
@@ -525,19 +526,19 @@
       <node id="79">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h</label>
         <link refid="_i_ini_graph_groups_8h"/>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="80" relation="include">
         </childnode>
@@ -553,17 +554,17 @@
       <node id="95">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h</label>
         <link refid="_ini_res_edit_context_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
         <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="63" relation="include">
         </childnode>
@@ -577,25 +578,25 @@
       <node id="31">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h</label>
         <link refid="_res_group_collect_8h"/>
-        <childnode refid="13" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
         <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -629,23 +630,27 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
         <childnode refid="31" relation="include">
         </childnode>
       </node>
       <node id="93">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h</label>
         <link refid="_res_edit_8h"/>
-        <childnode refid="13" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -661,9 +666,9 @@
       <node id="46">
         <label>AGRemapCore/tools/Algo.h</label>
         <link refid="_algo_8h"/>
-        <childnode refid="10" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="47" relation="include">
         </childnode>
@@ -677,9 +682,9 @@
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="86" relation="include">
         </childnode>
@@ -687,15 +692,15 @@
       <node id="24">
         <label>AGRemapCore/tools/Heading.h</label>
         <link refid="_heading_8h"/>
-        <childnode refid="13" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="44">
         <label>AGRemapCore/tools/Ranges.h</label>
         <link refid="_ranges_8h"/>
-        <childnode refid="15" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="45" relation="include">
         </childnode>
@@ -703,7 +708,7 @@
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="46" relation="include">
         </childnode>
@@ -715,15 +720,15 @@
         <link refid="_file_download_8h"/>
         <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="30" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
@@ -743,7 +748,7 @@
       <node id="70">
         <label>AGRemapCore/tools/nodes/Node.h</label>
         <link refid="_node_8h"/>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="71" relation="include">
         </childnode>
@@ -753,13 +758,13 @@
         <link refid="_base_ordered_multi_map_8h"/>
         <childnode refid="36" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="45" relation="include">
         </childnode>
@@ -769,15 +774,15 @@
         </childnode>
         <childnode refid="38" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -789,19 +794,19 @@
       <node id="43">
         <label>AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h</label>
         <link refid="_i_ordered_multi_map_8h"/>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="44" relation="include">
         </childnode>
@@ -811,7 +816,7 @@
       <node id="55">
         <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h</label>
         <link refid="_ordered_multi_map_8h"/>
-        <childnode refid="6" relation="include">
+        <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>
@@ -819,7 +824,7 @@
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="54" relation="include">
         </childnode>
@@ -831,17 +836,17 @@
       <node id="53">
         <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</label>
         <link refid="_ordered_multi_map_adapter_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -859,7 +864,7 @@
         <link refid="_ordered_multi_map_sqrt_8h"/>
         <childnode refid="58" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>
@@ -867,7 +872,7 @@
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="54" relation="include">
         </childnode>
@@ -879,25 +884,25 @@
       <node id="66">
         <label>AGRemapCore/tools/parsing/ParseContext.h</label>
         <link refid="_parse_context_8h"/>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
         <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
       <node id="67">
         <label>AGRemapCore/tools/z3/Z3Context.h</label>
         <link refid="_z3_context_8h"/>
-        <childnode refid="2" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
       <node id="68">
         <label>AGRemapCore/tools/z3/Z3Predicate.h</label>
         <link refid="_z3_predicate_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
         <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="67" relation="include">
         </childnode>
@@ -905,20 +910,23 @@
       <node id="21">
         <label>AGRemapCore/view/BaseLogger.h</label>
         <link refid="_base_logger_8h"/>
-        <childnode refid="13" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
         <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
+      </node>
+      <node id="83">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="86">
         <label>Generator.tpp</label>
@@ -989,10 +997,10 @@
       <node id="85">
         <label>coroutine</label>
       </node>
-      <node id="13">
+      <node id="14">
         <label>cstddef</label>
       </node>
-      <node id="10">
+      <node id="11">
         <label>cstdint</label>
       </node>
       <node id="22">
@@ -1001,7 +1009,7 @@
       <node id="23">
         <label>exception</label>
       </node>
-      <node id="6">
+      <node id="2">
         <label>functional</label>
       </node>
       <node id="51">
@@ -1010,10 +1018,10 @@
       <node id="32">
         <label>map</label>
       </node>
-      <node id="2">
+      <node id="3">
         <label>memory</label>
       </node>
-      <node id="15">
+      <node id="4">
         <label>optional</label>
       </node>
       <node id="47">
@@ -1025,7 +1033,7 @@
       <node id="37">
         <label>stdexcept</label>
       </node>
-      <node id="3">
+      <node id="5">
         <label>string</label>
       </node>
       <node id="33">
@@ -1040,19 +1048,19 @@
       <node id="38">
         <label>type_traits</label>
       </node>
-      <node id="7">
+      <node id="8">
         <label>unordered_map</label>
       </node>
       <node id="20">
         <label>unordered_set</label>
       </node>
-      <node id="8">
+      <node id="9">
         <label>utility</label>
       </node>
-      <node id="11">
+      <node id="12">
         <label>variant</label>
       </node>
-      <node id="4">
+      <node id="6">
         <label>vector</label>
       </node>
     </incdepgraph>
@@ -1097,38 +1105,47 @@
 <codeline lineno="14"><highlight class="normal"></highlight></codeline>
 <codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="16"><highlight class="normal"></highlight></codeline>
-<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight></codeline>
-<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_v_g_merge_group_resource_8h" kindref="compound">AGRemapCore/model/iniresources/VGMergeGroupResource.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_res_group_collect_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight></codeline>
-<codeline lineno="24"><highlight class="normal"></highlight></codeline>
-<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
-<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>;</highlight></codeline>
-<codeline lineno="27"><highlight class="normal"></highlight></codeline>
-<codeline lineno="45" refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a75ef5043802aee83d9a3eb4b4e9ee701" kindref="member">VGMergeGroupResBuilder</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect" kindref="compound">ResGroupCollect</ref>&lt;&gt;::GroupedResBuilder<sp/>{</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="47" refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a2e999c940a50435fc104969544bf7135" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a2e999c940a50435fc104969544bf7135" kindref="member">GraphId</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">ResGroupCollect&lt;&gt;::GraphId</ref>;</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"></highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a75ef5043802aee83d9a3eb4b4e9ee701" kindref="member">VGMergeGroupResBuilder</ref>(std::string<sp/>name,<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_merge_group_config" kindref="compound">VGMergeGroupConfig</ref><sp/>config,<sp/><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/>iniFile);</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"></highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1ae33164ce3573ba6053fa88bd2d7001fa" kindref="member">build</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a625a04d7aa20c5ede695cf1747843e8a" kindref="member">store</ref>(<ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref>&amp;<sp/>resource)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a1ae031e54d762b3995527743e47f8388" kindref="member">addResource</ref>(<ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref>&amp;<sp/>group,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a2e999c940a50435fc104969544bf7135" kindref="member">GraphId</ref>&amp;<sp/>resType,<sp/><ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref>&amp;<sp/>resource)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::shared_ptr&lt;VGMergeGroupResource&gt;&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1af948aab3935bd4b8330a99526f630eb2" kindref="member">groups</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="68" refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a416f6964a9e758520e6204399f758df3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a416f6964a9e758520e6204399f758df3" kindref="member">name_</ref>;</highlight></codeline>
-<codeline lineno="69" refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a89cac6c5acd37b4328440c08dc6e686e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_merge_group_config" kindref="compound">VGMergeGroupConfig</ref><sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a89cac6c5acd37b4328440c08dc6e686e" kindref="member">config_</ref>;</highlight></codeline>
-<codeline lineno="70" refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1aced6c238a5d5d46d5f238dc4b343e93c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1aced6c238a5d5d46d5f238dc4b343e93c" kindref="member">iniFile_</ref>;</highlight></codeline>
-<codeline lineno="71" refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a8024749e775de879cef9c7db4c19fc6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;VGMergeGroupResource&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a8024749e775de879cef9c7db4c19fc6c" kindref="member">groups_</ref>;</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_v_g_merge_group_resource_8h" kindref="compound">AGRemapCore/model/iniresources/VGMergeGroupResource.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_res_group_collect_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a75ef5043802aee83d9a3eb4b4e9ee701" kindref="member">VGMergeGroupResBuilder</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect" kindref="compound">ResGroupCollect</ref>&lt;&gt;::GroupedResBuilder<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49" refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a2e999c940a50435fc104969544bf7135" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a2e999c940a50435fc104969544bf7135" kindref="member">GraphId</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">ResGroupCollect&lt;&gt;::GraphId</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a75ef5043802aee83d9a3eb4b4e9ee701" kindref="member">VGMergeGroupResBuilder</ref>(std::string<sp/>name,<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_merge_group_config" kindref="compound">VGMergeGroupConfig</ref><sp/>config,<sp/><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/>iniFile);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a6cf674546e0f628167a3a51231ac6bf6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a6cf674546e0f628167a3a51231ac6bf6" kindref="member">ConfigResolver</ref><sp/>=<sp/>std::function&lt;<ref refid="struct_a_g_remap_core_1_1_v_g_merge_group_config" kindref="compound">VGMergeGroupConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref>*)&gt;;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a75ef5043802aee83d9a3eb4b4e9ee701" kindref="member">VGMergeGroupResBuilder</ref>(std::string<sp/>name,<sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a6cf674546e0f628167a3a51231ac6bf6" kindref="member">ConfigResolver</ref><sp/>configFor,<sp/><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/>iniFile);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1af8a961bdef496884d9d7f4285f47698e" kindref="member">beginGroup</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;Z3Predicate&gt;&amp;<sp/>query)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1ae33164ce3573ba6053fa88bd2d7001fa" kindref="member">build</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a625a04d7aa20c5ede695cf1747843e8a" kindref="member">store</ref>(<ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref>&amp;<sp/>resource)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a1ae031e54d762b3995527743e47f8388" kindref="member">addResource</ref>(<ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref>&amp;<sp/>group,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a2e999c940a50435fc104969544bf7135" kindref="member">GraphId</ref>&amp;<sp/>resType,<sp/><ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref>&amp;<sp/>resource)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::shared_ptr&lt;VGMergeGroupResource&gt;&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1af948aab3935bd4b8330a99526f630eb2" kindref="member">groups</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="106" refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a416f6964a9e758520e6204399f758df3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a416f6964a9e758520e6204399f758df3" kindref="member">name_</ref>;</highlight></codeline>
+<codeline lineno="107" refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a13ebc6182b2b9b74daadd594a4a06d2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a6cf674546e0f628167a3a51231ac6bf6" kindref="member">ConfigResolver</ref><sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a13ebc6182b2b9b74daadd594a4a06d2a" kindref="member">configFor_</ref>;</highlight></codeline>
+<codeline lineno="108" refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a89cac6c5acd37b4328440c08dc6e686e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_merge_group_config" kindref="compound">VGMergeGroupConfig</ref><sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a89cac6c5acd37b4328440c08dc6e686e" kindref="member">config_</ref>;</highlight></codeline>
+<codeline lineno="109" refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1ad38397d6d37df752ec6e380b22f33d5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;Z3Predicate&gt;<sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1ad38397d6d37df752ec6e380b22f33d5b" kindref="member">query_</ref>;</highlight></codeline>
+<codeline lineno="110" refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1aced6c238a5d5d46d5f238dc4b343e93c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1aced6c238a5d5d46d5f238dc4b343e93c" kindref="member">iniFile_</ref>;</highlight></codeline>
+<codeline lineno="111" refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a8024749e775de879cef9c7db4c19fc6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;VGMergeGroupResource&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a8024749e775de879cef9c7db4c19fc6c" kindref="member">groups_</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h"/>
   </compounddef>

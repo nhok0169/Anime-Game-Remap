@@ -103,12 +103,12 @@ namespace AGRemapCore {
 
 
     ModType WWMIBuilder::sanhua() {
-        return makeWWMIModType(ModTypeId::Sanhua);
+        return makeWWMIModType(ModTypeId::Sanhua, {"JinhsiBodyguard"});
     }
 
     ModType WWMIBuilder::sanhuaExorcist() {
         // "SanhuaSkin1" is what WWMI-Assets' PlayerCharacterData calls the skin's folder.
-        return makeWWMIModType(ModTypeId::SanhuaExorcist, {"SanhuaSkin1", "ExorcistSanhua"});
+        return makeWWMIModType(ModTypeId::SanhuaExorcist, {"SanhuaSkin1", "ExorcistSanhua", "SanhuaMoonChasing", "MoonChasingSanhua", "JinhsiBodyguardExorcist", "ExorcistJinhsiBodyguard", "JinhsiBodyguardMoonChasing", "MoonChasingJinhsiBodyguard"});
     }
 
     ModType WWMIBuilder::chisa() {

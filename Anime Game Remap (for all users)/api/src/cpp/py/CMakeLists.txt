@@ -176,6 +176,7 @@ pybind11_add_module(core
     src/model/strategies/bufEditors/PyBufEditor.cpp
     src/model/textures/PyColour.cpp
     src/model/textures/PyColourRange.cpp
+    src/model/files/PyTexCache.cpp
     src/model/files/PyTextureFile.cpp
     src/model/strategies/texEditors/pixelTransforms/PyBasePixelTransform.cpp
     src/model/strategies/texEditors/pixelTransforms/PyCorrectGamma.cpp

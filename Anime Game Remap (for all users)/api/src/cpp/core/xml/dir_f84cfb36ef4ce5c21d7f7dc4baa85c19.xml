@@ -9,6 +9,8 @@
     <innerdir refid="dir_75b3ac33d8c4fb97c00c6508d38d0d68">include/AGRemapCore/data/IniParseData/AyakaSpringbloom</innerdir>
     <innerdir refid="dir_fe0f289af3f7f2e1c9e0c9bda86970ff">include/AGRemapCore/data/IniParseData/Barbara</innerdir>
     <innerdir refid="dir_ff0aead556ccfcfff87e51c09c14a891">include/AGRemapCore/data/IniParseData/BarbaraSummertime</innerdir>
+    <innerdir refid="dir_8f4b36c515683900182802782845bf84">include/AGRemapCore/data/IniParseData/Bennett</innerdir>
+    <innerdir refid="dir_f71332cf529eabf47bac0dc890820406">include/AGRemapCore/data/IniParseData/BennettAdventure</innerdir>
     <innerdir refid="dir_ea91b886d191900dc774e3b6e624b24c">include/AGRemapCore/data/IniParseData/CherryHuTao</innerdir>
     <innerdir refid="dir_ae45d0553da2ac40102f1bc13704901f">include/AGRemapCore/data/IniParseData/Diluc</innerdir>
     <innerdir refid="dir_a8267660e4cdce46678f56679dc42f53">include/AGRemapCore/data/IniParseData/DilucFlamme</innerdir>
@@ -39,6 +41,8 @@
     <innerdir refid="dir_94ba6e7066ec85135a97e7354f5d89a1">include/AGRemapCore/data/IniParseData/Raiden</innerdir>
     <innerdir refid="dir_7d1c53dc97e8538dd018cdb2ca3e072d">include/AGRemapCore/data/IniParseData/Rosaria</innerdir>
     <innerdir refid="dir_7a35054c216e84c39600e9f3c201a29e">include/AGRemapCore/data/IniParseData/RosariaCN</innerdir>
+    <innerdir refid="dir_7e9aa8346a71e310680c1a2eb06a333f">include/AGRemapCore/data/IniParseData/Sanhua</innerdir>
+    <innerdir refid="dir_ada15d2b5de5d3ee14c6964f46fd5355">include/AGRemapCore/data/IniParseData/SanhuaExorcist</innerdir>
     <innerdir refid="dir_3302f69cfb14f119b57631ddc275a7f3">include/AGRemapCore/data/IniParseData/Shenhe</innerdir>
     <innerdir refid="dir_57b0b5a0fc1c85491b674b851ba81b9c">include/AGRemapCore/data/IniParseData/ShenheFrostFlower</innerdir>
     <innerdir refid="dir_9284f728596c9034c5c7da03f1cd7425">include/AGRemapCore/data/IniParseData/Xiangling</innerdir>
@@ -49,6 +53,7 @@
     <innerdir refid="dir_00a830b2d0a3714ea23f1ff25ad8c93d">include/AGRemapCore/data/IniParseData/YelanTranquil</innerdir>
     <innerfile refid="_g_i_m_i_char_parser_8h">GIMICharParser.h</innerfile>
     <innerfile refid="_g_i_m_i_component_parser_8h">GIMIComponentParser.h</innerfile>
+    <innerfile refid="_w_w_m_i_parser_8h">WWMIParser.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

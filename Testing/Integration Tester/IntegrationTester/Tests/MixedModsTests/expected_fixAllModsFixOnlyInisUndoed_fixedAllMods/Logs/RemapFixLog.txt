@@ -5,89 +5,6 @@ All mods
 ================================
 
 
-# Mods/Griffith --> Parsing the .ini file for Raiden
-# Mods/Griffith --> Cleaning up and disabling the OLD STINKY ini
-# Mods/Griffith --> Fixing the .ini file from Raiden to RaidenBoss
-# Mods/Griffith --> 
-
-# Mods/Ei/Raiden/rightWing --> Parsing the .ini file for Raiden
-# Mods/Ei/Raiden/rightWing --> Cleaning up and disabling the OLD STINKY ini
-# Mods/Ei/Raiden/rightWing --> Fixing the .ini file from Raiden to RaidenBoss
-# Mods/Ei/Raiden/rightWing --> 
-
-# Mods/Ei/Raiden/leftWing --> Parsing the .ini file for Raiden
-# Mods/Ei/Raiden/leftWing --> Cleaning up and disabling the OLD STINKY ini
-# Mods/Ei/Raiden/leftWing --> Fixing the .ini file from Raiden to RaidenBoss
-# Mods/Ei/Raiden/leftWing --> 
-
-# Mods/Ei/Raiden/Body/Center --> Parsing the .ini file for Raiden
-# Mods/Ei/Raiden/Body/Center --> Cleaning up and disabling the OLD STINKY ini
-# Mods/Ei/Raiden/Body/Center --> Fixing the .ini file from Raiden to RaidenBoss
-# Mods/Ei/Raiden/Body/Center --> Fixing the resources for heart.ini...
-# Mods/Ei/Raiden/Body/Center --> Fixing blend for whoopsIReferencedTheWrongThingRaidenBossRemapBlend.buf...
-# Mods/Ei/Raiden/Body/Center --> 
-# Mods/Ei/Raiden/Body/Center --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Ei/Raiden/Body/Center --> 
-# Mods/Ei/Raiden/Body/Center --> std::runtime_error: Unable to open file: absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf
-# Mods/Ei/Raiden/Body/Center --> 
-# Mods/Ei/Raiden/Body/Center --> 
-# Mods/Ei/Raiden/Body/Center --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Ei/Raiden/Body/Center --> 
-# Mods/Ei/Raiden/Body/Center --> 
-
-# Mods/Ei/Raiden --> Parsing the .ini file for Raiden
-# Mods/Ei/Raiden --> Cleaning up and disabling the OLD STINKY ini
-# Mods/Ei/Raiden --> Fixing the .ini file from Raiden to RaidenBoss
-# Mods/Ei/Raiden --> 
-
-# Mods/Ayaka/Raiden --> Parsing the .ini file for Raiden
-# Mods/Ayaka/Raiden --> Cleaning up and disabling the OLD STINKY ini
-# Mods/Ayaka/Raiden --> Fixing the .ini file from Raiden to RaidenBoss
-# Mods/Ayaka/Raiden --> 
-
-# Mods/Ayaka/Arlecchino --> Parsing the .ini file for Arlecchino
-# Mods/Ayaka/Arlecchino --> Cleaning up and disabling the OLD STINKY ini
-# Mods/Ayaka/Arlecchino --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
-# Mods/Ayaka/Arlecchino --> 
-
-# Mods/Ayaka --> Parsing the .ini file for Ayaka
-# Mods/Ayaka --> Cleaning up and disabling the OLD STINKY ini
-# Mods/Ayaka --> Fixing the .ini file from Ayaka to AyakaSpringBloom
-# Mods/Ayaka --> Fixing the resources for ayaka.ini...
-# Mods/Ayaka --> Fixing blend for ayakaAyakaSpringBloomRemapBlend.buf...
-# Mods/Ayaka --> 
-# Mods/Ayaka --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Ayaka --> 
-# Mods/Ayaka --> AGRemapCore::BufFileNotRecognized: Blend.buf file format not recognized for absolute/path/Mods/Ayaka/ayakaBlend.buf
-# Mods/Ayaka --> 
-# Mods/Ayaka --> 
-# Mods/Ayaka --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Ayaka --> 
-# Mods/Ayaka --> 
-
-# Mods/Arlecchino/Ugly --> Parsing the .ini file for Arlecchino
-# Mods/Arlecchino/Ugly --> Cleaning up and disabling the OLD STINKY ini
-# Mods/Arlecchino/Ugly --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> std::out_of_range: The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> 
-
-# Mods/Arlecchino/Arlecchino2 --> Parsing the .ini file for Arlecchino
-# Mods/Arlecchino/Arlecchino2 --> Cleaning up and disabling the OLD STINKY ini
-# Mods/Arlecchino/Arlecchino2 --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
-# Mods/Arlecchino/Arlecchino2 --> 
-
-# Mods/Arlecchino/Arlecchino1 --> Parsing the .ini file for Arlecchino
-# Mods/Arlecchino/Arlecchino1 --> Cleaning up and disabling the OLD STINKY ini
-# Mods/Arlecchino/Arlecchino1 --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
-# Mods/Arlecchino/Arlecchino1 --> 
-
 # Mods/Arlecchino --> Parsing the .ini file for Arlecchino
 # Mods/Arlecchino --> Cleaning up and disabling the OLD STINKY ini
 # Mods/Arlecchino --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
@@ -105,16 +22,99 @@ All mods
 # Mods/Arlecchino --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
 # Mods/Arlecchino --> 
 
+# Mods/Arlecchino/Arlecchino1 --> Parsing the .ini file for Arlecchino
+# Mods/Arlecchino/Arlecchino1 --> Cleaning up and disabling the OLD STINKY ini
+# Mods/Arlecchino/Arlecchino1 --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
+# Mods/Arlecchino/Arlecchino1 --> 
+
+# Mods/Arlecchino/Arlecchino2 --> Parsing the .ini file for Arlecchino
+# Mods/Arlecchino/Arlecchino2 --> Cleaning up and disabling the OLD STINKY ini
+# Mods/Arlecchino/Arlecchino2 --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
+# Mods/Arlecchino/Arlecchino2 --> 
+
+# Mods/Arlecchino/Ugly --> Parsing the .ini file for Arlecchino
+# Mods/Arlecchino/Ugly --> Cleaning up and disabling the OLD STINKY ini
+# Mods/Arlecchino/Ugly --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> std::out_of_range: The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> 
+
+# Mods/Ayaka --> Parsing the .ini file for Ayaka
+# Mods/Ayaka --> Cleaning up and disabling the OLD STINKY ini
+# Mods/Ayaka --> Fixing the .ini file from Ayaka to AyakaSpringBloom
+# Mods/Ayaka --> Fixing the resources for ayaka.ini...
+# Mods/Ayaka --> Fixing blend for ayakaAyakaSpringBloomRemapBlend.buf...
+# Mods/Ayaka --> 
+# Mods/Ayaka --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Ayaka --> 
+# Mods/Ayaka --> AGRemapCore::BufFileNotRecognized: Blend.buf file format not recognized for absolute/path/Mods/Ayaka/ayakaBlend.buf
+# Mods/Ayaka --> 
+# Mods/Ayaka --> 
+# Mods/Ayaka --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Ayaka --> 
+# Mods/Ayaka --> 
+
+# Mods/Ayaka/Arlecchino --> Parsing the .ini file for Arlecchino
+# Mods/Ayaka/Arlecchino --> Cleaning up and disabling the OLD STINKY ini
+# Mods/Ayaka/Arlecchino --> Fixing the .ini file from Arlecchino to ArlecchinoBoss
+# Mods/Ayaka/Arlecchino --> 
+
+# Mods/Ayaka/Raiden --> Parsing the .ini file for Raiden
+# Mods/Ayaka/Raiden --> Cleaning up and disabling the OLD STINKY ini
+# Mods/Ayaka/Raiden --> Fixing the .ini file from Raiden to RaidenBoss
+# Mods/Ayaka/Raiden --> 
+
+# Mods/Ei/Raiden --> Parsing the .ini file for Raiden
+# Mods/Ei/Raiden --> Cleaning up and disabling the OLD STINKY ini
+# Mods/Ei/Raiden --> Fixing the .ini file from Raiden to RaidenBoss
+# Mods/Ei/Raiden --> 
+
+# Mods/Ei/Raiden/Body/Center --> Parsing the .ini file for Raiden
+# Mods/Ei/Raiden/Body/Center --> Cleaning up and disabling the OLD STINKY ini
+# Mods/Ei/Raiden/Body/Center --> Fixing the .ini file from Raiden to RaidenBoss
+# Mods/Ei/Raiden/Body/Center --> Fixing the resources for heart.ini...
+# Mods/Ei/Raiden/Body/Center --> Fixing blend for whoopsIReferencedTheWrongThingRaidenBossRemapBlend.buf...
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> std::runtime_error: Unable to open file: absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> 
+
+# Mods/Ei/Raiden/leftWing --> Parsing the .ini file for Raiden
+# Mods/Ei/Raiden/leftWing --> Cleaning up and disabling the OLD STINKY ini
+# Mods/Ei/Raiden/leftWing --> Fixing the .ini file from Raiden to RaidenBoss
+# Mods/Ei/Raiden/leftWing --> 
+
+# Mods/Ei/Raiden/rightWing --> Parsing the .ini file for Raiden
+# Mods/Ei/Raiden/rightWing --> Cleaning up and disabling the OLD STINKY ini
+# Mods/Ei/Raiden/rightWing --> Fixing the .ini file from Raiden to RaidenBoss
+# Mods/Ei/Raiden/rightWing --> 
+
+# Mods/Griffith --> Parsing the .ini file for Raiden
+# Mods/Griffith --> Cleaning up and disabling the OLD STINKY ini
+# Mods/Griffith --> Fixing the .ini file from Raiden to RaidenBoss
+# Mods/Griffith --> 
+
 #  --> 
 #  --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #  --> 
 #  --> WARNING: The following *.ini files were skipped due to warnings (see log above):
 #  --> 
-#  --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
+#  --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
 #  --> 	--- St12out_of_range ---
 #  --> 	The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
 #  --> 
-#  --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
+#  --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
 #  --> 	--- St12out_of_range ---
 #  --> 	The section by the name 'ResourceglitchedOutResourceArlecchinoBossRemapBlend' does not exist
 #  --> 
@@ -129,13 +129,13 @@ All mods
 #  --> 
 #  --> ===== Mod: Mods =====
 #  --> 
-#  --> - Ayaka/ayakaBlend.buf:
-#  --> 	--- N11AGRemapCore20BufFileNotRecognizedE ---
-#  --> 	Blend.buf file format not recognized for absolute/path/Mods/Ayaka/ayakaBlend.buf
-#  --> 
 #  --> - Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf:
 #  --> 	--- St13runtime_error ---
 #  --> 	Unable to open file: absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf
+#  --> 
+#  --> - Ayaka/ayakaBlend.buf:
+#  --> 	--- N11AGRemapCore20BufFileNotRecognizedE ---
+#  --> 	Blend.buf file format not recognized for absolute/path/Mods/Ayaka/ayakaBlend.buf
 #  --> 
 #  --> =====================
 #  --> 

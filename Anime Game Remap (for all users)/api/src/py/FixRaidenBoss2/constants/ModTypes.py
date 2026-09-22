@@ -17,7 +17,7 @@ from typing import Set, TYPE_CHECKING, Optional, Type
 
 ##### LocalImports
 from .BaseModTypeBuilder import BaseModTypeBuilder
-from ..core import GIBuilder
+from ..core import GIBuilder, WWMIBuilder
 from ..tools.Heading import Heading
 from ..tools.Builder import Builder
 from .GlobalClassifiers import GlobalClassifiers
@@ -84,6 +84,16 @@ class ModTypes(StrEnum, DeferredEnum):
         **Barabara Summer mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(barbarasummertime).*\]``
+
+    Bennett: :class:`ModType`
+        **Bennett mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(bennett)((?!adventure).)*\]``
+
+    BennettAdventure: :class:`ModType`
+        **Bennett Summertime Adventure mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(bennettadventure).*\]``
 
     CherryHuTao: :class:`ModType`
         **Hu Tao Lantern Rite mods** :raw-html:`<br />`
@@ -235,6 +245,16 @@ class ModTypes(StrEnum, DeferredEnum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(rosariacn).*\]``
 
+    Sanhua: :class:`ModType`
+        **Sanhua mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the character's vertex buffer hash, eg. ``hash = 33e4890f`` -- a WWMI .ini names its sections after the draw slot (``[TextureOverrideComponent0]``) rather than after the character
+
+    SanhuaExorcist: :class:`ModType`
+        **Sanhua Moon Chasing skin mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the character's vertex buffer hash, eg. ``hash = b101dcf3`` -- a WWMI .ini names its sections after the draw slot (``[TextureOverrideComponent0]``) rather than after the character
+
     Shenhe: :class:`ModType`
         **Shenhe mods** :raw-html:`<br />`
 
@@ -264,6 +284,16 @@ class ModTypes(StrEnum, DeferredEnum):
         **Xingqiu Lantern Rite mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(xingqiubamboo).*\]``
+
+    Yelan: :class:`ModType`
+        **Yelan mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(yelan)((?!tranquil).)*\]``
+
+    YelanTranquil: :class:`ModType`
+        **Yelan Tranquil Banquet mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(yelantranquil).*\]``
     """
 
     Amber = (GIBuilder.amber, )
@@ -273,6 +303,8 @@ class ModTypes(StrEnum, DeferredEnum):
     Arlecchino = (GIBuilder.arlecchino, )
     Barbara = (GIBuilder.barbara, )
     BarbaraSummertime = (GIBuilder.barbaraSummerTime, )
+    Bennett = (GIBuilder.bennett, )
+    BennettAdventure = (GIBuilder.bennettAdventure, )
     CherryHuTao = (GIBuilder.cherryHutao, )
     Diluc = (GIBuilder.diluc, )
     DilucFlamme = (GIBuilder.dilucFlamme, )
@@ -303,12 +335,16 @@ class ModTypes(StrEnum, DeferredEnum):
     Raiden = (GIBuilder.raiden, )
     Rosaria = (GIBuilder.rosaria, )
     RosariaCN = (GIBuilder.rosariaCN, )
+    Sanhua = (WWMIBuilder.sanhua, )
+    SanhuaExorcist = (WWMIBuilder.sanhuaExorcist, )
     Shenhe = (GIBuilder.shenhe, )
     ShenheFrostFlower = (GIBuilder.shenheFrostFlower, )
     Xiangling = (GIBuilder.xiangling, )
     XianglingCheer = (GIBuilder.xianglingCheer, )
     Xingqiu = (GIBuilder.xingqiu, )
     XingqiuBamboo = (GIBuilder.xingqiuBamboo, )
+    Yelan = (GIBuilder.yelan, )
+    YelanTranquil = (GIBuilder.yelanTranquil, )
     
     @classmethod
     def getAll(cls) -> Set["ModType"]:
@@ -346,26 +382,45 @@ class ModTypes(StrEnum, DeferredEnum):
     
     @classmethod
     def getHelpStr(cls, showFullMods: bool = False) -> str:
+        """
+        Retrieves the help text for the supported mod types, for the CLI's ``--help`` epilog
+
+        Parameters
+        ----------
+        showFullMods: :class:`bool`
+            Whether every mod type is listed, each with its aliases and how it is identified, rather
+            than the reader being sent to the documentation :raw-html:`<br />` :raw-html:`<br />`
+
+            Defaults to ``False``, which prints **no list at all**, only the link. The number of
+            supported mods grows with every remap, and a ``--help`` that scrolls a page of character
+            names before reaching the options is worse than useless -- the documentation page below
+            is the same data, carries the aliases with it, and is not capped by a terminal
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            Compare :meth:`GameTypes.getHelpStr`, which defaults to ``True``: there is a handful of
+            games and nowhere else worth sending the reader
+
+        Returns
+        -------
+        :class:`str`
+            The help text for the supported mod types
+        """
+
         result = ""
         helpHeading = Heading("supported types of mods", 15)
         result += f"{helpHeading.open()}\n\nThe names/aliases for the mod types are not case sensitive\n\n"
 
         if (not showFullMods):
-            result += "Below contains a condensed list of all the supported mods, for more details, please visit:\nhttps://github.com/nhok0169/Anime-Game-Remap/tree/master/Anime%20Game%20Remap%20(for%20all%20users)/api#mod-types\n\n"
+            result += "For the list of all the supported mods, their aliases and how each one is identified, please visit:\nhttps://anime-game-remap.readthedocs.io/en/latest/commandOpts.html#mod-types\n\n"
+            result += f"{helpHeading.close()}"
+            return result
 
         modTypeHelpTxt = []
         for modTypeEnum in cls:
-            modType = modTypeEnum.value
-            
-            if (showFullMods):
-                currentHelpStr = modType.getHelpStr()
-            else:
-                currentHelpStr = f"- {modType.name}"
-
-            modTypeHelpTxt.append(currentHelpStr)
+            modTypeHelpTxt.append(modTypeEnum.value.getHelpStr())
 
         modTypeHelpTxt = "\n".join(modTypeHelpTxt)
-        
+
         result += f"{modTypeHelpTxt}\n\n{helpHeading.close()}"
         return result
     

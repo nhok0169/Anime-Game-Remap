@@ -2413,6 +2413,34 @@ that "works on Windows": `.cast<[A-Za-z]+>\(\)\.[a-z]+\(\)` in a range-for or bo
 reference is the pattern, and a binding that returns a reference to a member is what makes it
 lethal.
 
+### The folder walk reported every batch BACKWARDS (2026-09-20)
+
+`RemapService::_fix` keeps the folders it still has to visit in a `std::deque`, pushed at the back
+by `FolderWalk::push` -- and it used to take the next folder off the **back** as well, the shape an
+iterative depth-first walk falls into. Every batch queued is already in the order it should be
+reported in (`FileService::getFilesAndDirs` sorts, pre-order, the way Windows sorts names), so
+popping the back read each batch in reverse: a `Mods` folder holding `A`, `B`, `C` was walked `C`,
+`B`, `A`, and a subtree came out *after* the sibling that follows it. Measured on the Integration
+Tester's `MixedMods` inputs, the old order was the exact reverse of the new one, top to bottom.
+
+It takes the **front** now. Nothing else changed: each batch is a whole subtree already flattened
+pre-order, so a FIFO queue walks the tree top-down in name order, and a folder found later (an
+`.ini` file's referenced folder, a folder an undo took files out of) is visited after the ones
+already queued rather than jumping the line.
+
+Two things to know before touching it again:
+
+- **The file output does not depend on the order, and one artifact does.** Fixing the same 35-file
+  fixture with both builds gave **132 output files, byte-identical**, so no `.ini`, buffer, texture
+  or backup moves. What does move is the log -- and through it
+  `Testing/Integration Tester/.../expected_*/Logs/summaryLog.txt`, whose "were skipped due to
+  warnings" list is in visiting order. That golden **is** compared (only `RemapFixLog.txt` is
+  skipped); see [Testing](../Testing/CLAUDE.md).
+- **`core/tests/RemapService_fix_test.cpp`'s `testFoldersAreVisitedInOrder` pins it**, and it was
+  written against the broken build first: it printed `C`, `B`, `A2`, `A` before the fix and the
+  expected order after. Unlike `FileService_walkOrder_test`, it fails on Windows too --- the
+  reversal is the code's, not the filesystem's.
+
 ### An undo never parses, so its folder walk is fed by what the removal TOOK (2026-09-17)
 
 `RemapService::_fix` reaches folders outside the start folder through each `.ini` file's parsed
@@ -2627,6 +2655,53 @@ standalone test drives to prove the option is not merely recorded. That is worth
 - **`RaidenBoss` and `ArlecchinoBoss` cannot be resolved by name at all**, in either language. They
   are remap *targets* only, `GIBuilder::all()` has no factory for them, and the Python `ModTypes`
   enum has no member either. A test or an example using one as a `--remappedTypes` value fails.
+- **Register mod types in BULK** --- `ModTypeIdTools::registerModTypes`, not `registerModType` in a
+  loop. See the next section for why that is not a style preference.
+- **`GlobalModTypes::registerMissing()` is free after the first call**, and the guard is
+  `ModTypeIdTools::generation()` rather than a "done" flag. `clear()` is the only thing that bumps
+  the generation, and it is the only thing that can make a filed id absent again --- so a plain flag
+  would leave the registry empty for the rest of the process after a `clear()`, which is the exact
+  bug the same pattern in `GlobalIniClassifiers` was written to fix. Pinned by
+  `core/tests/BaseAhoCorasickDFA_AddMany_test.cpp`'s clear-then-refile case, which was run against a
+  deliberately naive flag first and failed. This matters because the call is **not** once a run:
+  `RemapServiceCLI`'s constructor makes one and the first `classify()` makes another.
+
+## `add` on an Aho-Corasick automaton is a FULL REBUILD, so a loop of them is quadratic (2026-09-20)
+
+`BaseAhoCorasickDFA::add(key, val)` reads like an insertion and is not one. A keyword's failure
+links depend on every *other* keyword, so the implementation copies every keyword it already holds
+into a fresh `std::unordered_map` and calls `build()` on the lot. Adding *n* keywords one at a time
+therefore does *n* full reconstructions over a growing set.
+
+That is easy to write without noticing, and it was: `ModTypeIdTools::registerModType` called
+`_nameDFA.add` once per name and once per alias, and `GlobalModTypes::registerMissing` called *it*
+in a loop over all 49 shipped mod types. The result was **8ms to register one mod type** and
+**0.40s of a 1.3s run** to register the library's own --- for 284 names, on a lookup nothing had
+ever complained about, because each individual call still returns instantly.
+
+The fix is `BaseAhoCorasickDFA::addMany(entries)`: the same extraction and the same
+`handleDuplicate` merge as `add`, done once for the whole batch, with **one** `build()` at the end
+and no `build()` at all for an empty batch. `registerModTypes` accumulates every name and alias and
+hands them over together, and `registerModType` is now its one-element case so the two cannot
+drift. `registerMissing` went 0.53s -> 0.09s, and its second call --- an ordinary run makes one,
+when the classifiers are populated --- now does no automaton work whatsoever.
+
+Three things to carry forward:
+
+- **`addMany` is deliberately core-only and non-`virtual`.** The bound `add` is overridable from a
+  Python subclass through the trampoline; a batch does not route through it, so binding `addMany`
+  would let a subclass's customised `add` be quietly bypassed. If Python ever needs bulk, bind it as
+  a loop over `add`'s virtual entry point.
+- **The acceptance test is equivalence, not speed**
+  (`core/tests/BaseAhoCorasickDFA_AddMany_test.cpp`): every case builds the same keywords *both*
+  ways and requires the two automatons to answer the same, on deliberately overlapping keywords
+  (`an` inside `banana`, `ana` spanning it twice), because the failure links are the only part a
+  bulk build can get wrong and the only part invisible to a check that merely asks which keywords
+  are held. It was run against a deliberately broken `addMany` first and reported 4 failures ---
+  habit 34.
+- **Anything else that adds keywords in a loop has the same bug.** The `IniClassifier`'s `stateDFA`
+  does *not*: its `addState`/`addKeywordTransition` are genuinely incremental. Check which kind you
+  have before copying a pattern.
 
 ## Adding a resource type: the base is add-vs-edit, and it is unreachable until a `resEdits/` class builds it
 

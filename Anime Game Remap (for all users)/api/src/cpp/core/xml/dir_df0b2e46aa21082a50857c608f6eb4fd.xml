@@ -9,6 +9,8 @@
     <innerdir refid="dir_6ca3b3aa0c19f7d811f2283134f3a928">src/data/IniParseData/AyakaSpringbloom</innerdir>
     <innerdir refid="dir_02ac7716888046425712158f06bd61c8">src/data/IniParseData/Barbara</innerdir>
     <innerdir refid="dir_2078836bcd6a988550c40e8beac7d66a">src/data/IniParseData/BarbaraSummertime</innerdir>
+    <innerdir refid="dir_1e259576dcaf849afef751a510e376ef">src/data/IniParseData/Bennett</innerdir>
+    <innerdir refid="dir_d443bbda8c296afd9d188bf9e1bd8789">src/data/IniParseData/BennettAdventure</innerdir>
     <innerdir refid="dir_25a7db1bb6bc60a250ad437f8aee695a">src/data/IniParseData/CherryHuTao</innerdir>
     <innerdir refid="dir_450e4e7d6c7802f35860bef9745d587e">src/data/IniParseData/Diluc</innerdir>
     <innerdir refid="dir_48ca439cd3f0dd8745dcafe93acdcd14">src/data/IniParseData/DilucFlamme</innerdir>
@@ -39,6 +41,8 @@
     <innerdir refid="dir_7f84deb5e2bd66c228fb7ce5b7c32fa6">src/data/IniParseData/Raiden</innerdir>
     <innerdir refid="dir_bb96075b8dcb2abe1eb63e775e9cdf73">src/data/IniParseData/Rosaria</innerdir>
     <innerdir refid="dir_2a7e1139a0e074c94ed8909e65eccfb9">src/data/IniParseData/RosariaCN</innerdir>
+    <innerdir refid="dir_1a72177395bee1ff5987b99bed0900af">src/data/IniParseData/Sanhua</innerdir>
+    <innerdir refid="dir_48fbde14adef01e05b023abf8911921d">src/data/IniParseData/SanhuaExorcist</innerdir>
     <innerdir refid="dir_084a89b1559e7238ff05fb14adfe88be">src/data/IniParseData/Shenhe</innerdir>
     <innerdir refid="dir_601096fb9f5fdad2d849e89c78fa0437">src/data/IniParseData/ShenheFrostFlower</innerdir>
     <innerdir refid="dir_2d7db9eeba00ad3c7d5e27d473bca82b">src/data/IniParseData/Xiangling</innerdir>
@@ -49,6 +53,7 @@
     <innerdir refid="dir_213d24b3c6fff506f3a307d486eee033">src/data/IniParseData/YelanTranquil</innerdir>
     <innerfile refid="_g_i_m_i_char_parser_8cpp">GIMICharParser.cpp</innerfile>
     <innerfile refid="_g_i_m_i_component_parser_8cpp">GIMIComponentParser.cpp</innerfile>
+    <innerfile refid="_w_w_m_i_parser_8cpp">WWMIParser.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

@@ -860,6 +860,21 @@ Stub for the xingqiuBamboo4_0&apos;s remover -- returns
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="476" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="76" bodyend="76"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1adedfdaad1f809eb106ceb51acb0fa82c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::wwmiStub</definition>
+        <argsstring>()</argsstring>
+        <name>wwmiStub</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::wwmiStub</qualifiedname>
+        <briefdescription>
+<para>The STUB every WuWa row points at (2026-09-19) <ndash/> :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="481" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="77" bodyend="77"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -896,7 +911,7 @@ One static method per mod, each returning the :cpp:type:`IniRemoveBuilder::Facto
    exactly as on the parse and fix sides
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="58" column="5" bodyfile="include/AGRemapCore/data/IniRemoveBuilderData.h" bodystart="58" bodyend="478"/>
+    <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="58" column="5" bodyfile="include/AGRemapCore/data/IniRemoveBuilderData.h" bodystart="58" bodyend="483"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5ef672f3db322f17249216acb438d33f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>amber4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a42f61a27e5b21150c5657ab64f059dfa" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>amberCN4_0</name></member>
@@ -940,6 +955,7 @@ One static method per mod, each returning the :cpp:type:`IniRemoveBuilder::Facto
       <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a15fbb9c1417b632465ba391d52aa71ee" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>rosariaCN4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ac1f4cbbe69f345c477f13ed2139cbd3c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>shenhe4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a6ea5165ace774257dedf400bb0a02e6e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>shenheFrostFlower4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1adedfdaad1f809eb106ceb51acb0fa82c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>wwmiStub</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1add6bf68b4315e33936b11786a2518ddd" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>xiangling4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a159b123976db91ecc3887615fbb72b5f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>xianglingCheer4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5ed8a17b00b91c0c0731fbcc866ac3dc" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>xingqiu4_0</name></member>

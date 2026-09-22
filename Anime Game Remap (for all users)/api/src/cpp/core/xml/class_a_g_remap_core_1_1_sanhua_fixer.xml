@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_sanhua_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::SanhuaFixer</compoundname>
+    <includes refid="_sanhua_fixer_8h" local="no">SanhuaFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_sanhua_fixer_1a9bb9952af337791c2d5540c6673710d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::SanhuaFixer::SanhuaFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>SanhuaFixer</name>
+        <qualifiedname>AGRemapCore::SanhuaFixer::SanhuaFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Sanhua/SanhuaFixer.h" line="30" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_sanhua_fixer_1ac23a765c5d1d3889abc4f52aea03aeff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::SanhuaFixer::exorcist2_5</definition>
+        <argsstring>()</argsstring>
+        <name>exorcist2_5</name>
+        <qualifiedname>AGRemapCore::SanhuaFixer::exorcist2_5</qualifiedname>
+        <briefdescription>
+<para>The 2.5 fix remapping <bold>Sanhua onto SanhuaExorcist</bold> <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af51b14728644097cddbdb3ce79898db2" kindref="member">IniFixBuilderFuncs::sanhuaExorcist2_5</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Sanhua/SanhuaFixer.h" line="35" column="43" bodyfile="src/data/IniFixData/Sanhua/SanhuaFixer.cpp" bodystart="151" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Sanhua&apos;s own ``.ini`` fixers -- the first Wuthering Waves remap, Sanhua onto her Exorcist
+skin, through :cpp:func:`makeWWMIFixer`. Pair this with :cpp:class:`SanhuaParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Sanhua/SanhuaFixer.h" line="28" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Sanhua/SanhuaFixer.h" bodystart="28" bodyend="36"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_sanhua_fixer_1ac23a765c5d1d3889abc4f52aea03aeff" prot="public" virt="non-virtual"><scope>AGRemapCore::SanhuaFixer</scope><name>exorcist2_5</name></member>
+      <member refid="class_a_g_remap_core_1_1_sanhua_fixer_1a9bb9952af337791c2d5540c6673710d2" prot="public" virt="non-virtual"><scope>AGRemapCore::SanhuaFixer</scope><name>SanhuaFixer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

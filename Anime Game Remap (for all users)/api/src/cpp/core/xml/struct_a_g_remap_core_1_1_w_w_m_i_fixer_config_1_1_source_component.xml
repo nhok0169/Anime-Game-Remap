@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::SourceComponent</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1a367138aa205bf3cc3ad100c8610b6263" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::WWMIFixerConfig::SourceComponent::slot</definition>
+        <argsstring></argsstring>
+        <name>slot</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::SourceComponent::slot</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The target draw slot it goes through. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="108" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1ab904796798a3d61f734be2c19f33e7f2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding" kindref="compound">Binding</ref> &gt;</type>
+        <definition>std::vector&lt;Binding&gt; AGRemapCore::WWMIFixerConfig::SourceComponent::bindings</definition>
+        <argsstring></argsstring>
+        <name>bindings</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::SourceComponent::bindings</qualifiedname>
+        <briefdescription>
+<para>The registers its command list binds, in this order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="113" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>How one SOURCE component is drawn on the target. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="104" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="104" bodyend="114"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1ab904796798a3d61f734be2c19f33e7f2" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::SourceComponent</scope><name>bindings</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1a367138aa205bf3cc3ad100c8610b6263" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::SourceComponent</scope><name>slot</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

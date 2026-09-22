@@ -62,6 +62,36 @@ later version wins over the shipped row for any fix at or after that version.
 **4. A source has exactly `max(BLENDINDICES) + 1` groups**, holes included: a bone no vertex
 uses still exists and still needs a row. Count it from the geometry, never from the row.
 
+**5. A group maps to a group of the same PART, and the finder cannot know what a part is
+(2026-09-22).** `Tools/VGRemapFinder` ranks candidates by proximity, which is a property of ONE
+bone; which assembly a bone belongs to is a property of the whole model, and the two disagree
+wherever two parts are close together. The maintainer has always done this by hand --- on Diluc,
+jacket bones go to jacket bones even where a leg bone is nearer --- and it is the half of the job
+that does not automate.
+
+What it costs when it is skipped: **Chisa's jacket shoulders were mapped onto ChisaParfait's
+HAIR**, and took three in-game rounds to find. The hair bones sit 4.7-6.3 units from the shoulder
+bones they stood in for, so they are a perfectly good answer to "what is nearest" and a wrong
+answer to "what is this". Hair is physics-simulated, so the jacket swung with it (reported as
+"floating like jello") and sat leaning at rest (reported as "skewed to the right"). **No distance
+check can see this and neither can a symmetry check** --- the mapping was symmetric, and making it
+more symmetric only made the wobble symmetric.
+
+So a finder proposal is a **draft, never a result**. Before it is transcribed, every row is read
+once against the question *what part is this bone, and is its target the same part*:
+
+* **WuWa** makes it easy, because a bone's component is written down: the vg window in each
+  `TextureOverrideComponent<N>` section says which component contributes it, and the components
+  are different kinds of thing (component 1 is the long hair on both Chisa and ChisaParfait).
+  `Tools/Misc/Diagnostics/vgSymmetry.py --hair <N>` prints the whole source-component ->
+  target-component grid and lists every bone sent into the component you name as physics.
+* **GI** has no component column, so the part comes from the geometry: `VertexGroups`' `objects`
+  column, the centres and extents, and `modTally.py --centroids` / `boneCentroids.py`.
+* **A crossing is not automatically a fault.** Two characters split the TORSO at different
+  heights --- ChisaParfait's component 3 is z 80-154 against Chisa's 69-138 --- so 29% of her
+  BODY maps across components and renders correctly. What matters is a crossing between
+  different KINDS: body to hair, cloth to skin, a rigid prop onto a simulated chain.
+
 <br>
 
 ## A character of SEVERAL components (2026-09-12) --- the hurdle for every newer skin, and for WuWa
@@ -529,9 +559,16 @@ the whole index order.
 2. **Propose both directions** (command 1). Read the summary: `unmatched source groups` must be
    empty by construction; `target groups nothing maps onto` is fine; the `least certain` list is
    what to look at.
-3. **Check the high-uncertainty rows** with `--mode vertices` for the ones that are a part the
-   other skin lacks, and by geometry (`VertexGroups`' centres/extents, the `objects` column) for
-   the rest. Overrule the tally when it lands on hair for a non-hair part.
+3. **Review EVERY row for context, not just the high-uncertainty ones** (invariant 5). The
+   finder ranks by proximity and cannot know what part a bone belongs to, so this pass is the
+   half of the job that does not automate --- and skipping it is what put Chisa's jacket
+   shoulders on ChisaParfait's hair for three in-game rounds. Ask of each row *what part is this
+   bone, and is its target the same part*: on WuWa read the component off the vg windows
+   (`vgSymmetry.py --hair <N>` prints the grid and the offenders), on GI off `VertexGroups`'
+   `objects` column and the centres/extents. Then use `--mode vertices` for a part the other skin
+   lacks, and the `least certain` list to decide where to spend the most time. Overrule the tally
+   whenever it lands on a different KIND of part --- hair for a non-hair part above all, since
+   hair is simulated and anything riding it wobbles.
 4. **Hand the workbook to the maintainer for the in-game check.** Write the reasoning for every
    judgement call into the Comments column; that is what the drafts are for.
 5. **Transcribe into `VGRemapData.cpp`**: one row per direction, every source group present,

@@ -39,7 +39,9 @@ decisions the guides call theirs. A remap is tested on **every** mod of the char
 they name: `mods <IMP> only <mod> --from <folder>` swaps one in, and the previous one goes back
 where it came from. On WuWa, a frame dump with XXMI's WWMI call/debug logging on froze the game long
 enough for Unreal's watchdog to kill it, and turning that logging off is the maintainer's switch.
-See [Game View](AI%20Agent%20Help/GameView/CLAUDE.md).
+**No screenshot may show the player's game UID** (bottom right in both games). GameView cuts the
+bottom of every capture for that, and an image from anywhere else is cropped the same way before it
+is kept or shown. See [Game View](AI%20Agent%20Help/GameView/CLAUDE.md).
 
 **A NEW `char <-> skin` REMAP HAS A FIXED TWELVE-STEP PIPELINE, WRITTEN DOWN BY THE MAINTAINER
 (2026-09-23).** In short: downloads -> RemapDraft -> mod data in the API (vertex group remap,

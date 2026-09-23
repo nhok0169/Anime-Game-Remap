@@ -2435,7 +2435,8 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             if (buildsSkeleton):
                 # FIRST, so the merge runs before anything else this section does: vg_offset and
                 #   vg_count tell the merger which window of the merged skeleton this component
-                #   occupies, and the merge list then binds vs-cb3 / vs-cb4 to what it built.
+                #   occupies, and the merge list then binds vs-cb3 / vs-cb4 to the buffer it
+                #   PUBLISHED -- last frame's, complete, rather than this frame's partial one.
                 additions[0:0] = [("$\\WWMIv1\\vg_offset", str(c["vg_offset"])),
                                   ("$\\WWMIv1\\vg_count", str(c["vg_count"])),
                                   ("run", fixName("CommandListMergeSkeleton"))]
@@ -2527,18 +2528,27 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             mergeList = fixName("CommandListMergeSkeleton")
             appended.append("\n".join([
                 f"; {SourceName} mods of this vintage build no merged skeleton, so the remap builds its own:",
-                "; the merger reads the game's per-slot vs-cb4 through cs-cb8 and writes the merged one, which",
-                "; the remapped blend's ids are expressed in. The RW -> SRV copy is here rather than in [Present]",
-                "; so the fix need not declare a second global section in somebody's mod.",
+                "; the merger reads the game's per-slot vs-cb4 (and vs-cb3, for the bones past 256) through",
+                "; cs-cb8 and writes the merged one, which the remapped blend's ids are expressed in.",
+                ";",
+                "; THE COPY IS FIRST, AND THAT IS THE WHOLE POINT. Each component's draw merges only its OWN",
+                "; window, so the buffer is complete only once every component has drawn -- and a remap sends",
+                "; a vertex to whichever component's window its target bone lives in, which may not have been",
+                "; merged yet this frame. Copying at the top publishes the PREVIOUS frame's complete buffer,",
+                "; which is what WWMI's own [Present] hook does; a copy after the merge publishes a partial one.",
                 f"[{mergeList}]",
+                "ResourceMergedSkeleton = copy ResourceMergedSkeletonRW",
+                "ResourceExtraMergedSkeleton = copy ResourceExtraMergedSkeletonRW",
                 "$\\WWMIv1\\custom_mesh_scale = 1.00",
                 "cs-cb8 = ref vs-cb4",
                 "cs-u6 = ResourceMergedSkeletonRW",
                 "run = CustomShader\\WWMIv1\\SkeletonMerger",
+                # the bones past 256 are in vs-cb3, not vs-cb4. Without this rebind the second run
+                #   merges vs-cb4 again and every such bone takes another bone's matrix -- and Chisa
+                #   is past 256, which is why she carries a blend remap at all.
+                "cs-cb8 = ref vs-cb3",
                 "cs-u6 = ResourceExtraMergedSkeletonRW",
                 "run = CustomShader\\WWMIv1\\SkeletonMerger",
-                "ResourceMergedSkeleton = copy ResourceMergedSkeletonRW",
-                "ResourceExtraMergedSkeleton = copy ResourceExtraMergedSkeletonRW",
                 "vs-cb3 = ref ResourceExtraMergedSkeleton",
                 "vs-cb4 = ref ResourceMergedSkeleton", ""]))
             for name in ("ResourceMergedSkeleton", "ResourceExtraMergedSkeleton"):
@@ -2556,9 +2566,19 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             appended.append("\n".join([
                 f"; nothing of the mod is drawn through {toModName}'s {TargetLabels.get(slot, slot)} slot: the skin's own geometry is skipped and its bones still merged",
                 f"[{name}]", f"hash = {target['vb0_hash']}", f"match_first_index = {c['index_offset']}", f"match_index_count = {c['index_count']}",
-                "$object_detected = 1", "if $mod_enabled", f"    local $state_id_{slot}", f"    if $state_id_{slot} != $state_id", f"        $state_id_{slot} = $state_id",
-                f"        $\\WWMIv1\\vg_offset = {c['vg_offset']}", f"        $\\WWMIv1\\vg_count = {c['vg_count']}", f"        run = {fixName('CommandListMergeSkeleton')}", "    endif",
-                "    if ResourceMergedSkeleton !== null", "        handling = skip", "    endif", "endif", ""]))
+                "$object_detected = 1", "if $mod_enabled"]
+                + ([f"    local $state_id_{slot}", f"    if $state_id_{slot} != $state_id", f"        $state_id_{slot} = $state_id",
+                    f"        $\\WWMIv1\\vg_offset = {c['vg_offset']}", f"        $\\WWMIv1\\vg_count = {c['vg_count']}",
+                    f"        run = {fixName('CommandListMergeSkeleton')}", "    endif"]
+                   if (not buildsSkeleton) else
+                   # A MOD OF THIS VINTAGE DEFINES NO `$state_id`, so the guard above compares an
+                   #   uninitialised local with an undefined global -- 0 against 0, false on every
+                   #   frame -- and this window would never merge at all. The merge is idempotent
+                   #   per window, so it simply runs. These are not idle windows either: a remap
+                   #   sends bones into the slots nothing is drawn through as readily as any other.
+                   [f"    $\\WWMIv1\\vg_offset = {c['vg_offset']}", f"    $\\WWMIv1\\vg_count = {c['vg_count']}",
+                    f"    run = {fixName('CommandListMergeSkeleton')}"])
+                + ["    if ResourceMergedSkeleton !== null", "        handling = skip", "    endif", "endif", ""]))
 
         # ---- the meshes OUTSIDE the character's own vb0, whose textures still have to be hers ----
         for n, (meshHash, byPass) in enumerate(SharedMeshes.items()):

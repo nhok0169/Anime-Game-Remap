@@ -204,6 +204,21 @@ maintainer's machine, and copied here so another machine can read and run them. 
 [README](../../Tools/Misc/README.md) maps each file to the guide that uses it and says which copy
 is the live one. Same rule as the rest of this folder: nothing tests it, run before you change.
 
+## `Tools/GameView`: the one tool that drives the game
+
+Its usage lives in [Game View](../GameView/CLAUDE.md); what matters when CHANGING it:
+
+- **It breaks the sibling-path convention on purpose.** Every path is off `__file__`
+  (`GameView/config.py`), because its elevated helper runs it from wherever `pythonw` was started.
+  It imports nothing from `Utilities`.
+- **Test an input or capture change against a harmless window first.** `-w <regex>` drives any
+  window: a 20-line Tk window that logs its key and mouse events (see the README's verification
+  notes) proves a change before it touches the game. Then prove it against the game, since UIPI and
+  raw input only show up there.
+- **The helper re-runs `main.py` in a fresh child per request**, so an edit takes effect without
+  restarting it. A change to `helper.py` itself does need a `helper stop` + `helper start`, and the
+  start needs the user's UAC click.
+
 ## Traps that each cost real time
 
 - **PowerShell's `Select-Object -First N` kills the native process it is reading.** The command

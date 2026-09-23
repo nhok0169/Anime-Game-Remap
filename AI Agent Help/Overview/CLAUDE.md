@@ -57,6 +57,8 @@ Testing/
   Integration Tester/           <- end-to-end suite, run via its own main.py
 Tools/
   APIBuilder/                   <- the build driver for api/ (what you use to compile everything)
+  GameView/                     <- lets an agent see and drive the game: screenshots, input, 3DMigoto
+                                   reload + its warnings, frame dumps, mod parking -- see Game View
   TexConverter/                 <- converts .dds textures to .png/.bmp/.jpg so they can actually be
                                    looked at (the Read tool can't open a .dds) -- see Texture Editing
   VGRemapFinder/                <- proposes a vertex-group remap (a Data/RemapDrafts workbook) from two
@@ -1159,6 +1161,37 @@ transcription error twice before listing which files differ and noticing one of 
 `ABSENT`. **Give both sides the same download setting** (the prototypes take `--download disabled`
 now, and the old-vs-new benchmark learned the same lesson in habit 60) and the comparison is exact.
 Compare that way to judge the CONFIG, and without it to exercise the download path.
+
+**69. THE MAINTAINER STEPS IN AT THE END, NOT BETWEEN ROUNDS (2026-09-23).** Their words: "the only
+time I should really intervene is at the end when they finished the entire remap, and want my final
+check." Every in-game round used to be a message to them ("can you screenshot the elbow?", "can you
+F8 here?"), and that was the part they were tired of. `Tools/GameView` now does the looking:
+screenshots, keyboard and mouse, F10 with the warnings per mod, F8 with a labelled folder, and swapping
+each of a character's mods in and out of `Mods`. See [Game View](../GameView/CLAUDE.md). So before
+you write a question to the maintainer, check it is one of the four the tool cannot answer: the
+helper's UAC click (once per Windows session, asked at the START), a game login, anything that
+spends or sends, or a decision the guides call theirs. A failed round is yours to diagnose and retry.
+What they get at the end is ONE message with the evidence: per mod, the base vs remap `pair`, the
+warnings that remain and why, and what you fixed in place so an undo is one command.
+
+**70. A PATTERN OVER A LOG IS WRITTEN AGAINST A FORMAT, AND THE FORMAT IS A SETTING (2026-09-23).**
+`GameView`'s "has the dump started?" check matched `^Frame ?analysis` and worked on GIMI. On WWMI,
+XXMI turns 3DMigoto's call logging on, and then EVERY log line starts `FrameAnalysisContext(...)`.
+The check matched each of them, so a dump that had never started looked like one in progress, and F8
+was never re-pressed. The same flood also meant a "wait until the log goes quiet" never ended
+(8 MB/s, 110 GB in 40 minutes). A detector over a text stream someone else writes (3DMigoto's log, a
+launcher's log, a mod's `.ini`) is tested against the stream **as it is on this machine today**:
+`tail` the real file and check the pattern against lines it must match AND lines it must not. This
+is habit 34 for a regex. The broken input is the live log, not an old build.
+
+**71. WHEN THE HARNESS REFUSES AN ACTION, IT IS A DESIGN CONSTRAINT, NOT A WALL TO ROUTE AROUND
+(2026-09-23).** The first `GameView` design registered a highest-privilege scheduled task so the
+elevated helper could start without a UAC prompt. Auto mode refused it as unrequested persistence.
+The right response was to redesign, not to find another tool that would let it through: the helper
+became a plain process the USER starts with one UAC click, which lives until logoff and installs
+nothing. That costs the maintainer one click per Windows session, and the guide says so plainly.
+The same goes for anything that elevates, persists, spends or sends. Build the version where the
+maintainer holds the key, and put the remaining cost in writing.
 
 **A note that belongs with 66 and 67, since both were instrumentation:** when a count assertion in a
 suite fails, **print the number before believing the message**. Nothing builds `core/tests`, so

@@ -24,6 +24,22 @@ build/test/doc pipelines from scratch when they're already written down.
 | Tools | [`AI Agent Help/Tools/CLAUDE.md`](AI%20Agent%20Help/Tools/CLAUDE.md) | touching anything under `Tools/` — the builders, the `CIPipeline`, the script, or the shared `AGRemapUtils` library. **Nothing tests this layer and it rots silently: run the tool before you change it.** One session found three tools that could not run at all, each broken by the API's package moving during the C++ migration. Also covers the `##### Script` keyword sections and the substring trap in them, and where an option goes now that the script no longer contains the API |
 | CI | [`AI Agent Help/CI/CLAUDE.md`](AI%20Agent%20Help/CI/CLAUDE.md) | touching anything under `.github/workflows`, or a CI run, badge or pull request check behaves oddly -- the map of the eleven workflows, **why renaming a job strands branch protection** (checks are matched by the job-name CHAIN), why the testers need the API's own dependencies installed, which cache works (z3) and which cannot (`cbuild`: checkout resets mtimes), cibuildwheel's copied-not-mounted container, what a "No status" badge means, and how to see the remote when `git fetch` is blocked here. **Run `Tools/Misc/Diagnostics/checkWorkflowWiring.py` before and after any workflow change** |
 | Vertex Group Remaps | [`AI Agent Help/VGRemaps/CLAUDE.md`](AI%20Agent%20Help/VGRemaps/CLAUDE.md) | touching `data/VGRemapData.cpp`, `Data/RemapDrafts/`, `Tools/VGRemapFinder`, or a **"the model is warped / kinked in game"** bug -- where the blend-weight table sits in the maintainer's 8-step remap process, the rule that **every source vertex group must map somewhere** (an unmapped one becomes a *negative* bone index, not nothing), which geometry copy matches the library's versions, and the two recipes: a new character's remap end to end, and diagnosing a deformed model in minutes |
+| Game View | [`AI Agent Help/GameView/CLAUDE.md`](AI%20Agent%20Help/GameView/CLAUDE.md) | about to **ask the maintainer for an in-game screenshot, a frame dump, or "does it look right now?"** -- don't; `Tools/GameView` takes screenshots, drives keyboard and mouse, reloads 3DMigoto and reports the reload's warnings per mod, takes labelled frame dumps, and parks / restores mod folders. Covers the elevated helper the USER starts (Genshin runs as admin, and Windows silently drops input from anything that is not), the per-mod verification loop, how to get a character on screen, and the rules: **never click anything that spends or sends, and never press Enter in the overworld (it opens chat)** |
+
+**AGENTS CAN LOOK AT THE GAME THEMSELVES NOW (2026-09-23).** Every in-game check used to be a
+round trip through the maintainer, and they asked for that to stop: an agent given a remap and the
+mod / asset folders should be able to run the whole pipeline alone. `Tools/GameView` is the game
+half of that. `compare` shows the same frame with mods and with F9 held (every mod off), and
+`reload --mod X` lists the warnings 3DMigoto logged for that one mod. Its first run found every
+`VertexLimitRaise` section the fix writes rejected as `Unrecognised entry` by the old-loader GIMI
+the maintainer uses. **The maintainer steps in ONCE, at the end, for the final check** (Overview
+habit 69). Before that, stop only for what the tool cannot do: the UAC click that starts its helper
+(once per Windows session, asked at the start), a game login, anything that spends or sends, and
+decisions the guides call theirs. A remap is tested on **every** mod of the character in the folder
+they name: `mods <IMP> only <mod> --from <folder>` swaps one in, and the previous one goes back
+where it came from. On WuWa, a frame dump with XXMI's WWMI call/debug logging on froze the game long
+enough for Unreal's watchdog to kill it, and turning that logging off is the maintainer's switch.
+See [Game View](AI%20Agent%20Help/GameView/CLAUDE.md).
 
 **A COUNTER THAT CAN ONLY EVER BE ZERO READS EXACTLY LIKE A ZERO THAT MEANS SOMETHING
 (2026-09-10).** Two of this repo's own summary lines were saying nothing, for weeks, and both
@@ -74,7 +90,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is sixty-eight short habits, none of
+feature or bug request here: the habits that pay" first.** It is seventy-one short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you

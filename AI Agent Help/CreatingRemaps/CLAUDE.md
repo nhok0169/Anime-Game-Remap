@@ -2872,7 +2872,10 @@ get lost:
    running the CLI and reading which sections got classified, before writing any fixer.
 5. **Write the fixer**, using the table above to decide hiding/hashes/indices.
 6. **Wire downloads** if the character needs them -- one line each via `tools/DownloadTools.h`.
-7. **A/B against the old script**, then **ask for an in-game screenshot**. Both, always.
+7. **A/B against the old script**, then **check it in game yourself** with
+   [`Tools/GameView`](../GameView/CLAUDE.md): `reload --mod <folder>` (no new warnings), then
+   `compare` and `crop` on the character. Both, always. Ask the maintainer only to start the
+   helper (one UAC prompt) and for the verdict on what you show them.
 8. **Update the hardcoded counts in `core/tests/`** -- `BuilderData_test.cpp` (rows per builder
    table), `VertexCounts_test.cpp`, `VGRemaps_test.cpp` and `ModTypeRemaps_test.cpp`. Nothing builds
    any of them, so adding a character silently breaks all four; see the count/divergence notes under
@@ -3040,7 +3043,8 @@ Concretely, all five of these happened while building Raiden's 6.1 remap, and no
 - the fix reflowed **every line of every `.ini` file** from CRLF to LF
 
 So: **never conclude a remap works because a run was clean.** The two things that actually decide it
-are the A/B diff against the old script (below) and a screenshot from the game.
+are the A/B diff against the old script (below) and a screenshot from the game, which you take
+yourself with [`Tools/GameView`](../GameView/CLAUDE.md).
 
 <br>
 

@@ -2132,18 +2132,11 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
         #   vg_offset, no `run = CommandListMergeSkeleton`, no `vs-cb4` override -- while the blend
         #   it is handed holds MERGED ids. Refused rather than fixed badly: see the guides' "a
         #   fixer that gives up must write nothing".
-        if (not mergesSkeleton(files.sections)):
-            raise SystemExit(
-                f"'{os.path.basename(ini.file)}' has no [CommandListMergeSkeleton], so this mod predates WWMI's\n"
-                f"merged skeleton: every draw uses the game's per-slot vs-cb4. A remap is skinned against the\n"
-                f"MERGED skeleton, so the remapped blend's ids would mean nothing to those draws and the model\n"
-                f"would come out smeared.\n"
-                f"Carrying the ids into the target slot's own space is not a way out either -- measured on this\n"
-                f"pair, only 64% / 43% / 46% of the body components' bones exist in their target slot's vg_map,\n"
-                f"because the remap sends one source component's bones across several target components.\n"
-                f"Fixing this needs the fix to SYNTHESISE the v1 machinery (a [Present] hook, the merge command\n"
-                f"list, its RW/SRV resources, the per-component vg_offset block and the vs-cb3/vs-cb4 binding),\n"
-                f"which it does not do yet.")
+        buildsSkeleton = not mergesSkeleton(files.sections)
+        if (buildsSkeleton):
+            print(f"    this mod predates WWMI's merged skeleton (no [CommandListMergeSkeleton]), so the remapped\n"
+                  f"    sections build one: every draw of it otherwise uses the game's PER-SLOT vs-cb4, and a remap\n"
+                  f"    is skinned against the merged one.")
         print(f"  {os.path.relpath(ini.file, ini.folder) if ini.folder else ini.file}: {SourceName} components {files.present} -> {toModName}")
 
         def fixName(name: str) -> str:
@@ -2439,6 +2432,14 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                     additions.append(("run", cmdList))
                     paintLegend.append(f"      component {i} on pass {ps} -> flat {name}")
 
+            if (buildsSkeleton):
+                # FIRST, so the merge runs before anything else this section does: vg_offset and
+                #   vg_count tell the merger which window of the merged skeleton this component
+                #   occupies, and the merge list then binds vs-cb3 / vs-cb4 to what it built.
+                additions[0:0] = [("$\\WWMIv1\\vg_offset", str(c["vg_offset"])),
+                                  ("$\\WWMIv1\\vg_count", str(c["vg_count"])),
+                                  ("run", fixName("CommandListMergeSkeleton"))]
+
             if (additions):
                 # right after the shared-resource override (the mod's buffers are bound there): the EARLIEST spot
                 # after it, so a component drawn in several ranges has its textures before the FIRST draw. No
@@ -2520,6 +2521,31 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                                                                                                 componentDrawsOf(files.sections),
                                                                                                 vertexVGPathOf(files.sections, ini.folder)))},
                                             resPredicates = blendRefs))
+
+        # ---- the merged skeleton, for a mod that predates it ----
+        if (buildsSkeleton):
+            mergeList = fixName("CommandListMergeSkeleton")
+            appended.append("\n".join([
+                f"; {SourceName} mods of this vintage build no merged skeleton, so the remap builds its own:",
+                "; the merger reads the game's per-slot vs-cb4 through cs-cb8 and writes the merged one, which",
+                "; the remapped blend's ids are expressed in. The RW -> SRV copy is here rather than in [Present]",
+                "; so the fix need not declare a second global section in somebody's mod.",
+                f"[{mergeList}]",
+                "$\\WWMIv1\\custom_mesh_scale = 1.00",
+                "cs-cb8 = ref vs-cb4",
+                "cs-u6 = ResourceMergedSkeletonRW",
+                "run = CustomShader\\WWMIv1\\SkeletonMerger",
+                "cs-u6 = ResourceExtraMergedSkeletonRW",
+                "run = CustomShader\\WWMIv1\\SkeletonMerger",
+                "ResourceMergedSkeleton = copy ResourceMergedSkeletonRW",
+                "ResourceExtraMergedSkeleton = copy ResourceExtraMergedSkeletonRW",
+                "vs-cb3 = ref ResourceExtraMergedSkeleton",
+                "vs-cb4 = ref ResourceMergedSkeleton", ""]))
+            for name in ("ResourceMergedSkeleton", "ResourceExtraMergedSkeleton"):
+                appended.append(f"[{name}]\n")
+            for name in ("ResourceMergedSkeletonRW", "ResourceExtraMergedSkeletonRW"):
+                appended.append("\n".join([f"[{name}]", "type = RWBuffer", "format = R32G32B32A32_FLOAT",
+                                            "array = 1536", ""]))
 
         # ---- the target slots nothing is drawn through: skipped, and their bones still merged ----
         drawnSlots = {plan[i][0] for i in files.present if (i in plan)}

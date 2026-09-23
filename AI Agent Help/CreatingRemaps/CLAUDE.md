@@ -11,9 +11,9 @@ Read [Architecture](../Architecture/CLAUDE.md) first if you have never touched
 
 ## THE MAINTAINER'S REMAP PIPELINE, END TO END (2026-09-23)
 
-A new character pair, `char <-> skin`, goes through these twelve steps in this order. The
+A new character pair, `char <-> skin`, goes through these thirteen steps in this order. The
 maintainer wrote them down so they stop having to re-teach them. Everything later in this file is
-detail for one step or another, and the table under each step says where. **You run all twelve
+detail for one step or another, and the table under each step says where. **You run all thirteen
 yourself** and hand the maintainer one final check at the end (Overview habit 69).
 
 | # | step | where the detail is |
@@ -21,29 +21,30 @@ yourself** and hand the maintainer one final check at the end (Overview habit 69
 | 1 | **Add the downloads** for both characters | "The download assets" and "Proving a NEW download folder". GI: `Tools/Misc/Prototypes/giDownloadFolder.py`. WuWa: `wwmiDownloadFolder.py`, or `wwmiExtractDump.py` over a frame dump (`Tools/GameView` takes one) |
 | 2 | **Make the RemapDraft** (`Data/RemapDrafts/<Char>RemapDraft.xlsx`, both directions, `Credits` sheet) | [Vertex Group Remaps](../VGRemaps/CLAUDE.md), `Tools/VGRemapFinder` |
 | 3 | **Populate the mod data in the API**: the `ModTypeId`s, vertex group remap, hashes, indices, vertex counts (and WuWa's four extra tables) | "Adding a `ModTypeId`: every place it enters", then bump the `core/tests` counts |
-| 4 | **Prototype `char -> skin`** under `Tools/Misc/Prototypes/`, using as much of the library API as possible, with **every gap noted** in a comment where the custom code lives | "The loop changed" and "A prototype is built FROM the library" |
-| 5 | **Test the prototype on a variety of mods** so it does not overfit | the identity mod first, then "CHOOSING TEST MODS". In game: [Game View](../GameView/CLAUDE.md)'s every-mod loop (`mods ... only <mod> --from <folder>`) |
-| 6 | **Add the `char -> skin` fix to the API**, filling each gap the prototype found by creating or editing modules (`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, the tools modules, ...) | the template sections for the character's SHAPE (the `START HERE` table below). A new module ships with its whole surface: core + binding + tests + Sphinx. Grep the family for an existing class to EXTEND first (Overview habit 53) |
-| 7 | **Test the API fix on all the mods** | A/B against the prototype (`--ab`, `abWWMI.py`, `abCitlaliRev.py`-style), then in game with Game View |
-| 8 | **Prototype `skin -> char`**, library first again | as step 4. It is its own prototype, not step 4 run backwards: the reverse direction of every pair so far needed a different template (split vs merge, `makeGIMIComponentFixer` vs `makeGIMIMergeFixer`) |
-| 9 | **Test it on a variety of mods** | as step 5 |
-| 10 | **Add the `skin -> char` fix to the API**, filling its gaps | as step 6 |
-| 11 | **Test the API fix on all the mods** | as step 7 |
-| 12 | **Document it**: README tables and the Sphinx docs | "Closing out a remap" and `Tools/Misc/Diagnostics/checkModTypeTables.py` (not done until it prints `ALL FOUR AGREE WITH THE LIBRARY`), plus regenerated `core/xml` / `core.pyi` for any new class |
+| 4 | **Make IDENTITY mods for both the original character and their skin**: each one's own model written out as a mod, every object, vertex group, texture and material band of the real model in one folder | GI: `Tools/Misc/Prototypes/identityMod.py <PlayerCharacterData/Name> <mod folder>` ("The Yelan lessons, for ANY new remap", point 1). WuWa: `Tools/Misc/Prototypes/wwmiIdentityMod.py <asset folder> <mod folder> [--name <Skin>]`, from a frame dump via `wwmiExtractDump.py` when WWMI-Assets lacks the character (the Chisa pair). The source's identity mod is the first mod every prototype is tested on; the target's is the ground truth for its register layout and band legend ("A REMAPPED SECTION MAY BIND ONLY WHAT THE TARGET'S SLOT BINDS"), and the first mod the reverse direction is tested on |
+| 5 | **Prototype `char -> skin`** under `Tools/Misc/Prototypes/`, using as much of the library API as possible, with **every gap noted** in a comment where the custom code lives | "The loop changed" and "A prototype is built FROM the library" |
+| 6 | **Test the prototype on a variety of mods** so it does not overfit | the identity mod first, then "CHOOSING TEST MODS". In game: [Game View](../GameView/CLAUDE.md)'s every-mod loop (`mods ... only <mod> --from <folder>`) |
+| 7 | **Add the `char -> skin` fix to the API**, filling each gap the prototype found by creating or editing modules (`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, the tools modules, ...) | the template sections for the character's SHAPE (the `START HERE` table below). A new module ships with its whole surface: core + binding + tests + Sphinx. Grep the family for an existing class to EXTEND first (Overview habit 53) |
+| 8 | **Test the API fix on all the mods** | A/B against the prototype (`--ab`, `abWWMI.py`, `abCitlaliRev.py`-style), then in game with Game View |
+| 9 | **Prototype `skin -> char`**, library first again | as step 5. It is its own prototype, not step 5 run backwards: the reverse direction of every pair so far needed a different template (split vs merge, `makeGIMIComponentFixer` vs `makeGIMIMergeFixer`) |
+| 10 | **Test it on a variety of mods** | as step 6 |
+| 11 | **Add the `skin -> char` fix to the API**, filling its gaps | as step 7 |
+| 12 | **Test the API fix on all the mods** | as step 8 |
+| 13 | **Document it**: README tables and the Sphinx docs | "Closing out a remap" and `Tools/Misc/Diagnostics/checkModTypeTables.py` (not done until it prints `ALL FOUR AGREE WITH THE LIBRARY`), plus regenerated `core/xml` / `core.pyi` for any new class |
 
 What the order is for:
 
 - **Prototype before port, both times.** A rebuild per idea is what the prototype saves (the
   `CppStrategyOverrides` route), and the prototype stays as the ORACLE the compiled fix is A/B'd
   against. Keep it working after the port.
-- **A gap is fixed in the LIBRARY, not in the character's config.** Steps 6 and 10 are where the
+- **A gap is fixed in the LIBRARY, not in the character's config.** Steps 7 and 11 are where the
   shared modules grow, and most of the characters in this file added a template option or a module
   that the next character then used for free. A workaround that lives only in one character's
   folder is a gap left for the next agent.
 - **"Every mod" is the mods the maintainer points you at**, not one that happens to work. An
   overfit fix passing one mod is the most common way a remap came back broken (see the Yelan,
   Bennett and Citlali sections).
-- **Steps 5, 7, 9 and 11 happen IN GAME, by you,** with `Tools/GameView`.
+- **Steps 6, 8, 10 and 12 happen IN GAME, by you,** with `Tools/GameView`.
 - **Test mods the maintainer hands you as downloaded archives** go in with `Tools/ModInstaller`
   (`<archive folder> <mods folder> <Name>` -> `<Name>1`, `<Name>2`, ...; `.zip`, `.rar`, `.7z`),
   into whichever folder they name -- then `mods ... --from` that folder drives the every-mod loop.
@@ -2861,7 +2862,7 @@ drawn by BOTH characters under the same hashes, are filed under neither.
 
 ## Start here: adding a character, in order
 
-*This is the detail of ONE direction's steps 3-7 of "THE MAINTAINER'S REMAP PIPELINE" at the top
+*This is the detail of ONE direction's steps 3 and 5-8 of "THE MAINTAINER'S REMAP PIPELINE" at the top
 of this file. It predates the prototype-first loop; follow the pipeline for the order of the whole
 job, and this list for what one direction's fix involves.*
 

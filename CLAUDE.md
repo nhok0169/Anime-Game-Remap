@@ -43,9 +43,9 @@ enough for Unreal's watchdog to kill it, and turning that logging off is the mai
 bottom of every capture for that, and an image from anywhere else is cropped the same way before it
 is kept or shown. See [Game View](AI%20Agent%20Help/GameView/CLAUDE.md).
 
-**A NEW `char <-> skin` REMAP HAS A FIXED TWELVE-STEP PIPELINE, WRITTEN DOWN BY THE MAINTAINER
+**A NEW `char <-> skin` REMAP HAS A FIXED THIRTEEN-STEP PIPELINE, WRITTEN DOWN BY THE MAINTAINER
 (2026-09-23).** In short: downloads -> RemapDraft -> mod data in the API (vertex group remap,
-hashes, indices, ...) -> prototype `char -> skin` from the library API, noting its gaps -> test it on
+hashes, indices, ...) -> identity mods of both -> prototype `char -> skin` from the library API, noting its gaps -> test it on
 a VARIETY of mods -> port it into the API, filling each gap with a new or extended module
 (`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, tools) -> test the port on ALL
 the mods -> the same prototype / test / port / test for `skin -> char` -> README and Sphinx docs.

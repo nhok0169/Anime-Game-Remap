@@ -1868,6 +1868,78 @@ def vertexVGPathOf(sections: Dict[str, List[str]], folder: str) -> Optional[str]
     return None
 
 
+def sourceVGMaps() -> Optional[Dict[int, Dict[int, int]]]:
+    """{component: {local bone id: merged bone id}} from the SOURCE character's own Metadata.json.
+
+    WWMI's `vg_map` per component is exactly the local -> merged table, and the manifest is already
+    in the download folder this script pulls fallback textures from. None when it is not there, so
+    the caller can decline rather than guess.
+    """
+    path = os.path.join(AssetsFolder, f"{SourceName}Metadata.json")
+    if (not os.path.isfile(path)):
+        return None
+    try:
+        with open(path, encoding = "utf-8") as f:
+            data = json.load(f)
+        out = {}
+        for i, component in enumerate(data.get("components", [])):
+            vgMap = component.get("vg_map") or {}
+            if (vgMap):
+                out[i] = {int(k): int(v) for k, v in vgMap.items()}
+        return out or None
+    except Exception:
+        return None
+
+
+def localBlendIds(ids, componentDraws, indexPath: str, vertexCount: int):
+    """(merged ids, why) when the blend holds per-component LOCAL indices, else (None, why not).
+
+    THE TEST IS THAT EVERY COMPONENT STARTS AT ZERO. In a merged skeleton each component occupies
+    its own window, so only the first can begin at 0; a mod whose every component does is in local
+    space. Both signals are required -- the caller has already checked the `.ini` declares no
+    vg_offset -- because a one-component mod would trip a test on the ids alone.
+    """
+    maps = sourceVGMaps()
+    if (maps is None):
+        return None, f"no {SourceName}Metadata.json under {AssetsFolder} to convert local ids with"
+    if (not componentDraws or not os.path.isfile(indexPath)):
+        return None, "the mod's per-component draw ranges are not available"
+
+    index = np.fromfile(indexPath, dtype = "<u4").astype(np.int64)
+    perComponent, starts = {}, []
+    for component, ranges in sorted(componentDraws.items()):
+        got = [index[start:start + count] for count, start in ranges]
+        if (not got):
+            continue
+        verts = np.unique(np.concatenate(got))
+        verts = verts[verts < vertexCount]
+        if (verts.size == 0):
+            continue
+        perComponent[component] = verts
+        starts.append(int(ids[verts].min()))
+    if (len(starts) < 2 or any(s != 0 for s in starts)):
+        return None, "not every component's bone ids start at 0, so they are already merged ids"
+
+    out = ids.copy()
+    for component, verts in perComponent.items():
+        vgMap = maps.get(component)
+        if (vgMap is None):
+            return None, f"{SourceName}'s metadata has no vg_map for component {component}"
+        highest = max(vgMap)
+        table = np.full(highest + 1, -1, dtype = np.int64)
+        for local, merged in vgMap.items():
+            table[local] = merged
+        rows = ids[verts]
+        if (int(rows.max()) > highest):
+            return None, (f"component {component} uses local id {int(rows.max())} and its vg_map has "
+                          f"only {len(vgMap)} entries (up to {highest})")
+        converted = table[rows]
+        if ((converted < 0).any()):
+            return None, f"component {component} uses local ids its vg_map does not list"
+        out[verts] = converted
+    return out, f"{len(perComponent)} components converted through {SourceName}'s vg_map"
+
+
 def remapWWMIBlend(vgRemap, forced: bool, declared: Optional[int], libraryVertexCount: int,
                    componentDraws: Optional[Dict[int, List[Tuple[int, int]]]] = None,
                    vertexVGPath: Optional[str] = None):
@@ -1899,6 +1971,38 @@ def remapWWMIBlend(vgRemap, forced: bool, declared: Optional[int], libraryVertex
                 raise SystemExit(f"the .ini declares a blend remap whose buffer is at '{vertexVGPath}', "
                                  f"and that file is not there. Remapping Blend.buf instead would remap "
                                  f"component-local ids the game never reads.")
+            # A THIRD LAYOUT: per-component LOCAL ids, from a pre-merged-skeleton export (Chisa17).
+            #   Remapping those as merged ones reads local id 5 of the skirt as merged bone 5 -- a
+            #   jumbled mesh, with most indices surviving untouched because they are not keys of a
+            #   merged table at all. `vg_map` in the source's Metadata.json is the conversion, and
+            #   it is not an offset: component 4's runs 0->152, 1->154, 2->155, 3->167.
+            blendBytes = np.fromfile(resource.srcPath, dtype = np.uint8)
+            positionPath = os.path.join(os.path.dirname(resource.srcPath), "Position.buf")
+            localCount = (os.path.getsize(positionPath) // 12) if (os.path.isfile(positionPath)) else 0
+            localWeights = (blendBytes.size // (2 * localCount)) if (localCount and not blendBytes.size % (2 * localCount)) else 0
+            if (localWeights):
+                localRows = blendBytes.reshape(localCount, 2 * localWeights)
+                localIds = localRows[:, :localWeights].astype(np.int64)
+                merged, why = localBlendIds(localIds, componentDraws,
+                                            os.path.join(os.path.dirname(resource.srcPath), "Index.buf"), localCount)
+                if (merged is not None):
+                    missingLocal = sorted({int(i) for i in np.unique(merged) if int(i) not in dict(getattr(remap, "remap", remap))})
+                    if (missingLocal):
+                        raise SystemExit(f"after converting this mod's LOCAL bone ids through {SourceName}'s vg_map, "
+                                         f"the remap has no row for merged groups {missingLocal[:10]}")
+                    localTable = dict(getattr(remap, "remap", remap))
+                    lut = np.zeros(int(max(localTable)) + 1, dtype = np.int64)
+                    for source, target in localTable.items():
+                        lut[int(source)] = int(target)
+                    localOut = lut[merged]
+                    if (int(localOut.max()) > 255):
+                        raise SystemExit(f"a remapped bone index of {int(localOut.max())} does not fit the 8-bit Blend.buf")
+                    np.concatenate([localOut.astype(np.uint8), localRows[:, localWeights:]], axis = 1).tofile(resource.fixedPath)
+                    print(f"    blend: {localCount} vertices x {localWeights} influences, ids were per-component "
+                          f"LOCAL ({why}), highest remapped bone {int(localOut.max())}")
+                    return True
+                print(f"    (not the local-id layout: {why})")
+
             print(f"    WARNING: no '{VertexVGFile}' beside '{os.path.basename(resource.srcPath)}' and the .ini "
                   f"declares no blend remap, so Blend.buf's own ids are remapped. That is right ONLY for a "
                   f"character whose merged skeleton is under 256 bones -- {SourceName} is not one.")

@@ -44,6 +44,9 @@ What the order is for:
   overfit fix passing one mod is the most common way a remap came back broken (see the Yelan,
   Bennett and Citlali sections).
 - **Steps 5, 7, 9 and 11 happen IN GAME, by you,** with `Tools/GameView`.
+- **Test mods the maintainer hands you as downloaded archives** go in with `Tools/ModInstaller`
+  (`<archive folder> <mods folder> <Name>` -> `<Name>1`, `<Name>2`, ...; `.zip`, `.rar`, `.7z`),
+  into whichever folder they name -- then `mods ... --from` that folder drives the every-mod loop.
 
 <br>
 

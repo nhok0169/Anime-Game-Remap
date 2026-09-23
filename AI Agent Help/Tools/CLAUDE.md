@@ -219,6 +219,15 @@ Its usage lives in [Game View](../GameView/CLAUDE.md); what matters when CHANGIN
   restarting it. A change to `helper.py` itself does need a `helper stop` + `helper start`, and the
   start needs the user's UAC click.
 
+## `Tools/ModInstaller`: downloaded archives into a mods folder
+
+"Here are the Charlotte mods I downloaded, put them in" is
+`py -3 Tools/ModInstaller/main.py <archive folder> <mods folder> Charlotte`: each `.zip` / `.rar`
+(WinRAR) / `.7z` becomes `Charlotte<i>`, numbered after the highest one already in the mods folder
+or its parent (parked mods), wrapper folders flattened. Run `--dryRun` first and show the plan.
+A `.modInstall.json` in each folder records the archive's sha256, so a re-run installs only new
+downloads. Standard library only; see its README for the edge cases it was checked against.
+
 ## Traps that each cost real time
 
 - **PowerShell's `Select-Object -First N` kills the native process it is reading.** The command

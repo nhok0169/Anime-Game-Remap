@@ -7,6 +7,7 @@
     <includedby refid="_bennett_fixer_8cpp" local="yes">src/data/IniFixData/Bennett/BennettFixer.cpp</includedby>
     <includedby refid="_bennett_adventure_fixer_8cpp" local="yes">src/data/IniFixData/BennettAdventure/BennettAdventureFixer.cpp</includedby>
     <includedby refid="_cherry_hu_tao_fixer_8cpp" local="yes">src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp</includedby>
+    <includedby refid="_citlali_fixer_8cpp" local="yes">src/data/IniFixData/Citlali/CitlaliFixer.cpp</includedby>
     <includedby refid="_diluc_flamme_fixer_8cpp" local="yes">src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp</includedby>
     <includedby refid="_fischl_fixer_8cpp" local="yes">src/data/IniFixData/Fischl/FischlFixer.cpp</includedby>
     <includedby refid="_jean_sea_fixer_8cpp" local="yes">src/data/IniFixData/JeanSea/JeanSeaFixer.cpp</includedby>
@@ -69,6 +70,8 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp</label>
@@ -87,54 +90,58 @@
         <link refid="_cherry_hu_tao_fixer_8cpp"/>
       </node>
       <node id="6">
+        <label>src/data/IniFixData/Citlali/CitlaliFixer.cpp</label>
+        <link refid="_citlali_fixer_8cpp"/>
+      </node>
+      <node id="7">
         <label>src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp</label>
         <link refid="_diluc_flamme_fixer_8cpp"/>
       </node>
-      <node id="7">
+      <node id="8">
         <label>src/data/IniFixData/Fischl/FischlFixer.cpp</label>
         <link refid="_fischl_fixer_8cpp"/>
       </node>
-      <node id="8">
+      <node id="9">
         <label>src/data/IniFixData/JeanSea/JeanSeaFixer.cpp</label>
         <link refid="_jean_sea_fixer_8cpp"/>
       </node>
-      <node id="9">
+      <node id="10">
         <label>src/data/IniFixData/Keqing/KeqingFixer.cpp</label>
         <link refid="_keqing_fixer_8cpp"/>
       </node>
-      <node id="10">
+      <node id="11">
         <label>src/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.cpp</label>
         <link refid="_klee_blossoming_starlight_fixer_8cpp"/>
       </node>
-      <node id="11">
+      <node id="12">
         <label>src/data/IniFixData/Lisa/LisaFixer.cpp</label>
         <link refid="_lisa_fixer_8cpp"/>
       </node>
-      <node id="12">
+      <node id="13">
         <label>src/data/IniFixData/Sanhua/SanhuaFixer.cpp</label>
         <link refid="_sanhua_fixer_8cpp"/>
       </node>
-      <node id="13">
+      <node id="14">
         <label>src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp</label>
         <link refid="_sanhua_exorcist_fixer_8cpp"/>
       </node>
-      <node id="14">
+      <node id="15">
         <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
         <link refid="_shenhe_frost_flower_fixer_8cpp"/>
       </node>
-      <node id="15">
+      <node id="16">
         <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
         <link refid="_xiangling_fixer_8cpp"/>
       </node>
-      <node id="16">
+      <node id="17">
         <label>src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp</label>
         <link refid="_xingqiu_bamboo_fixer_8cpp"/>
       </node>
-      <node id="17">
+      <node id="18">
         <label>src/data/IniFixData/Yelan/YelanFixer.cpp</label>
         <link refid="_yelan_fixer_8cpp"/>
       </node>
-      <node id="18">
+      <node id="19">
         <label>src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</label>
         <link refid="_yelan_tranquil_fixer_8cpp"/>
       </node>

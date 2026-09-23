@@ -35,6 +35,9 @@
       <node id="106">
         <label>BiMap.tpp</label>
       </node>
+      <node id="79">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="68">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
@@ -1078,9 +1081,6 @@
         </childnode>
         <childnode refid="61" relation="include">
         </childnode>
-      </node>
-      <node id="79">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="110">
         <label>GIMIParser.tpp</label>

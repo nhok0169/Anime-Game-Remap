@@ -15,6 +15,9 @@
     <includes refid="_material_band_remap_filter_8h" local="yes">AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h</includes>
     <includes refid="_tex_editor_8h" local="yes">AGRemapCore/model/strategies/texEditors/TexEditor.h</includes>
     <incdepgraph>
+      <node id="120">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
       <node id="38">
         <label>Algo.tpp</label>
       </node>
@@ -35,6 +38,9 @@
       </node>
       <node id="106">
         <label>BiMap.tpp</label>
+      </node>
+      <node id="53">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="101">
         <label>AGRemapCore/constants/GameTypeId.h</label>
@@ -408,6 +414,28 @@
         <childnode refid="86" relation="include">
         </childnode>
       </node>
+      <node id="116">
+        <label>AGRemapCore/model/files/TexCache.h</label>
+        <link refid="_tex_cache_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="115" relation="include">
+        </childnode>
+        <childnode refid="117" relation="include">
+        </childnode>
+      </node>
       <node id="114">
         <label>AGRemapCore/model/files/TextureFile.h</label>
         <link refid="_texture_file_8h"/>
@@ -422,6 +450,10 @@
         <childnode refid="115" relation="include">
         </childnode>
         <childnode refid="116" relation="include">
+        </childnode>
+        <childnode refid="121" relation="include">
+        </childnode>
+        <childnode refid="117" relation="include">
         </childnode>
       </node>
       <node id="27">
@@ -790,11 +822,11 @@
         <childnode refid="113" relation="include">
         </childnode>
       </node>
-      <node id="118">
+      <node id="123">
         <label>AGRemapCore/model/strategies/texEditors/texFilters/BaseTexFilter.h</label>
         <link refid="_base_tex_filter_8h"/>
       </node>
-      <node id="117">
+      <node id="122">
         <label>AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h</label>
         <link refid="_material_band_remap_filter_8h"/>
         <childnode refid="13" relation="include">
@@ -807,10 +839,10 @@
         </childnode>
         <childnode refid="112" relation="include">
         </childnode>
-        <childnode refid="118" relation="include">
+        <childnode refid="123" relation="include">
         </childnode>
       </node>
-      <node id="116">
+      <node id="121">
         <label>AGRemapCore/model/textures/Colour.h</label>
         <link refid="_colour_8h"/>
         <childnode refid="12" relation="include">
@@ -884,6 +916,34 @@
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="104" relation="include">
+        </childnode>
+      </node>
+      <node id="117">
+        <label>AGRemapCore/tools/hashing/Hash128.h</label>
+        <link refid="_hash128_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="104" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="118" relation="include">
+        </childnode>
+      </node>
+      <node id="118">
+        <label>AGRemapCore/tools/hashing/HashInt.h</label>
+        <link refid="_hash_int_8h"/>
+        <childnode refid="119" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="120" relation="include">
         </childnode>
       </node>
       <node id="32">
@@ -1127,13 +1187,10 @@
         </childnode>
         <childnode refid="114" relation="include">
         </childnode>
-        <childnode refid="117" relation="include">
+        <childnode refid="122" relation="include">
         </childnode>
         <childnode refid="112" relation="include">
         </childnode>
-      </node>
-      <node id="53">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="74">
         <label>Generator.tpp</label>
@@ -1188,6 +1245,9 @@
       </node>
       <node id="28">
         <label>algorithm</label>
+      </node>
+      <node id="119">
+        <label>array</label>
       </node>
       <node id="50">
         <label>cmath</label>

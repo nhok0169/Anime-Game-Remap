@@ -1156,6 +1156,9 @@ attributes without this class forwarding them by hand :raw-html:`&lt;br /&gt;` :
         <childnode refid="6" relation="usage">
           <edgelabel>downloadCache_</edgelabel>
         </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>texCache_</edgelabel>
+        </childnode>
       </node>
       <node id="1">
         <label>AGRemapCore::RemapServiceCLI</label>
@@ -1180,6 +1183,10 @@ attributes without this class forwarding them by hand :raw-html:`&lt;br /&gt;` :
         <childnode refid="5" relation="usage">
           <edgelabel>download</edgelabel>
         </childnode>
+      </node>
+      <node id="7">
+        <label>AGRemapCore::TexCache</label>
+        <link refid="class_a_g_remap_core_1_1_tex_cache"/>
       </node>
     </collaborationgraph>
     <location file="include/AGRemapCore/RemapServiceCLI.h" line="58" column="5" bodyfile="include/AGRemapCore/RemapServiceCLI.h" bodystart="58" bodyend="493"/>

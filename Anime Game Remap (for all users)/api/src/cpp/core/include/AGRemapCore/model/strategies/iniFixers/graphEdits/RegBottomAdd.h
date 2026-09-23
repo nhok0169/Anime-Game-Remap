@@ -135,11 +135,34 @@ namespace AGRemapCore {
             Additions additions;
 
             /**
+             * @brief
+             @rst
+             A 3DMigoto condition to put the additions under, eg. ``vs != 037730.0`` -- empty for none
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Non-empty, the additions land in a NEW ``if <condition>`` ... ``endif`` block at the
+             bottom of each root, still at the `section`_'s own depth -- so the block runs whenever
+             the condition holds, whatever the mod's own toggles are set to. Nothing the `section`_
+             already has is moved into it :raw-html:`<br />` :raw-html:`<br />`
+
+             What it is for: a draw that belongs in some of the passes a `section`_ runs in and not
+             the others. CitlaliWhisperofStars' dress is outlined by the skin with a cloth-specific
+             outline shader Citlali does not have, and drawn through Citlali's outline pass its hull
+             covered the skirt's lining in black; ``vs != 037730.0`` -- the ``filter_index`` ORFix
+             gives every outline vertex shader -- keeps it to the other passes (2026-09-22). A
+             condition that does not parse as a :cpp:class:`Z3Predicate` (``vs`` is not a variable)
+             is still written; analyses of the graph then treat the block as possibly taken
+             @endrst
+             */
+            std::string condition;
+
+            /**
              * @brief Constructs a new bottom-adding edit
              *
              * @param additions The `KVP`_ entries to add, in order. **Default**: empty
+             * @param condition The condition to put them under -- see \ref condition. **Default**: none
              */
-            explicit RegBottomAdd(Additions additions = {});
+            explicit RegBottomAdd(Additions additions = {}, std::string condition = "");
 
             /**
              * @copydoc BaseIniGraphEdit::edit

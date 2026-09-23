@@ -74,7 +74,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is sixty-three short habits, none of
+feature or bug request here: the habits that pay" first.** It is sixty-eight short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -169,7 +169,7 @@ out are grapheme indices, and a byte cursor and a grapheme cursor must be separa
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
 
-**FORTY-SEVEN characters are real now (count them with
+**FORTY-EIGHT characters are real now (Citlali, 2026-09-21; count them with
 `ls -d "Anime Game Remap (for all users)/api/src/cpp/core/src/data/IniFixData/*/"` rather than
 trusting this number -- the written one has been wrong before), in SIX different shapes, and which
 one you have decides almost everything else.** Five of them are below; the sixth is the
@@ -338,12 +338,12 @@ a section still binding its diffuse to `ps-t0` hands it to the lightmap slot. Th
 `RegRemap` (`ps-t0` <-> `ps-t1`) over the face graph --- one of the things NNFix does under the
 hood. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The face diffuse".
 
-**THE FIX IS LIVE FOR FORTY-SEVEN CHARACTERS (verified end-to-end, and every one of them in
-game). Earlier revisions of this
+**THE FIX IS LIVE FOR FORTY-EIGHT CHARACTERS (verified end-to-end, and every one of them in
+game -- Citlali through her prototype, which the compiled fix is A/B-identical to). Earlier revisions of this
 file said every `IniFixer`/`IniParser` was stubbed and that `IniFile::getResources()` comes back
 empty --- that is NO LONGER TRUE, and believing it will cost you the best verification tool the repo
 has.** Real fixers and parsers exist for **Amber, AmberCN, Arlecchino, Ayaka, AyakaSpringbloom,
-Barbara, BarbaraSummertime, Bennett, BennettAdventure, CherryHuTao, Diluc, DilucFlamme, Fischl,
+Barbara, BarbaraSummertime, Bennett, BennettAdventure, CherryHuTao, Citlali, Diluc, DilucFlamme, Fischl,
 FischlHighness, Ganyu, GanyuTwilight, HuTao, Jean, JeanCN, JeanSea, Kaeya, KaeyaSailwind, Keqing,
 KeqingOpulent, Kirara, KiraraBoots, Klee, KleeBlossomingStarlight, Lisa, LisaStudent,
 Mona, MonaCN, Nilou, NilouBreeze, Ningguang, NingguangOrchid, Raiden, Rosaria, RosariaCN, Shenhe,
@@ -353,7 +353,7 @@ and `fixResources` really does correct `Blend.buf` files and really does write t
 running the CLI over the in-repo Jean fixture and watching two `.dds` files appear.
 
 Two consequences, both the opposite of what this file used to say:
-- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these forty-seven.
+- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these forty-eight.
   Prefer it over any unit test when the change could possibly affect a fix.
 - **Characters outside that list still have no fixer**, so a run over one of *those* still writes
   only the credit header. That is the stub, not a bug. Check
@@ -886,8 +886,8 @@ the part's OTHER bones have to be anchored too (27% of that prop's weight sat on
 chain, which left it torn between two places). Both are in
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md).
 
-**THREE THINGS TO READ BEFORE ANY TASK, DEPENDING ON WHICH KIND YOU HAVE (2026-09-14, a third added
-2026-09-20).** They are the lenses the maintainer keeps having to re-teach, and each now has its own
+**FOUR THINGS TO READ BEFORE ANY TASK, DEPENDING ON WHICH KIND YOU HAVE (2026-09-14; a third added
+2026-09-20, a fourth 2026-09-22).** They are the lenses the maintainer keeps having to re-teach, and each now has its own
 writing:
 
 - **A feature or a bug** --- [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s habits **34-37**
@@ -911,6 +911,14 @@ writing:
   three careful diagnoses. The other three: crop the UV island and LOOK at it when the symptom is on
   a texture, pick test mods by STRUCTURAL axis rather than by character, and what `drawindexed =
   auto` actually does.
+- **A report from the maintainer about a mod in game** --- habits **64-68**, which are about
+  reading the EVIDENCE rather than the domain: the fixed mod tells you which SCRIPT ran (their own
+  copy of the prototype goes stale and re-fixes in seconds, which reads exactly like a bug you just
+  wrote), the mod folders move between `GIMI/Mods` and its parent while you work (so a path baked
+  into a runner gives a clean `.ini fixed: 0` that reads like deletion), a check that cannot say
+  "nothing was checked" will report a tidy zero over paths that shattered on a space, a repo
+  diagnostic's exit code may conflate two answers, and an A/B over a mod that DOWNLOADS is not
+  deterministic.
 - **"Make this faster"** --- [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s **"MAKE THIS FASTER:
   the recipe, and what it has cost to skip a step"**. Four speed-ups landed in one day and **every
   one was a fixed cost nobody had measured, in a place nobody had guessed** -- an eager `numpy`
@@ -932,7 +940,8 @@ The old "immediately before every `drawindexed`" rule holds only while no path d
 **66 sections across 14 mod folders** of one real library draw several times in a single pass
 (independent `if` toggles, not an exclusive chain -- and GIMI writes a chain as `else if`, so a
 tally looking for `elif` will tell you there are none). `RegDelimitedAddMode::PerPath` is the
-corrected rule and BOTH templates pass it; the acceptance test is a whole mod library fixed into
+corrected rule and ALL THREE templates pass it (the component one only since 2026-09-21 -- it was
+missed, and a Citlali mod drawing its body as nine toggled ranges got 9 `ORFix` calls on one path); the acceptance test is a whole mod library fixed into
 scratch copies -- **157 folders, 7851 remapped sections, 867 `.ini` files, 0 violations**
 (`Tools/Misc/Diagnostics/fixCallPaths.py`). The precise invariant is per path per **binding
 generation**: re-binding a `ps-t` resets the count, because a call is undone by the next only while
@@ -1086,6 +1095,59 @@ fixture fixed with both builds gave 132 byte-identical files. `summaryLog.txt` d
 were regenerated on Linux**. See [Architecture](AI%20Agent%20Help/Architecture/CLAUDE.md)'s "The
 folder walk reported every batch BACKWARDS" and [Testing](AI%20Agent%20Help/Testing/CLAUDE.md).
 
+**CITLALI -> CITLALIWHISPEROFSTARS IS COMPILED (2026-09-21), AND THE PORT FOUND TWO BUGS IN THE
+COMPONENT TEMPLATE THAT BENNETT AND YELAN SHARE.** A mod that draws an object as several TOGGLED
+RANGES (`drawindexed = <count>, <start>, 0`, nine for one real Citlali mod) was carried through the
+split with its own numbers -- which overrun the split buffer and, after a removal in the middle
+(her eyes), draw the wrong triangles -- and got one `ORFix` per range on one path, which undoes
+itself. The template now remaps each range through the split (`VGComponentBuffers::keptTriangleIds`,
+bound, and a file-local `DrawRangeRemap`) and passes `RegDelimitedAddMode::PerPath` like the other
+two. Bennett's prototype had the first bug differently: it replaced every count with the full split
+size, drawing a toggled object once per range with nothing left to hide. Two opt-in config fields came
+with it -- `sourceLayout` (Citlali's own sections are already the normal-map layout, so no register
+shift or invented normal map) and `faceSwapOnlyFromDiffuseReg` -- and `GIMICharParserConfig::faceDownload`.
+Bennett, Yelan and Klee mods are byte-identical across all of it. See
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "CITLALI IS COMPILED".
+
+**CITLALIWHISPEROFSTARS -> CITLALI IS COMPILED (2026-09-22), AND THE THREE THINGS IT ADDED ARE
+TEMPLATE OPTIONS RATHER THAN ANYTHING OF HERS.** The reverse of the Citlali rows, prototyped first
+(`Tools/Misc/Prototypes/citlaliFromWhisperFix.py`, still the oracle -- `abCitlaliRev.py` proves the
+compiled fix identical to it on all six of the maintainer's skin mods) and confirmed in game on
+four. **`GIMIMergeFixerConfig::targetLayout`** carries a source normal map through to a target that
+reads one under `ORFix`, where Yelan's and Bennett's read two under `NNFix`;
+**`GIMIMergeFixerConfig::texRegsByName`** puts every carried binding on the register its resource
+NAME says, because **a mod dumped from the game is written in the GAME's register order and `ORFix`
+reads a different one** -- the skin's mods bind light map / normal map / diffuse at `ps-t0/1/2`,
+which is what her own draw of `ib f117984b` binds in a frame dump, and handing that to `ORFix`
+rotates every role (one mod's shoes, eyes and sleeping mask were wrong in game while every slot the
+fix had DOWNLOADED was right). The rule itself lives in `data/IniFixData/TexRegLayout.h` so all
+three templates can reach it, on top of `RegValChecks` -- whose header already records why the
+pixels are deliberately not consulted. **And a FACE draw takes no fix library call at all**
+(the maintainer, after testing: "NNFix/ORFix does not work well for face in GI"), so the merge
+strips any a mod carried -- this one's face arrives through GIMI's newer API, and
+`GIMIApiNormalizer` faithfully turns its `SetTextures` into the traditional call, which is right
+everywhere except the one object the fix binds by hand.
+
+**AND `RegDelimitedAddMode::PerBindingGeneration` IS THE RULE THE ENUM'S OWN DOCS HAVE DESCRIBED
+SINCE 2026-09-14.** `PerPath` assumes an addition is invalidated only by its delimiter; the fix
+libraries are also invalidated by a RE-BINDING, so a section that binds twice needs two calls and one
+that binds once needs one. Three register maps say it: `invalidatorRegs` opens a generation,
+`coveredRegs` is a generation **the mod already serves itself** (the author's own call, kept rather
+than doubled), `delimiterRegs` consumes it. Empty invalidators make it exactly `PerPath`, which is
+how its test proves it is not silently the old mode. See
+[Ini Graph Editing](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md), and **do not switch an existing
+`PerPath` caller over** -- those placements are verified in game and the two modes agree only while
+nothing rebinds.
+
+**THE TEST COUNTS IN `core/tests` WERE THREE ROWS STALE BEFORE ANY OF THIS, AND FOUR SUITES FAILED
+THE MOMENT THEY WERE COMPILED.** `BuilderData_test` asserted 63/132/51 against a real 64/135/53,
+`ModTypeRemaps_test`'s oracle said 51 with 53 rows present, `VertexCounts_test` said 49 with 50 --
+every one of them left by the Chisa pair, because **nothing builds `core/tests`**. A `std::printf`
+of the sizes settled all of it in one run: **print the number before believing the arithmetic in the
+message**, since each of those asserts carries a comment deriving its count from a history that had
+drifted. (`TextureFile_Bc7Decode_test` "failing" is a runner artifact -- it takes a `.dds` argument
+and exits 2 on usage.)
+
 **THE CHARACTER LIST LIVES IN FOUR PLACES OUTSIDE THE LIBRARY, AND ON 2026-09-20 THREE OF THEM WERE
 WRONG.** The mod-type table is in `api/README.md`, `apiMirror/README.md` and
 `Docs/src/commandOpts.rst` (all three now with a **Game** column, `GI` / `WuWa`), the per-remap
@@ -1099,6 +1161,16 @@ in step now, `--help` prints the docs link instead of a list that grows with eve
 published core API --- was regenerated with the pinned Doxygen. **Generate these lists, never retype
 them**: see [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md)'s "A CHARACTER IS FOUR DOC
 TABLES" and [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Closing out a remap".
+
+**AND THEY WENT BEHIND AGAIN WITHIN TWO DAYS, SO IT IS A DIAGNOSTIC NOW (2026-09-22).**
+`Tools/Misc/Diagnostics/checkModTypeTables.py` asks the builders and diffs all four; run against the
+tree that had just compiled two remaps it found **all four missing BOTH the Citlali and the Chisa
+pairs** -- four characters, neither noticed by reading and neither caught by any suite. A remap is
+not closed until it prints `ALL FOUR AGREE WITH THE LIBRARY`. Two traps in adding the rows:
+`commandOpts.rst` holds THREE list-tables whose rows look identical, so an insertion that scans the
+whole file puts the character in the DOWNLOAD-MODE table (scope by the mod-type header first), and a
+row's Description is derived -- the GI regex from `getSectionKeywords`, the WuWa hash from
+`HashData`'s `vb0` row -- rather than written.
 
 **Seven repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
 visible from the code:** (1) nearly every tracked text file is **CRLF** (`core.autocrlf=true`), so an

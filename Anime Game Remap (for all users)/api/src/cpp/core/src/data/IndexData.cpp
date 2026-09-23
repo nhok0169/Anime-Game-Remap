@@ -229,6 +229,11 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getIndexDat
         // XianglingCheer
         {{"5.3", "XianglingCheer", "", "head"}, "0"},
         {{"5.3", "XianglingCheer", "", "body"}, "46374"},
+        // Citlali (2026-09-21), unchanged in a 6.7 frame dump. NO rows for CitlaliWhisperofStars's
+        // components, on purpose -- the same reasoning as Yelan's and Bennett's: their slot indices
+        // (Body A 0 / B 60888 / C 111096 / D 122916, Bangs A 0, Eyes A 0) belong in the fixer's config.
+        {{"5.3", "Citlali", "", "head"}, "0"},
+        {{"5.3", "Citlali", "", "body"}, "27393"},
 
         // ===== WuWa: Sanhua and SanhuaExorcist (2026-09-19) =====
         // The match_first_index of every draw slot -- a WWMI character's 'components' in

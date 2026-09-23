@@ -369,6 +369,27 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::BennettAdventure),
                   "6.1", ModTypeIdTools::getName(ModTypeId::Bennett)}, IniFixBuilderFuncs::bennettAdventureToBennett6_1()},
 
+                // ===== Citlali @ toVersion 6.7 (2026-09-21) =====
+                // THREE rows, one per target component: her hair has bones of its own, so the
+                // skin's Bangs receives geometry (unlike BennettAdventure's). At 6.7 because the
+                // skin's hashes are filed there -- fixing to an earlier version would find none.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali),
+                  "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStarsBody)}, IniFixBuilderFuncs::citlaliWhisperofStarsBody6_7()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali),
+                  "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStarsBangs)}, IniFixBuilderFuncs::citlaliWhisperofStarsBangs6_7()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali),
+                  "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStarsEyes)}, IniFixBuilderFuncs::citlaliWhisperofStarsEyes6_7()},
+
+                // ===== CitlaliWhisperofStars @ toVersion 6.7 (2026-09-22) =====
+                //
+                // ONE row where the direction above needs three: a skin of several components onto
+                // a target of ONE draws through one set of buffer hashes, so the components are
+                // merged rather than split and all six source slots landing on `body` become one
+                // draw. See makeGIMIMergeFixer.
+                {{"6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars),
+                  "6.7", ModTypeIdTools::getName(ModTypeId::Citlali)},
+                 IniFixBuilderFuncs::citlaliWhisperofStarsToCitlali6_7()},
+
                 // ===== Keqing @ toVersion 6.1 =====
                 //
                 // The pair: this one MERGES (Keqing's dress and head onto KeqingOpulent's head)

@@ -244,6 +244,32 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             GIMI's own texture helper, ``CommandList\GIMI\SetTextures`` -- ORFix reading
+             :cpp:member:`GIMINormalMap` / :cpp:member:`GIMIDiffuse` / :cpp:member:`GIMILightMap`
+             instead of ``ps-t0`` / ``ps-t1`` / ``ps-t2``. A mod's use of it is rewritten into the
+             traditional API as it is read -- see :cpp:class:`GIMIApiNormalizer`
+             @endrst
+             */
+            static inline const std::string GIMISetTexturesPath = "CommandList\\GIMI\\SetTextures";
+
+            /**
+             * @brief The normal map key of GIMI's texture API -- read as ``ps-t0``, see \ref GIMISetTexturesPath
+             */
+            static inline const std::string GIMINormalMap = "Resource\\GIMI\\NormalMap";
+
+            /**
+             * @brief The diffuse key of GIMI's texture API -- read as ``ps-t1``, see \ref GIMISetTexturesPath
+             */
+            static inline const std::string GIMIDiffuse = "Resource\\GIMI\\Diffuse";
+
+            /**
+             * @brief The light map key of GIMI's texture API -- read as ``ps-t2``, see \ref GIMISetTexturesPath
+             */
+            static inline const std::string GIMILightMap = "Resource\\GIMI\\LightMap";
+
+            /**
+             * @brief
+             @rst
              The folder holding the `TexFx`_ external library's sub-commands :raw-html:`<br />`
              :raw-html:`<br />`
 

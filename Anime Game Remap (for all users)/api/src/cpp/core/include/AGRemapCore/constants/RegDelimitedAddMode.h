@@ -23,7 +23,7 @@ namespace AGRemapCore {
      How often :cpp:class:`RegDelimitedAdd` places its addition along one execution path
      :raw-html:`<br />` :raw-html:`<br />`
 
-     Both modes place the addition **as late as possible**; they differ only in how many times a
+     Every mode places the addition **as late as possible**; they differ only in how many times a
      single path gets it
      @endrst
      */
@@ -71,10 +71,42 @@ namespace AGRemapCore {
             This mode assumes the addition is invalidated only by the **delimiter**, never by
             anything between two of them. For the fix libraries that means a `section`_ must not
             rebind its ``ps-t`` registers after drawing: measured over **33030** real
-            ``TextureOverride`` `section`_\\s, **none** do
+            ``TextureOverride`` `section`_\\s, **none** do -- but a Citlali mod found since does (bind,
+            ``ORFix``, draw, bind again, ``ORFix``, draw), and one call per path drew its second
+            binding un-reslotted. Where the mod's own calls are already the right library, keeping
+            them is correct and re-issuing is not: see ``keepOwnFixCalls`` in
+            ``GIMIComponentFixer.cpp`` and ``Tools/Misc/Diagnostics/unfixedDraws.py``
          @endrst
          */
-        PerPath
+        PerPath,
+
+        /**
+         * @brief
+         @rst
+         Once per **binding generation** of every path -- the exact rule
+         :cpp:enumerator:`PerPath` approximates, and what
+         :cpp:member:`RegDelimitedAdd::invalidatorRegs` exists for :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         :cpp:enumerator:`PerPath` assumes the addition is invalidated only by a delimiter. The fix
+         libraries are invalidated by something else as well: they re-slot the registers bound when
+         they run, so **re-binding one starts a new generation** that needs its own call, and a
+         second call over registers that have NOT moved undoes the first. One call per path is
+         therefore too few for a `section`_ that binds twice and too many for nothing
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         Real mods write both shapes. A CitlaliWhisperofStars mod binds its own slot's textures and
+         draws, then binds Citlali's and draws again (2026-09-22): under :cpp:enumerator:`PerPath`
+         its second draw went un-reslotted. The same mod supplies the other half -- its own
+         ``run =`` over its own second binding -- which is why
+         :cpp:member:`RegDelimitedAdd::coveredRegs` marks a generation the mod already serves, so
+         the author's call is kept and not doubled :raw-html:`<br />` :raw-html:`<br />`
+
+         With no :cpp:member:`RegDelimitedAdd::invalidatorRegs` this mode is exactly
+         :cpp:enumerator:`PerPath`: one generation, one call
+         @endrst
+         */
+        PerBindingGeneration
     };
 }
 

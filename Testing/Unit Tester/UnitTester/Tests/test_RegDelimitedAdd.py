@@ -450,3 +450,89 @@ class RegDelimitedAddTest(BaseUnitTest):
         FRB.RegDelimitedAdd([], self._DRAW).edit(graph, None)
 
         self.compareList(self._getContentPart(graph, "root").entries(), [("drawindexed", "a")])
+
+
+    # ================================================
+    # ========= RegDelimitedAddMode.PerBindingGeneration =========
+    #
+    # The rule PerPath approximates: a fix library re-slots the registers bound when it runs, so
+    # RE-BINDING one starts a generation that needs its own call, while a second call over registers
+    # that have not moved undoes the first. Every test below pins the difference from PerPath on the
+    # same fixture -- a mode that silently behaved as PerPath would pass none of them.
+
+    _BIND = {"ps-t0": None}
+    _FIX = {"run": lambda val: val == "ORFix"}
+
+    def _twoGenerations(self):
+        """bind, draw, bind, draw -- two generations, neither served"""
+        return FRB.IniSectionGraph({"root": FRB.IfTemplate([FRB.IfContentPart(
+            {"ps-t0": [(0, "A"), (2, "B")], "drawindexed": [(1, "1"), (3, "2")]}, 0)])}, ["root"])
+
+    def test_edit_perBindingGeneration_addsOnePerGeneration(self):
+        graph = self._twoGenerations()
+
+        FRB.RegDelimitedAdd(("run", "ORFix"), self._DRAW, mode = FRB.RegDelimitedAddMode.PerBindingGeneration,
+                             invalidatorRegs = self._BIND, coveredRegs = self._FIX).edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(),
+                         [("ps-t0", "A"), ("run", "ORFix"), ("drawindexed", "1"),
+                          ("ps-t0", "B"), ("run", "ORFix"), ("drawindexed", "2")])
+
+    def test_edit_perPath_leavesTheSecondGenerationUnserved(self):
+        # THE SAME FIXTURE under PerPath, which is what makes the test above mean something: one
+        # call for the whole path, so the re-bound registers of the second draw are never re-slotted
+        graph = self._twoGenerations()
+
+        FRB.RegDelimitedAdd(("run", "ORFix"), self._DRAW,
+                             mode = FRB.RegDelimitedAddMode.PerPath).edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(),
+                         [("ps-t0", "A"), ("run", "ORFix"), ("drawindexed", "1"),
+                          ("ps-t0", "B"), ("drawindexed", "2")])
+
+    def test_edit_perBindingGeneration_keepsTheModsOwnCall(self):
+        # bind, draw, bind, the AUTHOR's own call, draw: the second generation is already served, so
+        # only the first gets one and the author's placement is untouched
+        graph = FRB.IniSectionGraph({"root": FRB.IfTemplate([FRB.IfContentPart(
+            {"ps-t0": [(0, "A"), (2, "B")], "run": [(3, "ORFix")], "drawindexed": [(1, "1"), (4, "2")]}, 0)])}, ["root"])
+
+        FRB.RegDelimitedAdd(("run", "ORFix"), self._DRAW, mode = FRB.RegDelimitedAddMode.PerBindingGeneration,
+                             invalidatorRegs = self._BIND, coveredRegs = self._FIX).edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(),
+                         [("ps-t0", "A"), ("run", "ORFix"), ("drawindexed", "1"),
+                          ("ps-t0", "B"), ("run", "ORFix"), ("drawindexed", "2")])
+
+    def test_edit_perBindingGeneration_noInvalidatorsIsPerPath(self):
+        # one generation for the whole path, so two draws share a single call
+        graph = FRB.IniSectionGraph({"root": FRB.IfTemplate([FRB.IfContentPart(
+            {"ps-t0": [(0, "A")], "drawindexed": [(1, "1"), (2, "2")]}, 0)])}, ["root"])
+
+        FRB.RegDelimitedAdd(("run", "ORFix"), self._DRAW,
+                             mode = FRB.RegDelimitedAddMode.PerBindingGeneration).edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(),
+                         [("ps-t0", "A"), ("run", "ORFix"), ("drawindexed", "1"), ("drawindexed", "2")])
+
+    def test_edit_perBindingGeneration_servesAGenerationNothingDraws(self):
+        # a generation still live where the path ENDS was never consumed -- the draw may be in a
+        # section outside this graph, so it still gets its call
+        graph = FRB.IniSectionGraph({"root": FRB.IfTemplate([FRB.IfContentPart(
+            {"ps-t0": [(0, "A")]}, 0)])}, ["root"])
+
+        FRB.RegDelimitedAdd(("run", "ORFix"), self._DRAW, mode = FRB.RegDelimitedAddMode.PerBindingGeneration,
+                             invalidatorRegs = self._BIND, coveredRegs = self._FIX).edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("ps-t0", "A"), ("run", "ORFix")])
+
+    def test_edit_perBindingGeneration_addsNothingWhereTheModAlreadyServes(self):
+        # the author's call covers the only generation: nothing to add, and adding one would be the
+        # double call that renders a model flat green
+        graph = FRB.IniSectionGraph({"root": FRB.IfTemplate([FRB.IfContentPart(
+            {"ps-t0": [(0, "A")], "run": [(1, "ORFix")], "drawindexed": [(2, "1")]}, 0)])}, ["root"])
+
+        FRB.RegDelimitedAdd(("run", "ORFix"), self._DRAW, mode = FRB.RegDelimitedAddMode.PerBindingGeneration,
+                             invalidatorRegs = self._BIND, coveredRegs = self._FIX).edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(),
+                         [("ps-t0", "A"), ("run", "ORFix"), ("drawindexed", "1")])

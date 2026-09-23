@@ -153,6 +153,24 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Stub for the citlali4_0's remover -- returns
+             :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
+             @endrst
+             */
+            static IniRemoveBuilder::Factory citlali4_0();
+
+            /**
+             * @brief
+             @rst
+             Stub for the citlaliWhisperofStars4_0's remover -- returns
+             :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
+             @endrst
+             */
+            static IniRemoveBuilder::Factory citlaliWhisperofStars4_0();
+
+            /**
+             * @brief
+             @rst
              Stub for the diluc4_0's remover -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst

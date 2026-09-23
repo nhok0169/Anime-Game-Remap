@@ -29,6 +29,7 @@
 #include "AGRemapCore/constants/GlobalIniClassifiers.h"
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/constants/ModTypeId.h"
+#include "AGRemapCore/model/files/GIMIApiNormalizer.h"
 #include "AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h"
 #include "AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
@@ -1237,9 +1238,16 @@ namespace AGRemapCore {
         // ("endif|else|if|elif") -- order doesn't actually matter for correctness here (none of
         // these 4 keywords is a prefix of another), kept only for easy comparison against that
         // source pattern.
+        //
+        // IGNORING CASE, as 3DMigoto does (2026-09-22). This compared as written, so a mod writing
+        // `ELSE if` / `ENDIF` -- a real CitlaliWhisperofStars one does, throughout -- had those lines
+        // parsed as KEYS (`ELSE if $AD1` = `= 2`), every toggle block left open, and every toggled
+        // part drawn at once. IfPredPartTypeTools::getType, which types the line once it is found,
+        // already lowercased.
         static const std::string keywords[] = {"endif", "else", "if", "elif"};
+        const std::string lowered = StringTools::toLower(rest);
         for (const std::string& keyword : keywords) {
-            if (rest.starts_with(keyword)) {
+            if (StringTools::startsWith(lowered, keyword)) {
                 return true;
             }
         }
@@ -1310,6 +1318,11 @@ namespace AGRemapCore {
         if (inSection) {
             finalizeSection(accum, sectionIfTemplates_, file_, z3Ctx_);
         }
+
+        // GIMI's newer texture API into the traditional one, so every reader and every fix sees
+        // one spelling -- see GIMIApiNormalizer. The PARSED sections only: the file's own text is
+        // written back untouched, so an undo restores what the author wrote.
+        GIMIApiNormalizer::normalize(sectionIfTemplates_);
 
         ifTemplatesRead_ = true;
         return sectionIfTemplates_;

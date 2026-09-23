@@ -190,18 +190,54 @@ consecutive lines in this order -- an empty list makes the edit a no-op
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="135" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="135" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_bottom_add_1ac79daa1d82d2ed742c721e7533dd43fa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::RegBottomAdd&lt; K, V, KeyHash, KeyEqual &gt;::condition</definition>
+        <argsstring></argsstring>
+        <name>condition</name>
+        <qualifiedname>AGRemapCore::RegBottomAdd::condition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A 3DMigoto condition to put the additions under, eg. ``vs != 037730.0`` -- empty for none
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Non-empty, the additions land in a NEW ``if &lt;condition&gt;`` ... ``endif`` block at the
+bottom of each root, still at the `section`_&apos;s own depth -- so the block runs whenever
+the condition holds, whatever the mod&apos;s own toggles are set to. Nothing the `section`_
+already has is moved into it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+What it is for: a draw that belongs in some of the passes a `section`_ runs in and not
+the others. CitlaliWhisperofStars&apos; dress is outlined by the skin with a cloth-specific
+outline shader Citlali does not have, and drawn through Citlali&apos;s outline pass its hull
+covered the skirt&apos;s lining in black; ``vs != 037730.0`` -- the ``filter_index`` ORFix
+gives every outline vertex shader -- keeps it to the other passes (2026-09-22). A
+condition that does not parse as a :cpp:class:`Z3Predicate` (``vs`` is not a variable)
+is still written; analyses of the graph then treat the block as possibly taken
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="157" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_bottom_add_1a5e5173cdc9d907671bed48c4f1105b0f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_bottom_add_1a42562c810a29b2513f561dbb8df4a28c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
         <definition>AGRemapCore::RegBottomAdd&lt; K, V, KeyHash, KeyEqual &gt;::RegBottomAdd</definition>
-        <argsstring>(Additions additions={})</argsstring>
+        <argsstring>(Additions additions={}, std::string condition=&quot;&quot;)</argsstring>
         <name>RegBottomAdd</name>
         <qualifiedname>AGRemapCore::RegBottomAdd::RegBottomAdd</qualifiedname>
         <param>
           <type><ref refid="class_a_g_remap_core_1_1_reg_bottom_add_1a7903deac5d4b9e9fe35b7305e98234d1" kindref="member">Additions</ref></type>
           <declname>additions</declname>
           <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>condition</declname>
+          <defval>&quot;&quot;</defval>
         </param>
         <briefdescription>
 <para>Constructs a new bottom-adding edit. </para>
@@ -215,12 +251,20 @@ consecutive lines in this order -- an empty list makes the edit a no-op
 <para>The <computeroutput>KVP</computeroutput>_ entries to add, in order. <bold>Default</bold>: empty </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>condition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The condition to put them under <ndash/> see <ref refid="class_a_g_remap_core_1_1_reg_bottom_add_1ac79daa1d82d2ed742c721e7533dd43fa" kindref="member">condition</ref>. <bold>Default</bold>: none </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="142" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="165" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_bottom_add_1a7b463b1aa87e8cfc26d421a973d2b291" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_bottom_add_1a3ab2e1ddd29e829b30f5c2ace24be8bd" kindref="member">Graph</ref> &amp;</type>
@@ -333,7 +377,7 @@ meaning &quot;every key&quot;, matching
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="147" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="170" column="19"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -464,12 +508,13 @@ rejects is left alone entirely
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="80" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="80" bodyend="150"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="80" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="80" bodyend="173"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_reg_bottom_add_1a7903deac5d4b9e9fe35b7305e98234d1" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBottomAdd</scope><name>Additions</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_bottom_add_1a963171c4640c2bc7d4dc55201262cf79" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBottomAdd</scope><name>additions</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_bottom_add_1aabccee795143b61e7f5cdaa778092810" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBottomAdd</scope><name>Base</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::RegBottomAdd</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_bottom_add_1ac79daa1d82d2ed742c721e7533dd43fa" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBottomAdd</scope><name>condition</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_bottom_add_1aa00082d9f0c51f9301c707cca5e1c31d" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBottomAdd</scope><name>ContentPart</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_bottom_add_1a7b463b1aa87e8cfc26d421a973d2b291" prot="public" virt="virtual"><scope>AGRemapCore::RegBottomAdd</scope><name>edit</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a8cf7cc52f178d8774155d39261eb55a6" prot="public" virt="virtual"><scope>AGRemapCore::RegBottomAdd</scope><name>editFromIni</name></member>
@@ -478,7 +523,7 @@ rejects is left alone entirely
       <member refid="class_a_g_remap_core_1_1_reg_bottom_add_1ac6a7fd35db90b3e3a24412b18e8b65cf" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBottomAdd</scope><name>KeySet</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_bottom_add_1a6ae69cf1d9099172eb7f95acb002c471" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBottomAdd</scope><name>OrderRanges</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_bottom_add_1a14b5e4e88be66d04626ff3a80ce331f5" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBottomAdd</scope><name>PartFilter</name></member>
-      <member refid="class_a_g_remap_core_1_1_reg_bottom_add_1a5e5173cdc9d907671bed48c4f1105b0f" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBottomAdd</scope><name>RegBottomAdd</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_bottom_add_1a42562c810a29b2513f561dbb8df4a28c" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBottomAdd</scope><name>RegBottomAdd</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_bottom_add_1a3472b464cb5e33e705f33d3568717495" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBottomAdd</scope><name>Section</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::RegBottomAdd</scope><name>~BaseIniPartEdit</name></member>
     </listofallmembers>

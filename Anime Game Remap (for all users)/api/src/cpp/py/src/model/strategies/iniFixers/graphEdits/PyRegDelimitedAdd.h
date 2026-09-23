@@ -57,6 +57,24 @@ class PyRegDelimitedAdd: public AGRC::RegDelimitedAdd<std::string, std::string> 
         py::dict delimiterRegsObj;
 
         /**
+         * @brief
+         @rst
+         The exact `Python`_ ``dict`` given for ``invalidatorRegs``, kept for the same reason as
+         #delimiterRegsObj -- only read in ``RegDelimitedAddMode.PerBindingGeneration``
+         @endrst
+         */
+        py::dict invalidatorRegsObj;
+
+        /**
+         * @brief
+         @rst
+         The exact `Python`_ ``dict`` given for ``coveredRegs``, kept for the same reason as
+         #delimiterRegsObj -- only read in ``RegDelimitedAddMode.PerBindingGeneration``
+         @endrst
+         */
+        py::dict coveredRegsObj;
+
+        /**
          * @brief Constructs a new per-segment adding edit
          *
          * @param additionsObj The `KVP`_ tuple(s) to add -- one ``(key, value)`` tuple, or a list of them
@@ -64,7 +82,9 @@ class PyRegDelimitedAdd: public AGRC::RegDelimitedAdd<std::string, std::string> 
          */
         PyRegDelimitedAdd(py::object additionsObj, py::object delimiterRegsObj,
                            bool pathEndOnlyWhenUndelimited = false,
-                           AGRemapCore::RegDelimitedAddMode mode = AGRemapCore::RegDelimitedAddMode::PerSegment);
+                           AGRemapCore::RegDelimitedAddMode mode = AGRemapCore::RegDelimitedAddMode::PerSegment,
+                           py::object invalidatorRegsObj = py::none(),
+                           py::object coveredRegsObj = py::none());
 };
 
 

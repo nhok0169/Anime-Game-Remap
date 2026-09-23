@@ -67,7 +67,17 @@ namespace AGRemapCore {
     namespace {
         // Whether a key is a texture register, `ps-t<number>` -- the keys the slot restriction governs.
         // The fix's own scratch register (ps-tNormal) is not one.
+        //
+        // Nor are TexFx's two dedicated registers, ps-t69 and ps-t70 (2026-09-22): they are not a
+        // shader slot of the TARGET but the input of the TexFx library the mod calls, and no target
+        // slot lists them. Restricted, a mod's `ps-t69 = ResourceTransparency` was deleted while its
+        // `run = CommandList\TexFx\TN.0` stayed -- a Citlali mod's lace skirt frill, alpha-cut through
+        // TexFx, vanished from the remap.
         bool isTextureRegister(const std::string& key) {
+            if (key == IniKeywords::PsT69 || key == IniKeywords::PsT70) {
+                return false;
+            }
+
             const std::string prefix = "ps-t";
             if (key.size() <= prefix.size() || key.compare(0, prefix.size(), prefix) != 0) {
                 return false;
@@ -143,6 +153,105 @@ namespace AGRemapCore {
         }
 
 
+        // A file the PARSER registered as a download rather than one the mod ships, recognised by the
+        // RemapDL its name must carry, as the no-mesh check below recognises one.
+        bool isDownloadPath(const std::string& path) {
+            return FileService::pathToStr(FileService::strToPath(path).filename()).find(IniKeywords::RemapDL) != std::string::npos;
+        }
+
+        // ...and one not on disk (yet): downloads are fetched in fixResources, AFTER the fix reads them.
+        bool isUnfetchedDownload(const std::string& path) {
+            if (!isDownloadPath(path)) {
+                return false;
+            }
+            std::error_code ec;
+            return !std::filesystem::exists(FileService::strToPath(path), ec);
+        }
+
+
+        // ---- a mod's own draw ranges, through the split (2026-09-21) ----
+        //
+        // A mod that draws for itself carries `drawindexed = <count>, <start>, <base>` lines, and a
+        // mod with toggles carries SEVERAL, each a range of its object's index buffer that one toggle
+        // shows or hides. The split removes triangles from that buffer -- the ones another component
+        // draws, and not only at its end (Citlali's eyes sit in the middle of her body) -- so the
+        // mod's own numbers overrun the written buffer and every range after a removal draws the
+        // wrong triangles. Measured on a real Citlali mod: a head draw of 23439 indices over a split
+        // buffer of 20451, and nine body ranges summing past the body's end by exactly the eyes' 864.
+        //
+        // Each range is remapped through the SOURCE index of every kept triangle (ascending): its new
+        // start is the number of kept triangles before it, its new count the number inside it. An
+        // `auto` draw is left alone. File-local: it needs the split, which only this template has.
+        class DrawRangeRemap : public BaseRegEdit<> {
+            public:
+                explicit DrawRangeRemap(std::vector<std::size_t> keptIds): keptIds_(std::move(keptIds)) {}
+
+                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
+                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
+                    (void)sectionName;
+                    (void)modType;
+                    (void)modName;
+
+                    const auto ranges = toRangeSpec(partRanges);
+                    const std::vector<std::pair<long long, std::string>> vals = part.getValsWithInds(IniKeywords::DrawIndexed, true, ranges);
+                    if (vals.empty()) {
+                        return part;
+                    }
+
+                    std::vector<std::string> remapped;
+                    bool changed = false;
+                    for (const auto& entry : vals) {
+                        std::optional<std::string> value = remap(entry.second);
+                        changed = changed || value.has_value();
+                        remapped.push_back(value.value_or(entry.second));
+                    }
+
+                    if (changed) {
+                        part.replaceVals({{IniKeywords::DrawIndexed, ContentPart::ReplaceSpec(remapped)}}, false, ranges);
+                    }
+                    return part;
+                }
+
+            private:
+                std::vector<std::size_t> keptIds_;
+
+                // "count, start, base" -> the remapped line, or nullopt for anything else (`auto`)
+                std::optional<std::string> remap(const std::string& value) const {
+                    std::vector<long long> numbers;
+                    std::size_t pos = 0;
+                    while (pos <= value.size()) {
+                        std::size_t comma = value.find(',', pos);
+                        std::string field(StringTools::strip(value.substr(pos, comma == std::string::npos ? std::string::npos : comma - pos)));
+                        if (field.empty() || field.find_first_not_of("-0123456789") != std::string::npos) {
+                            return std::nullopt;
+                        }
+                        numbers.push_back(std::stoll(field));
+                        if (comma == std::string::npos) {
+                            break;
+                        }
+                        pos = comma + 1;
+                    }
+
+                    if (numbers.size() < 2 || numbers[0] < 0 || numbers[1] < 0) {
+                        return std::nullopt;
+                    }
+
+                    const std::size_t first = static_cast<std::size_t>(numbers[1]) / 3;
+                    const std::size_t last = (static_cast<std::size_t>(numbers[1]) + static_cast<std::size_t>(numbers[0])) / 3;
+                    const auto begin = std::lower_bound(keptIds_.begin(), keptIds_.end(), first);
+                    const auto end = std::lower_bound(keptIds_.begin(), keptIds_.end(), last);
+                    const std::size_t start = static_cast<std::size_t>(begin - keptIds_.begin());
+                    const std::size_t count = static_cast<std::size_t>(end - begin);
+
+                    std::string out = std::to_string(count * 3) + ", " + std::to_string(start * 3);
+                    for (std::size_t i = 2; i < numbers.size(); ++i) {
+                        out += ", " + std::to_string(numbers[i]);
+                    }
+                    return out;
+                }
+        };
+
+
         // ---- what one mod's .ini names, read off the raw parsed sections ----
         //
         // The fixer is built BEFORE the parser parses (the builder's factory runs first), so the
@@ -160,6 +269,14 @@ namespace AGRemapCore {
 
             std::string diffuse;
             std::string lightMap;
+
+            // Whether the object's section binds the normal-map layout (normal map, diffuse, light
+            // map), so a normal-map slot needs no shift -- see GIMIComponentFixerConfig::sourceLayout.
+            bool normalMapLayout = false;
+
+            // Whether the object's section (through `run =`) already calls ORFix itself -- see
+            // buildEdits for why such a mod's own calls are kept.
+            bool ownORFix = false;
         };
 
         struct ModFiles {
@@ -168,6 +285,10 @@ namespace AGRemapCore {
             std::string blend;
             std::string texcoord;
             std::string face;
+
+            // Whether the face diffuse was found at ps-t0 -- see
+            // GIMIComponentFixerConfig::faceSwapOnlyFromDiffuseReg.
+            bool faceOnDiffuseReg = false;
 
             // Every branch's -- see ModObjectFiles::ibs.
             std::vector<BranchVal> positions;
@@ -379,6 +500,13 @@ namespace AGRemapCore {
                         } else if (hashType == FaceDiffuseHashKey) {
                             if (files_.face.empty()) {
                                 files_.face = firstFile(sectionName, DiffuseReg);
+                                files_.faceOnDiffuseReg = !files_.face.empty();
+
+                                // A 6.x-shaped mod binds its face diffuse at ps-t1. Looked for only
+                                // when the guard is on, so no older config's output can move.
+                                if (files_.face.empty() && config_.faceSwapOnlyFromDiffuseReg) {
+                                    files_.face = firstFile(sectionName, LightMapReg);
+                                }
                             }
                         } else if (hashType == IbHashKey) {
                             std::optional<std::string> index = firstVal(tpl, IniKeywords::MatchFirstIndex);
@@ -428,10 +556,61 @@ namespace AGRemapCore {
 
                             // The first branch's textures: a band legend's diffuse gate is one
                             // filter per object, not per branch.
-                            objFiles.diffuse = firstFile(sectionName, DiffuseReg);
-                            objFiles.lightMap = firstFile(sectionName, LightMapReg);
+                            using SourceLayout = GIMIComponentFixerConfig::SourceLayout;
+                            objFiles.normalMapLayout = (config_.sourceLayout == SourceLayout::NormalMap)
+                                || (config_.sourceLayout == SourceLayout::Detect && !firstFile(sectionName, ShiftedLightMapReg).empty());
+                            for (const BranchVal& call : branches_.valsThroughRun(templates, sectionName, IniKeywords::Run)) {
+                                if (StringTools::equalsIgnoreCase(StringTools::strip(call.val), IniKeywords::ORFixPath)) {
+                                    objFiles.ownORFix = true;
+                                    break;
+                                }
+                            }
+
+                            if (objFiles.normalMapLayout) {
+                                objFiles.diffuse = firstFile(sectionName, ShiftedDiffuseReg);
+                                objFiles.lightMap = firstFile(sectionName, ShiftedLightMapReg);
+                            } else {
+                                objFiles.diffuse = firstFile(sectionName, DiffuseReg);
+                                objFiles.lightMap = firstFile(sectionName, LightMapReg);
+                            }
                             objects[obj] = std::move(objFiles);
                         }
+                    }
+
+                    // A DOWNLOAD BESIDE THE MOD'S OWN FILE SERVES ONLY THE FALL-THROUGH PATH (2026-09-22).
+                    // A merged master binds a buffer in an `if $swapvar == 0 / else if == 1` chain with
+                    // no `else`; the parser covers the path where neither holds by referencing the game's
+                    // buffer as a download UNCONDITIONALLY at the top of the root section, where the
+                    // chain's own binding, run after it, overrides it on every real path. But a branch
+                    // list reads root first, and ModBranches::pick takes the first compatible value, so
+                    // the download answered for EVERY state: the split read it (a crash on a first run,
+                    // before fixResources fetches it -- a Citlali merged master) or, once fetched,
+                    // remapped the game's own buffer in place of the mod's. When a list holds any file
+                    // of the mod's own, its downloads are dropped from it; a list of nothing but
+                    // downloads (a mod missing that part outright) keeps them.
+                    const auto preferAuthored = [](std::vector<BranchVal>& list, std::string& first) {
+                        const bool anyAuthored = std::any_of(list.begin(), list.end(), [](const BranchVal& v) {
+                            return !v.val.empty() && !isDownloadPath(v.val);
+                        });
+                        if (!anyAuthored) {
+                            return;
+                        }
+                        list.erase(std::remove_if(list.begin(), list.end(), [](const BranchVal& v) {
+                            return !v.val.empty() && isDownloadPath(v.val);
+                        }), list.end());
+                        first.clear();
+                        for (const BranchVal& v : list) {
+                            if (!v.val.empty()) {
+                                first = v.val;
+                                break;
+                            }
+                        }
+                    };
+                    preferAuthored(files_.blends, files_.blend);
+                    preferAuthored(files_.positions, files_.position);
+                    preferAuthored(files_.texcoords, files_.texcoord);
+                    for (auto& entry : objects) {
+                        preferAuthored(entry.second.ibs, entry.second.ib);
                     }
 
                     bool anyIb = false;
@@ -551,9 +730,45 @@ namespace AGRemapCore {
                     std::unordered_map<std::string, std::pair<std::size_t, std::vector<std::string>>> splitCache;
                     std::vector<std::string> drawnAny;
 
+                    // Which states run through a parser download, and whether any does not -- see below.
+                    std::vector<bool> throughDownload(states_.size(), false);
+                    std::vector<bool> throughUnfetched(states_.size(), false);
+                    bool anyAuthoredState = false;
+                    for (std::size_t state = 0; state < states_.size(); ++state) {
+                        std::vector<std::string> statePaths = ibsFor(states_[state]).second;
+                        statePaths.push_back(branches_.pick(files_.blends, files_.blend, states_[state]));
+                        for (const std::string& path : statePaths) {
+                            throughDownload[state] = throughDownload[state] || isDownloadPath(path);
+                            throughUnfetched[state] = throughUnfetched[state] || isUnfetchedDownload(path);
+                        }
+                        anyAuthoredState = anyAuthoredState || !throughDownload[state];
+                    }
+
                     for (std::size_t state = 0; state < states_.size(); ++state) {
                         const std::string blendPath = branches_.pick(files_.blends, files_.blend, states_[state]);
                         const auto [names, paths] = ibsFor(states_[state]);
+
+                        // A STATE THROUGH A PARSER DOWNLOAD IS NOT SPLIT (2026-09-22). A merged master
+                        // binds an object's ib in an `if $swapvar == 0 / else if == 1` chain with no
+                        // `else`, so the parser sees a fall-through path with no ib and registers the
+                        // game's own buffer as a DOWNLOAD for it. That path is never taken ($swapvar
+                        // only cycles its listed values) -- and downloads are fetched in fixResources,
+                        // after this reads them, so on a first run in the default Normal mode the file
+                        // is not there: reading it threw and skipped the whole .ini (a Citlali merged
+                        // master; Bennett's too, on any first run).
+                        //
+                        // When some OTHER state is fully the mod's own, such a state is skipped whether
+                        // the download is on disk or not, so a second run (download now fetched) cannot
+                        // split the game's own buffer in and move keptVertices_ -- the output must not
+                        // depend on what an earlier run left behind. When EVERY state runs through a
+                        // download (a mod that ships only index buffers over the game's own vertices,
+                        // or one that does not branch), the downloads are the mod's geometry and are
+                        // split as before -- except one not on disk, which leaves nothing to read: that
+                        // state is skipped, and with none left the fixer gives up instead of throwing.
+                        if ((anyAuthoredState && throughDownload[state]) || throughUnfetched[state]) {
+                            stateKept_.push_back(0);
+                            continue;
+                        }
 
                         std::string cacheKey = blendPath;
                         for (const std::string& path : paths) {
@@ -566,7 +781,7 @@ namespace AGRemapCore {
 
                             BlendFile blend(blendPath);
                             auto [weights, indices] = VGComponentSplit::readBlend(blend);
-                            if (state == 0) {
+                            if (files_.vertexCount == 0) {
                                 files_.vertexCount = weights.size();
                                 if (files_.vertexCount == 0) {
                                     return false;
@@ -588,6 +803,16 @@ namespace AGRemapCore {
                                 VGComponentBuffers buffers = split.split(componentName_);
                                 result.first = buffers.stats.keptVertices;
 
+                                // The kept triangles per object, for the mod's own draw ranges -- only
+                                // for a mod that does not branch: a merged master's ranges belong to
+                                // whichever variant's index buffer each branch binds, and are left as
+                                // they are (see DrawRangeRemap).
+                                if (states_.size() == 1) {
+                                    for (std::size_t i = 0; i < names.size() && i < buffers.keptTriangleIds.size(); ++i) {
+                                        keptTriangleIds_[names[i]] = buffers.keptTriangleIds[i];
+                                    }
+                                }
+
                                 for (std::size_t i = 0; i < names.size() && i < buffers.stats.trianglesKept.size(); ++i) {
                                     if (buffers.stats.trianglesKept[i] > 0) {
                                         result.second.push_back(names[i]);
@@ -605,6 +830,11 @@ namespace AGRemapCore {
                                 drawnAny.push_back(name);
                             }
                         }
+                    }
+
+                    // every state ran through an unfetched download: nothing of the mod's own to split
+                    if (files_.vertexCount == 0) {
+                        return false;
                     }
 
                     for (const std::string& obj : config_.drawnObjs) {
@@ -691,6 +921,13 @@ namespace AGRemapCore {
                         const ModObjectFiles* files = objectFiles(name);
                         const GraphId slot = slotGraph(group);
 
+                        // An object already on the normal-map layout keeps its own three textures:
+                        // no shift, no created normal map, and its diffuse / light map are read
+                        // where they already are.
+                        const bool alreadyNormalMap = (files != nullptr && files->normalMapLayout);
+                        const std::string diffuseReg = alreadyNormalMap ? ShiftedDiffuseReg : DiffuseReg;
+                        const std::string lightMapReg = alreadyNormalMap ? ShiftedLightMapReg : LightMapReg;
+
                         // The diffuse edit, where the config has one for this object.
                         for (const auto& entry : config_.diffuseEdits) {
                             if (entry.first != name) {
@@ -703,7 +940,7 @@ namespace AGRemapCore {
                                 "resourceRemapTexEdit", std::string("Diffuse"));
 
                             auto collect = std::make_unique<Collector>();
-                            collect->srcRegs = {{slot, DiffuseReg}};
+                            collect->srcRegs = {{slot, diffuseReg}};
                             collect->resEdits = {{"diffuse", replace.get()}};
 
                             texGroupEdits_.push_back(collect.get());
@@ -727,13 +964,17 @@ namespace AGRemapCore {
                                     "resourceRemapTexEdit", std::string("LightMap"));
 
                                 auto collect = std::make_unique<Collector>();
-                                collect->srcRegs = {{slot, LightMapReg}};
+                                collect->srcRegs = {{slot, lightMapReg}};
                                 collect->resEdits = {{"lightMap", replace.get()}};
 
                                 texGroupEdits_.push_back(collect.get());
                                 texReplaces_.push_back(std::move(replace));
                                 texCollects_.push_back(std::move(collect));
                             }
+                        }
+
+                        if (alreadyNormalMap) {
+                            continue;
                         }
 
                         // The register shift: ps-t0 -> ps-t1 AND the scratch register, ps-t1 -> ps-t2,
@@ -885,8 +1126,8 @@ namespace AGRemapCore {
                 // The hash is read out of the hash table under the component's own mod type name,
                 // which is where a target component's rows are filed.
                 void buildHiddenComponents() {
-                    if (config_.hiddenComponents.empty() || config_.components.empty()
-                            || config_.components.back().name != componentName_) {
+                    if ((config_.hiddenComponents.empty() && config_.unremappedSlots.empty())
+                            || config_.components.empty() || config_.components.back().name != componentName_) {
                         return;
                     }
 
@@ -923,14 +1164,48 @@ namespace AGRemapCore {
                                 "handling = skip\n";
                     }
 
+                    if (!text.empty()) {
+                        text = "; The skin's own draws for components nothing was remapped onto. Left drawing,\n"
+                               "; they sit on top of the mod -- her bangs over his hair, as two different whites.\n\n"
+                               + text;
+                    }
+
+                    // The skin's slots nothing is remapped onto withdraw a TexFx request -- see
+                    // GIMIComponentFixerConfig::unremappedSlots. Only for a mod that calls TexFx.
+                    const bool callsTexFx = iniFile != nullptr
+                        && StringTools::containsIgnoreCase(iniFile->getFileTxt(), IniKeywords::TexFxFolder + "\\");
+                    std::string guards;
+                    for (const auto& [modTypeName, slotIndices] : (callsTexFx ? config_.unremappedSlots
+                                                                              : decltype(config_.unremappedSlots){})) {
+                        std::optional<std::string> hash = hashes->get({modTypeName, IbHashKey}, toVersion, false);
+                        if (!hash.has_value() || hash->empty()) {
+                            continue;
+                        }
+
+                        for (const std::string& slotIndex : slotIndices) {
+                            guards += "\n[TextureOverride" + modTypeName + slotIndex + IniKeywords::Remap + "TexFxGuard]\n"
+                                      "hash = " + *hash + "\n"
+                                      "match_first_index = " + slotIndex + "\n"
+                                      "$\\TexFx\\use_default_shader = -1\n";
+                        }
+                    }
+
+                    if (!guards.empty()) {
+                        if (!text.empty()) {
+                            text += "\n";
+                        }
+                        text += "; The skin's own slots nothing was remapped onto. They are skipped already; these\n"
+                                "; withdraw a TexFx request the mod's draw made, which the skin's next outline draw\n"
+                                "; -- one of these -- would otherwise serve by drawing its whole ib over the mod's\n"
+                                "; vertex buffers.\n"
+                                + guards;
+                    }
+
                     if (text.empty()) {
                         return;
                     }
 
-                    this->appendedSections =
-                        "; The skin's own draws for components nothing was remapped onto. Left drawing,\n"
-                        "; they sit on top of the mod -- her bangs over his hair, as two different whites.\n\n"
-                        + text;
+                    this->appendedSections = text;
                 }
 
                 VGSplitGroupConfig::LineEdit makeTexcoordLineEdit() const {
@@ -1057,10 +1332,18 @@ namespace AGRemapCore {
                         RegFillMissingMode::BottomCover);
 
                     const std::string fixPath = component_.normalMap ? IniKeywords::ORFixPath : IniKeywords::NNFixPath;
+                    // ONE CALL PER PATH, as the classic and merge templates already do: ORFix /
+                    // NNFix re-slot the bound ps-t registers rather than setting them, so a second
+                    // call over one set of bindings undoes the first and the model renders flat
+                    // green. The default (PerSegment) puts one before EVERY drawindexed, which a
+                    // mod that draws an object as several toggled ranges turns into several calls
+                    // on one path -- 9 on a real Citlali mod (Tools/Misc/Diagnostics/fixCallPaths.py).
+                    // Every mod this template had been checked on drew through one draw per path.
                     addFixCall_ = std::make_unique<RegDelimitedAdd<>>(
                         RegDelimitedAdd<>::Additions{{IniKeywords::Run, fixPath}},
                         RegDelimitedAdd<>::RegMap{{IniKeywords::DrawIndexed, {}}},
-                        /*pathEndOnlyWhenUndelimited*/ true);
+                        /*pathEndOnlyWhenUndelimited*/ true,
+                        RegDelimitedAddMode::PerPath);
 
                     normalBack_ = std::make_unique<RegRemap<>>(std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>>{
                         renameRule(ScratchNormalReg, {DiffuseReg})});
@@ -1134,9 +1417,42 @@ namespace AGRemapCore {
                     for (std::size_t group = 0; group < groupCount_; ++group) {
                         ObjGroupEdit::IniEdits iniEdits;
 
-                        std::vector<ObjGroupEdit::PartEdit*> slotEdits = {removeFixCallsAdapter_.get()};
+                        // KEEP THE MOD'S OWN FIX CALLS when they are already the right ones: an object
+                        // on the normal-map layout that calls ORFix itself, drawn through a slot that
+                        // reads ORFix. Then wherever the author put the calls is right for the target
+                        // too -- which is what the pure-Python original always did, renaming the
+                        // modder's calls out of the way and back rather than inserting any.
+                        //
+                        // Re-issuing instead (drop them, add one per path) assumes a section never
+                        // rebinds its ps-t registers after drawing -- RegDelimitedAddMode::PerPath says
+                        // so, measured over 33030 sections. A real Citlali mod does: it binds, calls
+                        // ORFix, draws, binds again, calls ORFix again and draws again. With one call
+                        // per path, the second set of bindings drew un-reslotted -- the light map as the
+                        // albedo, flat green over every cloth part (2026-09-22). fixCallPaths.py cannot
+                        // see that shape: it counts calls made twice, not a call missing after a rebind.
+                        bool keepOwnFixCalls = false;
+                        if (component_.normalMap && group < drawn_.size()) {
+                            const ModObjectFiles* objFiles = objectFiles(drawn_[group]);
+                            keepOwnFixCalls = objFiles != nullptr && objFiles->normalMapLayout && objFiles->ownORFix;
+                        }
+
+                        std::vector<ObjGroupEdit::PartEdit*> slotEdits;
+                        if (!keepOwnFixCalls) {
+                            slotEdits.push_back(removeFixCallsAdapter_.get());
+                        }
                         if (component_.normalMap) {
                             slotEdits.push_back(normalBackAdapter_.get());
+                        }
+
+                        // The mod's own draw ranges, through the split -- see DrawRangeRemap. Group
+                        // `group` holds drawn_[group]'s graph.
+                        if (group < drawn_.size()) {
+                            auto kept = keptTriangleIds_.find(drawn_[group]);
+                            if (kept != keptTriangleIds_.end()) {
+                                drawRangeRemaps_.push_back(std::make_unique<DrawRangeRemap>(kept->second));
+                                drawRangeAdapters_.push_back(std::make_unique<RegPartEdit<>>(drawRangeRemaps_.back().get()));
+                                slotEdits.push_back(drawRangeAdapters_.back().get());
+                            }
                         }
 
                         // AFTER the shift and the normal map's rename back: the double binding is
@@ -1145,7 +1461,9 @@ namespace AGRemapCore {
                             slotEdits.push_back(trimRegistersAdapter_.get());
                         }
                         slotEdits.push_back(fillAdapter_.get());
-                        slotEdits.push_back(addFixCallAdapter_.get());
+                        if (!keepOwnFixCalls) {
+                            slotEdits.push_back(addFixCallAdapter_.get());
+                        }
                         slotEdits.push_back(assetAdapter_.get());
                         iniEdits.edits[slotObj] = std::move(slotEdits);
                         iniEdits.trackKeys[slotObj] = false;
@@ -1170,7 +1488,13 @@ namespace AGRemapCore {
                         iniEdits.trackKeys[OtherObj] = false;
 
                         if (component_.face) {
-                            iniEdits.edits[FaceObj] = {renameAdapter_.get(), faceAssetAdapter_.get(), faceSwapAdapter_.get()};
+                            // The swap only for a mod on the pre-6.x register, when the config asks
+                            // -- see GIMIComponentFixerConfig::faceSwapOnlyFromDiffuseReg.
+                            if (!config_.faceSwapOnlyFromDiffuseReg || files_.faceOnDiffuseReg) {
+                                iniEdits.edits[FaceObj] = {renameAdapter_.get(), faceAssetAdapter_.get(), faceSwapAdapter_.get()};
+                            } else {
+                                iniEdits.edits[FaceObj] = {renameAdapter_.get(), faceAssetAdapter_.get()};
+                            }
                             iniEdits.trackKeys[FaceObj] = false;
                         }
 
@@ -1236,6 +1560,9 @@ namespace AGRemapCore {
                 std::unique_ptr<RegRemove<>> removeFixCalls_;
                 std::unique_ptr<RegRemove<>> removeDrawIndexed_;
                 std::unique_ptr<RegFillMissing<>> fillDrawIndexed_;
+                std::unordered_map<std::string, std::vector<std::size_t>> keptTriangleIds_;
+                std::vector<std::unique_ptr<DrawRangeRemap>> drawRangeRemaps_;
+                std::vector<std::unique_ptr<RegPartEdit<>>> drawRangeAdapters_;
                 std::unique_ptr<RegDelimitedAdd<>> addFixCall_;
                 std::unique_ptr<RegRemap<>> normalBack_;
                 std::unique_ptr<RegNewVals<>> overrides_;

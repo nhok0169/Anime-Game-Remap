@@ -91,6 +91,38 @@ Grading
        |
        | - We replace pink, yellow, green, blue regions with opacity (alpha) within 65-75 with an opaque green colour of rgba(0, 128, 0, 255) 
        | to fix HuTao's stockings. There may be a possibility that we replace more than necessary.
+   * - | **Citlali --> CitlaliWhisperofStars**
+     - | :greenBold:`4.5`
+     - | Citlali is ONE mesh (``head`` and ``body``) and CitlaliWhisperofStars is THREE components
+       | (``Body`` of four draw slots, ``Bangs``, ``Eyes``), each with its own buffers, so the mod is split
+       | per component and each half's blend weights are remapped through its own row.
+       |
+       | - A mod that draws an object as several TOGGLED ranges has each range remapped through the split,
+       | since the skin's buffers renumber every vertex. A range the split drops entirely cannot be drawn.
+       |
+       | - The skin's ``Bangs`` and ``Eyes`` have no textures of their own --- the game draws them with the
+       | ``Body``'s --- so a mod that repaints only one of the three is followed for that one and given the
+       | game's own textures for the others.
+   * - | **CitlaliWhisperofStars --> Citlali**
+     - | :greenBold:`4.5`
+     - | The inverse: three components merged onto one mesh, laid end to end into one set of buffers with
+       | each component's blend weights remapped through its own reverse row first.
+       |
+       | - Every source slot lands on Citlali's ``body``, including the ``Bangs``: the skin draws its fringe
+       | on the body's shader pass, and her ``head`` receives nothing. A mod whose fringe needs the head's
+       | own shading cannot be expressed.
+       |
+       | - Citlali reads a normal map where Yelan and Bennett do not, so the skin's normal maps are carried
+       | rather than dropped --- and a mod written in the GAME's register order rather than the fix
+       | libraries' is re-slotted by the name of each texture it binds. A mod that names a texture after a
+       | role it does not hold is followed into the wrong slot.
+       |
+       | - Her dress outline is her own: the skin outlines its skirt with shaders Citlali has no equivalent
+       | for, so those two slots are kept out of her outline pass. A mod that adds geometry needing an
+       | outline there does not get one.
+       |
+       | - The vertex group rows are proposals from geometry matching, not a hand-made draft, so a pose may
+       | deform slightly at a joint the matcher guessed wrong.
    * - | **Diluc --> DilucFlamme**
      - | :greenBold:`4.7`
      - | Pick your poison: 

@@ -56,6 +56,11 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
         .value("BennettAdventureBang", AGRC::ModTypeId::BennettAdventureBang, R"doc(BennettAdventure's Bang component, as a fix target)doc")
         .value("BennettAdventureEye", AGRC::ModTypeId::BennettAdventureEye, R"doc(BennettAdventure's Eye component, as a fix target)doc")
         .value("CherryHuTao", AGRC::ModTypeId::CherryHuTao, R"doc(Hu Tao Lantern Rite skin from GI)doc")
+        .value("Citlali", AGRC::ModTypeId::Citlali, R"doc(Citlali from GI)doc")
+        .value("CitlaliWhisperofStars", AGRC::ModTypeId::CitlaliWhisperofStars, R"doc(Citlali outfit skin (Whisper of Stars) from GI -- three skinned components (Body, Bangs, Eyes))doc")
+        .value("CitlaliWhisperofStarsBody", AGRC::ModTypeId::CitlaliWhisperofStarsBody, R"doc(CitlaliWhisperofStars's Body component, as a fix target -- a skin of several components is fixed one component at a time, and each is a mod type for the tables' purposes)doc")
+        .value("CitlaliWhisperofStarsBangs", AGRC::ModTypeId::CitlaliWhisperofStarsBangs, R"doc(CitlaliWhisperofStars's Bangs component, as a fix target)doc")
+        .value("CitlaliWhisperofStarsEyes", AGRC::ModTypeId::CitlaliWhisperofStarsEyes, R"doc(CitlaliWhisperofStars's Eyes component, as a fix target)doc")
 
         .value("Diluc", AGRC::ModTypeId::Diluc, R"doc(Diluc from GI)doc")
 

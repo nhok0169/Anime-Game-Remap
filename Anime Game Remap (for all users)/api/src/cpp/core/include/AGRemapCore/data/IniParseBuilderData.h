@@ -712,6 +712,17 @@ namespace AGRemapCore {
              */
             static IniParseBuilder::Factory bennettAdventure5_7();
 
+            /**
+             * @brief
+             @rst
+             The parser for a 5.3-era **Citlali** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head`` / ``body`` on the normal-map texture
+             layout. See ``data/IniParseData/Citlali/CitlaliParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory citlali5_3();
+
             static IniParseBuilder::Factory yelan4_0();
 
             /**
@@ -751,6 +762,15 @@ namespace AGRemapCore {
              @endrst
              */
             static IniParseBuilder::Factory yelanTranquil5_7();
+
+            /**
+             * @brief
+             @rst
+             CitlaliWhisperofStars' 6.7 parser -- a skin of THREE components (a Body of four draw
+             slots, a Bangs and an Eyes), built by :cpp:func:`makeGIMIComponentParser`
+             @endrst
+             */
+            static IniParseBuilder::Factory citlaliWhisperofStars6_7();
 
     };
 

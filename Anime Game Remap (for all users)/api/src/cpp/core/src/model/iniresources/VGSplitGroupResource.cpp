@@ -16,6 +16,7 @@
 #include <stdexcept>
 #include <utility>
 
+#include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/files/BinaryFile.h"
 #include "AGRemapCore/model/files/BlendFile.h"
 #include "AGRemapCore/model/files/IbFile.h"
@@ -159,6 +160,17 @@ namespace AGRemapCore {
                 }
             }
             if (which == ibPaths.size()) {
+                // A PARSER DOWNLOAD the split was not given (2026-09-22): a merged master binds an ib
+                // in an `if $swapvar == 0 / else if == 1` chain with no `else`, and the parser covers
+                // the fall-through with the game's buffer, referenced unconditionally -- so the collect
+                // hands it to EVERY group beside the mod's own. That path is never taken, and the game's
+                // indices do not address the mod's vertices anyway, so it is written EMPTY: the reference
+                // resolves and the path draws nothing. Anything else missing is still an error.
+                const std::string fileName = FileService::pathToStr(FileService::strToPath(ib->srcPath).filename());
+                if (fileName.find(IniKeywords::RemapDL) != std::string::npos) {
+                    writeBytes(ib->fixedPath, {});
+                    continue;
+                }
                 throw std::invalid_argument("'" + ib->srcPath + "' is not one of the index buffers the split was given");
             }
             writeBytes(ib->fixedPath, VGComponentSplit::encodeIb(buffers.ibs[which]));

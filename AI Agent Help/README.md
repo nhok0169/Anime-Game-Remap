@@ -69,6 +69,7 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%8C%8A%F0%9F%A7%AD%20The%20Wuthering%20Wayfinder-2-%230e7490?style=for-the-badge&labelColor=%230c4a6e)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%94%83%F0%9F%93%9A%20The%20Walk%20Order%20Librarian-1-%23a16207?style=flat-square&labelColor=%23451a03)
 - ![Static Badge](https://img.shields.io/badge/%E2%8F%B1%EF%B8%8F%F0%9F%A7%BE%20The%20Fixed%20Cost%20Auditor-1-%2384cc16?style=flat-square&labelColor=%231a2e05)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%8E%AD%F0%9F%94%80%20The%20Register%20Role-Caller-1-%239f1239?style=flat-square&labelColor=%23fff1f2)
 
 <br>
 

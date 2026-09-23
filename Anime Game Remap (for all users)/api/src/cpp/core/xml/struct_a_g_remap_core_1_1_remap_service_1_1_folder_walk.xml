@@ -11,13 +11,22 @@
         <name>dirs</name>
         <qualifiedname>AGRemapCore::RemapService::FolderWalk::dirs</qualifiedname>
         <briefdescription>
-<para>The folders still waiting to be visited, most recently added first. </para>
         </briefdescription>
         <detaileddescription>
+<para><verbatim>embed:rst 
+The folders still waiting to be visited, in the order they were found
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Queued at the back (#push) and taken from the front (#fix), so a folder found
+first is visited first. **Taking them off the back instead is the bug this shape
+exists to avoid**: every batch queued is already in the order it should be
+reported in, so a walk popping the back reads each batch backwards -- folders
+``A``, ``B``, ``C`` came out ``C``, ``B``, ``A`` until 2026-09-20
+</verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="619" column="28" bodyfile="include/AGRemapCore/RemapService.h" bodystart="619" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapService.h" line="630" column="28" bodyfile="include/AGRemapCore/RemapService.h" bodystart="630" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1ac552d2f9e034fba385ab3e07cfdebc2d" prot="public" static="no" mutable="no">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -32,7 +41,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="624" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="624" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapService.h" line="635" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="635" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1abdc8888d9cf48291ead5a72be21d0268" prot="public" static="no" mutable="no">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -47,7 +56,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="629" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="629" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapService.h" line="640" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="640" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1aaa51d62e58d8ce392838008ca161398b" prot="public" static="no" mutable="no">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -62,7 +71,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="634" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="634" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapService.h" line="645" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="645" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -96,7 +105,7 @@ queued
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="645" column="22" bodyfile="src/RemapService.cpp" bodystart="91" bodyend="101"/>
+        <location file="include/AGRemapCore/RemapService.h" line="656" column="22" bodyfile="src/RemapService.cpp" bodystart="91" bodyend="104"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -118,7 +127,7 @@ queue and must not be queued twice, and a folder already in **gotNeighbours** ha
 already had the subtree beneath it enumerated by some earlier folder&apos;s recursive scan
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/RemapService.h" line="615" column="13" bodyfile="include/AGRemapCore/RemapService.h" bodystart="615" bodyend="646"/>
+    <location file="include/AGRemapCore/RemapService.h" line="616" column="13" bodyfile="include/AGRemapCore/RemapService.h" bodystart="616" bodyend="657"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1a7b8e8ba33afa18e0fc6fb139ca5a6d35" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService::FolderWalk</scope><name>dirs</name></member>
       <member refid="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1aaa51d62e58d8ce392838008ca161398b" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService::FolderWalk</scope><name>gotNeighbours</name></member>

@@ -81,7 +81,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="160" column="21" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="160" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="175" column="21" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="175" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1af496b5ab6ceb3858b94b8e6f9488bdcb" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -96,7 +96,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="162" column="13" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="162" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="177" column="13" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="177" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a1c62f9cd930d935ad549bf06324eeec8" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -111,7 +111,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="163" column="13" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="163" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="178" column="13" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="178" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -122,7 +122,7 @@ What :cpp:func:`makeGIMIComponentParser` needs to read a mod built for a skin of
 components -- the parser counterpart of :cpp:struct:`GIMICharParserConfig`
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="29" column="5" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="29" bodyend="164"/>
+    <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="29" column="5" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="29" bodyend="179"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a1c62f9cd930d935ad549bf06324eeec8" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig</scope><name>blendStride</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a97cdb5130602390cfa64ec9bdbd43b6d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig</scope><name>components</name></member>

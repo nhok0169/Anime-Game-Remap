@@ -234,6 +234,22 @@ Below are the supported types of mods
        | SnowLadenHutao
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(cherryhutao|hutaocherry).*\]``
+   * - **Chisa**
+     - WuWa
+     - 
+     - check if the .ini file contains a section with the character's vertex buffer hash, eg. ``hash = afa1587c``, since a WWMI .ini names its sections after the draw slot (``[TextureOverrideComponent0]``) rather than after the character
+   * - **ChisaParfait**
+     - WuWa
+     - ChisaSkin1, ParfaitChisa
+     - check if the .ini file contains a section with the character's vertex buffer hash, eg. ``hash = e611d493``, since a WWMI .ini names its sections after the draw slot (``[TextureOverrideComponent0]``) rather than after the character
+   * - **Citlali**
+     - GI
+     - 
+     - check if the .ini file contains a section matching the regex, ``^\s*\[\s*textureoverride.*(citlali)((?!whisperofstars).)*\]``
+   * - **CitlaliWhisperofStars**
+     - GI
+     - CitlaliStars, CitlaliWhisper, StarsCitlali, WhisperCitlali, WhisperofStarsCitlali
+     - check if the .ini file contains a section matching the regex, ``^\s*\[\s*textureoverride.*(citlaliwhisperofstars).*\]``
    * - **Diluc**
      - GI
      - | AngelShareOwner, 

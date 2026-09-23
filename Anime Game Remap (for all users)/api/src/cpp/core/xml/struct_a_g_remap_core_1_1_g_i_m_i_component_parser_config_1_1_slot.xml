@@ -136,15 +136,41 @@ entirely (2026-09-14)
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="107" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="107" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a4008010b29129ae920f37df079d1bb98" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GIMIComponentParserConfig::Slot::donorNormalMap</definition>
+        <argsstring></argsstring>
+        <name>donorNormalMap</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParserConfig::Slot::donorNormalMap</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the donor&apos;s NORMAL MAP is downloaded too, at :cpp:member:`normalMapReg`
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Needed when the TARGET reads normal maps: CitlaliWhisperofStars -&gt; Citlali keeps every
+slot&apos;s normal map (``GIMIMergeFixerConfig::TargetLayout::NormalMap``), and a borrowing
+slot fetched only the donor&apos;s diffuse and light map, so its draw read whatever normal
+map the game had bound (2026-09-22). Off by default: a plain target drops the normal
+map, and fetching one only to drop it is a download and a resource section for nothing
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="122" column="18" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
 <para>One draw slot of one component. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="53" column="9" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="53" bodyend="108"/>
+    <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="53" column="9" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="53" bodyend="123"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1add81e39e9f20372a949d3e7031aa5aa6" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Slot</scope><name>diffuseReg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a4008010b29129ae920f37df079d1bb98" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Slot</scope><name>donorNormalMap</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1ab05dab4e41dcc773f7a5a74b7aa05a13" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Slot</scope><name>index</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a7f9413b3e951f6e6a9607570ea1a6260" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Slot</scope><name>lightMapReg</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a2932af3df10732450b1fb2aa9b53104a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Slot</scope><name>name</name></member>

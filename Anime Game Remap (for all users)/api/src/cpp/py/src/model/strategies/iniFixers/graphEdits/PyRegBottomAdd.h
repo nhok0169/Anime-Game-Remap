@@ -48,8 +48,9 @@ class PyRegBottomAdd: public AGRC::RegBottomAdd<std::string, std::string> {
          * @brief Constructs a new bottom-adding edit
          *
          * @param additionsObj The `KVP`_ tuple(s) to add -- one ``(key, value)`` tuple, or a list of them
+         * @param condition The condition to put them under, or empty for none
          */
-        explicit PyRegBottomAdd(py::object additionsObj);
+        explicit PyRegBottomAdd(py::object additionsObj, std::string condition = "");
 };
 
 

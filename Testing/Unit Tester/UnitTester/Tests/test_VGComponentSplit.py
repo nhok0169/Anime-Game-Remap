@@ -59,6 +59,7 @@ class VGComponentSplitTest(BaseUnitTest):
         self.assertEqual(bang.stats.trianglesKept, [0, 1])
         self.assertEqual(bang.stats.trianglesDropped, [2, 0])
         self.assertEqual(bang.stats.sentinels, 4)
+        self.assertEqual(bang.keptTriangleIds, [[], [0]])
 
     # ================ graph cut (fill) ==============
 
@@ -71,6 +72,7 @@ class VGComponentSplitTest(BaseUnitTest):
         self.assertEqual(body.ibs, [[[0, 1, 2], [2, 3, 4]], []])
         self.assertEqual(body.stats.trianglesKept, [2, 0])
         self.assertEqual(body.stats.trianglesDropped, [0, 1])
+        self.assertEqual(body.keptTriangleIds, [[0, 1], []])
 
         # weights renormalised in the Body's bones; the two orphans skinned to their neighbour's bone 11
         self.assertEqual(body.indices, [[10, 0, 0, 0], [10, 11, 0, 0], [11, 0, 0, 0], [11, 0, 0, 0], [11, 0, 0, 0]])
@@ -79,6 +81,19 @@ class VGComponentSplitTest(BaseUnitTest):
         self.assertEqual(body.stats.neighbourSkinned, 2)
         self.assertEqual(body.stats.keptVertices, 5)
         self.assertEqual(body.live, [])
+
+    def test_keptTriangleIds_sourceIndexOfEachKeptTriangle(self):
+        # The Bang's triangle sits in the MIDDLE of one index buffer here, so what the Body keeps is not
+        # a prefix: its ids skip 1. A mod's own `drawindexed = <count>, <start>` ranges are remapped
+        # through exactly these (the component fixer's DrawRangeRemap), and a split that removed from
+        # the middle is the case where the mod's own numbers would otherwise draw the wrong triangles.
+        split = FRB.VGComponentSplit(Weights, Indices, [[[0, 1, 2], [3, 4, 5], [2, 3, 4]]], makeSpecs())
+        body, bang = split.split("Body"), split.split("Bang")
+
+        self.assertEqual(body.keptTriangleIds, [[0, 2]])
+        self.assertEqual(bang.keptTriangleIds, [[1]])
+        self.assertEqual(len(body.keptTriangleIds[0]), body.stats.trianglesKept[0])
+        self.assertEqual(len(bang.keptTriangleIds[0]), bang.stats.trianglesKept[0])
 
     def test_unknownComponent_raises(self):
         with self.assertRaises(ValueError):

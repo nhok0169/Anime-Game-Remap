@@ -158,6 +158,16 @@ namespace AGRemapCore {
                 // Bang and an Eye. Her Bang and Eye have no textures of their own and borrow
                 // Body slot A's, which is what their parse-row donors say.
                 {{"5.7", ModTypeIdTools::getName(ModTypeId::BennettAdventure)}, IniParseBuilderFuncs::bennettAdventure5_7()},
+
+                // ===== Citlali (2026-09-21) =====
+                // Two drawn objects on the normal-map layout.
+                {{"5.3", ModTypeIdTools::getName(ModTypeId::Citlali)}, IniParseBuilderFuncs::citlali5_3()},
+
+                // ===== CitlaliWhisperofStars (2026-09-22) =====
+                // The third row built by makeGIMIComponentParser, and the reverse of the three
+                // Citlali rows. Filed at 6.7, where her assets are -- not at Citlali's own 5.3.
+                {{"6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars)},
+                 IniParseBuilderFuncs::citlaliWhisperofStars6_7()},
             };
         }
     }

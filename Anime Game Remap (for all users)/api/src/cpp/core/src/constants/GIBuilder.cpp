@@ -150,7 +150,7 @@ namespace AGRemapCore {
                            // lands on ModType's own VertexCounts() default).
                            //
                            // nullptr vgRemaps is NOT the same thing: ModType's fallback there is the
-                           // single shared ModDataAssets::vgRemaps, so all 47 GI mod types share one
+                           // single shared ModDataAssets::vgRemaps, so all 49 GI mod types share one
                            // remap table. That too matches the original -- see ModType::vgRemaps.
                            nullptr, nullptr,
                            giIniParseBuilder(), giIniFixBuilder(), giIniRemoveBuilder());
@@ -195,6 +195,14 @@ namespace AGRemapCore {
 
     ModType GIBuilder::cherryHutao() {
         return makeGIModType(ModTypeId::CherryHuTao, {"HutaoCherry", "HutaoSnowLaden", "SnowLadenHutao", "LanternRiteHutao", "HutaoLanternRite", "Cherry77thDirectoroftheWangshengFuneralParlor", "CherryQiqiKidnapper", "77thDirectoroftheWangshengFuneralParlorCherry", "QiqiKidnapperCherry", "LanternRite77thDirectoroftheWangshengFuneralParlor", "LanternRiteQiqiKidnapper", "77thDirectoroftheWangshengFuneralParlorLanternRite", "QiqiKidnapperLanternRite"});
+    }
+
+    ModType GIBuilder::citlali() {
+        return makeGIModType(ModTypeId::Citlali);
+    }
+
+    ModType GIBuilder::citlaliWhisperofStars() {
+        return makeGIModType(ModTypeId::CitlaliWhisperofStars, {"WhisperofStarsCitlali", "CitlaliWhisper", "WhisperCitlali", "CitlaliStars", "StarsCitlali"});
     }
 
     ModType GIBuilder::diluc() {
@@ -360,6 +368,8 @@ namespace AGRemapCore {
             bennett(),
             bennettAdventure(),
             cherryHutao(),
+            citlali(),
+            citlaliWhisperofStars(),
             diluc(),
             dilucFlamme(),
             fischl(),

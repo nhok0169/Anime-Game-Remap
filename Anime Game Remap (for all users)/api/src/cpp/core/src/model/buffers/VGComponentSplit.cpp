@@ -323,8 +323,10 @@ namespace AGRemapCore {
         // invisible, it lands near the origin
         for (const Triangles& ib : ibs_) {
             Triangles kept;
+            std::vector<std::size_t> keptIds;
             std::size_t dropped = 0;
-            for (const auto& triangle : ib) {
+            for (std::size_t t = 0; t < ib.size(); ++t) {
+                const auto& triangle = ib[t];
                 bool ok = true;
                 for (unsigned long long corner : triangle) {
                     if (corner >= result.live.size() || !result.live[corner]) {
@@ -334,6 +336,7 @@ namespace AGRemapCore {
                 }
                 if (ok) {
                     kept.push_back(triangle);
+                    keptIds.push_back(t);
                 } else {
                     ++dropped;
                 }
@@ -341,6 +344,7 @@ namespace AGRemapCore {
             result.stats.trianglesKept.push_back(kept.size());
             result.stats.trianglesDropped.push_back(dropped);
             result.ibs.push_back(std::move(kept));
+            result.keptTriangleIds.push_back(std::move(keptIds));
         }
 
         return result;
@@ -408,6 +412,7 @@ namespace AGRemapCore {
         for (std::size_t i = 0; i < ibs_.size(); ++i) {
             const Triangles& ib = ibs_[i];
             Triangles kept;
+            std::vector<std::size_t> keptIds;
             std::size_t dropped = 0;
 
             // float, not double: the summed share is a float32 sum in the numpy original, and the
@@ -446,6 +451,7 @@ namespace AGRemapCore {
                 bool keep = bestColumn == static_cast<long long>(column) && bestScore > 0.0 && !excluded[i][t];
                 if (keep) {
                     kept.push_back(ib[t]);
+                    keptIds.push_back(t);
                 } else {
                     ++dropped;
                 }
@@ -453,6 +459,7 @@ namespace AGRemapCore {
             result.stats.trianglesKept.push_back(kept.size());
             result.stats.trianglesDropped.push_back(dropped);
             keptTriangles.push_back(std::move(kept));
+            result.keptTriangleIds.push_back(std::move(keptIds));
         }
 
         // The vertices those triangles use, ascending, and the renumbering into them

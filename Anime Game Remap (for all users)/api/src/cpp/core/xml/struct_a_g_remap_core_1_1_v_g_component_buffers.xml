@@ -67,6 +67,25 @@ Per source index buffer, the triangles this component draws -- renumbered into
         </inbodydescription>
         <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="112" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="112" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_buffers_1ab39e14a91333ccf25ea30fe0a0471af2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; std::size_t &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;std::size_t&gt; &gt; AGRemapCore::VGComponentBuffers::keptTriangleIds</definition>
+        <argsstring></argsstring>
+        <name>keptTriangleIds</name>
+        <qualifiedname>AGRemapCore::VGComponentBuffers::keptTriangleIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Per source index buffer, the SOURCE index of every triangle in \ref ibs, ascending --
+what a mod&apos;s own ``drawindexed = &lt;count&gt;, &lt;start&gt;, 0`` ranges have to be remapped through,
+since the split removes triangles from the middle of an object as well as its end
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="122" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_buffers_1aa627441cc2157e41b6a71c60d2dff78a" prot="public" static="no" mutable="no">
         <type>std::vector&lt; bool &gt;</type>
         <definition>std::vector&lt;bool&gt; AGRemapCore::VGComponentBuffers::live</definition>
@@ -80,7 +99,7 @@ Per source index buffer, the triangles this component draws -- renumbered into
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="117" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="117" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="127" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="127" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_buffers_1ab4e698d9e91a2e0210f31705a4077ce4" prot="public" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_v_g_component_split_stats" kindref="compound">VGComponentSplitStats</ref></type>
@@ -94,7 +113,7 @@ Per source index buffer, the triangles this component draws -- renumbered into
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="119" column="31" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="119" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="129" column="31" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="129" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -117,10 +136,11 @@ What one component gets out of a split: the vertices it draws and its buffers ov
         <link refid="struct_a_g_remap_core_1_1_v_g_component_split_stats"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="89" column="5" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="89" bodyend="120"/>
+    <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="89" column="5" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="89" bodyend="130"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1af31995f273590e9ea3a2b62261e8c290" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>ibs</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1af6acea6bfc6e7bfa1f02732a86db70b6" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>indices</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1ab39e14a91333ccf25ea30fe0a0471af2" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>keptTriangleIds</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1aa627441cc2157e41b6a71c60d2dff78a" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>live</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1ab4e698d9e91a2e0210f31705a4077ce4" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>stats</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1a6d17ca995d2e27c5780fc65c017b8df8" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>vertices</name></member>

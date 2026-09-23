@@ -2,6 +2,9 @@
 
     python abIni.py <folder A> <folder B>
 
+A folder may hold SEVERAL .ini files -- a merge writes a second ``<name>RemapFix1.ini`` -- and they
+are paired by their path relative to each folder (2026-09-21); a file on one side only is reported.
+
 **Byte-identical buffers say nothing about the ``.ini``.** A compiled fix's first run produced
 buffers that were byte-for-byte a verified prototype's, and an ``.ini`` file with ``HashNotFound``
 in all ten sections and the SOURCE's ``match_first_index`` in four of them. A mod like that is
@@ -30,16 +33,17 @@ import sys
 Marker = "Remap ---"
 
 
-def iniPath(folder):
-    hits = []
+def iniPaths(folder):
+    """every .ini under the folder, keyed by its path relative to it"""
+    hits = {}
     for root, _, files in os.walk(folder):
         for f in files:
-            if (f.lower().endswith(".ini")):
-                hits.append(os.path.join(root, f))
-    if (len(hits) != 1):
-        sys.exit(f"expected exactly 1 .ini under {folder}, found {len(hits)}"
-                 + ("" if hits else " -- an empty folder is not a match, it is a failed run"))
-    return hits[0]
+            if (f.lower().endswith(".ini") and not f.upper().startswith("DISABLED")):
+                path = os.path.join(root, f)
+                hits[os.path.relpath(path, folder)] = path
+    if (not hits):
+        sys.exit(f"no .ini under {folder} -- an empty folder is not a match, it is a failed run")
+    return hits
 
 
 def parse(path):
@@ -93,10 +97,15 @@ def resolve(sections, folder):
     return out
 
 
-a = resolve(*parse(iniPath(sys.argv[1])))
-b = resolve(*parse(iniPath(sys.argv[2])))
+pathsA, pathsB = iniPaths(sys.argv[1]), iniPaths(sys.argv[2])
+problems = [f".ini only in A: {rel}" for rel in sorted(set(pathsA) - set(pathsB))]
+problems += [f".ini only in B: {rel}" for rel in sorted(set(pathsB) - set(pathsA))]
+a, b = {}, {}
+for rel in sorted(set(pathsA) & set(pathsB)):
+    prefix = "" if (len(pathsA) == 1 and len(pathsB) == 1) else f"{rel}: "
+    a.update({prefix + k: v for k, v in resolve(*parse(pathsA[rel])).items()})
+    b.update({prefix + k: v for k, v in resolve(*parse(pathsB[rel])).items()})
 
-problems = []
 for name in sorted(set(a) - set(b)):
     problems.append(f"section only in A: [{name}]")
 for name in sorted(set(b) - set(a)):

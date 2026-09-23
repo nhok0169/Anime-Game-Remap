@@ -27,11 +27,11 @@
 //   * The two ModTypeIds that are only ever remap TARGETS (RaidenBoss,
 //     ArlecchinoBoss) -- neither is a source, and neither has a GIBuilder
 //     factory.
-//   * GIBuilder::all() building 47 mod types, each carrying that map on its own
+//   * GIBuilder::all() building 49 mod types, each carrying that map on its own
 //     Hashes/Indices. This is what "nullptr hashes/indices" used to lose:
 //     ModMappedAssets::resolveToAssetNames returns nullopt for a from-name that
 //     is not a key, so an empty map means NO targets, not all of them.
-//   * GlobalModTypes::registerAll() filing all 47 into ModTypeIdTools, so
+//   * GlobalModTypes::registerAll() filing all 49 GI ones into ModTypeIdTools, so
 //     getModType resolves by id and findByName by name AND by alias.
 //
 // Needs the full static lib. Build AGRemapCore first ("cd cbuild && ninja
@@ -115,6 +115,8 @@ static const std::vector<RemapRow>& expectedRows() {
         {"Bennett", {"BennettAdventureBody", "BennettAdventureBang", "BennettAdventureEye"}, {"BennettAdventureBody", "BennettAdventureBang", "BennettAdventureEye"}},
         {"BennettAdventure", {"Bennett"}, {"Bennett"}},
         {"CherryHuTao", {"HuTao"}, {"HuTao"}},
+        {"Citlali", {"CitlaliWhisperofStarsBody", "CitlaliWhisperofStarsBangs", "CitlaliWhisperofStarsEyes"}, {"CitlaliWhisperofStarsBody", "CitlaliWhisperofStarsBangs", "CitlaliWhisperofStarsEyes"}},
+        {"CitlaliWhisperofStars", {"Citlali"}, {"Citlali"}},
         {"Diluc", {"DilucFlamme"}, {"DilucFlamme"}},
         {"DilucFlamme", {"Diluc"}, {"Diluc"}},
         {"Fischl", {"FischlHighness"}, {"FischlHighness"}},
@@ -192,9 +194,7 @@ static ModTypeId idOf(const std::string& name) {
 
 static void testEveryRowMatchesPython() {
     std::printf("testEveryRowMatchesPython\n");
-
-    check(expectedRows().size() == 51, "the oracle itself still has all 51 rows (43 plus Yelan, YelanTranquil, Bennett and BennettAdventure, plus the four WuWa types)");
-
+    check(expectedRows().size() == 53, "the oracle itself still has all 53 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali and CitlaliWhisperofStars, plus the four WuWa types)");
     for (const RemapRow& row : expectedRows()) {
         ModTypeId id = idOf(row.name);
 
@@ -238,7 +238,7 @@ static void testBuiltModTypesCarryTheirMap() {
     std::printf("testBuiltModTypesCarryTheirMap\n");
 
     std::vector<AGRC::ModType> built = AGRC::GIBuilder::all();
-    check(built.size() == 47, "GIBuilder::all() builds all 47 mod types");
+    check(built.size() == 49, "GIBuilder::all() builds all 49 mod types");
 
     for (const AGRC::ModType& modType : built) {
         const RemapRow* expected = nullptr;

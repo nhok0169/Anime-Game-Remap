@@ -57,10 +57,11 @@ namespace AGRemapCore {
             **The two have since diverged on purpose, in two ways.** First, this table has a
             ``component`` column and the pure-Python dict does not -- it is still
             ``({version, name}, count)`` over there, two levels deep. Second, this table carries a
-            two rows the dict has not got: ``Yelan`` at ``4.0``, added for the
-            ``Yelan`` -> ``YelanTranquil`` remap, and ``Bennett`` at ``4.0`` for
-            ``Bennett`` -> ``BennettAdventure``, so this table has 45 rows against the dict's 43
-            (measured 2026-09-14) :raw-html:`<br />` :raw-html:`<br />`
+            rows the dict has not got: ``Yelan`` at ``4.0``, added for the
+            ``Yelan`` -> ``YelanTranquil`` remap, ``Bennett`` at ``4.0`` for
+            ``Bennett`` -> ``BennettAdventure``, ``Citlali`` at ``5.3`` for
+            ``Citlali`` -> ``CitlaliWhisperofStars``, and the two WuWa characters, so this table has
+            48 rows against the dict's 43 (measured 2026-09-21) :raw-html:`<br />` :raw-html:`<br />`
 
             So this table can no longer be regenerated from that dict by a naive walk -- doing so
             would silently drop the component column, shrink every row back to two index values,

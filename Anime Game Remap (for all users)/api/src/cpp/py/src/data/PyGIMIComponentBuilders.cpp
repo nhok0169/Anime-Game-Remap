@@ -84,6 +84,10 @@ A GIMI ``TextureOverride`` binds registers for the draw call its hash matches an
 slot whose own `section`_ declares no ``ps-t`` renders with whatever the GAME had bound, however
 thoroughly the mod repainted its own copy of the donor's atlas. Naming the donor here is what lets
 those textures be DOWNLOADED rather than read out of the mod
+        )doc"))
+        .def_readwrite("donorNormalMap", &AGRC::GIMIComponentParserConfig::Slot::donorNormalMap, py::doc(R"doc(
+:class:`bool`: Whether the donor's NORMAL MAP is downloaded too, at :attr:`normalMapReg` --- for a
+target that reads normal maps. **Default**: ``False``
         )doc"));
 
     py::class_<AGRC::GIMIComponentParserConfig::Component>(parserConfig, "Component", R"doc(
@@ -161,6 +165,14 @@ concatenated and drawn together
 :class:`str`: The ``<Component>;<Slot>`` this slot reads its textures from when it has none of its
 own --- ``""`` for a slot that always has them
         )doc"))
+        .def_readwrite("outline", &AGRC::GIMIMergeFixerConfig::Slot::outline, py::doc(R"doc(
+:class:`bool`: Whether this slot is drawn in the TARGET's outline pass. **Default**: ``True``
+
+A skin may outline a slot with a shader of its own (CitlaliWhisperofStars' dress). Merged into a
+target object it is drawn by the target's outline shader instead, which can cover it in black;
+``False`` puts the member's block under ``if vs != 037730.0`` --- the ``filter_index`` ORFix gives every
+outline vertex shader. Honoured for a merged member drawn by an appended block
+        )doc"))
         .def_readwrite("indexCount", &AGRC::GIMIMergeFixerConfig::Slot::indexCount, py::doc(R"doc(
 :class:`int`: The GAME model's index count for this slot, used only when the mod does not have the
 slot's ``ib`` on disk
@@ -191,6 +203,14 @@ so its length is this number
 
 **Default**: ``0``
         )doc"));
+
+    py::enum_<AGRC::GIMIMergeFixerConfig::TargetLayout>(fixerConfig, "TargetLayout", R"doc(
+How the TARGET's shader reads its textures
+    )doc")
+        .value("Plain", AGRC::GIMIMergeFixerConfig::TargetLayout::Plain,
+               "``ps-t0`` diffuse, ``ps-t1`` light map, under ``NNFix``: a source slot's normal map is dropped and the rest shifted down")
+        .value("NormalMap", AGRC::GIMIMergeFixerConfig::TargetLayout::NormalMap,
+               "``ps-t0`` normal map, ``ps-t1`` diffuse, ``ps-t2`` light map, under ``ORFix``: a normal-map slot passes through, a plain one is shifted up");
 
     fixerConfig
         .def(py::init<>())
@@ -230,6 +250,31 @@ its source character's legend --- from being mangled
 The edit it returns is handed the texture itself, not a copy, so it edits in place --- eg. through
 :meth:`CppTextureFile.getPixels` / :meth:`CppTextureFile.setPixels`. Returning ``None`` leaves that
 object's light map alone
+        )doc"))
+        .def_readwrite("targetLayout", &AGRC::GIMIMergeFixerConfig::targetLayout, py::doc(R"doc(
+:class:`GIMIMergeFixerConfig.TargetLayout`: How the TARGET's shader reads its textures
+
+**Default**: :attr:`GIMIMergeFixerConfig.TargetLayout.Plain`
+        )doc"))
+        .def_readwrite("texRegsByName", &AGRC::GIMIMergeFixerConfig::texRegsByName, py::doc(R"doc(
+:class:`bool`: Whether a carried binding goes to the register its resource NAME says, rather than
+staying where the mod put it
+
+``NNFix`` and ``ORFix`` read a ROLE out of a fixed register (the normal map from ``ps-t0``, the
+diffuse from ``ps-t1``, the light map from ``ps-t2``), so a remapped section that keeps the mod's
+own bindings and then calls one has to put them there first --- and a mod dumped straight from the
+game does not, since the game's own draw binds them in a different order. Naming decides the role,
+a binding naming none is left alone, and this subsumes
+:attr:`GIMIMergeFixerConfig.targetLayout`'s positional shift of a plain slot
+
+**Default**: ``False``
+        )doc"))
+        .def_readwrite("downloadPrefix", &AGRC::GIMIMergeFixerConfig::downloadPrefix, py::doc(R"doc(
+:class:`str`: The source character's download prefix --- the same string the parse row gives
+:attr:`GIMIComponentParserConfig.downloadPrefix`
+
+A mod may carry none of a component, and the merge then reads that component out of its downloads,
+which land under this prefix. Empty disables the fallback
         )doc"))
         .def_readwrite("mipmaps", &AGRC::GIMIMergeFixerConfig::mipmaps,
                         py::doc(":class:`bool`: Whether written textures carry a mip chain. **Default**: ``True``"))

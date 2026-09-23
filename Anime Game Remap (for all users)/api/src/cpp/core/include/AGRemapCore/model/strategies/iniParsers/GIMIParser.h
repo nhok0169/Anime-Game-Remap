@@ -277,6 +277,24 @@ namespace AGRemapCore {
                  * @brief Converts a `section`_ name into the `KVP`_ value that references it
                  */
                 std::function<V(const std::string&)> valOfSectionName;
+
+                /**
+                 * @brief
+                 @rst
+                 The draw `KVP`_ (``drawindexed``), which makes a download's coverage test
+                 ORDERED -- empty for the old, unordered test :raw-html:`<br />` :raw-html:`<br />`
+
+                 A `section`_-level download is added where the mod does not cover the register, and
+                 "cover" used to mean "binds it ANYWHERE". A mod that DRAWS before it binds is then
+                 taken for covered, and that draw renders with whatever the game had bound -- the
+                 TARGET's own textures once remapped, which on one CitlaliWhisperofStars mod put
+                 Citlali's gloves, boots and hat on the skin (2026-09-22). With this set, a root whose
+                 first draw comes before the register is bound counts as uncovered, and the download
+                 lands at the top of the `section`_ where the mod's own binding overrides it for the
+                 draws that follow
+                 @endrst
+                 */
+                std::optional<K> drawKey;
             };
 
             /**
@@ -551,6 +569,27 @@ namespace AGRemapCore {
              @endrst
              */
             DownloadNeeds getDownloads();
+
+            /**
+             * @brief
+             @rst
+             Sets the draw `KVP`_ that makes a download's coverage test ORDERED -- see
+             :cpp:member:`ParserConfig::drawKey`
+             @endrst
+             *
+             * @param key The draw `KVP`_, or ``std::nullopt`` for the unordered test
+             */
+            void setDrawKey(std::optional<K> key);
+
+            /**
+             * @brief Whether 'section' draws before it binds 'reg' -- see ef setDrawKey
+             *
+             * @param section The `section`_ to walk
+             * @param reg The register asked about
+             *
+             * @return Whether the first draw comes before the register is bound
+             */
+            bool drawsBeforeBound(Section* section, const K& reg) const;
 
             /**
              * @brief

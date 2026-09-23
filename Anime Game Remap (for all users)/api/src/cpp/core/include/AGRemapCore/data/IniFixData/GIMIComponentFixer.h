@@ -68,6 +68,25 @@ namespace AGRemapCore {
      @endrst
      */
     struct GIMIComponentFixerConfig {
+        /**
+         * @brief
+         @rst
+         Which texture layout the SOURCE mod's object sections bind, which decides whether a
+         normal-map slot needs the register shift and the created normal map
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         * ``Plain`` (the default, and what every config before Citlali assumed): ``ps-t0``
+           diffuse, ``ps-t1`` light map -- the shift and the flat normal map are applied
+         * ``NormalMap``: ``ps-t0`` normal map, ``ps-t1`` diffuse, ``ps-t2`` light map, already the
+           layout a normal-map slot reads -- the mod's own three textures pass through
+         * ``Detect``: per OBJECT, the normal-map layout when the object's section binds ``ps-t2``,
+           the plain one otherwise. Right for a character whose own shader is the normal-map family
+           (Citlali), where a mod binding ``ps-t2`` is binding a light map. NOT safe as a default:
+           some Bennett mods bind a metal map at ``ps-t2`` on the plain layout
+         @endrst
+         */
+        enum class SourceLayout { Plain, NormalMap, Detect };
+
 
         /**
          * @brief One component of the target skin, and how the mod is drawn through it
@@ -218,13 +237,41 @@ namespace AGRemapCore {
 
          Each name here becomes one ``TextureOverride`` on that component's ib hash carrying
          ``handling = skip`` and no draw, written once into the mod's own ``.ini`` by the fixer for
-         the FIRST entry of :cpp:member:`components` -- one owner, so several fixers over one file
-         cannot write the same section twice.
+         the LAST entry of :cpp:member:`components` -- one owner, so several fixers over one file
+         cannot write the same section twice, and the last, because each fixer's output replaces
+         the ``.ini`` rather than adding to it.
 
          Empty for a skin every component of which receives geometry, which is YelanTranquil
          @endrst
          */
         std::vector<std::string> hiddenComponents;
+
+        /**
+         * @brief
+         @rst
+         The skin's draw SLOTS nothing is remapped onto, as ``{target component ModTypeId name,
+         {match_first_index, ...}}`` -- every slot of a remapped component other than its
+         :cpp:member:`Component::slotIndex` :raw-html:`<br />` :raw-html:`<br />`
+
+         Those draws are already skipped (the component's ib-hash section), and that is not enough
+         when the mod calls `TexFx`_. ``run = CommandList\TexFx\TN.0`` does not draw: it sets
+         ``$use_default_shader = 2``, a request that TexFx's outline shader regex serves on the
+         NEXT outline draw it sees with ``drawindexed = auto`` -- the mod's own, on the character
+         the mod was made for. On a skin whose slots draw in a different order, the next outline
+         draw may be a slot nothing is remapped onto: TexFx then draws the skin's WHOLE index
+         buffer over the mod's remapped vertex buffers, and in game that is strands of stretched,
+         shiny triangles between the arms and the hair (Citlali onto CitlaliWhisperofStars,
+         2026-09-22: slot B's outline draws before slot A's, and 124851 indices went through the
+         mod's buffers) :raw-html:`<br />` :raw-html:`<br />`
+
+         Each slot here becomes one ``TextureOverride`` on the component's ib hash and that
+         ``match_first_index``, withdrawing the request (``$\TexFx\use_default_shader = -1``).
+         Written by the same owner as :cpp:member:`hiddenComponents`, and only when the mod's
+         ``.ini`` calls TexFx at all -- the variable is TexFx's, and naming it with the library
+         absent is a load-time warning
+         @endrst
+         */
+        std::vector<std::pair<std::string, std::vector<std::string>>> unremappedSlots;
 
         /**
          * @brief
@@ -324,6 +371,26 @@ namespace AGRemapCore {
          @endrst
          */
         bool zeroSecondUV = true;
+
+        /**
+         * @brief The SOURCE mod's texture layout -- see :cpp:enum:`SourceLayout`. **Default**: ``Plain``
+         */
+        SourceLayout sourceLayout = SourceLayout::Plain;
+
+        /**
+         * @brief
+         @rst
+         Whether the face's two-way ``ps-t0`` <-> ``ps-t1`` swap runs ONLY when the mod binds its
+         face diffuse at ``ps-t0`` :raw-html:`<br />` :raw-html:`<br />`
+
+         GI 6.x swapped which register the face shader reads the diffuse and the light map from. A
+         mod authored before that binds its face diffuse at ``ps-t0`` and needs the swap; one built
+         from a 6.x dump -- every identity mod -- already binds ``ps-t1``, and the swap moves it the
+         WRONG way. ``false`` (the default) swaps unconditionally, which is what every config before
+         Citlali's was confirmed in game with
+         @endrst
+         */
+        bool faceSwapOnlyFromDiffuseReg = false;
 
         /**
          * @brief What every generated ``.ini`` file opens with -- see :cpp:member:`GIMIFixer::copyPreamble`

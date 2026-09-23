@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_citlali_whisperof_stars_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::CitlaliWhisperofStarsFixer</compoundname>
+    <includes refid="_citlali_whisperof_stars_fixer_8h" local="no">CitlaliWhisperofStarsFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_citlali_whisperof_stars_fixer_1ad590a0afadb779c69e98fab62846d3d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::CitlaliWhisperofStarsFixer::CitlaliWhisperofStarsFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>CitlaliWhisperofStarsFixer</name>
+        <qualifiedname>AGRemapCore::CitlaliWhisperofStarsFixer::CitlaliWhisperofStarsFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.h" line="41" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_citlali_whisperof_stars_fixer_1acfed51967b87c10b10557e2121e0b7d9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::CitlaliWhisperofStarsFixer::toCitlali6_7</definition>
+        <argsstring>()</argsstring>
+        <name>toCitlali6_7</name>
+        <qualifiedname>AGRemapCore::CitlaliWhisperofStarsFixer::toCitlali6_7</qualifiedname>
+        <briefdescription>
+<para>The fix onto Citlali <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0148594d01298b546410e21c4abf87a7" kindref="member">IniFixBuilderFuncs::citlaliWhisperofStarsToCitlali6_7</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.h" line="46" column="43" bodyfile="src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp" bodystart="138" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+CitlaliWhisperofStars&apos; own fixers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The THIRD remap of a skin of SEVERAL components onto a target of ONE, and the inverse of
+:cpp:class:`CitlaliFixer`&apos;s direction. See :cpp:func:`makeGIMIMergeFixer`. Pair this with
+:cpp:class:`CitlaliWhisperofStarsParser` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Two things here that YelanTranquil&apos;s and BennettAdventure&apos;s directions do not need, both
+default-off options of the template rather than anything of Citlali&apos;s own:
+``targetLayout`` (her shader reads three registers under ``ORFix``, where theirs read two
+under ``NNFix``) and ``texRegsByName`` (the skin&apos;s mods are written in the GAME&apos;s register
+order, and ``ORFix`` reads a different one)
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.h" line="38" column="5" bodyfile="include/AGRemapCore/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.h" bodystart="38" bodyend="47"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_citlali_whisperof_stars_fixer_1ad590a0afadb779c69e98fab62846d3d8" prot="public" virt="non-virtual"><scope>AGRemapCore::CitlaliWhisperofStarsFixer</scope><name>CitlaliWhisperofStarsFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_citlali_whisperof_stars_fixer_1acfed51967b87c10b10557e2121e0b7d9" prot="public" virt="non-virtual"><scope>AGRemapCore::CitlaliWhisperofStarsFixer</scope><name>toCitlali6_7</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

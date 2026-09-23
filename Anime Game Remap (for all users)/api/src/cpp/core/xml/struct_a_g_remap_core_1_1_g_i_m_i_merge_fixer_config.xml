@@ -5,6 +5,49 @@
     <includes refid="_g_i_m_i_merge_fixer_8h" local="no">GIMIMergeFixer.h</includes>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot" prot="public">AGRemapCore::GIMIMergeFixerConfig::Slot</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component" prot="public">AGRemapCore::GIMIMergeFixerConfig::Component</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a722cb6b00d05d8e6804e597fc6a16dac" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TargetLayout</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::TargetLayout</qualifiedname>
+        <enumvalue id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a722cb6b00d05d8e6804e597fc6a16daca4cd8413207629a963225f4314b53adcd" prot="public">
+          <name>Plain</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+``ps-t0`` diffuse, ``ps-t1`` light map, under ``NNFix``: a source slot&apos;s normal map is
+dropped and the rest shifted down. Every target before Citlali -- Yelan, Bennett, Ganyu
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a722cb6b00d05d8e6804e597fc6a16daca6b9d0d690dd35849b77d2c234ce90d90" prot="public">
+          <name>NormalMap</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+``ps-t0`` normal map, ``ps-t1`` diffuse, ``ps-t2`` light map, under ``ORFix`` -- the
+layout a GI 6.x skin&apos;s slots already use, so a source slot on it passes through with no
+register moved, and one on the plain layout is shifted UP (with no normal map of its
+own, the draw reads whatever ``ps-t0`` holds) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+CitlaliWhisperofStars -&gt; Citlali (2026-09-22): both sides read the normal-map layout,
+and the plain handling dropped every normal map the skin&apos;s mods carry, then issued
+``NNFix`` on a shader that wants ``ORFix``
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>How the TARGET&apos;s shader reads its textures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="232" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="232" bodyend="256"/>
+      </memberdef>
+    </sectiondef>
     <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a6b2883e11c3888f8c487c5680d66475d" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component" kindref="compound">Component</ref> &gt;</type>
@@ -22,7 +65,7 @@ index buffers pass through untouched -- worth putting the biggest one there
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="166" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="166" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="187" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="187" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1aede8d26c7769bd67afe8e3544752b25b" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -37,7 +80,7 @@ index buffers pass through untouched -- worth putting the biggest one there
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="171" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="171" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="192" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="192" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1afb00d98b91be3266655662c40391a023" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -67,7 +110,7 @@ Empty disables the fallback, which is the old behaviour
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="192" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="192" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="213" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="213" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a8ee3c323dd66da09c76585f63b966f19" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -90,7 +133,64 @@ agrees
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="206" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="206" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="227" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ad1d10816cdf24046f9d33c0744e7ae5a" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a722cb6b00d05d8e6804e597fc6a16dac" kindref="member">TargetLayout</ref></type>
+        <definition>TargetLayout AGRemapCore::GIMIMergeFixerConfig::targetLayout</definition>
+        <argsstring></argsstring>
+        <name>targetLayout</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::targetLayout</qualifiedname>
+        <initializer>= <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a722cb6b00d05d8e6804e597fc6a16daca4cd8413207629a963225f4314b53adcd" kindref="member">TargetLayout::Plain</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How the TARGET&apos;s shader reads its textures -- see :cpp:enum:`TargetLayout`.
+**Default**: :cpp:enumerator:`TargetLayout::Plain`, the behaviour before this field existed
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="265" column="22" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a7e32b3c49bfd1e85edf5900bf6ec7548" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GIMIMergeFixerConfig::texRegsByName</definition>
+        <argsstring></argsstring>
+        <name>texRegsByName</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::texRegsByName</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+         Whether a carried binding goes to the register its resource NAME says, rather than staying
+         where the mod put it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+         ``NNFix`` and ``ORFix`` do not re-slot a REGISTER, they read a ROLE out of a fixed one
+         (``CommandListReference``: the normal map from ``ps-t0``, the diffuse from ``ps-t1``, the
+         light map from ``ps-t2``), so a remapped `section`_ that keeps the mod&apos;s own bindings and
+         then calls one has to put them there first. **A mod dumped straight from the game does not
+         have them there**: CitlaliWhisperofStars mods bind the light map, normal map and diffuse at
+         ``ps-t0/1/2``, which is what the game&apos;s own draw of that `ib`_ binds (frame dump, ``ib``
+         ``f117984b``), and ``ORFix`` over that reads every role out of the wrong slot -- the shoes,
+         eyes and sleeping mask of one mod, while every slot the fix had downloaded and bound itself
+         was right :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+         Which texture is which comes from the resource NAME (:cpp:class:`RegValChecks`, whose
+         header records why the pixels are deliberately not consulted). A binding naming no role is
+         left where it is, and a mod already in the fix&apos;s layout is unchanged -- so this SUBSUMES
+         
+ef GIMIMergeFixerConfig::targetLayout&apos;s positional shift of a plain slot rather than
+         running beside it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+         **Default**: ``false``, the positional shift every compiled character was written against
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="293" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="293" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ab5d13699a51abbdeb17be08aaaf7d339" prot="public" static="no" mutable="no">
         <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref>(const std::string &amp;diffusePath)&gt;</type>
@@ -108,7 +208,7 @@ table. A GIMI light map&apos;s alpha is a material band, and the legend is per s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="215" column="23" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="215" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="302" column="23" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="302" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a490ec76ef342ee114af63d4681e4f0bd" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -124,7 +224,7 @@ table. A GIMI light map&apos;s alpha is a material band, and the legend is per s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="220" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="220" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="307" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="307" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1abbaec13107513e023ec38d3c302f6dae" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -146,7 +246,7 @@ separated values in one 4x4 block, which the encoder splits the difference on
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="232" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="232" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="319" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="319" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a2cadd8ab685fb8229ba09e9eb3f0c420" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -161,7 +261,7 @@ separated values in one 4x4 block, which the encoder splits the difference on
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="237" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="237" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="324" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="324" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -177,7 +277,7 @@ skin&apos;s components, this joins a skin&apos;s components into the target&apos
 see :cpp:class:`VGComponentMerge` for why several ``.ini`` files binding one hash cannot do it
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="35" column="5" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="35" bodyend="238"/>
+    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="35" column="5" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="35" bodyend="325"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a6b2883e11c3888f8c487c5680d66475d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig</scope><name>components</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1abbaec13107513e023ec38d3c302f6dae" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig</scope><name>compressTextures</name></member>
@@ -186,7 +286,10 @@ see :cpp:class:`VGComponentMerge` for why several ``.ini`` files binding one has
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a8ee3c323dd66da09c76585f63b966f19" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig</scope><name>faceReg</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ab5d13699a51abbdeb17be08aaaf7d339" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig</scope><name>lightMapEdit</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a490ec76ef342ee114af63d4681e4f0bd" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig</scope><name>mipmaps</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a722cb6b00d05d8e6804e597fc6a16dac" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig</scope><name>TargetLayout</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ad1d10816cdf24046f9d33c0744e7ae5a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig</scope><name>targetLayout</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1aede8d26c7769bd67afe8e3544752b25b" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig</scope><name>targetObjs</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a7e32b3c49bfd1e85edf5900bf6ec7548" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig</scope><name>texRegsByName</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

@@ -11,6 +11,9 @@
     <includes refid="_colour_8h" local="yes">AGRemapCore/model/textures/Colour.h</includes>
     <includes refid="_colour_range_8h" local="yes">AGRemapCore/model/textures/ColourRange.h</includes>
     <incdepgraph>
+      <node id="101">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
       <node id="38">
         <label>Algo.tpp</label>
       </node>
@@ -22,6 +25,9 @@
       </node>
       <node id="44">
         <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="53">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="59">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
@@ -305,6 +311,28 @@
         <childnode refid="89" relation="include">
         </childnode>
       </node>
+      <node id="96">
+        <label>AGRemapCore/model/files/TexCache.h</label>
+        <link refid="_tex_cache_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="95" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
+        </childnode>
+      </node>
       <node id="94">
         <label>AGRemapCore/model/files/TextureFile.h</label>
         <link refid="_texture_file_8h"/>
@@ -318,7 +346,11 @@
         </childnode>
         <childnode refid="95" relation="include">
         </childnode>
+        <childnode refid="96" relation="include">
+        </childnode>
         <childnode refid="92" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
         </childnode>
       </node>
       <node id="27">
@@ -601,18 +633,18 @@
         <childnode refid="91" relation="include">
         </childnode>
       </node>
-      <node id="97">
+      <node id="103">
         <label>AGRemapCore/model/strategies/texEditors/texFilters/BaseTexFilter.h</label>
         <link refid="_base_tex_filter_8h"/>
       </node>
-      <node id="96">
+      <node id="102">
         <label>AGRemapCore/model/strategies/texEditors/texFilters/ColourReplaceFilter.h</label>
         <link refid="_colour_replace_filter_8h"/>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="97" relation="include">
+        <childnode refid="103" relation="include">
         </childnode>
-        <childnode refid="98" relation="include">
+        <childnode refid="104" relation="include">
         </childnode>
       </node>
       <node id="92">
@@ -625,7 +657,7 @@
         <childnode refid="43" relation="include">
         </childnode>
       </node>
-      <node id="98">
+      <node id="104">
         <label>AGRemapCore/model/textures/ColourRange.h</label>
         <link refid="_colour_range_8h"/>
         <childnode refid="12" relation="include">
@@ -681,6 +713,34 @@
         <childnode refid="36" relation="include">
         </childnode>
         <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="97">
+        <label>AGRemapCore/tools/hashing/Hash128.h</label>
+        <link refid="_hash128_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="98" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="99" relation="include">
+        </childnode>
+      </node>
+      <node id="99">
+        <label>AGRemapCore/tools/hashing/HashInt.h</label>
+        <link refid="_hash_int_8h"/>
+        <childnode refid="100" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="101" relation="include">
         </childnode>
       </node>
       <node id="32">
@@ -870,15 +930,12 @@
         </childnode>
         <childnode refid="94" relation="include">
         </childnode>
-        <childnode refid="96" relation="include">
+        <childnode refid="102" relation="include">
         </childnode>
         <childnode refid="92" relation="include">
         </childnode>
-        <childnode refid="98" relation="include">
+        <childnode refid="104" relation="include">
         </childnode>
-      </node>
-      <node id="53">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="74">
         <label>Generator.tpp</label>
@@ -928,6 +985,9 @@
       <node id="28">
         <label>algorithm</label>
       </node>
+      <node id="100">
+        <label>array</label>
+      </node>
       <node id="50">
         <label>cmath</label>
       </node>
@@ -975,6 +1035,9 @@
       </node>
       <node id="7">
         <label>string</label>
+      </node>
+      <node id="98">
+        <label>string_view</label>
       </node>
       <node id="21">
         <label>tsl/ordered_map.h</label>

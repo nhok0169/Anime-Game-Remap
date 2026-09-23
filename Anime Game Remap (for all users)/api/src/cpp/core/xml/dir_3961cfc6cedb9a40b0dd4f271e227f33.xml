@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_3961cfc6cedb9a40b0dd4f271e227f33" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/Citlali</compoundname>
+    <innerfile refid="_citlali_fixer_8h">CitlaliFixer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Citlali/"/>
+  </compounddef>
+</doxygen>

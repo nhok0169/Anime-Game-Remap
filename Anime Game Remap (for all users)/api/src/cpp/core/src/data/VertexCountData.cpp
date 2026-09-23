@@ -94,6 +94,12 @@ const std::vector<std::pair<std::vector<std::string>, int>>& getVertexCountDataR
         // several components has no single vertex count.
         {{"4.0", ModTypeIdTools::getName(ModTypeId::Bennett), ""}, 16433},
 
+        // ===== Citlali (2026-09-21) =====
+        // The game's own model, counted off Data/Mod Downloads/GI/Citlali/5_3's Position.buf
+        // (1084080 bytes / 40). No row for CitlaliWhisperofStars: a skin of several components has
+        // no single vertex count.
+        {{"5.3", ModTypeIdTools::getName(ModTypeId::Citlali), ""}, 27102},
+
         // ===== WuWa: Sanhua and SanhuaExorcist (2026-09-19) =====
         // The whole mesh, every draw slot together -- Metadata.json's 'vertex_count', and what a
         // WWMI mod declares as $mesh_vertex_count.

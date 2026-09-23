@@ -41,15 +41,15 @@ namespace AGRemapCore {
          * types a GIMI mod actually writes as a section's "hash = " line -- the ib, the three
          * vertex buffers, and the draw hash the VertexLimitRaise sections carry -- so they are
          * the only ones the classifier can see at all. And, measured over the whole of
-         * HashData, they are UNIQUE: across 357 rows not one of their values is claimed by two
+         * HashData, they are UNIQUE: across 377 rows not one of their values is claimed by two
          * different characters.
          *
          * The texture hashes are the opposite and must stay out. A shadow ramp or a metal map
          * is a shared asset: 'b0e08915' is filed under FORTY different names and '7eb5b84e'
          * under thirty-three, so registering those would hand a +2 vote to forty characters for
          * one line of a mod's .ini -- noise loud enough to decide a classification on its own.
-         * Even 'tex_face_diffuse', which does appear as a section hash, is shared in 27 of its
-         * 45 rows.
+         * Even 'tex_face_diffuse', which does appear as a section hash, is shared in 30 of its
+         * 49 rows.
          */
         const std::unordered_set<std::string>& identifyingHashTypes() {
             static const std::unordered_set<std::string> types = {
@@ -142,9 +142,25 @@ namespace AGRemapCore {
                 // makes it safe on an already-fixed mod -- readLine skips a 'hash =' inside a
                 // Remap-named section, so the TARGET hashes a fix wrote in do not vote.
                 auto hashIt = byName.find(modType.name);
+                std::unordered_set<std::string> hashes = (hashIt != byName.end()) ? hashIt->second : noHashes;
+
+                // AND A SKIN OF SEVERAL COMPONENTS VOTES WITH ITS COMPONENTS' HASHES (2026-09-22).
+                // HashData files each component's rows under the COMPONENT's name
+                // (CitlaliWhisperofStarsBody, ...), because each is a fix target of its own for the
+                // forward direction -- so the skin's own name owns no identifying hash, and every
+                // mod of it classified by section names alone. A CitlaliWhisperofStars mod naming
+                // its sections `Citlali_WhisperOfStars...` matched no skin keyword, classified as
+                // plain Citlali and was fixed as nothing. The component hashes are unique to the
+                // skin, so they cannot vote for anyone else.
+                for (ModTypeId component : ModTypeIdTools::getComponentIds(*modTypeId)) {
+                    auto componentIt = byName.find(ModTypeIdTools::getName(component));
+                    if (componentIt != byName.end()) {
+                        hashes.insert(componentIt->second.begin(), componentIt->second.end());
+                    }
+                }
 
                 classifier.addGIModType(ModTypeIdData(static_cast<int>(GameTypeId::GI), modType.modTypeId),
-                                        hashIt != byName.end() ? hashIt->second : noHashes,
+                                        hashes,
                                         std::unordered_set<std::string>(keywords.begin(), keywords.end()));
             }
         }

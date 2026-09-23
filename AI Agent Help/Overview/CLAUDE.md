@@ -57,6 +57,8 @@ Testing/
   Integration Tester/           <- end-to-end suite, run via its own main.py
 Tools/
   APIBuilder/                   <- the build driver for api/ (what you use to compile everything)
+  GameView/                     <- lets an agent see and drive the game: screenshots, input, 3DMigoto
+                                   reload + its warnings, frame dumps, mod parking -- see Game View
   TexConverter/                 <- converts .dds textures to .png/.bmp/.jpg so they can actually be
                                    looked at (the Read tool can't open a .dds) -- see Texture Editing
   VGRemapFinder/                <- proposes a vertex-group remap (a Data/RemapDrafts workbook) from two
@@ -1101,6 +1103,102 @@ Three things follow, and the third is the general one:
 - **A check that compares two things needs to be shown the two things differing.** "It passes" and
   "it passes against a build I broke on purpose" are different claims, and only the second one says
   the comparison is wired up at all. Corrupting a single byte is usually the cheapest way to ask.
+
+**64. THE FIXED MOD IS EVIDENCE ABOUT WHICH SCRIPT RAN, NOT ABOUT WHICH BUILD YOU HAVE
+(2026-09-22).** The maintainer keeps their own copy of the prototype beside their mods
+(`GIMI/Mods/<name>Fix.py`, and the same for WuWa) and runs it themselves between turns. It goes
+stale the moment the repo's version gains a config field --- and a stale copy does not fail, it
+re-fixes the mod in seconds with the new option MISSING, which reads in game exactly like a template
+bug you just introduced. One such run turned a correct fix into a model with green-yellow limbs, and
+the diagnosis went to the C++ for a while before the `.ini` gave it away: it contained a combination
+the current build cannot produce.
+
+- **Before debugging a report, compare the mod's `.ini` mtime with the copy's, and grep the copy for
+  the newest config field.** Two commands, and they distinguish "my change is wrong" from "that ran
+  through last week's script".
+- **Re-syncing the copy is part of finishing any prototype change**, not a courtesy. The WuWa
+  sections have said so since 2026-09-19; it is not WuWa-specific.
+- The same applies to the fix's own output as evidence: **an output that cannot be produced by the
+  current build is telling you about a different build.**
+
+**65. THE MOD FOLDERS MOVE BETWEEN TURNS, SO RESOLVE A MOD BY NAME AT RUN TIME (2026-09-22).** The
+maintainer keeps only the mods they are testing under `GIMI/Mods` and parks the rest one level up
+under `GIMI/` (the same for `WWMI/`), and they move them WHILE you work --- a folder you fixed ten
+minutes ago may now be in the other place. A script with the path baked in does not error: the
+service walks a folder that is not there, reports `.ini fixed: 0` and exits clean, and a checker
+pointed at the same path reports a tidy `0 draws checked`.
+
+**That pair of zeros reads exactly like "the fix deleted the mod"**, which is where twenty minutes
+went. Write the runner to search both locations for the NAME and print which one it found
+(`citCheck.py` in the session scratchpad is the shape), and when a mod appears to have vanished,
+`ls` the parent before concluding anything.
+
+**66. A CHECK THAT CAN REPORT "NOTHING WAS CHECKED" IS WORTH MORE THAN ONE THAT REPORTS 0
+(2026-09-22).** Four diagnostics were run over the same six mod folders. Three printed a clean zero
+--- `0 draws checked`, `0 fix calls checked` --- and one printed **`NO FIXED .ini FILES FOUND --
+nothing was checked, which is not a pass`**. Only the fourth was telling the truth: every path had
+shattered on the spaces in `Wuthering Waves Mods` (trap 6 in the root `CLAUDE.md`, hit again despite
+being written down), so all four had been handed nonsense and three of them called it success.
+
+This is habit 1 wearing a different hat --- a counter that can only ever be zero reads like a zero
+that means something --- and the fix is cheap enough to be automatic: **every check this repo gains
+should distinguish "clean" from "empty", and say so in the line it prints.** When you add one, run
+it against an empty directory once and make sure it complains.
+
+**67. A REPO DIAGNOSTIC'S EXIT CODE MAY CONFLATE TWO ANSWERS --- JUDGE BY ITS OUTPUT (2026-09-22).**
+`abIni.py` exits non-zero both for "these two folders differ" and for "this `.ini` has no remap
+block --- the fix did not run on it". One real mod legitimately has the second (a shared `Face.ini`
+carrying none of the skin's hashes), so a **clean** prototype-vs-compiled A/B reported `DIFFERS` on
+a fact about the MOD that was true of both sides. A wrapper that judged by the printed `DIFF` /
+`PROBLEMS` lines instead got it right --- and was then proved not to have gone blind by changing one
+binding on one side and requiring it to be caught.
+
+**68. AN A/B OVER A MOD THAT DOWNLOADS IS NOT DETERMINISTIC (2026-09-22).** A download that fails to
+land changes the light map band output, so two runs of the same comparison differ over a file
+NEITHER side chose --- on a different mod each time, and on a different SIDE each time (once the
+prototype was missing a texture, the next run the compiled side was). That is enough to read as a
+transcription error twice before listing which files differ and noticing one of them is simply
+`ABSENT`. **Give both sides the same download setting** (the prototypes take `--download disabled`
+now, and the old-vs-new benchmark learned the same lesson in habit 60) and the comparison is exact.
+Compare that way to judge the CONFIG, and without it to exercise the download path.
+
+**69. THE MAINTAINER STEPS IN AT THE END, NOT BETWEEN ROUNDS (2026-09-23).** Their words: "the only
+time I should really intervene is at the end when they finished the entire remap, and want my final
+check." Every in-game round used to be a message to them ("can you screenshot the elbow?", "can you
+F8 here?"), and that was the part they were tired of. `Tools/GameView` now does the looking:
+screenshots, keyboard and mouse, F10 with the warnings per mod, F8 with a labelled folder, and swapping
+each of a character's mods in and out of `Mods`. See [Game View](../GameView/CLAUDE.md). So before
+you write a question to the maintainer, check it is one of the four the tool cannot answer: the
+helper's UAC click (once per Windows session, asked at the START), a game login, anything that
+spends or sends, or a decision the guides call theirs. A failed round is yours to diagnose and retry.
+What they get at the end is ONE message with the evidence: per mod, the base vs remap `pair`, the
+warnings that remain and why, and what you fixed in place so an undo is one command.
+
+**70. A PATTERN OVER A LOG IS WRITTEN AGAINST A FORMAT, AND THE FORMAT IS A SETTING (2026-09-23).**
+`GameView`'s "has the dump started?" check matched `^Frame ?analysis` and worked on GIMI. On WWMI,
+XXMI turns 3DMigoto's call logging on, and then EVERY log line starts `FrameAnalysisContext(...)`.
+The check matched each of them, so a dump that had never started looked like one in progress, and F8
+was never re-pressed. The same flood also meant a "wait until the log goes quiet" never ended
+(8 MB/s, 110 GB in 40 minutes). A detector over a text stream someone else writes (3DMigoto's log, a
+launcher's log, a mod's `.ini`) is tested against the stream **as it is on this machine today**:
+`tail` the real file and check the pattern against lines it must match AND lines it must not. This
+is habit 34 for a regex. The broken input is the live log, not an old build.
+
+**71. WHEN THE HARNESS REFUSES AN ACTION, IT IS A DESIGN CONSTRAINT, NOT A WALL TO ROUTE AROUND
+(2026-09-23).** The first `GameView` design registered a highest-privilege scheduled task so the
+elevated helper could start without a UAC prompt. Auto mode refused it as unrequested persistence.
+The right response was to redesign, not to find another tool that would let it through: the helper
+became a plain process the USER starts with one UAC click, which lives until logoff and installs
+nothing. That costs the maintainer one click per Windows session, and the guide says so plainly.
+The same goes for anything that elevates, persists, spends or sends. Build the version where the
+maintainer holds the key, and put the remaining cost in writing.
+
+**A note that belongs with 66 and 67, since both were instrumentation:** when a count assertion in a
+suite fails, **print the number before believing the message**. Nothing builds `core/tests`, so
+those asserts rot; three of them were stale on arrival this session and only one failure of four was
+the session's own. And write the probe with the Write tool --- a `\n` inside a Bash heredoc arrives
+as a REAL newline and splits the string literal you are adding it to, which turns a one-line probe
+into a compile error in the file you were trying to measure (root trap 2, in a new costume).
 
 <br>
 

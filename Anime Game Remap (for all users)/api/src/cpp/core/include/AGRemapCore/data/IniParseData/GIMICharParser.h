@@ -203,6 +203,23 @@ namespace AGRemapCore {
         std::string faceDownloadPrefix;
 
         /**
+         * @brief
+         @rst
+         Whether a missing face diffuse is downloaded at all. **Default**: ``true``
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         The download is registered against ``ps-t0`` only, so a mod built from a 6.x dump -- which
+         binds its face diffuse at ``ps-t1`` -- reads as MISSING it and fetches a texture it already
+         has (see the note at the bottom of ``BennettParser.cpp``). A face section exists only
+         because a mod overrides the face diffuse, so it always has one of its own; ``false`` is for a
+         character whose download would only ever fire that way, and whose assets are not yet
+         published where the downloader reads them -- a 404 there leaves a reference to a file that
+         was never written
+         @endrst
+         */
+        bool faceDownload = true;
+
+        /**
          * @brief The byte size of one position vertex. **Default**: ``40``
          */
         int positionStride = 40;

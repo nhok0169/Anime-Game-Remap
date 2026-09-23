@@ -494,11 +494,41 @@ the same reason, which is what stops `benchmark.py` ever scoring the tool agains
 
 <br>
 
+## Citlali <-> CitlaliWhisperofStars: the third pair, and the first reviewed row by row (2026-09-21)
+
+The skin is a `Body` (draw slots A-D), a `Bangs` and an `Eyes` -- the Bennett shape -- so the ids,
+the six `VGRemapData.cpp` rows and `Data/RemapDrafts/CitlaliRemapDraft.xlsx` all take it. Unlike
+Bennett's, every row of this draft whose three finder answers disagreed was **reviewed** before it
+was transcribed, and that is the method worth reusing:
+
+* **Run the matcher in all three modes and tabulate them per row** (chains / vertices / nearest,
+  with each group's centre and spread). On this pair they agreed on 189 of 285 groups; the other 96
+  are the whole review. A throwaway script over `VGRemapFinder.load()` + `VGMatcher(mode = ...)`
+  did it; the finder's own summary shows only the chain answer.
+* **The main skeleton aligns by a constant offset** (Citlali 87-141 -> skin Body 3-56) and the chain
+  mode gets it right even where the vertices mode says otherwise: `vertices` picked the
+  opposite-side toe for 113 / 137 and the forearm twist for an upper arm. Trust the chain there.
+* **Where the chain lands on a part of a different KIND, overrule it**: hair onto a cloth bone
+  (Citlali's centre back strand onto the skin's `Body:126`, a waist bow), hair onto an arm (front
+  hair locks onto the shoulder), cloth onto hair (the skin's back bow onto Citlali's twin tails),
+  a skirt hem onto a small ornament bone. Those were most of the overrides.
+* **A part longer than the other skin's takes the vertices answer**: base Citlali's skirt panels
+  hang to the calves, past the skin's skirt, and the skin there is driven by the thigh and calf.
+* **Keep left and right one decision**, and keep a chain on ONE target chain: a centre strand
+  aligned onto two twin tails zigzagged 108, 109, 110 until reassigned to the left tail by height.
+
+Every override is in the draft's Comments column as `Reviewed: <reason>. Tool proposed <x>`, and the
+workbook keeps the tool's `About` sheet until the rows are checked in game. The skin's unskinned
+`Face` / `Mouth` / `Eyebrows` meshes are not in any row: a 6.7 frame dump shows base Citlali drawing
+the same meshes by the same hashes, so they are nobody's to remap.
+
+<br>
+
 ## Where the data lives, and which copy to trust for what
 
 | | what it is | trust it for |
 | --- | --- | --- |
-| `core/src/data/VGRemapData.cpp` | **the live table**, 58 rows, both directions of every pair (Yelan/YelanTranquil as six component-keyed rows) | what ships. Confirmed against fresh frame dumps and, for the pairs with drafts, against the drafts |
+| `core/src/data/VGRemapData.cpp` | **the live table**, 71 rows (2026-09-21), both directions of every pair (each multi-component skin as one row per component and direction) | what ships. Confirmed against fresh frame dumps and, for the pairs with drafts, against the drafts |
 | `Data/RemapDrafts/*.xlsx` | the maintainer's hand-made drafts, one sheet per direction, opening with a `Credits` sheet (`README.md` there has the format, and the credit rule) | the intended mapping, with the reasoning in the Comments column. Some early workbooks had only one direction; the missing ones were added as **proposal sheets from the library's rows**, marked in cell `E1`. **Ground truth for `benchmark.py`** |
 | `Data/Mod Downloads/GI/<Name>/<X_Y>/` | a mod-folder copy of each skin's geometry (`Position.buf`, `Blend.buf`, `*.ib`) **at the library's versions** | **the geometry to run the finder over for anything touching the table** --- group counts match the rows exactly |
 | `GI-Model-Importer-Assets/PlayerCharacterData/<Name>/` | the asset repo's 3dmigoto dumps, **re-dumped Dec 2024** | hashes (`hash.json`), and geometry for the benchmark; but a newer dump can drift from the table (Xingqiu's has 74 groups, the row 92) |

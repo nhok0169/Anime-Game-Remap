@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_g_i_m_i_api_normalizer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMIApiNormalizer</compoundname>
+    <includes refid="_g_i_m_i_api_normalizer_8h" local="no">GIMIApiNormalizer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_api_normalizer_1a0052c4d53414de3e70b7437743732df2" prot="public" static="no">
+        <type>tsl::ordered_map&lt; std::string, std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string &gt; &gt; &gt;</type>
+        <definition>using AGRemapCore::GIMIApiNormalizer::Sections = tsl::ordered_map&lt;std::string, std::unique_ptr&lt;IfTemplate&lt;std::string, std::string&gt;&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>Sections</name>
+        <qualifiedname>AGRemapCore::GIMIApiNormalizer::Sections</qualifiedname>
+        <briefdescription>
+<para>The parsed <computeroutput>sections</computeroutput>_ of one <computeroutput>.ini</computeroutput> file, by name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/GIMIApiNormalizer.h" line="80" column="13" bodyfile="include/AGRemapCore/model/files/GIMIApiNormalizer.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_api_normalizer_1a532ad5979d48f6a8fe84b55b8d0556cd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::GIMIApiNormalizer::normalize</definition>
+        <argsstring>(Sections &amp;sections)</argsstring>
+        <name>normalize</name>
+        <qualifiedname>AGRemapCore::GIMIApiNormalizer::normalize</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_api_normalizer_1a0052c4d53414de3e70b7437743732df2" kindref="member">Sections</ref> &amp;</type>
+          <declname>sections</declname>
+        </param>
+        <briefdescription>
+<para>Normalizes every <computeroutput>section</computeroutput>_ that calls <computeroutput>SetTextures</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The parsed <computeroutput>sections</computeroutput>_ to rewrite, in place </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>How many <computeroutput>sections</computeroutput>_ were rewritten </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/GIMIApiNormalizer.h" line="88" column="32" bodyfile="src/model/files/GIMIApiNormalizer.cpp" bodystart="164" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_api_normalizer_1aa091af14b7989bf9ff5f998e2c818a59" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool AGRemapCore::GIMIApiNormalizer::normalize</definition>
+        <argsstring>(IfTemplate&lt; std::string, std::string &gt; &amp;section, const std::string &amp;sectionName)</argsstring>
+        <name>normalize</name>
+        <qualifiedname>AGRemapCore::GIMIApiNormalizer::normalize</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string &gt; &amp;</type>
+          <declname>section</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sectionName</declname>
+        </param>
+        <briefdescription>
+<para>Normalizes one <computeroutput>section</computeroutput>_, if it calls <computeroutput>SetTextures</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>section</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>section</computeroutput>_ to rewrite, in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sectionName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Its name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether it was rewritten </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/GIMIApiNormalizer.h" line="97" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Rewrites GIMI&apos;s newer texture API into the traditional one, in parsed `sections`_
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+GIMI ships helper command lists a mod can bind its textures through instead of ``ps-t``
+registers -- ``Resource\GIMI\NormalMap`` / ``Diffuse`` / ``LightMap = ref &lt;resource&gt;``,
+then ``run = CommandList\GIMI\SetTextures`` -- which is ORFix&apos;s own reference-and-fix
+read from those names rather than from ``ps-t0`` / ``ps-t1`` / ``ps-t2``
+(``Core/GIMI/Libraries/ORFixAPI.ini``). Few mods use it, and nothing in this library read
+it: a CitlaliWhisperofStars mod written that way had every merged slot drawn with the
+GAME&apos;s textures (2026-09-22). Rather than teach every reader and every fixer a second
+spelling, the fixes speak the traditional API only, and a mod&apos;s sections are brought into it
+here, as they are read :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Per `section`_ that calls ``SetTextures`` itself, in the traditional layout its keys describe
+-- with a normal map set anywhere in the `section`_, ORFix&apos;s:
+
+.. code-block:: ini
+
+   Resource\GIMI\NormalMap = ref X      -&gt;   ps-t0 = X
+   Resource\GIMI\Diffuse = ref X        -&gt;   ps-t1 = X
+   Resource\GIMI\LightMap = ref X       -&gt;   ps-t2 = X
+   run = CommandList\GIMI\SetTextures   -&gt;   run = CommandList\global\ORFix\ORFix
+
+and without one, NNFix&apos;s -- ``SetTextures`` leaves the normal map null, which is NNFix&apos;s
+reading, and a plain-shader slot is written that way:
+
+.. code-block:: ini
+
+   Resource\GIMI\Diffuse = ref X        -&gt;   ps-t0 = X
+   Resource\GIMI\LightMap = ref X       -&gt;   ps-t1 = X
+   run = CommandList\GIMI\SetTextures   -&gt;   run = CommandList\global\ORFix\NNFix
+
+Keys and the call compare ignoring case, as 3DMigoto does; the ``ref`` is dropped because a
+texture register is bound by reference anyway. A `section`_ that sets those names WITHOUT
+calling ``SetTextures`` is left alone: nothing reads them there, and converting them would
+bind files the mod never bound. ``Resource\GIMI\NatlanGlow`` / ``NatlanTattoo`` have no
+traditional register and are left as they are :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Only the PARSED `sections`_ change -- the ``.ini`` file&apos;s own text is written back untouched
+by a fix, so an undo restores exactly what the author wrote. Built from
+:cpp:class:`RegRemap` and :cpp:class:`RegNewVals`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/files/GIMIApiNormalizer.h" line="75" column="5" bodyfile="include/AGRemapCore/model/files/GIMIApiNormalizer.h" bodystart="75" bodyend="98"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_api_normalizer_1a532ad5979d48f6a8fe84b55b8d0556cd" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIApiNormalizer</scope><name>normalize</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_api_normalizer_1aa091af14b7989bf9ff5f998e2c818a59" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIApiNormalizer</scope><name>normalize</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_api_normalizer_1a0052c4d53414de3e70b7437743732df2" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIApiNormalizer</scope><name>Sections</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

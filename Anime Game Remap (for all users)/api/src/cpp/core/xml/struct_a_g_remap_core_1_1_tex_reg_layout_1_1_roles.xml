@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_tex_reg_layout_1_1_roles" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::TexRegLayout::Roles</compoundname>
+    <includes refid="_tex_reg_layout_8h" local="no">TexRegLayout.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_tex_reg_layout_1_1_roles_1ab9365434a39a86f8fc9d241251395c49" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::TexRegLayout::Roles::normalMap</definition>
+        <argsstring></argsstring>
+        <name>normalMap</name>
+        <qualifiedname>AGRemapCore::TexRegLayout::Roles::normalMap</qualifiedname>
+        <briefdescription>
+<para>The register the normal map belongs on, empty when the layout has none. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/TexRegLayout.h" line="66" column="29" bodyfile="include/AGRemapCore/data/IniFixData/TexRegLayout.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_tex_reg_layout_1_1_roles_1a23a672422e9b3792451371b7962dfb61" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::TexRegLayout::Roles::diffuse</definition>
+        <argsstring></argsstring>
+        <name>diffuse</name>
+        <qualifiedname>AGRemapCore::TexRegLayout::Roles::diffuse</qualifiedname>
+        <briefdescription>
+<para>The register the diffuse belongs on. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/TexRegLayout.h" line="71" column="29" bodyfile="include/AGRemapCore/data/IniFixData/TexRegLayout.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_tex_reg_layout_1_1_roles_1acf276d06290c4f206ffbd7dd609f7880" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::TexRegLayout::Roles::lightMap</definition>
+        <argsstring></argsstring>
+        <name>lightMap</name>
+        <qualifiedname>AGRemapCore::TexRegLayout::Roles::lightMap</qualifiedname>
+        <briefdescription>
+<para>The register the light map belongs on. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/TexRegLayout.h" line="76" column="29" bodyfile="include/AGRemapCore/data/IniFixData/TexRegLayout.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A register per role -- empty for a role this layout has no slot for
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/TexRegLayout.h" line="61" column="13" bodyfile="include/AGRemapCore/data/IniFixData/TexRegLayout.h" bodystart="61" bodyend="77"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_tex_reg_layout_1_1_roles_1a23a672422e9b3792451371b7962dfb61" prot="public" virt="non-virtual"><scope>AGRemapCore::TexRegLayout::Roles</scope><name>diffuse</name></member>
+      <member refid="struct_a_g_remap_core_1_1_tex_reg_layout_1_1_roles_1acf276d06290c4f206ffbd7dd609f7880" prot="public" virt="non-virtual"><scope>AGRemapCore::TexRegLayout::Roles</scope><name>lightMap</name></member>
+      <member refid="struct_a_g_remap_core_1_1_tex_reg_layout_1_1_roles_1ab9365434a39a86f8fc9d241251395c49" prot="public" virt="non-virtual"><scope>AGRemapCore::TexRegLayout::Roles</scope><name>normalMap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

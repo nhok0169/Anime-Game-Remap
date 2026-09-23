@@ -117,6 +117,40 @@ namespace AGRemapCore {
         CherryHuTao,
 
         /**
+         * @brief Citlali from GI
+         */
+        Citlali,
+
+        /**
+         * @brief Citlali outfit skin (Whisper of Stars) from GI -- THREE skinned components (Body, Bangs, Eyes)
+         */
+        CitlaliWhisperofStars,
+
+        /**
+         * @brief
+         @rst
+         CitlaliWhisperofStars's ``Body`` component, as a fix TARGET :raw-html:`<br />` :raw-html:`<br />`
+
+         The same arrangement as :cpp:enumerator:`YelanTranquilBody` and :cpp:enumerator:`BennettAdventureBody`:
+         a skin of several components is fixed by one fixer per component, and the tables those fixers read
+         are keyed by a mod type NAME, so each component is a mod type of its own for their purposes.
+         Nothing classifies a ``.ini`` file AS one of these; the skin itself is
+         :cpp:enumerator:`CitlaliWhisperofStars`, whose vertex-group rows are keyed by component
+         @endrst
+         */
+        CitlaliWhisperofStarsBody,
+
+        /**
+         * @brief CitlaliWhisperofStars's ``Bangs`` component, as a fix target -- see :cpp:enumerator:`CitlaliWhisperofStarsBody`
+         */
+        CitlaliWhisperofStarsBangs,
+
+        /**
+         * @brief CitlaliWhisperofStars's ``Eyes`` component, as a fix target -- see :cpp:enumerator:`CitlaliWhisperofStarsBody`
+         */
+        CitlaliWhisperofStarsEyes,
+
+        /**
          * @brief Diluc from GI
          */
         Diluc,

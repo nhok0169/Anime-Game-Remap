@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="201" column="29" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="201" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="211" column="29" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="211" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_1_1_membership_1a6bd47213988171b6eb0f62583dd302d4" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::array&lt; bool, 4 &gt; &gt;</type>
@@ -29,14 +29,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="202" column="29" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="202" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="212" column="29" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="212" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="200" column="13" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="200" bodyend="203"/>
+    <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="210" column="13" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="210" bodyend="213"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_split_1_1_membership_1a6bd47213988171b6eb0f62583dd302d4" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit::Membership</scope><name>inComponent</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_split_1_1_membership_1aacb49a837321548404ce2272828a7361" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit::Membership</scope><name>mapped</name></member>

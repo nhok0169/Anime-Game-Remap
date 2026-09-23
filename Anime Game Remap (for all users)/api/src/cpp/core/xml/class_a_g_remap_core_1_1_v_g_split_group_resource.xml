@@ -98,7 +98,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="137" column="13" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="181" bodyend="183"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="137" column="13" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="193" bodyend="195"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -120,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="144" column="18" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="186" bodyend="188"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="144" column="18" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="198" bodyend="200"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

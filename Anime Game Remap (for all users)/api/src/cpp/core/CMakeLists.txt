@@ -58,6 +58,7 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/JeanCN/JeanCNFixer.cpp
     src/data/IniFixData/DarkDiffuse.cpp
     src/data/IniFixData/RegValChecks.cpp
+    src/data/IniFixData/TexRegLayout.cpp
     src/data/IniParseData/Barbara/BarbaraParser.cpp
     src/data/IniFixData/Barbara/BarbaraFixer.cpp
     src/data/IniParseData/BarbaraSummertime/BarbaraSummertimeParser.cpp
@@ -133,6 +134,10 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Bennett/BennettFixer.cpp
     src/data/IniParseData/BennettAdventure/BennettAdventureParser.cpp
     src/data/IniFixData/BennettAdventure/BennettAdventureFixer.cpp
+    src/data/IniParseData/Citlali/CitlaliParser.cpp
+    src/data/IniFixData/Citlali/CitlaliFixer.cpp
+    src/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.cpp
+    src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp
     src/data/IniFixData/Shenhe/ShenheFixer.cpp
@@ -214,6 +219,7 @@ add_library(AGRemapCore STATIC
     src/model/files/BufFileErrors.cpp
     src/model/files/BinaryFile.cpp
     src/model/files/BufFile.cpp
+    src/model/files/GIMIApiNormalizer.cpp
     src/model/VGRemap.cpp
     src/model/files/BlendFile.cpp
     src/model/files/PositionFile.cpp

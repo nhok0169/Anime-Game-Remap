@@ -9,6 +9,7 @@
     <innerfile refid="_ib_file_8cpp">IbFile.cpp</innerfile>
     <innerfile refid="_ini_file_8cpp">IniFile.cpp</innerfile>
     <innerfile refid="_position_file_8cpp">PositionFile.cpp</innerfile>
+    <innerfile refid="_tex_cache_8cpp">TexCache.cpp</innerfile>
     <innerfile refid="_texture_file_8cpp">TextureFile.cpp</innerfile>
     <innerfile refid="_vb_file_8cpp">VbFile.cpp</innerfile>
     <briefdescription>

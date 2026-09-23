@@ -67,6 +67,8 @@
     <innerclass refid="class_a_g_remap_core_1_1_call_graph" prot="public">AGRemapCore::CallGraph</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_cherry_hu_tao_fixer" prot="public">AGRemapCore::CherryHuTaoFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_cherry_hu_tao_parser" prot="public">AGRemapCore::CherryHuTaoParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_citlali_fixer" prot="public">AGRemapCore::CitlaliFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_citlali_parser" prot="public">AGRemapCore::CitlaliParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_colour" prot="public">AGRemapCore::Colour</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_colour_range" prot="public">AGRemapCore::ColourRange</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_colour_replace" prot="public">AGRemapCore::ColourReplace</innerclass>
@@ -327,6 +329,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_sympy_tokenizer" prot="public">AGRemapCore::SympyTokenizer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_syntax_err" prot="public">AGRemapCore::SyntaxErr</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_temp_control" prot="public">AGRemapCore::TempControl</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_cache" prot="public">AGRemapCore::TexCache</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_create" prot="public">AGRemapCore::TexCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_creator" prot="public">AGRemapCore::TexCreator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_creator_create" prot="public">AGRemapCore::TexCreatorCreate</innerclass>
@@ -681,6 +684,54 @@ itself is :cpp:enumerator:`BennettAdventure`, whose vertex-group rows are keyed 
           <name>CherryHuTao</name>
           <briefdescription>
 <para>Hu Tao Lantern Rite skin from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa7a53d5ec094ed600c14afe50363e828" prot="public">
+          <name>Citlali</name>
+          <briefdescription>
+<para>Citlali from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa3e1587ef8f372cf845cce9fa17b4a6b9" prot="public">
+          <name>CitlaliWhisperofStars</name>
+          <briefdescription>
+<para>Citlali outfit skin (Whisper of Stars) from GI <ndash/> THREE skinned components (Body, Bangs, Eyes). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faae5fe606882126d943a258856a46ab4e" prot="public">
+          <name>CitlaliWhisperofStarsBody</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+CitlaliWhisperofStars&apos;s ``Body`` component, as a fix TARGET :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The same arrangement as :cpp:enumerator:`YelanTranquilBody` and :cpp:enumerator:`BennettAdventureBody`:
+a skin of several components is fixed by one fixer per component, and the tables those fixers read
+are keyed by a mod type NAME, so each component is a mod type of its own for their purposes.
+Nothing classifies a ``.ini`` file AS one of these; the skin itself is
+:cpp:enumerator:`CitlaliWhisperofStars`, whose vertex-group rows are keyed by component
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faabd1a3bf0c3b7b86a5fc3f35d7c29019" prot="public">
+          <name>CitlaliWhisperofStarsBangs</name>
+          <briefdescription>
+<para>CitlaliWhisperofStars&apos;s <computeroutput>Bangs</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>CitlaliWhisperofStarsBody</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab3b45cc7dccb54cc200bc0c9c6f22a0b" prot="public">
+          <name>CitlaliWhisperofStarsEyes</name>
+          <briefdescription>
+<para>CitlaliWhisperofStars&apos;s <computeroutput>Eyes</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>CitlaliWhisperofStarsBody</computeroutput>. </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -1058,7 +1109,7 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="38" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="38" bodyend="353"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="38" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="38" bodyend="387"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274e" prot="public" static="no" strong="yes">
         <type></type>
@@ -1112,7 +1163,11 @@ and back again, which preserves wherever they put it
    This mode assumes the addition is invalidated only by the **delimiter**, never by
    anything between two of them. For the fix libraries that means a `section`_ must not
    rebind its ``ps-t`` registers after drawing: measured over **33030** real
-   ``TextureOverride`` `section`_\\s, **none** do
+   ``TextureOverride`` `section`_\\s, **none** do -- but a Citlali mod found since does (bind,
+   ``ORFix``, draw, bind again, ``ORFix``, draw), and one call per path drew its second
+   binding un-reslotted. Where the mod&apos;s own calls are already the right library, keeping
+   them is correct and re-issuing is not: see ``keepOwnFixCalls`` in
+   ``GIMIComponentFixer.cpp`` and ``Tools/Misc/Diagnostics/unfixedDraws.py``
 </verbatim> </para>
           </detaileddescription>
         </enumvalue>
@@ -1129,7 +1184,7 @@ single path gets it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/RegDelimitedAddMode.h" line="30" column="5" bodyfile="include/AGRemapCore/constants/RegDelimitedAddMode.h" bodystart="30" bodyend="78"/>
+        <location file="include/AGRemapCore/constants/RegDelimitedAddMode.h" line="30" column="5" bodyfile="include/AGRemapCore/constants/RegDelimitedAddMode.h" bodystart="30" bodyend="82"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106" prot="public" static="no" strong="yes">
         <type></type>
@@ -1581,7 +1636,7 @@ keyed by that component&apos;s own :cpp:enum:`ModTypeId`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="1266" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="1266" bodyend="1270" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="349" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="1593" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="1593" bodyend="1597" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="416" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1737,7 +1792,7 @@ half makes sense alone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/GIMICharParser.cpp" line="326" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="326" bodyend="383" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="245" declcolumn="30"/>
+        <location file="src/data/IniParseData/GIMICharParser.cpp" line="328" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="328" bodyend="385" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="262" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a584e65cf26c955c00926e1dcbcfa8933" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -2081,7 +2136,7 @@ and ``texcoord`` (at most one each) and ``buf`` (the index buffers, any number, 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="97" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="97" bodyend="178" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="116" declcolumn="10"/>
+        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="98" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="98" bodyend="190" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="116" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1acfa9613659a36bc4765c5f2fca7f218f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>

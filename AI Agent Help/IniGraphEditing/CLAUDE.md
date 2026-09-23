@@ -636,6 +636,44 @@ Three things about it have each been wrong in this codebase, all fixed on 2026-0
 **If you write a new consumer, pick deliberately between the two.** `getKeyMissingParts` is still
 right for downloads, which are placed per section.
 
+## `RegDelimitedAddMode::PerBindingGeneration`: the rule `PerPath` approximates (2026-09-22)
+
+`PerPath` assumes an addition is invalidated only by its **delimiter**. The fix libraries are
+invalidated by something else too: they re-slot the registers bound when they run, so **re-binding
+one starts a new generation** that needs its own call, while a second call over registers that have
+NOT moved undoes the first. One call per path is therefore too few for a section that binds twice
+and too many for nothing. `RegDelimitedAddMode.h` had carried a note about exactly this since
+2026-09-14 ("a Citlali mod found since does bind, `ORFix`, draw, bind again, `ORFix`, draw"); this
+is that note closed.
+
+Three register maps, which is the whole model:
+
+* **`invalidatorRegs`** opens a generation (the `ps-t` registers)
+* **`coveredRegs`** is a generation already served -- **what the MOD wrote for itself**. A carried
+  section may already call the library over its own bindings, and that call is the author's
+  placement: keeping it and adding none is right, adding one beside it is the double call the mode
+  exists to avoid
+* **`delimiterRegs`** consumes it (the draw), where the addition goes, as late as possible
+
+Empty `invalidatorRegs` makes it exactly `PerPath`, which is the test that says the mode is not
+silently the old one -- `test_RegDelimitedAdd.py` runs the SAME fixture both ways and requires
+`PerPath` to leave the second generation unserved.
+
+**Implementation note, if you extend it.** `editPerPath`'s unit is the call-graph NODE, and that
+cannot express two generations inside one part (bind, draw, bind, draw is one node). `editPerGeneration`
+splits the two concerns instead: one ordered pass of the three maps **within** each part, which is
+what places several additions in one part, plus a fixpoint over the call graph carrying a single
+bool ("a generation is live and uncovered here") **between** parts. The fixpoint is a MUST analysis
+like the two in `editPerPath`, optimistic and only ever cleared, so a `run =` cycle converges
+instead of needing a special case. The same `walkPart` closure serves the analysis and the
+insertion pass, so the two cannot disagree about where a generation ends.
+
+**What NOT to do with it:** do not switch an existing `PerPath` caller over. Every compiled
+character's `PerPath` placement is verified in game, and the two modes agree only while no section
+rebinds. The merge template uses the new mode for CARRIED sections only, where the mod's own
+bindings and its own calls both survive; its other call site (bindings replaced, calls stripped)
+stays `PerPath`.
+
 ## Mandatory vs optional additions: which edit to reach for
 
 Two register-keyed "add a `run =` call" jobs that look identical and are not:

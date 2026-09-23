@@ -151,7 +151,7 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              Held by ``shared_ptr`` because one table is shared by every :cpp:class:`ModType` of a
-             game (all 47 GI mod types share a single one, exactly as the pure-Python original's own
+             game (all 49 GI mod types share a single one, exactly as the pure-Python original's own
              ``IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value)`` calls -- 43 of them, that
              side having no ``Yelan`` -- share a single ``IniParseBuilderArgs`` instance)
              :raw-html:`<br />` :raw-html:`<br />`

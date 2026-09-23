@@ -25,8 +25,10 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     RegDelimitedAdd<K, V, KeyHash, KeyEqual>::RegDelimitedAdd(Additions additions, RegMap delimiterRegs,
                                                                  bool pathEndOnlyWhenUndelimited,
-                                                                 RegDelimitedAddMode mode):
+                                                                 RegDelimitedAddMode mode,
+                                                                 RegMap invalidatorRegs, RegMap coveredRegs):
         additions(std::move(additions)), delimiterRegs(std::move(delimiterRegs)),
+        invalidatorRegs(std::move(invalidatorRegs)), coveredRegs(std::move(coveredRegs)),
         pathEndOnlyWhenUndelimited(pathEndOnlyWhenUndelimited), mode(mode) {}
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
@@ -130,6 +132,11 @@ namespace AGRemapCore {
 
         if (mode == RegDelimitedAddMode::PerPath) {
             editPerPath(graph, *callGraph, modType, partFilter);
+            return graph;
+        }
+
+        if (mode == RegDelimitedAddMode::PerBindingGeneration) {
+            editPerGeneration(graph, *callGraph, modType, partFilter);
             return graph;
         }
 
@@ -423,6 +430,174 @@ namespace AGRemapCore {
             }
 
             addAdditionsAt(*part, index);
+        }
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    void RegDelimitedAdd<K, V, KeyHash, KeyEqual>::editPerGeneration(Graph& graph, const CallGraphType& callGraph,
+                                                                       const ModType* modType,
+                                                                       const PartFilter& partFilter) {
+        // ONCE PER BINDING GENERATION.
+        //
+        // A generation opens at an invalidator, is served by the addition (or by a coveredRegs
+        // occurence the mod wrote itself) and is consumed by a delimiter. Two of them can sit in one
+        // part -- bind, draw, bind, draw -- so unlike editPerPath, whose unit is the NODE, the unit
+        // here is a position within a part, and the call graph only carries the state BETWEEN parts.
+        //
+        // Live state is a single bool: "a generation has opened and nothing has served it yet".
+        const auto& forwardEdges = callGraph.forwardEdges();
+        const auto& backwardEdges = callGraph.backwardEdges();
+
+        // Every accepted occurence of one RegMap in a part, by insertion order index.
+        auto indsOf = [&](const ContentPart& part, const RegMap& regs) {
+            std::vector<long long> result;
+            for (const auto& regEntry : regs) {
+                for (const auto& indVal : part.getValsWithInds(regEntry.first)) {
+                    if (!regEntry.second || regEntry.second(indVal.second)) {
+                        result.push_back(indVal.first);
+                    }
+                }
+            }
+
+            std::sort(result.begin(), result.end());
+            result.erase(std::unique(result.begin(), result.end()), result.end());
+            return result;
+        };
+
+        std::vector<ContentPart*> reachable;
+        std::unordered_map<ContentPart*, IterData> iterDataOf;
+        std::unordered_map<ContentPart*, std::vector<long long>> opens;      // invalidators
+        std::unordered_map<ContentPart*, std::vector<long long>> serves;     // coveredRegs
+        std::unordered_map<ContentPart*, std::vector<long long>> consumes;   // delimiters
+
+        auto scan = graph.iterByContentPart();
+        while (scan.next()) {
+            IterData& scanData = scan.value();
+            if (iterDataOf.find(scanData.part) != iterDataOf.end()) {
+                continue;
+            }
+
+            iterDataOf.emplace(scanData.part, scanData);
+            reachable.push_back(scanData.part);
+            opens[scanData.part] = indsOf(*scanData.part, invalidatorRegs);
+            serves[scanData.part] = indsOf(*scanData.part, coveredRegs);
+            consumes[scanData.part] = getDelimiterInds(*scanData.part);
+        }
+
+        // Walking one part from an incoming state: where the addition has to go, and what state
+        // leaves. Shared by the analysis and the insertion pass so the two cannot disagree.
+        //
+        // No invalidator anywhere in the graph means the whole path is one generation, which is
+        // PerPath -- entering live is then the right start, and the first delimiter takes the
+        // addition.
+        auto walkPart = [&](ContentPart* part, bool liveIn, std::vector<long long>* inserts) {
+            std::vector<std::pair<long long, int>> events;   // (index, kind): 0 opens, 1 serves, 2 consumes
+            for (long long ind : opens[part]) {
+                events.emplace_back(ind, 0);
+            }
+            for (long long ind : serves[part]) {
+                events.emplace_back(ind, 1);
+            }
+            for (long long ind : consumes[part]) {
+                events.emplace_back(ind, 2);
+            }
+            std::sort(events.begin(), events.end());
+
+            bool live = liveIn;
+            for (const auto& event : events) {
+                if (event.second == 0) {
+                    live = true;
+                } else if (event.second == 1) {
+                    live = false;
+                } else if (live) {
+                    // as late as possible: immediately before the delimiter that consumes it
+                    if (inserts != nullptr) {
+                        inserts->push_back(event.first);
+                    }
+                    live = false;
+                }
+            }
+
+            return live;
+        };
+
+        // The MUST analysis: live on entry to a node only when every path in says so. Optimistic
+        // start (everything live, roots live) with a fixpoint, the same shape editPerPath's two
+        // analyses use, so a `run =` cycle converges instead of needing a special case.
+        std::unordered_map<ContentPart*, bool> liveIn;
+        for (ContentPart* part : reachable) {
+            liveIn[part] = true;
+        }
+
+        // A ROOT ENTERS LIVE, deliberately: with no invalidatorRegs that is what makes the whole
+        // path one generation, which is the documented "this mode is PerPath then". It also keeps
+        // the two modes agreeing on a path that DRAWS before it binds anything -- PerPath puts its
+        // one call before that first draw, and so does this.
+        const std::unordered_set<ContentPart*>& roots = callGraph.rootNodes();
+
+        bool changed = true;
+        while (changed) {
+            changed = false;
+            for (ContentPart* part : reachable) {
+                if (!liveIn[part] || roots.count(part) != 0) {
+                    continue;
+                }
+
+                const Node entry{part, false};
+                auto backIt = backwardEdges.find(entry);
+                if (backIt == backwardEdges.end() || backIt->second.empty()) {
+                    continue;
+                }
+
+                for (const Node& pred : backIt->second) {
+                    // An exit node is the continuation after a `run =`: whatever the callee left
+                    // live is already this predecessor's own outgoing state, so both kinds of node
+                    // are read the same way -- through the part they belong to.
+                    auto predIt = liveIn.find(pred.part);
+                    if (predIt == liveIn.end()) {
+                        continue;   // an external command list -- see editPerPath's note
+                    }
+
+                    if (!walkPart(pred.part, predIt->second, nullptr)) {
+                        liveIn[part] = false;
+                        changed = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // A generation still live where a path ENDS was never consumed by a delimiter. It still
+        // needs its addition -- the draw may be in a section outside this graph -- unless the
+        // caller asked for the addition only on an undelimited path.
+        for (ContentPart* part : reachable) {
+            std::vector<long long> inserts;
+            const bool liveOut = walkPart(part, liveIn[part], &inserts);
+
+            if (liveOut && isPathEnd(callGraph, part)
+                    && !(pathEndOnlyWhenUndelimited && !consumes[part].empty())) {
+                inserts.push_back(static_cast<long long>(part->size()));
+            }
+
+            if (inserts.empty()) {
+                continue;
+            }
+
+            std::optional<OrderRanges> allowed;
+            if (partFilter) {
+                auto iterIt = iterDataOf.find(part);
+                if (iterIt != iterDataOf.end()) {
+                    allowed = partFilter(iterIt->second, modType, nullptr);
+                }
+            }
+
+            // Back to front, so an insertion never shifts the indices of the ones still to come
+            for (auto it = inserts.rbegin(); it != inserts.rend(); ++it) {
+                if (allowed.has_value() && !allowed->has(*it)) {
+                    continue;
+                }
+                addAdditionsAt(*part, *it);
+            }
         }
     }
 }

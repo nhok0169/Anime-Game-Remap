@@ -50,6 +50,20 @@
 #     section bound it or not, so running one over the game's own already-correctly-slotted
 #     textures scrambles them.
 #
+# ---- The asset files' prefix is not always the mod's name (2026-09-21) ----
+#
+# A skin's asset folder may be named for something the classifier does not know:
+# CitlaliWhisperofStars's files are all 'Citlali_WhisperOfStars...', and sections named that way
+# classify as plain CITLALI (the skin's keyword is 'citlaliwhisperofstars', no underscore). So the
+# two are separate now: `--assetPrefix` is what the asset files start with (default: the asset
+# folder's name), `--name` what the mod's files and sections are called (default: the prefix).
+# Every copied texture is renamed to <name>..., which is the old naming whenever the two agree.
+#
+# And an UNSKINNED component -- a position_vb but no blend_vb, as CitlaliWhisperofStars's Face /
+# Mouth / Eyebrows are -- is skipped with a note: it has no GIMI buffer layout (the eyebrows' vertex
+# is not even 40 bytes of position), and on that skin the game draws the same meshes, by the same
+# hashes, for the base character too, so there is nothing of the skin's own to spell out.
+#
 # And `--faceRegister`: GI 6.x swapped the face's diffuse and light map registers, so on a 6.x skin
 # the face diffuse is bound at ps-t1 and a section that overrides ps-t0 replaces the LIGHT MAP with
 # it. The default stays ps-t0 (what the older identity mods were built with); pass `ps-t1` for a
@@ -177,7 +191,8 @@ def main():
     parser = argparse.ArgumentParser(description = "a character's identity mod from its asset folder")
     parser.add_argument("assets", help = "the asset folder (hash.json, *-vb0=*.txt, *-ib=*.txt, *.dds)")
     parser.add_argument("mod", help = "the mod folder to write (created)")
-    parser.add_argument("--name", default = None, help = "the character name used in the file and section names (default: the asset folder's name)")
+    parser.add_argument("--name", default = None, help = "the character name used in the file and section names (default: the asset prefix)")
+    parser.add_argument("--assetPrefix", default = None, help = "what the asset folder's files start with, when that is not the mod's name (default: the asset folder's name)")
     parser.add_argument("--noFix", action = "store_true", help = "leave the ORFix / NNFix run lines out of the object sections")
     parser.add_argument("--faceRegister", default = "ps-t0", help = "the register the face diffuse is bound to (GI 6.x swapped it to ps-t1 on some skins; default ps-t0)")
     parser.add_argument("--textureFrom", action = "append", default = None, metavar = "COMP=COMP:OBJ[:LAYOUT]",
@@ -185,11 +200,13 @@ def main():
     args = parser.parse_args()
     assets = winToPosix(args.assets)
     modFolder = winToPosix(args.mod)
-    name = args.name or os.path.basename(os.path.normpath(assets))
+    prefix = args.assetPrefix or os.path.basename(os.path.normpath(assets))
+    name = args.name or prefix
     textureFrom = parseTextureFrom(args.textureFrom)
 
     hashes = json.load(open(os.path.join(assets, "hash.json"), encoding = "utf-8"))
-    components = [h for h in hashes if h.get("position_vb")]        # every entry with buffers is a component
+    components = [h for h in hashes if h.get("position_vb") and h.get("blend_vb")]   # every SKINNED entry with buffers is a component
+    unskinned = [h.get("component_name", "") for h in hashes if h.get("position_vb") and not h.get("blend_vb")]
     face = next((h for h in hashes if h.get("component_name") == "Face"), None)
     if (not components):
         raise SystemExit(f"{name}: hash.json has no entry with a position_vb")
@@ -209,7 +226,7 @@ def main():
         firstIndices = list(entry["object_indexes"])
 
         # every object's vb0 dump is the component's whole vertex buffer; the first one serves
-        vbPath = os.path.join(assets, f"{name}{comp}{objects[0]}-vb0={entry['position_vb']}.txt")
+        vbPath = os.path.join(assets, f"{prefix}{comp}{objects[0]}-vb0={entry['position_vb']}.txt")
         bufs, strides, vertexCount = bufsFromDump(vbPath)
         for part, data in bufs.items():
             with open(os.path.join(modFolder, f"{name}{comp}{part}.buf"), "wb") as f:
@@ -217,7 +234,7 @@ def main():
 
         ibCounts = {}
         for obj in objects:
-            ib = ibFromDump(os.path.join(assets, f"{name}{comp}{obj}-ib={entry['ib']}.txt"))
+            ib = ibFromDump(os.path.join(assets, f"{prefix}{comp}{obj}-ib={entry['ib']}.txt"))
             if (ib.size and ib.max() >= vertexCount):
                 raise SystemExit(f"{comp}{obj}: index {ib.max()} beyond the {vertexCount} vertices")
             ib.tofile(os.path.join(modFolder, f"{name}{comp}{obj}.ib"))
@@ -228,10 +245,11 @@ def main():
             for kind, ext, _ in texList:
                 if (ext.lower() != ".dds"):
                     continue
-                src = os.path.join(assets, f"{name}{comp}{obj}{kind}{ext}")
+                src = os.path.join(assets, f"{prefix}{comp}{obj}{kind}{ext}")
                 if (os.path.exists(src)):
-                    shutil.copy2(src, os.path.join(modFolder, os.path.basename(src)))
-                    textures.setdefault(obj, {})[kind] = os.path.basename(src)
+                    dst = f"{name}{comp}{obj}{kind}{ext}"
+                    shutil.copy2(src, os.path.join(modFolder, dst))
+                    textures.setdefault(obj, {})[kind] = dst
 
         built[comp] = {"entry": entry, "objects": objects, "firstIndices": firstIndices,
                        "vertexCount": vertexCount, "strides": strides, "ibCounts": ibCounts, "textures": textures}
@@ -254,10 +272,10 @@ def main():
     faceHash = None
     if (face):
         faceObj = list(face["object_classifications"])[0]
-        src = os.path.join(assets, f"{name}Face{faceObj}Diffuse.dds")
+        src = os.path.join(assets, f"{prefix}Face{faceObj}Diffuse.dds")
         if (os.path.exists(src)):
-            shutil.copy2(src, os.path.join(modFolder, os.path.basename(src)))
-            faceDiffuse = os.path.basename(src)
+            faceDiffuse = f"{name}Face{faceObj}Diffuse.dds"
+            shutil.copy2(src, os.path.join(modFolder, faceDiffuse))
             faceHash = next((h for kind, _, h in face["texture_hashes"][0] if kind == "Diffuse"), None)
 
     # ---- the .ini, in the shape GIMI generates ----
@@ -314,6 +332,8 @@ def main():
         print("  textures: " + (", ".join(drawn) or "none"))
     if (faceDiffuse):
         print(f"  face: {faceDiffuse} on {args.faceRegister}")
+    if (unskinned):
+        print(f"  skipped, unskinned (no blend_vb): {', '.join(unskinned)}")
     if (unbound):
         print(f"  NO textures bound (geometry only, no fix call): {', '.join(unbound)} -- point them at another component's with --textureFrom")
     print(f"  written to {modFolder}")

@@ -100,6 +100,26 @@ class ModTypes(StrEnum, DeferredEnum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(cherryhutao|hutaocherry).*\]``
 
+    Chisa: :class:`ModType`
+        **Chisa mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the character's vertex buffer hash, eg. ``hash = afa1587c`` -- a WWMI .ini names its sections after the draw slot (``[TextureOverrideComponent0]``) rather than after the character
+
+    ChisaParfait: :class:`ModType`
+        **Chisa Parfait skin mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the character's vertex buffer hash, eg. ``hash = e611d493`` -- a WWMI .ini names its sections after the draw slot (``[TextureOverrideComponent0]``) rather than after the character
+
+    Citlali: :class:`ModType`
+        **Citlali mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(citlali)((?!whisperofstars).)*\]``
+
+    CitlaliWhisperofStars: :class:`ModType`
+        **Citlali Whisper of Stars mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(citlaliwhisperofstars).*\]``
+
     Diluc: :class:`ModType`
         **Diluc mods** :raw-html:`<br />`
 
@@ -306,6 +326,10 @@ class ModTypes(StrEnum, DeferredEnum):
     Bennett = (GIBuilder.bennett, )
     BennettAdventure = (GIBuilder.bennettAdventure, )
     CherryHuTao = (GIBuilder.cherryHutao, )
+    Chisa = (WWMIBuilder.chisa, )
+    ChisaParfait = (WWMIBuilder.chisaParfait, )
+    Citlali = (GIBuilder.citlali, )
+    CitlaliWhisperofStars = (GIBuilder.citlaliWhisperofStars, )
     Diluc = (GIBuilder.diluc, )
     DilucFlamme = (GIBuilder.dilucFlamme, )
     Fischl = (GIBuilder.fischl, )

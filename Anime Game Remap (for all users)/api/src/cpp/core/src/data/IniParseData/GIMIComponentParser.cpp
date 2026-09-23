@@ -61,6 +61,10 @@ namespace AGRemapCore {
                     // One section may name several mod objects -- see RaidenParser.
                     this->disjointModObjs = false;
 
+                    // A slot that DRAWS before it binds its textures needs the download for that
+                    // draw -- see GIMIParser::ParserConfig::drawKey.
+                    this->setDrawKey(IniKeywords::DrawIndexed);
+
                     for (const GIMIComponentParserConfig::Component& component : config_.components) {
                         std::unordered_map<std::string, ModObj> hashOnly = {
                             {PositionHashKey, ModObj(component.name, "position")},
@@ -243,6 +247,12 @@ namespace AGRemapCore {
                                          {}, {}, true);
                                     add(config, modObj, slot.lightMapReg, donor + "LightMap", donor + "LightMap", ".dds",
                                          {}, {}, true);
+
+                                    // See Slot::donorNormalMap.
+                                    if (slot.donorNormalMap && !slot.normalMapReg.empty()) {
+                                        add(config, modObj, slot.normalMapReg, donor + "NormalMap", donor + "NormalMap", ".dds",
+                                             {}, {}, true);
+                                    }
                                 }
                             }
 

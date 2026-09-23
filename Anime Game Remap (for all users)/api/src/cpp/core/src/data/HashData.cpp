@@ -1297,6 +1297,53 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"5.7", "BennettAdventureEye", "ib"}, "91b4d5dd"},
         {{"5.7", "BennettAdventureEye", "tex_face_diffuse"}, "2b1b2edf"},
 
+        // ===== Citlali and CitlaliWhisperofStars (2026-09-21) =====
+        //
+        // Citlali (5.3) is one mesh, Head + Body. Her hash.json has not changed since it was added
+        // ("ADD Citlali 5.3"; the only later commit renames files), and a 6.7 frame dump binds every
+        // one of these unchanged, so all of them are the 5.3 row. Her NatlanFx head diffuse
+        // (601a55c8, the Nightsoul effect) has no tex_<object>_<kind> slot here and is not filed.
+        {{"5.3", "Citlali", "draw_vb"}, "eec92f64"},
+        {{"5.3", "Citlali", "position_vb"}, "362dc30c"},
+        {{"5.3", "Citlali", "blend_vb"}, "3e939d2e"},
+        {{"5.3", "Citlali", "texcoord_vb"}, "3421fed9"},
+        {{"5.3", "Citlali", "ib"}, "f81f893c"},
+        {{"5.3", "Citlali", "tex_head_normalmap"}, "d63936b6"},
+        {{"5.3", "Citlali", "tex_head_diffuse"}, "96902217"},
+        {{"5.3", "Citlali", "tex_head_lightmap"}, "b5c167bf"},
+        {{"5.3", "Citlali", "tex_body_normalmap"}, "6982aefe"},
+        {{"5.3", "Citlali", "tex_body_diffuse"}, "88febfce"},
+        {{"5.3", "Citlali", "tex_body_lightmap"}, "fee43ce6"},
+        {{"5.3", "Citlali", "tex_face_diffuse"}, "9fb78572"},
+
+        // CitlaliWhisperofStars (6.7) draws a Body (slots A-D), a Bangs and an Eyes, each skinned and
+        // with its own buffers, filed under the component's name as BennettAdventure's are. All three
+        // share the skin's face diffuse. Read off the skin's asset dump and confirmed against a 6.7
+        // frame dump.
+        //
+        // Deliberately NOT here: the skin's Face / Mouth / Eyebrows meshes (ib 31a94d8f / 375658e4 /
+        // 4f74de14). They are unskinned, and the frame dumps show base Citlali drawing the very same
+        // meshes by the very same hashes -- filing them under either name would make one hash
+        // identify two characters, which the classifier's uniqueness invariant forbids.
+        {{"6.7", "CitlaliWhisperofStarsBody", "draw_vb"}, "2da4e7cf"},
+        {{"6.7", "CitlaliWhisperofStarsBody", "position_vb"}, "43a45ed1"},
+        {{"6.7", "CitlaliWhisperofStarsBody", "blend_vb"}, "209b5952"},
+        {{"6.7", "CitlaliWhisperofStarsBody", "texcoord_vb"}, "0e50caed"},
+        {{"6.7", "CitlaliWhisperofStarsBody", "ib"}, "f117984b"},
+        {{"6.7", "CitlaliWhisperofStarsBody", "tex_face_diffuse"}, "5783625d"},
+        {{"6.7", "CitlaliWhisperofStarsBangs", "draw_vb"}, "59d2fb7c"},
+        {{"6.7", "CitlaliWhisperofStarsBangs", "position_vb"}, "902a9ef2"},
+        {{"6.7", "CitlaliWhisperofStarsBangs", "blend_vb"}, "5cebe332"},
+        {{"6.7", "CitlaliWhisperofStarsBangs", "texcoord_vb"}, "502e7a13"},
+        {{"6.7", "CitlaliWhisperofStarsBangs", "ib"}, "d44b2c85"},
+        {{"6.7", "CitlaliWhisperofStarsBangs", "tex_face_diffuse"}, "5783625d"},
+        {{"6.7", "CitlaliWhisperofStarsEyes", "draw_vb"}, "4e827f53"},
+        {{"6.7", "CitlaliWhisperofStarsEyes", "position_vb"}, "b95d494c"},
+        {{"6.7", "CitlaliWhisperofStarsEyes", "blend_vb"}, "89585621"},
+        {{"6.7", "CitlaliWhisperofStarsEyes", "texcoord_vb"}, "b8b31d33"},
+        {{"6.7", "CitlaliWhisperofStarsEyes", "ib"}, "f4cca9ef"},
+        {{"6.7", "CitlaliWhisperofStarsEyes", "tex_face_diffuse"}, "5783625d"},
+
         // ===== version 5.4 =====
         // LisaStudent
         {{"5.4", "LisaStudent", "tex_head_normalmap"}, "a64a57de"},

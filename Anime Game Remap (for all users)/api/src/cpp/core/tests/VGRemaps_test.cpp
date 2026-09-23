@@ -123,9 +123,10 @@ void testPrePopulated() {
     // it when a remap is added here, rather than reading it back off the Python builder, which would
     // silently drop Yelan.
     // +2 on 2026-09-19: Sanhua <-> SanhuaExorcist (WuWa), one row each way in the merged skeleton.
+    // +6 on 2026-09-21: Citlali <-> CitlaliWhisperofStars, three components each way.
     // +2 on 2026-09-20: Chisa <-> ChisaParfait, the same shape (both proposals, unconfirmed).
-    check(Data::getVGRemapDataRows().size() == 67,
-          "67 rows -- this table's own count, fifteen ahead of the Python builder's 52");
+    check(Data::getVGRemapDataRows().size() == 73,
+          "73 rows -- this table's own count, xxx ahead of the Python builder's 52");
 }
 
 void testRealLookups() {
@@ -193,7 +194,7 @@ void testModTypeAttribute() {
     check(custom.vgRemaps == own, "an explicitly passed VGRemaps is used as-is");
     check(custom.vgRemaps != ModDataAssets::vgRemaps(), "and is genuinely not the shared one");
 
-    // GIBuilder passes nullptr, so all 47 GI mod types share the one table.
+    // GIBuilder passes nullptr, so all 49 GI mod types share the one table.
     ModType amber = GIBuilder::amber();
     ModType jean = GIBuilder::jean();
     check(amber.vgRemaps == ModDataAssets::vgRemaps(), "GIBuilder mod types use the shared table");

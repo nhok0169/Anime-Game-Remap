@@ -458,6 +458,75 @@ external library as \ref ORFixPath :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&
         </inbodydescription>
         <location file="include/AGRemapCore/constants/IniKeywords.h" line="242" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="242" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ac4986a7b02eb1185f7fdba532facafa5" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::GIMISetTexturesPath</definition>
+        <argsstring></argsstring>
+        <name>GIMISetTexturesPath</name>
+        <qualifiedname>AGRemapCore::IniKeywords::GIMISetTexturesPath</qualifiedname>
+        <initializer>= &quot;CommandList\\GIMI\\SetTextures&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+GIMI&apos;s own texture helper, ``CommandList\GIMI\SetTextures`` -- ORFix reading
+:cpp:member:`GIMINormalMap` / :cpp:member:`GIMIDiffuse` / :cpp:member:`GIMILightMap`
+instead of ``ps-t0`` / ``ps-t1`` / ``ps-t2``. A mod&apos;s use of it is rewritten into the
+traditional API as it is read -- see :cpp:class:`GIMIApiNormalizer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="253" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a23f45e850f9b934571a431d5781e0c19" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::GIMINormalMap</definition>
+        <argsstring></argsstring>
+        <name>GIMINormalMap</name>
+        <qualifiedname>AGRemapCore::IniKeywords::GIMINormalMap</qualifiedname>
+        <initializer>= &quot;Resource\\GIMI\\NormalMap&quot;</initializer>
+        <briefdescription>
+<para>The normal map key of GIMI&apos;s texture API <ndash/> read as <computeroutput>ps-t0</computeroutput>, see <ref refid="class_a_g_remap_core_1_1_ini_keywords_1ac4986a7b02eb1185f7fdba532facafa5" kindref="member">GIMISetTexturesPath</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="258" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1adb66233a1a9d11f8d8af5b38db7364f1" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::GIMIDiffuse</definition>
+        <argsstring></argsstring>
+        <name>GIMIDiffuse</name>
+        <qualifiedname>AGRemapCore::IniKeywords::GIMIDiffuse</qualifiedname>
+        <initializer>= &quot;Resource\\GIMI\\Diffuse&quot;</initializer>
+        <briefdescription>
+<para>The diffuse key of GIMI&apos;s texture API <ndash/> read as <computeroutput>ps-t1</computeroutput>, see <ref refid="class_a_g_remap_core_1_1_ini_keywords_1ac4986a7b02eb1185f7fdba532facafa5" kindref="member">GIMISetTexturesPath</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="263" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a36eb3d096980510be6ee570d02c35e79" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::GIMILightMap</definition>
+        <argsstring></argsstring>
+        <name>GIMILightMap</name>
+        <qualifiedname>AGRemapCore::IniKeywords::GIMILightMap</qualifiedname>
+        <initializer>= &quot;Resource\\GIMI\\LightMap&quot;</initializer>
+        <briefdescription>
+<para>The light map key of GIMI&apos;s texture API <ndash/> read as <computeroutput>ps-t2</computeroutput>, see <ref refid="class_a_g_remap_core_1_1_ini_keywords_1ac4986a7b02eb1185f7fdba532facafa5" kindref="member">GIMISetTexturesPath</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="268" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
         <definition>const std::string AGRemapCore::IniKeywords::TexFxFolder</definition>
@@ -483,7 +552,7 @@ shifts a character&apos;s registers around leaves those two alone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="259" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="259" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="285" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="285" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a0b87898a1b13e451768835db0ff5bb31" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -505,7 +574,7 @@ one of them is actually bound, never simply because the character&apos;s row nam
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="271" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="271" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="297" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="297" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a6b01c77d87e0426ebcbbdebffa4c3506" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -521,7 +590,7 @@ one of them is actually bound, never simply because the character&apos;s row nam
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="276" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="276" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="302" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="302" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a4e4971343df444d21fd7124528dd6fde" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -543,7 +612,7 @@ follows from where its register shift left the diffuse -- not from the character
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="288" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="288" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="314" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="314" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a57f3e435d80318e03d84bae2e8b314cd" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -562,7 +631,7 @@ follows from where its register shift left the diffuse -- not from the character
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="297" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="297" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="323" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="323" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a079388fac5e35fde9ecdfe285ae8137e" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -586,7 +655,7 @@ that quietly does nothing rather than as an error
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="311" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="311" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="337" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="337" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a4cce110f0eafe9da5062b35d622598e2" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -604,7 +673,7 @@ The PRE-5.0 spelling of \ref TexFxTransparency1 -- see \ref TexFxTransparency0Pr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="319" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="319" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="345" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="345" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a8d9e5f2cafb836e8ad12adf8d5c237c8" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -623,7 +692,7 @@ see :cpp:class:`RegAssetRemap`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="328" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="328" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="354" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="354" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aa2c231b7ea5eb426e1c394d83fa4c1be" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -643,7 +712,7 @@ ef HashNotFound
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="338" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="338" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="364" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="364" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -659,7 +728,7 @@ ef HashNotFound
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="343" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="343" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="369" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="369" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -676,12 +745,16 @@ Common keywords used in the .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
    porting the whole enum speculatively up front
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/IniKeywords.h" line="35" column="5" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="35" bodyend="344"/>
+    <location file="include/AGRemapCore/constants/IniKeywords.h" line="35" column="5" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="35" bodyend="370"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ae515fbf8a74ffd3ebc5497c3bfa27509" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Blend</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ac10fcc30f22cc64569c29916f36c8aa5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Draw</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a2d55106a94f19909c54995256dacd697" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>DrawIndexed</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ae7b06e4f9664f4c634630000ace95bc6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Filename</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1adb66233a1a9d11f8d8af5b38db7364f1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>GIMIDiffuse</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a36eb3d096980510be6ee570d02c35e79" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>GIMILightMap</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a23f45e850f9b934571a431d5781e0c19" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>GIMINormalMap</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1ac4986a7b02eb1185f7fdba532facafa5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>GIMISetTexturesPath</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a16ef425e1632ec1bb2442db36ca0d79a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Handling</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a1135e121a755d9d4a26c68688f0a4b2c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Hash</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a8d9e5f2cafb836e8ad12adf8d5c237c8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>HashNotFound</name></member>

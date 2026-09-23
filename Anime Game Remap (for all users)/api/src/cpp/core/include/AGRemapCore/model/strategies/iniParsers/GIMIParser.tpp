@@ -476,6 +476,45 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
+    void GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::setDrawKey(std::optional<K> key) {
+        config_.drawKey = std::move(key);
+    }
+
+
+    // Whether 'section' issues its first draw BEFORE it binds 'reg' -- a linear walk of the
+    // section's own parts, which is what a mod of this shape writes. Always false without a
+    // ParserConfig::drawKey, which is every caller but the component parser.
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
+    bool GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::drawsBeforeBound(Section* section, const K& reg) const {
+        if (section == nullptr || !config_.drawKey.has_value()) {
+            return false;
+        }
+
+        for (const auto& part : section->parts()) {
+            auto* contentPart = dynamic_cast<ContentPart*>(part.get());
+            if (contentPart == nullptr) {
+                continue;
+            }
+
+            // WITHIN the part too: a section that draws and then binds writes both in one part,
+            // there being no conditional between them to split it.
+            const auto bindings = contentPart->getValsWithInds(reg);
+            const auto draws = contentPart->getValsWithInds(*config_.drawKey);
+
+            if (!draws.empty() && (bindings.empty() || draws.front().first < bindings.front().first)) {
+                return true;
+            }
+
+            if (!bindings.empty()) {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
     typename GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::DownloadNeeds GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::getDownloads() {
         DownloadNeeds result;
         std::set<ContentPart*> visitedParts;
@@ -521,9 +560,12 @@ namespace AGRemapCore {
                     }
                 } else if (ctx_->downloadMode() != DownloadMode::Always) {
                     for (const auto& coverEntry : commandGraph->rootsAreFullyCovered(reg)) {
-                        if (!coverEntry.second) {
+                        Section* section = commandGraph->getSection(coverEntry.first);
+
+                        // ORDERED, when the caller says which KVP draws -- see ParserConfig::drawKey.
+                        if (!coverEntry.second || drawsBeforeBound(section, reg)) {
                             needed = true;
-                            targets.sections.insert(commandGraph->getSection(coverEntry.first));
+                            targets.sections.insert(section);
                         }
                     }
                 } else {

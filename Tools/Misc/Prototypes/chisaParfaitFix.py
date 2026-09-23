@@ -1820,6 +1820,18 @@ class WWMIBlendReplace(FRB.RemapBlendReplace):
 VertexVGFile = "BlendRemapVertexVG.buf"     # WWMI's per-vertex 16-bit merged bone ids, beside Blend.buf
 
 
+def mergesSkeleton(sections) -> bool:
+    """Does this mod build WWMI's MERGED SKELETON, which a remap is skinned against?
+
+    A mod that does declares `[CommandListMergeSkeleton]` and calls it from each component section
+    with that component's `$\\WWMIv1\\vg_offset` / `vg_count`. One that does not -- an export
+    predating the merged skeleton -- leaves every draw on the game's PER-SLOT `vs-cb4`, which is
+    fine on its own character and cannot carry a remap: the remapped blend's ids are merged ones.
+    """
+    names = {name.lower() for name in sections}
+    return "commandlistmergeskeleton" in names
+
+
 def componentDrawsOf(sections) -> Dict[int, List[Tuple[int, int]]]:
     """{source component: [(count, start) of every drawindexed in its own TextureOverrideComponent<N>]}"""
     out: Dict[int, List[Tuple[int, int]]] = {}
@@ -2114,6 +2126,24 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
         roles = rolesOf(ini)
         if (not files.present):
             raise ValueError(f"no [TextureOverrideComponent*] section on {SourceName}'s hash {source['vb0_hash']}")
+        # A MOD WITHOUT THE MERGED SKELETON CANNOT BE REMAPPED, and writing one anyway is a smear
+        #   (2026-09-23). The fix copies the mod's own component sections and edits them, so a mod
+        #   that never built a merged skeleton produces remapped sections that do not either -- no
+        #   vg_offset, no `run = CommandListMergeSkeleton`, no `vs-cb4` override -- while the blend
+        #   it is handed holds MERGED ids. Refused rather than fixed badly: see the guides' "a
+        #   fixer that gives up must write nothing".
+        if (not mergesSkeleton(files.sections)):
+            raise SystemExit(
+                f"'{os.path.basename(ini.file)}' has no [CommandListMergeSkeleton], so this mod predates WWMI's\n"
+                f"merged skeleton: every draw uses the game's per-slot vs-cb4. A remap is skinned against the\n"
+                f"MERGED skeleton, so the remapped blend's ids would mean nothing to those draws and the model\n"
+                f"would come out smeared.\n"
+                f"Carrying the ids into the target slot's own space is not a way out either -- measured on this\n"
+                f"pair, only 64% / 43% / 46% of the body components' bones exist in their target slot's vg_map,\n"
+                f"because the remap sends one source component's bones across several target components.\n"
+                f"Fixing this needs the fix to SYNTHESISE the v1 machinery (a [Present] hook, the merge command\n"
+                f"list, its RW/SRV resources, the per-component vg_offset block and the vs-cb3/vs-cb4 binding),\n"
+                f"which it does not do yet.")
         print(f"  {os.path.relpath(ini.file, ini.folder) if ini.folder else ini.file}: {SourceName} components {files.present} -> {toModName}")
 
         def fixName(name: str) -> str:

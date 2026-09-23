@@ -1102,6 +1102,71 @@ Three things follow, and the third is the general one:
   "it passes against a build I broke on purpose" are different claims, and only the second one says
   the comparison is wired up at all. Corrupting a single byte is usually the cheapest way to ask.
 
+**64. THE FIXED MOD IS EVIDENCE ABOUT WHICH SCRIPT RAN, NOT ABOUT WHICH BUILD YOU HAVE
+(2026-09-22).** The maintainer keeps their own copy of the prototype beside their mods
+(`GIMI/Mods/<name>Fix.py`, and the same for WuWa) and runs it themselves between turns. It goes
+stale the moment the repo's version gains a config field --- and a stale copy does not fail, it
+re-fixes the mod in seconds with the new option MISSING, which reads in game exactly like a template
+bug you just introduced. One such run turned a correct fix into a model with green-yellow limbs, and
+the diagnosis went to the C++ for a while before the `.ini` gave it away: it contained a combination
+the current build cannot produce.
+
+- **Before debugging a report, compare the mod's `.ini` mtime with the copy's, and grep the copy for
+  the newest config field.** Two commands, and they distinguish "my change is wrong" from "that ran
+  through last week's script".
+- **Re-syncing the copy is part of finishing any prototype change**, not a courtesy. The WuWa
+  sections have said so since 2026-09-19; it is not WuWa-specific.
+- The same applies to the fix's own output as evidence: **an output that cannot be produced by the
+  current build is telling you about a different build.**
+
+**65. THE MOD FOLDERS MOVE BETWEEN TURNS, SO RESOLVE A MOD BY NAME AT RUN TIME (2026-09-22).** The
+maintainer keeps only the mods they are testing under `GIMI/Mods` and parks the rest one level up
+under `GIMI/` (the same for `WWMI/`), and they move them WHILE you work --- a folder you fixed ten
+minutes ago may now be in the other place. A script with the path baked in does not error: the
+service walks a folder that is not there, reports `.ini fixed: 0` and exits clean, and a checker
+pointed at the same path reports a tidy `0 draws checked`.
+
+**That pair of zeros reads exactly like "the fix deleted the mod"**, which is where twenty minutes
+went. Write the runner to search both locations for the NAME and print which one it found
+(`citCheck.py` in the session scratchpad is the shape), and when a mod appears to have vanished,
+`ls` the parent before concluding anything.
+
+**66. A CHECK THAT CAN REPORT "NOTHING WAS CHECKED" IS WORTH MORE THAN ONE THAT REPORTS 0
+(2026-09-22).** Four diagnostics were run over the same six mod folders. Three printed a clean zero
+--- `0 draws checked`, `0 fix calls checked` --- and one printed **`NO FIXED .ini FILES FOUND --
+nothing was checked, which is not a pass`**. Only the fourth was telling the truth: every path had
+shattered on the spaces in `Wuthering Waves Mods` (trap 6 in the root `CLAUDE.md`, hit again despite
+being written down), so all four had been handed nonsense and three of them called it success.
+
+This is habit 1 wearing a different hat --- a counter that can only ever be zero reads like a zero
+that means something --- and the fix is cheap enough to be automatic: **every check this repo gains
+should distinguish "clean" from "empty", and say so in the line it prints.** When you add one, run
+it against an empty directory once and make sure it complains.
+
+**67. A REPO DIAGNOSTIC'S EXIT CODE MAY CONFLATE TWO ANSWERS --- JUDGE BY ITS OUTPUT (2026-09-22).**
+`abIni.py` exits non-zero both for "these two folders differ" and for "this `.ini` has no remap
+block --- the fix did not run on it". One real mod legitimately has the second (a shared `Face.ini`
+carrying none of the skin's hashes), so a **clean** prototype-vs-compiled A/B reported `DIFFERS` on
+a fact about the MOD that was true of both sides. A wrapper that judged by the printed `DIFF` /
+`PROBLEMS` lines instead got it right --- and was then proved not to have gone blind by changing one
+binding on one side and requiring it to be caught.
+
+**68. AN A/B OVER A MOD THAT DOWNLOADS IS NOT DETERMINISTIC (2026-09-22).** A download that fails to
+land changes the light map band output, so two runs of the same comparison differ over a file
+NEITHER side chose --- on a different mod each time, and on a different SIDE each time (once the
+prototype was missing a texture, the next run the compiled side was). That is enough to read as a
+transcription error twice before listing which files differ and noticing one of them is simply
+`ABSENT`. **Give both sides the same download setting** (the prototypes take `--download disabled`
+now, and the old-vs-new benchmark learned the same lesson in habit 60) and the comparison is exact.
+Compare that way to judge the CONFIG, and without it to exercise the download path.
+
+**A note that belongs with 66 and 67, since both were instrumentation:** when a count assertion in a
+suite fails, **print the number before believing the message**. Nothing builds `core/tests`, so
+those asserts rot; three of them were stale on arrival this session and only one failure of four was
+the session's own. And write the probe with the Write tool --- a `\n` inside a Bash heredoc arrives
+as a REAL newline and splits the string literal you are adding it to, which turns a one-line probe
+into a compile error in the file you were trying to measure (root trap 2, in a new costume).
+
 <br>
 
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)

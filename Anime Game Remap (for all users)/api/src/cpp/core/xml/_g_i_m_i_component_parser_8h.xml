@@ -7,6 +7,7 @@
     <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
     <includes refid="_ini_parse_builder_8h" local="yes">AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</includes>
     <includedby refid="_bennett_adventure_parser_8cpp" local="yes">src/data/IniParseData/BennettAdventure/BennettAdventureParser.cpp</includedby>
+    <includedby refid="_citlali_whisperof_stars_parser_8cpp" local="yes">src/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.cpp</includedby>
     <includedby refid="_g_i_m_i_component_parser_8cpp" local="yes">src/data/IniParseData/GIMIComponentParser.cpp</includedby>
     <includedby refid="_yelan_tranquil_parser_8cpp" local="yes">src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp</includedby>
     <incdepgraph>
@@ -1156,16 +1157,22 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniParseData/BennettAdventure/BennettAdventureParser.cpp</label>
         <link refid="_bennett_adventure_parser_8cpp"/>
       </node>
       <node id="3">
+        <label>src/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.cpp</label>
+        <link refid="_citlali_whisperof_stars_parser_8cpp"/>
+      </node>
+      <node id="4">
         <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
         <link refid="_g_i_m_i_component_parser_8cpp"/>
       </node>
-      <node id="4">
+      <node id="5">
         <label>src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp</label>
         <link refid="_yelan_tranquil_parser_8cpp"/>
       </node>
@@ -1222,30 +1229,32 @@
 <codeline lineno="86" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a4af851004da0847caa989aea7721030f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a4af851004da0847caa989aea7721030f" kindref="member">noTextures</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="87"><highlight class="normal"></highlight></codeline>
 <codeline lineno="107" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a6c1989a807b4ec7842b27141bd4eff23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a6c1989a807b4ec7842b27141bd4eff23" kindref="member">textureDonor</ref>;</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"></highlight></codeline>
-<codeline lineno="113" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component" kindref="compound">Component</ref><sp/>{</highlight></codeline>
-<codeline lineno="117" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1abac19b72746490f530acccbe5dfda15f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1abac19b72746490f530acccbe5dfda15f" kindref="member">name</ref>;</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"></highlight></codeline>
-<codeline lineno="131" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a5f52bf20bdfc1d051e27558913a513ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a5f52bf20bdfc1d051e27558913a513ba" kindref="member">modTypeName</ref>;</highlight></codeline>
-<codeline lineno="132"><highlight class="normal"></highlight></codeline>
-<codeline lineno="136" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a83fe498c7f95f3fc7915a9770fa0d867" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Slot&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a83fe498c7f95f3fc7915a9770fa0d867" kindref="member">slots</ref>;</highlight></codeline>
-<codeline lineno="137"><highlight class="normal"></highlight></codeline>
-<codeline lineno="141" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a9f0c968f73928f58529964da96584dbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a9f0c968f73928f58529964da96584dbb" kindref="member">texcoordStride</ref><sp/>=<sp/>20;</highlight></codeline>
-<codeline lineno="142"><highlight class="normal"></highlight></codeline>
-<codeline lineno="154" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a4cf927721f3cd103885114e8897e9576" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a4cf927721f3cd103885114e8897e9576" kindref="member">vertexCount</ref><sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="156"><highlight class="normal"></highlight></codeline>
-<codeline lineno="160" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a97cdb5130602390cfa64ec9bdbd43b6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Component&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a97cdb5130602390cfa64ec9bdbd43b6d" kindref="member">components</ref>;</highlight></codeline>
-<codeline lineno="161"><highlight class="normal"></highlight></codeline>
-<codeline lineno="162" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1af496b5ab6ceb3858b94b8e6f9488bdcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1af496b5ab6ceb3858b94b8e6f9488bdcb" kindref="member">positionStride</ref><sp/>=<sp/>40;</highlight></codeline>
-<codeline lineno="163" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a1c62f9cd930d935ad549bf06324eeec8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a1c62f9cd930d935ad549bf06324eeec8" kindref="member">blendStride</ref><sp/>=<sp/>32;</highlight></codeline>
-<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="165"><highlight class="normal"></highlight></codeline>
-<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1a584e65cf26c955c00926e1dcbcfa8933" kindref="member">makeGIMIComponentParser</ref>(<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config" kindref="compound">GIMIComponentParserConfig</ref><sp/>config);</highlight></codeline>
-<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="188"><highlight class="normal"></highlight></codeline>
-<codeline lineno="189"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a4008010b29129ae920f37df079d1bb98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a4008010b29129ae920f37df079d1bb98" kindref="member">donorNormalMap</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component" kindref="compound">Component</ref><sp/>{</highlight></codeline>
+<codeline lineno="132" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1abac19b72746490f530acccbe5dfda15f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1abac19b72746490f530acccbe5dfda15f" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a5f52bf20bdfc1d051e27558913a513ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a5f52bf20bdfc1d051e27558913a513ba" kindref="member">modTypeName</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a83fe498c7f95f3fc7915a9770fa0d867" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Slot&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a83fe498c7f95f3fc7915a9770fa0d867" kindref="member">slots</ref>;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a9f0c968f73928f58529964da96584dbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a9f0c968f73928f58529964da96584dbb" kindref="member">texcoordStride</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a4cf927721f3cd103885114e8897e9576" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a4cf927721f3cd103885114e8897e9576" kindref="member">vertexCount</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a97cdb5130602390cfa64ec9bdbd43b6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Component&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a97cdb5130602390cfa64ec9bdbd43b6d" kindref="member">components</ref>;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1af496b5ab6ceb3858b94b8e6f9488bdcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1af496b5ab6ceb3858b94b8e6f9488bdcb" kindref="member">positionStride</ref><sp/>=<sp/>40;</highlight></codeline>
+<codeline lineno="178" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a1c62f9cd930d935ad549bf06324eeec8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a1c62f9cd930d935ad549bf06324eeec8" kindref="member">blendStride</ref><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1a584e65cf26c955c00926e1dcbcfa8933" kindref="member">makeGIMIComponentParser</ref>(<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config" kindref="compound">GIMIComponentParserConfig</ref><sp/>config);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h"/>
   </compounddef>

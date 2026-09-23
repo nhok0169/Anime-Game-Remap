@@ -69,8 +69,8 @@ std::optional<PyRegBottomAdd::Core::KeySet> parseKeysToTrack(const py::object &k
 }
 
 
-PyRegBottomAdd::PyRegBottomAdd(py::object additionsObj):
-    Core(parseAdditions(additionsObj)) {}
+PyRegBottomAdd::PyRegBottomAdd(py::object additionsObj, std::string condition):
+    Core(parseAdditions(additionsObj), std::move(condition)) {}
 
 
 void initCppRegBottomAdd(pybind11::module_ &m) {
@@ -104,9 +104,18 @@ draw call, another texture binding, a trailing command --- that has to run uncon
     register the mod already has
     )doc");
 
-    cls.def(py::init([](py::object additions) {
-        return std::make_unique<PyRegBottomAdd>(std::move(additions));
-    }), py::arg("additions"));
+    cls.def(py::init([](py::object additions, std::string condition) {
+        return std::make_unique<PyRegBottomAdd>(std::move(additions), std::move(condition));
+    }), py::arg("additions"), py::arg("condition") = "");
+
+    cls.def_readwrite("condition", &PyRegBottomAdd::condition, py::doc(R"doc(
+:class:`str`: A 3DMigoto condition to put the additions under, eg. ``vs != 037730.0`` --- ``""`` for none
+
+Non-empty, the additions land in a NEW ``if <condition>`` ... ``endif`` block at the bottom of each
+root, still at the `section`_'s own depth. What it is for: a draw that belongs in some of the passes
+a `section`_ runs in and not the others --- ``vs != 037730.0``, the ``filter_index`` ORFix gives every
+outline vertex shader, keeps a draw out of the outline pass. **Default**: ``""``
+    )doc"));
 
     cls.def_property("additions", [](const PyRegBottomAdd &self) {
         return additionsToPy(self.additions);

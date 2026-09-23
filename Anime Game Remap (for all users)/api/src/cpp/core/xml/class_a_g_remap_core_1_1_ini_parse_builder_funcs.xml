@@ -1282,6 +1282,24 @@ The FIRST parser for a skin of SEVERAL components -- a ``Body`` of three draw sl
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="764" column="45" bodyfile="src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp" bodystart="21" bodyend="80"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8e18205ea433a4d25c6fe6c663dbe376" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::citlaliWhisperofStars6_7</definition>
+        <argsstring>()</argsstring>
+        <name>citlaliWhisperofStars6_7</name>
+        <qualifiedname>AGRemapCore::IniParseBuilderFuncs::citlaliWhisperofStars6_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+CitlaliWhisperofStars&apos; 6.7 parser -- a skin of THREE components (a Body of four draw
+slots, a Bangs and an Eyes), built by :cpp:func:`makeGIMIComponentParser`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="773" column="45" bodyfile="src/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.cpp" bodystart="23" bodyend="75"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -1316,7 +1334,7 @@ each returning the :cpp:type:`IniParseBuilder::Factory` for that pair
    actually needs them
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="56" column="5" bodyfile="include/AGRemapCore/data/IniParseBuilderData.h" bodystart="56" bodyend="766"/>
+    <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="56" column="5" bodyfile="include/AGRemapCore/data/IniParseBuilderData.h" bodystart="56" bodyend="775"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a0f031e3c3bc6a5784f978725a2f30f90" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>amber4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac929d9cdc7d62f7339d4b5c340553daa" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>amberCN4_0</name></member>
@@ -1331,6 +1349,7 @@ each returning the :cpp:type:`IniParseBuilder::Factory` for that pair
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a708be8ac73083c2a14454469100c9b92" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>bennettAdventure5_7</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a682b003af4ab40d2f2f58ac015af37c1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>cherryHutao5_3</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7a43e27b4ab63840fd41be6e297828b5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>citlali5_3</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8e18205ea433a4d25c6fe6c663dbe376" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>citlaliWhisperofStars6_7</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a9ed2e127fe638c494b02fea1167370a6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>diluc4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a90dd86e40c82ef949659459afe1e8ddd" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>dilucFlamme4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a25c723344a4afc25cd6dee4b991b6c4f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>fischl4_0</name></member>

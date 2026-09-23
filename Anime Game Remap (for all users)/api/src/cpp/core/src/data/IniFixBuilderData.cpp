@@ -380,6 +380,16 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali),
                   "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStarsEyes)}, IniFixBuilderFuncs::citlaliWhisperofStarsEyes6_7()},
 
+                // ===== CitlaliWhisperofStars @ toVersion 6.7 (2026-09-22) =====
+                //
+                // ONE row where the direction above needs three: a skin of several components onto
+                // a target of ONE draws through one set of buffer hashes, so the components are
+                // merged rather than split and all six source slots landing on `body` become one
+                // draw. See makeGIMIMergeFixer.
+                {{"6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars),
+                  "6.7", ModTypeIdTools::getName(ModTypeId::Citlali)},
+                 IniFixBuilderFuncs::citlaliWhisperofStarsToCitlali6_7()},
+
                 // ===== Keqing @ toVersion 6.1 =====
                 //
                 // The pair: this one MERGES (Keqing's dress and head onto KeqingOpulent's head)

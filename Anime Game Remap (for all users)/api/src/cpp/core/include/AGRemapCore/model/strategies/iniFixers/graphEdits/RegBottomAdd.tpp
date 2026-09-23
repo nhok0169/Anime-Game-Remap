@@ -13,13 +13,20 @@
 
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h"
 
+#include <memory>
+#include <optional>
+
+#include "AGRemapCore/constants/IfPredPartType.h"
+#include "AGRemapCore/model/iftemplate/IfPredPart.h"
+#include "AGRemapCore/tools/z3/Z3Context.h"
+
 #include <utility>
 
 
 namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
-    RegBottomAdd<K, V, KeyHash, KeyEqual>::RegBottomAdd(Additions additions):
-        additions(std::move(additions)) {}
+    RegBottomAdd<K, V, KeyHash, KeyEqual>::RegBottomAdd(Additions additions, std::string condition):
+        additions(std::move(additions)), condition(std::move(condition)) {}
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
@@ -63,6 +70,26 @@ namespace AGRemapCore {
                         continue;
                     }
                 }
+            }
+
+            // A CONDITION: a new `if` ... `endif` block of its own, appended at the section's depth
+            // and built the way ResGroupCollect builds its `if 1` blocks -- parts, then rebuild().
+            if (!condition.empty()) {
+                std::optional<Z3Context> fallbackZ3Ctx;
+                Z3Context* z3Ctx = graph.z3Ctx();
+                if (z3Ctx == nullptr) {
+                    fallbackZ3Ctx.emplace();
+                    z3Ctx = &(*fallbackZ3Ctx);
+                }
+
+                auto& parts = section->parts();
+                parts.push_back(std::make_unique<IfPredPart>(
+                    IfPredPartTypeTools::getName(IfPredPartType::If) + " " + condition, IfPredPartType::If, *z3Ctx));
+                parts.push_back(std::make_unique<ContentPart>(additions, 1));
+                parts.push_back(std::make_unique<IfPredPart>(
+                    IfPredPartTypeTools::getName(IfPredPartType::EndIf), IfPredPartType::EndIf, *z3Ctx));
+                section->rebuild();
+                continue;
             }
 
             // A FRESH part at the section's own depth, which is what makes this unconditional: the

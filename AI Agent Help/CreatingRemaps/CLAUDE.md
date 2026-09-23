@@ -980,6 +980,285 @@ compiled `RegRestrict`, per part, was the right one.
 
 <br>
 
+## AND IT IS COMPILED (2026-09-22): the transcription, and what it cost to check
+
+`data/Ini{Fix,Parse}Data/CitlaliWhisperofStars/` plus one row in each builder table. The prototype
+stays the ORACLE: `Tools/Misc/Diagnostics/abCitlaliRev.py` fixes two scratch copies of a mod -- one
+through the prototype's `CppStrategyOverrides`, one through the compiled tables with no override at
+all -- and compares the `.ini` semantically and every generated file by CONTENT. **All six mods are
+identical**, so the transcription introduced nothing.
+
+**AN A/B OVER A MOD THAT DOWNLOADS IS NOT DETERMINISTIC, AND THAT COST TWO ROUNDS OF READING IT AS A
+CONFIG BUG.** A download that fails to land changes the band output (the open "a downloaded texture
+that does not land" bug, which makes the same mod fixed twice give two different light maps), so the
+two sides differ over a file NEITHER config chose -- on a different mod each run, and on a different
+SIDE each run: once the prototype was missing `...BodyADiffuseRemapDL.dds`, the next run the
+compiled side was. What settles it is listing which files differ and seeing one of them `ABSENT`.
+**Pass `--noDownload` (the prototype takes `--download disabled` now, which is the same switch the
+old-vs-new benchmark had to give BOTH sides) and the comparison is exact**: all six mods, `.ini`
+semantically identical and every generated file identical. Compare that way to judge the CONFIG, and
+without it to exercise the download path.
+
+**And the runner must judge by the DIFF, not by `abIni.py`'s exit code** -- that also exits non-zero
+for "no remap block -- the fix did not run on it", which one of these mods has legitimately (a
+shared `Face.ini` carrying none of the skin's hashes). A fact about the MOD, true of both sides, was
+reading as a prototype-vs-compiled difference. The relaxed verdict was proved not to blind the
+oracle by changing ONE binding on the compiled side and requiring it to be caught.
+
+**Three things specific to this pair**, none of which YelanTranquil's or BennettAdventure's rows need:
+
+* **The parse row is at 6.7, not at Citlali's 5.3.** A skin's assets are filed at the version they
+  shipped in, and `downloadVersionFolder` has to agree with the row. It is the first GI parse row
+  above 6.1, which is why the version-set assertion in `BuilderData_test.cpp` moved too.
+* **`targetLayout` and `texRegsByName`**, the two template options this remap added. Both are
+  default-off, so no compiled character moved -- the regression set is byte-identical across every
+  step of this work.
+* **The Bangs and Eyes set `donorNormalMap`.** Citlali READS a normal map where Yelan and Bennett do
+  not, so a slot borrowing another's textures needs the donor's NORMAL map downloaded as well.
+
+**THE TEST COUNTS WERE ALREADY THREE ROWS STALE BEFORE THIS REMAP TOUCHED THEM.** `BuilderData_test`
+asserted 63/132/51 against a real 64/135/53, `ModTypeRemaps_test`'s oracle-size check said 51 with 53
+rows present, and `VertexCounts_test` said 49 with 50 -- all left behind by the Chisa pair, because
+**nothing builds `core/tests`**. Four suites failed the moment this session compiled them, and only
+one failure was this session's. **PRINT the size before believing the arithmetic in the message**:
+each of these carries a comment deriving its number from a history, and the derivation had drifted
+from the table. A one-line `std::printf` of the three sizes settled all of it in one run.
+
+<br>
+
+## CitlaliWhisperofStars -> Citlali: the reverse, PROTOTYPED AS NOTHING BUT A CONFIG (2026-09-22)
+
+`Tools/Misc/Prototypes/citlaliFromWhisperFix.py` is a `GIMIComponentParserConfig` and a
+`GIMIMergeFixerConfig` handed to the bound `makeGIMIComponentParser` / `makeGIMIMergeFixer` and
+registered on `CppStrategyOverrides` -- the first prototype with no hand-rolled `.ini` step at all.
+Its only custom code is the light map band move, because `MaterialBandRemapFilter` has no binding.
+Everything else it needed went into the library, each default-off (1588 files over ten mods, five
+through the merge template, byte-identical before and after):
+
+* **`GIMIMergeFixerConfig::targetLayout`.** The merge template assumed a PLAIN target and dropped
+  every source normal map under `NNFix`. Citlali reads normal map / diffuse / light map at
+  `ps-t0/1/2` under `ORFix`, the skin's own layout: `TargetLayout::NormalMap` passes it through,
+  shifts a plain slot UP, and issues `ORFix`. `downloadPrefix` is bound too.
+* **`GIMIComponentParserConfig::Slot::donorNormalMap`.** A texture-borrowing slot (the Bangs, the
+  Eyes) downloaded its donor's diffuse and light map only, so on a normal-map target it read
+  whatever normal map the game had bound.
+* **A merged member is compared with what is BOUND before it**, not with the representative's
+  textures. The Eyes borrow Body A's set and follow Body D, which binds its own, so the eyes drew
+  Body D's atlas. Latent in the template since Yelan; nothing before had that member order.
+* **The classifier counts a multi-component skin's COMPONENT hashes for the skin**
+  (`GlobalIniClassifiers.cpp`). HashData files them under `<Skin><Component>`, so the skin owned no
+  identifying hash, and a mod naming its sections `Citlali_WhisperOfStars...` (no keyword matches the
+  underscore) classified as plain Citlali and was fixed as nothing. And do NOT pass
+  `forcedModTypeIds` in a prototype: forced, a mod's `Face.ini` -- shared face meshes, none of the
+  skin's hashes -- had a whole downloaded body invented for it and drawn over the mod's own.
+* **`GIMIMergeFixerConfig::Slot::outline`, on `RegBottomAdd`'s new `condition`.** The first in-game
+  run of the identity mod had the skirt's lining BLACK and a dark edge by the hair. A frame dump
+  settled it where three hypotheses (two-sided rasterizer, ramp, band) could not: the lining was
+  lavender after the G-buffer draw and black after the OUTLINE draw (vs `67fd126e`), which wrote
+  4890 pixels outside the silhouette -- an extruded hull. The skin outlines its dress (Body B, C)
+  with outline shaders of its own (`077848d1`, `57c73a33`); merged into Citlali's body they go
+  through hers, and the far panel's hull covers the lining. `outline = false` puts the member's
+  block under `if vs != 037730.0` -- the `filter_index` ORFix gives EVERY outline vertex shader, so
+  no shader override of our own is needed. Two in-game tests decided it: gating the whole body
+  cleared the black and removed every outline, gating only B and C cleared it and kept the rest.
+  **The first test copies were never loaded** -- they were in `GIMI`, not `GIMI/Mods`, and the
+  maintainer reported "no change". Check what is in `Mods` before reading a result.
+
+* **Pick the target object by SHADER FAMILY before bones.** The skin's Bangs is 35% head-only bones
+  and 0% body-only, so it went to Citlali's head -- and came out a dirty greyish pink with a black
+  edge, while her long hair (in Body A, sent to her body) matched the skin. Citlali's head draws with
+  its own pixel shader (`ccc17504`); the skin draws ALL of its hair with the normal-map body shader
+  (`92544cbc`). A light map channel theory (shadow-threshold green 0 on 56% of the skin's hair
+  texels) was tested in game and changed nothing; sending the fringe to her body fixed it. Citlali's
+  head then receives no slot and stays hidden by the whole-ib skip. The same lesson the WuWa remaps
+  already wrote down: which draw a part goes through is decided by what SHADER renders it on the
+  source.
+
+* **GIMI's newer texture API is normalized as sections are read** (`GIMIApiNormalizer`, called at
+  the end of `IniFile::readIfTemplates`). `Resource\GIMI\NormalMap / Diffuse / LightMap = ref X` +
+  `run = CommandList\GIMI\SetTextures` becomes `ps-t0/1/2 = X` + ORFix -- or, with no normal map set,
+  `ps-t0/1` + NNFix, which is what `SetTextures` does then. Only in a section that CALLS `SetTextures`
+  (a mod setting the names without the call binds nothing), only the PARSED sections (the file's own
+  text is written back as it was), built from `RegRemap` and `RegNewVals`. The maintainer's rule:
+  every fix speaks the traditional API, and a mod is brought into it rather than every reader taught a
+  second spelling. 1 of 466 active `.ini` files in their library uses it.
+* **`if` / `else if` / `endif` in ANY case.** `IniFile::isConditionalLine` compared as written, so a
+  mod writing `ELSE if` / `ENDIF` had those lines parsed as KEYS (`ELSE if $AD1` = `= 2`), every toggle
+  block left open and every toggled part drawn at once -- the hood that was on without its toggle.
+  (`IfPredPartTypeTools::getType` already lowercased; only the line detector did not.)
+* **A MERGED MEMBER IS CARRIED, NOT REPLACED, for every merge.** Only an object's FIRST member kept its
+  own section; every other one was dropped for one draw of its whole range, losing its toggles (a
+  hair drew all three of its variants), its draw ranges and where its fix calls sat. Now each is
+  copied by the slot remap under a `CommandList...<Mod><Component><Slot>RemapFix` name (`hash`,
+  `match_first_index`, `handling` and `ib` stripped), its draws shifted to its start in the merged ib
+  (`DrawOffset`, file-local; `auto` becomes its whole range, and TexFx's `$\texfx\_2` draw START moves
+  too), and called with `run =` at the bottom of the object's section -- the outline gate becomes a
+  condition on that call. A member whose own layout matches a normal-map target keeps its own fix
+  calls (so does the first member now: that fixed a first member binding, calling ORFix, drawing,
+  binding and calling again); otherwise they are dropped and one per path added. A copy that binds
+  nothing of its own gets the member's textures at its top first, or its fix call undoes the previous
+  draw's -- a YelanTranquil mod's Eye sections bind nothing. Not carried, and drawn as before: a member
+  the mod has no section for (a downloaded component), and any member of an object whose first
+  member's ib branches (a merged master's per-branch offsets). Bennett / Yelan output changed in the
+  `.ini` only -- every buffer and texture of the ten regression mods byte-identical -- and
+  `fixCallPaths.py`, `unfixedDraws.py` and the new `bareFixCalls.py` are clean on all of it.
+  **Open:** the FORWARD template's `DrawRangeRemap` does not move `$\texfx\_1` / `_2` either.
+
+* **THE TARGET'S `handling = skip` COMES FROM WHICHEVER COMPONENT HAS AN ib SECTION, not the
+  skeleton's.** It is what hides the target's own draws, and a mod that carries only ONE component --
+  a CitlaliWhisperofStars mod of the Bangs alone -- has no ib section for the skeleton: the parser
+  invents that component's position, blend and texcoord, but its index buffers are invented per SLOT,
+  so there is no component-level ib section to remap. The fix then wrote no skip at all, Citlali's own
+  head and body kept drawing, and because the position / blend / texcoord overrides apply BY HASH to
+  every draw, they drew her own index buffer against the MERGED buffers: a spray of stretched
+  triangles (`Images/CitlaliWhisper/6_7/CitlaliBrokenModel.jpg`, 2026-09-22). The donor's own hash
+  remap has to go with it -- each component's hashes are filed under that component's name, and the
+  skeleton's filter would write `HashNotFound`.
+* **AND SO DOES THE `VertexLimitRaise`** (the `other` kind), for the same reason and found the same
+  way one screenshot later (`CitlaliBrokenModel2.jpg`): the merged model carries every component's
+  vertices -- 41131 where the target's own model has far fewer -- and `override_vertex_count` is what
+  raises the target's limit. Without it everything past the limit reads whatever follows in memory,
+  which drew a black sheet hanging off the head. The parser does not invent that section for a
+  component the mod lacks, so it too comes from whichever component HAS one.
+* **AND THE BLEND SECTION'S `handling = skip` + `draw`**, the third of the same shape and the third
+  screenshot: they re-issue the vertex pass over the merged buffer, and without them the game runs
+  its own with the TARGET's vertex count, so every vertex past it is never skinned -- a black sheet
+  again, this time hanging off the rig. Written now when the remapped blend section has them nowhere,
+  as a COVER at the section's own depth: `RegNewVals`' `addNewKVPs` looks right and is not, because it
+  adds the pair to every part LACKING it, which puts a second copy inside the `if` block the buffer
+  collect splices in (and moved Bennett's and Yelan's output, which is how it was caught).
+  **THE LESSON ABOVE THE THREE:** each of those sections is made by REMAPPING that section out of the
+  mod, so a mod that does not carry the skeleton component has none of them -- and the parser's
+  invented sections stand in for only some. When a merge's output looks wrecked, diff its `.ini`
+  section-for-section against the same mod's IDENTITY output before reading anything else; all three
+  were one `grep` apart, and each cost a round in game.
+  **`Tools/Misc/Diagnostics/mergeSanity.py` is the check** (`--merged` for the vertex limit and the
+  blend), proved each time by deleting the section from a good output first. None of the three wrecks
+  was visible to `fixCallPaths.py`, `unfixedDraws.py` or `bareFixCalls.py`: every one of them passed
+  while the model was in pieces, because all three ask about fix calls and none asks what the fix must
+  write about the TARGET.
+
+* **A SLOT THAT DRAWS BEFORE IT BINDS WAS TAKEN FOR COVERED.** The parser adds a section-level
+  download where the mod does not cover a register, and "cover" meant "binds it ANYWHERE in the
+  section" -- an unordered test over a file that is read top to bottom. A root whose first draw
+  comes before the register is bound now counts as uncovered
+  (`GIMIParser::ParserConfig::drawKey`), and the download lands at the TOP of the section, where
+  the mod's own binding still overrides it for every draw after it.
+  **THE TWO MODS THAT LOOKED LIKE THIS WERE DAMAGED FILES, AND THE DAMAGE WAS MINE** -- see "a
+  normalizer that rewrites the mod's OWN sections" below. With their `ps-t` lines restored, both
+  bind before they draw and neither downloads anything, so **no real mod has yet needed this**. It
+  is kept because the ordered test is the correct one and it is a no-op on every mod in the corpus,
+  not because it was ever shown to fix something. The reasoning it was built on -- that such a draw
+  renders with whatever the TARGET had bound -- was sound; the evidence was not.
+* **AND THOSE BINDINGS ARE A BINDING GENERATION OF THE FIX'S OWN MAKING, so they need their own fix
+  call** (`FixCallForDownloads`, file-local to `GIMIMergeFixer.cpp`). The mod's own `ORFix` sits
+  after the mod's own bindings and belongs to a later generation -- it is left where the author put
+  it, and a call for the downloads goes immediately after the last of them. This is the "once per
+  path per binding generation" rule for the one generation the fix creates; the general form is
+  still not a `RegDelimitedAdd` mode (it has `PerSegment` and `PerPath`).
+  **The version of this that keyed off the DRAW instead took two rounds to get right**, and both
+  mistakes are about `IfContentPart`, not about Citlali. `getValsWithInds` hands back TRUE
+  POSITIONAL indices -- the doc says so, and a debugging session that assumed otherwise wasted a
+  build -- but those positions are **per PART**, and a `RegPartEdit` is called once per part. The
+  section here is three parts, because its `ib` sits inside an `if 1 ... endif`, so the part holding
+  the draw has no binding in it at all and "insert between the binding and the draw" never fired.
+  What the call belongs to is the DOWNLOAD (a value carrying `IniKeywords::RemapDL`), which is in
+  the same part by construction. **A section-level pre-pass cannot stand in for it either**: by the
+  time the fixer reads a section, the parser's downloads are already in it, so "does it draw before
+  it binds" is false there however true it was of the mod's own file.
+
+* **THE GAME'S OWN REGISTER ORDER IS NOT ORFIX'S, AND A MOD DUMPED FROM THE GAME IS WRITTEN IN THE
+  GAME'S.** `ORFix`'s `CommandListReference` reads a ROLE out of a fixed register -- the normal map
+  from `ps-t0`, the diffuse from `ps-t1`, the light map from `ps-t2` -- and every branch of its
+  `CommandListFixLogic` differs only in where it writes them BACK, per shader. So that triple is the
+  input convention, and a remapped section that carries the mod's own bindings and then calls
+  `ORFix` has to be in it. **CitlaliWhisperofStars mods are not**: they bind
+  `ps-t0 = light map, ps-t1 = normal map, ps-t2 = diffuse`, which is exactly what the GAME binds on
+  that draw -- read off an unmodded Citlali frame dump, whose draw of `ib f81f893c` has
+  `ps-t0 = fee43ce6`, `ps-t1 = 6982aefe`, `ps-t2 = 88febfce`, and `HashData` already names those
+  three `tex_body_lightmap`, `tex_body_normalmap` and `tex_body_diffuse`. Citlali's OWN mods are
+  written in `ORFix`'s order, which is why the forward direction never met this.
+  `GIMIMergeFixerConfig::texRegsByName` puts every carried binding on the register its resource NAME
+  says, `RegValChecks`-style; a name that claims no role stays put, and a mod already in `ORFix`'s
+  order (the identity) is untouched, so it subsumes `targetLayout`'s positional shift rather than
+  running beside it. **The in-game tell was that every slot the fix had DOWNLOADED and bound itself
+  was right while every slot carried from the mod was wrong** -- shoes, eyes and a sleeping mask.
+* **AND IT IS THE ROLE READING, NOT THE BINDINGS, THAT MATTERS MOST.** The first version moved only
+  the bindings and left the rest positional, which was worse than doing nothing: the light map band
+  edit still COLLECTED `ps-t2`, so it rewrote the mod's DIFFUSE and named the result
+  `<obj>Diffuse<target>LightMapRemapTex` -- a name carrying two roles, which the new by-name routing
+  then sent to the light map register. **Normalise once, before anything reads a register**
+  (`buildTexRegNormalize`, pushed ahead of the collects and the slot remap), and every later stage
+  sees one layout. A per-slot "which register is the light map on" field cannot stand in for it: one
+  real mod binds TWO layouts in a single section -- its own slot, then Citlali's own body -- and no
+  single register answers for both. What still has to be name-aware is `readFiles`, which reads the
+  three roles off the mod's raw `.ini` before any graph edit runs, and whose answers decide which
+  file the band edit reads and which texture a missing role downloads.
+* **ONE FIX CALL PER BINDING GENERATION, which is what the invariant has always said and nothing
+  implemented.** Normalising a carried binding makes the call MANDATORY: the author of these mods
+  binds in the game's order and deliberately calls nothing, so once the fix rotates those registers
+  the section needs an `ORFix` it never had. `FixCallPerBindingGeneration` walks a part in order and
+  adds one call after the last binding of any generation no call covers -- after the bindings rather
+  than before the draw, because the draw can be in a later part (an `if 1 ... endif` around the `ib`
+  splits one) or in a section this one calls, where a `RegPartEdit` cannot see it. One call however
+  many draws consume that generation, since a second undoes the first. The mod's own later call over
+  its own later bindings is left exactly where the author put it. This is still not a
+  `RegDelimitedAdd` mode; it is the rule itself, file-local to the merge template.
+* **A NORMALIZER THAT REWRITES THE MOD'S OWN SECTIONS WRITES TO SOMEONE'S FILE FOREVER.** An early
+  build of `GIMIApiNormalizer` renamed every `ps-tN` in two of the maintainer's live mods to
+  `Resource\GIMI\NormalMap` -- three identical keys, `ref`-less, in sections calling no
+  `SetTextures`. A fix's own block is rewritten every run and costs nothing to get wrong; the mod's
+  own sections are the only copy, and the API's backups are written per FIX, so by the time anyone
+  looks they are backups of the damaged file. It was caught because one folder still held a backup
+  from before the session (and a `.ini` whose keys repeat is not something an author writes), and
+  the damage was reversible only because the rename kept line ORDER and VALUES -- `ps-t0/1/2` in the
+  order the run appears, proved against that backup section by section before touching anything.
+  **Two rules out of it**: a normalization that can touch a mod's own text must be gated on the
+  thing it normalizes (the `SetTextures` call, as it now is -- `CitlaliWhisper1`, a genuine GIMI-API
+  mod, was correctly left alone by all three tests), and when the fix's output looks wrong in a way
+  the config cannot explain, **diff the mod's own sections against a backup from before the
+  session** before theorising about the fix.
+
+* **A FLAT GREEN OR YELLOW-GREEN PART NOW HAS TWO CAUSES, AND THE SECOND IS NOT IN THE CODE.** The
+  first is the documented one: two fix calls over one binding generation, which `fixCallPaths.py`
+  finds. The second is the maintainer running **their own copy of the prototype**, which lives in
+  `GIMI/Mods` beside the mods and goes stale the moment the repo's version gains a config field --
+  a copy without `texRegsByName` carries the mod's raw-order bindings AND adds the call that only
+  makes sense once they are rotated, which is the same rotation twice. It looks exactly like a
+  template bug, it re-fixes the mod in seconds, and nothing in the output says which script wrote
+  it. **Read the mod's mtime against the copy's, and grep the copy for the newest config field,
+  before reading anything else** -- the fix's own output is evidence about the SCRIPT that ran, not
+  about the build. The same trap is written up for the WuWa prototype ("the prototype's copy beside
+  it is LF and must be re-synced after every change"); it is not WuWa-specific, and re-syncing the
+  copy is part of finishing any change to a prototype the maintainer runs.
+
+* **A FACE DRAW TAKES NO FIX LIBRARY CALL, and the maintainer's answer after testing is flat:
+  "NNFix/ORFix does not work well for face in GI" (2026-09-22).** Every one of Citlali's own mods
+  agrees -- her identity mod writes the face as `hash = 9fb78572` + `ps-t1 = <diffuse>` and calls
+  nothing, and the compiled FORWARD fix writes one as `hash` + `this = <resource>`, with no register
+  and no call at all. The face is the one object whose register the config names outright
+  (`GIMIMergeFixerConfig::faceReg`), so there is nothing left for a fix library to re-slot, and
+  `NNFix` over a diffuse sitting at `ps-t1` reads it as the LIGHT MAP -- a wrong-textured face.
+  The merge's face edits now strip any carried call (`removeFixCalls` ahead of the face asset and
+  the register swap); no compiled character's output moves, because a mod only ever HAS such a call
+  here by carrying one. This one did: its face section is written in GIMI's newer API, and
+  `GIMIApiNormalizer` faithfully turns `run = CommandList\GIMI\SetTextures` into the traditional
+  call -- a conversion that is right everywhere except the one object the fix binds by hand.
+  **`unfixedDraws.py` now skips a binding set of ONE register** for the same reason (a set of one is
+  not a set), which was proved not to blind it: deleting a real call from a multi-register section
+  is still caught, and so is the face itself the moment it binds a second register.
+
+How the slots were placed, and the band move, are measured in the prototype's header: which of
+Citlali's objects a skin slot lands on is read from its vertices' bones through the REVERSE
+vertex-group rows against the bones only her head / only her body use -- and then corrected by
+shader family, above. Open, found on four real
+skin mods and not yet fixed: a representative that rebinds after drawing loses its second `ORFix`
+(fixed since -- see the carried members above); a slot whose section binds its textures only AFTER
+a first draw gets no download for that draw (fixed since -- `drawKey`, above); the new GIMI binding
+syntax (normalized since); and a merged member's own toggles being lost (carried since).
+
+<br>
+
 ## The reverse direction is COMPILED TOO: a multi-component SOURCE onto a classic target (2026-09-14)
 
 `YelanTranquil -> Yelan` is the **third fixer template**: `GIMIMergeFixerConfig` +
@@ -2382,6 +2661,44 @@ keeping in mind:
 
 <br>
 
+## Compiling a DIRECTION for a type that already exists (2026-09-22)
+
+The checklist below is for a type that does not exist yet. A remap's SECOND direction is a much
+smaller surface, and it is worth knowing which of those nine steps you can skip: the id, its
+`ModTypeId.cpp` entries, the `GIBuilder` factory, the hash / index / vertex-count rows and both
+oracles are already there, and so are the remap-graph edges --- `makeRemapMap` synthesizes a
+multi-component skin's component-name sources from `getComponentIds`, so nothing has to be added by
+hand for the `HashNotFound` case the Yelan section warns about.
+
+What is left is **four files and six edits**, and `CitlaliWhisperofStars -> Citlali` needed exactly
+these:
+
+1. `core/{include/AGRemapCore,src}/data/IniFixData/<Skin>/<Skin>Fixer.{h,cpp}` --- the config, plus
+   BOTH entry points each existing pair defines: the `IniFixBuilderFuncs::<skin>To<target><ver>()`
+   the table row calls, and the thin `<Skin>Fixer::to<Target><ver>()` wrapper;
+2. `core/{include/AGRemapCore,src}/data/IniParseData/<Skin>/<Skin>Parser.{h,cpp}` --- the same
+   shape, `IniParseBuilderFuncs::<skin><ver>()` plus `<Skin>Parser::v<ver>()`;
+3. a declaration in `data/IniFixBuilderData.h` and one in `data/IniParseBuilderData.h` --- separate
+   edits from the tables, and the easiest pair to miss;
+4. the two rows, in `data/IniFixBuilderData.cpp` (keyed `{fromVersion, fromMod, toVersion, toMod}`
+   --- ONE row for a merge, where the forward direction needs one per target component) and
+   `data/IniParseBuilderData.cpp` (keyed `{version, modName}`);
+5. two lines in `core/CMakeLists.txt`, which lists every source explicitly and globs nothing;
+6. the counts in `core/tests/BuilderData_test.cpp` --- and **print them rather than deriving them**,
+   see Testing.
+
+**The parse row's version is the SKIN's, not the base character's.** A skin's assets are filed at
+the version it shipped in, `downloadVersionFolder` has to agree with it, and a version that is new
+to the parse table also moves that test's version-set assertion --- CitlaliWhisperofStars' `6.7` was
+the first GI parse row above `6.1`.
+
+**Then A/B against the prototype, which stays the oracle.** `Tools/Misc/Diagnostics/abCitlaliRev.py`
+is the pattern: fix two scratch copies of each mod, one through the prototype's
+`CppStrategyOverrides` and one through the compiled tables with none, and compare the `.ini`
+semantically and every generated file by CONTENT. Pass `--noDownload` --- see habit 68.
+
+<br>
+
 ## Adding a `ModTypeId`: every place it enters (2026-09-13)
 
 Missed one and the build is fine, the tests are fine, and the type quietly does not exist. In
@@ -2410,7 +2727,12 @@ order, for a type that is BUILT (a character a `.ini` can classify as):
    BennettAdventure, Yelan, YelanTranquil, Sanhua and SanhuaExorcist. Nothing failed, because
    nothing in the library resolves a `--types` name through it; what it fed was the CLI's `--help`
    list, which therefore named 43 of 49 characters. `ModTypes.getAll()` / `ModTypes.search()` are
-   public API, so an API user saw the same gap.
+   public API, so an API user saw the same gap. **The enum is one of FOUR hand-written copies of the
+character list** --- the other three are `api/README.md`, `apiMirror/README.md` (which must stay
+identical to each other) and `Docs/src/commandOpts.rst`. Do not check them by reading:
+`Tools/Misc/Diagnostics/checkModTypeTables.py` asks the builders and diffs all four, and on
+2026-09-22 it found every one of them missing the Citlali AND Chisa pairs --- two remaps' worth that
+had been committed without them.
 
 **Four suites hardcode a count that steps 4-7 move, and nothing builds them**, so budget a pass over
 all four rather than only the one you remember (all measured 2026-09-13):

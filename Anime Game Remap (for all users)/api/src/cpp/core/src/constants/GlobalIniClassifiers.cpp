@@ -142,9 +142,25 @@ namespace AGRemapCore {
                 // makes it safe on an already-fixed mod -- readLine skips a 'hash =' inside a
                 // Remap-named section, so the TARGET hashes a fix wrote in do not vote.
                 auto hashIt = byName.find(modType.name);
+                std::unordered_set<std::string> hashes = (hashIt != byName.end()) ? hashIt->second : noHashes;
+
+                // AND A SKIN OF SEVERAL COMPONENTS VOTES WITH ITS COMPONENTS' HASHES (2026-09-22).
+                // HashData files each component's rows under the COMPONENT's name
+                // (CitlaliWhisperofStarsBody, ...), because each is a fix target of its own for the
+                // forward direction -- so the skin's own name owns no identifying hash, and every
+                // mod of it classified by section names alone. A CitlaliWhisperofStars mod naming
+                // its sections `Citlali_WhisperOfStars...` matched no skin keyword, classified as
+                // plain Citlali and was fixed as nothing. The component hashes are unique to the
+                // skin, so they cannot vote for anyone else.
+                for (ModTypeId component : ModTypeIdTools::getComponentIds(*modTypeId)) {
+                    auto componentIt = byName.find(ModTypeIdTools::getName(component));
+                    if (componentIt != byName.end()) {
+                        hashes.insert(componentIt->second.begin(), componentIt->second.end());
+                    }
+                }
 
                 classifier.addGIModType(ModTypeIdData(static_cast<int>(GameTypeId::GI), modType.modTypeId),
-                                        hashIt != byName.end() ? hashIt->second : noHashes,
+                                        hashes,
                                         std::unordered_set<std::string>(keywords.begin(), keywords.end()));
             }
         }

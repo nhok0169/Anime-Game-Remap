@@ -107,7 +107,12 @@ void testTableShape() {
 
     // Counts taken straight from the pure-Python dicts, so a row silently dropped or duplicated
     // during the port shows up here.
-    check(IniParseBuilderData::repo()->size() == 63, "the parse table has all 53 rows from IniParseBuilderData.py, plus Raiden's 6.1 row, LisaStudent's 5.4 one, Yelan's 4.0 one, YelanTranquil's 5.7 one, Bennett's 4.0 one and BennettAdventure's 5.7 one, and the four WuWa stubs (Sanhua, SanhuaExorcist at 2.5; Chisa at 2.8, ChisaParfait at 3.5)");
+    //
+    // NOTHING BUILDS core/tests, so these rot silently: on 2026-09-22 all three were behind the
+    // tables (63/132/51 against a real 64/135/53) because rows had been added without them. If one
+    // fails, PRINT the size before believing the arithmetic in the message -- the count is the
+    // measurement and the prose is the story about it.
+    check(IniParseBuilderData::repo()->size() == 65, "the parse table has all 53 rows from IniParseBuilderData.py, plus Raiden's 6.1 row, LisaStudent's 5.4 one, Yelan's 4.0 one, YelanTranquil's 5.7 one, Bennett's 4.0 one, BennettAdventure's 5.7 one, Citlali's 5.3 one and CitlaliWhisperofStars' 6.7 one, and the four WuWa stubs (Sanhua, SanhuaExorcist at 2.5; Chisa at 2.8, ChisaParfait at 3.5)");
     // Counted by toVersion straight out of IniFixBuilderData.cpp on 2026-09-13: 78 historical rows
     // (the 73 Python ones fanned out per target mod, which is what replaced the pure-Python
     // MultiModFixer -- Jean/JeanCN/JeanSea carry TWO each) plus 46 at 6.1 that are this port's own,
@@ -117,11 +122,11 @@ void testTableShape() {
     // BennettAdventure's one merge row.
     // +2 on 2026-09-19: the two WuWa stub rows, Sanhua <-> SanhuaExorcist at toVersion 2.5.
     // +2 on 2026-09-20: Chisa <-> ChisaParfait, both directions stubs (toVersion 3.5 and 2.8).
-    check(IniFixBuilderData::repo()->size() == 132,
-          "the fix table has 133 rows -- 78 historical, the 50 at 6.1 this port added, the four WuWa stubs and Citlali's three at 6.7");
+    check(IniFixBuilderData::repo()->size() == 136,
+          "the fix table has 136 rows -- 78 historical, the 50 at 6.1 this port added, the four WuWa stubs, Citlali's three at 6.7 and the CitlaliWhisperofStars merge back");
 
     // The remove table has no Python original -- one row per GI mod type, all at 4.0.
-    check(IniRemoveBuilderData::repo()->size() == 51, "the remove table has one row per mod type (43 GI, plus Yelan, YelanTranquil, Bennett and BennettAdventure, Citlali and CitlaliWhisperofStars, plus the four WuWa stubs)");
+    check(IniRemoveBuilderData::repo()->size() == 53, "the remove table has one row per mod type (43 GI, plus Yelan, YelanTranquil, Bennett and BennettAdventure, Citlali and CitlaliWhisperofStars, plus the four WuWa stubs)");
 
     check(IniParseBuilderData::repo()->getTotalIndices() == 2, "the parse table has 2 index columns");
     check(IniParseBuilderData::repo()->getVersionIndexPos() == 0, "with the version at position 0");
@@ -152,9 +157,11 @@ void testVersionCoverage() {
     // 2.5, 2.8 and 3.5 are Wuthering Waves' (Sanhua / SanhuaExorcist 2026-09-19, Chisa /
     // ChisaParfait 2026-09-20): the two games share one version number line in every table, which
     // is why the WuWa rows sit "below" every GI one.
-    const std::set<std::string> expectedParse = {"2.5", "2.8", "3.5", "4.0", "4.4", "4.6", "4.8", "5.3", "5.4", "5.5", "5.6", "5.7", "6.1"};
+    // 6.7 is CitlaliWhisperofStars' (2026-09-22): a skin's assets are filed at the version they
+    // shipped in, not at the base character's, so her parse row is the first GI one above 6.1.
+    const std::set<std::string> expectedParse = {"2.5", "2.8", "3.5", "4.0", "4.4", "4.6", "4.8", "5.3", "5.4", "5.5", "5.6", "5.7", "6.1", "6.7"};
 
-    check(parseVers == expectedParse, "the parse table covers the 9 versions the Python file lists, plus 6.1, plus WuWa's 2.5");
+    check(parseVers == expectedParse, "the parse table covers the 9 versions the Python file lists, plus 6.1 and 6.7, plus WuWa's 2.5, 2.8 and 3.5");
     check(parseVers.count("5.0") == 0, "and the parse table has no 5.0, matching its Python original");
 
     std::set<std::string> removeVers;

@@ -206,6 +206,43 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The registers whose accepted occurences START A NEW GENERATION -- only read in
+             :cpp:enumerator:`RegDelimitedAddMode::PerBindingGeneration` :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The addition covers everything from one of these until the next delimiter consumes it;
+             another occurence after that delimiter is a new generation needing its own addition.
+             For the fix libraries these are the texture registers (``ps-t0``, ``ps-t1``, ...),
+             because re-binding one is what makes an earlier ``NNFix`` / ``ORFix`` no longer apply
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Empty means one generation per path, which makes
+             :cpp:enumerator:`RegDelimitedAddMode::PerBindingGeneration` behave as
+             :cpp:enumerator:`RegDelimitedAddMode::PerPath`
+             @endrst
+             */
+            RegMap invalidatorRegs;
+
+            /**
+             * @brief
+             @rst
+             The registers whose accepted occurences mean the current generation ALREADY HAS the
+             addition -- only read in
+             :cpp:enumerator:`RegDelimitedAddMode::PerBindingGeneration` :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             What a mod wrote for itself. A `section`_ carried from a mod may already call the fix
+             library over its own bindings, and that call is the author's placement: keeping it and
+             adding none is right, adding one beside it is the double call this mode exists to
+             avoid. Occurences of \ref additions' own keys are NOT treated this way automatically,
+             since an addition is not always something a mod can supply
+             @endrst
+             */
+            RegMap coveredRegs;
+
+            /**
+             * @brief
+             @rst
              Whether the end-of-path addition is made only when the path never delimits at all
              :raw-html:`<br />` :raw-html:`<br />`
 
@@ -258,10 +295,29 @@ namespace AGRemapCore {
 
              **Default**: :cpp:enumerator:`RegDelimitedAddMode::PerSegment`
              @endrst
+             * @param invalidatorRegs
+             @rst
+             The registers that START A NEW GENERATION -- see \ref invalidatorRegs. Only read when
+             'mode' is :cpp:enumerator:`RegDelimitedAddMode::PerBindingGeneration`
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: none, which makes that mode behave as
+             :cpp:enumerator:`RegDelimitedAddMode::PerPath`
+             @endrst
+             * @param coveredRegs
+             @rst
+             The registers whose occurence means a generation already HAS the addition -- see
+             \ref coveredRegs. Only read when 'mode' is
+             :cpp:enumerator:`RegDelimitedAddMode::PerBindingGeneration` :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             **Default**: none, so nothing a mod wrote is taken for the addition
+             @endrst
              */
             explicit RegDelimitedAdd(Additions additions = {}, RegMap delimiterRegs = {},
                                       bool pathEndOnlyWhenUndelimited = false,
-                                      RegDelimitedAddMode mode = RegDelimitedAddMode::PerSegment);
+                                      RegDelimitedAddMode mode = RegDelimitedAddMode::PerSegment,
+                                      RegMap invalidatorRegs = {}, RegMap coveredRegs = {});
 
             /**
              * @brief
@@ -306,6 +362,27 @@ namespace AGRemapCore {
              */
             void editPerPath(Graph& graph, const CallGraphType& callGraph, const ModType* modType,
                               const PartFilter& partFilter);
+
+            /**
+             * @brief
+             @rst
+             The :cpp:enumerator:`RegDelimitedAddMode::PerBindingGeneration` half of \ref edit
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             One pass of \ref invalidatorRegs / \ref coveredRegs / \ref delimiterRegs **in
+             insertion order within each part**, which is what lets one part hold several
+             generations, plus a fixpoint over the `call graph`_ carrying "a generation is live and
+             uncovered here" between parts -- a MUST analysis, like
+             :cpp:func:`editPerPath`'s, so a generation only counts as live when every path agrees
+             @endrst
+             *
+             * @param graph The graph being edited
+             * @param callGraph Its call graph, already built
+             * @param modType The mod type passed to \ref edit, handed to 'partFilter'
+             * @param partFilter The filter passed to \ref edit
+             */
+            void editPerGeneration(Graph& graph, const CallGraphType& callGraph, const ModType* modType,
+                                    const PartFilter& partFilter);
 
         public:
 

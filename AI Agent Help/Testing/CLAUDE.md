@@ -1515,6 +1515,27 @@ command.
 nothing builds `core/tests/*.cpp`, nothing tells you. This is the same trap already described above
 for interface changes — it applies to *data* changes too.
 
+**AND WHEN ONE OF THEM FAILS, PRINT THE NUMBER BEFORE BELIEVING THE MESSAGE (2026-09-22).** Every
+one of these asserts carries a comment deriving its count from a history --- "78 historical, the 50
+at 6.1 this port added, the four WuWa stubs" --- and it is the DERIVATION that rots, so reading the
+comment to work out what the number should be reproduces whatever was already wrong. A one-line
+`std::printf` of the three sizes at the top of `testTableShape()`, built and run once, settles it in
+a minute.
+
+Measured that way on 2026-09-22, after two remaps had landed: the parse table is **65**, the fix
+table **136**, the remove table **53**, `VertexCountData` **50** rows and `ModTypeRemaps_test`'s own
+oracle **53** rows. Three of those five asserts were ALREADY stale before that session's rows were
+added --- the Chisa pair had gone in without them --- so **four suites failed the moment anything
+compiled `core/tests` and only one of the four failures belonged to the session running them**.
+Expect that: a failing count is more often a previous session's debt than your change, and the way
+to tell is to print it, not to reason about it.
+
+Two mechanical notes for that probe. Write it with the Write tool: a `\n` inside a Bash heredoc
+arrives as a REAL newline and splits the string literal, so the probe becomes a compile error in the
+file you were trying to measure. And `TextureFile_Bc7Decode_test` "failing" in a whole-directory
+runner is an artifact --- it takes a `.dds` path as an argument and exits 2 on usage --- so a runner
+that globs `core/tests/*_test.cpp` will always report it red.
+
 **Don't re-add a per-character enumeration to a count's message.** Two of them rotted here: the fix
 table's listed 36 characters' worth of 6.1 rows while the literal said 124 (it was ten rows behind),
 and this file's own quote above was two characters stale. State the total and where the inventory

@@ -111,6 +111,27 @@ namespace AGRemapCore {
              @endrst
              */
             long long indexCount = 0;
+
+            /**
+             * @brief
+             @rst
+             Whether this slot is drawn in the TARGET's outline pass :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A skin may outline a slot with a shader of its own -- CitlaliWhisperofStars' dress
+             (Body B and C) uses outline shaders nothing else of hers does, made for thin two-sided
+             cloth. Merged into a target object, the slot is drawn by the TARGET's outline shader
+             instead, and on Citlali the hull of the skirt's far panel covered its lining in black
+             (a frame dump: the outline draw wrote 4890 pixels outside the silhouette and turned 7141
+             inside it near-black). ``false`` puts the member's block under ``if vs != 037730.0``,
+             the ``filter_index`` ORFix gives every outline vertex shader, so it keeps the main
+             passes and loses only its outline :raw-html:`<br />` :raw-html:`<br />`
+
+             Honoured for a MERGED member drawn by an appended block; a slot that is its object's
+             representative, or whose object's draws go per branch, is logged and drawn as before
+             @endrst
+             */
+            bool outline = true;
         };
 
         /**
@@ -204,6 +225,71 @@ namespace AGRemapCore {
          @endrst
          */
         std::string faceReg;
+
+        /**
+         * @brief How the TARGET's shader reads its textures
+         */
+        enum class TargetLayout {
+            /**
+             * @brief
+             @rst
+             ``ps-t0`` diffuse, ``ps-t1`` light map, under ``NNFix``: a source slot's normal map is
+             dropped and the rest shifted down. Every target before Citlali -- Yelan, Bennett, Ganyu
+             @endrst
+             */
+            Plain,
+
+            /**
+             * @brief
+             @rst
+             ``ps-t0`` normal map, ``ps-t1`` diffuse, ``ps-t2`` light map, under ``ORFix`` -- the
+             layout a GI 6.x skin's slots already use, so a source slot on it passes through with no
+             register moved, and one on the plain layout is shifted UP (with no normal map of its
+             own, the draw reads whatever ``ps-t0`` holds) :raw-html:`<br />` :raw-html:`<br />`
+
+             CitlaliWhisperofStars -> Citlali (2026-09-22): both sides read the normal-map layout,
+             and the plain handling dropped every normal map the skin's mods carry, then issued
+             ``NNFix`` on a shader that wants ``ORFix``
+             @endrst
+             */
+            NormalMap
+        };
+
+        /**
+         * @brief
+         @rst
+         How the TARGET's shader reads its textures -- see :cpp:enum:`TargetLayout`.
+         **Default**: :cpp:enumerator:`TargetLayout::Plain`, the behaviour before this field existed
+         @endrst
+         */
+        TargetLayout targetLayout = TargetLayout::Plain;
+
+        /**
+         * @brief
+         @rst
+         Whether a carried binding goes to the register its resource NAME says, rather than staying
+         where the mod put it :raw-html:`<br />` :raw-html:`<br />`
+
+         ``NNFix`` and ``ORFix`` do not re-slot a REGISTER, they read a ROLE out of a fixed one
+         (``CommandListReference``: the normal map from ``ps-t0``, the diffuse from ``ps-t1``, the
+         light map from ``ps-t2``), so a remapped `section`_ that keeps the mod's own bindings and
+         then calls one has to put them there first. **A mod dumped straight from the game does not
+         have them there**: CitlaliWhisperofStars mods bind the light map, normal map and diffuse at
+         ``ps-t0/1/2``, which is what the game's own draw of that `ib`_ binds (frame dump, ``ib``
+         ``f117984b``), and ``ORFix`` over that reads every role out of the wrong slot -- the shoes,
+         eyes and sleeping mask of one mod, while every slot the fix had downloaded and bound itself
+         was right :raw-html:`<br />` :raw-html:`<br />`
+
+         Which texture is which comes from the resource NAME (:cpp:class:`RegValChecks`, whose
+         header records why the pixels are deliberately not consulted). A binding naming no role is
+         left where it is, and a mod already in the fix's layout is unchanged -- so this SUBSUMES
+         ef GIMIMergeFixerConfig::targetLayout's positional shift of a plain slot rather than
+         running beside it :raw-html:`<br />` :raw-html:`<br />`
+
+         **Default**: ``false``, the positional shift every compiled character was written against
+         @endrst
+         */
+        bool texRegsByName = false;
 
         /**
          * @brief

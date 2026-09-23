@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="126" height="20" viewBox="0 0 252 40" role="img" aria-label="The Council: 46">
+<svg xmlns="http://www.w3.org/2000/svg" width="126" height="20" viewBox="0 0 252 40" role="img" aria-label="The Council: 47">
   <!-- Inline badge with the member count. Same 20px line-height budget as the
        plain mini: crest cap, short name, then the crimson count chip.
        The count is hand-maintained here, exactly as in the full-size badge.
@@ -45,5 +45,5 @@
 
   <text x="224" y="27" text-anchor="middle" fill="#fdeacd"
         font-family="Cinzel, Georgia, 'Times New Roman', serif"
-        font-size="19" font-weight="700" letter-spacing="0.5">46</text>
+        font-size="19" font-weight="700" letter-spacing="0.5">47</text>
 </svg>

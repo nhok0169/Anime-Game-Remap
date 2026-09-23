@@ -2539,6 +2539,24 @@ components are merged into one ``.ini`` file over one set of buffers. See
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1369" column="43" bodyfile="src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp" bodystart="155" bodyend="157"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0148594d01298b546410e21c4abf87a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::citlaliWhisperofStarsToCitlali6_7</definition>
+        <argsstring>()</argsstring>
+        <name>citlaliWhisperofStarsToCitlali6_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::citlaliWhisperofStarsToCitlali6_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+CitlaliWhisperofStars -&gt; Citlali -- the THIRD merge of a skin of several components
+onto a target of one, and the inverse of :cpp:class:`CitlaliFixer`&apos;s direction
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1378" column="43" bodyfile="src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp" bodystart="133" bodyend="135"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -2572,7 +2590,7 @@ each returning the :cpp:type:`IniFixBuilder::Factory` for that pair
    actually needs them
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="55" column="5" bodyfile="include/AGRemapCore/data/IniFixBuilderData.h" bodystart="55" bodyend="1371"/>
+    <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="55" column="5" bodyfile="include/AGRemapCore/data/IniFixBuilderData.h" bodystart="55" bodyend="1380"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0974b6741bb33f11bd90e970ec6139e9" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>amber4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ab194bb3d4062215bfb52bd57a6fff1df" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>amber5_7</name></member>
@@ -2605,6 +2623,7 @@ each returning the :cpp:type:`IniFixBuilder::Factory` for that pair
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aab710e60c9e04a9f98722c7a52885093" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>citlaliWhisperofStarsBangs6_7</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aae3209df0e33ccb63765acd862ac2227" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>citlaliWhisperofStarsBody6_7</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1adaae31c7cfae803ad044bb0068f7efac" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>citlaliWhisperofStarsEyes6_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0148594d01298b546410e21c4abf87a7" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>citlaliWhisperofStarsToCitlali6_7</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a3258100d255dda7a3450abffba6c8866" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>diluc4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac8e97910da767640595e8a3368d2afa5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>diluc5_7</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a093b95e7f6369b543728d319bdd85ded" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>diluc6_1ToDilucFlamme</name></member>

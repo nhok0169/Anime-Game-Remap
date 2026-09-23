@@ -117,7 +117,7 @@ void testPrePopulated() {
     // Python dict, which would silently drop Yelan.
     // +2 on 2026-09-19: Sanhua and SanhuaExorcist (WuWa) at 2.5.
     // +2 on 2026-09-20: Chisa (2.8) and ChisaParfait (3.5), from their frame dumps.
-    check(counts.size() == 49, "49 rows -- this table's own count, six ahead of the Python dict's 43");
+    check(counts.size() == 50, "50 rows -- this table's own count, seven ahead of the Python dict's 43");
 
     // Same depth as Hashes now (3), one shallower than Indices (4).
     check(counts.getTotalIndices() == 3, "3 index columns (version, name, component)");

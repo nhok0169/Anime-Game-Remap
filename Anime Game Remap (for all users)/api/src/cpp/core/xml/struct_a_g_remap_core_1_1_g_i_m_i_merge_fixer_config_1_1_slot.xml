@@ -137,19 +137,51 @@ place an index count is needed -- see :cpp:member:`Slot::to`. ``0`` means &quot;
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="113" column="23" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="113" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a37c93722756242363e4939cf61deffe1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GIMIMergeFixerConfig::Slot::outline</definition>
+        <argsstring></argsstring>
+        <name>outline</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::Slot::outline</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether this slot is drawn in the TARGET&apos;s outline pass :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A skin may outline a slot with a shader of its own -- CitlaliWhisperofStars&apos; dress
+(Body B and C) uses outline shaders nothing else of hers does, made for thin two-sided
+cloth. Merged into a target object, the slot is drawn by the TARGET&apos;s outline shader
+instead, and on Citlali the hull of the skirt&apos;s far panel covered its lining in black
+(a frame dump: the outline draw wrote 4890 pixels outside the silhouette and turned 7141
+inside it near-black). ``false`` puts the member&apos;s block under ``if vs != 037730.0``,
+the ``filter_index`` ORFix gives every outline vertex shader, so it keeps the main
+passes and loses only its outline :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Honoured for a MERGED member drawn by an appended block; a slot that is its object&apos;s
+representative, or whose object&apos;s draws go per branch, is logged and drawn as before
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="134" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
 <para>One draw slot of one source component, and where it lands. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="39" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="39" bodyend="114"/>
+    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="39" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="39" bodyend="135"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a7fa587445c3646f13eec5b2d9eb79ac9" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Slot</scope><name>borrowFrom</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1acf808a2381d511005662ead192b6d702" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Slot</scope><name>index</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1aff40506e757fd6a412f9f9058d830f34" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Slot</scope><name>indexCount</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a380f992221311764e7e65ea1b0ab1eb0" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Slot</scope><name>name</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a88f723c6a871094a697d730f56233568" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Slot</scope><name>normalMap</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a37c93722756242363e4939cf61deffe1" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Slot</scope><name>outline</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a35c232ffceca263e9e7da6a8fcfeea54" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Slot</scope><name>to</name></member>
     </listofallmembers>
   </compounddef>

@@ -105,6 +105,21 @@ namespace AGRemapCore {
              @endrst
              */
             std::string textureDonor;
+
+            /**
+             * @brief
+             @rst
+             Whether the donor's NORMAL MAP is downloaded too, at :cpp:member:`normalMapReg`
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Needed when the TARGET reads normal maps: CitlaliWhisperofStars -> Citlali keeps every
+             slot's normal map (``GIMIMergeFixerConfig::TargetLayout::NormalMap``), and a borrowing
+             slot fetched only the donor's diffuse and light map, so its draw read whatever normal
+             map the game had bound (2026-09-22). Off by default: a plain target drops the normal
+             map, and fetching one only to drop it is a download and a resource section for nothing
+             @endrst
+             */
+            bool donorNormalMap = false;
         };
 
         /**

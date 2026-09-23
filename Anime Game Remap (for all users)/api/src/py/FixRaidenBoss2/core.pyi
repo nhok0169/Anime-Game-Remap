@@ -6915,6 +6915,15 @@ class GIMIComponentParserConfig:
         def diffuseReg(self, arg0: str) -> None:
             ...
         @property
+        def donorNormalMap(self) -> bool:
+            """
+            :class:`bool`: Whether the donor's NORMAL MAP is downloaded too, at :attr:`normalMapReg` --- for a
+            target that reads normal maps. **Default**: ``False``
+            """
+        @donorNormalMap.setter
+        def donorNormalMap(self, arg0: bool) -> None:
+            ...
+        @property
         def index(self) -> str:
             """
             :class:`str`: The slot's ``match_first_index``, as a literal
@@ -7348,6 +7357,19 @@ class GIMIMergeFixerConfig:
         def normalMap(self, arg0: bool) -> None:
             ...
         @property
+        def outline(self) -> bool:
+            """
+            :class:`bool`: Whether this slot is drawn in the TARGET's outline pass. **Default**: ``True``
+            
+            A skin may outline a slot with a shader of its own (CitlaliWhisperofStars' dress). Merged into a
+            target object it is drawn by the target's outline shader instead, which can cover it in black;
+            ``False`` puts the member's block under ``if vs != 037730.0`` --- the ``filter_index`` ORFix gives every
+            outline vertex shader. Honoured for a merged member drawn by an appended block
+            """
+        @outline.setter
+        def outline(self, arg0: bool) -> None:
+            ...
+        @property
         def to(self) -> str:
             """
             :class:`str`: The TARGET object this slot lands on, lowercase --- eg. ``body``, ``head``
@@ -7357,6 +7379,47 @@ class GIMIMergeFixerConfig:
             """
         @to.setter
         def to(self, arg0: str) -> None:
+            ...
+    class TargetLayout:
+        """
+        
+        How the TARGET's shader reads its textures
+            
+        
+        Members:
+        
+          Plain : ``ps-t0`` diffuse, ``ps-t1`` light map, under ``NNFix``: a source slot's normal map is dropped and the rest shifted down
+        
+          NormalMap : ``ps-t0`` normal map, ``ps-t1`` diffuse, ``ps-t2`` light map, under ``ORFix``: a normal-map slot passes through, a plain one is shifted up
+        """
+        NormalMap: typing.ClassVar[GIMIMergeFixerConfig.TargetLayout]  # value = <TargetLayout.NormalMap: 1>
+        Plain: typing.ClassVar[GIMIMergeFixerConfig.TargetLayout]  # value = <TargetLayout.Plain: 0>
+        __members__: typing.ClassVar[dict[str, GIMIMergeFixerConfig.TargetLayout]]  # value = {'Plain': <TargetLayout.Plain: 0>, 'NormalMap': <TargetLayout.NormalMap: 1>}
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
             ...
     def __init__(self) -> None:
         ...
@@ -7391,6 +7454,18 @@ class GIMIMergeFixerConfig:
         """
     @copyPreamble.setter
     def copyPreamble(self, arg0: str) -> None:
+        ...
+    @property
+    def downloadPrefix(self) -> str:
+        """
+        :class:`str`: The source character's download prefix --- the same string the parse row gives
+        :attr:`GIMIComponentParserConfig.downloadPrefix`
+        
+        A mod may carry none of a component, and the merge then reads that component out of its downloads,
+        which land under this prefix. Empty disables the fallback
+        """
+    @downloadPrefix.setter
+    def downloadPrefix(self, arg0: str) -> None:
         ...
     @property
     def faceReg(self) -> str:
@@ -7430,12 +7505,40 @@ class GIMIMergeFixerConfig:
     def mipmaps(self, arg0: bool) -> None:
         ...
     @property
+    def targetLayout(self) -> GIMIMergeFixerConfig.TargetLayout:
+        """
+        :class:`GIMIMergeFixerConfig.TargetLayout`: How the TARGET's shader reads its textures
+        
+        **Default**: :attr:`GIMIMergeFixerConfig.TargetLayout.Plain`
+        """
+    @targetLayout.setter
+    def targetLayout(self, arg0: GIMIMergeFixerConfig.TargetLayout) -> None:
+        ...
+    @property
     def targetObjs(self) -> list[str]:
         """
         List[:class:`str`]: The TARGET's drawn objects, lowercase, in draw order
         """
     @targetObjs.setter
     def targetObjs(self, arg0: collections.abc.Sequence[str]) -> None:
+        ...
+    @property
+    def texRegsByName(self) -> bool:
+        """
+        :class:`bool`: Whether a carried binding goes to the register its resource NAME says, rather than
+        staying where the mod put it
+        
+        ``NNFix`` and ``ORFix`` read a ROLE out of a fixed register (the normal map from ``ps-t0``, the
+        diffuse from ``ps-t1``, the light map from ``ps-t2``), so a remapped section that keeps the mod's
+        own bindings and then calls one has to put them there first --- and a mod dumped straight from the
+        game does not, since the game's own draw binds them in a different order. Naming decides the role,
+        a binding naming none is left alone, and this subsumes
+        :attr:`GIMIMergeFixerConfig.targetLayout`'s positional shift of a plain slot
+        
+        **Default**: ``False``
+        """
+    @texRegsByName.setter
+    def texRegsByName(self, arg0: bool) -> None:
         ...
 class GIMIObjPartFilter:
     """
@@ -17006,7 +17109,7 @@ class RegBottomAdd(BaseIniGraphEdit):
         register the mod already has
         
     """
-    def __init__(self, additions: typing.Any) -> None:
+    def __init__(self, additions: typing.Any, condition: str = '') -> None:
         ...
     def edit(self, graph: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
         """
@@ -17060,6 +17163,19 @@ class RegBottomAdd(BaseIniGraphEdit):
         """
     @additions.setter
     def additions(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def condition(self) -> str:
+        """
+        :class:`str`: A 3DMigoto condition to put the additions under, eg. ``vs != 037730.0`` --- ``""`` for none
+        
+        Non-empty, the additions land in a NEW ``if <condition>`` ... ``endif`` block at the bottom of each
+        root, still at the `section`_'s own depth. What it is for: a draw that belongs in some of the passes
+        a `section`_ runs in and not the others --- ``vs != 037730.0``, the ``filter_index`` ORFix gives every
+        outline vertex shader, keeps a draw out of the outline pass. **Default**: ``""``
+        """
+    @condition.setter
+    def condition(self, arg0: str) -> None:
         ...
 class RegBranchAdd(BaseIniGraphEdit):
     """
@@ -17234,7 +17350,7 @@ class RegDelimitedAdd(BaseIniGraphEdit):
         **Default**: ``None``
         
     """
-    def __init__(self, additions: typing.Any, delimiterRegs: typing.Any = None, pathEndOnlyWhenUndelimited: bool = False, mode: RegDelimitedAddMode = ...) -> None:
+    def __init__(self, additions: typing.Any, delimiterRegs: typing.Any = None, pathEndOnlyWhenUndelimited: bool = False, mode: RegDelimitedAddMode = ..., invalidatorRegs: typing.Any = None, coveredRegs: typing.Any = None) -> None:
         ...
     def edit(self, graph: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
         """
@@ -17292,6 +17408,19 @@ class RegDelimitedAdd(BaseIniGraphEdit):
     def additions(self, arg1: typing.Any) -> None:
         ...
     @property
+    def coveredRegs(self) -> dict:
+        """
+        Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: The registers whose accepted
+        occurences mean the current generation ALREADY HAS the addition --- only read when :attr:`mode` is
+        ``RegDelimitedAddMode.PerBindingGeneration``
+        
+        What a mod wrote for itself. A section carried from a mod may already call the fix library over its
+        own bindings, and that call is the author's placement: keeping it and adding none is right
+        """
+    @coveredRegs.setter
+    def coveredRegs(self, arg1: typing.Any) -> None:
+        ...
+    @property
     def delimiterRegs(self) -> dict:
         """
         Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: The registers whose accepted
@@ -17299,6 +17428,20 @@ class RegDelimitedAdd(BaseIniGraphEdit):
         """
     @delimiterRegs.setter
     def delimiterRegs(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def invalidatorRegs(self) -> dict:
+        """
+        Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: The registers whose accepted
+        occurences START A NEW GENERATION --- only read when :attr:`mode` is
+        ``RegDelimitedAddMode.PerBindingGeneration``
+        
+        For the fix libraries these are the texture registers: re-binding one is what makes an earlier
+        ``NNFix`` / ``ORFix`` no longer apply, so what follows needs a call of its own. Empty means one
+        generation per path, which is ``RegDelimitedAddMode.PerPath``
+        """
+    @invalidatorRegs.setter
+    def invalidatorRegs(self, arg1: typing.Any) -> None:
         ...
     @property
     def mode(self) -> RegDelimitedAddMode:
@@ -17349,10 +17492,13 @@ class RegDelimitedAddMode:
       PerSegment : Once per **delimiter-free stretch** of every path -- immediately before every accepted delimiter, plus once at the end of a path that has none
     
       PerPath : Once per **path**, at the last position preceding every accepted delimiter on it
+    
+      PerBindingGeneration : Once per **binding generation** -- an ``invalidatorRegs`` occurence opens one, a ``coveredRegs`` occurence or this addition serves it, a delimiter consumes it
     """
+    PerBindingGeneration: typing.ClassVar[RegDelimitedAddMode]  # value = <RegDelimitedAddMode.PerBindingGeneration: 2>
     PerPath: typing.ClassVar[RegDelimitedAddMode]  # value = <RegDelimitedAddMode.PerPath: 1>
     PerSegment: typing.ClassVar[RegDelimitedAddMode]  # value = <RegDelimitedAddMode.PerSegment: 0>
-    __members__: typing.ClassVar[dict[str, RegDelimitedAddMode]]  # value = {'PerSegment': <RegDelimitedAddMode.PerSegment: 0>, 'PerPath': <RegDelimitedAddMode.PerPath: 1>}
+    __members__: typing.ClassVar[dict[str, RegDelimitedAddMode]]  # value = {'PerSegment': <RegDelimitedAddMode.PerSegment: 0>, 'PerPath': <RegDelimitedAddMode.PerPath: 1>, 'PerBindingGeneration': <RegDelimitedAddMode.PerBindingGeneration: 2>}
     def __eq__(self, other: typing.Any) -> bool:
         ...
     def __getstate__(self) -> int:

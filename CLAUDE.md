@@ -74,7 +74,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is sixty-three short habits, none of
+feature or bug request here: the habits that pay" first.** It is sixty-eight short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -886,8 +886,8 @@ the part's OTHER bones have to be anchored too (27% of that prop's weight sat on
 chain, which left it torn between two places). Both are in
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md).
 
-**THREE THINGS TO READ BEFORE ANY TASK, DEPENDING ON WHICH KIND YOU HAVE (2026-09-14, a third added
-2026-09-20).** They are the lenses the maintainer keeps having to re-teach, and each now has its own
+**FOUR THINGS TO READ BEFORE ANY TASK, DEPENDING ON WHICH KIND YOU HAVE (2026-09-14; a third added
+2026-09-20, a fourth 2026-09-22).** They are the lenses the maintainer keeps having to re-teach, and each now has its own
 writing:
 
 - **A feature or a bug** --- [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s habits **34-37**
@@ -911,6 +911,14 @@ writing:
   three careful diagnoses. The other three: crop the UV island and LOOK at it when the symptom is on
   a texture, pick test mods by STRUCTURAL axis rather than by character, and what `drawindexed =
   auto` actually does.
+- **A report from the maintainer about a mod in game** --- habits **64-68**, which are about
+  reading the EVIDENCE rather than the domain: the fixed mod tells you which SCRIPT ran (their own
+  copy of the prototype goes stale and re-fixes in seconds, which reads exactly like a bug you just
+  wrote), the mod folders move between `GIMI/Mods` and its parent while you work (so a path baked
+  into a runner gives a clean `.ini fixed: 0` that reads like deletion), a check that cannot say
+  "nothing was checked" will report a tidy zero over paths that shattered on a space, a repo
+  diagnostic's exit code may conflate two answers, and an A/B over a mod that DOWNLOADS is not
+  deterministic.
 - **"Make this faster"** --- [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s **"MAKE THIS FASTER:
   the recipe, and what it has cost to skip a step"**. Four speed-ups landed in one day and **every
   one was a fixed cost nobody had measured, in a place nobody had guessed** -- an eager `numpy`
@@ -1101,6 +1109,45 @@ shift or invented normal map) and `faceSwapOnlyFromDiffuseReg` -- and `GIMICharP
 Bennett, Yelan and Klee mods are byte-identical across all of it. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "CITLALI IS COMPILED".
 
+**CITLALIWHISPEROFSTARS -> CITLALI IS COMPILED (2026-09-22), AND THE THREE THINGS IT ADDED ARE
+TEMPLATE OPTIONS RATHER THAN ANYTHING OF HERS.** The reverse of the Citlali rows, prototyped first
+(`Tools/Misc/Prototypes/citlaliFromWhisperFix.py`, still the oracle -- `abCitlaliRev.py` proves the
+compiled fix identical to it on all six of the maintainer's skin mods) and confirmed in game on
+four. **`GIMIMergeFixerConfig::targetLayout`** carries a source normal map through to a target that
+reads one under `ORFix`, where Yelan's and Bennett's read two under `NNFix`;
+**`GIMIMergeFixerConfig::texRegsByName`** puts every carried binding on the register its resource
+NAME says, because **a mod dumped from the game is written in the GAME's register order and `ORFix`
+reads a different one** -- the skin's mods bind light map / normal map / diffuse at `ps-t0/1/2`,
+which is what her own draw of `ib f117984b` binds in a frame dump, and handing that to `ORFix`
+rotates every role (one mod's shoes, eyes and sleeping mask were wrong in game while every slot the
+fix had DOWNLOADED was right). The rule itself lives in `data/IniFixData/TexRegLayout.h` so all
+three templates can reach it, on top of `RegValChecks` -- whose header already records why the
+pixels are deliberately not consulted. **And a FACE draw takes no fix library call at all**
+(the maintainer, after testing: "NNFix/ORFix does not work well for face in GI"), so the merge
+strips any a mod carried -- this one's face arrives through GIMI's newer API, and
+`GIMIApiNormalizer` faithfully turns its `SetTextures` into the traditional call, which is right
+everywhere except the one object the fix binds by hand.
+
+**AND `RegDelimitedAddMode::PerBindingGeneration` IS THE RULE THE ENUM'S OWN DOCS HAVE DESCRIBED
+SINCE 2026-09-14.** `PerPath` assumes an addition is invalidated only by its delimiter; the fix
+libraries are also invalidated by a RE-BINDING, so a section that binds twice needs two calls and one
+that binds once needs one. Three register maps say it: `invalidatorRegs` opens a generation,
+`coveredRegs` is a generation **the mod already serves itself** (the author's own call, kept rather
+than doubled), `delimiterRegs` consumes it. Empty invalidators make it exactly `PerPath`, which is
+how its test proves it is not silently the old mode. See
+[Ini Graph Editing](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md), and **do not switch an existing
+`PerPath` caller over** -- those placements are verified in game and the two modes agree only while
+nothing rebinds.
+
+**THE TEST COUNTS IN `core/tests` WERE THREE ROWS STALE BEFORE ANY OF THIS, AND FOUR SUITES FAILED
+THE MOMENT THEY WERE COMPILED.** `BuilderData_test` asserted 63/132/51 against a real 64/135/53,
+`ModTypeRemaps_test`'s oracle said 51 with 53 rows present, `VertexCounts_test` said 49 with 50 --
+every one of them left by the Chisa pair, because **nothing builds `core/tests`**. A `std::printf`
+of the sizes settled all of it in one run: **print the number before believing the arithmetic in the
+message**, since each of those asserts carries a comment deriving its count from a history that had
+drifted. (`TextureFile_Bc7Decode_test` "failing" is a runner artifact -- it takes a `.dds` argument
+and exits 2 on usage.)
+
 **THE CHARACTER LIST LIVES IN FOUR PLACES OUTSIDE THE LIBRARY, AND ON 2026-09-20 THREE OF THEM WERE
 WRONG.** The mod-type table is in `api/README.md`, `apiMirror/README.md` and
 `Docs/src/commandOpts.rst` (all three now with a **Game** column, `GI` / `WuWa`), the per-remap
@@ -1114,6 +1161,16 @@ in step now, `--help` prints the docs link instead of a list that grows with eve
 published core API --- was regenerated with the pinned Doxygen. **Generate these lists, never retype
 them**: see [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md)'s "A CHARACTER IS FOUR DOC
 TABLES" and [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Closing out a remap".
+
+**AND THEY WENT BEHIND AGAIN WITHIN TWO DAYS, SO IT IS A DIAGNOSTIC NOW (2026-09-22).**
+`Tools/Misc/Diagnostics/checkModTypeTables.py` asks the builders and diffs all four; run against the
+tree that had just compiled two remaps it found **all four missing BOTH the Citlali and the Chisa
+pairs** -- four characters, neither noticed by reading and neither caught by any suite. A remap is
+not closed until it prints `ALL FOUR AGREE WITH THE LIBRARY`. Two traps in adding the rows:
+`commandOpts.rst` holds THREE list-tables whose rows look identical, so an insertion that scans the
+whole file puts the character in the DOWNLOAD-MODE table (scope by the mod-type header first), and a
+row's Description is derived -- the GI regex from `getSectionKeywords`, the WuWa hash from
+`HashData`'s `vb0` row -- rather than written.
 
 **Seven repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
 visible from the code:** (1) nearly every tracked text file is **CRLF** (`core.autocrlf=true`), so an

@@ -1044,6 +1044,23 @@ single `A <--> B` row when both directions behave the same --- and it is the pag
 a user at for "the current limitations", so its Notes cell is where a remap's known limits belong
 (which target slots nothing is remapped onto, what is invented, what is not retargeted).
 
+**IT IS A DIAGNOSTIC NOW, BECAUSE THE TABLES WENT BEHIND AGAIN WITHIN TWO DAYS (2026-09-22).**
+`Tools/Misc/Diagnostics/checkModTypeTables.py` asks `GIBuilder` / `WWMIBuilder` for every type and
+diffs all four places. Run against the tree that had just compiled two remaps, it found **all four
+missing BOTH the Citlali and the Chisa pairs** -- four characters, two remaps' worth, neither
+noticed by reading and neither caught by any suite. A remap is not closed until this prints
+`ALL FOUR AGREE WITH THE LIBRARY`.
+
+Two traps in writing the rows, both of which cost a round here: **`commandOpts.rst` holds THREE
+list-tables** (the mod types, the download modes, the game types) whose rows are all
+`* - **Name**`, so an insertion that picks "the last row that sorts before this one" over the whole
+FILE lands the character in the download-mode table -- scope to the mod-type table by its
+`* - Name` / `- Game` / `- Aliases` / `- Description` header first. And the GI Description is not
+free text: it states the regex that character's `ModTypeIdTools::getSectionKeywords` entry produces,
+in the shape its neighbours use (a base character excludes its skin's keyword, the skin matches its
+own), while a WuWa row states the character's `vb0` hash out of `HashData` and says why -- a WWMI
+`.ini` names its sections after the draw slot.
+
 **Generate the rows out of the library and diff them against the tables rather than typing them.**
 `GIBuilder.all()` / `WWMIBuilder.all()` give every type's `name`, `gameTypeId` and `aliases`; a
 30-line script comparing that to the markdown table found two bugs on 2026-09-20 that had been

@@ -10,9 +10,13 @@
 // ##### EndCredits
 
 #include "AGRemapCore/data/IniFixData/GIMIMergeFixer.h"
+
+#include "AGRemapCore/data/IniFixData/RegValChecks.h"
+#include "AGRemapCore/data/IniFixData/TexRegLayout.h"
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
 
 #include <algorithm>
+#include <map>
 #include <filesystem>
 #include <memory>
 #include <optional>
@@ -43,6 +47,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h"
@@ -82,6 +87,7 @@ namespace AGRemapCore {
         const std::string PositionHashKey = "position_vb";
         const std::string BlendHashKey = "blend_vb";
         const std::string TexcoordHashKey = "texcoord_vb";
+        const std::string DrawHashKey = "draw_vb";          // the VertexLimitRaise section's hash
         const std::string FaceDiffuseHashKey = "tex_face_diffuse";
 
         const std::string DiffuseReg = "ps-t0";
@@ -89,9 +95,14 @@ namespace AGRemapCore {
         const std::string NormalShiftedDiffuseReg = "ps-t1";
         const std::string NormalShiftedLightMapReg = "ps-t2";
 
+        // True everywhere but the outline pass: ORFix tags every outline vertex shader with this
+        // filter_index (BufferValues/ORFix.ini, [ShaderOverrideOutlineVS...]).
+        const std::string NotOutlinePass = "vs != 037730.0";
+
         const std::string OverrideByteStride = "override_byte_stride";
         const std::string OverrideVertexCount = "override_vertex_count";
         const std::string DrawIndexedAuto = "auto";
+        const std::string SkipHandling = "skip";
 
         const std::size_t BlendStride = 32;
 
@@ -109,6 +120,97 @@ namespace AGRemapCore {
 
             return {from, RegRemap<>::KeyRemapValue(std::move(targets))};
         }
+
+
+        // ps-t0 again: the register a normal-map layout reads the NORMAL MAP out of, which the
+        // plain layout reads the diffuse out of -- named for both so a rule says which it means.
+        const std::string& NormalMapReg = DiffuseReg;
+
+
+        // ---- a carried member's draws, moved to where it sits in the merged ib ----
+        //
+        // A merged object's ib is member after member, so a member carried as a command list of its
+        // own (see buildSlotRemap) draws its OWN ranges, each shifted by its start: `count, start,
+        // base` -> `count, start + offset, base`, and `auto` -> the member's whole range. File-local,
+        // like the component template's DrawRangeRemap: it needs the merge's offsets.
+        class DrawOffset : public BaseRegEdit<> {
+            public:
+                DrawOffset(long long offset, long long count): offset_(offset), count_(count) {}
+
+                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
+                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
+                    (void)sectionName;
+                    (void)modType;
+                    (void)modName;
+
+                    const auto ranges = toRangeSpec(partRanges);
+                    const std::vector<std::pair<long long, std::string>> vals = part.getValsWithInds(IniKeywords::DrawIndexed, true, ranges);
+                    if (!vals.empty()) {
+                        std::vector<std::string> shifted;
+                        shifted.reserve(vals.size());
+                        for (const auto& entry : vals) {
+                            shifted.push_back(shift(entry.second));
+                        }
+                        part.replaceVals({{IniKeywords::DrawIndexed, ContentPart::ReplaceSpec(shifted)}}, false, ranges);
+                    }
+
+                    // AND TEXFX'S OWN DRAW: its component command lists draw
+                    // `drawindexed = $_1, $_2, 0` from variables the mod sets, so `$\texfx\_2` is a
+                    // start index too (a CitlaliWhisperofStars mod's toggled piece, 2026-09-22).
+                    std::vector<std::string> startKeys;
+                    for (const auto& kvp : part.entries()) {
+                        if (StringTools::equalsIgnoreCase(StringTools::strip(kvp.first), TexFxDrawStart)
+                                && std::find(startKeys.begin(), startKeys.end(), kvp.first) == startKeys.end()) {
+                            startKeys.push_back(kvp.first);
+                        }
+                    }
+                    for (const std::string& key : startKeys) {
+                        std::vector<std::string> shifted;
+                        for (const auto& entry : part.getValsWithInds(key, true, ranges)) {
+                            const std::string value(StringTools::strip(entry.second));
+                            shifted.push_back(!value.empty() && value.find_first_not_of("0123456789") == std::string::npos
+                                              ? std::to_string(std::stoll(value) + offset_) : entry.second);
+                        }
+                        part.replaceVals({{key, ContentPart::ReplaceSpec(shifted)}}, false, ranges);
+                    }
+
+                    return part;
+                }
+
+            private:
+                static inline const std::string TexFxDrawStart = "$\\texfx\\_2";
+
+                long long offset_;
+                long long count_;
+
+                std::string shift(const std::string& value) const {
+                    if (StringTools::equalsIgnoreCase(StringTools::strip(value), "auto")) {
+                        return std::to_string(count_) + ", " + std::to_string(offset_) + ", 0";
+                    }
+
+                    std::vector<std::string> fields;
+                    std::size_t pos = 0;
+                    while (true) {
+                        std::size_t comma = value.find(',', pos);
+                        fields.emplace_back(StringTools::strip(value.substr(pos, comma == std::string::npos ? std::string::npos : comma - pos)));
+                        if (comma == std::string::npos) {
+                            break;
+                        }
+                        pos = comma + 1;
+                    }
+
+                    if (fields.size() < 2 || fields[1].empty() || fields[1].find_first_not_of("0123456789") != std::string::npos) {
+                        return value;
+                    }
+
+                    fields[1] = std::to_string(std::stoll(fields[1]) + offset_);
+                    std::string out = fields[0];
+                    for (std::size_t i = 1; i < fields.size(); ++i) {
+                        out += ", " + fields[i];
+                    }
+                    return out;
+                }
+        };
 
 
         const std::string FormatKey = "format";
@@ -166,6 +268,9 @@ namespace AGRemapCore {
             std::string lightMap;
             std::string diffuseRes;      // the .ini resource NAME, for a borrowing slot to reference
             std::string lightMapRes;
+            std::string normalMapRes;    // only on the normal-map layout, for a normal-map TARGET's re-issued bindings
+            std::string section;         // the slot's own TextureOverride, for carrying it -- see buildSlotRemap
+            bool ownFix = false;         // whether that section (through `run =`) calls ORFix / NNFix itself
             bool found = false;
 
             // How many indices this slot's ib holds -- measured, or the config's game-model
@@ -200,6 +305,8 @@ namespace AGRemapCore {
             std::vector<BranchVal> texcoords;
             std::size_t vertexCount = 0;
             std::size_t positionStride = 0;
+            bool hasIbSection = false;     // the component's own ib section (hash, no match_first_index)
+            bool hasOtherSection = false;  // its VertexLimitRaise (the draw_vb hash), which carries the overrides
             std::unordered_map<std::string, SlotFiles> slots;     // by slot name
         };
 
@@ -242,7 +349,18 @@ namespace AGRemapCore {
                     buildIndexEdits();
                     buildEdits();
 
+                    // AFTER buildEdits: the adapter it runs is one buildEdits creates.
+                    buildTexRegNormalize();
+
                     this->graphGroupEdits.clear();
+
+                    // FIRST OF ALL: every carried binding onto the register its name says, on each
+                    // slot's OWN graph. Before the collects (which look a register up to find the
+                    // light map) and before the remap (which folds these graphs into the target's),
+                    // so that everything after this reads one layout -- see texRegsByName.
+                    if (texRegNormalize_.has_value()) {
+                        this->graphGroupEdits.push_back(&texRegNormalize_.value());
+                    }
 
                     // BEFORE the slot remap, which is the point: these read a MEMBER's own graph,
                     // and the remap folds those into the target's.
@@ -393,6 +511,9 @@ namespace AGRemapCore {
                                         files.texcoord = files.texcoords.front().val;
                                     }
                                 }
+                            } else if (hashType == DrawHashKey) {
+                                // The VertexLimitRaise -- see ComponentFiles::hasOtherSection.
+                                files.hasOtherSection = true;
                             } else if (hashType == FaceDiffuseHashKey) {
                                 if (faceFile_.empty()) {
                                     faceFile_ = fileOf(resourceOf(branches_.firstValThroughRun(templates, sectionName, DiffuseReg)));
@@ -400,6 +521,9 @@ namespace AGRemapCore {
                             } else if (hashType == IbHashKey) {
                                 std::optional<std::string> index = firstVal(tpl, IniKeywords::MatchFirstIndex);
                                 if (!index.has_value()) {
+                                    // The component's own ib section -- the one that carries
+                                    // `handling = skip`, and the one the target's skip is made from.
+                                    files.hasIbSection = true;
                                     continue;
                                 }
 
@@ -423,6 +547,15 @@ namespace AGRemapCore {
                                         !resourceOf(branches_.firstValThroughRun(templates, sectionName, "ps-t2")).empty();
                                     SlotFiles slotFiles;
                                     slotFiles.found = true;
+                                    slotFiles.section = sectionName;
+
+                                    for (const BranchVal& call : branches_.valsThroughRun(templates, sectionName, IniKeywords::Run)) {
+                                        const std::string value(StringTools::strip(call.val));
+                                        if (StringTools::equalsIgnoreCase(value, IniKeywords::ORFixPath)
+                                                || StringTools::equalsIgnoreCase(value, IniKeywords::NNFixPath)) {
+                                            slotFiles.ownFix = true;
+                                        }
+                                    }
                                     for (const BranchVal& rawIb : branches_.valsThroughRun(templates, sectionName, IniKeywords::Ib)) {
                                         // `ib = null` hides the object in THIS branch, and the
                                         // branch is kept so it can say so -- see SlotFiles::nullIb.
@@ -465,6 +598,40 @@ namespace AGRemapCore {
                                         templates, sectionName, normalMap ? NormalShiftedDiffuseReg : DiffuseReg));
                                     slotFiles.lightMapRes = resourceOf(branches_.firstValThroughRun(
                                         templates, sectionName, normalMap ? NormalShiftedLightMapReg : LightMapReg));
+                                    if (normalMap) {
+                                        slotFiles.normalMapRes = resourceOf(branches_.firstValThroughRun(
+                                            templates, sectionName, DiffuseReg));
+                                    }
+
+                                    // WHICH REGISTER HOLDS WHICH ROLE, BY NAME.
+                                    //
+                                    // The reading above is positional, which is only right for a mod
+                                    // written in the fix's own layout -- and the three roles it hands
+                                    // out decide far more than the bindings do: which file the light
+                                    // map band edit reads, which register that edit COLLECTS, and
+                                    // which texture a missing role downloads. A mod dumped from the
+                                    // game has them in the game's order, and the band edit then
+                                    // rewrote its DIFFUSE and named the result `...LightMapRemapTex`.
+                                    // See GIMIMergeFixerConfig::texRegsByName. A role the mod does
+                                    // not name keeps whatever the positional reading gave it.
+                                    if (config_.texRegsByName) {
+                                        for (const std::string& reg : {NormalMapReg, NormalShiftedDiffuseReg,
+                                                                       NormalShiftedLightMapReg}) {
+                                            const std::string res(resourceOf(branches_.firstValThroughRun(
+                                                templates, sectionName, reg)));
+                                            if (res.empty()) {
+                                                continue;
+                                            }
+
+                                            if (RegValChecks::isNormalMap(res)) {
+                                                slotFiles.normalMapRes = res;
+                                            } else if (RegValChecks::isLightMap(res)) {
+                                                slotFiles.lightMapRes = res;
+                                            } else if (RegValChecks::isDiffuse(res)) {
+                                                slotFiles.diffuseRes = res;
+                                            }
+                                        }
+                                    }
                                     slotFiles.diffuse = fileOf(slotFiles.diffuseRes);
                                     slotFiles.lightMap = fileOf(slotFiles.lightMapRes);
                                     normalMap_[key(component.name, slot.name)] = normalMap;
@@ -689,18 +856,116 @@ namespace AGRemapCore {
                     return it == files->slots.end() ? nullptr : &it->second;
                 }
 
+                // ---- a merged member CARRIED as a command list of its own (2026-09-22) ----
+                //
+                // Every member but an object's first used to be DROPPED and replaced by one draw of
+                // its whole range, so everything its own section said -- its toggles, its draw ranges,
+                // where its fix calls sit -- was lost. A CitlaliWhisperofStars mod toggles inside every
+                // slot: its hair drew all three of its variants at once, its outfit every piece of
+                // every outfit. Now each such member is copied under a command-list name, its draws
+                // shifted to where it sits in the merged ib, and called from the object's section.
+                //
+                // Not carried, and drawn as before: a member whose section the mod does not have (a
+                // downloaded component) and one of an object whose first member's ib branches (a
+                // merged master's variants have offsets per branch -- see buildBranchDraws).
+                bool isCarried(const std::string& obj, const std::pair<std::string, std::string>& member) const {
+                    auto repIt = representative_.find(obj);
+                    if (repIt == representative_.end() || repIt->second == member) {
+                        return false;
+                    }
+
+                    const SlotFiles* repFiles = slotFiles(repIt->second.first, repIt->second.second);
+                    const SlotFiles* files = slotFiles(member.first, member.second);
+                    return repFiles != nullptr && repFiles->ibs.size() <= 1 && files != nullptr && files->found
+                           && !files->section.empty() && files->ibs.size() <= 1 && files->indexCount > 0;
+                }
+
+                bool anyCarried(const std::string& obj) const {
+                    auto membersIt = members_.find(obj);
+                    if (membersIt == members_.end()) {
+                        return false;
+                    }
+                    for (const auto& member : membersIt->second) {
+                        if (isCarried(obj, member)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                static std::string memberKey(const std::string& obj, const std::pair<std::string, std::string>& member) {
+                    return obj + ";" + member.first + ";" + member.second;
+                }
+
+                // The copy's names: the section's own, suffixed per member so two members' copies of
+                // one shared command list cannot collide, and a TextureOverride made a command list --
+                // the copy is only ever called, and has no hash left to match with.
+                SlotRemap::RenameFunc memberRename(const std::pair<std::string, std::string>& member) const {
+                    const std::string suffix = toModName_ + member.first + member.second;
+                    return [suffix](const std::string& name) {
+                        std::string renamed = IniNamingTools::getRemapFixName(name, suffix);
+                        const std::string textureOverride = "TextureOverride";
+                        if (renamed.size() >= textureOverride.size()
+                                && StringTools::equalsIgnoreCase(std::string_view(renamed).substr(0, textureOverride.size()), textureOverride)) {
+                            renamed = "CommandList" + renamed.substr(textureOverride.size());
+                        }
+                        return renamed;
+                    };
+                }
+
                 // ---- 1. the graphs onto the target's, all in ONE .ini file ----
                 void buildSlotRemap() {
                     SlotRemap::RemapList remap;
                     const SlotRemap::RenameFunc keepName = [](const std::string& name) { return name; };
                     const std::string& skeleton = mergeOrder_.front();
 
+                    // THE TARGET'S `handling = skip` COMES FROM WHICHEVER COMPONENT HAS AN ib SECTION.
+                    //
+                    // It hides the target's own draws, and without it they run against the MERGED
+                    // buffers -- the position / blend / texcoord overrides are by hash and apply to
+                    // every draw -- through the target's own index buffer: a spray of stretched
+                    // triangles (a CitlaliWhisperofStars mod of the Bangs alone, 2026-09-22; see
+                    // Images/CitlaliWhisper/6_7/CitlaliBrokenModel.jpg). It used to be taken from the
+                    // skeleton's, and a mod that does not carry the skeleton component at all has
+                    // none: the parser invents that component's position, blend and texcoord, but its
+                    // index buffers are invented per SLOT, so no component-level ib section exists.
+                    // The same for the VertexLimitRaise (the "other" kind), which carries
+                    // `override_vertex_count` -- the merged model has every component's vertices and
+                    // the target's own limit is its own model's, so without the override everything
+                    // past it reads whatever follows in memory: the same mod drew a black sheet from
+                    // the head down (Images/CitlaliWhisper/6_7/CitlaliBrokenModel2.jpg).
+                    const auto donorFor = [this, &skeleton](bool ComponentFiles::*has) {
+                        const ComponentFiles* skeletonFiles = componentFiles(skeleton);
+                        if (skeletonFiles != nullptr && skeletonFiles->*has) {
+                            return skeleton;
+                        }
+
+                        for (const std::string& component : mergeOrder_) {
+                            const ComponentFiles* files = componentFiles(component);
+                            if (files != nullptr && files->*has) {
+                                return component;
+                            }
+                        }
+
+                        return skeleton;
+                    };
+
+                    ibDonor_ = donorFor(&ComponentFiles::hasIbSection);
+                    otherDonor_ = donorFor(&ComponentFiles::hasOtherSection);
+                    const std::string& otherDonor = otherDonor_;
+                    const std::string& ibDonor = ibDonor_;
+
                     for (const GIMIMergeFixerConfig::Component& component : config_.components) {
                         const bool isSkeleton = (component.name == skeleton);
 
                         for (const char* kind : {"ib", "blend", "position", "texcoord", "other"}) {
+                            const std::string kindName(kind);
+                            const bool isDonor = (kindName == "ib") ? (component.name == ibDonor)
+                                               : (kindName == "other") ? (component.name == otherDonor)
+                                               : isSkeleton;
+
                             std::vector<SlotRemap::RemapTarget> targets;
-                            if (isSkeleton) {
+                            if (isDonor) {
                                 targets.emplace_back(GraphId(0, "", kind), keepName);
                             }
                             remap.emplace_back(GraphId(0, component.name, kind), std::move(targets));
@@ -712,6 +977,9 @@ namespace AGRemapCore {
                             if (it != representative_.end() && it->second.first == component.name
                                     && it->second.second == slot.name) {
                                 targets.emplace_back(GraphId(0, "", slot.to));
+                            } else if (isCarried(slot.to, {component.name, slot.name})) {
+                                const std::pair<std::string, std::string> member{component.name, slot.name};
+                                targets.emplace_back(GraphId(0, "", memberKey(slot.to, member)), memberRename(member));
                             }
                             remap.emplace_back(GraphId(0, component.name, slot.name), std::move(targets));
                         }
@@ -766,9 +1034,15 @@ namespace AGRemapCore {
                         // it -- once per path, ahead of every draw on that path -- so it uses the
                         // same machinery. Ordered before addFixCall_ so that NNFix, placed by the
                         // same rule, ends up between these registers and the draw.
+                        RegDelimitedAdd<>::Additions bindings;
+                        if (normalTarget() && !files->normalMapRes.empty()) {
+                            bindings.emplace_back(DiffuseReg, files->normalMapRes);
+                        }
+                        bindings.emplace_back(targetDiffuseReg(), files->diffuseRes);
+                        bindings.emplace_back(targetLightMapReg(), files->lightMapRes);
+
                         auto edit = std::make_unique<RegDelimitedAdd<>>(
-                            RegDelimitedAdd<>::Additions{{DiffuseReg, files->diffuseRes},
-                                                          {LightMapReg, files->lightMapRes}},
+                            std::move(bindings),
                             RegDelimitedAdd<>::RegMap{{IniKeywords::DrawIndexed, {}}},
                             /*pathEndOnlyWhenUndelimited*/ true,
                             RegDelimitedAddMode::PerPath);
@@ -788,6 +1062,38 @@ namespace AGRemapCore {
                 }
 
                 // ---- 3. the light map bands, at the register the SOURCE holds them in ----
+                // ---- every slot's bindings onto the registers their NAMES say ----
+                //
+                // See GIMIMergeFixerConfig::texRegsByName. One edit over every slot graph rather
+                // than a per-object one inside mainEdits_, because the ROLE a register holds is
+                // asked long before that: the light map band edit COLLECTS a register, and on a mod
+                // binding two different layouts in one section (its own slot, then a second draw of
+                // the target's own body) no single register answers for both -- it edited Citlali's
+                // normal map. Normalising up front leaves exactly one layout for everything after.
+                void buildTexRegNormalize() {
+                    if (texRegsByNameAdapter_ == nullptr) {
+                        return;
+                    }
+
+                    std::vector<ObjGroupEdit::IniEdits> iniEdits(1);
+                    for (const auto& component : files_) {
+                        for (const auto& slot : component.second.slots) {
+                            const ModObj objKey(component.first, slot.first);
+
+                            std::vector<ObjGroupEdit::PartEdit*> edits;
+                            if (dropNormalMapByNameAdapter_ != nullptr) {
+                                edits.push_back(dropNormalMapByNameAdapter_.get());
+                            }
+                            edits.push_back(texRegsByNameAdapter_.get());
+
+                            iniEdits[0].edits[objKey] = std::move(edits);
+                            iniEdits[0].trackKeys[objKey] = false;
+                        }
+                    }
+
+                    texRegNormalize_ = ObjGroupEdit(std::move(iniEdits), false);
+                }
+
                 void buildTexEdits() {
                     if (!config_.lightMapEdit) {
                         return;
@@ -810,7 +1116,8 @@ namespace AGRemapCore {
                         }
 
                         const bool normalMap = hasNormalMap(it->second.first, it->second.second);
-                        const std::string reg = normalMap ? NormalShiftedLightMapReg : LightMapReg;
+                        const std::string reg = config_.texRegsByName
+                            ? targetLightMapReg() : (normalMap ? NormalShiftedLightMapReg : LightMapReg);
 
                         auto replace = std::make_unique<TexEditorReplace<>>(
                             GraphId(0, "", obj + "RemapTexLightMap"),
@@ -868,7 +1175,8 @@ namespace AGRemapCore {
                             }
 
                             const bool normalMap = hasNormalMap(member.first, member.second);
-                            const std::string reg = normalMap ? NormalShiftedLightMapReg : LightMapReg;
+                            const std::string reg = config_.texRegsByName
+                                ? targetLightMapReg() : (normalMap ? NormalShiftedLightMapReg : LightMapReg);
 
                             auto replace = std::make_unique<TexEditorReplace<>>(
                                 GraphId(0, member.first, member.second + "RemapTexLightMap"),
@@ -1183,6 +1491,7 @@ namespace AGRemapCore {
 
                             RegBranchAdd<>::Additions additions;
                             long long offset = 0;
+                            const SlotFiles* bound = repFiles;
 
                             for (std::size_t i = 0; i < members.size(); ++i) {
                                 const SlotFiles* files = slotFiles(members[i].first, members[i].second);
@@ -1206,7 +1515,11 @@ namespace AGRemapCore {
                                 }
 
                                 if (i > 0) {
-                                    appendMemberBindings(additions, members[i], repFiles);
+                                    if (!slotOutlined(members[i])) {
+                                        ctx_.log("the '" + members[i].first + " " + members[i].second
+                                                  + "' slot is drawn per branch, so it stays in the outline pass");
+                                    }
+                                    appendMemberBindings(additions, members[i], bound);
                                 }
 
                                 if (i > 0 || !branchDraws) {
@@ -1226,7 +1539,7 @@ namespace AGRemapCore {
                             return result;
                         });
 
-                    extraDrawAdapters_[obj] = std::make_unique<GraphPartEdit<>>(branchAdd.get());
+                    extraDrawAdapters_[obj].push_back(std::make_unique<GraphPartEdit<>>(branchAdd.get()));
                     branchDraws_.push_back(std::move(branchAdd));
                     return true;
                 }
@@ -1235,19 +1548,32 @@ namespace AGRemapCore {
                 // its own fix call -- rebinding ps-t0/ps-t1 starts a new binding generation and
                 // NNFix re-slots whatever is bound when it runs. Shared with the unbranched path so
                 // the two cannot drift.
+                //
+                // Compared with what is BOUND at that point, not with the representative's: a member
+                // on the representative's textures that follows one on its own has to put them
+                // back. CitlaliWhisperofStars' Eyes borrow Body A's set and are merged after Body D,
+                // which binds its own, and the eyes drew with Body D's atlas (2026-09-22). 'bound'
+                // starts as the representative's and follows every member that rebinds.
                 void appendMemberBindings(std::vector<std::pair<std::string, std::string>>& additions,
-                                           const std::pair<std::string, std::string>& member, const SlotFiles* repFiles) {
+                                           const std::pair<std::string, std::string>& member, const SlotFiles*& bound) {
                     const SlotFiles* files = slotFiles(member.first, member.second);
-                    const bool ownTextures = (files != nullptr) && (repFiles != nullptr)
+                    const bool ownTextures = (files != nullptr) && (bound != nullptr)
                                               && (!files->diffuseRes.empty() || !files->lightMapRes.empty())
-                                              && (files->diffuseRes != repFiles->diffuseRes
-                                                   || files->lightMapRes != repFiles->lightMapRes);
+                                              && (files->diffuseRes != bound->diffuseRes
+                                                   || files->lightMapRes != bound->lightMapRes);
                     if (!ownTextures) {
                         return;
                     }
+                    bound = files;
+
+                    // A normal-map target reads the member's normal map too; without one of its own
+                    // (a plain-layout slot) the draw keeps whatever ps-t0 already holds.
+                    if (normalTarget() && !files->normalMapRes.empty()) {
+                        additions.emplace_back(DiffuseReg, files->normalMapRes);
+                    }
 
                     if (!files->diffuseRes.empty()) {
-                        additions.emplace_back(DiffuseReg, files->diffuseRes);
+                        additions.emplace_back(targetDiffuseReg(), files->diffuseRes);
                     }
 
                     if (!files->lightMapRes.empty()) {
@@ -1259,10 +1585,42 @@ namespace AGRemapCore {
                                       files->lightMapRes, TextTools::capitalize(toModName_) + "LightMap")
                                 : files->lightMapRes;
 
-                        additions.emplace_back(LightMapReg, edited);
+                        additions.emplace_back(targetLightMapReg(), edited);
                     }
 
-                    additions.emplace_back(IniKeywords::Run, IniKeywords::NNFixPath);
+                    additions.emplace_back(IniKeywords::Run, fixPath());
+                }
+
+                // Whether a slot is drawn in the target's outline pass -- see Slot::outline.
+                bool slotOutlined(const std::pair<std::string, std::string>& member) const {
+                    for (const GIMIMergeFixerConfig::Component& component : config_.components) {
+                        if (component.name != member.first) {
+                            continue;
+                        }
+                        for (const GIMIMergeFixerConfig::Slot& slot : component.slots) {
+                            if (slot.name == member.second) {
+                                return slot.outline;
+                            }
+                        }
+                    }
+                    return true;
+                }
+
+                // ---- the TARGET's register layout -- see GIMIMergeFixerConfig::TargetLayout ----
+                bool normalTarget() const {
+                    return config_.targetLayout == GIMIMergeFixerConfig::TargetLayout::NormalMap;
+                }
+
+                const std::string& targetDiffuseReg() const {
+                    return normalTarget() ? NormalShiftedDiffuseReg : DiffuseReg;
+                }
+
+                const std::string& targetLightMapReg() const {
+                    return normalTarget() ? NormalShiftedLightMapReg : LightMapReg;
+                }
+
+                const std::string& fixPath() const {
+                    return normalTarget() ? IniKeywords::ORFixPath : IniKeywords::NNFixPath;
                 }
 
                 // How many vertices the merged buffer holds in ONE branch.
@@ -1377,6 +1735,27 @@ namespace AGRemapCore {
                         renameRule(NormalShiftedDiffuseReg, {DiffuseReg}),
                         renameRule(NormalShiftedLightMapReg, {LightMapReg})});
 
+                    // And the other way, for a plain-layout slot onto a normal-map target.
+                    shiftUp_ = std::make_unique<RegRemap<>>(std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>>{
+                        renameRule(DiffuseReg, {NormalShiftedDiffuseReg}),
+                        renameRule(LightMapReg, {NormalShiftedLightMapReg})});
+
+                    // Both of those by NAME instead -- see GIMIMergeFixerConfig::texRegsByName,
+                    // and TexRegLayout, which is where the rule itself lives so the other two
+                    // templates can reach it.
+                    if (config_.texRegsByName) {
+                        const std::vector<std::string> texRegs{NormalMapReg, NormalShiftedDiffuseReg,
+                                                               NormalShiftedLightMapReg};
+                        texRegsByName_ = std::make_unique<RegRemap<>>(
+                            TexRegLayout::byName(TexRegLayout::fixLibraryRoles(normalTarget()), texRegs));
+
+                        // The plain target has no normal-map slot to keep one on.
+                        if (!normalTarget()) {
+                            dropNormalMapByName_ = std::make_unique<RegRemove<>>(
+                                TexRegLayout::removeNormalMap(texRegs));
+                        }
+                    }
+
                     removeDrawIndexed_ = std::make_unique<RegRemove<>>(
                         std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
                             {IniKeywords::DrawIndexed, std::nullopt}});
@@ -1453,7 +1832,7 @@ namespace AGRemapCore {
                         // textures -- one draw binds one set, so members that disagree have to be
                         // drawn separately whatever the mod did. Only when neither holds can
                         // `drawindexed = auto` cover the whole merged buffer on its own.
-                        if (!repFiles->draws && !membersDiffer(obj)) {
+                        if (!repFiles->draws && !membersDiffer(obj) && !anyCarried(obj)) {
                             continue;
                         }
 
@@ -1475,6 +1854,7 @@ namespace AGRemapCore {
                         }
 
                         std::vector<std::string> extras;
+                        std::vector<std::pair<long long, long long>> ranges;     // (start, count) per member after the first
                         long long offset = 0;
                         bool measured = true;
 
@@ -1496,6 +1876,7 @@ namespace AGRemapCore {
 
                             if (i > 0) {
                                 extras.push_back(std::to_string(count) + ", " + std::to_string(offset) + ", 0");
+                                ranges.emplace_back(offset, count);
                             }
 
                             offset += count;
@@ -1522,16 +1903,69 @@ namespace AGRemapCore {
                         // whatever is bound when it runs. This is the only place anything rebinds
                         // mid-section, which is exactly why RegDelimitedAddMode::PerPath must not be
                         // what places that second call: this block carries its own.
-                        RegBottomAdd<>::Additions block;
+                        //
+                        // ONE BLOCK PER RUN of members that agree about the outline pass: a member
+                        // kept out of it (Slot::outline) goes in a block of its own under
+                        // `if vs != 037730.0`, in order with the rest. After such a block what is
+                        // bound depends on the pass, so the next member rebinds whatever it reads --
+                        // 'unknown' has no resources, so every member with textures differs from it.
+                        static const SlotFiles unknown{};
 
-                        for (std::size_t i = 0; i < extras.size(); ++i) {
-                            appendMemberBindings(block, membersIt->second[i + 1], repFiles);
-                            block.emplace_back(IniKeywords::DrawIndexed, extras[i]);
+                        if (!slotOutlined(membersIt->second.front())) {
+                            ctx_.log("the '" + membersIt->second.front().first + " " + membersIt->second.front().second
+                                      + "' slot draws '" + obj + "' first, so it stays in the outline pass");
                         }
 
-                        auto bottomAdd = std::make_unique<RegBottomAdd<>>(std::move(block));
-                        extraDrawAdapters_[obj] = std::make_unique<GraphPartEdit<>>(bottomAdd.get());
-                        extraDraws_.push_back(std::move(bottomAdd));
+                        //
+                        // A CARRIED member is one `run =` of its own command list, in order with the
+                        // rest, under the same outline condition. What it leaves bound is its own
+                        // business, so the member after it rebinds.
+                        const SlotFiles* bound = repFiles;
+                        RegBottomAdd<>::Additions block;
+                        bool blockOpen = false;
+                        bool blockOutlined = true;
+
+                        const auto addBottom = [&](RegBottomAdd<>::Additions additions, bool outlined) {
+                            auto bottomAdd = std::make_unique<RegBottomAdd<>>(std::move(additions), outlined ? "" : NotOutlinePass);
+                            extraDrawAdapters_[obj].push_back(std::make_unique<GraphPartEdit<>>(bottomAdd.get()));
+                            extraDraws_.push_back(std::move(bottomAdd));
+                        };
+                        const auto flush = [&]() {
+                            if (blockOpen && !block.empty()) {
+                                addBottom(std::move(block), blockOutlined);
+                                if (!blockOutlined) {
+                                    bound = &unknown;
+                                }
+                            }
+                            block.clear();
+                            blockOpen = false;
+                        };
+
+                        for (std::size_t i = 0; i < extras.size(); ++i) {
+                            const auto& member = membersIt->second[i + 1];
+                            const bool outlined = slotOutlined(member);
+
+                            if (isCarried(obj, member)) {
+                                flush();
+                                const SlotFiles* files = slotFiles(member.first, member.second);
+                                addBottom({{IniKeywords::Run, memberRename(member)(files->section)}}, outlined);
+                                carriedDraws_[memberKey(obj, member)] = {member, ranges[i]};
+                                bound = &unknown;
+                                continue;
+                            }
+
+                            if (blockOpen && outlined != blockOutlined) {
+                                flush();
+                            }
+                            if (!blockOpen) {
+                                blockOpen = true;
+                                blockOutlined = outlined;
+                            }
+
+                            appendMemberBindings(block, member, bound);
+                            block.emplace_back(IniKeywords::DrawIndexed, extras[i]);
+                        }
+                        flush();
                     }
 
                     // An object whose members cannot share a draw needs the FIRST member's range
@@ -1540,7 +1974,7 @@ namespace AGRemapCore {
                         auto membersIt = members_.find(obj);
                         auto repIt = representative_.find(obj);
                         if (membersIt == members_.end() || repIt == representative_.end()
-                                || membersIt->second.size() < 2 || !membersDiffer(obj)) {
+                                || membersIt->second.size() < 2 || (!membersDiffer(obj) && !anyCarried(obj))) {
                             continue;
                         }
 
@@ -1569,10 +2003,36 @@ namespace AGRemapCore {
                     }
 
                     addFixCall_ = std::make_unique<RegDelimitedAdd<>>(
-                        RegDelimitedAdd<>::Additions{{IniKeywords::Run, IniKeywords::NNFixPath}},
+                        RegDelimitedAdd<>::Additions{{IniKeywords::Run, fixPath()}},
                         RegDelimitedAdd<>::RegMap{{IniKeywords::DrawIndexed, {}}},
                         /*pathEndOnlyWhenUndelimited*/ true,
                         RegDelimitedAddMode::PerPath);
+
+                    // ONE CALL PER BINDING GENERATION, for a section whose own bindings are KEPT.
+                    //
+                    // The section above has had the mod's calls stripped and its bindings replaced,
+                    // so one per path is right for it. A carried section is the other case: it may
+                    // bind twice (its own slot's textures and a draw, then the TARGET character's
+                    // and another draw -- a real CitlaliWhisperofStars mod does) and it may already
+                    // call the library over the second of those, which is the author's placement
+                    // and stays. invalidatorRegs opens a generation, coveredRegs is the author's
+                    // own call serving one; what is left over gets a call of its own.
+                    RegDelimitedAdd<>::RegMap bindings;
+                    for (const std::string& reg : {NormalMapReg, NormalShiftedDiffuseReg, NormalShiftedLightMapReg}) {
+                        bindings.emplace(reg, RegDelimitedAdd<>::Predicate{});
+                    }
+
+                    keepOwnFixCall_ = std::make_unique<RegDelimitedAdd<>>(
+                        RegDelimitedAdd<>::Additions{{IniKeywords::Run, fixPath()}},
+                        RegDelimitedAdd<>::RegMap{{IniKeywords::DrawIndexed, {}}},
+                        /*pathEndOnlyWhenUndelimited*/ false,
+                        RegDelimitedAddMode::PerBindingGeneration,
+                        std::move(bindings),
+                        RegDelimitedAdd<>::RegMap{{IniKeywords::Run, [](const std::string& val) {
+                            const std::string call(StringTools::strip(val));
+                            return StringTools::equalsIgnoreCase(call, IniKeywords::ORFixPath)
+                                    || StringTools::equalsIgnoreCase(call, IniKeywords::NNFixPath);
+                        }}});
 
                     // THE LARGEST BRANCH, not the first. This one number covers the whole
                     // `.ini` -- the section it goes in carries no conditions to vary it by -- and it
@@ -1596,6 +2056,30 @@ namespace AGRemapCore {
                         std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
                             {IniKeywords::Draw, RegNewVals<>::NewValSpec(RegNewVals<>::NewVal(std::to_string(totalVertices_) + ",0"))}});
 
+                    // AND WRITTEN WHEN THE SECTION HAS THEM NOWHERE.
+                    //
+                    // `handling = skip` and `draw` re-issue the vertex pass over the MERGED buffer:
+                    // without them the game runs its own with the TARGET's vertex count, so every
+                    // vertex past it is never skinned and the model hangs off the rig in stretched
+                    // sheets. Both are normally copied from the mod's own blend section -- and a mod
+                    // that does not carry the skeleton component has only the one the parser invented
+                    // for its downloads, which has neither (2026-09-22; the third section this shape
+                    // was missing, after the ib skip and the VertexLimitRaise).
+                    //
+                    // A COVER, not RegNewVals' addNewKVPs: that adds the pair to every part lacking
+                    // it, which writes a second copy inside the `if` block the buffer collect spliced
+                    // in. The cover asks whether the ROOT has it at all -- so a mod that carries its
+                    // own blend section, or a master carrying one `draw` per branch, is untouched.
+                    blendSkipFill_ = std::make_unique<RegFillMissing<>>(
+                        IniKeywords::Handling,
+                        RegFillMissing<>::makeFillMissing(IniKeywords::Handling, SkipHandling),
+                        RegFillMissingMode::BottomCover);
+
+                    blendDrawFill_ = std::make_unique<RegFillMissing<>>(
+                        IniKeywords::Draw,
+                        RegFillMissing<>::makeFillMissing(IniKeywords::Draw, std::to_string(totalVertices_) + ",0"),
+                        RegFillMissingMode::BottomCover);
+
                     renameAdapter_ = std::make_unique<GraphPartEdit<>>(renameGraph_.get());
                     renameIbAdapter_ = std::make_unique<GraphPartEdit<>>(renameIbGraph_.get());
                     renameBlendAdapter_ = std::make_unique<GraphPartEdit<>>(renameBlendGraph_.get());
@@ -1606,11 +2090,21 @@ namespace AGRemapCore {
                     removeFixCallsAdapter_ = std::make_unique<RegPartEdit<>>(removeFixCalls_.get());
                     dropNormalMapAdapter_ = std::make_unique<RegPartEdit<>>(dropNormalMap_.get());
                     shiftDownAdapter_ = std::make_unique<RegPartEdit<>>(shiftDown_.get());
+                    shiftUpAdapter_ = std::make_unique<RegPartEdit<>>(shiftUp_.get());
+                    if (texRegsByName_ != nullptr) {
+                        texRegsByNameAdapter_ = std::make_unique<RegPartEdit<>>(texRegsByName_.get());
+                    }
+                    if (dropNormalMapByName_ != nullptr) {
+                        dropNormalMapByNameAdapter_ = std::make_unique<RegPartEdit<>>(dropNormalMapByName_.get());
+                    }
                     removeDrawIndexedAdapter_ = std::make_unique<RegPartEdit<>>(removeDrawIndexed_.get());
                     fillAdapter_ = std::make_unique<GraphPartEdit<>>(fillDrawIndexed_.get());
                     addFixCallAdapter_ = std::make_unique<GraphPartEdit<>>(addFixCall_.get());
+                    keepOwnFixCallAdapter_ = std::make_unique<GraphPartEdit<>>(keepOwnFixCall_.get());
                     overridesAdapter_ = std::make_unique<RegPartEdit<>>(overrides_.get());
                     blendDrawAdapter_ = std::make_unique<RegPartEdit<>>(blendDraw_.get());
+                    blendSkipFillAdapter_ = std::make_unique<GraphPartEdit<>>(blendSkipFill_.get());
+                    blendDrawFillAdapter_ = std::make_unique<GraphPartEdit<>>(blendDrawFill_.get());
 
                     std::vector<ObjGroupEdit::IniEdits> perGroup(1);
                     ObjGroupEdit::IniEdits& iniEdits = perGroup[0];
@@ -1623,10 +2117,28 @@ namespace AGRemapCore {
                                                  ? nullptr : slotFiles(repIt->second.first, repIt->second.second);
                         const bool hasTextures = (files != nullptr) && (!files->diffuseRes.empty() || !files->lightMapRes.empty());
 
-                        std::vector<ObjGroupEdit::PartEdit*> edits = {removeFixCallsAdapter_.get()};
-                        if (normalMap) {
+                        // KEEP THE MOD'S OWN FIX CALLS on a normal-map target: they are already the
+                        // library the target reads, and where the author put them is right. Dropping
+                        // them and adding one per path lost the second of a section that binds, calls
+                        // ORFix, draws, binds again, calls ORFix and draws again -- the forward
+                        // template's Citlali3 finding, met again on a CitlaliWhisperofStars mod.
+                        // Only on the layout the target reads: a plain slot is shifted up and its
+                        // own NNFix would then read the wrong registers.
+                        const bool keepOwnFix = normalTarget() && normalMap && files != nullptr && files->ownFix;
+
+                        std::vector<ObjGroupEdit::PartEdit*> edits;
+                        if (!keepOwnFix) {
+                            edits.push_back(removeFixCallsAdapter_.get());
+                        }
+                        // texRegsByName did both of these before the remap -- see
+                        // buildTexRegNormalize -- and a positional shift on top would undo it.
+                        if (config_.texRegsByName) {
+                            // nothing: already in the target's layout
+                        } else if (normalMap && !normalTarget()) {
                             edits.push_back(dropNormalMapAdapter_.get());
                             edits.push_back(shiftDownAdapter_.get());
+                        } else if (!normalMap && normalTarget() && hasTextures) {
+                            edits.push_back(shiftUpAdapter_.get());
                         }
                         // THE FILL IS FOR A SECTION THAT DRAWS NOTHING OF ITS OWN.
                         //
@@ -1655,13 +2167,17 @@ namespace AGRemapCore {
                         // block has to follow it, and RegBottomAdd appends where the fill did.
                         auto extraIt = extraDrawAdapters_.find(obj);
                         if (extraIt != extraDrawAdapters_.end()) {
-                            edits.push_back(extraIt->second.get());
+                            for (const auto& adapter : extraIt->second) {
+                                edits.push_back(adapter.get());
+                            }
                         }
 
                         // No textures and no donor: no fix call either, or NNFix re-slots registers
                         // this section never bound and scrambles what the game had set.
-                        if (hasTextures) {
+                        if (hasTextures && !keepOwnFix) {
                             edits.push_back(addFixCallAdapter_.get());
+                        } else if (keepOwnFix) {
+                            edits.push_back(keepOwnFixCallAdapter_.get());
                         }
                         // this object's OWN component's hash remap -- the head comes from the Bang,
                         // whose hashes are filed under a different name than the Body's
@@ -1676,10 +2192,126 @@ namespace AGRemapCore {
                         iniEdits.trackKeys[objKey] = false;
                     }
 
+                    // ---- the carried members' copies ----
+                    stripCarried_ = std::make_unique<RegRemove<>>(
+                        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
+                            {IniKeywords::Hash, std::nullopt}, {IniKeywords::MatchFirstIndex, std::nullopt},
+                            {IniKeywords::Handling, std::nullopt}, {IniKeywords::Ib, std::nullopt}});
+                    stripCarriedAdapter_ = std::make_unique<RegPartEdit<>>(stripCarried_.get());
+
+                    for (const auto& entry : carriedDraws_) {
+                        const auto& member = entry.second.first;
+                        const long long start = entry.second.second.first;
+                        const long long count = entry.second.second.second;
+                        const SlotFiles* files = slotFiles(member.first, member.second);
+                        const bool normalMap = hasNormalMap(member.first, member.second);
+                        const bool hasTextures = (files != nullptr) && (!files->diffuseRes.empty() || !files->lightMapRes.empty());
+                        const bool keepOwnFix = normalTarget() && normalMap && files != nullptr && files->ownFix;
+
+                        std::vector<ObjGroupEdit::PartEdit*> edits = {stripCarriedAdapter_.get()};
+                        if (!keepOwnFix) {
+                            edits.push_back(removeFixCallsAdapter_.get());
+                        }
+                        // texRegsByName did both of these before the remap -- see
+                        // buildTexRegNormalize -- and a positional shift on top would undo it.
+                        if (config_.texRegsByName) {
+                            // nothing: already in the target's layout
+                        } else if (normalMap && !normalTarget()) {
+                            edits.push_back(dropNormalMapAdapter_.get());
+                            edits.push_back(shiftDownAdapter_.get());
+                        } else if (!normalMap && normalTarget() && hasTextures) {
+                            edits.push_back(shiftUpAdapter_.get());
+                        }
+
+                        auto offsetEdit = std::make_unique<DrawOffset>(start, count);
+                        auto offsetAdapter = std::make_unique<RegPartEdit<>>(offsetEdit.get());
+                        edits.push_back(offsetAdapter.get());
+
+                        // A member that draws nothing of its own draws its whole range.
+                        if (files != nullptr && !files->draws) {
+                            auto fill = std::make_unique<RegFillMissing<>>(
+                                IniKeywords::DrawIndexed,
+                                RegFillMissing<>::makeFillMissing(IniKeywords::DrawIndexed,
+                                                                  std::to_string(count) + ", " + std::to_string(start) + ", 0"),
+                                RegFillMissingMode::BottomCover);
+                            auto fillAdapter = std::make_unique<GraphPartEdit<>>(fill.get());
+                            edits.push_back(fillAdapter.get());
+                            objFills_.push_back(std::move(fill));
+                            carriedGraphAdapters_.push_back(std::move(fillAdapter));
+                        }
+
+                        // AFTER the draw is in place, so the fill lands in front of it, not behind it.
+                        //
+                        // A COPY THAT BINDS NOTHING OF ITS OWN gets the member's textures -- its own,
+                        // a download or its donor's -- at the top, in the target's layout. Otherwise
+                        // its fix call would run over the PREVIOUS member's already-fixed bindings,
+                        // and ORFix / NNFix are involutions: a YelanTranquil mod's Eye sections bind
+                        // nothing, and its eyes would have drawn flat green. TopdownCover adds at the
+                        // top of the copy only where some part lacks the register, and a member that
+                        // binds its own (or carries the parser's downloads) rebinds over it before
+                        // its fix call, so for it the fill changes nothing.
+                        if (hasTextures) {
+                            std::vector<std::pair<std::string, std::string>> bindings;
+                            if (normalTarget() && !files->normalMapRes.empty()) {
+                                bindings.emplace_back(DiffuseReg, files->normalMapRes);
+                            }
+                            if (!files->diffuseRes.empty()) {
+                                bindings.emplace_back(targetDiffuseReg(), files->diffuseRes);
+                            }
+                            if (!files->lightMapRes.empty()) {
+                                bindings.emplace_back(targetLightMapReg(),
+                                    config_.lightMapEdit
+                                        ? IniNamingTools::getRemapTexResourceName(
+                                              files->lightMapRes, TextTools::capitalize(toModName_) + "LightMap")
+                                        : files->lightMapRes);
+                            }
+
+                            // To the FRONT of the root's first part, in reverse so the lines keep their
+                            // order: TopdownCover hands the fill that part, and a copy whose own lines
+                            // were all stripped has one part only -- the one its draw is already in.
+                            for (auto it = bindings.rbegin(); it != bindings.rend(); ++it) {
+                                const auto& binding = *it;
+                                auto fill = std::make_unique<RegFillMissing<>>(
+                                    binding.first, RegFillMissing<>::makeFillMissing(binding.first, binding.second, /*toFront*/ true),
+                                    RegFillMissingMode::TopdownCover);
+                                auto fillAdapter = std::make_unique<GraphPartEdit<>>(fill.get());
+                                edits.push_back(fillAdapter.get());
+                                objFills_.push_back(std::move(fill));
+                                carriedGraphAdapters_.push_back(std::move(fillAdapter));
+                            }
+                        }
+
+                        if (hasTextures && !keepOwnFix) {
+                            edits.push_back(addFixCallAdapter_.get());
+                        } else if (keepOwnFix) {
+                            edits.push_back(keepOwnFixCallAdapter_.get());
+                        }
+
+                        RegPartEdit<>* memberAsset = assetAdapterOf(member.first);
+                        if (memberAsset != nullptr) {
+                            edits.push_back(memberAsset);
+                        }
+
+                        const ModObj objKey("", entry.first);
+                        iniEdits.edits[objKey] = std::move(edits);
+                        iniEdits.trackKeys[objKey] = false;
+
+                        carriedOffsets_.push_back(std::move(offsetEdit));
+                        carriedAdapters_.push_back(std::move(offsetAdapter));
+                    }
+
                     RegPartEdit<>* skeletonAsset = assetAdapterOf(mergeOrder_.front());
 
+                    // The DONOR's own hash remap: its section is the component's, and each
+                    // component's hashes are filed under that component's name -- the skeleton's
+                    // filter would miss and write HashNotFound. See buildSlotRemap's ibDonor.
+                    RegPartEdit<>* ibAsset = assetAdapterOf(ibDonor_.empty() ? mergeOrder_.front() : ibDonor_);
+                    if (ibAsset == nullptr) {
+                        ibAsset = skeletonAsset;
+                    }
+
                     const ModObj ibObj("", "ib");
-                    iniEdits.edits[ibObj] = {renameIbAdapter_.get(), skeletonAsset, removeDrawIndexedAdapter_.get()};
+                    iniEdits.edits[ibObj] = {renameIbAdapter_.get(), ibAsset, removeDrawIndexedAdapter_.get()};
                     iniEdits.trackKeys[ibObj] = false;
 
                     const ModObj blendObj("", "blend");
@@ -1688,7 +2320,8 @@ namespace AGRemapCore {
                         drawEdit = blendBranchDrawAdapter_.get();
                     }
 
-                    iniEdits.edits[blendObj] = {renameBlendAdapter_.get(), skeletonAsset, drawEdit};
+                    iniEdits.edits[blendObj] = {renameBlendAdapter_.get(), skeletonAsset, drawEdit,
+                                                 blendSkipFillAdapter_.get(), blendDrawFillAdapter_.get()};
                     iniEdits.trackKeys[blendObj] = false;
 
                     for (const char* kind : {"position", "texcoord"}) {
@@ -1697,12 +2330,33 @@ namespace AGRemapCore {
                         iniEdits.trackKeys[objKey] = false;
                     }
 
+                    // The donor's own hash remap again -- see buildSlotRemap's donorFor.
+                    RegPartEdit<>* otherAsset = assetAdapterOf(otherDonor_.empty() ? mergeOrder_.front() : otherDonor_);
+                    if (otherAsset == nullptr) {
+                        otherAsset = skeletonAsset;
+                    }
+
                     const ModObj otherObj("", "other");
-                    iniEdits.edits[otherObj] = {renameAdapter_.get(), skeletonAsset, overridesAdapter_.get()};
+                    iniEdits.edits[otherObj] = {renameAdapter_.get(), otherAsset, overridesAdapter_.get()};
                     iniEdits.trackKeys[otherObj] = false;
 
                     if (!config_.faceReg.empty()) {
-                        std::vector<ObjGroupEdit::PartEdit*> faceEdits = {renameAdapter_.get(), faceAssetAdapter_.get()};
+                        // A FACE DRAW CARRIES NO FIX LIBRARY CALL.
+                        //
+                        // Every one of Citlali's own mods binds her face diffuse and calls nothing:
+                        // the identity's face section is `hash` + `ps-t1 = <diffuse>`, and the
+                        // compiled FORWARD fix writes a face as `hash` + `this = <resource>`, with
+                        // no register and no call at all. The face is the one object whose register
+                        // the fix names outright (config.faceReg), so there is nothing for ORFix to
+                        // re-slot -- and `NNFix` over a diffuse sitting at `ps-t1` reads it as the
+                        // LIGHT MAP, which is a wrong-textured face.
+                        //
+                        // A mod only ever has such a call here by carrying one: this one's face
+                        // section is written in GIMI's newer API, whose `run = SetTextures`
+                        // GIMIApiNormalizer faithfully turns into the traditional call.
+                        std::vector<ObjGroupEdit::PartEdit*> faceEdits = {renameAdapter_.get(),
+                                                                         removeFixCallsAdapter_.get(),
+                                                                         faceAssetAdapter_.get()};
                         if (faceRegAdapter_ != nullptr) {
                             faceEdits.push_back(faceRegAdapter_.get());
                         }
@@ -1739,6 +2393,8 @@ namespace AGRemapCore {
                 std::string faceFile_;
 
                 std::vector<std::string> mergeOrder_;
+                std::string ibDonor_;                // the component whose ib section becomes the target's skip
+                std::string otherDonor_;             // and whose VertexLimitRaise carries the overrides
                 std::unordered_map<std::string, VGRemap> remaps_;
                 std::unordered_map<std::string, std::size_t> ibBytesPerIndex_;    // declared width, by ib path
                 std::unordered_map<std::string, std::size_t> offsets_;
@@ -1766,6 +2422,7 @@ namespace AGRemapCore {
                 std::vector<std::unique_ptr<RegNewVals<>>> indexRegEdits_;
                 std::vector<std::unique_ptr<RegPartEdit<>>> indexAdapters_;
                 ObjGroupEdit indexEdits_;
+                std::optional<ObjGroupEdit> texRegNormalize_;
 
                 std::unique_ptr<GraphRename<>> renameGraph_;
                 std::unique_ptr<GraphRename<>> renameIbGraph_;
@@ -1777,19 +2434,33 @@ namespace AGRemapCore {
                 std::unique_ptr<RegRemove<>> removeFixCalls_;
                 std::unique_ptr<RegRemove<>> dropNormalMap_;
                 std::unique_ptr<RegRemap<>> shiftDown_;
+                std::unique_ptr<RegRemap<>> shiftUp_;
+                std::unique_ptr<RegRemap<>> texRegsByName_;
+                std::unique_ptr<RegRemove<>> dropNormalMapByName_;
                 std::unique_ptr<RegRemove<>> removeDrawIndexed_;
                 std::unique_ptr<RegFillMissing<>> fillDrawIndexed_;
                 std::vector<std::unique_ptr<RegFillMissing<>>> objFills_;
+
+                // The carried members -- see isCarried. Keyed by memberKey: (member, (start, count)).
+                std::map<std::string, std::pair<std::pair<std::string, std::string>, std::pair<long long, long long>>> carriedDraws_;
+                std::unique_ptr<RegRemove<>> stripCarried_;
+                std::unique_ptr<RegPartEdit<>> stripCarriedAdapter_;
+                std::vector<std::unique_ptr<DrawOffset>> carriedOffsets_;
+                std::vector<std::unique_ptr<RegPartEdit<>>> carriedAdapters_;
+                std::vector<std::unique_ptr<GraphPartEdit<>>> carriedGraphAdapters_;
                 std::unordered_map<std::string, std::unique_ptr<GraphPartEdit<>>> objFillAdapters_;
                 std::vector<Fixer::GroupEdit*> preRemapTexGroupEdits_;
                 std::vector<std::unique_ptr<RegBottomAdd<>>> extraDraws_;
                 std::vector<std::unique_ptr<RegBranchAdd<>>> branchDraws_;
                 std::unique_ptr<RegBranchAdd<>> blendBranchDraw_;
                 std::unique_ptr<GraphPartEdit<>> blendBranchDrawAdapter_;
-                std::unordered_map<std::string, std::unique_ptr<GraphPartEdit<>>> extraDrawAdapters_;
+                std::unordered_map<std::string, std::vector<std::unique_ptr<GraphPartEdit<>>>> extraDrawAdapters_;
                 std::unique_ptr<RegDelimitedAdd<>> addFixCall_;
+                std::unique_ptr<RegDelimitedAdd<>> keepOwnFixCall_;
                 std::unique_ptr<RegNewVals<>> overrides_;
                 std::unique_ptr<RegNewVals<>> blendDraw_;
+                std::unique_ptr<RegFillMissing<>> blendSkipFill_;
+                std::unique_ptr<RegFillMissing<>> blendDrawFill_;
 
                 std::unique_ptr<GraphPartEdit<>> renameAdapter_;
                 std::unique_ptr<GraphPartEdit<>> renameIbAdapter_;
@@ -1799,11 +2470,17 @@ namespace AGRemapCore {
                 std::unique_ptr<RegPartEdit<>> removeFixCallsAdapter_;
                 std::unique_ptr<RegPartEdit<>> dropNormalMapAdapter_;
                 std::unique_ptr<RegPartEdit<>> shiftDownAdapter_;
+                std::unique_ptr<RegPartEdit<>> shiftUpAdapter_;
+                std::unique_ptr<RegPartEdit<>> texRegsByNameAdapter_;
+                std::unique_ptr<RegPartEdit<>> dropNormalMapByNameAdapter_;
                 std::unique_ptr<RegPartEdit<>> removeDrawIndexedAdapter_;
                 std::unique_ptr<GraphPartEdit<>> fillAdapter_;
                 std::unique_ptr<GraphPartEdit<>> addFixCallAdapter_;
+                std::unique_ptr<GraphPartEdit<>> keepOwnFixCallAdapter_;
                 std::unique_ptr<RegPartEdit<>> overridesAdapter_;
                 std::unique_ptr<RegPartEdit<>> blendDrawAdapter_;
+                std::unique_ptr<GraphPartEdit<>> blendSkipFillAdapter_;
+                std::unique_ptr<GraphPartEdit<>> blendDrawFillAdapter_;
 
                 ObjGroupEdit mainEdits_;
         };

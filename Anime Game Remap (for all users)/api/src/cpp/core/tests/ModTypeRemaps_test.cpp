@@ -194,7 +194,7 @@ static ModTypeId idOf(const std::string& name) {
 
 static void testEveryRowMatchesPython() {
     std::printf("testEveryRowMatchesPython\n");
-    check(expectedRows().size() == 51, "the oracle itself still has all 51 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali and CitlaliWhisperofStars, plus the four WuWa types)");
+    check(expectedRows().size() == 53, "the oracle itself still has all 53 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali and CitlaliWhisperofStars, plus the four WuWa types)");
     for (const RemapRow& row : expectedRows()) {
         ModTypeId id = idOf(row.name);
 

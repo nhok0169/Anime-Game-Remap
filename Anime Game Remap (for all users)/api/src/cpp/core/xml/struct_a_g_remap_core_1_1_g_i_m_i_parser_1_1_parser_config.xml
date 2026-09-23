@@ -49,6 +49,33 @@
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="279" column="31" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="279" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a2238f8fbfe3f73d179f9bab8aaaf39ae" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; K &gt;</type>
+        <definition>std::optional&lt;K&gt; AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::ParserConfig::drawKey</definition>
+        <argsstring></argsstring>
+        <name>drawKey</name>
+        <qualifiedname>AGRemapCore::GIMIParser::ParserConfig::drawKey</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The draw `KVP`_ (``drawindexed``), which makes a download&apos;s coverage test
+ORDERED -- empty for the old, unordered test :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A `section`_-level download is added where the mod does not cover the register, and
+&quot;cover&quot; used to mean &quot;binds it ANYWHERE&quot;. A mod that DRAWS before it binds is then
+taken for covered, and that draw renders with whatever the game had bound -- the
+TARGET&apos;s own textures once remapped, which on one CitlaliWhisperofStars mod put
+Citlali&apos;s gloves, boots and hat on the skin (2026-09-22). With this set, a root whose
+first draw comes before the register is bound counts as uncovered, and the download
+lands at the top of the `section`_ where the mod&apos;s own binding overrides it for the
+draws that follow
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="297" column="31" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -71,9 +98,10 @@ literal here
         <label>AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::ClassifierConfig</label>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="265" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="265" bodyend="280"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="265" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="265" bodyend="298"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1ae549e37bc6608691558c43ff3911d9b1" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser::ParserConfig</scope><name>classifier</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a2238f8fbfe3f73d179f9bab8aaaf39ae" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser::ParserConfig</scope><name>drawKey</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a8c60fc434cdae20b9e383ae8f65b083b" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser::ParserConfig</scope><name>runConfig</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a783ac96e85f596cd3e96d33fcca4050a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser::ParserConfig</scope><name>valOfSectionName</name></member>
     </listofallmembers>

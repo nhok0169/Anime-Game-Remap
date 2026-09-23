@@ -260,6 +260,61 @@ once at the end of every path and nowhere else
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="204" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" bodystart="204" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_delimited_add_1aa9abe8f181d4ef8a37704cfe79e4411e" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_delimited_add_1af9596310ae35f02b63d7c947e0787e99" kindref="member">RegMap</ref></type>
+        <definition>RegMap AGRemapCore::RegDelimitedAdd&lt; K, V, KeyHash, KeyEqual &gt;::invalidatorRegs</definition>
+        <argsstring></argsstring>
+        <name>invalidatorRegs</name>
+        <qualifiedname>AGRemapCore::RegDelimitedAdd::invalidatorRegs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The registers whose accepted occurences START A NEW GENERATION -- only read in
+:cpp:enumerator:`RegDelimitedAddMode::PerBindingGeneration` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The addition covers everything from one of these until the next delimiter consumes it;
+another occurence after that delimiter is a new generation needing its own addition.
+For the fix libraries these are the texture registers (``ps-t0``, ``ps-t1``, ...),
+because re-binding one is what makes an earlier ``NNFix`` / ``ORFix`` no longer apply
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Empty means one generation per path, which makes
+:cpp:enumerator:`RegDelimitedAddMode::PerBindingGeneration` behave as
+:cpp:enumerator:`RegDelimitedAddMode::PerPath`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="224" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_delimited_add_1a3cb546dc65bf44169701b161d1444e60" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_delimited_add_1af9596310ae35f02b63d7c947e0787e99" kindref="member">RegMap</ref></type>
+        <definition>RegMap AGRemapCore::RegDelimitedAdd&lt; K, V, KeyHash, KeyEqual &gt;::coveredRegs</definition>
+        <argsstring></argsstring>
+        <name>coveredRegs</name>
+        <qualifiedname>AGRemapCore::RegDelimitedAdd::coveredRegs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The registers whose accepted occurences mean the current generation ALREADY HAS the
+addition -- only read in
+:cpp:enumerator:`RegDelimitedAddMode::PerBindingGeneration` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+What a mod wrote for itself. A `section`_ carried from a mod may already call the fix
+library over its own bindings, and that call is the author&apos;s placement: keeping it and
+adding none is right, adding one beside it is the double call this mode exists to
+avoid. Occurences of \ref additions&apos; own keys are NOT treated this way automatically,
+since an addition is not always something a mod can supply
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="241" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_delimited_add_1a8066f882e3cc6e2f0006a738d87e90ef" prot="public" static="no" mutable="no">
         <type>bool</type>
         <definition>bool AGRemapCore::RegDelimitedAdd&lt; K, V, KeyHash, KeyEqual &gt;::pathEndOnlyWhenUndelimited</definition>
@@ -290,7 +345,7 @@ is what places NNFix on a character whose fix does not move the draw call
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="226" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" bodystart="226" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="263" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" bodystart="263" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_delimited_add_1aecf6f806080f4315442c879a01166855" prot="public" static="no" mutable="no">
         <type><ref refid="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274e" kindref="member">RegDelimitedAddMode</ref></type>
@@ -313,14 +368,14 @@ accumulates :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="239" column="33" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" bodystart="239" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="276" column="33" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" bodystart="276" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_delimited_add_1a9405ddf2dca9be3d31c2aab10c0110ab" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_delimited_add_1adf46467f7ce7f4b352db6b3457d88673" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
         <definition>AGRemapCore::RegDelimitedAdd&lt; K, V, KeyHash, KeyEqual &gt;::RegDelimitedAdd</definition>
-        <argsstring>(Additions additions={}, RegMap delimiterRegs={}, bool pathEndOnlyWhenUndelimited=false, RegDelimitedAddMode mode=RegDelimitedAddMode::PerSegment)</argsstring>
+        <argsstring>(Additions additions={}, RegMap delimiterRegs={}, bool pathEndOnlyWhenUndelimited=false, RegDelimitedAddMode mode=RegDelimitedAddMode::PerSegment, RegMap invalidatorRegs={}, RegMap coveredRegs={})</argsstring>
         <name>RegDelimitedAdd</name>
         <qualifiedname>AGRemapCore::RegDelimitedAdd::RegDelimitedAdd</qualifiedname>
         <param>
@@ -342,6 +397,16 @@ accumulates :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
           <type><ref refid="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274e" kindref="member">RegDelimitedAddMode</ref></type>
           <declname>mode</declname>
           <defval><ref refid="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274ead74510f2e2306921c80274d079e2981a" kindref="member">RegDelimitedAddMode::PerSegment</ref></defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_delimited_add_1af9596310ae35f02b63d7c947e0787e99" kindref="member">RegMap</ref></type>
+          <declname>invalidatorRegs</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_delimited_add_1af9596310ae35f02b63d7c947e0787e99" kindref="member">RegMap</ref></type>
+          <declname>coveredRegs</declname>
+          <defval>{}</defval>
         </param>
         <briefdescription>
 <para>Constructs a new delimiter-keyed adding edit. </para>
@@ -390,12 +455,42 @@ How many times one execution path gets the addition -- see \ref mode
 </verbatim> </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>invalidatorRegs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The registers that START A NEW GENERATION -- see \ref invalidatorRegs. Only read when
+&apos;mode&apos; is :cpp:enumerator:`RegDelimitedAddMode::PerBindingGeneration`
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: none, which makes that mode behave as
+:cpp:enumerator:`RegDelimitedAddMode::PerPath`
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>coveredRegs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The registers whose occurence means a generation already HAS the addition -- see
+\ref coveredRegs. Only read when &apos;mode&apos; is
+:cpp:enumerator:`RegDelimitedAddMode::PerBindingGeneration` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+**Default**: none, so nothing a mod wrote is taken for the addition
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="262" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="317" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_delimited_add_1a9020b7ee7268010db12bcd929565013c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; long long &gt;</type>
@@ -431,7 +526,7 @@ An insertion index ``i`` means &quot;insert before the `KVP`_ currently at order
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="279" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="335" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_delimited_add_1aca07dab900bf58b001b6f4b2c7947008" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -453,7 +548,7 @@ An insertion index ``i`` means &quot;insert before the `KVP`_ currently at order
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="314" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="391" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_delimited_add_1a7d999fb3f7d642f3d0049361ba2ac31d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_delimited_add_1aab0c295d43d2b7a4e07e35bc1c880a20" kindref="member">Graph</ref> &amp;</type>
@@ -508,7 +603,7 @@ placement rules :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="331" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="408" column="19"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -554,7 +649,7 @@ Checks whether &apos;part&apos; is `path-terminal`: nothing more executes after 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="291" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="347" column="25"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -624,7 +719,81 @@ class&apos;s description for the four placement rules it implements
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="307" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="363" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_delimited_add_1a96cf495c93102b096c8ac1c93406cb3a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RegDelimitedAdd&lt; K, V, KeyHash, KeyEqual &gt;::editPerGeneration</definition>
+        <argsstring>(Graph &amp;graph, const CallGraphType &amp;callGraph, const ModType *modType, const PartFilter &amp;partFilter)</argsstring>
+        <name>editPerGeneration</name>
+        <qualifiedname>AGRemapCore::RegDelimitedAdd::editPerGeneration</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_delimited_add_1aab0c295d43d2b7a4e07e35bc1c880a20" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_delimited_add_1a102fb0ecb937e51fd0f566cb72be4343" kindref="member">CallGraphType</ref> &amp;</type>
+          <declname>callGraph</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_delimited_add_1abd6ebe94f784037e622d17b49ba6a17d" kindref="member">PartFilter</ref> &amp;</type>
+          <declname>partFilter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The :cpp:enumerator:`RegDelimitedAddMode::PerBindingGeneration` half of \ref edit
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+One pass of \ref invalidatorRegs / \ref coveredRegs / \ref delimiterRegs **in
+insertion order within each part**, which is what lets one part hold several
+generations, plus a fixpoint over the `call graph`_ carrying &quot;a generation is live and
+uncovered here&quot; between parts -- a MUST analysis, like
+:cpp:func:`editPerPath`&apos;s, so a generation only counts as live when every path agrees
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph being edited </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callGraph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Its call graph, already built </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod type passed to <ref refid="class_a_g_remap_core_1_1_reg_delimited_add_1a7d999fb3f7d642f3d0049361ba2ac31d" kindref="member">edit</ref>, handed to &apos;partFilter&apos; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The filter passed to <ref refid="class_a_g_remap_core_1_1_reg_delimited_add_1a7d999fb3f7d642f3d0049361ba2ac31d" kindref="member">edit</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="384" column="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -773,7 +942,7 @@ delimits&quot; is what rules 1-3 already do
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="132" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" bodystart="132" bodyend="334"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" line="132" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h" bodystart="132" bodyend="411"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1aca07dab900bf58b001b6f4b2c7947008" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>addAdditionsAt</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1aa3fc3ed3e0c3139999c8a89a768f6310" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>Additions</name></member>
@@ -782,12 +951,15 @@ delimits&quot; is what rules 1-3 already do
       <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1a102fb0ecb937e51fd0f566cb72be4343" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>CallGraphType</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1aacad3853e12fcd1e95b6d0b8474dea62" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>ContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1a3cb546dc65bf44169701b161d1444e60" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>coveredRegs</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1aaae57748ee5cb1b8fcc52ec9eadf3ea4" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>delimiterRegs</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1a7d999fb3f7d642f3d0049361ba2ac31d" prot="public" virt="virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>edit</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a8cf7cc52f178d8774155d39261eb55a6" prot="public" virt="virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>editFromIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1a96cf495c93102b096c8ac1c93406cb3a" prot="private" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>editPerGeneration</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1ae16f9df5f71549cda4a5c60ab277a9e7" prot="private" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>editPerPath</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1a9020b7ee7268010db12bcd929565013c" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>getDelimiterInds</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1aab0c295d43d2b7a4e07e35bc1c880a20" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>Graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1aa9abe8f181d4ef8a37704cfe79e4411e" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>invalidatorRegs</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1a40eb1cca26cf15b4c37bdf619dbc5777" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>isPathEnd</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1a130d29d4cc838ce35cdb8bc8e24f7142" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>IterData</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1ae8d9dd8729d5671ded4cfa66464c1a17" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>KeySet</name></member>
@@ -798,7 +970,7 @@ delimits&quot; is what rules 1-3 already do
       <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1abd6ebe94f784037e622d17b49ba6a17d" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>PartFilter</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1a8066f882e3cc6e2f0006a738d87e90ef" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>pathEndOnlyWhenUndelimited</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1a4c9114de630d1410a480088e56e6c36f" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>Predicate</name></member>
-      <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1a9405ddf2dca9be3d31c2aab10c0110ab" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>RegDelimitedAdd</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1adf46467f7ce7f4b352db6b3457d88673" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>RegDelimitedAdd</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_delimited_add_1af9596310ae35f02b63d7c947e0787e99" prot="public" virt="non-virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>RegMap</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::RegDelimitedAdd</scope><name>~BaseIniPartEdit</name></member>
     </listofallmembers>

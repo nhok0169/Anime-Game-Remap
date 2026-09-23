@@ -1368,6 +1368,15 @@ namespace AGRemapCore {
              */
             static IniFixBuilder::Factory yelanTranquilToYelan6_1();
 
+            /**
+             * @brief
+             @rst
+             CitlaliWhisperofStars -> Citlali -- the THIRD merge of a skin of several components
+             onto a target of one, and the inverse of :cpp:class:`CitlaliFixer`'s direction
+             @endrst
+             */
+            static IniFixBuilder::Factory citlaliWhisperofStarsToCitlali6_7();
+
     };
 
     /**

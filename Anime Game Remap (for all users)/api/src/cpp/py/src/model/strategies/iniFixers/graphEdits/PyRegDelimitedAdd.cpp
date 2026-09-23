@@ -68,9 +68,13 @@ std::optional<PyRegDelimitedAdd::Core::KeySet> parseKeysToTrack(const py::object
 
 
 PyRegDelimitedAdd::PyRegDelimitedAdd(py::object additionsObj, py::object delimiterRegsObj,
-                                       bool pathEndOnlyWhenUndelimited, AGRC::RegDelimitedAddMode mode):
-    Core(parseAdditions(additionsObj), parseRegMap(delimiterRegsObj), pathEndOnlyWhenUndelimited, mode),
-    delimiterRegsObj(delimiterRegsObj.is_none() ? py::dict() : delimiterRegsObj.cast<py::dict>()) {}
+                                       bool pathEndOnlyWhenUndelimited, AGRC::RegDelimitedAddMode mode,
+                                       py::object invalidatorRegsObj, py::object coveredRegsObj):
+    Core(parseAdditions(additionsObj), parseRegMap(delimiterRegsObj), pathEndOnlyWhenUndelimited, mode,
+         parseRegMap(invalidatorRegsObj), parseRegMap(coveredRegsObj)),
+    delimiterRegsObj(delimiterRegsObj.is_none() ? py::dict() : delimiterRegsObj.cast<py::dict>()),
+    invalidatorRegsObj(invalidatorRegsObj.is_none() ? py::dict() : invalidatorRegsObj.cast<py::dict>()),
+    coveredRegsObj(coveredRegsObj.is_none() ? py::dict() : coveredRegsObj.cast<py::dict>()) {}
 
 
 void initCppRegDelimitedAdd(pybind11::module_ &m) {
@@ -158,16 +162,21 @@ pass, and under :attr:`PerSegment` every second one renders with its light map a
         .value("PerSegment", AGRC::RegDelimitedAddMode::PerSegment,
                "Once per **delimiter-free stretch** of every path -- immediately before every accepted delimiter, plus once at the end of a path that has none")
         .value("PerPath", AGRC::RegDelimitedAddMode::PerPath,
-               "Once per **path**, at the last position preceding every accepted delimiter on it");
+               "Once per **path**, at the last position preceding every accepted delimiter on it")
+        .value("PerBindingGeneration", AGRC::RegDelimitedAddMode::PerBindingGeneration,
+               "Once per **binding generation** -- an ``invalidatorRegs`` occurence opens one, a ``coveredRegs`` occurence or this addition serves it, a delimiter consumes it");
 
     // py::init(factory), same as PyRegSurroundedAdd: the core holds std::function predicates
     cls.def(py::init([](py::object additions, py::object delimiterRegs, bool pathEndOnlyWhenUndelimited,
-                         AGRC::RegDelimitedAddMode mode) {
+                         AGRC::RegDelimitedAddMode mode, py::object invalidatorRegs, py::object coveredRegs) {
         return std::make_unique<PyRegDelimitedAdd>(std::move(additions), std::move(delimiterRegs),
-                                                    pathEndOnlyWhenUndelimited, mode);
+                                                    pathEndOnlyWhenUndelimited, mode,
+                                                    std::move(invalidatorRegs), std::move(coveredRegs));
     }), py::arg("additions"), py::arg("delimiterRegs") = py::none(),
         py::arg("pathEndOnlyWhenUndelimited") = false,
-        py::arg("mode") = AGRC::RegDelimitedAddMode::PerSegment);
+        py::arg("mode") = AGRC::RegDelimitedAddMode::PerSegment,
+        py::arg("invalidatorRegs") = py::none(),
+        py::arg("coveredRegs") = py::none());
 
     cls.def_readwrite("mode", &PyRegDelimitedAdd::mode,
         py::doc(R"doc(
@@ -199,6 +208,35 @@ surplus call the ``False`` behaviour leaves after a path's last draw is not harm
     }, py::doc(R"doc(
 List[Tuple[:class:`str`, :class:`str`]]: The `KVP`_ entries to add, in order -- a single
 ``(key, value)`` tuple may be assigned and reads back as a one-entry list
+    )doc"));
+
+    cls.def_property("invalidatorRegs", [](const PyRegDelimitedAdd &self) {
+        return self.invalidatorRegsObj;
+    }, [](PyRegDelimitedAdd &self, py::object invalidatorRegs) {
+        self.invalidatorRegsObj = invalidatorRegs.is_none() ? py::dict() : invalidatorRegs.cast<py::dict>();
+        self.invalidatorRegs = parseRegMap(self.invalidatorRegsObj);
+    }, py::doc(R"doc(
+Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: The registers whose accepted
+occurences START A NEW GENERATION --- only read when :attr:`mode` is
+``RegDelimitedAddMode.PerBindingGeneration``
+
+For the fix libraries these are the texture registers: re-binding one is what makes an earlier
+``NNFix`` / ``ORFix`` no longer apply, so what follows needs a call of its own. Empty means one
+generation per path, which is ``RegDelimitedAddMode.PerPath``
+    )doc"));
+
+    cls.def_property("coveredRegs", [](const PyRegDelimitedAdd &self) {
+        return self.coveredRegsObj;
+    }, [](PyRegDelimitedAdd &self, py::object coveredRegs) {
+        self.coveredRegsObj = coveredRegs.is_none() ? py::dict() : coveredRegs.cast<py::dict>();
+        self.coveredRegs = parseRegMap(self.coveredRegsObj);
+    }, py::doc(R"doc(
+Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: The registers whose accepted
+occurences mean the current generation ALREADY HAS the addition --- only read when :attr:`mode` is
+``RegDelimitedAddMode.PerBindingGeneration``
+
+What a mod wrote for itself. A section carried from a mod may already call the fix library over its
+own bindings, and that call is the author's placement: keeping it and adding none is right
     )doc"));
 
     cls.def_property("delimiterRegs", [](const PyRegDelimitedAdd &self) {

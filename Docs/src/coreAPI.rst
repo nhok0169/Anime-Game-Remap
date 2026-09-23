@@ -1021,6 +1021,17 @@ Ini Files
 
 :raw-html:`<br />`
 
+GIMIApiNormalizer
+-----------------
+
+.. cppattributetable:: AGRemapCore::GIMIApiNormalizer
+
+.. doxygenclass:: AGRemapCore::GIMIApiNormalizer
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 IniFile
 -------
 

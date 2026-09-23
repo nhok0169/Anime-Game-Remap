@@ -763,6 +763,15 @@ namespace AGRemapCore {
              */
             static IniParseBuilder::Factory yelanTranquil5_7();
 
+            /**
+             * @brief
+             @rst
+             CitlaliWhisperofStars' 6.7 parser -- a skin of THREE components (a Body of four draw
+             slots, a Bangs and an Eyes), built by :cpp:func:`makeGIMIComponentParser`
+             @endrst
+             */
+            static IniParseBuilder::Factory citlaliWhisperofStars6_7();
+
     };
 
     /**

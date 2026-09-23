@@ -43,6 +43,12 @@ command fails after 60 s. The alternative is `py -3 main.py helper serve` in an 
 
 Override the scratch folder with `AGREMAP_GAMEVIEW_HOME`.
 
+**Every capture has its bottom 4% cut off before it is saved** (`uidStrip` in the config,
+`GameView/game.py`'s `hideUid`). Both games print the player's account id there, and no
+screenshot may carry it. Only the bottom is cut, so `view` click coordinates are unaffected;
+verified on a probe window, where 800x500 captured as 800x480 and a `view` click at (400, 250)
+landed at (400, 250).
+
 ## Commands
 
 Everything that touches the game takes `-i GIMI|WWMI` (default: whichever game is running), and

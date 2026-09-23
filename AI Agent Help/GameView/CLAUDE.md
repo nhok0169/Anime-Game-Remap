@@ -154,6 +154,13 @@ This is the maintainer's real account, and the tool presses real keys.
   Wish, Battle Pass or Crystal Top-Up, and the chat box. **`Enter` opens chat** in Genshin, so do not
   press it in the overworld; `type` only into a box you have seen on screen. Treat co-op, friend
   and mail screens the same way. If the only way on is a paid or a sending step, stop and ask.
+- **No screenshot may show the player's account id** (the maintainer, 2026-09-23). Both games print
+  it bottom right: Genshin `UID: ...`, WuWa `User ID: ...`. The tool cuts the bottom 4% off every
+  capture before anything is saved (`uidStrip` in the config), so every `crop`, `compare`, `pair`
+  and `--keep` is already clean. Do not set `uidStrip` to 0. Do not `pair` or `--keep` an image the
+  tool did not capture, such as one of the maintainer's own screenshots or a Windows Snipping Tool
+  file, without cropping its bottom yourself first. If a kept image ever shows an id, crop and
+  re-save it before committing.
 - **Look before every click.** Take a screenshot after each navigation step and click only
   coordinates read off the newest view. `view` coordinates are refused if the window was resized,
   but not if the screen merely changed underneath them.

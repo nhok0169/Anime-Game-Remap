@@ -14,6 +14,10 @@ class GameViewError(Exception):
     pass
 
 
+# The share of a capture's height cut off the bottom, where the games print the account id.
+UID_STRIP = 0.04
+
+
 class Target:
     """A window to drive: the game's main window, or (``--window``) any window by title / exe."""
 
@@ -94,9 +98,10 @@ class Session:
     """Focus the target for the duration of a command, then (by default) hand the foreground back
     to whatever had it, so the maintainer's own window is not left buried under the game."""
 
-    def __init__(self, target, restore=True):
+    def __init__(self, target, restore=True, cropBottom=UID_STRIP):
         self.target = target
         self.restore = restore
+        self.cropBottom = cropBottom
         self.previous = None
         self.focused = False
 
@@ -253,7 +258,19 @@ class Session:
             raw, w, h = win32.grabWindow(self.target.hwnd)
             image = Image.frombuffer("RGB", (w, h), raw, "raw", "BGRX", 0, 1)
             used = "print"
-        return image.copy(), used
+        return hideUid(image, self.cropBottom), used
+
+
+def hideUid(image, frac=UID_STRIP):
+    """Cut the bottom ``frac`` of a capture off. BOTH games print the player's account id there
+    (Genshin "UID: ...", WuWa "User ID: ...", bottom right, in the last ~1.5% of the frame), and
+    the maintainer asked that no screenshot carry it -- scratch or kept. Done at CAPTURE time, so
+    every crop, compare, pair and --keep made afterwards is already clean. Nothing is cut from the
+    top, so 'view' click coordinates are unaffected."""
+    if not frac:
+        return image.copy()
+    w, h = image.size
+    return image.crop((0, 0, w, h - int(round(h * frac))))
 
 
 def isBlack(image, threshold=6):

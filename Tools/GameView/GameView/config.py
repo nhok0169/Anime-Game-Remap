@@ -87,7 +87,8 @@ def discover(xxmiRoot=None):
     """A fresh config from the XXMI Launcher's own settings file."""
     root = xxmiRoot or findXxmiRoot()
     config = {"xxmiRoot": root, "importers": {}, "restoreFocus": True, "viewMax": 1568,
-              "keepMax": 1920, "protectedMods": list(DEFAULT_PROTECTED), "defaultImporter": "GIMI"}
+              "keepMax": 1920, "protectedMods": list(DEFAULT_PROTECTED), "defaultImporter": "GIMI",
+              "uidStrip": 0.04}
     launcherCfg = _readJson(os.path.join(root, "XXMI Launcher Config.json"), {}) if root else {}
     importers = launcherCfg.get("Importers", {})
     active = launcherCfg.get("Launcher", {}).get("active_importer")

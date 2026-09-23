@@ -20,8 +20,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from GameView import capture, keys, migoto, win32  # noqa: E402
 from GameView import config as cfg  # noqa: E402
 from GameView import helper  # noqa: E402
-from GameView.game import (GameViewError, Session, findTarget, gameProcesses, isBlack,  # noqa: E402
-                           requireTarget)
+from GameView.game import (UID_STRIP, GameViewError, Session, findTarget, gameProcesses,  # noqa: E402
+                           hideUid, isBlack, requireTarget)
 
 # Commands that inject input into, focus, or capture the game window -- the ones that must run
 # ELEVATED when the game is.
@@ -43,7 +43,8 @@ class Context:
     def session(self):
         if self._session is None:
             target = requireTarget(self.config, self.importerName, self.window)
-            self._session = Session(target, restore=self.restore)
+            self._session = Session(target, restore=self.restore,
+                                    cropBottom=self.config.get("uidStrip", UID_STRIP))
         return self._session
 
     @property
@@ -83,6 +84,7 @@ def cmdScreenshot(args, ctx):
         from PIL import Image
         x, y, w, h = win32.virtualScreen()
         image = Image.frombuffer("RGB", (w, h), win32.grabScreen(x, y, w, h), "raw", "BGRX", 0, 1)
+        image = hideUid(image, ctx.config.get("uidStrip", UID_STRIP))
         method = "blt"
         clientSize = None
     else:
@@ -103,7 +105,7 @@ def cmdScreenshot(args, ctx):
                     session.keyUp(vk)
         else:
             image, method = session.grab(args.method)
-        clientSize = image.size
+        clientSize = tuple(session.target.client()[2:])  # the window's, not the UID-cropped image's
 
     if args.crop:
         image = image.crop(_box(args.crop, args.space, image.size, ctx, clientSize))

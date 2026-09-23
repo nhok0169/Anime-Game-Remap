@@ -41,6 +41,16 @@ where it came from. On WuWa, a frame dump with XXMI's WWMI call/debug logging on
 enough for Unreal's watchdog to kill it, and turning that logging off is the maintainer's switch.
 See [Game View](AI%20Agent%20Help/GameView/CLAUDE.md).
 
+**A NEW `char <-> skin` REMAP HAS A FIXED TWELVE-STEP PIPELINE, WRITTEN DOWN BY THE MAINTAINER
+(2026-09-23).** In short: downloads -> RemapDraft -> mod data in the API (vertex group remap,
+hashes, indices, ...) -> prototype `char -> skin` from the library API, noting its gaps -> test it on
+a VARIETY of mods -> port it into the API, filling each gap with a new or extended module
+(`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, tools) -> test the port on ALL
+the mods -> the same prototype / test / port / test for `skin -> char` -> README and Sphinx docs.
+Each step's detail and tools are in
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s **"THE MAINTAINER'S REMAP
+PIPELINE, END TO END"**, its first section. Read it before starting any new pair.
+
 **A COUNTER THAT CAN ONLY EVER BE ZERO READS EXACTLY LIKE A ZERO THAT MEANS SOMETHING
 (2026-09-10).** Two of this repo's own summary lines were saying nothing, for weeks, and both
 looked like ordinary results. The run reported *copied 0 files from existing downloads* on every

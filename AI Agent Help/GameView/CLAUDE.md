@@ -78,6 +78,13 @@ py -3 main.py mods GIMI restore                                  # at the end: e
   3DMigoto logged during that reload and attributes each to the section it was parsing, which is
   what the orange overlay text cannot tell you. A new `Unrecognised entry` or `entry outside of
   section` under the mod you just fixed is a bug in the fix, found without a screenshot.
+  "Empty" means the line that says **how many sections it parsed**, with a non-zero
+  `TextureOverride` count. `NOTHING WAS CHECKED` is not empty, and neither is a `NOTE` about
+  `namespace` .ini files, whose sections `--mod` cannot attribute. A `Duplicate TextureOverride
+  hash` is listed under every section 3DMigoto names for it. For a fix that writes a second
+  `...RemapFix1.ini` next to the original, expect it under both files: that is a real double
+  match to explain, not noise. (Until 2026-09-23 the wait could stop while 3DMigoto was loading
+  Resource files, and five Charlotte mods came back "empty" with these warnings in the log.)
 - **`compare` is the default picture.** It is the same frame with mods and with every mod off
   (F9 held): same pose, camera and light. For a REMAP, "mods off" is the target's own skin, which is the
   baseline for "did the mod replace everything it should". What it does **not** give you is the

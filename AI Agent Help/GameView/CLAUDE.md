@@ -80,12 +80,16 @@ py -3 main.py mods GIMI restore                                  # at the end: e
   3DMigoto logged during that reload and attributes each to the section it was parsing, which is
   what the orange overlay text cannot tell you. A new `Unrecognised entry` or `entry outside of
   section` under the mod you just fixed is a bug in the fix, found without a screenshot.
-  **Until 2026-09-24 an empty answer could mean "never read".** The reload stopped reading once
-  the log had been quiet for 1.5 s, and 3DMigoto writes a reload in bursts, so a mod parsed late
-  in a big `Mods` folder lost every warning: `reload --mod CharlotteHurlock2` said "no warnings"
-  while 47 were on screen in orange. It now waits for the reload's END line (`> d3dx.ini
-  reloaded`) and says so when that never comes. If the overlay shows warnings the command did
-  not, suspect the tool first, and grep `d3d11_log.txt` after the last `Reloading d3dx.ini`.
+  "Empty" means the line that says **how many sections it parsed**, with a non-zero
+  `TextureOverride` count. `NOTHING WAS CHECKED` is not empty, and neither is a `NOTE` about
+  `namespace` .ini files, whose sections `--mod` cannot attribute. A `Duplicate TextureOverride
+  hash` is listed under every section 3DMigoto names for it. For a fix that writes a second
+  `...RemapFix1.ini` next to the original, expect it under both files: that is a real double
+  match to explain, not noise. (Until 2026-09-23 the wait could stop while 3DMigoto was loading
+  Resource files, and five Charlotte mods came back "empty" with these warnings in the log.)
+  **If the orange overlay shows warnings the command did not, suspect the tool first** and grep
+  `d3d11_log.txt` after the last `Reloading d3dx.ini`: a branch without the 2026-09-23 fix said
+  "no warnings" for `CharlotteHurlock2` over 47 real ones.
 - **`compare` is the default picture.** It is the same frame with mods and with every mod off
   (F9 held): same pose, camera and light. For a REMAP, "mods off" is the target's own skin, which is the
   baseline for "did the mod replace everything it should". What it does **not** give you is the
@@ -208,6 +212,39 @@ This is the maintainer's real account, and the tool presses real keys.
 - **The tool takes the foreground.** Each interactive command focuses the game and then hands focus
   back. While a `do` sequence runs, the maintainer's own keyboard and mouse fight it. Batch steps
   into one `do` so each window of it is short.
+
+## How `d3d11_log.txt` behaves (read before changing `reload` or `log`)
+
+Each fact below was measured on the GIMI log on 2026-09-23, and each one broke a detector that assumed otherwise.
+
+- **The log is buffered.** `d3dx.ini` ships `[Logging] unbuffered=0`, so the last few KB of anything
+  3DMigoto logs stay in its memory until more is logged. A reload's real last line (`> successfully
+  reloaded shaders from ShaderFixes`) was still not on disk 90 s after that reload. It lands only when
+  the NEXT reload starts. **Never wait for a final line.** Wait for one that has plenty of text
+  after it. `reload` waits for `> d3dx.ini reloaded`, which came after every section header and warning in
+  all 15 reloads of that log.
+- **"The log went quiet" is not "the reload ended".** 3DMigoto logs the `[Resource...]` sections,
+  then loads every Resource file without logging anything, then logs the `[TextureOverride...]`
+  sections. A 1.5 s quiet window fell in that gap, and `reload --mod` printed "no warnings" for five
+  Charlotte mods that had Duplicate-hash and `Unrecognised entry` warnings in the log.
+- **A warning is not always about the section above it.** `Possible Mod Conflict: Duplicate
+  TextureOverride hash=...` is followed by the name of every section carrying that hash, in any mod,
+  in the same `[Kind\Mods\...]` format as a section being parsed, and then `If this is intentional...`.
+  Those names are part of the warning, not new sections being parsed.
+- **`--mod` goes by path, and a `namespace =` .ini has no `Mods\` path.** Its sections are logged as
+  `[Resource\global\ORFix\...]`. The only sign that it belongs to a mod folder is the `Processing
+  "...\Mods\<mod>\x.ini"` line. `reload` and `log` name such files instead of reporting them clean.
+- **The whole history is in the file.** Every reload since the game started is there, each opening
+  with `Reloading d3dx.ini` and a `D3D11 DLL starting init - ... <time>` line. When a report says the
+  tool got a reload wrong, **replay that reload's slice of the log through the parser** before you
+  change the parser. The Charlotte report pointed at the parser, and the replay showed the parser
+  was fine: the text `reload` had read was incomplete. `py -3 -m unittest discover -s tests` (from
+  `Tools/GameView`) runs the parser tests on real lines and the wait tests on a fake log with the
+  silent gap.
+- **Another session may be driving the game.** Before you press anything, look at the newest
+  `D3D11 DLL starting init` time and the log's size. If a reload happened minutes ago and you did not
+  do it, someone else is testing, and an F10 from you lands in the middle of their check. A log-only
+  question is answered with `log --problems --mod`, which reads without pressing anything.
 
 ## When it does not work
 

@@ -195,6 +195,148 @@ with `-d`, **it regenerates the tracked `core/xml` and `core.pyi` on every run**
 [Building](../Building/CLAUDE.md)'s `-d` section for when to keep those; the short answer for a
 tooling change is that you do not.
 
+## `ModHashFixer`: the first tool aimed at a MOD AUTHOR rather than at us (2026-09-22)
+
+`Tools/ModHashFixer` repairs a WuWa mod whose textures have "broken". WWMI binds textures by hash,
+Wuthering Waves REHASHES a texture between game versions, and once the hash an author exported stops
+matching anything the game emits the override never fires and the surface draws with the GAME's own
+art. Nothing is corrupt. The tool resolves each stale hash BACKWARDS to the role it played and
+FORWARDS to that role's current hash, out of the history the library already carries in
+`data/HashData.cpp` -- so it needs no frame dump. It is the Wuthering Waves counterpart of what
+ORFix does for GI every version, and the maintainer reports that roughly half the WuWa mods they
+have are in this state with no tool on gamebanana that addresses it.
+
+It follows the layout in "How a tool is put together" (`main.py`, `README.md`, `requirements.txt`, a
+`ModHashFixer/` package) and carries a notebook at `WuWa/WuWaModHashFixer.ipynb`, in the shape the
+other tools' notebooks use --- `%pip install -r ../requirements.txt`, then Option A (pypi) or
+Option B (a checkout's `api/src/py`).
+
+Four things in it are worth copying into the next tool of this kind:
+
+* **It reports and writes nothing by default.** `--apply` writes, keeping one backup per `.ini`, and
+  `--undo` restores. The write is byte-exact on everything it does not mean to change: the round
+  trip was verified by md5 before believing it, and it preserves the file's own line endings.
+* **It never guesses.** A hash it can resolve by neither route below is REPORTED as unrecognised and
+  left alone. The same goes for geometry hashes (`vb0`, `cb4`, the shape-key pair), skipped by
+  default because a mod whose `vb0` is stale does not draw AT ALL, a different symptom, and
+  rewriting those on a mod that does draw breaks what works.
+* **It detects the character from the hashes, never from the folder name**, because a mod folder is
+  named after whatever its author or the downloader called it.
+* **THE CHECKOUT MUST WIN OVER AN INSTALLED COPY, and the obvious import order gets that wrong.**
+  Writing `try: import FixRaidenBoss2 / except ImportError: <add the checkout>` looks right and is
+  not: a STALE `FixRaidenBoss2` installed on the machine imports perfectly well, the fallback never
+  runs, and the failure surfaces as `AttributeError: no attribute 'WWMIBuilder'` from somewhere
+  unrelated. That happened here on the first run. Put the checkout on `sys.path` when there is one,
+  and then ASSERT the API is new enough with a message that says what to do about it.
+
+<br>
+
+## THE HASH HISTORY MISSES THE BODY AND THE LEGS BY CONSTRUCTION, SO THE FIXER HAS A SECOND ROUTE (2026-09-22)
+
+The first version of `ModHashFixer` resolved a stale hash only through `HashData`, and the
+maintainer's report on it was that a mod's **body and legs were still wrongly textured** after a run
+that had reported fourteen fixes. They were not unlucky: the tool's own output already named them,
+as `c7a7ec1b` and `f869e47c` among its *unrecognised*, and those are exactly component 3's and
+component 4's diffuses.
+
+**The gap is a property of how the history was built.** Chisa's older generations came from
+`chisaHashHistory.py`, which identifies a mod's texture by correlating it against the game's own at
+~1.00 -- and that only fires for a file the mod ships UNCHANGED. A mod that REPAINTS the torso, which
+is most of them, never matched. So the roles most likely to be missing from the history are precisely
+the ones a mod is most likely to have replaced, and a run reports every accessory fixed while the
+body stays broken. **When a coverage gap lands this neatly on the thing being complained about, the
+sampling that produced the coverage is the thing to look at.**
+
+The second route types the FILE instead, and lands where the hash cannot: WWMI names every export
+`Components-<N> t=<hash>.dds`, so the component is free, and the pixels give mask / normal / diffuse.
+`Tools/ModHashFixer/ModHashFixer/TextureTyper.py`, `--no-by-file` to switch it off, and anything it
+resolves is reported apart from the history's answers because it is an inference where the history is
+a record.
+
+**THREE VERSIONS OF THAT RULE WERE WRITTEN AND THE FIRST TWO WERE WRONG, WHICH ONLY THE AUDIT SAID.**
+The history is a free oracle here -- every hash it explains is a labelled example -- so the route can
+be run on those same files and compared, which is `Tools/ModHashFixer/audit.py` and should be re-run
+after any change to the typer. The scores, over 157 mod folders:
+
+| rule | agree | abstain | **disagree** |
+| --- | --- | --- | --- |
+| type each file on its own, by thresholds | 176 | 135 | **24** |
+| pair a component's files to its roles by layout correlation | 114 | 220 | **1** |
+| ...plus: the file must be named for that section's own hash | 104 | 231 | 0 |
+| **shipped**: layout first, then "the only file of its component that reads as a diffuse" | 208 | 398 | **0** |
+
+Four things that took, each of which is the general lesson:
+
+* **A rule calibrated on the GAME's textures does not hold on repaints of them.** Every one of the
+  first 24 was a KIND confusion inside the right component -- a hair normal read as a hair mask, a
+  lower diffuse as a lower normal. The thresholds were lifted from the prototype, where they score
+  17 of 17 on Chisa's own textures, and a mod's art simply does not keep those statistics.
+* **Correlation against the game's texture identifies a COPY, not a repaint.** It is the strongest
+  evidence available and it abstains completely on a new outfit: all three of Chisa16's component-3
+  textures score ~0.0 against all three of Chisa's, because the outfit has its own UVs. It earns its
+  place as the first stage and could never have been the only one.
+* **Ask the question about the COMPONENT, not the file.** "Is this a mask?" needs a threshold to be
+  right in absolute terms; "is this the only one of this component's three textures that reads as a
+  mask?" does not. Counting files against roles is the wrong form of it -- a component may ship MORE
+  than its own three, and Chisa16's lower body carries the shared red detail map as a fourth -- so
+  the claim is made per kind, and an extra that reads as a normal map costs only the normal map.
+* **Two roles is a coin flip dressed as a deduction.** The one surviving disagreement was a hair mask
+  and a hair normal swapped, in a component where only two roles were known, so the kind rule alone
+  chose between the two pairings with nothing checking it. The route now requires the full
+  diffuse/normal/mask triple of roles before it will pair anything.
+
+**And a bug that the audit could not see, because the audit called the API directly.** `plan()`
+resolved both hashes correctly in a harness and `main.py` reported them unrecognised on the same mod:
+`_fileOfSection` normpaths its paths while a glob of the mod folder keeps the spelling of the
+argument, so `C:/x/y\z.dds` and `C:\x\y\z.dds` never compared equal and the lookup found nothing.
+A backslash path was passed in the harness and a forward-slash one on the command line. `TextureTyper.key`
+is the single normal form now. **A harness that constructs its own input is not exercising the entry
+point**, which is this repo's oldest lesson arriving in a new place.
+
+The two answers it produces on Chisa16 were then confirmed by something nobody had noticed: that
+mod's author labels each texture section in Chinese, `; c3漫反射` and `; c4漫反射` -- "c3 diffuse"
+and "c4 diffuse" -- against `upperDiffuse` and `lowerDiffuse`. Worth grepping a mod for comments
+before concluding a role cannot be checked.
+
+<br>
+
+## A DANGLING `filename` IS WORSE THAN A STALE HASH, AND IT LOOKS LIKE NOTHING (2026-09-22)
+
+The round after the file route went in, the same mod's **stockings** were still wrong. A stale hash
+means the override never fires; a resource naming a file the mod does not ship means it **fires and
+binds nothing**, so the surface draws with the game's own art while every hash in the file reads
+correctly and every check that follows a hash passes. `ResourceTexture15` named `Components-4
+t=0c153c12.dds`, absent, while `Components-4 t=ffa1f581.dds` -- named for that section's own hash --
+sat beside it referenced by nothing. `ModHashFixer.danglingRepairs` repairs exactly that shape, and
+it must run BEFORE the hash work, because the file route types the file a section *names*.
+
+**Two guards, each of which fired on a real mod on the first survey.** A file with anything after
+the hash is excluded (`Components-4 t=21f813ba off.dds` is how a modder DISABLES a texture, and
+Chisa13 has one beside a live one -- repairing to it switches back on what its author switched off);
+and a file of the same NAME elsewhere in the tree is excluded, because the path is the author's
+business. With both, the rule fires **twice in 157 mod folders**, which is the right order of
+magnitude for something that rewrites somebody's mod.
+
+**THE DIAGNOSIS WAS WRONG TWICE FIRST, BOTH TIMES FROM COMPARING AGAINST THE WRONG ATLAS.** The mod
+ships a lower mask of **three flat blocks at exactly 50/25/25** where Chisa's own holds 92 distinct
+values, and it was read as a placeholder -- "a flat mask is not a neutral mask", the guide's own
+warning, and the reason my guard refusing it was called accidentally right. That was backwards. A
+WWMI mod **replaces the mesh and its UVs**, so the mod's atlas is laid out nothing like the
+character's, and the only meaningful question is whether the mask describes the MOD's art:
+
+| mask | says bare skin over | ...of which the mod's art is flesh-coloured |
+| --- | --- | --- |
+| the mod's own `ffa1f581` | 8.1% of the atlas | **95.2%** |
+| Chisa's own `3f0e6f21` (what the game was using) | 23.9% | **44.2%** |
+
+The mod's blocky mask is *correct for its own blocky UV layout*; the game's is misaligned, and the
+55.8% it calls skin that is not flesh is the stockings, shaded with subsurface scattering. **A
+statistic about a texture is only as good as the atlas it is measured against** -- the same lesson
+as Creating Remaps' screenshot-mask section, arriving via UV layout instead of screen pixels. Render
+the mask's channel over the MOD's own diffuse and the answer is one glance.
+
+<br>
+
 ## `Tools/Misc`: the scripts the guides mention that were born outside the repo
 
 The remap prototypes, the identity-mod generator, the Yelan hand-experiment scripts and the

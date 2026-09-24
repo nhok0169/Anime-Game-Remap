@@ -1194,7 +1194,29 @@ nothing. That costs the maintainer one click per Windows session, and the guide 
 The same goes for anything that elevates, persists, spends or sends. Build the version where the
 maintainer holds the key, and put the remaining cost in writing.
 
-**72. WHEN THE GAME SHOWS "NOTHING CHANGED", DUMP A FRAME AND GREP ITS LOG FOR YOUR OWN SECTION NAMES
+**72. A BUG REPORT'S DIAGNOSIS IS A HYPOTHESIS: REPLAY THE REAL INPUT BEFORE YOU PATCH WHERE IT POINTS
+(2026-09-23).** The report said `GameView reload --mod` "seems to miss the multi-line Duplicate
+block", and it was carefully argued: the warning comes before the section names it concerns, and
+the one mod whose warnings WERE reported also had other warnings. The report was right about what
+it observed. It was wrong about the mechanism. The log keeps every past reload, so each reload's
+slice was replayed through the unchanged parser, and the parser found every Duplicate warning. The
+parser had been given incomplete text: the reload's wait had stopped in a silent stretch while
+3DMigoto loaded textures (see [Game View](../GameView/CLAUDE.md)'s log section). Patching the parser
+alone would have left every one of those mods still reporting "no warnings". Two things made the
+difference:
+- **Look for what else went missing.** The same reloads had logged `Unrecognised entry` warnings,
+  which the report did not mention and the tool had not printed either. A symptom confined to one
+  line format would not have taken those with it. When a report says "X is missing", check whether
+  its neighbours are missing too.
+- **Get the tool's actual output from the session that ran it.** The desktop app's
+  `search_session_transcripts` finds other sessions' tool output by a phrase such as `since the
+  reload under Mods\CharlotteIdentity`. The report's quote plus the input file is usually enough to
+  replay, but the transcript settles what really ran.
+Fix both layers when both are wrong. The report's suspicion still found a real gap: a Duplicate
+warning went only to the section above it, which misses a conflict between two mods. Then prove
+the fix against the same replay, checked against a count taken separately from the input.
+
+**73. WHEN THE GAME SHOWS "NOTHING CHANGED", DUMP A FRAME AND GREP ITS LOG FOR YOUR OWN SECTION NAMES
 (2026-09-24).** The first in-game look at CharlotteHurlock -> Charlotte showed base Charlotte, and two
 rounds of screenshots (one with every original draw forced to `handling = skip`) could not say why.
 One `dump` and one `grep -n "RemapFix\] DrawIndexed\|RemapFix\] run" log.txt` did: every section of
@@ -1204,7 +1226,7 @@ register it binds and every draw it issues, so it answers "did my section run, a
 one command. A screenshot only shows the sum. Look at the dump's render targets too (`<draw>-o0` /
 `-o1` jpgs, drawn upside down): they show what ONE draw put on screen.
 
-**73. A SHARED-CODE CHANGE GETS A SNAPSHOT OF MANY MODS BEFORE THE REBUILD, IN TWO MODES, AND THE
+**74. A SHARED-CODE CHANGE GETS A SNAPSHOT OF MANY MODS BEFORE THE REBUILD, IN TWO MODES, AND THE
 SECOND MODE IS NOISY (2026-09-24).** Six shared-code fixes went in on the Charlotte pair, each
 checked the same way: 37 mods fixed with the old build, rebuilt, fixed again, every file's md5
 compared. **Downloads DISABLED is the verdict**: deterministic, and it must be byte-identical except
@@ -1218,7 +1240,7 @@ the suffixes normalised, and call a difference real only when an `.ini` referenc
 you rebuild: the `.pyd` is replaced in place, and a background run that has it loaded makes the copy
 fail or tests the wrong build -- wait for it.
 
-**74. DECIDE THINGS ABOUT "THE MOD AS WRITTEN" BEFORE ANY PHASE WRITES INTO IT (2026-09-24).** The
+**75. DECIDE THINGS ABOUT "THE MOD AS WRITTEN" BEFORE ANY PHASE WRITES INTO IT (2026-09-24).** The
 first check for an `.ini` that only watches the skin ran in `editCommands`, after `setupDownloads`. By
 then a download for a register the author's own section lacked had been ADDED to that section, so the
 watcher bound `vb0` and passed for a real mod. The check moved into `getSectionTargets`, before any
@@ -1226,7 +1248,7 @@ download is registered. The general form: the parser, the fixer and the download
 sections in place, so a predicate about the author's intent is evaluated at the earliest phase that
 has what it needs. Otherwise it has to discount what the pipeline wrote itself.
 
-**75. PROVE A NEW INPUT FORMAT WITH A CONTROL THAT REMOVES THE FORMAT (2026-09-24).** The maintainer
+**76. PROVE A NEW INPUT FORMAT WITH A CONTROL THAT REMOVES THE FORMAT (2026-09-24).** The maintainer
 named namespace-merged mods ("the old fix handled them well") and gave two examples. A/B against the
 old script mixed three format bugs with this library's DELIBERATE differences from it -- 17 differences,
 most of them on purpose. The control isolated the format: the same sub-mod with the namespace `if`
@@ -1235,23 +1257,24 @@ is stripped the same way. It went from 4 differences to 0, and each of the three
 alone. When a user names a similar case, it is a test they are handing you; run it before assuming
 parity, and build the control before trusting any comparison with the old script.
 
-**76. THE MACHINE DECIDES WHICH PYTHON HAS WHICH PACKAGE; ASK THE MACHINE (2026-09-24).** The guides
+**77. THE MACHINE DECIDES WHICH PYTHON HAS WHICH PACKAGE; ASK THE MACHINE (2026-09-24).** The guides
 say `openpyxl` is on `py -3.11`. On the laptop there is no 3.11 (`py -0` lists 3.12 and 3.9), and
 `openpyxl` is on `py -3`. Run `py -0` and `py -3 -c "import openpyxl"` rather than trusting any version
 written down (root trap 3's lesson, for packages). And a script that PRINTS an emoji to this console
 raises `UnicodeEncodeError` under cp1252. Set `PYTHONIOENCODING=utf-8`, or do the write before the
 print: the Council badge script failed on its first `print`, a line before it would have written.
 
-**77. A TOOL'S "NOTHING FOUND" MUST BE ABLE TO SAY "NOTHING READ" -- AND WHEN A SECOND WITNESS
+**78. A TOOL'S "NOTHING FOUND" MUST BE ABLE TO SAY "NOTHING READ" -- AND WHEN A SECOND WITNESS
 DISAGREES, THE TOOL IS THE SUSPECT (2026-09-24).** `GameView reload --mod X` answered "no warnings"
 for a whole session, and it was used as evidence that a fix loaded cleanly. It had stopped reading
 the log at the first 1.5 s pause, and 3DMigoto writes a reload in bursts. The game's orange overlay
 showed 47 warnings under that same mod. The overlay was the second witness, and the tool was wrong. It
-now waits for `> d3dx.ini reloaded`. Two lessons outlive the bug: a waiting loop that ends on
+now waits for `> d3dx.ini reloaded` (master had fixed it the day before -- habit 72 -- and this
+branch did not have that fix yet). Two lessons outlive the bug: a waiting loop that ends on
 "quiet" rather than on an END marker the producer writes will truncate silently; and once a tool
 is caught, every earlier conclusion drawn from it is unverified until re-run -- so re-run them.
 
-**78. CONFIRM AN IN-GAME HYPOTHESIS BY EDITING THE FIXED `.ini` IN PLACE, BEFORE TOUCHING CODE
+**79. CONFIRM AN IN-GAME HYPOTHESIS BY EDITING THE FIXED `.ini` IN PLACE, BEFORE TOUCHING CODE
 (2026-09-24).** Twice in one day a single hand edit settled what screenshots and analysis could not:
 changing a group's `match_first_index` to another slot (black shards gone, so the slot's shader was
 the cause), and commenting out two `run =` lines (skirt-to-chest triangles gone, so the downloaded
@@ -1259,7 +1282,7 @@ slots were the cause). Copy the file to the scratchpad first, reload, take the S
 ways (idle poses cycle, so shoot several and pick matching ones), then restore the copy or re-fix.
 It costs one reload and tells you which code to change. A rebuild-per-guess costs minutes each.
 
-**79. BEFORE BLAMING THE FIX FOR HOW A MOD LOOKS, CHECK THAT THE SOURCE ITSELF IS RIGHT (2026-09-24).**
+**80. BEFORE BLAMING THE FIX FOR HOW A MOD LOOKS, CHECK THAT THE SOURCE ITSELF IS RIGHT (2026-09-24).**
 "CharlotteHurlock5 is recoloured red" was the fix being RIGHT. The mod's own diffuse textures are
 red, and on its own character the maintainer's old-loader GIMI rejected every texture line the mod
 wrote (`Resource\GIMI\Diffuse = ref ...` + `run = CommandList\GIMI\SetTextures`, the newer API), so
@@ -1557,7 +1580,25 @@ sections sit on the LisaStudent model. 4.6.4 runs that fix the wrong way round.
 
 ## Operating norms
 
-- Don't push or open a PR unless asked. If you do, branch off `development`, not `master`.
+- Don't push or open a PR unless asked. **If you do, branch off `master` and target `master`.** This
+  line used to say `development`, but `development` stopped moving on 2026-09-18. By 2026-09-23 it
+  was an ancestor of `master`, 120 commits behind, and every recent PR (#237-#243) had merged into
+  `master`. If `git log -1 origin/development` is ever newer than `master` again, the maintainer has
+  switched back; ask.
+- **Pushing and opening the PR from here (2026-09-23):**
+  - **Network:** the sandboxed Bash tool cannot resolve `github.com` at all. A push needs the
+    sandbox off.
+  - **TLS:** Git's own config uses the OpenSSL backend, which fails with `unable to get local issuer
+    certificate` (see [Setup](../Setup/CLAUDE.md)'s TLS note). `git -c http.sslBackend=schannel
+    push -u origin <branch>` fixes it for that one command, without changing anyone's config.
+  - **The PR:** `gh` is not logged in, and logging in is the maintainer's to do, never yours. Give
+    them `https://github.com/nhok0169/Anime-Game-Remap/compare/master...<branch>?expand=1`
+    and the PR description text.
+- **A session worktree can start from an OLD commit.** On 2026-09-23 one was created at a commit
+  from before `Tools/GameView` existed, while the task was about GameView. `git log --oneline -1`
+  against `git log --oneline -1 master` tells you. If the worktree is clean, `git merge --ff-only
+  master` brings it up to date; auto mode refuses `git reset --hard master`. The task's files
+  being missing from your tree means the tree is old, not that the task is wrong.
 - **Splitting overlapping changes into separate commits without `git add -p`** (which the tools
   here cannot drive): build each intermediate version of a shared file in a Python script, stage it
   with `git hash-object -w --path=<repo path> <temp file>` (the `--path` applies the CRLF

@@ -74,12 +74,12 @@ surprises you.
 | **"it works on one mod and not another"** | "Triage: a merged mod that works on one variant and not the others", "FIXING A MERGED MASTER", "A MERGED MOD'S DISABLED VARIANTS CARRY STALE HASHES", and "CHOOSING TEST MODS: VARY THE STRUCTURE, NOT THE CHARACTER" |
 | **"a part is missing / still the skin's own"** | "A TARGET COMPONENT NOTHING IS REMAPPED ONTO STILL DRAWS THE SKIN'S OWN GEOMETRY", "A TARGET OBJECT SEVERAL COMPONENTS MERGE ONTO IS NOT ONE DRAW", "A mod that is MISSING a whole component" |
 | **an undo left something behind** | "Undo is only as complete as what the fix wrote INSIDE its block" |
-| **"in game it looks exactly like the target's own model"** -- the fix seems not to have loaded | DUMP A FRAME AND GREP ITS LOG before touching code ([Overview](../Overview/CLAUDE.md)'s habit 72): it says which of your sections fired, whether the skip took and what drew. On CharlotteHurlock it showed a merge whose members never drew -- "CHARLOTTE <-> CHARLOTTEHURLOCK", point 4 |
+| **"in game it looks exactly like the target's own model"** -- the fix seems not to have loaded | DUMP A FRAME AND GREP ITS LOG before touching code ([Overview](../Overview/CLAUDE.md)'s habit 73): it says which of your sections fired, whether the skip took and what drew. On CharlotteHurlock it showed a merge whose members never drew -- "CHARLOTTE <-> CHARLOTTEHURLOCK", point 4 |
 | a mod with **no mesh sections** (a texture-only recolour, a toggle or help-menu `.ini`), or a **`namespace_merge.py`** merge (`Master<Char>.ini` + every key under `if $\<Char>\Master\swapvar`) | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 5, then "A NAMESPACE-MERGED MOD WRITES EVERYTHING INSIDE ONE `if`". Both shapes have their own handling now; a watcher file gets only its own sections on the target's hashes |
 | **an outline or TexFx effect looks wrong** on a merged skin | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 6. A carried member's `ps-t69` / `ps-t70` is cleared after its draw; an effect that still looks different on the target is the AUTHOR's, and the maintainer's call (2026-09-24) is to keep it |
 | **black shards / lighting-shaped dark patches** on one object of a component remap, on some mods and not the identity | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 8: the target SLOT decides the pixel shader. Hand-edit that group's `match_first_index` to another slot of the component and reload before theorising; `Component::objSlotIndices` then routes the object for good |
 | **stretched triangles** reaching from one part to another (skirt up to the chest) on a MERGE, on one mod and not the identity, with a vertex group table that looks right | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 9: list the slot sections the MOD declares. A slot it leaves out under a component `handling = skip` was being downloaded and drawn over the mod's own vertices. Comment out that slot's `run =` in the fixed `.ini` and reload to confirm in one step |
-| **the remapped mod is a DIFFERENT COLOUR from the same mod on its own character** (CharlotteHurlock5: turquoise on the skin, red on Charlotte) | Usually NOT a fix bug ([Overview](../Overview/CLAUDE.md)'s habit 79). Open the mod's own diffuse (Pillow reads the `.dds`) and run `reload --mod` on it. If the texture already has the "wrong" colour and the SOURCE's own sections show `Unrecognised entry: resource\gimi\...` / `run = commandlist\gimi\settextures`, the maintainer's old-loader GIMI never binds the mod's textures on its own character. The fix normalises those lines into `ps-t` bindings, so the remap is the first place the author's real colours show. The maintainer's call (2026-09-24): not our problem |
+| **the remapped mod is a DIFFERENT COLOUR from the same mod on its own character** (CharlotteHurlock5: turquoise on the skin, red on Charlotte) | Usually NOT a fix bug ([Overview](../Overview/CLAUDE.md)'s habit 80). Open the mod's own diffuse (Pillow reads the `.dds`) and run `reload --mod` on it. If the texture already has the "wrong" colour and the SOURCE's own sections show `Unrecognised entry: resource\gimi\...` / `run = commandlist\gimi\settextures`, the maintainer's old-loader GIMI never binds the mod's textures on its own character. The fix normalises those lines into `ps-t` bindings, so the remap is the first place the author's real colours show. The maintainer's call (2026-09-24): not our problem |
 | the remap **works and you are finishing up** | "Verifying", then "Closing out a remap" --- five files and a regenerated `core/xml`, and the vertex-group draft's `Credits` sheet |
 
 Four things hold whichever row you are on, and each has cost a session:
@@ -2045,6 +2045,20 @@ Four findings, none of them about Sanhua:
   neither would RabbitFX 8.2 read that mod's `ps-t17` on Sanhua herself: its shader patch declares
   `t50`/`t51`/`t60`-`t65` and takes its maps through `Resource\RabbitFX\GlowMap` / `FXMap`, never
   `t17`. A mod's effect layer working or not is the mod's business; the fix only has to carry it.
+- **...but carrying the call is not enough if the fix TAGS the shader RabbitFX tagged (2026-09-22).**
+  Every RabbitFX regex marks the pixel shader it patches `filter_index = 1718.1`, and `Run` /
+  `SetTextures` act only `if ps == 1718.1`. A shader holds ONE filter index, so a fix that tags a
+  pixel shader with its own index for pass gating switches RabbitFX off on that pass -- globally,
+  since a `[ShaderOverride]` is keyed by hash. Chisa6's backless sweater cuts its see-through panels
+  out with an FX map; on ChisaParfait they rendered RED, because the mod paints them with the skin
+  mask code over a near-black diffuse (harmless while every pass discards them) and the fix's tag on
+  one of the upper body's passes had switched that pass's discard off. **You cannot tell from a dump
+  which shaders are RabbitFX's**: only `[ShaderRegexMain]` has its `dump = desc` lines switched on,
+  and six more regexes (Outline, SingleOutput, Eye, ...) patch shaders without a trace. So the rule
+  is **never tag a pixel shader; gate passes through their VERTEX shaders**, as an OR over every
+  vertex shader a pass is drawn with -- one pass can have several (the Parfait face pass runs on two
+  across dumps, `32414b55` on a different one per component). `chisaParfaitFix.py`'s
+  `PassVertexShaders` is the table, and a WWMI fixer config with pass gates needs the same.
 
 Open: WuWa BUFFER downloads (a mod missing a whole component draws nothing there -- the texture
 fallback above is the only WuWa download so far); the reverse direction; the `disabled/` folder of
@@ -2060,6 +2074,12 @@ first. Read the report's WORDS against the left column before opening any code (
 | "body all wavy", every part | the game's shape-key offset stream (`vb6`) read by vertex id, then several remapped sections on one draw window | `--shapeKeys`; one remapped section per Exorcist draw per file (the copies) |
 | the bangs wrong, the rest right | component 0 is the BANGS, on hair passes that differ per skin | `slotPasses` -- a LIST of passes per slot |
 | a chain (ribbons, tassel) curled or floating | a chain the target has no bones for, mapped per bone by the finder | `--anchor`; `wwmiBoneTally.py` |
+| one part "floating like jello" while everything around it is fine | the part is skinned to a target bone that is PHYSICS -- the target's HAIR component, or a jiggle pair a centre chain got split across | `vgSymmetry.py --hair <N>`; NOT a distance check, which passes |
+| a part wobbles AND leans to one side at rest | same thing: it is following a simulated bone's swing and its settled offset | the target component of every bone the part weights |
+| the whole `.ini` is SKIPPED naming a key it says is missing | the key is there, in a SECOND block of a section declared more than once | `ConcatenatedSections`; grep the file for the key before believing the message |
+| ONE SIDE of the body flat and pale where the other has its detail -- a nipple, a fishnet, a tonal step at the midline | the mod UV'd that half into the [1, 2) TILE and relies on the sampler wrapping; the target's pass does not | the texcoord fold -- and check both characters' own U range first |
+| a toggle REMOVES clothing instead of changing what it should | the mod's body shape is a SHAPE KEY, the shape keys are not being applied, and the clothing variant sized for the un-taken shape is buried inside the skin | `--shapeKeys retarget`, then that the checksum it writes is a NUMBER |
+| a retarget / remap writes `<Something>NotFound` | the reverse lookup ran versionless and resolved a SHARED value to the wrong character | pass the source's version; `getKey(value, None)` against `getKey(value, <srcVer>)` |
 | the body a smeared DRAPE under an intact head, on a source past 256 bones | the mod's own `Resource*Override = ref ...Component<N>` lines survived into the remapped sections | strip them: `RegRemove` per slot section, `ref` form only |
 | every body part drawn with ONE part's textures | the copies referenced the texture lists in another file | `appendedSectionsInCopies` / `copyHiddenSectionNames` (self-contained copies) |
 | one part's textures wrong, the picture is a different texture | that component got no texture list -- a role with no file | the prototype's per-slot table: `ps-tN=GAME (mod has none)`; then whether the file is declared under TWO hashes |
@@ -2067,6 +2087,8 @@ first. Read the report's WORDS against the left column before opening any code (
 | a translucent RED over the clothes AND the skin, the pictures showing through | the material mask the mod DOES ship, in the SOURCE's packing: the target's shader reads it as bare skin | repack it -- ask the diffuse which value means skin on each side |
 | a translucent hue that SURVIVES a correct mask, over the parts one shader has an extra input for | a register the TARGET's pass reads and the source's does not: the skin's own map stays bound and its codes land at the mod's UVs | bind a flat neutral there; bisect which register rather than guessing |
 | eyes wrong on one mod only | the eye pass reads the iris at `ps-t2`, mask at `ps-t1`; or two hashes on one role | the plan's eye bindings; the duplicate-role WARNING |
+| a RabbitFX cut-out (a tattoo's background, a see-through panel) drawn solid, though the fix carries `Resource\RabbitFX\FXMap` and `run = CommandList\RabbitFX\Run` | **a shader dump left in `WWMI/ShaderFixes`** (2026-09-22). A `<hash>-ps.txt` there is loaded as that shader's replacement, which skips RabbitFX's ShaderRegex -- so the shader never gets `filter_index = 1718.1`, and `Run` binds the FX map only `if ps == 1718.1`. The dumped text still contains the discard, so reading it proves nothing | move every dump out of `ShaderFixes` once it has been read, and before judging anything in game |
+| a mod's dress / panel drawn through an ACCESSORY slot comes out tinted (Chisa6's sweater: maroon) | the target pass reads a MATERIAL CODE map, and the code the fix feeds it selects the skin's own panel material (ChisaParfait's side-panel pass `87825a9a`: code 0 overlays the diffuse with a pink shade colour) -- and RabbitFX's `SetTextures`, if the mod calls it, swaps a map into that site by the order the SOURCE samples in, not the target's | read the pass's code decode against its `cb4`; `chisaParfaitFix.py`'s `AccessoryCode` and `RabbitFXSetTexturesRegs` |
 | **the ORIGINAL mod is broken too**, not only the remap | the fix edited the mod's OWN half of the `.ini` -- the remapped sections are on the target's hashes and cannot reach the source's draws | whatever the run says it commented out; `--shapeKeys leave` |
 | ONE part wearing the source's own art in patches, everything else right | that part's texture went unplaced and fell back to a download, which is the GAME's atlas at the MOD's UVs | the run's `with no role` count, and whether the file's name lists more than one component |
 | the model does not draw AT ALL, and the run said `skipped` for a resource | the `.ini` was written before that resource failed, so it binds a file that is not there -- and a buffer 3dmigoto cannot create means no vertex data | the run's own dangling-reference line at the end; then why the resource raised |
@@ -2477,6 +2499,199 @@ Two mechanics to know before you write the entry:
   bone 3 and 73% on ten accessory bones; anchoring only the ten still left the prop torn between two
   places. The finished anchor has every bone of the part on one target, which the skinning check
   shows as a cloud the size of the rest shape.
+
+### A MOD MAY UV A PART INTO THE [1, 2) TILE AND RELY ON THE SAMPLER WRAPPING (2026-09-22)
+
+Chisa13 was reported three ways -- one nipple pink and the other "all pale with the same colour of
+her skin", the fishnet on one thigh and not the other, and a tonal step down the torso -- and all
+three are one half of the body rendering WITHOUT its texture detail. That is texture ADDRESSING, not
+shading, which is why nulling the material mask changed nothing.
+
+Half of the mod's component 3 sits at **U >= 1**: 47.04% of that component's vertices, and no other
+component has any. Under a wrapping sampler [1, 2) selects the same texels as [0, 1), which is why
+the mod is correct on the source.
+
+**The fact that makes this invisible until it bites: NEITHER CHARACTER'S OWN MODEL EVER LEAVES
+[0, 1).** Both are 0.002..0.996, so the game never exercises its own address mode out there and the
+two passes are free to differ. Rather than determine which wraps and which clamps, take the question
+away -- the fix folds U back into [0, 1) in the texcoord copy it already writes.
+
+**The property that makes that safe is exact, and worth reaching for whenever a fix can be made
+wrap-equivalent:** U and U - 1 are the same texel under wrap, so on a pass that wraps the change
+does nothing at all, and it can only matter on one that clamps. Measured rather than argued -- the
+written buffer selects the same texel under wrap as the mod's on **100.000%** of vertices.
+
+The one hazard is a triangle straddling a tile boundary: folding would widen its U span from a few
+hundredths to nearly 1 and interpolate it backwards across the atlas. A vertex is left alone if ANY
+triangle it belongs to straddles, which also protects deliberate TILING -- Chisa5 runs U -6.5..6.5
+and 5302 of its 5882 out-of-range vertices are protected. Over every Chisa mod: three move ZERO
+vertices, Chisa5 moves 0.84%, Chisa13 moves 10531.
+
+<br>
+
+### A MOD'S BODY SHAPE MAY BE A SHAPE KEY, AND ITS CLOTHING SIZED FOR SHAPES THE BODY NEVER TAKES (2026-09-22)
+
+Chisa13's LEFT key is `$body`, which on the mod changes body thickness and on the remap "removes her
+bra and stockings". It does neither of those things directly: `$body` sets `$thighShape` /
+`$legShape` / `$boobsShape`, which drive CUSTOM SHAPE KEYS, and separately picks between two
+complete sets of clothing geometry sized for the two shapes.
+
+So when the shape keys are not applied, the body never morphs, and the variant sized for the
+un-taken shape is NARROWER than the skin it sits on -- measured, the body is +-16.9 at the leg band
+and the two clothing variants are +-16.9 and +-14.1. It is drawn, and buried inside the body.
+
+**It vanishes in a `--paint` build too, and that is the measurement that splits it**: if the flat
+colour is absent the geometry is genuinely not visible, so it is not a texture or alpha problem. Ask
+for a paint screenshot WITH the toggle pressed; it costs one round and eliminates half the tree.
+
+**`--shapeKeys retarget` IS THE DEFAULT since 2026-09-22**, the maintainer's call after testing.
+`leave`, which was the default, keeps the shape-key sections on the SOURCE's hashes where the target
+never emits them, so on the remap they never fire at all. Retargeting fills `vb6` from WWMI's own
+pipeline instead of binding the zero stream, so it subsumes what that binding was for.
+
+Two things to know about that default. It moves **every** mod, not only the ones that need it --
+nearly every Chisa mod declares shape-key sections (4 each, all at checksum 2610) -- so a mod that
+looks different after a re-fix is expected rather than surprising. And it is only safe to default
+because of the version-bucket fix below: before it, `retarget` wrote `ChecksumNotFound` and silently
+disabled every shape key while printing success, so defaulting to it would have broken every mod at
+once. **A switch is only worth defaulting once you have checked that it does what it says**, which
+in this case took reading the generated `.ini` rather than the run's own summary.
+
+<br>
+
+### A REVERSE LOOKUP RUN VERSIONLESS RESOLVES A SHARED VALUE TO THE WRONG CHARACTER (2026-09-22)
+
+And `--shapeKeys retarget` was INERT when it was first reached for, while printing "shape keys:
+retargeted to ChisaParfait". It wrote `$\WWMIv1\shapekey_checksum = ChecksumNotFound` into the
+retargeted setup list, so `ShapeKeyOverrider` could not set up and every shape key silently stopped
+being applied.
+
+`RegAssetRemap` is reverse-then-forward, and `ModMappedAssets::getKey` buckets every row holding a
+value BY VERSION and searches only the newest bucket at or below the version asked. **Chisa and
+ChisaParfait have the SAME shape-key checksum, 2610**, so versionless it resolves through the 3.5
+bucket to ChisaParfait, and the forward half then asks what ChisaParfait remaps to in a
+Chisa -> ChisaParfait fix and finds nothing:
+
+```
+getKey('2610', None)  -> ChisaParfait      getKey('2610', '2.8') -> Chisa
+```
+
+Pass the source's version when the `.ini` does not name one. This is the same version-bucket rule
+the GI side hit on index `0`, and it only bites a pair whose two halves SHARE a value -- Sanhua's
+checksums are 3175 and 2376, so hers never could. **Any `<Something>NotFound` in generated output is
+this shape of bug**, and it is worth grepping for as an acceptance check: the fixed file has zero.
+
+<br>
+
+### A SECTION NAME CAN BE DECLARED MORE THAN ONCE, AND A MOD MANAGER DOES IT FREELY (2026-09-22)
+
+A mod-manager-packaged mod (Chisa12: GUID filenames, buffers under a **`.assets`** extension, a
+`res/` folder of UI art and a `draw_2d.hlsl`) declares `[Constants]` **three times in one file** --
+the author's toggles, then the WWMI block, then the menu's own constants -- and `[Present]` three
+times as well. A `{section name: lines}` dict keeps one of them, so `global $mesh_vertex_count`
+sat at line 208 and the fix skipped the whole `.ini` saying it was missing.
+
+**The failure was well-named and still pointed at the wrong thing**, which is the part worth
+keeping: the message said "no `global $mesh_vertex_count` in [Constants]", and the key was in
+[Constants]. When a run names a key it cannot find, grep the file for that key before believing
+it; if it is there, the reader is what is wrong.
+
+**What a repeat MEANS is per section, so do not concatenate blindly.** For a declaration block it
+is plainly a concatenation. For a `TextureOverride` it is a mod-authoring error whose runtime
+meaning is not ours to guess -- 3dmigoto reads only the first `hash` of a section and applies it to
+the whole body -- and Chisa6 has two `[TextureOverrideTexture202]` blocks naming DIFFERENT hashes
+and different resources (`d01fdd4f -> ResourceTexture16`, `35b4ef7f -> ResourceTexture20`). That
+mod is confirmed in game, so concatenating there would have changed a working texture binding on a
+guess. `ConcatenatedSections` is the explicit set (today: `Constants`), and everything else keeps
+the previous reading until a case proves the semantics.
+
+The blast radius was measured before the change rather than after: of the Chisa mods, five repeat a
+name, and comparing the two readings on exactly the lookups the fix performs showed **only**
+Chisa12's vertex count moving (`None -> 1017868`), with Chisa2's repeat being two IDENTICAL blocks
+and Chisa6's untouched by the narrowed rule. Output afterwards: `.ini fixed: 1`, blend 1, five
+textures, 107 filename references with 0 dangling and 228 resource references with 0 undefined.
+
+<br>
+
+### A PART SKINNED TO A PHYSICS BONE WOBBLES, AND NO DISTANCE CHECK SEES IT (2026-09-22)
+
+Chisa's necktie and her jacket's shoulders were both reported as "floating like jello" on one mod.
+This is a third way for a vertex group row to be wrong, after "unmapped" (a negative bone index)
+and "far away" (a kink), and it is invisible to both: every bone involved landed **within a few
+units of where it belongs**, so the centroid-distance check that had found three hair tips a day
+earlier reported nothing.
+
+**The cause is the KIND of bone, not its position.** A WWMI character's components are draw slots
+of one merged skeleton and they are not interchangeable: component 1 is the long HAIR on both Chisa
+and ChisaParfait (z 85-151, centroid 11-12 units BEHIND the body, 14288 vertices on the skin), and
+hair bones are physics-simulated. Every one of Chisa's jacket-shoulder bones is contributed by her
+component 3, the BODY -- so a body -> hair edge is wrong by construction, and thirteen of them
+existed. About 13% of the jacket's shoulder band rode her hair, which is why it swung (the wobble)
+and sat leaning (reported as "skewed to the right": a simulated bone's settled rest offset).
+
+**Do not read every cross-component edge as a fault.** The two characters split the TORSO at
+different heights -- her component 3 is z 80-154 against Chisa's 69-138 -- so component 3 <-> 4
+edges are ordinary: 29% of the BODY crosses that way and renders correctly. Only components that
+are different KINDS of thing matter, and which those are is something the tool cannot know:
+`vgSymmetry.py --hair <N>` takes the index from you and prints the full edge grid so you can see
+which pairs to name.
+
+**Two rounds went on the symmetry story first, and it was only half the answer.** The remap really
+was not left/right symmetric, that really does matter, and fixing it really did help -- but on its
+own it does not stop a wobble, it only makes the wobble symmetric. The report said so plainly the
+second time ("it still wobbles"), and the lesson is the ordinary one: a partial improvement is
+evidence that the change touched the right area, NOT that the diagnosis was complete. What
+eventually settled it was asking what each target bone *is* rather than where it is.
+
+The mechanism is motion, not position. A part whose two halves ride bones that move independently
+moves with the DIFFERENCE between them, and physics bones move a lot:
+
+* **the tie** is a three-link chain -- 225 -> 226 -> 227 -- hanging down the CENTRE of Chisa's
+  chest, and ChisaParfait has no centre chest chain at all: her only mid-line bones there are 72
+  (chest) and 56 (neck). `Tools/VGRemapFinder` matched each link to its nearest bone, which are 73
+  and 74 -- her **breast pair** at `(-+3.7, 7.0, 116.5)` -- putting two links on the left one and
+  the third on the right;
+* **the shoulders** are the same rule on a pair rather than on the mid-line. Chisa's shoulder bones
+  are exact mirror pairs, and the table sent the LEFT of every pair to 119 while the RIGHT ones
+  scattered to 111, 33, 59, 60 and 32.
+
+**The finder optimises each bone ALONE, so nothing in it keeps a pair together.** That is the
+general statement, and it will hold for every pair it proposes: expect this class of error in any
+unreviewed row, and check for it before the first in-game round rather than after.
+
+The repair is the Yelan lesson arriving from a new direction -- *a part the target has no
+counterpart for wants ONE rigid anchor, not the finder's per-bone nearest*. For a centre chain that
+means a centre bone (the tie's four rows go to 72, which puts 94% of its weight on one bone: rigid
+beats wobbling); for a pair it means making one side the mirror of the other.
+
+`Tools/Misc/Diagnostics/vgSymmetry.py` is the check. Three things about using it:
+
+* **Report the skew GRADED, in units, never as a yes/no.** The binary "are the two targets each
+  other's exact twin" form calls a pair broken when they are 1.9 apart, which is noise, and it
+  reported **95.6%** of a part that renders perfectly. The graded form -- `|| reflect(target of b) -
+  target of b's twin ||` -- separates the real cases immediately: tie 7.89 units, shirt 1.04, body
+  0.67. Zero is perfect, a bone is about two units wide, ten units is two halves in different places.
+* **Read its `--propose` output; do not apply it wholesale.** It prints the placement error before
+  and after and flags its own suggestions that make placement WORSE -- on several of Chisa's pairs
+  symmetrising costs more than it buys, which means that pair needs a hand-picked target. Of 56
+  flagged pairs only the 12 rows behind the two reported symptoms were changed.
+* **It needs the two IDENTITY mods**, because a bone's position is taken as the centroid of the
+  vertices weighted to it. Do not substitute a `vs-cb4` translation column: that is a skinning
+  matrix, not a pose (see "Pick a rigid anchor by skinning the part").
+
+Measured on the Chisa9 mod, shipped -> patched: the tie **7.89 -> 0.05** units, the coat's shoulders
+(z 122-140) **3.84 -> 0.63** and **3.69 -> 0.62** over its two draws, with the share of weight skewed
+past 6 units going **22.8% -> 1.2%** and **22.1% -> 1.1%**. Shirt, body and tacet mark are unchanged
+and were already symmetric. **Still open and deliberately untouched:** the LOWER coat (z 70-112) is
+skewed just as badly -- mean 3.84, 20.5% of its weight past 6 units -- and nothing in game has
+complained about the skirt panels yet.
+
+**One trap in measuring any of this, which cost the first two runs.** Chisa is past 256 merged
+bones, so her true ids live in `BlendRemapVertexVG.buf` and `Blend.buf` holds **component-local**
+8-bit indices. A tally that reads `Blend.buf` for such a character measures nothing -- it made the
+coat appear to ride bones 0-11, which are component 0's window at her head -- while looking like a
+perfectly ordinary result. `vgSymmetry.py` prefers the remap buffer and falls back to `Blend.buf`
+only when there is none.
 
 ### A SOURCE PAST 256 BONES CARRIES THREE LINES THAT UNDO THE REMAP (2026-09-20)
 

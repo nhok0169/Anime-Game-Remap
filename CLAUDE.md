@@ -24,7 +24,7 @@ build/test/doc pipelines from scratch when they're already written down.
 | Tools | [`AI Agent Help/Tools/CLAUDE.md`](AI%20Agent%20Help/Tools/CLAUDE.md) | touching anything under `Tools/` — the builders, the `CIPipeline`, the script, or the shared `AGRemapUtils` library. **Nothing tests this layer and it rots silently: run the tool before you change it.** One session found three tools that could not run at all, each broken by the API's package moving during the C++ migration. Also covers the `##### Script` keyword sections and the substring trap in them, and where an option goes now that the script no longer contains the API |
 | CI | [`AI Agent Help/CI/CLAUDE.md`](AI%20Agent%20Help/CI/CLAUDE.md) | touching anything under `.github/workflows`, or a CI run, badge or pull request check behaves oddly -- the map of the eleven workflows, **why renaming a job strands branch protection** (checks are matched by the job-name CHAIN), why the testers need the API's own dependencies installed, which cache works (z3) and which cannot (`cbuild`: checkout resets mtimes), cibuildwheel's copied-not-mounted container, what a "No status" badge means, and how to see the remote when `git fetch` is blocked here. **Run `Tools/Misc/Diagnostics/checkWorkflowWiring.py` before and after any workflow change** |
 | Vertex Group Remaps | [`AI Agent Help/VGRemaps/CLAUDE.md`](AI%20Agent%20Help/VGRemaps/CLAUDE.md) | touching `data/VGRemapData.cpp`, `Data/RemapDrafts/`, `Tools/VGRemapFinder`, or a **"the model is warped / kinked in game"** bug -- where the blend-weight table sits in the maintainer's 8-step remap process, the rule that **every source vertex group must map somewhere** (an unmapped one becomes a *negative* bone index, not nothing), which geometry copy matches the library's versions, and the two recipes: a new character's remap end to end, and diagnosing a deformed model in minutes |
-| Game View | [`AI Agent Help/GameView/CLAUDE.md`](AI%20Agent%20Help/GameView/CLAUDE.md) | about to **ask the maintainer for an in-game screenshot, a frame dump, or "does it look right now?"** -- don't; `Tools/GameView` takes screenshots, drives keyboard and mouse, reloads 3DMigoto and reports the reload's warnings per mod, takes labelled frame dumps, and parks / restores mod folders. Covers the elevated helper the USER starts (Genshin runs as admin, and Windows silently drops input from anything that is not), the per-mod verification loop, how to get a character on screen, and the rules: **never click anything that spends or sends, and never press Enter in the overworld (it opens chat)** |
+| Game View | [`AI Agent Help/GameView/CLAUDE.md`](AI%20Agent%20Help/GameView/CLAUDE.md) | about to **ask the maintainer for an in-game screenshot, a frame dump, or "does it look right now?"** -- don't; `Tools/GameView` takes screenshots, drives keyboard and mouse, reloads 3DMigoto and reports the reload's warnings per mod, takes labelled frame dumps, and parks / restores mod folders. Covers the elevated helper the USER starts (Genshin runs as admin, and Windows silently drops input from anything that is not), the per-mod verification loop, how to get a character on screen, and the rules: **never click anything that spends or sends, and never press Enter in the overworld (it opens chat)**. Also read it before **changing how GameView reads `d3d11_log.txt`** (a bug report against `reload` / `log`): the log is buffered, 3DMigoto goes silent while it loads Resource files, and `Tools/GameView/tests/` has the replay and parser tests |
 
 **AGENTS CAN LOOK AT THE GAME THEMSELVES NOW (2026-09-23).** Every in-game check used to be a
 round trip through the maintainer, and they asked for that to stop: an agent given a remap and the
@@ -81,9 +81,9 @@ DIFFERENT pixel shaders, and her body had been routed through the skin's hair-sh
 such a slot is now left undrawn (`GIMIComponentParseFacts::isSlotUndrawn`). *Turquoise turned red*:
 the fix was right -- the mod's textures ARE red, and the maintainer's old-loader GIMI rejects the
 newer-API lines that bind them on its own character. Each was settled by ONE hand edit of the fixed
-`.ini` or one look at the mod's texture, before any code changed (Overview habits 78-79). And
+`.ini` or one look at the mod's texture, before any code changed (Overview habits 79-80). And
 `GameView reload --mod` had been answering "no warnings" over real ones by reading only until the
-log paused (habit 77) -- fixed, but distrust any earlier empty answer from it. Creating Remaps' Charlotte
+log paused (habit 78) -- fixed, but distrust any earlier empty answer from it. Creating Remaps' Charlotte
 points 8-9 and its START HERE table map each symptom to its cause.
 
 **A COUNTER THAT CAN ONLY EVER BE ZERO READS EXACTLY LIKE A ZERO THAT MEANS SOMETHING
@@ -135,7 +135,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is seventy-nine short habits, none of
+feature or bug request here: the habits that pay" first.** It is eighty short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -483,6 +483,51 @@ any sheet of one adds their own row there -- `<Council name>: The <nth> member o
 linked to the Council README -- *after* joining, never before. `Data/RemapDrafts/README.md` has the
 layout; the Council ritual in Overview has it as its last step.
 
+**AND THE FINDER PROPOSES BY PROXIMITY, WHICH IS NOT THE SAME QUESTION AS WHICH PART A BONE IS
+(2026-09-22).** `Tools/VGRemapFinder` ranks candidates by distance --- a property of ONE bone ---
+while which assembly a bone belongs to is a property of the whole model, and the two disagree
+wherever two parts sit close together. The maintainer has always closed that gap by hand (on
+Diluc, jacket bones go to jacket bones even where a leg bone is nearer); **a finder proposal is a
+draft, never a result**, and the review pass is now invariant 5 in
+[Vertex Group Remaps](AI%20Agent%20Help/VGRemaps/CLAUDE.md). What skipping it cost: **Chisa's
+jacket shoulders were mapped onto ChisaParfait's HAIR** and took three in-game rounds to find. The
+hair bones sit 4.7-6.3 units from the shoulder bones they stood in for, so they are a good answer
+to "what is nearest" and a wrong answer to "what is this" --- and hair is PHYSICS-simulated, so
+the jacket swung with it ("floating like jello") and leaned at rest ("skewed to the right").
+**Neither a distance check nor a symmetry check can see this**: the mapping was symmetric the
+whole time, and making it more symmetric only made the wobble symmetric. On WuWa the part is
+written down (a bone's vg window names its component, and component 1 was the hair on both
+characters): `Tools/Misc/Diagnostics/vgSymmetry.py --hair <N>` prints the component grid and every
+bone sent into it. On GI it comes from `VertexGroups`' `objects` column and the centroids. **A
+crossing is not automatically a fault** --- two characters split the TORSO at different heights,
+and 29% of Chisa's body maps across components correctly; what matters is a crossing between
+different KINDS.
+
+**AND ONE MOD-MANAGER-PACKAGED MOD FOUND FOUR MORE, THREE OF THEM NOTHING TO DO WITH CHISA
+(2026-09-22).** A mod packaged by a manager (GUID filenames, buffers under a `.assets` extension, a
+`res/` folder of UI art) declares `[Constants]` **three times in one file**, and a
+`{section: lines}` dict keeps one of them -- so `global $mesh_vertex_count` sat at line 208 and the
+run skipped the whole `.ini` saying it was missing. **When a run names a key it cannot find, grep
+the file for that key before believing it.** What a repeat MEANS is per section, so only
+`[Constants]` is concatenated: a repeated `TextureOverride` is a mod-authoring error whose runtime
+meaning is not ours to guess, and one confirmed-working mod has two of them naming DIFFERENT hashes.
+**A mod may also UV half a part into the [1, 2) TILE and rely on the sampler wrapping** -- one side
+of the body then renders flat and pale where the other has its detail (reported as a nipple, a
+fishnet and a tonal step, all one defect), and NEITHER character's own model ever leaves [0, 1), so
+the game never exercises its own address mode there and the two passes are free to differ. The fix
+folds U back, which is **wrap-equivalent** -- measured at 100.000% of vertices selecting the same
+texel -- so it does nothing on a pass that wraps and cannot regress one. **A mod's body shape may be
+a SHAPE KEY** with its clothing modelled in variants sized for each shape: with the shape keys not
+applied the body never morphs and the un-taken variant is buried INSIDE the skin, which reads as "the
+toggle removes her bra and stockings" -- and it vanishes in a `--paint` build too, which is the
+measurement that proves it is geometry rather than texture. And the `--shapeKeys retarget` that fixes
+it was **inert while printing success**, because a reverse lookup run VERSIONLESS resolves a value
+the two characters SHARE (their shape-key checksum, 2610) to the wrong one and writes
+`ChecksumNotFound`: `getKey('2610', None)` answers ChisaParfait and `getKey('2610', '2.8')` answers
+Chisa. **Any `<Something>NotFound` in generated output is that shape of bug**, and grepping for it is
+a cheap acceptance check. All four are in
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md).
+
 **THE FIRST WUWA REMAP DRAFT EXISTS (2026-09-18): Sanhua <-> SanhuaExorcist, both directions, in
 `Data/RemapDrafts/SanhuaRemapDraft.xlsx`.** `Tools/VGRemapFinder` reads WWMI-Assets' format now
 (`Metadata.json` + `Component N.fmt/.vb/.ib`, no API needed), and the thing to know before touching
@@ -538,7 +583,7 @@ the extra sections of a draw window into their own `.ini` files, the GIMI merge'
 [Vertex Group Remaps](AI%20Agent%20Help/VGRemaps/CLAUDE.md)'s "WuWa: Sanhua <-> SanhuaExorcist" ---
 including why the broken-build check for a new reader is a group COUNT and not a score, the four facts
 of a WWMI mod's anatomy, and that `py -3.11`, not `py -3`, is the Python with `openpyxl` on the Xeon -- the laptop has no 3.11 and
-`openpyxl` is on its `py -3` (Overview habit 76: run `py -0` and ask).
+`openpyxl` is on its `py -3` (Overview habit 77: run `py -0` and ask).
 
 **AND THE WUWA FIX IS COMPILED (2026-09-19): `makeWWMIFixer` / `makeWWMIParser` ARE THE FOURTH
 TEMPLATE, for a MULTI-COMPONENT character onto a MULTI-COMPONENT skin -- which every WuWa pair is.**

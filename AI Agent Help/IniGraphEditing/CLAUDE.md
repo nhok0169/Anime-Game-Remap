@@ -310,6 +310,17 @@ assume the parser handed you balanced input, because it doesn't validate that.**
 Python benchmark that found this needed one subprocess per file to isolate it: the corruption from
 one malformed file only crashed several files later, in code that had nothing to do with it.
 
+**The OTHER half -- an `if` that is never closed -- was dropped until 2026-09-22.** A Chisa mod's
+`[TextureOverrideTexture9]` opens `if $object_detected`, nests an `if $haircolor == 0 / elif` chain,
+closes the inner one and ends the section. 3dmigoto closes it at the section's end and the mod works
+in game; all three `IfTemplateTree` builders left the still-open node off the stack, so the tree
+reached 1 of the section's 3 content parts. **Nothing errored and the `.ini` still rendered from its
+parts**: every edit that walks the tree (`RegRemap`, `RegRemove`, the collects) simply never saw the
+two `this =` lines, and the prototype's hair toggle lost its diffuse. All three builders now close
+whatever is still open when the parts run out (`test_IfTemplateTree.py`'s
+`test_unclosedIf_closedAtTheEndOfTheSection`, which fails against the old build). The norm tree
+adds no synthetic `else` for such a block, because that would insert parts the section never had.
+
 ## Two graph representations — don't reach for the wrong one
 
 - **`IniSectionGraph.buildPartPredecessorGraph()`** — a static, part-level "who runs immediately

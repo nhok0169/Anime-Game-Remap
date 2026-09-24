@@ -88,6 +88,22 @@ class IfTemplateTreeTest(BaseUnitTest):
                                                     (12, [None, None, 19], [(13, [14], []), (16, [17], [])])])
         self.compareIfTemplateTree(tree.root, expected, parts)
 
+    def test_unclosedIf_closedAtTheEndOfTheSection(self):
+        # a real mod's section missing its outer 'endif' (3dmigoto closes it at the section's end and
+        # the mod works in game) -- the open block used to be left out of the tree, so every edit that
+        # walks the tree never saw the two 'this' lines inside it
+        parts = [FRB.IfContentPart({"$active": [(0, "1")]}, 0),
+                 FRB.IfPredPart("if $object_detected", FRB.IfPredPartType.If, _Z3CTX),
+                     FRB.IfPredPart("if $haircolor == 0", FRB.IfPredPartType.If, _Z3CTX),
+                     FRB.IfContentPart({"this": [(0, "ResourceTexture9")]}, 2),
+                     FRB.IfPredPart("elif $haircolor == 1", FRB.IfPredPartType.Elif, _Z3CTX),
+                     FRB.IfContentPart({"this": [(0, "ResourceTextureWH1")]}, 2),
+                     FRB.IfPredPart("endif", FRB.IfPredPartType.EndIf, _Z3CTX)]
+        tree = FRB.IfTemplate(parts).tree
+
+        expected = (None, [0, None], [(1, [None, None], [(2, [3], []), (4, [5], [])])])
+        self.compareIfTemplateTree(tree.root, expected, parts)
+
     # ========================================================
     # ========= normalize() rebuilds using the "norm" tree kind, inserting a synthetic empty
     # ========= "else" branch for every "if" (or "elif" chain) that doesn't already end with one

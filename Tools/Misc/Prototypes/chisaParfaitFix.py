@@ -377,10 +377,32 @@ ExtraPassRegs = {
     #   nothing else, the nearest thing to the hair shader Chisa draws this component with. Code 0 was
     #   harmless on a red ribbon and turned Chisa6's dark knit dress -- which that mod draws through this
     #   component -- maroon. Code 5 confirmed in game on both, 2026-09-22 (--accessoryCode overrides it).
+    # ps-t5 IS THE SKIN'S IRIDESCENT MATCAP AND IT TINTED THE WHOLE ACCESSORY BROWN (2026-09-23).
+    #   `00e3f13b`, 512x512, a pearlescent rainbow sheen for her frilled dress, mean (171, 156, 166).
+    #   Chisa draws this component on a HAIR shader with no such input, so hers was never rebound and
+    #   the skin's stayed standing -- which renders her pale grey-white ribbon art (019c268e, whose
+    #   cross marks and barcode strip are what the flap shows in game) as a warm brown panel across
+    #   the lower back. Reported on Chisa17, where the component is a wide back flap rather than a
+    #   thin ribbon, so the tint covers a large area and is unmistakable.
+    #
+    #   Found by probing the four registers this pass SETS and nothing binds -- ps-t4, t5, t6, t7 --
+    #   with a colour each: flat yellow at ps-t5 turned the whole panel olive, and the blue, cyan and
+    #   magenta of the other three never appeared. ps-t7 is `6a9ec87e`, the subsurface ramp slot 3
+    #   zeroes for the red stain, and is deliberately LEFT ALONE here: this slot's probe says it does
+    #   not reach the surface, and zeroing a register on a neighbouring slot's reasoning is exactly
+    #   the mistake the mask rounds made twice.
+    #
+    #   Zeroed rather than swapped for one of Chisa's: she has no counterpart to swap in, and the
+    #   fault is not WHICH matcap but that the skin's shader gives this surface an iridescent sheen
+    #   at all -- the same call the config already makes for slot 3's ps-t10. A zero samples as
+    #   `null` does. The accessory keeps its highlight from the mask's G channel (TargetMaskAccessory),
+    #   which is a separate input and is why that mask is not TargetMaskCloth.
     5: {"87825a9a29529f9b": {"ps-t0": (AccessoryCode, 0, 0, 255), "ps-t1": TargetMaskAccessory,
-                             "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse"},
+                             "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse",
+                             "ps-t5": (0, 0, 0, 0)},
         "ced9a47fb6ad4d16": {"ps-t0": (AccessoryCode, 0, 0, 255), "ps-t1": TargetMaskAccessory,
-                             "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse"}},
+                             "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse",
+                             "ps-t5": (0, 0, 0, 0)}},
 }
 
 # A CHARACTER IS NOT ONLY HER vb0 MESH. Chisa and ChisaParfait both draw a SECOND mesh, vb0

@@ -280,6 +280,12 @@ different machine, setting that backend is the cleaner fix than the copy workaro
 git config --global http.sslBackend schannel
 ```
 
+**On 2026-09-23 that global setting was gone.** `git config --global --get http.sslBackend`
+printed nothing, the system gitconfig said `openssl`, and a push failed with the certificate error.
+Don't re-set it yourself: a global config change is the maintainer's to make. Pass
+`git -c http.sslBackend=schannel <command>` for the one command instead. See the Overview's
+Operating norms for the rest of the push and PR steps.
+
 The copy trick (`robocopy <other-checkout>/api/extern/X <here>/api/extern/X /E /XD .git`) remains
 useful for a fresh `git worktree`, which never populates submodules regardless of network health.
 

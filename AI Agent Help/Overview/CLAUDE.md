@@ -1193,6 +1193,28 @@ nothing. That costs the maintainer one click per Windows session, and the guide 
 The same goes for anything that elevates, persists, spends or sends. Build the version where the
 maintainer holds the key, and put the remaining cost in writing.
 
+**72. A BUG REPORT'S DIAGNOSIS IS A HYPOTHESIS: REPLAY THE REAL INPUT BEFORE YOU PATCH WHERE IT POINTS
+(2026-09-23).** The report said `GameView reload --mod` "seems to miss the multi-line Duplicate
+block", and it was carefully argued: the warning comes before the section names it concerns, and
+the one mod whose warnings WERE reported also had other warnings. The report was right about what
+it observed. It was wrong about the mechanism. The log keeps every past reload, so each reload's
+slice was replayed through the unchanged parser, and the parser found every Duplicate warning. The
+parser had been given incomplete text: the reload's wait had stopped in a silent stretch while
+3DMigoto loaded textures (see [Game View](../GameView/CLAUDE.md)'s log section). Patching the parser
+alone would have left every one of those mods still reporting "no warnings". Two things made the
+difference:
+- **Look for what else went missing.** The same reloads had logged `Unrecognised entry` warnings,
+  which the report did not mention and the tool had not printed either. A symptom confined to one
+  line format would not have taken those with it. When a report says "X is missing", check whether
+  its neighbours are missing too.
+- **Get the tool's actual output from the session that ran it.** The desktop app's
+  `search_session_transcripts` finds other sessions' tool output by a phrase such as `since the
+  reload under Mods\CharlotteIdentity`. The report's quote plus the input file is usually enough to
+  replay, but the transcript settles what really ran.
+Fix both layers when both are wrong. The report's suspicion still found a real gap: a Duplicate
+warning went only to the section above it, which misses a conflict between two mods. Then prove
+the fix against the same replay, checked against a count taken separately from the input.
+
 **A note that belongs with 66 and 67, since both were instrumentation:** when a count assertion in a
 suite fails, **print the number before believing the message**. Nothing builds `core/tests`, so
 those asserts rot; three of them were stale on arrival this session and only one failure of four was
@@ -1482,7 +1504,25 @@ sections sit on the LisaStudent model. 4.6.4 runs that fix the wrong way round.
 
 ## Operating norms
 
-- Don't push or open a PR unless asked. If you do, branch off `development`, not `master`.
+- Don't push or open a PR unless asked. **If you do, branch off `master` and target `master`.** This
+  line used to say `development`, but `development` stopped moving on 2026-09-18. By 2026-09-23 it
+  was an ancestor of `master`, 120 commits behind, and every recent PR (#237-#243) had merged into
+  `master`. If `git log -1 origin/development` is ever newer than `master` again, the maintainer has
+  switched back; ask.
+- **Pushing and opening the PR from here (2026-09-23):**
+  - **Network:** the sandboxed Bash tool cannot resolve `github.com` at all. A push needs the
+    sandbox off.
+  - **TLS:** Git's own config uses the OpenSSL backend, which fails with `unable to get local issuer
+    certificate` (see [Setup](../Setup/CLAUDE.md)'s TLS note). `git -c http.sslBackend=schannel
+    push -u origin <branch>` fixes it for that one command, without changing anyone's config.
+  - **The PR:** `gh` is not logged in, and logging in is the maintainer's to do, never yours. Give
+    them `https://github.com/nhok0169/Anime-Game-Remap/compare/master...<branch>?expand=1`
+    and the PR description text.
+- **A session worktree can start from an OLD commit.** On 2026-09-23 one was created at a commit
+  from before `Tools/GameView` existed, while the task was about GameView. `git log --oneline -1`
+  against `git log --oneline -1 master` tells you. If the worktree is clean, `git merge --ff-only
+  master` brings it up to date; auto mode refuses `git reset --hard master`. The task's files
+  being missing from your tree means the tree is old, not that the task is wrong.
 - **Splitting overlapping changes into separate commits without `git add -p`** (which the tools
   here cannot drive): build each intermediate version of a shared file in a Python script, stage it
   with `git hash-object -w --path=<repo path> <temp file>` (the `--path` applies the CRLF

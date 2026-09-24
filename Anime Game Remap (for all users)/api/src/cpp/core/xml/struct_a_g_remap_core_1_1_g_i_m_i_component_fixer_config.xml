@@ -70,7 +70,7 @@ The target skin&apos;s name in the vertex-group table -- the ``toName`` column o
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="214" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="214" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="217" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="217" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a55c096ba405ba593d971eeb9178ddb9f" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -85,7 +85,7 @@ The target skin&apos;s name in the vertex-group table -- the ``toName`` column o
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="219" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="219" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="222" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="222" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a636986797c82ce938f54cf1a126625e4" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component" kindref="compound">Component</ref> &gt;</type>
@@ -100,7 +100,7 @@ The target skin&apos;s name in the vertex-group table -- the ``toName`` column o
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="224" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="224" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="227" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="227" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a37f258a89d09b22c2d598bbe751f3937" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -132,7 +132,7 @@ Empty for a skin every component of which receives geometry, which is YelanTranq
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="247" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="247" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="250" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="250" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a9429f0c8795e514b7df6bb50616bce16" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::pair&lt; std::string, std::vector&lt; std::string &gt; &gt; &gt;</type>
@@ -168,7 +168,7 @@ absent is a load-time warning
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="274" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="274" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="277" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="277" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a7a626487be714861384609cf33819b3a" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::pair&lt; std::string, <ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref> &gt; &gt;</type>
@@ -187,7 +187,7 @@ object not named here keeps its diffuse as is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="284" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="284" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="287" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="287" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a9ad6948d41c2aab702baf544c1f419a0" prot="public" static="no" mutable="no">
         <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref>(const std::string &amp;diffusePath)&gt;</type>
@@ -211,7 +211,7 @@ cannot be moved by number alone. The edit reads the diffuse under each pixel to 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="299" column="23" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="299" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="302" column="23" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="302" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a4219f42e0f3a64ddc8267ceadeabc4d5" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -238,7 +238,7 @@ gated on the diffuse and her legend does not change between her objects
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="317" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="317" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="320" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="320" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a177f603163fc1f91274406a76c6a2fec" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref></type>
@@ -257,7 +257,7 @@ game reads it under (``127 -&gt; 55``). **Default**: ``(55, 55, 255, 255)``, 102
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="326" column="16" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="326" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="329" column="16" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="329" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4471db689105f74de5a9c04f17fc4c1" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -273,7 +273,7 @@ game reads it under (``127 -&gt; 55``). **Default**: ``(55, 55, 255, 255)``, 102
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="331" column="13" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="331" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="334" column="13" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="334" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a5f5b373f09445ec712cd1b8cc64ea8bb" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -290,7 +290,7 @@ game reads it under (``127 -&gt; 55``). **Default**: ``(55, 55, 255, 255)``, 102
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="336" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="336" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="339" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="339" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a21c67a9854c8bc6133da8c5bb5a89a9c" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -319,7 +319,7 @@ legend reads that as a different material
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="355" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="355" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="358" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="358" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aea153cdb88716d1065e57c2b9533a89a" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -338,7 +338,7 @@ models say, where a mod may carry anything. **Default**: ``true``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="364" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="364" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="367" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="367" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1addd0e78a5f6228f360f9c0ba68dfc41e" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -357,7 +357,7 @@ carry none. **Default**: ``true``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="373" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="373" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="376" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="376" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a88d0ad61a114ed71ea76dc2d31d40ae8" prot="public" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a79c25ff858d93f249c7c0a2c03bb257e" kindref="member">SourceLayout</ref></type>
@@ -374,7 +374,7 @@ carry none. **Default**: ``true``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="378" column="22" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="378" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="381" column="22" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="381" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4a3452953a770a968f699df3d639bef" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -399,7 +399,7 @@ Citlali&apos;s was confirmed in game with
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="393" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="393" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="396" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="396" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1af4e7a7c6ad78febe612b368f4c4894b0" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -414,7 +414,7 @@ Citlali&apos;s was confirmed in game with
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="398" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="398" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="401" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="401" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -472,7 +472,7 @@ and the guide is Creating Remaps&apos; &quot;Porting the Yelan prototype into C+
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="70" column="5" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="70" bodyend="399"/>
+    <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="70" column="5" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="70" bodyend="402"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a636986797c82ce938f54cf1a126625e4" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig</scope><name>components</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a21c67a9854c8bc6133da8c5bb5a89a9c" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig</scope><name>compressTextures</name></member>

@@ -1142,6 +1142,81 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {0, 5}, {1, 6}
          })},
 
+        // ===== from Charlotte @ 1.0 (2026-09-23) =====
+        // CharlotteHurlock is FOUR skinned components (Body, Bangs, Eyes, Camera), each with its own
+        // vertex group index space, so Charlotte's 103 groups are split across rows keyed by the target
+        // component, as Bennett's and Citlali's are. From Data/RemapDrafts/CharlotteRemapDraft.xlsx:
+        // Tools/VGRemapFinder over the two Data/Mod Downloads folders, then every row whose chain /
+        // vertices / nearest answers disagreed reviewed by bone position (the reasons are in the draft's
+        // Comments). The union of the rows covers each of Charlotte's 103 groups exactly once.
+        //
+        // There is NO forward Bangs or Camera row, as Bennett has no forward Bang row: Charlotte has no
+        // fringe bone (her fringe is on her head bone) and no camera, so nothing of hers is nearest the
+        // skin's Bangs or Camera bones; the fixer hides those two components instead.
+        //
+        // PROPOSED, NOT YET CONFIRMED IN GAME.
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Charlotte), "",
+          "6.7", ModTypeIdTools::getName(ModTypeId::CharlotteHurlock), "Body"},
+         VGRemap({
+            {0, 77}, {1, 73}, {2, 78}, {3, 80}, {4, 78}, {5, 74}, {6, 79}, {7, 81}, {8, 79}, {9, 119},
+            {10, 120}, {11, 0}, {12, 1}, {15, 112}, {16, 113}, {17, 121}, {18, 122}, {19, 116}, {20, 118}, {21, 58},
+            {22, 123}, {23, 124}, {24, 119}, {25, 120}, {26, 120}, {27, 83}, {28, 7}, {29, 106}, {30, 108}, {31, 108},
+            {32, 108}, {33, 129}, {34, 129}, {35, 128}, {36, 2}, {37, 139}, {38, 108}, {39, 109}, {40, 94}, {41, 95},
+            {42, 102}, {43, 103}, {44, 60}, {45, 61}, {46, 66}, {47, 67}, {48, 28}, {49, 52}, {50, 3}, {51, 4},
+            {52, 5}, {53, 6}, {54, 7}, {55, 8}, {56, 9}, {57, 10}, {58, 11}, {59, 12}, {60, 13}, {61, 14},
+            {62, 15}, {63, 16}, {64, 17}, {65, 18}, {66, 19}, {67, 20}, {68, 21}, {69, 22}, {70, 23}, {71, 24},
+            {72, 25}, {73, 137}, {74, 27}, {75, 28}, {76, 29}, {77, 31}, {78, 32}, {79, 33}, {80, 34}, {81, 35},
+            {82, 36}, {83, 37}, {84, 38}, {85, 39}, {86, 40}, {87, 41}, {88, 42}, {89, 43}, {90, 44}, {91, 45},
+            {92, 46}, {93, 47}, {94, 48}, {95, 49}, {96, 138}, {97, 51}, {98, 52}, {99, 53}, {100, 55}, {101, 56},
+            {102, 57}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Charlotte), "",
+          "6.7", ModTypeIdTools::getName(ModTypeId::CharlotteHurlock), "Eyes"},
+         VGRemap({
+            {13, 0}, {14, 1}
+         })},
+
+        // ===== from CharlotteHurlock @ 1.0 (2026-09-23) =====
+        // one row per source component
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::CharlotteHurlock), "Bangs",
+          "6.7", ModTypeIdTools::getName(ModTypeId::Charlotte), ""},
+         VGRemap({
+            {0, 54}, {1, 54}, {2, 54}, {3, 35}, {4, 35}, {5, 54}, {6, 54}, {7, 19}, {8, 26}, {9, 19}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::CharlotteHurlock), "Body",
+          "6.7", ModTypeIdTools::getName(ModTypeId::Charlotte), ""},
+         VGRemap({
+            {0, 11}, {1, 12}, {2, 36}, {3, 50}, {4, 51}, {5, 52}, {6, 53}, {7, 54}, {8, 55}, {9, 56},
+            {10, 57}, {11, 58}, {12, 59}, {13, 60}, {14, 61}, {15, 62}, {16, 63}, {17, 64}, {18, 65}, {19, 66},
+            {20, 67}, {21, 68}, {22, 69}, {23, 70}, {24, 71}, {25, 72}, {26, 73}, {27, 74}, {28, 75}, {29, 76},
+            {30, 51}, {31, 77}, {32, 78}, {33, 79}, {34, 80}, {35, 81}, {36, 82}, {37, 83}, {38, 84}, {39, 85},
+            {40, 86}, {41, 87}, {42, 88}, {43, 89}, {44, 90}, {45, 91}, {46, 92}, {47, 93}, {48, 94}, {49, 95},
+            {50, 96}, {51, 97}, {52, 98}, {53, 99}, {54, 53}, {55, 100}, {56, 101}, {57, 102}, {58, 56}, {59, 79},
+            {60, 44}, {61, 45}, {62, 56}, {63, 79}, {64, 46}, {65, 47}, {66, 46}, {67, 47}, {68, 46}, {69, 1},
+            {70, 5}, {71, 1}, {72, 5}, {73, 1}, {74, 5}, {75, 3}, {76, 7}, {77, 0}, {78, 2}, {79, 6},
+            {80, 2}, {81, 6}, {82, 18}, {83, 27}, {84, 16}, {85, 43}, {86, 41}, {87, 43}, {88, 43}, {89, 100},
+            {90, 40}, {91, 41}, {92, 40}, {93, 41}, {94, 40}, {95, 41}, {96, 40}, {97, 41}, {98, 42}, {99, 43},
+            {100, 42}, {101, 43}, {102, 42}, {103, 43}, {104, 36}, {105, 36}, {106, 38}, {107, 39}, {108, 38}, {109, 39},
+            {110, 74}, {111, 97}, {112, 15}, {113, 16}, {114, 19}, {115, 19}, {116, 19}, {117, 17}, {118, 18}, {119, 24},
+            {120, 25}, {121, 17}, {122, 18}, {123, 22}, {124, 23}, {125, 54}, {126, 75}, {127, 98}, {128, 35}, {129, 33},
+            {130, 36}, {131, 38}, {132, 39}, {133, 38}, {134, 39}, {135, 38}, {136, 39}, {137, 73}, {138, 96}, {139, 37},
+            {140, 102}, {141, 102}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::CharlotteHurlock), "Camera",
+          "6.7", ModTypeIdTools::getName(ModTypeId::Charlotte), ""},
+         VGRemap({
+            {0, 36}, {1, 36}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::CharlotteHurlock), "Eyes",
+          "6.7", ModTypeIdTools::getName(ModTypeId::Charlotte), ""},
+         VGRemap({
+            {0, 13}, {1, 14}
+         })},
+
         // ===== WuWa: Sanhua <-> SanhuaExorcist (2026-09-19) =====
         // Both directions from Data/RemapDrafts/SanhuaRemapDraft.xlsx, in WWMI's MERGED skeleton
         // (the space every component's vg_map in Metadata.json maps into, and the space a WWMI

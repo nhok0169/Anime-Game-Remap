@@ -150,7 +150,7 @@ namespace AGRemapCore {
                            // lands on ModType's own VertexCounts() default).
                            //
                            // nullptr vgRemaps is NOT the same thing: ModType's fallback there is the
-                           // single shared ModDataAssets::vgRemaps, so all 49 GI mod types share one
+                           // single shared ModDataAssets::vgRemaps, so all 51 GI mod types share one
                            // remap table. That too matches the original -- see ModType::vgRemaps.
                            nullptr, nullptr,
                            giIniParseBuilder(), giIniFixBuilder(), giIniRemoveBuilder());
@@ -191,6 +191,14 @@ namespace AGRemapCore {
 
     ModType GIBuilder::bennettAdventure() {
         return makeGIModType(ModTypeId::BennettAdventure, {"BennyAdventure", "AdventureBennett", "AdventureBenny", "SummerBenny", "BennySummer", "SummerBennett", "BennettSummer", "NatlanBennett", "BennettNatlan", "NatlanBenny", "BennyNatlan"});
+    }
+
+    ModType GIBuilder::charlotte() {
+        return makeGIModType(ModTypeId::Charlotte);
+    }
+
+    ModType GIBuilder::charlotteHurlock() {
+        return makeGIModType(ModTypeId::CharlotteHurlock, {"HurlockCharlotte"});
     }
 
     ModType GIBuilder::cherryHutao() {
@@ -367,6 +375,8 @@ namespace AGRemapCore {
             barbaraSummerTime(),
             bennett(),
             bennettAdventure(),
+            charlotte(),
+            charlotteHurlock(),
             cherryHutao(),
             citlali(),
             citlaliWhisperofStars(),

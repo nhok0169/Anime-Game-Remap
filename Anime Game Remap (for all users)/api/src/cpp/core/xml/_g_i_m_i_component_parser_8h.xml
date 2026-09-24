@@ -6,7 +6,9 @@
     <includes local="no">vector</includes>
     <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
     <includes refid="_ini_parse_builder_8h" local="yes">AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</includes>
+    <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
     <includedby refid="_bennett_adventure_parser_8cpp" local="yes">src/data/IniParseData/BennettAdventure/BennettAdventureParser.cpp</includedby>
+    <includedby refid="_charlotte_hurlock_parser_8cpp" local="yes">src/data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.cpp</includedby>
     <includedby refid="_citlali_whisperof_stars_parser_8cpp" local="yes">src/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.cpp</includedby>
     <includedby refid="_g_i_m_i_component_parser_8cpp" local="yes">src/data/IniParseData/GIMIComponentParser.cpp</includedby>
     <includedby refid="_yelan_tranquil_parser_8cpp" local="yes">src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp</includedby>
@@ -1159,20 +1161,32 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
       </node>
       <node id="2">
+        <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
+        <link refid="_g_i_m_i_merge_fixer_8cpp"/>
+      </node>
+      <node id="3">
         <label>src/data/IniParseData/BennettAdventure/BennettAdventureParser.cpp</label>
         <link refid="_bennett_adventure_parser_8cpp"/>
       </node>
-      <node id="3">
+      <node id="4">
+        <label>src/data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.cpp</label>
+        <link refid="_charlotte_hurlock_parser_8cpp"/>
+      </node>
+      <node id="5">
         <label>src/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.cpp</label>
         <link refid="_citlali_whisperof_stars_parser_8cpp"/>
       </node>
-      <node id="4">
+      <node id="6">
         <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
         <link refid="_g_i_m_i_component_parser_8cpp"/>
       </node>
-      <node id="5">
+      <node id="7">
         <label>src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp</label>
         <link refid="_yelan_tranquil_parser_8cpp"/>
       </node>
@@ -1180,6 +1194,7 @@
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config" prot="public">AGRemapCore::GIMIComponentParserConfig</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot" prot="public">AGRemapCore::GIMIComponentParserConfig::Slot</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component" prot="public">AGRemapCore::GIMIComponentParserConfig::Component</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts" prot="public">AGRemapCore::GIMIComponentParseFacts</innerclass>
     <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
     <briefdescription>
     </briefdescription>
@@ -1252,9 +1267,18 @@
 <codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="180"><highlight class="normal"></highlight></codeline>
 <codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1a584e65cf26c955c00926e1dcbcfa8933" kindref="member">makeGIMIComponentParser</ref>(<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config" kindref="compound">GIMIComponentParserConfig</ref><sp/>config);</highlight></codeline>
-<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="203"><highlight class="normal"></highlight></codeline>
-<codeline lineno="204"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213" refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts" kindref="compound">GIMIComponentParseFacts</ref><sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="215" refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1a93cc82dfad0b283f35a41a17d41a74bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1a93cc82dfad0b283f35a41a17d41a74bb" kindref="member">~GIMIComponentParseFacts</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230" refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1a4075f7c93d5a18acb244ad25f910486a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1a4075f7c93d5a18acb244ad25f910486a" kindref="member">hasRemappableContent</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1adb8ccdf4a9af3dd9fe5606e030e141b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1adb8ccdf4a9af3dd9fe5606e030e141b4" kindref="member">isSlotUndrawn</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>component,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>slot)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h"/>
   </compounddef>

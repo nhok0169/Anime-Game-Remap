@@ -100,6 +100,12 @@ const std::vector<std::pair<std::vector<std::string>, int>>& getVertexCountDataR
         // no single vertex count.
         {{"5.3", ModTypeIdTools::getName(ModTypeId::Citlali), ""}, 27102},
 
+        // ===== Charlotte (2026-09-23) =====
+        // The game's own model, counted off Data/Mod Downloads/GI/Charlotte/4_0's Position.buf
+        // (711600 bytes / 40). No row for CharlotteHurlock: a skin of several components has no single
+        // vertex count.
+        {{"4.0", ModTypeIdTools::getName(ModTypeId::Charlotte), ""}, 17790},
+
         // ===== WuWa: Sanhua and SanhuaExorcist (2026-09-19) =====
         // The whole mesh, every draw slot together -- Metadata.json's 'vertex_count', and what a
         // WWMI mod declares as $mesh_vertex_count.

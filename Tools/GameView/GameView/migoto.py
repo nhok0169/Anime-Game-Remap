@@ -61,6 +61,18 @@ def readLogFrom(folder, offset, cap=32 * 1024 * 1024):
 
 
 RELOAD_MARK = "Reloading d3dx.ini"
+# The END of a reload, written once every section has been parsed. Waiting for the log to go quiet
+# instead is not enough: 3DMigoto writes it in bursts, and a 1.5 s pause mid-reload cut off every
+# warning of a mod parsed late -- `reload --mod CharlotteHurlock2` said "no warnings" over 47
+# (2026-09-24).
+RELOAD_DONE = "> d3dx.ini reloaded"
+
+
+def reloadFinished(text):
+    """Whether ``text`` holds a reload's start AND the end that follows it."""
+    start = text.rfind(RELOAD_MARK)
+    return start >= 0 and text.find(RELOAD_DONE, start) >= 0
+
 # "Frame analysis saved to ..." / "Frame Analysis: Unable to create ..." -- WITH the space. With call
 # logging on (WWMI's XXMI default) every log line starts "FrameAnalysisContext(...)", which a
 # space-optional pattern matched, so a dump that never started looked like one in progress.

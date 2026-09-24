@@ -348,7 +348,11 @@ namespace AGRemapCore {
             return result;
         }
 
+        // How many children actually said something. An EXTERNAL command says nothing -- see below.
+        size_t evaluated = 0;
+
         for (const std::string& subCommand : subCommandsChecked) {
+            ++evaluated;
             childrenResult = childrenResult && sectionsKeyFullCover.at(subCommand);
             if (!childrenResult) {
                 return result;
@@ -357,6 +361,7 @@ namespace AGRemapCore {
 
         for (const auto& childEntry : branchChildren) {
             NodeType* child = childEntry.second;
+            ++evaluated;
             childrenResult = childrenResult && isKeyFullyCoverNode(*child, key, sections, visited, sectionsKeyFullCover);
             if (!childrenResult) {
                 return result;
@@ -364,17 +369,27 @@ namespace AGRemapCore {
         }
 
         for (const std::string& subCommand : subCommandsToCheck) {
-            // Assume the .ini file has correct syntax and does not reference some command that
-            // doesn't exist -- same assumption the pure-Python original makes.
+            // AN EXTERNAL COMMAND COVERS NOTHING (2026-09-23). A name that is not a section in this
+            // graph is a library command (ORFix, NNFix, a TexFx sub-command) -- getKeyMissingPartsNode
+            // below already counts one as entirely MISSING the key. Here it used to be skipped while
+            // childrenResult stayed at its initial `true`, so a section whose only call was
+            // `run = CommandList\global\ORFix\ORFix` read as fully covered for ANY key: the merge
+            // template's carried copy of a CharlotteHurlock slot that calls ORFix itself was taken to
+            // draw already, got no `drawindexed`, and the skin's whole outfit was never drawn.
             auto it = sections.find(subCommand);
             if (it == sections.end()) {
                 continue;
             }
 
+            ++evaluated;
             childrenResult = childrenResult && it->second->isKeyFullyCover(key, sections, visited, sectionsKeyFullCover);
             if (!childrenResult) {
                 return result;
             }
+        }
+
+        if (evaluated == 0) {
+            return result;
         }
 
         result = result || childrenResult;

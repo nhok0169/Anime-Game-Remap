@@ -28,6 +28,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import zipfile
 
 MarkerFile = ".modInstall.json"
@@ -196,6 +197,19 @@ def removeJunk(root: str):
                 os.remove(os.path.join(dirPath, f))
 
 
+def renameRetrying(src: str, dst: str, tries: int = 10):
+    """A folder just written is often still open in an antivirus scanner or the search indexer, and
+    Windows refuses to rename a folder with an open handle inside it ("Access is denied")."""
+    for attempt in range(tries):
+        try:
+            os.rename(src, dst)
+            return
+        except PermissionError:
+            if attempt == tries - 1:
+                raise
+            time.sleep(0.5 * (attempt + 1))
+
+
 def modRoot(root: str) -> str:
     """Descend through wrapper folders: a folder whose only entry is one folder."""
     while True:
@@ -279,7 +293,7 @@ def install(args) -> int:
             target = os.path.join(dest, folderName)
             if os.path.exists(target):
                 raise InstallError(f"{target} exists")
-            os.rename(longPath(root), longPath(target))
+            renameRetrying(longPath(root), longPath(target))
             with open(os.path.join(target, MarkerFile), "w", encoding="utf-8") as f:
                 json.dump({"archive": fileName, "sha256": digest,
                            "installed": datetime.datetime.now().isoformat(timespec="seconds")},

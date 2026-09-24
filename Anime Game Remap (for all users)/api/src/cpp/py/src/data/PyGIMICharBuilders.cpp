@@ -89,7 +89,47 @@ than copying: Amber and Mona are ``12`` where Rosaria is ``20``
             py::doc(":class:`int`: The byte size of one position vertex. **Default**: ``40``"))
 
         .def_readwrite("blendStride", &AGRC::GIMICharParserConfig::blendStride,
-            py::doc(":class:`int`: The byte size of one `blend`_ vertex. **Default**: ``32``"));
+            py::doc(":class:`int`: The byte size of one `blend`_ vertex. **Default**: ``32``"))
+
+        // Bound 2026-09-23 with the rest of the fields a new character's parse row sets, so a parse
+        // row can be prototyped as a config too (Charlotte's needed objDownloadRegs and faceDownload).
+        .def_readwrite("objsWithoutLightMap", &AGRC::GIMICharParserConfig::objsWithoutLightMap, py::doc(R"doc(
+List[:class:`str`]: The drawn objects whose download folder has no light map, so none is registered
+for them --- a download whose file is not in the folder writes a reference nothing will ever fetch
+        )doc"))
+        .def_readwrite("objDownloadRegs", &AGRC::GIMICharParserConfig::objDownloadRegs, py::doc(R"doc(
+List[:class:`GIMICharParserConfig.ObjDownloadRegs`]: Per object, the registers its downloaded
+textures go to, where they differ from ``ps-t0`` diffuse / ``ps-t1`` light map --- a character on the
+normal-map layout reads its diffuse from ``ps-t1`` and its light map from ``ps-t2``. Every object not
+named keeps the defaults
+        )doc"))
+        .def_readwrite("faceDownloadVersionFolder", &AGRC::GIMICharParserConfig::faceDownloadVersionFolder,
+            py::doc(":class:`str`: The version subfolder the face diffuse download is in, or ``\"\"`` for :attr:`downloadVersionFolder`"))
+        .def_readwrite("faceDownloadPrefix", &AGRC::GIMICharParserConfig::faceDownloadPrefix,
+            py::doc(":class:`str`: The face diffuse download's file prefix, or ``\"\"`` for :attr:`downloadPrefix`"))
+        .def_readwrite("faceDownload", &AGRC::GIMICharParserConfig::faceDownload, py::doc(R"doc(
+:class:`bool`: Whether the face diffuse is downloaded for a face `section`_ that does not bind it
+
+``False`` for a character whose face section binds its diffuse at ``ps-t1`` (GI 6.x), which the
+``ps-t0`` download would read as missing and fetch a texture the mod already has
+
+**Default**: ``True``
+        )doc"));
+
+    py::class_<AGRC::GIMICharParserConfig::ObjDownloadRegs>(m.attr("GIMICharParserConfig"), "ObjDownloadRegs", R"doc(
+Where one object's downloaded textures are bound, for :attr:`GIMICharParserConfig.objDownloadRegs`
+    )doc")
+        .def(py::init([](std::string obj, std::string diffuseReg, std::string lightMapReg, std::string normalMapReg) {
+            return AGRC::GIMICharParserConfig::ObjDownloadRegs{std::move(obj), std::move(diffuseReg), std::move(lightMapReg), std::move(normalMapReg)};
+        }), py::arg("obj"), py::arg("diffuseReg") = "ps-t0", py::arg("lightMapReg") = "ps-t1", py::arg("normalMapReg") = "")
+        .def_readwrite("obj", &AGRC::GIMICharParserConfig::ObjDownloadRegs::obj,
+            py::doc(":class:`str`: The drawn object, lowercase"))
+        .def_readwrite("diffuseReg", &AGRC::GIMICharParserConfig::ObjDownloadRegs::diffuseReg,
+            py::doc(":class:`str`: The register its diffuse download is bound to. **Default**: ``\"ps-t0\"``"))
+        .def_readwrite("lightMapReg", &AGRC::GIMICharParserConfig::ObjDownloadRegs::lightMapReg,
+            py::doc(":class:`str`: The register its light map download is bound to. **Default**: ``\"ps-t1\"``"))
+        .def_readwrite("normalMapReg", &AGRC::GIMICharParserConfig::ObjDownloadRegs::normalMapReg,
+            py::doc(":class:`str`: The register its normal map download is bound to, or ``\"\"`` for none. **Default**: ``\"\"``"));
 
     // ------------------------------------------------------------------- the fixer config
     py::class_<AGRC::GIMICharFixerConfig> fixerConfig(m, "GIMICharFixerConfig", R"doc(

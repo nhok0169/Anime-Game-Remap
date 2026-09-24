@@ -23,6 +23,7 @@
 #include "PyGIMICharBuilders.h"         // PyIniParseFactory / PyIniFixFactory, the same wrappers
                                         // CppStrategyOverrides recognises
 #include "AGRemapCore/constants/ModTypeId.h"
+#include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
 #include "AGRemapCore/data/IniFixData/GIMIMergeFixer.h"
 #include "AGRemapCore/data/IniParseData/GIMIComponentParser.h"
 
@@ -289,6 +290,159 @@ value
         .def_readwrite("copyPreamble", &AGRC::GIMIMergeFixerConfig::copyPreamble,
                         py::doc(":class:`str`: The comment written at the top of each generated `section`_ group"));
 
+    // ------------------------------------------------------------------- the component fixer config
+    // The FORWARD template: a classic-shape mod onto a skin of several components. Bound so a new pair
+    // can be prototyped as a config handed to the same factory its compiled row will call, exactly as
+    // the merge template above is (bound 2026-09-23, for Charlotte -> CharlotteHurlock).
+    py::class_<AGRC::GIMIComponentFixerConfig> componentConfig(m, "GIMIComponentFixerConfig", R"doc(
+What one remap onto a skin of SEVERAL COMPONENTS does differently, for :func:`makeGIMIComponentFixer`
+
+A classic GIMI character is one mesh with one vertex-group numbering. A skin like ``YelanTranquil``
+is a ``Body``, a ``Bang`` and an ``Eye``, each with its own buffers, hashes and vertex groups, so a
+classic mod remapped onto it has to be SPLIT into one set of buffers per component and drawn through
+each component's draw slot. The library does it with one fixer PER TARGET COMPONENT, each built from
+this same config by :func:`makeGIMIComponentFixer`
+    )doc");
+
+    py::enum_<AGRC::GIMIComponentFixerConfig::SourceLayout>(componentConfig, "SourceLayout", R"doc(
+Which texture layout the SOURCE mod's object sections bind
+    )doc")
+        .value("Plain", AGRC::GIMIComponentFixerConfig::SourceLayout::Plain,
+               "``ps-t0`` diffuse, ``ps-t1`` light map: shifted up onto a normal-map slot, with a flat normal map created")
+        .value("NormalMap", AGRC::GIMIComponentFixerConfig::SourceLayout::NormalMap,
+               "``ps-t0`` normal map, ``ps-t1`` diffuse, ``ps-t2`` light map: already what a normal-map slot reads, passed through")
+        .value("Detect", AGRC::GIMIComponentFixerConfig::SourceLayout::Detect,
+               "per object: the normal-map layout when its section binds ``ps-t2``, the plain one otherwise");
+
+    py::class_<AGRC::GIMIComponentFixerConfig::Component>(componentConfig, "Component", R"doc(
+One component of the TARGET skin, and how the mod is drawn through it
+    )doc")
+        .def(py::init<>())
+        .def_readwrite("name", &AGRC::GIMIComponentFixerConfig::Component::name,
+                        py::doc(":class:`str`: The component's name, as the vertex-group table's component column spells it, eg. ``Body``"))
+        .def_readwrite("modTypeName", &AGRC::GIMIComponentFixerConfig::Component::modTypeName,
+                        py::doc(":class:`str`: The mod type standing for this component as a fix TARGET, eg. ``YelanTranquilBody``"))
+        .def_readwrite("slot", &AGRC::GIMIComponentFixerConfig::Component::slot,
+                        py::doc(":class:`str`: The target draw slot the mod is drawn through, eg. ``A``"))
+        .def_readwrite("slotIndex", &AGRC::GIMIComponentFixerConfig::Component::slotIndex, py::doc(R"doc(
+:class:`str`: The slot's ``match_first_index`` on the target, as a literal, eg. ``"0"``
+
+Held here rather than in :class:`Indices` for the reason :attr:`GIMIComponentParserConfig.Slot.index`
+records. Empty falls back to the table
+        )doc"))
+        .def_readwrite("objSlotIndices", &AGRC::GIMIComponentFixerConfig::Component::objSlotIndices, py::doc(R"doc(
+List[Tuple[:class:`str`, :class:`str`]]: Per SOURCE object, the ``match_first_index`` of the slot it is
+drawn through instead of :attr:`slotIndex`, eg. ``[("body", "53529")]``. A skin's slots draw on
+different shaders, and a source object is shaded right only by a slot drawn on a shader like its own.
+**Default**: empty
+        )doc"))
+        .def_readwrite("negativeIndex", &AGRC::GIMIComponentFixerConfig::Component::negativeIndex, py::doc(R"doc(
+:class:`bool`: ``True`` for the negative-index split (the component draws the whole mod, with every
+other component's bones as sentinels), ``False`` for the graph cut. **Default**: ``False``
+        )doc"))
+        .def_readwrite("normalMap", &AGRC::GIMIComponentFixerConfig::Component::normalMap, py::doc(R"doc(
+:class:`bool`: Whether the slot's shader reads the normal-map layout under ``ORFix`` (``False``: the
+plain layout under ``NNFix``, where a mod object on the normal-map layout has its normal map dropped
+and its diffuse and light map moved down). **Default**: ``True``
+        )doc"))
+        .def_readwrite("face", &AGRC::GIMIComponentFixerConfig::Component::face,
+                        py::doc(":class:`bool`: Whether this component's fix carries the face graph --- exactly one should. **Default**: ``False``"))
+        .def_readwrite("texcoordStride", &AGRC::GIMIComponentFixerConfig::Component::texcoordStride, py::doc(R"doc(
+:class:`int`: The TARGET component's Texcoord stride, or ``0`` to keep the mod's own
+
+The mod's buffer is zero-padded or truncated at the END (where ``TEXCOORD1`` sits) to this width.
+**Default**: ``0``
+        )doc"))
+        .def_readwrite("slotRegisters", &AGRC::GIMIComponentFixerConfig::Component::slotRegisters, py::doc(R"doc(
+List[:class:`str`]: Every ``ps-t`` register the TARGET's own slot binds, or empty to leave the
+registers alone
+
+A remapped section may bind only these: a register beyond them means something else to the target's
+shader, which its own mods leave to the GAME. Read them off the target's identity mod
+        )doc"));
+
+    componentConfig
+        .def(py::init<>())
+        .def_readwrite("targetSkin", &AGRC::GIMIComponentFixerConfig::targetSkin,
+                        py::doc(":class:`str`: The target skin's name in the vertex-group table, eg. ``YelanTranquil``"))
+        .def_readwrite("drawnObjs", &AGRC::GIMIComponentFixerConfig::drawnObjs,
+                        py::doc("List[:class:`str`]: The SOURCE's drawn objects, lowercase, in draw order --- must match the parser's"))
+        .def_readwrite("components", &AGRC::GIMIComponentFixerConfig::components,
+                        py::doc("List[:class:`GIMIComponentFixerConfig.Component`]: Every component of the target, whichever one a fixer is for --- the split is joint"))
+        .def_readwrite("hiddenComponents", &AGRC::GIMIComponentFixerConfig::hiddenComponents, py::doc(R"doc(
+List[:class:`str`]: The TARGET components nothing is remapped onto, by mod type name --- their own
+draw is suppressed, since a component the mod does not reach still draws the skin's own geometry
+        )doc"))
+        .def_readwrite("unremappedSlots", &AGRC::GIMIComponentFixerConfig::unremappedSlots, py::doc(R"doc(
+List[Tuple[:class:`str`, List[:class:`str`]]]: The skin's draw SLOTS nothing is remapped onto, as
+``(component mod type name, [match_first_index, ...])``
+
+Each withdraws a pending `TexFx`_ request on that slot's draw, which would otherwise be served on a
+slot the mod never reaches. Written only when the mod calls TexFx
+        )doc"))
+        // Properties over toTexFilter / toPyRefFunction rather than def_readwrite: pybind11's own
+        // conversion of a filter hands it a COPY of the texture, so an edit written in Python would
+        // run and save the unedited texture (see the merge config's lightMapEdit above).
+        .def_property("diffuseEdits",
+            [](const AGRC::GIMIComponentFixerConfig &self) {
+                py::list result;
+                for (const auto &edit : self.diffuseEdits) {
+                    result.append(py::make_tuple(edit.first, fromPyRefFunction<void(AGRC::TextureFile&)>(edit.second)));
+                }
+                return result;
+            },
+            [](AGRC::GIMIComponentFixerConfig &self, const std::vector<std::pair<std::string, py::object>> &edits) {
+                self.diffuseEdits.clear();
+                for (const auto &edit : edits) {
+                    self.diffuseEdits.emplace_back(edit.first, toTexFilter(edit.second));
+                }
+            }, py::doc(R"doc(
+List[Tuple[:class:`str`, Callable[[:class:`CppTextureFile`], ``None``]]]: A diffuse edit per SOURCE
+object, applied on normal-map slots only --- eg. a head diffuse brought to alpha 1. The edit is handed
+the texture itself and edits it in place
+            )doc"))
+        .def_property("lightMapEdit",
+            [](const AGRC::GIMIComponentFixerConfig &self) {
+                return fromPyRefFunction<AGRC::TexEditor::Filter(const std::string&),
+                                         py::typing::Optional<PyTexFilter>(const std::string&)>(self.lightMapEdit);
+            },
+            [](AGRC::GIMIComponentFixerConfig &self, const PyOptionalCallable<py::typing::Optional<PyTexFilter>(const std::string&)> &lightMapEdit) {
+                self.lightMapEdit = toPyRefFunction<AGRC::TexEditor::Filter(const std::string&)>(lightMapEdit);
+            }, py::doc(R"doc(
+Optional[Callable[[:class:`str`], Optional[Callable[[:class:`CppTextureFile`], ``None``]]]]: Builds the
+light map edit for one object, closed over that object's diffuse path
+
+A light map's alpha is a material band and the legend is the mod AUTHOR's, so a band is moved by what
+the diffuse under the pixel shows. The edit it returns is handed the texture itself and edits it in
+place; returning ``None`` leaves that object's light map alone
+            )doc"))
+        .def_readwrite("lightMapObjs", &AGRC::GIMIComponentFixerConfig::lightMapObjs, py::doc(R"doc(
+List[:class:`str`]: The SOURCE objects :attr:`lightMapEdit` applies to, or empty for every object ---
+a band number means a different material on each object
+        )doc"))
+        .def_readwrite("flatNormal", &AGRC::GIMIComponentFixerConfig::flatNormal,
+                        py::doc(":class:`CppColour`: The flat normal map created for a normal-map slot, sRGB pre-corrected. **Default**: ``(55, 55, 255, 255)``"))
+        .def_readwrite("flatNormalSize", &AGRC::GIMIComponentFixerConfig::flatNormalSize,
+                        py::doc(":class:`int`: The created normal map's size. **Default**: ``1024``"))
+        .def_readwrite("mipmaps", &AGRC::GIMIComponentFixerConfig::mipmaps,
+                        py::doc(":class:`bool`: Whether written textures carry a mip chain. **Default**: ``True``"))
+        .def_readwrite("compressTextures", &AGRC::GIMIComponentFixerConfig::compressTextures, py::doc(R"doc(
+:class:`bool`: Whether edited textures are BC7-compressed --- turn it OFF with a band table, since BC7
+moves the alpha a band is read from. **Default**: ``True``
+        )doc"))
+        .def_readwrite("normaliseVertexColour", &AGRC::GIMIComponentFixerConfig::normaliseVertexColour,
+                        py::doc(":class:`bool`: Whether the vertex colour's G and B are set to 128 in the split texcoord. **Default**: ``True``"))
+        .def_readwrite("zeroSecondUV", &AGRC::GIMIComponentFixerConfig::zeroSecondUV,
+                        py::doc(":class:`bool`: Whether a 20-byte texcoord's second UV set is zeroed. **Default**: ``True``"))
+        .def_readwrite("sourceLayout", &AGRC::GIMIComponentFixerConfig::sourceLayout,
+                        py::doc(":class:`GIMIComponentFixerConfig.SourceLayout`: The SOURCE mod's texture layout. **Default**: :attr:`GIMIComponentFixerConfig.SourceLayout.Plain`"))
+        .def_readwrite("faceSwapOnlyFromDiffuseReg", &AGRC::GIMIComponentFixerConfig::faceSwapOnlyFromDiffuseReg, py::doc(R"doc(
+:class:`bool`: Whether the face's ``ps-t0`` <-> ``ps-t1`` swap runs only for a mod binding its face
+diffuse at ``ps-t0`` (a pre-6.x mod). **Default**: ``False``
+        )doc"))
+        .def_readwrite("copyPreamble", &AGRC::GIMIComponentFixerConfig::copyPreamble,
+                        py::doc(":class:`str`: The comment written at the top of each generated `section`_ group"));
+
     // ------------------------------------------------------------------- the factories
     m.def("makeGIMIComponentParser", [](const AGRC::GIMIComponentParserConfig &config) {
         return PyIniParseFactory{AGRC::makeGIMIComponentParser(config)};
@@ -310,6 +464,29 @@ Returns
 -------
 :class:`CppIniParseFactory`
     The factory, for :meth:`CppStrategyOverrides.setParser`
+    )doc"));
+
+    m.def("makeGIMIComponentFixer", [](const AGRC::GIMIComponentFixerConfig &config, const std::string &component) {
+        return PyIniFixFactory{AGRC::makeGIMIComponentFixer(config, component)};
+    }, py::arg("config"), py::arg("component"), py::doc(R"doc(
+Builds the fixer that remaps a classic-shape GIMI mod onto ONE component of a multi-component skin
+
+The second fixer template, next to :func:`makeGIMICharFixer` (one mesh onto one mesh) and
+:func:`makeGIMIMergeFixer` (several components onto one mesh). Called once per component of the
+target with the same config, each result registered for that component's own mod type
+
+Parameters
+----------
+config: :class:`GIMIComponentFixerConfig`
+    The pair's config --- the same one for every component
+
+component: :class:`str`
+    Which of :attr:`GIMIComponentFixerConfig.components` this fixer is for, by name
+
+Returns
+-------
+:class:`CppIniFixFactory`
+    The factory, for :meth:`CppStrategyOverrides.setFixer`
     )doc"));
 
     m.def("makeGIMIMergeFixer", [](const AGRC::GIMIMergeFixerConfig &config) {

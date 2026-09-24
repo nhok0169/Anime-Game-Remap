@@ -81,6 +81,32 @@ whose rows are safe to file
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="132" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="132" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a80381192297836d8fd300ac00c1b856f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; AGRemapCore::GIMIComponentFixerConfig::Component::objSlotIndices</definition>
+        <argsstring></argsstring>
+        <name>objSlotIndices</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::objSlotIndices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Per SOURCE object, the ``match_first_index`` of the slot that object is drawn through
+instead of :cpp:member:`slotIndex` -- eg. ``{{&quot;body&quot;, &quot;53529&quot;}}``. An object not listed
+uses :cpp:member:`slotIndex` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A skin&apos;s slots draw on DIFFERENT pixel shaders, and a source object shaded by the wrong
+one renders wrong in ways the textures cannot explain (2026-09-24): CharlotteHurlock
+draws its Body slot A (hair and skin) on a hair shader and its slot B (the outfit) on
+``6546504e`` -- Charlotte&apos;s own -- and her body through slot A put black shards over a
+mod&apos;s dark cardigan, gone once it was drawn through slot B. Each source object is its
+own ``.ini`` group already, so each can take its own slot. **Default**: empty
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="149" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1acf7ef1b1d9d5108f03f885580d4d9d63" prot="public" static="no" mutable="no">
         <type>bool</type>
         <definition>bool AGRemapCore::GIMIComponentFixerConfig::Component::negativeIndex</definition>
@@ -100,7 +126,7 @@ and every buffer is filtered to the vertices it uses). See :cpp:class:`VGCompone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="143" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="143" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="160" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="160" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a41fc1fe25b79dd9a3fecf1691285ca04" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -117,12 +143,15 @@ Whether the slot&apos;s shader reads the normal-map layout -- ``ps-t0`` normal m
 ``ps-t1`` diffuse, ``ps-t2`` lightmap, re-slotted by ``ORFix`` -- in which case the
 mod&apos;s ``ps-t0`` / ``ps-t1`` are shifted up, a flat normal map is created on ``ps-t0``
 and ``ORFix`` is re-issued. ``false``: ``ps-t0`` diffuse / ``ps-t1`` lightmap under
-``NNFix``, textures untouched
+``NNFix`` -- a mod object on the plain layout is left as it is, and one already on the
+normal-map layout (see :cpp:member:`GIMIComponentFixerConfig::sourceLayout`) has its
+normal map dropped and its diffuse and lightmap moved down to ``ps-t0`` / ``ps-t1``,
+since a plain slot has nowhere to put the normal map
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="155" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="155" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="175" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="175" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7760edfd8956346f514455eced0a1ad7" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -138,7 +167,7 @@ and ``ORFix`` is re-issued. ``false``: ``ps-t0`` diffuse / ``ps-t1`` lightmap un
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="160" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="160" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="180" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="180" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae2c0b9f4af8f721add0e6a6b68f63603" prot="public" static="no" mutable="no">
         <type>std::size_t</type>
@@ -170,7 +199,7 @@ Yelan&apos;s Texcoord is already 20, the width all three of her slots read
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="182" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="182" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="202" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="202" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7268856272e0561b22ab78e94e2d7c93" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -201,7 +230,7 @@ Read these off the target&apos;s identity mod, never off a mod of it. Only a lit
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="204" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="204" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="224" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="224" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -209,13 +238,14 @@ Read these off the target&apos;s identity mod, never off a mod of it. Only a lit
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="94" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="94" bodyend="205"/>
+    <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="94" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="94" bodyend="225"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7760edfd8956346f514455eced0a1ad7" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>face</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1abc2e02f12cd1943aad220c26f9fbc09a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>modTypeName</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ac3fbf31f6884ea7073a5eb5aeceb6313" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>name</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1acf7ef1b1d9d5108f03f885580d4d9d63" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>negativeIndex</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a41fc1fe25b79dd9a3fecf1691285ca04" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>normalMap</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a80381192297836d8fd300ac00c1b856f" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>objSlotIndices</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ad008bff7447c546064b38ebc309a3683" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>slot</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a604b4ce3410b8e5e720a59d807bb8e89" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>slotIndex</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7268856272e0561b22ab78e94e2d7c93" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>slotRegisters</name></member>

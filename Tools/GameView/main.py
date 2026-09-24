@@ -270,7 +270,8 @@ def cmdWait(args, ctx):
 
 def _reload(ctx, maximum=30.0):
     """Press reload_config and wait until 3DMigoto has finished reloading: its log says
-    "Reloading d3dx.ini" and then goes quiet. Presses once more if the first press was not seen.
+    "Reloading d3dx.ini" and, once every section is parsed, "> d3dx.ini reloaded". Presses once
+    more if the first press was not seen.
     Returns (the log text the reload appended, whether a reload was seen at all)."""
     folder = ctx.folder
     keysToPress = _hotkey(ctx, "reload_config", "f10")
@@ -280,10 +281,14 @@ def _reload(ctx, maximum=30.0):
         ctx.session.chord(keysToPress, hold=0.15)
         migoto.waitLog(folder, offset, until=lambda text: migoto.RELOAD_MARK in text,
                        minimum=0.3, maximum=6.0)
-        text = migoto.waitLog(folder, offset, quiet=1.5, minimum=1.0, maximum=maximum)
+        # Until the reload's END marker, not until the log goes quiet -- see migoto.RELOAD_DONE.
+        text = migoto.waitLog(folder, offset, until=migoto.reloadFinished, minimum=1.0, maximum=maximum)
         if migoto.RELOAD_MARK in text:
             seen = True
             break
+    if seen and not migoto.reloadFinished(text):
+        print("WARNING: the reload had not finished after {:.0f}s -- warnings of mods parsed after "
+              "that are MISSING below; pass a larger --wait".format(maximum))
     return text, seen
 
 

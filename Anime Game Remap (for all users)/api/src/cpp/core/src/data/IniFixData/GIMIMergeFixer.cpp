@@ -14,6 +14,7 @@
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
 #include "AGRemapCore/data/IniFixData/TexRegLayout.h"
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
+#include "AGRemapCore/data/IniParseData/GIMIComponentParser.h"
 
 #include <algorithm>
 #include <map>
@@ -331,6 +332,22 @@ namespace AGRemapCore {
                     config_(std::move(config)) {
                     this->setCtx(&ctx_);
 
+                    // A FILE THAT ONLY WATCHES THE SKIN GETS ITS OWN SECTIONS AND NOTHING ELSE
+                    // (2026-09-24). A help overlay or a merged mod's master matches the skin's
+                    // position hash only to set `$active = 1` while she is on screen. Built like a
+                    // mod, it got every object from downloads and drew a second whole skin over the
+                    // real mod's -- CharlotteHurlock4's ToggleMenu.ini shattered the model. What it
+                    // needs is what the old script gave MasterHuTao.ini: the same section on the
+                    // TARGET's hash, so the toggle keys still work. See GIMIComponentParseFacts.
+                    const auto* facts = dynamic_cast<const GIMIComponentParseFacts*>(parser);
+                    parseFacts_ = facts;
+                    if (facts != nullptr && !facts->hasRemappableContent()) {
+                        if (!buildWatcher()) {
+                            giveUp("found nothing of the skin in this .ini to carry over");
+                        }
+                        return;
+                    }
+
                     if (!readFiles()) {
                         giveUp("could not read the mod's sections against " + toModName_ + "'s hashes");
                         return;
@@ -422,6 +439,95 @@ namespace AGRemapCore {
                     ctx_.log("the merge " + why + ", so it writes nothing for this .ini");
                     gaveUp_ = true;
                     this->graphGroupEdits = {&removeEveryGroup_};
+                }
+
+                // The watcher's fix: each component-level section the file has (by its hash), under
+                // the fix's name and the TARGET's hash -- one per kind, from the first component
+                // that has one. Every other graph is dropped, and nothing is drawn or downloaded.
+                bool buildWatcher() {
+                    IniFile* iniFile = ctx_.getIniFile();
+                    Hashes* hashes = ctx_.modTypeHashes();
+                    if (iniFile == nullptr || hashes == nullptr) {
+                        return false;
+                    }
+
+                    static const std::unordered_map<std::string, std::string> KindOfHash = {
+                        {PositionHashKey, "position"}, {BlendHashKey, "blend"}, {TexcoordHashKey, "texcoord"},
+                        {DrawHashKey, "other"}, {IbHashKey, "ib"}};
+
+                    std::unordered_map<std::string, std::string> ownerOfKind;
+                    for (const auto& entry : iniFile->getIfTemplates()) {
+                        if (entry.second == nullptr) {
+                            continue;
+                        }
+                        const std::optional<std::string> hashVal = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                        if (!hashVal.has_value()) {
+                            continue;
+                        }
+
+                        for (const GIMIMergeFixerConfig::Component& component : config_.components) {
+                            std::optional<std::vector<std::string>> hashKey = hashes->getKey(
+                                StringTools::toLower(*hashVal), ctx_.version(),
+                                std::vector<std::optional<std::string>>{componentModTypeName(component.name), std::nullopt}, false);
+                            if (!hashKey.has_value() || hashKey->empty()) {
+                                continue;
+                            }
+                            auto kind = KindOfHash.find(hashKey->back());
+                            if (kind != KindOfHash.end()) {
+                                ownerOfKind.emplace(kind->second, component.name);
+                            }
+                        }
+                    }
+
+                    if (ownerOfKind.empty()) {
+                        return false;
+                    }
+
+                    SlotRemap::RemapList remap;
+                    const SlotRemap::RenameFunc keepName = [](const std::string& name) { return name; };
+                    for (const GIMIMergeFixerConfig::Component& component : config_.components) {
+                        for (const char* kind : {"ib", "blend", "position", "texcoord", "other"}) {
+                            std::vector<SlotRemap::RemapTarget> targets;
+                            auto owner = ownerOfKind.find(kind);
+                            if (owner != ownerOfKind.end() && owner->second == component.name) {
+                                targets.emplace_back(GraphId(0, "", kind), keepName);
+                            }
+                            remap.emplace_back(GraphId(0, component.name, kind), std::move(targets));
+                        }
+                        for (const GIMIMergeFixerConfig::Slot& slot : component.slots) {
+                            remap.emplace_back(GraphId(0, component.name, slot.name), std::vector<SlotRemap::RemapTarget>{});
+                        }
+                    }
+                    remap.emplace_back(GraphId(0, FaceObj.first, FaceObj.second), std::vector<SlotRemap::RemapTarget>{});
+                    slotRemap_ = std::make_unique<SlotRemap>(std::move(remap));
+
+                    const std::optional<Version> toVersion = iniFile->toVersion;
+                    const std::string toModName = toModName_;
+                    renameGraph_ = std::make_unique<GraphRename<>>(
+                        [toModName](const std::string& n) { return IniNamingTools::getRemapFixName(n, toModName); });
+                    renameAdapter_ = std::make_unique<GraphPartEdit<>>(renameGraph_.get());
+
+                    std::vector<ObjGroupEdit::IniEdits> perGroup(1);
+                    for (const auto& [kind, component] : ownerOfKind) {
+                        if (assetRemaps_.count(component) == 0) {
+                            assetRemaps_[component] = std::make_unique<RegAssetRemap<>>(
+                                std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
+                                    {IniKeywords::Hash, RegAssetRemap<>::AssetSpec(ctx_.modTypeHashes(), IniKeywords::HashNotFound)}},
+                                toModName_, componentModTypeName(component), ctx_.version(), toVersion);
+                            assetAdapters_[component] = std::make_unique<RegPartEdit<>>(assetRemaps_[component].get());
+                        }
+
+                        const ModObj objKey("", kind);
+                        perGroup[0].edits[objKey] = {renameAdapter_.get(), assetAdapterOf(component)};
+                        perGroup[0].trackKeys[objKey] = false;
+                    }
+                    mainEdits_ = ObjGroupEdit(std::move(perGroup), false);
+
+                    this->graphGroupEdits = {slotRemap_.get(), &mainEdits_};
+                    this->copyPreamble = config_.copyPreamble;
+                    ctx_.log("only watches the skin, so the merge carries its own sections onto " + toModName_
+                              + "'s hashes and draws nothing");
+                    return true;
                 }
 
                 // ---- the mod's files, per SOURCE component ----
@@ -669,6 +775,12 @@ namespace AGRemapCore {
                             }
 
                             for (const GIMIMergeFixerConfig::Slot& slot : component.slots) {
+                                // A slot the mod never draws on its own character brings nothing --
+                                // see GIMIComponentParseFacts::isSlotUndrawn.
+                                if (parseFacts_ != nullptr && parseFacts_->isSlotUndrawn(component.name, slot.name)) {
+                                    continue;
+                                }
+
                                 SlotFiles& slotFiles = files.slots[slot.name];
                                 // A NULLED slot is not a missing one: nothing was ever meant to be
                                 // there, so there is no download to point at -- see SlotFiles::nullIb.
@@ -1721,7 +1833,10 @@ namespace AGRemapCore {
                     }
 
                     auto isFixCall = [](long long, const std::string& value) {
-                        return value == IniKeywords::ORFixPath || value == IniKeywords::NNFixPath;
+                        // Case-insensitively, as 3DMigoto matches a CommandList path: a mod writing
+                        // CommandList\Global\ORFix\ORFix kept its own call beside the re-issued one (2026-09-23).
+                        return StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::ORFixPath) ||
+                               StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::NNFixPath);
                     };
                     removeFixCalls_ = std::make_unique<RegRemove<>>(
                         std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
@@ -2287,6 +2402,36 @@ namespace AGRemapCore {
                             edits.push_back(keepOwnFixCallAdapter_.get());
                         }
 
+                        // A MEMBER'S TexFx REGISTERS ARE CLEARED AFTER ITS DRAW (2026-09-24). On the
+                        // skin every slot is its own draw call; merged, the members draw one after
+                        // another in ONE section, and a register nothing rebinds stays bound for all
+                        // of them -- and for the passes after. TexFx reads ps-t70 as an outline colour
+                        // map (ps-t69 as its effect map), so CharlotteHurlock5's Body B outline map,
+                        // sampled at every later member's own UVs, gave Charlotte's hair and eyes blue
+                        // outlines. The fix libraries' registers are rebound by every member and need
+                        // none of this.
+                        if (files != nullptr && !files->section.empty() && ctx_.getIniFile() != nullptr) {
+                            const auto& templates = ctx_.getIniFile()->getIfTemplates();
+                            RegBottomAdd<>::Additions clears;
+                            for (const char* reg : {"ps-t69", "ps-t70"}) {
+                                // Only a register the member binds to a RESOURCE: one it already
+                                // sets to `null` itself has nothing to leak.
+                                for (const BranchVal& bound : branches_.valsThroughRun(templates, files->section, reg)) {
+                                    if (!StringTools::equalsIgnoreCase(StringTools::strip(bound.val), "null")) {
+                                        clears.emplace_back(reg, "null");
+                                        break;
+                                    }
+                                }
+                            }
+                            if (!clears.empty()) {
+                                auto clear = std::make_unique<RegBottomAdd<>>(std::move(clears), "");
+                                auto clearAdapter = std::make_unique<GraphPartEdit<>>(clear.get());
+                                edits.push_back(clearAdapter.get());
+                                extraDraws_.push_back(std::move(clear));
+                                carriedGraphAdapters_.push_back(std::move(clearAdapter));
+                            }
+                        }
+
                         RegPartEdit<>* memberAsset = assetAdapterOf(member.first);
                         if (memberAsset != nullptr) {
                             edits.push_back(memberAsset);
@@ -2439,6 +2584,7 @@ namespace AGRemapCore {
                 std::unique_ptr<RegRemove<>> dropNormalMapByName_;
                 std::unique_ptr<RegRemove<>> removeDrawIndexed_;
                 std::unique_ptr<RegFillMissing<>> fillDrawIndexed_;
+                const GIMIComponentParseFacts* parseFacts_ = nullptr;
                 std::vector<std::unique_ptr<RegFillMissing<>>> objFills_;
 
                 // The carried members -- see isCarried. Keyed by memberKey: (member, (start, count)).

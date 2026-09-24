@@ -209,7 +209,7 @@ The lookup table to resolve a factory from -- see #ArgsRepo :raw-html:`&lt;br /&
 :raw-html:`&lt;br /&gt;`
 
 Held by ``shared_ptr`` because one table is shared by every :cpp:class:`ModType` of a
-game (all 49 GI mod types share a single one, exactly as the pure-Python original&apos;s own
+game (all 51 GI mod types share a single one, exactly as the pure-Python original&apos;s own
 ``IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value)`` calls -- 43 of them, that
 side having no ``Yelan`` -- share a single ``IniParseBuilderArgs`` instance)
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`

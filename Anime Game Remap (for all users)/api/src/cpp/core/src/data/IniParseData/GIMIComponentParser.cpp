@@ -14,16 +14,22 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <map>
+#include <set>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/constants/ModTypeId.h"
+#include "AGRemapCore/data/IniFixData/ModBranches.h"
+#include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"
 #include "AGRemapCore/tools/DownloadTools.h"
+#include "AGRemapCore/tools/StringTools.h"
 
 
 namespace AGRemapCore {
@@ -38,6 +44,8 @@ namespace AGRemapCore {
         const std::string TexcoordHashKey = "texcoord_vb";
         const std::string DrawHashKey = "draw_vb";
         const std::string FaceDiffuseHashKey = "tex_face_diffuse";
+        const std::string TexKeyPrefix = "tex_";
+        const std::string ThisKey = "this";
 
         const ModObj FaceObj{"", "face"};
 
@@ -50,7 +58,7 @@ namespace AGRemapCore {
          * classifier's hash filter can only name one. A hash value is unique to one character, so a
          * section is answered by at most one of them.
          */
-        class GIMIComponentGIMIParser: public Parser {
+        class GIMIComponentGIMIParser: public Parser, public GIMIComponentParseFacts {
             public:
                 GIMIComponentGIMIParser(IniFile* iniFile, std::optional<int> modTypeId, std::vector<ModObj> modObjs,
                                          const GIMIComponentParserConfig& config):
@@ -208,7 +216,321 @@ namespace AGRemapCore {
                     buildDownloads(config_);
                 }
 
+            protected:
+                // A MOD WITH NO COMPONENT-LEVEL ib OR VertexLimitRaise SECTION STILL NEEDS THEM
+                // (2026-09-23). GIMIMergeFixer makes the TARGET's `handling = skip` and its vertex
+                // limit out of the mod's own component-level sections (see its donorFor), and the
+                // parser invents a section only for a download -- which the component-level ib and
+                // `other` objects never have. A texture-only CharlotteHurlock mod (two texture hash
+                // overrides, every buffer downloaded) therefore came out with no skip at all:
+                // Charlotte's own head drew through her own index buffer over the merged vertices,
+                // torn triangles over the legs and a red strip down one side.
+                //
+                // Only when NO component carries one, and then for the first component the mod
+                // (or its downloads) gives a slot: a mod that has one keeps exactly what it had.
+                void editCommands() override {
+                    bindTextureOverrides();
+                    if (hasContent_) {
+                        for (const std::string kind : {"ib", "other"}) {
+                            inventComponentSection(kind);
+                        }
+                    }
+                    Parser::editCommands();
+                }
+
+                // A SKIN RECOLOURED BY TEXTURE HASH ALONE (2026-09-24). A mod may replace a slot's
+                // texture with nothing but `hash = <the game's texture> / this = Resource...`, which
+                // applies wherever the GAME binds that texture -- and never to a download, which is
+                // the mod's own resource with its own hash. Remapped, every slot of such a mod comes
+                // from downloads, so CharlotteHurlock3's recolour was dropped and base Charlotte
+                // wore the plain skin. The override is found before anything else is parsed, so the
+                // slot's download for that role is never registered and the mod's own resource is
+                // bound in its place (bindTextureOverrides).
+                //
+                // AND A FILE THAT ONLY WATCHES THE SKIN IS TOLD APART HERE, before any download is
+                // registered: once setupDownloads has run, a download for a register the mod's own
+                // section lacks has been ADDED to that section, and ToggleMenu.ini's position watcher
+                // looks like it binds vb0. Such a file gets no downloads at all, so nothing is
+                // invented and the fix carries only its own sections -- see hasRemappableContent.
+                void getSectionTargets() override {
+                    readTextureOverrides();
+                    Parser::getSectionTargets();
+
+                    hasContent_ = !textureBindings_.empty() || targetsBindSomething();
+                    if (!hasContent_) {
+                        this->downloads.clear();
+                    }
+
+                    findUndrawnSlots();
+                }
+
+            public:
+                bool hasRemappableContent() const override {
+                    return hasContent_;
+                }
+
+                bool isSlotUndrawn(const std::string& component, const std::string& slot) const override {
+                    return undrawnSlots_.count(ModObj(component, slot)) != 0;
+                }
+
             private:
+                static std::string lowered(std::string_view text) {
+                    return StringTools::toLower(text);
+                }
+
+                // (component;slot;role) -> the mod's resource, for every `this =` override whose
+                // hash is one of the skin's tex_<slot>_<role> rows. Then, per slot that DRAWS with
+                // that texture (its own, or its donor's -- the game draws a borrowing slot with the
+                // donor's texture, so an override of that hash recolours it too), the register it is
+                // bound at, with that slot's download for it dropped.
+                void readTextureOverrides() {
+                    textureBindings_.clear();
+                    IniFile* iniFile = this->getIniFile();
+                    auto* hashes = ctx_.modTypeHashes();
+                    if (iniFile == nullptr || hashes == nullptr) {
+                        return;
+                    }
+
+                    std::unordered_map<std::string, std::string> overrides;
+                    for (const auto& entry : iniFile->getIfTemplates()) {
+                        if (entry.second == nullptr) {
+                            continue;
+                        }
+
+                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                        const std::optional<std::string> resource = ModBranches::firstVal(*entry.second, ThisKey);
+                        if (!hash.has_value() || !resource.has_value()) {
+                            continue;
+                        }
+
+                        for (const GIMIComponentParserConfig::Component& component : config_.components) {
+                            if (component.modTypeName.empty()) {
+                                continue;
+                            }
+
+                            std::optional<std::vector<std::string>> key = hashes->getKey(
+                                lowered(StringTools::strip(*hash)), ctx_.version(),
+                                std::vector<std::optional<std::string>>{component.modTypeName, std::nullopt}, false);
+                            if (!key.has_value() || key->empty() || !StringTools::startsWith(key->back(), TexKeyPrefix)) {
+                                continue;
+                            }
+
+                            // tex_<slot>_<role>
+                            const std::string rest = key->back().substr(TexKeyPrefix.size());
+                            const std::size_t sep = rest.rfind('_');
+                            if (sep == std::string::npos) {
+                                continue;
+                            }
+                            overrides.emplace(component.name + ";" + rest.substr(0, sep) + ";" + rest.substr(sep + 1),
+                                              std::string(StringTools::strip(*resource)));
+                        }
+                    }
+
+                    if (overrides.empty()) {
+                        return;
+                    }
+
+                    for (const GIMIComponentParserConfig::Component& component : config_.components) {
+                        for (const GIMIComponentParserConfig::Slot& slot : component.slots) {
+                            std::string source = component.name + ";" + lowered(slot.name);
+                            if (slot.noTextures) {
+                                const std::size_t sep = slot.textureDonor.find(';');
+                                if (sep == std::string::npos) {
+                                    continue;
+                                }
+                                source = slot.textureDonor.substr(0, sep) + ";" + lowered(slot.textureDonor.substr(sep + 1));
+                            }
+
+                            const ModObj modObj(component.name, slot.name);
+                            for (const auto& [role, reg] : std::vector<std::pair<std::string, std::string>>{
+                                     {"diffuse", slot.diffuseReg}, {"lightmap", slot.lightMapReg}, {"normalmap", slot.normalMapReg}}) {
+                                auto found = overrides.find(source + ";" + role);
+                                if (reg.empty() || found == overrides.end()) {
+                                    continue;
+                                }
+
+                                auto objDownloads = this->downloads.find(modObj);
+                                if (objDownloads != this->downloads.end()) {
+                                    objDownloads.value().erase(reg);
+                                }
+                                textureBindings_[modObj].emplace_back(reg, found->second);
+                            }
+                        }
+                    }
+                }
+
+                // At the TOP of the slot's entry section, the place a download is bound too: a GIMI
+                // TextureOverride binds for its whole draw, and one the mod wrote itself that binds
+                // the register as well keeps the last word.
+                void bindTextureOverrides() {
+                    for (const auto& [modObj, bindings] : textureBindings_) {
+                        Graph* graph = this->getCommandGraph(modObj);
+                        if (graph == nullptr || graph->isEmpty() || graph->roots().empty()) {
+                            continue;
+                        }
+
+                        Section* section = ctx_.getSection(graph->roots().front());
+                        if (section != nullptr) {
+                            section->addKVPsToFront(bindings);
+                        }
+                    }
+                }
+
+                // Whether any of the mod's OWN sections this parser targets -- or a command list one of
+                // them runs, if the file defines it -- binds something: a buffer, an index buffer, a
+                // texture, a draw or a `this`. Asked before the downloads; see getSectionTargets.
+                bool targetsBindSomething() {
+                    IniFile* iniFile = this->getIniFile();
+                    if (iniFile == nullptr) {
+                        return true;
+                    }
+                    const auto& templates = iniFile->getIfTemplates();
+
+                    static const std::vector<std::string> BindingKeys = {
+                        IniKeywords::Vb0, IniKeywords::Vb1, "vb2", IniKeywords::Ib, IniKeywords::DrawIndexed,
+                        "draw", ThisKey, "ps-t0", "ps-t1", "ps-t2", "ps-t3"};
+
+                    std::unordered_set<std::string> visited;
+                    std::vector<std::string> toVisit;
+                    for (const auto& entry : this->sectionTargets()) {
+                        toVisit.insert(toVisit.end(), entry.second.begin(), entry.second.end());
+                    }
+
+                    while (!toVisit.empty()) {
+                        const std::string name = toVisit.back();
+                        toVisit.pop_back();
+                        if (!visited.insert(name).second) {
+                            continue;
+                        }
+
+                        auto found = templates.find(name);
+                        if (found == templates.end() || found->second == nullptr) {
+                            continue;     // an external command list (ORFix, ...) binds nothing of the mod's
+                        }
+
+                        for (const auto& part : found->second->parts()) {
+                            const auto* content = dynamic_cast<const ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+                            for (const std::string& key : BindingKeys) {
+                                if (content->containsKey(key)) {
+                                    return true;
+                                }
+                            }
+                            for (const std::string& call : content->getVals(IniKeywords::Run)) {
+                                toVisit.emplace_back(StringTools::strip(call));
+                            }
+                        }
+                    }
+
+                    return false;
+                }
+
+                // A SLOT THE MOD LEAVES UNDRAWN GETS NO DOWNLOAD (2026-09-24). A mod that carries a
+                // component's buffers and skips its index buffer draws exactly the slots it writes a
+                // section for; the rest are never drawn on its own character. Downloading the game's
+                // index buffer for one of those and drawing it over the MOD's vertices -- in the
+                // game's vertex order, which the mod's buffers do not keep -- is stretched shards:
+                // CharlotteHurlock1 moved its slot C geometry into its slot B section and declared no
+                // C or D, and the downloaded C and D pulled its skirt up to its chest. A component the
+                // mod does not carry, or does not skip, keeps its downloads: there the game draws the
+                // slot too. Asked by GIMIMergeFixer through GIMIComponentParseFacts::isSlotUndrawn.
+                void findUndrawnSlots() {
+                    undrawnSlots_.clear();
+                    IniFile* iniFile = this->getIniFile();
+                    if (!hasContent_ || iniFile == nullptr) {
+                        return;
+                    }
+
+                    const auto& templates = iniFile->getIfTemplates();
+                    const auto& targets = this->sectionTargets();
+                    auto sectionsOf = [&](const ModObj& modObj) -> const std::vector<std::string>* {
+                        auto found = targets.find(modObj);
+                        return (found == targets.end() || found->second.empty()) ? nullptr : &found->second;
+                    };
+
+                    for (const GIMIComponentParserConfig::Component& component : config_.components) {
+                        const std::vector<std::string>* ibSections = sectionsOf(ModObj(component.name, "ib"));
+                        if (sectionsOf(ModObj(component.name, "position")) == nullptr || ibSections == nullptr) {
+                            continue;
+                        }
+
+                        bool skips = false;
+                        for (const std::string& name : *ibSections) {
+                            auto found = templates.find(name);
+                            if (found == templates.end() || found->second == nullptr) {
+                                continue;
+                            }
+                            const std::optional<std::string> handling = ModBranches::firstVal(*found->second, IniKeywords::Handling);
+                            if (handling.has_value() && StringTools::equalsIgnoreCase(StringTools::strip(*handling), "skip")) {
+                                skips = true;
+                                break;
+                            }
+                        }
+                        if (!skips) {
+                            continue;
+                        }
+
+                        for (const GIMIComponentParserConfig::Slot& slot : component.slots) {
+                            const ModObj modObj(component.name, slot.name);
+                            if (sectionsOf(modObj) != nullptr) {
+                                continue;
+                            }
+                            this->downloads.erase(modObj);
+                            undrawnSlots_.insert(modObj);
+                        }
+                    }
+                }
+
+                void inventComponentSection(const std::string& kind) {
+                    const GIMIComponentParserConfig::Component* owner = nullptr;
+                    for (const GIMIComponentParserConfig::Component& component : config_.components) {
+                        Graph* graph = this->getCommandGraph(ModObj(component.name, kind));
+                        if (graph != nullptr && !graph->isEmpty()) {
+                            return;
+                        }
+
+                        if (owner != nullptr) {
+                            continue;
+                        }
+                        for (const GIMIComponentParserConfig::Slot& slot : component.slots) {
+                            Graph* slotGraph = this->getCommandGraph(ModObj(component.name, slot.name));
+                            if (slotGraph != nullptr && !slotGraph->isEmpty()) {
+                                owner = &component;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (owner == nullptr || !this->objIdentityKVPs) {
+                        return;
+                    }
+
+                    const ModObj modObj(owner->name, kind);
+                    Graph* graph = this->getCommandGraph(modObj);
+                    std::vector<std::pair<std::string, std::string>> kvps = this->objIdentityKVPs(modObj);
+                    if (graph == nullptr || kvps.empty()) {
+                        return;
+                    }
+                    if (kind == "ib") {
+                        kvps.emplace_back(IniKeywords::Handling, "skip");
+                    }
+
+                    // Named the way a mod names these (and identityMod.py writes them), so the fix's
+                    // copy comes out as `...<Component><Target>RemapIB`, the same as for a mod
+                    // that carries its own.
+                    const std::string name = "TextureOverride" + ctx_.modTypeName() + owner->name
+                                             + (kind == "ib" ? "IB" : "VertexLimitRaise");
+                    if (ctx_.getSection(name) != nullptr) {
+                        return;
+                    }
+                    Section* section = ctx_.addSection(name,
+                        std::make_unique<Section>(std::vector<std::unique_ptr<IfTemplatePart>>{}, this->config().runConfig, name));
+                    section->addKVPsToFront(kvps);
+                    graph->build(std::unordered_map<std::string, Section*>{{name, section}}, std::vector<std::string>{name});
+                }
+
                 /**
                  * The defaults a modder may have left out, per component and per slot. The file
                  * naming carries the component: <Prefix><Component><Slot><Kind>, which is how
@@ -320,6 +642,9 @@ namespace AGRemapCore {
                 IniFileParseContext ctx_;
                 GIMIComponentParserConfig config_;
                 std::vector<std::unique_ptr<Classifier>> classifiers_;
+                std::map<ModObj, std::vector<std::pair<std::string, std::string>>> textureBindings_;
+                bool hasContent_ = true;
+                std::set<ModObj> undrawnSlots_;
                 DownloadStore downloadStore_;
         };
     }

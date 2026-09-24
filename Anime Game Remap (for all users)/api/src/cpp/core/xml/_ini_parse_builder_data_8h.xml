@@ -16,6 +16,8 @@
     <includedby refid="_barbara_summertime_parser_8cpp" local="yes">src/data/IniParseData/BarbaraSummertime/BarbaraSummertimeParser.cpp</includedby>
     <includedby refid="_bennett_parser_8cpp" local="yes">src/data/IniParseData/Bennett/BennettParser.cpp</includedby>
     <includedby refid="_bennett_adventure_parser_8cpp" local="yes">src/data/IniParseData/BennettAdventure/BennettAdventureParser.cpp</includedby>
+    <includedby refid="_charlotte_parser_8cpp" local="yes">src/data/IniParseData/Charlotte/CharlotteParser.cpp</includedby>
+    <includedby refid="_charlotte_hurlock_parser_8cpp" local="yes">src/data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.cpp</includedby>
     <includedby refid="_cherry_hu_tao_parser_8cpp" local="yes">src/data/IniParseData/CherryHuTao/CherryHuTaoParser.cpp</includedby>
     <includedby refid="_citlali_parser_8cpp" local="yes">src/data/IniParseData/Citlali/CitlaliParser.cpp</includedby>
     <includedby refid="_citlali_whisperof_stars_parser_8cpp" local="yes">src/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.cpp</includedby>
@@ -910,6 +912,10 @@
         </childnode>
         <childnode refid="55" relation="include">
         </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/constants/GIBuilder.cpp</label>
@@ -960,170 +966,178 @@
         <link refid="_bennett_adventure_parser_8cpp"/>
       </node>
       <node id="14">
+        <label>src/data/IniParseData/Charlotte/CharlotteParser.cpp</label>
+        <link refid="_charlotte_parser_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.cpp</label>
+        <link refid="_charlotte_hurlock_parser_8cpp"/>
+      </node>
+      <node id="16">
         <label>src/data/IniParseData/CherryHuTao/CherryHuTaoParser.cpp</label>
         <link refid="_cherry_hu_tao_parser_8cpp"/>
       </node>
-      <node id="15">
+      <node id="17">
         <label>src/data/IniParseData/Citlali/CitlaliParser.cpp</label>
         <link refid="_citlali_parser_8cpp"/>
       </node>
-      <node id="16">
+      <node id="18">
         <label>src/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.cpp</label>
         <link refid="_citlali_whisperof_stars_parser_8cpp"/>
       </node>
-      <node id="17">
+      <node id="19">
         <label>src/data/IniParseData/Diluc/DilucParser.cpp</label>
         <link refid="_diluc_parser_8cpp"/>
       </node>
-      <node id="18">
+      <node id="20">
         <label>src/data/IniParseData/DilucFlamme/DilucFlammeParser.cpp</label>
         <link refid="_diluc_flamme_parser_8cpp"/>
       </node>
-      <node id="19">
+      <node id="21">
         <label>src/data/IniParseData/Fischl/FischlParser.cpp</label>
         <link refid="_fischl_parser_8cpp"/>
       </node>
-      <node id="20">
+      <node id="22">
         <label>src/data/IniParseData/FischlHighness/FischlHighnessParser.cpp</label>
         <link refid="_fischl_highness_parser_8cpp"/>
       </node>
-      <node id="21">
+      <node id="23">
         <label>src/data/IniParseData/Ganyu/GanyuParser.cpp</label>
         <link refid="_ganyu_parser_8cpp"/>
       </node>
-      <node id="22">
+      <node id="24">
         <label>src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp</label>
         <link refid="_ganyu_twilight_parser_8cpp"/>
       </node>
-      <node id="23">
+      <node id="25">
         <label>src/data/IniParseData/HuTao/HuTaoParser.cpp</label>
         <link refid="_hu_tao_parser_8cpp"/>
       </node>
-      <node id="24">
+      <node id="26">
         <label>src/data/IniParseData/Jean/JeanParser.cpp</label>
         <link refid="_jean_parser_8cpp"/>
       </node>
-      <node id="25">
+      <node id="27">
         <label>src/data/IniParseData/JeanCN/JeanCNParser.cpp</label>
         <link refid="_jean_c_n_parser_8cpp"/>
       </node>
-      <node id="26">
+      <node id="28">
         <label>src/data/IniParseData/JeanSea/JeanSeaParser.cpp</label>
         <link refid="_jean_sea_parser_8cpp"/>
       </node>
-      <node id="27">
+      <node id="29">
         <label>src/data/IniParseData/Kaeya/KaeyaParser.cpp</label>
         <link refid="_kaeya_parser_8cpp"/>
       </node>
-      <node id="28">
+      <node id="30">
         <label>src/data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.cpp</label>
         <link refid="_kaeya_sailwind_parser_8cpp"/>
       </node>
-      <node id="29">
+      <node id="31">
         <label>src/data/IniParseData/Keqing/KeqingParser.cpp</label>
         <link refid="_keqing_parser_8cpp"/>
       </node>
-      <node id="30">
+      <node id="32">
         <label>src/data/IniParseData/KeqingOpulent/KeqingOpulentParser.cpp</label>
         <link refid="_keqing_opulent_parser_8cpp"/>
       </node>
-      <node id="31">
+      <node id="33">
         <label>src/data/IniParseData/Kirara/KiraraParser.cpp</label>
         <link refid="_kirara_parser_8cpp"/>
       </node>
-      <node id="32">
+      <node id="34">
         <label>src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp</label>
         <link refid="_kirara_boots_parser_8cpp"/>
       </node>
-      <node id="33">
+      <node id="35">
         <label>src/data/IniParseData/Klee/KleeParser.cpp</label>
         <link refid="_klee_parser_8cpp"/>
       </node>
-      <node id="34">
+      <node id="36">
         <label>src/data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.cpp</label>
         <link refid="_klee_blossoming_starlight_parser_8cpp"/>
       </node>
-      <node id="35">
+      <node id="37">
         <label>src/data/IniParseData/Lisa/LisaParser.cpp</label>
         <link refid="_lisa_parser_8cpp"/>
       </node>
-      <node id="36">
+      <node id="38">
         <label>src/data/IniParseData/LisaStudent/LisaStudentParser.cpp</label>
         <link refid="_lisa_student_parser_8cpp"/>
       </node>
-      <node id="37">
+      <node id="39">
         <label>src/data/IniParseData/Mona/MonaParser.cpp</label>
         <link refid="_mona_parser_8cpp"/>
       </node>
-      <node id="38">
+      <node id="40">
         <label>src/data/IniParseData/MonaCN/MonaCNParser.cpp</label>
         <link refid="_mona_c_n_parser_8cpp"/>
       </node>
-      <node id="39">
+      <node id="41">
         <label>src/data/IniParseData/Nilou/NilouParser.cpp</label>
         <link refid="_nilou_parser_8cpp"/>
       </node>
-      <node id="40">
+      <node id="42">
         <label>src/data/IniParseData/NilouBreeze/NilouBreezeParser.cpp</label>
         <link refid="_nilou_breeze_parser_8cpp"/>
       </node>
-      <node id="41">
+      <node id="43">
         <label>src/data/IniParseData/Ningguang/NingguangParser.cpp</label>
         <link refid="_ningguang_parser_8cpp"/>
       </node>
-      <node id="42">
+      <node id="44">
         <label>src/data/IniParseData/NingguangOrchid/NingguangOrchidParser.cpp</label>
         <link refid="_ningguang_orchid_parser_8cpp"/>
       </node>
-      <node id="43">
+      <node id="45">
         <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
         <link refid="_raiden_parser_8cpp"/>
       </node>
-      <node id="44">
+      <node id="46">
         <label>src/data/IniParseData/Rosaria/RosariaParser.cpp</label>
         <link refid="_rosaria_parser_8cpp"/>
       </node>
-      <node id="45">
+      <node id="47">
         <label>src/data/IniParseData/RosariaCN/RosariaCNParser.cpp</label>
         <link refid="_rosaria_c_n_parser_8cpp"/>
       </node>
-      <node id="46">
+      <node id="48">
         <label>src/data/IniParseData/Sanhua/SanhuaParser.cpp</label>
         <link refid="_sanhua_parser_8cpp"/>
       </node>
-      <node id="47">
+      <node id="49">
         <label>src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp</label>
         <link refid="_sanhua_exorcist_parser_8cpp"/>
       </node>
-      <node id="48">
+      <node id="50">
         <label>src/data/IniParseData/Shenhe/ShenheParser.cpp</label>
         <link refid="_shenhe_parser_8cpp"/>
       </node>
-      <node id="49">
+      <node id="51">
         <label>src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp</label>
         <link refid="_shenhe_frost_flower_parser_8cpp"/>
       </node>
-      <node id="50">
+      <node id="52">
         <label>src/data/IniParseData/Xiangling/XianglingParser.cpp</label>
         <link refid="_xiangling_parser_8cpp"/>
       </node>
-      <node id="51">
+      <node id="53">
         <label>src/data/IniParseData/XianglingCheer/XianglingCheerParser.cpp</label>
         <link refid="_xiangling_cheer_parser_8cpp"/>
       </node>
-      <node id="52">
+      <node id="54">
         <label>src/data/IniParseData/Xingqiu/XingqiuParser.cpp</label>
         <link refid="_xingqiu_parser_8cpp"/>
       </node>
-      <node id="53">
+      <node id="55">
         <label>src/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.cpp</label>
         <link refid="_xingqiu_bamboo_parser_8cpp"/>
       </node>
-      <node id="54">
+      <node id="56">
         <label>src/data/IniParseData/Yelan/YelanParser.cpp</label>
         <link refid="_yelan_parser_8cpp"/>
       </node>
-      <node id="55">
+      <node id="57">
         <label>src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp</label>
         <link refid="_yelan_tranquil_parser_8cpp"/>
       </node>
@@ -1278,30 +1292,34 @@
 <codeline lineno="714"><highlight class="normal"></highlight></codeline>
 <codeline lineno="724"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7a43e27b4ab63840fd41be6e297828b5" kindref="member">citlali5_3</ref>();</highlight></codeline>
 <codeline lineno="725"><highlight class="normal"></highlight></codeline>
-<codeline lineno="726"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ad2295a98e4a4012930182f549a649b3d" kindref="member">yelan4_0</ref>();</highlight></codeline>
-<codeline lineno="727"><highlight class="normal"></highlight></codeline>
-<codeline lineno="731"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a1dfbd9c7f560ecc483edf014bfc803d4" kindref="member">wwmiStub</ref>();</highlight></codeline>
-<codeline lineno="732"><highlight class="normal"></highlight></codeline>
-<codeline lineno="742"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac06832891ae4c3e507b130b1ebdf4a3a" kindref="member">sanhua2_5</ref>();</highlight></codeline>
+<codeline lineno="735"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a5afc4d4f76976aaa18ecfe0d80c92b32" kindref="member">charlotte4_0</ref>();</highlight></codeline>
+<codeline lineno="736"><highlight class="normal"></highlight></codeline>
+<codeline lineno="737"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ad2295a98e4a4012930182f549a649b3d" kindref="member">yelan4_0</ref>();</highlight></codeline>
+<codeline lineno="738"><highlight class="normal"></highlight></codeline>
+<codeline lineno="742"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a1dfbd9c7f560ecc483edf014bfc803d4" kindref="member">wwmiStub</ref>();</highlight></codeline>
 <codeline lineno="743"><highlight class="normal"></highlight></codeline>
-<codeline lineno="752"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a1a5b75132e61479cf3e35918c9e149aa" kindref="member">sanhuaExorcist2_5</ref>();</highlight></codeline>
-<codeline lineno="753"><highlight class="normal"></highlight></codeline>
-<codeline lineno="764"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7d30d1abce22b6dc5f644d8ff225e123" kindref="member">yelanTranquil5_7</ref>();</highlight></codeline>
-<codeline lineno="765"><highlight class="normal"></highlight></codeline>
-<codeline lineno="773"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8e18205ea433a4d25c6fe6c663dbe376" kindref="member">citlaliWhisperofStars6_7</ref>();</highlight></codeline>
-<codeline lineno="774"><highlight class="normal"></highlight></codeline>
-<codeline lineno="775"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="753"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac06832891ae4c3e507b130b1ebdf4a3a" kindref="member">sanhua2_5</ref>();</highlight></codeline>
+<codeline lineno="754"><highlight class="normal"></highlight></codeline>
+<codeline lineno="763"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a1a5b75132e61479cf3e35918c9e149aa" kindref="member">sanhuaExorcist2_5</ref>();</highlight></codeline>
+<codeline lineno="764"><highlight class="normal"></highlight></codeline>
+<codeline lineno="775"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7d30d1abce22b6dc5f644d8ff225e123" kindref="member">yelanTranquil5_7</ref>();</highlight></codeline>
 <codeline lineno="776"><highlight class="normal"></highlight></codeline>
-<codeline lineno="801" refid="class_a_g_remap_core_1_1_ini_parse_builder_data" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_data_1ac642c2bf76096942aad4a78efbfda9e2" kindref="member">IniParseBuilderData</ref><sp/>{</highlight></codeline>
-<codeline lineno="802"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="803"><highlight class="normal"></highlight></codeline>
-<codeline lineno="804" refid="class_a_g_remap_core_1_1_ini_parse_builder_data_1ac642c2bf76096942aad4a78efbfda9e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_data_1ac642c2bf76096942aad4a78efbfda9e2" kindref="member">IniParseBuilderData</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="805"><highlight class="normal"></highlight></codeline>
-<codeline lineno="820"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;const<sp/>IniParseBuilder::ArgsRepo&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_data_1a1219c5a152085532d5b891fe6bdb1851" kindref="member">repo</ref>();</highlight></codeline>
-<codeline lineno="821"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="822"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="823"><highlight class="normal"></highlight></codeline>
-<codeline lineno="824"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="784"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8e18205ea433a4d25c6fe6c663dbe376" kindref="member">citlaliWhisperofStars6_7</ref>();</highlight></codeline>
+<codeline lineno="785"><highlight class="normal"></highlight></codeline>
+<codeline lineno="796"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a13308c49b1f5b66c810a0e984d25ed49" kindref="member">charlotteHurlock6_7</ref>();</highlight></codeline>
+<codeline lineno="797"><highlight class="normal"></highlight></codeline>
+<codeline lineno="798"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="799"><highlight class="normal"></highlight></codeline>
+<codeline lineno="824" refid="class_a_g_remap_core_1_1_ini_parse_builder_data" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_data_1ac642c2bf76096942aad4a78efbfda9e2" kindref="member">IniParseBuilderData</ref><sp/>{</highlight></codeline>
+<codeline lineno="825"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="826"><highlight class="normal"></highlight></codeline>
+<codeline lineno="827" refid="class_a_g_remap_core_1_1_ini_parse_builder_data_1ac642c2bf76096942aad4a78efbfda9e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_data_1ac642c2bf76096942aad4a78efbfda9e2" kindref="member">IniParseBuilderData</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="828"><highlight class="normal"></highlight></codeline>
+<codeline lineno="843"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;const<sp/>IniParseBuilder::ArgsRepo&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_data_1a1219c5a152085532d5b891fe6bdb1851" kindref="member">repo</ref>();</highlight></codeline>
+<codeline lineno="844"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="845"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="846"><highlight class="normal"></highlight></codeline>
+<codeline lineno="847"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/data/IniParseBuilderData.h"/>
   </compounddef>

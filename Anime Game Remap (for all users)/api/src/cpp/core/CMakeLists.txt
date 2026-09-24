@@ -138,6 +138,10 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Citlali/CitlaliFixer.cpp
     src/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.cpp
     src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp
+    src/data/IniParseData/Charlotte/CharlotteParser.cpp
+    src/data/IniFixData/Charlotte/CharlotteFixer.cpp
+    src/data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.cpp
+    src/data/IniFixData/CharlotteHurlock/CharlotteHurlockFixer.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp
     src/data/IniFixData/Shenhe/ShenheFixer.cpp

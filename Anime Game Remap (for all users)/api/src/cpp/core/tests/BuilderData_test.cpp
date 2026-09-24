@@ -112,7 +112,7 @@ void testTableShape() {
     // tables (63/132/51 against a real 64/135/53) because rows had been added without them. If one
     // fails, PRINT the size before believing the arithmetic in the message -- the count is the
     // measurement and the prose is the story about it.
-    check(IniParseBuilderData::repo()->size() == 65, "the parse table has all 53 rows from IniParseBuilderData.py, plus Raiden's 6.1 row, LisaStudent's 5.4 one, Yelan's 4.0 one, YelanTranquil's 5.7 one, Bennett's 4.0 one, BennettAdventure's 5.7 one, Citlali's 5.3 one and CitlaliWhisperofStars' 6.7 one, and the four WuWa stubs (Sanhua, SanhuaExorcist at 2.5; Chisa at 2.8, ChisaParfait at 3.5)");
+    check(IniParseBuilderData::repo()->size() == 67, "the parse table has all 53 rows from IniParseBuilderData.py, plus Raiden's 6.1 row, LisaStudent's 5.4 one, Yelan's 4.0 one, YelanTranquil's 5.7 one, Bennett's 4.0 one, BennettAdventure's 5.7 one, Citlali's 5.3 one, CitlaliWhisperofStars' 6.7 one, Charlotte's 4.0 one and CharlotteHurlock's 6.7 one, and the four WuWa stubs (Sanhua, SanhuaExorcist at 2.5; Chisa at 2.8, ChisaParfait at 3.5)");
     // Counted by toVersion straight out of IniFixBuilderData.cpp on 2026-09-13: 78 historical rows
     // (the 73 Python ones fanned out per target mod, which is what replaced the pure-Python
     // MultiModFixer -- Jean/JeanCN/JeanSea carry TWO each) plus 46 at 6.1 that are this port's own,
@@ -122,11 +122,13 @@ void testTableShape() {
     // BennettAdventure's one merge row.
     // +2 on 2026-09-19: the two WuWa stub rows, Sanhua <-> SanhuaExorcist at toVersion 2.5.
     // +2 on 2026-09-20: Chisa <-> ChisaParfait, both directions stubs (toVersion 3.5 and 2.8).
-    check(IniFixBuilderData::repo()->size() == 136,
-          "the fix table has 136 rows -- 78 historical, the 50 at 6.1 this port added, the four WuWa stubs, Citlali's three at 6.7 and the CitlaliWhisperofStars merge back");
+    // +2 on 2026-09-23: Charlotte's two per-component rows at 6.7 (Body and Eyes).
+    // +1 on 2026-09-24: the CharlotteHurlock merge back.
+    check(IniFixBuilderData::repo()->size() == 139,
+          "the fix table has 139 rows -- 78 historical, the 50 at 6.1 this port added, the four WuWa stubs, Citlali's three at 6.7, the CitlaliWhisperofStars merge back, Charlotte's two at 6.7 and the CharlotteHurlock merge back");
 
     // The remove table has no Python original -- one row per GI mod type, all at 4.0.
-    check(IniRemoveBuilderData::repo()->size() == 53, "the remove table has one row per mod type (43 GI, plus Yelan, YelanTranquil, Bennett and BennettAdventure, Citlali and CitlaliWhisperofStars, plus the four WuWa stubs)");
+    check(IniRemoveBuilderData::repo()->size() == 55, "the remove table has one row per mod type (43 GI, plus Yelan, YelanTranquil, Bennett and BennettAdventure, Citlali and CitlaliWhisperofStars, Charlotte and CharlotteHurlock, plus the four WuWa stubs)");
 
     check(IniParseBuilderData::repo()->getTotalIndices() == 2, "the parse table has 2 index columns");
     check(IniParseBuilderData::repo()->getVersionIndexPos() == 0, "with the version at position 0");

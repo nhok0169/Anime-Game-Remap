@@ -34,8 +34,10 @@ half of that. `compare` shows the same frame with mods and with F9 held (every m
 `VertexLimitRaise` section the fix writes rejected as `Unrecognised entry` by the old-loader GIMI
 the maintainer uses. **The maintainer steps in ONCE, at the end, for the final check** (Overview
 habit 69). Before that, stop only for what the tool cannot do: the UAC click that starts its helper
-(once per Windows session, asked at the start), a game login, anything that spends or sends, and
-decisions the guides call theirs. A remap is tested on **every** mod of the character in the folder
+(once per Windows session, asked at the start), a game login, anything that spends or sends,
+decisions the guides call theirs, and **the new download folders once pipeline step 1 has built
+them** -- commit them, stop, and tell the maintainer, who merges them into GitHub's `master` (the
+fix fetches downloads from `master` at run time, so until then every download 404s). A remap is tested on **every** mod of the character in the folder
 they name: `mods <IMP> only <mod> --from <folder>` swaps one in, and the previous one goes back
 where it came from. On WuWa, a frame dump with XXMI's WWMI call/debug logging on froze the game long
 enough for Unreal's watchdog to kill it, and turning that logging off is the maintainer's switch.
@@ -52,6 +54,23 @@ the mods -> the same prototype / test / port / test for `skin -> char` -> README
 Each step's detail and tools are in
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s **"THE MAINTAINER'S REMAP
 PIPELINE, END TO END"**, its first section. Read it before starting any new pair.
+
+**CHARLOTTE <-> CHARLOTTEHURLOCK IS COMPILED BOTH WAYS (2026-09-24), THE FIRST PAIR AN AGENT RAN
+THROUGH THE WHOLE PIPELINE ALONE -- AND FIVE OF ITS FINDINGS ARE IN SHARED CODE, NOT CHARLOTTE'S.**
+`isKeyFullyCover` counted an EXTERNAL `run =` (ORFix, TexFx) as covering every key, so the merge left
+a slot that calls ORFix itself undrawn (Charlotte in her own outfit under the skin's hair). A hash two
+characters share now votes for neither in the classifier (`61b441bd`, YelanTranquil's and
+CharlotteHurlock's eyes). A fix-library path is matched case-insensitively. The merge template tells a
+**texture-only recolour** (`this =` on the skin's slot texture hashes, now `tex_<slot>_<role>` rows)
+from a file that only **watches** the skin (a help overlay or a merged master's `$active` section),
+which now gets its own sections on the target's hashes and nothing drawn -- the old script's shape. And
+**namespace-merged mods** (`namespace_merge.py`: every key under `if $\<Char>\Master\swapvar == n`)
+were misread three ways (classification, the index rewrite's window, where the draw lands) -- fixed,
+proved against a de-namespaced control, and checked in game on HuTao4 / CherryHuTao4. A merged member's
+TexFx registers (`ps-t69` / `ps-t70`) are cleared after its draw now, or they colour every later
+member's outline. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "CHARLOTTE <->
+CHARLOTTEHURLOCK" and "A NAMESPACE-MERGED MOD", and [Game View](AI%20Agent%20Help/GameView/CLAUDE.md)'s
+outfit-shop notes (**a second `Esc` in the shop opens the Paimon menu, which shows the UID top LEFT**).
 
 **A COUNTER THAT CAN ONLY EVER BE ZERO READS EXACTLY LIKE A ZERO THAT MEANS SOMETHING
 (2026-09-10).** Two of this repo's own summary lines were saying nothing, for weeks, and both
@@ -102,7 +121,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is seventy-one short habits, none of
+feature or bug request here: the habits that pay" first.** It is seventy-six short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -197,7 +216,7 @@ out are grapheme indices, and a byte cursor and a grapheme cursor must be separa
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
 
-**FORTY-EIGHT characters are real now (Citlali, 2026-09-21; count them with
+**FIFTY characters are real now (Charlotte, 2026-09-24; count them with
 `ls -d "Anime Game Remap (for all users)/api/src/cpp/core/src/data/IniFixData/*/"` rather than
 trusting this number -- the written one has been wrong before), in SIX different shapes, and which
 one you have decides almost everything else.** Five of them are below; the sixth is the
@@ -366,12 +385,12 @@ a section still binding its diffuse to `ps-t0` hands it to the lightmap slot. Th
 `RegRemap` (`ps-t0` <-> `ps-t1`) over the face graph --- one of the things NNFix does under the
 hood. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The face diffuse".
 
-**THE FIX IS LIVE FOR FORTY-EIGHT CHARACTERS (verified end-to-end, and every one of them in
+**THE FIX IS LIVE FOR FIFTY CHARACTERS (verified end-to-end, and every one of them in
 game -- Citlali through her prototype, which the compiled fix is A/B-identical to). Earlier revisions of this
 file said every `IniFixer`/`IniParser` was stubbed and that `IniFile::getResources()` comes back
 empty --- that is NO LONGER TRUE, and believing it will cost you the best verification tool the repo
 has.** Real fixers and parsers exist for **Amber, AmberCN, Arlecchino, Ayaka, AyakaSpringbloom,
-Barbara, BarbaraSummertime, Bennett, BennettAdventure, CherryHuTao, Citlali, Diluc, DilucFlamme, Fischl,
+Barbara, BarbaraSummertime, Bennett, BennettAdventure, Charlotte, CharlotteHurlock, CherryHuTao, Citlali, Diluc, DilucFlamme, Fischl,
 FischlHighness, Ganyu, GanyuTwilight, HuTao, Jean, JeanCN, JeanSea, Kaeya, KaeyaSailwind, Keqing,
 KeqingOpulent, Kirara, KiraraBoots, Klee, KleeBlossomingStarlight, Lisa, LisaStudent,
 Mona, MonaCN, Nilou, NilouBreeze, Ningguang, NingguangOrchid, Raiden, Rosaria, RosariaCN, Shenhe,
@@ -381,7 +400,7 @@ and `fixResources` really does correct `Blend.buf` files and really does write t
 running the CLI over the in-repo Jean fixture and watching two `.dds` files appear.
 
 Two consequences, both the opposite of what this file used to say:
-- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these forty-eight.
+- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these fifty.
   Prefer it over any unit test when the change could possibly affect a fix.
 - **Characters outside that list still have no fixer**, so a run over one of *those* still writes
   only the credit header. That is the stub, not a bug. Check
@@ -504,7 +523,8 @@ maintainer's: every clean variant had ONE remapped section per Exorcist draw, so
 the extra sections of a draw window into their own `.ini` files, the GIMI merge's shape.** See
 [Vertex Group Remaps](AI%20Agent%20Help/VGRemaps/CLAUDE.md)'s "WuWa: Sanhua <-> SanhuaExorcist" ---
 including why the broken-build check for a new reader is a group COUNT and not a score, the four facts
-of a WWMI mod's anatomy, and that `py -3.11`, not `py -3`, is the Python with `openpyxl` here.
+of a WWMI mod's anatomy, and that `py -3.11`, not `py -3`, is the Python with `openpyxl` on the Xeon -- the laptop has no 3.11 and
+`openpyxl` is on its `py -3` (Overview habit 76: run `py -0` and ask).
 
 **AND THE WUWA FIX IS COMPILED (2026-09-19): `makeWWMIFixer` / `makeWWMIParser` ARE THE FOURTH
 TEMPLATE, for a MULTI-COMPONENT character onto a MULTI-COMPONENT skin -- which every WuWa pair is.**

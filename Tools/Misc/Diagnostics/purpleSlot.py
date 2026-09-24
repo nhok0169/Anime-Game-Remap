@@ -70,6 +70,11 @@ def main() -> int:
     parser.add_argument("mod", help = "the mod folder")
     parser.add_argument("--component", default = "Eye", help = "target component to paint (default: %(default)s)")
     parser.add_argument("--register", default = "ps-t0", help = "which register to replace (default: %(default)s)")
+    parser.add_argument("--match", default = None,
+                        help = "regex a remapped section name must contain to be painted; "
+                               "defaults to BennettAdventure<component>. A WuWa fix names its "
+                               "bindings CommandList<Src>Component<N>Textures, so for those "
+                               "pass e.g. --match Component5Textures")
     parser.add_argument("--off", action = "store_true", help = "restore the .ini files from the backup and stop")
     args = parser.parse_args()
 
@@ -89,6 +94,9 @@ def main() -> int:
         print(f"\n{restored} file(s) restored" if restored else "\nnothing to restore")
         return 0
 
+    #: a plain substring is what the old test did, and re.escape keeps the default exactly that
+    pattern = re.compile(args.match if (args.match) else re.escape(f"BennettAdventure{args.component}"))
+
     touched = 0
     for iniPath in activeInis(folder):
         with open(iniPath, "rb") as f:
@@ -98,7 +106,7 @@ def main() -> int:
 
         edits = []
         for name, start, end in sections(text):
-            if (f"BennettAdventure{args.component}" not in name or "Remap" not in name):
+            if ("Remap" not in name or not pattern.search(name)):
                 continue
             body = text[start:end]
             hit = re.search(rf"^(\s*){re.escape(args.register)}\s*=.*$", body, re.M)
@@ -131,8 +139,9 @@ def main() -> int:
         touched += 1
 
     if (not touched):
-        print(f"no remapped {args.component} section binds {args.register} -- nothing to paint.\n"
-              f"That is itself an answer: the fix is not binding that register at all.")
+        print(f"no remapped section matching {pattern.pattern!r} binds {args.register} -- nothing to paint.\n"
+              f"That is an answer ONLY if the pattern fits this character: check it "
+              f"against the section names before reading it as a fix that binds nothing.")
         return 1
 
     print(f"\n{touched} .ini file(s) painted. Reload the mod and look at the {args.component}:")

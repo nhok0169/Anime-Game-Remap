@@ -27,25 +27,59 @@ import re
 import sys
 
 
+def dictAssignment(text, name, path):
+    """The AST of the dict assigned to `name` at the top level, or None.
+
+    Parsed rather than brace-scanned: a comment or a nested brace inside a string defeats scanning,
+    and the previous version needed a note explaining which line it had got wrong.
+    """
+    try:
+        tree = ast.parse(text)
+    except SyntaxError as e:
+        raise SystemExit(f"cannot parse {path}: {e}")
+    for node in tree.body:
+        if (not isinstance(node, ast.Assign) or not isinstance(node.value, ast.Dict)):
+            continue
+        for target in node.targets:
+            if (isinstance(target, ast.Name) and target.id == name):
+                return node.value
+            # `X: Dict[int, List[str]] = {...}` parses as AnnAssign, handled below
+    for node in tree.body:
+        if (isinstance(node, ast.AnnAssign) and isinstance(node.value, ast.Dict)
+                and isinstance(node.target, ast.Name) and node.target.id == name):
+            return node.value
+    return None
+
+
+def keysOf(node, path, name):
+    """[(key, valueNode)] of a dict AST, evaluating ONLY the keys.
+
+    The values are deliberately left as AST: `ExtraPassRegs` holds tuples and names that mean
+    nothing outside the prototype's own namespace, and this tool needs none of them.
+    """
+    out = []
+    for key, value in zip(node.keys, node.values):
+        try:
+            out.append((ast.literal_eval(key), value))
+        except ValueError:
+            raise SystemExit(f"{name} in {path} has a key that is not a literal")
+    return out
+
+
 def literalAfter(text, name, path):
-    match = re.search(rf"^{name}\s*=\s*\{{", text, re.MULTILINE)
-    if (not match):
+    """{slot: [pass, ...]} from a table whose values may be lists of passes OR dicts keyed by pass"""
+    node = dictAssignment(text, name, path)
+    if (node is None):
         return None
-    # the literal spans lines and carries comments, so scan to its matching brace rather than
-    #   guessing where it ends -- a regex for that got the FilterBase line below it (2026-09-20)
-    start = match.end() - 1
-    depth, end = 0, None
-    for i in range(start, len(text)):
-        if (text[i] == "{"):
-            depth += 1
-        elif (text[i] == "}"):
-            depth -= 1
-            if (not depth):
-                end = i + 1
-                break
-    if (end is None):
-        raise SystemExit(f"unterminated {name} literal in {path}")
-    return ast.literal_eval(re.sub(r"#.*", "", text[start:end]))
+    out = {}
+    for slot, value in keysOf(node, path, name):
+        if (isinstance(value, ast.Dict)):                       # {pass: {register: role}}
+            out[slot] = [p for p, _ in keysOf(value, path, name)]
+        elif (isinstance(value, (ast.List, ast.Tuple))):        # [pass, ...]
+            out[slot] = [ast.literal_eval(e) for e in value.elts]
+        else:
+            raise SystemExit(f"{name}[{slot!r}] in {path} is neither a list of passes nor a dict keyed by pass")
+    return out
 
 
 def coveredFromConfig(path):
@@ -57,8 +91,8 @@ def coveredFromConfig(path):
         raise SystemExit(f"no SlotPasses literal in {path}")
     covered = {slot: list(passes) for slot, passes in primary.items()}
     extra = literalAfter(text, "ExtraPassRegs", path) or {}
-    for slot, byPass in extra.items():
-        covered.setdefault(slot, []).extend(byPass)
+    for slot, passes in extra.items():
+        covered.setdefault(slot, []).extend(passes)
     return covered
 
 

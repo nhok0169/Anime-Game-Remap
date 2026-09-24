@@ -450,6 +450,51 @@ any sheet of one adds their own row there -- `<Council name>: The <nth> member o
 linked to the Council README -- *after* joining, never before. `Data/RemapDrafts/README.md` has the
 layout; the Council ritual in Overview has it as its last step.
 
+**AND THE FINDER PROPOSES BY PROXIMITY, WHICH IS NOT THE SAME QUESTION AS WHICH PART A BONE IS
+(2026-09-22).** `Tools/VGRemapFinder` ranks candidates by distance --- a property of ONE bone ---
+while which assembly a bone belongs to is a property of the whole model, and the two disagree
+wherever two parts sit close together. The maintainer has always closed that gap by hand (on
+Diluc, jacket bones go to jacket bones even where a leg bone is nearer); **a finder proposal is a
+draft, never a result**, and the review pass is now invariant 5 in
+[Vertex Group Remaps](AI%20Agent%20Help/VGRemaps/CLAUDE.md). What skipping it cost: **Chisa's
+jacket shoulders were mapped onto ChisaParfait's HAIR** and took three in-game rounds to find. The
+hair bones sit 4.7-6.3 units from the shoulder bones they stood in for, so they are a good answer
+to "what is nearest" and a wrong answer to "what is this" --- and hair is PHYSICS-simulated, so
+the jacket swung with it ("floating like jello") and leaned at rest ("skewed to the right").
+**Neither a distance check nor a symmetry check can see this**: the mapping was symmetric the
+whole time, and making it more symmetric only made the wobble symmetric. On WuWa the part is
+written down (a bone's vg window names its component, and component 1 was the hair on both
+characters): `Tools/Misc/Diagnostics/vgSymmetry.py --hair <N>` prints the component grid and every
+bone sent into it. On GI it comes from `VertexGroups`' `objects` column and the centroids. **A
+crossing is not automatically a fault** --- two characters split the TORSO at different heights,
+and 29% of Chisa's body maps across components correctly; what matters is a crossing between
+different KINDS.
+
+**AND ONE MOD-MANAGER-PACKAGED MOD FOUND FOUR MORE, THREE OF THEM NOTHING TO DO WITH CHISA
+(2026-09-22).** A mod packaged by a manager (GUID filenames, buffers under a `.assets` extension, a
+`res/` folder of UI art) declares `[Constants]` **three times in one file**, and a
+`{section: lines}` dict keeps one of them -- so `global $mesh_vertex_count` sat at line 208 and the
+run skipped the whole `.ini` saying it was missing. **When a run names a key it cannot find, grep
+the file for that key before believing it.** What a repeat MEANS is per section, so only
+`[Constants]` is concatenated: a repeated `TextureOverride` is a mod-authoring error whose runtime
+meaning is not ours to guess, and one confirmed-working mod has two of them naming DIFFERENT hashes.
+**A mod may also UV half a part into the [1, 2) TILE and rely on the sampler wrapping** -- one side
+of the body then renders flat and pale where the other has its detail (reported as a nipple, a
+fishnet and a tonal step, all one defect), and NEITHER character's own model ever leaves [0, 1), so
+the game never exercises its own address mode there and the two passes are free to differ. The fix
+folds U back, which is **wrap-equivalent** -- measured at 100.000% of vertices selecting the same
+texel -- so it does nothing on a pass that wraps and cannot regress one. **A mod's body shape may be
+a SHAPE KEY** with its clothing modelled in variants sized for each shape: with the shape keys not
+applied the body never morphs and the un-taken variant is buried INSIDE the skin, which reads as "the
+toggle removes her bra and stockings" -- and it vanishes in a `--paint` build too, which is the
+measurement that proves it is geometry rather than texture. And the `--shapeKeys retarget` that fixes
+it was **inert while printing success**, because a reverse lookup run VERSIONLESS resolves a value
+the two characters SHARE (their shape-key checksum, 2610) to the wrong one and writes
+`ChecksumNotFound`: `getKey('2610', None)` answers ChisaParfait and `getKey('2610', '2.8')` answers
+Chisa. **Any `<Something>NotFound` in generated output is that shape of bug**, and grepping for it is
+a cheap acceptance check. All four are in
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md).
+
 **THE FIRST WUWA REMAP DRAFT EXISTS (2026-09-18): Sanhua <-> SanhuaExorcist, both directions, in
 `Data/RemapDrafts/SanhuaRemapDraft.xlsx`.** `Tools/VGRemapFinder` reads WWMI-Assets' format now
 (`Metadata.json` + `Component N.fmt/.vb/.ib`, no API needed), and the thing to know before touching

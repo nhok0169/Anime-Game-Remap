@@ -1376,6 +1376,76 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa), "cb4"}, "f02baf77"},
         {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa), "shapekey_offsets"}, "e9b69bed"},
         {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa), "shapekey_scale"}, "a01e7b59"},
+        // CHISA'S TEXTURES, TYPED BY THE ROLE EACH PLAYS (2026-09-22), so `hashes.getKey(<hash>, <version>)`
+        //   names the role of any file a mod binds under one of them. WuWa rehashes a texture between game
+        //   versions and a mod carries whatever hash its author dumped, so a fix that knows only today's
+        //   hashes cannot say what a mod's `Components-3 t=2970cef1.dds` is -- and guessing it from the
+        //   picture put Chisa8's qipao diffuse on the NORMAL slot and Chisa's vanilla diffuse on her body.
+        //
+        //   3.6 is the current generation, off the frame dumps the 2_8 download folder was built from.
+        //   3.0 / 3.1 / 3.2 are OLDER generations. Nothing records which version any of them belongs to:
+        //   WWMI-Assets has no Chisa and the community hash maps stop at 2.3. So the versions are
+        //   PLACEHOLDERS inside her life (2.8 .. 3.6) and the order within a role is arbitrary (sorted) --
+        //   one generation per version because a key is (version, name, type) and same-role hashes at one
+        //   version overwrite each other. A caller walks the versions newest-first.
+        //
+        //   The older rows are built from the mods themselves by Tools/Misc/Diagnostics/chisaHashHistory.py,
+        //   which keeps a hash only on hash-level evidence: a mod ships it UNMODIFIED (pixels identical to
+        //   the current texture of that role, and the role's component in the file's `Components-<list>`),
+        //   a mod ships a frame-dump file naming the register it was bound to, or it is byte-identical to
+        //   one so identified. Evidence per row: Data/Mod Downloads/WuWa/Chisa/2_8/ChisaHashLineage.json.
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "accessoryDiffuse"}, "019c268e"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "accessoryNormal"}, "40528957"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "accessorySheen"}, "4eaa9816"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "bodySheen"}, "bb73967a"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "faceDiffuse"}, "d030af95"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "faceMask"}, "6ae8dd10"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "frontHairDiffuse"}, "f2646d21"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "frontHairMask"}, "d3b9ba76"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "frontHairNormal"}, "9ccd7ea7"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "hairDiffuse"}, "cbab5910"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "hairMask"}, "a842d51f"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "hairNormal"}, "e921181d"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "hairRamp"}, "232c2dbc"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "hairTipRamp"}, "2b16c5ac"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "irisDiffuse"}, "226b31fc"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "lowerDiffuse"}, "f642139e"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "lowerMask"}, "3f0e6f21"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "lowerNormal"}, "2b6f8bcb"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "skinRamp"}, "06790f7e"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "upperDiffuse"}, "165f3a1b"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "upperMask"}, "90196068"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Chisa), "upperNormal"}, "526b9ed0"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "accessoryDiffuse"}, "cd006f06"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "accessoryNormal"}, "0cc6f756"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "bodySheen"}, "f47bc395"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "faceDiffuse"}, "11105c28"},
+        {{"3.1", ModTypeIdTools::getName(ModTypeId::Chisa), "faceDiffuse"}, "7b7f1a19"},
+        {{"3.2", ModTypeIdTools::getName(ModTypeId::Chisa), "faceDiffuse"}, "a620843e"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "faceMask"}, "f1c2e889"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "frontHairDiffuse"}, "15cddd7c"},
+        {{"3.1", ModTypeIdTools::getName(ModTypeId::Chisa), "frontHairDiffuse"}, "37250244"},
+        {{"3.2", ModTypeIdTools::getName(ModTypeId::Chisa), "frontHairDiffuse"}, "ea7a9c63"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "frontHairMask"}, "0aaef5a6"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "frontHairNormal"}, "d0d2cc80"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "hairDiffuse"}, "23b680fe"},
+        {{"3.1", ModTypeIdTools::getName(ModTypeId::Chisa), "hairDiffuse"}, "d6d66a07"},
+        {{"3.2", ModTypeIdTools::getName(ModTypeId::Chisa), "hairDiffuse"}, "fee91ed9"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "hairMask"}, "130a3d58"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "hairNormal"}, "d8ed7611"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "irisDiffuse"}, "ac45f0a7"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "lowerDiffuse"}, "bb49600b"},
+        {{"3.1", ModTypeIdTools::getName(ModTypeId::Chisa), "lowerDiffuse"}, "e783ca72"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "lowerMask"}, "403595f8"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "lowerNormal"}, "9b396b0d"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "upperDiffuse"}, "2970cef1"},
+        {{"3.1", ModTypeIdTools::getName(ModTypeId::Chisa), "upperDiffuse"}, "662f126a"},
+        {{"3.2", ModTypeIdTools::getName(ModTypeId::Chisa), "upperDiffuse"}, "9121c3f8"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "upperMask"}, "118a1a1f"},
+        {{"3.1", ModTypeIdTools::getName(ModTypeId::Chisa), "upperMask"}, "a83a8906"},
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "upperNormal"}, "31f77ebc"},
+        {{"3.1", ModTypeIdTools::getName(ModTypeId::Chisa), "upperNormal"}, "d2bc37bc"},
+        {{"3.2", ModTypeIdTools::getName(ModTypeId::Chisa), "upperNormal"}, "eca8e09b"},
         // ChisaParfait (3.5)
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "vb0"}, "e611d493"},
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "cb4"}, "f02baf77"},

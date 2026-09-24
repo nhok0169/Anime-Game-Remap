@@ -28,7 +28,7 @@
 # name when the (resolved) hash has a current texture. The .ini is backed up beside itself with the
 # WWMI `DISABLED` prefix, so the game never loads the backup.
 #
-# Needs the API's Python (`py -3` here) for the DDS decode (Tools/TexConverter); numpy and Pillow.
+# Needs the API's Python (`py -3` here) for the DDS decode (FixRaidenBoss2.TextureFile); numpy and Pillow.
 #
 
 import argparse
@@ -37,14 +37,12 @@ import os
 import re
 import shutil
 import struct
-import subprocess
 import sys
-import tempfile
 
 import numpy as np
 
 Repo = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
-TexConverter = os.path.join(Repo, "Tools", "TexConverter", "main.py")
+APISrc = os.path.join(Repo, "Anime Game Remap (for all users)", "api", "src", "py")
 SectionPattern = re.compile(r"^\[(?P<name>[^\]]+)\]\s*$")
 AssetName = re.compile(r"Components-[\d-]+ t=([0-9a-f]{8})\.dds$", re.IGNORECASE)
 DownloadName = re.compile(r"Texture([0-9a-f]{8})\.dds$", re.IGNORECASE)
@@ -96,18 +94,41 @@ def chain(pairs, h, current):
     return h
 
 
+def textureFileCls():
+    """the API's TextureFile: the FixRaidenBoss2 a caller already imported (a prototype that found a
+    built checkout), else this checkout's"""
+    try:
+        import FixRaidenBoss2 as FRB
+    except ImportError:
+        sys.path.insert(1, APISrc)
+        if (hasattr(os, "add_dll_directory")):
+            os.add_dll_directory(os.path.join(APISrc, "FixRaidenBoss2"))
+        import FixRaidenBoss2 as FRB
+    return FRB.TextureFile
+
+
 def decode(path, cache):
-    """the texture as a 128x128 RGBA float array, through TexConverter"""
+    """the texture as a 128x128 RGBA float array, decoded by the library
+
+    The colour and the alpha are resized SEPARATELY. Pillow resizes an "RGBA" image premultiplied by
+    its alpha, so one shrunk whole comes back with its colour scaled by the alpha: black where the
+    alpha is 0. Her front hair normal (9ccd7ea7) is 0 almost everywhere and read RGB [0, 0, 0], so
+    every correlation with it was 0.000, an identical copy's included (2026-09-22)."""
     if (path in cache):
         return cache[path]
     from PIL import Image
-    with tempfile.TemporaryDirectory() as tmp:
-        r = subprocess.run([sys.executable, TexConverter, path, tmp, "-a", "keep", "-s"], capture_output = True, text = True)
-        pngs = [f for f in os.listdir(tmp) if f.lower().endswith(".png")]
-        if (r.returncode != 0 or not pngs):
-            cache[path] = None
-            return None
-        cache[path] = np.asarray(Image.open(os.path.join(tmp, pngs[0])).convert("RGBA").resize((128, 128))).astype(float)
+    cache[path] = None
+    try:
+        tex = textureFileCls()(path)
+        tex.open()
+    except Exception:
+        return None
+    if (not tex.hasImage):
+        return None
+    px = np.frombuffer(tex.getPixels(), dtype = np.uint8).reshape(tex.height, tex.width, 4)
+    rgb = np.asarray(Image.fromarray(np.ascontiguousarray(px[..., :3]), "RGB").resize((128, 128)))
+    alpha = np.asarray(Image.fromarray(np.ascontiguousarray(px[..., 3]), "L").resize((128, 128)))
+    cache[path] = np.dstack([rgb, alpha]).astype(float)
     return cache[path]
 
 

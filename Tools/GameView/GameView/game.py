@@ -17,6 +17,12 @@ class GameViewError(Exception):
 # The share of a capture's height cut off the bottom, where the games print the account id.
 UID_STRIP = 0.04
 
+#: Regions blacked out of every capture, as (x0, y0, x1, y1) fractions of the window. The bottom
+#: strip above covers where both games print the account id in PLAY; this covers where WuWa's
+#: Terminal (the `esc` menu) prints "User ID: <digits>", beside the player's portrait at about a
+#: quarter across and a third down. Measured on a 2560x1382 client on 2026-09-23, with margin.
+UID_RECTS = [(0.20, 0.35, 0.39, 0.43)]
+
 
 class Target:
     """A window to drive: the game's main window, or (``--window``) any window by title / exe."""
@@ -261,16 +267,36 @@ class Session:
         return hideUid(image, self.cropBottom), used
 
 
-def hideUid(image, frac=UID_STRIP):
-    """Cut the bottom ``frac`` of a capture off. BOTH games print the player's account id there
-    (Genshin "UID: ...", WuWa "User ID: ...", bottom right, in the last ~1.5% of the frame), and
-    the maintainer asked that no screenshot carry it -- scratch or kept. Done at CAPTURE time, so
-    every crop, compare, pair and --keep made afterwards is already clean. Nothing is cut from the
-    top, so 'view' click coordinates are unaffected."""
+def hideUid(image, frac=UID_STRIP, rects=UID_RECTS):
+    """Cut the bottom ``frac`` of a capture off, and black out ``rects``.
+
+    BOTH games print the player's account id at the bottom right (Genshin "UID: ...", WuWa
+    "User ID: ...", in the last ~1.5% of the frame), and the maintainer asked that no screenshot
+    carry it -- scratch or kept. Done at CAPTURE time, so every crop, compare, pair and --keep made
+    afterwards is already clean. Nothing is cut from the top, so 'view' click coordinates are
+    unaffected.
+
+    THE BOTTOM STRIP IS NOT THE ONLY PLACE (2026-09-23). WuWa's Terminal -- the `esc` menu -- prints
+    "User ID: <digits>" beside the player's portrait, a third of the way DOWN the left of the frame,
+    and a capture of that screen went to disk with the id legible on it. A strip off the bottom
+    cannot reach it, so the fixed regions in ``rects`` are blacked out as well. They cost a small
+    part of every other screen (on WuWa's outfit screen, the right edge of the outfit cards; the
+    model itself sits well right of it), which is the cheap side of the trade the rule asks for.
+    Set ``uidRects`` to [] in the config to turn it off, the same way ``uidStrip`` can be zeroed --
+    and do not, for the same reason."""
+    out = image.copy()
+    if rects:
+        w, h = out.size
+        for x0, y0, x1, y1 in rects:
+            box = (int(round(w * x0)), int(round(h * y0)), int(round(w * x1)), int(round(h * y1)))
+            if box[2] > box[0] and box[3] > box[1]:
+                # a colour rather than an Image, so this needs no PIL name at module scope (the
+                #   capture path imports Image lazily inside the method, and this is called from it)
+                out.paste((0, 0, 0), box)
     if not frac:
-        return image.copy()
-    w, h = image.size
-    return image.crop((0, 0, w, h - int(round(h * frac))))
+        return out
+    w, h = out.size
+    return out.crop((0, 0, w, h - int(round(h * frac))))
 
 
 def isBlack(image, threshold=6):

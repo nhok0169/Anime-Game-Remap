@@ -600,6 +600,17 @@ In this order --- each step is minutes, and the first one was the whole answer f
    looked right> --remap From To Comp` lists the groups only the broken mod uses and which
    targets several of them share; then `boneCentroids.py` on the target's frame analysis says
    where those targets are (a cape chain's root on an upper-arm bone, 2026-09-12).
+   **`modTally.py` reads only the FIRST `*Position.buf` in the folder**, so on a mod of a
+   multi-component skin it tallies whichever component sorts first alphabetically (`Bangs`, not
+   `Body`). For those, decode `<Prefix><Component>Position.buf` / `Blend.buf` yourself: position
+   stride 40, blend stride 32 (four float weights, then four uint32 indices). Then compare, per
+   source group, the centroid of the mod's vertices with the centroid of the TARGET group it maps to
+   on the target's identity mod. A gap of a few centimetres is normal; a skirt group landing on a
+   chest bone is not.
+   **Before blaming the table for triangles STRETCHED between two parts, check the `.ini`**:
+   CharlotteHurlock1's skirt-to-chest shards had a clean table and came from a DOWNLOADED index buffer
+   drawn over the mod's own vertices (Creating Remaps' Charlotte point 9). A wrong bone bends or drags
+   a whole part; a wrong index buffer joins vertices that were never neighbours.
 2. **Has a bone moved?** Command 2 above, fresh frame dump vs the old dump of the same skin. If
    the skeleton changed, the whole row is stale and step 3 of the new-character recipe applies.
 3. **Does the shipped row agree with the geometry?** Command 1 with `-C`. Rows the finder

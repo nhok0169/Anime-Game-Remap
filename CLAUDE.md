@@ -72,6 +72,20 @@ member's outline. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.
 CHARLOTTEHURLOCK" and "A NAMESPACE-MERGED MOD", and [Game View](AI%20Agent%20Help/GameView/CLAUDE.md)'s
 outfit-shop notes (**a second `Esc` in the shop opens the Paimon menu, which shows the UID top LEFT**).
 
+**THREE LATER CHARLOTTE REPORTS, THREE DIFFERENT ANSWERS, AND NONE OF THEM WAS THE VERTEX
+GROUPS' FAULT (2026-09-24).** *Black shards on a cardigan*: a skin's slots draw on
+DIFFERENT pixel shaders, and her body had been routed through the skin's hair-shader slot
+(`GIMIComponentFixerConfig::Component::objSlotIndices` gives each source object its own slot now).
+*Skirt triangles up to the chest*: the merge downloaded index buffers for slots the MOD never draws
+(it skips the component and declares no section for them) and drew them over the mod's own vertices;
+such a slot is now left undrawn (`GIMIComponentParseFacts::isSlotUndrawn`). *Turquoise turned red*:
+the fix was right -- the mod's textures ARE red, and the maintainer's old-loader GIMI rejects the
+newer-API lines that bind them on its own character. Each was settled by ONE hand edit of the fixed
+`.ini` or one look at the mod's texture, before any code changed (Overview habits 78-79). And
+`GameView reload --mod` had been answering "no warnings" over real ones by reading only until the
+log paused (habit 77) -- fixed, but distrust any earlier empty answer from it. Creating Remaps' Charlotte
+points 8-9 and its START HERE table map each symptom to its cause.
+
 **A COUNTER THAT CAN ONLY EVER BE ZERO READS EXACTLY LIKE A ZERO THAT MEANS SOMETHING
 (2026-09-10).** Two of this repo's own summary lines were saying nothing, for weeks, and both
 looked like ordinary results. The run reported *copied 0 files from existing downloads* on every
@@ -121,7 +135,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is seventy-six short habits, none of
+feature or bug request here: the habits that pay" first.** It is seventy-nine short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you

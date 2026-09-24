@@ -1242,6 +1242,32 @@ written down (root trap 3's lesson, for packages). And a script that PRINTS an e
 raises `UnicodeEncodeError` under cp1252. Set `PYTHONIOENCODING=utf-8`, or do the write before the
 print: the Council badge script failed on its first `print`, a line before it would have written.
 
+**77. A TOOL'S "NOTHING FOUND" MUST BE ABLE TO SAY "NOTHING READ" -- AND WHEN A SECOND WITNESS
+DISAGREES, THE TOOL IS THE SUSPECT (2026-09-24).** `GameView reload --mod X` answered "no warnings"
+for a whole session, and it was used as evidence that a fix loaded cleanly. It had stopped reading
+the log at the first 1.5 s pause, and 3DMigoto writes a reload in bursts. The game's orange overlay
+showed 47 warnings under that same mod. The overlay was the second witness, and the tool was wrong. It
+now waits for `> d3dx.ini reloaded`. Two lessons outlive the bug: a waiting loop that ends on
+"quiet" rather than on an END marker the producer writes will truncate silently; and once a tool
+is caught, every earlier conclusion drawn from it is unverified until re-run -- so re-run them.
+
+**78. CONFIRM AN IN-GAME HYPOTHESIS BY EDITING THE FIXED `.ini` IN PLACE, BEFORE TOUCHING CODE
+(2026-09-24).** Twice in one day a single hand edit settled what screenshots and analysis could not:
+changing a group's `match_first_index` to another slot (black shards gone, so the slot's shader was
+the cause), and commenting out two `run =` lines (skirt-to-chest triangles gone, so the downloaded
+slots were the cause). Copy the file to the scratchpad first, reload, take the SAME pose both
+ways (idle poses cycle, so shoot several and pick matching ones), then restore the copy or re-fix.
+It costs one reload and tells you which code to change. A rebuild-per-guess costs minutes each.
+
+**79. BEFORE BLAMING THE FIX FOR HOW A MOD LOOKS, CHECK THAT THE SOURCE ITSELF IS RIGHT (2026-09-24).**
+"CharlotteHurlock5 is recoloured red" was the fix being RIGHT. The mod's own diffuse textures are
+red, and on its own character the maintainer's old-loader GIMI rejected every texture line the mod
+wrote (`Resource\GIMI\Diffuse = ref ...` + `run = CommandList\GIMI\SetTextures`, the newer API), so
+the game drew its stock turquoise there. The fix normalises those lines into `ps-t` bindings, which
+the old loader accepts. The mod on its own character is therefore not ground truth whenever
+`reload --mod` lists `Unrecognised entry` under the SOURCE's own sections. Two witnesses settle it in
+minutes: the mod's texture files (Pillow opens the `.dds`) and those warnings.
+
 **A note that belongs with 66 and 67, since both were instrumentation:** when a count assertion in a
 suite fails, **print the number before believing the message**. Nothing builds `core/tests`, so
 those asserts rot; three of them were stale on arrival this session and only one failure of four was

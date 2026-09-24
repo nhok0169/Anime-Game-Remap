@@ -13,6 +13,7 @@
 
 #include "AGRemapCore/constants/GlobalIniClassifiers.h"
 
+#include <iterator>
 #include <optional>
 #include <string>
 #include <unordered_set>
@@ -41,15 +42,18 @@ namespace AGRemapCore {
          * types a GIMI mod actually writes as a section's "hash = " line -- the ib, the three
          * vertex buffers, and the draw hash the VertexLimitRaise sections carry -- so they are
          * the only ones the classifier can see at all. And, measured over the whole of
-         * HashData, they are UNIQUE: across 377 rows not one of their values is claimed by two
-         * different characters.
+         * HashData, they are UNIQUE but for one value: across 404 rows the only hash two
+         * characters claim is the eye draw_vb 61b441bd, which the game gives YelanTranquil's and
+         * CharlotteHurlock's Eyes components alike (see HashData). A hash claimed twice identifies
+         * NEITHER, so populate() drops it from both before registering -- each skin's other hashes
+         * still identify it on their own.
          *
          * The texture hashes are the opposite and must stay out. A shadow ramp or a metal map
          * is a shared asset: 'b0e08915' is filed under FORTY different names and '7eb5b84e'
          * under thirty-three, so registering those would hand a +2 vote to forty characters for
          * one line of a mod's .ini -- noise loud enough to decide a classification on its own.
-         * Even 'tex_face_diffuse', which does appear as a section hash, is shared in 30 of its
-         * 49 rows.
+         * Even 'tex_face_diffuse', which does appear as a section hash, is shared in 35 of its
+         * 54 rows.
          */
         const std::unordered_set<std::string>& identifyingHashTypes() {
             static const std::unordered_set<std::string> types = {
@@ -102,9 +106,54 @@ namespace AGRemapCore {
         // Blend, RemapBlend/RemapPosition, Position) as explicit DFA states, whereas IniClassifier
         // checks those prefixes directly in readSectionName. Only the per-mod-type registration
         // has to be reproduced here.
-        void populate(IniClassifier& classifier) {
-            static const std::unordered_set<std::string> noHashes;
+        /*
+         * Every identifying hash a registered mod type votes with: its own rows, plus -- for a skin
+         * of several components -- its components' rows, which HashData files under each
+         * COMPONENT's name (see populate()).
+         */
+        std::unordered_set<std::string> identifyingHashesOf(const ModType& modType, ModTypeId modTypeId) {
             const std::unordered_map<std::string, std::unordered_set<std::string>>& byName = hashesByModName();
+            std::unordered_set<std::string> hashes;
+
+            auto hashIt = byName.find(modType.name);
+            if (hashIt != byName.end()) {
+                hashes = hashIt->second;
+            }
+
+            for (ModTypeId component : ModTypeIdTools::getComponentIds(modTypeId)) {
+                auto componentIt = byName.find(ModTypeIdTools::getName(component));
+                if (componentIt != byName.end()) {
+                    hashes.insert(componentIt->second.begin(), componentIt->second.end());
+                }
+            }
+
+            return hashes;
+        }
+
+
+        void populate(IniClassifier& classifier) {
+            // A HASH TWO REGISTERED MOD TYPES BOTH CLAIM VOTES FOR NEITHER (2026-09-23). A hash vote is
+            // worth 2 against a section name's 1, so a shared hash is not noise: the eye draw_vb
+            // 61b441bd, which the game gives YelanTranquil's Eye and CharlotteHurlock's Eyes alike,
+            // classified a CharlotteHurlock mod as YelanTranquil as well, and the YelanTranquil -> Yelan
+            // fix then ran over it and wrote its header last. The data rows stay -- a fix still needs
+            // the value to remap a section onto that component -- it just identifies no one.
+            std::unordered_map<std::string, int> claims;
+            for (const ModType& modType : GlobalModTypes::all()) {
+                std::optional<ModTypeId> modTypeId = ModTypeIdTools::getEnum(modType.modTypeId);
+                if (!modTypeId.has_value()) {
+                    continue;
+                }
+                for (const std::string& hash : identifyingHashesOf(modType, *modTypeId)) {
+                    ++claims[hash];
+                }
+            }
+            auto unambiguous = [&claims](std::unordered_set<std::string> hashes) {
+                for (auto it = hashes.begin(); it != hashes.end();) {
+                    it = (claims[*it] > 1) ? hashes.erase(it) : std::next(it);
+                }
+                return hashes;
+            };
 
             for (const ModType& modType : GlobalModTypes::all()) {
                 std::optional<ModTypeId> modTypeId = ModTypeIdTools::getEnum(modType.modTypeId);
@@ -116,9 +165,8 @@ namespace AGRemapCore {
                 // [TextureOverrideComponentN], never after the character, and the classifier's
                 // WuWa half already keys on the $\WWMIv1 marker plus the hash (addWuWaModType).
                 if (modType.gameTypeId == static_cast<int>(GameTypeId::WuWa)) {
-                    auto wuwaHashes = byName.find(modType.name);
                     classifier.addWuWaModType(ModTypeIdData(static_cast<int>(GameTypeId::WuWa), modType.modTypeId),
-                                              wuwaHashes != byName.end() ? wuwaHashes->second : noHashes);
+                                              unambiguous(identifyingHashesOf(modType, *modTypeId)));
                     continue;
                 }
 
@@ -141,9 +189,7 @@ namespace AGRemapCore {
                 // hashes outvote the names on a file where the two disagree. So is the guard that
                 // makes it safe on an already-fixed mod -- readLine skips a 'hash =' inside a
                 // Remap-named section, so the TARGET hashes a fix wrote in do not vote.
-                auto hashIt = byName.find(modType.name);
-                std::unordered_set<std::string> hashes = (hashIt != byName.end()) ? hashIt->second : noHashes;
-
+                //
                 // AND A SKIN OF SEVERAL COMPONENTS VOTES WITH ITS COMPONENTS' HASHES (2026-09-22).
                 // HashData files each component's rows under the COMPONENT's name
                 // (CitlaliWhisperofStarsBody, ...), because each is a fix target of its own for the
@@ -151,13 +197,8 @@ namespace AGRemapCore {
                 // mod of it classified by section names alone. A CitlaliWhisperofStars mod naming
                 // its sections `Citlali_WhisperOfStars...` matched no skin keyword, classified as
                 // plain Citlali and was fixed as nothing. The component hashes are unique to the
-                // skin, so they cannot vote for anyone else.
-                for (ModTypeId component : ModTypeIdTools::getComponentIds(*modTypeId)) {
-                    auto componentIt = byName.find(ModTypeIdTools::getName(component));
-                    if (componentIt != byName.end()) {
-                        hashes.insert(componentIt->second.begin(), componentIt->second.end());
-                    }
-                }
+                // skin but for the shared ones unambiguous() drops. See identifyingHashesOf().
+                std::unordered_set<std::string> hashes = unambiguous(identifyingHashesOf(modType, *modTypeId));
 
                 classifier.addGIModType(ModTypeIdData(static_cast<int>(GameTypeId::GI), modType.modTypeId),
                                         hashes,

@@ -153,7 +153,51 @@ namespace AGRemapCore {
                 return OrderRanges(std::vector<typename OrderRanges::Range>{});
             }
 
-            return window(modObj, *iterData.colouring);
+            OrderRanges result = window(modObj, *iterData.colouring);
+            if (!result.isEmpty() || iterData.section == nullptr || iterData.part == nullptr) {
+                return result;
+            }
+
+            // A NAMESPACE-MERGED MOD WRITES ITS INDEX INSIDE AN `if` (2026-09-24): `hash` at the
+            // top of the section, `match_first_index` under `if $\<Char>\Master\swapvar == n`. The
+            // part with the index only INHERITS the hash, so window() opens nothing and the index
+            // rewrite never ran -- HuTao's body kept 16509 on CherryHuTao. When the hash was
+            // written in an EARLIER part of this same section (not inherited from a caller, which
+            // is the case window() exists to refuse) and this part's own index names the object,
+            // the whole part is its window. See GIMISectionClassifier::classify's twin of this.
+            std::optional<V> sectionHash;
+            for (const auto& part : iterData.section->parts()) {
+                if (part.get() == iterData.part) {
+                    break;
+                }
+                const auto* content = dynamic_cast<const IfContentPart<K, V, KeyHash, KeyEqual>*>(part.get());
+                if (content == nullptr) {
+                    continue;
+                }
+                std::vector<V> vals = content->getVals(config_.hashKey);
+                if (!vals.empty()) {
+                    sectionHash = vals.back();
+                }
+            }
+            if (!sectionHash.has_value()) {
+                return result;
+            }
+
+            const std::vector<std::optional<K>> noFilter;
+            std::optional<std::vector<K>> hashKeyRow = hashes_->getKey(*sectionHash, version, noFilter, false);
+            if (!hashKeyRow.has_value() || hashKeyRow->empty() || indexHashKeys.find(hashKeyRow->back()) == indexHashKeys.end()) {
+                return result;
+            }
+
+            for (const V& indexVal : iterData.part->getVals(config_.matchFirstIndexKey)) {
+                std::optional<std::vector<K>> indexKeyRow = indices_->getKey(indexVal, version, noFilter, false);
+                if (indexKeyRow.has_value() && indexKeyRow->size() >= 2
+                        && ModObj((*indexKeyRow)[indexKeyRow->size() - 2], indexKeyRow->back()) == modObj) {
+                    return OrderRanges(std::vector<typename OrderRanges::Range>{typename OrderRanges::Range(0, std::nullopt)});
+                }
+            }
+
+            return result;
         };
     }
 }

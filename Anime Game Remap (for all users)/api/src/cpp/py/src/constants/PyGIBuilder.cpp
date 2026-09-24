@@ -36,6 +36,8 @@ Mirrors the pure-Python :class:`GIBuilder` class, but builds the lighter, C++-si
         .def_static("barbaraSummerTime", &AGRC::GIBuilder::barbaraSummerTime, py::doc(R"doc(Creates the :class:`ModType` for BarbaraSummerTime)doc"))
         .def_static("bennett", &AGRC::GIBuilder::bennett, py::doc(R"doc(Creates the :class:`ModType` for Bennett)doc"))
         .def_static("bennettAdventure", &AGRC::GIBuilder::bennettAdventure, py::doc(R"doc(Creates the :class:`ModType` for BennettAdventure)doc"))
+        .def_static("charlotte", &AGRC::GIBuilder::charlotte, py::doc(R"doc(Creates the :class:`ModType` for Charlotte)doc"))
+        .def_static("charlotteHurlock", &AGRC::GIBuilder::charlotteHurlock, py::doc(R"doc(Creates the :class:`ModType` for CharlotteHurlock)doc"))
         .def_static("cherryHutao", &AGRC::GIBuilder::cherryHutao, py::doc(R"doc(Creates the :class:`ModType` for CherryHuTao)doc"))
         .def_static("citlali", &AGRC::GIBuilder::citlali, py::doc(R"doc(Creates the :class:`ModType` for Citlali)doc"))
         .def_static("citlaliWhisperofStars", &AGRC::GIBuilder::citlaliWhisperofStars, py::doc(R"doc(Creates the :class:`ModType` for CitlaliWhisperofStars)doc"))

@@ -65,10 +65,16 @@
     <innerclass refid="class_a_g_remap_core_1_1_cache" prot="public">AGRemapCore::Cache</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_cached_file_stats" prot="public">AGRemapCore::CachedFileStats</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_call_graph" prot="public">AGRemapCore::CallGraph</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_charlotte_fixer" prot="public">AGRemapCore::CharlotteFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_charlotte_hurlock_fixer" prot="public">AGRemapCore::CharlotteHurlockFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_charlotte_hurlock_parser" prot="public">AGRemapCore::CharlotteHurlockParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_charlotte_parser" prot="public">AGRemapCore::CharlotteParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_cherry_hu_tao_fixer" prot="public">AGRemapCore::CherryHuTaoFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_cherry_hu_tao_parser" prot="public">AGRemapCore::CherryHuTaoParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_citlali_fixer" prot="public">AGRemapCore::CitlaliFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_citlali_parser" prot="public">AGRemapCore::CitlaliParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_citlali_whisperof_stars_fixer" prot="public">AGRemapCore::CitlaliWhisperofStarsFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_citlali_whisperof_stars_parser" prot="public">AGRemapCore::CitlaliWhisperofStarsParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_colour" prot="public">AGRemapCore::Colour</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_colour_range" prot="public">AGRemapCore::ColourRange</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_colour_replace" prot="public">AGRemapCore::ColourReplace</innerclass>
@@ -105,9 +111,11 @@
     <innerclass refid="class_a_g_remap_core_1_1_ganyu_twilight_parser" prot="public">AGRemapCore::GanyuTwilightParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_generator" prot="public">AGRemapCore::Generator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_g_i_builder" prot="public">AGRemapCore::GIBuilder</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_api_normalizer" prot="public">AGRemapCore::GIMIApiNormalizer</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" prot="public">AGRemapCore::GIMICharFixerConfig</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config" prot="public">AGRemapCore::GIMICharParserConfig</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config" prot="public">AGRemapCore::GIMIComponentFixerConfig</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts" prot="public">AGRemapCore::GIMIComponentParseFacts</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config" prot="public">AGRemapCore::GIMIComponentParserConfig</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_fixer" prot="public">AGRemapCore::GIMIFixer</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config" prot="public">AGRemapCore::GIMIMergeFixerConfig</innerclass>
@@ -335,6 +343,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_tex_creator_create" prot="public">AGRemapCore::TexCreatorCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_editor" prot="public">AGRemapCore::TexEditor</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_editor_replace" prot="public">AGRemapCore::TexEditorReplace</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_reg_layout" prot="public">AGRemapCore::TexRegLayout</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_replace" prot="public">AGRemapCore::TexReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_text_tools" prot="public">AGRemapCore::TextTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_texture_file" prot="public">AGRemapCore::TextureFile</innerclass>
@@ -676,6 +685,62 @@ itself is :cpp:enumerator:`BennettAdventure`, whose vertex-group rows are keyed 
           <name>BennettAdventureEye</name>
           <briefdescription>
 <para>BennettAdventure&apos;s <computeroutput>Eye</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>BennettAdventureBody</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa7647b2d875a94093cbc99f6f2cbfda77" prot="public">
+          <name>Charlotte</name>
+          <briefdescription>
+<para>Charlotte from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab9ce490c26f3909498095fef567ee52b" prot="public">
+          <name>CharlotteHurlock</name>
+          <briefdescription>
+<para>Charlotte outfit skin (Hurlock) from GI <ndash/> FOUR skinned components (Body, Bangs, Eyes, Camera). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa061afa75c70f7eb1dbd26efe77c9ca14" prot="public">
+          <name>CharlotteHurlockBody</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+CharlotteHurlock&apos;s ``Body`` component, as a fix TARGET :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The same arrangement as :cpp:enumerator:`CitlaliWhisperofStarsBody` and :cpp:enumerator:`BennettAdventureBody`:
+a skin of several components is fixed by one fixer per component, and the tables those fixers read
+are keyed by a mod type NAME, so each component is a mod type of its own for their purposes.
+Nothing classifies a ``.ini`` file AS one of these; the skin itself is
+:cpp:enumerator:`CharlotteHurlock`, whose vertex-group rows are keyed by component
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa897816e75d1933a718f2a3f3e62bf529" prot="public">
+          <name>CharlotteHurlockBangs</name>
+          <briefdescription>
+<para>CharlotteHurlock&apos;s <computeroutput>Bangs</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>CharlotteHurlockBody</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faba0417cfbc8c3cfe4fe606ee671be92f" prot="public">
+          <name>CharlotteHurlockEyes</name>
+          <briefdescription>
+<para>CharlotteHurlock&apos;s <computeroutput>Eyes</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>CharlotteHurlockBody</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fade07839986c676a87162171b48e4346c" prot="public">
+          <name>CharlotteHurlockCamera</name>
+          <briefdescription>
+<para>CharlotteHurlock&apos;s <computeroutput>Camera</computeroutput> component (the camera the skin carries at her hip), as a fix target <ndash/> see :cpp:enumerator:<computeroutput>CharlotteHurlockBody</computeroutput>. </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -1098,6 +1163,30 @@ slots are the ``type`` column of :cpp:class:`Indices`, :cpp:class:`IndexCounts`,
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa74e403d261b9f7b084acf93c0c589818" prot="public">
+          <name>Chisa</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Chisa from WuWa (Wuthering Waves), the second WWMI pair (2026-09-20) -- see
+:cpp:enumerator:`Sanhua` for what a WWMI mod type is :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+WWMI-Assets has neither her nor her skin, so her asset tables come from a frame dump
+(``Tools/Misc/Prototypes/wwmiExtractDump.py``), which is also what
+``Data/Mod Downloads/WuWa/Chisa/2_8`` was built from. She is the first character here whose
+merged skeleton passes 256 bones (420), so a mod of hers carries WWMI&apos;s blend remap
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faf43a1e165e9727c43bb91ed166a41652" prot="public">
+          <name>ChisaParfait</name>
+          <briefdescription>
+<para>Chisa&apos;s Parfait skin from WuWa <ndash/> see :cpp:enumerator:<computeroutput>Chisa</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1109,7 +1198,7 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="38" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="38" bodyend="387"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="38" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="38" bodyend="445"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274e" prot="public" static="no" strong="yes">
         <type></type>
@@ -1171,6 +1260,36 @@ and back again, which preserves wherever they put it
 </verbatim> </para>
           </detaileddescription>
         </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274eaf0fcde562336c59fde77f64a268d603d" prot="public">
+          <name>PerBindingGeneration</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Once per **binding generation** of every path -- the exact rule
+:cpp:enumerator:`PerPath` approximates, and what
+:cpp:member:`RegDelimitedAdd::invalidatorRegs` exists for :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+:cpp:enumerator:`PerPath` assumes the addition is invalidated only by a delimiter. The fix
+libraries are invalidated by something else as well: they re-slot the registers bound when
+they run, so **re-binding one starts a new generation** that needs its own call, and a
+second call over registers that have NOT moved undoes the first. One call per path is
+therefore too few for a `section`_ that binds twice and too many for nothing
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Real mods write both shapes. A CitlaliWhisperofStars mod binds its own slot&apos;s textures and
+draws, then binds Citlali&apos;s and draws again (2026-09-22): under :cpp:enumerator:`PerPath`
+its second draw went un-reslotted. The same mod supplies the other half -- its own
+``run =`` over its own second binding -- which is why
+:cpp:member:`RegDelimitedAdd::coveredRegs` marks a generation the mod already serves, so
+the author&apos;s call is kept and not doubled :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+With no :cpp:member:`RegDelimitedAdd::invalidatorRegs` this mode is exactly
+:cpp:enumerator:`PerPath`: one generation, one call
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1178,13 +1297,13 @@ and back again, which preserves wherever they put it
 How often :cpp:class:`RegDelimitedAdd` places its addition along one execution path
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Both modes place the addition **as late as possible**; they differ only in how many times a
+Every mode places the addition **as late as possible**; they differ only in how many times a
 single path gets it
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/RegDelimitedAddMode.h" line="30" column="5" bodyfile="include/AGRemapCore/constants/RegDelimitedAddMode.h" bodystart="30" bodyend="82"/>
+        <location file="include/AGRemapCore/constants/RegDelimitedAddMode.h" line="30" column="5" bodyfile="include/AGRemapCore/constants/RegDelimitedAddMode.h" bodystart="30" bodyend="110"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106" prot="public" static="no" strong="yes">
         <type></type>
@@ -1588,7 +1707,7 @@ character):
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="1328" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="1328" bodyend="1332" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="647" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="1331" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="1331" bodyend="1335" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="647" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1afa90e717a5e7edeab5e5d9188ef93001" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1636,7 +1755,7 @@ keyed by that component&apos;s own :cpp:enum:`ModTypeId`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="1593" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="1593" bodyend="1597" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="416" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="1636" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="1636" bodyend="1640" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="419" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1670,7 +1789,7 @@ for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="1815" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="1815" bodyend="1819" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="259" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="2630" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="2630" bodyend="2634" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="346" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1af12ae26e99e06da23b5ca21f45b3b3eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
@@ -1827,7 +1946,7 @@ through :cpp:class:`Indices`; see there for why
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/GIMIComponentParser.cpp" line="318" column="30" bodyfile="src/data/IniParseData/GIMIComponentParser.cpp" bodystart="318" bodyend="334" declfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" declline="186" declcolumn="30"/>
+        <location file="src/data/IniParseData/GIMIComponentParser.cpp" line="589" column="30" bodyfile="src/data/IniParseData/GIMIComponentParser.cpp" bodystart="589" bodyend="605" declfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" declline="201" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a71353ecec052c71edfa6c5b90da4c4e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>

@@ -913,6 +913,7 @@ namespace AGRemapCore {
                 // ---- 2. the textures, per drawn object ----
                 void buildTexEdits() {
                     if (!component_.normalMap) {
+                        buildPlainSlotShift();
                         return;
                     }
 
@@ -1007,6 +1008,44 @@ namespace AGRemapCore {
                         texGroupEdits_.push_back(collect.get());
                         texCreates_.push_back(std::move(create));
                         texAddCollects_.push_back(std::move(collect));
+                    }
+                }
+
+                // A PLAIN slot (ps-t0 diffuse, ps-t1 light map, under NNFix) reached by an object
+                // whose section is already on the NORMAL-MAP layout (ps-t0 normal map, ps-t1 diffuse,
+                // ps-t2 light map): the slot has nowhere to put the normal map, so it is dropped and
+                // the other two move down -- the merge template's dropNormalMap + shiftDown, per
+                // object. Left alone, the plain shader would read the normal map as the diffuse.
+                // Charlotte onto CharlotteHurlock's Eyes is the first pair to need it (2026-09-23).
+                // A plain-layout object needs nothing, which is every earlier config's case.
+                void buildPlainSlotShift() {
+                    for (std::size_t group = 0; group < drawn_.size(); ++group) {
+                        const ModObjectFiles* files = objectFiles(drawn_[group]);
+                        if (files == nullptr || !files->normalMapLayout) {
+                            continue;
+                        }
+
+                        auto drop = std::make_unique<RegRemove<>>(
+                            std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
+                                {DiffuseReg, std::nullopt}});
+                        auto dropAdapter = std::make_unique<RegPartEdit<>>(drop.get());
+
+                        auto shift = std::make_unique<RegRemap<>>(std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>>{
+                            renameRule(ShiftedDiffuseReg, {DiffuseReg}),
+                            renameRule(ShiftedLightMapReg, {LightMapReg})});
+                        auto shiftAdapter = std::make_unique<RegPartEdit<>>(shift.get());
+
+                        std::vector<ObjGroupEdit::IniEdits> shiftIniEdits(groupCount_);
+                        shiftIniEdits[group].edits[ModObj("", component_.slot)] = {dropAdapter.get(), shiftAdapter.get()};
+                        shiftIniEdits[group].trackKeys[ModObj("", component_.slot)] = false;
+                        auto shiftEdit = std::make_unique<ObjGroupEdit>(std::move(shiftIniEdits), false);
+
+                        texGroupEdits_.push_back(shiftEdit.get());
+                        regRemoves_.push_back(std::move(drop));
+                        regRemapAdapters_.push_back(std::move(dropAdapter));
+                        regRemaps_.push_back(std::move(shift));
+                        regRemapAdapters_.push_back(std::move(shiftAdapter));
+                        shiftEdits_.push_back(std::move(shiftEdit));
                     }
                 }
 
@@ -1263,13 +1302,22 @@ namespace AGRemapCore {
                     const ModObj slotObj("", component_.slot);
 
                     for (std::size_t group = 0; group < drawn_.size(); ++group) {
-                        if (!slotIndex.has_value()) {
-                            break;
+                        // A source object may be drawn through a slot of its own -- see
+                        // Component::objSlotIndices.
+                        std::optional<std::string> groupSlotIndex = slotIndex;
+                        for (const auto& [obj, index] : component_.objSlotIndices) {
+                            if (obj == drawn_[group]) {
+                                groupSlotIndex = index;
+                                break;
+                            }
+                        }
+                        if (!groupSlotIndex.has_value()) {
+                            continue;
                         }
 
                         auto edit = std::make_unique<RegNewVals<>>(
                             std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
-                                {IniKeywords::MatchFirstIndex, RegNewVals<>::NewValSpec(RegNewVals<>::NewVal(*slotIndex))}});
+                                {IniKeywords::MatchFirstIndex, RegNewVals<>::NewValSpec(RegNewVals<>::NewVal(*groupSlotIndex))}});
                         auto adapter = std::make_unique<RegPartEdit<>>(edit.get());
 
                         indexIniEdits[group].edits[slotObj] = {adapter.get()};
@@ -1313,7 +1361,10 @@ namespace AGRemapCore {
                         renameRule(LightMapReg, {DiffuseReg})});
 
                     auto isFixCall = [](long long, const std::string& value) {
-                        return value == IniKeywords::ORFixPath || value == IniKeywords::NNFixPath;
+                        // Case-insensitively, as 3DMigoto matches a CommandList path: a mod writing
+                        // CommandList\Global\ORFix\ORFix kept its own call beside the re-issued one (2026-09-23).
+                        return StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::ORFixPath) ||
+                               StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::NNFixPath);
                     };
                     removeFixCalls_ = std::make_unique<RegRemove<>>(
                         std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
@@ -1322,6 +1373,25 @@ namespace AGRemapCore {
                     removeDrawIndexed_ = std::make_unique<RegRemove<>>(
                         std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
                             {IniKeywords::DrawIndexed, std::nullopt}});
+
+                    // THE OLD REFLECTION-SUPPORT KEYS NAME THE SOURCE'S OBJECTS (2026-09-24). A pre-ORFix
+                    // mod writes `$CharacterIB = N` and `ResourceRef<Obj>Diffuse = reference ps-t1` next
+                    // to each object's bindings, and a GLOBAL ShaderRegex of its own re-issues
+                    // `drawindexed = auto` on whatever matches, with that texture copied into ps-t0.
+                    // Carried onto a skin, every remapped section keeps arming it with the source's
+                    // object numbering -- twice, once per .ini group -- and Charlotte8's cardigan came
+                    // out on CharlotteHurlock with black shards through it. The classic characters strip
+                    // these one by one (GIMICharFixerConfig::objRegRemovals, "Reflection<Obj>Remove" in
+                    // the pure-Python rows); a skin of several components never wants them, so the
+                    // template strips them for every character.
+                    std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>> reflectionKeys = {
+                        {"$CharacterIB", std::nullopt}};
+                    for (const char* obj : {"Head", "Body", "Dress", "Extra"}) {
+                        for (const char* role : {"Diffuse", "LightMap", "NormalMap"}) {
+                            reflectionKeys.emplace_back(std::string("ResourceRef") + obj + role, std::nullopt);
+                        }
+                    }
+                    removeReflectionKeys_ = std::make_unique<RegRemove<>>(std::move(reflectionKeys));
 
                     // BottomCover: the collects above spliced their registers into `if 1 ... endif`
                     // blocks, which split the section into parts, and the default FillMissing
@@ -1369,6 +1439,7 @@ namespace AGRemapCore {
                     faceAssetAdapter_ = std::make_unique<RegPartEdit<>>(faceAssetRemap_.get());
                     faceSwapAdapter_ = std::make_unique<RegPartEdit<>>(faceRegSwap_.get());
                     removeFixCallsAdapter_ = std::make_unique<RegPartEdit<>>(removeFixCalls_.get());
+                    removeReflectionKeysAdapter_ = std::make_unique<RegPartEdit<>>(removeReflectionKeys_.get());
                     removeDrawIndexedAdapter_ = std::make_unique<RegPartEdit<>>(removeDrawIndexed_.get());
                     fillAdapter_ = std::make_unique<GraphPartEdit<>>(fillDrawIndexed_.get());
                     addFixCallAdapter_ = std::make_unique<GraphPartEdit<>>(addFixCall_.get());
@@ -1436,7 +1507,7 @@ namespace AGRemapCore {
                             keepOwnFixCalls = objFiles != nullptr && objFiles->normalMapLayout && objFiles->ownORFix;
                         }
 
-                        std::vector<ObjGroupEdit::PartEdit*> slotEdits;
+                        std::vector<ObjGroupEdit::PartEdit*> slotEdits = {removeReflectionKeysAdapter_.get()};
                         if (!keepOwnFixCalls) {
                             slotEdits.push_back(removeFixCallsAdapter_.get());
                         }
@@ -1539,6 +1610,7 @@ namespace AGRemapCore {
                 std::vector<std::unique_ptr<TexCreatorCreate<>>> texCreates_;
                 std::vector<std::unique_ptr<Collector>> texAddCollects_;
                 std::vector<std::unique_ptr<RegRemap<>>> regRemaps_;
+                std::vector<std::unique_ptr<RegRemove<>>> regRemoves_;
                 std::vector<std::unique_ptr<RegPartEdit<>>> regRemapAdapters_;
                 std::vector<std::unique_ptr<ObjGroupEdit>> shiftEdits_;
 
@@ -1559,6 +1631,7 @@ namespace AGRemapCore {
                 std::unique_ptr<RegRemap<>> faceRegSwap_;
                 std::unique_ptr<RegRemove<>> removeFixCalls_;
                 std::unique_ptr<RegRemove<>> removeDrawIndexed_;
+                std::unique_ptr<RegRemove<>> removeReflectionKeys_;
                 std::unique_ptr<RegFillMissing<>> fillDrawIndexed_;
                 std::unordered_map<std::string, std::vector<std::size_t>> keptTriangleIds_;
                 std::vector<std::unique_ptr<DrawRangeRemap>> drawRangeRemaps_;
@@ -1579,6 +1652,7 @@ namespace AGRemapCore {
                 std::unique_ptr<RegPartEdit<>> faceAssetAdapter_;
                 std::unique_ptr<RegPartEdit<>> faceSwapAdapter_;
                 std::unique_ptr<RegPartEdit<>> removeFixCallsAdapter_;
+                std::unique_ptr<RegPartEdit<>> removeReflectionKeysAdapter_;
                 std::unique_ptr<RegPartEdit<>> removeDrawIndexedAdapter_;
                 std::unique_ptr<GraphPartEdit<>> fillAdapter_;
                 std::unique_ptr<GraphPartEdit<>> addFixCallAdapter_;

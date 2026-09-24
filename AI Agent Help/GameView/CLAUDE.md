@@ -12,8 +12,10 @@ chooses which mods are loaded.
 really intervene is at the end when they finished the entire remap, and want my final check."**
 Given a remap, the mod folders and the asset folders, the whole pipeline is yours: the downloads,
 the fix, testing **every mod of the character in that folder** in game, and documenting the
-result in the README and Sphinx. Stop early for only four things: the helper's UAC click (below),
-a game login, anything that spends or sends, and a decision the guides say is the maintainer's.
+result in the README and Sphinx. Stop early for only five things: the helper's UAC click (below),
+a game login, anything that spends or sends, a decision the guides say is the maintainer's, and the
+new download folders once step 1 of the remap pipeline has built them (commit them and stop, so the
+maintainer can merge them into GitHub's `master` -- see Creating Remaps' pipeline).
 Everything else, including a failed test, is yours to diagnose and retry. The final check is one
 message, with the evidence (kept screenshots, `pair`s of base vs remap per mod, the warnings that
 remain and why). Read the tool's README for the command reference. This file is how to use it well.
@@ -85,6 +87,9 @@ py -3 main.py mods GIMI restore                                  # at the end: e
   `...RemapFix1.ini` next to the original, expect it under both files: that is a real double
   match to explain, not noise. (Until 2026-09-23 the wait could stop while 3DMigoto was loading
   Resource files, and five Charlotte mods came back "empty" with these warnings in the log.)
+  **If the orange overlay shows warnings the command did not, suspect the tool first** and grep
+  `d3d11_log.txt` after the last `Reloading d3dx.ini`: a branch without the 2026-09-23 fix said
+  "no warnings" for `CharlotteHurlock2` over 47 real ones.
 - **`compare` is the default picture.** It is the same frame with mods and with every mod off
   (F9 held): same pose, camera and light. For a REMAP, "mods off" is the target's own skin, which is the
   baseline for "did the mod replace everything it should". What it does **not** give you is the
@@ -126,6 +131,34 @@ supports. Do not keep routine shots: the folder is committed.
 The character screen's lighting is the same every time, which is why it beats the overworld for
 before/after pairs. Record the exact steps you used (`do --file` keeps them) so the next shot
 repeats the camera.
+
+### The Genshin outfit shop, driven (Charlotte, Hu Tao; 2026-09-23/24)
+
+The shop preview is the fastest before/after rig there is: the base card and the skin card sit side
+by side (top right, view `1285,118` and `1412,118` at 3440x1382), a mod of the base shows on the first
+and a remap onto the skin on the second, or the other way round. What the Charlotte pair taught about
+driving it:
+
+- **A reload (F10) sometimes drops the preview back to the shop GRID** (and sometimes does not): take a
+  screenshot after every `reload` and reopen the outfit card before you click a variant card, or the
+  click lands on another character's card.
+- **The left / right arrows (view `88,328` / `1478,328`) step through the grid in order**, one outfit
+  per click. That is the way from one character's preview to another's without leaving the shop; the
+  "Character Outfits" header top left is NOT a back button. Read the title under the price after each
+  step rather than counting clicks.
+- **`Esc` in a preview hides the UI; a SECOND `Esc` leaves the shop for the overworld and opens the
+  Paimon menu, which prints the account UID top LEFT** -- outside the 4% the tool crops. One screenshot
+  of it was taken and deleted on 2026-09-24. Never press `Esc` twice in the shop, and if you must, do
+  not screenshot until the Paimon menu is closed. Back into the shop from there: the Paimon menu's
+  **Shop** tile (view `162,245`), then **Character Outfits** (view `130,152`), then `scroll -25 --at
+  900 400` for the outfits far down the grid.
+- **Both cards can play the base outfit's idle** (Charlotte's newspaper): the pose does not say which
+  card is shown, and a shot right after a card click can catch the switch. Wait 12 s after a card
+  click, and when two shots of "different cards" look alike, check the title before believing either.
+- **A merged mod's variants cycle on its own key** (`h` / `n` for `namespace_merge.py` masters; the
+  number keys for CharlotteHurlock4) and the master PERSISTS the variable: press it until you are back
+  where you started. A parked master's persisted value is dropped from `d3dx_user.ini` at the next
+  save (the reload says so in a NOTICE) -- restoring the folder brings the mod back, not the variant.
 
 ## Getting a character on screen (WuWa, the maintainer's notes + verified 2026-09-23)
 

@@ -16,6 +16,8 @@
     <includedby refid="_barbara_summertime_fixer_8cpp" local="yes">src/data/IniFixData/BarbaraSummertime/BarbaraSummertimeFixer.cpp</includedby>
     <includedby refid="_bennett_fixer_8cpp" local="yes">src/data/IniFixData/Bennett/BennettFixer.cpp</includedby>
     <includedby refid="_bennett_adventure_fixer_8cpp" local="yes">src/data/IniFixData/BennettAdventure/BennettAdventureFixer.cpp</includedby>
+    <includedby refid="_charlotte_fixer_8cpp" local="yes">src/data/IniFixData/Charlotte/CharlotteFixer.cpp</includedby>
+    <includedby refid="_charlotte_hurlock_fixer_8cpp" local="yes">src/data/IniFixData/CharlotteHurlock/CharlotteHurlockFixer.cpp</includedby>
     <includedby refid="_cherry_hu_tao_fixer_8cpp" local="yes">src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp</includedby>
     <includedby refid="_citlali_fixer_8cpp" local="yes">src/data/IniFixData/Citlali/CitlaliFixer.cpp</includedby>
     <includedby refid="_citlali_whisperof_stars_fixer_8cpp" local="yes">src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp</includedby>
@@ -943,6 +945,10 @@
         </childnode>
         <childnode refid="55" relation="include">
         </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/constants/GIBuilder.cpp</label>
@@ -993,170 +999,178 @@
         <link refid="_bennett_adventure_fixer_8cpp"/>
       </node>
       <node id="14">
+        <label>src/data/IniFixData/Charlotte/CharlotteFixer.cpp</label>
+        <link refid="_charlotte_fixer_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/data/IniFixData/CharlotteHurlock/CharlotteHurlockFixer.cpp</label>
+        <link refid="_charlotte_hurlock_fixer_8cpp"/>
+      </node>
+      <node id="16">
         <label>src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp</label>
         <link refid="_cherry_hu_tao_fixer_8cpp"/>
       </node>
-      <node id="15">
+      <node id="17">
         <label>src/data/IniFixData/Citlali/CitlaliFixer.cpp</label>
         <link refid="_citlali_fixer_8cpp"/>
       </node>
-      <node id="16">
+      <node id="18">
         <label>src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp</label>
         <link refid="_citlali_whisperof_stars_fixer_8cpp"/>
       </node>
-      <node id="17">
+      <node id="19">
         <label>src/data/IniFixData/Diluc/DilucFixer.cpp</label>
         <link refid="_diluc_fixer_8cpp"/>
       </node>
-      <node id="18">
+      <node id="20">
         <label>src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp</label>
         <link refid="_diluc_flamme_fixer_8cpp"/>
       </node>
-      <node id="19">
+      <node id="21">
         <label>src/data/IniFixData/Fischl/FischlFixer.cpp</label>
         <link refid="_fischl_fixer_8cpp"/>
       </node>
-      <node id="20">
+      <node id="22">
         <label>src/data/IniFixData/FischlHighness/FischlHighnessFixer.cpp</label>
         <link refid="_fischl_highness_fixer_8cpp"/>
       </node>
-      <node id="21">
+      <node id="23">
         <label>src/data/IniFixData/Ganyu/GanyuFixer.cpp</label>
         <link refid="_ganyu_fixer_8cpp"/>
       </node>
-      <node id="22">
+      <node id="24">
         <label>src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp</label>
         <link refid="_ganyu_twilight_fixer_8cpp"/>
       </node>
-      <node id="23">
+      <node id="25">
         <label>src/data/IniFixData/HuTao/HuTaoFixer.cpp</label>
         <link refid="_hu_tao_fixer_8cpp"/>
       </node>
-      <node id="24">
+      <node id="26">
         <label>src/data/IniFixData/Jean/JeanFixer.cpp</label>
         <link refid="_jean_fixer_8cpp"/>
       </node>
-      <node id="25">
+      <node id="27">
         <label>src/data/IniFixData/JeanCN/JeanCNFixer.cpp</label>
         <link refid="_jean_c_n_fixer_8cpp"/>
       </node>
-      <node id="26">
+      <node id="28">
         <label>src/data/IniFixData/JeanSea/JeanSeaFixer.cpp</label>
         <link refid="_jean_sea_fixer_8cpp"/>
       </node>
-      <node id="27">
+      <node id="29">
         <label>src/data/IniFixData/Kaeya/KaeyaFixer.cpp</label>
         <link refid="_kaeya_fixer_8cpp"/>
       </node>
-      <node id="28">
+      <node id="30">
         <label>src/data/IniFixData/KaeyaSailwind/KaeyaSailwindFixer.cpp</label>
         <link refid="_kaeya_sailwind_fixer_8cpp"/>
       </node>
-      <node id="29">
+      <node id="31">
         <label>src/data/IniFixData/Keqing/KeqingFixer.cpp</label>
         <link refid="_keqing_fixer_8cpp"/>
       </node>
-      <node id="30">
+      <node id="32">
         <label>src/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp</label>
         <link refid="_keqing_opulent_fixer_8cpp"/>
       </node>
-      <node id="31">
+      <node id="33">
         <label>src/data/IniFixData/Kirara/KiraraFixer.cpp</label>
         <link refid="_kirara_fixer_8cpp"/>
       </node>
-      <node id="32">
+      <node id="34">
         <label>src/data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp</label>
         <link refid="_kirara_boots_fixer_8cpp"/>
       </node>
-      <node id="33">
+      <node id="35">
         <label>src/data/IniFixData/Klee/KleeFixer.cpp</label>
         <link refid="_klee_fixer_8cpp"/>
       </node>
-      <node id="34">
+      <node id="36">
         <label>src/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.cpp</label>
         <link refid="_klee_blossoming_starlight_fixer_8cpp"/>
       </node>
-      <node id="35">
+      <node id="37">
         <label>src/data/IniFixData/Lisa/LisaFixer.cpp</label>
         <link refid="_lisa_fixer_8cpp"/>
       </node>
-      <node id="36">
+      <node id="38">
         <label>src/data/IniFixData/LisaStudent/LisaStudentFixer.cpp</label>
         <link refid="_lisa_student_fixer_8cpp"/>
       </node>
-      <node id="37">
+      <node id="39">
         <label>src/data/IniFixData/Mona/MonaFixer.cpp</label>
         <link refid="_mona_fixer_8cpp"/>
       </node>
-      <node id="38">
+      <node id="40">
         <label>src/data/IniFixData/MonaCN/MonaCNFixer.cpp</label>
         <link refid="_mona_c_n_fixer_8cpp"/>
       </node>
-      <node id="39">
+      <node id="41">
         <label>src/data/IniFixData/Nilou/NilouFixer.cpp</label>
         <link refid="_nilou_fixer_8cpp"/>
       </node>
-      <node id="40">
+      <node id="42">
         <label>src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp</label>
         <link refid="_nilou_breeze_fixer_8cpp"/>
       </node>
-      <node id="41">
+      <node id="43">
         <label>src/data/IniFixData/Ningguang/NingguangFixer.cpp</label>
         <link refid="_ningguang_fixer_8cpp"/>
       </node>
-      <node id="42">
+      <node id="44">
         <label>src/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp</label>
         <link refid="_ningguang_orchid_fixer_8cpp"/>
       </node>
-      <node id="43">
+      <node id="45">
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
-      <node id="44">
+      <node id="46">
         <label>src/data/IniFixData/Rosaria/RosariaFixer.cpp</label>
         <link refid="_rosaria_fixer_8cpp"/>
       </node>
-      <node id="45">
+      <node id="47">
         <label>src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp</label>
         <link refid="_rosaria_c_n_fixer_8cpp"/>
       </node>
-      <node id="46">
+      <node id="48">
         <label>src/data/IniFixData/Sanhua/SanhuaFixer.cpp</label>
         <link refid="_sanhua_fixer_8cpp"/>
       </node>
-      <node id="47">
+      <node id="49">
         <label>src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp</label>
         <link refid="_sanhua_exorcist_fixer_8cpp"/>
       </node>
-      <node id="48">
+      <node id="50">
         <label>src/data/IniFixData/Shenhe/ShenheFixer.cpp</label>
         <link refid="_shenhe_fixer_8cpp"/>
       </node>
-      <node id="49">
+      <node id="51">
         <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
         <link refid="_shenhe_frost_flower_fixer_8cpp"/>
       </node>
-      <node id="50">
+      <node id="52">
         <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
         <link refid="_xiangling_fixer_8cpp"/>
       </node>
-      <node id="51">
+      <node id="53">
         <label>src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp</label>
         <link refid="_xiangling_cheer_fixer_8cpp"/>
       </node>
-      <node id="52">
+      <node id="54">
         <label>src/data/IniFixData/Xingqiu/XingqiuFixer.cpp</label>
         <link refid="_xingqiu_fixer_8cpp"/>
       </node>
-      <node id="53">
+      <node id="55">
         <label>src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp</label>
         <link refid="_xingqiu_bamboo_fixer_8cpp"/>
       </node>
-      <node id="54">
+      <node id="56">
         <label>src/data/IniFixData/Yelan/YelanFixer.cpp</label>
         <link refid="_yelan_fixer_8cpp"/>
       </node>
-      <node id="55">
+      <node id="57">
         <label>src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</label>
         <link refid="_yelan_tranquil_fixer_8cpp"/>
       </node>
@@ -1448,28 +1462,34 @@
 <codeline lineno="1339"><highlight class="normal"></highlight></codeline>
 <codeline lineno="1343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1adaae31c7cfae803ad044bb0068f7efac" kindref="member">citlaliWhisperofStarsEyes6_7</ref>();</highlight></codeline>
 <codeline lineno="1344"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" kindref="member">yelanTranquilBody6_1</ref>();</highlight></codeline>
-<codeline lineno="1346"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a52b8823aca4f15e712953d93319cd846" kindref="member">yelanTranquilBang6_1</ref>();</highlight></codeline>
-<codeline lineno="1351"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28abe81ceeed138ca10039b96346910d" kindref="member">yelanTranquilEye6_1</ref>();</highlight></codeline>
-<codeline lineno="1356"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a02974b8d07fc3de5d09e72a10ba4c8c5" kindref="member">yelanTranquilToYelan6_1</ref>();</highlight></codeline>
+<codeline lineno="1357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a2c8cf19431210fe3c3ecaa8f493d29a7" kindref="member">charlotteHurlockBody6_7</ref>();</highlight></codeline>
+<codeline lineno="1358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af267c3e4248158950ab6095452f5dcbb" kindref="member">charlotteHurlockEyes6_7</ref>();</highlight></codeline>
+<codeline lineno="1363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" kindref="member">yelanTranquilBody6_1</ref>();</highlight></codeline>
+<codeline lineno="1365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a52b8823aca4f15e712953d93319cd846" kindref="member">yelanTranquilBang6_1</ref>();</highlight></codeline>
 <codeline lineno="1370"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0148594d01298b546410e21c4abf87a7" kindref="member">citlaliWhisperofStarsToCitlali6_7</ref>();</highlight></codeline>
-<codeline lineno="1379"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1380"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1381"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1406" refid="class_a_g_remap_core_1_1_ini_fix_builder_data" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a1e204de7c3df0fabad7d32775493e0f6" kindref="member">IniFixBuilderData</ref><sp/>{</highlight></codeline>
-<codeline lineno="1407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="1408"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1409" refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a1e204de7c3df0fabad7d32775493e0f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a1e204de7c3df0fabad7d32775493e0f6" kindref="member">IniFixBuilderData</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1410"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1425"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;const<sp/>IniFixBuilder::ArgsRepo&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a74456d4ba9053093a3797db72cf4ca73" kindref="member">repo</ref>();</highlight></codeline>
-<codeline lineno="1426"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1427"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1428"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1429"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="1374"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28abe81ceeed138ca10039b96346910d" kindref="member">yelanTranquilEye6_1</ref>();</highlight></codeline>
+<codeline lineno="1375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a02974b8d07fc3de5d09e72a10ba4c8c5" kindref="member">yelanTranquilToYelan6_1</ref>();</highlight></codeline>
+<codeline lineno="1389"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0148594d01298b546410e21c4abf87a7" kindref="member">citlaliWhisperofStarsToCitlali6_7</ref>();</highlight></codeline>
+<codeline lineno="1398"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a63c07d7a88a6adefbd17206d942dfcc2" kindref="member">charlotteHurlockToCharlotte6_7</ref>();</highlight></codeline>
+<codeline lineno="1411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1412"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1438" refid="class_a_g_remap_core_1_1_ini_fix_builder_data" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a1e204de7c3df0fabad7d32775493e0f6" kindref="member">IniFixBuilderData</ref><sp/>{</highlight></codeline>
+<codeline lineno="1439"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="1440"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1441" refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a1e204de7c3df0fabad7d32775493e0f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a1e204de7c3df0fabad7d32775493e0f6" kindref="member">IniFixBuilderData</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1442"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1457"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;const<sp/>IniFixBuilder::ArgsRepo&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a74456d4ba9053093a3797db72cf4ca73" kindref="member">repo</ref>();</highlight></codeline>
+<codeline lineno="1458"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1459"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1460"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1461"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/data/IniFixBuilderData.h"/>
   </compounddef>

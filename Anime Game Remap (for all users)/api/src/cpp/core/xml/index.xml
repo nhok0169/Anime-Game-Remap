@@ -769,6 +769,23 @@
     <member refid="class_a_g_remap_core_1_1_call_graph_1afac9340fe42a5635e89959ecadeb5b97" kind="function"><name>rootNodes</name></member>
     <member refid="class_a_g_remap_core_1_1_call_graph_1af2e011ac9dc642227e8fd244cbb8c3b8" kind="function"><name>exitNodeOf</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_charlotte_fixer" kind="class"><name>AGRemapCore::CharlotteFixer</name>
+    <member refid="class_a_g_remap_core_1_1_charlotte_fixer_1a280ad1997868f928fd32353ca2900924" kind="function"><name>CharlotteFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_charlotte_fixer_1a6a4e7aa265b0433b63511b2d6185302e" kind="function"><name>body6_7</name></member>
+    <member refid="class_a_g_remap_core_1_1_charlotte_fixer_1abf70ee70fdde5e548bff77881d011074" kind="function"><name>eyes6_7</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_charlotte_hurlock_fixer" kind="class"><name>AGRemapCore::CharlotteHurlockFixer</name>
+    <member refid="class_a_g_remap_core_1_1_charlotte_hurlock_fixer_1a96507e33e8614ab10e59fb880156121a" kind="function"><name>CharlotteHurlockFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_charlotte_hurlock_fixer_1af900d2a580beb7f7f456af352ea076bb" kind="function"><name>toCharlotte6_7</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_charlotte_hurlock_parser" kind="class"><name>AGRemapCore::CharlotteHurlockParser</name>
+    <member refid="class_a_g_remap_core_1_1_charlotte_hurlock_parser_1adb58653a9c756fcf10a94280a5489aae" kind="function"><name>CharlotteHurlockParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_charlotte_hurlock_parser_1ad197da7d9de9774fff445f03ae09a975" kind="function"><name>v6_7</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_charlotte_parser" kind="class"><name>AGRemapCore::CharlotteParser</name>
+    <member refid="class_a_g_remap_core_1_1_charlotte_parser_1af076b94e326b0e947e9db5030c6b5812" kind="function"><name>CharlotteParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_charlotte_parser_1a6e541b8b9b6bd6c10ad0c3cdd0b6c4c0" kind="function"><name>v4_0</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_cherry_hu_tao_fixer" kind="class"><name>AGRemapCore::CherryHuTaoFixer</name>
     <member refid="class_a_g_remap_core_1_1_cherry_hu_tao_fixer_1ab3af81f491a19580d13ccd3a66e0dd01" kind="function"><name>CherryHuTaoFixer</name></member>
     <member refid="class_a_g_remap_core_1_1_cherry_hu_tao_fixer_1a77237bf8930b3187867b37765f499ff6" kind="function"><name>v6_1</name></member>
@@ -845,6 +862,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1abc2e02f12cd1943aad220c26f9fbc09a" kind="variable"><name>modTypeName</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ad008bff7447c546064b38ebc309a3683" kind="variable"><name>slot</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a604b4ce3410b8e5e720a59d807bb8e89" kind="variable"><name>slotIndex</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a80381192297836d8fd300ac00c1b856f" kind="variable"><name>objSlotIndices</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1acf7ef1b1d9d5108f03f885580d4d9d63" kind="variable"><name>negativeIndex</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a41fc1fe25b79dd9a3fecf1691285ca04" kind="variable"><name>normalMap</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7760edfd8956346f514455eced0a1ad7" kind="variable"><name>face</name></member>
@@ -1167,6 +1185,8 @@
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a070e05a35ad4e430318475bf44ca226b" kind="function"><name>barbaraSummerTime</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a3b535ad6c18ef8eeba719479a498b3f2" kind="function"><name>bennett</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a7c854e74e419fcf666532712b4376501" kind="function"><name>bennettAdventure</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a3869183ba4bde49f3adcb2d140997c72" kind="function"><name>charlotte</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a196e2d91855d0f97318f58ccde38b5f9" kind="function"><name>charlotteHurlock</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1aaf132ba66f0d0a4c556c776e458d431a" kind="function"><name>cherryHutao</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1aa1eef897cefb44ea99e37e5d5f38f010" kind="function"><name>citlali</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a608d667d591417c587f830fc361bb63b" kind="function"><name>citlaliWhisperofStars</name></member>
@@ -1272,6 +1292,11 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a88d0ad61a114ed71ea76dc2d31d40ae8" kind="variable"><name>sourceLayout</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4a3452953a770a968f699df3d639bef" kind="variable"><name>faceSwapOnlyFromDiffuseReg</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1af4e7a7c6ad78febe612b368f4c4894b0" kind="variable"><name>copyPreamble</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts" kind="class"><name>AGRemapCore::GIMIComponentParseFacts</name>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1a93cc82dfad0b283f35a41a17d41a74bb" kind="function"><name>~GIMIComponentParseFacts</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1a4075f7c93d5a18acb244ad25f910486a" kind="function"><name>hasRemappableContent</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1adb8ccdf4a9af3dd9fe5606e030e141b4" kind="function"><name>isSlotUndrawn</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config" kind="struct"><name>AGRemapCore::GIMIComponentParserConfig</name>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1abb6bbbcf2e357924068a8ca817f2bbc3" kind="variable"><name>modTypeId</name></member>
@@ -2385,11 +2410,14 @@
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aae3209df0e33ccb63765acd862ac2227" kind="function"><name>citlaliWhisperofStarsBody6_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aab710e60c9e04a9f98722c7a52885093" kind="function"><name>citlaliWhisperofStarsBangs6_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1adaae31c7cfae803ad044bb0068f7efac" kind="function"><name>citlaliWhisperofStarsEyes6_7</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a2c8cf19431210fe3c3ecaa8f493d29a7" kind="function"><name>charlotteHurlockBody6_7</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af267c3e4248158950ab6095452f5dcbb" kind="function"><name>charlotteHurlockEyes6_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" kind="function"><name>yelanTranquilBody6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a52b8823aca4f15e712953d93319cd846" kind="function"><name>yelanTranquilBang6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28abe81ceeed138ca10039b96346910d" kind="function"><name>yelanTranquilEye6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a02974b8d07fc3de5d09e72a10ba4c8c5" kind="function"><name>yelanTranquilToYelan6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0148594d01298b546410e21c4abf87a7" kind="function"><name>citlaliWhisperofStarsToCitlali6_7</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a63c07d7a88a6adefbd17206d942dfcc2" kind="function"><name>charlotteHurlockToCharlotte6_7</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_fix_context" kind="class"><name>AGRemapCore::IniFixContext</name>
     <member refid="class_a_g_remap_core_1_1_ini_fix_context_1aae1aaacec327c0a95e452402a3874f2a" kind="typedef"><name>GraphGroups</name></member>
@@ -2635,12 +2663,14 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a974edb415d25e1ea9b4aadd28673f97c" kind="function"><name>bennett4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a708be8ac73083c2a14454469100c9b92" kind="function"><name>bennettAdventure5_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7a43e27b4ab63840fd41be6e297828b5" kind="function"><name>citlali5_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a5afc4d4f76976aaa18ecfe0d80c92b32" kind="function"><name>charlotte4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ad2295a98e4a4012930182f549a649b3d" kind="function"><name>yelan4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a1dfbd9c7f560ecc483edf014bfc803d4" kind="function"><name>wwmiStub</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac06832891ae4c3e507b130b1ebdf4a3a" kind="function"><name>sanhua2_5</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a1a5b75132e61479cf3e35918c9e149aa" kind="function"><name>sanhuaExorcist2_5</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7d30d1abce22b6dc5f644d8ff225e123" kind="function"><name>yelanTranquil5_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8e18205ea433a4d25c6fe6c663dbe376" kind="function"><name>citlaliWhisperofStars6_7</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a13308c49b1f5b66c810a0e984d25ed49" kind="function"><name>charlotteHurlock6_7</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_parse_context" kind="class"><name>AGRemapCore::IniParseContext</name>
     <member refid="class_a_g_remap_core_1_1_ini_parse_context_1a2e1b4ada0f5bd8aaf5d1f6167cd6e250" kind="typedef"><name>Section</name></member>
@@ -2714,6 +2744,8 @@
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ad8203cb907fa5fcd8e1ded1e1b647aa6" kind="function"><name>barbaraSummertime4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a59a1a0dc38f60d991876b8f613b5ff46" kind="function"><name>bennett4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ab8c1eb7f577ce11ca89b48ae61d1ec4c" kind="function"><name>bennettAdventure4_0</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a569f08273a3396438426626e0ffe4be7" kind="function"><name>charlotte4_0</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1afad58848132c564825642d022eb561b1" kind="function"><name>charlotteHurlock4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aad350e2f17f6f39142448128122eaafb" kind="function"><name>cherryHuTao4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a3298c1e57701543405630783927e4300" kind="function"><name>citlali4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a69e72d8690788ae09776c3213b87f9f7" kind="function"><name>citlaliWhisperofStars4_0</name></member>
@@ -3763,6 +3795,7 @@
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a550c8407da76f287025fab9143959a4f" kind="function"><name>makeFillMissing</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1abb20e4e069fa2f522157a40bdbe2fe29" kind="function"><name>makeFillMissing</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1aead95cbdb950e99aca4384e1e3eb19be" kind="function"><name>fillMissingGraph</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac419c260824dbadd77f27967d3ec340a" kind="function"><name>guardedBranchEnd</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1aee8de30eef8ee5377083a0cc136c040a" kind="function"><name>addCover</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a09778dba6ab55ec550f62f53622ce7bd" kind="function"><name>addBottomCover</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1aaded3ba4cce6cef2b6de20023850ceb1" kind="function"><name>editImpl</name></member>
@@ -5213,6 +5246,12 @@
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa511383b00782b33bfb3bce3c9d296cb3" kind="enumvalue"><name>BennettAdventureBody</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa016c466d1f01613e01cf83b500d738b0" kind="enumvalue"><name>BennettAdventureBang</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa93bf0d364640f8a902230e42c47e8c58" kind="enumvalue"><name>BennettAdventureEye</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa7647b2d875a94093cbc99f6f2cbfda77" kind="enumvalue"><name>Charlotte</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab9ce490c26f3909498095fef567ee52b" kind="enumvalue"><name>CharlotteHurlock</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa061afa75c70f7eb1dbd26efe77c9ca14" kind="enumvalue"><name>CharlotteHurlockBody</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa897816e75d1933a718f2a3f3e62bf529" kind="enumvalue"><name>CharlotteHurlockBangs</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faba0417cfbc8c3cfe4fe606ee671be92f" kind="enumvalue"><name>CharlotteHurlockEyes</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fade07839986c676a87162171b48e4346c" kind="enumvalue"><name>CharlotteHurlockCamera</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadf7f24a1a17f81e22fb50aed81e3f2ba" kind="enumvalue"><name>CherryHuTao</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa7a53d5ec094ed600c14afe50363e828" kind="enumvalue"><name>Citlali</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa3e1587ef8f372cf845cce9fa17b4a6b9" kind="enumvalue"><name>CitlaliWhisperofStars</name></member>
@@ -5262,9 +5301,12 @@
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faad4dd9ad68d37a02b63c30efe227558d" kind="enumvalue"><name>YelanTranquilEye</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e5b87c395273646f1f7267f2de3ba63" kind="enumvalue"><name>Sanhua</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa20a11d20a03cacc27e48688909994c25" kind="enumvalue"><name>SanhuaExorcist</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa74e403d261b9f7b084acf93c0c589818" kind="enumvalue"><name>Chisa</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faf43a1e165e9727c43bb91ed166a41652" kind="enumvalue"><name>ChisaParfait</name></member>
     <member refid="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274e" kind="enum"><name>RegDelimitedAddMode</name></member>
     <member refid="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274ead74510f2e2306921c80274d079e2981a" kind="enumvalue"><name>PerSegment</name></member>
     <member refid="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274ea123b82aabcae3a4cf39fdc4bf4108bb2" kind="enumvalue"><name>PerPath</name></member>
+    <member refid="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274eaf0fcde562336c59fde77f64a268d603d" kind="enumvalue"><name>PerBindingGeneration</name></member>
     <member refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106" kind="enum"><name>RegFillMissingMode</name></member>
     <member refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106ab09082129e5162de4092eba7e8775807" kind="enumvalue"><name>FillMissing</name></member>
     <member refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106a5f661b94a3970374f336519a3c5c854f" kind="enumvalue"><name>TopdownCover</name></member>
@@ -5611,6 +5653,10 @@
   </compound>
   <compound refid="_bennett_adventure_fixer_8h" kind="file"><name>BennettAdventureFixer.h</name>
   </compound>
+  <compound refid="_charlotte_fixer_8h" kind="file"><name>CharlotteFixer.h</name>
+  </compound>
+  <compound refid="_charlotte_hurlock_fixer_8h" kind="file"><name>CharlotteHurlockFixer.h</name>
+  </compound>
   <compound refid="_cherry_hu_tao_fixer_8h" kind="file"><name>CherryHuTaoFixer.h</name>
   </compound>
   <compound refid="_citlali_fixer_8h" kind="file"><name>CitlaliFixer.h</name>
@@ -5736,6 +5782,10 @@
   <compound refid="_bennett_parser_8h" kind="file"><name>BennettParser.h</name>
   </compound>
   <compound refid="_bennett_adventure_parser_8h" kind="file"><name>BennettAdventureParser.h</name>
+  </compound>
+  <compound refid="_charlotte_parser_8h" kind="file"><name>CharlotteParser.h</name>
+  </compound>
+  <compound refid="_charlotte_hurlock_parser_8h" kind="file"><name>CharlotteHurlockParser.h</name>
   </compound>
   <compound refid="_cherry_hu_tao_parser_8h" kind="file"><name>CherryHuTaoParser.h</name>
   </compound>
@@ -6344,6 +6394,8 @@
   <compound refid="_bennett_fixer_8cpp" kind="file"><name>BennettFixer.cpp</name>
   </compound>
   <compound refid="_bennett_adventure_fixer_8cpp" kind="file"><name>BennettAdventureFixer.cpp</name>
+  </compound>
+  <compound refid="_charlotte_fixer_8cpp" kind="file"><name>CharlotteFixer.cpp</name>
   </compound>
   <compound refid="_cherry_hu_tao_fixer_8cpp" kind="file"><name>CherryHuTaoFixer.cpp</name>
   </compound>

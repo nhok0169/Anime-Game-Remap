@@ -95,6 +95,16 @@ class ModTypes(StrEnum, DeferredEnum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(bennettadventure).*\]``
 
+    Charlotte: :class:`ModType`
+        **Charlotte mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(charlotte)((?!hurlock).)*\]``
+
+    CharlotteHurlock: :class:`ModType`
+        **Charlotte Hurlock mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(charlottehurlock).*\]``
+
     CherryHuTao: :class:`ModType`
         **Hu Tao Lantern Rite mods** :raw-html:`<br />`
 
@@ -325,6 +335,8 @@ class ModTypes(StrEnum, DeferredEnum):
     BarbaraSummertime = (GIBuilder.barbaraSummerTime, )
     Bennett = (GIBuilder.bennett, )
     BennettAdventure = (GIBuilder.bennettAdventure, )
+    Charlotte = (GIBuilder.charlotte, )
+    CharlotteHurlock = (GIBuilder.charlotteHurlock, )
     CherryHuTao = (GIBuilder.cherryHutao, )
     Chisa = (WWMIBuilder.chisa, )
     ChisaParfait = (WWMIBuilder.chisaParfait, )

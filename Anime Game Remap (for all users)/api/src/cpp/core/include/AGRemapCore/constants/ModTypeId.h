@@ -112,6 +112,45 @@ namespace AGRemapCore {
         BennettAdventureEye,
 
         /**
+         * @brief Charlotte from GI
+         */
+        Charlotte,
+
+        /**
+         * @brief Charlotte outfit skin (Hurlock) from GI -- FOUR skinned components (Body, Bangs, Eyes, Camera)
+         */
+        CharlotteHurlock,
+
+        /**
+         * @brief
+         @rst
+         CharlotteHurlock's ``Body`` component, as a fix TARGET :raw-html:`<br />` :raw-html:`<br />`
+
+         The same arrangement as :cpp:enumerator:`CitlaliWhisperofStarsBody` and :cpp:enumerator:`BennettAdventureBody`:
+         a skin of several components is fixed by one fixer per component, and the tables those fixers read
+         are keyed by a mod type NAME, so each component is a mod type of its own for their purposes.
+         Nothing classifies a ``.ini`` file AS one of these; the skin itself is
+         :cpp:enumerator:`CharlotteHurlock`, whose vertex-group rows are keyed by component
+         @endrst
+         */
+        CharlotteHurlockBody,
+
+        /**
+         * @brief CharlotteHurlock's ``Bangs`` component, as a fix target -- see :cpp:enumerator:`CharlotteHurlockBody`
+         */
+        CharlotteHurlockBangs,
+
+        /**
+         * @brief CharlotteHurlock's ``Eyes`` component, as a fix target -- see :cpp:enumerator:`CharlotteHurlockBody`
+         */
+        CharlotteHurlockEyes,
+
+        /**
+         * @brief CharlotteHurlock's ``Camera`` component (the camera the skin carries at her hip), as a fix target -- see :cpp:enumerator:`CharlotteHurlockBody`
+         */
+        CharlotteHurlockCamera,
+
+        /**
          * @brief Hu Tao Lantern Rite skin from GI
          */
         CherryHuTao,

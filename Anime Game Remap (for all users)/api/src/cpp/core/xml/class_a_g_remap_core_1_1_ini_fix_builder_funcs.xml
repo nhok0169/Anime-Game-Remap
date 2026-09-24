@@ -1589,7 +1589,7 @@ Builds a :cpp:class:`GIMIFixer` over the four mod objects
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="849" column="43" bodyfile="src/data/IniFixData/Raiden/RaidenFixer.cpp" bodystart="423" bodyend="427"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="849" column="43" bodyfile="src/data/IniFixData/Raiden/RaidenFixer.cpp" bodystart="427" bodyend="431"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9427e3264381a4f320b7274f36432cb2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2472,6 +2472,44 @@ three built from one :cpp:class:`GIMIComponentFixerConfig`. See
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1343" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="129" bodyend="131"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a2c8cf19431210fe3c3ecaa8f493d29a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::charlotteHurlockBody6_7</definition>
+        <argsstring>()</argsstring>
+        <name>charlotteHurlockBody6_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::charlotteHurlockBody6_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.7 fix remapping **Charlotte onto CharlotteHurlock&apos;s Body** :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The FOURTH remap onto a skin of several components. One fixer per target component the
+mod reaches (the Body and the Eyes -- the skin&apos;s Bangs and Camera are hidden), both
+built from one :cpp:class:`GIMIComponentFixerConfig`. See
+``data/IniFixData/Charlotte/CharlotteFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1357" column="43" bodyfile="src/data/IniFixData/Charlotte/CharlotteFixer.cpp" bodystart="102" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af267c3e4248158950ab6095452f5dcbb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::charlotteHurlockEyes6_7</definition>
+        <argsstring>()</argsstring>
+        <name>charlotteHurlockEyes6_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::charlotteHurlockEyes6_7</qualifiedname>
+        <briefdescription>
+<para>The 6.7 fix remapping <bold>Charlotte onto CharlotteHurlock&apos;s Eyes</bold> <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a2c8cf19431210fe3c3ecaa8f493d29a7" kindref="member">charlotteHurlockBody6_7</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1362" column="43" bodyfile="src/data/IniFixData/Charlotte/CharlotteFixer.cpp" bodystart="107" bodyend="109"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
         <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::yelanTranquilBody6_1</definition>
@@ -2484,7 +2522,7 @@ three built from one :cpp:class:`GIMIComponentFixerConfig`. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1345" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="135" bodyend="137"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1364" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="135" bodyend="137"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a52b8823aca4f15e712953d93319cd846" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2499,7 +2537,7 @@ three built from one :cpp:class:`GIMIComponentFixerConfig`. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1350" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="140" bodyend="142"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1369" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="140" bodyend="142"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28abe81ceeed138ca10039b96346910d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2514,7 +2552,7 @@ three built from one :cpp:class:`GIMIComponentFixerConfig`. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1355" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="145" bodyend="147"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1374" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="145" bodyend="147"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a02974b8d07fc3de5d09e72a10ba4c8c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2537,7 +2575,7 @@ components are merged into one ``.ini`` file over one set of buffers. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1369" column="43" bodyfile="src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp" bodystart="155" bodyend="157"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1388" column="43" bodyfile="src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp" bodystart="155" bodyend="157"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0148594d01298b546410e21c4abf87a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2555,7 +2593,29 @@ onto a target of one, and the inverse of :cpp:class:`CitlaliFixer`&apos;s direct
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1378" column="43" bodyfile="src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp" bodystart="133" bodyend="135"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1397" column="43" bodyfile="src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp" bodystart="133" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a63c07d7a88a6adefbd17206d942dfcc2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::charlotteHurlockToCharlotte6_7</definition>
+        <argsstring>()</argsstring>
+        <name>charlotteHurlockToCharlotte6_7</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::charlotteHurlockToCharlotte6_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.7 fix remapping **CharlotteHurlock onto Charlotte** :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The FOURTH merge of a skin of several components onto a target of one, and the
+inverse of :cpp:func:`charlotteHurlockBody6_7` / :cpp:func:`charlotteHurlockEyes6_7`.
+See ``data/IniFixData/CharlotteHurlock/CharlotteHurlockFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1410" column="43" bodyfile="src/data/IniFixData/CharlotteHurlock/CharlotteHurlockFixer.cpp" bodystart="95" bodyend="97"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -2590,7 +2650,7 @@ each returning the :cpp:type:`IniFixBuilder::Factory` for that pair
    actually needs them
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="55" column="5" bodyfile="include/AGRemapCore/data/IniFixBuilderData.h" bodystart="55" bodyend="1380"/>
+    <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="55" column="5" bodyfile="include/AGRemapCore/data/IniFixBuilderData.h" bodystart="55" bodyend="1412"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0974b6741bb33f11bd90e970ec6139e9" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>amber4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ab194bb3d4062215bfb52bd57a6fff1df" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>amber5_7</name></member>
@@ -2618,6 +2678,9 @@ each returning the :cpp:type:`IniFixBuilder::Factory` for that pair
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae8c888df890e0536514fac7bdbaa0926" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>bennettAdventureBody6_1</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a22c13f14a5950b5c1d605129617b7024" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>bennettAdventureEye6_1</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a66f87ab2a1f3a6f2cc9e3bcf093d7ee3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>bennettAdventureToBennett6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a2c8cf19431210fe3c3ecaa8f493d29a7" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>charlotteHurlockBody6_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af267c3e4248158950ab6095452f5dcbb" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>charlotteHurlockEyes6_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a63c07d7a88a6adefbd17206d942dfcc2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>charlotteHurlockToCharlotte6_7</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a1220a1dc58682b9f9e2a01619d5a1fb5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>cherryHuTao5_3</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac1431b8ec88a3bfc072d627ae7f5774e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>cherryHuTao6_1</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aab710e60c9e04a9f98722c7a52885093" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>citlaliWhisperofStarsBangs6_7</name></member>

@@ -59,6 +59,24 @@ namespace AGRemapCore {
             case static_cast<int>(ModTypeId::BennettAdventureEye):
                 return ModTypeId::BennettAdventureEye;
 
+            case static_cast<int>(ModTypeId::Charlotte):
+                return ModTypeId::Charlotte;
+
+            case static_cast<int>(ModTypeId::CharlotteHurlock):
+                return ModTypeId::CharlotteHurlock;
+
+            case static_cast<int>(ModTypeId::CharlotteHurlockBody):
+                return ModTypeId::CharlotteHurlockBody;
+
+            case static_cast<int>(ModTypeId::CharlotteHurlockBangs):
+                return ModTypeId::CharlotteHurlockBangs;
+
+            case static_cast<int>(ModTypeId::CharlotteHurlockEyes):
+                return ModTypeId::CharlotteHurlockEyes;
+
+            case static_cast<int>(ModTypeId::CharlotteHurlockCamera):
+                return ModTypeId::CharlotteHurlockCamera;
+
             case static_cast<int>(ModTypeId::CherryHuTao):
                 return ModTypeId::CherryHuTao;
 
@@ -259,6 +277,24 @@ namespace AGRemapCore {
 
             case ModTypeId::BennettAdventureEye:
                 return "BennettAdventureEye";
+
+            case ModTypeId::Charlotte:
+                return "Charlotte";
+
+            case ModTypeId::CharlotteHurlock:
+                return "CharlotteHurlock";
+
+            case ModTypeId::CharlotteHurlockBody:
+                return "CharlotteHurlockBody";
+
+            case ModTypeId::CharlotteHurlockBangs:
+                return "CharlotteHurlockBangs";
+
+            case ModTypeId::CharlotteHurlockEyes:
+                return "CharlotteHurlockEyes";
+
+            case ModTypeId::CharlotteHurlockCamera:
+                return "CharlotteHurlockCamera";
 
             case ModTypeId::CherryHuTao:
                 return "CherryHuTao";
@@ -493,6 +529,15 @@ namespace AGRemapCore {
             case ModTypeId::BennettAdventure:
                 return {ModTypeId::Bennett};
 
+            // As Bennett and Citlali: the targets are the skin's four COMPONENT ids, not the skin itself.
+            // CharlotteHurlock remaps back onto plain Charlotte, who is one mesh. The skin's Camera is a
+            // component of its own (a prop at her hip); Charlotte has none, so the forward fix hides it.
+            case ModTypeId::Charlotte:
+                return {ModTypeId::CharlotteHurlockBody, ModTypeId::CharlotteHurlockBangs, ModTypeId::CharlotteHurlockEyes, ModTypeId::CharlotteHurlockCamera};
+
+            case ModTypeId::CharlotteHurlock:
+                return {ModTypeId::Charlotte};
+
             case ModTypeId::CherryHuTao:
                 return {ModTypeId::HuTao};
 
@@ -652,6 +697,9 @@ namespace AGRemapCore {
             case ModTypeId::CitlaliWhisperofStars:
                 return {ModTypeId::CitlaliWhisperofStarsBody, ModTypeId::CitlaliWhisperofStarsBangs, ModTypeId::CitlaliWhisperofStarsEyes};
 
+            case ModTypeId::CharlotteHurlock:
+                return {ModTypeId::CharlotteHurlockBody, ModTypeId::CharlotteHurlockBangs, ModTypeId::CharlotteHurlockEyes, ModTypeId::CharlotteHurlockCamera};
+
             // Every other mod type is one mesh. The component ids themselves included -- a
             // component has no components of its own.
             default:
@@ -706,6 +754,12 @@ namespace AGRemapCore {
 
             case ModTypeId::BennettAdventure:
                 return {"bennettadventure"};
+
+            case ModTypeId::Charlotte:
+                return {"charlotte"};
+
+            case ModTypeId::CharlotteHurlock:
+                return {"charlottehurlock"};
 
             case ModTypeId::CherryHuTao:
                 return {"cherryhutao", "hutaocherry"};

@@ -358,6 +358,21 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Where a fill of 'part' belongs when 'section' is a namespace-merged mod's guarded
+             section -- a root part of matching settings only, then one ``if ... endif`` with no
+             ``else`` -- namely the end of that guarded branch; 'part' itself otherwise
+             @endrst
+             *
+             * @param section The `section`_ 'part' was reported missing in, or ``nullptr``
+             * @param part The part getKeyMissingParts reported
+             *
+             * @return The part to fill
+             */
+            static ContentPart* guardedBranchEnd(Section* section, ContentPart* part);
+
+            /**
+             * @brief
+             @rst
              Fills a fresh top :cpp:class:`IfContentPart` at each of 'graph''s roots, if 'reg' is
              missing in some :cpp:class:`IfContentPart` of 'graph' :raw-html:`<br />`
              :raw-html:`<br />`

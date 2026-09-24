@@ -18,7 +18,7 @@ yourself** and hand the maintainer one final check at the end (Overview habit 69
 
 | # | step | where the detail is |
 | --- | --- | --- |
-| 1 | **Add the downloads** for both characters | "The download assets" and "Proving a NEW download folder". GI: `Tools/Misc/Prototypes/giDownloadFolder.py`. WuWa: `wwmiDownloadFolder.py`, or `wwmiExtractDump.py` over a frame dump (`Tools/GameView` takes one) |
+| 1 | **Add the downloads** for both characters, **commit them, then STOP and tell the maintainer** so they can merge them into GitHub's `master` before you go on | "The download assets" and "Proving a NEW download folder". GI: `Tools/Misc/Prototypes/giDownloadFolder.py`. WuWa: `wwmiDownloadFolder.py`, or `wwmiExtractDump.py` over a frame dump (`Tools/GameView` takes one) |
 | 2 | **Make the RemapDraft** (`Data/RemapDrafts/<Char>RemapDraft.xlsx`, both directions, `Credits` sheet) | [Vertex Group Remaps](../VGRemaps/CLAUDE.md), `Tools/VGRemapFinder` |
 | 3 | **Populate the mod data in the API**: the `ModTypeId`s, vertex group remap, hashes, indices, vertex counts (and WuWa's four extra tables) | "Adding a `ModTypeId`: every place it enters", then bump the `core/tests` counts |
 | 4 | **Make IDENTITY mods for both the original character and their skin**: each one's own model written out as a mod, every object, vertex group, texture and material band of the real model in one folder | GI: `Tools/Misc/Prototypes/identityMod.py <PlayerCharacterData/Name> <mod folder>` ("The Yelan lessons, for ANY new remap", point 1). WuWa: `Tools/Misc/Prototypes/wwmiIdentityMod.py <asset folder> <mod folder> [--name <Skin>]`, from a frame dump via `wwmiExtractDump.py` when WWMI-Assets lacks the character (the Chisa pair). The source's identity mod is the first mod every prototype is tested on; the target's is the ground truth for its register layout and band legend ("A REMAPPED SECTION MAY BIND ONLY WHAT THE TARGET'S SLOT BINDS"), and the first mod the reverse direction is tested on |
@@ -33,6 +33,13 @@ yourself** and hand the maintainer one final check at the end (Overview habit 69
 | 13 | **Document it**: README tables and the Sphinx docs | "Closing out a remap" and `Tools/Misc/Diagnostics/checkModTypeTables.py` (not done until it prints `ALL FOUR AGREE WITH THE LIBRARY`), plus regenerated `core/xml` / `core.pyi` for any new class |
 
 What the order is for:
+
+- **Stop after step 1, once, for the maintainer to merge the downloads (their rule, 2026-09-23).**
+  Commit the new `Data/Mod Downloads` folders on their own (nothing else in that commit), tell the
+  maintainer they are ready, and wait for them to say `master` has them. The fix fetches downloads
+  from `master` at run time (`DownloadTools`' base URL), so every test from step 5 on would
+  otherwise hit 404s -- which surface as dangling `...RemapDL` references and a light map band
+  output that changes run to run, not as an error.
 
 - **Prototype before port, both times.** A rebuild per idea is what the prototype saves (the
   `CppStrategyOverrides` route), and the prototype stays as the ORACLE the compiled fix is A/B'd
@@ -67,6 +74,12 @@ surprises you.
 | **"it works on one mod and not another"** | "Triage: a merged mod that works on one variant and not the others", "FIXING A MERGED MASTER", "A MERGED MOD'S DISABLED VARIANTS CARRY STALE HASHES", and "CHOOSING TEST MODS: VARY THE STRUCTURE, NOT THE CHARACTER" |
 | **"a part is missing / still the skin's own"** | "A TARGET COMPONENT NOTHING IS REMAPPED ONTO STILL DRAWS THE SKIN'S OWN GEOMETRY", "A TARGET OBJECT SEVERAL COMPONENTS MERGE ONTO IS NOT ONE DRAW", "A mod that is MISSING a whole component" |
 | **an undo left something behind** | "Undo is only as complete as what the fix wrote INSIDE its block" |
+| **"in game it looks exactly like the target's own model"** -- the fix seems not to have loaded | DUMP A FRAME AND GREP ITS LOG before touching code ([Overview](../Overview/CLAUDE.md)'s habit 73): it says which of your sections fired, whether the skip took and what drew. On CharlotteHurlock it showed a merge whose members never drew -- "CHARLOTTE <-> CHARLOTTEHURLOCK", point 4 |
+| a mod with **no mesh sections** (a texture-only recolour, a toggle or help-menu `.ini`), or a **`namespace_merge.py`** merge (`Master<Char>.ini` + every key under `if $\<Char>\Master\swapvar`) | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 5, then "A NAMESPACE-MERGED MOD WRITES EVERYTHING INSIDE ONE `if`". Both shapes have their own handling now; a watcher file gets only its own sections on the target's hashes |
+| **an outline or TexFx effect looks wrong** on a merged skin | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 6. A carried member's `ps-t69` / `ps-t70` is cleared after its draw; an effect that still looks different on the target is the AUTHOR's, and the maintainer's call (2026-09-24) is to keep it |
+| **black shards / lighting-shaped dark patches** on one object of a component remap, on some mods and not the identity | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 8: the target SLOT decides the pixel shader. Hand-edit that group's `match_first_index` to another slot of the component and reload before theorising; `Component::objSlotIndices` then routes the object for good |
+| **stretched triangles** reaching from one part to another (skirt up to the chest) on a MERGE, on one mod and not the identity, with a vertex group table that looks right | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 9: list the slot sections the MOD declares. A slot it leaves out under a component `handling = skip` was being downloaded and drawn over the mod's own vertices. Comment out that slot's `run =` in the fixed `.ini` and reload to confirm in one step |
+| **the remapped mod is a DIFFERENT COLOUR from the same mod on its own character** (CharlotteHurlock5: turquoise on the skin, red on Charlotte) | Usually NOT a fix bug ([Overview](../Overview/CLAUDE.md)'s habit 80). Open the mod's own diffuse (Pillow reads the `.dds`) and run `reload --mod` on it. If the texture already has the "wrong" colour and the SOURCE's own sections show `Unrecognised entry: resource\gimi\...` / `run = commandlist\gimi\settextures`, the maintainer's old-loader GIMI never binds the mod's textures on its own character. The fix normalises those lines into `ps-t` bindings, so the remap is the first place the author's real colours show. The maintainer's call (2026-09-24): not our problem |
 | the remap **works and you are finishing up** | "Verifying", then "Closing out a remap" --- five files and a regenerated `core/xml`, and the vertex-group draft's `Credits` sheet |
 
 Four things hold whichever row you are on, and each has cost a session:
@@ -1301,6 +1314,197 @@ syntax (normalized since); and a merged member's own toggles being lost (carried
 
 <br>
 
+## CHARLOTTE <-> CHARLOTTEHURLOCK (2026-09-23/24): the fourth component pair, and nine things none of the earlier pairs could show
+
+The first pair run end to end through the thirteen-step pipeline above, by an agent with `Tools/GameView`
+and no round trip through the maintainer. Charlotte is ONE mesh (`head` at 0, `body` at 23271, 17790
+vertices, texcoord stride 12); CharlotteHurlock is FOUR components -- `Body` (slots A 0 / B 53529 /
+C 99756 / D 103914 / E 104172), `Bangs`, `Eyes`, `Camera` -- read off its `hash.json` and a 6.7 frame
+dump through `giDrawTable.py`. Both directions are compiled
+(`IniFixData/Charlotte/CharlotteFixer.cpp` + two rows onto `CharlotteHurlockBody` / `Eyes`;
+`IniFixData/CharlotteHurlock/CharlotteHurlockFixer.cpp` + one merge row back) and both prototypes stay
+the oracles: `Tools/Misc/Prototypes/charlotteHurlockFix.py` / `charlotteFromHurlockFix.py`, A/B'd by
+`Tools/Misc/Diagnostics/abCharlotte.py` / `abCharlotteRev.py` (clean on every mod, downloads on and
+off). The identity mods are byte-checked against the dumps by
+`Tools/Misc/Diagnostics/identityVsDump.py`. Confirmed in game on the identity mods, Charlotte1-8 and
+CharlotteHurlock1-5.
+
+**Decisions the maintainer made, not to relitigate:** the skin's `Camera` is an ACCESSORY, not part
+of her -- hidden going forward, not carried going back (base Charlotte's own camera is a separate
+mesh, ib `deb75778`, that her `hash.json` omits and the game draws anyway). `Body` slot E (504 indices,
+drawn only in a special pass on shader `c4a3e42f` -- a lens) is not merged either: through her body's
+G-buffer pass it would draw opaque.
+
+**1. A hash two characters share votes for NEITHER.** The skin's Eyes `draw_vb` `61b441bd` is
+YelanTranquil's Eye `draw_vb` too (the game gives both the same eye buffer; Jahoda's in the asset repo
+as well). A hash vote outweighs a name vote, so a CharlotteHurlock `.ini` classified as YelanTranquil
+as well, the YelanTranquil fix ran over it, and its header came out `YelanTranquil Remap`.
+`GlobalIniClassifiers::populate` now counts claims per identifying hash across every registered type
+(own rows plus component rows -- `identifyingHashesOf`) and drops any hash claimed twice before
+registering. The rows stay in `HashData` -- a fix still needs the value; it just identifies nobody.
+
+**2. A fix-library path is matched case-insensitively.** Charlotte4 writes
+`run = CommandList\Global\ORFix\ORFix`; 3DMigoto matches command-list paths case-insensitively, the
+templates' `isFixCall` did not, so the author's call survived beside the re-issued one -- two calls on
+one path, an involution undone (flat colours). All four `isFixCall` lambdas (`GIMICharFixer`,
+`GIMIComponentFixer`, `GIMIMergeFixer`, `RaidenFixer`) now use `StringTools::equalsIgnoreCase` on the
+stripped value. Only Charlotte4 in the whole corpus spells it that way, which is why nothing earlier saw it.
+
+**3. A plain target slot fed a normal-map source needs the registers shifted DOWN.** The skin's Eyes
+draw on a plain (`vs 95aa6cdb`, diffuse / light map at `ps-t0/1`) shader while Charlotte's head is the
+normal-map layout, so the forward Eyes slot received `ps-t0` normal / `ps-t1` diffuse / `ps-t2` light
+map unchanged. `GIMIComponentFixer::buildPlainSlotShift` (when `Component::normalMap` is false): drop
+`ps-t0`, then `ps-t1 -> ps-t0`, `ps-t2 -> ps-t1`, per group whose object is on the normal-map layout.
+
+**4. `isKeyFullyCover` counted an EXTERNAL command as covering everything -- and the reverse's whole
+outfit was never drawn.** See [Ini Graph Editing](../IniGraphEditing/CLAUDE.md)'s "An external command
+covers nothing". The merge carries a member's own section as a command list and appends its draw only
+when the copy does not already draw; the identity mod's Body B and Bangs sections end in
+`run = CommandList\GIMI\...ORFix` and the check read that as "draws". Charlotte came out in her OWN
+outfit with the skin's hair: Body A was the only member drawn. **Found by a frame dump, not a
+screenshot**: `handling = skip` was working, draw 43 ran the fix's `DrawIndexed(53529, 0, 0)` and
+then the command lists, and none of them had a `drawindexed` -- the log said so in one grep. The same
+fix changed three download decisions on the regression corpus, all corrections (a GanyuTwilight master's
+dress, a Citlali mod's disabled variant that binds only a normal map and leaves diffuse / light map to
+the game).
+
+**5. A mod with NO mesh sections is two different things, and the merge template now tells them
+apart** (`GIMIComponentParseFacts`, reached by the fixer through `dynamic_cast` on its parser):
+
+- **A texture-only recolour** (`hash = <the skin's texture> / this = Resource...`, CharlotteHurlock3):
+  every buffer comes from downloads, and the recolour applies wherever the GAME binds that texture --
+  never to a download, a custom resource with its own hash. So the remap drew the plain skin. The skin's
+  slot textures are now in `HashData` as `tex_<slot>_<role>` (`tex_a_diffuse`, off `hash.json`'s
+  `texture_hashes` -- not identifying, the classifier ignores them), and the component parser reads the
+  `this =` overrides BEFORE anything is parsed, drops that slot's download for the role, and binds the
+  mod's own resource in its place -- on every slot that draws with that texture, a borrowing slot
+  (`textureDonor`) included.
+- **A file that only WATCHES the skin** -- CharlotteHurlock4's `ToggleMenu.ini`, a help overlay whose
+  one section matches the position hash to set `$active = 1`; a namespace-merged mod's master is the
+  same shape. Built like a mod it got every object from downloads and drew a SECOND whole skin over the
+  real mod's: the two fixes fought over one set of hashes and the model shattered into triangles. It
+  now gets exactly what the old script gave `MasterHuTao.ini`: its own sections, renamed, on the
+  TARGET's hashes, nothing drawn and nothing downloaded (`GIMIMergeFixerImpl::buildWatcher`). Test the
+  overlay in game after the fix (CharlotteHurlock4: Alt+H, and its number-key toggles) -- the maintainer
+  asked for exactly that. **Decided before downloads are registered**: once `setupDownloads` has run, a
+  download for a register a real section lacks has been ADDED to that section, and the watcher looks
+  like it binds `vb0`. The first version checked afterwards and never fired.
+
+And a third case the same investigation found: **a mod with no COMPONENT-level `ib` section** (again a
+texture-only one) got no `handling = skip` for the target, because the merge makes the target's skip
+out of a component's own. Charlotte's head then drew through her own index buffer over the merged
+vertices -- torn triangles down the legs. The component parser now invents the component `ib` section
+(`hash` + `handling = skip`) and the `other` (VertexLimitRaise) one when NO component carries one,
+named the way a mod names them, so the fix comes out in the identity mod's shape.
+
+**6. A merged member's TexFx registers LEAK into every later member.** On the skin each slot is its
+own draw; merged, the members draw one after another in one section, and a register nothing rebinds
+stays bound -- for the rest of the section and the passes after it. CharlotteHurlock5 binds
+`ps-t70 = ResourceOutlineMap` (TexFx reads `ps-t70`'s RGB as the outline colour) on Body B, and
+Charlotte's hair and eyes came out with blue outlines. A carried member that binds `ps-t69` / `ps-t70`
+to a resource now clears it after its draw. Bisected in game in two rounds: the lines commented out
+removed every blue edge; `ps-t70 = null` after the draw removed the hair's. **Left as it is, by the
+maintainer's decision (2026-09-24)**: Body B's OWN outline still reads blue on Charlotte although the
+map is a darkened copy of its diffuse -- TexFx's outline on her outline pass, not a leak. It is the
+mod author's intended TexFx effect, so the fix keeps it; do not strip a member's `ps-t70` or its TexFx
+call to "fix" it. Removing only the `ps-t70` line was being tried when the decision came.
+
+**7. Hair drawn through another shader family is a colour grade** (the WuWa ribbon lesson, on GI).
+The skin draws Body A (hair, skin) on `ps 92544cbc`; Charlotte has only `6546504e`. Measured on the
+identity mod with a hair-only mask (blue >= green, which skin fails), same pose: on Charlotte the hair
+is (194, 150, 164) against the skin's (200, 138, 145) -- lavender -- while the legs move the OTHER
+way, so it is the hair, not the lighting. Left alone (no `ColourGrades` equivalent on GI); graded 4.5.
+
+**8. The slot a source object draws through decides its PIXEL SHADER -- and a component's objects do
+not have to share one** (2026-09-24). The forward fix drew Charlotte's head AND body through Body
+slot A, because a component had one `slotIndex`. Her identity mod looked right that way; Charlotte8
+(a dark cardigan) grew black shards sticking out of it, in lighting-shaped patches. Ruled out first,
+each by a check rather than an argument: the old reflection keys (`$CharacterIB`,
+`ResourceRef<Obj><Role>` -- stripped by the component template now anyway, correct cleanup that
+changed nothing), the vertex limit, the two merged `.ini` files binding different buffers (identical),
+a missing normal map (the mod ships one). What settled it was **one hand edit in the live
+`RemapFix1.ini`**: the body group's `match_first_index` from `0` to `53529`, reload, shards gone.
+Slot A draws on `92544cbc`, the skin's HAIR / skin shader; slot B on `6546504e`, Charlotte's own. The
+band legends line up either way (point 7's reasoning for slot A was bands only), so nothing but the
+shader tells them apart. `GIMIComponentFixerConfig::Component::objSlotIndices` (bound, default empty)
+gives a source object its own slot -- each drawn object is its own `.ini` group already, so it costs
+nothing -- and Charlotte's config is head -> A, body -> B, with `unremappedSlots` shrunk to C/D/E (a
+slot now drawn must not carry the TexFx guard). **Before picking a slot by band legend, look up which
+pixel shader each target slot draws on (`giDrawTable.py`) and prefer the one the SOURCE object's own
+draw uses.** The prototype's `--slot split` is the default; `--slot A` / `B` reproduce the old choices
+for an A/B.
+
+**9. A slot the mod leaves UNDRAWN must stay undrawn -- a download of it is shards** (2026-09-24,
+the reverse direction). CharlotteHurlock1's skirt had polygons stretched up to her chest on base
+Charlotte. The vertex group table was the obvious suspect and was innocent: every group mapped, and
+the skirt's groups all landed on skirt and thigh bones (a per-group centroid-gap script said so in a
+minute). The cause was in the `.ini`: the mod skips the whole Body index buffer
+(`[...BodyIB] handling = skip`) and writes sections for slots A and B only -- its slot C geometry is
+a range inside its B section, and it has no D. On the skin, C and D are therefore NEVER drawn. The
+merge treated them as missing and DOWNLOADED the game's C and D index buffers, then drew them over the
+mod's merged vertices. Those indices count in the GAME's vertex order, which a re-exported mod does not
+keep, so each triangle joined three arbitrary vertices. Commenting out the two `run =` lines in the
+fixed `.ini` cleared it in game before any code changed. The rule is now in
+`GIMIComponentParser::findUndrawnSlots`, exposed to the merge as
+`GIMIComponentParseFacts::isSlotUndrawn`: **a component the mod carries buffers for AND skips gets no
+download and no merge member for a slot it declares no section for.** A component the mod does not
+carry (texture-only mods, a missing Eye) keeps its downloads, and so does one it does not skip, since
+there the game really does draw the slot over the mod's buffers. CharlotteHurlock2 (no D) was the only
+other mod it changed; 37 other mods / 3272 files did not move. **The prototype-vs-compiled A/B was
+blind to it**, since both share the parser and template (habit 55), so the proof is the
+before-and-after `.ini` diff plus the game. The same session found `GameView reload --mod` reporting
+"no warnings" over 47 real ones -- see the Game View guide.
+
+**Namespace-merged mods came out of the same session** -- see "A NAMESPACE-MERGED MOD WRITES
+EVERYTHING INSIDE ONE `if`" below.
+
+<br>
+
+## A NAMESPACE-MERGED MOD WRITES EVERYTHING INSIDE ONE `if` (2026-09-24)
+
+`namespace_merge.py` (a community tool; a copy sits in the maintainer's `GIMI/HuTao4`) merges several
+mods of one character into one folder: a `Master<Char>.ini` with `namespace = <Char>\Master`, a
+`[KeySwap]` cycling `$swapvar`, and a position WATCHER setting `$active`; and each sub-mod's sections
+rewritten as
+
+    [TextureOverrideHutaoBody]
+    hash = 3de1efe2
+    match_priority = 1
+    if $\HuTao\Master\swapvar==1
+        match_first_index = 16509
+        ib = ...  ps-t0 = ...  ps-t1 = ...
+    endif
+
+`match_first_index` INSIDE the `if` is legal (3DMigoto reads it as a section setting whatever the
+nesting) and the old script handled these. The API did not, three ways, each in shared code:
+
+1. **Classification** -- the part that writes the `hash` has no index and the part with the index only
+   inherits the hash, which `GIMISectionClassifier::classify` deliberately skips (the GanyuTwilight
+   rule). Every head and body section classified as the hash-only `("", "ib")` object: no index
+   remap, no split, no target objects hidden. Fixed: a hash with no index in its own part takes the
+   index from the SAME section's later parts (never a callee's).
+2. **The index rewrite's window** -- `GIMIObjPartFilter` opens a window only at a part that writes the
+   hash, so the rewrite never reached the `if` part: HuTao's body stayed `16509` on CherryHuTao, where
+   it matches nothing. Same rule, same fix (`filter()`).
+3. **Where the draw lands** -- `RegFillMissing`'s default fill bubbled `drawindexed = auto` up to the
+   section's ROOT part, which here holds only matching settings and sits before the guard: the draw
+   ran ahead of its bindings and on every variant. `RegFillMissing::guardedBranchEnd` sends a fill for
+   exactly this shape (root of `hash` / `match_first_index` / `match_priority` only, one `if ... endif`,
+   no `else`, nothing after) to the end of the guarded branch.
+
+**How it was proved, and the tool to reuse:** `Tools/Misc/Diagnostics/abByHash.py` keys a fix
+block by what 3DMigoto MATCHES -- `(hash, match_first_index)` -- because the old script and this
+library name draw sections differently (`...HeadHuTaoRemapFix` against `...HeadHuTaoRemapIB`) and
+`abIni.py`, which pairs by name, cannot compare them. Against the OLD script it still shows the
+deliberate register-layout differences, so the real acceptance test is a CONTROL: the same sub-mod
+with the namespace `if` stripped (`Tools/Misc/Diagnostics/unNamespace.py`), fixed by this API, and the namespaced output -- guard stripped the
+same way -- required to equal it. 0 differences after the three fixes; 4, 17 and 9-vs-7 keys before.
+In game: HuTao4 onto Cherries Snow-Laden cycles swimsuit / Lawson / Galaxy on `H`, one at a time, and
+CherryHuTao4 onto Hu Tao shows both its variants. Those CherryHuTao mods are pre-6.x and render green on
+their OWN skin in the current game; that is the mods, and the remap is right.
+
+<br>
+
 ## The reverse direction is COMPILED TOO: a multi-component SOURCE onto a classic target (2026-09-14)
 
 `YelanTranquil -> Yelan` is the **third fixer template**: `GIMIMergeFixerConfig` +
@@ -1587,6 +1791,21 @@ ask for first, because it fixes every axis to "the game's own answer" and so giv
 a baseline to differ from. **When the maintainer reports a regression, the first question is which
 axis the new mod sits on the other side of**; twice this session the answer named the bug before
 any code was read.
+
+**And the axes of the FOLDER, not just of one section (the Charlotte pair, 2026-09-24).** Five
+CharlotteHurlock mods turned out to be five different file shapes, and four of them broke something
+the identity mod could not show. Sort a character's mods by these before the first run, and make
+sure the set covers each shape the folder has:
+
+| shape | how to spot it | what it exercises |
+| --- | --- | --- |
+| GIMI's newer binding API | `Resource\GIMI\Diffuse = ref ...` + `run = CommandList\GIMI\SetTextures` | `GIMIApiNormalizer`. The old-loader GIMI here cannot run it, so such a mod looks broken on its OWN skin and right after the remap -- do not chase the skin side |
+| texture-only recolour | sections with only `hash = <a game texture>` + `this = Resource...`, no `ib` / `vb` | texture overrides by `tex_<slot>_<role>` rows. A skin without those rows in `HashData` shows the plain skin |
+| a watcher / toggle / help menu `.ini` | a section matching the position hash that only sets `$active`, a `[Key...]` block, a `Toggles.txt` | the watcher path. **Press the keys in game after the fix** (the maintainer asked for it) |
+| a merged master or namespace merge | `$swapvar` branches, or `namespace = <Char>\Master` + `if $\<Char>\Master\swapvar` | per-branch draws; cycle every variant in game and return the key to where it was |
+| TexFx user | `ps-t69` / `ps-t70` bound, `run = CommandList\TexFx\...` | the register leak between merged members |
+| pre-6.x mod | textures at the old registers; renders flat green / yellow on BOTH the base and the skin | nothing of ours. Recognise it and move on |
+| writes the fix library with odd capitals | `CommandList\Global\ORFix\ORFix` | case-insensitive fix-call matching |
 
 ### THE BAND LEGEND IS A TABLE NOW, NOT A CLOSURE PER DIRECTION (2026-09-15)
 

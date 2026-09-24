@@ -163,11 +163,20 @@ namespace AGRemapCore {
                 // Two drawn objects on the normal-map layout.
                 {{"5.3", ModTypeIdTools::getName(ModTypeId::Citlali)}, IniParseBuilderFuncs::citlali5_3()},
 
+                // ===== Charlotte (2026-09-23) =====
+                // Two drawn objects on the normal-map layout. At 4.0, where her downloads are.
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Charlotte)}, IniParseBuilderFuncs::charlotte4_0()},
+
                 // ===== CitlaliWhisperofStars (2026-09-22) =====
                 // The third row built by makeGIMIComponentParser, and the reverse of the three
                 // Citlali rows. Filed at 6.7, where her assets are -- not at Citlali's own 5.3.
                 {{"6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars)},
                  IniParseBuilderFuncs::citlaliWhisperofStars6_7()},
+
+                // ===== CharlotteHurlock (2026-09-24) =====
+                // Filed at 6.7, where the skin's assets are.
+                {{"6.7", ModTypeIdTools::getName(ModTypeId::CharlotteHurlock)},
+                 IniParseBuilderFuncs::charlotteHurlock6_7()},
             };
         }
     }

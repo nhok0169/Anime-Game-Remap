@@ -450,3 +450,12 @@ try:
     __all__ += ["TexCache"]
 except ImportError:
     pass
+
+# ----- Added 2026-09-23: the forward multi-component fixer template (GIMIComponentFixerConfig /
+# makeGIMIComponentFixer), bound so a remap onto a skin of several components can be prototyped as a
+# config. Windows-built only so far, so guarded for the same reason as the blocks above.
+try:
+    from .core import GIMIComponentFixerConfig, makeGIMIComponentFixer
+    __all__ += ["GIMIComponentFixerConfig", "makeGIMIComponentFixer"]
+except ImportError:
+    pass

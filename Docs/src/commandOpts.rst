@@ -217,6 +217,14 @@ Below are the supported types of mods
        | SummerBenny
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(bennettadventure).*\]``
+   * - **Charlotte**
+     - GI
+     - 
+     - check if the .ini file contains a section matching the regex, ``^\s*\[\s*textureoverride.*(charlotte)((?!hurlock).)*\]``
+   * - **CharlotteHurlock**
+     - GI
+     - HurlockCharlotte
+     - check if the .ini file contains a section matching the regex, ``^\s*\[\s*textureoverride.*(charlottehurlock).*\]``
    * - **CherryHuTao**
      - GI
      - | 77thDirectoroftheWangshengFuneralParlorCherry, 

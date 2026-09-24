@@ -1342,6 +1342,25 @@ namespace AGRemapCore {
              */
             static IniFixBuilder::Factory citlaliWhisperofStarsEyes6_7();
 
+            /**
+             * @brief
+             @rst
+             The 6.7 fix remapping **Charlotte onto CharlotteHurlock's Body** :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The FOURTH remap onto a skin of several components. One fixer per target component the
+             mod reaches (the Body and the Eyes -- the skin's Bangs and Camera are hidden), both
+             built from one :cpp:class:`GIMIComponentFixerConfig`. See
+             ``data/IniFixData/Charlotte/CharlotteFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory charlotteHurlockBody6_7();
+
+            /**
+             * @brief The 6.7 fix remapping **Charlotte onto CharlotteHurlock's Eyes** -- see :cpp:func:`charlotteHurlockBody6_7`
+             */
+            static IniFixBuilder::Factory charlotteHurlockEyes6_7();
+
             static IniFixBuilder::Factory yelanTranquilBody6_1();
 
             /**
@@ -1376,6 +1395,19 @@ namespace AGRemapCore {
              @endrst
              */
             static IniFixBuilder::Factory citlaliWhisperofStarsToCitlali6_7();
+
+            /**
+             * @brief
+             @rst
+             The 6.7 fix remapping **CharlotteHurlock onto Charlotte** :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The FOURTH merge of a skin of several components onto a target of one, and the
+             inverse of :cpp:func:`charlotteHurlockBody6_7` / :cpp:func:`charlotteHurlockEyes6_7`.
+             See ``data/IniFixData/CharlotteHurlock/CharlotteHurlockFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory charlotteHurlockToCharlotte6_7();
 
     };
 

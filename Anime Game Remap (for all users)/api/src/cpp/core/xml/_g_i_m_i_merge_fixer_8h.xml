@@ -8,6 +8,7 @@
     <includes refid="_ini_fix_builder_8h" local="yes">AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</includes>
     <includes refid="_tex_editor_8h" local="yes">AGRemapCore/model/strategies/texEditors/TexEditor.h</includes>
     <includedby refid="_bennett_adventure_fixer_8cpp" local="yes">src/data/IniFixData/BennettAdventure/BennettAdventureFixer.cpp</includedby>
+    <includedby refid="_charlotte_hurlock_fixer_8cpp" local="yes">src/data/IniFixData/CharlotteHurlock/CharlotteHurlockFixer.cpp</includedby>
     <includedby refid="_citlali_whisperof_stars_fixer_8cpp" local="yes">src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp</includedby>
     <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
     <includedby refid="_yelan_tranquil_fixer_8cpp" local="yes">src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</includedby>
@@ -820,20 +821,26 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniFixData/BennettAdventure/BennettAdventureFixer.cpp</label>
         <link refid="_bennett_adventure_fixer_8cpp"/>
       </node>
       <node id="3">
+        <label>src/data/IniFixData/CharlotteHurlock/CharlotteHurlockFixer.cpp</label>
+        <link refid="_charlotte_hurlock_fixer_8cpp"/>
+      </node>
+      <node id="4">
         <label>src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp</label>
         <link refid="_citlali_whisperof_stars_fixer_8cpp"/>
       </node>
-      <node id="4">
+      <node id="5">
         <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
       </node>
-      <node id="5">
+      <node id="6">
         <label>src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</label>
         <link refid="_yelan_tranquil_fixer_8cpp"/>
       </node>

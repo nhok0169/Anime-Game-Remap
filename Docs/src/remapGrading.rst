@@ -82,6 +82,34 @@ Grading
        |
        | - The vertex group rows are proposals from geometry matching, not a hand-made draft, so a pose may
        | deform slightly at a joint the matcher guessed wrong.
+   * - | **Charlotte --> CharlotteHurlock**
+     - | :greenBold:`4.5`
+     - | Charlotte is ONE mesh (``head`` and ``body``) and CharlotteHurlock is FOUR components (``Body`` of
+       | five draw slots, ``Bangs``, ``Eyes``, ``Camera``), so the mod is split per component and each half's
+       | blend weights are remapped through its own row.
+       |
+       | - Her fringe is weighted to her head, so no mod geometry reaches the skin's ``Bangs``: they are
+       | hidden, and so is the skin's ``Camera``, an accessory rather than part of her.
+       |
+       | - A mod made before GI 6.x binds its textures in the old register order and renders flat on
+       | Charlotte herself; it does the same on the skin.
+   * - | **CharlotteHurlock --> Charlotte**
+     - | :greenBold:`4.5`
+     - | The inverse: the skin's ``Body``, ``Bangs`` and ``Eyes`` merged onto one mesh, laid end to end into one
+       | set of buffers, every slot landing on Charlotte's ``body``.
+       |
+       | - The skin's ``Camera`` is not carried (Charlotte's own camera is a separate mesh the game draws
+       | anyway), nor ``Body`` slot E, a lens drawn only in a special pass.
+       |
+       | - The skin draws its hair with a different shader, so on Charlotte the hair comes out slightly more
+       | lavender than on the skin.
+       |
+       | - A mod that recolours the skin by texture hash alone (``this = ...``) has its textures carried onto
+       | the slots that use them; a file that only watches the skin (a toggle or help menu) keeps its own
+       | sections on Charlotte's hashes, so its keys still work.
+       |
+       | - A ``TexFx`` outline map a mod binds on one slot is kept on that slot (it can read bluer on Charlotte
+       | than on the skin); it no longer spills onto the slots drawn after it.
    * - | **CherryHuTao --> HuTao**
      - | :greenBold:`4.6`
      - | - Front of HuTao's dress will clip to her legs when walking.

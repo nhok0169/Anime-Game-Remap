@@ -1344,6 +1344,85 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"6.7", "CitlaliWhisperofStarsEyes", "ib"}, "f4cca9ef"},
         {{"6.7", "CitlaliWhisperofStarsEyes", "tex_face_diffuse"}, "5783625d"},
 
+        // ===== Charlotte and CharlotteHurlock (2026-09-23) =====
+        //
+        // Charlotte's rows follow the assets repo's history of her hash.json, the Bennett way: the state
+        // before "THE GREAT 4.1 HASH FIX" is the 4.0 row ("adding charlotte", 2023-05-25), and each later
+        // commit that moved a value is a row of its own -- draw_vb at 4.1, ib at "GREAT 4.3 Hash fix",
+        // and two textures at "Characters re-dump" (2024-12-14, filed at 5.2, the version live that day),
+        // whose .dds files changed bytes with them. Position, blend and texcoord, the object indices and
+        // the other textures have not moved since the first dump.
+        //
+        // The face diffuse 58d9859b is filed at 4.0 although the first dump labelled it a NormalMap: it is
+        // Kirara's case (see her rows above) -- a label the re-dump corrected, not a texture that changed.
+        // Her MetalMap b0e08915 is the shared asset every character lists and is not filed.
+        {{"4.0", "Charlotte", "draw_vb"}, "c11fcbde"},
+        {{"4.0", "Charlotte", "position_vb"}, "c5a6d98e"},
+        {{"4.0", "Charlotte", "blend_vb"}, "c195ab20"},
+        {{"4.0", "Charlotte", "texcoord_vb"}, "54841c9b"},
+        {{"4.0", "Charlotte", "ib"}, "c7812015"},
+        {{"4.0", "Charlotte", "tex_head_normalmap"}, "263df356"},
+        {{"4.0", "Charlotte", "tex_head_diffuse"}, "5579adce"},
+        {{"4.0", "Charlotte", "tex_head_lightmap"}, "2da0b1d3"},
+        {{"4.0", "Charlotte", "tex_body_normalmap"}, "32554d73"},
+        {{"4.0", "Charlotte", "tex_body_diffuse"}, "9c1dcc05"},
+        {{"4.0", "Charlotte", "tex_body_lightmap"}, "48fb8348"},
+        {{"4.0", "Charlotte", "tex_face_diffuse"}, "58d9859b"},
+        {{"4.1", "Charlotte", "draw_vb"}, "48fae4f9"},
+        {{"4.3", "Charlotte", "ib"}, "ff554aca"},
+        {{"5.2", "Charlotte", "tex_head_lightmap"}, "bb72c96f"},
+        {{"5.2", "Charlotte", "tex_body_diffuse"}, "69b8ca31"},
+
+        // CharlotteHurlock (6.7) draws a Body (slots A-E), a Bangs, an Eyes and a Camera, each skinned and
+        // with its own buffers, filed under the component's name as CitlaliWhisperofStars's are. Read off
+        // the skin's own asset dump (hash.json). Her face diffuse is Charlotte's own 58d9859b: the face is
+        // drawn from the same texture on both, and tex_face_diffuse is not an identifying hash type, so
+        // filing it under both names is what every CN skin sharing its base's face already does.
+        //
+        // Deliberately NOT here: the skin's per-object texture hashes (Body A / B), for the reason
+        // BennettAdventure gives -- this table's tex_<object>_<kind> vocabulary has no slot names.
+        //
+        // ONE value here is not unique: the Eyes draw_vb 61b441bd is also YelanTranquilEye's (and, in the
+        // assets repo, Jahoda's eyes'). It is filed anyway, as YelanTranquil's was, because the forward
+        // fix rewrites Charlotte's VertexLimitRaise onto each target component's draw_vb and the Eyes one
+        // would otherwise come out as HashNotFound. Every other hash of either skin still identifies it.
+        {{"6.7", "CharlotteHurlockBody", "draw_vb"}, "f45bbdaf"},
+        {{"6.7", "CharlotteHurlockBody", "position_vb"}, "e35ce2c4"},
+        {{"6.7", "CharlotteHurlockBody", "blend_vb"}, "d3a63a25"},
+        {{"6.7", "CharlotteHurlockBody", "texcoord_vb"}, "637e74a3"},
+        {{"6.7", "CharlotteHurlockBody", "ib"}, "5d42c20a"},
+        {{"6.7", "CharlotteHurlockBody", "tex_face_diffuse"}, "58d9859b"},
+
+        // THE SLOTS' OWN TEXTURES, off the asset's hash.json (2026-09-24), keyed
+        // tex_<slot>_<role>. Not identifying (the classifier reads none of them): they are here
+        // for a mod that recolours the skin by texture hash alone (`this = ...`) -- see
+        // GIMIComponentParserConfig, whose parser binds such an override in place of the
+        // download for that slot.
+        {{"6.7", "CharlotteHurlockBody", "tex_a_diffuse"}, "ef84e3a2"},
+        {{"6.7", "CharlotteHurlockBody", "tex_a_lightmap"}, "568b4633"},
+        {{"6.7", "CharlotteHurlockBody", "tex_a_normalmap"}, "7f17929f"},
+        {{"6.7", "CharlotteHurlockBody", "tex_b_diffuse"}, "de63ec65"},
+        {{"6.7", "CharlotteHurlockBody", "tex_b_lightmap"}, "fe270fd4"},
+        {{"6.7", "CharlotteHurlockBody", "tex_b_normalmap"}, "b7fb158e"},
+        {{"6.7", "CharlotteHurlockBangs", "draw_vb"}, "270e0ffd"},
+        {{"6.7", "CharlotteHurlockBangs", "position_vb"}, "53d723bf"},
+        {{"6.7", "CharlotteHurlockBangs", "blend_vb"}, "88e539c7"},
+        {{"6.7", "CharlotteHurlockBangs", "texcoord_vb"}, "78468110"},
+        {{"6.7", "CharlotteHurlockBangs", "ib"}, "60af405e"},
+        {{"6.7", "CharlotteHurlockBangs", "tex_face_diffuse"}, "58d9859b"},
+        {{"6.7", "CharlotteHurlockEyes", "draw_vb"}, "61b441bd"},
+        {{"6.7", "CharlotteHurlockEyes", "position_vb"}, "c813722b"},
+        {{"6.7", "CharlotteHurlockEyes", "blend_vb"}, "bd6d3bcd"},
+        {{"6.7", "CharlotteHurlockEyes", "texcoord_vb"}, "c37b323a"},
+        {{"6.7", "CharlotteHurlockEyes", "ib"}, "a64cdb3d"},
+        {{"6.7", "CharlotteHurlockEyes", "tex_face_diffuse"}, "58d9859b"},
+        {{"6.7", "CharlotteHurlockCamera", "draw_vb"}, "127d2fe8"},
+        {{"6.7", "CharlotteHurlockCamera", "position_vb"}, "1ec056e4"},
+        {{"6.7", "CharlotteHurlockCamera", "blend_vb"}, "c1923b49"},
+        {{"6.7", "CharlotteHurlockCamera", "texcoord_vb"}, "18514e5e"},
+        {{"6.7", "CharlotteHurlockCamera", "ib"}, "f7f00837"},
+        {{"6.7", "CharlotteHurlockCamera", "tex_face_diffuse"}, "58d9859b"},
+
         // ===== version 5.4 =====
         // LisaStudent
         {{"5.4", "LisaStudent", "tex_head_normalmap"}, "a64a57de"},

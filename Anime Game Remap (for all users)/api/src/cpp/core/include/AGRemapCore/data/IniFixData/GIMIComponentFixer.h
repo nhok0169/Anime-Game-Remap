@@ -134,6 +134,23 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Per SOURCE object, the ``match_first_index`` of the slot that object is drawn through
+             instead of :cpp:member:`slotIndex` -- eg. ``{{"body", "53529"}}``. An object not listed
+             uses :cpp:member:`slotIndex` :raw-html:`<br />` :raw-html:`<br />`
+
+             A skin's slots draw on DIFFERENT pixel shaders, and a source object shaded by the wrong
+             one renders wrong in ways the textures cannot explain (2026-09-24): CharlotteHurlock
+             draws its Body slot A (hair and skin) on a hair shader and its slot B (the outfit) on
+             ``6546504e`` -- Charlotte's own -- and her body through slot A put black shards over a
+             mod's dark cardigan, gone once it was drawn through slot B. Each source object is its
+             own ``.ini`` group already, so each can take its own slot. **Default**: empty
+             @endrst
+             */
+            std::vector<std::pair<std::string, std::string>> objSlotIndices;
+
+            /**
+             * @brief
+             @rst
              ``true``: the **negative-index** strategy (the component draws the whole mod, every
              bone of another component becomes a sentinel, and the ib is trimmed); ``false``: the
              **graph cut** (the component takes the triangles the negative-index components leave,
@@ -149,7 +166,10 @@ namespace AGRemapCore {
              ``ps-t1`` diffuse, ``ps-t2`` lightmap, re-slotted by ``ORFix`` -- in which case the
              mod's ``ps-t0`` / ``ps-t1`` are shifted up, a flat normal map is created on ``ps-t0``
              and ``ORFix`` is re-issued. ``false``: ``ps-t0`` diffuse / ``ps-t1`` lightmap under
-             ``NNFix``, textures untouched
+             ``NNFix`` -- a mod object on the plain layout is left as it is, and one already on the
+             normal-map layout (see :cpp:member:`GIMIComponentFixerConfig::sourceLayout`) has its
+             normal map dropped and its diffuse and lightmap moved down to ``ps-t0`` / ``ps-t1``,
+             since a plain slot has nowhere to put the normal map
              @endrst
              */
             bool normalMap = true;

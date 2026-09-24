@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_charlotte_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::CharlotteFixer</compoundname>
+    <includes refid="_charlotte_fixer_8h" local="no">CharlotteFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_charlotte_fixer_1a280ad1997868f928fd32353ca2900924" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::CharlotteFixer::CharlotteFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>CharlotteFixer</name>
+        <qualifiedname>AGRemapCore::CharlotteFixer::CharlotteFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Charlotte/CharlotteFixer.h" line="38" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_charlotte_fixer_1a6a4e7aa265b0433b63511b2d6185302e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::CharlotteFixer::body6_7</definition>
+        <argsstring>()</argsstring>
+        <name>body6_7</name>
+        <qualifiedname>AGRemapCore::CharlotteFixer::body6_7</qualifiedname>
+        <briefdescription>
+<para>The fixer onto CharlotteHurlock&apos;s <computeroutput>Body</computeroutput> <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a2c8cf19431210fe3c3ecaa8f493d29a7" kindref="member">IniFixBuilderFuncs::charlotteHurlockBody6_7</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Charlotte/CharlotteFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/Charlotte/CharlotteFixer.cpp" bodystart="112" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_charlotte_fixer_1abf70ee70fdde5e548bff77881d011074" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::CharlotteFixer::eyes6_7</definition>
+        <argsstring>()</argsstring>
+        <name>eyes6_7</name>
+        <qualifiedname>AGRemapCore::CharlotteFixer::eyes6_7</qualifiedname>
+        <briefdescription>
+<para>The fixer onto CharlotteHurlock&apos;s <computeroutput>Eyes</computeroutput> <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af267c3e4248158950ab6095452f5dcbb" kindref="member">IniFixBuilderFuncs::charlotteHurlockEyes6_7</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Charlotte/CharlotteFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/Charlotte/CharlotteFixer.cpp" bodystart="117" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Charlotte&apos;s own ``.ini`` fixers -- the fourth remap onto a skin of SEVERAL COMPONENTS
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+CharlotteHurlock (6.7) is a ``Body``, a ``Bangs``, an ``Eyes`` and a ``Camera``. Charlotte is
+fixed by TWO fixers, onto the ``Body`` and the ``Eyes``, built from one
+:cpp:class:`GIMIComponentFixerConfig` -- see :cpp:func:`makeGIMIComponentFixer` for the shape
+and ``data/IniFixData/Charlotte/CharlotteFixer.cpp`` for Charlotte&apos;s own choices. Pair it with
+:cpp:class:`CharlotteParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Charlotte/CharlotteFixer.h" line="35" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Charlotte/CharlotteFixer.h" bodystart="35" bodyend="49"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_charlotte_fixer_1a6a4e7aa265b0433b63511b2d6185302e" prot="public" virt="non-virtual"><scope>AGRemapCore::CharlotteFixer</scope><name>body6_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_charlotte_fixer_1a280ad1997868f928fd32353ca2900924" prot="public" virt="non-virtual"><scope>AGRemapCore::CharlotteFixer</scope><name>CharlotteFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_charlotte_fixer_1abf70ee70fdde5e548bff77881d011074" prot="public" virt="non-virtual"><scope>AGRemapCore::CharlotteFixer</scope><name>eyes6_7</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -787,7 +787,10 @@ namespace AGRemapCore {
                             return reissuedTexFx.find(value) != reissuedTexFx.end();
                         }
 
-                        return value == IniKeywords::ORFixPath || value == IniKeywords::NNFixPath ||
+                        // Case-insensitively, as 3DMigoto matches a CommandList path: a mod writing
+                        // CommandList\Global\ORFix\ORFix kept its own call beside the re-issued one (2026-09-23).
+                        return StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::ORFixPath) ||
+                               StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::NNFixPath) ||
                                reissuedTexFx.find(value) != reissuedTexFx.end();
                     };
 

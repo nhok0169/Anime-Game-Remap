@@ -345,18 +345,7 @@ ExtraPassRegs = {
     1: {"21176cf68a65ab7a": {"ps-t0": "hairDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"},
         "32414b557630d98d": {"ps-t0": "hairDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
     2: {"259b766b59f72419": {"ps-t0": "upperDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
-    # THE SECOND PASS KEPT SEVEN OF THE SKIN'S TEXTURES (2026-09-24). It binds ps-t0 (the diffuse,
-    #   which this pass SETS on both characters) and the front-hair pair, and left t2, t3, t4, t6,
-    #   t7, t8, t9 as ChisaParfait's -- her normal map, her matcaps, her ramps, sampled at Chisa's
-    #   UVs. This is the pass that draws in the HAIR's stencil group (StencilRef 10, component 1's;
-    #   the main pass uses 14), so whatever it shades shows through the hair -- which is where the
-    #   black wedge on Chisa17's lower back was reported.
-    #   Two of the seven had no Chisa-side file until the download folder gained them.
-    3: {"21176cf68a65ab7a": {"ps-t0": "upperDiffuse", "ps-t1": "frontHairDiffuse",
-                             "ps-t2": "frontHairDetail", "ps-t3": "accessorySheen",
-                             "ps-t4": "hairTipRamp", "ps-t5": "frontHairNormal",
-                             "ps-t6": "skinRamp", "ps-t7": "bodyMatcap",
-                             "ps-t8": "bodySheen", "ps-t9": "skinRamp"}},
+    3: {"21176cf68a65ab7a": {"ps-t0": "upperDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
     4: {"21176cf68a65ab7a": {"ps-t0": "lowerDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
     # THE RIBBON'S PASS IS A CLOTHING SHADER WITH THE NORMAL AND THE DETAIL MAP SWAPPED (2026-09-20).
     #   87825a9a is the pass that paints it (a colour per PASS came back green, which was its), and
@@ -388,32 +377,10 @@ ExtraPassRegs = {
     #   nothing else, the nearest thing to the hair shader Chisa draws this component with. Code 0 was
     #   harmless on a red ribbon and turned Chisa6's dark knit dress -- which that mod draws through this
     #   component -- maroon. Code 5 confirmed in game on both, 2026-09-22 (--accessoryCode overrides it).
-    # ps-t5 IS THE SKIN'S IRIDESCENT MATCAP AND IT TINTED THE WHOLE ACCESSORY BROWN (2026-09-23).
-    #   `00e3f13b`, 512x512, a pearlescent rainbow sheen for her frilled dress, mean (171, 156, 166).
-    #   Chisa draws this component on a HAIR shader with no such input, so hers was never rebound and
-    #   the skin's stayed standing -- which renders her pale grey-white ribbon art (019c268e, whose
-    #   cross marks and barcode strip are what the flap shows in game) as a warm brown panel across
-    #   the lower back. Reported on Chisa17, where the component is a wide back flap rather than a
-    #   thin ribbon, so the tint covers a large area and is unmistakable.
-    #
-    #   Found by probing the four registers this pass SETS and nothing binds -- ps-t4, t5, t6, t7 --
-    #   with a colour each: flat yellow at ps-t5 turned the whole panel olive, and the blue, cyan and
-    #   magenta of the other three never appeared. ps-t7 is `6a9ec87e`, the subsurface ramp slot 3
-    #   zeroes for the red stain, and is deliberately LEFT ALONE here: this slot's probe says it does
-    #   not reach the surface, and zeroing a register on a neighbouring slot's reasoning is exactly
-    #   the mistake the mask rounds made twice.
-    #
-    #   Zeroed rather than swapped for one of Chisa's: she has no counterpart to swap in, and the
-    #   fault is not WHICH matcap but that the skin's shader gives this surface an iridescent sheen
-    #   at all -- the same call the config already makes for slot 3's ps-t10. A zero samples as
-    #   `null` does. The accessory keeps its highlight from the mask's G channel (TargetMaskAccessory),
-    #   which is a separate input and is why that mask is not TargetMaskCloth.
     5: {"87825a9a29529f9b": {"ps-t0": (AccessoryCode, 0, 0, 255), "ps-t1": TargetMaskAccessory,
-                             "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse",
-                             "ps-t5": (0, 0, 0, 0)},
+                             "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse"},
         "ced9a47fb6ad4d16": {"ps-t0": (AccessoryCode, 0, 0, 255), "ps-t1": TargetMaskAccessory,
-                             "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse",
-                             "ps-t5": (0, 0, 0, 0)}},
+                             "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse"}},
 }
 
 # A CHARACTER IS NOT ONLY HER vb0 MESH. Chisa and ChisaParfait both draw a SECOND mesh, vb0
@@ -571,11 +538,6 @@ Roles = {
     "526b9ed0": "upperNormal", "90196068": "upperMask", "165f3a1b": "upperDiffuse",
     "2b6f8bcb": "lowerNormal", "3f0e6f21": "lowerMask", "f642139e": "lowerDiffuse",
     "019c268e": "accessoryDiffuse", "40528957": "accessoryNormal", "4eaa9816": "accessorySheen",
-    # ADDED 2026-09-24, with the two textures they name, for the registers component 3's SECOND pass
-    #   was leaving as the skin's. Both are SET by Chisa's own draws (component 0 and component 4
-    #   respectively, each "sets the whole set"), so neither is an inherited global -- the check the
-    #   skinRamp comment above demands. Named for where they are set, not for what they are read as.
-    "b0ee686b": "frontHairDetail", "394378bf": "bodyMatcap",
     "226b31fc": "irisDiffuse",
     # 742c5c7b (1024 sRGB) and 8224e584 (2048 sRGB) are bound by BOTH characters -- a shared detail
     #   texture and an eye one -- so they are left to the game rather than given a role to rebind
@@ -1120,11 +1082,6 @@ FallbackTextures: Dict[str, str] = {
     "lowerNormal": "2b6f8bcb", "lowerMask": "3f0e6f21", "lowerDiffuse": "f642139e",
     "accessoryDiffuse": "019c268e", "accessoryNormal": "40528957", "accessorySheen": "4eaa9816",
     "irisDiffuse": "226b31fc",
-    # ADDED 2026-09-24 with the two files they name. A role reaches a mod that ships no texture of
-    #   its own ONLY through this table, so component 3's second pass silently dropped these two
-    #   registers while binding the other eight -- the config named the roles and nothing resolved
-    #   them. Both files are now in the download folder, extracted from a dump of unmodded Chisa.
-    "frontHairDetail": "b0ee686b", "bodyMatcap": "394378bf",
 }
 IdentityMin, IdentityGap = 0.97, 0.90   # a file IS a game texture when its colour correlates >= IdentityMin with one asset and < IdentityGap with every other (alpha settles a tie)
 LayoutMin = 0.30                        # a file naming several components takes a role only if it is laid out like the source's own texture for it

@@ -295,6 +295,27 @@ SheenTranslations = {"bodySheen"}
 #   the target's HAIR slots so it is drawn by the shader it was authored for, which merges it into a
 #   hair draw. Precedent for grading instead: the GI side has a shared DarkDiffuse for Ningguang.
 ColourGrades = {"accessoryDiffuse": (0.772, 0.616, 0.577)}
+# AND THE GRADE APPLIES TO ONE UV ISLAND, NOT THE WHOLE ATLAS (2026-09-24). The gain above was
+#   measured on her hair RIBBON and verified in game there (brightness 1.56 against 1.56). Component
+#   5 is not only the ribbon: it runs from z 144.2 in her hair down to z 72.6 at her hip, and the
+#   lower half is a broad WHITE sash. R held with G and B pulled ~40% below it is invisible on the
+#   ribbon's saturated red and turns that sash warm brown -- reported in game as "the jacket is not
+#   supposed to have some brown texture" (2026-09-24), and on EVERY mod including the identity one,
+#   because the grade was unconditional. The fix's own log had been printing it the whole time:
+#   `median (158, 154, 156) -> (121, 94, 90)`, a neutral grey going warm.
+#
+#   THE SPLIT IS GIVEN BY THE GEOMETRY, NOT CHOSEN. Component 5's vertex heights are bimodal with an
+#   EMPTY bin at z 120.3..126.3, and of its 2534 triangles exactly ZERO straddle that gap. The two
+#   clusters rasterise into atlas islands that share NO texel: ribbon 509,708 (12.2%), sash
+#   2,747,449 (65.5%), overlap 0.
+#
+#   A single `u` threshold was tried first, because a rectangle is what a config can carry and a
+#   4-megatexel bitmask is not: u >= 0.72 keeps 100% of the ribbon and still grades 5.2% of the
+#   sash -- the grey zipper and buckle hardware interleaved with the red stripes, which would come
+#   out brown. Hence the rasterised mask, built from the source geometry in AssetsFolder.
+#
+#   (component, the z at or above which a vertex belongs to the graded island)
+ColourGradeIslands: Dict[str, Tuple[int, float]] = {"accessoryDiffuse": (5, 123.0)}
 TargetMaskSkinR = 255                           # what she marks bare skin with, in R -- the SAME as Chisa
 # CHISA'S R IS FIVE BANDS, AND ONLY THE TOP ONE IS SKIN (2026-09-21). Read off her upper-body pixel
 #   shader 42721e1d0c282918 (a hunting-mode dump): the mask's R is compared against 0.05 / 0.3 /
@@ -856,17 +877,137 @@ def maskFilter(diffusePath: Optional[str], label: str):
     return edit
 
 
-def gradeFilter(gain, label: str):
-    """A per-channel gain on the RGB (ColourGrades above), alpha untouched; prints the medians it moved"""
+_islandMasks: Dict[Tuple[int, float, int, int], Optional[np.ndarray]] = {}
+
+
+def _rasterise(uv, triangles, width: int, height: int) -> np.ndarray:
+    """A boolean atlas-sized mask of the texels those UV triangles cover (half-space test per triangle)"""
+    mask = np.zeros((height, width), dtype = bool)
+    pts = np.stack([uv[triangles, 0] * width, uv[triangles, 1] * height], axis = -1)
+    for tri in pts:
+        x0, y0 = np.floor(tri.min(axis = 0)).astype(int)
+        x1, y1 = np.ceil(tri.max(axis = 0)).astype(int)
+        x0, y0 = max(int(x0), 0), max(int(y0), 0)
+        x1, y1 = min(int(x1), width - 1), min(int(y1), height - 1)
+        if (x1 <= x0 or y1 <= y0):
+            if (0 <= x0 < width and 0 <= y0 < height):
+                mask[y0, x0] = True
+            continue
+        yy, xx = np.mgrid[y0:y1 + 1, x0:x1 + 1]
+        px, py = xx + 0.5, yy + 0.5
+        (ax, ay), (bx, by), (cx, cy) = tri
+        d = (by - cy) * (ax - cx) + (cx - bx) * (ay - cy)
+        if (abs(d) < 1e-12):
+            continue
+        w0 = ((by - cy) * (px - cx) + (cx - bx) * (py - cy)) / d
+        w1 = ((cy - ay) * (px - cx) + (ax - cx) * (py - cy)) / d
+        inside = (w0 >= -1e-6) & (w1 >= -1e-6) & (w0 + w1 <= 1 + 1e-6)
+        mask[y0:y1 + 1, x0:x1 + 1] |= inside
+    return mask
+
+
+def islandMask(component: int, minZ: float, width: int, height: int) -> Optional[np.ndarray]:
+    """The atlas texels covered by 'component's triangles at or above 'minZ' -- see ColourGradeIslands.
+
+    Built from the SOURCE's own geometry in AssetsFolder, so it needs no new asset. Returns None when
+    that geometry is not there, and the caller then grades nothing rather than grading everything:
+    an unrestricted grade is the visible bug this exists to prevent.
+
+    The texcoord layout is PINNED to float16 rather than sniffed. Both float16 and float32 put 100%
+    of these UVs inside [0, 1] -- the ambiguity uvIsland.py refuses to resolve silently -- and float32
+    collapses the component into u 0.000..0.008. A range check cannot tell the two apart; the spread
+    can, so it is asserted.
+    """
+    key = (component, minZ, width, height)
+    if (key in _islandMasks):
+        return _islandMasks[key]
+
+    _islandMasks[key] = None
+    need = {n: os.path.join(AssetsFolder, f"{SourceName}{n}")
+            for n in ("Metadata.json", "Position.buf", "Texcoord.buf", "Index.buf")}
+    missing = [os.path.basename(f) for f in need.values() if (not os.path.isfile(f))]
+    if (missing):
+        print(f"    !! WARNING: cannot build the grade's island mask -- {AssetsFolder} is missing "
+              f"{', '.join(missing)}. Grading nothing rather than the whole atlas.")
+        return None
+
+    meta = json.load(open(need["Metadata.json"], encoding = "utf-8"))
+    nVerts = sum(int(c["vertex_count"]) for c in meta["components"])
+    comp = meta["components"][component]
+    iOff, iCnt = int(comp["index_offset"]), int(comp["index_count"])
+
+    blob = np.fromfile(need["Texcoord.buf"], dtype = np.uint8)
+    if (blob.size % nVerts):
+        print(f"    !! WARNING: texcoord buffer {blob.size} does not divide by {nVerts} vertices; "
+              f"grading nothing")
+        return None
+    uv = blob.reshape(nVerts, blob.size // nVerts)[:, 0:4].copy().view(np.float16).astype(np.float64)
+    if (float(uv[:, 0].max() - uv[:, 0].min()) < 0.05):
+        print(f"    !! WARNING: the texcoord layout is not float16 here (u spread "
+              f"{float(uv[:, 0].max() - uv[:, 0].min()):.4f}); grading nothing")
+        return None
+
+    pos = np.fromfile(need["Position.buf"], dtype = np.uint8).view(np.float32).reshape(-1, 3)
+    idx = np.fromfile(need["Index.buf"], dtype = np.uint32).astype(np.int64)
+    tris = idx[iOff:iOff + iCnt].reshape(-1, 3)
+
+    high = pos[:, 2] >= minZ
+    lab = high[tris]
+    straddling = int((lab.any(axis = 1) & ~lab.all(axis = 1)).sum())
+    if (straddling):
+        print(f"    !! WARNING: {straddling} of component {component}'s triangles straddle z={minZ}, "
+              f"so the two islands are not cleanly separable; grading nothing")
+        return None
+
+    mask = _rasterise(uv, tris[lab.all(axis = 1)], width, height)
+    other = _rasterise(uv, tris[~lab.any(axis = 1)], width, height)
+    # grow into the gutter ONLY -- the two islands are adjacent, and growing into the other one
+    #   reintroduces exactly the bug this restricts
+    free = ~(mask | other)
+    for _ in range(2):
+        grown = mask.copy()
+        grown[1:, :] |= mask[:-1, :]
+        grown[:-1, :] |= mask[1:, :]
+        grown[:, 1:] |= mask[:, :-1]
+        grown[:, :-1] |= mask[:, 1:]
+        mask = mask | (grown & free)
+
+    _islandMasks[key] = mask
+    return mask
+
+
+def gradeFilter(gain, label: str, island: Optional[Tuple[int, float]] = None):
+    """A per-channel gain on the RGB (ColourGrades above), alpha untouched; prints the medians it moved
+
+    With 'island' (ColourGradeIslands) the gain is applied only to the texels that component's
+    geometry above that height covers -- see the note at ColourGradeIslands for why the whole atlas
+    is wrong. The medians are reported over the graded texels alone, because a median over the whole
+    atlas is dominated by the 65% the sash covers and would barely move however wrong the grade is.
+    """
     def edit(texFile) -> None:
         px = pixelsOf(texFile)
+        height, width = px.shape[0], px.shape[1]
+        where = None
+        if (island is not None):
+            where = islandMask(island[0], island[1], width, height)
+            if (where is None):
+                return
+        sel = where if (where is not None) else np.ones((height, width), dtype = bool)
+        if (not sel.any()):
+            print(f"    !! WARNING: {label}'s grade island is empty at {width}x{height}; nothing graded")
+            return
+
         out = px.copy()
         for c in range(3):
-            out[..., c] = np.clip(px[..., c].astype(np.float64) * gain[c], 0, 255).astype(np.uint8)
+            out[..., c] = np.where(sel, np.clip(px[..., c].astype(np.float64) * gain[c], 0, 255),
+                                   px[..., c]).astype(np.uint8)
         setPixels(texFile, out)
-        was = tuple(int(v) for v in np.median(px.reshape(-1, 4)[:, :3], axis = 0))
-        now = tuple(int(v) for v in np.median(out.reshape(-1, 4)[:, :3], axis = 0))
-        print(f"    {label}: graded by {gain} for {TargetName}'s shader, median {was} -> {now}")
+        was = tuple(int(v) for v in np.median(px[sel][:, :3], axis = 0))
+        now = tuple(int(v) for v in np.median(out[sel][:, :3], axis = 0))
+        scope = (f"{100.0 * float(sel.mean()):.1f}% of the atlas (component {island[0]} above z={island[1]})"
+                 if (island is not None) else "the whole atlas")
+        print(f"    {label}: graded by {gain} for {TargetName}'s shader over {scope}, "
+              f"median {was} -> {now}")
     return edit
 
 
@@ -2499,7 +2640,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                 print(f"    {role}: {SourceName}'s packed sheen profiles as {TargetName}'s neutral foil")
                 graphEdits.append(FRB.ResRegCollect(lists, {role: texEdit((0, "", f"res{label}"), label, sheenFilter)}))
             elif (role in ColourGrades and role not in roles.borrowed):
-                graphEdits.append(FRB.ResRegCollect(lists, {role: texEdit((0, "", f"res{label}"), label, gradeFilter(ColourGrades[role], role))}))
+                graphEdits.append(FRB.ResRegCollect(lists, {role: texEdit((0, "", f"res{label}"), label, gradeFilter(ColourGrades[role], role, ColourGradeIslands.get(role)))}))
         for role in MaskTranslations | SheenTranslations:
             if (role in roles.resourceOfRole and role not in roles.graphRoles and any(r == role for r, _ in clOfPair)):
                 print(f"    WARNING: {role} is declared only in a component's own section, so it is bound as-is (no graph to edit)")

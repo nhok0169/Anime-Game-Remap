@@ -151,6 +151,26 @@ namespace AGRemapCore {
          @endrst
          */
         std::string version = "2.5";
+        /**
+         * @brief
+         @rst
+         The SOURCE's own game version, when the pair is not filed under one.
+         :cpp:member:`version` serves both characters while they share a version, as Sanhua's pair
+         does at 2.5; Chisa is 2.8 and her skin 3.5, and the difference matters to any lookup that
+         is REVERSE-then-forward.
+
+         ``ModMappedAssets::getKey`` buckets every row holding a value by version and searches only
+         the newest bucket at or below the version asked. Chisa and ChisaParfait have the SAME
+         shape-key checksum, 2610, so asked at 3.5 the reverse half answers ChisaParfait, the
+         forward half asks what ChisaParfait remaps to in a Chisa -> ChisaParfait fix, finds
+         nothing, and writes the literal ``ChecksumNotFound`` -- after which ``ShapeKeyOverrider``
+         cannot set up and every shape key silently stops being applied. Asked at 2.8 the same
+         lookup answers Chisa.
+
+         Empty (the default) falls back to :cpp:member:`version`
+         @endrst
+         */
+        std::string sourceVersion;
 
         /**
          * @brief

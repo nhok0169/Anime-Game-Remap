@@ -1022,7 +1022,11 @@ namespace AGRemapCore {
                 std::optional<Version> fromVersion() const {
                     std::optional<Version> version = ctx_.version();
                     if (!version.has_value()) {
-                        version = Version::parse(config_.version);
+                        // the SOURCE's own version, which is not the target's when the pair is not
+                        // filed under one -- see WWMIFixerConfig::sourceVersion for what a
+                        // reverse-then-forward lookup does with the wrong one
+                        version = Version::parse(config_.sourceVersion.empty() ? config_.version
+                                                                               : config_.sourceVersion);
                     }
 
                     return version;

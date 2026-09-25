@@ -352,6 +352,8 @@ namespace AGRemapCore {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::ChisaParfait;
         config.version = "3.5";
+        config.sourceVersion = "2.8";          // hers, and not her skin's -- see the field's note
+
 
         // ---- the passes the TARGET draws each slot on, off her frame dumps ----
         config.slotPasses = {
@@ -561,6 +563,17 @@ namespace AGRemapCore {
             {6, "eyes"},
             {7, "the skin's own, right hip (nothing maps onto it)"},
         };
+        // ---- the shape keys are RETARGETED, not hidden ------------------------------------------
+        // The template's defaults hide the two shape-key overrides and bind every remapped draw a
+        // zero vb6 stream. That is the maintainer's hand remap's behaviour, and it BREAKS a mod
+        // that really uses its keys -- on the source as well as the target, because hiding
+        // comments sections out of the mod's OWN text. The prototype moved to retargeting: the
+        // overrides keep firing and the shared asset remap rewrites their hashes and the
+        // shape-key checksum onto the target's, so WWMI's own pipeline fills vb6 and no zero
+        // stream is wanted.
+        config.hiddenObjs = {};
+        config.zeroShapeKeyStream = false;
+
         // ---- a remap-only texcoord copy ---------------------------------------------------------
         // Her fox mask, hairpins and bells are drawn, placed and textured correctly and INVISIBLE,
         // because their second UV is NaN and the skin's upper-body shader reads it where hers does

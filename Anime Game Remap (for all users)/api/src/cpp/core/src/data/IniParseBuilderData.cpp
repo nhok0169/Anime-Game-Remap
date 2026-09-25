@@ -145,7 +145,7 @@ namespace AGRemapCore {
                 // Registered for their asset tables (hashes, indices and the four WWMI-only ones);
                 // neither has a parser yet, so a .ini of theirs classifies by vb0 hash and is then
                 // parsed by nothing.
-                {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa)}, IniParseBuilderFuncs::wwmiStub()},
+                {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa)}, IniParseBuilderFuncs::chisa2_8()},
                 {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait)}, IniParseBuilderFuncs::wwmiStub()},
 
                 // ===== Bennett (2026-09-15) =====

@@ -182,6 +182,28 @@ namespace AGRemapCore {
             return FileService::pathToStr(FileService::strToPath(path).parent_path());
         }
 
+        // `ps-t0` as it appears in a command list's NAME: Pst0
+        std::string regTag(const std::string& reg) {
+            std::string out;
+            for (char c : reg) {
+                if (c != '-') {
+                    out += c;
+                }
+            }
+
+            if (!out.empty()) {
+                out[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(out[0])));
+            }
+
+            return out;
+        }
+
+
+        // 3dmigoto's own matching keys: meaningless in a CommandList, so a copied section drops them
+        const std::unordered_set<std::string> MatchKeys = {"hash", "match_priority", "match_first_index",
+                                                           "match_index_count", "match_type", "match_vertex_count"};
+
+
         std::string capitalized(const std::string& word) {
             if (word.empty()) {
                 return word;
@@ -1318,10 +1340,67 @@ namespace AGRemapCore {
 
                 // ---- the textures: the run's index, and what this .ini binds of it ----
 
+                // WHICH of the mod's own resources it binds in SEVERAL VARIANTS. A toggle mod writes `if $hair == 0 / this = X / else / this = XA` in its
+                // [TextureOverrideTexture*], and a single `<reg> = <resource>` line in the fix can
+                // only ever carry one of those -- so the mod's texture toggle stopped working while
+                // the toggled `drawindexed` in its own section kept switching the geometry.
+                //
+                // A section that binds unconditionally with one value is not recorded, and keeps its
+                // direct register line: every Sanhua mod is that shape, and this must not move output
+                // that has been verified in game.
+                void readConditionalBindings() {
+                    IniFile* ini = ctx_.getIniFile();
+                    if (ini == nullptr) {
+                        return;
+                    }
+
+                    for (const auto& entry : ini->getIfTemplates()) {
+                        if (entry.second == nullptr
+                            || !StringTools::startsWith(entry.first, TextureOverrideTexturePrefix)) {
+                            continue;
+                        }
+
+                        std::vector<std::string> bound;
+                        for (const auto& part : entry.second->parts()) {
+                            const auto* content =
+                                dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+
+                            for (const std::string& val : content->getVals(ThisKey)) {
+                                bound.push_back(std::string(StringTools::strip(val)));
+                            }
+                        }
+
+                        // SEVERAL resources, which is what a toggle is. A section binding ONE
+                        // resource keeps its direct register line even when it sits under an `if`:
+                        // every Sanhua mod wraps its one `this` in `if $object_detected`, which the
+                        // remapped section has already set to 1 by the time the list runs, so a copy
+                        // of it would be the same binding in more lines -- and moving output that has
+                        // been verified in game to say the same thing is not worth it.
+                        //
+                        // The gap that leaves: one `this` under a REAL condition and no else (`if
+                        // $hair == 0 / this = X / endif`) still binds X unconditionally. That is what
+                        // the fix did before this, so nothing regresses -- but a mod that renders
+                        // wrong on one toggle with a single-variant role is where to look next.
+                        if (bound.size() < 2) {
+                            continue;
+                        }
+
+                        for (const std::string& resource : bound) {
+                            conditionalOwner_[StringTools::toLower(resource)] = entry.first;
+                        }
+
+                        variantsOf_[entry.first] = bound.size();
+                    }
+                }
+
                 void readTextures() {
                     IniFile* ini = ctx_.getIniFile();
                     const std::string iniFolder = ini->getFolder();
                     const std::string iniPath = ini->getFile().value_or("");
+                    readConditionalBindings();
                     const ModType* sourceType = ctx_.modType();
                     index_ = std::make_unique<TextureIndex>(
                         iniFolder, config_, IniKeywords::RemapTex,
@@ -1710,7 +1789,7 @@ namespace AGRemapCore {
                         for (const WWMIFixerConfig::Binding& binding : planned.bindings) {
                             const std::string* resource = resourceFor(binding.role, component);
                             if (resource != nullptr) {
-                                bindings.push_back("    " + binding.reg + " = " + *resource);
+                                bindings.push_back(bindLine(binding.role, binding.reg, *resource));
                             }
                         }
 
@@ -1740,7 +1819,7 @@ namespace AGRemapCore {
                                 for (const WWMIFixerConfig::Binding& binding : regs) {
                                     const std::string* resource = resourceFor(binding.role, component);
                                     if (resource != nullptr) {
-                                        extraBindings.push_back("    " + binding.reg + " = " + *resource);
+                                        extraBindings.push_back(bindLine(binding.role, binding.reg, *resource));
                                     }
                                 }
 
@@ -2132,6 +2211,89 @@ namespace AGRemapCore {
                     return out;
                 }
 
+                // The line binding one role at one register inside a fix-written texture list.
+                //
+                // `<reg> = <resource>` normally. For a role the mod binds behind its own toggle, a
+                // `run =` into a copy of the mod's [TextureOverrideTexture*] instead, with 3dmigoto's
+                // matching keys dropped and `this` renamed to the register -- so the toggle comes
+                // across untouched rather than collapsing to its first variant.
+                std::string bindLine(const std::string& role, const std::string& reg, const std::string& resource) {
+                    const std::string direct = "    " + reg + " = " + resource;
+
+                    // An edit's output is not one of the mod's resources, so ask under the resource
+                    // the edit READ
+                    const auto edited = sourceOfEdited_.find(StringTools::toLower(resource));
+                    const std::string base = edited == sourceOfEdited_.end() ? resource : edited->second;
+                    const auto owner = conditionalOwner_.find(StringTools::toLower(base));
+                    if (owner == conditionalOwner_.end()) {
+                        return direct;
+                    }
+
+                    const auto cached = roleLists_.find({role, reg});
+                    if (cached != roleLists_.end()) {
+                        return "    " + std::string(IniKeywords::Run) + " = " + cached->second;
+                    }
+
+                    IniFile* ini = ctx_.getIniFile();
+                    const auto& templates = ini->getIfTemplates();
+                    const auto tpl = templates.find(owner->second);
+                    if (tpl == templates.end() || tpl->second == nullptr) {
+                        return direct;
+                    }
+
+                    const std::string name =
+                        fixName("CommandList" + source_.name + capitalized(role) + regTag(reg));
+                    std::string body;
+                    bool anyBinding = false;
+                    std::istringstream lines(renderIfTemplate(*tpl->second, "", true));
+                    std::string line;
+                    while (std::getline(lines, line)) {
+                        // renderIfTemplate writes the section's OWN header first, and left in it
+                        // closes the list and REDEFINES the mod's section inside the fix block
+                        const std::string_view bare = StringTools::strip(line);
+                        if (!bare.empty() && bare.front() == '[') {
+                            continue;
+                        }
+
+                        const std::size_t equals = line.find('=');
+                        const std::string key = equals == std::string::npos
+                                                    ? std::string()
+                                                    : StringTools::toLower(std::string(StringTools::strip(line.substr(0, equals))));
+                        if (MatchKeys.count(key) > 0) {
+                            continue;                       // 3dmigoto's matching keys mean nothing in a list
+                        }
+
+                        if (key == ThisKey) {
+                            const std::string indent = line.substr(0, line.size() - StringTools::lstrip(line).size());
+                            std::string val(StringTools::strip(line.substr(equals + 1)));
+                            const auto swap = editedResourceOf_.find(StringTools::toLower(val));
+                            if (swap != editedResourceOf_.end()) {
+                                val = swap->second;
+                            }
+
+                            body += indent + reg + " = " + val + "\n";
+                            anyBinding = true;
+                        } else {
+                            body += line + "\n";
+                        }
+
+                    }
+
+                    if (!anyBinding) {
+                        return direct;
+                    }
+
+                    roleLists_.emplace(std::pair<std::string, std::string>{role, reg}, name);
+                    // Their own vector, emitted at the END of buildAppended: textureLists_ is
+                    // written out before the shared-mesh loop runs, so a list created there would be
+                    // dropped. Section order in an .ini does not matter.
+                    //
+                    // The blank line is what the dropped matching keys leave behind, which is how the
+                    // prototype renders it too.
+                    roleListTexts_.push_back("[" + name + "]\n\n" + body);
+                    return "    " + std::string(IniKeywords::Run) + " = " + name;
+                }
+
                 const std::string* sharedResourceFor(const std::string& role) const {
                     for (const auto& entry : present_) {
                         const std::string* resource = resourceFor(role, entry.first);
@@ -2411,7 +2573,7 @@ namespace AGRemapCore {
                             for (const WWMIFixerConfig::Binding& binding : bindings) {
                                 const std::string* resource = sharedResourceFor(binding.role);
                                 if (resource != nullptr) {
-                                    lines += "    " + binding.reg + " = " + *resource + "\n";
+                                    lines += bindLine(binding.role, binding.reg, *resource) + "\n";
                                 }
                             }
 
@@ -2439,6 +2601,10 @@ namespace AGRemapCore {
 
                     for (const WWMIFixerConfig::CreatedTexture& created : config_.createdTextures) {
                         out += "[" + resourceOfRole_[created.role] + "]\n" + IniKeywords::Filename + " = " + createdTextureFile(created) + "\n\n";
+                    }
+
+                    for (const std::string& list : roleListTexts_) {
+                        out += list + "\n";
                     }
 
                     this->appendedSections = std::string(StringTools::rstrip(out));
@@ -2518,6 +2684,22 @@ namespace AGRemapCore {
                         // every binding of the role follows the edited file
                         const std::string resource = fixName(ResourcePrefix + capitalized(edit.role) + edit.name
                                                              + IniKeywords::RemapTex);
+
+                        // Which of the mod's resources this replaces, so a copied toggle chain can
+                        // swap it in. An edit reads fileOfRole_[role], which is ONE file, so a role
+                        // the mod binds in several variants has only that one edited -- say so.
+                        const std::string* was = sharedResourceFor(edit.role);
+                        if (was != nullptr) {
+                            editedResourceOf_[StringTools::toLower(*was)] = resource;
+                            sourceOfEdited_[StringTools::toLower(resource)] = *was;
+                            const auto owner = conditionalOwner_.find(StringTools::toLower(*was));
+                            if (owner != conditionalOwner_.end() && variantsOf_[owner->second] > 1) {
+                                ctx_.log("WARNING: " + edit.role + " is bound in "
+                                         + std::to_string(variantsOf_[owner->second]) + " variants by "
+                                         + owner->second + ", and the " + edit.name
+                                         + " edit reads one file -- the other variants are carried through unedited");
+                            }
+                        }
                         editedResources_.emplace_back(resource, fixedRel);
                         resourceOfRole_[edit.role] = resource;
                         for (auto& entry : resourceOfSlotRole_) {
@@ -2843,6 +3025,12 @@ namespace AGRemapCore {
                     std::string fixedRel;                             // relative to the .ini
                 };
 
+                std::unordered_map<std::string, std::string> conditionalOwner_;      // the mod's resource -> the section that binds it behind a condition
+                std::unordered_map<std::string, std::size_t> variantsOf_;             // that section -> how many resources it binds
+                std::unordered_map<std::string, std::string> editedResourceOf_;       // the mod's resource -> the edited copy of it
+                std::unordered_map<std::string, std::string> sourceOfEdited_;         // ...and back
+                std::map<std::pair<std::string, std::string>, std::string> roleLists_;   // (role, register) -> the copied list's name
+                std::vector<std::string> roleListTexts_;                              // ...and their section text
                 std::vector<PlannedEdit> plannedEdits_;
                 std::vector<std::pair<std::string, std::string>> editedResources_;   // (resource, path relative to the .ini)
                 std::vector<std::unique_ptr<Collector>> blendCollects_;

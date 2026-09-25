@@ -465,6 +465,23 @@ namespace AGRemapCore {
          @endrst
          */
         std::map<std::string, std::vector<std::string>> passVertexShaders;
+        /**
+         * @brief
+         @rst
+         The SOURCE's own register layout per component -- ``{component: {register: role}}``.
+
+         A mod that REPAINTS a texture is identified by none of the other paths: its hash is its own,
+         its pixels are its own art, and its exporter may name the file anything. What still
+         identifies it is where the mod's own section binds it -- a file at the register the source's
+         layout calls the light map IS the light map. This is the primary path for most mods that do
+         more than swap a mesh.
+
+         Read off the source's own draws at max LOD (``Tools/Misc/Diagnostics/wwmiPassLayout.py``),
+         and remember that only a ``sets`` line is evidence about a character: a register a draw
+         INHERITED may have been written by an unrelated NPC standing in the same frame
+         @endrst
+         */
+        std::map<int, std::map<std::string, std::string>> sourceRegisterRoles;
 
         /**
          * @brief

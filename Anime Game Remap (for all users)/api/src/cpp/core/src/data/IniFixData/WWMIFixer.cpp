@@ -1103,6 +1103,54 @@ namespace AGRemapCore {
                         }
                     }
 
+                    // ...and the roles the mod's OWN sections name by the register they bind at --
+                    // see WWMIFixerConfig::sourceRegisterRoles. Added as candidates beside the
+                    // others, which is what the ranking below expects.
+                    if (!config_.sourceRegisterRoles.empty()) {
+                        std::unordered_map<std::string, std::string> fileOfResource;
+                        for (const auto& entry : index_->resourcesOf(iniPath)) {
+                            fileOfResource.emplace(StringTools::toLower(entry.first), entry.second);
+                        }
+
+                        const auto& templates = ini->getIfTemplates();
+                        for (const auto& entry : present_) {
+                            const auto layout = config_.sourceRegisterRoles.find(entry.first);
+                            if (layout == config_.sourceRegisterRoles.end()) {
+                                continue;
+                            }
+
+                            for (const std::string& section : entry.second) {
+                                const auto tpl = templates.find(section);
+                                if (tpl == templates.end() || tpl->second == nullptr) {
+                                    continue;
+                                }
+
+                                for (const auto& [reg, role] : layout->second) {
+                                    std::optional<std::string> bound = ModBranches::firstVal(*tpl->second, reg);
+                                    if (!bound.has_value()) {
+                                        continue;
+                                    }
+
+                                    // `ps-t1 = ref ResourceFoo` names the same resource as
+                                    // `ps-t1 = ResourceFoo`
+                                    std::string name(StringTools::strip(*bound));
+                                    const std::string lower = StringTools::toLower(name);
+                                    if (StringTools::startsWith(lower, "ref ")) {
+                                        name = std::string(StringTools::strip(std::string_view(name).substr(4)));
+                                    }
+
+                                    const auto file = fileOfResource.find(StringTools::toLower(name));
+                                    if (file == fileOfResource.end()) {
+                                        continue;
+                                    }
+
+                                    byRole[role].emplace_back(
+                                        file->second, "the " + reg + " its own section binds it at");
+                                }
+                            }
+                        }
+                    }
+
                     // How well a file serves ONE source component: first how specifically its
                     // WWMI-Tools `Components-<a>-<b>... t=<hash>.dds` name is tagged for that component,
                     // then whether this .ini already has a resource for it, then its distance.

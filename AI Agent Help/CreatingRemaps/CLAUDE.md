@@ -1635,8 +1635,12 @@ merge-direction mods moved nothing but Bennett5 (point 3).
    **So the whole outfit goes to the main mesh**: his coat groups (0, 1, 32-47) are in the main mesh's `VGRemapData`
    row and the Coat's row is EMPTY; the template hides a component that draws nothing, so the skin's own mantle stays
    hidden. The cost is swing: the main mesh has no long coat bones, so the upper links ride its back-skirt bones and the
-   lower ones its knees and shins, and a hem moves with the legs like a long skirt. The maintainer grades geometry
-   faults above texture ones and a hole as the worst of them; all ten mods were checked whole front and back in game.
+   lower ones its PELVIS, and a hem hangs with the hips. The lower links first rode the knees and shins -- the nearest
+   bones -- and cloth hanging 20-30 cm off a bending joint swung with every bend of the idle pose: Neuvillette2's front
+   panels splayed open over the lining, Neuvillette3's cape folded in, Kaiba's cape halves crossed. **For a stand-in,
+   nearest is not enough: prefer a bone that barely moves over one that bends, the farther the cloth hangs from it.**
+   The maintainer grades geometry faults above texture ones and a hole as the worst of them; all ten mods were checked
+   whole front and back in game.
    **Measure before an in-game round**: run the library's own split from Python (`VGComponentSplit` on the mod's
    buffers) and count, per mod, the connected pieces cut between two components and the weight a seam drops. And a
    warning from the checking: a frame taken right after `mods only` + reload can show a HALF-LOADED mod (Neuvillette4

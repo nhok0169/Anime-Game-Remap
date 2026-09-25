@@ -238,11 +238,13 @@ TailsInCoat = {32: 7, 35: 7, 36: 9, 33: 9, 37: 24, 34: 24, 38: 24, 39: 24,
 # Neuvillette3, 4 and 5's capes ripped open in game (2026-09-25) under every split tried (tails whole in the Coat;
 # a Coat claim share; an overlap band; whole connected pieces, which then pulled a coat's lining through its shell).
 # With the whole outfit on the main mesh there is no seam at all. The cost is the swing: the main mesh has no long
-# coat bones, so his upper links take its back-skirt bones (85-88, 73) and his lower links its knees (23 / 43) and
-# shins (6 / 26) -- a hem moves with the legs like a long skirt. The maintainer grades geometry faults above texture
+# coat bones, so his upper links take its back-skirt bones (85-88, 73) and his LOWER links its PELVIS (0): the hem
+# hangs with the hips rather than swinging. His lower links first rode the knees (23 / 43) and shins (6 / 26), and
+# cloth hanging 20-30 cm off a bending joint swung with every bend of the idle pose -- Neuvillette2's front panels
+# splayed open, Neuvillette3's cape folded in and Kaiba's two cape halves crossed (in game, 2026-09-25). The maintainer grades geometry faults above texture
 # ones, and a hole is the worst geometry fault; 0 / 1 (back pieces) ride the spine rather than the nearest bone (60,
 # behind the upper back), which may be a loose piece.
-TailsInMain = {0: 0, 1: 0, 32: 85, 33: 23, 34: 23, 35: 73, 36: 87, 37: 23, 38: 6, 39: 6, 40: 86, 41: 43, 42: 43, 43: 86, 44: 88, 45: 43, 46: 26, 47: 26}
+TailsInMain = {0: 0, 1: 0, 32: 85, 33: 0, 34: 0, 35: 73, 36: 87, 37: 0, 38: 0, 39: 0, 40: 86, 41: 0, 42: 0, 43: 86, 44: 88, 45: 0, 46: 0, 47: 0}
 
 
 def applyVgMoves(moves: dict, toComp: str):

@@ -177,6 +177,17 @@ namespace AGRemapCore {
                 // Filed at 6.7, where the skin's assets are.
                 {{"6.7", ModTypeIdTools::getName(ModTypeId::CharlotteHurlock)},
                  IniParseBuilderFuncs::charlotteHurlock6_7()},
+
+                // ===== Neuvillette (2026-09-25) =====
+                // Three drawn objects off one mesh, head and dress plain, body on the normal-map layout.
+                // At 4.0, where his downloads are.
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Neuvillette)}, IniParseBuilderFuncs::neuvillette4_0()},
+
+                // ===== NeuvilletteMelusent (2026-09-25) =====
+                // The fifth row built by makeGIMIComponentParser, the reverse of the four Neuvillette rows. At 6.3,
+                // where the skin's assets are.
+                {{"6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent)},
+                 IniParseBuilderFuncs::neuvilletteMelusent6_3()},
             };
         }
     }

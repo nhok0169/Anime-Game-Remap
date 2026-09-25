@@ -1,0 +1,163 @@
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
+#include "AGRemapCore/data/IniFixData/Neuvillette/NeuvilletteFixer.h"
+
+#include <string>
+#include <vector>
+
+#include "AGRemapCore/constants/ModTypeId.h"
+#include "AGRemapCore/data/IniFixBuilderData.h"
+#include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
+
+
+namespace AGRemapCore {
+    namespace {
+        // The skin's main-mesh slots -- match_first_index off the frame dump of its outfit preview
+        const std::string HeadSlot = "0";
+        const std::string BodySlot = "46620";
+        const std::string DressSlot = "71025";
+
+
+        GIMIComponentFixerConfig neuvilletteMelusentConfig() {
+            // Remapped onto NeuvilletteMelusent ("Melusent Gift", 6.3) -- a skin of FOUR components. Every
+            // value was read off the prototype (Tools/Misc/Prototypes/neuvilletteMelusentFix.py), confirmed
+            // in game on his identity mod and seven real ones, and off the two frame dumps of the outfit
+            // shop's previews (Tools/Misc/Diagnostics/giDrawTable.py).
+            GIMIComponentFixerConfig config{};
+            config.targetSkin = ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent);
+            config.drawnObjs = {"head", "body", "dress"};
+
+            // Per object: a section binding ps-t2 is on the normal-map layout (his body); otherwise it is
+            // plain (his head, his dress) and shifted up onto the skin's normal-map slots with a flat normal.
+            config.sourceLayout = GIMIComponentFixerConfig::SourceLayout::Detect;
+
+            // ...and each binding read by its resource NAME, where the names can be believed: one of his
+            // mods writes its dress in the GAME's register order (ps-t0 light map, ps-t1 diffuse, no fix
+            // call), which read positionally drew his hair ribbon's tails flat green (2026-09-24).
+            config.texRegsByName = true;
+
+            // Both characters read the face diffuse at ps-t1 (GI 6.x). Swap only a mod still on ps-t0.
+            config.faceSwapOnlyFromDiffuseReg = true;
+
+            // The main mesh. Its component name is EMPTY -- its files are NeuvilletteMelusentHead.ib,
+            // NeuvilletteMelusentPosition.buf -- and only its fix-target id carries a name.
+            //
+            // Each of his objects goes through the slot that shades the same KIND of part: his head (hair,
+            // face skin) through the Head slot, his body through the Body slot, and his DRESS -- which is
+            // his white cravat, lace and cuff ruffles, not a dress -- through the Body slot too. Through the
+            // skin's own Dress slot (ps 26dbacaa) they came out with dark blotches (2026-09-24). The Dress
+            // slot then draws nothing and is guarded against a TexFx request through slotIndices.
+            GIMIComponentFixerConfig::Component main{};
+            main.name = "";
+            main.modTypeName = ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusentMain);
+            main.slot = "Head";
+            main.slotIndex = HeadSlot;
+            main.objSlotIndices = {{"body", BodySlot}, {"dress", BodySlot}};
+            main.slotIndices = {HeadSlot, BodySlot, DressSlot};
+            main.negativeIndex = false;
+            main.normalMap = true;
+            main.face = true;
+            main.texcoordStride = 12;       // NeuvilletteMelusentTexcoord.buf: 270036 / 22503
+            main.slotRegisters = {"ps-t0", "ps-t1", "ps-t2"};
+
+            // The Coat and the Bang: one slot each, on the normal-map layout like the main mesh.
+            GIMIComponentFixerConfig::Component coat{};
+            coat.name = "Coat";
+            coat.modTypeName = ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusentCoat);
+            coat.slot = "A";
+            coat.slotIndex = "0";
+            coat.slotIndices = {"0"};
+            coat.negativeIndex = false;
+            coat.normalMap = true;
+            coat.face = false;
+            coat.texcoordStride = 12;
+            coat.slotRegisters = {"ps-t0", "ps-t1", "ps-t2"};
+
+            GIMIComponentFixerConfig::Component bang = coat;
+            bang.name = "Bang";
+            bang.modTypeName = ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusentBang);
+
+            // His eyes (vertex groups 13 / 14) are in his HEAD object. The skin draws its Eye on the PLAIN
+            // shader with a diffuse / light map at ps-t0 / ps-t1 under NNFix.
+            GIMIComponentFixerConfig::Component eye = coat;
+            eye.name = "Eye";
+            eye.modTypeName = ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusentEye);
+            eye.normalMap = false;
+            eye.slotRegisters = {"ps-t0", "ps-t1"};
+
+            // The Eye LAST: it owns the hidden components and the TexFx guards, so it has to be the last
+            // fixer to run -- the same order as the rows in IniFixBuilderData.
+            config.components = {main, coat, bang, eye};
+
+            // Every component receives a forward vertex-group row, so none is hidden by request. A mod can
+            // still put nothing on a component's bones (a summer outfit with no coat), and the template
+            // hides such a component by the result.
+            config.hiddenComponents = {};
+            config.unremappedSlots = {};
+
+            // The flat normal map invented for a plain-layout object has BLUE = 0: every GI 6.x normal map
+            // in play here is R, G ~128, B ~0, and this skin's shaders read B as a GLITTER mask -- the
+            // template's default (B = 255) covered his boots and trousers in white sparkles (2026-09-24).
+            config.flatNormal = Colour(55, 55, 0, 255);
+
+            // No band move: his white mods render right on the skin's legend as they are, and moving his
+            // silver-cloth band (126-128, the skin's cyan) onto its white cloth gave harder, darker shadows
+            // on the cravat. The faint cyan cast that leaves is the maintainer's call.
+            config.lightMapEdit = nullptr;
+            config.compressTextures = false;
+
+            return config;
+        }
+    }
+
+
+    IniFixBuilder::Factory IniFixBuilderFuncs::neuvilletteMelusentMain6_3() {
+        return makeGIMIComponentFixer(neuvilletteMelusentConfig(), "");
+    }
+
+
+    IniFixBuilder::Factory IniFixBuilderFuncs::neuvilletteMelusentCoat6_3() {
+        return makeGIMIComponentFixer(neuvilletteMelusentConfig(), "Coat");
+    }
+
+
+    IniFixBuilder::Factory IniFixBuilderFuncs::neuvilletteMelusentBang6_3() {
+        return makeGIMIComponentFixer(neuvilletteMelusentConfig(), "Bang");
+    }
+
+
+    IniFixBuilder::Factory IniFixBuilderFuncs::neuvilletteMelusentEye6_3() {
+        return makeGIMIComponentFixer(neuvilletteMelusentConfig(), "Eye");
+    }
+
+
+    IniFixBuilder::Factory NeuvilletteFixer::main6_3() {
+        return IniFixBuilderFuncs::neuvilletteMelusentMain6_3();
+    }
+
+
+    IniFixBuilder::Factory NeuvilletteFixer::coat6_3() {
+        return IniFixBuilderFuncs::neuvilletteMelusentCoat6_3();
+    }
+
+
+    IniFixBuilder::Factory NeuvilletteFixer::bang6_3() {
+        return IniFixBuilderFuncs::neuvilletteMelusentBang6_3();
+    }
+
+
+    IniFixBuilder::Factory NeuvilletteFixer::eye6_3() {
+        return IniFixBuilderFuncs::neuvilletteMelusentEye6_3();
+    }
+}

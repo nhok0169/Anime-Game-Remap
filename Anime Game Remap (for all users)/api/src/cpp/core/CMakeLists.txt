@@ -142,6 +142,10 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Charlotte/CharlotteFixer.cpp
     src/data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.cpp
     src/data/IniFixData/CharlotteHurlock/CharlotteHurlockFixer.cpp
+    src/data/IniParseData/Neuvillette/NeuvilletteParser.cpp
+    src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp
+    src/data/IniParseData/NeuvilletteMelusent/NeuvilletteMelusentParser.cpp
+    src/data/IniFixData/NeuvilletteMelusent/NeuvilletteMelusentFixer.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp
     src/data/IniFixData/Shenhe/ShenheFixer.cpp

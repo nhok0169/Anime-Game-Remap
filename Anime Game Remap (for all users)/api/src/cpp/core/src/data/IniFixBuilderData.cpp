@@ -405,6 +405,25 @@ namespace AGRemapCore {
                   "6.7", ModTypeIdTools::getName(ModTypeId::Charlotte)},
                  IniFixBuilderFuncs::charlotteHurlockToCharlotte6_7()},
 
+                // ===== Neuvillette @ toVersion 6.3 (2026-09-25) =====
+                // FOUR rows, one per target component, the Eye LAST: its fixer owns the hidden
+                // components and the TexFx guards and has to run after the other three. At 6.3 because
+                // the skin's hashes are filed there.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Neuvillette),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusentMain)}, IniFixBuilderFuncs::neuvilletteMelusentMain6_3()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Neuvillette),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusentCoat)}, IniFixBuilderFuncs::neuvilletteMelusentCoat6_3()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Neuvillette),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusentBang)}, IniFixBuilderFuncs::neuvilletteMelusentBang6_3()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Neuvillette),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusentEye)}, IniFixBuilderFuncs::neuvilletteMelusentEye6_3()},
+
+                // ===== NeuvilletteMelusent @ toVersion 6.3 (2026-09-25) =====
+                // The merge back: ONE row, the skin's components folded onto Neuvillette's one mesh.
+                {{"6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::Neuvillette)},
+                 IniFixBuilderFuncs::neuvilletteMelusentToNeuvillette6_3()},
+
                 // ===== Keqing @ toVersion 6.1 =====
                 //
                 // The pair: this one MERGES (Keqing's dress and head onto KeqingOpulent's head)

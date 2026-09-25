@@ -161,6 +161,24 @@ namespace AGRemapCore {
             case static_cast<int>(ModTypeId::MonaCN):
                 return ModTypeId::MonaCN;
 
+            case static_cast<int>(ModTypeId::Neuvillette):
+                return ModTypeId::Neuvillette;
+
+            case static_cast<int>(ModTypeId::NeuvilletteMelusent):
+                return ModTypeId::NeuvilletteMelusent;
+
+            case static_cast<int>(ModTypeId::NeuvilletteMelusentMain):
+                return ModTypeId::NeuvilletteMelusentMain;
+
+            case static_cast<int>(ModTypeId::NeuvilletteMelusentCoat):
+                return ModTypeId::NeuvilletteMelusentCoat;
+
+            case static_cast<int>(ModTypeId::NeuvilletteMelusentBang):
+                return ModTypeId::NeuvilletteMelusentBang;
+
+            case static_cast<int>(ModTypeId::NeuvilletteMelusentEye):
+                return ModTypeId::NeuvilletteMelusentEye;
+
             case static_cast<int>(ModTypeId::Nilou):
                 return ModTypeId::Nilou;
 
@@ -379,6 +397,24 @@ namespace AGRemapCore {
 
             case ModTypeId::MonaCN:
                 return "MonaCN";
+
+            case ModTypeId::Neuvillette:
+                return "Neuvillette";
+
+            case ModTypeId::NeuvilletteMelusent:
+                return "NeuvilletteMelusent";
+
+            case ModTypeId::NeuvilletteMelusentMain:
+                return "NeuvilletteMelusentMain";
+
+            case ModTypeId::NeuvilletteMelusentCoat:
+                return "NeuvilletteMelusentCoat";
+
+            case ModTypeId::NeuvilletteMelusentBang:
+                return "NeuvilletteMelusentBang";
+
+            case ModTypeId::NeuvilletteMelusentEye:
+                return "NeuvilletteMelusentEye";
 
             case ModTypeId::Nilou:
                 return "Nilou";
@@ -617,6 +653,14 @@ namespace AGRemapCore {
             case ModTypeId::MonaCN:
                 return {ModTypeId::Mona};
 
+            // As Charlotte: the targets are the skin's four COMPONENT ids, not the skin itself.
+            // NeuvilletteMelusent remaps back onto plain Neuvillette, who is one mesh.
+            case ModTypeId::Neuvillette:
+                return {ModTypeId::NeuvilletteMelusentMain, ModTypeId::NeuvilletteMelusentCoat, ModTypeId::NeuvilletteMelusentBang, ModTypeId::NeuvilletteMelusentEye};
+
+            case ModTypeId::NeuvilletteMelusent:
+                return {ModTypeId::Neuvillette};
+
             case ModTypeId::Nilou:
                 return {ModTypeId::NilouBreeze};
 
@@ -699,6 +743,9 @@ namespace AGRemapCore {
 
             case ModTypeId::CharlotteHurlock:
                 return {ModTypeId::CharlotteHurlockBody, ModTypeId::CharlotteHurlockBangs, ModTypeId::CharlotteHurlockEyes, ModTypeId::CharlotteHurlockCamera};
+
+            case ModTypeId::NeuvilletteMelusent:
+                return {ModTypeId::NeuvilletteMelusentMain, ModTypeId::NeuvilletteMelusentCoat, ModTypeId::NeuvilletteMelusentBang, ModTypeId::NeuvilletteMelusentEye};
 
             // Every other mod type is one mesh. The component ids themselves included -- a
             // component has no components of its own.
@@ -835,6 +882,12 @@ namespace AGRemapCore {
 
             case ModTypeId::MonaCN:
                 return {"monacn"};
+
+            case ModTypeId::Neuvillette:
+                return {"neuvillette"};
+
+            case ModTypeId::NeuvilletteMelusent:
+                return {"neuvillettemelusent"};
 
             case ModTypeId::Nilou:
                 return {"nilou"};

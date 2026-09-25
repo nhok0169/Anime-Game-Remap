@@ -1361,6 +1361,34 @@ namespace AGRemapCore {
              */
             static IniFixBuilder::Factory charlotteHurlockEyes6_7();
 
+            /**
+             * @brief
+             @rst
+             The 6.3 fix remapping **Neuvillette onto NeuvilletteMelusent's main mesh** :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A skin of FOUR components whose main mesh is unnamed. One fixer per target component, all
+             four built from one :cpp:class:`GIMIComponentFixerConfig`. See
+             ``data/IniFixData/Neuvillette/NeuvilletteFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory neuvilletteMelusentMain6_3();
+
+            /**
+             * @brief The 6.3 fix remapping **Neuvillette onto NeuvilletteMelusent's Coat** -- see :cpp:func:`neuvilletteMelusentMain6_3`
+             */
+            static IniFixBuilder::Factory neuvilletteMelusentCoat6_3();
+
+            /**
+             * @brief The 6.3 fix remapping **Neuvillette onto NeuvilletteMelusent's Bang** -- see :cpp:func:`neuvilletteMelusentMain6_3`
+             */
+            static IniFixBuilder::Factory neuvilletteMelusentBang6_3();
+
+            /**
+             * @brief The 6.3 fix remapping **Neuvillette onto NeuvilletteMelusent's Eye** -- see :cpp:func:`neuvilletteMelusentMain6_3`
+             */
+            static IniFixBuilder::Factory neuvilletteMelusentEye6_3();
+
             static IniFixBuilder::Factory yelanTranquilBody6_1();
 
             /**
@@ -1408,6 +1436,19 @@ namespace AGRemapCore {
              @endrst
              */
             static IniFixBuilder::Factory charlotteHurlockToCharlotte6_7();
+
+            /**
+             * @brief
+             @rst
+             The 6.3 fix remapping **NeuvilletteMelusent onto Neuvillette** :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The FIFTH merge of a skin of several components onto a target of one, and the inverse of
+             :cpp:func:`neuvilletteMelusentMain6_3` and its siblings. See
+             ``data/IniFixData/NeuvilletteMelusent/NeuvilletteMelusentFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory neuvilletteMelusentToNeuvillette6_3();
 
     };
 

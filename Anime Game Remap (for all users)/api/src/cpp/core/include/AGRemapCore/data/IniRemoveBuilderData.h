@@ -387,6 +387,24 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Stub for the neuvillette4_0's remover -- returns
+             :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
+             @endrst
+             */
+            static IniRemoveBuilder::Factory neuvillette4_0();
+
+            /**
+             * @brief
+             @rst
+             Stub for the neuvilletteMelusent4_0's remover -- returns
+             :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
+             @endrst
+             */
+            static IniRemoveBuilder::Factory neuvilletteMelusent4_0();
+
+            /**
+             * @brief
+             @rst
              Stub for the nilou4_0's remover -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst

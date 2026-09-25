@@ -1217,6 +1217,100 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {0, 13}, {1, 14}
          })},
 
+        // ===== from Neuvillette @ 1.0 (2026-09-24) =====
+        // NeuvilletteMelusent is FOUR skinned components -- an UNNAMED main mesh (component ""), a Coat,
+        // a Bang and an Eye -- each with its own vertex group index space, so Neuvillette's 116 groups
+        // are split across rows keyed by the target component, as Charlotte's are. From
+        // Data/RemapDrafts/NeuvilletteRemapDraft.xlsx: Tools/VGRemapFinder's proposal, every row whose
+        // chain / vertices / nearest answers disagreed reviewed for the KIND of part on both models
+        // (32 overrides, 'Reviewed:' in the draft's Comments -- hair that had landed on the coat, coat on
+        // hair, bangs on the eye bones, coat sleeves on finger bones, coat-tail tips on the calf).
+        // His long coat tails (groups 32-47, waist to hem) go WHOLE into the Coat, down its back panel by
+        // height (Coat:7 -> 9 -> 24 on the left, 8 -> 10 -> 25 on the right): the draft split each chain
+        // between the main mesh's back pieces and the Coat's tail ends, a vertex weighted to both was drawn
+        // by both components through different bones, and Neuvillette3's long coat came out with a
+        // SAWTOOTHED hem (in game, 2026-09-24; smooth with the whole chain in the Coat).
+        // The union of the rows covers each of Neuvillette's 116 groups exactly once. Confirmed in game on
+        // seven forward mods (2026-09-25).
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Neuvillette), "",
+          "6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent), ""},
+         VGRemap({
+            {2, 25}, {3, 75}, {4, 77}, {5, 77}, {6, 79}, {7, 75}, {8, 78}, {9, 78}, {10, 78}, {11, 80},
+            {12, 27}, {15, 59}, {16, 60}, {17, 61}, {18, 62}, {19, 69}, {20, 68}, {21, 64}, {22, 66}, {23, 68},
+            {24, 65}, {25, 67}, {26, 69}, {28, 5}, {31, 0}, {48, 70}, {49, 81}, {50, 83}, {51, 83}, {52, 71},
+            {53, 82}, {54, 84}, {55, 84}, {56, 2}, {57, 2}, {58, 53}, {59, 4}, {60, 4}, {61, 54}, {62, 1},
+            {63, 2}, {64, 1}, {65, 3}, {66, 4}, {67, 3}, {68, 5}, {69, 6}, {70, 7}, {71, 8}, {72, 9},
+            {73, 10}, {74, 11}, {75, 12}, {76, 13}, {77, 14}, {78, 15}, {79, 16}, {80, 17}, {81, 18}, {82, 19},
+            {83, 20}, {84, 21}, {85, 22}, {86, 23}, {87, 24}, {88, 26}, {89, 27}, {90, 28}, {91, 29}, {92, 30},
+            {93, 31}, {94, 32}, {95, 33}, {96, 34}, {97, 35}, {98, 36}, {99, 37}, {100, 38}, {101, 39}, {102, 40},
+            {103, 41}, {104, 42}, {105, 43}, {106, 44}, {107, 45}, {108, 46}, {109, 47}, {110, 89}, {111, 90}, {112, 91},
+            {113, 92}, {114, 93}, {115, 94}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Neuvillette), "",
+          "6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent), "Coat"},
+         VGRemap({
+            {0, 3}, {1, 4}, {32, 7}, {33, 9}, {34, 24}, {35, 7}, {36, 9}, {37, 24}, {38, 24}, {39, 24},
+            {40, 8}, {41, 10}, {42, 25}, {43, 8}, {44, 10}, {45, 25}, {46, 25}, {47, 25}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Neuvillette), "",
+          "6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent), "Bang"},
+         VGRemap({
+            {27, 1}, {29, 3}, {30, 4}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Neuvillette), "",
+          "6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent), "Eye"},
+         VGRemap({
+            {13, 0}, {14, 1}
+         })},
+
+        // ===== from NeuvilletteMelusent @ 1.0 (2026-09-24) =====
+        // One row per source component, the main mesh's under the empty component name. Three moves off the
+        // draft, each seen in game on the identity mod (2026-09-25): the skin wears its coat as a MANTLE whose
+        // sleeves hang empty behind the arms on a chain of their own (Coat 32 -> 34 -> 36, 33 -> 35 -> 37), and
+        // Neuvillette has nothing like it -- split between his cuff piece and his shoulder cloth the cuff jutted
+        // out at elbow height, on his clavicle the sleeves flared out at idle; whole on his UPPER ARM (64 / 67)
+        // they lie along the arm. The mantle's right shoulder (Coat 14 / 31) went to 65 where its left twin goes
+        // to 64, whose mirror is 67. And the main mesh's cuff band (53 / 54) goes to his forearm (85 / 104), the
+        // bone his hand chain shares vertices with, not his separate cuff piece (58 / 61).
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent), "",
+          "6.3", ModTypeIdTools::getName(ModTypeId::Neuvillette), ""},
+         VGRemap({
+            {0, 31}, {1, 62}, {2, 63}, {3, 65}, {4, 66}, {5, 68}, {6, 69}, {7, 70}, {8, 71}, {9, 72},
+            {10, 73}, {11, 74}, {12, 75}, {13, 76}, {14, 77}, {15, 78}, {16, 79}, {17, 80}, {18, 81}, {19, 82},
+            {20, 83}, {21, 84}, {22, 85}, {23, 86}, {24, 87}, {25, 2}, {26, 88}, {27, 89}, {28, 90}, {29, 91},
+            {30, 92}, {31, 93}, {32, 94}, {33, 95}, {34, 96}, {35, 97}, {36, 98}, {37, 99}, {38, 100}, {39, 101},
+            {40, 102}, {41, 103}, {42, 104}, {43, 105}, {44, 106}, {45, 107}, {46, 108}, {47, 109}, {48, 20}, {49, 21},
+            {50, 15}, {51, 24}, {52, 19}, {53, 85}, {54, 104}, {55, 68}, {56, 2}, {57, 2}, {58, 68}, {59, 15},
+            {60, 16}, {61, 17}, {62, 18}, {63, 18}, {64, 21}, {65, 24}, {66, 22}, {67, 25}, {68, 23}, {69, 26},
+            {70, 48}, {71, 52}, {72, 31}, {73, 31}, {74, 86}, {75, 3}, {76, 4}, {77, 5}, {78, 10}, {79, 6},
+            {80, 11}, {81, 49}, {82, 53}, {83, 49}, {84, 53}, {85, 32}, {86, 40}, {87, 32}, {88, 40}, {89, 110},
+            {90, 111}, {91, 112}, {92, 113}, {93, 114}, {94, 115}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent), "Bang",
+          "6.3", ModTypeIdTools::getName(ModTypeId::Neuvillette), ""},
+         VGRemap({
+            {0, 68}, {1, 27}, {2, 27}, {3, 29}, {4, 30}, {5, 68}, {6, 68}, {7, 29}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent), "Coat",
+          "6.3", ModTypeIdTools::getName(ModTypeId::Neuvillette), ""},
+         VGRemap({
+            {0, 70}, {1, 89}, {2, 109}, {3, 0}, {4, 1}, {5, 0}, {6, 1}, {7, 36}, {8, 44}, {9, 36},
+            {10, 44}, {11, 70}, {12, 89}, {13, 64}, {14, 67}, {15, 58}, {16, 60}, {17, 35}, {18, 43}, {19, 36},
+            {20, 44}, {21, 37}, {22, 45}, {23, 109}, {24, 37}, {25, 45}, {26, 31}, {27, 31}, {28, 70}, {29, 89},
+            {30, 64}, {31, 67}, {32, 64}, {33, 67}, {34, 64}, {35, 67}, {36, 64}, {37, 67}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent), "Eye",
+          "6.3", ModTypeIdTools::getName(ModTypeId::Neuvillette), ""},
+         VGRemap({
+            {0, 13}, {1, 14}
+         })},
+
         // ===== WuWa: Sanhua <-> SanhuaExorcist (2026-09-19) =====
         // Both directions from Data/RemapDrafts/SanhuaRemapDraft.xlsx, in WWMI's MERGED skeleton
         // (the space every component's vg_map in Metadata.json maps into, and the space a WWMI

@@ -300,6 +300,44 @@ namespace AGRemapCore {
         MonaCN,
 
         /**
+         * @brief Neuvillette from GI
+         */
+        Neuvillette,
+
+        /**
+         * @brief Neuvillette outfit skin (Melusent Gift) from GI -- FOUR skinned components (an unnamed main mesh, Coat, Bang, Eye)
+         */
+        NeuvilletteMelusent,
+
+        /**
+         * @brief
+         @rst
+         NeuvilletteMelusent's MAIN mesh (Head / Body / Dress on one index buffer), as a fix TARGET
+         :raw-html:`<br />` :raw-html:`<br />`
+         The same arrangement as :cpp:enumerator:`CharlotteHurlockBody`, with one difference: the
+         skin's own asset files and mods leave this component UNNAMED (``NeuvilletteMelusentHead.ib``,
+         ``NeuvilletteMelusentPosition.buf``), so its component name -- in the vertex-group table and
+         the download file names -- is the empty string, and only this fix-target id carries ``Main``
+         @endrst
+         */
+        NeuvilletteMelusentMain,
+
+        /**
+         * @brief NeuvilletteMelusent's ``Coat`` component, as a fix target -- see :cpp:enumerator:`NeuvilletteMelusentMain`
+         */
+        NeuvilletteMelusentCoat,
+
+        /**
+         * @brief NeuvilletteMelusent's ``Bang`` component, as a fix target -- see :cpp:enumerator:`NeuvilletteMelusentMain`
+         */
+        NeuvilletteMelusentBang,
+
+        /**
+         * @brief NeuvilletteMelusent's ``Eye`` component, as a fix target -- see :cpp:enumerator:`NeuvilletteMelusentMain`
+         */
+        NeuvilletteMelusentEye,
+
+        /**
          * @brief Nilou from GI
          */
         Nilou,

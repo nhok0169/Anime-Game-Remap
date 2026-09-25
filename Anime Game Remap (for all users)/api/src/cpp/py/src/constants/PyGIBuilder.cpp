@@ -63,6 +63,8 @@ Mirrors the pure-Python :class:`GIBuilder` class, but builds the lighter, C++-si
         .def_static("lisaStudent", &AGRC::GIBuilder::lisaStudent, py::doc(R"doc(Creates the :class:`ModType` for LisaStudent)doc"))
         .def_static("mona", &AGRC::GIBuilder::mona, py::doc(R"doc(Creates the :class:`ModType` for Mona)doc"))
         .def_static("monaCN", &AGRC::GIBuilder::monaCN, py::doc(R"doc(Creates the :class:`ModType` for MonaCN)doc"))
+        .def_static("neuvillette", &AGRC::GIBuilder::neuvillette, py::doc(R"doc(Creates the :class:`ModType` for Neuvillette)doc"))
+        .def_static("neuvilletteMelusent", &AGRC::GIBuilder::neuvilletteMelusent, py::doc(R"doc(Creates the :class:`ModType` for NeuvilletteMelusent)doc"))
         .def_static("nilou", &AGRC::GIBuilder::nilou, py::doc(R"doc(Creates the :class:`ModType` for Nilou)doc"))
         .def_static("nilouBreeze", &AGRC::GIBuilder::nilouBreeze, py::doc(R"doc(Creates the :class:`ModType` for NilouBreeze)doc"))
         .def_static("ningguang", &AGRC::GIBuilder::ningguang, py::doc(R"doc(Creates the :class:`ModType` for Ningguang)doc"))

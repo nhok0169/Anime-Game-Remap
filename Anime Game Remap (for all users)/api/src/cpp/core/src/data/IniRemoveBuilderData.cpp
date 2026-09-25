@@ -63,6 +63,8 @@ namespace AGRemapCore {
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::lisaStudent4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::mona4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::monaCN4_0() { return IniRemoveBuilder::defaultFactory(); }
+    IniRemoveBuilder::Factory IniRemoveBuilderFuncs::neuvillette4_0() { return IniRemoveBuilder::defaultFactory(); }
+    IniRemoveBuilder::Factory IniRemoveBuilderFuncs::neuvilletteMelusent4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::nilou4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::nilouBreeze4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::ningguang4_0() { return IniRemoveBuilder::defaultFactory(); }
@@ -122,6 +124,8 @@ namespace AGRemapCore {
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::LisaStudent)}, IniRemoveBuilderFuncs::lisaStudent4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Mona)}, IniRemoveBuilderFuncs::mona4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::MonaCN)}, IniRemoveBuilderFuncs::monaCN4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Neuvillette)}, IniRemoveBuilderFuncs::neuvillette4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent)}, IniRemoveBuilderFuncs::neuvilletteMelusent4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Nilou)}, IniRemoveBuilderFuncs::nilou4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::NilouBreeze)}, IniRemoveBuilderFuncs::nilouBreeze4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Ningguang)}, IniRemoveBuilderFuncs::ningguang4_0()},

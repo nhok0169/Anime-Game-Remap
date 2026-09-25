@@ -688,14 +688,41 @@ AnchorChains: Dict[str, Dict[int, List[int]]] = {
     #   named a bone that put the prop 90 units away. Skin the prop with each candidate and look at
     #   where the cloud lands.
     "props": {3: [409, 410, 411, 412, 413, 414, 415, 416, 417, 418]},
+    # THE BACK SKIRT PANEL, component 4's `Skirt` range -- reported in game as "black stuff sticking
+    #   out from her back" (2026-09-24). Painting each component's diffuse in turn identified it
+    #   (only the lower body's paint reached it) and hiding that one range removed it at every angle
+    #   it was visible.
+    #
+    #   Every STATIC test of its remap is clean: no outlier vertices, and its 36 source groups land
+    #   0.8 to 6.1 units from where they live on Chisa -- tighter than most of the model. The panel
+    #   also hangs correctly on CHISA herself with the fix undone, at all eight angles. So the bones
+    #   are not mapped to the wrong PLACE; they are mapped to bones that MOVE differently.
+    #   ChisaParfait wears a short frilly skirt, and 227..250 -- which only this range rides, where
+    #   every other range of the component stops at 227 -- are its frill bones. Near in rest space,
+    #   driven by a different garment once posed, and a rest-pose distance cannot see the difference.
+    #   Retargeting them to the nearest bone inside the lower body's own window was tried first and
+    #   is WORSE by that same measure (4.5-8.5 units against 1.2-3.2), which is the sign that
+    #   proximity is not the criterion here: rigidity is.
+    #
+    #   The chain is the 24 groups ONLY the skirt uses, so pinning them moves nothing else -- the 12
+    #   it shares with the rest of component 4 are left alone. The root is source 193: the largest
+    #   single share of the panel's weight (5.7%), on the mid-line at waist height, and one the body
+    #   itself moves with, which is the property the prop anchor was chosen for as well.
+    "skirt": {193: [292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303,
+                    304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315]},
 }
 
 
 def anchoredRemap(remap: Dict[int, int], mode: str) -> Dict[int, int]:
-    """'remap' with every chain of the given anchor mode pinned to its root's target"""
+    """'remap' with every chain of the given anchor mode(s) pinned to its root's target
+
+    'mode' is a comma-separated set, so more than one chain can apply without reaching for "all" --
+    which would also pull in `collar`, deliberately opt-in. A single name still means what it did.
+    """
+    wanted = {m.strip() for m in mode.split(",") if (m.strip())}
     result = dict(remap)
     for name, chains in AnchorChains.items():
-        if (mode != "all" and mode != name):
+        if ("all" not in wanted and name not in wanted):
             continue
         for root, chain in chains.items():
             for group in chain:
@@ -3137,8 +3164,10 @@ def main():
     #   unaffected, so there is no cost to having it on. Pass "none" to turn it off.
     parser.add_argument("--standIn", default = None,
                         help = "component:bone:standIn[,...] -- replace SlotBoneStandIns for this run (diagnostic)")
-    parser.add_argument("--anchor", choices = sorted(AnchorChains) + ["all", "none"], default = "props",
-                        help = "pin a chain the skin has no counterpart for to one bone (default: props)")
+    parser.add_argument("--anchor", default = "props,skirt",
+                        help = "comma-separated chains the skin has no counterpart for, pinned to one "
+                               f"bone each: {', '.join(sorted(AnchorChains))}, or 'all' / 'none' "
+                               "(default: %(default)s -- the chains confirmed in game)")
     # `hide` WAS THE DEFAULT AND IT BROKE THE MOD ON ITS OWN CHARACTER (2026-09-20). It comments
     #   sections out of the mod's OWN text, so whatever it does it does to the source's draws as
     #   well as the remap's -- and a real mod's shape-key pipeline is not decoration: on a 114213

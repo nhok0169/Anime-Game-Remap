@@ -64,6 +64,8 @@
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h"
+
+#include <stdexcept>
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
 #include "AGRemapCore/tools/StringTools.h"
@@ -1359,7 +1361,7 @@ namespace AGRemapCore {
                                                                 + std::to_string(component) + "Textures");
                             std::string condition;
                             for (const std::string& pass : config_.slotPasses.at(static_cast<std::size_t>(planned.slot))) {
-                                condition += (condition.empty() ? "" : " || ") + std::string("ps == ") + passFilter(pass);
+                                condition += (condition.empty() ? "" : " || ") + passCondition(pass);
                             }
 
                             std::string text = "[" + cmdList + "]\nif " + condition + "\n";
@@ -1395,7 +1397,7 @@ namespace AGRemapCore {
                                 const std::string extraList =
                                     fixName("CommandList" + source_.name + capitalized(config_.slotPrefix)
                                             + std::to_string(component) + "TexturesPass" + std::to_string(n));
-                                std::string extraText = "[" + extraList + "]\nif ps == " + passFilter(pass) + "\n";
+                                std::string extraText = "[" + extraList + "]\nif " + passCondition(pass) + "\n";
                                 for (const std::string& binding : extraBindings) {
                                     extraText += binding + "\n";
                                 }
@@ -1742,6 +1744,40 @@ namespace AGRemapCore {
                     return tag;
                 }
 
+                // The shaders TAGGED for a pass: its own pixel shader by default, or the vertex
+                // shaders it is drawn with -- see WWMIFixerConfig::passVertexShaders.
+                std::vector<std::string> taggedFor(const std::string& pass) const {
+                    if (config_.passVertexShaders.empty()) {
+                        return {pass};
+                    }
+
+                    const auto at = config_.passVertexShaders.find(pass);
+                    if (at == config_.passVertexShaders.end() || at->second.empty()) {
+                        // Not a fallback to tagging the pixel shader: that would be silent, and it
+                        // is the bug the map exists to avoid. A pass reaches here only when a
+                        // compiled config is written wrong, so it is loud and immediate -- the same
+                        // check the prototype makes with an assert.
+                        throw std::runtime_error(
+                            "WWMIFixer: pass " + pass + " has no vertex shader in passVertexShaders. "
+                            "Read the pair off a frame dump's draw table; tagging its pixel shader "
+                            "instead would switch RabbitFX off for every mod using that shader.");
+                    }
+
+                    return at->second;
+                }
+
+                // The `.ini` condition true on a draw of 'pass'
+                std::string passCondition(const std::string& pass) {
+                    passFilter("");
+                    const std::string reg = config_.passVertexShaders.empty() ? "ps" : "vs";
+                    std::string out;
+                    for (const std::string& tagged : taggedFor(pass)) {
+                        out += (out.empty() ? "" : " || ") + reg + " == " + passFilters_[tagged];
+                    }
+
+                    return out;
+                }
+
                 std::string passFilter(const std::string& pass) {
                     // One filter_index per distinct shader, in order of first appearance over the
                     // slots -- except for a shader config.filterIndices names, which takes the value
@@ -1770,19 +1806,22 @@ namespace AGRemapCore {
 
                         for (const auto& passes : allPasses) {
                             for (const std::string& p : passes) {
-                                if (passFilters_.count(p) != 0) {
-                                    continue;
-                                }
 
-                                auto given = config_.filterIndices.find(p);
-                                if (given != config_.filterIndices.end()) {
-                                    passFilters_[p] = given->second;
-                                } else {
-                                    passFilters_[p] = formatFilter(config_.filterBase + config_.filterStep * static_cast<double>(i));
-                                    ++i;
-                                }
+                                for (const std::string& tagged : taggedFor(p)) {
+                                    if (passFilters_.count(tagged) != 0) {
+                                        continue;
+                                    }
 
-                                passOrder_.push_back(p);
+                                    auto given = config_.filterIndices.find(tagged);
+                                    if (given != config_.filterIndices.end()) {
+                                        passFilters_[tagged] = given->second;
+                                    } else {
+                                        passFilters_[tagged] = formatFilter(config_.filterBase + config_.filterStep * static_cast<double>(i));
+                                        ++i;
+                                    }
+
+                                    passOrder_.push_back(tagged);
+                                }
                             }
                         }
                     }

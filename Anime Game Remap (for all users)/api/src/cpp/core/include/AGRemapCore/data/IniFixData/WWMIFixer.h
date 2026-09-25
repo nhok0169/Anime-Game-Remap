@@ -441,6 +441,30 @@ namespace AGRemapCore {
          @endrst
          */
         std::map<int, std::map<std::string, std::vector<Binding>>> extraPassRegs;
+        /**
+         * @brief
+         @rst
+         Each pass mapped to the VERTEX shaders it is drawn with. Empty (the default) tags the pass's
+         own pixel shader and guards ``ps == ...``; set, the fix tags those vertex shaders instead
+         and guards ``vs == ...``, an OR when a pass has several.
+
+         Chisa needs it and Sanhua does not. RabbitFX patches PIXEL shaders and marks each
+         ``filter_index = 1718.1``, and a shader carries one filter_index -- so tagging the same
+         pixel shader makes every RabbitFX ``SetTextures`` read ``if ps == 1718.1`` as false, and
+         because a ``[ShaderOverride]`` is keyed by shader hash GLOBALLY it does that for any mod
+         drawing with those shaders, not only this one. Tagging just the passes RabbitFX leaves alone
+         is not a readable list: six of its regexes have their dump lines commented out, so a pass
+         can be RabbitFX's with no trace in any dump -- one was, and a backless sweater's
+         see-through panels rendered red in game because the ``ps`` tag switched that pass's FX-map
+         discard off.
+
+         A pass left out of a non-empty map is an error rather than a fallback to its pixel shader:
+         the fallback would be silent and would reintroduce exactly that. Read the pairs off every
+         frame dump's draw table (``Tools/Misc/Diagnostics/wwmiDrawTable.py``) -- a pass can run on a
+         different vertex shader per component, or on different ones in different dumps
+         @endrst
+         */
+        std::map<std::string, std::vector<std::string>> passVertexShaders;
 
         /**
          * @brief

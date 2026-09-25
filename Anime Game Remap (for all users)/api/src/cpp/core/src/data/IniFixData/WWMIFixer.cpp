@@ -852,6 +852,7 @@ namespace AGRemapCore {
                         writeZeroStream();
                         addCreatedTextures();
                         addFallbackDownloads();
+                        addTexEdits();
                     }
 
                     for (Fixer::GroupEdit* edit : this->graphGroupEdits) {
@@ -1214,6 +1215,7 @@ namespace AGRemapCore {
                                 }
                             }
 
+                            fileOfRole_[binding.role] = index_->real(best);
                             auto own = resourceOfFile.find(best);
                             if (own != resourceOfFile.end()) {
                                 resourceOfSlotRole_[{binding.role, component}] = own->second;
@@ -2032,6 +2034,10 @@ namespace AGRemapCore {
                         ++meshNum;
                     }
 
+                    for (const auto& edited : editedResources_) {
+                        out += "[" + edited.first + "]\n" + IniKeywords::Filename + " = " + edited.second + "\n\n";
+                    }
+
                     for (const WWMIFixerConfig::CreatedTexture& created : config_.createdTextures) {
                         out += "[" + resourceOfRole_[created.role] + "]\n" + IniKeywords::Filename + " = " + createdTextureFile(created) + "\n\n";
                     }
@@ -2066,6 +2072,82 @@ namespace AGRemapCore {
                     std::ofstream out(fsPath, std::ios::binary);
                     const std::vector<char> zeros(static_cast<std::size_t>(size), 0);
                     out.write(zeros.data(), static_cast<std::streamsize>(zeros.size()));
+                }
+
+                // The edits the fix makes to a role's texture before binding it -- see
+                // WWMIFixerConfig::texEdits. Queued as resources rather than run here, so a role
+                // whose file comes from the DOWNLOAD is edited after the download lands: editing a
+                // file that is not there yet writes nothing and says nothing.
+                void addTexEdits() {
+                    if (config_.texEdits.empty()) {
+                        return;
+                    }
+
+                    IniFile* ini = ctx_.getIniFile();
+                    const std::string folder = ini->getFolder();
+
+                    WWMIFixerConfig::TexEditContext context;
+                    context.iniFolder = folder;
+                    context.indexFile = FileService::absPathOfRelPath(indexFile_, folder);
+                    const std::filesystem::path meshes = FileService::strToPath(context.indexFile).parent_path();
+                    context.positionFile = FileService::pathToStr(meshes / "Position.buf");
+                    context.texcoordFile = FileService::pathToStr(meshes / "TexCoord.buf");
+                    std::error_code err;
+                    if (!std::filesystem::is_regular_file(FileService::strToPath(context.texcoordFile), err)) {
+                        context.texcoordFile = FileService::pathToStr(meshes / "Texcoord.buf");
+                    }
+
+                    context.drawRanges = drawRanges_;
+
+                    for (const WWMIFixerConfig::TexEdit& edit : config_.texEdits) {
+                        if (!edit.makeFilter) {
+                            continue;
+                        }
+
+                        const std::string* bound = sharedResourceFor(edit.role);
+                        if (bound == nullptr) {
+                            continue;
+                        }
+
+                        // the mod's own file, or -- for a role it has none for -- the one the
+                        // fallback download lands
+                        std::string source;
+                        const auto srcAt = fileOfRole_.find(edit.role);
+                        if (srcAt != fileOfRole_.end()) {
+                            source = srcAt->second;
+                        } else {
+                            const auto back = fallbacks_.find(edit.role);
+                            if (back == fallbacks_.end()) {
+                                continue;
+                            }
+
+                            source = FileService::absPathOfRelPath(back->second.relPath, folder);
+                        }
+
+                        TexEditor::Filter filter = edit.makeFilter(context);
+                        if (!filter) {
+                            continue;
+                        }
+
+                        const std::string fixedRel = textureFolder_ + "/" + config_.downloadPrefix
+                                                     + capitalized(edit.role) + edit.name + IniKeywords::RemapTex + DdsExt;
+                        const std::string fixedPath = FileService::absPathOfRelPath(fixedRel, folder);
+                        std::filesystem::create_directories(FileService::strToPath(fixedPath).parent_path(), err);
+                        ini->getResources().push_back(std::make_unique<RemapTexEditResource>(
+                            folder, source, fixedPath,
+                            TexEditor({std::move(filter)}, edit.compress)));
+
+                        // every binding of the role follows the edited file
+                        const std::string resource = fixName(ResourcePrefix + capitalized(edit.role) + edit.name
+                                                             + IniKeywords::RemapTex);
+                        editedResources_.emplace_back(resource, fixedRel);
+                        resourceOfRole_[edit.role] = resource;
+                        for (auto& entry : resourceOfSlotRole_) {
+                            if (entry.first.first == edit.role) {
+                                entry.second = resource;
+                            }
+                        }
+                    }
                 }
 
                 void addCreatedTextures() {
@@ -2176,6 +2258,8 @@ namespace AGRemapCore {
                 std::map<int, std::vector<PartEdit*>> editsOf_;
                 std::unique_ptr<ObjGroupEdit> mainEdits_;
                 std::vector<std::unique_ptr<WWMIBlendReplace>> blendReplaces_;
+                std::unordered_map<std::string, std::string> fileOfRole_;            // role -> the file it resolved to
+                std::vector<std::pair<std::string, std::string>> editedResources_;   // (resource, path relative to the .ini)
                 std::vector<std::unique_ptr<Collector>> blendCollects_;
         };
     }

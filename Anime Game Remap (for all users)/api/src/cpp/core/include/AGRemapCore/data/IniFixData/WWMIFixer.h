@@ -25,6 +25,7 @@
 
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
+#include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 #include "AGRemapCore/model/textures/Colour.h"
 
 
@@ -507,6 +508,76 @@ namespace AGRemapCore {
          @endrst
          */
         std::map<std::string, std::map<std::string, std::vector<Binding>>> sharedMeshes;
+        /**
+         * @brief What a texture-edit filter is allowed to know about the mod it is editing
+         */
+        struct TexEditContext {
+            /**
+             * @brief The folder the mod's ``.ini`` sits in
+             */
+            std::string iniFolder;
+            /**
+             * @brief The mod's ``Position.buf``, or empty when it has none
+             */
+            std::string positionFile;
+            /**
+             * @brief The mod's ``Texcoord.buf``, or empty
+             */
+            std::string texcoordFile;
+            /**
+             * @brief The mod's ``Index.buf``, or empty
+             */
+            std::string indexFile;
+            /**
+             * @brief Each SOURCE component's own draws, as ``(index count, first index)``
+             */
+            std::map<int, std::vector<std::pair<long long, long long>>> drawRanges;
+        };
+        /**
+         * @brief An edit the fix makes to one role's texture before binding it
+         */
+        struct TexEdit {
+            /**
+             * @brief The role whose texture is edited
+             */
+            std::string role;
+            /**
+             * @brief
+             @rst
+             A short name for the edit, part of the written file's name. Two edits of one role need
+             two names, or the second overwrites the first
+             @endrst
+             */
+            std::string name;
+            /**
+             * @brief
+             @rst
+             Builds the filter for THIS mod. A factory rather than a filter, because an edit may
+             depend on the mod's own geometry -- the accessory grade applies to a UV island, and the
+             island is rasterised from the MOD's texcoords, since the source character's do not fit
+             a mod that remeshes
+             @endrst
+             */
+            std::function<TexEditor::Filter(const TexEditContext&)> makeFilter;
+            /**
+             * @brief
+             @rst
+             Whether to re-encode to the source's compressed format. **Default**: ``false``, because
+             a mask is CODES and BCn would move them
+             @endrst
+             */
+            bool compress = false;
+        };
+        /**
+         * @brief
+         @rst
+         Edits the fix makes to a role's texture before binding it. Chisa needs three: her material
+         mask repacked into the target's layout, her packed four-profile sheen matcap translated into
+         the skin's holographic foil, and a colour grade on her accessory diffuse -- a shader family
+         is a colour grade, and the texture is the only place to put it back
+         @endrst
+         */
+        std::vector<TexEdit> texEdits;
 
         /**
          * @brief

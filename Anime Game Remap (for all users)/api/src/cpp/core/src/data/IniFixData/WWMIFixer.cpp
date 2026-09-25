@@ -373,6 +373,7 @@ namespace AGRemapCore {
          * 'drawRanges' is each component's (index count, first index) draws, over 'indexPath'.
          */
         bool liftLegacyBlend(RemapBlendResource& resource, const std::string& indexPath,
+                             const std::string& positionPath,
                              const std::map<int, std::vector<std::pair<long long, long long>>>& drawRanges,
                              const std::map<int, std::vector<int>>& vgMaps) {
             std::ifstream indices(FileService::strToPath(indexPath), std::ios::binary);
@@ -383,7 +384,30 @@ namespace AGRemapCore {
 
             std::vector<char> indexBytes((std::istreambuf_iterator<char>(indices)), std::istreambuf_iterator<char>());
             std::vector<unsigned char> blend((std::istreambuf_iterator<char>(blendIn)), std::istreambuf_iterator<char>());
-            const std::size_t vertices = blend.size() / WWMIBlendStride;
+            // THE LAYOUT IS DERIVED, NOT ASSUMED. WWMIBlendStride is four R8 ids then four R8
+            // weights, which is one WWMI layout and not the only one: Chisa's mods carry EIGHT of
+            // each. Reading a 16-byte vertex as two 8-byte ones gives twice the vertex count, so
+            // componentOf is indexed by a vertex id that means nothing, most vertices get no
+            // component at all and their ids pass through unlifted -- local id 5 of the skirt read
+            // as merged bone 5, the jumbled mesh this function exists to prevent.
+            std::error_code sizeErr;
+            const std::uintmax_t positionSize =
+                std::filesystem::file_size(FileService::strToPath(positionPath), sizeErr);
+            if (sizeErr || positionSize < 12) {
+                return false;
+            }
+
+            const std::size_t vertices = static_cast<std::size_t>(positionSize / 12);
+            if (vertices == 0 || blend.size() % vertices != 0) {
+                return false;
+            }
+
+            const std::size_t stride = blend.size() / vertices;
+            if (stride < 2 || stride % 2 != 0) {
+                return false;
+            }
+
+            const std::size_t influences = stride / 2;
             const std::size_t indexCount = indexBytes.size() / 4;
 
             // which component draws each vertex
@@ -413,9 +437,9 @@ namespace AGRemapCore {
                     continue;
                 }
 
-                for (std::size_t b = 0; b < 4; ++b) {
-                    const std::size_t at = vertex * WWMIBlendStride + b;
-                    if (blend[at + 4] == 0) {
+                for (std::size_t b = 0; b < influences; ++b) {
+                    const std::size_t at = vertex * stride + b;
+                    if (blend[at + influences] == 0) {
                         continue;                       // a weight-zero slot: the library leaves those alone too
                     }
 
@@ -1567,10 +1591,12 @@ namespace AGRemapCore {
                         std::function<bool(RemapBlendResource&)> lift;
                         if (legacy_) {
                             const std::string indexPath = FileService::absPathOfRelPath(indexFile_, ctx_.getIniFile()->getFolder());
+                            const std::string positionPath = FileService::pathToStr(
+                                FileService::strToPath(indexPath).parent_path() / "Position.buf");
                             const std::map<int, std::vector<std::pair<long long, long long>>> ranges = drawRanges_;
                             const std::map<int, std::vector<int>> maps = config_.sourceVgMaps;
-                            lift = [indexPath, ranges, maps](RemapBlendResource& resource) {
-                                return liftLegacyBlend(resource, indexPath, ranges, maps);
+                            lift = [indexPath, positionPath, ranges, maps](RemapBlendResource& resource) {
+                                return liftLegacyBlend(resource, indexPath, positionPath, ranges, maps);
                             };
                         }
 

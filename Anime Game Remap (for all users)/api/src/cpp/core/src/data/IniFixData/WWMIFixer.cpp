@@ -93,6 +93,8 @@ namespace AGRemapCore {
         const std::string ConstantsSection = "Constants";
         const std::string BlendBufferResource = "ResourceBlendBuffer";
         const std::string IndexBufferResource = "ResourceIndexBuffer";
+        const std::string PositionBufferResource = "ResourcePositionBuffer";
+        const std::string TexcoordBufferResource = "ResourceTexcoordBuffer";
         const std::string Cb4HashKey = "cb4";
         constexpr std::size_t WWMIBlendStride = 8;      // four R8 bone indices then four R8 weights
 
@@ -1299,6 +1301,35 @@ namespace AGRemapCore {
                         }
                     }
 
+                    // ...and the position and texcoord buffers, off the .ini for the same reason the
+                    // index buffer is: a mod-manager-packaged mod names every file by GUID with a
+                    // `.assets` extension, so there is no `Position.buf` beside anything. Built as a
+                    // sibling name, the path did not exist, the remapped blend was never written, and
+                    // the .ini still bound vb4 to it -- which drew NOTHING of the character.
+                    //
+                    // WITHOUT REGARD TO CASE: one mod spells it ResourceTexCoordBuffer.
+                    for (const auto& entry : templates) {
+                        if (entry.second == nullptr) {
+                            continue;
+                        }
+
+                        std::string* into = nullptr;
+                        if (StringTools::equalsIgnoreCase(entry.first, PositionBufferResource)) {
+                            into = &positionFile_;
+                        } else if (StringTools::equalsIgnoreCase(entry.first, TexcoordBufferResource)) {
+                            into = &texcoordFile_;
+                        }
+
+                        if (into == nullptr) {
+                            continue;
+                        }
+
+                        std::optional<std::string> file = ModBranches::firstVal(*entry.second, IniKeywords::Filename);
+                        if (file.has_value()) {
+                            *into = *file;
+                        }
+                    }
+
                     // WHERE the 16-bit ids live, off the .ini rather than a sibling filename: a
                     // mod-manager-packaged mod names every file by GUID with a `.assets` extension,
                     // so the WWMI export's own name is not beside Blend.buf and the search finds
@@ -1392,7 +1423,7 @@ namespace AGRemapCore {
                             conditionalOwner_[StringTools::toLower(resource)] = entry.first;
                         }
 
-                        variantsOf_[entry.first] = bound.size();
+                        variantsOf_[entry.first] = bound;
                     }
                 }
 
@@ -1410,6 +1441,9 @@ namespace AGRemapCore {
                     std::unordered_map<std::string, std::string> resourceOfFile;
                     for (const auto& entry : index_->resourcesOf(iniPath)) {
                         resourceOfFile.emplace(entry.second, entry.first);
+                        // ...and the other way, so an edit can reach EVERY variant a toggled role
+                        // binds rather than only the one fileOfRole_ resolved to
+                        fileOfResource_.emplace(StringTools::toLower(entry.first), index_->real(entry.second));
                     }
 
                     textureFolder_ = DefaultTextureFolder;
@@ -1954,16 +1988,15 @@ namespace AGRemapCore {
                             std::replace(vgRel.begin(), vgRel.end(), '\\', '/');
                             const std::string vgPath =
                                 FileService::absPathOfRelPath(vgRel, ctx_.getIniFile()->getFolder());
-                            const std::string posPath = FileService::pathToStr(
-                                FileService::strToPath(FileService::absPathOfRelPath(
-                                    indexFile_, ctx_.getIniFile()->getFolder())).parent_path() / "Position.buf");
+                            const std::string posPath =
+                                FileService::absPathOfRelPath(positionFile_, ctx_.getIniFile()->getFolder());
                             lift = [vgPath, posPath](RemapBlendResource& resource) {
                                 return remapFromVertexVG(resource, vgPath, posPath);
                             };
                         } else if (legacy_) {
                             const std::string indexPath = FileService::absPathOfRelPath(indexFile_, ctx_.getIniFile()->getFolder());
-                            const std::string positionPath = FileService::pathToStr(
-                                FileService::strToPath(indexPath).parent_path() / "Position.buf");
+                            const std::string positionPath =
+                            FileService::absPathOfRelPath(positionFile_, ctx_.getIniFile()->getFolder());
                             const std::map<int, std::vector<std::pair<long long, long long>>> ranges = drawRanges_;
                             const std::map<int, std::vector<int>> maps = config_.sourceVgMaps;
                             lift = [indexPath, positionPath, ranges, maps](RemapBlendResource& resource) {
@@ -2686,18 +2719,51 @@ namespace AGRemapCore {
                                                              + IniKeywords::RemapTex);
 
                         // Which of the mod's resources this replaces, so a copied toggle chain can
-                        // swap it in. An edit reads fileOfRole_[role], which is ONE file, so a role
-                        // the mod binds in several variants has only that one edited -- say so.
+                        // swap it in.
                         const std::string* was = sharedResourceFor(edit.role);
                         if (was != nullptr) {
                             editedResourceOf_[StringTools::toLower(*was)] = resource;
                             sourceOfEdited_[StringTools::toLower(resource)] = *was;
+
+                            // EVERY variant of the role, not just the one fileOfRole_ resolved to.
+                            // An edit reads one file, so a mod that binds its mask two ways -- Chisa12
+                            // does, on $sockscolor -- had the second variant carried through
+                            // unrepacked and shaded as the wrong material. Harmless while nothing
+                            // could reach that variant; a live defect once the toggle chains could.
+                            //
+                            // The resolved variant keeps the name it already had, so no shipped
+                            // output moves; the others are indexed after it.
                             const auto owner = conditionalOwner_.find(StringTools::toLower(*was));
-                            if (owner != conditionalOwner_.end() && variantsOf_[owner->second] > 1) {
-                                ctx_.log("WARNING: " + edit.role + " is bound in "
-                                         + std::to_string(variantsOf_[owner->second]) + " variants by "
-                                         + owner->second + ", and the " + edit.name
-                                         + " edit reads one file -- the other variants are carried through unedited");
+                            if (owner != conditionalOwner_.end()) {
+                                std::size_t n = 1;
+                                for (const std::string& variant : variantsOf_[owner->second]) {
+                                    if (StringTools::equalsIgnoreCase(variant, *was)) {
+                                        continue;
+                                    }
+
+                                    const auto file = fileOfResource_.find(StringTools::toLower(variant));
+                                    if (file == fileOfResource_.end()) {
+                                        continue;
+                                    }
+
+                                    ++n;
+                                    const std::string suffix = std::to_string(n);
+                                    const std::string variantRel =
+                                        textureFolder_ + "/" + config_.downloadPrefix + capitalized(edit.role)
+                                        + edit.name + suffix + IniKeywords::RemapTex + DdsExt;
+                                    const std::string variantResource =
+                                        fixName(ResourcePrefix + capitalized(edit.role) + edit.name + suffix
+                                                + IniKeywords::RemapTex);
+                                    plannedEdits_.push_back(PlannedEdit{&edit, file->second, variantRel});
+                                    editedResources_.emplace_back(variantResource, variantRel);
+                                    editedResourceOf_[StringTools::toLower(variant)] = variantResource;
+                                    sourceOfEdited_[StringTools::toLower(variantResource)] = variant;
+                                }
+
+                                if (n > 1) {
+                                    ctx_.log(edit.role + ": " + std::to_string(n) + " variants bound by "
+                                             + owner->second + ", each given its own " + edit.name + " edit");
+                                }
                             }
                         }
                         editedResources_.emplace_back(resource, fixedRel);
@@ -2721,13 +2787,9 @@ namespace AGRemapCore {
                     WWMIFixerConfig::TexEditContext context;
                     context.iniFolder = folder;
                     context.indexFile = FileService::absPathOfRelPath(indexFile_, folder);
-                    const std::filesystem::path meshes = FileService::strToPath(context.indexFile).parent_path();
-                    context.positionFile = FileService::pathToStr(meshes / "Position.buf");
-                    context.texcoordFile = FileService::pathToStr(meshes / "TexCoord.buf");
+                    context.positionFile = FileService::absPathOfRelPath(positionFile_, folder);
+                    context.texcoordFile = FileService::absPathOfRelPath(texcoordFile_, folder);
                     std::error_code err;
-                    if (!std::filesystem::is_regular_file(FileService::strToPath(context.texcoordFile), err)) {
-                        context.texcoordFile = FileService::pathToStr(meshes / "Texcoord.buf");
-                    }
 
                     context.drawRanges = drawRanges_;
                     for (const auto& entry : fileOfRole_) {
@@ -2998,6 +3060,8 @@ namespace AGRemapCore {
 
                 bool legacy_ = false;                                 // a mod from before WWMI's merged skeleton
                 std::string indexFile_ = "Meshes/Index.buf";           // as the mod's own [ResourceIndexBuffer] names it
+                std::string positionFile_ = "Meshes/Position.buf";     // ...and [ResourcePositionBuffer]
+                std::string texcoordFile_ = "Meshes/TexCoord.buf";     // ...and [ResourceTexcoordBuffer]
                 std::map<int, std::vector<std::pair<long long, long long>>> drawRanges_;   // source component -> its (index count, first index) draws
                 std::vector<std::string> passOrder_;
 
@@ -3026,7 +3090,8 @@ namespace AGRemapCore {
                 };
 
                 std::unordered_map<std::string, std::string> conditionalOwner_;      // the mod's resource -> the section that binds it behind a condition
-                std::unordered_map<std::string, std::size_t> variantsOf_;             // that section -> how many resources it binds
+                std::unordered_map<std::string, std::vector<std::string>> variantsOf_;  // that section -> every resource it binds, in order
+                std::unordered_map<std::string, std::string> fileOfResource_;         // the mod's resource -> the file it names
                 std::unordered_map<std::string, std::string> editedResourceOf_;       // the mod's resource -> the edited copy of it
                 std::unordered_map<std::string, std::string> sourceOfEdited_;         // ...and back
                 std::map<std::pair<std::string, std::string>, std::string> roleLists_;   // (role, register) -> the copied list's name

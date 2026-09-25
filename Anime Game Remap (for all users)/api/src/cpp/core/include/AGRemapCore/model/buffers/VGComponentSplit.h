@@ -49,10 +49,52 @@ namespace AGRemapCore {
          Further source groups the component has a bone for, honoured only on a vertex that also
          carries one of \ref remap's groups -- the reverse remap turned around. A hair vertex
          weighted head + bang keeps its head weight on the Bang's head bone; a face vertex weighted
-         to the head alone still collapses. Only used by a negative-index component
+         to the head alone still collapses :raw-html:`<br />` :raw-html:`<br />`
+
+         On a **cut** component these are STAND-INS: a kept vertex's weight on another component's
+         group goes to the stand-in bone instead of being dropped and renormalised away. Where one
+         surface is cut between two components, each side of the seam otherwise keeps only its own
+         half of the weights, and the two copies of every seam point follow different bones --
+         Neuvillette5's cape tore open across the back. They never decide which component takes a
+         triangle; only \ref remap does. Empty (every cut component until 2026-09-25): foreign
+         weight is dropped, as before
          @endrst
          */
         std::unordered_map<long long, long long> secondary;
+
+        /**
+         * @brief
+         @rst
+         For a **cut** component: the least share of a vertex's weight that must sit on
+         \ref remap's groups for the component to CLAIM the vertex, from ``0`` to ``1``
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         Ownership is otherwise a plain majority, which puts the seam between two components exactly
+         where a surface's weight is split half and half -- the one place both sides lose the most. A
+         component that should take only what is clearly its own (a coat's hanging tails, not the
+         back panel they are blended into) sets a high share: a vertex below it goes to the next
+         component that claims it, and the seam moves to where the weights are clean. A vertex no
+         component can claim falls back to the plain majority. **Default**: ``0``, the plain majority
+         @endrst
+         */
+        double claimShare = 0.0;
+
+        /**
+         * @brief
+         @rst
+         For a **cut** component: how many rings of its NEIGHBOURS' triangles it draws as well, past
+         its own edge :raw-html:`<br />` :raw-html:`<br />`
+
+         Where one surface is cut between two components, the two sides of the seam are skinned by
+         different bones -- no two components share a bone -- and when the skin poses they pull
+         apart, showing whatever is behind (Neuvillette5's cape, torn across the back). A band of
+         overlap is drawn by BOTH components, so a gap narrower than the band is covered by the other
+         side's copy. It never changes which component owns a triangle: the band is drawn in
+         addition, skinned with this component's bones (and its \ref secondary stand-ins), and a
+         ring is one step through a shared vertex. **Default**: ``0``, no overlap
+         @endrst
+         */
+        std::size_t overlapRings = 0;
 
         /**
          * @brief
@@ -77,6 +119,7 @@ namespace AGRemapCore {
         std::vector<std::size_t> trianglesDropped;
         std::size_t renormalised = 0;
         std::size_t neighbourSkinned = 0;
+        std::size_t overlapTriangles = 0;
         std::size_t sentinels = 0;
     };
 

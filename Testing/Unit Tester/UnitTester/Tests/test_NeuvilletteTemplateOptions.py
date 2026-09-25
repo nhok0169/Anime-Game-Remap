@@ -52,6 +52,17 @@ class NeuvilletteTemplateOptionsTest(BaseUnitTest):
         component.offsetOnlyWithGameFace = True
         self.assertTrue(component.offsetOnlyWithGameFace)
 
+    def test_componentFixerConfig_seamOptions(self):
+        # all off by default: the plain-majority split every earlier config was confirmed with
+        component = FRB.GIMIComponentFixerConfig.Component()
+        self.assertEqual((component.claimShare, component.standIns, component.overlapRings), (0.0, {}, 0))
+        component.claimShare = 0.9
+        component.standIns = {32: 85, 35: 73}
+        component.overlapRings = 1
+        self.assertAlmostEqual(component.claimShare, 0.9)
+        self.assertEqual(component.standIns, {32: 85, 35: 73})
+        self.assertEqual(component.overlapRings, 1)
+
     def test_mergeFixerConfig_componentModTypeName(self):
         component = FRB.GIMIMergeFixerConfig.Component()
         self.assertEqual(component.modTypeName, "")

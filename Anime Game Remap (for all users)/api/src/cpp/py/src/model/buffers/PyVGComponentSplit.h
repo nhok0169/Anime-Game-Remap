@@ -20,7 +20,8 @@
  * @brief Builds a :cpp:class:`AGRemapCore::VGComponentSpec` from what Python hands over -- a ``VGRemap`` or a plain ``dict`` for the remap
  */
 AGRemapCore::VGComponentSpec vgComponentSpecFromPy(const std::string &name, const pybind11::object &remap,
-                                                    const pybind11::object &secondary, bool negativeIndex);
+                                                    const pybind11::object &secondary, bool negativeIndex,
+                                                    double claimShare = 0.0, std::size_t overlapRings = 0);
 
 void initCppVGComponentSplit(pybind11::module_ &m);
 

@@ -355,6 +355,22 @@ drawn through instead of :attr:`slotIndex`, eg. ``[("body", "53529")]``. A skin'
 different shaders, and a source object is shaded right only by a slot drawn on a shader like its own.
 **Default**: empty
         )doc"))
+        .def_readwrite("claimShare", &AGRC::GIMIComponentFixerConfig::Component::claimShare, py::doc(R"doc(
+:class:`float`: For a cut component, the least share of a vertex's weight on this component's groups
+for it to claim the vertex (``0`` to ``1``) -- a coat that should take only its hanging tails, not the
+back panel they blend into, sets a high one and the seam moves to where the weights are clean. See
+:attr:`VGComponentSpec.claimShare`. **Default**: ``0``, the plain majority
+        )doc"))
+        .def_readwrite("overlapRings", &AGRC::GIMIComponentFixerConfig::Component::overlapRings, py::doc(R"doc(
+:class:`int`: For a cut component, how many rings of its neighbours' triangles it draws as well, past its
+own edge -- a seam that opens when the skin poses is then covered by the other side's copy. Ownership is
+unchanged. See :attr:`VGComponentSpec.overlapRings`. **Default**: ``0``
+        )doc"))
+        .def_readwrite("standIns", &AGRC::GIMIComponentFixerConfig::Component::standIns, py::doc(R"doc(
+Dict[:class:`int`, :class:`int`]: For a cut component, source groups it does not own, each to the bone
+of this component that stands in for it -- so a vertex on a seam keeps that weight instead of dropping
+it. A group the component's own row maps is ignored. **Default**: ``{}``
+        )doc"))
         .def_readwrite("negativeIndex", &AGRC::GIMIComponentFixerConfig::Component::negativeIndex, py::doc(R"doc(
 :class:`bool`: ``True`` for the negative-index split (the component draws the whole mod, with every
 other component's bones as sentinels), ``False`` for the graph cut. **Default**: ``False``

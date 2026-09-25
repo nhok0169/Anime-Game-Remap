@@ -7184,6 +7184,17 @@ class GIMIComponentFixerConfig:
         def __init__(self) -> None:
             ...
         @property
+        def claimShare(self) -> float:
+            """
+            :class:`float`: For a cut component, the least share of a vertex's weight on this component's groups
+            for it to claim the vertex (``0`` to ``1``) -- a coat that should take only its hanging tails, not the
+            back panel they blend into, sets a high one and the seam moves to where the weights are clean. See
+            :attr:`VGComponentSpec.claimShare`. **Default**: ``0``, the plain majority
+            """
+        @claimShare.setter
+        def claimShare(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+            ...
+        @property
         def face(self) -> bool:
             """
             :class:`bool`: Whether this component's fix carries the face graph --- exactly one should. **Default**: ``False``
@@ -7250,6 +7261,16 @@ class GIMIComponentFixerConfig:
         def offsetOnlyWithGameFace(self, arg0: bool) -> None:
             ...
         @property
+        def overlapRings(self) -> int:
+            """
+            :class:`int`: For a cut component, how many rings of its neighbours' triangles it draws as well, past its
+            own edge -- a seam that opens when the skin poses is then covered by the other side's copy. Ownership is
+            unchanged. See :attr:`VGComponentSpec.overlapRings`. **Default**: ``0``
+            """
+        @overlapRings.setter
+        def overlapRings(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
         def positionOffset(self) -> typing.Annotated[list[float], "FixedSize(3)"]:
             """
             List[:class:`float`]: A model-space translation ``[x, y, z]`` added to every vertex position written
@@ -7307,6 +7328,16 @@ class GIMIComponentFixerConfig:
             """
         @slotRegisters.setter
         def slotRegisters(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
+        @property
+        def standIns(self) -> dict[int, int]:
+            """
+            Dict[:class:`int`, :class:`int`]: For a cut component, source groups it does not own, each to the bone
+            of this component that stands in for it -- so a vertex on a seam keeps that weight instead of dropping
+            it. A group the component's own row maps is ignored. **Default**: ``{}``
+            """
+        @standIns.setter
+        def standIns(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]) -> None:
             ...
         @property
         def texcoordStride(self) -> int:
@@ -23186,8 +23217,9 @@ class VGComponentSpec:
     
     secondary: Optional[Dict[:class:`int`, :class:`int`]]
         Further source groups the component has a bone for, honoured only on a vertex that also carries
-        one of ``remap``'s groups -- the reverse remap turned around. Only used by a negative-index
-        component :raw-html:`<br />` :raw-html:`<br />`
+        one of ``remap``'s groups -- the reverse remap turned around. On a cut component they are
+        stand-ins: a kept vertex's weight on another component's group goes to the stand-in bone instead
+        of being dropped; they never decide which component takes a triangle :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``None``
     
@@ -23199,9 +23231,31 @@ class VGComponentSpec:
         :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``False``
+    
+    claimShare: :class:`float`
+        For a cut component, the least share of a vertex's weight on ``remap``'s groups for it to claim the
+        vertex (``0`` to ``1``); a vertex below it goes to the next component that claims it, and one no
+        component can claim falls back to the plain majority :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``0``, the plain majority
+    
+    overlapRings: :class:`int`
+        For a cut component, how many rings of its neighbours' triangles it draws as well, past its own
+        edge, so a seam that opens when the skin poses is covered by the other side's copy. Ownership is
+        unchanged :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``0``, no overlap
         
     """
-    def __init__(self, name: str, remap: typing.Any = None, secondary: typing.Any = None, negativeIndex: bool = False) -> None:
+    def __init__(self, name: str, remap: typing.Any = None, secondary: typing.Any = None, negativeIndex: bool = False, claimShare: typing.SupportsFloat | typing.SupportsIndex = 0.0, overlapRings: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
+        ...
+    @property
+    def claimShare(self) -> float:
+        """
+        :class:`float`: For a cut component, the least own share of a vertex's weight to claim it
+        """
+    @claimShare.setter
+    def claimShare(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def name(self) -> str:
@@ -23218,6 +23272,14 @@ class VGComponentSpec:
         """
     @negativeIndex.setter
     def negativeIndex(self, arg0: bool) -> None:
+        ...
+    @property
+    def overlapRings(self) -> int:
+        """
+        :class:`int`: For a cut component, how many rings of its neighbours' triangles it draws as well
+        """
+    @overlapRings.setter
+    def overlapRings(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def remap(self) -> VGRemap:
@@ -23313,6 +23375,11 @@ class VGComponentSplitStats:
     def neighbourSkinned(self) -> int:
         """
         :class:`int`: Cut only: vertices skinned to a neighbour's bone
+        """
+    @property
+    def overlapTriangles(self) -> int:
+        """
+        :class:`int`: Cut only: triangles drawn as the overlap band -- see :attr:`VGComponentSpec.overlapRings`
         """
     @property
     def renormalised(self) -> int:

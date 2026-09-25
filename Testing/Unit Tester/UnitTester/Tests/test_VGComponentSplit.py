@@ -95,6 +95,69 @@ class VGComponentSplitTest(BaseUnitTest):
         self.assertEqual(len(body.keptTriangleIds[0]), body.stats.trianglesKept[0])
         self.assertEqual(len(bang.keptTriangleIds[0]), bang.stats.trianglesKept[0])
 
+    # ================ seams between two cut components ================
+
+    # A strip of four triangles over six vertices: 0-1 wholly on the Main's group 0, 4-5 wholly on the Coat's
+    # group 1, and 2-3 on both (0.4 Main, 0.6 Coat) -- one surface blended across two components, the shape
+    # of a cape weighted to the spine and to the coat chains at once
+    SeamWeights = [[1, 0, 0, 0], [1, 0, 0, 0], [0.4, 0.6, 0, 0], [0.4, 0.6, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0]]
+    SeamIndices = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0]]
+    SeamIbs = [[[0, 1, 2], [1, 2, 3], [2, 3, 4], [3, 4, 5]]]
+
+    def _seam(self, main = None, coat = None):
+        main = main or {}; coat = coat or {}
+        specs = [FRB.VGComponentSpec("", {0: 10}, **main), FRB.VGComponentSpec("Coat", {1: 20}, **coat)]
+        split = FRB.VGComponentSplit(self.SeamWeights, self.SeamIndices, self.SeamIbs, specs)
+        return split.split(""), split.split("Coat")
+
+    def test_seam_plainMajority(self):
+        # the mixed vertices are the Coat's (0.6 > 0.4), so the seam runs through the middle of the blend
+        main, coat = self._seam()
+        self.assertEqual(main.keptTriangleIds, [[0]])
+        self.assertEqual(coat.keptTriangleIds, [[1, 2, 3]])
+        self.assertEqual(main.stats.overlapTriangles, 0)
+
+    def test_seam_claimShare_movesTheSeamToCleanWeights(self):
+        # a Coat that claims only what is 90% its own leaves the mixed vertices to the Main
+        main, coat = self._seam(coat = {"claimShare": 0.9})
+        self.assertEqual(main.keptTriangleIds, [[0, 1, 2]])
+        self.assertEqual(coat.keptTriangleIds, [[3]])
+
+        # and a share nothing else can claim still falls back to the majority
+        spec = FRB.VGComponentSpec("Coat", {1: 20}, claimShare = 0.9)
+        self.assertAlmostEqual(spec.claimShare, 0.9)
+        self.assertEqual(FRB.VGComponentSpec("A", {1: 2}).claimShare, 0.0)
+
+    def test_seam_secondaryOnACut_keepsTheForeignWeightOnAStandIn(self):
+        # without a stand-in the Main drops vertex 2's Coat weight and renormalises the rest to 1
+        main, _ = self._seam()
+        row = main.vertices.index(2)
+        self.assertEqual(main.indices[row][0], 10)
+        self.assertAlmostEqual(main.weights[row][0], 1.0, places = 5)
+
+        # with one, the weight stays -- on the stand-in bone, unrenormalised -- and ownership does not move
+        main, coat = self._seam(main = {"secondary": {1: 99}})
+        row = main.vertices.index(2)
+        self.assertEqual(main.indices[row][:2], [10, 99])
+        self.assertEqual([round(w, 5) for w in main.weights[row][:2]], [0.4, 0.6])
+        self.assertEqual(main.keptTriangleIds, [[0]])
+        self.assertEqual(coat.keptTriangleIds, [[1, 2, 3]])
+
+    def test_seam_overlapRings_drawsTheNeighboursBandAsWell(self):
+        # one ring: every Coat triangle touching a vertex the Main draws; ownership is unchanged
+        main, coat = self._seam(main = {"overlapRings": 1})
+        self.assertEqual(main.keptTriangleIds, [[0, 1, 2]])
+        self.assertEqual(main.stats.overlapTriangles, 2)
+        self.assertEqual(main.stats.trianglesKept, [3])
+        self.assertEqual(coat.keptTriangleIds, [[1, 2, 3]])
+        self.assertEqual(coat.stats.overlapTriangles, 0)
+
+        # a second ring reaches one step further through the shared vertices
+        main, _ = self._seam(main = {"overlapRings": 2})
+        self.assertEqual(main.keptTriangleIds, [[0, 1, 2, 3]])
+        self.assertEqual(main.stats.overlapTriangles, 3)
+        self.assertEqual(sorted(main.vertices), [0, 1, 2, 3, 4, 5])
+
     def test_unknownComponent_raises(self):
         with self.assertRaises(ValueError):
             self._split.split("Nope")

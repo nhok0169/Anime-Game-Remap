@@ -775,6 +775,16 @@ namespace AGRemapCore {
                             }
                         }
 
+                        // A cut component's stand-ins and claim share -- see Component::standIns /
+                        // Component::claimShare. Empty / 0 on every config before 2026-09-25.
+                        spec.claimShare = c.claimShare;
+                        spec.overlapRings = c.overlapRings;
+                        for (const auto& [source, bone] : c.standIns) {
+                            if (forward->getRemap().find(source) == forward->getRemap().end()) {
+                                spec.secondary.emplace(source, bone);
+                            }
+                        }
+
                         specs_.push_back(std::move(spec));
                     }
 

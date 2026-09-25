@@ -17,6 +17,7 @@
 #include <array>
 #include <functional>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -178,6 +179,37 @@ namespace AGRemapCore {
              @endrst
              */
             bool negativeIndex = false;
+
+            /**
+             * @brief
+             @rst
+             For a cut component: the least share of a vertex's weight on this component's groups for it
+             to claim the vertex -- see :cpp:member:`VGComponentSpec::claimShare`. **Default**: ``0``,
+             the plain majority
+             @endrst
+             */
+            double claimShare = 0.0;
+
+            /**
+             * @brief
+             @rst
+             For a cut component: the source groups this component does NOT own, each to the bone of
+             this component that stands in for it -- see :cpp:member:`VGComponentSpec::secondary`. A
+             group the component's own row already maps is ignored here. **Default**: empty, a foreign
+             weight is dropped
+             @endrst
+             */
+            std::unordered_map<long long, long long> standIns;
+
+            /**
+             * @brief
+             @rst
+             For a cut component: how many rings of its neighbours' triangles it draws as well, so a seam
+             that opens when the skin poses is covered -- see :cpp:member:`VGComponentSpec::overlapRings`.
+             **Default**: ``0``, no overlap
+             @endrst
+             */
+            std::size_t overlapRings = 0;
 
             /**
              * @brief

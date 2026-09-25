@@ -36,7 +36,7 @@ AGRC::ByteVec fromBytes(const py::bytes &bytes) {
 
 
 AGRC::VGComponentSpec vgComponentSpecFromPy(const std::string &name, const py::object &remap, const py::object &secondary,
-                                             bool negativeIndex) {
+                                             bool negativeIndex, double claimShare, std::size_t overlapRings) {
     AGRC::VGComponentSpec spec;
     spec.name = name;
     if (py::isinstance<AGRC::VGRemap>(remap)) {
@@ -48,6 +48,8 @@ AGRC::VGComponentSpec vgComponentSpecFromPy(const std::string &name, const py::o
         spec.secondary = secondary.cast<std::unordered_map<long long, long long>>();
     }
     spec.negativeIndex = negativeIndex;
+    spec.claimShare = claimShare;
+    spec.overlapRings = overlapRings;
     return spec;
 }
 
@@ -67,8 +69,9 @@ remap: Union[:class:`VGRemap`, Dict[:class:`int`, :class:`int`]]
 
 secondary: Optional[Dict[:class:`int`, :class:`int`]]
     Further source groups the component has a bone for, honoured only on a vertex that also carries
-    one of ``remap``'s groups -- the reverse remap turned around. Only used by a negative-index
-    component :raw-html:`<br />` :raw-html:`<br />`
+    one of ``remap``'s groups -- the reverse remap turned around. On a cut component they are
+    stand-ins: a kept vertex's weight on another component's group goes to the stand-in bone instead
+    of being dropped; they never decide which component takes a triangle :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
 
@@ -80,10 +83,30 @@ negativeIndex: :class:`bool`
     :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``False``
+
+claimShare: :class:`float`
+    For a cut component, the least share of a vertex's weight on ``remap``'s groups for it to claim the
+    vertex (``0`` to ``1``); a vertex below it goes to the next component that claims it, and one no
+    component can claim falls back to the plain majority :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``0``, the plain majority
+
+overlapRings: :class:`int`
+    For a cut component, how many rings of its neighbours' triangles it draws as well, past its own
+    edge, so a seam that opens when the skin poses is covered by the other side's copy. Ownership is
+    unchanged :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``0``, no overlap
     )doc")
-        .def(py::init([](const std::string &name, const py::object &remap, const py::object &secondary, bool negativeIndex) {
-            return vgComponentSpecFromPy(name, remap, secondary, negativeIndex);
-        }), py::arg("name"), py::arg("remap") = py::none(), py::arg("secondary") = py::none(), py::arg("negativeIndex") = false)
+        .def(py::init([](const std::string &name, const py::object &remap, const py::object &secondary, bool negativeIndex,
+                         double claimShare, std::size_t overlapRings) {
+            return vgComponentSpecFromPy(name, remap, secondary, negativeIndex, claimShare, overlapRings);
+        }), py::arg("name"), py::arg("remap") = py::none(), py::arg("secondary") = py::none(), py::arg("negativeIndex") = false,
+            py::arg("claimShare") = 0.0, py::arg("overlapRings") = 0)
+        .def_readwrite("overlapRings", &AGRC::VGComponentSpec::overlapRings,
+                       py::doc(":class:`int`: For a cut component, how many rings of its neighbours' triangles it draws as well"))
+        .def_readwrite("claimShare", &AGRC::VGComponentSpec::claimShare,
+                       py::doc(":class:`float`: For a cut component, the least own share of a vertex's weight to claim it"))
         .def_readwrite("name", &AGRC::VGComponentSpec::name, py::doc(":class:`str`: The component's name"))
         .def_readwrite("remap", &AGRC::VGComponentSpec::remap, py::doc(":class:`VGRemap`: The mod's vertex group to this component's bone"))
         .def_readwrite("secondary", &AGRC::VGComponentSpec::secondary,
@@ -100,6 +123,8 @@ Counts worth reporting about one component's split
         .def_readonly("trianglesDropped", &AGRC::VGComponentSplitStats::trianglesDropped, py::doc("List[:class:`int`]: Per index buffer, the triangles left to the others"))
         .def_readonly("renormalised", &AGRC::VGComponentSplitStats::renormalised, py::doc(":class:`int`: Cut only: vertices that lost foreign weight"))
         .def_readonly("neighbourSkinned", &AGRC::VGComponentSplitStats::neighbourSkinned, py::doc(":class:`int`: Cut only: vertices skinned to a neighbour's bone"))
+        .def_readonly("overlapTriangles", &AGRC::VGComponentSplitStats::overlapTriangles,
+                      py::doc(":class:`int`: Cut only: triangles drawn as the overlap band -- see :attr:`VGComponentSpec.overlapRings`"))
         .def_readonly("sentinels", &AGRC::VGComponentSplitStats::sentinels, py::doc(":class:`int`: Negative index only: sentinel indices written"));
 
     py::class_<AGRC::VGComponentBuffers>(m, "VGComponentBuffers", R"doc(

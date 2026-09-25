@@ -866,6 +866,9 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a80381192297836d8fd300ac00c1b856f" kind="variable"><name>objSlotIndices</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a8034b8ab5857a7bb10c085d79ff1fa3d" kind="variable"><name>slotIndices</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1acf7ef1b1d9d5108f03f885580d4d9d63" kind="variable"><name>negativeIndex</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a8a6e3aa1143a327fafd7b262e9c474dc" kind="variable"><name>claimShare</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab62936cc39c35b9e9c98fcca5697f0b5" kind="variable"><name>standIns</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab511611368c2e834b9a778be9c94c531" kind="variable"><name>overlapRings</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a41fc1fe25b79dd9a3fecf1691285ca04" kind="variable"><name>normalMap</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7760edfd8956346f514455eced0a1ad7" kind="variable"><name>face</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae2c0b9f4af8f721add0e6a6b68f63603" kind="variable"><name>texcoordStride</name></member>
@@ -4975,6 +4978,8 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a3e0d7bacd432167d67e2700a1fa2b4eb" kind="variable"><name>name</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1af473ea70d5db88a927a0e9f22b47a58e" kind="variable"><name>remap</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1ab6354fa665d4790bf746c37fc2e1512c" kind="variable"><name>secondary</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a8fdc1313233c6ce7419e5f99683f77a2" kind="variable"><name>claimShare</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a92e12086f31356ed25ee40a66d630c7a" kind="variable"><name>overlapRings</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1abac762f14f4d58c0c2526e46c3e3b14f" kind="variable"><name>negativeIndex</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_v_g_component_split" kind="class"><name>AGRemapCore::VGComponentSplit</name>
@@ -5008,6 +5013,7 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a2c3e7ca5bddd9b405808e20d7b8c14be" kind="variable"><name>trianglesDropped</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a9d124a3a6b84f4ed5931995a9fa0d036" kind="variable"><name>renormalised</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1ac7897eed97d64310d334d605ad7d7767" kind="variable"><name>neighbourSkinned</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1aad102887dc4faf07e225623e0220b73d" kind="variable"><name>overlapTriangles</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a3a68e3236f770be1598c9c6a4df101b1" kind="variable"><name>sentinels</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_v_g_counts" kind="class"><name>AGRemapCore::VGCounts</name>

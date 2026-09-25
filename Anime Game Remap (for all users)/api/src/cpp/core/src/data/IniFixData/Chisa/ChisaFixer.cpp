@@ -462,14 +462,23 @@ namespace AGRemapCore {
         };
 
         // ---- and the register her OWN sections bind each role at ----
+        // The SOURCE's own binding per component, which is how a role finds the mod's file when
+        // no hash names it. Two kinds of key: the game's `ps-t` registers, off Chisa's own max-LOD
+        // draws (wwmiPassLayout.py), and RabbitFX's three resource lines -- a RabbitFX mod sets
+        // those and binds no `ps-t` at all, so without them five of one mod's roles fell through to
+        // a download of the GAME's texture and its painted outfit rendered vanilla.
+        //
+        // RabbitFX's "lightmap" is this fix's mask. The normal map IS taken, following the
+        // prototype's table (2026-09-21) rather than an older comment beside it that says it is
+        // deliberately not -- if orange hair comes back, component 1's normalmap row goes first.
         config.sourceRegisterRoles = {
-            {0, {{"ps-t0", "frontHairMask"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
-            {1, {{"ps-t0", "hairMask"}, {"ps-t1", "hairDiffuse"}, {"ps-t2", "hairRamp"}, {"ps-t5", "hairNormal"}}},
-            {2, {{"ps-t0", "faceMask"}, {"ps-t1", "faceDiffuse"}}},
-            {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDiffuse"}}},
-            {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDiffuse"}}},
-            {5, {{"ps-t0", "accessoryDiffuse"}}},
-            {6, {{"ps-t1", "irisDiffuse"}}},
+            {0, {{"ps-t0", "frontHairMask"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}, {"Resource\\RabbitFX\\Diffuse", "frontHairDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "frontHairNormal"}, {"Resource\\RabbitFX\\Lightmap", "frontHairMask"}}},
+            {1, {{"ps-t0", "hairMask"}, {"ps-t1", "hairDiffuse"}, {"ps-t2", "hairRamp"}, {"ps-t5", "hairNormal"}, {"Resource\\RabbitFX\\Diffuse", "hairDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "hairNormal"}, {"Resource\\RabbitFX\\Lightmap", "hairMask"}}},
+            {2, {{"ps-t0", "faceMask"}, {"ps-t1", "faceDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "faceDiffuse"}, {"Resource\\RabbitFX\\Lightmap", "faceMask"}}},
+            {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "upperDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "upperNormal"}, {"Resource\\RabbitFX\\Lightmap", "upperMask"}}},
+            {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "lowerDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "lowerNormal"}, {"Resource\\RabbitFX\\Lightmap", "lowerMask"}}},
+            {5, {{"ps-t0", "accessoryDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "accessoryDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "accessoryNormal"}}},
+            {6, {{"ps-t1", "irisDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "irisDiffuse"}}},
         };
 
         // ---- the flats the fix invents, named as the prototype names them ----

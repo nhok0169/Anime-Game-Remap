@@ -7,6 +7,7 @@
     <includes local="no">vector</includes>
     <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
     <includes refid="_ini_parse_builder_8h" local="yes">AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</includes>
+    <includedby refid="_chisa_parser_8cpp" local="yes">src/data/IniParseData/Chisa/ChisaParser.cpp</includedby>
     <includedby refid="_sanhua_parser_8cpp" local="yes">src/data/IniParseData/Sanhua/SanhuaParser.cpp</includedby>
     <includedby refid="_sanhua_exorcist_parser_8cpp" local="yes">src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp</includedby>
     <includedby refid="_w_w_m_i_parser_8cpp" local="yes">src/data/IniParseData/WWMIParser.cpp</includedby>
@@ -31,9 +32,6 @@
       </node>
       <node id="104">
         <label>BiMap.tpp</label>
-      </node>
-      <node id="68">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="99">
         <label>AGRemapCore/constants/GameTypeId.h</label>
@@ -1019,6 +1017,9 @@
         <childnode refid="74" relation="include">
         </childnode>
       </node>
+      <node id="68">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="87">
         <label>Generator.tpp</label>
       </node>
@@ -1159,16 +1160,22 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
       <node id="2">
+        <label>src/data/IniParseData/Chisa/ChisaParser.cpp</label>
+        <link refid="_chisa_parser_8cpp"/>
+      </node>
+      <node id="3">
         <label>src/data/IniParseData/Sanhua/SanhuaParser.cpp</label>
         <link refid="_sanhua_parser_8cpp"/>
       </node>
-      <node id="3">
+      <node id="4">
         <label>src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp</label>
         <link refid="_sanhua_exorcist_parser_8cpp"/>
       </node>
-      <node id="4">
+      <node id="5">
         <label>src/data/IniParseData/WWMIParser.cpp</label>
         <link refid="_w_w_m_i_parser_8cpp"/>
       </node>

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_reg_removal" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::RegRemoval</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_reg_removal_1abf23b4cd415aeb45730fa62069145150" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::RegRemoval::reg</definition>
+        <argsstring></argsstring>
+        <name>reg</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::RegRemoval::reg</qualifiedname>
+        <briefdescription>
+<para>The register or key, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>"ResourceBlendBufferOverride"</computeroutput> or <computeroutput>"run"</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="390" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_reg_removal_1ac9b0ba1ab40bcd385b9135e272d3b412" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::RegRemoval::valuePrefix</definition>
+        <argsstring></argsstring>
+        <name>valuePrefix</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::RegRemoval::valuePrefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Drop it only when its value begins with this, ignoring case and leading space. Empty
+(the default) drops every value
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="398" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A register line a remapped section DROPS, optionally only for certain values. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="386" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="386" bodyend="399"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_reg_removal_1abf23b4cd415aeb45730fa62069145150" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::RegRemoval</scope><name>reg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_reg_removal_1ac9b0ba1ab40bcd385b9135e272d3b412" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::RegRemoval</scope><name>valuePrefix</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

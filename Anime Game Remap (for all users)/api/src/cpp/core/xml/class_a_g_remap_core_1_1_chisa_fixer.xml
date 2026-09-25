@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_chisa_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ChisaFixer</compoundname>
+    <includes refid="_chisa_fixer_8h" local="no">ChisaFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_chisa_fixer_1ac32afffbb67e667c8570f7420a72c2a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ChisaFixer::ChisaFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ChisaFixer</name>
+        <qualifiedname>AGRemapCore::ChisaFixer::ChisaFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Chisa/ChisaFixer.h" line="48" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_chisa_fixer_1a13fccb7d093308a6f98a211563090aa2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::ChisaFixer::parfait3_5</definition>
+        <argsstring>()</argsstring>
+        <name>parfait3_5</name>
+        <qualifiedname>AGRemapCore::ChisaFixer::parfait3_5</qualifiedname>
+        <briefdescription>
+<para><computeroutput>Chisa -&gt; ChisaParfait</computeroutput> at game version <computeroutput>3.5</computeroutput> <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a7da83e1206c315786556a69bc77c2685" kindref="member">IniFixBuilderFuncs::chisaParfait3_5</ref></computeroutput> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Chisa/ChisaFixer.h" line="54" column="43" bodyfile="src/data/IniFixData/Chisa/ChisaFixer.cpp" bodystart="613" bodyend="615"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Chisa&apos;s own ``.ini`` fixers -- the second Wuthering Waves pair, through
+:cpp:func:`makeWWMIFixer`. Pair this with :cpp:class:`ChisaParser`
+
+What she needs that Sanhua does not, each of it a field of
+:cpp:class:`WWMIFixerConfig` rather than anything of hers:
+
+* every pass gated through its VERTEX shaders
+  (:cpp:member:`WWMIFixerConfig::passVertexShaders`), because tagging a pixel shader switches
+  RabbitFX off for every mod drawing with it
+* a slot&apos;s other passes binding the same art at different registers
+  (:cpp:member:`WWMIFixerConfig::extraPassRegs`)
+* the second mesh she draws, her hair ribbon
+  (:cpp:member:`WWMIFixerConfig::sharedMeshes`)
+* the three lines a mod of a character past 256 merged bones carries, which are an exact
+  inverse of the fix (:cpp:member:`WWMIFixerConfig::removedRegs`)
+* two parts the skin has no counterpart for, pinned to one bone each
+  (:cpp:member:`WWMIFixerConfig::anchorChains`)
+* three texture edits (:cpp:member:`WWMIFixerConfig::texEdits`): her material mask repacked
+  into the target&apos;s layout, her packed sheen matcap translated into the skin&apos;s foil, and a
+  colour grade on the UV island her hair ribbon occupies
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Chisa/ChisaFixer.h" line="46" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Chisa/ChisaFixer.h" bodystart="46" bodyend="55"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_chisa_fixer_1ac32afffbb67e667c8570f7420a72c2a0" prot="public" virt="non-virtual"><scope>AGRemapCore::ChisaFixer</scope><name>ChisaFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_chisa_fixer_1a13fccb7d093308a6f98a211563090aa2" prot="public" virt="non-virtual"><scope>AGRemapCore::ChisaFixer</scope><name>parfait3_5</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

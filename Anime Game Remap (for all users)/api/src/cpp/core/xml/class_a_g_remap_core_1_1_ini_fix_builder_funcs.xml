@@ -643,6 +643,24 @@ the reverse of :cpp:func:`sanhuaExorcist2_5`, built by :cpp:func:`makeWWMIFixer`
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="358" column="43" bodyfile="src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp" bodystart="181" bodyend="183"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a7da83e1206c315786556a69bc77c2685" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::chisaParfait3_5</definition>
+        <argsstring>()</argsstring>
+        <name>chisaParfait3_5</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::chisaParfait3_5</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+``Chisa -&gt; ChisaParfait`` at game version ``3.5``, built by :cpp:func:`makeWWMIFixer`.
+See ``data/IniFixData/Chisa/ChisaFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="367" column="43" bodyfile="src/data/IniFixData/Chisa/ChisaFixer.cpp" bodystart="351" bodyend="610"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a16960ce595eb8499137893f38dc3c4af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
         <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::rosaria4_0</definition>
@@ -659,7 +677,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.rosaria4_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="367" column="43" bodyfile="src/data/IniFixData/Rosaria/RosariaFixer.cpp" bodystart="25" bodyend="57"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="376" column="43" bodyfile="src/data/IniFixData/Rosaria/RosariaFixer.cpp" bodystart="25" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a62d47ce9fcabbec4612623328d3656ac" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -677,7 +695,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.rosariaCN4_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="376" column="43" bodyfile="src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp" bodystart="25" bodyend="57"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="385" column="43" bodyfile="src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp" bodystart="25" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9449758657ce3e63dcdf8f8b2c18164e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -695,7 +713,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.shenhe4_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="385" column="43" bodyfile="src/data/IniFixData/Shenhe/ShenheFixer.cpp" bodystart="26" bodyend="60"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="394" column="43" bodyfile="src/data/IniFixData/Shenhe/ShenheFixer.cpp" bodystart="26" bodyend="60"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1adff7aadaf4ae47cad172685235d0ffe2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -718,7 +736,7 @@ it needed no 6.1 row. See ``data/IniFixData/Xiangling/XianglingFixer.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="399" column="43" bodyfile="src/data/IniFixData/Xiangling/XianglingFixer.cpp" bodystart="52" bodyend="149"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="408" column="43" bodyfile="src/data/IniFixData/Xiangling/XianglingFixer.cpp" bodystart="52" bodyend="149"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a897f1cee434f3283d5ce43400507c9d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -736,7 +754,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.xingqiu4_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="408" column="43" bodyfile="src/data/IniFixData/Xingqiu/XingqiuFixer.cpp" bodystart="26" bodyend="60"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="417" column="43" bodyfile="src/data/IniFixData/Xingqiu/XingqiuFixer.cpp" bodystart="26" bodyend="60"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a98c2bbd162b6936117dfec47c9460492" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -754,7 +772,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.ganyuTwilight4_4`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="417" column="43" bodyfile="src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp" bodystart="63" bodyend="92"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="426" column="43" bodyfile="src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp" bodystart="63" bodyend="92"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac150329c9c728686b286ec2d1602a450" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -772,7 +790,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.shenheFrostFlower4_4`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="426" column="43" bodyfile="src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp" bodystart="57" bodyend="81"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="435" column="43" bodyfile="src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp" bodystart="57" bodyend="81"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a31523fd6e953baa4f48a77e978c6b680" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -790,7 +808,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.xingqiuBamboo4_4`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="435" column="43" bodyfile="src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp" bodystart="27" bodyend="53"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="444" column="43" bodyfile="src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp" bodystart="27" bodyend="53"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a8fcb1ae12e6208e97433a72b1bdac40c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -808,7 +826,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.kiraraBoots4_8`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="444" column="43" bodyfile="src/data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp" bodystart="88" bodyend="113"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="453" column="43" bodyfile="src/data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp" bodystart="88" bodyend="113"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a7ed4a4f962446e40337154058fd5b19f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -826,7 +844,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.nilouBreeze4_8`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="453" column="43" bodyfile="src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp" bodystart="103" bodyend="142"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="462" column="43" bodyfile="src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp" bodystart="103" bodyend="142"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1add3cd0fd523a0124373ee797f3fd568a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -844,7 +862,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.kaeya5_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="462" column="43" bodyfile="src/data/IniFixData/Kaeya/KaeyaFixer.cpp" bodystart="61" bodyend="97"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="471" column="43" bodyfile="src/data/IniFixData/Kaeya/KaeyaFixer.cpp" bodystart="61" bodyend="97"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a1473c7a5b9e5d1a9b956138183092df8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -862,7 +880,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.kaeyaSailwind5_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="471" column="43" bodyfile="src/data/IniFixData/KaeyaSailwind/KaeyaSailwindFixer.cpp" bodystart="66" bodyend="108"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="480" column="43" bodyfile="src/data/IniFixData/KaeyaSailwind/KaeyaSailwindFixer.cpp" bodystart="66" bodyend="108"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a1220a1dc58682b9f9e2a01619d5a1fb5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -880,7 +898,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.cherryHuTao5_3`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="480" column="43" bodyfile="src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp" bodystart="80" bodyend="125"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="489" column="43" bodyfile="src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp" bodystart="80" bodyend="125"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad7bf9ba56cb7c626e5766706ef1b8400" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -898,7 +916,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.xianglingCheer5_3`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="489" column="43" bodyfile="src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp" bodystart="48" bodyend="78"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="498" column="43" bodyfile="src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp" bodystart="48" bodyend="78"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad9983ac17822db4b1174674b6aad6ee0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -916,7 +934,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.ayaka5_4`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="498" column="43" bodyfile="src/data/IniFixData/Ayaka/AyakaFixer.cpp" bodystart="165" bodyend="205"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="507" column="43" bodyfile="src/data/IniFixData/Ayaka/AyakaFixer.cpp" bodystart="165" bodyend="205"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6681df3163efd701aa26dcae3ddf0bf4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -934,7 +952,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.arlecchino5_4`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="507" column="43" bodyfile="src/data/IniFixData/Arlecchino/ArlecchinoFixer.cpp" bodystart="53" bodyend="73"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="516" column="43" bodyfile="src/data/IniFixData/Arlecchino/ArlecchinoFixer.cpp" bodystart="53" bodyend="73"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a2f555bb392e8672223c8037b4c32ef77" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -952,7 +970,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.nilouBreeze5_4`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="516" column="43" bodyfile="src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp" bodystart="66" bodyend="101"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="525" column="43" bodyfile="src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp" bodystart="66" bodyend="101"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a16218a17f1f82c459b3021560bf49b63" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -970,7 +988,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.lisa5_4`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="525" column="43" bodyfile="src/data/IniFixData/Lisa/LisaFixer.cpp" bodystart="71" bodyend="106"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="534" column="43" bodyfile="src/data/IniFixData/Lisa/LisaFixer.cpp" bodystart="71" bodyend="106"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a621336a295032319e4bed03e0284d599" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -988,7 +1006,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.jean5_5`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="534" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="28" bodyend="50"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="543" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="28" bodyend="50"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a5cb9bda55a57e1121cc82e35f2bdbe00" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1002,7 +1020,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.jean5_5`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="535" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="52" bodyend="68"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="544" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="52" bodyend="68"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0c7e4b3b2514a5a05dc92adee9812455" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1016,7 +1034,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.jean5_5`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="536" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="28" bodyend="50"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="545" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="28" bodyend="50"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a99846febaa843ca6f189cdde71e16699" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1030,7 +1048,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.jean5_5`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="537" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="52" bodyend="69"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="546" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="52" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a58f3fc8436a68a77bd67707a436245b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1051,7 +1069,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.hutao5_6`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="554" column="43" bodyfile="src/data/IniFixData/HuTao/HuTaoFixer.cpp" bodystart="45" bodyend="85"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="563" column="43" bodyfile="src/data/IniFixData/HuTao/HuTaoFixer.cpp" bodystart="45" bodyend="85"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a78afb2884b2597a7142f6c857968feab" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1069,7 +1087,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.ayaka5_6`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="563" column="43" bodyfile="src/data/IniFixData/Ayaka/AyakaFixer.cpp" bodystart="123" bodyend="164"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="572" column="43" bodyfile="src/data/IniFixData/Ayaka/AyakaFixer.cpp" bodystart="123" bodyend="164"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1add051c73246ce03f05fb96b935122e04" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1087,7 +1105,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.ayakaSpringbloom5_6`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="572" column="43" bodyfile="src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp" bodystart="128" bodyend="172"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="581" column="43" bodyfile="src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp" bodystart="128" bodyend="172"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ab194bb3d4062215bfb52bd57a6fff1df" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1105,7 +1123,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.amber5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="581" column="43" bodyfile="src/data/IniFixData/Amber/AmberFixer.cpp" bodystart="56" bodyend="93"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="590" column="43" bodyfile="src/data/IniFixData/Amber/AmberFixer.cpp" bodystart="56" bodyend="93"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a729b0838d55f1c9c2d363fab75136a38" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1123,7 +1141,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.amberCN5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="590" column="43" bodyfile="src/data/IniFixData/AmberCN/AmberCNFixer.cpp" bodystart="56" bodyend="93"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="599" column="43" bodyfile="src/data/IniFixData/AmberCN/AmberCNFixer.cpp" bodystart="56" bodyend="93"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a03db8cea571febb25bba99f4d9cff7cd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1141,7 +1159,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.ayaka5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="599" column="43" bodyfile="src/data/IniFixData/Ayaka/AyakaFixer.cpp" bodystart="83" bodyend="121"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="608" column="43" bodyfile="src/data/IniFixData/Ayaka/AyakaFixer.cpp" bodystart="83" bodyend="121"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae950197c794bd6194de4d0e294d12bd9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1163,7 +1181,7 @@ meet the skin, three textures are edited, and the normal map the skin reads is I
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="612" column="43" bodyfile="src/data/IniFixData/Ayaka/AyakaFixer.cpp" bodystart="252" bodyend="298"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="621" column="43" bodyfile="src/data/IniFixData/Ayaka/AyakaFixer.cpp" bodystart="252" bodyend="298"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a5ba9b0def66f3f11ba4a182219fb1878" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1181,7 +1199,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.ayakaSpringbloom5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="621" column="43" bodyfile="src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp" bodystart="93" bodyend="126"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="630" column="43" bodyfile="src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp" bodystart="93" bodyend="126"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9a67338ff488b318dbed46ee674ac66f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1204,7 +1222,7 @@ what the register is bound to. See ``data/IniFixData/AyakaSpringbloom/AyakaSprin
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="635" column="43" bodyfile="src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp" bodystart="215" bodyend="315"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="644" column="43" bodyfile="src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp" bodystart="215" bodyend="315"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aa33a8b79c2bd9f70a2ab7e94e7e39f68" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1226,7 +1244,7 @@ the same arrangement :cpp:func:`IniFixBuilderFuncs::nilou5_7` has. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="648" column="43" bodyfile="src/data/IniFixData/Arlecchino/ArlecchinoFixer.cpp" bodystart="75" bodyend="117"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="657" column="43" bodyfile="src/data/IniFixData/Arlecchino/ArlecchinoFixer.cpp" bodystart="75" bodyend="117"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a44b1635d17aba65a1a130af1f802c239" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1244,7 +1262,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.barbara5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="657" column="43" bodyfile="src/data/IniFixData/Barbara/BarbaraFixer.cpp" bodystart="57" bodyend="95"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="666" column="43" bodyfile="src/data/IniFixData/Barbara/BarbaraFixer.cpp" bodystart="57" bodyend="95"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1afb608367425328c571a1f39510aeb07e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1262,7 +1280,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.barbaraSummertime5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="666" column="43" bodyfile="src/data/IniFixData/BarbaraSummertime/BarbaraSummertimeFixer.cpp" bodystart="57" bodyend="95"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="675" column="43" bodyfile="src/data/IniFixData/BarbaraSummertime/BarbaraSummertimeFixer.cpp" bodystart="57" bodyend="95"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac8e97910da767640595e8a3368d2afa5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1280,7 +1298,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.diluc5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="675" column="43" bodyfile="src/data/IniFixData/Diluc/DilucFixer.cpp" bodystart="64" bodyend="107"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="684" column="43" bodyfile="src/data/IniFixData/Diluc/DilucFixer.cpp" bodystart="64" bodyend="107"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae78e0322e5eea8a0f8ec2f4631b7a814" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1298,7 +1316,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.dilucFlamme5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="684" column="43" bodyfile="src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp" bodystart="87" bodyend="132"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="693" column="43" bodyfile="src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp" bodystart="87" bodyend="132"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1acdc7dfb80d413d8d017ee1b8d081503c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1316,7 +1334,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.fischl5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="693" column="43" bodyfile="src/data/IniFixData/Fischl/FischlFixer.cpp" bodystart="60" bodyend="107"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="702" column="43" bodyfile="src/data/IniFixData/Fischl/FischlFixer.cpp" bodystart="60" bodyend="107"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1acf49b414f7e20cc84eab45e344be5497" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1334,7 +1352,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.fischlHighness5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="702" column="43" bodyfile="src/data/IniFixData/FischlHighness/FischlHighnessFixer.cpp" bodystart="56" bodyend="105"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="711" column="43" bodyfile="src/data/IniFixData/FischlHighness/FischlHighnessFixer.cpp" bodystart="56" bodyend="105"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a41a2de9e899a0a41c0957623b33d8b73" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1352,7 +1370,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.ganyu5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="711" column="43" bodyfile="src/data/IniFixData/Ganyu/GanyuFixer.cpp" bodystart="42" bodyend="68"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="720" column="43" bodyfile="src/data/IniFixData/Ganyu/GanyuFixer.cpp" bodystart="42" bodyend="68"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aacc5733b4d1d7e1d577f3c8a30734c06" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1370,7 +1388,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.ganyuTwilight5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="720" column="43" bodyfile="src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp" bodystart="35" bodyend="61"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="729" column="43" bodyfile="src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp" bodystart="35" bodyend="61"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6794b68f220da79f6845cf64dee75a63" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1388,7 +1406,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.kirara5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="729" column="43" bodyfile="src/data/IniFixData/Kirara/KiraraFixer.cpp" bodystart="70" bodyend="99"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="738" column="43" bodyfile="src/data/IniFixData/Kirara/KiraraFixer.cpp" bodystart="70" bodyend="99"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aaaac387799ec8d41dc0a69165a22ca3e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1406,7 +1424,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.kiraraBoots5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="738" column="43" bodyfile="src/data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp" bodystart="45" bodyend="86"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="747" column="43" bodyfile="src/data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp" bodystart="45" bodyend="86"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9c8a7722534b2e898168134d0baa801e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1429,7 +1447,7 @@ texture being moved, so a mod whose author already hand-fixed it is left alone. 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="752" column="43" bodyfile="src/data/IniFixData/Kirara/KiraraFixer.cpp" bodystart="128" bodyend="178"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="761" column="43" bodyfile="src/data/IniFixData/Kirara/KiraraFixer.cpp" bodystart="128" bodyend="178"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a73ea170ddb740b6332ed03c08c7cb207" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1452,7 +1470,7 @@ the flat blue every other character here creates. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="766" column="43" bodyfile="src/data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp" bodystart="115" bodyend="161"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="775" column="43" bodyfile="src/data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp" bodystart="115" bodyend="161"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0e7045f9ee279083b5a86cce953103ad" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1470,7 +1488,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.lisa5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="775" column="43" bodyfile="src/data/IniFixData/Lisa/LisaFixer.cpp" bodystart="46" bodyend="69"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="784" column="43" bodyfile="src/data/IniFixData/Lisa/LisaFixer.cpp" bodystart="46" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac3ff016eddfc8d3dbef39321b6eb8c49" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1494,7 +1512,7 @@ whose author already hand-fixed it is left alone. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="790" column="43" bodyfile="src/data/IniFixData/Nilou/NilouFixer.cpp" bodystart="75" bodyend="122"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="799" column="43" bodyfile="src/data/IniFixData/Nilou/NilouFixer.cpp" bodystart="75" bodyend="122"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6f412cdab20a7bbde429fbb5f50d9d3c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1512,7 +1530,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.nilouBreeze5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="799" column="43" bodyfile="src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp" bodystart="45" bodyend="64"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="808" column="43" bodyfile="src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp" bodystart="45" bodyend="64"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aa347c93e0e387e599b54d5b723d951b2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1534,7 +1552,7 @@ name it). See ``data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="812" column="43" bodyfile="src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp" bodystart="144" bodyend="164"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="821" column="43" bodyfile="src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp" bodystart="144" bodyend="164"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad331b37599c6f8a283a1bd1f9754276e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1552,7 +1570,7 @@ Stub for the pure-Python ``IniFixBuilderFuncs.shenheFrostFlower5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="821" column="43" bodyfile="src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp" bodystart="28" bodyend="55"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="830" column="43" bodyfile="src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp" bodystart="28" bodyend="55"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aacf5fdfd98f282dd6a39c3b89064f7a8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1589,7 +1607,7 @@ Builds a :cpp:class:`GIMIFixer` over the four mod objects
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="849" column="43" bodyfile="src/data/IniFixData/Raiden/RaidenFixer.cpp" bodystart="423" bodyend="427"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="858" column="43" bodyfile="src/data/IniFixData/Raiden/RaidenFixer.cpp" bodystart="423" bodyend="427"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9427e3264381a4f320b7274f36432cb2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1618,7 +1636,7 @@ differs from remapping onto a boss that shares the source&apos;s geometry:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="869" column="43" bodyfile="src/data/IniFixData/Amber/AmberFixer.cpp" bodystart="100" bodyend="111"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="878" column="43" bodyfile="src/data/IniFixData/Amber/AmberFixer.cpp" bodystart="100" bodyend="111"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a661dfacbd96e0b869af40b4a0088679d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1640,7 +1658,7 @@ AmberCN remapped onto Amber. The standard GIMI character shape -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="882" column="43" bodyfile="src/data/IniFixData/AmberCN/AmberCNFixer.cpp" bodystart="100" bodyend="111"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="891" column="43" bodyfile="src/data/IniFixData/AmberCN/AmberCNFixer.cpp" bodystart="100" bodyend="111"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a602df28d19c544748750d6dd58710597" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1662,7 +1680,7 @@ Mona remapped onto MonaCN. The standard GIMI character shape -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="895" column="43" bodyfile="src/data/IniFixData/Mona/MonaFixer.cpp" bodystart="62" bodyend="73"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="904" column="43" bodyfile="src/data/IniFixData/Mona/MonaFixer.cpp" bodystart="62" bodyend="73"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac35a533ecb2f66985f79e9b93bc330c1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1687,7 +1705,7 @@ targets are different shapes -- see :cpp:class:`JeanFixer`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="911" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="132" bodyend="142"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="920" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="132" bodyend="142"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af5565464258b27878c912f72b6c8acf8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1709,7 +1727,7 @@ Jean&apos;s ``body`` graph is emitted once as each. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="924" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="145" bodyend="172"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="933" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="145" bodyend="172"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6742f7ff459bf36bba3774085ae3aee6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1727,7 +1745,7 @@ The 6.1 fix that remaps a Barbara mod onto BarbaraSummertime -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="933" column="43" bodyfile="src/data/IniFixData/Barbara/BarbaraFixer.cpp" bodystart="102" bodyend="122"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="942" column="43" bodyfile="src/data/IniFixData/Barbara/BarbaraFixer.cpp" bodystart="102" bodyend="122"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a093b95e7f6369b543728d319bdd85ded" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1745,7 +1763,7 @@ The 6.1 fix that remaps a Diluc mod onto DilucFlamme -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="942" column="43" bodyfile="src/data/IniFixData/Diluc/DilucFixer.cpp" bodystart="114" bodyend="130"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="951" column="43" bodyfile="src/data/IniFixData/Diluc/DilucFixer.cpp" bodystart="114" bodyend="130"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a96c1b9e323a32ada1dd3fa21e215e0c7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1763,7 +1781,7 @@ The 6.1 fix that remaps a DilucFlamme mod onto Diluc -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="951" column="43" bodyfile="src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp" bodystart="134" bodyend="159"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="960" column="43" bodyfile="src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp" bodystart="134" bodyend="159"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9d34d76f2ad402aad16bf9a689a8fbca" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1781,7 +1799,7 @@ The 6.1 fix that remaps a Fischl mod onto FischlHighness -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="960" column="43" bodyfile="src/data/IniFixData/Fischl/FischlFixer.cpp" bodystart="109" bodyend="124"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="969" column="43" bodyfile="src/data/IniFixData/Fischl/FischlFixer.cpp" bodystart="109" bodyend="124"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a4d30c6355e5f62720ad0c0282f03f914" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1799,7 +1817,7 @@ The 6.1 fix that remaps a FischlHighness mod onto Fischl -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="969" column="43" bodyfile="src/data/IniFixData/FischlHighness/FischlHighnessFixer.cpp" bodystart="107" bodyend="127"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="978" column="43" bodyfile="src/data/IniFixData/FischlHighness/FischlHighnessFixer.cpp" bodystart="107" bodyend="127"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a33b7f195763e39051e2ab540cf8563c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1817,7 +1835,7 @@ The 6.1 fix that remaps a Kaeya mod onto KaeyaSailwind -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="978" column="43" bodyfile="src/data/IniFixData/Kaeya/KaeyaFixer.cpp" bodystart="99" bodyend="131"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="987" column="43" bodyfile="src/data/IniFixData/Kaeya/KaeyaFixer.cpp" bodystart="99" bodyend="131"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6ccac9632b8b20ff0dc3aa9359225736" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1835,7 +1853,7 @@ The 6.1 fix that remaps a KaeyaSailwind mod onto Kaeya -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="987" column="43" bodyfile="src/data/IniFixData/KaeyaSailwind/KaeyaSailwindFixer.cpp" bodystart="110" bodyend="151"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="996" column="43" bodyfile="src/data/IniFixData/KaeyaSailwind/KaeyaSailwindFixer.cpp" bodystart="110" bodyend="151"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a23e17262d0e5fe14b0afa1140006dece" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1853,7 +1871,7 @@ The 6.1 fix that remaps a BarbaraSummertime mod onto Barbara -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="996" column="43" bodyfile="src/data/IniFixData/BarbaraSummertime/BarbaraSummertimeFixer.cpp" bodystart="102" bodyend="115"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1005" column="43" bodyfile="src/data/IniFixData/BarbaraSummertime/BarbaraSummertimeFixer.cpp" bodystart="102" bodyend="115"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a8a4d361d6f2dc2db3921fedbf8207cc8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1871,7 +1889,7 @@ The 6.1 fix that remaps a Klee mod onto KleeBlossomingStarlight -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1005" column="43" bodyfile="src/data/IniFixData/Klee/KleeFixer.cpp" bodystart="82" bodyend="119"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1014" column="43" bodyfile="src/data/IniFixData/Klee/KleeFixer.cpp" bodystart="82" bodyend="119"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a72531afa10544b4e49b921daded42617" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1889,7 +1907,7 @@ The 6.1 fix that remaps a KleeBlossomingStarlight mod onto Klee -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1014" column="43" bodyfile="src/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.cpp" bodystart="74" bodyend="101"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1023" column="43" bodyfile="src/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.cpp" bodystart="74" bodyend="101"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a57983389fe21b5b85ddb0ad5350ab0fd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1907,7 +1925,7 @@ The 6.1 fix that remaps a Lisa mod onto LisaStudent -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1023" column="43" bodyfile="src/data/IniFixData/Lisa/LisaFixer.cpp" bodystart="161" bodyend="234"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1032" column="43" bodyfile="src/data/IniFixData/Lisa/LisaFixer.cpp" bodystart="161" bodyend="234"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a320e66aafe2167f913b92c3fd9fe6e45" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1925,7 +1943,7 @@ The 6.1 fix that remaps a LisaStudent mod onto Lisa -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1032" column="43" bodyfile="src/data/IniFixData/LisaStudent/LisaStudentFixer.cpp" bodystart="55" bodyend="109"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1041" column="43" bodyfile="src/data/IniFixData/LisaStudent/LisaStudentFixer.cpp" bodystart="55" bodyend="109"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a76545c0b834fe6d7891f4ba88205b731" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1943,7 +1961,7 @@ The 6.1 fix remapping **JeanCN onto Jean** -- **not** a stub. The mirror of
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1041" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="130" bodyend="140"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1050" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="130" bodyend="140"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad17176dacf2bef265c6121b4c931d66d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1961,7 +1979,7 @@ The 6.1 fix remapping **JeanCN onto JeanSea** -- **not** a stub. The same split 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1050" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="143" bodyend="170"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1059" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="143" bodyend="170"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a11237d9c643796eae3317ba6f9b2f1a2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1983,7 +2001,7 @@ a second generated ``.ini`` file. See :cpp:class:`JeanSeaFixer` and
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1063" column="43" bodyfile="src/data/IniFixData/JeanSea/JeanSeaFixer.cpp" bodystart="98" bodyend="100"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1072" column="43" bodyfile="src/data/IniFixData/JeanSea/JeanSeaFixer.cpp" bodystart="98" bodyend="100"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aaef6ad6485abd2e10d0ef71995cc1b61" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2001,7 +2019,7 @@ The 6.1 fix remapping **JeanSea onto JeanCN** -- **not** a stub. The same merge 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1072" column="43" bodyfile="src/data/IniFixData/JeanSea/JeanSeaFixer.cpp" bodystart="103" bodyend="105"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1081" column="43" bodyfile="src/data/IniFixData/JeanSea/JeanSeaFixer.cpp" bodystart="103" bodyend="105"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad079e157a42e14e740a12c895956e517" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2023,7 +2041,7 @@ own choices are in ``data/IniFixData/Ningguang/NingguangFixer.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1085" column="43" bodyfile="src/data/IniFixData/Ningguang/NingguangFixer.cpp" bodystart="59" bodyend="78"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1094" column="43" bodyfile="src/data/IniFixData/Ningguang/NingguangFixer.cpp" bodystart="59" bodyend="78"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a87fe735eaa66a6c3bd0809a6176286e3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2042,7 +2060,7 @@ for why the asymmetry is real
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1095" column="43" bodyfile="src/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp" bodystart="65" bodyend="80"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1104" column="43" bodyfile="src/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp" bodystart="65" bodyend="80"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a117dd88dbf2c1bed4302a42bd5535bb1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2066,7 +2084,7 @@ texture that fills the hole. See ``data/IniFixData/Ganyu/GanyuFixer.cpp`` and
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1110" column="43" bodyfile="src/data/IniFixData/Ganyu/GanyuFixer.cpp" bodystart="101" bodyend="144"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1119" column="43" bodyfile="src/data/IniFixData/Ganyu/GanyuFixer.cpp" bodystart="101" bodyend="144"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a8ce4d8df4df9c57849e9061b4484016f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2087,7 +2105,7 @@ normal map. See ``data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1122" column="43" bodyfile="src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp" bodystart="80" bodyend="156"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1131" column="43" bodyfile="src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp" bodystart="80" bodyend="156"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a66dfebe8b94d048ce3a096f743f92c04" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2108,7 +2126,7 @@ call. See ``data/IniFixData/HuTao/HuTaoFixer.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1134" column="43" bodyfile="src/data/IniFixData/HuTao/HuTaoFixer.cpp" bodystart="134" bodyend="211"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1143" column="43" bodyfile="src/data/IniFixData/HuTao/HuTaoFixer.cpp" bodystart="134" bodyend="211"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac1431b8ec88a3bfc072d627ae7f5774e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2131,7 +2149,7 @@ see :cpp:member:`GIMICharFixerConfig::srcObjRegRemaps` and
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1148" column="43" bodyfile="src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp" bodystart="127" bodyend="195"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1157" column="43" bodyfile="src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp" bodystart="127" bodyend="195"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a460f8688ed8fdae3fc3c01462769ee12" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2152,7 +2170,7 @@ A **split** of the head alone, across the skin&apos;s ``head`` and ``dress``. Se
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1160" column="43" bodyfile="src/data/IniFixData/Xingqiu/XingqiuFixer.cpp" bodystart="62" bodyend="87"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1169" column="43" bodyfile="src/data/IniFixData/Xingqiu/XingqiuFixer.cpp" bodystart="62" bodyend="87"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af6f586c9f2714a8cda742b17ab22a9a6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2173,7 +2191,7 @@ See ``data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1172" column="43" bodyfile="src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp" bodystart="55" bodyend="84"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1181" column="43" bodyfile="src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp" bodystart="55" bodyend="84"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae921150e751a2da9ddf5dd886d02a080" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2196,7 +2214,7 @@ target&apos;s head and the fix writes a second ``.ini`` file for the loser. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1185" column="43" bodyfile="src/data/IniFixData/Keqing/KeqingFixer.cpp" bodystart="87" bodyend="125"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1194" column="43" bodyfile="src/data/IniFixData/Keqing/KeqingFixer.cpp" bodystart="87" bodyend="125"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1adc42fafd0ec85f87004a4e2819daad49" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2218,7 +2236,7 @@ Keqing&apos;s body and dress indices. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1198" column="43" bodyfile="src/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp" bodystart="98" bodyend="124"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1207" column="43" bodyfile="src/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp" bodystart="98" bodyend="124"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a97ad3d2acf77e47e43ea622ab1784e93" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2239,7 +2257,7 @@ dress&apos;s ``ps-t2`` / ``ps-t3`` shift. See ``data/IniFixData/Shenhe/ShenheFix
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1210" column="43" bodyfile="src/data/IniFixData/Shenhe/ShenheFixer.cpp" bodystart="62" bodyend="98"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1219" column="43" bodyfile="src/data/IniFixData/Shenhe/ShenheFixer.cpp" bodystart="62" bodyend="98"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a03a66c29497cbde2ffb563ef829a9cec" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2261,7 +2279,7 @@ body draw call, so the fix writes THREE ``.ini`` files. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1223" column="43" bodyfile="src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp" bodystart="83" bodyend="134"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1232" column="43" bodyfile="src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp" bodystart="83" bodyend="134"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28595767d856f1adb7ef7b92962a53b1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2284,7 +2302,7 @@ on ``ps-t0``, Ganyu predates it, so the head&apos;s registers shift down a slot.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1237" column="43" bodyfile="src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp" bodystart="94" bodyend="128"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1246" column="43" bodyfile="src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp" bodystart="94" bodyend="128"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a7efbb5fcdca598296116646ea2e8cfb0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2306,7 +2324,7 @@ MonaCN remapped onto Mona. The standard GIMI character shape -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1250" column="43" bodyfile="src/data/IniFixData/MonaCN/MonaCNFixer.cpp" bodystart="62" bodyend="73"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1259" column="43" bodyfile="src/data/IniFixData/MonaCN/MonaCNFixer.cpp" bodystart="62" bodyend="73"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae03d94ddd49d371eac3dd2be878a2512" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2328,7 +2346,7 @@ Rosaria remapped onto RosariaCN. The standard GIMI character shape -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1263" column="43" bodyfile="src/data/IniFixData/Rosaria/RosariaFixer.cpp" bodystart="64" bodyend="75"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1272" column="43" bodyfile="src/data/IniFixData/Rosaria/RosariaFixer.cpp" bodystart="64" bodyend="75"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aa659acec18dfa20826ff1baef35a7c10" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2350,7 +2368,7 @@ RosariaCN remapped onto Rosaria. The standard GIMI character shape -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1276" column="43" bodyfile="src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp" bodystart="64" bodyend="75"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1285" column="43" bodyfile="src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp" bodystart="64" bodyend="75"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae8c888df890e0536514fac7bdbaa0926" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2380,7 +2398,7 @@ one :cpp:class:`GIMIComponentFixerConfig`. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1301" column="43" bodyfile="src/data/IniFixData/Bennett/BennettFixer.cpp" bodystart="142" bodyend="144"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1310" column="43" bodyfile="src/data/IniFixData/Bennett/BennettFixer.cpp" bodystart="142" bodyend="144"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a22c13f14a5950b5c1d605129617b7024" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2395,7 +2413,7 @@ one :cpp:class:`GIMIComponentFixerConfig`. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1306" column="43" bodyfile="src/data/IniFixData/Bennett/BennettFixer.cpp" bodystart="147" bodyend="149"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1315" column="43" bodyfile="src/data/IniFixData/Bennett/BennettFixer.cpp" bodystart="147" bodyend="149"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a66f87ab2a1f3a6f2cc9e3bcf093d7ee3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2418,7 +2436,7 @@ head takes her Bang and her Eye. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1320" column="43" bodyfile="src/data/IniFixData/BennettAdventure/BennettAdventureFixer.cpp" bodystart="107" bodyend="109"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1329" column="43" bodyfile="src/data/IniFixData/BennettAdventure/BennettAdventureFixer.cpp" bodystart="107" bodyend="109"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aae3209df0e33ccb63765acd862ac2227" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2440,7 +2458,7 @@ three built from one :cpp:class:`GIMIComponentFixerConfig`. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1333" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="119" bodyend="121"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1342" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="119" bodyend="121"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aab710e60c9e04a9f98722c7a52885093" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2455,7 +2473,7 @@ three built from one :cpp:class:`GIMIComponentFixerConfig`. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1338" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="124" bodyend="126"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1347" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="124" bodyend="126"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1adaae31c7cfae803ad044bb0068f7efac" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2470,7 +2488,7 @@ three built from one :cpp:class:`GIMIComponentFixerConfig`. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1343" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="129" bodyend="131"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1352" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="129" bodyend="131"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2484,7 +2502,7 @@ three built from one :cpp:class:`GIMIComponentFixerConfig`. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1345" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="135" bodyend="137"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1354" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="135" bodyend="137"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a52b8823aca4f15e712953d93319cd846" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2499,7 +2517,7 @@ three built from one :cpp:class:`GIMIComponentFixerConfig`. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1350" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="140" bodyend="142"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1359" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="140" bodyend="142"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28abe81ceeed138ca10039b96346910d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2514,7 +2532,7 @@ three built from one :cpp:class:`GIMIComponentFixerConfig`. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1355" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="145" bodyend="147"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1364" column="43" bodyfile="src/data/IniFixData/Yelan/YelanFixer.cpp" bodystart="145" bodyend="147"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a02974b8d07fc3de5d09e72a10ba4c8c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2537,7 +2555,7 @@ components are merged into one ``.ini`` file over one set of buffers. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1369" column="43" bodyfile="src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp" bodystart="155" bodyend="157"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1378" column="43" bodyfile="src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp" bodystart="155" bodyend="157"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0148594d01298b546410e21c4abf87a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2555,7 +2573,7 @@ onto a target of one, and the inverse of :cpp:class:`CitlaliFixer`&apos;s direct
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1378" column="43" bodyfile="src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp" bodystart="133" bodyend="135"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1387" column="43" bodyfile="src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp" bodystart="133" bodyend="135"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -2590,7 +2608,7 @@ each returning the :cpp:type:`IniFixBuilder::Factory` for that pair
    actually needs them
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="55" column="5" bodyfile="include/AGRemapCore/data/IniFixBuilderData.h" bodystart="55" bodyend="1380"/>
+    <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="55" column="5" bodyfile="include/AGRemapCore/data/IniFixBuilderData.h" bodystart="55" bodyend="1389"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0974b6741bb33f11bd90e970ec6139e9" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>amber4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ab194bb3d4062215bfb52bd57a6fff1df" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>amber5_7</name></member>
@@ -2620,6 +2638,7 @@ each returning the :cpp:type:`IniFixBuilder::Factory` for that pair
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a66f87ab2a1f3a6f2cc9e3bcf093d7ee3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>bennettAdventureToBennett6_1</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a1220a1dc58682b9f9e2a01619d5a1fb5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>cherryHuTao5_3</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac1431b8ec88a3bfc072d627ae7f5774e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>cherryHuTao6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a7da83e1206c315786556a69bc77c2685" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>chisaParfait3_5</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aab710e60c9e04a9f98722c7a52885093" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>citlaliWhisperofStarsBangs6_7</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aae3209df0e33ccb63765acd862ac2227" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>citlaliWhisperofStarsBody6_7</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1adaae31c7cfae803ad044bb0068f7efac" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>citlaliWhisperofStarsEyes6_7</name></member>

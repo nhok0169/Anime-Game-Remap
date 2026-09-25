@@ -1261,6 +1261,26 @@ override and the two shape-key overrides by their own hashes
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="752" column="45" bodyfile="src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp" bodystart="22" bodyend="27"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a2588e3e99d6d57c360b69e78a4adad83" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::chisa2_8</definition>
+        <argsstring>()</argsstring>
+        <name>chisa2_8</name>
+        <qualifiedname>AGRemapCore::IniParseBuilderFuncs::chisa2_8</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 2.8 parser for **Chisa** -- the second Wuthering Waves character, built by
+:cpp:func:`makeWWMIParser`: seven draw slots on her ``vb0`` hash plus their
+``match_first_index``, the bone-data and shape-key overrides by a hash of their
+own. See ``data/IniParseData/Chisa/ChisaParser.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="763" column="45" bodyfile="src/data/IniParseData/Chisa/ChisaParser.cpp" bodystart="22" bodyend="30"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7d30d1abce22b6dc5f644d8ff225e123" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::yelanTranquil5_7</definition>
@@ -1280,7 +1300,7 @@ The FIRST parser for a skin of SEVERAL components -- a ``Body`` of three draw sl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="764" column="45" bodyfile="src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp" bodystart="21" bodyend="80"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="775" column="45" bodyfile="src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp" bodystart="21" bodyend="80"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8e18205ea433a4d25c6fe6c663dbe376" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1298,7 +1318,7 @@ slots, a Bangs and an Eyes), built by :cpp:func:`makeGIMIComponentParser`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="773" column="45" bodyfile="src/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.cpp" bodystart="23" bodyend="75"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="784" column="45" bodyfile="src/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.cpp" bodystart="23" bodyend="75"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1334,7 +1354,7 @@ each returning the :cpp:type:`IniParseBuilder::Factory` for that pair
    actually needs them
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="56" column="5" bodyfile="include/AGRemapCore/data/IniParseBuilderData.h" bodystart="56" bodyend="775"/>
+    <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="56" column="5" bodyfile="include/AGRemapCore/data/IniParseBuilderData.h" bodystart="56" bodyend="786"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a0f031e3c3bc6a5784f978725a2f30f90" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>amber4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac929d9cdc7d62f7339d4b5c340553daa" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>amberCN4_0</name></member>
@@ -1348,6 +1368,7 @@ each returning the :cpp:type:`IniParseBuilder::Factory` for that pair
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a974edb415d25e1ea9b4aadd28673f97c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>bennett4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a708be8ac73083c2a14454469100c9b92" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>bennettAdventure5_7</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a682b003af4ab40d2f2f58ac015af37c1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>cherryHutao5_3</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a2588e3e99d6d57c360b69e78a4adad83" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>chisa2_8</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7a43e27b4ab63840fd41be6e297828b5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>citlali5_3</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8e18205ea433a4d25c6fe6c663dbe376" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>citlaliWhisperofStars6_7</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a9ed2e127fe638c494b02fea1167370a6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>diluc4_0</name></member>

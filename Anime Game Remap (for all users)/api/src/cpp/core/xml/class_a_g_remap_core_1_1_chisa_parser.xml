@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_chisa_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ChisaParser</compoundname>
+    <includes refid="_chisa_parser_8h" local="no">ChisaParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_chisa_parser_1a8168516de0eea512fcf7bae7ff1982ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ChisaParser::ChisaParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ChisaParser</name>
+        <qualifiedname>AGRemapCore::ChisaParser::ChisaParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Chisa/ChisaParser.h" line="36" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_chisa_parser_1aca27315be900c9e5af17805af5d32a02" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::ChisaParser::v2_8</definition>
+        <argsstring>()</argsstring>
+        <name>v2_8</name>
+        <qualifiedname>AGRemapCore::ChisaParser::v2_8</qualifiedname>
+        <briefdescription>
+<para>The 2.8 parser <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a2588e3e99d6d57c360b69e78a4adad83" kindref="member">IniParseBuilderFuncs::chisa2_8</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Chisa/ChisaParser.h" line="41" column="45" bodyfile="src/data/IniParseData/Chisa/ChisaParser.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Chisa&apos;s own ``.ini`` parsers -- the second Wuthering Waves character, through
+:cpp:func:`makeWWMIParser`: seven draw slots on her ``vb0`` hash, the bone-data override and
+the two shape-key overrides by their own hashes. Pair this with :cpp:class:`ChisaFixer`
+
+.. note::
+    She is past 256 merged bones, so a mod of hers carries WWMI&apos;s blend remap and its true
+    16-bit ids live in ``BlendRemapVertexVG.buf`` rather than ``Blend.buf`` -- which matters to
+    the FIXER, not here; the parse side is the same seven slots every WWMI character has
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Chisa/ChisaParser.h" line="34" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Chisa/ChisaParser.h" bodystart="34" bodyend="42"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_chisa_parser_1a8168516de0eea512fcf7bae7ff1982ae" prot="public" virt="non-virtual"><scope>AGRemapCore::ChisaParser</scope><name>ChisaParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_chisa_parser_1aca27315be900c9e5af17805af5d32a02" prot="public" virt="non-virtual"><scope>AGRemapCore::ChisaParser</scope><name>v2_8</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

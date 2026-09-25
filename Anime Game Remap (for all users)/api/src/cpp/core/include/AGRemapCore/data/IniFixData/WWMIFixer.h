@@ -359,6 +359,88 @@ namespace AGRemapCore {
          * @brief The register the mod's blend buffer is bound at. **Default**: ``"vb4"``
          */
         std::string blendReg = "vb4";
+        /**
+         * @brief A register line a remapped section DROPS, optionally only for certain values
+         */
+        struct RegRemoval {
+            /**
+             * @brief The register or key, eg. ``"ResourceBlendBufferOverride"`` or ``"run"``
+             */
+            std::string reg;
+            /**
+             * @brief
+             @rst
+             Drop it only when its value begins with this, ignoring case and leading space. Empty
+             (the default) drops every value
+             @endrst
+             */
+            std::string valuePrefix;
+        };
+        /**
+         * @brief
+         @rst
+         Register lines a remapped section drops, on top of everything the template removes anyway.
+
+         Two kinds have needed this so far, both on Chisa:
+
+         * the ``Resource{BlendBuffer,MergedSkeleton,ExtraMergedSkeleton}Override = ref ...`` lines a
+           mod of a character past 256 merged bones carries. They point the draw at WWMI's blend
+           remap of the SOURCE, and the two shaders are exact inverses, so copied into a remapped
+           section they feed the draw the source's own merged index against the TARGET's skeleton --
+           in game, the components that have a blend remap collapse into a drape under an intact
+           head. Match ``"ref"`` and not the bare name: the shared cleanup list sets the same three
+           to ``null``, which is a safety net worth keeping
+         * the ``run`` of RabbitFX's ``SetTextures`` and the maps it names, which otherwise override
+           the fix's own texture lists positionally
+         @endrst
+         */
+        std::vector<RegRemoval> removedRegs;
+        /**
+         * @brief
+         @rst
+         Chains of SOURCE vertex groups pinned to one bone each: ``{root: members}``, where every
+         member is remapped to whatever the ROOT maps to.
+
+         A part the target has no counterpart for wants one rigid anchor rather than the finder's
+         per-bone nearest -- the Yelan lesson. Two of Chisa's need it:
+
+         * her fox mask and hairpins, a rigid prop whose bones the finder matched one at a time and
+           scattered from her head to her waist, which reads in game as the prop being GONE rather
+           than as anything misplaced, because it is smeared through the torso it is buried in
+         * her back skirt panel, which flew out behind her on the skin. Its bones are not mapped to
+           the wrong PLACE -- they land 0.8 to 6.1 units from where they live on her, and the panel
+           hangs correctly on Chisa herself -- they are mapped to bones that MOVE differently, the
+           skin's own frill bones for the garment she wears instead. Retargeting by proximity is
+           worse by that same measure, which is the sign that rigidity is the criterion
+
+         The key is a SOURCE bone and the chain takes whatever it maps to, so writing a target id
+         here is a silent no-op-shaped error. Pick the root by skinning the part with each candidate
+         and keeping the ones whose RMS radius from the centroid is unchanged
+         (``Tools/Misc/Diagnostics/wwmiAnchorSearch.py``) -- never off a bone's ``vs-cb4``
+         translation column, which is a skinning matrix and not a pose
+         @endrst
+         */
+        std::map<long long, std::vector<long long>> anchorChains;
+        /**
+         * @brief
+         @rst
+         Per target slot, per pass, the bindings that pass takes INSTEAD of the plan's --
+         ``{slot: {pass: bindings}}``.
+
+         :cpp:member:`slotPasses` names the passes one command list guards, all taking the plan's
+         bindings. That holds while every pass of a slot binds the same art at the same registers,
+         which is true of Sanhua and false of Chisa: a slot's register layout is per SHADER, so the
+         same role sits at different registers on different passes of one slot. Her outline and
+         shadow passes take each slot's diffuse at ``ps-t0`` where the main pass takes it at
+         ``ps-t1`` (hair) or ``ps-t3`` (clothing).
+
+         A pass named in neither table still DRAWS -- with the GAME's textures, which is the "one
+         part wearing another's art" symptom -- so this table is also what records that a pass was
+         considered. ``Tools/Misc/Diagnostics/wwmiPassCoverage.py`` lists every pass per slot
+         against both
+         @endrst
+         */
+        std::map<int, std::map<std::string, std::vector<Binding>>> extraPassRegs;
 
         /**
          * @brief

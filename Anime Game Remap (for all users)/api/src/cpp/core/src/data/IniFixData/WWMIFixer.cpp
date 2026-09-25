@@ -63,6 +63,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BlendEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
 #include "AGRemapCore/tools/StringTools.h"
@@ -303,10 +304,11 @@ namespace AGRemapCore {
 
                 WWMIBlendReplace(GraphId resModObj, ResEditConfig config, const ModType* modType,
                                  std::optional<Version> fromVersion, std::optional<Version> toVersion,
-                                 std::function<bool(RemapBlendResource&)> fixFunc = {}):
+                                 std::function<bool(RemapBlendResource&)> fixFunc = {},
+                                 std::map<long long, std::vector<long long>> anchorChains = {}):
                     Base(std::move(resModObj), std::move(config), "blend"),
                     modType_(modType), fromVersion_(std::move(fromVersion)), toVersion_(std::move(toVersion)),
-                    fixFunc_(std::move(fixFunc)) {}
+                    fixFunc_(std::move(fixFunc)), anchorChains_(std::move(anchorChains)) {}
 
             protected:
                 void buildResModel(const std::string& resType, const std::string& srcPath, const std::string& fixedPath,
@@ -322,6 +324,25 @@ namespace AGRemapCore {
                         return;
                     }
 
+                    // Pin each chain to whatever its ROOT maps to -- see
+                    // WWMIFixerConfig::anchorChains. A root the row has no entry for is left alone
+                    // rather than guessed at: that would write a target of 0, which is a real bone.
+                    if (!anchorChains_.empty()) {
+                        std::unordered_map<long long, long long> row = vgRemap->getRemap();
+                        for (const auto& [root, members] : anchorChains_) {
+                            const auto at = row.find(root);
+                            if (at == row.end()) {
+                                continue;
+                            }
+
+                            for (long long member : members) {
+                                row[member] = at->second;
+                            }
+                        }
+
+                        vgRemap->setRemap(std::move(row));
+                    }
+
                     auto resource = std::make_unique<RemapBlendResource>(
                         ctx.iniFolder(), srcPath, fixedPath, std::move(*vgRemap), this->resType,
                         fixFunc_, wwmiBlendElements());
@@ -334,6 +355,7 @@ namespace AGRemapCore {
                 std::optional<Version> fromVersion_;
                 std::optional<Version> toVersion_;
                 std::function<bool(RemapBlendResource&)> fixFunc_;
+                std::map<long long, std::vector<long long>> anchorChains_;
         };
 
 
@@ -1227,6 +1249,29 @@ namespace AGRemapCore {
                         toModName_, ctx_.modTypeName().value_or(""), from, to);
                     assetAdapter_ = std::make_unique<RegPartEdit<>>(assetRemap_.get());
 
+                    // Lines a remapped section drops -- see WWMIFixerConfig::removedRegs for why
+                    // each kind is there. Built once and hung on every remapped slot section.
+                    if (!config_.removedRegs.empty()) {
+                        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>> keys;
+                        keys.reserve(config_.removedRegs.size());
+                        for (const WWMIFixerConfig::RegRemoval& removal : config_.removedRegs) {
+                            if (removal.valuePrefix.empty()) {
+                                keys.emplace_back(removal.reg, std::nullopt);
+                                continue;
+                            }
+
+                            const std::string prefix = StringTools::toLower(removal.valuePrefix);
+                            keys.emplace_back(removal.reg, RegRemove<>::RemoveKeyCheck(
+                                [prefix](long long, const std::string& value) {
+                                    return StringTools::startsWith(
+                                        StringTools::toLower(StringTools::lstrip(value)), prefix);
+                                }));
+                        }
+
+                        regRemove_ = std::make_unique<RegRemove<>>(std::move(keys));
+                        removeAdapter_ = std::make_unique<RegPartEdit<>>(regRemove_.get());
+                    }
+
                     // The groups: one remapped section per target draw per file. The first source
                     // component claiming a slot stays in the mod's own .ini, the second lands in the
                     // first copy, and so on -- in the source components' numeric order, which is the
@@ -1327,6 +1372,41 @@ namespace AGRemapCore {
                             additions.emplace_back(IniKeywords::Run, cmdList);
                         }
 
+                        // A slot's OTHER passes bind the same art at DIFFERENT registers, so each
+                        // gets its own guarded list beside the plan's -- see
+                        // WWMIFixerConfig::extraPassRegs.
+                        const auto extra = config_.extraPassRegs.find(planned.slot);
+                        if (extra != config_.extraPassRegs.end()) {
+                            int n = 0;
+                            for (const auto& [pass, regs] : extra->second) {
+                                std::vector<std::string> extraBindings;
+                                for (const WWMIFixerConfig::Binding& binding : regs) {
+                                    const std::string* resource = resourceFor(binding.role, component);
+                                    if (resource != nullptr) {
+                                        extraBindings.push_back("    " + binding.reg + " = " + *resource);
+                                    }
+                                }
+
+                                if (extraBindings.empty()) {
+                                    ++n;
+                                    continue;
+                                }
+
+                                const std::string extraList =
+                                    fixName("CommandList" + source_.name + capitalized(config_.slotPrefix)
+                                            + std::to_string(component) + "TexturesPass" + std::to_string(n));
+                                std::string extraText = "[" + extraList + "]\nif ps == " + passFilter(pass) + "\n";
+                                for (const std::string& binding : extraBindings) {
+                                    extraText += binding + "\n";
+                                }
+
+                                extraText += "endif\n";
+                                textureLists_.push_back(extraText);
+                                additions.emplace_back(IniKeywords::Run, extraList);
+                                ++n;
+                            }
+                        }
+
                         if (!additions.empty()) {
                             for (const std::string& section : present_.at(component)) {
                                 expected_[lowerKey(fixName(section))].additions = additions;
@@ -1403,6 +1483,10 @@ namespace AGRemapCore {
                             const int slot = config_.plan.at(component).slot;
                             const ModObj obj = targetSlotObj(slot);
                             std::vector<PartEdit*> edits = editsOf_[component];
+                            if (removeAdapter_ != nullptr) {
+                                edits.push_back(removeAdapter_.get());
+                            }
+
                             edits.push_back(newValsOf_.at(slot));
                             edits.push_back(assetAdapter_.get());
                             perGroup[g].edits[obj] = std::move(edits);
@@ -1439,7 +1523,7 @@ namespace AGRemapCore {
                         }
 
                         auto replace = std::make_unique<WWMIBlendReplace>(GraphId(g, "", "blend"), makeResEditConfig(), source, from, to,
-                                                                          std::move(lift));
+                                                                          std::move(lift), config_.anchorChains);
                         auto collect = std::make_unique<Collector>();
                         for (int component : groups_[g]) {
                             const ModObj obj = targetSlotObj(config_.plan.at(component).slot);
@@ -1668,7 +1752,23 @@ namespace AGRemapCore {
                     // other mod's `if ps == ...` never matches -- its textures silently unbound.
                     if (passFilters_.empty()) {
                         std::size_t i = 0;
-                        for (const auto& passes : config_.slotPasses) {
+                        // every pass either table names -- an extraPassRegs pass with no
+                        // filter_index has nothing to match on, so its command list never fires and
+                        // that slot draws with the game's textures on that pass
+                        std::vector<std::vector<std::string>> allPasses = config_.slotPasses;
+                        for (const auto& [slot, byPass] : config_.extraPassRegs) {
+                            (void)slot;
+                            std::vector<std::string> names;
+                            names.reserve(byPass.size());
+                            for (const auto& [pass, regs] : byPass) {
+                                (void)regs;
+                                names.push_back(pass);
+                            }
+
+                            allPasses.push_back(std::move(names));
+                        }
+
+                        for (const auto& passes : allPasses) {
                             for (const std::string& p : passes) {
                                 if (passFilters_.count(p) != 0) {
                                     continue;
@@ -1928,6 +2028,8 @@ namespace AGRemapCore {
                 std::unique_ptr<GraphGroupRemap<>> slotRemap_;
                 std::unique_ptr<RegAssetRemap<>> assetRemap_;
                 std::unique_ptr<RegPartEdit<>> assetAdapter_;
+                std::unique_ptr<RegRemove<>> regRemove_;
+                std::unique_ptr<RegPartEdit<>> removeAdapter_;
                 std::map<int, PartEdit*> newValsOf_;
                 std::vector<std::unique_ptr<RegSurroundedAdd<>>> surroundedAdds_;
                 std::vector<std::unique_ptr<GraphPartEdit<>>> graphAdapters_;

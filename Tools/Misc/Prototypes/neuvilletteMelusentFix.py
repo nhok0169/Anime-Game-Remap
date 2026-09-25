@@ -191,6 +191,9 @@ def fixerConfig(dressSlot: str = "Body") -> "FRB.GIMIComponentFixerConfig":
     # and at his height the irises were behind the skin's upper lids (white eyes, no pupils). Measured as
     # the skin's EyePosition.buf minus this fix's Eye for his identity mod (residual under 0.3 mm).
     eye.positionOffset = [0.0, -0.01237, -0.00021]
+    # ...but only into the GAME's face: Neuvillette2 hides it and draws its own inside his head mesh, which
+    # reaches the skin unshifted -- shifted, its eyes sat below that face and looked down.
+    eye.offsetOnlyWithGameFace = True
 
     config.components = [main, coat, bang, eye]
     # Every one of the skin's components receives a forward vertex-group row, so none is hidden by

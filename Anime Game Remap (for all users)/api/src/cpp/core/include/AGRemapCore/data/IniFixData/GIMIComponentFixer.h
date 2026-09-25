@@ -249,6 +249,24 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Whether :cpp:member:`positionOffset` applies only while the mod draws with the GAME's face
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The offset fits the source's part into the face the GAME draws. A mod can hide that face --
+             ``handling = skip`` on the source's face diffuse hash -- and draw its own inside its head
+             mesh, which reaches the target unshifted; its eyes are placed for THAT face, and shifting
+             them drops them below it. Neuvillette2 (its own anime face and eyes) looked down on the
+             skin until its eyes were left exactly where the mod put them.
+
+             Read per ``.ini`` file: a file whose face-diffuse section skips the draw keeps the mod's own
+             positions for this component. **Default**: ``false``, the offset always applies
+             @endrst
+             */
+            bool offsetOnlyWithGameFace = false;
+
+            /**
+             * @brief
+             @rst
              Every ``ps-t`` register the TARGET's own slot binds, or empty to leave the registers
              alone :raw-html:`<br />` :raw-html:`<br />`
 

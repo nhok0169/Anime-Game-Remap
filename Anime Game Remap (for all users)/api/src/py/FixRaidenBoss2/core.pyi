@@ -7238,6 +7238,18 @@ class GIMIComponentFixerConfig:
         def objSlotIndices(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
             ...
         @property
+        def offsetOnlyWithGameFace(self) -> bool:
+            """
+            :class:`bool`: Whether :attr:`positionOffset` applies only while the mod draws with the GAME's face
+            
+            A mod that hides the game's face (``handling = skip`` on the source's face diffuse hash) draws its own
+            inside its head mesh, and its eyes are placed for that face: shifting them drops them below it. Read
+            per ``.ini`` file. **Default**: ``False``, the offset always applies
+            """
+        @offsetOnlyWithGameFace.setter
+        def offsetOnlyWithGameFace(self, arg0: bool) -> None:
+            ...
+        @property
         def positionOffset(self) -> typing.Annotated[list[float], "FixedSize(3)"]:
             """
             List[:class:`float`]: A model-space translation ``[x, y, z]`` added to every vertex position written

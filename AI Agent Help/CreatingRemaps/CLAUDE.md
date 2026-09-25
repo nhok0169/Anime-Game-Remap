@@ -82,6 +82,7 @@ surprises you.
 | **the remapped mod is a DIFFERENT COLOUR from the same mod on its own character** (CharlotteHurlock5: turquoise on the skin, red on Charlotte) | Usually NOT a fix bug ([Overview](../Overview/CLAUDE.md)'s habit 80). Open the mod's own diffuse (Pillow reads the `.dds`) and run `reload --mod` on it. If the texture already has the "wrong" colour and the SOURCE's own sections show `Unrecognised entry: resource\gimi\...` / `run = commandlist\gimi\settextures`, the maintainer's old-loader GIMI never binds the mod's textures on its own character. The fix normalises those lines into `ps-t` bindings, so the remap is the first place the author's real colours show. The maintainer's call (2026-09-24): not our problem |
 | **one variant of a merged master shatters** on a COMPONENT remap (the others fine) | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 4: a `.ini` group whose object keeps nothing in a state still bound the SOURCE's raw buffers there. List every generated file's per-`$swapvar` `vb0` / `vb1` / `ib` bindings and the vertex counts behind them before touching code |
 | the mod's **mesh file binds no textures** and a SEPARATE `.ini` recolours the skin by texture hash | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 7: the mesh file imports its siblings' `this =` overrides, the recolour file defers to it |
+| the eyes **look down / up** on the target but not on the source, on ONE mod | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 10's second half: the mod hides the game's face (`handling = skip` on the face diffuse hash) and brings its own, so the eye offset must not apply -- `Component::offsetOnlyWithGameFace` |
 | **white eyes with no pupils** (or eyes gone) on the target, the eye textures and UVs right | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 10: the eyes sit in the GAME's face mesh and the source's bind pose puts them behind the lids. Difference the target's own Eye `Position.buf` against the fix's output for the identity mod, vertex for vertex, and set `Component::positionOffset` |
 | a **mantle / cape sleeve, a cuff or a loose panel** sticks out or hangs wrong on the target when an arm moves | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 8: find the target's REAL forearm by which bone shares vertices with the hand chain, and audit the rows for left / right asymmetry |
 | the remap **works and you are finishing up** | "Verifying", then "Closing out a remap" --- five files and a regenerated `core/xml`, and the vertex-group draft's `Credits` sheet |
@@ -1596,6 +1597,21 @@ merge-direction mods moved nothing but Bennett5 (point 3).
    check the ib and UVs agree first, and accept a translation only when the residual is small against the part
    (here 0.3 mm against a 19 mm eye). Matching by UV instead is a trap: an eye's UVs repeat (168 vertices, 64
    distinct matches), and the "mismatched normals" it reports are other vertices' normals.
+
+   **And then one mod's eyes LOOKED DOWN with the offset on** (Neuvillette2, its own anime eyes): **a mod can
+   hide the game's face and bring its own.** Its `[TextureOverride...FaceHeadDiffuse]` says `hash = 81e80510` /
+   `handling = skip` (and the fix carries the skip onto the skin's `6dab6f0e`), its face lives in his HEAD mesh,
+   and the head reaches the skin unshifted -- so the 1.24 cm moved its eyes below ITS face. With no shift at all
+   they look straight, exactly like on his own outfit. `Component::offsetOnlyWithGameFace` (shared, default off)
+   drops the offset for any `.ini` whose face-diffuse section skips the draw; Neuvillette's Eye turns it on.
+   **Grep a mod for `handling = skip` on the source's face hash before reasoning about its eyes.**
+   The wrong turn is worth knowing: the frame dumps' face draws (UV-matched per side of the face -- face UVs are
+   MIRRORED, so a plain UV match pairs left with right) show the skin's eye OPENING is two-thirds as tall as his,
+   and scaling the mod's 8.4 mm eye drop by that fit predicted "+3 mm", which even looked right in two of six
+   hand-test frames. It was built, and in game it was "still the same" -- the premise (the eyes sit in the game's
+   face) was false for this mod. A hand edit to "no shift" settled it in one reload. Two cautions from it: a
+   head-bone space's up axis is its `x` here, not `y`; and an outfit-preview idle animation turns the head and
+   blinks, so compare several frames against the character's own outfit, never one.
 
 **Open for the maintainer**: Neuvillette8's `TexFx` shirt vanishes on the skin (not the Dress-slot TexFx guard --
 tested); Neuvillette9's layout (point 2); the cravat's faint cyan cast (his 126-128 is the skin's cyan band;

@@ -45,6 +45,13 @@ class NeuvilletteTemplateOptionsTest(BaseUnitTest):
         self.assertAlmostEqual(component.positionOffset[1], -0.01237, places = 6)
         self.assertAlmostEqual(component.positionOffset[2], -0.00021, places = 6)
 
+    def test_componentFixerConfig_offsetOnlyWithGameFace(self):
+        # off by default: the offset always applies, as every earlier config was confirmed with
+        component = FRB.GIMIComponentFixerConfig.Component()
+        self.assertFalse(component.offsetOnlyWithGameFace)
+        component.offsetOnlyWithGameFace = True
+        self.assertTrue(component.offsetOnlyWithGameFace)
+
     def test_mergeFixerConfig_componentModTypeName(self):
         component = FRB.GIMIMergeFixerConfig.Component()
         self.assertEqual(component.modTypeName, "")

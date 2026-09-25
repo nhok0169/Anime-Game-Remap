@@ -298,6 +298,10 @@ namespace AGRemapCore {
             // GIMIComponentFixerConfig::faceSwapOnlyFromDiffuseReg.
             bool faceOnDiffuseReg = false;
 
+            // Whether the mod hides the game's face (`handling = skip` on the source's face diffuse
+            // hash) -- see GIMIComponentFixerConfig::Component::offsetOnlyWithGameFace.
+            bool skipsGameFace = false;
+
             // Every branch's -- see ModObjectFiles::ibs.
             std::vector<BranchVal> positions;
             std::vector<BranchVal> blends;
@@ -506,6 +510,11 @@ namespace AGRemapCore {
                         } else if (hashType == TexcoordHashKey) {
                             readBuffer(files_.texcoords, files_.texcoord, IniKeywords::Vb1);
                         } else if (hashType == FaceDiffuseHashKey) {
+                            const std::optional<std::string> handling = firstVal(tpl, IniKeywords::Handling);
+                            if (handling.has_value() && StringTools::equalsIgnoreCase(StringTools::strip(*handling), "skip")) {
+                                files_.skipsGameFace = true;
+                            }
+
                             if (files_.face.empty()) {
                                 files_.face = firstFile(sectionName, DiffuseReg);
                                 files_.faceOnDiffuseReg = !files_.face.empty();
@@ -1475,6 +1484,11 @@ namespace AGRemapCore {
                 VGSplitGroupConfig::LineEdit makePositionLineEdit() const {
                     const std::array<float, 3> offset = component_.positionOffset;
                     if (offset[0] == 0.0f && offset[1] == 0.0f && offset[2] == 0.0f) {
+                        return nullptr;
+                    }
+
+                    // The mod draws its OWN face, so its part is already where that face wants it.
+                    if (component_.offsetOnlyWithGameFace && files_.skipsGameFace) {
                         return nullptr;
                     }
 

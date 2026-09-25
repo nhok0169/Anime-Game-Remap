@@ -102,6 +102,11 @@ namespace AGRemapCore {
             // over all 168 vertices (residual under 0.3 mm).
             eye.positionOffset = {0.0f, -0.01237f, -0.00021f};
 
+            // ...but only into the GAME's face. Neuvillette2 hides it (`handling = skip` on 81e80510) and
+            // draws its own inside his head mesh, which reaches the skin unshifted: shifted, its eyes sat
+            // below that face and looked down.
+            eye.offsetOnlyWithGameFace = true;
+
             // The Eye LAST: it owns the hidden components and the TexFx guards, so it has to be the last
             // fixer to run -- the same order as the rows in IniFixBuilderData.
             config.components = {main, coat, bang, eye};

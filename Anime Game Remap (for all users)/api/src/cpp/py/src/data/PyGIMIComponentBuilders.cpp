@@ -381,6 +381,13 @@ A mod's vertices are in its SOURCE's bind pose. A part that must sit inside some
 differencing the target component's own Position buffer against this fix's output for the identity
 mod. **Default**: ``[0, 0, 0]``
         )doc"))
+        .def_readwrite("offsetOnlyWithGameFace", &AGRC::GIMIComponentFixerConfig::Component::offsetOnlyWithGameFace, py::doc(R"doc(
+:class:`bool`: Whether :attr:`positionOffset` applies only while the mod draws with the GAME's face
+
+A mod that hides the game's face (``handling = skip`` on the source's face diffuse hash) draws its own
+inside its head mesh, and its eyes are placed for that face: shifting them drops them below it. Read
+per ``.ini`` file. **Default**: ``False``, the offset always applies
+        )doc"))
         .def_readwrite("slotRegisters", &AGRC::GIMIComponentFixerConfig::Component::slotRegisters, py::doc(R"doc(
 List[:class:`str`]: Every ``ps-t`` register the TARGET's own slot binds, or empty to leave the
 registers alone

@@ -86,6 +86,21 @@ newer-API lines that bind them on its own character. Each was settled by ONE han
 log paused (habit 78) -- fixed, but distrust any earlier empty answer from it. Creating Remaps' Charlotte
 points 8-9 and its START HERE table map each symptom to its cause.
 
+**NEUVILLETTE <-> NEUVILLETTEMELUSENT IS COMPILED BOTH WAYS (2026-09-25), AND THE SKIN HAS ONE REAL MOD --
+SO FOUR SYNTHETIC ONES WERE BUILT, AND TWO OF THEM FOUND LIBRARY BUGS.** The skin's main mesh is an UNNAMED
+component (`""`, filed as `NeuvilletteMelusentMain`), which the merge could not name (`Component::modTypeName`);
+every skin component carries a 12-byte Texcoord where Neuvillette reads 20 (`GIMIMergeFixerConfig::texcoordStride`);
+a 16-bit mod had every merged `drawindexed` HALVED; and a mod whose mesh binds no textures and recolours in a
+SEPARATE `tex.ini` now carries the recolour over (the mesh file reads its siblings' `this =`, the recolour file
+defers). Forward, three shared-code bugs: a merged master's `.ini` GROUP whose object is empty in one variant bound
+the SOURCE's raw buffers on the target's hashes (the variant shattered), a component OWNER that drew nothing dropped
+the hide sections, and a generated copy bound downloads it never declared. `texRegsByName` now believes a file's
+NAMES only when the section makes no fix call of its own and every name is one distinct role -- one mod labels its
+textures one position off and drew flat yellow. **Build synthetic variants from the identity mod for a skin with few
+mods** (`Tools/Misc/Prototypes/neuvilletteMelusentSynth.py`), and **run every fix twice**: a re-run found a resource
+the second pass stopped declaring. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s
+"NEUVILLETTE <-> NEUVILLETTEMELUSENT".
+
 **A COUNTER THAT CAN ONLY EVER BE ZERO READS EXACTLY LIKE A ZERO THAT MEANS SOMETHING
 (2026-09-10).** Two of this repo's own summary lines were saying nothing, for weeks, and both
 looked like ordinary results. The run reported *copied 0 files from existing downloads* on every
@@ -230,7 +245,7 @@ out are grapheme indices, and a byte cursor and a grapheme cursor must be separa
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
 
-**FIFTY characters are real now (Charlotte, 2026-09-24; count them with
+**FIFTY-TWO characters are real now (Neuvillette / NeuvilletteMelusent, 2026-09-25; count them with
 `ls -d "Anime Game Remap (for all users)/api/src/cpp/core/src/data/IniFixData/*/"` rather than
 trusting this number -- the written one has been wrong before), in SIX different shapes, and which
 one you have decides almost everything else.** Five of them are below; the sixth is the
@@ -399,7 +414,7 @@ a section still binding its diffuse to `ps-t0` hands it to the lightmap slot. Th
 `RegRemap` (`ps-t0` <-> `ps-t1`) over the face graph --- one of the things NNFix does under the
 hood. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The face diffuse".
 
-**THE FIX IS LIVE FOR FIFTY CHARACTERS (verified end-to-end, and every one of them in
+**THE FIX IS LIVE FOR FIFTY-TWO CHARACTERS (verified end-to-end, and every one of them in
 game -- Citlali through her prototype, which the compiled fix is A/B-identical to). Earlier revisions of this
 file said every `IniFixer`/`IniParser` was stubbed and that `IniFile::getResources()` comes back
 empty --- that is NO LONGER TRUE, and believing it will cost you the best verification tool the repo
@@ -407,14 +422,14 @@ has.** Real fixers and parsers exist for **Amber, AmberCN, Arlecchino, Ayaka, Ay
 Barbara, BarbaraSummertime, Bennett, BennettAdventure, Charlotte, CharlotteHurlock, CherryHuTao, Citlali, Diluc, DilucFlamme, Fischl,
 FischlHighness, Ganyu, GanyuTwilight, HuTao, Jean, JeanCN, JeanSea, Kaeya, KaeyaSailwind, Keqing,
 KeqingOpulent, Kirara, KiraraBoots, Klee, KleeBlossomingStarlight, Lisa, LisaStudent,
-Mona, MonaCN, Nilou, NilouBreeze, Ningguang, NingguangOrchid, Raiden, Rosaria, RosariaCN, Shenhe,
+Mona, MonaCN, Neuvillette, NeuvilletteMelusent, Nilou, NilouBreeze, Ningguang, NingguangOrchid, Raiden, Rosaria, RosariaCN, Shenhe,
 ShenheFrostFlower, Xiangling, XianglingCheer, Xingqiu, XingqiuBamboo, Yelan, YelanTranquil**
 (`core/src/data/Ini{Fix,Parse}Data/`), a real run generates remapped sections,
 and `fixResources` really does correct `Blend.buf` files and really does write textures. Confirmed by
 running the CLI over the in-repo Jean fixture and watching two `.dds` files appear.
 
 Two consequences, both the opposite of what this file used to say:
-- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these fifty.
+- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these fifty-two.
   Prefer it over any unit test when the change could possibly affect a fix.
 - **Characters outside that list still have no fixer**, so a run over one of *those* still writes
   only the credit header. That is the stub, not a bug. Check

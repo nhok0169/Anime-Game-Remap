@@ -503,6 +503,8 @@ Below are the supported types of mods
 | LisaStudent | GI | LisaSumeru, SumeruLisa, AkademiyaLisa, LisaAkademiya | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(lisastudent).*\]` |
 | Mona | GI | BigHat, NoMora | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(mona)((?!(cn)).)*\]` |
 | MonaCN | GI | BigHatCN, NoMoraCN | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(monacn).*\]` |
+| Neuvillette | GI | ChiefJustice, HydroDragon, HydroSovereign, Iudex, Neuv | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(neuvillette)((?!melusent).)*\]` |
+| NeuvilletteMelusent | GI | MelusentGiftNeuvillette, MelusentNeuv, MelusentNeuvillette, NeuvMelusent, NeuvilletteMelusentGift | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(neuvillettemelusent).*\]` |
 | Nilou | GI | BloomGirl, Dancer, Morgiana | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(nilou)((?!(breeze)).)*\]` |
 | NilouBreeze | GI | BloomGirlBreeze, BloomGirlFairy, DancerBreeze, DancerFairy, FairyBloomGirl, FairyDancer, FairyMorgiana, FairyNilou, ForestFairy, MorgianaBreeze, MorgianaFairy, NilouFairy | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(niloubreeze).*\]` |
 | Ningguang | GI | GeoMommy, SugarMommy | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(ningguang)((?!(orchid)).)*\]` |

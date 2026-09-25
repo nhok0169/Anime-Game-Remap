@@ -80,6 +80,9 @@ surprises you.
 | **black shards / lighting-shaped dark patches** on one object of a component remap, on some mods and not the identity | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 8: the target SLOT decides the pixel shader. Hand-edit that group's `match_first_index` to another slot of the component and reload before theorising; `Component::objSlotIndices` then routes the object for good |
 | **stretched triangles** reaching from one part to another (skirt up to the chest) on a MERGE, on one mod and not the identity, with a vertex group table that looks right | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 9: list the slot sections the MOD declares. A slot it leaves out under a component `handling = skip` was being downloaded and drawn over the mod's own vertices. Comment out that slot's `run =` in the fixed `.ini` and reload to confirm in one step |
 | **the remapped mod is a DIFFERENT COLOUR from the same mod on its own character** (CharlotteHurlock5: turquoise on the skin, red on Charlotte) | Usually NOT a fix bug ([Overview](../Overview/CLAUDE.md)'s habit 80). Open the mod's own diffuse (Pillow reads the `.dds`) and run `reload --mod` on it. If the texture already has the "wrong" colour and the SOURCE's own sections show `Unrecognised entry: resource\gimi\...` / `run = commandlist\gimi\settextures`, the maintainer's old-loader GIMI never binds the mod's textures on its own character. The fix normalises those lines into `ps-t` bindings, so the remap is the first place the author's real colours show. The maintainer's call (2026-09-24): not our problem |
+| **one variant of a merged master shatters** on a COMPONENT remap (the others fine) | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 4: a `.ini` group whose object keeps nothing in a state still bound the SOURCE's raw buffers there. List every generated file's per-`$swapvar` `vb0` / `vb1` / `ib` bindings and the vertex counts behind them before touching code |
+| the mod's **mesh file binds no textures** and a SEPARATE `.ini` recolours the skin by texture hash | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 7: the mesh file imports its siblings' `this =` overrides, the recolour file defers to it |
+| a **mantle / cape sleeve, a cuff or a loose panel** sticks out or hangs wrong on the target when an arm moves | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 8: find the target's REAL forearm by which bone shares vertices with the hand chain, and audit the rows for left / right asymmetry |
 | the remap **works and you are finishing up** | "Verifying", then "Closing out a remap" --- five files and a regenerated `core/xml`, and the vertex-group draft's `Credits` sheet |
 
 Four things hold whichever row you are on, and each has cost a session:
@@ -1504,6 +1507,81 @@ CherryHuTao4 onto Hu Tao shows both its variants. Those CherryHuTao mods are pre
 their OWN skin in the current game; that is the mods, and the remap is right.
 
 <br>
+
+## NEUVILLETTE <-> NEUVILLETTEMELUSENT (2026-09-24/25): the fifth component pair, compiled both ways
+
+Neuvillette is one mesh (`head` 0 / `body` 33879 / `dress` 79377); NeuvilletteMelusent ("Melusent Gift", 6.3) is an
+UNNAMED main mesh (component `""`: Head 0 / Body 46620 / Dress 71025, filed as `NeuvilletteMelusentMain`), a
+`Coat`, a `Bang` and an `Eye`. Prototypes `Tools/Misc/Prototypes/neuvilletteMelusentFix.py` and
+`neuvilletteFromMelusentFix.py` stay the oracles; the compiled rows (`IniFixData/Neuvillette/`,
+`IniFixData/NeuvilletteMelusent/`, and the two parsers) are byte-identical to them on ten forward mods and six
+reverse ones. **There is ONE real mod of the skin**, so the reverse was also tested on four synthetic ones
+(`Tools/Misc/Prototypes/neuvilletteMelusentSynth.py`: a merged master, a texture-only recolour, a mod without its
+Eye, a 16-bit one) -- and two of those four found library bugs. Build synthetic variants for any skin with few
+mods. Every point below is in SHARED code unless it says otherwise; the regression over 17 forward and 20
+merge-direction mods moved nothing but Bennett5 (point 3).
+
+1. **His mods do not agree on a layout.** His head and dress are plain, his body normal-map -- but one mod writes
+   the head normal-map with `ORFix`, and a diffuse download keyed on `ps-t0` fired on it and put the diffuse in the
+   NORMAL-MAP slot (a hair ribbon drawn flat green). `GIMICharParserConfig::ObjDownloadRegs::coverRegs`: a section
+   binding ANY of its object's texture registers brings its own set.
+2. **Names are an author's labels.** `GIMIComponentFixerConfig::texRegsByName` routes bindings by resource NAME
+   (one mod writes its dress in the GAME's register order with no fix call). Then Neuvillette7 named its normal map
+   "Diffuse", its diffuse "LightMap" and its light map "Shadow" -- one position off -- and by name the whole outfit
+   drew flat YELLOW. Names are believed only when the section calls no fix library itself (`NNFix` / `ORFix` read
+   fixed registers, so such a section is in GIMI's order) and every `ps-t0..2` file names exactly one role.
+   **Look at the textures** (`TextureFile.saveAs` to `.png`) before trusting either reading: a flat
+   `(128, 128, 0)` is a normal map whatever it is called. Neuvillette9 is past what names can say (game order,
+   game-original fillers, a 3072 "light map" that is a diffuse atlas) and is left to the maintainer.
+3. **A component can come out EMPTY for one mod** (a summer outfit with no coat): the component template now hides
+   it by what the output DRAWS, owned by the last component's fixer. And when that OWNER (the Eye) drew nothing,
+   `GIMIFixer` had no groups, no targets -- and dropped its `appendedSections`, the hides included: the skin's own
+   bangs drew over a Yu-Gi-Oh mod's hair. It now renders them into the mod's own file. Bennett5 (HuoHuo over
+   Bennett) gained the same hides; flagged for the maintainer's eye.
+4. **A merged master splits into one `.ini` per drawn object, and a state is per GROUP, not per component.**
+   Neuvillette4's second variant nulls the dress: the dress group's file still carried the component's vertex
+   count as its `draw` (fixed to `0,0` per group) AND its unconverted `vb0` / `vb1` -- the SOURCE's raw buffers on
+   the skin's Main hashes. Whichever file ran last fed the draw his layout, and the variant shattered.
+   `RegBranchAdd::Branch::removals` / `ModBranches::removePerBranch` take those bindings out.
+   `ResEditConfig::filePerSection` gives two sections naming one source file their own fixed files (a shared
+   `.ib` over different blends) -- defensive: here the two splits happened to be identical.
+5. **A copy (`<ini>RemapFix<N>.ini`) must DECLARE the downloads it binds.** 3DMigoto resolves a resource per
+   `.ini`, and download resources lived in group 0 only: `Unrecognised entry: ps-t1 = Resource...RemapDL`.
+   `GIMIFixer::groupToStr` now adds every group-0 download a copy names.
+6. **Reverse: a component's hashes, the target's texcoord width, a 16-bit mod.** The merge built a component's
+   mod type name as skin + component, which for `""` is the skin itself (no buffer hashes; every buffer fell to a
+   download) -- `GIMIMergeFixerConfig::Component::modTypeName`. Every skin component carries a 12-byte Texcoord and
+   Neuvillette reads 20; "the widest component's" was 12 -- `GIMIMergeFixerConfig::texcoordStride` (a FLOOR, the
+   lines zero-padded at the end). And a 16-bit mod had every `drawindexed` count and offset HALVED: counts were
+   bytes / 4 whatever the declared width.
+7. **A recolour in a SIBLING `.ini`** (NeuvilletteMelusent1: its mesh binds no textures; `tex.ini` is
+   `hash = <skin texture> / this = ...`). The mesh's slots took downloads and the recolour, which on the skin works
+   through the game's own bindings, never reached them. The component parser now reads its siblings' overrides too
+   (only a file that draws the mesh; its own overrides win) and declares each file under a `...RemapRef` resource
+   of its own (an undo keeps the `.dds`). The recolour file, which alone would draw a whole second model from
+   downloads, defers to a sibling that draws the mesh. **On a re-run the RemapRef section exists already** (the
+   previous fix's, read before its undo): skipping it declared nothing and every binding went `Unrecognised`.
+   Test every fix TWICE.
+8. **The skin wears its coat as a MANTLE** -- its sleeves hang EMPTY behind the arms on a chain of their own
+   (z -0.18..-0.30 against the arm's -0.03). Neuvillette has nothing like it; five mappings were tried in game
+   (the draft's cuff piece + shoulder cloth: the cuff jutted out at elbow height; elbow; forearm; shoulder cloth
+   alone: swung forward; clavicle: rigid and flared at idle) and the whole chain on his UPPER ARM won. Two methods
+   worth reusing: **a bone's role is what it shares vertices with** (his forearm is the one his hand chain shares
+   weight with; 84 was the elbow and 58 an isolated cuff piece), and **audit a row for left / right asymmetry**
+   by mirroring centroids -- it found the mantle's right shoulder on 65 where the left's mirror is 67. And
+   **hide the part to name it**: commenting out one member's `drawindexed` in the fixed `.ini` proved the stuck
+   cuff was the Coat's in one reload.
+9. **Smaller ones.** An undo of a merge's COPIES never deleted their resources (`RemapService::_removeRemapCopies`),
+   so a stale created normal map survived a re-fix. The flat normal map invented for a plain object has B = 0
+   (this skin reads normal-map B as a GLITTER mask). No band move: his white mods render right on the skin's legend
+   (`CppMaterialBandRemapFilter` is bound to Python now, for the next pair that needs one). A download's first
+   request can fail DNS (`Could not resolve host`) three times inside 3 s and leave a slot bald for that run --
+   environmental, but it reads exactly like a fix bug.
+
+**Open for the maintainer**: Neuvillette8's `TexFx` shirt vanishes on the skin (not the Dress-slot TexFx guard --
+tested); Neuvillette9's layout (point 2); the cravat's faint cyan cast (his 126-128 is the skin's cyan band;
+moving it to 255 hardened the shadows); Neuvillette2's brighter skirt lining; a zero-byte fall-through `.ib`
+logs `Failed to substantiate` (harmless, pre-existing).
 
 ## The reverse direction is COMPILED TOO: a multi-component SOURCE onto a classic target (2026-09-14)
 

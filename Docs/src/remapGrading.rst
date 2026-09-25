@@ -238,6 +238,31 @@ Grading
    * - | **Mona <--> MonaCN**
      - | :greenBold:`5.0`
      - |
+   * - | **Neuvillette --> NeuvilletteMelusent**
+     - | :greenBold:`4.5`
+     - | Neuvillette is ONE mesh (``head``, ``body``, ``dress``) and NeuvilletteMelusent is FOUR components (an
+       | unnamed main mesh of three draw slots, ``Coat``, ``Bang``, ``Eye``), so the mod is split per component
+       | and each half's blend weights are remapped through its own row.
+       |
+       | - His ``dress`` (his cravat, lace and cuff ruffles) is drawn through the skin's body slot; on a white
+       | cravat the skin's cloth shading leaves a faint cyan cast in the shadows.
+       |
+       | - A component the mod leaves empty (a summer outfit with no coat) is hidden, not drawn from the skin.
+       |
+       | - A translucent ``TexFx`` shirt can vanish on the skin.
+       |
+       | - A mod whose textures are laid out in the game's own register order under misleading file names
+       | (a "light map" that is really a diffuse) can come out in the wrong colours.
+   * - | **NeuvilletteMelusent --> Neuvillette**
+     - | :greenBold:`4.5`
+     - | The inverse: the skin's main mesh, ``Coat``, ``Bang`` and ``Eye`` merged onto one mesh, laid end to end
+       | into one set of buffers -- the head's textures onto Neuvillette's ``head``, the body's onto his ``body``.
+       |
+       | - The skin wears its coat like a mantle, its sleeves hanging empty behind the arms. Neuvillette has
+       | nothing like it, so they follow his upper arms: loose when he raises an arm, rather than hanging.
+       |
+       | - A mod that recolours the skin by texture hash in a separate ``.ini`` beside its mesh has that
+       | recolour carried onto the remapped mesh; a mod that is only a recolour draws the whole skin in it.
    * - | **Nilou --> NilouBreeze**
      - | :greenBold:`4.7`
      - | Outline on NilouBreeze will have its colour changed.

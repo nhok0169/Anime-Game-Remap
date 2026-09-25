@@ -579,6 +579,7 @@
     <member refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a8452f7399163a6a7087547bd619386b2" kind="variable"><name>key</name></member>
     <member refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a33097cdd4ab3308b783c6382bb73e12c" kind="variable"><name>additions</name></member>
     <member refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a2ef15b8204600eba07d77833944804db" kind="variable"><name>replacements</name></member>
+    <member refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a7dd5160651d0278af43a46ba25d66715" kind="variable"><name>removals</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_branch_val" kind="struct"><name>AGRemapCore::BranchVal</name>
     <member refid="struct_a_g_remap_core_1_1_branch_val_1a44ec46e37014c3ab7a3ee0688d37d045" kind="variable"><name>val</name></member>
@@ -863,6 +864,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ad008bff7447c546064b38ebc309a3683" kind="variable"><name>slot</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a604b4ce3410b8e5e720a59d807bb8e89" kind="variable"><name>slotIndex</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a80381192297836d8fd300ac00c1b856f" kind="variable"><name>objSlotIndices</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a8034b8ab5857a7bb10c085d79ff1fa3d" kind="variable"><name>slotIndices</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1acf7ef1b1d9d5108f03f885580d4d9d63" kind="variable"><name>negativeIndex</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a41fc1fe25b79dd9a3fecf1691285ca04" kind="variable"><name>normalMap</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7760edfd8956346f514455eced0a1ad7" kind="variable"><name>face</name></member>
@@ -878,6 +880,7 @@
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component" kind="struct"><name>AGRemapCore::GIMIMergeFixerConfig::Component</name>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a068618ed142582f5aa27ad806b04ee3d" kind="variable"><name>name</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1afc2c8fce2888e997c0bfb7290265e630" kind="variable"><name>modTypeName</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1ac7a5209932913b4fe21846d38c9bbdbf" kind="variable"><name>slots</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1aecebc1423a6c0dfa0a66f841803542b6" kind="variable"><name>vertexCount</name></member>
   </compound>
@@ -1212,6 +1215,8 @@
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a5a3d04382de2e5b01324ca03ec47f5f8" kind="function"><name>lisaStudent</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1ad3b6f5f22c666712e5c4672a2a6dd18d" kind="function"><name>mona</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a3a0d460df739ca57e7139f5de0542e2c" kind="function"><name>monaCN</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a02ef48f74e9403065afde12f1a7e1c4a" kind="function"><name>neuvillette</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a0eccb95abc37f425878ce6b8a3b69cbe" kind="function"><name>neuvilletteMelusent</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a3564ba0f8ee7b7178a3e62a6a6254258" kind="function"><name>nilou</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a03adb956185757ebc2f30eee6c61afdd" kind="function"><name>nilouBreeze</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1aabec5e2834f3c46c2985772e594d9432" kind="function"><name>ningguang</name></member>
@@ -1291,6 +1296,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1addd0e78a5f6228f360f9c0ba68dfc41e" kind="variable"><name>zeroSecondUV</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a88d0ad61a114ed71ea76dc2d31d40ae8" kind="variable"><name>sourceLayout</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4a3452953a770a968f699df3d639bef" kind="variable"><name>faceSwapOnlyFromDiffuseReg</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a49a757630bf62ecf1afa2c1018f90586" kind="variable"><name>texRegsByName</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1af4e7a7c6ad78febe612b368f4c4894b0" kind="variable"><name>copyPreamble</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts" kind="class"><name>AGRemapCore::GIMIComponentParseFacts</name>
@@ -1365,6 +1371,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a8ee3c323dd66da09c76585f63b966f19" kind="variable"><name>faceReg</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ad1d10816cdf24046f9d33c0744e7ae5a" kind="variable"><name>targetLayout</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a7e32b3c49bfd1e85edf5900bf6ec7548" kind="variable"><name>texRegsByName</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a68bffe3cae94876e5ad1fd0f7c93cd50" kind="variable"><name>texcoordStride</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ab5d13699a51abbdeb17be08aaaf7d339" kind="variable"><name>lightMapEdit</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a490ec76ef342ee114af63d4681e4f0bd" kind="variable"><name>mipmaps</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1abbaec13107513e023ec38d3c302f6dae" kind="variable"><name>compressTextures</name></member>
@@ -1457,6 +1464,7 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a50d9fe2f57d6f4c6c5740d1d1eaa2831" kind="function"><name>parseCommands</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab2eff683d711f883156579a029520e29" kind="function"><name>getDownloads</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a1792834b091a543ca60fcb4bdbddeb01" kind="function"><name>setDrawKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a27895944be3dd9390942b089bffcf635" kind="function"><name>setDownloadAltRegs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1abc4387d9540e9848db9e8e006b348cbe" kind="function"><name>drawsBeforeBound</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a6f94ad8c346904fecbbe75e926113c6a" kind="function"><name>addDownloads</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac8119931260c037232ded5a5b148335f" kind="function"><name>setupDownloads</name></member>
@@ -2412,12 +2420,17 @@
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1adaae31c7cfae803ad044bb0068f7efac" kind="function"><name>citlaliWhisperofStarsEyes6_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a2c8cf19431210fe3c3ecaa8f493d29a7" kind="function"><name>charlotteHurlockBody6_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af267c3e4248158950ab6095452f5dcbb" kind="function"><name>charlotteHurlockEyes6_7</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac6c5cf5e8d757181a1a5dadc236afd21" kind="function"><name>neuvilletteMelusentMain6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ab366c3d766f0f581fdb6b53a65140083" kind="function"><name>neuvilletteMelusentCoat6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aeb45e9a555a93d90ec9fe2b1c735f4b7" kind="function"><name>neuvilletteMelusentBang6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9d8d7211eeda7f23045e3aa2a1b85847" kind="function"><name>neuvilletteMelusentEye6_3</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" kind="function"><name>yelanTranquilBody6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a52b8823aca4f15e712953d93319cd846" kind="function"><name>yelanTranquilBang6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28abe81ceeed138ca10039b96346910d" kind="function"><name>yelanTranquilEye6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a02974b8d07fc3de5d09e72a10ba4c8c5" kind="function"><name>yelanTranquilToYelan6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0148594d01298b546410e21c4abf87a7" kind="function"><name>citlaliWhisperofStarsToCitlali6_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a63c07d7a88a6adefbd17206d942dfcc2" kind="function"><name>charlotteHurlockToCharlotte6_7</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a15e01f23d185722e1923fc82d05a785d" kind="function"><name>neuvilletteMelusentToNeuvillette6_3</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_fix_context" kind="class"><name>AGRemapCore::IniFixContext</name>
     <member refid="class_a_g_remap_core_1_1_ini_fix_context_1aae1aaacec327c0a95e452402a3874f2a" kind="typedef"><name>GraphGroups</name></member>
@@ -2671,6 +2684,8 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7d30d1abce22b6dc5f644d8ff225e123" kind="function"><name>yelanTranquil5_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8e18205ea433a4d25c6fe6c663dbe376" kind="function"><name>citlaliWhisperofStars6_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a13308c49b1f5b66c810a0e984d25ed49" kind="function"><name>charlotteHurlock6_7</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aa2f1f954895b4c9ee16ced050708cac5" kind="function"><name>neuvillette4_0</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ae5f0679a08dc5a7b76713f6bdcbf9bfb" kind="function"><name>neuvilletteMelusent6_3</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_parse_context" kind="class"><name>AGRemapCore::IniParseContext</name>
     <member refid="class_a_g_remap_core_1_1_ini_parse_context_1a2e1b4ada0f5bd8aaf5d1f6167cd6e250" kind="typedef"><name>Section</name></member>
@@ -2771,6 +2786,8 @@
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aecab5024b85cd22473d2715218887222" kind="function"><name>lisaStudent4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1af1338d2b4a75473c2a484612e0044d3b" kind="function"><name>mona4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a18a8df74d4349e7fe4831f904a120567" kind="function"><name>monaCN4_0</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a87753acffffdab79b1ce3af126ba956c" kind="function"><name>neuvillette4_0</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a4d4f8f02dc6c41dff705aa29b3eeee2c" kind="function"><name>neuvilletteMelusent4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a543d925616bc3581773b7f3b0211d288" kind="function"><name>nilou4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ac583e51f1bb660c358999c74117df8d6" kind="function"><name>nilouBreeze4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aa7796ac489d444249210df054d405b7e" kind="function"><name>ningguang4_0</name></member>
@@ -3211,6 +3228,7 @@
     <member refid="class_a_g_remap_core_1_1_mod_branches_1a07b959634d280a514ce91677c3ddc09e" kind="typedef"><name>Template</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_branches_1a018631a8f15970525779073bb339eda9" kind="typedef"><name>Templates</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_branches_1a02c1c265182c191bec1f49b51d301c0b" kind="typedef"><name>BranchReplacements</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1a7d5c7ca7a63802fa6b54ab5e54a9d0f4" kind="typedef"><name>BranchRemovals</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_branches_1ac94f1a7e61f2d2de9ee5fbd787f5d888" kind="variable"><name>ctx_</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_branches_1a1d61873028b334a4ea001aee2b60e6db" kind="function"><name>ModBranches</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_branches_1ab8c5ca8bf8f99fbbd9dbb97e4231907c" kind="function"><name>ModBranches</name></member>
@@ -3227,6 +3245,7 @@
     <member refid="class_a_g_remap_core_1_1_mod_branches_1a5d430a04d9d31b3ee17827cce515cbe7" kind="function"><name>anyCompatible</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_branches_1a346ee0a12fd68f18d20d1f5c72761f31" kind="function"><name>states</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_branches_1a1e103c3914180208a3d4aa810ea0b1c8" kind="function"><name>replacePerBranch</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_branches_1a3b3c2910d7ecdf2dc09a705af4334df5" kind="function"><name>removePerBranch</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_branches_1a112302d165e411719d4307fddab67e80" kind="function"><name>firstVal</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_branches_1a38fdec1169b919fb688764d8d9bef55a" kind="function"><name>resourceOf</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_branches_1acffd2f631f449b8f681e018e1ee6d9d4" kind="function"><name>fileOf</name></member>
@@ -3360,6 +3379,25 @@
     <member refid="class_a_g_remap_core_1_1_multi_mod_fixer_1a41296b9142c5c226f4cce1a965599276" kind="function"><name>fixImpl</name></member>
     <member refid="class_a_g_remap_core_1_1_multi_mod_fixer_1adaf2ab1cd3ab9d831300720f725e6064" kind="function"><name>selectedChildIds</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_neuvillette_fixer" kind="class"><name>AGRemapCore::NeuvilletteFixer</name>
+    <member refid="class_a_g_remap_core_1_1_neuvillette_fixer_1a827ea9f320cbacf824cdf604ab236266" kind="function"><name>NeuvilletteFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_neuvillette_fixer_1ad60db74532499c1f228b2258e1c68eb6" kind="function"><name>main6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_neuvillette_fixer_1aef80d280add5366c852af22f791b4a6a" kind="function"><name>coat6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_neuvillette_fixer_1af3991bf2a2c0ccbcd11d431d6aafe345" kind="function"><name>bang6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_neuvillette_fixer_1a7f673642ca79e47d30f3b0b281b23484" kind="function"><name>eye6_3</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_neuvillette_melusent_fixer" kind="class"><name>AGRemapCore::NeuvilletteMelusentFixer</name>
+    <member refid="class_a_g_remap_core_1_1_neuvillette_melusent_fixer_1a827ce820e8ea86d450fedb74349f39d4" kind="function"><name>NeuvilletteMelusentFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_neuvillette_melusent_fixer_1a50f314de9e3d3e40b9a8638ace5f51ea" kind="function"><name>toNeuvillette6_3</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_neuvillette_melusent_parser" kind="class"><name>AGRemapCore::NeuvilletteMelusentParser</name>
+    <member refid="class_a_g_remap_core_1_1_neuvillette_melusent_parser_1ae6772ba800183ea09baedc435dbb062e" kind="function"><name>NeuvilletteMelusentParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_neuvillette_melusent_parser_1aeee5d5163964d19a8eb5984531093201" kind="function"><name>v6_3</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_neuvillette_parser" kind="class"><name>AGRemapCore::NeuvilletteParser</name>
+    <member refid="class_a_g_remap_core_1_1_neuvillette_parser_1a80f972079b39faced1bcf5f7ddc77d89" kind="function"><name>NeuvilletteParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_neuvillette_parser_1a3ebaa445030069d70674c14267484b43" kind="function"><name>v4_0</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_nilou_breeze_fixer" kind="class"><name>AGRemapCore::NilouBreezeFixer</name>
     <member refid="class_a_g_remap_core_1_1_nilou_breeze_fixer_1afde16d990e36e952ebf62e766b47ef07" kind="function"><name>NilouBreezeFixer</name></member>
     <member refid="class_a_g_remap_core_1_1_nilou_breeze_fixer_1a155f68b910367e0610cd17da95f99a79" kind="function"><name>v6_1</name></member>
@@ -3414,6 +3452,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a6e47a983ee1dc111d278e7678f30e2c3" kind="variable"><name>diffuseReg</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a62e9c0dd7f26da38a416e095378deb03" kind="variable"><name>lightMapReg</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a39607e33f163d473dedef1b6fe2753dc" kind="variable"><name>normalMapReg</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a7260f100fdf22055862e0471606565d2" kind="variable"><name>coverRegs</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_open_match" kind="struct"><name>AGRemapCore::RemapIniRemover::OpenMatch</name>
     <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_open_match_1aa60a949f198e69fd877cba994b7c98f3" kind="variable"><name>sideChar</name></member>
@@ -3558,6 +3597,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a8c60fc434cdae20b9e383ae8f65b083b" kind="variable"><name>runConfig</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a783ac96e85f596cd3e96d33fcca4050a" kind="variable"><name>valOfSectionName</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a2238f8fbfe3f73d179f9bab8aaaf39ae" kind="variable"><name>drawKey</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a2171658749fdd88e0f1ceb8c873790aa" kind="variable"><name>downloadAltRegs</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_parse_tree" kind="class"><name>AGRemapCore::ParseTree</name>
     <member refid="class_a_g_remap_core_1_1_parse_tree_1aea79918df39d85ed29a84010f93ee8e2" kind="typedef"><name>Nodes</name></member>
@@ -4134,6 +4174,7 @@
     <member refid="class_a_g_remap_core_1_1_remap_service_1a41de3f6301a6484968ef21525f399f5c" kind="function"><name>addIniNeighbourFolders</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1a8603f77f178ca8343afb79398438bac9" kind="function"><name>createIni</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1a3bb54a8f496dc0b4ea5b1f47d716ff64" kind="function"><name>_removeRemapCopies</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_service_1adc61f125b0d99f95892fe08cdf3fda98" kind="function"><name>_deleteRemovedResources</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1a261ed5837682305de184fb6183898955" kind="function"><name>_applyCompressTextures</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1a07ac76ebea3ac1c6ca244a3b83ccfb11" kind="function"><name>_applyTexCache</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1ac0c6bcc94980d860317d9b4601491a6b" kind="function"><name>_isRemapCopyIni</name></member>
@@ -4267,6 +4308,7 @@
     <member refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config_1ae1e65e103ed20d459126b126aa4e9d6d" kind="variable"><name>fileOf</name></member>
     <member refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config_1ab0c553eed0758cde50942c0f42b6ad23" kind="variable"><name>valOfFile</name></member>
     <member refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config_1a25c0538b788f8636b4065c6dde644e65" kind="variable"><name>extraKVPs</name></member>
+    <member refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config_1ada5b5c1ee32c89f38c497df31a21c5b3" kind="variable"><name>filePerSection</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group" kind="struct"><name>AGRemapCore::ResGroupCollect::ResGroup</name>
     <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_1a8b958e09031b8adb7f7964f69ef2e446" kind="variable"><name>entries</name></member>
@@ -4907,7 +4949,7 @@
     <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a3d798af548c9c685e69a84cc97afc071" kind="variable"><name>texcoord_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a9bb71fa1c363ac8499709e4bfa1da4e1" kind="variable"><name>offsets_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a6fbc2301b3c4c810e608e1a03f3be005" kind="variable"><name>stats_</name></member>
-    <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a42ae22c4ccc991540a26bb9fbe615047" kind="function"><name>VGComponentMerge</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a4ad95de2e0963b6743a4507cce2f0996" kind="function"><name>VGComponentMerge</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a4769176fdede88045d1152dadb0a8041" kind="function"><name>blend</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a2fb5e21a1379627510bee3433730ecdb" kind="function"><name>position</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1af2b2109a436b5da1127fb23560a0554a" kind="function"><name>texcoord</name></member>
@@ -4983,6 +5025,7 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1a8f81e888fe8bd57b492efb8f60ca2c39" kind="variable"><name>components</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1a4ccbab3ff1866244490bc874b3bf79ed" kind="variable"><name>objects</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1acfbc3cc67c93d8e5c3f280c86c7e5cb2" kind="variable"><name>ibBytesPerIndex</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1afe3a4a47687c3c4ca25e6d4aa0d007bf" kind="variable"><name>texcoordStride</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder" kind="class"><name>AGRemapCore::VGMergeGroupResBuilder</name>
     <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a2e999c940a50435fc104969544bf7135" kind="typedef"><name>GraphId</name></member>
@@ -5719,6 +5762,10 @@
   </compound>
   <compound refid="_mona_c_n_fixer_8h" kind="file"><name>MonaCNFixer.h</name>
   </compound>
+  <compound refid="_neuvillette_fixer_8h" kind="file"><name>NeuvilletteFixer.h</name>
+  </compound>
+  <compound refid="_neuvillette_melusent_fixer_8h" kind="file"><name>NeuvilletteMelusentFixer.h</name>
+  </compound>
   <compound refid="_nilou_fixer_8h" kind="file"><name>NilouFixer.h</name>
   </compound>
   <compound refid="_nilou_breeze_fixer_8h" kind="file"><name>NilouBreezeFixer.h</name>
@@ -5840,6 +5887,10 @@
   <compound refid="_mona_parser_8h" kind="file"><name>MonaParser.h</name>
   </compound>
   <compound refid="_mona_c_n_parser_8h" kind="file"><name>MonaCNParser.h</name>
+  </compound>
+  <compound refid="_neuvillette_parser_8h" kind="file"><name>NeuvilletteParser.h</name>
+  </compound>
+  <compound refid="_neuvillette_melusent_parser_8h" kind="file"><name>NeuvilletteMelusentParser.h</name>
   </compound>
   <compound refid="_nilou_parser_8h" kind="file"><name>NilouParser.h</name>
   </compound>

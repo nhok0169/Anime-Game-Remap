@@ -91,6 +91,46 @@ Grading
        |
        | - We replace pink, yellow, green, blue regions with opacity (alpha) within 65-75 with an opaque green colour of rgba(0, 128, 0, 255) 
        | to fix HuTao's stockings. There may be a possibility that we replace more than necessary.
+   * - | **Chisa --> ChisaParfait**
+     - | :greenBold:`4.5`
+     - | Proposed beside Sanhua --> SanhuaExorcist, the other pair on this template; the grade is the
+       | maintainer's to set. Both characters are ONE mesh drawn as several components over a merged
+       | skeleton, so the remap is per draw slot rather than per object, and a slot binds one set of
+       | textures at a time.
+       |
+       | - ChisaParfait's right hip slot has nothing remapped onto it, so it keeps drawing the skin's
+       | own geometry and textures.
+       |
+       | - Chisa's material mask is repacked into ChisaParfait's layout rather than bound as it is,
+       | and which material a region becomes is decided by how flesh-coloured her diffuse is under it.
+       | A mod that paints an unusual material on a region cannot be followed. The mask's green channel
+       | (how shiny a surface is) is kept from the mod.
+       |
+       | - ChisaParfait's clothing shader reads a map that Chisa's has no input for. It is bound to a
+       | flat neutral, so a surface that would vary across that map is uniform instead.
+       |
+       | - Chisa's hair ribbon is painted by a hair shader, and ChisaParfait has nowhere to draw it but
+       | a cloth one, which renders the same texture darker. A colour grade over the ribbon's own UV
+       | island puts most of that back, but the cloth shader adds an ambient floor of sRGB 44-52 per
+       | channel and the ribbon renders AT it, so the last ~11 of green and ~15 of blue are not
+       | reachable by any texture edit: brightness matches the base exactly, saturation is 0.585
+       | against 0.659.
+       |
+       | - Her fox mask, hairpins and one skirt chain hang off bones ChisaParfait does not have. They
+       | are anchored rigidly to a single bone each, so they keep their shape and their place but do
+       | not follow the motion the source gave them.
+       |
+       | - A texture role the mod ships no file for is bound to Chisa's own game texture, downloaded ---
+       | the mod's texture coordinates are hers, so only her textures agree with them.
+       |
+       | - Shape keys ARE retargeted for this pair, unlike Sanhua's.
+       |
+       | - The vertex group table was proposed from the geometry by ``Tools/VGRemapFinder`` rather than
+       | made by hand.
+       |
+       | - A mod that binds a texture behind its own toggle is followed, one variant per branch. The
+       | exception is a single variant under a real condition with no ``else``, which is bound
+       | unconditionally.
    * - | **Citlali --> CitlaliWhisperofStars**
      - | :greenBold:`4.5`
      - | Citlali is ONE mesh (``head`` and ``body``) and CitlaliWhisperofStars is THREE components

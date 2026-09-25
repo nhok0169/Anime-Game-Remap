@@ -870,11 +870,21 @@ alias the library had and the docs did not. Both had been published for months a
 visible by reading. The aliases still come from the maintainer's own list in
 `constants/{GI,WWMI}Builder.cpp`; the point is that the *transcription* is what fails.
 
-**And regenerate `core/xml`** (pinned Doxygen 1.17.0, from `api/src/cpp/core`, about a minute). The
-published `coreAPI` page renders from that committed artifact, so a character's compiled fixer and
-parser are absent from the site until it is regenerated --- every WuWa class was, from 2026-09-19
-until it was noticed a day later. Then rebuild the docs (Overview habit 42) and grep the rendered
-pages for the new names. When a later change retires a limitation you wrote here -- 16-bit index
+**And regenerate `core/xml`** (pinned Doxygen 1.17.0, from `api/src/cpp/core`, about a minute) to
+keep that committed artifact in step with the headers. **It does NOT put the character on the
+published site, whatever this paragraph used to say** (corrected 2026-09-25): `coreAPI.rst` lists
+framework classes by hand, names no character fixer at all, and a built site has ZERO pages
+mentioning `SanhuaExorcistFixer`, `CitlaliWhisperofStarsFixer` or `BennettAdventureFixer` --- so
+grepping the rendered pages for a new character's class finds nothing and means nothing. What the
+regeneration is for is the artifact itself, which anyone reading `core/xml` or splicing one class
+into it depends on.
+
+Expect the diff to be far bigger than the change and **not** for the reason the note below it gives:
+on 2026-09-25 a regeneration changed 430 tracked files and `--ignore-cr-at-eol` shrank that by
+nothing, because it is Doxygen emitting each file's include-graph nodes in a different ORDER between
+runs, not line endings. 27 files were genuinely new, 6 of them the character's. Then rebuild the docs
+(Overview habit 42) and compare the warning COUNT against a build from before --- 163 either side,
+in that case. When a later change retires a limitation you wrote here -- 16-bit index
 buffers, say -- remove the sentence in the same change.
 
 <br>
@@ -2883,6 +2893,118 @@ Chisa in particular, so expect them again on the pair after her.
 scratch COPY of a mod, never on the folder you would miss.
 
 <br>
+
+## WHAT THE COMPILED WUWA FIX BOUND OVER THE MOD'S OWN ART (2026-09-25)
+
+Seven bugs, found by running the A/B on a SECOND mod and then by putting the fix in game. None is
+about Chisa; every one of them is in the shared `makeWWMIFixer` template. The order matters: the
+A/B on one mod said "clean", the A/B on a second mod said four things, and only the game said the
+last three.
+
+**A ROLE WAS ONLY EVER MATCHED AGAINST THE CURRENT VERSION'S HASHES.** `config.roles` is written
+from one generation of the character's textures and **a mod carries whatever hash its author
+dumped**, so a mod a version or two old matched almost nothing: the fix downloaded the GAME's
+texture for ELEVEN roles and someone's painted outfit rendered as the vanilla one, with
+`downloaded 13 files` in the summary reading exactly like the plan. The library already knows ---
+`HashData` files a source's textures typed by role at every generation --- so ask it first and keep
+`config.roles` as the fallback. **One call with no version is enough**: `ModMappedAssets` keys its
+buckets by the ASSET, so a hash's buckets are its own generations and a hash that only ever existed
+at 3.0 has exactly one. (The prototype sweeps a version list for this; that is belt-and-braces, and
+it is why the prototype had it right and the compiled fix did not.)
+
+**A MOD MAY NAME ITS TEXTURES THROUGH RabbitFX AND BIND NO `ps-t` AT ALL.** It sets
+`Resource\RabbitFX\{Diffuse,Lightmap,Normalmap}` and runs RabbitFX's own `SetTextures`, so a
+`ps-t`-keyed `sourceRegisterRoles` finds nothing. Those three lines are just more keys for the same
+table, so it is a config row; what the TEMPLATE needed is that the key match **without regard to
+case or slash**, because an exact-key lookup that misses is indistinguishable from a mod that really
+binds nothing. RabbitFX's "lightmap" is what this fix calls the mask.
+
+**A ROLE THE PLAN DOES NOT NAME WAS NEVER RESOLVED TO THE MOD'S OWN FILE.** The resolution loop
+walked `config_.plan`, so a role bound only by a slot's other passes (`extraPassRegs`) or by a
+shared mesh could only ever come from the fallback DOWNLOAD --- the fix fetched Chisa's own normal
+map and bound it over the one the mod ships, at the mod's UVs. Adding the download fallback for
+those roles first is what made it look handled.
+
+**EVERY TEXTURE EDIT WAS WRITTEN AND BOUND NOWHERE.** `addTexEdits()` runs from
+`applyGraphGroupEdits`, by which point `buildEdits()` has already turned every role into a register
+addition --- so `resourceOfRole_[edit.role] = resource` updated a map nothing read again. All four
+edits reached disk and were referenced by no section, while the summary said *editted 4 \*.dds files
+and skipped 0*. Split it the way the fallback DOWNLOADS already are: plan the name at read time,
+register the resource at fix time, so a parse alone still writes nothing.
+
+**THE MOD'S DRAW RANGES WERE READ ONLY FOR A LEGACY MOD.** `drawRanges_` began as the per-component
+lift of a legacy blend and sat inside `if (legacy_)`. Two later readers want the same ranges for
+reasons that have nothing to do with the blend layout --- the remap of a toggled draw through the
+split, and `TexEditContext::drawRanges`, which is how a texture edit knows what a component covers.
+On every mod past 256 bones the map was EMPTY, so the ribbon's colour-grade island found no
+geometry and graded nothing, while still writing its output file.
+
+**A MOD-MANAGER-PACKAGED MOD HAD NO CHARACTER AT ALL, ONLY ITS WEAPON.** This one the A/B could not
+see, because both sides read the same wrong path and produced the same nothing. Such a mod ships
+every buffer as a GUID with a `.assets` extension, named only by its `.ini`, and there is no
+`Position.buf` anywhere under the folder --- but the POSITION and TEXCOORD paths were still built as
+SIBLINGS of the index file. So the blend could not be sized, none was written, and the fixed `.ini`
+still bound `vb4` to it; a resource whose file does not exist makes the draw fail. **Read every mesh
+buffer's path off the `.ini`, never off a sibling filename** --- the index buffer and the 16-bit
+blend ids already were, which is why only these two were left. What named it in two minutes:
+checking every `filename =` in the fixed `.ini` against the disk, **one dangling reference out of
+105**. Make that check part of looking at a mod that renders wrong.
+
+**A TEXTURE EDIT REACHED ONE VARIANT OF A ROLE THE MOD BINDS IN SEVERAL.** An edit reads
+`fileOfRole_`, which is one file, and a mod may bind its mask two ways on a toggle --- one did, on
+`$sockscolor`. The repack landed on the first and the second was carried through unrepacked, so
+those socks shaded as the wrong material. It was only a warning until the toggle chains below made
+that variant reachable at all. The prototype does not have it, because it names an edit after the
+RESOURCE and so makes one per variant, and that is exactly what the A/B reported: **4 edits against
+its 5**.
+
+<br>
+
+## A MOD'S TEXTURE TOGGLE STOPPED WORKING WHILE ITS GEOMETRY KEPT SWITCHING (2026-09-25)
+
+A mod may bind a role's texture behind its own toggle:
+
+```ini
+[TextureOverrideTexture0]
+hash = d0d2cc80
+match_priority = 0
+if $object_detected
+if $hair == 0
+    this = ResourceTexture0
+else
+    this = ResourceTexture0A
+endif
+endif
+```
+
+The fix wrote `ps-t0 = ResourceTexture0` --- the first variant --- and **one register line can carry
+no more than one of them**, while the toggled `drawindexed` in the mod's own section kept switching
+the geometry. In game that is the gyaru twin-tail hair drawn with the OG hair's dark texture: right
+shape, wrong art. Ten of eighteen of one character's mods have at least one toggled role, and a
+Sanhua mod has one on `$clothes`, so this was never specific to a character.
+
+Such a role binds `run = <list>`, and the list is **a COPY of the mod's own
+`[TextureOverrideTexture*]` with 3dmigoto's matching keys dropped and `this` renamed to the
+register**, so the toggle comes across untouched. That is the prototype's design and its comment is
+the one to read. Three things the copy needs:
+
+- **`renderIfTemplate` writes the section's OWN header first.** Left in, it closes the list and
+  REDEFINES `[TextureOverrideTexture1]` inside the fix block.
+- **The lists need their own vector.** `buildAppended` writes `textureLists_` out BEFORE the
+  shared-mesh loop runs, so a list created there is silently dropped.
+- **Scope it to a role bound in SEVERAL variants.** One `this` under an `if` keeps its direct
+  register line: mods wrap a single binding in `if $object_detected`, which the remapped section has
+  already set to 1 by the time the list runs, so copying it says the same thing in more lines and
+  moves output that has been verified in game. What that leaves is one variant under a real
+  condition with no `else`, which still binds unconditionally --- as it did before, so nothing
+  regresses, but it is where to look when a mod renders wrong on exactly one toggle.
+
+**Proving it needs the counterfactual, and a pixel diff will not give it to you.** The character
+screen animates (idle breathing, drifting particles), so a whole-frame diff between two captures is
+900k pixels of nothing --- see Overview's "A screenshot statistic is only as good as its mask". What
+works: set the toggle's default in the mod's `[Constants]`, reload, and put the two builds' output
+for the SAME mod side by side. The pre-fix `.ini` from the A/B scratch folder is a ready-made broken
+build; drop it into the live mod and reload.
 
 ## An undo recognises a fix by `<modName>Remap`, not by `Remap` anywhere (2026-09-20)
 

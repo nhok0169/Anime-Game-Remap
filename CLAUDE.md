@@ -1230,10 +1230,32 @@ misspelled character (`BarabaraSummertime` --- a name no `--types` argument coul
 missing alias, and the enum was **six characters behind** (Bennett, BennettAdventure, Yelan,
 YelanTranquil, Sanhua, SanhuaExorcist), which is what the CLI's `--help` was printing. All four are
 in step now, `--help` prints the docs link instead of a list that grows with every remap, and
-`core/xml` --- which had not been regenerated since Bennett, so every WuWa class was missing from the
-published core API --- was regenerated with the pinned Doxygen. **Generate these lists, never retype
+`core/xml` --- which had not been regenerated since Bennett --- was brought back in step with the
+pinned Doxygen. (That last one keeps the committed ARTIFACT current and **does not publish
+anything**: `coreAPI.rst` lists framework classes by hand, and a built site has zero pages naming
+`SanhuaExorcistFixer`, `CitlaliWhisperofStarsFixer` or `BennettAdventureFixer` --- measured
+2026-09-25, and the guides that said otherwise are corrected.) **Generate these lists, never retype
 them**: see [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md)'s "A CHARACTER IS FOUR DOC
 TABLES" and [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Closing out a remap".
+
+**SEVEN THINGS THE COMPILED WUWA FIX BOUND OVER THE MOD'S OWN ART, AND THE ORDER THEY WERE FOUND IN
+MATTERS MORE THAN ANY OF THEM (2026-09-25).** The A/B against the prototype on ONE mod said clean.
+The same A/B on a SECOND mod said four things: a role matched only against the CURRENT version's
+hashes (eleven roles fell back to downloading the GAME's texture, so a painted outfit rendered
+vanilla), a RabbitFX mod that binds no `ps-t` at all, a role the plan does not name never resolved
+to the mod's own file, and **every texture edit written to disk and bound by no section** while the
+summary said `editted 4 *.dds files and skipped 0`. Then the GAME said three more, one of which no
+A/B could ever say: a mod-manager-packaged mod --- GUID `.assets` files, no `Position.buf` anywhere
+--- rendered **nothing but its weapon**, because two mesh paths were still built as siblings of the
+index file, so no blend was written and the `.ini` bound `vb4` to a file that was not there. Both
+sides of the A/B read the same wrong path and produced the same nothing. What named it in two
+minutes was checking every `filename =` in the fixed `.ini` against the disk: **one dangling
+reference out of 105**, and that check is worth running on any mod that renders wrong. Plus: a mod's
+texture toggle stopped working while its geometry kept switching (the gyaru hair drawn with the OG
+hair's texture --- 10 of 18 of one character's mods have a toggled role, and a Sanhua mod has one
+too), and an edit reached one variant of a role bound in several. See
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "WHAT THE COMPILED WUWA FIX BOUND
+OVER THE MOD'S OWN ART" and "A MOD'S TEXTURE TOGGLE STOPPED WORKING".
 
 **AND THEY WENT BEHIND AGAIN WITHIN TWO DAYS, SO IT IS A DIAGNOSTIC NOW (2026-09-22).**
 `Tools/Misc/Diagnostics/checkModTypeTables.py` asks the builders and diffs all four; run against the

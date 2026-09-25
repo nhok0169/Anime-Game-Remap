@@ -532,6 +532,16 @@ namespace AGRemapCore {
              * @brief Each SOURCE component's own draws, as ``(index count, first index)``
              */
             std::map<int, std::vector<std::pair<long long, long long>>> drawRanges;
+            /**
+             * @brief
+             @rst
+             The file each role resolved to -- the mod's own, or the one its fallback download
+             lands. A filter may need ANOTHER role's texture: repacking a material mask asks the
+             DIFFUSE under each texel how flesh-coloured it is, because a code in the matte band is
+             skin only there
+             @endrst
+             */
+            std::map<std::string, std::string> fileOfRole;
         };
         /**
          * @brief An edit the fix makes to one role's texture before binding it

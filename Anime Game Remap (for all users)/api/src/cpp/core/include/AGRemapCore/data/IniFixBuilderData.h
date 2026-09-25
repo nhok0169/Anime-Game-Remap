@@ -360,6 +360,15 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             ``Chisa -> ChisaParfait`` at game version ``3.5``, built by :cpp:func:`makeWWMIFixer`.
+             See ``data/IniFixData/Chisa/ChisaFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory chisaParfait3_5();
+
+            /**
+             * @brief
+             @rst
              Stub for the pure-Python ``IniFixBuilderFuncs.rosaria4_0`` -- returns
              :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
              @endrst

@@ -2098,6 +2098,14 @@ namespace AGRemapCore {
                     }
 
                     context.drawRanges = drawRanges_;
+                    for (const auto& entry : fileOfRole_) {
+                        context.fileOfRole[entry.first] = entry.second;
+                    }
+
+                    for (const auto& entry : fallbacks_) {
+                        context.fileOfRole.emplace(
+                            entry.first, FileService::absPathOfRelPath(entry.second.relPath, folder));
+                    }
 
                     for (const WWMIFixerConfig::TexEdit& edit : config_.texEdits) {
                         if (!edit.makeFilter) {

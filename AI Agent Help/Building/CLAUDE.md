@@ -205,6 +205,28 @@ py -3 main.py -d
 > dependencies* (z3, Compressonator). They are not "build the project" flags, and passing one
 > instead of running a plain `main.py` builds none of your code.
 
+<br>
+
+> **AND RESTORING A FILE FROM YOUR OWN BACKUP CAN GIVE IT AN mtime THE BUILD TOOL IGNORES
+> (2026-09-25).** `Copy-Item` and `shutil.copy2` both carry the SOURCE's `LastWriteTime` onto the
+> destination. A backup taken a few minutes ago therefore restores as a file *older* than the object
+> compiled from the content you are replacing, ninja finds nothing out of date, and the build prints
+> exactly what a real build prints. The previous binary stays in place.
+>
+> It cost three consecutive readings during a counterfactual --- flip a header to the old version,
+> build, measure; flip it back, build, measure. The second flip never took, so a freshly written test
+> "failed against the fixed build" and a six-way probe said the fix did nothing, which is a far more
+> interesting-looking result than "you tested the same binary twice". What gave it away was the
+> header's mtime being *earlier* than the `.obj` beside it.
+>
+> Stamp the file after restoring it --- `(Get-Item $f).LastWriteTime = Get-Date`, or `shutil.copy`
+> (no `2`) / `os.utime(f, None)` --- and, since a skipped build is invisible in the output, **read
+> the step count**: a real rebuild of a widely-included core header prints its compile lines, where a
+> no-op prints only the final `BUILD_OK`. This is the same family as trap 4 in the top-level
+> `CLAUDE.md` (a `.bat` that never ran and still exited 0) and the reason the rule there is to verify
+> by the artifact's mtime rather than by an exit code: here even the mtime check passes, because the
+> *source* is what is stale.
+
 `py -3 main.py` (no `-d`) is the normal edit-compile-test build: it compiles `AGRemapCore`, the
 `core` pybind11 module and the Cython extensions, **and runs CMake's install step**, which is what
 copies `core.cp313-win_amd64.pyd` into `api/src/py/FixRaidenBoss2/`. You never have to stage that

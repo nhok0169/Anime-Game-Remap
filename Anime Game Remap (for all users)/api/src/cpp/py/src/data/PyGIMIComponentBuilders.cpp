@@ -372,6 +372,15 @@ and its diffuse and light map moved down). **Default**: ``True``
 The mod's buffer is zero-padded or truncated at the END (where ``TEXCOORD1`` sits) to this width.
 **Default**: ``0``
         )doc"))
+        .def_readwrite("positionOffset", &AGRC::GIMIComponentFixerConfig::Component::positionOffset, py::doc(R"doc(
+List[:class:`float`]: A model-space translation ``[x, y, z]`` added to every vertex position written
+for this component, or all zeros to keep the mod's own
+
+A mod's vertices are in its SOURCE's bind pose. A part that must sit inside something the GAME draws
+-- the eyes in a face mesh neither mod carries -- cannot be off by the difference: measure it by
+differencing the target component's own Position buffer against this fix's output for the identity
+mod. **Default**: ``[0, 0, 0]``
+        )doc"))
         .def_readwrite("slotRegisters", &AGRC::GIMIComponentFixerConfig::Component::slotRegisters, py::doc(R"doc(
 List[:class:`str`]: Every ``ps-t`` register the TARGET's own slot binds, or empty to leave the
 registers alone

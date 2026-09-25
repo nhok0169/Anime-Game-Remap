@@ -37,6 +37,14 @@ class NeuvilletteTemplateOptionsTest(BaseUnitTest):
         component.slotIndices = ["0", "46620", "71025"]
         self.assertEqual(component.slotIndices, ["0", "46620", "71025"])
 
+    def test_componentFixerConfig_positionOffset(self):
+        # all zeros writes the mod's own positions (no line edit at all), which every earlier config relies on
+        component = FRB.GIMIComponentFixerConfig.Component()
+        self.assertEqual(list(component.positionOffset), [0.0, 0.0, 0.0])
+        component.positionOffset = [0.0, -0.01237, -0.00021]
+        self.assertAlmostEqual(component.positionOffset[1], -0.01237, places = 6)
+        self.assertAlmostEqual(component.positionOffset[2], -0.00021, places = 6)
+
     def test_mergeFixerConfig_componentModTypeName(self):
         component = FRB.GIMIMergeFixerConfig.Component()
         self.assertEqual(component.modTypeName, "")

@@ -187,6 +187,10 @@ def fixerConfig(dressSlot: str = "Body") -> "FRB.GIMIComponentFixerConfig":
     eye.face = False
     eye.texcoordStride = 12
     eye.slotRegisters = ["ps-t0", "ps-t1"]
+    # His eye mesh IS the skin's, vertex for vertex, 1.24 cm higher: the eyes sit in the GAME's face mesh,
+    # and at his height the irises were behind the skin's upper lids (white eyes, no pupils). Measured as
+    # the skin's EyePosition.buf minus this fix's Eye for his identity mod (residual under 0.3 mm).
+    eye.positionOffset = [0.0, -0.01237, -0.00021]
 
     config.components = [main, coat, bang, eye]
     # Every one of the skin's components receives a forward vertex-group row, so none is hidden by

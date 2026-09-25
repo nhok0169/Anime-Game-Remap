@@ -96,6 +96,12 @@ namespace AGRemapCore {
             eye.normalMap = false;
             eye.slotRegisters = {"ps-t0", "ps-t1"};
 
+            // His eye mesh IS the skin's, vertex for vertex, 1.24 cm higher: the eyes sit in the GAME's
+            // face mesh, and at his height the irises were behind the skin's upper lids (white eyes, no
+            // pupils). Measured as the skin's EyePosition.buf minus this fix's Eye for his identity mod,
+            // over all 168 vertices (residual under 0.3 mm).
+            eye.positionOffset = {0.0f, -0.01237f, -0.00021f};
+
             // The Eye LAST: it owns the hidden components and the TexFx guards, so it has to be the last
             // fixer to run -- the same order as the rows in IniFixBuilderData.
             config.components = {main, coat, bang, eye};

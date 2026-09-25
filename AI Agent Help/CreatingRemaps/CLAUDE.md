@@ -82,6 +82,7 @@ surprises you.
 | **the remapped mod is a DIFFERENT COLOUR from the same mod on its own character** (CharlotteHurlock5: turquoise on the skin, red on Charlotte) | Usually NOT a fix bug ([Overview](../Overview/CLAUDE.md)'s habit 80). Open the mod's own diffuse (Pillow reads the `.dds`) and run `reload --mod` on it. If the texture already has the "wrong" colour and the SOURCE's own sections show `Unrecognised entry: resource\gimi\...` / `run = commandlist\gimi\settextures`, the maintainer's old-loader GIMI never binds the mod's textures on its own character. The fix normalises those lines into `ps-t` bindings, so the remap is the first place the author's real colours show. The maintainer's call (2026-09-24): not our problem |
 | **one variant of a merged master shatters** on a COMPONENT remap (the others fine) | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 4: a `.ini` group whose object keeps nothing in a state still bound the SOURCE's raw buffers there. List every generated file's per-`$swapvar` `vb0` / `vb1` / `ib` bindings and the vertex counts behind them before touching code |
 | the mod's **mesh file binds no textures** and a SEPARATE `.ini` recolours the skin by texture hash | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 7: the mesh file imports its siblings' `this =` overrides, the recolour file defers to it |
+| **white eyes with no pupils** (or eyes gone) on the target, the eye textures and UVs right | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 10: the eyes sit in the GAME's face mesh and the source's bind pose puts them behind the lids. Difference the target's own Eye `Position.buf` against the fix's output for the identity mod, vertex for vertex, and set `Component::positionOffset` |
 | a **mantle / cape sleeve, a cuff or a loose panel** sticks out or hangs wrong on the target when an arm moves | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 8: find the target's REAL forearm by which bone shares vertices with the hand chain, and audit the rows for left / right asymmetry |
 | the remap **works and you are finishing up** | "Verifying", then "Closing out a remap" --- five files and a regenerated `core/xml`, and the vertex-group draft's `Credits` sheet |
 
@@ -1577,6 +1578,24 @@ merge-direction mods moved nothing but Bennett5 (point 3).
    (`CppMaterialBandRemapFilter` is bound to Python now, for the next pair that needs one). A download's first
    request can fail DNS (`Could not resolve host`) three times inside 3 s and leave a slot bald for that run --
    environmental, but it reads exactly like a fix bug.
+
+10. **His eyes were WHITE, with no pupils, on the skin -- on every mod, the identity too** (reported on
+   Neuvillette3, 2026-09-25). Everything a texture question asks came back clean: the eye region of his head atlas
+   is the skin's, the UVs and vertex colours match, both passes of the skin's Eye (`aa207905`, then `d68b526e`)
+   got the right diffuse through `NNFix`, and hiding the Eye draw left EMPTY sockets, so the draw was drawing. The
+   answer was in the positions: his eye mesh IS the skin's -- same 168 vertices in the same order, same ib, same
+   UVs -- and **1.24 cm higher**. Neither mod carries a face: both characters' eyes sit in the sockets of the
+   GAME's face mesh, which on the skin is lower, so at his height the irises were behind the upper lids and only
+   the white below them showed through. Hair or a coat a centimetre off reads as the same outfit; a part that
+   has to sit inside something the game draws cannot be off at all.
+   `GIMIComponentFixerConfig::Component::positionOffset` (shared: a translation through the split's
+   `positionLineEdit`, all zeros = no edit, so every other character's output is byte-identical -- 1966 of 1966
+   files) moves his Eye by the measured `(0, -0.01237, -0.00021)`; the written eye is now within 1.4 mm of the
+   skin's own. **To measure one**: build the identity mod, fix it, and difference the target component's
+   downloaded `Position.buf` against the fix's `...RemapPosition...` for that component, vertex for vertex --
+   check the ib and UVs agree first, and accept a translation only when the residual is small against the part
+   (here 0.3 mm against a 19 mm eye). Matching by UV instead is a trap: an eye's UVs repeat (168 vertices, 64
+   distinct matches), and the "mismatched normals" it reports are other vertices' normals.
 
 **Open for the maintainer**: Neuvillette8's `TexFx` shirt vanishes on the skin (not the Dress-slot TexFx guard --
 tested); Neuvillette9's layout (point 2); the cravat's faint cyan cast (his 126-128 is the skin's cyan band;

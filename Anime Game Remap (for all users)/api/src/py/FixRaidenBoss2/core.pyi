@@ -7238,6 +7238,20 @@ class GIMIComponentFixerConfig:
         def objSlotIndices(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
             ...
         @property
+        def positionOffset(self) -> typing.Annotated[list[float], "FixedSize(3)"]:
+            """
+            List[:class:`float`]: A model-space translation ``[x, y, z]`` added to every vertex position written
+            for this component, or all zeros to keep the mod's own
+            
+            A mod's vertices are in its SOURCE's bind pose. A part that must sit inside something the GAME draws
+            -- the eyes in a face mesh neither mod carries -- cannot be off by the difference: measure it by
+            differencing the target component's own Position buffer against this fix's output for the identity
+            mod. **Default**: ``[0, 0, 0]``
+            """
+        @positionOffset.setter
+        def positionOffset(self, arg0: typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]) -> None:
+            ...
+        @property
         def slot(self) -> str:
             """
             :class:`str`: The target draw slot the mod is drawn through, eg. ``A``

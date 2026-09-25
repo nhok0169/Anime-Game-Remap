@@ -17,6 +17,8 @@
 #include "AGRemapCore/data/IniFixData/TexRegLayout.h"
 
 #include <algorithm>
+#include <array>
+#include <cstring>
 #include <filesystem>
 #include <memory>
 #include <optional>
@@ -1189,6 +1191,7 @@ namespace AGRemapCore {
                     splitConfig.specs = specs_;
                     splitConfig.ibBytesPerIndex = files_.ibBytesPerIndex;
                     splitConfig.texcoordLineEdit = makeTexcoordLineEdit();
+                    splitConfig.positionLineEdit = makePositionLineEdit();
 
                     // The index buffers PER GROUP: a group is one satisfiable state of the mod, and
                     // the split needs every drawn object's ib of THAT state -- see
@@ -1463,6 +1466,30 @@ namespace AGRemapCore {
                             std::fill(out.begin() + 12, out.begin() + 20, static_cast<std::uint8_t>(0));
                         }
 
+                        return out;
+                    };
+                }
+
+                // A translation of the component's POSITION (the line's first three floats) -- see
+                // GIMIComponentFixerConfig::Component::positionOffset. Normals and tangents are left alone.
+                VGSplitGroupConfig::LineEdit makePositionLineEdit() const {
+                    const std::array<float, 3> offset = component_.positionOffset;
+                    if (offset[0] == 0.0f && offset[1] == 0.0f && offset[2] == 0.0f) {
+                        return nullptr;
+                    }
+
+                    return [offset](const ByteVec& line) {
+                        ByteVec out = line;
+                        if (out.size() < 3 * sizeof(float)) {
+                            return out;
+                        }
+
+                        for (std::size_t axis = 0; axis < 3; ++axis) {
+                            float value = 0.0f;
+                            std::memcpy(&value, out.data() + axis * sizeof(float), sizeof(float));
+                            value += offset[axis];
+                            std::memcpy(out.data() + axis * sizeof(float), &value, sizeof(float));
+                        }
                         return out;
                     };
                 }

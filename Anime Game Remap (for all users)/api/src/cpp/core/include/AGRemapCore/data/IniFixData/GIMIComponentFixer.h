@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include <array>
 #include <functional>
 #include <string>
 #include <utility>
@@ -219,6 +220,31 @@ namespace AGRemapCore {
              @endrst
              */
             std::size_t texcoordStride = 0;
+
+            /**
+             * @brief
+             @rst
+             A translation, in model space, added to every vertex position written for this
+             component, or all zeros to write the mod's own positions :raw-html:`<br />` :raw-html:`<br />`
+
+             A mod's vertices are in its SOURCE's bind pose, and a bone of the target moves them
+             relative to the TARGET's bind pose. For most parts the difference is invisible -- hair or
+             a coat a centimetre higher still reads as the same outfit -- but a part that has to sit
+             inside something the GAME draws cannot be off at all. The eyes sit in the sockets of a
+             face mesh neither mod carries: Neuvillette's eye mesh is the skin's to the vertex,
+             1.24 cm higher, and on the skin's face that put his irises behind the upper lid, which
+             read in game as white eyes with no pupils.
+
+             Measure it rather than guess it: take the target component's own Position buffer and the
+             component this fix writes for the character's identity mod, and difference them vertex
+             for vertex (the ib and UVs of both must agree first). A translation is right only when
+             the residual is small against the part's size; anything else is not a shift and needs
+             its own edit.
+
+             Only the position is moved: a translation leaves normals and tangents as they are
+             @endrst
+             */
+            std::array<float, 3> positionOffset = {0.0f, 0.0f, 0.0f};
 
             /**
              * @brief

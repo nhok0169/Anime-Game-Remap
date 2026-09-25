@@ -1304,6 +1304,76 @@ namespace AGRemapCore {
                                 resourceOfRole_[binding.role] = ResourcePrefix + config_.downloadPrefix + kind + IniKeywords::RemapDL;
                             }
                         }
+
+                        // ...and the roles only a slot's OTHER passes or a shared mesh bind. The
+                        // loop above walks the plan, which is each component's MAIN pass, so a role
+                        // bound nowhere else never downloaded: Chisa's accessoryNormal is bound only
+                        // by slot 5's two side-panel passes, and her ribbon rendered with the GAME's
+                        // normal map at the mod's UVs.
+                        //
+                        // The plan's per-component test is a different question from "does any file
+                        // of the mod serve this role", so it is left alone and this asks the shared
+                        // one.
+                        std::vector<std::string> otherRoles;
+                        for (const auto& [slot, byPass] : config_.extraPassRegs) {
+                            bool drawn = false;
+                            for (const auto& planned : config_.plan) {
+                                if (planned.second.slot == slot && present_.count(planned.first) > 0) {
+                                    drawn = true;
+                                    break;
+                                }
+                            }
+
+                            if (!drawn) {
+                                continue;
+                            }
+
+                            for (const auto& [pass, binds] : byPass) {
+                                (void)pass;
+                                for (const WWMIFixerConfig::Binding& binding : binds) {
+                                    otherRoles.push_back(binding.role);
+                                }
+                            }
+                        }
+
+                        for (const auto& [mesh, byPass] : config_.sharedMeshes) {
+                            (void)mesh;
+                            for (const auto& [pass, binds] : byPass) {
+                                (void)pass;
+                                for (const WWMIFixerConfig::Binding& binding : binds) {
+                                    otherRoles.push_back(binding.role);
+                                }
+                            }
+                        }
+
+                        for (const std::string& role : otherRoles) {
+                            if (resourceOfRole_.count(role) > 0) {
+                                continue;
+                            }
+
+                            bool owned = false;
+                            for (const auto& entry : resourceOfSlotRole_) {
+                                if (entry.first.first == role) {
+                                    owned = true;
+                                    break;
+                                }
+                            }
+
+                            auto fallback = config_.fallbackTextures.find(role);
+                            if (owned || fallback == config_.fallbackTextures.end()) {
+                                continue;
+                            }
+
+                            const std::string kind = capitalized(role);
+                            const std::string fileName = DownloadTools::fixedFileName(config_.downloadPrefix, kind, DdsExt);
+                            fallbacks_[role] = Fallback{
+                                DownloadTools::downloadFolder() + "/"
+                                    + DownloadTools::urlPath(config_.downloadGameFolder, config_.downloadCharFolder,
+                                                             config_.downloadVersionFolder, config_.downloadPrefix,
+                                                             "Texture" + fallback->second, DdsExt),
+                                fileName, textureFolder_ + "/" + fileName};
+                            resourceOfRole_[role] = ResourcePrefix + config_.downloadPrefix + kind + IniKeywords::RemapDL;
+                        }
                     }
                 }
 

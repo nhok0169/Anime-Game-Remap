@@ -147,6 +147,7 @@ void initCppGammaFilter(pybind11::module_ &m);
 void initCppColourReplaceFilter(pybind11::module_ &m);
 void initCppTransparencyAdjustFilter(pybind11::module_ &m);
 void initCppInvertAlphaFilter(pybind11::module_ &m);
+void initCppMaterialBandRemapFilter(pybind11::module_ &m);
 void initCppHueAdjust(pybind11::module_ &m);
 void initCppPixelFilter(pybind11::module_ &m);
 void initCppBaseTexEditor(pybind11::module_ &m);
@@ -347,6 +348,7 @@ PYBIND11_MODULE(core, m) {
     initCppColourReplaceFilter(m); // must come after initCppBaseTexFilter/initCppColourRange
     initCppTransparencyAdjustFilter(m); // must come after initCppBaseTexFilter/initCppColourRange
     initCppInvertAlphaFilter(m); // must come after initCppBaseTexFilter (registers its base)
+    initCppMaterialBandRemapFilter(m); // must come after initCppBaseTexFilter (registers its base)
     initCppHueAdjust(m); // must come after initCppBaseTexFilter (registers its base)
     initCppPixelFilter(m); // must come after initCppBaseTexFilter/initCppBasePixelTransform
     initCppBaseTexEditor(m); // must come after initCppTextureFile (its 'fix' method signature references it)

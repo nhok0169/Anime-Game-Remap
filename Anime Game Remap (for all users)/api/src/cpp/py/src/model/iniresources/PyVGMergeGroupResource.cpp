@@ -159,5 +159,8 @@ isBuilt: :class:`bool`
         .def_property("objects", [](const PyVGMergeGroupResource &self) { return self.config.objects; },
                       [](PyVGMergeGroupResource &self, std::vector<AGRC::VGMergeObject> objects) {
                           self.config.objects = std::move(objects);
-                      }, py::doc("List[:class:`VGMergeObject`]: The target's drawn objects"));
+                      }, py::doc("List[:class:`VGMergeObject`]: The target's drawn objects"))
+        .def_property("texcoordStride", [](const PyVGMergeGroupResource &self) { return self.config.texcoordStride; },
+                      [](PyVGMergeGroupResource &self, std::size_t stride) { self.config.texcoordStride = stride; },
+                      py::doc(":class:`int`: The TARGET's texcoord stride, the floor of the merged buffer's. **Default**: ``0``, the widest component's"));
 }

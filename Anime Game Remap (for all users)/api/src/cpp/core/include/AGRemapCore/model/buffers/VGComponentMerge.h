@@ -72,7 +72,7 @@ namespace AGRemapCore {
         std::vector<std::size_t> vertices;
 
         /**
-         * @brief The merged ``Texcoord.buf``'s stride -- the widest component's
+         * @brief The merged ``Texcoord.buf``'s stride -- the widest component's, or the floor the caller gave if wider
          */
         std::size_t texcoordStride = 0;
 
@@ -152,11 +152,19 @@ namespace AGRemapCore {
              * @brief Merges the components, in the order given
              *
              * @param components The source's components; the first takes offset 0
+             * @param minTexcoordStride
+             @rst
+             The TARGET's texcoord stride: the merged buffer is at least this wide, every line
+             zero-padded at its end (see #padLines). ``0`` (the default) is the widest component's.
+             A target reading more UV sets than any component carries -- Neuvillette's 20 bytes under
+             NeuvilletteMelusent's 12 -- otherwise reads each vertex's missing ones out of the NEXT
+             vertex
+             @endrst
              *
              * @throw std::invalid_argument If there are no components, two share a name, or a
              *                              buffer is not a whole number of lines for its vertices
              */
-            explicit VGComponentMerge(std::vector<Component> components);
+            explicit VGComponentMerge(std::vector<Component> components, std::size_t minTexcoordStride = 0);
 
             /**
              * @brief

@@ -191,6 +191,11 @@ One source component, in MERGE order
         .def(py::init<>())
         .def_readwrite("name", &AGRC::GIMIMergeFixerConfig::Component::name,
                         py::doc(":class:`str`: The component's name, eg. ``Body``"))
+        .def_readwrite("modTypeName", &AGRC::GIMIMergeFixerConfig::Component::modTypeName, py::doc(R"doc(
+:class:`str`: The component's own mod type name, whose hashes find its sections --- empty for the skin's name followed
+by :attr:`name`. For a component not named that way, eg. NeuvilletteMelusent's UNNAMED main mesh (``""``), filed as
+``NeuvilletteMelusentMain``. **Default**: empty
+        )doc"))
         .def_readwrite("slots", &AGRC::GIMIMergeFixerConfig::Component::slots,
                         py::doc("List[:class:`GIMIMergeFixerConfig.Slot`]: The component's draw slots"))
         .def_readwrite("vertexCount", &AGRC::GIMIMergeFixerConfig::Component::vertexCount, py::doc(R"doc(
@@ -279,6 +284,11 @@ which land under this prefix. Empty disables the fallback
         )doc"))
         .def_readwrite("mipmaps", &AGRC::GIMIMergeFixerConfig::mipmaps,
                         py::doc(":class:`bool`: Whether written textures carry a mip chain. **Default**: ``True``"))
+        .def_readwrite("texcoordStride", &AGRC::GIMIMergeFixerConfig::texcoordStride, py::doc(R"doc(
+:class:`int`: The TARGET's texcoord stride: the merged ``Texcoord.buf`` is at least this wide, zero-padded at the end
+of each line, and the copied section declares it --- for a target reading more UV sets than any source component
+carries (Neuvillette's 20 bytes under NeuvilletteMelusent's 12). **Default**: ``0``, the widest component's
+        )doc"))
         .def_readwrite("compressTextures", &AGRC::GIMIMergeFixerConfig::compressTextures, py::doc(R"doc(
 :class:`bool`: Whether edited textures are block-compressed
 
@@ -330,6 +340,15 @@ One component of the TARGET skin, and how the mod is drawn through it
 Held here rather than in :class:`Indices` for the reason :attr:`GIMIComponentParserConfig.Slot.index`
 records. Empty falls back to the table
         )doc"))
+        .def_readwrite("slotIndices", &AGRC::GIMIComponentFixerConfig::Component::slotIndices, py::doc(R"doc(
+Every draw slot of this TARGET component, by ``match_first_index`` (eg. ``["0", "46620", "71025"]``), or empty
+
+The slots no drawn source object is routed to -- and every slot of a component the mod draws nothing onto -- get
+the TexFx guard :attr:`GIMIComponentFixerConfig.unremappedSlots` writes, read off the result rather than kept by
+hand. Added to that field, never replacing it. **Default**: empty
+
+:type: List[:class:`str`]
+)doc"))
         .def_readwrite("objSlotIndices", &AGRC::GIMIComponentFixerConfig::Component::objSlotIndices, py::doc(R"doc(
 List[Tuple[:class:`str`, :class:`str`]]: Per SOURCE object, the ``match_first_index`` of the slot it is
 drawn through instead of :attr:`slotIndex`, eg. ``[("body", "53529")]``. A skin's slots draw on
@@ -436,6 +455,12 @@ moves the alpha a band is read from. **Default**: ``True``
                         py::doc(":class:`bool`: Whether a 20-byte texcoord's second UV set is zeroed. **Default**: ``True``"))
         .def_readwrite("sourceLayout", &AGRC::GIMIComponentFixerConfig::sourceLayout,
                         py::doc(":class:`GIMIComponentFixerConfig.SourceLayout`: The SOURCE mod's texture layout. **Default**: :attr:`GIMIComponentFixerConfig.SourceLayout.Plain`"))
+        .def_readwrite("texRegsByName", &AGRC::GIMIComponentFixerConfig::texRegsByName, py::doc(R"doc(
+:class:`bool`: Whether each drawn object's texture bindings go to the register their resource NAME's role belongs on
+(``ps-t0`` diffuse / ``ps-t1`` light map, or ``ps-t0`` normal map / ``ps-t1`` diffuse / ``ps-t2`` light map when a normal
+map is among them) before any other texture edit -- for a mod written in the GAME's register order rather than GIMI's.
+A binding naming no role stays put. **Default**: ``False``
+        )doc"))
         .def_readwrite("faceSwapOnlyFromDiffuseReg", &AGRC::GIMIComponentFixerConfig::faceSwapOnlyFromDiffuseReg, py::doc(R"doc(
 :class:`bool`: Whether the face's ``ps-t0`` <-> ``ps-t1`` swap runs only for a mod binding its face
 diffuse at ``ps-t0`` (a pre-6.x mod). **Default**: ``False``

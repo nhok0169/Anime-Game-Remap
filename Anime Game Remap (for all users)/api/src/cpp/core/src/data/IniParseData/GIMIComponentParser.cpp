@@ -21,6 +21,11 @@
 #include <utility>
 #include <vector>
 
+#include <algorithm>
+#include <filesystem>
+#include <functional>
+
+#include "AGRemapCore/constants/IniGraphModObjKeywords.h"
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
@@ -30,6 +35,7 @@
 #include "AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"
 #include "AGRemapCore/tools/DownloadTools.h"
 #include "AGRemapCore/tools/StringTools.h"
+#include "AGRemapCore/tools/files/FileService.h"
 
 
 namespace AGRemapCore {
@@ -230,6 +236,7 @@ namespace AGRemapCore {
                 // (or its downloads) gives a slot: a mod that has one keeps exactly what it had.
                 void editCommands() override {
                     bindTextureOverrides();
+                    declareSiblingRefs();
                     if (hasContent_) {
                         for (const std::string kind : {"ib", "other"}) {
                             inventComponentSection(kind);
@@ -256,7 +263,19 @@ namespace AGRemapCore {
                     readTextureOverrides();
                     Parser::getSectionTargets();
 
-                    hasContent_ = !textureBindings_.empty() || targetsBindSomething();
+                    const bool bindsSomething = targetsBindSomething();
+                    hasContent_ = !textureBindings_.empty() || bindsSomething;
+
+                    // A RECOLOUR BESIDE ITS OWN MESH (2026-09-25). A file with nothing but texture
+                    // overrides is remapped by drawing the whole skin from downloads in the recolour's
+                    // textures -- right for a mod that IS only a recolour, and a second whole model over
+                    // the real one when a sibling .ini draws the mesh (NeuvilletteMelusent1's tex.ini).
+                    // That sibling takes the recolour over (readTextureOverrides), so this file keeps only
+                    // its own sections, as a file that watches the skin does.
+                    if (!bindsSomething && ownTextureOverrides_ && siblingDrawsMesh()) {
+                        textureBindings_.clear();
+                        hasContent_ = false;
+                    }
                     if (!hasContent_) {
                         this->downloads.clear();
                     }
@@ -283,16 +302,27 @@ namespace AGRemapCore {
                 // that texture (its own, or its donor's -- the game draws a borrowing slot with the
                 // donor's texture, so an override of that hash recolours it too), the register it is
                 // bound at, with that slot's download for it dropped.
-                void readTextureOverrides() {
-                    textureBindings_.clear();
-                    IniFile* iniFile = this->getIniFile();
+                // The key (the hash's row, last value) a hash is filed under for one of this skin's
+                // components, or empty.
+                std::string hashKeyOf(const std::string& hash, const GIMIComponentParserConfig::Component& component) {
                     auto* hashes = ctx_.modTypeHashes();
-                    if (iniFile == nullptr || hashes == nullptr) {
-                        return;
+                    if (hashes == nullptr || component.modTypeName.empty()) {
+                        return "";
                     }
 
-                    std::unordered_map<std::string, std::string> overrides;
-                    for (const auto& entry : iniFile->getIfTemplates()) {
+                    std::optional<std::vector<std::string>> key = hashes->getKey(
+                        lowered(StringTools::strip(hash)), ctx_.version(),
+                        std::vector<std::optional<std::string>>{component.modTypeName, std::nullopt}, false);
+                    return (!key.has_value() || key->empty()) ? std::string() : key->back();
+                }
+
+                // Every `this =` override in 'templates' whose hash is one of the skin's tex_<slot>_<role>
+                // rows, as (component;slot;role) -> the resource to bind. 'bindingOf' turns the override's
+                // own resource name into that value; an empty answer drops the override.
+                void collectTextureOverrides(const ModBranches::Templates& templates,
+                                             const std::function<std::string(const std::string&)>& bindingOf,
+                                             std::unordered_map<std::string, std::string>& overrides) {
+                    for (const auto& entry : templates) {
                         if (entry.second == nullptr) {
                             continue;
                         }
@@ -304,25 +334,144 @@ namespace AGRemapCore {
                         }
 
                         for (const GIMIComponentParserConfig::Component& component : config_.components) {
-                            if (component.modTypeName.empty()) {
-                                continue;
-                            }
-
-                            std::optional<std::vector<std::string>> key = hashes->getKey(
-                                lowered(StringTools::strip(*hash)), ctx_.version(),
-                                std::vector<std::optional<std::string>>{component.modTypeName, std::nullopt}, false);
-                            if (!key.has_value() || key->empty() || !StringTools::startsWith(key->back(), TexKeyPrefix)) {
+                            const std::string key = hashKeyOf(*hash, component);
+                            if (!StringTools::startsWith(key, TexKeyPrefix)) {
                                 continue;
                             }
 
                             // tex_<slot>_<role>
-                            const std::string rest = key->back().substr(TexKeyPrefix.size());
+                            const std::string rest = key.substr(TexKeyPrefix.size());
                             const std::size_t sep = rest.rfind('_');
-                            if (sep == std::string::npos) {
+                            const std::string binding = bindingOf(std::string(StringTools::strip(*resource)));
+                            if (sep == std::string::npos || binding.empty()) {
                                 continue;
                             }
-                            overrides.emplace(component.name + ";" + rest.substr(0, sep) + ";" + rest.substr(sep + 1),
-                                              std::string(StringTools::strip(*resource)));
+                            overrides.emplace(component.name + ";" + rest.substr(0, sep) + ";" + rest.substr(sep + 1), binding);
+                        }
+                    }
+                }
+
+                // Whether 'templates' draws this skin's mesh: a section matching one of its components'
+                // buffer or index hashes that binds a buffer.
+                bool drawsMesh(const ModBranches::Templates& templates) {
+                    for (const auto& entry : templates) {
+                        if (entry.second == nullptr) {
+                            continue;
+                        }
+
+                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                        if (!hash.has_value()) {
+                            continue;
+                        }
+
+                        for (const GIMIComponentParserConfig::Component& component : config_.components) {
+                            const std::string key = hashKeyOf(*hash, component);
+                            if (key.empty() || StringTools::startsWith(key, TexKeyPrefix)) {
+                                continue;
+                            }
+                            for (const std::string& reg : {IniKeywords::Ib, IniKeywords::Vb0, IniKeywords::Vb1}) {
+                                const std::optional<std::string> value = ModBranches::firstVal(*entry.second, reg);
+                                if (value.has_value() && !ModBranches::resourceOf(value).empty()) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                    return false;
+                }
+
+                // The other .ini files of the mod's folder the game loads: not this one, not a DISABLED
+                // one, and not a copy a fix wrote (<name>RemapFix<N>.ini).
+                std::vector<std::string> siblingInis() const {
+                    std::vector<std::string> result;
+                    IniFile* iniFile = const_cast<GIMIComponentGIMIParser*>(this)->getIniFile();
+                    if (iniFile == nullptr || !iniFile->getFile().has_value()) {
+                        return result;
+                    }
+
+                    std::error_code error;
+                    const std::filesystem::path self = FileService::strToPath(*iniFile->getFile());
+                    for (const auto& entry : std::filesystem::directory_iterator(self.parent_path(), error)) {
+                        if (!entry.is_regular_file(error) || std::filesystem::equivalent(entry.path(), self, error)) {
+                            continue;
+                        }
+
+                        const std::string name = FileService::pathToStr(entry.path().filename());
+                        const std::string low = lowered(name);
+                        if (!StringTools::endsWith(low, ".ini") || StringTools::startsWith(low, "disabled")) {
+                            continue;
+                        }
+
+                        const std::size_t fix = low.rfind(lowered(IniKeywords::RemapFix));
+                        const std::string stem = low.substr(0, low.size() - 4);
+                        if (fix != std::string::npos && fix + IniKeywords::RemapFix.size() <= stem.size()
+                                && stem.find_first_not_of("0123456789", fix + IniKeywords::RemapFix.size()) == std::string::npos) {
+                            continue;
+                        }
+
+                        result.push_back(FileService::pathToStr(entry.path()));
+                    }
+                    std::sort(result.begin(), result.end());
+                    return result;
+                }
+
+                // Whether this file's own sections draw the skin's mesh.
+                bool targetsDrawMesh() {
+                    IniFile* iniFile = this->getIniFile();
+                    return iniFile != nullptr && drawsMesh(iniFile->getIfTemplates());
+                }
+
+                bool siblingDrawsMesh() {
+                    for (const std::string& path : siblingInis()) {
+                        IniFile sibling(path);
+                        if (drawsMesh(sibling.getIfTemplates())) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                void readTextureOverrides() {
+                    textureBindings_.clear();
+                    siblingRefs_.clear();
+                    ownTextureOverrides_ = false;
+                    IniFile* iniFile = this->getIniFile();
+                    auto* hashes = ctx_.modTypeHashes();
+                    if (iniFile == nullptr || hashes == nullptr) {
+                        return;
+                    }
+
+                    std::unordered_map<std::string, std::string> overrides;
+                    collectTextureOverrides(iniFile->getIfTemplates(), [](const std::string& resource) { return resource; },
+                                            overrides);
+                    ownTextureOverrides_ = !overrides.empty();
+
+                    // A RECOLOUR IN A SIBLING FILE (2026-09-25): NeuvilletteMelusent1 is its mesh in one
+                    // .ini and `this =` overrides of the skin's textures in another (tex.ini), which on the
+                    // skin reach the mesh because the game binds those textures. Remapped, the mesh's slots
+                    // take the skin's textures from downloads and nothing would reach them, so the
+                    // sibling's overrides are read here too -- only by a file that draws the mesh itself,
+                    // and after this file's own, which win. A section name cannot be read across .ini
+                    // files, so each file is declared again under a resource of this file's own, named
+                    // with RemapRef: an undo removes the section and leaves the mod's texture.
+                    if (targetsDrawMesh()) {
+                        for (const std::string& path : siblingInis()) {
+                            IniFile sibling(path);
+                            const ModBranches::Templates& templates = sibling.getIfTemplates();
+                            collectTextureOverrides(templates, [&](const std::string& resource) {
+                                auto found = templates.find(resource);
+                                if (found == templates.end() || found->second == nullptr) {
+                                    return std::string();
+                                }
+                                const std::optional<std::string> file = ModBranches::firstVal(*found->second, IniKeywords::Filename);
+                                if (!file.has_value() || StringTools::strip(*file).empty()) {
+                                    return std::string();
+                                }
+
+                                const std::string name = resource + IniKeywords::RemapRef;
+                                siblingRefs_.emplace(name, std::string(StringTools::strip(*file)));
+                                return name;
+                            }, overrides);
                         }
                     }
 
@@ -357,6 +506,54 @@ namespace AGRemapCore {
                             }
                         }
                     }
+                }
+
+                // Each sibling texture a binding names, as a resource of this file's own -- see
+                // readTextureOverrides. Only those some slot binds.
+                void declareSiblingRefs() {
+                    refGraphs_.clear();
+                    std::set<std::string> bound;
+                    for (const auto& [modObj, bindings] : textureBindings_) {
+                        for (const auto& binding : bindings) {
+                            bound.insert(binding.second);
+                        }
+                    }
+
+                    for (const auto& [name, file] : siblingRefs_) {
+                        if (bound.count(name) == 0) {
+                            continue;
+                        }
+
+                        // An existing one is the PREVIOUS fix's, read before its undo, and is the right
+                        // section to render again -- skipping it declared nothing on every later run.
+                        Section* section = ctx_.getSection(name);
+                        if (section == nullptr) {
+                            section = ctx_.addSection(name,
+                                std::make_unique<Section>(std::vector<std::unique_ptr<IfTemplatePart>>{}, this->config().runConfig, name));
+                            section->addKVPsToFront(std::vector<std::pair<std::string, std::string>>{{IniKeywords::Filename, file}});
+                        }
+
+                        Graph* graph = ctx_.graphGroups().createGraph({}, {}, false, nullptr);
+                        graph->build(std::unordered_map<std::string, Section*>{{name, section}}, std::vector<std::string>{name});
+                        refGraphs_.emplace_back(name, graph);
+                    }
+                }
+
+                // The sibling textures' resources ride with the downloads' -- declared once per .ini
+                // file, and by every copy that binds one (GIMIFixer::groupToStr).
+                std::vector<Parser::GraphGroup> collectParseResult() const override {
+                    std::vector<Parser::GraphGroup> result = Parser::collectParseResult();
+                    if (result.empty()) {
+                        return result;
+                    }
+
+                    for (const auto& [name, graph] : refGraphs_) {
+                        const ModObj modObj(IniGraphModObjKeywords::Download, name);
+                        if (graph != nullptr && result.front().getGraph(modObj) == nullptr) {
+                            result.front().addGraph(modObj, graph->deepcopy());
+                        }
+                    }
+                    return result;
                 }
 
                 // At the TOP of the slot's entry section, the place a download is bound too: a GIMI
@@ -644,6 +841,12 @@ namespace AGRemapCore {
                 std::vector<std::unique_ptr<Classifier>> classifiers_;
                 std::map<ModObj, std::vector<std::pair<std::string, std::string>>> textureBindings_;
                 bool hasContent_ = true;
+
+                // A sibling .ini's recolour -- see readTextureOverrides: the RemapRef resource name ->
+                // the file it names, and the graphs that declare the ones a slot binds.
+                std::map<std::string, std::string> siblingRefs_;
+                std::vector<std::pair<std::string, Graph*>> refGraphs_;
+                bool ownTextureOverrides_ = false;
                 std::set<ModObj> undrawnSlots_;
                 DownloadStore downloadStore_;
         };

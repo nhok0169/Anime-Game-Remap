@@ -216,6 +216,7 @@ namespace AGRemapCore {
 
         const std::string FormatKey = "format";
         const std::string R32Format = "DXGI_FORMAT_R32_UINT";
+        const std::string StrideKey = "stride";
 
         // 'extras' are forced onto the generated resource section -- see ResEditConfig::extraKVPs.
         BaseResEdit<>::ResEditConfig makeResEditConfig(std::vector<std::pair<std::string, std::string>> extras = {}) {
@@ -695,8 +696,7 @@ namespace AGRemapCore {
 
                                     // Measured first, config second -- see Slot::indexCount. Only
                                     // a target object several slots land on ever reads this.
-                                    slotFiles.indexCount =
-                                        static_cast<long long>(fileSize(slotFiles.ib) / IbIndexStride);
+                                    slotFiles.indexCount = indexCountOf(slotFiles.ib);
                                     if (slotFiles.indexCount == 0) {
                                         slotFiles.indexCount = slot.indexCount;
                                     }
@@ -933,8 +933,22 @@ namespace AGRemapCore {
                     return component + ";" + slot;
                 }
 
+                // How many indices a source index buffer holds, at its DECLARED width (ibBytesPerIndex_,
+                // 4 where the .ini says nothing). Bytes / 4 halved every count of a 16-bit mod.
+                long long indexCountOf(const std::string& path) {
+                    auto width = ibBytesPerIndex_.find(path);
+                    const std::size_t bytes = (width == ibBytesPerIndex_.end() || width->second == 0) ? IbIndexStride : width->second;
+                    return static_cast<long long>(fileSize(path) / bytes);
+                }
+
                 std::string componentModTypeName(const std::string& component) const {
-                    // The skin's own name plus the component, which is how ModTypeId names them.
+                    // The component's own name where the config gives one (an unnamed main mesh), else the
+                    // skin's own name plus the component, which is how ModTypeId names them.
+                    for (const GIMIMergeFixerConfig::Component& entry : config_.components) {
+                        if (entry.name == component && !entry.modTypeName.empty()) {
+                            return entry.modTypeName;
+                        }
+                    }
                     return ctx_.modTypeName().value_or("") + component;
                 }
 
@@ -1333,6 +1347,7 @@ namespace AGRemapCore {
 
                     VGMergeGroupConfig config;
                     config.ibBytesPerIndex = ibBytesPerIndex_;
+                    config.texcoordStride = config_.texcoordStride;
 
                     for (const std::string& component : mergeOrder_) {
                         const ComponentFiles* files = componentFiles(component);
@@ -1487,7 +1502,17 @@ namespace AGRemapCore {
                         element[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(element[0])));
                         const GraphId resObj(0, "", "Merged" + element);
 
-                        auto replace = std::make_unique<BufReplace<>>(resObj, makeResEditConfig(), kind.first, std::nullopt);
+                        // The texcoord at the TARGET's width, where the config gives one: the copied
+                        // section's `stride` came from the mod -- see GIMIMergeFixerConfig::texcoordStride.
+                        std::vector<std::pair<std::string, std::string>> extras;
+                        if (kind.first == "texcoord" && config_.texcoordStride != 0) {
+                            extras.emplace_back(StrideKey, std::to_string(config_.texcoordStride));
+                        }
+
+                        // One fixed file per section -- see ResEditConfig::filePerSection.
+                        BaseResEdit<>::ResEditConfig resConfig = makeResEditConfig(std::move(extras));
+                        resConfig.filePerSection = true;
+                        auto replace = std::make_unique<BufReplace<>>(resObj, std::move(resConfig), kind.first, std::nullopt);
                         srcRegs[resObj] = {{kind.second.first, kind.second.second}};
                         resEdits[resObj] = {{MergeGroupType, replace.get()}};
                         bufReplaces_.push_back(std::move(replace));
@@ -1504,7 +1529,9 @@ namespace AGRemapCore {
                             extras.emplace_back(FormatKey, R32Format);
                         }
 
-                        auto replace = std::make_unique<BufReplace<>>(resObj, makeResEditConfig(std::move(extras)), "ib",
+                        BaseResEdit<>::ResEditConfig ibConfig = makeResEditConfig(std::move(extras));
+                        ibConfig.filePerSection = true;
+                        auto replace = std::make_unique<BufReplace<>>(resObj, std::move(ibConfig), "ib",
                                                                        std::optional<std::string>(obj));
                         srcRegs[resObj] = {{GraphId(0, "", obj), IniKeywords::Ib}};
                         resEdits[resObj] = {{MergeGroupType, replace.get()}};
@@ -1618,7 +1645,7 @@ namespace AGRemapCore {
                                     continue;
                                 }
 
-                                const long long count = static_cast<long long>(fileSize(path) / IbIndexStride);
+                                const long long count = indexCountOf(path);
                                 if (count <= 0) {
                                     // Guessing a count would address whatever happens to sit at that
                                     // offset -- and every member after it too, so the whole branch

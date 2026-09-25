@@ -69,6 +69,7 @@ std::optional<PyRegBranchAdd::Core::KeySet> parseKeysToTrack(const py::object &k
 //   None                                  -> nothing belongs here
 //   (key, additions)                      -> append 'additions' in the branch named 'key'
 //   (key, additions, replacements)        -> ...and SET 'replacements' there
+//   (key, additions, replacements, removals) -> ...after REMOVING the keys in 'removals'
 // An empty key also means nothing belongs here, as it does in the core.
 PyRegBranchAdd::Core::Branch parseBranch(const py::object &result) {
     PyRegBranchAdd::Core::Branch branch;
@@ -78,8 +79,8 @@ PyRegBranchAdd::Core::Branch parseBranch(const py::object &result) {
 
     py::sequence items = py::reinterpret_borrow<py::sequence>(result);
     const std::size_t count = py::len(items);
-    if (count == 0 || count > 3) {
-        throw py::type_error("A RegBranchAdd branchOf must return None or a (key, additions[, replacements]) tuple");
+    if (count == 0 || count > 4) {
+        throw py::type_error("A RegBranchAdd branchOf must return None or a (key, additions[, replacements[, removals]]) tuple");
     }
 
     branch.key = py::str(items[0]).cast<std::string>();
@@ -89,6 +90,12 @@ PyRegBranchAdd::Core::Branch parseBranch(const py::object &result) {
 
     if (count > 2 && !items[2].is_none()) {
         branch.replacements = parseAdditions(items[2]);
+    }
+
+    if (count > 3 && !items[3].is_none()) {
+        for (auto key : py::reinterpret_borrow<py::iterable>(items[3])) {
+            branch.removals.push_back(py::str(key).cast<std::string>());
+        }
     }
 
     return branch;
@@ -153,7 +160,7 @@ which every branch's condition is satisfiable with
 
 Parameters
 ----------
-branchOf: Optional[Callable[[:class:`Z3Predicate`, :class:`SectionIterData`], Optional[Tuple[:class:`str`, List[Tuple[:class:`str`, :class:`str`]], List[Tuple[:class:`str`, :class:`str`]]]]]]
+branchOf: Optional[Callable[[:class:`Z3Predicate`, :class:`SectionIterData`], Optional[Tuple[:class:`str`, List[Tuple[:class:`str`, :class:`str`]], List[Tuple[:class:`str`, :class:`str`]], List[:class:`str`]]]]]
     Decides what belongs in each branch, from the condition a part runs under and the part itself.
     It answers ``None`` for nothing, or a tuple of: :raw-html:`<br />` :raw-html:`<br />`
 
@@ -161,7 +168,9 @@ branchOf: Optional[Callable[[:class:`Z3Predicate`, :class:`SectionIterData`], Op
     #. The `KVPs`_ to append in that branch
     #. *Optional:* the `KVPs`_ to SET in that branch --- replacing what the branch carries, and
        added where it carries nothing. For a key the branch already answers for itself, like a
-       ``draw``, where a second one would not correct the first :raw-html:`<br />` :raw-html:`<br />`
+       ``draw``, where a second one would not correct the first
+    #. *Optional:* the keys to REMOVE from that branch, before anything is set or appended --- for a
+       binding the branch must stop making :raw-html:`<br />` :raw-html:`<br />`
 
     ``None`` makes the edit a no-op :raw-html:`<br />` :raw-html:`<br />`
 

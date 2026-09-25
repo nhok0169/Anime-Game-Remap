@@ -18,6 +18,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
@@ -917,6 +918,24 @@ namespace AGRemapCore {
              * @param ini The ``.ini`` file whose copies to remove
              */
             void _removeRemapCopies(const IniFile& ini);
+
+            /**
+             * @brief
+             @rst
+             Deletes the resources an undo of one ``.ini`` file reported, and records each in the
+             stats bucket its kind names :raw-html:`<br />` :raw-html:`<br />`
+
+             Shared by the source file's removal and every ``RemapFix`` copy's
+             (:cpp:func:`_removeRemapCopies`), which is the point: a copy that was undone without
+             its resources being deleted left every file only it named behind. A resource this
+             run has already FIXED is never deleted -- see the comment in the definition
+             @endrst
+             *
+             * @param removedResources What the removal reported, per kind of resource
+             * @param iniName The ``.ini`` file's name, for the log
+             */
+            void _deleteRemovedResources(std::unordered_map<std::string, std::vector<std::unique_ptr<IniResource>>>& removedResources,
+                                         const std::string& iniName);
 
             /**
              * @brief

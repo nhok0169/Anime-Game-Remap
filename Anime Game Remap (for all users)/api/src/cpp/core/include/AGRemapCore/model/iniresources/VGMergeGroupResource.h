@@ -118,6 +118,15 @@ namespace AGRemapCore {
          @endrst
          */
         std::unordered_map<std::string, std::size_t> ibBytesPerIndex;
+
+        /**
+         * @brief
+         @rst
+         The TARGET's texcoord stride, the floor of the merged buffer's -- see
+         :cpp:func:`VGComponentMerge::VGComponentMerge`. ``0`` (the default) is the widest component's
+         @endrst
+         */
+        std::size_t texcoordStride = 0;
     };
 
     /**

@@ -14,6 +14,7 @@
 #ifndef AGRemapCore_GIMIFixer_TPP
 #define AGRemapCore_GIMIFixer_TPP
 
+#include <cctype>
 #include <string_view>
 #include <utility>
 
@@ -241,7 +242,7 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename FixerBase>
     std::string GIMIFixer<K, V, KeyHash, KeyEqual, FixerBase>::groupToStr(std::size_t groupInd) const {
         std::string result;
-        if (graphGroups_ == nullptr || !config_.sectionToStr) {
+        if (graphGroups_ == nullptr || !config_.sectionToStr || groupInd >= graphGroups_->size()) {
             return result;
         }
 
@@ -281,6 +282,59 @@ namespace AGRemapCore {
 
             result += current;
             first = false;
+        }
+
+        // A COPY DECLARES THE DOWNLOADS IT REFERENCES (2026-09-25). The parser's download resources
+        // are graphs of group 0 only, and 3DMigoto resolves a resource within its own .ini file --
+        // so a generated copy binding one (`ps-t1 = Resource<Obj>DiffuseRemapDL`, for an object the
+        // mod ships no texture of) referenced a section its file does not have: "Unrecognised
+        // entry", and the object drew with whatever that register held before (Neuvillette2 on
+        // NeuvilletteMelusent, the dress drawn through the Coat's copy). Only what the copy names,
+        // as a whole name: a collected buffer's resource starts with its download's name too.
+        if (groupInd > 0 && graphGroups_->size() > 0) {
+            const std::string lowered = StringTools::toLower(result);
+            const auto references = [&lowered](const std::string& name) {
+                const std::string needle = StringTools::toLower(name);
+                for (std::size_t at = lowered.find(needle); at != std::string::npos; at = lowered.find(needle, at + 1)) {
+                    const std::size_t end = at + needle.size();
+                    const char next = (end < lowered.size()) ? lowered[end] : '\n';
+                    if (!(std::isalnum(static_cast<unsigned char>(next)) || next == '_' || next == '.')) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            for (const ModObj& modObj : graphGroups_->modObjs(0)) {
+                if (modObj.first != IniGraphModObjKeywords::Download) {
+                    continue;
+                }
+
+                Graph* graph = graphGroups_->getGraph(0, modObj);
+                if (graph == nullptr) {
+                    continue;
+                }
+
+                bool referenced = false;
+                for (const auto& section : graph->sections()) {
+                    referenced = referenced || (emitted.count(section.first) == 0 && references(section.first));
+                }
+                if (!referenced) {
+                    continue;
+                }
+
+                std::string current = graph->toStr(config_.sectionToStr, true, &emitted);
+                if (current.empty()) {
+                    continue;
+                }
+
+                if (!first) {
+                    result += "\n\n";
+                }
+
+                result += current;
+                first = false;
+            }
         }
 
         return result;
@@ -397,6 +451,17 @@ namespace AGRemapCore {
 
         fixTargets_ = getFix(parseData, false);
         fixedContents_.clear();
+
+        // NO GROUPS, BUT SECTIONS OF ITS OWN TO WRITE (2026-09-24). A fixer that draws nothing ends
+        // with no groups and so no targets -- and appendedSections, which belong to no group, went
+        // with them. The owner of a multi-component fix's hidden components is the LAST component's
+        // fixer, and when that component is the one a mod leaves empty (a skin's Eye, under a mod
+        // that paints its eyes on the head), the hide sections were built and never written: the
+        // skin's own bangs drew over the mod's hair (NeuvilletteMelusent, Neuvillette5). The mod's
+        // own file is the target they belong to.
+        if (fixTargets_.empty() && !appendedSections.empty() && ctx_ != nullptr) {
+            fixTargets_.push_back(ctx_->fixedFilePath(0));
+        }
 
         // Hiding comes *after* the fix is built, not before: which sections to comment out is
         // #touchedSectionNames, and there is nothing to read that off until the groups exist. The

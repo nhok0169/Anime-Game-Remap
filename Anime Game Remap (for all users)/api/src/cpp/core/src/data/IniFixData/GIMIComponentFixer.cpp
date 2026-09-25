@@ -13,6 +13,8 @@
 
 #include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
+#include "AGRemapCore/data/IniFixData/RegValChecks.h"
+#include "AGRemapCore/data/IniFixData/TexRegLayout.h"
 
 #include <algorithm>
 #include <filesystem>
@@ -277,6 +279,10 @@ namespace AGRemapCore {
             // Whether the object's section (through `run =`) already calls ORFix itself -- see
             // buildEdits for why such a mod's own calls are kept.
             bool ownORFix = false;
+
+            // Whether the object's bindings go by their NAMES -- see GIMIComponentFixerConfig::texRegsByName
+            // and readFiles for when names are trusted.
+            bool byName = false;
         };
 
         struct ModFiles {
@@ -573,6 +579,56 @@ namespace AGRemapCore {
                                 objFiles.diffuse = firstFile(sectionName, DiffuseReg);
                                 objFiles.lightMap = firstFile(sectionName, LightMapReg);
                             }
+
+                            // BY NAME -- see GIMIComponentFixerConfig::texRegsByName. The layout and the
+                            // two files come from what each bound resource says it is, wherever the mod
+                            // put it; a section naming no role keeps the positional answer above.
+                            //
+                            // ONLY WHERE THE NAMES CAN BE BELIEVED (2026-09-25). A name is the author's
+                            // label, and an author may label in an older scheme: one Neuvillette mod names
+                            // its normal map "Diffuse", its diffuse "LightMap" and its light map "Shadow" --
+                            // one position off, in GIMI's order -- and read by name the normal map became the
+                            // diffuse and the whole outfit drew flat yellow. So the names are believed only
+                            // when (1) the section calls no fix library itself: NNFix and ORFix read FIXED
+                            // registers, so a section that renders through one on its own character is in
+                            // GIMI's order whatever its files are called; and (2) every texture bound at
+                            // ps-t0..2 names exactly one role, no two the same. A mod in the game's own order
+                            // (the case this is for) binds without a fix call and names its files plainly.
+                            bool ownFixCall = objFiles.ownORFix;
+                            for (const BranchVal& call : branches_.valsThroughRun(templates, sectionName, IniKeywords::Run)) {
+                                ownFixCall = ownFixCall || StringTools::equalsIgnoreCase(StringTools::strip(call.val), IniKeywords::NNFixPath);
+                            }
+
+                            if (config_.texRegsByName && !ownFixCall) {
+                                std::string byNameDiffuse, byNameLightMap;
+                                bool anyNormalMap = false;
+                                bool namesTrusted = true;
+                                for (const std::string& reg : {DiffuseReg, LightMapReg, ShiftedLightMapReg}) {
+                                    const std::string file = firstFile(sectionName, reg);
+                                    if (file.empty()) {
+                                        continue;
+                                    }
+                                    if (RegValChecks::isNormalMap(file)) {
+                                        namesTrusted = namesTrusted && !anyNormalMap;
+                                        anyNormalMap = true;
+                                    } else if (RegValChecks::isLightMap(file)) {
+                                        namesTrusted = namesTrusted && byNameLightMap.empty();
+                                        byNameLightMap = file;
+                                    } else if (RegValChecks::isDiffuse(file)) {
+                                        namesTrusted = namesTrusted && byNameDiffuse.empty();
+                                        byNameDiffuse = file;
+                                    } else {
+                                        namesTrusted = false;
+                                    }
+                                }
+
+                                if (namesTrusted && (anyNormalMap || !byNameDiffuse.empty() || !byNameLightMap.empty())) {
+                                    objFiles.byName = true;
+                                    objFiles.normalMapLayout = anyNormalMap;
+                                    objFiles.diffuse = byNameDiffuse;
+                                    objFiles.lightMap = byNameLightMap;
+                                }
+                            }
                             objects[obj] = std::move(objFiles);
                         }
                     }
@@ -767,6 +823,7 @@ namespace AGRemapCore {
                         // state is skipped, and with none left the fixer gives up instead of throwing.
                         if ((anyAuthoredState && throughDownload[state]) || throughUnfetched[state]) {
                             stateKept_.push_back(0);
+                            stateDrawn_.emplace_back();
                             continue;
                         }
 
@@ -818,12 +875,31 @@ namespace AGRemapCore {
                                         result.second.push_back(names[i]);
                                     }
                                 }
+
+                                // What EVERY component draws of this mod, for the owner of the hidden
+                                // components and the TexFx guards (buildHiddenComponents). The split is
+                                // joint already, so asking it about another component costs that
+                                // component's buffers and nothing else -- and only the owner asks.
+                                if (isOwner()) {
+                                    for (const GIMIComponentFixerConfig::Component& other : config_.components) {
+                                        std::vector<std::string>& drawnThere = drawnByComponent_[other.name];
+                                        const VGComponentBuffers otherBuffers = (other.name == componentName_)
+                                            ? buffers : split.split(other.name);
+                                        for (std::size_t i = 0; i < names.size() && i < otherBuffers.stats.trianglesKept.size(); ++i) {
+                                            if (otherBuffers.stats.trianglesKept[i] > 0
+                                                    && std::find(drawnThere.begin(), drawnThere.end(), names[i]) == drawnThere.end()) {
+                                                drawnThere.push_back(names[i]);
+                                            }
+                                        }
+                                    }
+                                }
                             }
 
                             cached = splitCache.emplace(std::move(cacheKey), std::move(result)).first;
                         }
 
                         stateKept_.push_back(cached->second.first);
+                        stateDrawn_.push_back(cached->second.second);
                         keptVertices_ = std::max(keptVertices_, cached->second.first);
                         for (const std::string& name : cached->second.second) {
                             if (std::find(drawnAny.begin(), drawnAny.end(), name) == drawnAny.end()) {
@@ -912,6 +988,8 @@ namespace AGRemapCore {
 
                 // ---- 2. the textures, per drawn object ----
                 void buildTexEdits() {
+                    buildTexRegsByName();
+
                     if (!component_.normalMap) {
                         buildPlainSlotShift();
                         return;
@@ -1008,6 +1086,39 @@ namespace AGRemapCore {
                         texGroupEdits_.push_back(collect.get());
                         texCreates_.push_back(std::move(create));
                         texAddCollects_.push_back(std::move(collect));
+                    }
+                }
+
+                // FIRST of every texture edit, when asked: each drawn object's bindings onto the register
+                // their NAME's role belongs on in the layout the object itself is (normal map among
+                // them or not) -- GIMIComponentFixerConfig::texRegsByName. Everything after it (the
+                // collects, the shifts, the created normal map) then reads GIMI's order.
+                void buildTexRegsByName() {
+                    if (!config_.texRegsByName) {
+                        return;
+                    }
+
+                    const std::vector<std::string> texRegs{DiffuseReg, LightMapReg, ShiftedLightMapReg};
+                    for (std::size_t group = 0; group < drawn_.size(); ++group) {
+                        const ModObjectFiles* files = objectFiles(drawn_[group]);
+                        if (files == nullptr || !files->byName) {
+                            continue;       // positional -- see readFiles for when names are believed
+                        }
+                        const bool normalMap = files->normalMapLayout;
+
+                        auto byName = std::make_unique<RegRemap<>>(
+                            TexRegLayout::byName(TexRegLayout::fixLibraryRoles(normalMap), texRegs));
+                        auto byNameAdapter = std::make_unique<RegPartEdit<>>(byName.get());
+
+                        std::vector<ObjGroupEdit::IniEdits> iniEdits(groupCount_);
+                        iniEdits[group].edits[ModObj("", component_.slot)] = {byNameAdapter.get()};
+                        iniEdits[group].trackKeys[ModObj("", component_.slot)] = false;
+                        auto edit = std::make_unique<ObjGroupEdit>(std::move(iniEdits), false);
+
+                        texGroupEdits_.push_back(edit.get());
+                        regRemaps_.push_back(std::move(byName));
+                        regRemapAdapters_.push_back(std::move(byNameAdapter));
+                        shiftEdits_.push_back(std::move(edit));
                     }
                 }
 
@@ -1126,8 +1237,12 @@ namespace AGRemapCore {
                                 extras.emplace_back(FormatKey, R32Format);
                             }
 
+                            // One fixed file per section -- see ResEditConfig::filePerSection.
+                            BaseResEdit<>::ResEditConfig resConfig = makeResEditConfig(std::move(extras));
+                            resConfig.filePerSection = true;
+
                             auto replace = std::make_unique<BufReplace<>>(
-                                resObj, makeResEditConfig(std::move(extras)), kind.first,
+                                resObj, std::move(resConfig), kind.first,
                                 kind.first == "ib" ? std::optional<std::string>(name) : std::nullopt);
 
                             srcRegs[resObj] = {{kind.second.first, kind.second.second}};
@@ -1164,9 +1279,81 @@ namespace AGRemapCore {
                 //
                 // The hash is read out of the hash table under the component's own mod type name,
                 // which is where a target component's rows are filed.
+                // Whether this fixer writes the hidden components and the TexFx guards -- see above.
+                bool isOwner() const {
+                    return !config_.components.empty() && config_.components.back().name == componentName_;
+                }
+
                 void buildHiddenComponents() {
-                    if ((config_.hiddenComponents.empty() && config_.unremappedSlots.empty())
-                            || config_.components.empty() || config_.components.back().name != componentName_) {
+                    if (!isOwner()) {
+                        return;
+                    }
+
+                    // A COMPONENT IS HIDDEN BY WHAT THE OUTPUT DRAWS, NOT ONLY BY WHAT WAS ASKED
+                    // (2026-09-24). A component the config remaps onto can still come out EMPTY for
+                    // one mod: the split selects by vertex group, and a mod is free to put nothing on
+                    // the bones a component's row names -- a summer outfit with no coat, over a skin
+                    // whose Coat is a component of its own. Nothing is written for it then, not even
+                    // the skip, and the skin's own coat drew over the mod (NeuvilletteMelusent,
+                    // Neuvillette8). Creating Remaps' "A TARGET COMPONENT NOTHING IS REMAPPED ONTO"
+                    // wrote this rule down for the prototypes; this is it in the template.
+                    //
+                    // Guarded: when NO component drew anything the fix did not land, and hiding every
+                    // component would turn a failed run into an invisible model.
+                    std::vector<std::string> hidden = config_.hiddenComponents;
+                    bool anyDrawn = false;
+                    for (const auto& entry : drawnByComponent_) {
+                        anyDrawn = anyDrawn || !entry.second.empty();
+                    }
+                    if (anyDrawn) {
+                        for (const GIMIComponentFixerConfig::Component& component : config_.components) {
+                            auto drawnThere = drawnByComponent_.find(component.name);
+                            if ((drawnThere == drawnByComponent_.end() || drawnThere->second.empty())
+                                    && std::find(hidden.begin(), hidden.end(), component.modTypeName) == hidden.end()) {
+                                hidden.push_back(component.modTypeName);
+                            }
+                        }
+                    }
+
+                    // The slots nothing is drawn through, per component with its slotIndices declared:
+                    // every slot of a hidden component, and every slot of a drawn one that no drawn
+                    // object is routed to. Added to the configured unremappedSlots.
+                    std::vector<std::pair<std::string, std::vector<std::string>>> unremapped = config_.unremappedSlots;
+                    for (const GIMIComponentFixerConfig::Component& component : config_.components) {
+                        if (component.slotIndices.empty()) {
+                            continue;
+                        }
+
+                        std::vector<std::string> used;
+                        const bool isHidden = std::find(hidden.begin(), hidden.end(), component.modTypeName) != hidden.end();
+                        auto drawnThere = drawnByComponent_.find(component.name);
+                        if (!isHidden && drawnThere != drawnByComponent_.end()) {
+                            for (const std::string& obj : drawnThere->second) {
+                                std::string slot = component.slotIndex;
+                                for (const auto& [slotObj, index] : component.objSlotIndices) {
+                                    if (slotObj == obj) {
+                                        slot = index;
+                                    }
+                                }
+                                used.push_back(slot);
+                            }
+                        }
+
+                        auto existing = std::find_if(unremapped.begin(), unremapped.end(),
+                            [&](const auto& entry) { return entry.first == component.modTypeName; });
+                        if (existing == unremapped.end()) {
+                            unremapped.emplace_back(component.modTypeName, std::vector<std::string>{});
+                            existing = unremapped.end() - 1;
+                        }
+                        for (const std::string& slot : component.slotIndices) {
+                            if (std::find(used.begin(), used.end(), slot) == used.end()
+                                    && std::find(existing->second.begin(), existing->second.end(), slot) == existing->second.end()) {
+                                existing->second.push_back(slot);
+                            }
+                        }
+                    }
+
+                    if (hidden.empty() && unremapped.empty()) {
                         return;
                     }
 
@@ -1184,7 +1371,7 @@ namespace AGRemapCore {
                     const std::optional<Version> toVersion = (iniFile == nullptr) ? std::nullopt : iniFile->toVersion;
                     std::string text;
 
-                    for (const std::string& modTypeName : config_.hiddenComponents) {
+                    for (const std::string& modTypeName : hidden) {
                         // Hashes are keyed {name, type} -- TWO non-version values, where Indices are keyed
                         // {name, obj, objName} and take three. Passing the index shape here made
                         // every .ini skip with "expected 2 non-version values, got 3".
@@ -1214,8 +1401,8 @@ namespace AGRemapCore {
                     const bool callsTexFx = iniFile != nullptr
                         && StringTools::containsIgnoreCase(iniFile->getFileTxt(), IniKeywords::TexFxFolder + "\\");
                     std::string guards;
-                    for (const auto& [modTypeName, slotIndices] : (callsTexFx ? config_.unremappedSlots
-                                                                              : decltype(config_.unremappedSlots){})) {
+                    for (const auto& [modTypeName, slotIndices] : (callsTexFx ? unremapped
+                                                                              : decltype(unremapped){})) {
                         std::optional<std::string> hash = hashes->get({modTypeName, IbHashKey}, toVersion, false);
                         if (!hash.has_value() || hash->empty()) {
                             continue;
@@ -1456,30 +1643,72 @@ namespace AGRemapCore {
                     // A merged master's blend carries a `draw` per branch, and each is that variant's
                     // own count: one number for all of them stops a bigger variant part way through
                     // its model. REPLACED, not added -- a second `draw` draws the model twice.
-                    ObjGroupEdit::PartEdit* drawEdit = blendDrawAdapter_.get();
-                    if (files_.blends.size() > 1) {
-                        blendBranchDraw_ = branches_.replacePerBranch(
+                    //
+                    // AND PER .INI GROUP (2026-09-24): each group is one drawn object's file, and a
+                    // state in which THAT object keeps no triangles draws nothing there -- even when
+                    // the component keeps plenty through another object. Neuvillette4's second variant
+                    // nulls the dress: the dress group's file kept the component's count beside the
+                    // mod's own whole-mesh blend, and re-skinned his entire source mesh with the
+                    // source's bone numbers (the variant came out shattered).
+                    std::vector<ObjGroupEdit::PartEdit*> drawEdits(groupCount_, blendDrawAdapter_.get());
+
+                    // ...and the same group's vertex buffer BINDINGS in such a branch are removed: they
+                    // are the mod's own raw buffers (nothing collected them), bound on the TARGET's
+                    // hashes, and another generated file draws that state -- whichever of the files
+                    // runs last decides the draw's vb0, and the source's layout there shattered the
+                    // variant. The blend keeps its `draw = 0,0` above, which draws nothing.
+                    std::vector<std::vector<ObjGroupEdit::PartEdit*>> vbRemovalEdits(groupCount_);
+                    for (std::size_t group = 0; files_.blends.size() > 1 && group < groupCount_; ++group) {
+                        const std::string groupObj = (group < drawn_.size()) ? drawn_[group] : std::string();
+                        blendBranchDraws_.push_back(branches_.replacePerBranch(
                             files_.blends, "blend",
-                            [this](std::size_t, const std::optional<Z3Predicate>& local) -> RegBranchAdd<>::Additions {
+                            [this, groupObj](std::size_t, const std::optional<Z3Predicate>& local) -> RegBranchAdd<>::Additions {
                                 // The largest of the states this blend branch is drawn in: several
                                 // index buffers may go with one blend, and `draw` has to cover
                                 // whichever of them is selected.
                                 std::size_t kept = 0;
                                 for (std::size_t state = 0; state < states_.size() && state < stateKept_.size(); ++state) {
+                                    if (!groupObj.empty() && state < stateDrawn_.size()
+                                            && std::find(stateDrawn_[state].begin(), stateDrawn_[state].end(), groupObj) == stateDrawn_[state].end()) {
+                                        continue;
+                                    }
                                     if (!states_[state].has_value() || !local.has_value()
                                             || branches_.compatible(*states_[state], *local)) {
                                         kept = std::max(kept, stateKept_[state]);
                                     }
                                 }
 
+                                // A BRANCH THIS COMPONENT DRAWS NOTHING ON re-skins nothing (2026-09-24). A
+                                // merged master's variant can leave a component empty -- Neuvillette4's
+                                // second variant nulls the dress, the only part of it on the skin's Coat
+                                // bones -- and that branch is not collected, so it kept the mod's OWN
+                                // `draw` beside the mod's own whole-mesh blend: the skin's Coat pass
+                                // re-skinned his entire source mesh with the source's bone numbers, and the
+                                // variant came out shattered. A zero draw is a no-op pose pass; the
+                                // branch's leftover bindings are then inert, and its `ib = null` draws
+                                // nothing.
                                 if (kept == 0) {
-                                    return {};
+                                    return {{IniKeywords::Draw, std::string("0,0")}};
                                 }
 
                                 return {{IniKeywords::Draw, std::to_string(kept) + ",0"}};
-                            });
-                        blendBranchDrawAdapter_ = std::make_unique<GraphPartEdit<>>(blendBranchDraw_.get());
-                        drawEdit = blendBranchDrawAdapter_.get();
+                            }));
+                        blendBranchDrawAdapters_.push_back(std::make_unique<GraphPartEdit<>>(blendBranchDraws_.back().get()));
+                        drawEdits[group] = blendBranchDrawAdapters_.back().get();
+
+                        if (groupObj.empty()) {
+                            continue;
+                        }
+
+                        for (const std::string& reg : {std::string(IniKeywords::Vb0), std::string(IniKeywords::Vb1)}) {
+                            blendBranchDraws_.push_back(branches_.removePerBranch(
+                                files_.blends, "vbs:" + reg,
+                                [this, groupObj, reg](std::size_t, const std::optional<Z3Predicate>& local) -> std::vector<std::string> {
+                                    return groupKeptIn(groupObj, local) == 0 ? std::vector<std::string>{reg} : std::vector<std::string>{};
+                                }));
+                            blendBranchDrawAdapters_.push_back(std::make_unique<GraphPartEdit<>>(blendBranchDraws_.back().get()));
+                            vbRemovalEdits[group].push_back(blendBranchDrawAdapters_.back().get());
+                        }
                     }
 
                     const ModObj slotObj("", component_.slot);
@@ -1542,17 +1771,27 @@ namespace AGRemapCore {
                         iniEdits.edits[IbObj] = {renameIbAdapter_.get(), assetAdapter_.get(), removeDrawIndexedAdapter_.get()};
                         iniEdits.trackKeys[IbObj] = false;
 
+                        // vbRemovalEdits[group] = {vb0, vb1} -- see above
                         std::vector<ObjGroupEdit::PartEdit*> blendEdits = {renameBlendAdapter_.get(), assetAdapter_.get()};
                         if (!component_.negativeIndex) {
-                            blendEdits.push_back(drawEdit);
+                            blendEdits.push_back(drawEdits[group]);
+                        }
+                        if (vbRemovalEdits[group].size() == 2) {
+                            blendEdits.push_back(vbRemovalEdits[group][1]);
                         }
                         iniEdits.edits[BlendObj] = std::move(blendEdits);
                         iniEdits.trackKeys[BlendObj] = false;
 
                         iniEdits.edits[PositionObj] = {renameAdapter_.get(), assetAdapter_.get()};
+                        if (vbRemovalEdits[group].size() == 2) {
+                            iniEdits.edits[PositionObj].push_back(vbRemovalEdits[group][0]);
+                        }
                         iniEdits.trackKeys[PositionObj] = false;
 
                         iniEdits.edits[TexcoordObj] = {renameAdapter_.get(), assetAdapter_.get()};
+                        if (vbRemovalEdits[group].size() == 2) {
+                            iniEdits.edits[TexcoordObj].push_back(vbRemovalEdits[group][1]);
+                        }
                         iniEdits.trackKeys[TexcoordObj] = false;
 
                         iniEdits.edits[OtherObj] = {renameAdapter_.get(), assetAdapter_.get(), overridesAdapter_.get()};
@@ -1594,9 +1833,29 @@ namespace AGRemapCore {
                 ModFiles files_;
                 std::vector<VGComponentSpec> specs_;
                 std::vector<std::string> drawn_;
+                // the owner's record of what EVERY component draws of this mod -- see buildHiddenComponents
+                std::unordered_map<std::string, std::vector<std::string>> drawnByComponent_;
                 std::size_t keptVertices_ = 0;                  // the largest state's
                 std::vector<std::optional<Z3Predicate>> states_;  // see ModBranches::states
+                // The most vertices any state compatible with 'local' keeps where 'obj' keeps triangles
+                // -- 0 when the object keeps none in any of them. An empty 'obj' asks about the component.
+                std::size_t groupKeptIn(const std::string& obj, const std::optional<Z3Predicate>& local) {
+                    std::size_t kept = 0;
+                    for (std::size_t state = 0; state < states_.size() && state < stateKept_.size(); ++state) {
+                        if (!obj.empty() && state < stateDrawn_.size()
+                                && std::find(stateDrawn_[state].begin(), stateDrawn_[state].end(), obj) == stateDrawn_[state].end()) {
+                            continue;
+                        }
+                        if (!states_[state].has_value() || !local.has_value()
+                                || branches_.compatible(*states_[state], *local)) {
+                            kept = std::max(kept, stateKept_[state]);
+                        }
+                    }
+                    return kept;
+                }
+
                 std::vector<std::size_t> stateKept_;            // per states_ entry
+                std::vector<std::vector<std::string>> stateDrawn_;  // per states_ entry: objects this component keeps triangles of
                 std::size_t groupCount_ = 1;
 
                 bool authorsNoMesh_ = false;
@@ -1642,8 +1901,8 @@ namespace AGRemapCore {
                 std::unique_ptr<RegNewVals<>> blendDraw_;
                 std::unique_ptr<RegRestrict<>> trimRegisters_;
                 std::unique_ptr<RegPartEdit<>> trimRegistersAdapter_;
-                std::unique_ptr<RegBranchAdd<>> blendBranchDraw_;
-                std::unique_ptr<GraphPartEdit<>> blendBranchDrawAdapter_;
+                std::vector<std::unique_ptr<RegBranchAdd<>>> blendBranchDraws_;          // per .ini group
+                std::vector<std::unique_ptr<GraphPartEdit<>>> blendBranchDrawAdapters_;
 
                 std::unique_ptr<GraphPartEdit<>> renameAdapter_;
                 std::unique_ptr<GraphPartEdit<>> renameIbAdapter_;

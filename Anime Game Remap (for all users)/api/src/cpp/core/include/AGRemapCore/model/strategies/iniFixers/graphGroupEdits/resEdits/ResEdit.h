@@ -140,6 +140,28 @@ namespace AGRemapCore {
                  @endrst
                  */
                 std::vector<std::pair<K, V>> extraKVPs;
+
+                /**
+                 * @brief
+                 @rst
+                 Whether two `section`_\ s naming the SAME source file are each given their own fixed
+                 file, rather than both writing one :raw-html:`<br />` :raw-html:`<br />`
+
+                 A replacement's output usually depends on the file alone, so one fixed file for
+                 every section naming it is right and saves a copy. A member of a resource GROUP is
+                 different: its output depends on the other members too. A merged master whose two
+                 variants bind the same ``.ib`` through two sections (``ResourceHead.0`` and
+                 ``ResourceHead.1``) over two different blends needs two split index buffers -- each
+                 variant keeps a different set of vertices -- and one shared name had the second
+                 variant's write land on the first's file, drawing variant 2 with variant 1's
+                 indices (Neuvillette, shattered, 2026-09-24).
+
+                 The first section to name a file keeps the plain fixed name, so nothing moves where
+                 no file is shared; a later one adds a short hash of its own section name.
+                 **Default**: ``false``
+                 @endrst
+                 */
+                bool filePerSection = false;
             };
 
             /**

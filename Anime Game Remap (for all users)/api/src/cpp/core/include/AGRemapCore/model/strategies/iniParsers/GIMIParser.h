@@ -295,6 +295,25 @@ namespace AGRemapCore {
                  @endrst
                  */
                 std::optional<K> drawKey;
+
+                /**
+                 * @brief
+                 @rst
+                 Per mod object, per download register: other registers ANY of which, bound in a
+                 `section`_, satisfy that register's download too -- empty for the one-register test
+                 every caller had before :raw-html:`<br />` :raw-html:`<br />`
+
+                 A download keyed on one register fires whenever THAT register is unbound, and a
+                 character's mods need not agree on which register a texture goes to. Neuvillette's
+                 head is written in two layouts -- plain (diffuse ``ps-t0``, light map ``ps-t1``) and
+                 normal-map (diffuse ``ps-t1``, light map ``ps-t2``) -- so a diffuse download on
+                 ``ps-t0`` fired on every normal-map mod and put the diffuse in the NORMAL MAP slot
+                 (a hair ribbon drawn flat green, 2026-09-24). A section binding any of its object's
+                 texture registers brings its own set; this says so. Only the section-level
+                 (``refToSection``) test reads it -- see :cpp:func:`getDownloads`
+                 @endrst
+                 */
+                std::unordered_map<ModObj, std::unordered_map<K, std::vector<K>, KeyHash, KeyEqual>, ModObjHash> downloadAltRegs;
             };
 
             /**
@@ -580,6 +599,15 @@ namespace AGRemapCore {
              * @param key The draw `KVP`_, or ``std::nullopt`` for the unordered test
              */
             void setDrawKey(std::optional<K> key);
+
+            /**
+             * @brief Registers any of which also satisfy one download -- see ParserConfig::downloadAltRegs
+             *
+             * @param modObj The mod object the download is for
+             * @param reg The register the download is keyed on
+             * @param altRegs The other registers that, bound, mean the download is not needed
+             */
+            void setDownloadAltRegs(const ModObj& modObj, const K& reg, std::vector<K> altRegs);
 
             /**
              * @brief Whether 'section' draws before it binds 'reg' -- see ef setDrawKey

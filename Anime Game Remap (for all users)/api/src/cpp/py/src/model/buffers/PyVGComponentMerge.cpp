@@ -137,7 +137,21 @@ Parameters
 components: List[:class:`VGMergeComponent`]
     The source's components; the first takes offset 0
     )doc")
-        .def(py::init<std::vector<AGRC::VGComponentMerge::Component>>(), py::arg("components"))
+        .def(py::init<std::vector<AGRC::VGComponentMerge::Component>, std::size_t>(), py::arg("components"),
+             py::arg("minTexcoordStride") = 0, py::doc(R"doc(
+Merges the components, in the order given
+
+Parameters
+----------
+components: List[:class:`VGComponentMerge.Component`]
+    The source's components; the first takes offset 0
+
+minTexcoordStride: :class:`int`
+    The TARGET's texcoord stride: the merged buffer is at least this wide, every line zero-padded at its end
+    :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``0``, the widest component's
+             )doc"))
         .def_property_readonly("vertexCount", &AGRC::VGComponentMerge::vertexCount, py::doc(":class:`int`: The merged vertex count"))
         .def_property_readonly("stats", &AGRC::VGComponentMerge::stats, py::doc(":class:`VGComponentMergeStats`: Counts worth reporting"))
         .def_property_readonly("blend", [](const AGRC::VGComponentMerge &self) { return toBytes(self.blend()); },

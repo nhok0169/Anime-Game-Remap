@@ -151,6 +151,25 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             EVERY draw slot of this TARGET component, by ``match_first_index`` -- eg. ``{"0", "46620",
+             "71025"}`` -- or empty to declare none :raw-html:`<br />` :raw-html:`<br />`
+
+             What lets the fixer work out, per mod, which of the skin's slots nothing is drawn through:
+             every slot here that no DRAWN source object is routed to (:cpp:member:`slotIndex` /
+             :cpp:member:`objSlotIndices`), and every slot of a component the mod draws nothing onto at
+             all, gets the TexFx guard :cpp:member:`GIMIComponentFixerConfig::unremappedSlots` writes --
+             read off the result, where that field is a list somebody keeps by hand and goes stale the
+             moment the routing changes (NeuvilletteMelusent, 2026-09-24: the dress moved from the Dress
+             slot to the Body slot, the Dress slot was left unguarded, and a TexFx transparency request
+             was spent on it -- the mod's see-through shirt vanished). Added to, never replacing, that
+             field. **Default**: empty, the behaviour before this existed
+             @endrst
+             */
+            std::vector<std::string> slotIndices;
+
+            /**
+             * @brief
+             @rst
              ``true``: the **negative-index** strategy (the component draws the whole mod, every
              bone of another component becomes a sentinel, and the ib is trimmed); ``false``: the
              **graph cut** (the component takes the triangles the negative-index components leave,
@@ -411,6 +430,33 @@ namespace AGRemapCore {
          @endrst
          */
         bool faceSwapOnlyFromDiffuseReg = false;
+
+        /**
+         * @brief
+         @rst
+         Whether each drawn object's texture bindings go to the register their resource NAME's
+         role belongs on (``ps-t0`` diffuse / ``ps-t1`` light map, or ``ps-t0`` normal map /
+         ``ps-t1`` diffuse / ``ps-t2`` light map when a normal map is among them) BEFORE any other
+         texture edit reads a register -- :cpp:member:`GIMIMergeFixerConfig::texRegsByName`'s rule,
+         through the same :cpp:class:`TexRegLayout` :raw-html:`<br />` :raw-html:`<br />`
+
+         A mod may be written in the GAME's register order rather than GIMI's: one Neuvillette mod
+         binds its Dress ``ps-t0 = <light map>`` / ``ps-t1 = <diffuse>`` with no fix call, which is
+         right on his own plain shader and, read positionally, put the light map in the diffuse role
+         on the skin -- a hair ribbon drawn flat green (2026-09-24). The layout (normal map or not)
+         and the diffuse / light map files an object's edits read are decided by name as well. A
+         binding naming no role stays where it is, so a mod already in GIMI's order is untouched.
+
+         Names are an author's labels, so an object's are believed only when its section calls no
+         fix library itself (``NNFix`` / ``ORFix`` read fixed registers, so such a section is in
+         GIMI's order whatever its files are called) and every texture it binds at ``ps-t0`` ..
+         ``ps-t2`` names exactly one role, no two alike. Anything else is read positionally: another
+         Neuvillette mod names its normal map "Diffuse", its diffuse "LightMap" and its light map
+         "Shadow", and read by name drew its whole outfit flat yellow (2026-09-25).
+         **Default**: ``false``, the positional reading every earlier config was confirmed with
+         @endrst
+         */
+        bool texRegsByName = false;
 
         /**
          * @brief What every generated ``.ini`` file opens with -- see :cpp:member:`GIMIFixer::copyPreamble`

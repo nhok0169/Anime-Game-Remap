@@ -81,7 +81,7 @@ namespace AGRemapCore {
     }
 
 
-    VGComponentMerge::VGComponentMerge(std::vector<Component> components) {
+    VGComponentMerge::VGComponentMerge(std::vector<Component> components, std::size_t minTexcoordStride) {
         if (components.empty()) {
             throw std::invalid_argument("a merge needs at least one component");
         }
@@ -94,6 +94,11 @@ namespace AGRemapCore {
             if (lines != 0 && component.texcoord.size() % lines == 0) {
                 texcoordStride = std::max(texcoordStride, component.texcoord.size() / lines);
             }
+        }
+
+        // ...and never narrower than the TARGET's, where the caller knows it
+        if (texcoordStride != 0) {
+            texcoordStride = std::max(texcoordStride, minTexcoordStride);
         }
 
         Weights weights;

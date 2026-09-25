@@ -585,6 +585,67 @@ namespace AGRemapCore {
     }
 
 
+    void RemapService::_deleteRemovedResources(
+            std::unordered_map<std::string, std::vector<std::unique_ptr<IniResource>>>& removedResources,
+            const std::string& iniName) {
+        bool removedAny = false;
+        for (auto& entry : removedResources) {
+            FileStats* resourceStats = stats.get(entry.first);
+
+            for (std::unique_ptr<IniResource>& resource : entry.second) {
+                if (resource == nullptr) {
+                    continue;
+                }
+
+                // Only an undo needs these: a fix parses the file afterwards and reports the
+                // same folders (and the ones its new fix writes to) through its own models.
+                if (undoOnly) {
+                    removedResourceFolders_.push_back(
+                        FileService::pathToStr(FileService::strToPath(resource->srcPath).parent_path()));
+                }
+
+                // NEVER DELETE SOMETHING THIS RUN JUST PRODUCED.
+                //
+                // A mod folder is handled one .ini file at a time, removal then fix, so a
+                // later .ini file's removal runs *after* an earlier one's fix. When several
+                // .ini files in a folder name the same resource -- which is the normal case for
+                // a DISABLED_ copy, or a mod that shipped with an old fix still in it -- the
+                // second removal would otherwise delete the Blend.buf the first fix had just
+                // written.
+                //
+                // Confirmed on a real AmberCN mod with three .ini files: the run logged
+                // "Fixing blend for AmberCNAmberRemapBlend.buf...", summarised "fixed 1
+                // Blend.buf files", and left no such file behind. In game the body collapsed
+                // and left a floating head, because the .ini named a blend that was not there.
+                //
+                // Skipping the delete is better than rebuilding afterwards: it keeps the file
+                // that is already correct, does no redundant work, and cannot be defeated by a
+                // later removal in the same run.
+                if (resourceStats != nullptr && resourceStats->fixed.count(resource->srcPath) > 0) {
+                    continue;
+                }
+
+                if (!removedAny) {
+                    log("Removing the fixed resources from " + iniName + "...");
+                }
+
+                std::error_code removeError;
+                std::filesystem::remove(FileService::strToPath(resource->srcPath), removeError);
+
+                // A file already gone is a removal that has nothing left to do, not a failure --
+                // the pure-Python original swallows exactly this as a FileNotFoundError.
+                removedAny = true;
+
+                // An unknown kind is tracked nowhere rather than being forced into a bucket it
+                // does not belong in. The file is still deleted -- only the bookkeeping is lost.
+                if (resourceStats != nullptr) {
+                    resourceStats->addRemoved(resource->srcPath);
+                }
+            }
+        }
+    }
+
+
     void RemapService::_removeRemapCopies(const IniFile& ini) {
         if (!ini.getFile().has_value()) {
             return;
@@ -611,9 +672,19 @@ namespace AGRemapCore {
             //
             // keepBackups is false whatever this run asked for: a backup of a file this fix
             // generated protects nothing.
+            //
+            // Its removal has to REPORT them for that, and until 2026-09-24 it did not: this call
+            // passed no removedResources, so the undo computed the copy's resources and dropped
+            // them, and every file only a copy named -- a split's second .ini group's blend,
+            // position, texcoord, ib, and any texture it created -- stayed on disk. A created
+            // texture that already exists is not rewritten by the next fix, so a re-fix after a
+            // change to the invented texture kept the stale one while its stats said "fixed"
+            // (Neuvillette -> NeuvilletteMelusent's Coat normal map; 18 files left by one undo).
             std::unique_ptr<IniFile> copy = createIni(file);
             copy->classify();
-            copy->removeFix(false, true, readAllInis, false);
+            std::unordered_map<std::string, std::vector<std::unique_ptr<IniResource>>> removedResources;
+            copy->removeFix(false, true, readAllInis, false, &removedResources);
+            _deleteRemovedResources(removedResources, _iniName(*copy));
 
             std::error_code err;
             if (!std::filesystem::remove(FileService::strToPath(file), err) || err) {
@@ -677,62 +748,7 @@ namespace AGRemapCore {
             // A fix run writes its own result afterwards regardless, so writing here costs it one
             // extra write and changes nothing observable.
             ini.removeFix(false, true, readAllInis, keepBackups, &removedResources);
-
-            bool removedAny = false;
-            for (auto& entry : removedResources) {
-                FileStats* resourceStats = stats.get(entry.first);
-
-                for (std::unique_ptr<IniResource>& resource : entry.second) {
-                    if (resource == nullptr) {
-                        continue;
-                    }
-
-                    // Only an undo needs these: a fix parses the file afterwards and reports the
-                    // same folders (and the ones its new fix writes to) through its own models.
-                    if (undoOnly) {
-                        removedResourceFolders_.push_back(
-                            FileService::pathToStr(FileService::strToPath(resource->srcPath).parent_path()));
-                    }
-
-                    // NEVER DELETE SOMETHING THIS RUN JUST PRODUCED.
-                    //
-                    // A mod folder is handled one .ini file at a time, removal then fix, so a
-                    // later .ini file's removal runs *after* an earlier one's fix. When several
-                    // .ini files in a folder name the same resource -- which is the normal case for
-                    // a DISABLED_ copy, or a mod that shipped with an old fix still in it -- the
-                    // second removal would otherwise delete the Blend.buf the first fix had just
-                    // written.
-                    //
-                    // Confirmed on a real AmberCN mod with three .ini files: the run logged
-                    // "Fixing blend for AmberCNAmberRemapBlend.buf...", summarised "fixed 1
-                    // Blend.buf files", and left no such file behind. In game the body collapsed
-                    // and left a floating head, because the .ini named a blend that was not there.
-                    //
-                    // Skipping the delete is better than rebuilding afterwards: it keeps the file
-                    // that is already correct, does no redundant work, and cannot be defeated by a
-                    // later removal in the same run.
-                    if (resourceStats != nullptr && resourceStats->fixed.count(resource->srcPath) > 0) {
-                        continue;
-                    }
-
-                    if (!removedAny) {
-                        log("Removing the fixed resources from " + iniName + "...");
-                    }
-
-                    std::error_code removeError;
-                    std::filesystem::remove(FileService::strToPath(resource->srcPath), removeError);
-
-                    // A file already gone is a removal that has nothing left to do, not a failure --
-                    // the pure-Python original swallows exactly this as a FileNotFoundError.
-                    removedAny = true;
-
-                    // An unknown kind is tracked nowhere rather than being forced into a bucket it
-                    // does not belong in. The file is still deleted -- only the bookkeeping is lost.
-                    if (resourceStats != nullptr) {
-                        resourceStats->addRemoved(resource->srcPath);
-                    }
-                }
-            }
+            _deleteRemovedResources(removedResources, iniName);
 
             // "up to", as the summary itself hedges: what is counted is that a fixed .ini file went
             // through the removal, not that every trace of the fix provably came out.

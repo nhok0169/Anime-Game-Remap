@@ -2980,7 +2980,8 @@ endif
 The fix wrote `ps-t0 = ResourceTexture0` --- the first variant --- and **one register line can carry
 no more than one of them**, while the toggled `drawindexed` in the mod's own section kept switching
 the geometry. In game that is the gyaru twin-tail hair drawn with the OG hair's dark texture: right
-shape, wrong art. Ten of eighteen of one character's mods have at least one toggled role, and a
+shape, wrong art (`Images/Chisa/2_8/ChisaParfaitHairToggle.jpg`, the same mod and the same toggle
+through the two builds). Ten of eighteen of one character's mods have at least one toggled role, and a
 Sanhua mod has one on `$clothes`, so this was never specific to a character.
 
 Such a role binds `run = <list>`, and the list is **a COPY of the mod's own
@@ -3004,7 +3005,8 @@ screen animates (idle breathing, drifting particles), so a whole-frame diff betw
 900k pixels of nothing --- see Overview's "A screenshot statistic is only as good as its mask". What
 works: set the toggle's default in the mod's `[Constants]`, reload, and put the two builds' output
 for the SAME mod side by side. The pre-fix `.ini` from the A/B scratch folder is a ready-made broken
-build; drop it into the live mod and reload.
+build; drop it into the live mod and reload. `Tools/GameView`'s `pair A.png B.png --labels ... --crop
+fx fy fw fh --keep Chisa/2_8/<Name>` is what made the image above out of the two captures.
 
 ## An undo recognises a fix by `<modName>Remap`, not by `Remap` anywhere (2026-09-20)
 

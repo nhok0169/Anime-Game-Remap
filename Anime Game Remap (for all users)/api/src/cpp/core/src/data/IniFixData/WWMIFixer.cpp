@@ -413,6 +413,75 @@ namespace AGRemapCore {
          *
          * 'drawRanges' is each component's (index count, first index) draws, over 'indexPath'.
          */
+        // The remapped blend of a mod whose merged skeleton passes 256 bones: its true ids are
+        // the 16-bit ones in BlendRemapVertexVG, and Blend.buf holds them TRUNCATED. The weights
+        // come from Blend.buf unchanged; VertexVG holds every vertex, not only the remapped
+        // components'.
+        bool remapFromVertexVG(RemapBlendResource& resource, const std::string& vertexVGPath,
+                               const std::string& positionPath) {
+            std::ifstream vgIn(FileService::strToPath(vertexVGPath), std::ios::binary);
+            std::ifstream blendIn(FileService::strToPath(resource.srcPath), std::ios::binary);
+            if (!vgIn.is_open() || !blendIn.is_open()) {
+                return false;
+            }
+
+            std::vector<std::uint8_t> vg((std::istreambuf_iterator<char>(vgIn)), std::istreambuf_iterator<char>());
+            std::vector<std::uint8_t> blend((std::istreambuf_iterator<char>(blendIn)), std::istreambuf_iterator<char>());
+            vgIn.close();
+            blendIn.close();
+
+            // The layout is derived, not assumed -- hardcoding it is what made the legacy lift
+            // silently do nothing on these same mods.
+            std::error_code err;
+            const std::uintmax_t positionSize =
+                std::filesystem::file_size(FileService::strToPath(positionPath), err);
+            if (err || positionSize < 12) {
+                return false;
+            }
+
+            const std::size_t vertices = static_cast<std::size_t>(positionSize / 12);
+            if (vertices == 0 || blend.empty() || blend.size() % vertices != 0) {
+                return false;
+            }
+
+            const std::size_t stride = blend.size() / vertices;      // N ids + N weights, a byte each
+            if (stride < 2 || stride % 2 != 0) {
+                return false;
+            }
+
+            const std::size_t influences = stride / 2;
+            if (vg.size() != vertices * influences * 2) {            // the same ids as uint16
+                return false;
+            }
+
+            const std::unordered_map<long long, long long>& row = resource.vgRemap.getRemap();
+            std::vector<std::uint8_t> out(blend);
+            for (std::size_t vertex = 0; vertex < vertices; ++vertex) {
+                for (std::size_t b = 0; b < influences; ++b) {
+                    const std::size_t at = vertex * stride + b;
+                    if (blend[at + influences] == 0) {
+                        continue;                                     // a weight-zero slot
+                    }
+
+                    std::uint16_t trueId = 0;
+                    std::memcpy(&trueId, vg.data() + (vertex * influences + b) * 2, 2);
+                    const auto target = row.find(static_cast<long long>(trueId));
+                    if (target != row.end()) {
+                        out[at] = static_cast<std::uint8_t>(target->second);
+                    }
+                }
+            }
+
+            std::ofstream fixed(FileService::strToPath(resource.fixedPath), std::ios::binary);
+            if (!fixed.is_open()) {
+                return false;
+            }
+
+            fixed.write(reinterpret_cast<const char*>(out.data()), static_cast<std::streamsize>(out.size()));
+            return true;
+        }
+
+
         bool liftLegacyBlend(RemapBlendResource& resource, const std::string& indexPath,
                              const std::string& positionPath,
                              const std::map<int, std::vector<std::pair<long long, long long>>>& drawRanges,
@@ -1120,6 +1189,28 @@ namespace AGRemapCore {
                         }
                     }
 
+                    // WHERE the 16-bit ids live, off the .ini rather than a sibling filename: a
+                    // mod-manager-packaged mod names every file by GUID with a `.assets` extension,
+                    // so the WWMI export's own name is not beside Blend.buf and the search finds
+                    // nothing -- and the fallback that then runs is a no-op dressed as a fix.
+                    for (const auto& entry : templates) {
+                        if (entry.second == nullptr) {
+                            continue;
+                        }
+
+                        std::string name = StringTools::toLower(entry.first);
+                        name.erase(std::remove(name.begin(), name.end(), '_'), name.end());
+                        if (name.find("blendremapvertexvg") == std::string::npos) {
+                            continue;
+                        }
+
+                        std::optional<std::string> file = ModBranches::firstVal(*entry.second, IniKeywords::Filename);
+                        if (file.has_value()) {
+                            vertexVGFile_ = *file;
+                            break;
+                        }
+                    }
+
                     meshFolder_ = DefaultMeshFolder;
                     auto blend = templates.find(BlendBufferResource);
                     if (blend != templates.end() && blend->second != nullptr) {
@@ -1705,7 +1796,18 @@ namespace AGRemapCore {
                     // collect is addressed by GraphId, whose iniIndex is the group).
                     for (std::size_t g = 0; g < groups_.size(); ++g) {
                         std::function<bool(RemapBlendResource&)> lift;
-                        if (legacy_) {
+                        if (vertexVGFile_.has_value()) {
+                            std::string vgRel = *vertexVGFile_;
+                            std::replace(vgRel.begin(), vgRel.end(), '\\', '/');
+                            const std::string vgPath =
+                                FileService::absPathOfRelPath(vgRel, ctx_.getIniFile()->getFolder());
+                            const std::string posPath = FileService::pathToStr(
+                                FileService::strToPath(FileService::absPathOfRelPath(
+                                    indexFile_, ctx_.getIniFile()->getFolder())).parent_path() / "Position.buf");
+                            lift = [vgPath, posPath](RemapBlendResource& resource) {
+                                return remapFromVertexVG(resource, vgPath, posPath);
+                            };
+                        } else if (legacy_) {
                             const std::string indexPath = FileService::absPathOfRelPath(indexFile_, ctx_.getIniFile()->getFolder());
                             const std::string positionPath = FileService::pathToStr(
                                 FileService::strToPath(indexPath).parent_path() / "Position.buf");
@@ -2580,6 +2682,7 @@ namespace AGRemapCore {
                 std::map<int, std::vector<PartEdit*>> editsOf_;
                 std::unique_ptr<ObjGroupEdit> mainEdits_;
                 std::vector<std::unique_ptr<WWMIBlendReplace>> blendReplaces_;
+                std::optional<std::string> vertexVGFile_;                            // WWMI's 16-bit ids, as the .ini names them
                 std::optional<std::string> texcoordResource_;                        // the cleaned texcoord copy's resource
                 std::optional<std::string> texcoordSection_;                         // ...and its section text
                 std::unordered_map<std::string, std::string> fileOfRole_;            // role -> the file it resolved to

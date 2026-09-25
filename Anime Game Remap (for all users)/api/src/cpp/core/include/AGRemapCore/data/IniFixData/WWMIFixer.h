@@ -588,6 +588,40 @@ namespace AGRemapCore {
          @endrst
          */
         std::vector<TexEdit> texEdits;
+        /**
+         * @brief
+         @rst
+         Bind the remapped sections to a CLEANED copy of the mod's texcoord buffer.
+
+         Two faults live in that buffer and neither is the mod's bug -- both are bytes that are
+         harmless on the source and not on the target:
+
+         * a **NaN** in the second UV. Chisa's fox mask, hairpins and bells are drawn, placed and
+           textured correctly and are INVISIBLE, because the skin's upper-body shader reads that
+           second UV where hers does not. Every other vertex of the mesh carries ~(0, 0) there,
+           which is what a NaN becomes in the copy
+         * a **U outside [0, 1)**, where a mod has UV'd a part into the next tile and relies on the
+           sampler wrapping. Neither character's own model ever leaves [0, 1), so the game never
+           exercises its address mode there and the two passes are free to differ -- one side of a
+           body rendering with its texture detail and the other flat and pale. U and U - 1 select
+           the same texel under wrap, so folding cannot regress a mod that already renders
+
+         A vertex on a triangle whose vertices straddle a tile boundary keeps what it had: folding
+         would widen that triangle's U span from a few hundredths to nearly 1 and interpolate it
+         backwards across the atlas.
+
+         The mod's own buffer and its own sections are untouched. **Default**: ``false``
+         @endrst
+         */
+        bool cleanTexcoords = false;
+        /**
+         * @brief
+         @rst
+         The register the texcoord buffer is bound at, for :cpp:member:`cleanTexcoords`.
+         **Default**: ``"vb2"``
+         @endrst
+         */
+        std::string texcoordReg = "vb2";
 
         /**
          * @brief

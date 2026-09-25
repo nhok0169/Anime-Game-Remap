@@ -561,6 +561,13 @@ namespace AGRemapCore {
             {6, "eyes"},
             {7, "the skin's own, right hip (nothing maps onto it)"},
         };
+        // ---- a remap-only texcoord copy ---------------------------------------------------------
+        // Her fox mask, hairpins and bells are drawn, placed and textured correctly and INVISIBLE,
+        // because their second UV is NaN and the skin's upper-body shader reads it where hers does
+        // not. And a mod may UV a part into the next tile relying on the sampler wrapping, which
+        // the two skins do not agree about. See WWMIFixerConfig::cleanTexcoords.
+        config.cleanTexcoords = true;
+
         // ---- the three texture edits ------------------------------------------------------------
         config.texEdits = {
             {"upperMask", "Repack", [](const WWMIFixerConfig::TexEditContext& ctx) {

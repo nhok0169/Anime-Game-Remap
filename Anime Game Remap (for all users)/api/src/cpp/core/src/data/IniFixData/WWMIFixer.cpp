@@ -94,6 +94,47 @@ namespace AGRemapCore {
         const std::string IndexBufferResource = "ResourceIndexBuffer";
         const std::string Cb4HashKey = "cb4";
         constexpr std::size_t WWMIBlendStride = 8;      // four R8 bone indices then four R8 weights
+
+        // IEEE half <-> float, for the texcoord copy. A WWMI texcoord buffer is halves, and the two
+        // faults it can carry -- a NaN in the second UV, a U outside [0, 1) -- are read and written
+        // in that format rather than converted through the whole buffer.
+        float halfToFloat(std::uint16_t bits) {
+            const int sign = (bits >> 15) & 0x1;
+            const int exponent = (bits >> 10) & 0x1F;
+            const int mantissa = bits & 0x3FF;
+            float value = 0.0f;
+            if (exponent == 0) {
+                value = std::ldexp(static_cast<float>(mantissa), -24);
+            } else if (exponent != 0x1F) {
+                value = std::ldexp(static_cast<float>(mantissa + 1024), exponent - 25);
+            }
+
+            return sign ? -value : value;
+        }
+
+        std::uint16_t floatToHalf(float value) {
+            if (!(value > 0.0f)) {
+                return 0;                        // this is only ever handed a folded U in [0, 1)
+            }
+
+            int exponent = 0;
+            const float scaled = std::frexp(value, &exponent);        // value = scaled * 2^exponent
+            const int biased = exponent + 14;
+            if (biased <= 0) {
+                return 0;
+            }
+
+            if (biased >= 0x1F) {
+                return 0x7BFF;                   // the largest finite half
+            }
+
+            // round-half-to-EVEN, which is what numpy's float16 cast does and so what the
+            // prototype's copy holds. lround rounds half away from zero, and the two differ
+            // on 104 of 1,508,336 halves by one ULP -- harmless in a UV, but a permanent
+            // source of noise in the A/B that would hide a real difference later.
+            const int mantissa = static_cast<int>(std::nearbyint(scaled * 2048.0f)) - 1024;
+            return static_cast<std::uint16_t>((biased << 10) | (mantissa & 0x3FF));
+        }
         const std::string ShapeKeyZero = "ShapeKeyZero";
         const std::string ChecksumNotFound = "ChecksumNotFound";
         const std::string DefaultTextureFolder = "Textures";
@@ -1384,6 +1425,7 @@ namespace AGRemapCore {
                 }
 
                 void buildEdits() {
+                    buildTexcoordCopy();
                     const ModType* source = ctx_.modType();
                     const std::optional<Version> from = fromVersion();
                     const std::optional<Version> to = toVersion();
@@ -1490,6 +1532,10 @@ namespace AGRemapCore {
 
                         if (config_.zeroShapeKeyStream && meshVertexCount_ > 0) {
                             additions.emplace_back(config_.shapeKeyStreamReg, fixName(ResourcePrefix + ShapeKeyZero));
+                        }
+
+                        if (texcoordResource_.has_value()) {
+                            additions.emplace_back(config_.texcoordReg, *texcoordResource_);
                         }
 
                         std::vector<std::string> bindings;
@@ -2130,6 +2176,10 @@ namespace AGRemapCore {
                         ++meshNum;
                     }
 
+                    if (texcoordSection_.has_value()) {
+                        out += *texcoordSection_;
+                    }
+
                     for (const auto& edited : editedResources_) {
                         out += "[" + edited.first + "]\n" + IniKeywords::Filename + " = " + edited.second + "\n\n";
                     }
@@ -2254,6 +2304,159 @@ namespace AGRemapCore {
                     }
                 }
 
+                // A remap-only copy of the mod's texcoord buffer -- see
+                // WWMIFixerConfig::cleanTexcoords for what is wrong with the original and why
+                // neither fault is the mod's bug.
+                void buildTexcoordCopy() {
+                    if (!config_.cleanTexcoords || texcoordResource_.has_value()) {
+                        return;
+                    }
+
+                    IniFile* ini = ctx_.getIniFile();
+                    if (ini == nullptr) {
+                        return;
+                    }
+
+                    // WITHOUT REGARD TO CASE: this mod spells it ResourceTexCoordBuffer, and asking
+                    // for ResourceTexcoordBuffer finds nothing and says nothing.
+                    const IfTemplate<std::string, std::string>* resource = nullptr;
+                    for (const auto& entry : ini->getIfTemplates()) {
+                        if (entry.second != nullptr
+                            && StringTools::equalsIgnoreCase(entry.first, "ResourceTexcoordBuffer")) {
+                            resource = entry.second.get();
+                            break;
+                        }
+                    }
+
+                    if (resource == nullptr) {
+                        return;
+                    }
+
+                    const std::optional<std::string> name = ModBranches::firstVal(*resource, IniKeywords::Filename);
+                    if (!name.has_value()) {
+                        return;
+                    }
+
+                    std::string rel = *name;
+                    std::replace(rel.begin(), rel.end(), '\\', '/');
+                    const std::string path = FileService::absPathOfRelPath(rel, ini->getFolder());
+                    std::ifstream in(FileService::strToPath(path), std::ios::binary);
+                    if (!in.is_open()) {
+                        return;
+                    }
+
+                    std::vector<std::uint8_t> bytes((std::istreambuf_iterator<char>(in)),
+                                                    std::istreambuf_iterator<char>());
+                    in.close();
+                    const std::optional<std::string> strideVal = ModBranches::firstVal(*resource, "stride");
+                    std::size_t stride = 16;
+                    if (strideVal.has_value()) {
+                        try {
+                            stride = static_cast<std::size_t>(std::stoul(StringTools::strip(*strideVal).data()));
+                        } catch (const std::exception&) {
+                            stride = 16;
+                        }
+                    }
+
+                    if (stride < 4 || stride % 2 != 0 || bytes.size() % stride != 0) {
+                        return;
+                    }
+
+                    const std::size_t perVertex = stride / 2;
+                    const std::size_t vertices = bytes.size() / stride;
+                    auto halfAt = [&bytes](std::size_t i) {
+                        std::uint16_t bits = 0;
+                        std::memcpy(&bits, bytes.data() + i * 2, 2);
+                        return bits;
+                    };
+                    auto setHalf = [&bytes](std::size_t i, std::uint16_t bits) {
+                        std::memcpy(bytes.data() + i * 2, &bits, 2);
+                    };
+
+                    std::size_t cleared = 0;
+                    for (std::size_t i = 0; i < bytes.size() / 2; ++i) {
+                        const std::uint16_t bits = halfAt(i);
+                        if (((bits >> 10) & 0x1F) == 0x1F && (bits & 0x3FF) != 0) {
+                            setHalf(i, 0);
+                            ++cleared;
+                        }
+                    }
+
+                    // U outside [0, 1), except on a triangle whose vertices straddle a tile
+                    std::vector<float> u(vertices, 0.0f);
+                    std::vector<bool> needs(vertices, false);
+                    for (std::size_t v = 0; v < vertices; ++v) {
+                        u[v] = halfToFloat(halfAt(v * perVertex));
+                        needs[v] = (u[v] >= 1.0f) || (u[v] < 0.0f);
+                    }
+
+                    std::size_t folded = 0;
+                    if (std::find(needs.begin(), needs.end(), true) != needs.end()) {
+                        std::vector<bool> keep(vertices, false);
+                        const std::string indexPath = FileService::absPathOfRelPath(indexFile_, ini->getFolder());
+                        std::ifstream ib(FileService::strToPath(indexPath), std::ios::binary);
+                        if (ib.is_open()) {
+                            std::vector<std::uint8_t> raw((std::istreambuf_iterator<char>(ib)),
+                                                          std::istreambuf_iterator<char>());
+                            const std::size_t count = raw.size() / 4;
+                            for (std::size_t t = 0; t + 2 < count; t += 3) {
+                                std::uint32_t tri[3] = {0, 0, 0};
+                                std::memcpy(tri, raw.data() + t * 4, 12);
+                                if (tri[0] >= vertices || tri[1] >= vertices || tri[2] >= vertices) {
+                                    continue;
+                                }
+
+                                const float a = std::floor(u[tri[0]]);
+                                const float b = std::floor(u[tri[1]]);
+                                const float c = std::floor(u[tri[2]]);
+                                if (a != b || b != c) {
+                                    keep[tri[0]] = true;
+                                    keep[tri[1]] = true;
+                                    keep[tri[2]] = true;
+                                }
+                            }
+                        }
+
+                        for (std::size_t v = 0; v < vertices; ++v) {
+                            if (needs[v] && !keep[v]) {
+                                float wrapped = std::fmod(u[v], 1.0f);
+                                if (wrapped < 0.0f) {
+                                    wrapped += 1.0f;
+                                }
+
+                                setHalf(v * perVertex, floatToHalf(wrapped));
+                                ++folded;
+                            }
+                        }
+                    }
+
+                    if (cleared == 0 && folded == 0) {
+                        return;
+                    }
+
+                    const std::string fixedRel = meshFolder_ + "/" + toModName_ + IniKeywords::Remap + "Texcoord.buf";
+                    const std::string fixedPath = FileService::absPathOfRelPath(fixedRel, ini->getFolder());
+                    std::error_code err;
+                    std::filesystem::create_directories(FileService::strToPath(fixedPath).parent_path(), err);
+                    std::ofstream out(FileService::strToPath(fixedPath), std::ios::binary);
+                    if (!out.is_open()) {
+                        return;
+                    }
+
+                    out.write(reinterpret_cast<const char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
+                    out.close();
+
+                    const std::optional<std::string> format = ModBranches::firstVal(*resource, "format");
+                    texcoordResource_ = fixName(ResourcePrefix + "TexcoordNoNaN");
+                    texcoordSection_ = "[" + *texcoordResource_ + "]\ntype = Buffer\nformat = "
+                                       + std::string(format.has_value() ? StringTools::strip(*format)
+                                                                        : std::string_view("DXGI_FORMAT_R16G16_FLOAT"))
+                                       + "\nstride = " + std::to_string(stride) + "\n"
+                                       + IniKeywords::Filename + " = " + fixedRel + "\n\n";
+                    ctx_.log("texcoords: " + std::to_string(cleared) + " NaN halves set to 0 and "
+                             + std::to_string(folded) + " U values folded into [0, 1) in a remap-only copy");
+                }
+
                 void addCreatedTextures() {
                     IniFile* ini = ctx_.getIniFile();
                     for (const WWMIFixerConfig::CreatedTexture& created : config_.createdTextures) {
@@ -2362,6 +2565,8 @@ namespace AGRemapCore {
                 std::map<int, std::vector<PartEdit*>> editsOf_;
                 std::unique_ptr<ObjGroupEdit> mainEdits_;
                 std::vector<std::unique_ptr<WWMIBlendReplace>> blendReplaces_;
+                std::optional<std::string> texcoordResource_;                        // the cleaned texcoord copy's resource
+                std::optional<std::string> texcoordSection_;                         // ...and its section text
                 std::unordered_map<std::string, std::string> fileOfRole_;            // role -> the file it resolved to
                 std::vector<std::pair<std::string, std::string>> editedResources_;   // (resource, path relative to the .ini)
                 std::vector<std::unique_ptr<Collector>> blendCollects_;

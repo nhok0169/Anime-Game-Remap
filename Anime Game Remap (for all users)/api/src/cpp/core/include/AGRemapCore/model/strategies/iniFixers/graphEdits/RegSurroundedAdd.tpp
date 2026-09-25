@@ -204,6 +204,26 @@ namespace AGRemapCore {
         }
 
         OrderRanges localRange = getSatisfiedRange(localColouring, KeySet{reg}, filters, false);
+
+        // THE POSITION IMMEDIATELY AFTER AN ACCEPTED DEFINITION IS VALID EVEN WHEN IT IS ITSELF A
+        // DEFINITION. getSatisfiedRange is asked with includeKeyDefs = false, which drops every
+        // index where the register is (re)defined -- right for the accepted definition's own index,
+        // since the addition must land after it, and wrong for the index of the definition that
+        // CLOSES the window, where inserting means "before the rebind". With the two adjacent the
+        // window came out [d + 1, d + 1), and the edit placed nothing at all.
+        //
+        // The condition a beforeRegs entry expresses is "the most recent definition before here was
+        // accepted", and for d + 1 that definition is d, so this cannot widen the range wrongly.
+        {
+            auto pred = filters.find(reg);
+            for (const auto& indVal : part.getValsWithInds(reg)) {
+                if (pred == filters.end() || pred->second(indVal.first, indVal.second)) {
+                    localRange = localRange.unionWith(
+                        {OrderRanges({{indVal.first + 1, indVal.first + 2}}, true)});
+                }
+            }
+        }
+
         if (getFact(beforeEntryFacts, reg, false)) {
             std::optional<long long> firstInd;
             for (const auto& indVal : part.getValsWithInds(reg)) {

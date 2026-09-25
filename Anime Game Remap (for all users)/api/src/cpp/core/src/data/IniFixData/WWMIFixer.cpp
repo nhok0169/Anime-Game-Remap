@@ -1751,6 +1751,18 @@ namespace AGRemapCore {
 
                 // The resource a component binds for a role: its own choice (readTextures), else what
                 // every component shares -- a created texture, or a download of the source's own
+                // A shared mesh has no component, so take whichever present component owns the art
+                const std::string* sharedResourceFor(const std::string& role) const {
+                    for (const auto& entry : present_) {
+                        const std::string* resource = resourceFor(role, entry.first);
+                        if (resource != nullptr) {
+                            return resource;
+                        }
+                    }
+
+                    return nullptr;
+                }
+
                 const std::string* resourceFor(const std::string& role, int component) const {
                     auto slotRole = resourceOfSlotRole_.find({role, component});
                     if (slotRole != resourceOfSlotRole_.end()) {
@@ -1840,6 +1852,18 @@ namespace AGRemapCore {
                         // filter_index has nothing to match on, so its command list never fires and
                         // that slot draws with the game's textures on that pass
                         std::vector<std::vector<std::string>> allPasses = config_.slotPasses;
+                        for (const auto& [mesh, byPass] : config_.sharedMeshes) {
+                            (void)mesh;
+                            std::vector<std::string> names;
+                            names.reserve(byPass.size());
+                            for (const auto& [pass, regs] : byPass) {
+                                (void)regs;
+                                names.push_back(pass);
+                            }
+
+                            allPasses.push_back(std::move(names));
+                        }
+
                         for (const auto& [slot, byPass] : config_.extraPassRegs) {
                             (void)slot;
                             std::vector<std::string> names;
@@ -1979,6 +2003,33 @@ namespace AGRemapCore {
                         out += "[" + fixName("ShaderOverridePass" + std::to_string(i)) + "]\n" + IniKeywords::Hash + " = " + pass
                                + "\nfilter_index = " + passFilters_[pass] + "\n\n";
                         ++i;
+                    }
+
+                    // Other meshes the character draws -- see WWMIFixerConfig::sharedMeshes
+                    std::size_t meshNum = 0;
+                    for (const auto& [meshHash, byPass] : config_.sharedMeshes) {
+                        std::string body;
+                        for (const auto& [pass, bindings] : byPass) {
+                            std::string lines;
+                            for (const WWMIFixerConfig::Binding& binding : bindings) {
+                                const std::string* resource = sharedResourceFor(binding.role);
+                                if (resource != nullptr) {
+                                    lines += "    " + binding.reg + " = " + *resource + "\n";
+                                }
+                            }
+
+                            if (!lines.empty()) {
+                                body += "if " + passCondition(pass) + "\n" + lines + "endif\n";
+                            }
+                        }
+
+                        if (!body.empty()) {
+                            out += "[" + fixName("TextureOverride" + source_.name + "SharedMesh"
+                                                 + std::to_string(meshNum)) + "]\n"
+                                   + IniKeywords::Hash + " = " + meshHash + "\n" + body + "\n";
+                        }
+
+                        ++meshNum;
                     }
 
                     for (const WWMIFixerConfig::CreatedTexture& created : config_.createdTextures) {

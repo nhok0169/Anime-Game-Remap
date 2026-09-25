@@ -482,6 +482,31 @@ namespace AGRemapCore {
          @endrst
          */
         std::map<int, std::map<std::string, std::string>> sourceRegisterRoles;
+        /**
+         * @brief
+         @rst
+         Other meshes the character draws, by their own ``vb0`` hash --
+         ``{mesh hash: {pass: bindings}}``.
+
+         A character is not only her ``vb0`` mesh. Chisa and ChisaParfait both draw ``b00403dc``,
+         the same hash on both and so the same geometry, and the game textures it PER CHARACTER:
+         Chisa's draws bind her hair diffuse, the skin's bind her own. It is her hair ribbon.
+
+         Nothing else the fix writes reaches it -- the remapped sections match the MAIN mesh's
+         ``vb0`` hash, and a mod's ``[TextureOverrideTexture]`` overrides by the hash the GAME binds,
+         which on the skin is never the source's. So such a mesh keeps the target's art however much
+         texture work is done elsewhere, and a flat-colour paint reaching no slot is what finds it.
+
+         The geometry is shared, so there is nothing to remap: only the textures to rebind, on the
+         passes where the two characters differ.
+
+         .. warning::
+             The section matches the hash with NO index window, so it applies wherever that mesh is
+             drawn. It is assumed to be this character's own accessory, shared between her skins --
+             if another character draws it too, this repaints theirs as well
+         @endrst
+         */
+        std::map<std::string, std::map<std::string, std::vector<Binding>>> sharedMeshes;
 
         /**
          * @brief

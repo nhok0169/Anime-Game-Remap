@@ -1513,6 +1513,24 @@ namespace AGRemapCore {
                         }
                     }
 
+                    // ONE ENTRY PER FILE. A file is routinely found for a role more than one way
+                    // -- by its hash AND by the register its own section binds it at -- and two
+                    // entries naming one path rank identically, which made the "two textures are
+                    // equally good answers" warning below fire with the SAME file on both sides of
+                    // it. Keep the first way it was decided, which is the more specific one.
+                    for (auto& entry : byRole) {
+                        std::vector<std::pair<std::string, std::string>> unique;
+                        for (const auto& candidate : entry.second) {
+                            const bool seen = std::any_of(unique.begin(), unique.end(),
+                                                          [&](const auto& kept) { return kept.first == candidate.first; });
+                            if (!seen) {
+                                unique.push_back(candidate);
+                            }
+                        }
+
+                        entry.second = std::move(unique);
+                    }
+
                     // How well a file serves ONE source component: first how specifically its
                     // WWMI-Tools `Components-<a>-<b>... t=<hash>.dds` name is tagged for that component,
                     // then whether this .ini already has a resource for it, then its distance.
@@ -1544,7 +1562,10 @@ namespace AGRemapCore {
                         return std::make_tuple(specificity, resourceOfFile.count(file) > 0 ? 0 : 1, ups, rel.size(), rel);
                     };
 
-                    // The choice is per (role, source component), not per role
+                    // The choice is per (role, source component), not per role -- but an ambiguity
+                    // BETWEEN TWO FILES is a property of the files, so it is reported once however
+                    // many components are offered the role.
+                    std::set<std::string> saidAmbiguous;
                     auto assign = [&](const std::string& role, int component) {
                         {
                             auto found = byRole.find(role);
@@ -1561,7 +1582,8 @@ namespace AGRemapCore {
                                 const auto first = rank(best, component);
                                 const auto second = rank(candidates[1].first, component);
                                 if (std::get<0>(first) == std::get<0>(second) && std::get<1>(first) == std::get<1>(second)
-                                    && std::get<2>(first) == std::get<2>(second)) {
+                                    && std::get<2>(first) == std::get<2>(second)
+                                    && saidAmbiguous.insert(role + "\n" + best + "\n" + candidates[1].first).second) {
                                     // Two shipped textures equally close on one role: the first is bound
                                     // and only a measurement can say which is right -- say so loudly.
                                     ctx_.log("WARNING: " + FileService::getRelPath(index_->real(candidates[1].first), index_->root())
@@ -2090,12 +2112,23 @@ namespace AGRemapCore {
                         }
 
                         std::vector<std::string> missing;
+                        std::string names;
                         for (const auto& addition : expectation->second.additions) {
                             if (held.count(addition.first + " = " + addition.second) == 0) {
                                 missing.push_back(indentOf(lines[anchorAt]) + addition.first + " = " + addition.second);
-                                note("a graph edit could not place `" + addition.first + " = " + addition.second
-                                         + "` in " + sectionKey + " (its `if` blocks do not balance); added after the shared-resource override");
+                                names += (names.empty() ? "" : ", ") + addition.second;
                             }
+                        }
+
+                        // One line per SECTION, and it does not name a cause. It used to say the
+                        // section's `if` blocks do not balance, which is true of the mod that
+                        // motivated this check and false of others -- Chisa1's component 5 balances
+                        // exactly and still lands here. All the verifier knows is that the graph edit
+                        // did not reach the line and that this put it where it belongs.
+                        if (!missing.empty()) {
+                            note("a graph edit did not place " + std::to_string(missing.size())
+                                 + (missing.size() == 1 ? " line (" : " lines (") + names + ") in "
+                                 + sectionKey + "; added after the shared-resource override");
                         }
 
                         if (!missing.empty()) {
@@ -2140,8 +2173,9 @@ namespace AGRemapCore {
                         for (const auto& value : expectation->second.values) {
                             if (kvp.first == value.first && kvp.second != value.second) {
                                 lines[k] = indentOf(lines[k]) + kvp.first + " = " + value.second;
-                                note("a graph edit could not rewrite `" + kvp.first + "` in " + sectionKey
-                                         + " (its `if` blocks do not balance): " + kvp.second + " -> " + value.second);
+                                // no cause named, for the same reason as the placement note above
+                                note("a graph edit did not rewrite `" + kvp.first + "` in " + sectionKey
+                                         + "; corrected " + kvp.second + " -> " + value.second);
                             }
                         }
                     }

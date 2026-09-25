@@ -965,8 +965,18 @@ def _modMeshNear(path: str, component: int):
                 continue
 
             m = re.search(rf"\[TextureOverrideComponent{component}\]([^\[]*)", ini)
+            # PER LINE, and a `;` line is not drawn. Unanchored, this matched the mod's commented-out
+            # draws too: Chisa13's component 5 went from its one live draw (276 indices) to five
+            # (15951), and the ribbon's grade island from 9349 texels to 165973. In game it changed
+            # nothing -- WWMI names a texture for the components that use it, so no other component
+            # samples this atlas, and the extra texels are dead -- but the compiled fixer reads the
+            # ranges through the real parser, where comments are already gone, and a difference that
+            # costs nothing to remove should not be left for the next A/B to re-derive.
             ranges = [] if (not m) else [(int(c), int(s)) for c, s in
-                                         re.findall(r"drawindexed\s*=\s*(\d+)\s*,\s*(\d+)\s*,", m.group(1))]
+                                         (dm.groups() for line in m.group(1).splitlines()
+                                          if (not line.strip().startswith(";"))
+                                          for dm in [re.search(r"drawindexed\s*=\s*(\d+)\s*,\s*(\d+)\s*,", line)]
+                                          if (dm is not None))]
             if (not ranges):
                 continue
 

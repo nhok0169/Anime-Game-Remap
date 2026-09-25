@@ -906,7 +906,62 @@ def _rasterise(uv, triangles, width: int, height: int) -> np.ndarray:
     return mask
 
 
-def islandMask(component: int, minZ: float, width: int, height: int) -> Optional[np.ndarray]:
+def _modMeshNear(path: str, component: int):
+    """(positions, uvs, indices, draw ranges) for 'component' of the mod that owns 'path', or None.
+
+    Walks up from the texture's folder looking for a mod root -- one holding the mesh triple, at the
+    root or under Meshes/ -- and reads the component's draw ranges out of that mod's own .ini. The
+    search is bounded and stops at the first root found, so a run pointed at a folder of many mods
+    cannot pick up a neighbour's mesh.
+    """
+    folder = os.path.dirname(os.path.abspath(path))
+    for _ in range(5):
+        for meshDir in (folder, os.path.join(folder, "Meshes")):
+            pos = os.path.join(meshDir, "Position.buf")
+            idx = os.path.join(meshDir, "Index.buf")
+            tc = next((os.path.join(meshDir, n) for n in ("TexCoord.buf", "Texcoord.buf")
+                       if (os.path.isfile(os.path.join(meshDir, n)))), None)
+            if (not (os.path.isfile(pos) and os.path.isfile(idx) and tc)):
+                continue
+
+            ini = None
+            for root, _dirs, files in os.walk(folder):
+                for f in sorted(files):
+                    if (f.lower().endswith(".ini") and not f.upper().startswith("DISABLED")):
+                        body = open(os.path.join(root, f), encoding = "utf-8", errors = "replace").read()
+                        if (f"[TextureOverrideComponent{component}]" in body):
+                            ini = body
+                            break
+                if (ini is not None):
+                    break
+            if (ini is None):
+                continue
+
+            m = re.search(rf"\[TextureOverrideComponent{component}\]([^\[]*)", ini)
+            ranges = [] if (not m) else [(int(c), int(s)) for c, s in
+                                         re.findall(r"drawindexed\s*=\s*(\d+)\s*,\s*(\d+)\s*,", m.group(1))]
+            if (not ranges):
+                continue
+
+            P = np.fromfile(pos, dtype = np.uint8).view(np.float32).reshape(-1, 3)
+            I = np.fromfile(idx, dtype = np.uint32).astype(np.int64)
+            blob = np.fromfile(tc, dtype = np.uint8)
+            if (not P.shape[0] or blob.size % P.shape[0]):
+                continue
+            uv = blob.reshape(P.shape[0], blob.size // P.shape[0])[:, 0:4].copy().view(np.float16).astype(np.float64)
+            if (float(uv[:, 0].max() - uv[:, 0].min()) < 0.05):
+                continue
+            return P, uv, I, ranges
+
+        parent = os.path.dirname(folder)
+        if (parent == folder):
+            break
+        folder = parent
+    return None
+
+
+def islandMask(component: int, minZ: float, width: int, height: int,
+               near: Optional[str] = None) -> Tuple[Optional[np.ndarray], str]:
     """The atlas texels covered by 'component's triangles at or above 'minZ' -- see ColourGradeIslands.
 
     Built from the SOURCE's own geometry in AssetsFolder, so it needs no new asset. Returns None when
@@ -918,18 +973,59 @@ def islandMask(component: int, minZ: float, width: int, height: int) -> Optional
     collapses the component into u 0.000..0.008. A range check cannot tell the two apart; the spread
     can, so it is asserted.
     """
-    key = (component, minZ, width, height)
+    mine = _modMeshNear(near, component) if (near) else None
+    key = (component, minZ, width, height, os.path.dirname(near or ""), mine is not None)
     if (key in _islandMasks):
         return _islandMasks[key]
 
-    _islandMasks[key] = None
+    _islandMasks[key] = (None, "nothing")
+    if (mine is not None):
+        P, uv, idx, ranges = mine
+        tris = np.concatenate([idx[s:s + c] for c, s in ranges]).reshape(-1, 3)
+        tris = tris[(tris < P.shape[0]).all(axis = 1)]
+        # BY CENTROID, not by all-three-vertices: a mod's mesh is not Chisa's, and refusing any mesh
+        #   with a triangle across the boundary sent the two mods that most need their own island
+        #   (Chisa10, Chisa18) back to the mask that leaks onto their sash. A centroid cannot
+        #   straddle, so every mesh gets an exact island and the edge is off by at most one triangle,
+        #   which the gutter dilation below already covers.
+        ribbon = P[tris, 2].mean(axis = 1) >= minZ
+        mask = _rasterise(uv, tris[ribbon], width, height)
+        other = _rasterise(uv, tris[~ribbon], width, height)
+
+        # DO THE TWO HALVES ACTUALLY SEPARATE ON THE ATLAS? The split assumes this component is the
+        #   ribbon plus its sash -- two clusters with an empty band between them, as Chisa's own has.
+        #   A mod may put something else here: Chisa10's component 5 is an 81-vertex prop spanning
+        #   z 118.8..127.6, astride the split with no structure either side, and its two halves share
+        #   atlas texels. No mask separates those, so grade nothing rather than stain the part.
+        shared = int((mask & other).sum())
+        if (shared > 0.02 * max(int(mask.sum()), 1)):
+            print(f"    !! WARNING: this mod's component {component} does not separate at z={minZ} "
+                  f"({shared} texels claimed by both halves); the grade is SKIPPED for it rather "
+                  f"than risk tinting the wrong part")
+            _islandMasks[key] = (None, "nothing -- the component does not separate")
+            return _islandMasks[key]
+
+        # A texel BOTH halves map to belongs exclusively to neither, and the sash must not be
+        #   tinted -- so it is dropped rather than tolerated. Without this the separability guard's
+        #   2% slack is 4,349 graded sash texels on the identity mod and 12,456 on Chisa6.
+        mask &= ~other
+        free = ~(mask | other)
+        for _ in range(2):
+            grown = mask.copy()
+            grown[1:, :] |= mask[:-1, :]
+            grown[:-1, :] |= mask[1:, :]
+            grown[:, 1:] |= mask[:, :-1]
+            grown[:, :-1] |= mask[:, 1:]
+            mask = mask | (grown & free)
+        _islandMasks[key] = (mask, "this mod's own mesh")
+        return _islandMasks[key]
     need = {n: os.path.join(AssetsFolder, f"{SourceName}{n}")
             for n in ("Metadata.json", "Position.buf", "Texcoord.buf", "Index.buf")}
     missing = [os.path.basename(f) for f in need.values() if (not os.path.isfile(f))]
     if (missing):
         print(f"    !! WARNING: cannot build the grade's island mask -- {AssetsFolder} is missing "
               f"{', '.join(missing)}. Grading nothing rather than the whole atlas.")
-        return None
+        return _islandMasks[key]
 
     meta = json.load(open(need["Metadata.json"], encoding = "utf-8"))
     nVerts = sum(int(c["vertex_count"]) for c in meta["components"])
@@ -940,12 +1036,12 @@ def islandMask(component: int, minZ: float, width: int, height: int) -> Optional
     if (blob.size % nVerts):
         print(f"    !! WARNING: texcoord buffer {blob.size} does not divide by {nVerts} vertices; "
               f"grading nothing")
-        return None
+        return _islandMasks[key]
     uv = blob.reshape(nVerts, blob.size // nVerts)[:, 0:4].copy().view(np.float16).astype(np.float64)
     if (float(uv[:, 0].max() - uv[:, 0].min()) < 0.05):
         print(f"    !! WARNING: the texcoord layout is not float16 here (u spread "
               f"{float(uv[:, 0].max() - uv[:, 0].min()):.4f}); grading nothing")
-        return None
+        return _islandMasks[key]
 
     pos = np.fromfile(need["Position.buf"], dtype = np.uint8).view(np.float32).reshape(-1, 3)
     idx = np.fromfile(need["Index.buf"], dtype = np.uint32).astype(np.int64)
@@ -957,10 +1053,11 @@ def islandMask(component: int, minZ: float, width: int, height: int) -> Optional
     if (straddling):
         print(f"    !! WARNING: {straddling} of component {component}'s triangles straddle z={minZ}, "
               f"so the two islands are not cleanly separable; grading nothing")
-        return None
+        return _islandMasks[key]
 
     mask = _rasterise(uv, tris[lab.all(axis = 1)], width, height)
     other = _rasterise(uv, tris[~lab.any(axis = 1)], width, height)
+    mask &= ~other                      # contested texels belong to neither half; see the mod branch
     # grow into the gutter ONLY -- the two islands are adjacent, and growing into the other one
     #   reintroduces exactly the bug this restricts
     free = ~(mask | other)
@@ -972,8 +1069,8 @@ def islandMask(component: int, minZ: float, width: int, height: int) -> Optional
         grown[:, :-1] |= mask[:, 1:]
         mask = mask | (grown & free)
 
-    _islandMasks[key] = mask
-    return mask
+    _islandMasks[key] = (mask, f"{SourceName}'s own geometry")
+    return _islandMasks[key]
 
 
 def gradeFilter(gain, label: str, island: Optional[Tuple[int, float]] = None):
@@ -987,9 +1084,10 @@ def gradeFilter(gain, label: str, island: Optional[Tuple[int, float]] = None):
     def edit(texFile) -> None:
         px = pixelsOf(texFile)
         height, width = px.shape[0], px.shape[1]
-        where = None
+        where, basis = None, "the whole atlas"
         if (island is not None):
-            where = islandMask(island[0], island[1], width, height)
+            where, basis = islandMask(island[0], island[1], width, height,
+                                      getattr(texFile, "src", None))
             if (where is None):
                 return
         sel = where if (where is not None) else np.ones((height, width), dtype = bool)
@@ -1004,8 +1102,8 @@ def gradeFilter(gain, label: str, island: Optional[Tuple[int, float]] = None):
         setPixels(texFile, out)
         was = tuple(int(v) for v in np.median(px[sel][:, :3], axis = 0))
         now = tuple(int(v) for v in np.median(out[sel][:, :3], axis = 0))
-        scope = (f"{100.0 * float(sel.mean()):.1f}% of the atlas (component {island[0]} above z={island[1]})"
-                 if (island is not None) else "the whole atlas")
+        scope = (f"{100.0 * float(sel.mean()):.1f}% of the atlas (component {island[0]} above "
+                 f"z={island[1]}, island from {basis})" if (island is not None) else "the whole atlas")
         print(f"    {label}: graded by {gain} for {TargetName}'s shader over {scope}, "
               f"median {was} -> {now}")
     return edit

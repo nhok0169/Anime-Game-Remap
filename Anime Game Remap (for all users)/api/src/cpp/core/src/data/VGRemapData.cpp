@@ -1225,19 +1225,27 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         // chain / vertices / nearest answers disagreed reviewed for the KIND of part on both models
         // (32 overrides, 'Reviewed:' in the draft's Comments -- hair that had landed on the coat, coat on
         // hair, bangs on the eye bones, coat sleeves on finger bones, coat-tail tips on the calf).
-        // His long coat tails (groups 32-47, waist to hem) go WHOLE into the Coat, down its back panel by
-        // height (Coat:7 -> 9 -> 24 on the left, 8 -> 10 -> 25 on the right): the draft split each chain
-        // between the main mesh's back pieces and the Coat's tail ends, a vertex weighted to both was drawn
-        // by both components through different bones, and Neuvillette3's long coat came out with a
-        // SAWTOOTHED hem (in game, 2026-09-24; smooth with the whole chain in the Coat).
+        // ONE OUTFIT, ONE COMPONENT: his coat groups (0, 1 and the tail chains 32-47) go to the MAIN mesh, and the Coat
+        // row is EMPTY, so the Coat draws nothing and the template hides it. The main mesh and the Coat share no bone
+        // (checked in the skin's frame dump), and a mod's outfit is one connected garment -- welded pieces and shell/lining
+        // layers link every coat, cape and tail to the body -- so ANY cut between the two components tears somewhere:
+        // Neuvillette3, 4 and 5's capes ripped open in game (2026-09-25) under every split tried (tails whole in the Coat;
+        // a Coat claim share; an overlap band; whole connected pieces, which then pulled a coat's lining through its shell).
+        // With the whole outfit on the main mesh there is no seam at all. The cost is the swing: the main mesh has no long
+        // coat bones, so his upper links take its back-skirt bones (85-88, 73) and his lower links its knees (23 / 43) and
+        // shins (6 / 26) -- a hem moves with the legs like a long skirt. The maintainer grades geometry faults above texture
+        // ones, and a hole is the worst geometry fault; 0 / 1 (back pieces) ride the spine rather than the nearest bone (60,
+        // behind the upper back), which may be a loose piece.
         // The union of the rows covers each of Neuvillette's 116 groups exactly once. Confirmed in game on
         // seven forward mods (2026-09-25).
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Neuvillette), "",
           "6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent), ""},
          VGRemap({
-            {2, 25}, {3, 75}, {4, 77}, {5, 77}, {6, 79}, {7, 75}, {8, 78}, {9, 78}, {10, 78}, {11, 80},
+            {0, 0}, {1, 0}, {2, 25}, {3, 75}, {4, 77}, {5, 77}, {6, 79}, {7, 75}, {8, 78}, {9, 78}, {10, 78}, {11, 80},
             {12, 27}, {15, 59}, {16, 60}, {17, 61}, {18, 62}, {19, 69}, {20, 68}, {21, 64}, {22, 66}, {23, 68},
-            {24, 65}, {25, 67}, {26, 69}, {28, 5}, {31, 0}, {48, 70}, {49, 81}, {50, 83}, {51, 83}, {52, 71},
+            {24, 65}, {25, 67}, {26, 69}, {28, 5}, {31, 0},
+            {32, 85}, {33, 23}, {34, 23}, {35, 73}, {36, 87}, {37, 23}, {38, 6}, {39, 6}, {40, 86}, {41, 43}, {42, 43}, {43, 86}, {44, 88}, {45, 43}, {46, 26}, {47, 26},
+            {48, 70}, {49, 81}, {50, 83}, {51, 83}, {52, 71},
             {53, 82}, {54, 84}, {55, 84}, {56, 2}, {57, 2}, {58, 53}, {59, 4}, {60, 4}, {61, 54}, {62, 1},
             {63, 2}, {64, 1}, {65, 3}, {66, 4}, {67, 3}, {68, 5}, {69, 6}, {70, 7}, {71, 8}, {72, 9},
             {73, 10}, {74, 11}, {75, 12}, {76, 13}, {77, 14}, {78, 15}, {79, 16}, {80, 17}, {81, 18}, {82, 19},
@@ -1249,10 +1257,7 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
 
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Neuvillette), "",
           "6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent), "Coat"},
-         VGRemap({
-            {0, 3}, {1, 4}, {32, 7}, {33, 9}, {34, 24}, {35, 7}, {36, 9}, {37, 24}, {38, 24}, {39, 24},
-            {40, 8}, {41, 10}, {42, 25}, {43, 8}, {44, 10}, {45, 25}, {46, 25}, {47, 25}
-         })},
+         VGRemap({})},
 
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Neuvillette), "",
           "6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent), "Bang"},

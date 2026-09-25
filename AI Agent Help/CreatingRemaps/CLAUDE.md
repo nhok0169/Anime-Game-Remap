@@ -82,7 +82,7 @@ surprises you.
 | **the remapped mod is a DIFFERENT COLOUR from the same mod on its own character** (CharlotteHurlock5: turquoise on the skin, red on Charlotte) | Usually NOT a fix bug ([Overview](../Overview/CLAUDE.md)'s habit 80). Open the mod's own diffuse (Pillow reads the `.dds`) and run `reload --mod` on it. If the texture already has the "wrong" colour and the SOURCE's own sections show `Unrecognised entry: resource\gimi\...` / `run = commandlist\gimi\settextures`, the maintainer's old-loader GIMI never binds the mod's textures on its own character. The fix normalises those lines into `ps-t` bindings, so the remap is the first place the author's real colours show. The maintainer's call (2026-09-24): not our problem |
 | **one variant of a merged master shatters** on a COMPONENT remap (the others fine) | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 4: a `.ini` group whose object keeps nothing in a state still bound the SOURCE's raw buffers there. List every generated file's per-`$swapvar` `vb0` / `vb1` / `ib` bindings and the vertex counts behind them before touching code |
 | the mod's **mesh file binds no textures** and a SEPARATE `.ini` recolours the skin by texture hash | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 7: the mesh file imports its siblings' `this =` overrides, the recolour file defers to it |
-| a cape or coat **torn / ripped open along a line**, dark lining showing through, on a multi-component skin | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 11: one surface cut between two components whose bones differ. Hide one component's draw to see the seam; `overlapRings` (1) + `standIns`, not a moved seam |
+| a cape or coat **torn / ripped open along a line**, dark lining showing through, on a multi-component skin | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 11: one garment cut between two components whose bones differ. Hide one component's draw to see the seam; count the cut pieces with the split from Python; the fix that held is the whole outfit on ONE component (move the groups in `VGRemapData`), not a moved or covered seam |
 | the eyes **look down / up** on the target but not on the source, on ONE mod | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 10's second half: the mod hides the game's face (`handling = skip` on the face diffuse hash) and brings its own, so the eye offset must not apply -- `Component::offsetOnlyWithGameFace` |
 | **white eyes with no pupils** (or eyes gone) on the target, the eye textures and UVs right | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 10: the eyes sit in the GAME's face mesh and the source's bind pose puts them behind the lids. Difference the target's own Eye `Position.buf` against the fix's output for the identity mod, vertex for vertex, and set `Component::positionOffset` |
 | a **mantle / cape sleeve, a cuff or a loose panel** sticks out or hangs wrong on the target when an arm moves | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 8: find the target's REAL forearm by which bone shares vertices with the hand chain, and audit the rows for left / right asymmetry |
@@ -1614,33 +1614,34 @@ merge-direction mods moved nothing but Bennett5 (point 3).
    head-bone space's up axis is its `x` here, not `y`; and an outfit-preview idle animation turns the head and
    blinks, so compare several frames against the character's own outfit, never one.
 
-11. **Kaiba's cape (Neuvillette5) tore open across the back** -- jagged holes at shoulder-blade and waist height, the
-   cape's dark lining showing through. A cape is ONE sheet, and this one is weighted to his spine AND his coat chains
-   from the shoulder blades down, so the split cut it between the main mesh and the Coat (every triangle whole on one
-   side -- the cut is between triangles, through SHARED vertices). A cut component keeps only its own bones and
-   renormalises: at the seam each side lost about half its weight (45% main, 55% Coat), the two copies of every seam
-   point followed different bones, and the edge opened as soon as the skin posed. **Hide one component's draw to see a
-   seam**: commenting out the Coat's `drawindexed` took the cape away from the shoulder blades down and left the jagged
-   edge exactly where the rips were. **No two components share a bone** -- matched every matrix of the two skinning
-   passes' palettes (`vs-t0` of the stream-out draws) and none is within reach -- so no seam through blended cloth can
-   close, only move and narrow. What was tried, in game, in order:
-   * nearest-bone stand-ins alone (`VGComponentSpec::secondary`, now honoured on a cut): the waist band mostly closed,
-     the shoulder-blade band did not -- the Coat has no spine, its centre back is a hanging chain 10-20 cm off the body;
-   * a Coat claim share of 0.9 (`VGComponentSpec::claimShare`, the seam moved to cleanly weighted cloth): the shoulder
-     band closed, a hip band opened, and **Neuvillette3's coat edge zigzagged** -- reverted;
-   * an OVERLAP band (`VGComponentSpec::overlapRings`): the main mesh also draws the Coat's triangles within N rings of
-     its own, skinned with the stand-ins, so a gap narrower than the band is covered. Three rings left Kaiba's back
-     almost clean and closed Neuvillette3's (pre-existing) waist tear, but on a coat tail that SWINGS the main mesh's
-     copy lagged the Coat's and poked out (a spike through the tail, a flap under the hem); six drew dark lines low on
-     the cape. **One ring** is what shipped: nearly all of the cover, the smallest side effect. Measure with the
-     library's own split from Python (`VGComponentSplit` on the mod's buffers) before an in-game round: the weight a
-     seam drops, per side, and `stats.overlapTriangles`.
-   All three options default off (every other character byte-identical). And a warning from the checking: **a frame
-   taken right after `mods only` + reload can show a HALF-LOADED mod** -- Neuvillette4 came up as a jacket and a head
-   once, read as "the overlap removed his legs", and cost a bisect and two frame dumps before it would not reproduce
-   (both variants whole, twice). Wait after a reload, and re-take a frame before believing a missing part. A merged
-   mod's variant key (`h` here, `$swapvar` is `persist`) is worth cycling too; in the outfit PREVIEW only -- on the
-   shop grid it does nothing.
+11. **Capes and coat tails tore open on the skin (Neuvillette3, 4 and 5), and the fix is to cut NOTHING.** Kaiba's cape
+   showed jagged holes at shoulder-blade and waist height with its dark lining through them. The split had cut one
+   surface between the main mesh and the Coat: a cut component keeps only its own bones, so each side of the seam lost
+   about half its weight (45% / 55%) and the two copies of every seam point followed different bones. **No two
+   components share a bone** (every matrix of the two skinning passes' `vs-t0` palettes compared), so a seam through
+   blended cloth cannot close. **Hide one component's draw to see a seam**: commenting out the Coat's `drawindexed`
+   removed the cape from the shoulder blades down and left the jagged edge exactly where the rips were.
+   What was tried in game, in order, and why each fell short -- keep this list, it is the expensive part:
+   * nearest-bone stand-ins (`VGComponentSpec::secondary`, honoured on a cut since `fea074b1`): the waist band closed,
+     the shoulder band did not -- the Coat has no spine, its centre back is a chain hanging 10-20 cm off the body;
+   * a Coat claim share of 0.9 (`claimShare`): the shoulder band closed, a hip band opened, and Neuvillette3's coat
+     edge ZIGZAGGED;
+   * an overlap band (`overlapRings`, 1 and 3 rings): most gaps covered, but the main mesh's copy of a SWINGING tail
+     poked out (spikes, a flap under the hem), and specks stayed -- shipped in `fea074b1` and reported still ripped;
+   * whole connected pieces to one side: no seam inside a piece, but a coat's shell and its LINING are separate pieces
+     millimetres apart, and when they went to different sides the lining came through the shell as a flat navy panel.
+     Grouping welded and layered pieces fixes that -- and links almost the whole outfit into one group, 92-98% main
+     mesh on every mod: **a mod's outfit is one garment**.
+   **So the whole outfit goes to the main mesh**: his coat groups (0, 1, 32-47) are in the main mesh's `VGRemapData`
+   row and the Coat's row is EMPTY; the template hides a component that draws nothing, so the skin's own mantle stays
+   hidden. The cost is swing: the main mesh has no long coat bones, so the upper links ride its back-skirt bones and the
+   lower ones its knees and shins, and a hem moves with the legs like a long skirt. The maintainer grades geometry
+   faults above texture ones and a hole as the worst of them; all ten mods were checked whole front and back in game.
+   **Measure before an in-game round**: run the library's own split from Python (`VGComponentSplit` on the mod's
+   buffers) and count, per mod, the connected pieces cut between two components and the weight a seam drops. And a
+   warning from the checking: a frame taken right after `mods only` + reload can show a HALF-LOADED mod (Neuvillette4
+   once came up as a jacket and a head) -- wait, re-take, and cycle a merged mod's variant key (`h` here) in the
+   outfit PREVIEW only; on the shop grid it does nothing.
 
 **Open for the maintainer**: Neuvillette8's `TexFx` shirt vanishes on the skin (not the Dress-slot TexFx guard --
 tested); Neuvillette9's layout (point 2); the cravat's faint cyan cast (his 126-128 is the skin's cyan band;

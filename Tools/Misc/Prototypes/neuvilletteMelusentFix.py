@@ -195,19 +195,7 @@ def fixerConfig(dressSlot: str = "Body") -> "FRB.GIMIComponentFixerConfig":
     # reaches the skin unshifted -- shifted, its eyes sat below that face and looked down.
     eye.offsetOnlyWithGameFace = True
 
-    # ONE SURFACE CUT BETWEEN TWO COMPONENTS TEARS. Kaiba's cape (Neuvillette5) is one sheet from the
-    # shoulder blades down, weighted to his spine AND his coat chains, and the split cuts it between the main
-    # mesh and the Coat. No bone is in both components' palettes (checked in the skin's frame dump), so the
-    # two sides of the seam follow different bones and pull apart when the skin poses (rips across the back,
-    # 2026-09-25). Moving the seam does not close it -- a Coat claim share of 0.9 closed the shoulder-blade
-    # tear, opened one at the hips and zigzagged Neuvillette3's coat edge -- so the ownership stays the plain
-    # majority and the main mesh draws a band of the Coat's triangles past its edge (overlapRings), covering a
-    # gap from its side -- ONE ring: three covered a little more on Kaiba's back but, drawn by both
-    # on a coat tail that swings, poked out through Neuvillette3's tails (2026-09-25, in game). The band keeps a seam vertex's weight on his UPPER coat links through the skin's
-    # nearest back-skirt bones (bone centroids, 3.6-17 cm) instead of dropping it; the lower links have no
-    # main-mesh bone within 19 cm and get none.
-    main.standIns = {0: 60, 1: 60, 32: 85, 35: 73, 36: 87, 40: 86, 43: 86, 44: 88}
-    main.overlapRings = 1
+    # The Coat draws nothing: his whole outfit is on the main mesh -- see TailsInMain below.
 
     config.components = [main, coat, bang, eye]
     # Every one of the skin's components receives a forward vertex-group row, so none is hidden by
@@ -243,6 +231,19 @@ def fixerConfig(dressSlot: str = "Body") -> "FRB.GIMIComponentFixerConfig":
 TailsInCoat = {32: 7, 35: 7, 36: 9, 33: 9, 37: 24, 34: 24, 38: 24, 39: 24,
                40: 8, 43: 8, 44: 10, 41: 10, 45: 25, 42: 25, 46: 25, 47: 25}
 
+# ONE OUTFIT, ONE COMPONENT: his coat groups (0, 1 and the tail chains 32-47) go to the MAIN mesh, and the Coat
+# row is EMPTY, so the Coat draws nothing and the template hides it. The main mesh and the Coat share no bone
+# (checked in the skin's frame dump), and a mod's outfit is one connected garment -- welded pieces and shell/lining
+# layers link every coat, cape and tail to the body -- so ANY cut between the two components tears somewhere:
+# Neuvillette3, 4 and 5's capes ripped open in game (2026-09-25) under every split tried (tails whole in the Coat;
+# a Coat claim share; an overlap band; whole connected pieces, which then pulled a coat's lining through its shell).
+# With the whole outfit on the main mesh there is no seam at all. The cost is the swing: the main mesh has no long
+# coat bones, so his upper links take its back-skirt bones (85-88, 73) and his lower links its knees (23 / 43) and
+# shins (6 / 26) -- a hem moves with the legs like a long skirt. The maintainer grades geometry faults above texture
+# ones, and a hole is the worst geometry fault; 0 / 1 (back pieces) ride the spine rather than the nearest bone (60,
+# behind the upper back), which may be a loose piece.
+TailsInMain = {0: 0, 1: 0, 32: 85, 33: 23, 34: 23, 35: 73, 36: 87, 37: 23, 38: 6, 39: 6, 40: 86, 41: 43, 42: 43, 43: 86, 44: 88, 45: 43, 46: 26, 47: 26}
+
 
 def applyVgMoves(moves: dict, toComp: str):
     """Moves source groups onto target component `toComp`: removed from whichever forward row holds them,
@@ -267,17 +268,17 @@ def main():
     parser.add_argument("mod", help = "the mod folder (every Neuvillette .ini under it is fixed)")
     parser.add_argument("--dressSlot", default = "Body", choices = sorted(MainSlots),
                         help = "the main-mesh slot his DRESS (cravat, lace, cuff ruffles) is drawn through (default: Body -- see the header)")
-    parser.add_argument("--draftTails", action = "store_true", help = "use the draft's split coat-tail rows instead of TailsInCoat (the A/B)")
+    parser.add_argument("--draftTails", action = "store_true", help = "use the draft's split coat-tail rows instead of TailsInMain (the A/B)")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--download", default = None,
                         help = "the API's downloadMode, eg. `disabled` -- omit for the API's own default")
     args = parser.parse_args()
 
-    # Confirmed in game on Neuvillette3 (2026-09-24): applied unless --draftTails, until the rows are
+    # Confirmed in game on Neuvillette3, 4 and 5 (2026-09-25): applied unless --draftTails, until the rows are
     # transcribed into VGRemapData.cpp -- after which this is a no-op (the rows already say so).
     if not args.draftTails:
-        applyVgMoves(TailsInCoat, "Coat")
+        applyVgMoves(TailsInMain, "")
     config = fixerConfig(args.dressSlot)
     FRB.CppStrategyOverrides.clear()
     FRB.CppStrategyOverrides.setParser(SrcName, FRB.makeGIMICharParser(parserConfig()))

@@ -109,19 +109,8 @@ namespace AGRemapCore {
 
             // The Eye LAST: it owns the hidden components and the TexFx guards, so it has to be the last
             // fixer to run -- the same order as the rows in IniFixBuilderData.
-            // ONE SURFACE CUT BETWEEN TWO COMPONENTS TEARS. Kaiba's cape (Neuvillette5) is one sheet from the
-            // shoulder blades down, weighted to his spine AND his coat chains, and the split cuts it between the main
-            // mesh and the Coat. No bone is in both components' palettes (checked in the skin's frame dump), so the
-            // two sides of the seam follow different bones and pull apart when the skin poses (rips across the back,
-            // 2026-09-25). Moving the seam does not close it -- a Coat claim share of 0.9 closed the shoulder-blade
-            // tear, opened one at the hips and zigzagged Neuvillette3's coat edge -- so the ownership stays the plain
-            // majority and the main mesh draws a band of the Coat's triangles past its edge (overlapRings), covering a
-            // gap from its side -- ONE ring: three covered a little more on Kaiba's back but, drawn by both
-            // on a coat tail that swings, poked out through Neuvillette3's tails (2026-09-25, in game). The band keeps a seam vertex's weight on his UPPER coat links through the skin's
-            // nearest back-skirt bones (bone centroids, 3.6-17 cm) instead of dropping it; the lower links have no
-            // main-mesh bone within 19 cm and get none.
-            main.standIns = {{0, 60}, {1, 60}, {32, 85}, {35, 73}, {36, 87}, {40, 86}, {43, 86}, {44, 88}};
-            main.overlapRings = 1;
+            // The Coat draws nothing: his whole outfit is on the main mesh (VGRemapData.cpp says why -- a cut
+            // between the two tears), and the template hides a component whose output draws nothing.
 
             config.components = {main, coat, bang, eye};
 

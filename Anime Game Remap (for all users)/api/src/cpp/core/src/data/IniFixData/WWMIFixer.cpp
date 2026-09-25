@@ -1722,6 +1722,21 @@ namespace AGRemapCore {
                         for (int component : groups_[g]) {
                             const ModObj obj = targetSlotObj(config_.plan.at(component).slot);
                             collect->srcRegs[GraphId(g, obj.first, obj.second)] = config_.blendReg;
+
+                            // A MOD OF A CHARACTER PAST 256 BONES BINDS THE BLEND REGISTER TWICE:
+                            // `vb4 = ResourceBlendBuffer` when no blend remap is active, and
+                            // `vb4 = ref ResourceBlendBufferOverride` when one is. Only the first
+                            // names a FILE -- the second is a buffer WWMI's BlendRemapper fills at
+                            // load -- so take that one and leave the other. Without this the run
+                            // dies looking for a section called `Resourceref Resource...` and the
+                            // whole mod is skipped.
+                            //
+                            // A mod that binds it once, plainly, is unaffected: the predicate passes.
+                            collect->resPredicates[GraphId(g, obj.first, obj.second)] =
+                                [](const std::string&, const std::string& value, const Collector::IterData&) {
+                                    return !StringTools::startsWith(
+                                        StringTools::toLower(StringTools::lstrip(value)), "ref ");
+                                };
                         }
 
                         collect->resEdits = {{"blend", replace.get()}};

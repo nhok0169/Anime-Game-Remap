@@ -63,6 +63,13 @@ class NeuvilletteTemplateOptionsTest(BaseUnitTest):
         self.assertEqual(component.standIns, {32: 85, 35: 73})
         self.assertEqual(component.overlapRings, 1)
 
+    def test_componentFixerConfig_dropTexFx(self):
+        # off by default: a mod's TexFx lines are carried as before
+        component = FRB.GIMIComponentFixerConfig.Component()
+        self.assertFalse(component.dropTexFx)
+        component.dropTexFx = True
+        self.assertTrue(component.dropTexFx)
+
     def test_mergeFixerConfig_componentModTypeName(self):
         component = FRB.GIMIMergeFixerConfig.Component()
         self.assertEqual(component.modTypeName, "")

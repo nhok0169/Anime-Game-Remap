@@ -366,6 +366,12 @@ back panel they blend into, sets a high one and the seam moves to where the weig
 own edge -- a seam that opens when the skin poses is then covered by the other side's copy. Ownership is
 unchanged. See :attr:`VGComponentSpec.overlapRings`. **Default**: ``0``
         )doc"))
+        .def_readwrite("dropTexFx", &AGRC::GIMIComponentFixerConfig::Component::dropTexFx, py::doc(R"doc(
+:class:`bool`: Whether this component's remapped sections drop the mod's TexFx transparency (``ps-t69`` /
+``ps-t70`` and every ``run = CommandList\TexFx\...``) -- for a slot whose shader TexFx does not
+recognise, where the transparency texture blanks the part out entirely instead of fading it. The part
+then draws opaque. **Default**: ``False``
+        )doc"))
         .def_readwrite("standIns", &AGRC::GIMIComponentFixerConfig::Component::standIns, py::doc(R"doc(
 Dict[:class:`int`, :class:`int`]: For a cut component, source groups it does not own, each to the bone
 of this component that stands in for it -- so a vertex on a seam keeps that weight instead of dropping

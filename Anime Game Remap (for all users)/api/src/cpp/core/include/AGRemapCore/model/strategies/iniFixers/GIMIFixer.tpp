@@ -16,7 +16,9 @@
 
 #include <cctype>
 #include <string_view>
+#include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "GIMIFixer.h"
 #include "AGRemapCore/constants/IniKeywords.h"
@@ -31,6 +33,82 @@ namespace AGRemapCore {
         // GIMIParser::classifyByTextureOverrideName uses to refuse to classify its own output.
         inline bool hasRemapKeyword(const std::string& txt) {
             return StringTools::toLower(txt).find(StringTools::toLower(IniKeywords::Remap)) != std::string::npos;
+        }
+
+        // Splits rendered .ini text into its preamble (before the first section) and its sections, each
+        // as (lowered name, whole text from its header up to the next header). Byte-wise on the ASCII
+        // delimiters '\n' and '[' / ']', which is what a section header is.
+        inline std::pair<std::string, std::vector<std::pair<std::string, std::string>>> splitSections(const std::string& txt) {
+            std::vector<std::size_t> starts;
+            for (std::size_t at = 0; at < txt.size(); at = txt.find('\n', at), at = (at == std::string::npos) ? txt.size() : at + 1) {
+                if (txt[at] == '[') {
+                    starts.push_back(at);
+                }
+            }
+
+            std::pair<std::string, std::vector<std::pair<std::string, std::string>>> result;
+            result.first = txt.substr(0, starts.empty() ? txt.size() : starts.front());
+            for (std::size_t k = 0; k < starts.size(); ++k) {
+                const std::size_t end = (k + 1 < starts.size()) ? starts[k + 1] : txt.size();
+                const std::string text = txt.substr(starts[k], end - starts[k]);
+                const std::size_t close = text.find(']');
+                const std::string name = (close == std::string::npos) ? text : text.substr(1, close - 1);
+                result.second.emplace_back(StringTools::toLower(name), text);
+            }
+            return result;
+        }
+
+        // 'block' without the sections 'accumulated' already declares WORD FOR WORD (trailing blank
+        // lines aside). Several fixers write into one .ini -- one per target component -- and each
+        // renders the parser's download resources its sections bind, so a skin of four components
+        // declared every download four times: 3DMigoto warns "Duplicate section" and drops the
+        // repeats' lines as "entry outside of section". A same-named section with DIFFERENT text is
+        // kept, so a real conflict still shows.
+        // A section's text split into its body (header and keys) and its tail: the trailing comment and
+        // blank lines, which belong to whatever follows -- the next fixer's heading, as often as not.
+        inline std::pair<std::string, std::string> sectionBodyAndTail(const std::string& text) {
+            // Line by line from the end. `end` is where the line being looked at stops (just past its
+            // newline, or the end of the text); each step moves it back to where that line STARTS,
+            // which is strictly smaller -- the first version searched from end - 1, found the newline
+            // AT end - 1, and looped forever on the empty "line" after a trailing newline.
+            std::size_t end = text.size();
+            while (end > 0) {
+                const std::size_t lineEnd = (text[end - 1] == '\n') ? end - 1 : end;
+                const std::size_t newline = (lineEnd == 0) ? std::string::npos : text.rfind('\n', lineEnd - 1);
+                const std::size_t lineStart = (newline == std::string::npos) ? 0 : newline + 1;
+                const std::string_view line = StringTools::strip(std::string_view(text).substr(lineStart, lineEnd - lineStart));
+                if (lineStart == 0 || !(line.empty() || line.front() == ';')) {
+                    break;
+                }
+                end = lineStart;
+            }
+            return {std::string(StringTools::rstrip(std::string_view(text).substr(0, end))), text.substr(end)};
+        }
+
+        inline std::string dropRepeatedSections(const std::string& accumulated, const std::string& block) {
+            if (accumulated.empty()) {
+                return block;
+            }
+
+            std::unordered_map<std::string, std::string> declared;
+            for (const auto& [name, text] : splitSections(accumulated).second) {
+                declared.emplace(name, sectionBodyAndTail(text).first);
+            }
+
+            auto [preamble, sections] = splitSections(block);
+            std::string result = preamble;
+            bool dropped = false;
+            for (const auto& [name, text] : sections) {
+                auto [body, tail] = sectionBodyAndTail(text);
+                auto found = declared.find(name);
+                if (found != declared.end() && found->second == body) {
+                    dropped = true;
+                    result += tail;
+                    continue;
+                }
+                result += text;
+            }
+            return dropped ? std::string(StringTools::rstrip(result)) : block;
         }
     }
 
@@ -554,6 +632,7 @@ namespace AGRemapCore {
             if (fixingCtx.priorFixBlocks != nullptr) {
                 std::string& accumulated = (*fixingCtx.priorFixBlocks)[blockKey];
 
+                content = GIMIFixerDetail::dropRepeatedSections(accumulated, content);
                 if (content.empty()) {
                     content = accumulated;
                 } else if (!accumulated.empty()) {

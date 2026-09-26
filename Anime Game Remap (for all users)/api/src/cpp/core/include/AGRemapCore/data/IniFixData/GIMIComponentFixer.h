@@ -214,6 +214,22 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Whether this component's remapped sections drop the mod's `TexFx`_ transparency: its
+             ``ps-t69`` / ``ps-t70`` bindings and every ``run = CommandList\\TexFx\\...`` :raw-html:`<br />` :raw-html:`<br />`
+
+             TexFx replaces a draw's pixel shader with its own, recognised by shader pattern, and a
+             skin's slot may use a shader it does not recognise. There the request is not served and the
+             transparency texture bound at ``ps-t69`` blanks the part out entirely: Neuvillette8's sheer
+             shirt vanished on NeuvilletteMelusent's main mesh while its triangles were skinned and drawn
+             every frame (2026-09-25). Dropped, the part draws opaque -- a texture fault, where a missing
+             part is a geometry one. **Default**: ``false``, the mod's TexFx lines are kept
+             @endrst
+             */
+            bool dropTexFx = false;
+
+            /**
+             * @brief
+             @rst
              Whether the slot's shader reads the normal-map layout -- ``ps-t0`` normal map,
              ``ps-t1`` diffuse, ``ps-t2`` lightmap, re-slotted by ``ORFix`` -- in which case the
              mod's ``ps-t0`` / ``ps-t1`` are shifted up, a flat normal map is created on ``ps-t0``

@@ -40,7 +40,10 @@
 # the dress through the Head slot (pinkish-red shadows -- the head atlas's skin band), through the Body
 # slot (clean, a faint cyan cast in the shadows: his white cloth band 126-128 is the skin body atlas's
 # CYAN cloth band), and Body slot + the dress band 126-128 moved to 255 (neutral grey but harder,
-# darker shadows). Body slot, no band move, is the default -- the cast is the maintainer's call. Whatever of him lands on the Coat / Bang / Eye bones is drawn by that
+# darker shadows). Body slot, no band move, WAS the default -- until Neuvillette2, whose DRESS object is a whole
+# skirt: the Body slot's shader lights the inside of cloth as if it faced out, and her inner skirt came out flat
+# bright blue. Through the Dress slot it shades right, and the maintainer chose that over the cravat's blotches
+# (2026-09-25), so Dress is the default now. Whatever of him lands on the Coat / Bang / Eye bones is drawn by that
 # component's one slot. The main mesh's component name is the EMPTY string (its files are
 # NeuvilletteMelusentHead.ib, NeuvilletteMelusentPosition.buf -- how the skin's own mods name them);
 # only its fix-target id, NeuvilletteMelusentMain, carries a name.
@@ -122,7 +125,7 @@ def parserConfig() -> "FRB.GIMICharParserConfig":
     return config
 
 
-def fixerConfig(dressSlot: str = "Body") -> "FRB.GIMIComponentFixerConfig":
+def fixerConfig(dressSlot: str = "Dress") -> "FRB.GIMIComponentFixerConfig":
     config = FRB.GIMIComponentFixerConfig()
     config.targetSkin = Skin
     config.drawnObjs = ["head", "body", "dress"]
@@ -196,13 +199,15 @@ def fixerConfig(dressSlot: str = "Body") -> "FRB.GIMIComponentFixerConfig":
     eye.offsetOnlyWithGameFace = True
 
     # The Coat draws nothing: his whole outfit is on the main mesh -- see TailsInMain below.
+    # TexFx does not serve the skin's main-mesh shaders: a sheer shirt (ps-t69 + TexFx T.0) vanished outright.
+    main.dropTexFx = True
 
     config.components = [main, coat, bang, eye]
     # Every one of the skin's components receives a forward vertex-group row, so none is hidden by
     # request -- but a mod can still put NOTHING on a component's bones (Neuvillette8, a summer outfit,
     # has no coat), and the template hides such a component by the result. The TexFx guards come from
-    # slotIndices the same way: whichever slot this mod draws nothing through (the Dress slot, now his
-    # dress goes through the Body slot; every slot of an empty component) is guarded.
+    # slotIndices the same way: whichever slot this mod draws nothing through (every slot of an empty
+    # component) is guarded.
     config.hiddenComponents = []
     config.unremappedSlots = []
 
@@ -238,13 +243,14 @@ TailsInCoat = {32: 7, 35: 7, 36: 9, 33: 9, 37: 24, 34: 24, 38: 24, 39: 24,
 # Neuvillette3, 4 and 5's capes ripped open in game (2026-09-25) under every split tried (tails whole in the Coat;
 # a Coat claim share; an overlap band; whole connected pieces, which then pulled a coat's lining through its shell).
 # With the whole outfit on the main mesh there is no seam at all. The cost is the swing: the main mesh has no long
-# coat bones, so his upper links take its back-skirt bones (85-88, 73) and his LOWER links its PELVIS (0): the hem
-# hangs with the hips rather than swinging. His lower links first rode the knees (23 / 43) and shins (6 / 26), and
+# coat bones, so ALL his coat links ride its PELVIS (0): the hem hangs with the hips rather than swinging. His upper
+# links first rode its back-skirt bones (85-88, 73), which move with the legs, and Neuvillette3's right front flap
+# folded back over its lining (2026-09-25); his lower links first rode the knees and shins -- see the next lines. His lower links first rode the knees (23 / 43) and shins (6 / 26), and
 # cloth hanging 20-30 cm off a bending joint swung with every bend of the idle pose -- Neuvillette2's front panels
 # splayed open, Neuvillette3's cape folded in and Kaiba's two cape halves crossed (in game, 2026-09-25). The maintainer grades geometry faults above texture
 # ones, and a hole is the worst geometry fault; 0 / 1 (back pieces) ride the spine rather than the nearest bone (60,
 # behind the upper back), which may be a loose piece.
-TailsInMain = {0: 0, 1: 0, 32: 85, 33: 0, 34: 0, 35: 73, 36: 87, 37: 0, 38: 0, 39: 0, 40: 86, 41: 0, 42: 0, 43: 86, 44: 88, 45: 0, 46: 0, 47: 0}
+TailsInMain = {0: 0, 1: 0, 32: 0, 33: 0, 34: 0, 35: 0, 36: 0, 37: 0, 38: 0, 39: 0, 40: 0, 41: 0, 42: 0, 43: 0, 44: 0, 45: 0, 46: 0, 47: 0}
 
 
 def applyVgMoves(moves: dict, toComp: str):
@@ -268,8 +274,8 @@ def applyVgMoves(moves: dict, toComp: str):
 def main():
     parser = argparse.ArgumentParser(description = "Neuvillette -> NeuvilletteMelusent, as a component-template config")
     parser.add_argument("mod", help = "the mod folder (every Neuvillette .ini under it is fixed)")
-    parser.add_argument("--dressSlot", default = "Body", choices = sorted(MainSlots),
-                        help = "the main-mesh slot his DRESS (cravat, lace, cuff ruffles) is drawn through (default: Body -- see the header)")
+    parser.add_argument("--dressSlot", default = "Dress", choices = sorted(MainSlots),
+                        help = "the main-mesh slot his DRESS object is drawn through (default: Dress -- see the header)")
     parser.add_argument("--draftTails", action = "store_true", help = "use the draft's split coat-tail rows instead of TailsInMain (the A/B)")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")

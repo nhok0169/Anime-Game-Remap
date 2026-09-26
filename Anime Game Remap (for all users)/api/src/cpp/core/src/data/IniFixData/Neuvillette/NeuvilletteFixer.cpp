@@ -54,16 +54,19 @@ namespace AGRemapCore {
             // NeuvilletteMelusentPosition.buf -- and only its fix-target id carries a name.
             //
             // Each of his objects goes through the slot that shades the same KIND of part: his head (hair,
-            // face skin) through the Head slot, his body through the Body slot, and his DRESS -- which is
-            // his white cravat, lace and cuff ruffles, not a dress -- through the Body slot too. Through the
-            // skin's own Dress slot (ps 26dbacaa) they came out with dark blotches (2026-09-24). The Dress
-            // slot then draws nothing and is guarded against a TexFx request through slotIndices.
+            // face skin) through the Head slot, his body through the Body slot, and his DRESS through the
+            // skin's Dress slot (ps 26dbacaa). On his own outfit that object is his white cravat, lace and
+            // cuff ruffles, which through the Body slot came out clean and through the Dress slot showed dark
+            // blotches (2026-09-24) -- but on Neuvillette2 it is a whole long skirt, and the Body slot's
+            // shader lights the INSIDE of cloth as if it faced out: her inner skirt came out flat bright blue
+            // where her own outfit shades it navy. The Dress slot shades it right, and the maintainer chose
+            // it over the cravat's blotches (2026-09-25).
             GIMIComponentFixerConfig::Component main{};
             main.name = "";
             main.modTypeName = ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusentMain);
             main.slot = "Head";
             main.slotIndex = HeadSlot;
-            main.objSlotIndices = {{"body", BodySlot}, {"dress", BodySlot}};
+            main.objSlotIndices = {{"body", BodySlot}, {"dress", DressSlot}};
             main.slotIndices = {HeadSlot, BodySlot, DressSlot};
             main.negativeIndex = false;
             main.normalMap = true;
@@ -111,6 +114,12 @@ namespace AGRemapCore {
             // fixer to run -- the same order as the rows in IniFixBuilderData.
             // The Coat draws nothing: his whole outfit is on the main mesh (VGRemapData.cpp says why -- a cut
             // between the two tears), and the template hides a component whose output draws nothing.
+            //
+            // TexFx does not serve the skin's main-mesh shaders: Neuvillette8's sheer shirt (ps-t69 +
+            // CommandList\TexFx\T.0) vanished outright while it was skinned and drawn every frame, and
+            // came back opaque with the TexFx lines gone (2026-09-25). Opaque is a texture fault; missing
+            // is a geometry one.
+            main.dropTexFx = true;
 
             config.components = {main, coat, bang, eye};
 

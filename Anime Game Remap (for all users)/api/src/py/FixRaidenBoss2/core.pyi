@@ -7195,6 +7195,17 @@ class GIMIComponentFixerConfig:
         def claimShare(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
             ...
         @property
+        def dropTexFx(self) -> bool:
+            """
+            :class:`bool`: Whether this component's remapped sections drop the mod's TexFx transparency (``ps-t69`` /
+            ``ps-t70`` and every ``run = CommandList\\TexFx\\...``) -- for a slot whose shader TexFx does not
+            recognise, where the transparency texture blanks the part out entirely instead of fading it. The part
+            then draws opaque. **Default**: ``False``
+            """
+        @dropTexFx.setter
+        def dropTexFx(self, arg0: bool) -> None:
+            ...
+        @property
         def face(self) -> bool:
             """
             :class:`bool`: Whether this component's fix carries the face graph --- exactly one should. **Default**: ``False``

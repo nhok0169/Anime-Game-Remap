@@ -1232,8 +1232,9 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         // Neuvillette3, 4 and 5's capes ripped open in game (2026-09-25) under every split tried (tails whole in the Coat;
         // a Coat claim share; an overlap band; whole connected pieces, which then pulled a coat's lining through its shell).
         // With the whole outfit on the main mesh there is no seam at all. The cost is the swing: the main mesh has no long
-        // coat bones, so his upper links take its back-skirt bones (85-88, 73) and his LOWER links its PELVIS (0): the hem
-        // hangs with the hips rather than swinging. His lower links first rode the knees (23 / 43) and shins (6 / 26), and
+        // coat bones, so ALL his coat links ride its PELVIS (0): the hem hangs with the hips rather than swinging. His upper
+        // links first rode its back-skirt bones (85-88, 73), which move with the legs, and Neuvillette3's right front flap
+        // folded back over its lining (2026-09-25); his lower links first rode the knees and shins -- see the next lines. His lower links first rode the knees (23 / 43) and shins (6 / 26), and
         // cloth hanging 20-30 cm off a bending joint swung with every bend of the idle pose -- Neuvillette2's front panels
         // splayed open, Neuvillette3's cape folded in and Kaiba's two cape halves crossed (in game, 2026-09-25). The maintainer grades geometry faults above texture
         // ones, and a hole is the worst geometry fault; 0 / 1 (back pieces) ride the spine rather than the nearest bone (60,
@@ -1246,7 +1247,7 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {0, 0}, {1, 0}, {2, 25}, {3, 75}, {4, 77}, {5, 77}, {6, 79}, {7, 75}, {8, 78}, {9, 78}, {10, 78}, {11, 80},
             {12, 27}, {15, 59}, {16, 60}, {17, 61}, {18, 62}, {19, 69}, {20, 68}, {21, 64}, {22, 66}, {23, 68},
             {24, 65}, {25, 67}, {26, 69}, {28, 5}, {31, 0},
-            {32, 85}, {33, 0}, {34, 0}, {35, 73}, {36, 87}, {37, 0}, {38, 0}, {39, 0}, {40, 86}, {41, 0}, {42, 0}, {43, 86}, {44, 88}, {45, 0}, {46, 0}, {47, 0},
+            {32, 0}, {33, 0}, {34, 0}, {35, 0}, {36, 0}, {37, 0}, {38, 0}, {39, 0}, {40, 0}, {41, 0}, {42, 0}, {43, 0}, {44, 0}, {45, 0}, {46, 0}, {47, 0},
             {48, 70}, {49, 81}, {50, 83}, {51, 83}, {52, 71},
             {53, 82}, {54, 84}, {55, 84}, {56, 2}, {57, 2}, {58, 53}, {59, 4}, {60, 4}, {61, 54}, {62, 1},
             {63, 2}, {64, 1}, {65, 3}, {66, 4}, {67, 3}, {68, 5}, {69, 6}, {70, 7}, {71, 8}, {72, 9},

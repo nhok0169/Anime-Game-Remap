@@ -1634,11 +1634,35 @@ merge-direction mods moved nothing but Bennett5 (point 3).
      mesh on every mod: **a mod's outfit is one garment**.
    **So the whole outfit goes to the main mesh**: his coat groups (0, 1, 32-47) are in the main mesh's `VGRemapData`
    row and the Coat's row is EMPTY; the template hides a component that draws nothing, so the skin's own mantle stays
-   hidden. The cost is swing: the main mesh has no long coat bones, so the upper links ride its back-skirt bones and the
-   lower ones its PELVIS, and a hem hangs with the hips. The lower links first rode the knees and shins -- the nearest
-   bones -- and cloth hanging 20-30 cm off a bending joint swung with every bend of the idle pose: Neuvillette2's front
-   panels splayed open over the lining, Neuvillette3's cape folded in, Kaiba's cape halves crossed. **For a stand-in,
-   nearest is not enough: prefer a bone that barely moves over one that bends, the farther the cloth hangs from it.**
+   hidden. The cost is swing: the main mesh has no long coat bones, so ALL his coat links ride its PELVIS, and a hem
+   hangs with the hips. They first rode the nearest bones -- the upper links the back-skirt bones, the lower ones the
+   knees and shins -- and cloth hanging 20-30 cm off a joint that moves swung with every bend of the idle pose:
+   Neuvillette2's front panels splayed open over the lining, Neuvillette3's cape folded in (and later, with only the
+   lower links moved, its right front flap folded back), Kaiba's cape halves crossed. **For a stand-in, nearest is not
+   enough: prefer a bone that barely moves over one that bends, the farther the cloth hangs from it.**
+12. **Two more, from the same round (2026-09-25).** *A sheer shirt vanished* (Neuvillette8): TexFx transparency
+   (`ps-t69` + `run = CommandList\TexFx\T.0`) replaces a draw's pixel shader by PATTERN, and it does not recognise
+   the skin's main-mesh shaders -- the shirt was skinned and drawn every frame (a frame dump shows the injected
+   `DrawIndexed`), yet invisible, and it came back opaque with the TexFx lines removed.
+   `GIMIComponentFixerConfig::Component::dropTexFx` strips them from a component's remapped sections; opaque is a
+   texture fault, missing is a geometry one. The way it was found: rule out the geometry first (the split kept all
+   3,648 triangles; the skinned `vb0` put them on the body), THEN the bindings, one line at a time. *An inner skirt
+   came out flat bright blue* (Neuvillette2): the skin's BODY slot shader lights the inside of cloth as if it faced
+   out, where her own outfit shades it navy; a light-map band move changed nothing, and routing his `dress` object
+   through the skin's DRESS slot shaded it right. That object is his cravat and lace on his own outfit, which the Dress
+   slot had once given dark blotches -- the maintainer chose the Dress slot anyway. And *Neuvillette9's* "distorted
+   mask" was a texture: its files are named one role off (the "LightMap" is a 3072 colour atlas), which the maintainer
+   chose to leave.
+   *And the body came and went* (Neuvillette2, headless for minutes at a time): a frame dump showed the body's draw
+   issuing `DrawIndexed(0, 0, 0)` because the `.ib` its section named did not exist -- the live folder, re-fixed in place
+   a dozen times that day (some while the game had it loaded), had lost two files a clean fix writes. Not reproduced
+   on scratch copies; re-fixing the folder cured it. **Count, per mod, the `filename =` lines that name a missing file**
+   (`missingRefs`-style) before debugging a part that is not drawn. The same check found a real bug: every component
+   fixer of a skin writes into ONE `.ini`, and each declared the parser's download resources again -- 30 duplicate
+   sections per file on Neuvillette2 ("Duplicate section" on every reload). `GIMIFixer` now drops a section the
+   accumulated file already declares word for word (trailing comments aside, and kept); its first version looped
+   forever on the empty line after a trailing newline, which showed only as a fix that never finished -- cap a
+   verification run with `timeout`.
    The maintainer grades geometry faults above texture ones and a hole as the worst of them; all ten mods were checked
    whole front and back in game.
    **Measure before an in-game round**: run the library's own split from Python (`VGComponentSplit` on the mod's

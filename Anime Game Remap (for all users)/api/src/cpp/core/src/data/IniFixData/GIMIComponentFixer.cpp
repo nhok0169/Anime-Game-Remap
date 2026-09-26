@@ -1631,6 +1631,20 @@ namespace AGRemapCore {
                     }
                     removeReflectionKeys_ = std::make_unique<RegRemove<>>(std::move(reflectionKeys));
 
+                    // The mod's TexFx transparency, for a slot whose shader TexFx cannot serve -- see
+                    // Component::dropTexFx. Case-insensitively, as 3DMigoto matches a CommandList path.
+                    if (component_.dropTexFx) {
+                        auto isTexFxCall = [](long long, const std::string& value) {
+                            const std::string path(StringTools::strip(value));
+                            return StringTools::startsWith(StringTools::toLower(path), StringTools::toLower(IniKeywords::TexFxFolder + "\\"));
+                        };
+                        removeTexFx_ = std::make_unique<RegRemove<>>(
+                            std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
+                                {"ps-t69", std::nullopt}, {"ps-t70", std::nullopt},
+                                {IniKeywords::Run, RegRemove<>::RemoveKeyCheck(isTexFxCall)}});
+                        removeTexFxAdapter_ = std::make_unique<RegPartEdit<>>(removeTexFx_.get());
+                    }
+
                     // BottomCover: the collects above spliced their registers into `if 1 ... endif`
                     // blocks, which split the section into parts, and the default FillMissing
                     // would put the draw in the FIRST part, ahead of the ib and the textures.
@@ -1788,6 +1802,9 @@ namespace AGRemapCore {
                         }
 
                         std::vector<ObjGroupEdit::PartEdit*> slotEdits = {removeReflectionKeysAdapter_.get()};
+                        if (removeTexFxAdapter_ != nullptr) {
+                            slotEdits.push_back(removeTexFxAdapter_.get());
+                        }
                         if (!keepOwnFixCalls) {
                             slotEdits.push_back(removeFixCallsAdapter_.get());
                         }
@@ -1942,6 +1959,8 @@ namespace AGRemapCore {
                 std::unique_ptr<RegRemove<>> removeFixCalls_;
                 std::unique_ptr<RegRemove<>> removeDrawIndexed_;
                 std::unique_ptr<RegRemove<>> removeReflectionKeys_;
+                std::unique_ptr<RegRemove<>> removeTexFx_;
+                std::unique_ptr<RegPartEdit<>> removeTexFxAdapter_;
                 std::unique_ptr<RegFillMissing<>> fillDrawIndexed_;
                 std::unordered_map<std::string, std::vector<std::size_t>> keptTriangleIds_;
                 std::vector<std::unique_ptr<DrawRangeRemap>> drawRangeRemaps_;

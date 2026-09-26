@@ -138,6 +138,14 @@ Two WuWa specifics about the tool:
   `toggle` flips it without knowing which way it went. `compare` and `dump` need it ON; `dump`
   toggles it for itself when no dump starts. When a `compare` comes back identical on a mod you know
   draws, toggle and try again before concluding anything.
+- **And `reload` is what usually undid it (2026-09-25).** F10 re-reads `d3dx.ini`, where `hunting`
+  is `2`, so a reload silently puts hunting back to soft-off. The natural order --- fix the mod,
+  `reload`, `compare` --- therefore produces two IDENTICAL halves every time, which reads exactly
+  like a mod that does not draw. Toggle **after** the reload, not before.
+- **`reload --mod`'s "no warnings" is an empty check here.** It reads `d3d11_log.txt`, and WWMI's
+  call logging is off --- which it must stay (110 GB in 40 minutes). `status` shows `log: 0.0 MB`
+  when that is the case, and then the line means "nothing was read", not "nothing was wrong"
+  (Overview's habit 66). On WWMI the picture is the evidence; the log is not available.
 - **A frame dump can kill WuWa.** Unreal's own watchdog ends the game with "Hang detected on
   GameThread" when a frame takes too long, and 3DMigoto freezes the frame for the whole dump. With
   XXMI's WWMI call and debug logging on (every call is written to `d3d11_log.txt`, which grew 110 GB

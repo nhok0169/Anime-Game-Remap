@@ -7351,6 +7351,20 @@ class GIMIComponentFixerConfig:
         def standIns(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]) -> None:
             ...
         @property
+        def texFxBlend(self) -> float:
+            """
+            :class:`float`: For a component whose mod's TexFx is dropped (:attr:`dropTexFx`): the opacity, 0 to 1, its
+            SEE-THROUGH draws are blended at instead --- ``0`` (the default) leaves them opaque
+            
+            A ``drawindexed`` range of an object whose section binds a TexFx mask at ``ps-t69`` is see-through when most
+            of its vertices sit on a mask code of 1-254 (TexFx's own legend, on the red channel). Such a range is drawn
+            through a ``CustomShader`` of its own that blends only the G-buffer's colour target, keeping the game's
+            shaders
+            """
+        @texFxBlend.setter
+        def texFxBlend(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+            ...
+        @property
         def texcoordStride(self) -> int:
             """
             :class:`int`: The TARGET component's Texcoord stride, or ``0`` to keep the mod's own
@@ -7521,6 +7535,20 @@ class GIMIComponentFixerConfig:
         """
     @normaliseVertexColour.setter
     def normaliseVertexColour(self, arg0: bool) -> None:
+        ...
+    @property
+    def sideMeshes(self) -> list[str]:
+        """
+        List[:class:`str`]: The hash types of the source's SIDE MESHES (its own draws that are no mod object,
+        eg. ``["ib_face", "ib_headupper"]``)
+        
+        A mod's section on one of those hashes -- a mask hiding the face with ``ib = null`` -- is written again
+        on the target's hash of the same type (filed under :attr:`targetSkin`), since the skin draws its own
+        side meshes under other hashes. A mesh both characters share is left to the mod's own section. Empty
+        by default
+        """
+    @sideMeshes.setter
+    def sideMeshes(self, arg0: collections.abc.Sequence[str]) -> None:
         ...
     @property
     def sourceLayout(self) -> GIMIComponentFixerConfig.SourceLayout:

@@ -938,6 +938,23 @@ namespace AGRemapCore {
                                          const std::string& iniName);
 
             /**
+             * @brief Whether this run has already written 'path' as a fixed resource, of ANY kind
+             *
+             @rst
+             Asked of every stats bucket, not only the one the removal files the path under: the
+             two halves name kinds differently -- a split's index buffer is fixed as ``buf`` and
+             removed as ``other`` -- so a guard asking the removal's own bucket never protected one
+             (see the comment in :cpp:func:`_deleteRemovedResources`). Compared after normalising the
+             path lexically and, on Windows, by case
+             @endrst
+             *
+             * @param path The resource's path
+             *
+             * @return Whether some bucket's ``fixed`` set names it
+             */
+            bool _producedThisRun(const std::string& path) const;
+
+            /**
              * @brief
              @rst
              Forces one resource's texture writer to skip compression -- what

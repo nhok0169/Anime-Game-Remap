@@ -1232,13 +1232,13 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         // Neuvillette3, 4 and 5's capes ripped open in game (2026-09-25) under every split tried (tails whole in the Coat;
         // a Coat claim share; an overlap band; whole connected pieces, which then pulled a coat's lining through its shell).
         // With the whole outfit on the main mesh there is no seam at all. The cost is the swing: the main mesh has no long
-        // coat bones, so ALL his coat links ride its PELVIS (0): the hem hangs with the hips rather than swinging. His upper
-        // links first rode its back-skirt bones (85-88, 73), which move with the legs, and Neuvillette3's right front flap
-        // folded back over its lining (2026-09-25); his lower links first rode the knees and shins -- see the next lines. His lower links first rode the knees (23 / 43) and shins (6 / 26), and
-        // cloth hanging 20-30 cm off a bending joint swung with every bend of the idle pose -- Neuvillette2's front panels
-        // splayed open, Neuvillette3's cape folded in and Kaiba's two cape halves crossed (in game, 2026-09-25). The maintainer grades geometry faults above texture
-        // ones, and a hole is the worst geometry fault; 0 / 1 (back pieces) ride the spine rather than the nearest bone (60,
-        // behind the upper back), which may be a loose piece.
+        // coat bones, so ALL his coat links ride its PELVIS (0) -- the back tails (32-47), the back pieces (0 / 1) and the two
+        // front panels (48-51, 52-55) -- and the hem hangs with the hips rather than swinging. Every other target tried moved a
+        // piece against its neighbours: the skin's knees (23 / 43) and shins (6 / 26) swung the hems with each bend of the idle
+        // pose (Neuvillette2's front panels splayed open, Kaiba's two cape halves crossed), and its back-skirt bones (85-88, 73)
+        // and front skirt chains (70 / 81 / 83, 71 / 82 / 84) move with the legs, so a coat corner on one of them while its
+        // neighbours rode the pelvis folded back over its lining (Neuvillette3's front flap, in game 2026-09-25 and -26). The
+        // maintainer grades geometry faults above texture ones.
         // The union of the rows covers each of Neuvillette's 116 groups exactly once. Confirmed in game on
         // seven forward mods (2026-09-25).
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Neuvillette), "",
@@ -1248,8 +1248,8 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {12, 27}, {15, 59}, {16, 60}, {17, 61}, {18, 62}, {19, 69}, {20, 68}, {21, 64}, {22, 66}, {23, 68},
             {24, 65}, {25, 67}, {26, 69}, {28, 5}, {31, 0},
             {32, 0}, {33, 0}, {34, 0}, {35, 0}, {36, 0}, {37, 0}, {38, 0}, {39, 0}, {40, 0}, {41, 0}, {42, 0}, {43, 0}, {44, 0}, {45, 0}, {46, 0}, {47, 0},
-            {48, 70}, {49, 81}, {50, 83}, {51, 83}, {52, 71},
-            {53, 82}, {54, 84}, {55, 84}, {56, 2}, {57, 2}, {58, 53}, {59, 4}, {60, 4}, {61, 54}, {62, 1},
+            {48, 0}, {49, 0}, {50, 0}, {51, 0}, {52, 0},
+            {53, 0}, {54, 0}, {55, 0}, {56, 2}, {57, 2}, {58, 53}, {59, 4}, {60, 4}, {61, 54}, {62, 1},
             {63, 2}, {64, 1}, {65, 3}, {66, 4}, {67, 3}, {68, 5}, {69, 6}, {70, 7}, {71, 8}, {72, 9},
             {73, 10}, {74, 11}, {75, 12}, {76, 13}, {77, 14}, {78, 15}, {79, 16}, {80, 17}, {81, 18}, {82, 19},
             {83, 20}, {84, 21}, {85, 22}, {86, 23}, {87, 24}, {88, 26}, {89, 27}, {90, 28}, {91, 29}, {92, 30},

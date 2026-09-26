@@ -230,6 +230,28 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             For a component whose mod's TexFx transparency is dropped (:cpp:member:`dropTexFx`): the
+             opacity its SEE-THROUGH draws are blended at instead, 0 to 1; ``0`` leaves them opaque
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Which draws are see-through is the mod's own answer: TexFx reads opacity off the RED
+             channel of the mask it binds at ``ps-t69`` (0 opaque, 1-254 see-through, 255 not drawn),
+             so each ``drawindexed = <count>, <start>, ...`` range of an object with a mask is judged by
+             the mask under its triangles' UVs, and a range most of whose vertices sit on 1-254 is drawn
+             through a ``CustomShader`` of its own. That keeps the game's shaders and blends only the
+             G-buffer's COLOUR target (``o1``), at this factor, leaving the normals and material ids of
+             whatever is under it: blending all of them, or the colour alone at a low factor, washed a
+             navy shirt out to white, since a mix is dominated by the brighter surface
+             (Neuvillette8's shirt on NeuvilletteMelusent, measured in game 2026-09-26: ``0.9`` looks
+             like the TexFx original, ``0.45`` nearly invisible). An ``auto`` draw, and a mod that
+             branches, keep their draw as it is. **Default**: ``0``
+             @endrst
+             */
+            float texFxBlend = 0.0f;
+
+            /**
+             * @brief
+             @rst
              Whether the slot's shader reads the normal-map layout -- ``ps-t0`` normal map,
              ``ps-t1`` diffuse, ``ps-t2`` lightmap, re-slotted by ``ORFix`` -- in which case the
              mod's ``ps-t0`` / ``ps-t1`` are shifted up, a flat normal map is created on ``ps-t0``
@@ -403,6 +425,26 @@ namespace AGRemapCore {
          @endrst
          */
         std::vector<std::pair<std::string, std::vector<std::string>>> unremappedSlots;
+
+        /**
+         * @brief
+         @rst
+         The hash types of the source's SIDE MESHES -- its own draws that are no mod object, such as
+         the face and the head-upper, eg. ``{"ib_face", "ib_headupper"}`` :raw-html:`<br />` :raw-html:`<br />`
+
+         A mod may hide one of them by hash to put something of its own in its place (Neuvillette9's
+         mask: ``ib = null`` on Neuvillette's face, head-upper and eyebrow meshes). The skin draws its
+         OWN side meshes, under different hashes, so a section left on the source's hash hides
+         nothing and the skin's face showed through the mask in pieces. Each such section of the mod
+         is written again on the target's hash of the same type -- filed in ``HashData`` under
+         :cpp:member:`targetSkin` -- by the same owner as :cpp:member:`hiddenComponents`, the rest of
+         its body copied as the mod wrote it. A mesh the two characters SHARE (the same hash on both
+         sides, Neuvillette's eyebrows) is left to the mod's own section :raw-html:`<br />` :raw-html:`<br />`
+
+         Empty for every config before the pair that needed it, so no earlier output moves
+         @endrst
+         */
+        std::vector<std::string> sideMeshes;
 
         /**
          * @brief

@@ -621,7 +621,14 @@ namespace AGRemapCore {
                 // Skipping the delete is better than rebuilding afterwards: it keeps the file
                 // that is already correct, does no redundant work, and cannot be defeated by a
                 // later removal in the same run.
-                if (resourceStats != nullptr && resourceStats->fixed.count(resource->srcPath) > 0) {
+                //
+                // ...in ANY bucket (2026-09-26). The fix and the removal file a path under the kind
+                // each of them names it by, and those differ: a split's index buffer is FIXED as
+                // `buf` and REMOVED as `other`, so asking the removal's own bucket never protected
+                // one. Neuvillette2 has three .ini files whose fixes write index buffers into one
+                // folder under colliding names; on alternate runs a later file's removal deleted an
+                // earlier file's fresh `..._DP_B.ib`, and in game the body drew with no head.
+                if (_producedThisRun(resource->srcPath)) {
                     continue;
                 }
 
@@ -643,6 +650,33 @@ namespace AGRemapCore {
                 }
             }
         }
+    }
+
+
+    bool RemapService::_producedThisRun(const std::string& path) const {
+        const auto normal = [](const std::string& p) {
+            std::string out = FileService::pathToStr(FileService::strToPath(p).lexically_normal());
+#ifdef _WIN32
+            out = StringTools::toLower(out);
+#endif
+            return out;
+        };
+
+        const std::string wanted = normal(path);
+        for (const FileStats* bucket : {static_cast<const FileStats*>(&stats.blend), static_cast<const FileStats*>(&stats.position),
+                                        static_cast<const FileStats*>(&stats.texcoord), static_cast<const FileStats*>(&stats.buf),
+                                        static_cast<const FileStats*>(&stats.other), static_cast<const FileStats*>(&stats.texEdit),
+                                        static_cast<const FileStats*>(&stats.texAdd), static_cast<const FileStats*>(&stats.download)}) {
+            if (bucket->fixed.count(path) > 0) {
+                return true;
+            }
+            for (const std::string& fixedPath : bucket->fixed) {
+                if (normal(fixedPath) == wanted) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 

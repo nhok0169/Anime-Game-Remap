@@ -70,6 +70,20 @@ class NeuvilletteTemplateOptionsTest(BaseUnitTest):
         component.dropTexFx = True
         self.assertTrue(component.dropTexFx)
 
+    def test_componentFixerConfig_texFxBlend(self):
+        # 0 by default: a dropped TexFx draw stays opaque, as before
+        component = FRB.GIMIComponentFixerConfig.Component()
+        self.assertEqual(component.texFxBlend, 0.0)
+        component.texFxBlend = 0.9
+        self.assertAlmostEqual(component.texFxBlend, 0.9, places = 6)
+
+    def test_componentFixerConfig_sideMeshes(self):
+        # empty by default: no earlier config re-issues any section on a side mesh
+        config = FRB.GIMIComponentFixerConfig()
+        self.assertEqual(config.sideMeshes, [])
+        config.sideMeshes = ["ib_face", "ib_headupper"]
+        self.assertEqual(config.sideMeshes, ["ib_face", "ib_headupper"])
+
     def test_mergeFixerConfig_componentModTypeName(self):
         component = FRB.GIMIMergeFixerConfig.Component()
         self.assertEqual(component.modTypeName, "")

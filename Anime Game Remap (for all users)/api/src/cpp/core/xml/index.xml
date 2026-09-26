@@ -870,6 +870,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab62936cc39c35b9e9c98fcca5697f0b5" kind="variable"><name>standIns</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab511611368c2e834b9a778be9c94c531" kind="variable"><name>overlapRings</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab57732e17c092f1bb8509403de678a16" kind="variable"><name>dropTexFx</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae74ea7c73f7a9013e807f81e3b9ce492" kind="variable"><name>texFxBlend</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a41fc1fe25b79dd9a3fecf1691285ca04" kind="variable"><name>normalMap</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7760edfd8956346f514455eced0a1ad7" kind="variable"><name>face</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae2c0b9f4af8f721add0e6a6b68f63603" kind="variable"><name>texcoordStride</name></member>
@@ -1291,6 +1292,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a636986797c82ce938f54cf1a126625e4" kind="variable"><name>components</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a37f258a89d09b22c2d598bbe751f3937" kind="variable"><name>hiddenComponents</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a9429f0c8795e514b7df6bb50616bce16" kind="variable"><name>unremappedSlots</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1acfcc213c6d9fcbe1013b5b1b3379c1ea" kind="variable"><name>sideMeshes</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a7a626487be714861384609cf33819b3a" kind="variable"><name>diffuseEdits</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a9ad6948d41c2aab702baf544c1f419a0" kind="variable"><name>lightMapEdit</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a4219f42e0f3a64ddc8267ceadeabc4d5" kind="variable"><name>lightMapObjs</name></member>
@@ -4181,6 +4183,7 @@
     <member refid="class_a_g_remap_core_1_1_remap_service_1a8603f77f178ca8343afb79398438bac9" kind="function"><name>createIni</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1a3bb54a8f496dc0b4ea5b1f47d716ff64" kind="function"><name>_removeRemapCopies</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1adc61f125b0d99f95892fe08cdf3fda98" kind="function"><name>_deleteRemovedResources</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_service_1a0ed40ddbaac20f1e073d5556aa45eeae" kind="function"><name>_producedThisRun</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1a261ed5837682305de184fb6183898955" kind="function"><name>_applyCompressTextures</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1a07ac76ebea3ac1c6ca244a3b83ccfb11" kind="function"><name>_applyTexCache</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1ac0c6bcc94980d860317d9b4601491a6b" kind="function"><name>_isRemapCopyIni</name></member>

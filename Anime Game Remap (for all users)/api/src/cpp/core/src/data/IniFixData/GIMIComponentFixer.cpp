@@ -18,8 +18,10 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstring>
 #include <filesystem>
+#include <functional>
 #include <memory>
 #include <optional>
 #include <string>
@@ -33,9 +35,11 @@
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/VGRemap.h"
 #include "AGRemapCore/model/buffers/VGComponentSplit.h"
+#include "AGRemapCore/model/files/BinaryFile.h"
 #include "AGRemapCore/model/files/BlendFile.h"
 #include "AGRemapCore/model/files/IbFile.h"
 #include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
 #include "AGRemapCore/model/iniresources/VGSplitGroupResource.h"
 #include "AGRemapCore/model/strategies/ModType.h"
@@ -186,9 +190,24 @@ namespace AGRemapCore {
         // Each range is remapped through the SOURCE index of every kept triangle (ascending): its new
         // start is the number of kept triangles before it, its new count the number inside it. An
         // `auto` draw is left alone. File-local: it needs the split, which only this template has.
+        //
+        // SEE-THROUGH RANGES (2026-09-26). With a DrawTranslucency, a range the mod's TexFx mask marks
+        // see-through is not drawn in place: its line becomes `run = CustomShader<...>`, and the section
+        // it names -- written to `sections` once per name -- blends the remapped draw into the colour
+        // target. See GIMIComponentFixerConfig::Component::texFxBlend.
+        struct DrawTranslucency {
+            std::function<bool(std::size_t firstIndex, std::size_t indexCount)> isTranslucent;
+            float factor = 0.0f;
+            std::string namePrefix;
+            std::string* sections = nullptr;
+            bool* sectionsInCopies = nullptr;
+            std::shared_ptr<std::unordered_set<std::string>> written = std::make_shared<std::unordered_set<std::string>>();
+        };
+
         class DrawRangeRemap : public BaseRegEdit<> {
             public:
-                explicit DrawRangeRemap(std::vector<std::size_t> keptIds): keptIds_(std::move(keptIds)) {}
+                explicit DrawRangeRemap(std::vector<std::size_t> keptIds, std::optional<DrawTranslucency> translucency = std::nullopt):
+                    keptIds_(std::move(keptIds)), translucency_(std::move(translucency)) {}
 
                 ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
                                   const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
@@ -203,21 +222,109 @@ namespace AGRemapCore {
                     }
 
                     std::vector<std::string> remapped;
+                    std::vector<bool> seeThrough;
                     bool changed = false;
                     for (const auto& entry : vals) {
                         std::optional<std::string> value = remap(entry.second);
                         changed = changed || value.has_value();
                         remapped.push_back(value.value_or(entry.second));
+
+                        const std::optional<std::vector<long long>> numbers = parse(entry.second);
+                        seeThrough.push_back(value.has_value() && translucency_.has_value() && numbers.has_value()
+                            && translucency_->isTranslucent(static_cast<std::size_t>((*numbers)[1]), static_cast<std::size_t>((*numbers)[0])));
                     }
 
                     if (changed) {
                         part.replaceVals({{IniKeywords::DrawIndexed, ContentPart::ReplaceSpec(remapped)}}, false, ranges);
+                    }
+
+                    // Each see-through line swapped for a call, at the same position.
+                    if (std::find(seeThrough.begin(), seeThrough.end(), true) != seeThrough.end()) {
+                        const std::vector<std::pair<long long, std::string>> placed = part.getValsWithInds(IniKeywords::DrawIndexed, true, ranges);
+                        for (std::size_t i = 0; i < placed.size() && i < seeThrough.size(); ++i) {
+                            if (!seeThrough[i]) {
+                                continue;
+                            }
+
+                            const std::string name = customShaderName(remapped[i]);
+                            const std::size_t pos = static_cast<std::size_t>(placed[i].first);
+                            part.removeKVPAt(pos);
+                            part.addKVPAt(static_cast<long long>(pos), IniKeywords::Run, name);
+                            writeSection(name, remapped[i]);
+                        }
                     }
                     return part;
                 }
 
             private:
                 std::vector<std::size_t> keptIds_;
+                std::optional<DrawTranslucency> translucency_;
+
+                std::string customShaderName(const std::string& drawValue) const {
+                    std::string suffix;
+                    for (char c : drawValue) {
+                        if (c >= '0' && c <= '9') {
+                            suffix += c;
+                        } else if (c == ',' && !suffix.empty() && suffix.back() != '_') {
+                            suffix += '_';
+                        }
+                    }
+                    return "CustomShader" + translucency_->namePrefix + suffix;
+                }
+
+                // The blend state: the game's shaders, the draw blended into o1 -- the G-buffer's colour --
+                // and every other target left as it was under the part.
+                void writeSection(const std::string& name, const std::string& drawValue) const {
+                    if (translucency_->sections == nullptr || !translucency_->written->insert(name).second) {
+                        return;
+                    }
+
+                    std::string factor = std::to_string(translucency_->factor);
+                    std::string text = "[" + name + "]\n";
+                    for (int target = 0; target < 8; ++target) {
+                        text += "blend[" + std::to_string(target) + "] = "
+                                + (target == 1 ? "ADD BLEND_FACTOR INV_BLEND_FACTOR" : "ADD ZERO ONE") + "\n";
+                    }
+                    for (int channel = 0; channel < 4; ++channel) {
+                        text += "blend_factor[" + std::to_string(channel) + "] = " + factor + "\n";
+                    }
+                    text += IniKeywords::DrawIndexed + " = " + drawValue + "\n";
+
+                    std::string& sections = *translucency_->sections;
+                    if (sections.empty()) {
+                        sections = "; The mod's see-through draws (its TexFx mask), through a blend state: TexFx does not\n"
+                                   "; serve the skin's shaders.\n";
+                    } else {
+                        sections += "\n";
+                    }
+                    sections += text;
+                    if (translucency_->sectionsInCopies != nullptr) {
+                        *translucency_->sectionsInCopies = true;
+                    }
+                }
+
+                // "count, start, base" -> its numbers, or nullopt for anything else (`auto`)
+                static std::optional<std::vector<long long>> parse(const std::string& value) {
+                    std::vector<long long> numbers;
+                    std::size_t pos = 0;
+                    while (pos <= value.size()) {
+                        std::size_t comma = value.find(',', pos);
+                        std::string field(StringTools::strip(value.substr(pos, comma == std::string::npos ? std::string::npos : comma - pos)));
+                        if (field.empty() || field.find_first_not_of("-0123456789") != std::string::npos) {
+                            return std::nullopt;
+                        }
+                        numbers.push_back(std::stoll(field));
+                        if (comma == std::string::npos) {
+                            break;
+                        }
+                        pos = comma + 1;
+                    }
+
+                    if (numbers.size() < 2 || numbers[0] < 0 || numbers[1] < 0) {
+                        return std::nullopt;
+                    }
+                    return numbers;
+                }
 
                 // "count, start, base" -> the remapped line, or nullopt for anything else (`auto`)
                 std::optional<std::string> remap(const std::string& value) const {
@@ -274,6 +381,10 @@ namespace AGRemapCore {
             std::string diffuse;
             std::string lightMap;
 
+            // The TexFx mask the object's section binds at ps-t69, if any -- see
+            // GIMIComponentFixerConfig::Component::texFxBlend.
+            std::string texFxMask;
+
             // Whether the object's section binds the normal-map layout (normal map, diffuse, light
             // map), so a normal-map slot needs no shift -- see GIMIComponentFixerConfig::sourceLayout.
             bool normalMapLayout = false;
@@ -301,6 +412,10 @@ namespace AGRemapCore {
             // Whether the mod hides the game's face (`handling = skip` on the source's face diffuse
             // hash) -- see GIMIComponentFixerConfig::Component::offsetOnlyWithGameFace.
             bool skipsGameFace = false;
+
+            // The mod's sections on the source's side meshes, as (section name, hash type) -- see
+            // GIMIComponentFixerConfig::sideMeshes.
+            std::vector<std::pair<std::string, std::string>> sideMeshSections;
 
             // Every branch's -- see ModObjectFiles::ibs.
             std::vector<BranchVal> positions;
@@ -492,6 +607,11 @@ namespace AGRemapCore {
 
                         const std::string& sectionName = entry.first;
                         const std::string& hashType = hashKey->back();
+                        if (std::find(config_.sideMeshes.begin(), config_.sideMeshes.end(), hashType) != config_.sideMeshes.end()) {
+                            files_.sideMeshSections.emplace_back(sectionName, hashType);
+                            continue;
+                        }
+
                         const auto readBuffer = [&](std::vector<BranchVal>& branches, std::string& first, const std::string& reg) {
                             if (!branches.empty()) {
                                 return;
@@ -590,6 +710,7 @@ namespace AGRemapCore {
                                 objFiles.diffuse = firstFile(sectionName, DiffuseReg);
                                 objFiles.lightMap = firstFile(sectionName, LightMapReg);
                             }
+                            objFiles.texFxMask = firstFile(sectionName, IniKeywords::PsT69);
 
                             // BY NAME -- see GIMIComponentFixerConfig::texRegsByName. The layout and the
                             // two files come from what each bound resource says it is, wherever the mod
@@ -1375,7 +1496,7 @@ namespace AGRemapCore {
                         }
                     }
 
-                    if (hidden.empty() && unremapped.empty()) {
+                    if (hidden.empty() && unremapped.empty() && files_.sideMeshSections.empty()) {
                         return;
                     }
 
@@ -1449,11 +1570,185 @@ namespace AGRemapCore {
                                 + guards;
                     }
 
+                    const std::string sides = buildSideMeshSections(*iniFile, *hashes, toVersion);
+                    if (!sides.empty()) {
+                        if (!text.empty()) {
+                            text += "\n";
+                        }
+                        text += sides;
+                    }
+
                     if (text.empty()) {
                         return;
                     }
 
                     this->appendedSections = text;
+                }
+
+                // The mod's sections on the source's side meshes, written again on the target's -- see
+                // GIMIComponentFixerConfig::sideMeshes. Each body is copied from the file's own text,
+                // its `hash` line replaced; the section keeps its name with the skin's and the Remap
+                // keyword appended, so an undo takes it with the rest of the fix.
+                std::string buildSideMeshSections(IniFile& iniFile, Hashes& hashes, const std::optional<Version>& toVersion) const {
+                    if (files_.sideMeshSections.empty()) {
+                        return "";
+                    }
+
+                    // The file's lines, without their carriage returns.
+                    std::vector<std::string> lines;
+                    const std::string& fileTxt = iniFile.getFileTxt();
+                    for (std::size_t at = 0; at <= fileTxt.size();) {
+                        std::size_t end = fileTxt.find('\n', at);
+                        if (end == std::string::npos) {
+                            end = fileTxt.size();
+                        }
+                        std::string line = fileTxt.substr(at, end - at);
+                        if (!line.empty() && line.back() == '\r') {
+                            line.pop_back();
+                        }
+                        lines.push_back(std::move(line));
+                        at = end + 1;
+                    }
+
+                    const std::string srcName = ctx_.modTypeName().value_or("");
+                    std::string out;
+                    for (const auto& [sectionName, hashType] : files_.sideMeshSections) {
+                        const std::optional<std::string> from = hashes.get({srcName, hashType}, ctx_.version(), false);
+                        const std::optional<std::string> to = hashes.get({config_.targetSkin, hashType}, toVersion, false);
+                        if (!to.has_value() || to->empty() || (from.has_value() && StringTools::equalsIgnoreCase(*from, *to))) {
+                            continue;
+                        }
+
+                        // The section's body: from its header to the next header, less trailing blank
+                        // and comment lines (which belong to whatever follows).
+                        std::vector<std::string> body;
+                        bool inSection = false;
+                        for (const std::string& line : lines) {
+                            const std::string_view stripped = StringTools::strip(line);
+                            if (!stripped.empty() && stripped.front() == '[') {
+                                if (inSection) {
+                                    break;
+                                }
+                                inSection = StringTools::equalsIgnoreCase(stripped, "[" + sectionName + "]");
+                                continue;
+                            }
+                            if (inSection) {
+                                body.push_back(line);
+                            }
+                        }
+                        while (!body.empty()) {
+                            const std::string_view last = StringTools::strip(body.back());
+                            if (!last.empty() && last.front() != ';') {
+                                break;
+                            }
+                            body.pop_back();
+                        }
+                        if (body.empty()) {
+                            continue;
+                        }
+
+                        out += "\n[" + sectionName + config_.targetSkin + IniKeywords::Remap + "]\n";
+                        for (const std::string& line : body) {
+                            const std::size_t eq = line.find('=');
+                            const bool isHash = eq != std::string::npos
+                                && StringTools::equalsIgnoreCase(StringTools::strip(std::string_view(line).substr(0, eq)), IniKeywords::Hash);
+                            out += (isHash ? IniKeywords::Hash + " = " + *to : line) + "\n";
+                        }
+                    }
+
+                    if (out.empty()) {
+                        return "";
+                    }
+
+                    return "; The mod's own sections on " + srcName + "'s side meshes (face, head-upper, ...), on the\n"
+                           "; skin's: it draws its own under other hashes, which the mod's sections do not reach.\n"
+                           + out;
+                }
+
+                // The see-through judgement for one drawn object's ranges, or nullopt -- see
+                // GIMIComponentFixerConfig::Component::texFxBlend. The mask, index buffer and texcoords are
+                // the SOURCE's (the ranges it is asked about are the mod's own numbers), read once, on the
+                // first question; any of them unreadable answers "opaque".
+                std::optional<DrawTranslucency> translucencyFor(const std::string& obj) {
+                    const ModObjectFiles* objFiles = objectFiles(obj);
+                    if (component_.texFxBlend <= 0.0f || objFiles == nullptr || objFiles->texFxMask.empty()
+                            || objFiles->ib.empty() || files_.texcoord.empty() || files_.texcoordStride < 12) {
+                        return std::nullopt;
+                    }
+
+                    struct Source {
+                        bool loaded = false;
+                        int width = 0;
+                        int height = 0;
+                        std::vector<std::uint8_t> mask;
+                        VGComponentSplit::Triangles triangles;
+                        ByteVec texcoords;
+                    };
+                    auto source = std::make_shared<Source>();
+                    const std::string maskPath = objFiles->texFxMask;
+                    const std::string ibPath = objFiles->ib;
+                    const std::string texcoordPath = files_.texcoord;
+                    const std::size_t stride = files_.texcoordStride;
+                    auto widthIt = files_.ibBytesPerIndex.find(ibPath);
+                    const std::size_t ibWidth = (widthIt == files_.ibBytesPerIndex.end()) ? 4 : widthIt->second;
+
+                    DrawTranslucency result;
+                    result.factor = component_.texFxBlend;
+                    result.namePrefix = component_.modTypeName + IniKeywords::Remap + "SeeThrough";
+                    result.sections = &this->appendedSections;
+                    result.sectionsInCopies = &this->appendedSectionsInCopies;
+                    result.isTranslucent = [source, maskPath, ibPath, texcoordPath, stride, ibWidth](std::size_t firstIndex, std::size_t indexCount) {
+                        if (!source->loaded) {
+                            source->loaded = true;
+                            try {
+                                TextureFile mask(maskPath);
+                                mask.open();
+                                source->width = mask.getWidth();
+                                source->height = mask.getHeight();
+                                source->mask = mask.getPixels();
+                                IbFile ib(ibPath, ibWidth);
+                                source->triangles = VGComponentSplit::readIb(ib);
+                                BinaryFile texcoords(texcoordPath);
+                                source->texcoords = texcoords.read();
+                            } catch (const std::exception&) {
+                                source->mask.clear();
+                            }
+                        }
+
+                        const std::size_t w = static_cast<std::size_t>(source->width);
+                        const std::size_t h = static_cast<std::size_t>(source->height);
+                        if (source->mask.size() < w * h * 4 || w == 0 || h == 0) {
+                            return false;
+                        }
+
+                        // Each vertex once, its first UV (after the 4-byte vertex colour), wrapped into
+                        // [0, 1) as the sampler does; see-through when most sit on a mask code of 1-254.
+                        std::unordered_set<unsigned long long> vertices;
+                        const std::size_t last = std::min(source->triangles.size(), (firstIndex + indexCount) / 3);
+                        for (std::size_t t = firstIndex / 3; t < last; ++t) {
+                            vertices.insert(source->triangles[t].begin(), source->triangles[t].end());
+                        }
+
+                        std::size_t sampled = 0;
+                        std::size_t clear = 0;
+                        for (unsigned long long vertex : vertices) {
+                            const std::size_t at = static_cast<std::size_t>(vertex) * stride + 4;
+                            if (at + 8 > source->texcoords.size()) {
+                                continue;
+                            }
+                            float uv[2];
+                            std::memcpy(uv, source->texcoords.data() + at, sizeof(uv));
+                            const float u = uv[0] - std::floor(uv[0]);
+                            const float v = uv[1] - std::floor(uv[1]);
+                            const std::size_t x = std::min(w - 1, static_cast<std::size_t>(u * static_cast<float>(w)));
+                            const std::size_t y = std::min(h - 1, static_cast<std::size_t>(v * static_cast<float>(h)));
+                            const std::uint8_t red = source->mask[(y * w + x) * 4];
+                            ++sampled;
+                            clear += (red >= 1 && red <= 254) ? 1 : 0;
+                        }
+                        return sampled > 0 && clear * 2 > sampled;
+                    };
+                    return result;
                 }
 
                 VGSplitGroupConfig::LineEdit makeTexcoordLineEdit() const {
@@ -1817,7 +2112,7 @@ namespace AGRemapCore {
                         if (group < drawn_.size()) {
                             auto kept = keptTriangleIds_.find(drawn_[group]);
                             if (kept != keptTriangleIds_.end()) {
-                                drawRangeRemaps_.push_back(std::make_unique<DrawRangeRemap>(kept->second));
+                                drawRangeRemaps_.push_back(std::make_unique<DrawRangeRemap>(kept->second, translucencyFor(drawn_[group])));
                                 drawRangeAdapters_.push_back(std::make_unique<RegPartEdit<>>(drawRangeRemaps_.back().get()));
                                 slotEdits.push_back(drawRangeAdapters_.back().get());
                             }

@@ -366,6 +366,15 @@ back panel they blend into, sets a high one and the seam moves to where the weig
 own edge -- a seam that opens when the skin poses is then covered by the other side's copy. Ownership is
 unchanged. See :attr:`VGComponentSpec.overlapRings`. **Default**: ``0``
         )doc"))
+        .def_readwrite("texFxBlend", &AGRC::GIMIComponentFixerConfig::Component::texFxBlend, py::doc(R"doc(
+:class:`float`: For a component whose mod's TexFx is dropped (:attr:`dropTexFx`): the opacity, 0 to 1, its
+SEE-THROUGH draws are blended at instead --- ``0`` (the default) leaves them opaque
+
+A ``drawindexed`` range of an object whose section binds a TexFx mask at ``ps-t69`` is see-through when most
+of its vertices sit on a mask code of 1-254 (TexFx's own legend, on the red channel). Such a range is drawn
+through a ``CustomShader`` of its own that blends only the G-buffer's colour target, keeping the game's
+shaders
+        )doc"))
         .def_readwrite("dropTexFx", &AGRC::GIMIComponentFixerConfig::Component::dropTexFx, py::doc(R"doc(
 :class:`bool`: Whether this component's remapped sections drop the mod's TexFx transparency (``ps-t69`` /
 ``ps-t70`` and every ``run = CommandList\TexFx\...``) -- for a slot whose shader TexFx does not
@@ -436,6 +445,15 @@ List[Tuple[:class:`str`, List[:class:`str`]]]: The skin's draw SLOTS nothing is 
 
 Each withdraws a pending `TexFx`_ request on that slot's draw, which would otherwise be served on a
 slot the mod never reaches. Written only when the mod calls TexFx
+        )doc"))
+        .def_readwrite("sideMeshes", &AGRC::GIMIComponentFixerConfig::sideMeshes, py::doc(R"doc(
+List[:class:`str`]: The hash types of the source's SIDE MESHES (its own draws that are no mod object,
+eg. ``["ib_face", "ib_headupper"]``)
+
+A mod's section on one of those hashes -- a mask hiding the face with ``ib = null`` -- is written again
+on the target's hash of the same type (filed under :attr:`targetSkin`), since the skin draws its own
+side meshes under other hashes. A mesh both characters share is left to the mod's own section. Empty
+by default
         )doc"))
         // Properties over toTexFilter / toPyRefFunction rather than def_readwrite: pybind11's own
         // conversion of a filter hands it a COPY of the texture, so an edit written in Python would

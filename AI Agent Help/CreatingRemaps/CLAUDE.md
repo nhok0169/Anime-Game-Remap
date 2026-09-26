@@ -1640,6 +1640,11 @@ merge-direction mods moved nothing but Bennett5 (point 3).
    Neuvillette2's front panels splayed open over the lining, Neuvillette3's cape folded in (and later, with only the
    lower links moved, its right front flap folded back), Kaiba's cape halves crossed. **For a stand-in, nearest is not
    enough: prefer a bone that barely moves over one that bends, the farther the cloth hangs from it.**
+   **And "all his coat links" means ALL of them (2026-09-26).** Neuvillette3's front flap stayed folded after the
+   back links moved, because its corner was the one piece of that coat on his FRONT panel chains (48-51, 52-55),
+   still riding the skin's front skirt chains (70 / 81 / 83) while its neighbours rode the pelvis. Found in minutes
+   by tallying the weights of the coat's connected islands per region (front / back, left / right, by height): one
+   region carried groups no other coat region used. Those chains are on the pelvis now too.
 12. **Two more, from the same round (2026-09-25).** *A sheer shirt vanished* (Neuvillette8): TexFx transparency
    (`ps-t69` + `run = CommandList\TexFx\T.0`) replaces a draw's pixel shader by PATTERN, and it does not recognise
    the skin's main-mesh shaders -- the shirt was skinned and drawn every frame (a frame dump shows the injected
@@ -1650,13 +1655,13 @@ merge-direction mods moved nothing but Bennett5 (point 3).
    came out flat bright blue* (Neuvillette2): the skin's BODY slot shader lights the inside of cloth as if it faced
    out, where her own outfit shades it navy; a light-map band move changed nothing, and routing his `dress` object
    through the skin's DRESS slot shaded it right. That object is his cravat and lace on his own outfit, which the Dress
-   slot had once given dark blotches -- the maintainer chose the Dress slot anyway. And *Neuvillette9's* "distorted
-   mask" was a texture: its files are named one role off (the "LightMap" is a 3072 colour atlas), which the maintainer
-   chose to leave.
+   slot had once given dark blotches -- the maintainer chose the Dress slot anyway. And *Neuvillette9's* colours are
+   a texture fault: its files are named one role off (the "LightMap" is a 3072 colour atlas), which the maintainer
+   chose to leave -- but its CRACKED MASK was not a texture, see point 13.
    *And the body came and went* (Neuvillette2, headless for minutes at a time): a frame dump showed the body's draw
    issuing `DrawIndexed(0, 0, 0)` because the `.ib` its section named did not exist -- the live folder, re-fixed in place
    a dozen times that day (some while the game had it loaded), had lost two files a clean fix writes. Not reproduced
-   on scratch copies; re-fixing the folder cured it. **Count, per mod, the `filename =` lines that name a missing file**
+   on scratch copies then -- it ALTERNATES from run to run, see point 13. **Count, per mod, the `filename =` lines that name a missing file**
    (`missingRefs`-style) before debugging a part that is not drawn. The same check found a real bug: every component
    fixer of a skin writes into ONE `.ini`, and each declared the parser's download resources again -- 30 duplicate
    sections per file on Neuvillette2 ("Duplicate section" on every reload). `GIMIFixer` now drops a section the
@@ -1670,11 +1675,38 @@ merge-direction mods moved nothing but Bennett5 (point 3).
    warning from the checking: a frame taken right after `mods only` + reload can show a HALF-LOADED mod (Neuvillette4
    once came up as a jacket and a head) -- wait, re-take, and cycle a merged mod's variant key (`h` here) in the
    outfit PREVIEW only; on the shop grid it does nothing.
+13. **The next round (2026-09-26): three shared-code findings, one of them in `RemapService`.**
+   *A cracked mask* (Neuvillette9, "you would still see the mask covering the left face"): the mod hides his own
+   FACE meshes by hash (`ib = null` on `24f8b383` face, `8559c8e2` head-upper, `f151ddf7` eyebrows) to put a mask in
+   their place. Those are no mod object, so nothing remapped them, and the skin draws its own face and head-upper
+   under OTHER hashes (`97cd1620`, `81780578`; the eyebrows are shared) -- its face showed through the mask. Found by
+   matching the two frame dumps' draws on shader pair and index count. `GIMIComponentFixerConfig::sideMeshes` names
+   such hash types (`ib_face`, `ib_headupper`, rows in `HashData` for both characters, the skin's under
+   `targetSkin`), and the owner writes each such section of the mod again on the target's hash, body copied.
+   *A see-through shirt WITHOUT TexFx* (Neuvillette8): 3DMigoto can blend a draw through a `CustomShader` that
+   names no shaders (the game's stay bound) -- but GI's G-buffer is several targets, and only `o1` carries colour.
+   Blending `o0` alone changed nothing, `o1` alone at 0.45 washed navy to white, every target at once likewise, and
+   `o1` at 0.9 (others `ADD ZERO ONE`: the body's normals and material ids stay) matched the TexFx original. A mix
+   is dominated by the brighter surface, so the factor is not TexFx's opacity. Which draws: the mod's own TexFx
+   mask (`ps-t69`, RED 1-254 = see-through) sampled at each `drawindexed` range's UVs -- on Neuvillette8 the shirt
+   range is 95% see-through and every other range 100% opaque. `Component::texFxBlend` (the factor, 0 = off).
+   *The fix was not idempotent* (Neuvillette2, "headless for minutes"; and Bennett7's ACTIVE merged fix, found by
+   the regression): a folder is handled one `.ini` at a time, undo then fix, and `RemapService`'s guard against an
+   undo deleting what this run just produced asked only the removal's own stats bucket -- but a split's index buffer
+   is FIXED as `buf` and REMOVED as `other`, so no `.ib` was ever protected. Two `.ini` files of one mod whose fixes
+   name the same generated file (Neuvillette2's `0.ini` and `DISABLEDmerged.ini`) then lost it on alternate runs.
+   `_producedThisRun` asks every bucket. The proof is a scratch copy with one `.ini`'s old fix pointed at the other's
+   generated `.ib`: one missing reference on the old build, none on the new. **Run every fix twice, and count the
+   missing references after EACH run** -- the alternation is invisible to a single run.
+   *Neuvillette2's light-blue inner skirt is the INSIDE of single-layer cloth*: drawn with `cull = back` the light
+   blue panels stay and the navy outside vanishes, so the two face opposite ways. Neuvillette's shader shades a back
+   face as cloth; the skin's lights it like rim light. A light-map band move, the Body slot and the Dress slot all
+   gave the same inside. What would fix it is geometry -- a mirrored inner layer (flipped normals, reversed winding,
+   a hair inward) -- which no template builds yet.
 
-**Open for the maintainer**: Neuvillette8's `TexFx` shirt vanishes on the skin (not the Dress-slot TexFx guard --
-tested); Neuvillette9's layout (point 2); the cravat's faint cyan cast (his 126-128 is the skin's cyan band;
-moving it to 255 hardened the shadows); Neuvillette2's brighter skirt lining; a zero-byte fall-through `.ib`
-logs `Failed to substantiate` (harmless, pre-existing).
+**Open for the maintainer**: Neuvillette2's lining (point 13: needs a mirrored inner layer, not built); Neuvillette9's
+colours (point 2); the cravat's faint cyan cast (his 126-128 is the skin's cyan band; moving it to 255 hardened the
+shadows); a zero-byte fall-through `.ib` logs `Failed to substantiate` (harmless, pre-existing).
 
 ## The reverse direction is COMPILED TOO: a multi-component SOURCE onto a classic target (2026-09-14)
 

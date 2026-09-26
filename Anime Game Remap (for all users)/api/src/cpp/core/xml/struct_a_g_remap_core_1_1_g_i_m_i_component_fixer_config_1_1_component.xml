@@ -242,6 +242,38 @@ part is a geometry one. **Default**: ``false``, the mod&apos;s TexFx lines are k
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="228" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="228" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae74ea7c73f7a9013e807f81e3b9ce492" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float AGRemapCore::GIMIComponentFixerConfig::Component::texFxBlend</definition>
+        <argsstring></argsstring>
+        <name>texFxBlend</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::texFxBlend</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+For a component whose mod&apos;s TexFx transparency is dropped (:cpp:member:`dropTexFx`): the
+opacity its SEE-THROUGH draws are blended at instead, 0 to 1; ``0`` leaves them opaque
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Which draws are see-through is the mod&apos;s own answer: TexFx reads opacity off the RED
+channel of the mask it binds at ``ps-t69`` (0 opaque, 1-254 see-through, 255 not drawn),
+so each ``drawindexed = &lt;count&gt;, &lt;start&gt;, ...`` range of an object with a mask is judged by
+the mask under its triangles&apos; UVs, and a range most of whose vertices sit on 1-254 is drawn
+through a ``CustomShader`` of its own. That keeps the game&apos;s shaders and blends only the
+G-buffer&apos;s COLOUR target (``o1``), at this factor, leaving the normals and material ids of
+whatever is under it: blending all of them, or the colour alone at a low factor, washed a
+navy shirt out to white, since a mix is dominated by the brighter surface
+(Neuvillette8&apos;s shirt on NeuvilletteMelusent, measured in game 2026-09-26: ``0.9`` looks
+like the TexFx original, ``0.45`` nearly invisible). An ``auto`` draw, and a mod that
+branches, keep their draw as it is. **Default**: ``0``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="250" column="19" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a41fc1fe25b79dd9a3fecf1691285ca04" prot="public" static="no" mutable="no">
         <type>bool</type>
         <definition>bool AGRemapCore::GIMIComponentFixerConfig::Component::normalMap</definition>
@@ -265,7 +297,7 @@ since a plain slot has nowhere to put the normal map
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="243" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="243" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="265" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="265" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7760edfd8956346f514455eced0a1ad7" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -281,7 +313,7 @@ since a plain slot has nowhere to put the normal map
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="248" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="248" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="270" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="270" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae2c0b9f4af8f721add0e6a6b68f63603" prot="public" static="no" mutable="no">
         <type>std::size_t</type>
@@ -313,7 +345,7 @@ Yelan&apos;s Texcoord is already 20, the width all three of her slots read
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="270" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="270" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="292" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="292" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a5225f56ed78bb88097d27d42afa73840" prot="public" static="no" mutable="no">
         <type>std::array&lt; float, 3 &gt;</type>
@@ -348,7 +380,7 @@ Only the position is moved: a translation leaves normals and tangents as they ar
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="295" column="24" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="295" bodyend="295"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="317" column="24" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="317" bodyend="317"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a461e9236e3bbb7ff666a4c97014e772b" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -376,7 +408,7 @@ positions for this component. **Default**: ``false``, the offset always applies
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="313" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="313" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="335" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="335" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7268856272e0561b22ab78e94e2d7c93" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -407,7 +439,7 @@ Read these off the target&apos;s identity mod, never off a mod of it. Only a lit
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="335" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="335" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="357" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="357" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -415,7 +447,7 @@ Read these off the target&apos;s identity mod, never off a mod of it. Only a lit
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="96" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="96" bodyend="336"/>
+    <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="96" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="96" bodyend="358"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a8a6e3aa1143a327fafd7b262e9c474dc" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>claimShare</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab57732e17c092f1bb8509403de678a16" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>dropTexFx</name></member>
@@ -434,6 +466,7 @@ Read these off the target&apos;s identity mod, never off a mod of it. Only a lit
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7268856272e0561b22ab78e94e2d7c93" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>slotRegisters</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab62936cc39c35b9e9c98fcca5697f0b5" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>standIns</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae2c0b9f4af8f721add0e6a6b68f63603" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>texcoordStride</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae74ea7c73f7a9013e807f81e3b9ce492" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>texFxBlend</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

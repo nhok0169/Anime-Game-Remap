@@ -121,6 +121,10 @@ namespace AGRemapCore {
             // is a geometry one.
             main.dropTexFx = true;
 
+            // ...and its see-through draws blended instead, at the opacity that matched the TexFx original
+            // in game (Neuvillette8's sheer shirt, 2026-09-26). The mod's own TexFx mask says which.
+            main.texFxBlend = 0.9f;
+
             config.components = {main, coat, bang, eye};
 
             // Every component receives a forward vertex-group row, so none is hidden by request. A mod can
@@ -128,6 +132,11 @@ namespace AGRemapCore {
             // hides such a component by the result.
             config.hiddenComponents = {};
             config.unremappedSlots = {};
+
+            // A mod that hides his face, head-upper or eyebrows by hash (Neuvillette9's mask) hides the
+            // skin's own too: they are other hashes on the skin, and its face showed through the mask in
+            // pieces (in game, 2026-09-26). His eyebrows are the skin's too and need nothing.
+            config.sideMeshes = {"ib_face", "ib_headupper"};
 
             // The flat normal map invented for a plain-layout object has BLUE = 0: every GI 6.x normal map
             // in play here is R, G ~128, B ~0, and this skin's shaders read B as a GLITTER mask -- the

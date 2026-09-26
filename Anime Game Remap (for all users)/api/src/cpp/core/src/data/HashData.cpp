@@ -1446,6 +1446,13 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"4.0", "Neuvillette", "tex_face_diffuse"}, "81e80510"},
         {{"4.3", "Neuvillette", "ib"}, "f055eadd"},
 
+        // His SIDE MESHES -- his own unskinned draws that are no mod object -- for a mod that hides one by
+        // hash (Neuvillette9's mask: `ib = null` on each). See GIMIComponentFixerConfig::sideMeshes. Read
+        // off FrameAnalysis-Neuvillette-2026-09-24-205101: the face (6996 indices), the head-upper (3648)
+        // and the eyebrows, which the skin draws under the SAME hash (f151ddf7) and so are not filed.
+        {{"4.0", "Neuvillette", "ib_face"}, "24f8b383"},
+        {{"4.0", "Neuvillette", "ib_headupper"}, "8559c8e2"},
+
         // NeuvilletteMelusent (6.3, "Melusent Gift") draws an UNNAMED main mesh (Head / Body / Dress on one
         // index buffer -- filed under NeuvilletteMelusentMain), a Coat, a Bang and an Eye, each skinned and
         // with its own buffers. No asset repo has it: every value here was read off a frame dump of the
@@ -1485,6 +1492,12 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"6.3", "NeuvilletteMelusentEye", "texcoord_vb"}, "b48884e6"},
         {{"6.3", "NeuvilletteMelusentEye", "ib"}, "9181b82c"},
         {{"6.3", "NeuvilletteMelusentEye", "tex_face_diffuse"}, "6dab6f0e"},
+
+        // The skin's own side meshes, filed under the skin as a whole (no component draws them) -- see
+        // Neuvillette's above. Drawn with his face's shaders beside the shared eyebrows in the skin's dump:
+        // the face at the same 6996 indices, the head-upper at 3714.
+        {{"6.3", "NeuvilletteMelusent", "ib_face"}, "97cd1620"},
+        {{"6.3", "NeuvilletteMelusent", "ib_headupper"}, "81780578"},
 
         // ===== version 5.4 =====
         // LisaStudent

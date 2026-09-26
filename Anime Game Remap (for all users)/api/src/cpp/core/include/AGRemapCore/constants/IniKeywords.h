@@ -15,6 +15,7 @@
 // ##### EndCredits
 
 #include <string>
+#include <unordered_set>
 
 
 namespace AGRemapCore {
@@ -140,6 +141,54 @@ namespace AGRemapCore {
              @endrst
              */
             static inline const std::string MatchFirstIndex = "match_first_index";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key holding how many indices of the model a `section`_ draws
+             @endrst
+             */
+            static inline const std::string MatchIndexCount = "match_index_count";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key holding how many vertices the model a `section`_ draws has
+             @endrst
+             */
+            static inline const std::string MatchVertexCount = "match_vertex_count";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key breaking the tie when several `sections`_ match one draw
+             @endrst
+             */
+            static inline const std::string MatchPriority = "match_priority";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key holding which kind of draw call a `section`_ matches
+             @endrst
+             */
+            static inline const std::string MatchType = "match_type";
+
+            /**
+             * @brief
+             @rst
+             Every `KVP`_ key by which a `section`_ selects the draw it overrides
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             These are what make a ``TextureOverride`` fire, so they are meaningful only where
+             3dmigoto is matching. A ``CommandList`` is *called*, never matched, so a fix that
+             copies a section's body into one drops these on the way -- carried across they say
+             nothing, and a stale ``hash`` in particular reads as a second claim on a draw the
+             fix has already remapped
+             @endrst
+             */
+            static inline const std::unordered_set<std::string> MatchKeys = {
+                Hash, MatchPriority, MatchFirstIndex, MatchIndexCount, MatchType, MatchVertexCount};
 
             /**
              * @brief

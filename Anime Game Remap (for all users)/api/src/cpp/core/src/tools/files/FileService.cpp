@@ -13,6 +13,8 @@
 
 #include "AGRemapCore/tools/files/FileService.h"
 
+#include "AGRemapCore/tools/StringTools.h"
+
 #include <algorithm>
 
 #include <filesystem>
@@ -91,6 +93,28 @@ namespace AGRemapCore {
         const std::u8string utf8 = path.u8string();
         return std::string(reinterpret_cast<const char*>(utf8.data()), utf8.size());
     }
+
+    std::string FileService::baseName(const std::string& path) {
+        return pathToStr(strToPath(path).filename());
+    }
+
+
+    std::string FileService::parentOf(const std::string& path) {
+        return pathToStr(strToPath(path).parent_path());
+    }
+
+
+    std::string FileService::stem(const std::string& path) {
+        return pathToStr(strToPath(path).stem());
+    }
+
+
+    std::string FileService::pathKey(const std::string& path) {
+        std::string out = StringTools::toLower(path);
+        std::replace(out.begin(), out.end(), '\\', '/');
+        return out;
+    }
+
 
     std::string FileService::pathToIniStr(const std::filesystem::path& path) {
         std::string result = pathToStr(path);

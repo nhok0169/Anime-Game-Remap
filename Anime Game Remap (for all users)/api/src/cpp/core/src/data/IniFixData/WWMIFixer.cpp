@@ -44,6 +44,8 @@
 #include "AGRemapCore/model/buffers/BufInt.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/files/TextureFile.h"
+#include "AGRemapCore/model/files/IniScan.h"
+#include "AGRemapCore/model/textures/TexThumbprint.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
 #include "AGRemapCore/model/iniresources/RemapBlendResource.h"
 #include "AGRemapCore/model/iniresources/RemapIniResource.h"
@@ -69,7 +71,9 @@
 #include <stdexcept>
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
+#include "AGRemapCore/tools/NumTools.h"
 #include "AGRemapCore/tools/StringTools.h"
+#include "AGRemapCore/tools/TextTools.h"
 #include "AGRemapCore/tools/files/FileService.h"
 
 
@@ -142,7 +146,6 @@ namespace AGRemapCore {
         const std::string ChecksumNotFound = "ChecksumNotFound";
         const std::string DefaultTextureFolder = "Textures";
         const std::string DefaultMeshFolder = "Meshes";
-        const std::string DisabledPrefix = "disabled";
         const std::string TextureOverridePrefix = "TextureOverride";
         const std::string TextureOverrideTexturePrefix = "TextureOverrideTexture";
         const std::string ResourcePrefix = "Resource";
@@ -164,73 +167,6 @@ namespace AGRemapCore {
         const int MaxFolderClimb = 3;
 
 
-        // ---- small helpers ----
-
-        std::string lowerKey(const std::string& path) {
-            std::string out = StringTools::toLower(path);
-            std::replace(out.begin(), out.end(), '\\', '/');
-            return out;
-        }
-
-        bool startsWithDisabled(const std::string& name) {
-            return StringTools::startsWith(StringTools::toLower(name), DisabledPrefix);
-        }
-
-        std::string baseName(const std::string& path) {
-            return FileService::pathToStr(FileService::strToPath(path).filename());
-        }
-
-        std::string parentOf(const std::string& path) {
-            return FileService::pathToStr(FileService::strToPath(path).parent_path());
-        }
-
-        // `ps-t0` as it appears in a command list's NAME: Pst0
-        std::string regTag(const std::string& reg) {
-            std::string out;
-            for (char c : reg) {
-                if (c != '-') {
-                    out += c;
-                }
-            }
-
-            if (!out.empty()) {
-                out[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(out[0])));
-            }
-
-            return out;
-        }
-
-
-        // 3dmigoto's own matching keys: meaningless in a CommandList, so a copied section drops them
-        const std::unordered_set<std::string> MatchKeys = {"hash", "match_priority", "match_first_index",
-                                                           "match_index_count", "match_type", "match_vertex_count"};
-
-
-        std::string capitalized(const std::string& word) {
-            if (word.empty()) {
-                return word;
-            }
-
-            std::string out = word;
-            out[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(out[0])));
-            return out;
-        }
-
-        std::string formatFilter(double value) {
-            char buffer[32];
-            std::snprintf(buffer, sizeof(buffer), "%.4f", value);
-            std::string out(buffer);
-            while (!out.empty() && out.back() == '0') {
-                out.pop_back();
-            }
-
-            if (!out.empty() && out.back() == '.') {
-                out.pop_back();
-            }
-
-            return out;
-        }
-
         // The 8-byte WWMI blend line: four R8 bone indices then four R8 weights (Metadata.json's
         // export_format 'Blend'); the library's default BlendFile layout is GIMI's 32-byte one.
         std::vector<std::unique_ptr<BufElementType>> wwmiBlendElements() {
@@ -245,107 +181,6 @@ namespace AGRemapCore {
             }
 
             return elements;
-        }
-
-        // ---- pixel identity: a file's thumbprint, correlated against the game textures' ----
-
-        // The same arithmetic as Tools/Misc/Diagnostics/wwmiTextureThumbs.py: (r + g + b) / 3 per
-        // pixel, box-averaged over blocks of (width / n) x (height / n), rounded.
-        std::optional<std::vector<double>> thumbprintOf(const std::string& path, int n) {
-            TextureFile texture(path);
-            try {
-                texture.open();
-            } catch (const std::exception&) {
-                return std::nullopt;
-            }
-
-            const int width = texture.getWidth();
-            const int height = texture.getHeight();
-            if (!texture.hasImage() || n <= 0 || width < n || height < n) {
-                return std::nullopt;
-            }
-
-            const std::vector<std::uint8_t>& pixels = texture.getPixels();
-            const int bw = width / n;
-            const int bh = height / n;
-            std::vector<double> thumb(static_cast<std::size_t>(n) * static_cast<std::size_t>(n), 0.0);
-            for (int by = 0; by < n; ++by) {
-                for (int bx = 0; bx < n; ++bx) {
-                    double sum = 0.0;
-                    for (int y = by * bh; y < (by + 1) * bh; ++y) {
-                        const std::uint8_t* row = pixels.data() + (static_cast<std::size_t>(y) * static_cast<std::size_t>(width) + static_cast<std::size_t>(bx) * static_cast<std::size_t>(bw)) * 4;
-                        for (int x = 0; x < bw; ++x) {
-                            sum += (static_cast<double>(row[x * 4]) + static_cast<double>(row[x * 4 + 1]) + static_cast<double>(row[x * 4 + 2])) / 3.0;
-                        }
-                    }
-
-                    thumb[static_cast<std::size_t>(by) * static_cast<std::size_t>(n) + static_cast<std::size_t>(bx)]
-                        = std::round(sum / (static_cast<double>(bw) * static_cast<double>(bh)));
-                }
-            }
-
-            return thumb;
-        }
-
-        double correlation(const std::vector<double>& a, const std::vector<std::uint8_t>& b) {
-            if (a.size() != b.size() || a.empty()) {
-                return 0.0;
-            }
-
-            double meanA = 0.0;
-            double meanB = 0.0;
-            for (std::size_t i = 0; i < a.size(); ++i) {
-                meanA += a[i];
-                meanB += static_cast<double>(b[i]);
-            }
-
-            meanA /= static_cast<double>(a.size());
-            meanB /= static_cast<double>(a.size());
-            double dot = 0.0;
-            double normA = 0.0;
-            double normB = 0.0;
-            for (std::size_t i = 0; i < a.size(); ++i) {
-                const double da = a[i] - meanA;
-                const double db = static_cast<double>(b[i]) - meanB;
-                dot += da * db;
-                normA += da * da;
-                normB += db * db;
-            }
-
-            const double norm = std::sqrt(normA) * std::sqrt(normB);
-            return norm > 0.0 ? dot / norm : 0.0;
-        }
-
-        // The hash of the game texture 'file' IS, by its thumbprint -- or nothing.
-        std::optional<std::string> identifyByThumbprint(const std::string& file, const WWMIFixerConfig& config) {
-            if (config.textureThumbprints.empty()) {
-                return std::nullopt;
-            }
-
-            std::optional<std::vector<double>> thumb = thumbprintOf(file, config.thumbprintSize);
-            if (!thumb.has_value()) {
-                return std::nullopt;
-            }
-
-            std::string best;
-            double bestScore = -2.0;
-            double secondScore = -2.0;
-            for (const auto& entry : config.textureThumbprints) {
-                const double score = correlation(*thumb, entry.second);
-                if (score > bestScore) {
-                    secondScore = bestScore;
-                    bestScore = score;
-                    best = entry.first;
-                } else if (score > secondScore) {
-                    secondScore = score;
-                }
-            }
-
-            if (bestScore >= config.identityMin && secondScore < config.identityGap) {
-                return best;
-            }
-
-            return std::nullopt;
         }
 
         BaseResEdit<>::ResEditConfig makeResEditConfig() {
@@ -670,93 +505,6 @@ namespace AGRemapCore {
 
         // ---- the mod's textures, by role ----
 
-        struct IniSection {
-            std::string name;
-            std::vector<std::pair<std::string, std::string>> kvps;
-        };
-
-        // A key as the two spellings of it compare equal: RabbitFX's own lines
-        // (`Resource\RabbitFX\Lightmap`) are written in whatever case a mod's author used and with
-        // either slash.
-        std::string looseKey(const std::string& key) {
-            std::string out = StringTools::toLower(key);
-            std::replace(out.begin(), out.end(), '\\', '/');
-            return out;
-        }
-
-
-        // The first value of a key, matched by looseKey. An exact-key lookup that misses is
-        // indistinguishable from a mod that binds nothing there, which is how a whole table of
-        // RabbitFX roles came back empty and five of one mod's textures were replaced by downloads.
-        std::optional<std::string> firstValLoose(const IfTemplate<std::string, std::string>& tpl,
-                                                 const std::string& key) {
-            const std::string want = looseKey(key);
-            for (const auto& part : tpl.parts()) {
-                const auto* content =
-                    dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
-                if (content == nullptr) {
-                    continue;
-                }
-
-                for (const std::string& candidate : content->getKeys()) {
-                    if (looseKey(candidate) != want) {
-                        continue;
-                    }
-
-                    std::vector<std::string> vals = content->getVals(candidate);
-                    if (!vals.empty()) {
-                        return std::string(StringTools::strip(vals.front()));
-                    }
-                }
-            }
-
-            return std::nullopt;
-        }
-
-
-        // A plain line scan: enough to read `filename =`, `hash =` and `this =` out of any .ini of
-        // the mod, including the ones the API never parses (a namespaced companion file).
-        std::vector<IniSection> scanIni(const std::string& path) {
-            std::vector<IniSection> sections;
-            std::ifstream in(FileService::strToPath(path));
-            std::string line;
-            while (std::getline(in, line)) {
-                std::string stripped = std::string(StringTools::strip(line));
-                if (stripped.empty() || stripped[0] == ';') {
-                    continue;
-                }
-
-                if (stripped.front() == '[' && stripped.back() == ']') {
-                    sections.push_back(IniSection{stripped.substr(1, stripped.size() - 2), {}});
-                    continue;
-                }
-
-                if (sections.empty()) {
-                    continue;
-                }
-
-                const std::size_t eq = stripped.find('=');
-                if (eq == std::string::npos) {
-                    continue;
-                }
-
-                sections.back().kvps.emplace_back(std::string(StringTools::strip(stripped.substr(0, eq))),
-                                                  std::string(StringTools::strip(stripped.substr(eq + 1))));
-            }
-
-            return sections;
-        }
-
-        std::optional<std::string> firstKvp(const IniSection& section, const std::string& key) {
-            for (const auto& kvp : section.kvps) {
-                if (kvp.first == key) {
-                    return kvp.second;
-                }
-            }
-
-            return std::nullopt;
-        }
-
         struct TextureRole {
             std::string role;
             std::string how;
@@ -820,10 +568,10 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        const std::string name = StringTools::toLower(baseName(file));
+                        const std::string name = StringTools::toLower(FileService::baseName(file));
                         if (StringTools::endsWith(name, DdsExt)) {
                             if (name.find(remapTex) == std::string::npos) {
-                                const std::string key = lowerKey(file);
+                                const std::string key = FileService::pathKey(file);
                                 ddsFiles.push_back(key);
                                 real_[key] = file;
                             }
@@ -835,37 +583,37 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        const std::string folder = parentOf(file);
+                        const std::string folder = FileService::parentOf(file);
                         std::vector<std::pair<std::string, std::string>> resources;     // in declaration order
                         std::unordered_map<std::string, std::string> fileOfResource;
-                        const std::vector<IniSection> sections = scanIni(file);
-                        for (const IniSection& section : sections) {
+                        const std::vector<IniScanSection> sections = IniScan::scan(file);
+                        for (const IniScanSection& section : sections) {
                             if (!StringTools::startsWith(section.name, ResourcePrefix)
                                 || StringTools::toLower(section.name).find(remapFix) != std::string::npos) {
                                 continue;
                             }
 
-                            std::optional<std::string> fileName = firstKvp(section, IniKeywords::Filename);
+                            std::optional<std::string> fileName = IniScan::firstVal(section, IniKeywords::Filename);
                             if (fileName.has_value() && StringTools::endsWith(StringTools::toLower(*fileName), DdsExt)) {
-                                const std::string key = lowerKey(FileService::absPathOfRelPath(*fileName, folder));
+                                const std::string key = FileService::pathKey(FileService::absPathOfRelPath(*fileName, folder));
                                 resources.emplace_back(section.name, key);
                                 fileOfResource[section.name] = key;
                             }
                         }
 
-                        for (const IniSection& section : sections) {
+                        for (const IniScanSection& section : sections) {
                             if (!StringTools::startsWith(section.name, TextureOverrideTexturePrefix)) {
                                 continue;
                             }
 
-                            std::optional<std::string> hash = firstKvp(section, IniKeywords::Hash);
-                            std::optional<std::string> resource = firstKvp(section, ThisKey);
+                            std::optional<std::string> hash = IniScan::firstVal(section, IniKeywords::Hash);
+                            std::optional<std::string> resource = IniScan::firstVal(section, ThisKey);
                             if (hash.has_value() && resource.has_value() && fileOfResource.count(*resource) > 0) {
                                 hashesOfFile[fileOfResource[*resource]].push_back(StringTools::toLower(*hash));
                             }
                         }
 
-                        resourcesByIni_[lowerKey(file)] = std::move(resources);
+                        resourcesByIni_[FileService::pathKey(file)] = std::move(resources);
                     }
 
                     std::vector<std::string> pending;
@@ -905,7 +653,8 @@ namespace AGRemapCore {
                         }
 
                         if (!hash.has_value()) {
-                            hash = identifyByThumbprint(real_[file], config);
+                            hash = TexThumbprint::identifyFile(real_[file], config.textureThumbprints, config.thumbprintSize,
+                                                      config.identityMin, config.identityGap);
                         }
 
                         if (hash.has_value()) {
@@ -918,7 +667,7 @@ namespace AGRemapCore {
                         }
 
                         std::smatch match;
-                        const std::string name = baseName(file);
+                        const std::string name = FileService::baseName(file);
                         if (std::regex_search(name, match, ComponentFilePattern)) {
                             const int component = std::stoi(match[1].str());
                             auto type = TypeOfSuffix.find(StringTools::toLower(match[2].str()));
@@ -955,7 +704,7 @@ namespace AGRemapCore {
                 // naming a file is the one bound, as the prototype binds it
                 const std::vector<std::pair<std::string, std::string>>& resourcesOf(const std::string& iniPath) const {
                     static const std::vector<std::pair<std::string, std::string>> none;
-                    auto it = resourcesByIni_.find(lowerKey(iniPath));
+                    auto it = resourcesByIni_.find(FileService::pathKey(iniPath));
                     return it == resourcesByIni_.end() ? none : it->second;
                 }
 
@@ -963,15 +712,15 @@ namespace AGRemapCore {
                 static std::string findRoot(const std::string& iniFolder) {
                     std::string folder = iniFolder;
                     for (int i = 0; i < MaxFolderClimb; ++i) {
-                        const std::string parent = parentOf(folder);
+                        const std::string parent = FileService::parentOf(folder);
                         if (parent.empty() || parent == folder) {
                             break;
                         }
 
                         bool holdsIni = false;
                         for (const std::string& file : FileService::getFilesAndDirs(parent, false).first) {
-                            const std::string name = baseName(file);
-                            if (StringTools::endsWith(StringTools::toLower(name), IniExt) && !startsWithDisabled(name)) {
+                            const std::string name = FileService::baseName(file);
+                            if (StringTools::endsWith(StringTools::toLower(name), IniExt) && !IniNamingTools::isDisabled(name)) {
                                 holdsIni = true;
                                 break;
                             }
@@ -989,12 +738,12 @@ namespace AGRemapCore {
 
                 // A DISABLED-prefixed folder or file, anywhere under the root: the game ignores it.
                 bool isDisabled(const std::string& file) const {
-                    const std::string rel = lowerKey(FileService::getRelPath(file, root_));
+                    const std::string rel = FileService::pathKey(FileService::getRelPath(file, root_));
                     std::size_t start = 0;
                     while (start <= rel.size()) {
                         const std::size_t end = rel.find('/', start);
                         const std::string part = rel.substr(start, end == std::string::npos ? std::string::npos : end - start);
-                        if (StringTools::startsWith(part, DisabledPrefix)) {
+                        if (IniNamingTools::isDisabled(part)) {
                             return true;
                         }
 
@@ -1488,7 +1237,7 @@ namespace AGRemapCore {
                                 }
 
                                 for (const auto& [reg, role] : layout->second) {
-                                    std::optional<std::string> bound = firstValLoose(*tpl->second, reg);
+                                    std::optional<std::string> bound = ModBranches::firstValLoose(*tpl->second, reg);
                                     if (!bound.has_value()) {
                                         continue;
                                     }
@@ -1543,7 +1292,7 @@ namespace AGRemapCore {
                     // own atlas UVs that put wrong-coloured patches over the fringe in game (2026-09-19).
                     // A register binding is per component and can honour the specific one.
                     auto rank = [&](const std::string& file, int component) {
-                        std::string rel = lowerKey(FileService::getRelPath(index_->real(file), iniFolder));
+                        std::string rel = FileService::pathKey(FileService::getRelPath(index_->real(file), iniFolder));
                         std::size_t ups = 0;
                         std::size_t pos = 0;
                         while ((pos = rel.find("../", pos)) != std::string::npos) {
@@ -1606,9 +1355,9 @@ namespace AGRemapCore {
                             // section names. Two files of one role each get their own.
                             auto declaredName = declaredName_.find(best);
                             if (declaredName == declaredName_.end()) {
-                                std::string name = ResourcePrefix + capitalized(role) + toModName_ + IniKeywords::RemapRef;
+                                std::string name = ResourcePrefix + TextTools::capitalize(role) + toModName_ + IniKeywords::RemapRef;
                                 for (std::size_t n = 2; usedDeclaredNames_.count(name) > 0; ++n) {
-                                    name = ResourcePrefix + capitalized(role) + std::to_string(n) + toModName_ + IniKeywords::RemapRef;
+                                    name = ResourcePrefix + TextTools::capitalize(role) + std::to_string(n) + toModName_ + IniKeywords::RemapRef;
                                 }
 
                                 usedDeclaredNames_.insert(name);
@@ -1669,7 +1418,7 @@ namespace AGRemapCore {
                                     continue;
                                 }
 
-                                const std::string kind = capitalized(binding.role);
+                                const std::string kind = TextTools::capitalize(binding.role);
                                 const std::string fileName = DownloadTools::fixedFileName(config_.downloadPrefix, kind, DdsExt);
                                 fallbacks_[binding.role] = Fallback{
                                     DownloadTools::downloadFolder() + "/"
@@ -1708,7 +1457,7 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            const std::string kind = capitalized(role);
+                            const std::string kind = TextTools::capitalize(role);
                             const std::string fileName = DownloadTools::fixedFileName(config_.downloadPrefix, kind, DdsExt);
                             fallbacks_[role] = Fallback{
                                 DownloadTools::downloadFolder() + "/"
@@ -1805,7 +1554,7 @@ namespace AGRemapCore {
                             }
 
                             for (const std::string& section : present_.at(planned.first)) {
-                                expected_[lowerKey(fixName(section))].values = {
+                                expected_[ModBranches::looseKey(fixName(section))].values = {
                                     {IniKeywords::MatchFirstIndex, s.indexOffset}, {MatchIndexCountKey, s.indexCount},
                                     {VgOffsetKey, s.vgOffset}, {VgCountKey, s.vgCount}};
                             }
@@ -1850,7 +1599,7 @@ namespace AGRemapCore {
                         }
 
                         if (!bindings.empty()) {
-                            const std::string cmdList = fixName("CommandList" + source_.name + capitalized(config_.slotPrefix)
+                            const std::string cmdList = fixName("CommandList" + source_.name + TextTools::capitalize(config_.slotPrefix)
                                                                 + std::to_string(component) + "Textures");
                             const std::string condition =
                                 passCondition(config_.slotPasses.at(static_cast<std::size_t>(planned.slot)));
@@ -1885,7 +1634,7 @@ namespace AGRemapCore {
                                 }
 
                                 const std::string extraList =
-                                    fixName("CommandList" + source_.name + capitalized(config_.slotPrefix)
+                                    fixName("CommandList" + source_.name + TextTools::capitalize(config_.slotPrefix)
                                             + std::to_string(component) + "TexturesPass" + std::to_string(n));
                                 std::string extraText = "[" + extraList + "]\nif " + passCondition(pass) + "\n";
                                 for (const std::string& binding : extraBindings) {
@@ -1901,7 +1650,7 @@ namespace AGRemapCore {
 
                         if (!additions.empty()) {
                             for (const std::string& section : present_.at(component)) {
-                                expected_[lowerKey(fixName(section))].additions = additions;
+                                expected_[ModBranches::looseKey(fixName(section))].additions = additions;
                             }
 
                             // The remap has already renamed the called list by the time this runs,
@@ -2140,7 +1889,7 @@ namespace AGRemapCore {
                         const std::string name = sectionNameOf(lines[k]);
                         if (!name.empty()) {
                             closeSection();
-                            sectionKey = lowerKey(name);
+                            sectionKey = ModBranches::looseKey(name);
                             held.clear();
                             anchorAt = std::string::npos;
                             continue;
@@ -2309,7 +2058,7 @@ namespace AGRemapCore {
                     }
 
                     const std::string name =
-                        fixName("CommandList" + source_.name + capitalized(role) + regTag(reg));
+                        fixName("CommandList" + source_.name + TextTools::capitalize(role) + IniNamingTools::getRegTag(reg));
                     std::string body;
                     bool anyBinding = false;
                     std::istringstream lines(renderIfTemplate(*tpl->second, "", true));
@@ -2326,7 +2075,7 @@ namespace AGRemapCore {
                         const std::string key = equals == std::string::npos
                                                     ? std::string()
                                                     : StringTools::toLower(std::string(StringTools::strip(line.substr(0, equals))));
-                        if (MatchKeys.count(key) > 0) {
+                        if (IniKeywords::MatchKeys.count(key) > 0) {
                             continue;                       // 3dmigoto's matching keys mean nothing in a list
                         }
 
@@ -2385,7 +2134,7 @@ namespace AGRemapCore {
                 // The components a WWMI-Tools export name is tagged for: `Components-0-2 t=<hash>.dds`
                 // is {0, 2}. Empty for a file named anything else
                 static std::vector<int> componentTag(const std::string& file) {
-                    const std::string name = StringTools::toLower(baseName(file));
+                    const std::string name = StringTools::toLower(FileService::baseName(file));
                     const std::string prefix = "components-";
                     const std::size_t end = name.find(" t=");
                     if (!StringTools::startsWith(name, prefix) || end == std::string::npos) {
@@ -2514,7 +2263,7 @@ namespace AGRemapCore {
                                     if (given != config_.filterIndices.end()) {
                                         passFilters_[tagged] = given->second;
                                     } else {
-                                        passFilters_[tagged] = formatFilter(config_.filterBase + config_.filterStep * static_cast<double>(i));
+                                        passFilters_[tagged] = NumTools::formatDouble(config_.filterBase + config_.filterStep * static_cast<double>(i));
                                         ++i;
                                     }
 
@@ -2604,7 +2353,7 @@ namespace AGRemapCore {
                         const std::string state = "$state_id_" + std::to_string(slot);
                         out += "; nothing of the mod is drawn through " + toModName_ + "'s " + labelText
                                + " slot: the skin's own geometry is skipped and its bones still merged\n"
-                               + "[TextureOverride" + toModName_ + capitalized(config_.slotPrefix) + std::to_string(slot) + IniKeywords::Remap + "Hide]\n"
+                               + "[TextureOverride" + toModName_ + TextTools::capitalize(config_.slotPrefix) + std::to_string(slot) + IniKeywords::Remap + "Hide]\n"
                                + IniKeywords::Hash + " = " + target_.vb0Hash + "\n"
                                + IniKeywords::MatchFirstIndex + " = " + s.indexOffset + "\n"
                                + MatchIndexCountKey + " = " + s.indexCount + "\n"
@@ -2745,11 +2494,11 @@ namespace AGRemapCore {
                         }
 
                         const std::string fixedRel = textureFolder_ + "/" + config_.downloadPrefix
-                                                     + capitalized(edit.role) + edit.name + IniKeywords::RemapTex + DdsExt;
+                                                     + TextTools::capitalize(edit.role) + edit.name + IniKeywords::RemapTex + DdsExt;
                         plannedEdits_.push_back(PlannedEdit{&edit, source, fixedRel});
 
                         // every binding of the role follows the edited file
-                        const std::string resource = fixName(ResourcePrefix + capitalized(edit.role) + edit.name
+                        const std::string resource = fixName(ResourcePrefix + TextTools::capitalize(edit.role) + edit.name
                                                              + IniKeywords::RemapTex);
 
                         // Which of the mod's resources this replaces, so a copied toggle chain can
@@ -2783,10 +2532,10 @@ namespace AGRemapCore {
                                     ++n;
                                     const std::string suffix = std::to_string(n);
                                     const std::string variantRel =
-                                        textureFolder_ + "/" + config_.downloadPrefix + capitalized(edit.role)
+                                        textureFolder_ + "/" + config_.downloadPrefix + TextTools::capitalize(edit.role)
                                         + edit.name + suffix + IniKeywords::RemapTex + DdsExt;
                                     const std::string variantResource =
-                                        fixName(ResourcePrefix + capitalized(edit.role) + edit.name + suffix
+                                        fixName(ResourcePrefix + TextTools::capitalize(edit.role) + edit.name + suffix
                                                 + IniKeywords::RemapTex);
                                     plannedEdits_.push_back(PlannedEdit{&edit, file->second, variantRel});
                                     editedResources_.emplace_back(variantResource, variantRel);

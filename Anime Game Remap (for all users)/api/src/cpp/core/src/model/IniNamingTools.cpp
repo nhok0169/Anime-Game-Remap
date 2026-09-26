@@ -20,6 +20,7 @@
 #include <vector>
 
 #include "AGRemapCore/constants/FileExt.h"
+#include "AGRemapCore/constants/FilePrefixes.h"
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/tools/TextTools.h"
@@ -115,6 +116,23 @@ namespace AGRemapCore {
 
         return dot;
     }
+
+    bool IniNamingTools::isDisabled(const std::string& name) {
+        return StringTools::startsWith(StringTools::toLower(name), FilePrefixes::DisabledPrefix);
+    }
+
+
+    std::string IniNamingTools::getRegTag(const std::string& reg) {
+        std::string out;
+        for (char c : reg) {
+            if (c != '-') {
+                out += c;
+            }
+        }
+
+        return TextTools::capitalize(out);
+    }
+
 
     std::string IniNamingTools::getResourceName(const std::string& name) {
         if (!name.starts_with(IniKeywords::Resource)) {

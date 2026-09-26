@@ -345,6 +345,39 @@ namespace AGRemapCore {
              *
              * @return The new name for the `section`_
              */
+            /**
+             * @brief
+             @rst
+             Whether 'name' names something a modder has turned OFF -- see
+             :cpp:member:`FilePrefixes::DisabledPrefix` :raw-html:`<br />` :raw-html:`<br />`
+
+             Case-insensitive, and only a PREFIX test: this answers "did someone disable this", not
+             "is this a backup of ours", which :cpp:member:`FilePrefixes::BackupFilePrefix` and the
+             two historical prefixes beside it answer
+             @endrst
+             *
+             * @param name The file, folder or section name to test
+             *
+             * @return Whether 'name' is prefixed as disabled
+             */
+            static bool isDisabled(const std::string& name);
+
+            /**
+             * @brief
+             @rst
+             A register as it is spelled inside a `section`_ NAME: ``ps-t0`` -> ``Pst0``
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A section name cannot carry the register's own punctuation and read as one word, so the
+             separators come out and the result is capitalized to join onto whatever precedes it
+             @endrst
+             *
+             * @param reg The register to spell
+             *
+             * @return The register as a name fragment
+             */
+            static std::string getRegTag(const std::string& reg);
+
             static std::string getObjRemapFixName(const std::string& name, const std::string& modName,
                                                    const std::pair<std::string, std::string>& objName,
                                                    const std::pair<std::string, std::string>& newObjName);

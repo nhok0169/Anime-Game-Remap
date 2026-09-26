@@ -68,6 +68,7 @@
 //  -std=c++23 -I ... -o test.exe, and -DUTF8PROC_STATIC likely isn't needed)
 // -----------------------------------------------------------------------------
 
+#include "AGRemapCore/constants/FilePrefixes.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/tools/TextTools.h"
 
@@ -83,6 +84,17 @@ using AGRemapCore::TextTools;
 namespace {
 
 int failures = 0;
+
+void checkBool(bool actual, bool expected, const char* description) {
+    if (actual == expected) {
+        std::printf("[PASS] %s\n", description);
+    } else {
+        std::printf("[FAIL] %s: got %s, wanted %s\n", description, actual ? "true" : "false",
+                    expected ? "true" : "false");
+        ++failures;
+    }
+}
+
 
 void check(const std::string& actual, const std::string& expected, const char* description) {
     if (actual == expected) {
@@ -269,6 +281,36 @@ void testTextTools() {
 
 }  // namespace
 
+// isDisabled and getRegTag, lifted out of WWMIFixer (2026-09-25). Both are conventions of the mod
+// ecosystem rather than of any one game: a modder turns something off by renaming it, and a register
+// cannot keep its punctuation inside a section name and still read as one word.
+void testDisabledAndRegTag() {
+    std::printf("\n-- isDisabled and getRegTag --\n");
+
+    // Every case in the wild -- mod managers and modders disagree about it
+    checkBool(AGRemapCore::IniNamingTools::isDisabled("DISABLED_Chisa1.ini"), true, "DISABLED is disabled");
+    checkBool(AGRemapCore::IniNamingTools::isDisabled("disabled Chisa1.ini"), true, "so is lowercase");
+    checkBool(AGRemapCore::IniNamingTools::isDisabled("Disabled Nude Variant"), true, "and title case");
+
+    checkBool(AGRemapCore::IniNamingTools::isDisabled("Chisa1.ini"), false, "an ordinary name is not");
+    checkBool(AGRemapCore::IniNamingTools::isDisabled(""), false, "nor is an empty one");
+
+    // A PREFIX test: the word elsewhere in the name means nothing
+    checkBool(AGRemapCore::IniNamingTools::isDisabled("Chisa_disabled.ini"), false,
+              "the word in the MIDDLE does not disable it");
+
+    // Our own backup prefix is a different question, and one of the historical ones starts DISABLED_
+    checkBool(AGRemapCore::IniNamingTools::isDisabled(AGRemapCore::FilePrefixes::BackupFilePrefix + "mod.ini"), false,
+              "a backup of ours is not 'disabled'");
+    checkBool(AGRemapCore::IniNamingTools::isDisabled(AGRemapCore::FilePrefixes::OldBackupFilePrefixV3 + "mod.ini"), true,
+              "though version 3's backup prefix does read as disabled -- it starts with the word");
+
+    check(AGRemapCore::IniNamingTools::getRegTag("ps-t0"), "Pst0", "a register loses its dash and capitalizes");
+    check(AGRemapCore::IniNamingTools::getRegTag("vb4"), "Vb4", "one with no dash just capitalizes");
+    check(AGRemapCore::IniNamingTools::getRegTag(""), "", "and an empty register stays empty");
+}
+
+
 int main() {
     testResourceName();
     testRemapElementName();
@@ -278,6 +320,7 @@ int main() {
     testTextureOverrideRemapFix();
     testObjRemapFixName();
     testTextTools();
+    testDisabledAndRegTag();
 
     if (failures == 0) {
         std::printf("\nAll tests passed.\n");

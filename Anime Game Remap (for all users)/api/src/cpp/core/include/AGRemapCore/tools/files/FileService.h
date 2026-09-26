@@ -104,6 +104,74 @@ namespace AGRemapCore {
              */
             static std::string pathToIniStr(const std::filesystem::path& path);
 
+            /**
+             * @brief
+             @rst
+             The last component of 'path' -- its file name, extension and all
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                Spelling this out is ``pathToStr(strToPath(path).filename())``, and both halves are
+                needed: the string has to become a ``path`` to be split, and the piece has to come
+                back through :cpp:func:`pathToStr` rather than ``string()`` for the reason that
+                function's own danger note gives. It was written out by hand in over forty places
+                before this existed
+             @endrst
+             *
+             * @param path The UTF-8 path to read
+             *
+             * @return The path's last component, as UTF-8
+             */
+            static std::string baseName(const std::string& path);
+
+            /**
+             * @brief
+             @rst
+             The folder 'path' sits in -- everything before its last component
+             @endrst
+             *
+             * @param path The UTF-8 path to read
+             *
+             * @return The parent folder, as UTF-8, or ``""`` if 'path' has no folder part
+             */
+            static std::string parentOf(const std::string& path);
+
+            /**
+             * @brief
+             @rst
+             The last component of 'path' with its extension removed -- ``Blend`` for
+             ``.\Meshes\Blend.buf``
+             @endrst
+             *
+             * @param path The UTF-8 path to read
+             *
+             * @return The path's last component without its extension, as UTF-8
+             */
+            static std::string stem(const std::string& path);
+
+            /**
+             * @brief
+             @rst
+             'path' reduced to a key two spellings of the same file compare equal under -- lowercased,
+             with every backslash written as a forward slash :raw-html:`<br />` :raw-html:`<br />`
+
+             For KEYING a map of paths, never for opening one. The two spellings really do both turn
+             up: a path this library built comes out with the native separator, while the same path
+             read out of a ``.ini`` is written the way the game wants it and in whatever case the
+             mod's author typed :raw-html:`<br />` :raw-html:`<br />`
+
+             .. warning::
+                This is a comparison key on a WINDOWS-style path, so it is only safe where the case
+                really is insensitive. It does not resolve ``..``, a symlink or a short name, so two
+                keys being different does not prove two paths are different files
+             @endrst
+             *
+             * @param path The UTF-8 path to reduce
+             *
+             * @return The comparison key
+             */
+            static std::string pathKey(const std::string& path);
+
 
             /**
              * @brief

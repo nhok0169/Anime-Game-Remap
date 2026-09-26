@@ -175,6 +175,7 @@ add_library(AGRemapCore STATIC
     src/tools/StringTools.cpp
     src/tools/DownloadTools.cpp
     src/tools/TextTools.cpp
+    src/tools/NumTools.cpp
     src/tools/grapheme/GraphemeIterator.cpp
     src/tools/grapheme/GraphemeRange.cpp
     src/tools/parsing/Token.cpp
@@ -270,8 +271,10 @@ add_library(AGRemapCore STATIC
     src/model/iftemplate/IfContentPartInstantiation.cpp
     src/model/textures/Colour.cpp
     src/model/textures/ColourRange.cpp
+    src/model/textures/TexThumbprint.cpp
     src/model/files/TexCache.cpp
     src/model/files/TextureFile.cpp
+    src/model/files/IniScan.cpp
     src/model/strategies/texEditors/pixelTransforms/BasePixelTransform.cpp
     src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp
     src/model/strategies/texEditors/pixelTransforms/ColourReplace.cpp

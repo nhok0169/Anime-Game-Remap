@@ -11,6 +11,7 @@
 
 #include "AGRemapCore/model/iniresources/VGSplitGroupResource.h"
 
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
@@ -177,8 +178,25 @@ namespace AGRemapCore {
         }
 
         if (position != nullptr) {
-            writeBytes(position->fixedPath,
-                       filterVertexBuffer(position->srcPath, split.vertexCount(), buffers.vertices, config.positionLineEdit));
+            ByteVec lines = filterVertexBuffer(position->srcPath, split.vertexCount(), buffers.vertices, config.positionLineEdit);
+
+            // The inner layer's copies, turned round -- see VGComponentSpec::mirroredIbs.
+            if (config.mirrorLineEdit && !buffers.mirrored.empty() && !buffers.vertices.empty()) {
+                const std::size_t stride = lines.size() / buffers.vertices.size();
+                for (std::size_t i = 0; i < buffers.mirrored.size() && i < buffers.vertices.size(); ++i) {
+                    if (!buffers.mirrored[i]) {
+                        continue;
+                    }
+                    const auto from = lines.begin() + static_cast<std::ptrdiff_t>(i * stride);
+                    ByteVec edited = config.mirrorLineEdit(ByteVec(from, from + static_cast<std::ptrdiff_t>(stride)));
+                    if (edited.size() != stride) {
+                        throw std::invalid_argument("a mirror line edit of '" + position->srcPath + "' changed a line's size");
+                    }
+                    std::copy(edited.begin(), edited.end(), from);
+                }
+            }
+
+            writeBytes(position->fixedPath, lines);
         }
 
         if (texcoord != nullptr) {

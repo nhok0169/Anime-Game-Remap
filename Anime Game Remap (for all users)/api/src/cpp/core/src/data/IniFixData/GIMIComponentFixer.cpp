@@ -998,7 +998,7 @@ namespace AGRemapCore {
                                     ibs.push_back(VGComponentSplit::readIb(ib));
                                 }
 
-                                VGComponentSplit split(std::move(weights), std::move(indices), std::move(ibs), specs_);
+                                VGComponentSplit split(std::move(weights), std::move(indices), std::move(ibs), specsFor(names));
                                 VGComponentBuffers buffers = split.split(componentName_);
                                 result.first = buffers.stats.keptVertices;
 
@@ -1332,6 +1332,10 @@ namespace AGRemapCore {
                     splitConfig.ibBytesPerIndex = files_.ibBytesPerIndex;
                     splitConfig.texcoordLineEdit = makeTexcoordLineEdit();
                     splitConfig.positionLineEdit = makePositionLineEdit();
+                    if (!component_.mirroredObjs.empty()) {
+                        const float offset = component_.mirrorOffset;
+                        splitConfig.mirrorLineEdit = [offset](const ByteVec& line) { return VGComponentSplit::mirrorPositionLine(line, offset); };
+                    }
 
                     // The index buffers PER GROUP: a group is one satisfiable state of the mod, and
                     // the split needs every drawn object's ib of THAT state -- see
@@ -1341,7 +1345,9 @@ namespace AGRemapCore {
                         srcName + toModName_ + "Buffers",
                         [this, splitConfig](const Z3Predicate* query) {
                             VGSplitGroupConfig config = splitConfig;
-                            config.ibPaths = ibsFor(branches_.localQuery(query)).second;
+                            auto [names, paths] = ibsFor(branches_.localQuery(query));
+                            config.ibPaths = std::move(paths);
+                            config.specs = specsFor(names);
                             return config;
                         },
                         ctx_.getIniFile());
@@ -1749,6 +1755,27 @@ namespace AGRemapCore {
                         return sampled > 0 && clear * 2 > sampled;
                     };
                     return result;
+                }
+
+                // The specs for one state's index buffers, named `names` in order: each component's
+                // mirrored inner layer by the POSITION of its objects in that list -- see
+                // GIMIComponentFixerConfig::Component::mirroredObjs. The split for the vertex count and
+                // the one that writes the buffers both take these, so the two cannot disagree.
+                std::vector<VGComponentSpec> specsFor(const std::vector<std::string>& names) const {
+                    std::vector<VGComponentSpec> specs = specs_;
+                    for (VGComponentSpec& spec : specs) {
+                        for (const GIMIComponentFixerConfig::Component& c : config_.components) {
+                            if (c.name != spec.name || c.mirroredObjs.empty()) {
+                                continue;
+                            }
+                            for (std::size_t i = 0; i < names.size(); ++i) {
+                                if (std::find(c.mirroredObjs.begin(), c.mirroredObjs.end(), names[i]) != c.mirroredObjs.end()) {
+                                    spec.mirroredIbs.push_back(i);
+                                }
+                            }
+                        }
+                    }
+                    return specs;
                 }
 
                 VGSplitGroupConfig::LineEdit makeTexcoordLineEdit() const {

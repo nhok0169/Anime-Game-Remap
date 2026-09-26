@@ -366,6 +366,13 @@ back panel they blend into, sets a high one and the seam moves to where the weig
 own edge -- a seam that opens when the skin poses is then covered by the other side's copy. Ownership is
 unchanged. See :attr:`VGComponentSpec.overlapRings`. **Default**: ``0``
         )doc"))
+        .def_readwrite("mirroredObjs", &AGRC::GIMIComponentFixerConfig::Component::mirroredObjs, py::doc(R"doc(
+List[:class:`str`]: The SOURCE objects (lowercase) whose triangles get a MIRRORED INNER LAYER on this component,
+for single-layer cloth whose back faces the target's shader does not shade as cloth --- see
+:attr:`VGComponentSpec.mirroredIbs`. Cut components only; empty by default
+        )doc"))
+        .def_readwrite("mirrorOffset", &AGRC::GIMIComponentFixerConfig::Component::mirrorOffset,
+                       py::doc(":class:`float`: How far inside the surface the mirrored layer sits, in model units --- ``0.001`` by default"))
         .def_readwrite("texFxBlend", &AGRC::GIMIComponentFixerConfig::Component::texFxBlend, py::doc(R"doc(
 :class:`float`: For a component whose mod's TexFx is dropped (:attr:`dropTexFx`): the opacity, 0 to 1, its
 SEE-THROUGH draws are blended at instead --- ``0`` (the default) leaves them opaque

@@ -158,6 +158,51 @@ class VGComponentSplitTest(BaseUnitTest):
         self.assertEqual(main.stats.overlapTriangles, 3)
         self.assertEqual(sorted(main.vertices), [0, 1, 2, 3, 4, 5])
 
+    # ================ the mirrored inner layer ================
+
+    def _mirrorSpecs(self, mirrored):
+        specs = makeSpecs()
+        specs[0].mirroredIbs = mirrored
+        specs[1].mirroredIbs = mirrored
+        return specs
+
+    def test_mirroredIbs_eachTriangleFollowedByItsTwinWoundBack(self):
+        body = FRB.VGComponentSplit(Weights, Indices, Ibs, self._mirrorSpecs([0])).split("Body")
+
+        # every corner copied once, after the kept vertices, with its weights; a corner two triangles share
+        # (2) is one copy
+        self.assertEqual(body.vertices, [0, 1, 2, 3, 4, 0, 1, 2, 3, 4])
+        self.assertEqual(body.mirrored, [False] * 5 + [True] * 5)
+        self.assertEqual(body.indices[5:], body.indices[:5])
+        self.assertEqual(body.weights[5:], body.weights[:5])
+
+        # each triangle followed by its twin, wound the other way, under the SAME source id
+        self.assertEqual(body.ibs, [[[0, 1, 2], [5, 7, 6], [2, 3, 4], [7, 9, 8]], []])
+        self.assertEqual(body.keptTriangleIds, [[0, 0, 1, 1], []])
+        self.assertEqual((body.stats.mirroredVertices, body.stats.mirroredTriangles), (5, 2))
+        self.assertEqual(body.stats.keptVertices, 10)
+        self.assertEqual(body.stats.trianglesKept, [4, 0])
+
+    def test_mirroredIbs_emptyOrOnANegativeIndexComponent_changesNothing(self):
+        plain = self._split.split("Body")
+        self.assertEqual(plain.mirrored, [])
+        self.assertEqual(plain.stats.mirroredTriangles, 0)
+
+        # a negative-index component's vertex buffers are not rewritten, so it has nowhere to put copies
+        bang = FRB.VGComponentSplit(Weights, Indices, Ibs, self._mirrorSpecs([1])).split("Bang")
+        self.assertEqual(bang.ibs, self._split.split("Bang").ibs)
+        self.assertEqual(bang.mirrored, [])
+
+    def test_mirrorPositionLine_normalTurnedRoundAndMovedInside(self):
+        line = struct.pack("<3f3f4f", 1, 2, 3, 0, 0, 1, 1, 0, 0, 1)
+        out = struct.unpack("<3f3f4f", FRB.VGComponentSplit.mirrorPositionLine(line, 0.5))
+        self.assertEqual(out[:3], (1.0, 2.0, 2.5))
+        self.assertEqual(out[3:6], (0.0, 0.0, -1.0))
+        self.assertEqual(out[6:], (1.0, 0.0, 0.0, 1.0))
+
+        # too short to hold a normal: as it is
+        self.assertEqual(FRB.VGComponentSplit.mirrorPositionLine(b"\x01" * 12, 0.5), b"\x01" * 12)
+
     def test_unknownComponent_raises(self):
         with self.assertRaises(ValueError):
             self._split.split("Nope")
@@ -219,6 +264,20 @@ class VGSplitGroupResourceTest(BaseUnitTest):
         self.assertEqual(self._read("HeadFixed.ib"), FRB.VGComponentSplit.encodeIb(body.ibs[0]))
         self.assertEqual(self._read("PositionFixed.buf"), b"".join(struct.pack("<3f", i, i, i) for i in [0, 1, 2, 3, 4]))
         self.assertEqual(self._read("TexcoordFixed.buf"), bytes(sum(([4 * i, 128, 4 * i + 2, 4 * i + 3] for i in [0, 1, 2, 3, 4]), [])))
+
+    def test_fix_mirrorLineEdit_onlyOnTheMirroredLines(self):
+        group = self._makeGroup("Body")
+        specs = makeSpecs()
+        specs[0].mirroredIbs = [0]
+        group.specs = specs
+        group.mirrorLineEdit = lambda line: b"\xff" * len(line)
+        self.assertTrue(group.fix())
+
+        # the kept vertices' lines, then their copies' -- edited
+        kept = b"".join(struct.pack("<3f", i, i, i) for i in [0, 1, 2, 3, 4])
+        self.assertEqual(self._read("PositionFixed.buf"), kept + b"\xff" * len(kept))
+        body = FRB.VGComponentSplit(Weights, Indices, Ibs, specs).split("Body")
+        self.assertEqual(self._read("HeadFixed.ib"), FRB.VGComponentSplit.encodeIb(body.ibs[0]))
 
     def test_fix_negativeComponent_wholeVertexBuffersTrimmedIb(self):
         group = self._makeGroup("Bang")

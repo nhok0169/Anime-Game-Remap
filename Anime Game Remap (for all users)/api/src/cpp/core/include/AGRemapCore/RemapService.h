@@ -938,21 +938,41 @@ namespace AGRemapCore {
                                          const std::string& iniName);
 
             /**
-             * @brief Whether this run has already written 'path' as a fixed resource, of ANY kind
+             * @brief Whether this run has already produced 'path' or named it in a fixed ``.ini``
              *
              @rst
-             Asked of every stats bucket, not only the one the removal files the path under: the
-             two halves name kinds differently -- a split's index buffer is fixed as ``buf`` and
-             removed as ``other`` -- so a guard asking the removal's own bucket never protected one
-             (see the comment in :cpp:func:`_deleteRemovedResources`). Compared after normalising the
-             path lexically and, on Windows, by case
+             True when a ``.ini`` file fixed earlier in this run -- or one of its generated copies --
+             names the file on a ``filename =`` line (see :cpp:func:`_rememberReferences`), whatever
+             kind of file it is, or when some stats bucket recorded it as fixed. A file type no bucket
+             knows (a mod's own ``.foo``) is protected by the first; the buckets alone were not enough
+             even for the kinds they know, since the two halves name them differently -- a split's
+             index buffer is fixed as ``buf`` and removed as ``other`` (see the comment in
+             :cpp:func:`_deleteRemovedResources`). Compared after normalising the path lexically and,
+             on Windows, by case
              @endrst
              *
              * @param path The resource's path
              *
-             * @return Whether some bucket's ``fixed`` set names it
+             * @return Whether this run must keep the file
              */
             bool _producedThisRun(const std::string& path) const;
+
+            /**
+             * @brief
+             @rst
+             Records every file the just-fixed ``.ini`` file and its generated copies name on a
+             ``filename =`` line, resolved against the file's folder -- the set
+             :cpp:func:`_producedThisRun` protects for the rest of the run
+             @endrst
+             *
+             * @param iniPath The fixed ``.ini`` file's path
+             */
+            void _rememberReferences(const std::string& iniPath);
+
+            /**
+             * @brief Normalises a path for :cpp:func:`_producedThisRun`'s comparisons
+             */
+            static std::string _normalRunPath(const std::string& path);
 
             /**
              * @brief
@@ -1002,6 +1022,9 @@ namespace AGRemapCore {
             //   through such a folder fixed forever, since the fix run DID reach it. _fix walks
             //   these beside the .ini file's own, and clears them for the next file.
             std::vector<std::string> removedResourceFolders_;
+
+            // Every file a .ini fixed in this run names, normalised -- see _rememberReferences.
+            std::unordered_set<std::string> referencedThisRun_;
 
             // What this run has already pulled off the network, so the same URL is fetched once
             //   and copied everywhere else. Lives here rather than on the FileDownload objects

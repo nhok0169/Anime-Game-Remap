@@ -284,10 +284,103 @@ namespace AGRemapCore {
     VGComponentBuffers VGComponentSplit::split(const std::string& component) const {
         for (std::size_t i = 0; i < specs_.size(); ++i) {
             if (specs_[i].name == component) {
-                return specs_[i].negativeIndex ? splitNegative(specs_[i]) : splitCut(i);
+                if (specs_[i].negativeIndex) {
+                    return splitNegative(specs_[i]);
+                }
+
+                VGComponentBuffers result = splitCut(i);
+                addMirroredLayer(result, specs_[i].mirroredIbs);
+                return result;
             }
         }
         throw std::invalid_argument("no component named '" + component + "'");
+    }
+
+
+    // The inner layer -- see VGComponentSpec::mirroredIbs. Each corner of a mirrored buffer's triangles is copied
+    // once (a vertex two mirrored buffers share gets one copy), and every triangle is followed by its copy wound
+    // the other way, under the same source id.
+    void VGComponentSplit::addMirroredLayer(VGComponentBuffers& result, const std::vector<std::size_t>& ibs) {
+        if (ibs.empty()) {
+            return;
+        }
+
+        result.mirrored.assign(result.vertices.size(), false);
+        std::unordered_map<unsigned long long, unsigned long long> copyOf;
+        const auto copy = [&](unsigned long long corner) {
+            auto found = copyOf.find(corner);
+            if (found != copyOf.end()) {
+                return found->second;
+            }
+
+            const unsigned long long made = static_cast<unsigned long long>(result.vertices.size());
+            result.vertices.push_back(result.vertices[static_cast<std::size_t>(corner)]);
+            result.weights.push_back(result.weights[static_cast<std::size_t>(corner)]);
+            result.indices.push_back(result.indices[static_cast<std::size_t>(corner)]);
+            if (!result.live.empty()) {
+                result.live.push_back(result.live[static_cast<std::size_t>(corner)]);
+            }
+            result.mirrored.push_back(true);
+            copyOf.emplace(corner, made);
+            ++result.stats.mirroredVertices;
+            return made;
+        };
+
+        std::vector<bool> done(result.ibs.size(), false);
+        for (std::size_t which : ibs) {
+            if (which >= result.ibs.size() || done[which]) {
+                continue;
+            }
+            done[which] = true;
+
+            Triangles layered;
+            std::vector<std::size_t> layeredIds;
+            layered.reserve(result.ibs[which].size() * 2);
+            layeredIds.reserve(result.ibs[which].size() * 2);
+            const std::vector<std::size_t>& ids = result.keptTriangleIds[which];
+            for (std::size_t t = 0; t < result.ibs[which].size(); ++t) {
+                const auto& triangle = result.ibs[which][t];
+                const std::size_t id = t < ids.size() ? ids[t] : 0;
+                layered.push_back(triangle);
+                layeredIds.push_back(id);
+
+                const unsigned long long a = copy(triangle[0]);
+                const unsigned long long b = copy(triangle[1]);
+                const unsigned long long c = copy(triangle[2]);
+                layered.push_back({a, c, b});
+                layeredIds.push_back(id);
+                ++result.stats.mirroredTriangles;
+            }
+
+            result.ibs[which] = std::move(layered);
+            result.keptTriangleIds[which] = std::move(layeredIds);
+            if (which < result.stats.trianglesKept.size()) {
+                result.stats.trianglesKept[which] = result.ibs[which].size();
+            }
+        }
+
+        result.stats.keptVertices = result.vertices.size();
+    }
+
+
+    ByteVec VGComponentSplit::mirrorPositionLine(const ByteVec& line, float offset) {
+        constexpr std::size_t NormalAt = 12;
+        if (line.size() < NormalAt + 3 * sizeof(float)) {
+            return line;
+        }
+
+        ByteVec out = line;
+        float position[3];
+        float normal[3];
+        std::memcpy(position, out.data(), sizeof(position));
+        std::memcpy(normal, out.data() + NormalAt, sizeof(normal));
+        for (std::size_t k = 0; k < 3; ++k) {
+            position[k] -= normal[k] * offset;
+            normal[k] = -normal[k];
+        }
+        std::memcpy(out.data(), position, sizeof(position));
+        std::memcpy(out.data() + NormalAt, normal, sizeof(normal));
+        return out;
     }
 
 

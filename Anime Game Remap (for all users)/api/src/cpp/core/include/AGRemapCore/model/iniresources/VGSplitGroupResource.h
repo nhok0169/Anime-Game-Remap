@@ -84,6 +84,16 @@ namespace AGRemapCore {
          * @brief Applied to every line of the ``Position.buf`` before filtering, or empty
          */
         LineEdit positionLineEdit;
+
+        /**
+         * @brief
+         @rst
+         Applied, after filtering, to the ``Position.buf`` lines of the vertices the split MIRRORED
+         (:cpp:member:`VGComponentBuffers::mirrored`), or empty -- see
+         :cpp:func:`VGComponentSplit::mirrorPositionLine`
+         @endrst
+         */
+        LineEdit mirrorLineEdit;
     };
 
     /**

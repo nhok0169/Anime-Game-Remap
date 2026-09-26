@@ -99,6 +99,27 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         For a **cut** component: the source index buffers (by position in the split's list) whose
+         triangles get a MIRRORED INNER LAYER :raw-html:`<br />` :raw-html:`<br />`
+
+         Single-layer cloth shows its back faces from inside -- a skirt's inner side -- and whether
+         a back face renders as cloth is up to the target's shader: Neuvillette's shades it like the
+         outside, NeuvilletteMelusent's lights it like rim light, flat light blue (Neuvillette2's inner
+         skirt, 2026-09-26). The layer gives each such triangle a front-facing twin seen from the
+         other side: every corner is copied once (same weights, same source vertex -- flagged in
+         :cpp:member:`VGComponentBuffers::mirrored`, so the vertex buffers' writer can turn its normal
+         round, see :cpp:func:`VGComponentSplit::mirrorPositionLine`), and each triangle is followed
+         by its copy wound the other way. The copy carries the SAME source triangle id in
+         :cpp:member:`VGComponentBuffers::keptTriangleIds`, so a mod's own draw range takes both.
+         Ignored on a negative-index component, whose vertex buffers are not rewritten. **Default**:
+         empty, no layer
+         @endrst
+         */
+        std::vector<std::size_t> mirroredIbs;
+
+        /**
+         * @brief
+         @rst
          ``true``: the **negative-index** strategy -- the component draws the whole mod, every bone
          of another component becomes the ``-index-1`` sentinel, and its index buffers are trimmed
          to the triangles all of whose corners are live. ``false``: the **graph cut** strategy --
@@ -121,6 +142,8 @@ namespace AGRemapCore {
         std::size_t neighbourSkinned = 0;
         std::size_t overlapTriangles = 0;
         std::size_t sentinels = 0;
+        std::size_t mirroredVertices = 0;
+        std::size_t mirroredTriangles = 0;
     };
 
     /**
@@ -168,6 +191,16 @@ namespace AGRemapCore {
          * @brief Negative index only: per mod vertex, whether it carries no sentinel
          */
         std::vector<bool> live;
+
+        /**
+         * @brief
+         @rst
+         Per entry of \ref vertices: whether it is a MIRRORED copy -- the inner layer of
+         :cpp:member:`VGComponentSpec::mirroredIbs`, whose position line the writer turns round.
+         Empty when the component has no layer
+         @endrst
+         */
+        std::vector<bool> mirrored;
 
         VGComponentSplitStats stats;
     };
@@ -239,6 +272,23 @@ namespace AGRemapCore {
              */
             static ByteVec keepLines(const ByteVec& src, std::size_t bytesPerLine, const std::vector<std::size_t>& lines);
 
+            /**
+             * @brief
+             @rst
+             A GIMI ``Position.buf`` line (``POSITION`` float3, ``NORMAL`` float3, ``TANGENT`` float4)
+             for the mirrored inner layer: the normal turned round, and the position moved ``offset``
+             model units against the ORIGINAL normal -- to the inside, so the layer is nearer a viewer
+             who sees the back face and behind the surface from the outside, and never ties with it in
+             depth. The tangent is kept. A line shorter than the normal is returned as it is
+             @endrst
+             *
+             * @param line The source line
+             * @param offset How far inward, in model units
+             *
+             * @return The mirrored line
+             */
+            static ByteVec mirrorPositionLine(const ByteVec& line, float offset);
+
             std::size_t vertexCount() const;
             const std::vector<VGComponentSpec>& specs() const;
 
@@ -260,6 +310,7 @@ namespace AGRemapCore {
             std::vector<bool> liveVertices(const VGComponentSpec& spec) const;
             VGComponentBuffers splitNegative(const VGComponentSpec& spec) const;
             VGComponentBuffers splitCut(std::size_t column) const;
+            static void addMirroredLayer(VGComponentBuffers& result, const std::vector<std::size_t>& ibs);
 
             Weights weights_;
             Indices indices_;

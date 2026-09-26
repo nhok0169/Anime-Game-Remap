@@ -252,6 +252,34 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The SOURCE objects (lowercase, eg. ``"dress"``) whose triangles get a MIRRORED INNER LAYER
+             on this component -- see :cpp:member:`VGComponentSpec::mirroredIbs` :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             For single-layer cloth whose inside the target's shader does not shade as cloth:
+             Neuvillette2's inner skirt came out flat light blue on NeuvilletteMelusent, the back faces
+             of his dress lit like rim light, where his own shader shades them like the outside (a
+             ``cull = back`` test in game kept the light blue and dropped the navy, 2026-09-26). Each
+             triangle gets a twin wound the other way, its normal turned round and moved
+             :cpp:member:`mirrorOffset` inward, so the inside is a front face with a normal that faces
+             the viewer. Doubles those objects' triangles. Cut components only. **Default**: empty
+             @endrst
+             */
+            std::vector<std::string> mirroredObjs;
+
+            /**
+             * @brief
+             @rst
+             How far inside the surface the mirrored layer sits, in model units -- enough that it never
+             ties with the surface in depth, small enough not to show as a gap. **Default**: ``0.001``
+             (a millimetre on a GI character)
+             @endrst
+             */
+            float mirrorOffset = 0.001f;
+
+            /**
+             * @brief
+             @rst
              Whether the slot's shader reads the normal-map layout -- ``ps-t0`` normal map,
              ``ps-t1`` diffuse, ``ps-t2`` lightmap, re-slotted by ``ORFix`` -- in which case the
              mod's ``ps-t0`` / ``ps-t1`` are shifted up, a flat normal map is created on ``ps-t0``

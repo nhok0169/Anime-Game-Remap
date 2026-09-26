@@ -103,6 +103,12 @@ overlapRings: :class:`int`
             return vgComponentSpecFromPy(name, remap, secondary, negativeIndex, claimShare, overlapRings);
         }), py::arg("name"), py::arg("remap") = py::none(), py::arg("secondary") = py::none(), py::arg("negativeIndex") = false,
             py::arg("claimShare") = 0.0, py::arg("overlapRings") = 0)
+        .def_readwrite("mirroredIbs", &AGRC::VGComponentSpec::mirroredIbs, py::doc(R"doc(
+List[:class:`int`]: For a cut component, the source index buffers (by position) whose triangles get a MIRRORED
+INNER LAYER: each corner copied once (flagged in :attr:`VGComponentBuffers.mirrored`) and each triangle followed
+by its copy wound the other way, under the same source triangle id. For single-layer cloth whose back faces the
+target's shader does not shade as cloth. Empty by default
+        )doc"))
         .def_readwrite("overlapRings", &AGRC::VGComponentSpec::overlapRings,
                        py::doc(":class:`int`: For a cut component, how many rings of its neighbours' triangles it draws as well"))
         .def_readwrite("claimShare", &AGRC::VGComponentSpec::claimShare,
@@ -125,7 +131,11 @@ Counts worth reporting about one component's split
         .def_readonly("neighbourSkinned", &AGRC::VGComponentSplitStats::neighbourSkinned, py::doc(":class:`int`: Cut only: vertices skinned to a neighbour's bone"))
         .def_readonly("overlapTriangles", &AGRC::VGComponentSplitStats::overlapTriangles,
                       py::doc(":class:`int`: Cut only: triangles drawn as the overlap band -- see :attr:`VGComponentSpec.overlapRings`"))
-        .def_readonly("sentinels", &AGRC::VGComponentSplitStats::sentinels, py::doc(":class:`int`: Negative index only: sentinel indices written"));
+        .def_readonly("sentinels", &AGRC::VGComponentSplitStats::sentinels, py::doc(":class:`int`: Negative index only: sentinel indices written"))
+        .def_readonly("mirroredVertices", &AGRC::VGComponentSplitStats::mirroredVertices,
+                      py::doc(":class:`int`: Cut only: vertices copied for the mirrored inner layer -- see :attr:`VGComponentSpec.mirroredIbs`"))
+        .def_readonly("mirroredTriangles", &AGRC::VGComponentSplitStats::mirroredTriangles,
+                      py::doc(":class:`int`: Cut only: triangles added as the mirrored inner layer"));
 
     py::class_<AGRC::VGComponentBuffers>(m, "VGComponentBuffers", R"doc(
 What one component gets out of a split: the vertices it draws and its buffers over them
@@ -141,6 +151,8 @@ What one component gets out of a split: the vertices it draws and its buffers ov
         .def_readonly("live", &AGRC::VGComponentBuffers::live, py::doc("List[:class:`bool`]: Negative index only: per mod vertex, whether it carries no sentinel"))
         .def_readonly("keptTriangleIds", &AGRC::VGComponentBuffers::keptTriangleIds,
                       py::doc("List[List[:class:`int`]]: Per source index buffer, the SOURCE index of every triangle in :attr:`ibs`, ascending -- what a mod's own ``drawindexed`` ranges are remapped through"))
+        .def_readonly("mirrored", &AGRC::VGComponentBuffers::mirrored,
+                      py::doc("List[:class:`bool`]: Per entry of :attr:`vertices`, whether it is a copy for the mirrored inner layer (empty without one)"))
         .def_readonly("stats", &AGRC::VGComponentBuffers::stats, py::doc(":class:`VGComponentSplitStats`: Counts worth reporting"));
 
     py::class_<AGRC::VGComponentSplit>(m, "VGComponentSplit", R"doc(
@@ -190,6 +202,26 @@ Returns
         .def_static("encodeIb", [](const AGRC::VGComponentSplit::Triangles &triangles) {
             return toBytes(AGRC::VGComponentSplit::encodeIb(triangles));
         }, py::arg("triangles"), py::doc("Encodes triangles into ``.ib`` bytes (3 unsigned ints per triangle)"))
+        .def_static("mirrorPositionLine", [](const py::bytes &line, float offset) {
+            return toBytes(AGRC::VGComponentSplit::mirrorPositionLine(fromBytes(line), offset));
+        }, py::arg("line"), py::arg("offset"), py::doc(R"doc(
+A GIMI ``Position.buf`` line (position, normal, tangent) for the mirrored inner layer: the normal turned round and
+the position moved ``offset`` model units against the original normal. A line shorter than the normal comes back
+as it is
+
+Parameters
+----------
+line: :class:`bytes`
+    The source line
+
+offset: :class:`float`
+    How far inward, in model units
+
+Returns
+-------
+:class:`bytes`
+    The mirrored line
+        )doc"))
         .def_static("keepLines", [](const py::bytes &src, std::size_t bytesPerLine, const std::vector<std::size_t> &lines) {
             return toBytes(AGRC::VGComponentSplit::keepLines(fromBytes(src), bytesPerLine, lines));
         }, py::arg("src"), py::arg("bytesPerLine"), py::arg("lines"),

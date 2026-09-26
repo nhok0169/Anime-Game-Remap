@@ -1695,17 +1695,28 @@ merge-direction mods moved nothing but Bennett5 (point 3).
    undo deleting what this run just produced asked only the removal's own stats bucket -- but a split's index buffer
    is FIXED as `buf` and REMOVED as `other`, so no `.ib` was ever protected. Two `.ini` files of one mod whose fixes
    name the same generated file (Neuvillette2's `0.ini` and `DISABLEDmerged.ini`) then lost it on alternate runs.
-   `_producedThisRun` asks every bucket. The proof is a scratch copy with one `.ini`'s old fix pointed at the other's
-   generated `.ib`: one missing reference on the old build, none on the new. **Run every fix twice, and count the
-   missing references after EACH run** -- the alternation is invisible to a single run.
+   `_producedThisRun` asks every bucket -- and, since a mod can bring a file type no bucket knows (the maintainer's
+   `.foo`), first asks whether any `.ini` fixed EARLIER IN THIS RUN, or one of its generated copies, names the file
+   on a `filename =` line (`_rememberReferences`): type-agnostic, and the rule the bucket check only approximated.
+   The proofs are scratch copies with one `.ini`'s old fix pointed at a file the other `.ini` names -- a generated
+   `.ib` (one missing reference on the old build, none on the new) and a `shared.foo` the mod names itself (deleted
+   by the bucket-only build, kept by this one). **Run every fix twice, and count the missing references after EACH
+   run** -- the alternation is invisible to a single run.
    *Neuvillette2's light-blue inner skirt is the INSIDE of single-layer cloth*: drawn with `cull = back` the light
    blue panels stay and the navy outside vanishes, so the two face opposite ways. Neuvillette's shader shades a back
    face as cloth; the skin's lights it like rim light. A light-map band move, the Body slot and the Dress slot all
-   gave the same inside. What would fix it is geometry -- a mirrored inner layer (flipped normals, reversed winding,
-   a hair inward) -- which no template builds yet.
+   gave the same inside. The fix is geometry, and the template builds it now:
+   `GIMIComponentFixerConfig::Component::mirroredObjs` (Neuvillette's `dress`) makes `VGComponentSplit` follow each
+   triangle of those objects with a twin wound the other way over copied corners (same weights, flagged in
+   `VGComponentBuffers::mirrored`), and the writer turns each copy's normal round and moves it `mirrorOffset` (1 mm)
+   inside (`VGComponentSplit::mirrorPositionLine`, applied through `VGSplitGroupConfig::mirrorLineEdit`). The twin
+   keeps its triangle's SOURCE id, so a mod's own `drawindexed` ranges take both, and the vertex-count split and the
+   buffer-writing split build their specs through one function (`specsFor`), so the `.ini`'s skinning `draw = N`
+   always matches the written buffers (Neuvillette2: 50492 -> 65329). In game the inner skirt renders dark navy like
+   his own outfit. Cut components only: a negative-index component's vertex buffers are not rewritten.
 
-**Open for the maintainer**: Neuvillette2's lining (point 13: needs a mirrored inner layer, not built); Neuvillette9's
-colours (point 2); the cravat's faint cyan cast (his 126-128 is the skin's cyan band; moving it to 255 hardened the
+**Open for the maintainer**: Neuvillette2's inner skirt (point 13: the mirrored layer, to be confirmed by eye);
+Neuvillette9's colours (point 2); the cravat's faint cyan cast (his 126-128 is the skin's cyan band; moving it to 255 hardened the
 shadows); a zero-byte fall-through `.ib` logs `Failed to substantiate` (harmless, pre-existing).
 
 ## The reverse direction is COMPILED TOO: a multi-component SOURCE onto a classic target (2026-09-14)

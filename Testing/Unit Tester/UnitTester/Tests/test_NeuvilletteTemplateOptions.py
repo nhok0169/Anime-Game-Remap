@@ -77,6 +77,16 @@ class NeuvilletteTemplateOptionsTest(BaseUnitTest):
         component.texFxBlend = 0.9
         self.assertAlmostEqual(component.texFxBlend, 0.9, places = 6)
 
+    def test_componentFixerConfig_mirroredObjs(self):
+        # empty by default: no object gets an inner layer
+        component = FRB.GIMIComponentFixerConfig.Component()
+        self.assertEqual(component.mirroredObjs, [])
+        self.assertAlmostEqual(component.mirrorOffset, 0.001, places = 6)
+        component.mirroredObjs = ["dress"]
+        component.mirrorOffset = 0.002
+        self.assertEqual(component.mirroredObjs, ["dress"])
+        self.assertAlmostEqual(component.mirrorOffset, 0.002, places = 6)
+
     def test_componentFixerConfig_sideMeshes(self):
         # empty by default: no earlier config re-issues any section on a side mesh
         config = FRB.GIMIComponentFixerConfig()

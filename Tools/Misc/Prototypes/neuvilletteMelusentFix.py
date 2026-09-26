@@ -202,6 +202,7 @@ def fixerConfig(dressSlot: str = "Dress") -> "FRB.GIMIComponentFixerConfig":
     # TexFx does not serve the skin's main-mesh shaders: a sheer shirt (ps-t69 + TexFx T.0) vanished outright.
     main.dropTexFx = True
     main.texFxBlend = 0.9    # its see-through draws (the mod's TexFx mask) blended instead -- Neuvillette8's shirt
+    main.mirroredObjs = ["dress"]    # a mirrored inner layer: the skin lights his dress's back faces light blue
 
     config.components = [main, coat, bang, eye]
     # Every one of the skin's components receives a forward vertex-group row, so none is hidden by

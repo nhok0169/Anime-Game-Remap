@@ -42,7 +42,7 @@ AGRC::VGSplitGroupConfig::LineEdit lineEditFromPy(const py::object &edit) {
 PyVGSplitGroupResource::PyVGSplitGroupResource(std::string name, py::dict resources, AGRC::VGSplitGroupConfig config,
                                                std::function<bool(AGRC::IniGroupedResource&)> fixFunc, bool isBuilt):
     PyIniGroupedResource(std::move(name), std::move(resources), std::move(fixFunc), isBuilt),
-    config(std::move(config)), texcoordLineEditObj(py::none()), positionLineEditObj(py::none()) {}
+    config(std::move(config)), texcoordLineEditObj(py::none()), positionLineEditObj(py::none()), mirrorLineEditObj(py::none()) {}
 
 
 bool PyVGSplitGroupResource::_fix() {
@@ -153,5 +153,10 @@ isBuilt: :class:`bool`
                       [](PyVGSplitGroupResource &self, const py::object &edit) {
                           self.positionLineEditObj = edit;
                           self.config.positionLineEdit = lineEditFromPy(edit);
-                      }, py::doc("Optional[Callable[[:class:`bytes`], :class:`bytes`]]: Applied to every line of the ``Position.buf``"));
+                      }, py::doc("Optional[Callable[[:class:`bytes`], :class:`bytes`]]: Applied to every line of the ``Position.buf``"))
+        .def_property("mirrorLineEdit", [](const PyVGSplitGroupResource &self) { return self.mirrorLineEditObj; },
+                      [](PyVGSplitGroupResource &self, const py::object &edit) {
+                          self.mirrorLineEditObj = edit;
+                          self.config.mirrorLineEdit = lineEditFromPy(edit);
+                      }, py::doc("Optional[Callable[[:class:`bytes`], :class:`bytes`]]: Applied, after filtering, to the ``Position.buf`` lines of the vertices the split mirrored -- see :meth:`VGComponentSplit.mirrorPositionLine`"));
 }

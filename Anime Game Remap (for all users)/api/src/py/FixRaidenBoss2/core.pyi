@@ -7214,6 +7214,24 @@ class GIMIComponentFixerConfig:
         def face(self, arg0: bool) -> None:
             ...
         @property
+        def mirrorOffset(self) -> float:
+            """
+            :class:`float`: How far inside the surface the mirrored layer sits, in model units --- ``0.001`` by default
+            """
+        @mirrorOffset.setter
+        def mirrorOffset(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def mirroredObjs(self) -> list[str]:
+            """
+            List[:class:`str`]: The SOURCE objects (lowercase) whose triangles get a MIRRORED INNER LAYER on this component,
+            for single-layer cloth whose back faces the target's shader does not shade as cloth --- see
+            :attr:`VGComponentSpec.mirroredIbs`. Cut components only; empty by default
+            """
+        @mirroredObjs.setter
+        def mirroredObjs(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
+        @property
         def modTypeName(self) -> str:
             """
             :class:`str`: The mod type standing for this component as a fix TARGET, eg. ``YelanTranquilBody``
@@ -23088,6 +23106,11 @@ class VGComponentBuffers:
         List[:class:`bool`]: Negative index only: per mod vertex, whether it carries no sentinel
         """
     @property
+    def mirrored(self) -> list[bool]:
+        """
+        List[:class:`bool`]: Per entry of :attr:`vertices`, whether it is a copy for the mirrored inner layer (empty without one)
+        """
+    @property
     def stats(self) -> VGComponentSplitStats:
         """
         :class:`VGComponentSplitStats`: Counts worth reporting
@@ -23297,6 +23320,17 @@ class VGComponentSpec:
     def claimShare(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
+    def mirroredIbs(self) -> list[int]:
+        """
+        List[:class:`int`]: For a cut component, the source index buffers (by position) whose triangles get a MIRRORED
+        INNER LAYER: each corner copied once (flagged in :attr:`VGComponentBuffers.mirrored`) and each triangle followed
+        by its copy wound the other way, under the same source triangle id. For single-layer cloth whose back faces the
+        target's shader does not shade as cloth. Empty by default
+        """
+    @mirroredIbs.setter
+    def mirroredIbs(self, arg0: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
+        ...
+    @property
     def name(self) -> str:
         """
         :class:`str`: The component's name
@@ -23378,6 +23412,26 @@ class VGComponentSplit:
         """
         Keeps only the given lines of a fixed-stride buffer, in the order given
         """
+    @staticmethod
+    def mirrorPositionLine(line: bytes, offset: typing.SupportsFloat | typing.SupportsIndex) -> bytes:
+        """
+        A GIMI ``Position.buf`` line (position, normal, tangent) for the mirrored inner layer: the normal turned round and
+        the position moved ``offset`` model units against the original normal. A line shorter than the normal comes back
+        as it is
+        
+        Parameters
+        ----------
+        line: :class:`bytes`
+            The source line
+        
+        offset: :class:`float`
+            How far inward, in model units
+        
+        Returns
+        -------
+        :class:`bytes`
+            The mirrored line
+        """
     def __init__(self, weights: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(4)"]], indices: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(4)"]], ibs: collections.abc.Sequence[collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(3)"]]], specs: collections.abc.Sequence[VGComponentSpec]) -> None:
         ...
     def split(self, component: str) -> VGComponentBuffers:
@@ -23409,6 +23463,16 @@ class VGComponentSplitStats:
     def keptVertices(self) -> int:
         """
         :class:`int`: The vertices the component draws
+        """
+    @property
+    def mirroredTriangles(self) -> int:
+        """
+        :class:`int`: Cut only: triangles added as the mirrored inner layer
+        """
+    @property
+    def mirroredVertices(self) -> int:
+        """
+        :class:`int`: Cut only: vertices copied for the mirrored inner layer -- see :attr:`VGComponentSpec.mirroredIbs`
         """
     @property
     def neighbourSkinned(self) -> int:
@@ -24013,6 +24077,14 @@ class VGSplitGroupResource(IniGroupedResource, RemapIniResourceMixin):
         """
     @ibPaths.setter
     def ibPaths(self, arg1: collections.abc.Sequence[str]) -> None:
+        ...
+    @property
+    def mirrorLineEdit(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`bytes`], :class:`bytes`]]: Applied, after filtering, to the ``Position.buf`` lines of the vertices the split mirrored -- see :meth:`VGComponentSplit.mirrorPositionLine`
+        """
+    @mirrorLineEdit.setter
+    def mirrorLineEdit(self, arg1: typing.Any) -> None:
         ...
     @property
     def positionLineEdit(self) -> typing.Any:

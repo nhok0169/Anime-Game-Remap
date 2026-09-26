@@ -125,6 +125,11 @@ namespace AGRemapCore {
             // in game (Neuvillette8's sheer shirt, 2026-09-26). The mod's own TexFx mask says which.
             main.texFxBlend = 0.9f;
 
+            // His dress object gets a mirrored inner layer: single-layer cloth, whose back faces the skin's
+            // Dress shader lights like rim light (Neuvillette2's inner skirt came out flat light blue,
+            // 2026-09-26; a cull test showed it was the inside). See Component::mirroredObjs.
+            main.mirroredObjs = {"dress"};
+
             config.components = {main, coat, bang, eye};
 
             // Every component receives a forward vertex-group row, so none is hidden by request. A mod can

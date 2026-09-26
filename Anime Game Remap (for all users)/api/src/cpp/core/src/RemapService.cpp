@@ -14,14 +14,17 @@
 #include "AGRemapCore/RemapService.h"
 
 #include <filesystem>
+#include <fstream>
 #include <exception>
 #include <stdexcept>
 #include <typeinfo>
 #include <system_error>
 #include <unordered_map>
+#include <string_view>
 #include <utility>
 
 #include "AGRemapCore/constants/FileExt.h"
+#include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/constants/FilePrefixes.h"
 #include "AGRemapCore/constants/FileSuffixes.h"
 #include "AGRemapCore/constants/FileTypes.h"
@@ -104,6 +107,8 @@ namespace AGRemapCore {
     }
 
     void RemapService::fix() {
+        referencedThisRun_.clear();
+
         // Restored once the walk finishes, so the caller's view is left with the prefix it came in
         // with rather than whichever folder happened to be visited last.
         std::optional<std::string> originalPrefix;
@@ -653,16 +658,60 @@ namespace AGRemapCore {
     }
 
 
-    bool RemapService::_producedThisRun(const std::string& path) const {
-        const auto normal = [](const std::string& p) {
-            std::string out = FileService::pathToStr(FileService::strToPath(p).lexically_normal());
+    std::string RemapService::_normalRunPath(const std::string& path) {
+        std::string out = FileService::pathToStr(FileService::strToPath(path).lexically_normal());
 #ifdef _WIN32
-            out = StringTools::toLower(out);
+        out = StringTools::toLower(out);
 #endif
-            return out;
-        };
+        return out;
+    }
+
+
+    void RemapService::_rememberReferences(const std::string& iniPath) {
+        const std::string folder = FileService::pathToStr(FileService::strToPath(iniPath).parent_path());
+
+        std::vector<std::string> files{iniPath};
+        for (const std::string& file : FileService::getFilesAndDirs(folder).first) {
+            if (_isRemapCopyIni(file) && _origIniPath(file) == iniPath) {
+                files.push_back(file);
+            }
+        }
+
+        for (const std::string& file : files) {
+            std::ifstream in(FileService::strToPath(file), std::ios::binary);
+            if (!in) {
+                continue;
+            }
+
+            std::string line;
+            while (std::getline(in, line)) {
+                const std::string_view stripped = StringTools::strip(line);
+                if (stripped.empty() || stripped.front() == ';') {
+                    continue;
+                }
+
+                const std::size_t eq = stripped.find('=');
+                if (eq == std::string_view::npos
+                        || !StringTools::equalsIgnoreCase(StringTools::strip(stripped.substr(0, eq)), IniKeywords::Filename)) {
+                    continue;
+                }
+
+                const std::string value(StringTools::strip(stripped.substr(eq + 1)));
+                if (!value.empty()) {
+                    referencedThisRun_.insert(_normalRunPath(FileService::absPathOfRelPath(value, folder)));
+                }
+            }
+        }
+    }
+
+
+    bool RemapService::_producedThisRun(const std::string& path) const {
+        const auto normal = [](const std::string& p) { return _normalRunPath(p); };
 
         const std::string wanted = normal(path);
+        if (referencedThisRun_.count(wanted) > 0) {
+            return true;
+        }
         for (const FileStats* bucket : {static_cast<const FileStats*>(&stats.blend), static_cast<const FileStats*>(&stats.position),
                                         static_cast<const FileStats*>(&stats.texcoord), static_cast<const FileStats*>(&stats.buf),
                                         static_cast<const FileStats*>(&stats.other), static_cast<const FileStats*>(&stats.texEdit),
@@ -841,6 +890,9 @@ namespace AGRemapCore {
 
         ini.fix(keepBackups, fixOnly, hideOrig);
         fixResources(ini);
+        if (!iniPath.empty()) {
+            _rememberReferences(iniPath);
+        }
 
         // Last, and only on the way out: a fix that threw leaves this unreached, and _fix's own
         // catch records the file as skipped instead. The two are mutually exclusive by construction

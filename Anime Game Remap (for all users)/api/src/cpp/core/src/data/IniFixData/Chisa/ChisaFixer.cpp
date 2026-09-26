@@ -63,31 +63,26 @@ namespace AGRemapCore {
 
         // ---- the three filters ----------------------------------------------------------------
 
-        // THE BODY SHEEN IS NOT BOUND AT ALL, AND THAT IS THE FIX (2026-09-26).
-        //
-        // There was a sheenFilter here that translated Chisa's bb73967a -- a matcap whose four
-        // channels are four GRAYSCALE sheen profiles, blended by the normal map's alpha into one
-        // scalar -- into the shape the skin's HOLOGRAPHIC FOIL (rainbow RGB, matcap ring in alpha)
-        // is read as, by broadcasting her first profile over all four channels. That stopped a
-        // white shirt coming out pink-lavender pearly, and replaced it with skin half again as
-        // bright as the skin it covers: measured in the overworld on Chisa6, the modded leg was
-        // +32.1 luminance against the unmodded one in the same frame, which reads as metallic.
-        //
-        // The mistake is upstream of the translation. `fallbackTextures` binds the SOURCE's texture
-        // for a role the mod lacks because "the mod's UVs are the source's", so the target's texture
-        // at those UVs would be wrong. A MATCAP IS NOT UV-MAPPED -- it is indexed by the view-space
-        // normal -- so that reason does not reach it, and there is no mod art in it either: all 15
-        // of the mods that bind one take Chisa's stock texture, downloaded or re-compressed. What a
-        // sheen IS, is calibrated to a shader, and the two shaders are not the same one.
-        //
-        // So the register is left alone, and a slot that binds no `ps-t` renders with the GAME's
-        // texture -- the target's own draw binds 4bee4070 at both of these slots
-        // (ChisaParfaitTextureUsage.json, Components 3 and 4). Measured the same way: -1.2 with the
-        // target's texture bound explicitly, +3.6 with nothing bound, against -41.8 for a flat black
-        // that proves the register is the one that moves it.
-        //
-        // accessorySheen is the same shape and is deliberately still bound: it is handed over raw
-        // rather than translated, the reported symptom was the body, and it wants its own measurement.
+        // Chisa's bb73967a is a matcap whose four channels are four GRAYSCALE sheen profiles, blended
+        // by the normal map's alpha into ONE scalar; it only looks pink and purple viewed as RGB. The
+        // skin's is a HOLOGRAPHIC FOIL -- rainbow RGB with a matcap ring in alpha. Bound raw, the
+        // packed channels are read as foil COLOUR and a white shirt comes out pink-lavender pearly.
+        // Translated: every channel is her FIRST profile, the one a low normal-map alpha selects, so
+        // the intensity survives and there is no rainbow.
+        TexEditor::Filter sheenFilter() {
+            return [](TextureFile& tex) {
+                tex.setGamma(std::nullopt);          // these bytes are data, not colour
+                std::vector<std::uint8_t> px = tex.getPixels();
+                for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
+                    const std::uint8_t profile = px[i];
+                    px[i + 1] = profile;
+                    px[i + 2] = profile;
+                    px[i + 3] = profile;
+                }
+
+                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
+            };
+        }
 
         // Repack a material mask from the SOURCE's layout into the TARGET's. Every non-skin texel
         // keeps the source's own R and G -- R is the shared band legend and G is how SHINY a surface
@@ -400,8 +395,8 @@ namespace AGRemapCore {
             {0, {0, {{"ps-t0", "frontHairMask"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}}},
             {1, {1, {{"ps-t0", "hairMask"}, {"ps-t1", "hairDiffuse"}, {"ps-t2", "hairRamp"}}}},
             {2, {2, {{"ps-t0", "faceMask"}, {"ps-t1", "faceDiffuse"}}}},
-            {3, {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t3", "upperDiffuse"}, {"ps-t2", "DetailZero000000FF"}, {"ps-t4", "DetailZero00000000"}, {"ps-t10", "DetailZero00000000"}}}},
-            {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t3", "lowerDiffuse"}, {"ps-t2", "DetailZero000000FF"}}}},
+            {3, {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t3", "upperDiffuse"}, {"ps-t8", "bodySheen"}, {"ps-t2", "DetailZero000000FF"}, {"ps-t4", "DetailZero00000000"}, {"ps-t10", "DetailZero00000000"}}}},
+            {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t3", "lowerDiffuse"}, {"ps-t5", "bodySheen"}, {"ps-t2", "DetailZero000000FF"}}}},
             {5, {5, {{"ps-t0", "accessoryDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t3", "accessorySheen"}, {"ps-t5", "frontHairNormal"}}}},
             {6, {6, {{"ps-t1", "irisDiffuse"}}}},
         };
@@ -502,6 +497,7 @@ namespace AGRemapCore {
             {"accessoryDiffuse", "019c268e"},
             {"accessoryNormal", "40528957"},
             {"accessorySheen", "4eaa9816"},
+            {"bodySheen", "bb73967a"},
             {"faceDiffuse", "d030af95"},
             {"faceMask", "6ae8dd10"},
             {"frontHairDiffuse", "f2646d21"},
@@ -604,6 +600,7 @@ namespace AGRemapCore {
                  const auto diffuse = ctx.fileOfRole.find("lowerDiffuse");
                  return maskFilter(diffuse == ctx.fileOfRole.end() ? "" : diffuse->second);
              }},
+            {"bodySheen", "Foil", [](const WWMIFixerConfig::TexEditContext&) { return sheenFilter(); }},
             {"accessoryDiffuse", "Grade", [](const WWMIFixerConfig::TexEditContext& ctx) {
                  return gradeFilter(ctx);
              }},

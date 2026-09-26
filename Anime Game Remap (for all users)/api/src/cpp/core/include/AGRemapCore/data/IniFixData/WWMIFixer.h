@@ -335,7 +335,29 @@ namespace AGRemapCore {
             default) keeps every candidate whatever its pixels
          @endrst
          */
-        std::set<std::string> flatIsUnusable;
+        std::set<std::string> flatFallsBackToSource;
+
+        /**
+         * @brief
+         @rst
+         Roles like \ref flatFallsBackToSource, except that a flat one is left to the GAME rather
+         than replaced by a download :raw-html:`<br />` :raw-html:`<br />`
+
+         Both drop the mod's flat file; they differ in what stands in for it. A body mask takes the
+         source's, because the mod's UVs are the source's and its regions land where they belong. A
+         HAIR mask is left alone, which is the maintainer's call and what this repo's own hair-mask
+         finding said: a flat hair mask of ``(255, 0, 126, 0)`` shaded the crown of the hair red,
+         and the register is better left to the game than filled in :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         .. note::
+            This suppresses the fallback for that role even though \ref fallbackTextures names it.
+            A hair mask the mod never ships still downloads as before -- only a FLAT one is left
+            alone, because "the mod gave us nothing" and "the mod gave us something meaningless"
+            deserve different answers here
+         @endrst
+         */
+        std::set<std::string> flatLeftToGame;
 
         /**
          * @brief

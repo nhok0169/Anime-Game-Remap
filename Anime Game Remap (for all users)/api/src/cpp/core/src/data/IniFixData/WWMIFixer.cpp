@@ -1286,9 +1286,12 @@ namespace AGRemapCore {
 
                     // A FLAT candidate for a region-marking role is not a usable file. Dropping it
                     // here rather than special-casing it later is what makes it take the ordinary
-                    // "the mod has no file for this role" path -- see WWMIFixerConfig::flatIsUnusable.
+                    // "the mod has no file for this role" path -- and which path that is, a download
+                    // of the source's own or nothing at all, is the difference between
+                    // WWMIFixerConfig::flatFallsBackToSource and WWMIFixerConfig::flatLeftToGame.
                     for (auto& entry : byRole) {
-                        if (config_.flatIsUnusable.count(entry.first) == 0) {
+                        const bool toGame = config_.flatLeftToGame.count(entry.first) > 0;
+                        if (!toGame && config_.flatFallsBackToSource.count(entry.first) == 0) {
                             continue;
                         }
 
@@ -1301,8 +1304,14 @@ namespace AGRemapCore {
                             }
 
                             ctx_.log(FileService::getRelPath(index_->real(candidate.first), iniFolder)
-                                     + " is a flat " + entry.first
-                                     + ", which marks no regions; the source's own is used instead");
+                                     + " is a flat " + entry.first + ", which marks no regions; "
+                                     + (toGame ? "left to the game" : "the source's own is used instead"));
+                        }
+
+                        if (varying.empty() && !entry.second.empty() && toGame) {
+                            // Nothing of the mod's survives for this role AND nothing may stand in
+                            // for it, so the fallback download is suppressed below
+                            leftToGame_.insert(entry.first);
                         }
 
                         entry.second = std::move(varying);
@@ -1442,7 +1451,8 @@ namespace AGRemapCore {
                                 }
 
                                 auto fallback = config_.fallbackTextures.find(binding.role);
-                                if (fallback == config_.fallbackTextures.end()) {
+                                if (fallback == config_.fallbackTextures.end()
+                                        || leftToGame_.count(binding.role) > 0) {
                                     continue;
                                 }
 
@@ -1481,7 +1491,8 @@ namespace AGRemapCore {
                             }
 
                             auto fallback = config_.fallbackTextures.find(role);
-                            if (owned || fallback == config_.fallbackTextures.end()) {
+                            if (owned || fallback == config_.fallbackTextures.end()
+                                    || leftToGame_.count(role) > 0) {
                                 continue;
                             }
 
@@ -2858,6 +2869,7 @@ namespace AGRemapCore {
                 std::map<std::string, std::string> declaredName_;      // that file -> the resource section the fix declares for it
                 std::set<std::string> usedDeclaredNames_;
                 std::map<std::string, Fallback> fallbacks_;           // role -> the source's game texture, for a planned role the mod has no file for
+                std::set<std::string> leftToGame_;                    // roles whose only file was flat and whose config says not to stand anything in
                 std::vector<std::string> textureLists_;
                 std::unordered_map<std::string, std::string> passFilters_;
 

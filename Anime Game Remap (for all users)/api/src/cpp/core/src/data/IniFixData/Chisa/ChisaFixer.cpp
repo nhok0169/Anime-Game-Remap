@@ -508,10 +508,13 @@ namespace AGRemapCore {
         config.downloadCharFolder = "Chisa";
         config.downloadVersionFolder = "2_8";
         config.downloadPrefix = "Chisa";
-        // Her masks mark regions, so a mod shipping a constant one has given us nothing to place --
-        // see WWMIFixerConfig::flatIsUnusable. Her diffuses and normal maps are deliberately absent:
-        // a flat diffuse is a plausible art choice and a normal map is nearly flat by construction.
-        config.flatIsUnusable = {"upperMask", "lowerMask", "faceMask", "hairMask", "frontHairMask"};
+        // Her masks mark regions, so a mod shipping a constant one has given us nothing to place.
+        // The body's take the source's own, whose regions land right because the mod's UVs ARE the
+        // source's; the HAIR's are left to the game instead (the maintainer's call, 2026-09-26, and
+        // what the hair-mask finding already said). Her diffuses and normal maps are in neither
+        // list: a flat diffuse is a plausible art choice and a normal map is nearly flat anyway.
+        config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask"};
+        config.flatLeftToGame = {"hairMask", "frontHairMask"};
 
         config.fallbackTextures = {
             {"accessoryDiffuse", "019c268e"},

@@ -134,13 +134,28 @@ namespace AGRemapCore {
 
                         if (skin) {
                             px[i] = TargetMaskSkin[0];
+                            px[i + 1] = TargetMaskSkin[1];
                             px[i + 2] = TargetMaskSkin[2];
                             px[i + 3] = TargetMaskSkin[3];
                         } else {
+                            px[i + 1] = TargetMaskCloth[1];
                             px[i + 2] = TargetMaskCloth[2];
                             px[i + 3] = TargetMaskCloth[3];
                         }
-                        // G is kept from the MOD either way: it is how shiny the surface is
+                        // G TOO, and it used to be the one channel kept from the mod, on the
+                        // grounds that it is how shiny the surface is and so the author's to
+                        // choose (2026-09-26). The author never chose it: Chisa's own masks carry
+                        // a CONSTANT green -- median 102 over the whole texture, range 97..105, on
+                        // both body slots -- where the skin's is a real gloss map with a median of
+                        // 0 and highlights to 243. Handing a flat 102 to the target's shader says
+                        // "every texel of this body is moderately glossy", which is the metallic
+                        // skin the maintainer reported on most Chisa mods, and it survives any
+                        // change to the sheen because the sheen is what green MODULATES.
+                        //
+                        // A constant has nothing in it to preserve, so green takes the target's
+                        // packing like every other channel -- which both TargetMask constants
+                        // already spell as 0. A mod that really does paint gloss would need this
+                        // rescaled rather than replaced, and none of the 24 here does.
                     }
                 }
 

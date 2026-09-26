@@ -513,6 +513,10 @@ namespace AGRemapCore {
         // source's; the HAIR's are left to the game instead (the maintainer's call, 2026-09-26, and
         // what the hair-mask finding already said). Her diffuses and normal maps are in neither
         // list: a flat diffuse is a plausible art choice and a normal map is nearly flat anyway.
+        //
+        // These two lists only reach a file the MOD shipped. A mod that ships no mask at all takes
+        // the fallbackTextures route below instead, and no flatness test stands between it and the
+        // register -- so `hairMask` is absent from that table, because a842d51f is flat too.
         config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask"};
         config.flatLeftToGame = {"hairMask", "frontHairMask"};
 
@@ -527,7 +531,11 @@ namespace AGRemapCore {
             {"frontHairMask", "d3b9ba76"},
             {"frontHairNormal", "9ccd7ea7"},
             {"hairDiffuse", "cbab5910"},
-            {"hairMask", "a842d51f"},
+            // no `hairMask`: Chisa's own a842d51f is ONE RGBA value over all 1024x1024 texels --
+            // (255, 0, 126, 0), which tells the target's shader that every hair pixel is bare skin
+            // at the mattest setting. Downloading it put a pink cast on the hair ends and flattened
+            // the strand shading on 11 of her 18 mods, the ones shipping no hair mask of their own.
+            // It is the same texture, and the same remedy, as the flatLeftToGame line above.
             {"hairNormal", "e921181d"},
             {"hairRamp", "232c2dbc"},
             {"hairTipRamp", "2b16c5ac"},

@@ -2208,6 +2208,81 @@ hair ramp was adding. It only became reportable once the orange was fixed --- ha
 that appears after a successful fix is usually the second defect becoming visible, not the fix
 misfiring.
 
+### ...AND THE RULE ABOVE REACHED ONE OF ITS TWO PATHS (2026-09-26)
+
+`flatLeftToGame` and `flatFallsBackToSource` are applied to the files the **mod ships**: the flat
+test runs over `byRole`, which only ever holds the mod's own candidates. A role the mod ships *no*
+file for never enters that loop at all --- it takes the `fallbackTextures` route, and nothing on that
+route asks whether the source's own texture is usable. So `hairMask` was declared `flatLeftToGame`
+*and* listed in `fallbackTextures`, and the second one won on every mod that shipped no hair mask:
+Chisa's flat `a842d51f` was downloaded and bound, which is precisely what the line above forbids.
+
+**11 of her 18 mods** took that path --- "the textures in Chisa's hair seem to be off for *some*
+Chisa mods" --- and the three the sweep printed as `flat: hairMask:game` were the ones that shipped
+a flat mask of their own and so were correctly caught. A mod that ships a *varying* hair mask
+(Chisa9) was right all along. The fix is a deletion: with no `fallbackTextures` row, the register is
+not bound, which is the same mechanism `leftToGame_` uses one branch further down.
+
+**The general shape: a config can declare a rule twice, in two tables, and the tables are consulted
+by different code paths.** Grep for the role name across the whole config when a rule looks like it
+is not firing --- the entry that defeats it is somewhere the rule's own code never looks.
+
+### TWO THINGS THAT WERE NEARLY WRITTEN DOWN AS THE EXPLANATION, AND ARE NOT (2026-09-26)
+
+Both were checked only because the artifact was to hand, and both are the kind of claim that reads
+as authoritative:
+
+**A register's coding is per SHADER, not per character.** `R = 255` means bare skin on the *body*
+mask --- that is measured, and the mask repack rests on it. It does not carry over to the hair:
+ChisaParfait's own hair mask is `R = 255` over **60.4%** of its texels, so "the flat mask tells the
+hair shader everything is skin, and the skin path reads the redder subsurface ramp, which is why the
+ends are pink" is a tidy mechanism for a premise that is false. Ask the TARGET's own texture at that
+register what the values mean before reasoning from a neighbouring pass.
+
+**The flat mask does not flatten the specular.** `G` is how shiny, and Chisa's flat mask carries
+`G = 0` --- but ChisaParfait's own hair mask is `G = 0` over every one of its texels too, and so is
+`A`. Channel by channel, the only thing the download actually erases is **R**, 129 distinct values
+down to one (and `B`, 62 down to one). That is enough, and it is the whole of it; "it also kills the
+highlights" would have been invented.
+
+### THE HAIR'S `ps-t5` IS LEFT UNBOUND ON PURPOSE, AND THE COMMENT SAYING SO IS RIGHT (2026-09-26)
+
+`plan[0]` (the front hair) binds `ps-t5` to `frontHairNormal`; `plan[1]` (the hair) names
+`ps-t0`/`t1`/`t2` and stops, while `sourceRegisterRoles[1]` *does* resolve the mod's hair normal map
+to a role. So the mod's file is read, written out and referenced by nothing, on **24 of 24** mods ---
+which reads exactly like an omission, especially next to a component that does bind it.
+
+It is not. `ChisaFixer.cpp` carries "if orange hair comes back, component 1's normalmap row goes
+first", and binding the mod's own hair normal map there turns the hair **copper-orange in streaks**.
+The two characters' `ps-t5` on their hair passes are not the same role: Chisa's `e921181d` is
+`(8.6, 52.8, 41.0, A0)` and the target's `d547f3c6` is `(0, 86.6, 9.3, A255)`.
+
+Cost of finding out: one `.ini` probe, no rebuild. **When a config comment predicts a symptom, the
+cheapest thing you can do is reproduce it** --- see the probe recipe below.
+
+### PROBE A BINDING BY EDITING THE FIXED `.ini`, NOT BY REBUILDING (2026-09-26)
+
+A build-to-build A/B changes the whole output and costs two compiles and two re-fixes per round. To
+ask "what does this one binding do", copy the fixed `.ini` aside, insert (or delete) the two lines
+the other build would have written --- the resource declaration and the `ps-t<N> =` --- reload, and
+restore from the copy. The two game states then differ by that binding **and nothing else**, which a
+rebuild cannot promise.
+
+Three WuWa-specific traps made this the only instrument that worked on the hair round:
+
+* **The overworld's time of day moves.** Two shots twenty seconds apart went from a night scene to
+  full daylight, and a third from sunlit ground to overcast. Any colour statistic compared across
+  two reloads is measuring the weather.
+* **The character menu re-frames itself between captures.** Successive screenshots came back at
+  different zoom with the weapon entering frame, so same-rectangle crops covered different content
+  and the pixel counts differed by 22%.
+* **`compare`'s F9 did not disable this mod.** Both halves showed the remapped character, so the
+  "unmodded control" was the mod --- and the normalised numbers it produced were near-identical by
+  construction, which reads exactly like "no difference found".
+
+Each of those produced a clean-looking table. Habit 34's form here: a control that is not controlling
+anything reports agreement.
+
 ### A BISECT IS ONLY AS COMPLETE AS THE REGISTER LIST IT ENUMERATES (2026-09-20)
 
 `--probe`'s `ProbeColours` ran `ps-t2` through `ps-t8`, because the pass being bisected when it was

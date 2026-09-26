@@ -1284,6 +1284,30 @@ namespace AGRemapCore {
                         entry.second = std::move(unique);
                     }
 
+                    // A FLAT candidate for a region-marking role is not a usable file. Dropping it
+                    // here rather than special-casing it later is what makes it take the ordinary
+                    // "the mod has no file for this role" path -- see WWMIFixerConfig::flatIsUnusable.
+                    for (auto& entry : byRole) {
+                        if (config_.flatIsUnusable.count(entry.first) == 0) {
+                            continue;
+                        }
+
+                        std::vector<std::pair<std::string, std::string>> varying;
+                        for (const auto& candidate : entry.second) {
+                            // channel 0: the material code, which is what says where the regions are
+                            if (!TexThumbprint::channelIsConstant(index_->real(candidate.first), 0)) {
+                                varying.push_back(candidate);
+                                continue;
+                            }
+
+                            ctx_.log(FileService::getRelPath(index_->real(candidate.first), iniFolder)
+                                     + " is a flat " + entry.first
+                                     + ", which marks no regions; the source's own is used instead");
+                        }
+
+                        entry.second = std::move(varying);
+                    }
+
                     // How well a file serves ONE source component: first how specifically its
                     // WWMI-Tools `Components-<a>-<b>... t=<hash>.dds` name is tagged for that component,
                     // then whether this .ini already has a resource for it, then its distance.

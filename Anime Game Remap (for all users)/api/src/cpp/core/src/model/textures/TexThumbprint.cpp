@@ -123,6 +123,38 @@ namespace AGRemapCore {
     }
 
 
+    bool TexThumbprint::channelIsConstant(const std::string& path, int channel) {
+        if (channel < 0 || channel > 3) {
+            return false;
+        }
+
+        TextureFile texture(path);
+        try {
+            texture.open();
+        } catch (const std::exception&) {
+            return false;
+        }
+
+        if (!texture.hasImage()) {
+            return false;
+        }
+
+        const std::vector<std::uint8_t>& pixels = texture.getPixels();
+        if (pixels.size() < 4) {
+            return false;
+        }
+
+        const std::uint8_t first = pixels[static_cast<std::size_t>(channel)];
+        for (std::size_t i = static_cast<std::size_t>(channel); i < pixels.size(); i += 4) {
+            if (pixels[i] != first) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
     std::optional<std::string> TexThumbprint::identifyFile(const std::string& path, const Table& table, int size,
                                                            double minScore, double maxRunnerUp) {
         if (table.empty()) {

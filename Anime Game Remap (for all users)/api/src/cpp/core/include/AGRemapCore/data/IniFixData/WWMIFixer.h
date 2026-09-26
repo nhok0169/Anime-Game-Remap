@@ -18,6 +18,7 @@
 #include <functional>
 #include <map>
 #include <optional>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -307,6 +308,34 @@ namespace AGRemapCore {
          @endrst
          */
         std::map<std::string, std::string> fallbackTextures;
+
+        /**
+         * @brief
+         @rst
+         Roles whose texture says WHERE something is, so a CONSTANT one from the mod is not usable
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         A material mask marks regions. A mod that ships one holding a single value everywhere is not
+         saying "no preference": ``R = 255`` everywhere says "all of this is bare skin", and carried
+         across faithfully that is what the target's shader is told -- a jacket shaded as skin, or
+         bare thighs shaded as cloth (Chisa13, 2026-09-26) :raw-html:`<br />` :raw-html:`<br />`
+
+         A role named here whose only candidate file is flat is treated as a role the mod has NO file
+         for, so it takes \ref fallbackTextures like any other: the SOURCE's own texture, which has
+         real regions and is authored for the UVs this mesh actually carries. The target's would be
+         authored for the target's UV layout, which this mesh does not use :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         .. note::
+            Only for roles that mark regions. A DIFFUSE may legitimately be one flat colour, and a
+            normal map is nearly flat by construction, so naming either here would throw away art the
+            mod meant :raw-html:`<br />` :raw-html:`<br />`
+
+            Measured over 24 Chisa mods: 4 of 36 repacked body masks are flat, on 2 mods. Empty (the
+            default) keeps every candidate whatever its pixels
+         @endrst
+         */
+        std::set<std::string> flatIsUnusable;
 
         /**
          * @brief

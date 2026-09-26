@@ -135,5 +135,30 @@ namespace AGRemapCore {
              */
             static std::optional<std::string> identifyFile(const std::string& path, const Table& table, int size,
                                                            double minScore, double maxRunnerUp);
+
+            /**
+             * @brief
+             @rst
+             Whether every texel of 'channel' holds the same value -- the texture says nothing about
+             WHERE anything is :raw-html:`<br />` :raw-html:`<br />`
+
+             Worth asking of a texture whose job is to mark regions, such as a material mask, because
+             a constant one is not a neutral one. A mod shipping a mask of ``R = 255`` everywhere is
+             not saying "no preference", it is saying "all of this is bare skin", and a fix that
+             carries it across faithfully hands the target's shader exactly that :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             .. note::
+                A texture that will not open answers ``false``: an unreadable file is not evidence
+                that its contents are constant, and the caller's fallback for "no usable file" is a
+                different path from its fallback for "no file"
+             @endrst
+             *
+             * @param path The image to read
+             * @param channel Which channel to test -- 0 is red, 3 is alpha
+             *
+             * @return Whether that channel is the same value everywhere
+             */
+            static bool channelIsConstant(const std::string& path, int channel);
     };
 }

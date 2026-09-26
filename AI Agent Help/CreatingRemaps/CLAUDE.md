@@ -2208,24 +2208,37 @@ hair ramp was adding. It only became reportable once the orange was fixed --- ha
 that appears after a successful fix is usually the second defect becoming visible, not the fix
 misfiring.
 
-### ...AND THE RULE ABOVE REACHED ONE OF ITS TWO PATHS (2026-09-26)
+### ...AND EXTENDING THAT RULE TO THE DOWNLOAD WAS WRONG (2026-09-26, RETRACTED SAME DAY)
 
-`flatLeftToGame` and `flatFallsBackToSource` are applied to the files the **mod ships**: the flat
-test runs over `byRole`, which only ever holds the mod's own candidates. A role the mod ships *no*
-file for never enters that loop at all --- it takes the `fallbackTextures` route, and nothing on that
-route asks whether the source's own texture is usable. So `hairMask` was declared `flatLeftToGame`
-*and* listed in `fallbackTextures`, and the second one won on every mod that shipped no hair mask:
-Chisa's flat `a842d51f` was downloaded and bound, which is precisely what the line above forbids.
+The mechanism written up here is real: `flatLeftToGame` and `flatFallsBackToSource` run over
+`byRole`, which only ever holds the MOD's own candidates, so a role the mod ships no file for takes
+the `fallbackTextures` route with no flatness test anywhere on it. `hairMask` was declared in both
+tables and the download won on the 11 of 18 Chisa mods shipping no hair mask of their own.
 
-**11 of her 18 mods** took that path --- "the textures in Chisa's hair seem to be off for *some*
-Chisa mods" --- and the three the sweep printed as `flat: hairMask:game` were the ones that shipped
-a flat mask of their own and so were correctly caught. A mod that ships a *varying* hair mask
-(Chisa9) was right all along. The fix is a deletion: with no `fallbackTextures` row, the register is
-not bound, which is the same mechanism `leftToGame_` uses one branch further down.
+**Dropping the `fallbackTextures` row on the strength of that was wrong, and it shipped for three
+hours.** The flat test is a proxy for "this texture cannot tell the shader anything", and that is
+a claim about a texture AND a pass, not about a texture:
 
-**The general shape: a config can declare a rule twice, in two tables, and the tables are consulted
-by different code paths.** Grep for the role name across the whole config when a rule looks like it
-is not firing --- the entry that defeats it is somewhere the rule's own code never looks.
+```
+    Chisa's a842d51f          (255, 0, 126, 0) over 100% of its texels
+    ChisaParfait's 3f433212   (255, 0, 126, 0) over  49.2% of its texels -- her DOMINANT hair code
+```
+
+They are the same value. The "flat" download is the target's own ordinary-hair code, repeated, and
+binding it gives every texel of the mod's hair that code. Dropping it leaves the register to the
+game, which binds the target's **structured** mask -- 129 distinct R values, 16.3% of them `R = 0`
+-- sampled at **Chisa's** UVs, so the codes land in patches laid out for a different head. Patchy
+codes shade in patches, and irregular blotches are exactly what the maintainer's screenshot shows
+(`Images/Chisa/3_5/ChisaHairDistortions.png`).
+
+**Two lessons, and the second is the one that cost the round:**
+
+* **A config can declare a rule twice, in two tables consulted by different code paths.** Grep the
+  role name across the whole config when a rule looks like it is not firing.
+* **Before acting on "this input is degenerate", check what the CONSUMER does with it.** A constant
+  is uninformative only relative to something; here it happened to equal the answer the target's own
+  art gives almost half the time, and no amount of reasoning about the texture alone could see that.
+  One `np.unique` over the target's own mask settled it.
 
 ### TWO THINGS THAT WERE NEARLY WRITTEN DOWN AS THE EXPLANATION, AND ARE NOT (2026-09-26)
 
@@ -2311,16 +2324,53 @@ beside it, so "I edited the wrong one" was entirely live.
 
 Bind flat magenta there and look. The hair came back **teal** --- not magenta, because that draw
 consumes `ps-t2` as a normal-style input rather than as a colour, which is itself the answer to what
-the register is --- so the block runs, the register is sampled, and the null result is a real null.
+the register is --- so the block runs and the register is sampled.
 
-That makes the `ps-t2` finding a **controlled negative**: Chisa's `232c2dbc` (a tangent-space normal
-map, R 127 / B 252) and ChisaParfait's `81f48e54` (R 206 / B 2) look like completely different kinds
-of texture and produce no distinguishable hair. The pixel-signature argument for "wrong kind of map
-on the same register number" was a good hypothesis and is not a finding; **nothing here is changed
-on the strength of it.**
+**And then the "null result" turned out to be the statistic, not the register.** Re-read as a
+per-pixel difference rather than a mean, the same two shots differ on **13.0% of the hair's pixels**,
+in strand-shaped streaks, with a p99 of 253 --- `ps-t2` moves the shading a great deal. A mean over a
+window cannot see a pattern that MOVES: every strand that brightens is paid for by one that darkens,
+and the average is unchanged. The register is left as shipped because the shipped binding is visibly
+the better of the two (the target's own leaves violet patches on the strands), which is a different
+conclusion reached for a different reason.
+
+**When a probe reports no effect, diff the pixels before believing it.** A colour shift shows up in
+a mean; a pattern shift shows up only in `|a - b|`, and half the things a texture register does are
+pattern.
 
 It also corroborated the round's actual fix for free: the flat-mask change removes a `ps-t0` line
 from *that same block*, now demonstrated to be live.
+
+### THE HAIR'S REMAINING DEFECT, MEASURED FROM THE MAINTAINER'S OWN SCREENSHOT (2026-09-26)
+
+Reproducing a colour defect in the WuWa overworld failed four times in one session -- the day/night
+clock moved between every pair of reloads -- so the report's own image became the instrument. Ellipse
+out each circled region, exclude the annotation strokes by their saturation, and compare against the
+SAME MOD's hair elsewhere in the SAME frame, which is a control no scene change can spoil:
+
+```
+    the circled tips       R-B  +4.7     45.8% of pixels warm      warm mean  R 60.8  G 36.5  B 42.3
+    its own hair elsewhere R-B  -4.3     24.4% warm
+```
+
+**+9.0 in R-B against its own control, and `G` is the LOWEST channel** -- magenta, not orange, which
+matters because the two have different suspects. Magnified and brightened, the defect is **irregular
+blotches on the strands, not a gradient along them** -- and that alone rules out the ramps: a LUT
+indexed by a root-to-tip parameter cannot produce patches. It points at a UV-sampled texture read at
+UVs it was not authored for.
+
+Three candidates were then closed, each by measurement rather than argument:
+
+* **`ps-t4`, the 512 x 4 tip ramp.** The two ARE different, against both this file's earlier note and
+  an end-sampled check of mine: identical at both ends, and up to **+21 R apart** through the middle
+  (max per-column |dR| 74). An end sample lands exactly where they agree. Probed in game and left
+  alone -- the effect was within the scene's own drift.
+* **`ps-t5` repacked.** The prototype's note sets up an untested third option: the mod's own map, at
+  the mod's UVs, with `B` and `A` rewritten to the target's packing. Built and probed --- the hair
+  comes back **copper-orange in streaks**, the same symptom as binding it raw. The channel repack is
+  not what the difference between those two maps is, and that avenue is closed.
+* **`ps-t0`, the mask.** See the retraction above: this one was mine, and putting it back is the
+  change this round actually made.
 
 ### A BISECT IS ONLY AS COMPLETE AS THE REGISTER LIST IT ENUMERATES (2026-09-20)
 

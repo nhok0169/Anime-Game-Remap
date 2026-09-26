@@ -516,7 +516,8 @@ namespace AGRemapCore {
         //
         // These two lists only reach a file the MOD shipped. A mod that ships no mask at all takes
         // the fallbackTextures route below instead, and no flatness test stands between it and the
-        // register -- so `hairMask` is absent from that table, because a842d51f is flat too.
+        // register. That is deliberate: see the `hairMask` row below for why a flat fallback is
+        // still the right thing to bind here.
         config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask"};
         config.flatLeftToGame = {"hairMask", "frontHairMask"};
 
@@ -531,11 +532,20 @@ namespace AGRemapCore {
             {"frontHairMask", "d3b9ba76"},
             {"frontHairNormal", "9ccd7ea7"},
             {"hairDiffuse", "cbab5910"},
-            // no `hairMask`: Chisa's own a842d51f is ONE RGBA value over all 1024x1024 texels --
-            // (255, 0, 126, 0), which tells the target's shader that every hair pixel is bare skin
-            // at the mattest setting. Downloading it put a pink cast on the hair ends and flattened
-            // the strand shading on 11 of her 18 mods, the ones shipping no hair mask of their own.
-            // It is the same texture, and the same remedy, as the flatLeftToGame line above.
+            // `hairMask` IS downloaded, and the flat test above must not reach it (2026-09-26).
+            // a842d51f is one RGBA value over all 1024x1024 texels -- (255, 0, 126, 0) -- which
+            // reads as "carries no information, so binding it is pointless". It is not: that value
+            // is ChisaParfait's OWN dominant hair code, 49.2% of her own hair mask's texels. Bound,
+            // every texel of the mod's hair is ordinary hair material.
+            //
+            // Dropped, the register falls to the game, and the game binds the TARGET's structured
+            // mask (129 distinct R values, 16.3% of them R = 0) sampled at CHISA's UVs -- so the
+            // codes land in patches laid out for a different head. Patchy codes shade in patches.
+            //
+            // The "R = 255 means bare skin" reading that argued for dropping it is a fact about the
+            // BODY mask and does not carry to the hair pass: 60.4% of the target's own hair mask is
+            // R = 255. Ask the target's own texture at a register what its values mean.
+            {"hairMask", "a842d51f"},
             {"hairNormal", "e921181d"},
             {"hairRamp", "232c2dbc"},
             {"hairTipRamp", "2b16c5ac"},

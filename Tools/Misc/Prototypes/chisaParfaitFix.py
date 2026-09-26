@@ -3086,6 +3086,9 @@ def removeSplitFiles(folder: str) -> int:
 
 def runService(folder: str, args) -> None:
     """The whole run through RemapService: folder walk, undo of a previous fix, backups, resources, summary"""
+    # taken BEFORE the fix, so a reference the mod already shipped broken can be told from one the
+    #   fix leaves behind -- see the report at the end of this function
+    preExistingInis = modsOwnIniFiles(folder)
     removed = removeSplitFiles(folder)
     if (removed):
         print(f"  removed {removed} extra .ini file(s) of a previous split")
@@ -3122,6 +3125,26 @@ def runService(folder: str, args) -> None:
             print(f"  SKIPPED {os.path.relpath(path, folder)}: {error}")
 
     dangling = danglingReferences(stats.ini.fixed)
+
+    # WHOSE dangling reference is it? One the mod shipped is the author's and behaves the same
+    #   fixed or not -- Chisa13 points [ResourceTexture12] at `Components-4 t=21f813ba.dds` while
+    #   shipping `... 21f813ba off.dds`, the author's way of switching that texture off. One the FIX
+    #   left is a resource that raised, and the .ini is already written naming a file nothing
+    #   created. Reporting them the same way cost a session: the message said a resource had been
+    #   skipped when every skip counter read 0 (2026-09-26). The reading taken before the run is
+    #   what tells them apart -- not whether the section's name holds `Remap`, which is the
+    #   substring landmine that once had an undo deleting a mod's own files.
+    before = {(os.path.basename(p), ref) for p, ref in danglingReferences(preExistingInis)}
+    mine = [(p, ref) for p, ref in dangling if (os.path.basename(p), ref) not in before]
+    theirs = [(p, ref) for p, ref in dangling if (os.path.basename(p), ref) in before]
+
+    if (theirs):
+        print(f"\n{len(theirs)} reference(s) the MOD ships broken (unchanged by the fix, and not "
+              + "ours to repair):")
+        for iniPath, reference in theirs:
+            print(f"  {os.path.relpath(iniPath, folder)} -> {reference}")
+
+    dangling = mine
     if (dangling):
         # A SKIPPED RESOURCE IS A DANGLING REFERENCE, AND THE .INI IS ALREADY WRITTEN. The service
         #   catches a resource that raises, records it under `skipped`, and moves on -- but the
@@ -3133,11 +3156,22 @@ def runService(folder: str, args) -> None:
         print(f"\n!! {len(dangling)} REFERENCE(S) IN THE FIXED .ini NAME A FILE THAT IS NOT THERE -- the mod will not render !!")
         for iniPath, reference in dangling:
             print(f"  {os.path.relpath(iniPath, folder)} -> {reference}")
-        print("  a resource above was skipped; fix that, or undo, before looking in game")
+        print("  a resource above was skipped and the .ini names the file it was going to write; "
+              + "fix that, or undo, before looking in game")
+
+
+def modsOwnIniFiles(folder: str) -> List[str]:
+    """Every .ini under 'folder' the fix might touch, for a reading taken BEFORE it runs"""
+    out: List[str] = []
+    for dirPath, _dirs, files in os.walk(folder):
+        for name in files:
+            if (name.lower().endswith(".ini") and not name.lower().startswith("disabled")):
+                out.append(os.path.join(dirPath, name))
+    return out
 
 
 def danglingReferences(iniPaths) -> List[Tuple[str, str]]:
-    """Every `filename = ...` of a fixed .ini whose file is not on disk (check_dangling.py's rule,
+    """Every `filename = ...` of an .ini whose file is not on disk (check_dangling.py's rule,
     run by the fix itself rather than remembered afterwards)"""
     out: List[Tuple[str, str]] = []
     for iniPath in sorted(iniPaths):

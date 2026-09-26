@@ -78,6 +78,13 @@ namespace AGRemapCore {
         // IEEE 754 binary16 <-> binary32 conversion. This codebase's target platform (MSVC) has
         // no portable 'std::float16_t'/'_Float16' available, so this is done by hand rather than
         // relying on a compiler-specific half type.
+        //
+        // DO NOT MERGE THIS WITH THE PAIR OF THE SAME NAME IN data/IniFixData/WWMIFixer.cpp. They
+        // share a name and not a job. This pair decodes arbitrary vertex data off disk, so it is
+        // bit-exact and TRUNCATES on the way back (`mantissa >> 13`). That one takes only a folded
+        // U in [0, 1) and rounds HALF TO EVEN, to match numpy's float16 cast and so the prototype
+        // that is the WuWa fix's oracle -- a difference of 104 in 1,508,336 halves, every one of
+        // which would show up as a moved UV (2026-09-25).
         float halfToFloat(std::uint16_t half) {
             std::uint32_t sign = static_cast<std::uint32_t>(half & 0x8000) << 16;
             std::uint32_t exponent = (half >> 10) & 0x1F;

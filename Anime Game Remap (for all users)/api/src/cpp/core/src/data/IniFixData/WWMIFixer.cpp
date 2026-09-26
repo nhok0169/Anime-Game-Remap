@@ -105,6 +105,10 @@ namespace AGRemapCore {
         // IEEE half <-> float, for the texcoord copy. A WWMI texcoord buffer is halves, and the two
         // faults it can carry -- a NaN in the second UV, a U outside [0, 1) -- are read and written
         // in that format rather than converted through the whole buffer.
+        // A half-float pair of this fix's OWN, deliberately not model/buffers/BufFloat.cpp's pair of
+        // the same name -- see the note there. These two are written for one job: reading and
+        // rewriting a folded texture coordinate, matching numpy's rounding rather than the
+        // truncation a general decoder does. Sharing either one moves UVs.
         float halfToFloat(std::uint16_t bits) {
             const int sign = (bits >> 15) & 0x1;
             const int exponent = (bits >> 10) & 0x1F;

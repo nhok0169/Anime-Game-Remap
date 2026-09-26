@@ -2283,6 +2283,45 @@ Three WuWa-specific traps made this the only instrument that worked on the hair 
 Each of those produced a clean-looking table. Habit 34's form here: a control that is not controlling
 anything reports agreement.
 
+### INTERLEAVE THE TWO STATES, OR THE SCENE WILL HAND YOU AN EFFECT (2026-09-26)
+
+WuWa's overworld runs its own clock, and it moves fast enough to ruin a two-shot A/B: over one
+round the scene went night -> dawn -> daylight -> dusk, and two shots twenty seconds apart differ
+more than most fixes do. The remedy is not a better statistic, it is the ORDER of capture ---
+alternate the states, `A B A B`, and measure the SAME-state pair as the drift.
+
+The hair's `ps-t2` probe, over one window entirely inside the hair (preview-checked):
+
+```
+    shipped #1  -> unbound #1   dlum +5.6   dsd +2.9     <- reads as a large effect
+    shipped #1  -> shipped #2   dlum +5.9   dsd +3.2     <- ...and is exactly the drift
+    shipped #2  -> unbound #2   dlum -0.3   dsd +0.1     <- the actual effect: none
+```
+
+The first pair alone would have been written up as "unbinding `ps-t2` brightens the hair". With the
+second shipped shot in hand it is obviously the dusk. **Two shots can only ever give you a
+difference; three give you a difference and a scale to read it against.**
+
+### A NEGATIVE RESULT NEEDS THE MAGENTA TEST BEFORE YOU BELIEVE IT (2026-09-26)
+
+"I changed the binding and nothing happened" has two causes that look identical: the register does
+not matter, or **the block you edited is not the one that draws**. Chisa's hair has a
+`CommandListChisaComponent1Textures...` gated `if vs == 3381.71` with `Pass0` and `Pass1` variants
+beside it, so "I edited the wrong one" was entirely live.
+
+Bind flat magenta there and look. The hair came back **teal** --- not magenta, because that draw
+consumes `ps-t2` as a normal-style input rather than as a colour, which is itself the answer to what
+the register is --- so the block runs, the register is sampled, and the null result is a real null.
+
+That makes the `ps-t2` finding a **controlled negative**: Chisa's `232c2dbc` (a tangent-space normal
+map, R 127 / B 252) and ChisaParfait's `81f48e54` (R 206 / B 2) look like completely different kinds
+of texture and produce no distinguishable hair. The pixel-signature argument for "wrong kind of map
+on the same register number" was a good hypothesis and is not a finding; **nothing here is changed
+on the strength of it.**
+
+It also corroborated the round's actual fix for free: the flat-mask change removes a `ps-t0` line
+from *that same block*, now demonstrated to be live.
+
 ### A BISECT IS ONLY AS COMPLETE AS THE REGISTER LIST IT ENUMERATES (2026-09-20)
 
 `--probe`'s `ProbeColours` ran `ps-t2` through `ps-t8`, because the pass being bisected when it was

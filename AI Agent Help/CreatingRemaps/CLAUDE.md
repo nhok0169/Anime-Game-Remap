@@ -1708,12 +1708,17 @@ merge-direction mods moved nothing but Bennett5 (point 3).
    gave the same inside. The fix is geometry, and the template builds it now:
    `GIMIComponentFixerConfig::Component::mirroredObjs` (Neuvillette's `dress`) makes `VGComponentSplit` follow each
    triangle of those objects with a twin wound the other way over copied corners (same weights, flagged in
-   `VGComponentBuffers::mirrored`), and the writer turns each copy's normal round and moves it `mirrorOffset` (1 mm)
+   `VGComponentBuffers::mirrored`), and the writer turns each copy's normal round and moves it `mirrorOffset` (5 mm)
    inside (`VGComponentSplit::mirrorPositionLine`, applied through `VGSplitGroupConfig::mirrorLineEdit`). The twin
    keeps its triangle's SOURCE id, so a mod's own `drawindexed` ranges take both, and the vertex-count split and the
    buffer-writing split build their specs through one function (`specsFor`), so the `.ini`'s skinning `draw = N`
    always matches the written buffers (Neuvillette2: 50492 -> 65329). In game the inner skirt renders dark navy like
    his own outfit. Cut components only: a negative-index component's vertex buffers are not rewritten.
+   **The offset has to beat the depth buffer, not the geometry**: shipped at 1 mm, every mirrored garment came back
+   "metallic" -- dark, speckled, Neuvillette1's white apron navy -- because at the preview's distance the twins
+   z-fought the surface from outside, and their turned-round normals shaded the losing pixels dark. Bisected in game
+   on the written buffer: twins collapsed away = clean (so not the vertex count), normals kept = nearly clean (so the
+   twins WERE showing), 0.1 mm = worse, 4 and 8 mm = clean. 5 mm now.
 
 **Open for the maintainer**: Neuvillette2's inner skirt (point 13: the mirrored layer, to be confirmed by eye);
 Neuvillette9's colours (point 2); the cravat's faint cyan cast (his 126-128 is the skin's cyan band; moving it to 255 hardened the

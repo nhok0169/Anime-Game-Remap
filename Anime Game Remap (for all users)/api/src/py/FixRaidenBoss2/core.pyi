@@ -7216,7 +7216,7 @@ class GIMIComponentFixerConfig:
         @property
         def mirrorOffset(self) -> float:
             """
-            :class:`float`: How far inside the surface the mirrored layer sits, in model units --- ``0.001`` by default
+            :class:`float`: How far inside the surface the mirrored layer sits, in model units --- ``0.005`` by default: at 1 mm it z-fought the surface from outside
             """
         @mirrorOffset.setter
         def mirrorOffset(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:

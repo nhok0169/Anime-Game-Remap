@@ -81,7 +81,7 @@ class NeuvilletteTemplateOptionsTest(BaseUnitTest):
         # empty by default: no object gets an inner layer
         component = FRB.GIMIComponentFixerConfig.Component()
         self.assertEqual(component.mirroredObjs, [])
-        self.assertAlmostEqual(component.mirrorOffset, 0.001, places = 6)
+        self.assertAlmostEqual(component.mirrorOffset, 0.005, places = 6)
         component.mirroredObjs = ["dress"]
         component.mirrorOffset = 0.002
         self.assertEqual(component.mirroredObjs, ["dress"])

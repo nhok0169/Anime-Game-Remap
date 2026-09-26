@@ -270,12 +270,18 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             How far inside the surface the mirrored layer sits, in model units -- enough that it never
-             ties with the surface in depth, small enough not to show as a gap. **Default**: ``0.001``
-             (a millimetre on a GI character)
+             How far inside the surface the mirrored layer sits, in model units -- enough that the depth
+             buffer always puts it BEHIND the surface seen from outside, small enough not to show as a gap
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The game's depth buffer cannot separate surfaces a millimetre apart at the outfit preview's
+             distance: at ``0.001`` the twins, their normals turned round, fought the surface and every
+             mirrored garment came out dark and speckled, "metallic" (Neuvillette1's white apron went
+             navy; at ``0.0001`` entirely). ``0.004`` and ``0.008`` rendered as clean as with no layer at
+             all (in game, 2026-09-26). **Default**: ``0.005`` (5 mm on a GI character)
              @endrst
              */
-            float mirrorOffset = 0.001f;
+            float mirrorOffset = 0.005f;
 
             /**
              * @brief

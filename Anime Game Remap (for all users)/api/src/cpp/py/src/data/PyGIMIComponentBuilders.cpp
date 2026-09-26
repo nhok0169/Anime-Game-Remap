@@ -372,7 +372,7 @@ for single-layer cloth whose back faces the target's shader does not shade as cl
 :attr:`VGComponentSpec.mirroredIbs`. Cut components only; empty by default
         )doc"))
         .def_readwrite("mirrorOffset", &AGRC::GIMIComponentFixerConfig::Component::mirrorOffset,
-                       py::doc(":class:`float`: How far inside the surface the mirrored layer sits, in model units --- ``0.001`` by default"))
+                       py::doc(":class:`float`: How far inside the surface the mirrored layer sits, in model units --- ``0.005`` by default: at 1 mm it z-fought the surface from outside"))
         .def_readwrite("texFxBlend", &AGRC::GIMIComponentFixerConfig::Component::texFxBlend, py::doc(R"doc(
 :class:`float`: For a component whose mod's TexFx is dropped (:attr:`dropTexFx`): the opacity, 0 to 1, its
 SEE-THROUGH draws are blended at instead --- ``0`` (the default) leaves them opaque

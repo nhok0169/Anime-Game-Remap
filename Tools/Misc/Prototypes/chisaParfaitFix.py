@@ -273,6 +273,16 @@ MaskTranslations = {"upperMask", "lowerMask"}   # the roles whose file is repack
 #   normal-map alpha selects -- and the RGB is that same profile as neutral gray, so no rainbow.
 SheenTranslations = {"bodySheen"}
 
+# A UV-MAPPED REGISTER CANNOT BE LEFT TO THE GAME (2026-09-26). The hair's ps-t5 is a 2048 x 2048
+#   map, and the geometry drawn through that slot is CHISA's -- so the skin's own art there is
+#   sampled at UVs it was never authored for, which painted irregular magenta blotches on the
+#   strands and a band of wrong shadow. Only G carries signal: the target's own d547f3c6 is R = 0
+#   over 99.4% of its texels, B = 0 over 93.7%, A = 255 over 98.3%, and G 170 distinct values.
+#   So the mod's own G is kept -- its strand detail, at its own UVs -- and R/B/A take the
+#   target's packing. Binding the file RAW goes copper-orange, and so does repacking only B and
+#   A: R has to go too, which is what that attempt missed.
+NormalRepacks = {"hairNormal"}
+
 # A SHADER FAMILY IS A COLOUR GRADE, AND A TEXTURE IS THE ONLY PLACE TO PUT IT BACK (2026-09-20).
 #   Chisa's ribbon is painted by a HAIR shader (3df800c3, the only pass her component 5 is drawn on)
 #   and the skin has nowhere to draw it but a CLOTH shader, so the two treat the same diffuse
@@ -600,12 +610,17 @@ Plan = {
     #
     #   B and A are structurally different between the two skins, exactly as they are in the
     #   material mask -- so the mod's map hands the target's shader a large B where it wants ~0 and
-    #   A 0 where it wants 255, and the result is a warm cast over the hair. Unbound, the slot takes
-    #   the GAME's own map, which is the right packing; its UVs are hers rather than the mod's, and
-    #   on this map that is evidently the lesser error.
+    #   A 0 where it wants 255, and the result is a warm cast over the hair.
+    #
+    #   LEAVING IT UNBOUND WAS THE WRONG ANSWER, AND IT SHIPPED FOR DAYS (2026-09-26). The slot then
+    #   takes the GAME's own map -- the right packing, at HER UVs rather than the mod's -- and that
+    #   is not the lesser error on a UV-mapped texture: it painted irregular magenta blotches on the
+    #   strands and a band of wrong shadow, reported twice. The register is bound now and the map
+    #   REPACKED (NormalRepacks / hairNormalFilter): the mod's own G, the target's R/B/A. Nulling it
+    #   and binding a flat (0, 75, 0, 255) look identical in game; this one keeps the mod's detail.
     #   NOT done for slot 0's frontHairNormal: same register, same shape of risk, untested. One at
     #   a time.
-    1: (1, {"ps-t0": "hairMask", "ps-t1": "hairDiffuse", "ps-t2": "hairRamp"}),
+    1: (1, {"ps-t0": "hairMask", "ps-t1": "hairDiffuse", "ps-t2": "hairRamp", "ps-t5": "hairNormal"}),
     2: (2, {"ps-t0": "faceMask", "ps-t1": "faceDiffuse"}),
     # ps-t10 / ps-t6 is the subsurface ramp, and the two body halves read it at different registers
     #   because the two passes bind different numbers of auxiliary maps before it. Measured off the
@@ -866,6 +881,16 @@ def sheenFilter(texFile) -> None:
     asData(texFile)
     profile = pixelsOf(texFile)[..., 0]
     setPixels(texFile, np.stack([profile, profile, profile, profile], axis = -1))
+
+
+def hairNormalFilter(texFile) -> None:
+    """The hair's ps-t5 map in the TARGET's packing: the mod's own G, the rest the skin's (NormalRepacks)"""
+    asData(texFile)
+    px = pixelsOf(texFile)
+    px[..., 0] = 0            # R: the target's is 0 over 99.4% of its texels
+    px[..., 2] = 0            # B: ...and its B over 93.7%
+    px[..., 3] = 255          # A: ...and its A is 255 over 98.3%
+    setPixels(texFile, px)
 
 
 def maskFilter(diffusePath: Optional[str], label: str):
@@ -2774,9 +2799,12 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             elif (role in SheenTranslations):
                 print(f"    {role}: {SourceName}'s packed sheen profiles as {TargetName}'s neutral foil")
                 graphEdits.append(FRB.ResRegCollect(lists, {role: texEdit((0, "", f"res{label}"), label, sheenFilter)}))
+            elif (role in NormalRepacks):
+                print(f"    {role}: the mod's own G kept, R/B/A repacked into {TargetName}'s layout")
+                graphEdits.append(FRB.ResRegCollect(lists, {role: texEdit((0, "", f"res{label}"), label, hairNormalFilter)}))
             elif (role in ColourGrades and role not in roles.borrowed):
                 graphEdits.append(FRB.ResRegCollect(lists, {role: texEdit((0, "", f"res{label}"), label, gradeFilter(ColourGrades[role], role, ColourGradeIslands.get(role)))}))
-        for role in MaskTranslations | SheenTranslations:
+        for role in MaskTranslations | SheenTranslations | NormalRepacks:
             if (role in roles.resourceOfRole and role not in roles.graphRoles and any(r == role for r, _ in clOfPair)):
                 print(f"    WARNING: {role} is declared only in a component's own section, so it is bound as-is (no graph to edit)")
         if (dropped):

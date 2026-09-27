@@ -18,6 +18,42 @@ Everything else, including a failed test, is yours to diagnose and retry. The fi
 message, with the evidence (kept screenshots, `pair`s of base vs remap per mod, the warnings that
 remain and why). Read the tool's README for the command reference. This file is how to use it well.
 
+## AN ARROW KEY THIS TOOL SENT ARRIVED AS A NUMPAD KEY (fixed 2026-09-27)
+
+`key left`, `key ctrl+left`, `key alt+down` -- every arrow, modified or not -- did **nothing**, in
+total silence, while `f7`, `ctrl+f7`, `esc` and `numpad4` all worked. That pattern reads as a broken
+MODIFIER and is nothing of the kind.
+
+`sendKeyScan` asks Windows for a key's scan code with `MapVirtualKeyW(vk, MAPVK_VK_TO_VSC_EX)`,
+which is documented to put `0xE0` in the high byte for an extended key, and sets
+`KEYEVENTF_EXTENDEDKEY` when it sees one. Measured on this machine:
+
+```
+VK_LEFT      0x025  MAPVK_VK_TO_VSC 0x004b   MAPVK_VK_TO_VSC_EX 0x004b   extended? False
+VK_NUMPAD4   0x064  MAPVK_VK_TO_VSC 0x004b   MAPVK_VK_TO_VSC_EX 0x004b   extended? False
+```
+
+It does not report it. **Bare scan `0x4B` is numpad 4** -- the navigation cluster and the numpad
+share scan codes and the extended flag is the only thing telling them apart -- so every arrow was
+delivered as a numpad press, which is a perfectly valid thing to press and so provokes no error
+anywhere. `win32.EXTENDED_VKS` now forces the flag from a table instead of asking the OS.
+
+This matters more than it sounds: **most mod toggles are arrows**. One Chisa mod binds all four, plus
+`alt` and `ctrl` variants of each, and none of them could be driven at all.
+
+**The lesson is how it was found, not the table.** Three reasonable-looking readings came first and
+all were wrong -- "the modifier is broken", "the hotkey's `condition = $object_detected` is false",
+"the mod's toggle is broken by the fix". What settled it was **rebinding the mod's own hotkey** to
+one candidate at a time (`VK_F7`, `ctrl VK_F7`, `VK_LEFT`, `ctrl VK_LEFT`, `VK_NUMPAD4`) against a
+single unmistakable effect -- blonde gyaru hair against black OG hair, a 67% pixel change -- so each
+answer was a yes or a no rather than a judgement. `keyProbe.py` / `chordTry.py` in that session's
+scratchpad are the shape of it.
+
+**And before any of that: prove the keypress landed at all.** A diff of two screenshots said 19% of
+the head had changed, which read as "the toggle worked"; painting the changed pixels showed every one
+was leaves and canopy. When a toggle switches a texture, **paint the two branch files different flat
+colours** -- then "did it switch" is a colour, not a statistic.
+
 ## Before the first command
 
 1. **Is the game running?** `py -3 main.py status` (from `Tools/GameView`). If not, `launch GIMI`

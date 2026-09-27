@@ -14,6 +14,7 @@
 #include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
+#include "AGRemapCore/data/IniFixData/SideMeshes.h"
 #include "AGRemapCore/data/IniFixData/TexRegLayout.h"
 
 #include <algorithm>
@@ -413,10 +414,6 @@ namespace AGRemapCore {
             // hash) -- see GIMIComponentFixerConfig::Component::offsetOnlyWithGameFace.
             bool skipsGameFace = false;
 
-            // The mod's sections on the source's side meshes, as (section name, hash type) -- see
-            // GIMIComponentFixerConfig::sideMeshes.
-            std::vector<std::pair<std::string, std::string>> sideMeshSections;
-
             // Every branch's -- see ModObjectFiles::ibs.
             std::vector<BranchVal> positions;
             std::vector<BranchVal> blends;
@@ -607,11 +604,6 @@ namespace AGRemapCore {
 
                         const std::string& sectionName = entry.first;
                         const std::string& hashType = hashKey->back();
-                        if (std::find(config_.sideMeshes.begin(), config_.sideMeshes.end(), hashType) != config_.sideMeshes.end()) {
-                            files_.sideMeshSections.emplace_back(sectionName, hashType);
-                            continue;
-                        }
-
                         const auto readBuffer = [&](std::vector<BranchVal>& branches, std::string& first, const std::string& reg) {
                             if (!branches.empty()) {
                                 return;
@@ -900,6 +892,7 @@ namespace AGRemapCore {
                         // Component::claimShare. Empty / 0 on every config before 2026-09-25.
                         spec.claimShare = c.claimShare;
                         spec.overlapRings = c.overlapRings;
+                        spec.splitGroups = c.splitGroups;
                         for (const auto& [source, bone] : c.standIns) {
                             if (forward->getRemap().find(source) == forward->getRemap().end()) {
                                 spec.secondary.emplace(source, bone);
@@ -1502,7 +1495,7 @@ namespace AGRemapCore {
                         }
                     }
 
-                    if (hidden.empty() && unremapped.empty() && files_.sideMeshSections.empty()) {
+                    if (hidden.empty() && unremapped.empty() && config_.sideMeshes.empty()) {
                         return;
                     }
 
@@ -1592,83 +1585,10 @@ namespace AGRemapCore {
                 }
 
                 // The mod's sections on the source's side meshes, written again on the target's -- see
-                // GIMIComponentFixerConfig::sideMeshes. Each body is copied from the file's own text,
-                // its `hash` line replaced; the section keeps its name with the skin's and the Remap
-                // keyword appended, so an undo takes it with the rest of the fix.
+                // GIMIComponentFixerConfig::sideMeshes and SideMeshes.
                 std::string buildSideMeshSections(IniFile& iniFile, Hashes& hashes, const std::optional<Version>& toVersion) const {
-                    if (files_.sideMeshSections.empty()) {
-                        return "";
-                    }
-
-                    // The file's lines, without their carriage returns.
-                    std::vector<std::string> lines;
-                    const std::string& fileTxt = iniFile.getFileTxt();
-                    for (std::size_t at = 0; at <= fileTxt.size();) {
-                        std::size_t end = fileTxt.find('\n', at);
-                        if (end == std::string::npos) {
-                            end = fileTxt.size();
-                        }
-                        std::string line = fileTxt.substr(at, end - at);
-                        if (!line.empty() && line.back() == '\r') {
-                            line.pop_back();
-                        }
-                        lines.push_back(std::move(line));
-                        at = end + 1;
-                    }
-
-                    const std::string srcName = ctx_.modTypeName().value_or("");
-                    std::string out;
-                    for (const auto& [sectionName, hashType] : files_.sideMeshSections) {
-                        const std::optional<std::string> from = hashes.get({srcName, hashType}, ctx_.version(), false);
-                        const std::optional<std::string> to = hashes.get({config_.targetSkin, hashType}, toVersion, false);
-                        if (!to.has_value() || to->empty() || (from.has_value() && StringTools::equalsIgnoreCase(*from, *to))) {
-                            continue;
-                        }
-
-                        // The section's body: from its header to the next header, less trailing blank
-                        // and comment lines (which belong to whatever follows).
-                        std::vector<std::string> body;
-                        bool inSection = false;
-                        for (const std::string& line : lines) {
-                            const std::string_view stripped = StringTools::strip(line);
-                            if (!stripped.empty() && stripped.front() == '[') {
-                                if (inSection) {
-                                    break;
-                                }
-                                inSection = StringTools::equalsIgnoreCase(stripped, "[" + sectionName + "]");
-                                continue;
-                            }
-                            if (inSection) {
-                                body.push_back(line);
-                            }
-                        }
-                        while (!body.empty()) {
-                            const std::string_view last = StringTools::strip(body.back());
-                            if (!last.empty() && last.front() != ';') {
-                                break;
-                            }
-                            body.pop_back();
-                        }
-                        if (body.empty()) {
-                            continue;
-                        }
-
-                        out += "\n[" + sectionName + config_.targetSkin + IniKeywords::Remap + "]\n";
-                        for (const std::string& line : body) {
-                            const std::size_t eq = line.find('=');
-                            const bool isHash = eq != std::string::npos
-                                && StringTools::equalsIgnoreCase(StringTools::strip(std::string_view(line).substr(0, eq)), IniKeywords::Hash);
-                            out += (isHash ? IniKeywords::Hash + " = " + *to : line) + "\n";
-                        }
-                    }
-
-                    if (out.empty()) {
-                        return "";
-                    }
-
-                    return "; The mod's own sections on " + srcName + "'s side meshes (face, head-upper, ...), on the\n"
-                           "; skin's: it draws its own under other hashes, which the mod's sections do not reach.\n"
-                           + out;
+                    return SideMeshes::build(iniFile.getFileTxt(), hashes, ctx_.modTypeName().value_or(""), ctx_.version(),
+                                             config_.sideMeshes, config_.targetSkin, toVersion);
                 }
 
                 // The see-through judgement for one drawn object's ranges, or nullopt -- see

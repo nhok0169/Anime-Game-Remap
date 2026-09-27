@@ -746,6 +746,60 @@ namespace AGRemapCore {
             }
         }
 
+        // Shared groups -- see VGComponentSpec::splitGroups. Over the final weights: each influence whose
+        // SOURCE group is shared becomes one per bone of the share, equal bones merged, the 4 largest kept.
+        const auto& splitGroups = specs_[column].splitGroups;
+        if (!splitGroups.empty()) {
+            for (std::size_t r = 0; r < kept; ++r) {
+                const std::size_t v = result.vertices[r];
+                bool touched = false;
+                std::vector<std::pair<long long, double>> influences;
+                const auto add = [&influences](long long bone, double weight) {
+                    for (auto& entry : influences) {
+                        if (entry.first == bone) {
+                            entry.second += weight;
+                            return;
+                        }
+                    }
+                    influences.emplace_back(bone, weight);
+                };
+
+                for (std::size_t k = 0; k < 4; ++k) {
+                    const double weight = result.weights[r][k];
+                    if (weight <= 0.0) {
+                        continue;
+                    }
+                    auto shared = member.inComponent[v][k] ? splitGroups.find(indices_[v][k]) : splitGroups.end();
+                    if (shared == splitGroups.end()) {
+                        add(result.indices[r][k], weight);
+                        continue;
+                    }
+                    touched = true;
+                    for (const auto& [bone, share] : shared->second) {
+                        add(bone, weight * share);
+                    }
+                }
+
+                if (!touched) {
+                    continue;
+                }
+
+                std::stable_sort(influences.begin(), influences.end(),
+                                 [](const auto& a, const auto& b) { return a.second > b.second; });
+                influences.resize(std::min<std::size_t>(influences.size(), 4));
+                double total = 0.0;
+                for (const auto& entry : influences) {
+                    total += entry.second;
+                }
+                for (std::size_t k = 0; k < 4; ++k) {
+                    const bool has = k < influences.size() && total > 0.0;
+                    result.indices[r][k] = has ? influences[k].first : 0;
+                    result.weights[r][k] = has ? static_cast<double>(static_cast<float>(influences[k].second / total)) : 0.0;
+                }
+                ++result.stats.splitVertices;
+            }
+        }
+
         // The index buffers, renumbered into the kept vertices
         for (const Triangles& keptIb : keptTriangles) {
             Triangles renumbered;

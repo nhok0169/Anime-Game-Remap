@@ -145,6 +145,11 @@ def fixerConfig() -> "FRB.GIMIMergeFixerConfig":
         component.slots = slots
         components.append(component)
 
+    # the skin's eyes are his 1.24 cm lower: moved back up unless the mod brings its own face
+    for component in components:
+        if component.name == "Eye":
+            component.positionOffset = [0.0, 0.01237, 0.00021]
+            component.offsetOnlyWithGameFace = True
     config.components = components
     config.targetObjs = ["head", "body", "dress"]
     config.targetLayout = FRB.GIMIMergeFixerConfig.TargetLayout.NormalMap
@@ -159,6 +164,11 @@ def fixerConfig() -> "FRB.GIMIMergeFixerConfig":
     config.faceReg = "ps-t1"
     config.lightMapEdit = None
     config.compressTextures = False
+
+    # a mod hiding the skin's face meshes by hash hides his too; his unreached dress withdraws a TexFx request
+    config.sideMeshes = ["ib_face", "ib_headupper"]
+    config.texFxGuardUnreached = True
+    # (copyPreamble is set on the compiled row only: a merge writes one .ini group, and the preamble heads copies)
     return config
 
 

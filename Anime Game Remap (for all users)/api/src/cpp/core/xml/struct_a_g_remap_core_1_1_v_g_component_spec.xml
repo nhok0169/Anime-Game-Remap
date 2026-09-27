@@ -146,6 +146,31 @@ empty, no layer
         </inbodydescription>
         <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="118" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="118" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_spec_1a095b1a0f9960336595f5379caf6a6a78" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; long long, std::vector&lt; std::pair&lt; long long, double &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;long long, std::vector&lt;std::pair&lt;long long, double&gt; &gt; &gt; AGRemapCore::VGComponentSpec::splitGroups</definition>
+        <argsstring></argsstring>
+        <name>splitGroups</name>
+        <qualifiedname>AGRemapCore::VGComponentSpec::splitGroups</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+For a **cut** component: source groups whose weight is SHARED among several of the component&apos;s bones,
+as ``{source group: [(bone, share), ...]}`` -- applied after the remap, over the vertex&apos;s final
+weights, the shares summing to 1 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A cloth part of the source with no counterpart on the target rides ONE bone of it, and either choice
+can be wrong: Neuvillette3&apos;s front coat flap on the skin&apos;s pelvis (rigid) went through the leg as it
+stepped, and on its thigh (following) swung its face round and showed the lining (2026-09-26). Shared
+between the two, a link moves part of the way with each. A vertex left with more than 4 influences
+keeps its 4 largest, renormalised. **Default**: empty
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="134" column="28" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_spec_1abac762f14f4d58c0c2526e46c3e3b14f" prot="public" static="no" mutable="no">
         <type>bool</type>
         <definition>bool AGRemapCore::VGComponentSpec::negativeIndex</definition>
@@ -166,7 +191,7 @@ the cut components by majority, and every buffer is filtered to the vertices it 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="130" column="14" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="130" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="146" column="14" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="146" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -190,7 +215,7 @@ One target component of a skin made of several -- YelanTranquil&apos;s ``Body``,
         <link refid="class_a_g_remap_core_1_1_v_g_remap"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="35" column="5" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="35" bodyend="131"/>
+    <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="35" column="5" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="35" bodyend="147"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a8fdc1313233c6ce7419e5f99683f77a2" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSpec</scope><name>claimShare</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a0b57e8a1ec2e5098197048f5b6ccedbb" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSpec</scope><name>mirroredIbs</name></member>
@@ -199,6 +224,7 @@ One target component of a skin made of several -- YelanTranquil&apos;s ``Body``,
       <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a92e12086f31356ed25ee40a66d630c7a" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSpec</scope><name>overlapRings</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1af473ea70d5db88a927a0e9f22b47a58e" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSpec</scope><name>remap</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1ab6354fa665d4790bf746c37fc2e1512c" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSpec</scope><name>secondary</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a095b1a0f9960336595f5379caf6a6a78" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSpec</scope><name>splitGroups</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

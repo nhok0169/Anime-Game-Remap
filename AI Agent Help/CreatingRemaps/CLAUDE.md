@@ -1720,7 +1720,38 @@ merge-direction mods moved nothing but Bennett5 (point 3).
    on the written buffer: twins collapsed away = clean (so not the vertex count), normals kept = nearly clean (so the
    twins WERE showing), 0.1 mm = worse, 4 and 8 mm = clean. 5 mm now.
 
+14. **A flap between two bones, and the reverse direction audited against everything above (2026-09-26).**
+   *The front flap clipped the leg* once every coat link rode the pelvis (Neuvillette3). Tried in game, each as a
+   TIMED SERIES (five shots 2.5 s apart, one camera -- the idle animation moves the leg, and single shots of two
+   variants taken at different moments compare different poses): the pelvis clips, the thigh (23 / 43) follows the
+   leg but swings the panel's face round and shows the lining, the skin's skirt root (70 / 71) folds it back as
+   its skirt chain did. What neither bone can do, a SHARE can: `VGComponentSpec::splitGroups` /
+   `GIMIComponentFixerConfig::Component::splitGroups` give a source group's weight to several bones (after the
+   remap, over the final weights, the 4 largest kept), and the panel links now go pelvis / thigh 75/25, 50/50,
+   25/75 down the chain -- neither fault in the frames where the others broke. **When a part has no counterpart
+   and both nearest candidates are wrong in opposite directions, split the weight before trading anything off.**
+   *The reverse direction had none of this week's lessons* -- an audit of the merge template against every
+   section of this file found the eye offset, the side-mesh hides, the name-trust rule and the TexFx guard all
+   missing, because each had been built into the COMPONENT template only. NeuvilletteMelusent1's eyes looked down:
+   the skin's Eye is his eyes 1.24 cm lower, merged as it was (measured: the merged eye vertices sat 4.4 mm below
+   his on average, up to 12 mm; now 0.0). The merge template has `Component::positionOffset` /
+   `offsetOnlyWithGameFace`, `sideMeshes` (the component template's code moved into a shared `SideMeshes`),
+   `texFxGuardUnreached` (opt-in), and the name trust -- with ONE condition, not two: a skin mod on GIMI's newer
+   API is normalized into bindings PLUS an `ORFix` its author never wrote, so "the section makes no fix call"
+   rejected every Citlali skin mod's (correct) names and the band edit rewrote their diffuse. **The regression
+   set had no reverse-direction mod at all**, which is how that would have shipped: `revRun.py` (scratchpad
+   pattern) copies every skin mod of the five merge pairs, fixes them downloads-disabled and hashes the output --
+   caught it on the first run. Note what downloads-disabled cannot see: a mod missing a component (NeuvilletteMelusent1
+   ships no Coat) writes no merged buffers at all then, so check such a mod with downloads on.
+   *A GameView trap that cost two rounds*: the outfit preview closes back to the shop GRID now and then, and a card
+   click aimed at the preview then lands on a grid card -- Nilou's, twice, with every screenshot of the "variant"
+   showing her. Prove the page before every series: compare the bright TEXT pixels of the outfit-name area with a
+   crop from a known shot (a plain pixel difference cannot tell -- sparkles and backgrounds swamp it; the text
+   mask separates Melusent Gift at 5-12 from every other page at 78-100), and accept the base card's name too
+   ("Clear Adjudication" is his page), or the check pages away from the right one.
+
 **Open for the maintainer**: Neuvillette2's inner skirt (point 13: the mirrored layer, to be confirmed by eye);
+Neuvillette3's flap (point 14: the graded share, to be confirmed in motion);
 Neuvillette9's colours (point 2); the cravat's faint cyan cast (his 126-128 is the skin's cyan band; moving it to 255 hardened the
 shadows); a zero-byte fall-through `.ib` logs `Failed to substantiate` (harmless, pre-existing).
 

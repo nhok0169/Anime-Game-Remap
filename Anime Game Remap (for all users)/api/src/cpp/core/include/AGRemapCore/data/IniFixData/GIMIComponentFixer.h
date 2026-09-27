@@ -286,6 +286,17 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Source groups whose weight this component SHARES among several of its bones, as
+             ``{source group: [(bone, share), ...]}`` -- see :cpp:member:`VGComponentSpec::splitGroups`. For a
+             cloth part the target has no counterpart for, between a bone it clips on and one it folds on.
+             **Default**: empty
+             @endrst
+             */
+            std::unordered_map<long long, std::vector<std::pair<long long, double>>> splitGroups;
+
+            /**
+             * @brief
+             @rst
              Whether the slot's shader reads the normal-map layout -- ``ps-t0`` normal map,
              ``ps-t1`` diffuse, ``ps-t2`` lightmap, re-slotted by ``ORFix`` -- in which case the
              mod's ``ps-t0`` / ``ps-t1`` are shifted up, a flat normal map is created on ``ps-t0``

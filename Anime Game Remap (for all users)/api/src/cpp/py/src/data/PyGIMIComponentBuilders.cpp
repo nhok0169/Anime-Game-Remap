@@ -26,6 +26,7 @@
 #include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
 #include "AGRemapCore/data/IniFixData/GIMIMergeFixer.h"
 #include "AGRemapCore/data/IniParseData/GIMIComponentParser.h"
+#include "AGRemapCore/data/IniFixData/SideMeshes.h"
 
 // TexEditor::Filter is std::function<void(TextureFile&)>, and pybind11/functional.h needs the
 // COMPLETE type to decide how to convert it -- see PyGIMICharBuilders.cpp's identical note.
@@ -208,6 +209,15 @@ component's vertex offset cannot be measured from the file. A downloaded buffer 
 so its length is this number
 
 **Default**: ``0``
+        )doc"))
+        .def_readwrite("positionOffset", &AGRC::GIMIMergeFixerConfig::Component::positionOffset, py::doc(R"doc(
+List[:class:`float`]: Added to every vertex position of this component as it is merged, in model units ---
+``[0, 0, 0]`` (the default) writes the mod's own. NeuvilletteMelusent's Eye sits 1.24 cm lower than
+Neuvillette's, and merged as it is the eyes looked down
+        )doc"))
+        .def_readwrite("offsetOnlyWithGameFace", &AGRC::GIMIMergeFixerConfig::Component::offsetOnlyWithGameFace, py::doc(R"doc(
+:class:`bool`: Whether :attr:`positionOffset` applies only while the mod keeps the GAME's face (not when it skips
+the source's face diffuse and brings its own). ``False`` by default
         )doc"));
 
     py::enum_<AGRC::GIMIMergeFixerConfig::TargetLayout>(fixerConfig, "TargetLayout", R"doc(
@@ -298,7 +308,58 @@ value
 **Default**: ``False``
         )doc"))
         .def_readwrite("copyPreamble", &AGRC::GIMIMergeFixerConfig::copyPreamble,
-                        py::doc(":class:`str`: The comment written at the top of each generated `section`_ group"));
+                        py::doc(":class:`str`: The comment written at the top of each generated `section`_ group"))
+        .def_readwrite("sideMeshes", &AGRC::GIMIMergeFixerConfig::sideMeshes, py::doc(R"doc(
+List[:class:`str`]: The hash types of the SOURCE skin's side meshes (its own draws that are no mod object, eg.
+``["ib_face", "ib_headupper"]``) --- a mod's section hiding one is written again on the target's hash of the
+same type. Empty by default
+        )doc"))
+        .def_readwrite("texFxGuardUnreached", &AGRC::GIMIMergeFixerConfig::texFxGuardUnreached, py::doc(R"doc(
+:class:`bool`: Whether a target object NO slot is drawn through gets a section withdrawing a pending `TexFx`_
+request, when the mod calls TexFx --- that object's own outline draw would otherwise serve it over the merged
+buffers. ``False`` by default
+        )doc"));
+
+    // ------------------------------------------------------------------- side meshes, both templates
+    py::class_<AGRC::SideMeshes>(m, "SideMeshes", R"doc(
+A mod's sections on the SOURCE character's side meshes (its own draws that are no mod object -- the face, the
+head-upper), written again on the TARGET's. Both multi-component templates use it: see
+:attr:`GIMIComponentFixerConfig.sideMeshes` and :attr:`GIMIMergeFixerConfig.sideMeshes`
+    )doc")
+        .def_static("build", &AGRC::SideMeshes::build, py::arg("fileTxt"), py::arg("hashes"), py::arg("srcName"),
+                    py::arg("fromVersion"), py::arg("types"), py::arg("targetName"), py::arg("toVersion"), py::doc(R"doc(
+The re-issued sections: each section of ``fileTxt`` whose ``hash`` is one of the SOURCE's side meshes of a type in
+``types``, its body copied and its ``hash`` replaced by the TARGET's of the same type, renamed with the target's
+name and the Remap keyword. A mesh both characters share is left to the mod's own section
+
+Parameters
+----------
+fileTxt: :class:`str`
+    The mod's ``.ini`` text
+
+hashes: :class:`Hashes`
+    The hash table both characters' side meshes are filed in
+
+srcName: :class:`str`
+    The source's mod type name
+
+fromVersion: Optional[:class:`CppVersion`]
+    The version the mod is written for, ``None`` for the latest
+
+types: List[:class:`str`]
+    The side-mesh hash types, eg. ``["ib_face", "ib_headupper"]``
+
+targetName: :class:`str`
+    The name the target's side-mesh rows are filed under
+
+toVersion: Optional[:class:`CppVersion`]
+    The version the fix is for, ``None`` for the latest
+
+Returns
+-------
+:class:`str`
+    The sections with a leading comment, or an empty string
+        )doc"));
 
     // ------------------------------------------------------------------- the component fixer config
     // The FORWARD template: a classic-shape mod onto a skin of several components. Bound so a new pair
@@ -365,6 +426,11 @@ back panel they blend into, sets a high one and the seam moves to where the weig
 :class:`int`: For a cut component, how many rings of its neighbours' triangles it draws as well, past its
 own edge -- a seam that opens when the skin poses is then covered by the other side's copy. Ownership is
 unchanged. See :attr:`VGComponentSpec.overlapRings`. **Default**: ``0``
+        )doc"))
+        .def_readwrite("splitGroups", &AGRC::GIMIComponentFixerConfig::Component::splitGroups, py::doc(R"doc(
+Dict[:class:`int`, List[Tuple[:class:`int`, :class:`float`]]]: Source groups whose weight this component SHARES
+among several of its bones, as ``{source group: [(bone, share), ...]}`` --- see
+:attr:`VGComponentSpec.splitGroups`. Empty by default
         )doc"))
         .def_readwrite("mirroredObjs", &AGRC::GIMIComponentFixerConfig::Component::mirroredObjs, py::doc(R"doc(
 List[:class:`str`]: The SOURCE objects (lowercase) whose triangles get a MIRRORED INNER LAYER on this component,

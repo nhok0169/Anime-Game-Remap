@@ -203,6 +203,33 @@ class VGComponentSplitTest(BaseUnitTest):
         # too short to hold a normal: as it is
         self.assertEqual(FRB.VGComponentSplit.mirrorPositionLine(b"\x01" * 12, 0.5), b"\x01" * 12)
 
+    # ================ shared groups ================
+
+    def test_splitGroups_aGroupsWeightSharedAmongBones(self):
+        specs = makeSpecs()
+        specs[0].splitGroups = {0: [(10, 0.25), (99, 0.75)]}
+        body = FRB.VGComponentSplit(Weights, Indices, Ibs, specs).split("Body")
+
+        # vertex 0 is wholly group 0: its weight is shared 0.75 / 0.25, the larger first
+        self.assertEqual(body.indices[0][:2], [99, 10])
+        self.assertEqual([round(w, 6) for w in body.weights[0][:2]], [0.75, 0.25])
+        # vertex 1 is half 0, half 1 (-> 11): 0.375 on 99, 0.5 on 11, 0.125 on 10
+        self.assertEqual(body.indices[1][:3], [11, 99, 10])
+        self.assertEqual([round(w, 6) for w in body.weights[1][:3]], [0.5, 0.375, 0.125])
+        # a vertex with no share untouched, and the count
+        self.assertEqual(body.indices[2], [11, 0, 0, 0])
+        self.assertEqual(body.stats.splitVertices, 2)
+
+    def test_splitGroups_keepsTheFourLargest(self):
+        specs = makeSpecs()
+        specs[0].splitGroups = {1: [(20, 0.4), (21, 0.3), (22, 0.2), (23, 0.1)]}
+        body = FRB.VGComponentSplit(Weights, Indices, Ibs, specs).split("Body")
+
+        # vertex 1: 0.5 on group 0 (-> 10) and 0.5 shared four ways -- five influences, the smallest dropped
+        self.assertEqual(body.indices[1], [10, 20, 21, 22])
+        self.assertAlmostEqual(sum(body.weights[1]), 1.0, places = 5)
+        self.assertEqual(self._split.split("Body").stats.splitVertices, 0)
+
     def test_unknownComponent_raises(self):
         with self.assertRaises(ValueError):
             self._split.split("Nope")

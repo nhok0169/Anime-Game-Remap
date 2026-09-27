@@ -94,6 +94,56 @@ class NeuvilletteTemplateOptionsTest(BaseUnitTest):
         config.sideMeshes = ["ib_face", "ib_headupper"]
         self.assertEqual(config.sideMeshes, ["ib_face", "ib_headupper"])
 
+    def test_mergeFixerConfig_eyeOffsetSideMeshesTexFxGuard(self):
+        # all off by default: no merge config before these writes anything new
+        component = FRB.GIMIMergeFixerConfig.Component()
+        self.assertEqual(list(component.positionOffset), [0.0, 0.0, 0.0])
+        self.assertFalse(component.offsetOnlyWithGameFace)
+        component.positionOffset = [0.0, 0.01237, 0.00021]
+        component.offsetOnlyWithGameFace = True
+        self.assertAlmostEqual(component.positionOffset[1], 0.01237, places = 6)
+        self.assertTrue(component.offsetOnlyWithGameFace)
+
+        config = FRB.GIMIMergeFixerConfig()
+        self.assertEqual(config.sideMeshes, [])
+        self.assertFalse(config.texFxGuardUnreached)
+        config.sideMeshes = ["ib_face"]
+        config.texFxGuardUnreached = True
+        self.assertEqual((config.sideMeshes, config.texFxGuardUnreached), (["ib_face"], True))
+
+    def test_mergeComponentFiles_positionLineEdit(self):
+        files = FRB.VGMergeComponentFiles(FRB.VGMergeComponentSpec("Eye", FRB.VGRemap({})))
+        self.assertIsNone(files.positionLineEdit)
+        files.positionLineEdit = lambda line: line[::-1]
+        self.assertEqual(files.positionLineEdit(b"\x01\x02\x03"), b"\x03\x02\x01")
+
+    def test_componentFixerConfig_splitGroups(self):
+        component = FRB.GIMIComponentFixerConfig.Component()
+        self.assertEqual(component.splitGroups, {})
+        component.splitGroups = {49: [(0, 0.75), (23, 0.25)]}
+        self.assertEqual(component.splitGroups, {49: [(0, 0.75), (23, 0.25)]})
+
+    # ---- the side meshes, as both templates write them ----
+
+    SideMeshIni = "\n".join(["[TextureOverrideNFace]", "hash = 24f8b383", "ib = null", "", "; a trailing comment", "",
+                              "[TextureOverrideNEyebrows]", "hash = f151ddf7", "ib = null", "",
+                              "[TextureOverrideOther]", "hash = 12345678", "ib = null", ""])
+
+    def test_sideMeshes_reissuedOnTheTargetsHash(self):
+        out = FRB.SideMeshes.build(self.SideMeshIni, FRB.Hashes(), "Neuvillette", None, ["ib_face", "ib_headupper"],
+                                   "NeuvilletteMelusent", None)
+        self.assertIn("[TextureOverrideNFaceNeuvilletteMelusentRemap]\nhash = 97cd1620\nib = null\n", out)
+        self.assertNotIn("a trailing comment", out)
+        # the eyebrows are shared (the same hash on both), and a hash that is no side mesh is none of this
+        self.assertNotIn("NEyebrows", out)
+        self.assertNotIn("TextureOverrideOther", out)
+
+    def test_sideMeshes_bothWaysAndNothingWithoutTypes(self):
+        back = "[TextureOverrideMask]\nhash = 81780578\nib = null\n"
+        out = FRB.SideMeshes.build(back, FRB.Hashes(), "NeuvilletteMelusent", None, ["ib_face", "ib_headupper"], "Neuvillette", None)
+        self.assertIn("hash = 8559c8e2", out)
+        self.assertEqual(FRB.SideMeshes.build(back, FRB.Hashes(), "NeuvilletteMelusent", None, [], "Neuvillette", None), "")
+
     def test_mergeFixerConfig_componentModTypeName(self):
         component = FRB.GIMIMergeFixerConfig.Component()
         self.assertEqual(component.modTypeName, "")

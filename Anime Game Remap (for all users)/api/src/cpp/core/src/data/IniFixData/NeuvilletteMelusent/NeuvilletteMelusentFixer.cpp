@@ -15,6 +15,7 @@
 
 #include <utility>
 
+#include "AGRemapCore/constants/IniComments.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/GIMIMergeFixer.h"
@@ -65,6 +66,13 @@ namespace AGRemapCore {
             eye.slots = {{"A", "0", "head", false, ";Head", 528, true}};
             eye.vertexCount = 168;
 
+            // The skin's eyes are HIS 168 eye vertices 1.24 cm lower (the forward rows move his eyes down by
+            // (0, -0.01237, -0.00021)), so merged as they are they sat low in his face and looked down --
+            // NeuvilletteMelusent1, in game 2026-09-26. Moved back up, unless the mod hides the game's face and
+            // brings its own, whose eyes sit where its own face has them (the forward rule, Neuvillette2).
+            eye.positionOffset = {0.0f, 0.01237f, 0.00021f};
+            eye.offsetOnlyWithGameFace = true;
+
             config.components = {std::move(main), std::move(coat), std::move(bang), std::move(eye)};
             config.targetObjs = {"head", "body", "dress"};
 
@@ -85,6 +93,16 @@ namespace AGRemapCore {
             // Neuvillette binds his face diffuse at ps-t1, the GI 6.x layout.
             config.faceReg = "ps-t1";
             config.compressTextures = false;
+
+            // A mod hiding the skin's face or head-upper by hash (a mask over the face) hides his too: they are
+            // other hashes on him (the forward direction's Neuvillette9). The eyebrows are shared.
+            config.sideMeshes = {"ib_face", "ib_headupper"};
+
+            // His dress receives nothing, and its outline draw would serve a TexFx request the mod's last draw
+            // left pending by drawing his whole ib over the merged buffers.
+            config.texFxGuardUnreached = true;
+
+            config.copyPreamble = IniComments::GIMIObjMergerPreamble;
 
             return config;
         }

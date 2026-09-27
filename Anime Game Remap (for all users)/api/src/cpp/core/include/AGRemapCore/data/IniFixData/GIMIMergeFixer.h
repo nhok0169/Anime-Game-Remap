@@ -12,6 +12,7 @@
 #ifndef AGRemapCore_GIMIMergeFixer_H
 #define AGRemapCore_GIMIMergeFixer_H
 
+#include <array>
 #include <functional>
 #include <string>
 #include <vector>
@@ -192,6 +193,32 @@ namespace AGRemapCore {
              @endrst
              */
             long long vertexCount = 0;
+
+            /**
+             * @brief
+             @rst
+             Added to every vertex position of this component as it is merged, in model units -- ``{0, 0, 0}``
+             (the default) writes the mod's own :raw-html:`<br />` :raw-html:`<br />`
+
+             Two skins of one character may put the same part at different heights: NeuvilletteMelusent's
+             Eye is Neuvillette's 168 eye vertices 1.24 cm lower, so the forward fix moves his eyes DOWN
+             (``GIMIComponentFixerConfig::Component::positionOffset``), and the reverse, without this, put
+             the skin's eyes 1.24 cm low in his face -- NeuvilletteMelusent1's "eyes looking down"
+             (2026-09-26). The reverse of the forward offset
+             @endrst
+             */
+            std::array<float, 3> positionOffset{0.0f, 0.0f, 0.0f};
+
+            /**
+             * @brief
+             @rst
+             Whether :cpp:member:`positionOffset` applies only while the mod keeps the GAME's face -- not when it
+             hides it (``handling = skip`` on the source's face diffuse) and brings its own, whose eyes already
+             sit where its own face has them. The forward direction's rule, see
+             ``GIMIComponentFixerConfig::Component::offsetOnlyWithGameFace``. **Default**: ``false``
+             @endrst
+             */
+            bool offsetOnlyWithGameFace = false;
         };
 
         /**
@@ -352,6 +379,32 @@ namespace AGRemapCore {
          * @brief What generated ``.ini`` files open with
          */
         std::string copyPreamble;
+
+        /**
+         * @brief
+         @rst
+         The hash types of the SOURCE skin's side meshes (its own draws that are no mod object, filed in
+         ``HashData`` under the skin's name), eg. ``{"ib_face", "ib_headupper"}`` -- a mod's section hiding
+         one is written again on the target's hash of the same type. See :cpp:class:`SideMeshes`.
+         **Default**: empty
+         @endrst
+         */
+        std::vector<std::string> sideMeshes;
+
+        /**
+         * @brief
+         @rst
+         Whether a target object NO slot is drawn through gets a section withdrawing a pending TexFx request
+         (``$\TexFx\use_default_shader = -1``), when the mod calls TexFx at all :raw-html:`<br />` :raw-html:`<br />`
+
+         A mod's ``run = CommandList\TexFx\TN.0`` leaves a request the NEXT outline draw serves with
+         ``drawindexed = auto`` -- and an object the merge draws nothing through still draws its own outline
+         over the merged buffers, so TexFx would draw its whole index buffer there (the component
+         template's ``unremappedSlots`` guards the same thing the other way). **Default**: ``false``, so no
+         config before it writes anything new
+         @endrst
+         */
+        bool texFxGuardUnreached = false;
     };
 
     /**

@@ -103,6 +103,12 @@ overlapRings: :class:`int`
             return vgComponentSpecFromPy(name, remap, secondary, negativeIndex, claimShare, overlapRings);
         }), py::arg("name"), py::arg("remap") = py::none(), py::arg("secondary") = py::none(), py::arg("negativeIndex") = false,
             py::arg("claimShare") = 0.0, py::arg("overlapRings") = 0)
+        .def_readwrite("splitGroups", &AGRC::VGComponentSpec::splitGroups, py::doc(R"doc(
+Dict[:class:`int`, List[Tuple[:class:`int`, :class:`float`]]]: For a cut component, source groups whose weight is
+SHARED among several of the component's bones, ``{source group: [(bone, share), ...]}``, applied over the vertex's
+final weights; a vertex left with more than 4 influences keeps its 4 largest, renormalised. For a cloth part
+between a bone it clips on and one it folds on. Empty by default
+        )doc"))
         .def_readwrite("mirroredIbs", &AGRC::VGComponentSpec::mirroredIbs, py::doc(R"doc(
 List[:class:`int`]: For a cut component, the source index buffers (by position) whose triangles get a MIRRORED
 INNER LAYER: each corner copied once (flagged in :attr:`VGComponentBuffers.mirrored`) and each triangle followed
@@ -135,7 +141,9 @@ Counts worth reporting about one component's split
         .def_readonly("mirroredVertices", &AGRC::VGComponentSplitStats::mirroredVertices,
                       py::doc(":class:`int`: Cut only: vertices copied for the mirrored inner layer -- see :attr:`VGComponentSpec.mirroredIbs`"))
         .def_readonly("mirroredTriangles", &AGRC::VGComponentSplitStats::mirroredTriangles,
-                      py::doc(":class:`int`: Cut only: triangles added as the mirrored inner layer"));
+                      py::doc(":class:`int`: Cut only: triangles added as the mirrored inner layer"))
+        .def_readonly("splitVertices", &AGRC::VGComponentSplitStats::splitVertices,
+                      py::doc(":class:`int`: Cut only: vertices whose weight was shared -- see :attr:`VGComponentSpec.splitGroups`"));
 
     py::class_<AGRC::VGComponentBuffers>(m, "VGComponentBuffers", R"doc(
 What one component gets out of a split: the vertices it draws and its buffers over them

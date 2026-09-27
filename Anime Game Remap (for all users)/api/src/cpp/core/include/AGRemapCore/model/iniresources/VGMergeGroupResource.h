@@ -52,6 +52,15 @@ namespace AGRemapCore {
          * @brief This component's ``Texcoord.buf``
          */
         std::string texcoordPath;
+
+        /**
+         * @brief
+         @rst
+         Applied to every line of this component's ``Position.buf`` as it is read, or empty -- eg. the
+         Eye moved to the target's eye height (:cpp:member:`GIMIMergeFixerConfig::Component::positionOffset`)
+         @endrst
+         */
+        std::function<ByteVec(const ByteVec&)> positionLineEdit;
     };
 
     /**

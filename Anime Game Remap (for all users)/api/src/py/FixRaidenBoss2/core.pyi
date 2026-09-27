@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniNamingTools', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppMaterialBandRemapFilter', 'CppListTools', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniNamingTools', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppMaterialBandRemapFilter', 'CppListTools', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -7359,6 +7359,16 @@ class GIMIComponentFixerConfig:
         def slotRegisters(self, arg0: collections.abc.Sequence[str]) -> None:
             ...
         @property
+        def splitGroups(self) -> dict[int, list[tuple[int, float]]]:
+            """
+            Dict[:class:`int`, List[Tuple[:class:`int`, :class:`float`]]]: Source groups whose weight this component SHARES
+            among several of its bones, as ``{source group: [(bone, share), ...]}`` --- see
+            :attr:`VGComponentSpec.splitGroups`. Empty by default
+            """
+        @splitGroups.setter
+        def splitGroups(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsFloat | typing.SupportsIndex]]]) -> None:
+            ...
+        @property
         def standIns(self) -> dict[int, int]:
             """
             Dict[:class:`int`, :class:`int`]: For a cut component, source groups it does not own, each to the bone
@@ -8074,6 +8084,25 @@ class GIMIMergeFixerConfig:
         def name(self, arg0: str) -> None:
             ...
         @property
+        def offsetOnlyWithGameFace(self) -> bool:
+            """
+            :class:`bool`: Whether :attr:`positionOffset` applies only while the mod keeps the GAME's face (not when it skips
+            the source's face diffuse and brings its own). ``False`` by default
+            """
+        @offsetOnlyWithGameFace.setter
+        def offsetOnlyWithGameFace(self, arg0: bool) -> None:
+            ...
+        @property
+        def positionOffset(self) -> typing.Annotated[list[float], "FixedSize(3)"]:
+            """
+            List[:class:`float`]: Added to every vertex position of this component as it is merged, in model units ---
+            ``[0, 0, 0]`` (the default) writes the mod's own. NeuvilletteMelusent's Eye sits 1.24 cm lower than
+            Neuvillette's, and merged as it is the eyes looked down
+            """
+        @positionOffset.setter
+        def positionOffset(self, arg0: typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]) -> None:
+            ...
+        @property
         def slots(self) -> list[GIMIMergeFixerConfig.Slot]:
             """
             List[:class:`GIMIMergeFixerConfig.Slot`]: The component's draw slots
@@ -8302,6 +8331,16 @@ class GIMIMergeFixerConfig:
     def mipmaps(self, arg0: bool) -> None:
         ...
     @property
+    def sideMeshes(self) -> list[str]:
+        """
+        List[:class:`str`]: The hash types of the SOURCE skin's side meshes (its own draws that are no mod object, eg.
+        ``["ib_face", "ib_headupper"]``) --- a mod's section hiding one is written again on the target's hash of the
+        same type. Empty by default
+        """
+    @sideMeshes.setter
+    def sideMeshes(self, arg0: collections.abc.Sequence[str]) -> None:
+        ...
+    @property
     def targetLayout(self) -> GIMIMergeFixerConfig.TargetLayout:
         """
         :class:`GIMIMergeFixerConfig.TargetLayout`: How the TARGET's shader reads its textures
@@ -8318,6 +8357,16 @@ class GIMIMergeFixerConfig:
         """
     @targetObjs.setter
     def targetObjs(self, arg0: collections.abc.Sequence[str]) -> None:
+        ...
+    @property
+    def texFxGuardUnreached(self) -> bool:
+        """
+        :class:`bool`: Whether a target object NO slot is drawn through gets a section withdrawing a pending `TexFx`_
+        request, when the mod calls TexFx --- that object's own outline draw would otherwise serve it over the merged
+        buffers. ``False`` by default
+        """
+    @texFxGuardUnreached.setter
+    def texFxGuardUnreached(self, arg0: bool) -> None:
         ...
     @property
     def texRegsByName(self) -> bool:
@@ -22178,6 +22227,50 @@ class ShapeKeyChecksums(ModMappedAssets):
         
             **Default**: ``None``
         """
+class SideMeshes:
+    """
+    
+    A mod's sections on the SOURCE character's side meshes (its own draws that are no mod object -- the face, the
+    head-upper), written again on the TARGET's. Both multi-component templates use it: see
+    :attr:`GIMIComponentFixerConfig.sideMeshes` and :attr:`GIMIMergeFixerConfig.sideMeshes`
+        
+    """
+    @staticmethod
+    def build(fileTxt: str, hashes: Hashes, srcName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None, types: collections.abc.Sequence[str], targetName: str, toVersion: FixRaidenBoss2.core.CppVersion | None) -> str:
+        """
+        The re-issued sections: each section of ``fileTxt`` whose ``hash`` is one of the SOURCE's side meshes of a type in
+        ``types``, its body copied and its ``hash`` replaced by the TARGET's of the same type, renamed with the target's
+        name and the Remap keyword. A mesh both characters share is left to the mod's own section
+        
+        Parameters
+        ----------
+        fileTxt: :class:`str`
+            The mod's ``.ini`` text
+        
+        hashes: :class:`Hashes`
+            The hash table both characters' side meshes are filed in
+        
+        srcName: :class:`str`
+            The source's mod type name
+        
+        fromVersion: Optional[:class:`CppVersion`]
+            The version the mod is written for, ``None`` for the latest
+        
+        types: List[:class:`str`]
+            The side-mesh hash types, eg. ``["ib_face", "ib_headupper"]``
+        
+        targetName: :class:`str`
+            The name the target's side-mesh rows are filed under
+        
+        toVersion: Optional[:class:`CppVersion`]
+            The version the fix is for, ``None`` for the latest
+        
+        Returns
+        -------
+        :class:`str`
+            The sections with a leading comment, or an empty string
+        """
+
 class SympyParser:
     """
     
@@ -23370,6 +23463,17 @@ class VGComponentSpec:
     @secondary.setter
     def secondary(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]) -> None:
         ...
+    @property
+    def splitGroups(self) -> dict[int, list[tuple[int, float]]]:
+        """
+        Dict[:class:`int`, List[Tuple[:class:`int`, :class:`float`]]]: For a cut component, source groups whose weight is
+        SHARED among several of the component's bones, ``{source group: [(bone, share), ...]}``, applied over the vertex's
+        final weights; a vertex left with more than 4 influences keeps its 4 largest, renormalised. For a cloth part
+        between a bone it clips on and one it folds on. Empty by default
+        """
+    @splitGroups.setter
+    def splitGroups(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsFloat | typing.SupportsIndex]]]) -> None:
+        ...
 class VGComponentSplit:
     """
     
@@ -23493,6 +23597,11 @@ class VGComponentSplitStats:
     def sentinels(self) -> int:
         """
         :class:`int`: Negative index only: sentinel indices written
+        """
+    @property
+    def splitVertices(self) -> int:
+        """
+        :class:`int`: Cut only: vertices whose weight was shared -- see :attr:`VGComponentSpec.splitGroups`
         """
     @property
     def trianglesDropped(self) -> list[int]:
@@ -23638,6 +23747,14 @@ class VGMergeComponentFiles:
         """
     @blendPath.setter
     def blendPath(self, arg0: str) -> None:
+        ...
+    @property
+    def positionLineEdit(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`bytes`], :class:`bytes`]]: Applied to every line of this component's ``Position.buf`` as it is read
+        """
+    @positionLineEdit.setter
+    def positionLineEdit(self, arg1: typing.Any) -> None:
         ...
     @property
     def positionPath(self) -> str:

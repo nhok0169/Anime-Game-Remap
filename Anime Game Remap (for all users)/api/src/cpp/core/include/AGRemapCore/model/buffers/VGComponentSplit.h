@@ -120,6 +120,22 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         For a **cut** component: source groups whose weight is SHARED among several of the component's bones,
+         as ``{source group: [(bone, share), ...]}`` -- applied after the remap, over the vertex's final
+         weights, the shares summing to 1 :raw-html:`<br />` :raw-html:`<br />`
+
+         A cloth part of the source with no counterpart on the target rides ONE bone of it, and either choice
+         can be wrong: Neuvillette3's front coat flap on the skin's pelvis (rigid) went through the leg as it
+         stepped, and on its thigh (following) swung its face round and showed the lining (2026-09-26). Shared
+         between the two, a link moves part of the way with each. A vertex left with more than 4 influences
+         keeps its 4 largest, renormalised. **Default**: empty
+         @endrst
+         */
+        std::unordered_map<long long, std::vector<std::pair<long long, double>>> splitGroups;
+
+        /**
+         * @brief
+         @rst
          ``true``: the **negative-index** strategy -- the component draws the whole mod, every bone
          of another component becomes the ``-index-1`` sentinel, and its index buffers are trimmed
          to the triangles all of whose corners are live. ``false``: the **graph cut** strategy --
@@ -144,6 +160,7 @@ namespace AGRemapCore {
         std::size_t sentinels = 0;
         std::size_t mirroredVertices = 0;
         std::size_t mirroredTriangles = 0;
+        std::size_t splitVertices = 0;
     };
 
     /**

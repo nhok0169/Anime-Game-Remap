@@ -873,6 +873,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae74ea7c73f7a9013e807f81e3b9ce492" kind="variable"><name>texFxBlend</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7e3f2b2b4da50d78455aa4fbed594377" kind="variable"><name>mirroredObjs</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a19769206a6de54ee199134908fb567a5" kind="variable"><name>mirrorOffset</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a3f614ffd858d4f04d59be573d711f0a5" kind="variable"><name>splitGroups</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a41fc1fe25b79dd9a3fecf1691285ca04" kind="variable"><name>normalMap</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7760edfd8956346f514455eced0a1ad7" kind="variable"><name>face</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae2c0b9f4af8f721add0e6a6b68f63603" kind="variable"><name>texcoordStride</name></member>
@@ -892,6 +893,8 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1afc2c8fce2888e997c0bfb7290265e630" kind="variable"><name>modTypeName</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1ac7a5209932913b4fe21846d38c9bbdbf" kind="variable"><name>slots</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1aecebc1423a6c0dfa0a66f841803542b6" kind="variable"><name>vertexCount</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a56070ffb0264e75fa368fd1b79c96597" kind="variable"><name>positionOffset</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a26753f8b7bf4495c8f379e6bbbbce143" kind="variable"><name>offsetOnlyWithGameFace</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component" kind="struct"><name>AGRemapCore::VGComponentMerge::Component</name>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a283d8f5c7e17bd6f15233db1a8276bb5" kind="variable"><name>spec</name></member>
@@ -1386,6 +1389,8 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a490ec76ef342ee114af63d4681e4f0bd" kind="variable"><name>mipmaps</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1abbaec13107513e023ec38d3c302f6dae" kind="variable"><name>compressTextures</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a2cadd8ab685fb8229ba09e9eb3f0c420" kind="variable"><name>copyPreamble</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ac8a0c2d524e953f008d89f24bc43d757" kind="variable"><name>sideMeshes</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ad6daf92fd229155e2543a6c0e7c10e2b" kind="variable"><name>texFxGuardUnreached</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter" kind="class"><name>AGRemapCore::GIMIObjPartFilter</name>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a6e6a12f1ee625755c775ac695c707876" kind="typedef"><name>ModObj</name></member>
@@ -4584,6 +4589,10 @@
     <member refid="class_a_g_remap_core_1_1_shenhe_parser_1afbecfdece36a63ae357f94fd8d5271a4" kind="function"><name>ShenheParser</name></member>
     <member refid="class_a_g_remap_core_1_1_shenhe_parser_1ad384cd0ccfb8e20a25bd55c4a522e7d2" kind="function"><name>v4_0</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_side_meshes" kind="class"><name>AGRemapCore::SideMeshes</name>
+    <member refid="class_a_g_remap_core_1_1_side_meshes_1a079aba891bf59e3ce8c2dca13bbc08c2" kind="function"><name>SideMeshes</name></member>
+    <member refid="class_a_g_remap_core_1_1_side_meshes_1a64b4cbea761d349ecbaf659d7d2f75f1" kind="function"><name>build</name></member>
+  </compound>
   <compound refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot" kind="struct"><name>AGRemapCore::GIMIComponentParserConfig::Slot</name>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a2932af3df10732450b1fb2aa9b53104a" kind="variable"><name>name</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1ab05dab4e41dcc773f7a5a74b7aa05a13" kind="variable"><name>index</name></member>
@@ -4991,6 +5000,7 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a8fdc1313233c6ce7419e5f99683f77a2" kind="variable"><name>claimShare</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a92e12086f31356ed25ee40a66d630c7a" kind="variable"><name>overlapRings</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a0b57e8a1ec2e5098197048f5b6ccedbb" kind="variable"><name>mirroredIbs</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a095b1a0f9960336595f5379caf6a6a78" kind="variable"><name>splitGroups</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1abac762f14f4d58c0c2526e46c3e3b14f" kind="variable"><name>negativeIndex</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_v_g_component_split" kind="class"><name>AGRemapCore::VGComponentSplit</name>
@@ -5030,6 +5040,7 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a3a68e3236f770be1598c9c6a4df101b1" kind="variable"><name>sentinels</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a9804f304038b321b399985e331353fb6" kind="variable"><name>mirroredVertices</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1afee27ea0d3e4732cc24d34d6cecf650e" kind="variable"><name>mirroredTriangles</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a43583c97fc41746306e1d2d6b5404bdb" kind="variable"><name>splitVertices</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_v_g_counts" kind="class"><name>AGRemapCore::VGCounts</name>
     <member refid="class_a_g_remap_core_1_1_v_g_counts_1aaecec117b6d8d5ccdc14c6c25c9947d7" kind="function"><name>VGCounts</name></member>
@@ -5039,6 +5050,7 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_files_1a71576195213776857d6263285e5f7326" kind="variable"><name>blendPath</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_files_1a05d00f3518bea0dc438eece7448b9da0" kind="variable"><name>positionPath</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_files_1a1f4fbd2386356aaaa72ee1dc7f3e1b7a" kind="variable"><name>texcoordPath</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_files_1a03b30c959dd30efe603d01e6032851f1" kind="variable"><name>positionLineEdit</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec" kind="struct"><name>AGRemapCore::VGMergeComponentSpec</name>
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec_1a0253c789317229a5a26a3680b762c5a3" kind="variable"><name>name</name></member>
@@ -5817,6 +5829,8 @@
   <compound refid="_shenhe_fixer_8h" kind="file"><name>ShenheFixer.h</name>
   </compound>
   <compound refid="_shenhe_frost_flower_fixer_8h" kind="file"><name>ShenheFrostFlowerFixer.h</name>
+  </compound>
+  <compound refid="_side_meshes_8h" kind="file"><name>SideMeshes.h</name>
   </compound>
   <compound refid="_tex_reg_layout_8h" kind="file"><name>TexRegLayout.h</name>
   </compound>

@@ -203,6 +203,13 @@ def fixerConfig(dressSlot: str = "Dress") -> "FRB.GIMIComponentFixerConfig":
     main.dropTexFx = True
     main.texFxBlend = 0.9    # its see-through draws (the mod's TexFx mask) blended instead -- Neuvillette8's shirt
     main.mirroredObjs = ["dress"]    # a mirrored inner layer: the skin lights his dress's back faces light blue
+    # His front coat panels (48-51 one side, 52-55 the other; 48 / 52 the top links) SHARE the skin's pelvis and
+    # its thigh (23 / 43), graded down the chain: 75/25, 50/50, 25/75. On the pelvis alone the panel is rigid and
+    # the leg went through it as it stepped (Neuvillette3's front flap, 2026-09-26); on the thigh alone it swung its
+    # face round with the leg and showed the lining; on the skin's skirt root (70 / 71) it folded back as it did on
+    # the skirt chain. Graded, it moves part of the way with the leg -- neither fault in a timed series in game.
+    main.splitGroups = {49: [(0, 0.75), (23, 0.25)], 50: [(0, 0.5), (23, 0.5)], 51: [(0, 0.25), (23, 0.75)],
+                        53: [(0, 0.75), (43, 0.25)], 54: [(0, 0.5), (43, 0.5)], 55: [(0, 0.25), (43, 0.75)]}
 
     config.components = [main, coat, bang, eye]
     # Every one of the skin's components receives a forward vertex-group row, so none is hidden by

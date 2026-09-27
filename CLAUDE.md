@@ -51,6 +51,12 @@ hashes, indices, ...) -> identity mods of both -> prototype `char -> skin` from 
 a VARIETY of mods -> port it into the API, filling each gap with a new or extended module
 (`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, tools) -> test the port on ALL
 the mods -> the same prototype / test / port / test for `skin -> char` -> README and Sphinx docs.
+**After every prototype and every compiled fix, a full AUDIT (the maintainer's rule, 2026-09-27)**:
+against every mistake earlier agents made and every issue you hit, and against every mod a person
+COULD make -- some characters have almost no mods to test on, so the fix must be right for the ones
+nobody has, and the worst outcome is an external user reporting a remap bug on GitHub or GameBanana.
+The audit of NeuvilletteMelusent -> Neuvillette found four lessons from the other template missing,
+and a fix run that silently deleted a mod's recolour `.ini`. See Creating Remaps' "THE AUDIT GATE".
 Each step's detail and tools are in
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s **"THE MAINTAINER'S REMAP
 PIPELINE, END TO END"**, its first section. Read it before starting any new pair.

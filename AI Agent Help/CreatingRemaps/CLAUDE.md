@@ -23,12 +23,16 @@ yourself** and hand the maintainer one final check at the end (Overview habit 69
 | 3 | **Populate the mod data in the API**: the `ModTypeId`s, vertex group remap, hashes, indices, vertex counts (and WuWa's four extra tables) | "Adding a `ModTypeId`: every place it enters", then bump the `core/tests` counts |
 | 4 | **Make IDENTITY mods for both the original character and their skin**: each one's own model written out as a mod, every object, vertex group, texture and material band of the real model in one folder | GI: `Tools/Misc/Prototypes/identityMod.py <PlayerCharacterData/Name> <mod folder>` ("The Yelan lessons, for ANY new remap", point 1). WuWa: `Tools/Misc/Prototypes/wwmiIdentityMod.py <asset folder> <mod folder> [--name <Skin>]`, from a frame dump via `wwmiExtractDump.py` when WWMI-Assets lacks the character (the Chisa pair). The source's identity mod is the first mod every prototype is tested on; the target's is the ground truth for its register layout and band legend ("A REMAPPED SECTION MAY BIND ONLY WHAT THE TARGET'S SLOT BINDS"), and the first mod the reverse direction is tested on |
 | 5 | **Prototype `char -> skin`** under `Tools/Misc/Prototypes/`, using as much of the library API as possible, with **every gap noted** in a comment where the custom code lives | "The loop changed" and "A prototype is built FROM the library" |
+| 5a | **AUDIT the prototype** against every lesson in these files and against every mod a person COULD make -- not only the mods you have | "THE AUDIT GATE" below |
 | 6 | **Test the prototype on a variety of mods** so it does not overfit | the identity mod first, then "CHOOSING TEST MODS". In game: [Game View](../GameView/CLAUDE.md)'s every-mod loop (`mods ... only <mod> --from <folder>`) |
 | 7 | **Add the `char -> skin` fix to the API**, filling each gap the prototype found by creating or editing modules (`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, the tools modules, ...) | the template sections for the character's SHAPE (the `START HERE` table below). A new module ships with its whole surface: core + binding + tests + Sphinx. Grep the family for an existing class to EXTEND first (Overview habit 53) |
+| 7a | **AUDIT the compiled fix** the same way -- the port is new code, and a template option that exists in one template may not exist in the one this direction uses | "THE AUDIT GATE" below |
 | 8 | **Test the API fix on all the mods** | A/B against the prototype (`--ab`, `abWWMI.py`, `abCitlaliRev.py`-style), then in game with Game View |
 | 9 | **Prototype `skin -> char`**, library first again | as step 5. It is its own prototype, not step 5 run backwards: the reverse direction of every pair so far needed a different template (split vs merge, `makeGIMIComponentFixer` vs `makeGIMIMergeFixer`) |
+| 9a | **AUDIT the reverse prototype** -- including everything the FORWARD direction of this pair needed | "THE AUDIT GATE" below |
 | 10 | **Test it on a variety of mods** | as step 6 |
 | 11 | **Add the `skin -> char` fix to the API**, filling its gaps | as step 7 |
+| 11a | **AUDIT the compiled reverse fix** | "THE AUDIT GATE" below |
 | 12 | **Test the API fix on all the mods** | as step 8 |
 | 13 | **Document it**: README tables and the Sphinx docs | "Closing out a remap" and `Tools/Misc/Diagnostics/checkModTypeTables.py` (not done until it prints `ALL FOUR AGREE WITH THE LIBRARY`), plus regenerated `core/xml` / `core.pyi` for any new class |
 
@@ -52,9 +56,62 @@ What the order is for:
   overfit fix passing one mod is the most common way a remap came back broken (see the Yelan,
   Bennett and Citlali sections).
 - **Steps 6, 8, 10 and 12 happen IN GAME, by you,** with `Tools/GameView`.
+- **The audits (5a, 7a, 9a, 11a) are not optional and not a skim** -- see the next section.
 - **Test mods the maintainer hands you as downloaded archives** go in with `Tools/ModInstaller`
   (`<archive folder> <mods folder> <Name>` -> `<Name>1`, `<Name>2`, ...; `.zip`, `.rar`, `.7z`),
   into whichever folder they name -- then `mods ... --from` that folder drives the every-mod loop.
+
+<br>
+
+## THE AUDIT GATE: after every prototype and every compiled fix (the maintainer's rule, 2026-09-27)
+
+**The fix has to be right for mods nobody has tested it on.** Some characters have very few mods on the
+internet -- NeuvilletteMelusent had ONE -- so the mods in hand cannot exercise every edge case, and an
+in-game pass over them proves only that those mods work. What the maintainer wants never to happen is an
+external user filing a bug about a remap on GitHub or GameBanana. So after the prototype (steps 5 and 9)
+and again after the compiled fix (steps 7 and 11), before calling the step done, **audit what you
+implemented** against two things:
+
+1. **Every mistake a previous agent made, and every issue you hit yourself.** Go through THIS file,
+   [Overview](../Overview/CLAUDE.md)'s habits and the other guides' sections for the subsystems you touched,
+   and for each lesson answer: does it apply to this pair and direction? what field or code handles it?
+   does THIS config set it, and to what? how do the comparable configs set it? Mark each COVERED / NOT
+   COVERED / UNCLEAR with a reason. A lesson learned in one TEMPLATE is not automatically in the other: the
+   2026-09-26 audit of NeuvilletteMelusent -> Neuvillette found the eye offset, the side-mesh hides, the
+   texture-name trust rule and the TexFx guard all missing from the merge template, because each had only
+   been built into the component template that week -- and the one real mod had shown one of them (the eyes)
+   while every A/B passed. **Include everything the OTHER direction of the same pair needed**; the two share
+   the models, so they share most of the traps.
+2. **Every mod a person could make, not only the ones you have.** For each shape below, say what your fix
+   does with it -- and where no real mod has the shape, BUILD one (a synthetic variant of the identity mod,
+   as `Tools/Misc/Prototypes/neuvilletteMelusentSynth.py` does) or write a unit test, and run the fix on it:
+   * a merged master (`$swapvar` branches, `run =` command lists, `ib = null` in some branches), a
+     `namespace_merge.py` merge, `DISABLED*` variants carrying stale hashes;
+   * a texture-only recolour in its own `.ini` or beside the mesh file, a help / toggle overlay that only
+     watches the character, several `.ini` files in one folder naming the same generated files;
+   * a mod missing a whole component or object, a 16-bit index buffer, its own `drawindexed` ranges under
+     toggles, its own `NNFix` / `ORFix` / TexFx calls, GIMI's newer API (`CommandList\GIMI\SetTextures`);
+   * texture files named one role off, a mod that hides the game's face (`handling = skip`) and brings its
+     own, a mod that hides side meshes by hash (`ib = null` on the face / head-upper -- a mask);
+   * cloth the target has no bones for (capes, tails, flaps -- does it tear, fold, swing, clip?), single-layer
+     cloth whose inside the target's shader lights differently;
+   * the fix run TWICE on one folder (every file still there? nothing counted fixed that was not?), undone,
+     and a non-Latin folder name.
+
+**How.** A read-only subagent given this file, the configs of both directions and the comparable pairs'
+configs, and asked for a numbered COVERED / NOT COVERED checklist, did the first pass of the 2026-09-26
+audit well; the judgement on each NOT COVERED is yours. Fix each gap **in the shared library**, with the
+default off so no earlier character's output moves, and prove it with the regression runs: the other
+characters byte-identical, the pair's own mods A/B-identical to the prototype, and a REVERSE-direction
+regression too (a copy of every skin mod of every merge pair -- the forward-only regression set is why a
+name-trust change that broke every Citlali skin mod was nearly shipped). **Your test copies are only as
+good as the moment you took them**: NeuvilletteMelusent1's `tex.ini` had already been deleted by an earlier
+fix when its pristine copy was taken, so every comparison passed on two equally wrong outputs. Take the
+copy from the mod as its AUTHOR shipped it.
+
+**In game, check against the mod on its OWN character** (the skin card beside the base card), feature by
+feature -- colours, every part, the face -- not against "does it look plausible": a remap that draws the
+target's default outfit looks plausible. Say what you checked and what you did not.
 
 <br>
 
@@ -66,7 +123,7 @@ surprises you.
 
 | the request | read, in this order |
 | --- | --- |
-| **"add the remap for X -> Y"**, and X and Y are ordinary GI characters | "THE MAINTAINER'S REMAP PIPELINE" above for the order of the whole job, then "The loop changed" (prototype, then port), then "Start here: adding a character, in order", then "Most characters are two short files". **Pick the shape from the HASH and INDEX tables, never from the character's name** --- Arlecchino remaps onto a boss and is not the Raiden shape |
+| **"add the remap for X -> Y"**, and X and Y are ordinary GI characters | "THE MAINTAINER'S REMAP PIPELINE" above for the order of the whole job and "THE AUDIT GATE" after each prototype and port, then "The loop changed" (prototype, then port), then "Start here: adding a character, in order", then "Most characters are two short files". **Pick the shape from the HASH and INDEX tables, never from the character's name** --- Arlecchino remaps onto a boss and is not the Raiden shape |
 | the target is a **skin of several components** (every GI character from Bennett on) | "Recipe: a classic-shape mod onto a multi-component skin", then [Vertex Group Remaps](../VGRemaps/CLAUDE.md)'s recipe. The reverse direction (several components onto one mesh) is "The reverse direction is COMPILED TOO" |
 | a **WuWa** pair | "The next WuWa pair: what a config needs, and how the loop runs", then "WUWA IS COMPILED". A WuWa character is ONE mesh of draw slots on a merged skeleton --- one fix row for the pair, not one per component |
 | **"the model is warped / kinked / stretched in game"** | [Vertex Group Remaps](../VGRemaps/CLAUDE.md): an unmapped source group becomes a NEGATIVE bone index, and `overrideVgRemap.py --dump` names them. Then "When the blend IS remapped and the model still kinks" |

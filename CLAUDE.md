@@ -51,6 +51,10 @@ hashes, indices, ...) -> identity mods of both -> prototype `char -> skin` from 
 a VARIETY of mods -> port it into the API, filling each gap with a new or extended module
 (`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, tools) -> test the port on ALL
 the mods -> the same prototype / test / port / test for `skin -> char` -> README and Sphinx docs.
+**After the RemapDraft, a vertex group BEHAVIOUR audit (2026-09-27)**: the mathematically closest group
+is not necessarily right for a cape, coat tail, flap or skirt -- predict how each such part moves on the
+target's bone (Neuvillette's coat tore on a component seam, swung on the knees, folded on the skirt bones and
+clipped on the pelvis). See Creating Remaps' "THE VERTEX GROUP BEHAVIOUR AUDIT".
 **After every prototype and every compiled fix, a full AUDIT (the maintainer's rule, 2026-09-27)**:
 against every mistake earlier agents made and every issue you hit, and against every mod a person
 COULD make -- some characters have almost no mods to test on, so the fix must be right for the ones

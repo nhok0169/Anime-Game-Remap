@@ -599,6 +599,30 @@ the whole index order.
    lacks, and the `least certain` list to decide where to spend the most time. Overrule the tally
    whenever it lands on a different KIND of part --- hair for a non-hair part above all, since
    hair is simulated and anything riding it wobbles.
+3a. **Audit how every mapping will BEHAVE** (pipeline step 2a). **The closest vertex group is not necessarily the right one (the maintainer's rule, 2026-09-27).** A
+   proximity match answers "which target bone is nearest this source bone"; the question the game asks is "how
+   will this part MOVE on the target's skeleton, in the target's animations". For every part the target has no
+   counterpart for -- capes, coat tails, flaps, skirts, sleeves, ribbons, loose panels -- predict the motion of
+   the bone it lands on before the in-game test, and write the reasoning into the draft's Comments column. What
+   the Neuvillette -> NeuvilletteMelusent rows cost when this was skipped (all in "NEUVILLETTE <->
+   NEUVILLETTEMELUSENT" in Creating Remaps):
+   * **a cut between components tears**: his coat links landed on the skin's Coat component and his coat body on
+     its main mesh, the two share no bone, and the capes of three mods ripped open along the seam -- one garment
+     belongs on ONE component's bones;
+   * **a bending joint swings what hangs from it**: coat links on the skin's knees and shins (the nearest bones)
+     swung the hems with every bend of the idle pose -- panels splayed, a flap folded in, two cape halves crossed;
+   * **a bone that moves with the legs folds cloth that should not**: the upper links on the back-skirt bones
+     folded a front flap back over its lining; on the skin's skirt root it folded too;
+   * **a bone that never moves lets a limb go through**: every link on the pelvis made the side flap clip the
+     stepping thigh (fixed by pushing the cloth clear, `VGPushAway`, and sharing weight, `splitGroups`);
+   * **the part may not ride the chain you think**: Neuvillette3's clipping flap rides his TAIL chain, not the
+     front-panel chain the first fix went on -- tally which groups carry the part in EACH mod before tuning it;
+   * and before this pair, **hair is simulated**: Chisa's jacket shoulders on ChisaParfait's hair bones swung
+     "like jello".
+   Prefer, for a hanging part, a bone that barely moves over one that bends, the farther the part hangs from it;
+   keep a garment on one component; never put a non-hair part on hair; and check left against right. Then look
+   at it IN MOTION -- a timed series of shots through the idle animation, not one frame, since a single pose can
+   hide a clip or a fold that the next frame shows.
 4. **Hand the workbook to the maintainer for the in-game check.** Write the reasoning for every
    judgement call into the Comments column; that is what the drafts are for.
 5. **Transcribe into `VGRemapData.cpp`**: one row per direction, every source group present,

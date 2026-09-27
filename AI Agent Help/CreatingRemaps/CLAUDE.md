@@ -20,6 +20,7 @@ yourself** and hand the maintainer one final check at the end (Overview habit 69
 | --- | --- | --- |
 | 1 | **Add the downloads** for both characters, **commit them, then STOP and tell the maintainer** so they can merge them into GitHub's `master` before you go on | "The download assets" and "Proving a NEW download folder". GI: `Tools/Misc/Prototypes/giDownloadFolder.py`. WuWa: `wwmiDownloadFolder.py`, or `wwmiExtractDump.py` over a frame dump (`Tools/GameView` takes one) |
 | 2 | **Make the RemapDraft** (`Data/RemapDrafts/<Char>RemapDraft.xlsx`, both directions, `Credits` sheet) | [Vertex Group Remaps](../VGRemaps/CLAUDE.md), `Tools/VGRemapFinder` |
+| 2a | **AUDIT the draft for how each mapping will BEHAVE in game**, not only how close it is -- capes, tails, flaps, skirts and anything else the target has no counterpart for | "THE VERTEX GROUP BEHAVIOUR AUDIT" below, and [Vertex Group Remaps](../VGRemaps/CLAUDE.md)' recipe step 3a |
 | 3 | **Populate the mod data in the API**: the `ModTypeId`s, vertex group remap, hashes, indices, vertex counts (and WuWa's four extra tables) | "Adding a `ModTypeId`: every place it enters", then bump the `core/tests` counts |
 | 4 | **Make IDENTITY mods for both the original character and their skin**: each one's own model written out as a mod, every object, vertex group, texture and material band of the real model in one folder | GI: `Tools/Misc/Prototypes/identityMod.py <PlayerCharacterData/Name> <mod folder>` ("The Yelan lessons, for ANY new remap", point 1). WuWa: `Tools/Misc/Prototypes/wwmiIdentityMod.py <asset folder> <mod folder> [--name <Skin>]`, from a frame dump via `wwmiExtractDump.py` when WWMI-Assets lacks the character (the Chisa pair). The source's identity mod is the first mod every prototype is tested on; the target's is the ground truth for its register layout and band legend ("A REMAPPED SECTION MAY BIND ONLY WHAT THE TARGET'S SLOT BINDS"), and the first mod the reverse direction is tested on |
 | 5 | **Prototype `char -> skin`** under `Tools/Misc/Prototypes/`, using as much of the library API as possible, with **every gap noted** in a comment where the custom code lives | "The loop changed" and "A prototype is built FROM the library" |
@@ -60,6 +61,35 @@ What the order is for:
 - **Test mods the maintainer hands you as downloaded archives** go in with `Tools/ModInstaller`
   (`<archive folder> <mods folder> <Name>` -> `<Name>1`, `<Name>2`, ...; `.zip`, `.rar`, `.7z`),
   into whichever folder they name -- then `mods ... --from` that folder drives the every-mod loop.
+
+<br>
+
+## THE VERTEX GROUP BEHAVIOUR AUDIT: after the RemapDraft (step 2a, 2026-09-27)
+
+**The closest vertex group is not necessarily the right one (the maintainer's rule, 2026-09-27).** A
+proximity match answers "which target bone is nearest this source bone"; the question the game asks is "how
+will this part MOVE on the target's skeleton, in the target's animations". For every part the target has no
+counterpart for -- capes, coat tails, flaps, skirts, sleeves, ribbons, loose panels -- predict the motion of
+the bone it lands on before the in-game test, and write the reasoning into the draft's Comments column. What
+the Neuvillette -> NeuvilletteMelusent rows cost when this was skipped (all in "NEUVILLETTE <->
+NEUVILLETTEMELUSENT" in Creating Remaps):
+* **a cut between components tears**: his coat links landed on the skin's Coat component and his coat body on
+  its main mesh, the two share no bone, and the capes of three mods ripped open along the seam -- one garment
+  belongs on ONE component's bones;
+* **a bending joint swings what hangs from it**: coat links on the skin's knees and shins (the nearest bones)
+  swung the hems with every bend of the idle pose -- panels splayed, a flap folded in, two cape halves crossed;
+* **a bone that moves with the legs folds cloth that should not**: the upper links on the back-skirt bones
+  folded a front flap back over its lining; on the skin's skirt root it folded too;
+* **a bone that never moves lets a limb go through**: every link on the pelvis made the side flap clip the
+  stepping thigh (fixed by pushing the cloth clear, `VGPushAway`, and sharing weight, `splitGroups`);
+* **the part may not ride the chain you think**: Neuvillette3's clipping flap rides his TAIL chain, not the
+  front-panel chain the first fix went on -- tally which groups carry the part in EACH mod before tuning it;
+* and before this pair, **hair is simulated**: Chisa's jacket shoulders on ChisaParfait's hair bones swung
+  "like jello".
+Prefer, for a hanging part, a bone that barely moves over one that bends, the farther the part hangs from it;
+keep a garment on one component; never put a non-hair part on hair; and check left against right. Then look
+at it IN MOTION -- a timed series of shots through the idle animation, not one frame, since a single pose can
+hide a clip or a fold that the next frame shows.
 
 <br>
 

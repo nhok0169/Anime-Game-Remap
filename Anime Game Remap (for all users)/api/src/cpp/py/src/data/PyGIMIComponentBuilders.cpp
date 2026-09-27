@@ -26,6 +26,7 @@
 #include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
 #include "AGRemapCore/data/IniFixData/GIMIMergeFixer.h"
 #include "AGRemapCore/data/IniParseData/GIMIComponentParser.h"
+#include "AGRemapCore/data/IniFixData/SideMeshes.h"
 
 // TexEditor::Filter is std::function<void(TextureFile&)>, and pybind11/functional.h needs the
 // COMPLETE type to decide how to convert it -- see PyGIMICharBuilders.cpp's identical note.
@@ -191,6 +192,11 @@ One source component, in MERGE order
         .def(py::init<>())
         .def_readwrite("name", &AGRC::GIMIMergeFixerConfig::Component::name,
                         py::doc(":class:`str`: The component's name, eg. ``Body``"))
+        .def_readwrite("modTypeName", &AGRC::GIMIMergeFixerConfig::Component::modTypeName, py::doc(R"doc(
+:class:`str`: The component's own mod type name, whose hashes find its sections --- empty for the skin's name followed
+by :attr:`name`. For a component not named that way, eg. NeuvilletteMelusent's UNNAMED main mesh (``""``), filed as
+``NeuvilletteMelusentMain``. **Default**: empty
+        )doc"))
         .def_readwrite("slots", &AGRC::GIMIMergeFixerConfig::Component::slots,
                         py::doc("List[:class:`GIMIMergeFixerConfig.Slot`]: The component's draw slots"))
         .def_readwrite("vertexCount", &AGRC::GIMIMergeFixerConfig::Component::vertexCount, py::doc(R"doc(
@@ -203,6 +209,15 @@ component's vertex offset cannot be measured from the file. A downloaded buffer 
 so its length is this number
 
 **Default**: ``0``
+        )doc"))
+        .def_readwrite("positionOffset", &AGRC::GIMIMergeFixerConfig::Component::positionOffset, py::doc(R"doc(
+List[:class:`float`]: Added to every vertex position of this component as it is merged, in model units ---
+``[0, 0, 0]`` (the default) writes the mod's own. NeuvilletteMelusent's Eye sits 1.24 cm lower than
+Neuvillette's, and merged as it is the eyes looked down
+        )doc"))
+        .def_readwrite("offsetOnlyWithGameFace", &AGRC::GIMIMergeFixerConfig::Component::offsetOnlyWithGameFace, py::doc(R"doc(
+:class:`bool`: Whether :attr:`positionOffset` applies only while the mod keeps the GAME's face (not when it skips
+the source's face diffuse and brings its own). ``False`` by default
         )doc"));
 
     py::enum_<AGRC::GIMIMergeFixerConfig::TargetLayout>(fixerConfig, "TargetLayout", R"doc(
@@ -279,6 +294,11 @@ which land under this prefix. Empty disables the fallback
         )doc"))
         .def_readwrite("mipmaps", &AGRC::GIMIMergeFixerConfig::mipmaps,
                         py::doc(":class:`bool`: Whether written textures carry a mip chain. **Default**: ``True``"))
+        .def_readwrite("texcoordStride", &AGRC::GIMIMergeFixerConfig::texcoordStride, py::doc(R"doc(
+:class:`int`: The TARGET's texcoord stride: the merged ``Texcoord.buf`` is at least this wide, zero-padded at the end
+of each line, and the copied section declares it --- for a target reading more UV sets than any source component
+carries (Neuvillette's 20 bytes under NeuvilletteMelusent's 12). **Default**: ``0``, the widest component's
+        )doc"))
         .def_readwrite("compressTextures", &AGRC::GIMIMergeFixerConfig::compressTextures, py::doc(R"doc(
 :class:`bool`: Whether edited textures are block-compressed
 
@@ -288,7 +308,58 @@ value
 **Default**: ``False``
         )doc"))
         .def_readwrite("copyPreamble", &AGRC::GIMIMergeFixerConfig::copyPreamble,
-                        py::doc(":class:`str`: The comment written at the top of each generated `section`_ group"));
+                        py::doc(":class:`str`: The comment written at the top of each generated `section`_ group"))
+        .def_readwrite("sideMeshes", &AGRC::GIMIMergeFixerConfig::sideMeshes, py::doc(R"doc(
+List[:class:`str`]: The hash types of the SOURCE skin's side meshes (its own draws that are no mod object, eg.
+``["ib_face", "ib_headupper"]``) --- a mod's section hiding one is written again on the target's hash of the
+same type. Empty by default
+        )doc"))
+        .def_readwrite("texFxGuardUnreached", &AGRC::GIMIMergeFixerConfig::texFxGuardUnreached, py::doc(R"doc(
+:class:`bool`: Whether a target object NO slot is drawn through gets a section withdrawing a pending `TexFx`_
+request, when the mod calls TexFx --- that object's own outline draw would otherwise serve it over the merged
+buffers. ``False`` by default
+        )doc"));
+
+    // ------------------------------------------------------------------- side meshes, both templates
+    py::class_<AGRC::SideMeshes>(m, "SideMeshes", R"doc(
+A mod's sections on the SOURCE character's side meshes (its own draws that are no mod object -- the face, the
+head-upper), written again on the TARGET's. Both multi-component templates use it: see
+:attr:`GIMIComponentFixerConfig.sideMeshes` and :attr:`GIMIMergeFixerConfig.sideMeshes`
+    )doc")
+        .def_static("build", &AGRC::SideMeshes::build, py::arg("fileTxt"), py::arg("hashes"), py::arg("srcName"),
+                    py::arg("fromVersion"), py::arg("types"), py::arg("targetName"), py::arg("toVersion"), py::doc(R"doc(
+The re-issued sections: each section of ``fileTxt`` whose ``hash`` is one of the SOURCE's side meshes of a type in
+``types``, its body copied and its ``hash`` replaced by the TARGET's of the same type, renamed with the target's
+name and the Remap keyword. A mesh both characters share is left to the mod's own section
+
+Parameters
+----------
+fileTxt: :class:`str`
+    The mod's ``.ini`` text
+
+hashes: :class:`Hashes`
+    The hash table both characters' side meshes are filed in
+
+srcName: :class:`str`
+    The source's mod type name
+
+fromVersion: Optional[:class:`CppVersion`]
+    The version the mod is written for, ``None`` for the latest
+
+types: List[:class:`str`]
+    The side-mesh hash types, eg. ``["ib_face", "ib_headupper"]``
+
+targetName: :class:`str`
+    The name the target's side-mesh rows are filed under
+
+toVersion: Optional[:class:`CppVersion`]
+    The version the fix is for, ``None`` for the latest
+
+Returns
+-------
+:class:`str`
+    The sections with a leading comment, or an empty string
+        )doc"));
 
     // ------------------------------------------------------------------- the component fixer config
     // The FORWARD template: a classic-shape mod onto a skin of several components. Bound so a new pair
@@ -330,11 +401,67 @@ One component of the TARGET skin, and how the mod is drawn through it
 Held here rather than in :class:`Indices` for the reason :attr:`GIMIComponentParserConfig.Slot.index`
 records. Empty falls back to the table
         )doc"))
+        .def_readwrite("slotIndices", &AGRC::GIMIComponentFixerConfig::Component::slotIndices, py::doc(R"doc(
+Every draw slot of this TARGET component, by ``match_first_index`` (eg. ``["0", "46620", "71025"]``), or empty
+
+The slots no drawn source object is routed to -- and every slot of a component the mod draws nothing onto -- get
+the TexFx guard :attr:`GIMIComponentFixerConfig.unremappedSlots` writes, read off the result rather than kept by
+hand. Added to that field, never replacing it. **Default**: empty
+
+:type: List[:class:`str`]
+)doc"))
         .def_readwrite("objSlotIndices", &AGRC::GIMIComponentFixerConfig::Component::objSlotIndices, py::doc(R"doc(
 List[Tuple[:class:`str`, :class:`str`]]: Per SOURCE object, the ``match_first_index`` of the slot it is
 drawn through instead of :attr:`slotIndex`, eg. ``[("body", "53529")]``. A skin's slots draw on
 different shaders, and a source object is shaded right only by a slot drawn on a shader like its own.
 **Default**: empty
+        )doc"))
+        .def_readwrite("claimShare", &AGRC::GIMIComponentFixerConfig::Component::claimShare, py::doc(R"doc(
+:class:`float`: For a cut component, the least share of a vertex's weight on this component's groups
+for it to claim the vertex (``0`` to ``1``) -- a coat that should take only its hanging tails, not the
+back panel they blend into, sets a high one and the seam moves to where the weights are clean. See
+:attr:`VGComponentSpec.claimShare`. **Default**: ``0``, the plain majority
+        )doc"))
+        .def_readwrite("overlapRings", &AGRC::GIMIComponentFixerConfig::Component::overlapRings, py::doc(R"doc(
+:class:`int`: For a cut component, how many rings of its neighbours' triangles it draws as well, past its
+own edge -- a seam that opens when the skin poses is then covered by the other side's copy. Ownership is
+unchanged. See :attr:`VGComponentSpec.overlapRings`. **Default**: ``0``
+        )doc"))
+        .def_readwrite("pushAway", &AGRC::GIMIComponentFixerConfig::Component::pushAway, py::doc(R"doc(
+List[:class:`VGPushAway`]: Cloth pushed horizontally away from a point on this component, by its weight share on the
+push's source groups --- for cloth that clips a limb the target moves differently. Empty by default
+        )doc"))
+        .def_readwrite("splitGroups", &AGRC::GIMIComponentFixerConfig::Component::splitGroups, py::doc(R"doc(
+Dict[:class:`int`, List[Tuple[:class:`int`, :class:`float`]]]: Source groups whose weight this component SHARES
+among several of its bones, as ``{source group: [(bone, share), ...]}`` --- see
+:attr:`VGComponentSpec.splitGroups`. Empty by default
+        )doc"))
+        .def_readwrite("mirroredObjs", &AGRC::GIMIComponentFixerConfig::Component::mirroredObjs, py::doc(R"doc(
+List[:class:`str`]: The SOURCE objects (lowercase) whose triangles get a MIRRORED INNER LAYER on this component,
+for single-layer cloth whose back faces the target's shader does not shade as cloth --- see
+:attr:`VGComponentSpec.mirroredIbs`. Cut components only; empty by default
+        )doc"))
+        .def_readwrite("mirrorOffset", &AGRC::GIMIComponentFixerConfig::Component::mirrorOffset,
+                       py::doc(":class:`float`: How far inside the surface the mirrored layer sits, in model units --- ``0.005`` by default: at 1 mm it z-fought the surface from outside"))
+        .def_readwrite("texFxBlend", &AGRC::GIMIComponentFixerConfig::Component::texFxBlend, py::doc(R"doc(
+:class:`float`: For a component whose mod's TexFx is dropped (:attr:`dropTexFx`): the opacity, 0 to 1, its
+SEE-THROUGH draws are blended at instead --- ``0`` (the default) leaves them opaque
+
+A ``drawindexed`` range of an object whose section binds a TexFx mask at ``ps-t69`` is see-through when most
+of its vertices sit on a mask code of 1-254 (TexFx's own legend, on the red channel). Such a range is drawn
+through a ``CustomShader`` of its own that blends only the G-buffer's colour target, keeping the game's
+shaders
+        )doc"))
+        .def_readwrite("dropTexFx", &AGRC::GIMIComponentFixerConfig::Component::dropTexFx, py::doc(R"doc(
+:class:`bool`: Whether this component's remapped sections drop the mod's TexFx transparency (``ps-t69`` /
+``ps-t70`` and every ``run = CommandList\TexFx\...``) -- for a slot whose shader TexFx does not
+recognise, where the transparency texture blanks the part out entirely instead of fading it. The part
+then draws opaque. **Default**: ``False``
+        )doc"))
+        .def_readwrite("standIns", &AGRC::GIMIComponentFixerConfig::Component::standIns, py::doc(R"doc(
+Dict[:class:`int`, :class:`int`]: For a cut component, source groups it does not own, each to the bone
+of this component that stands in for it -- so a vertex on a seam keeps that weight instead of dropping
+it. A group the component's own row maps is ignored. **Default**: ``{}``
         )doc"))
         .def_readwrite("negativeIndex", &AGRC::GIMIComponentFixerConfig::Component::negativeIndex, py::doc(R"doc(
 :class:`bool`: ``True`` for the negative-index split (the component draws the whole mod, with every
@@ -352,6 +479,22 @@ and its diffuse and light map moved down). **Default**: ``True``
 
 The mod's buffer is zero-padded or truncated at the END (where ``TEXCOORD1`` sits) to this width.
 **Default**: ``0``
+        )doc"))
+        .def_readwrite("positionOffset", &AGRC::GIMIComponentFixerConfig::Component::positionOffset, py::doc(R"doc(
+List[:class:`float`]: A model-space translation ``[x, y, z]`` added to every vertex position written
+for this component, or all zeros to keep the mod's own
+
+A mod's vertices are in its SOURCE's bind pose. A part that must sit inside something the GAME draws
+-- the eyes in a face mesh neither mod carries -- cannot be off by the difference: measure it by
+differencing the target component's own Position buffer against this fix's output for the identity
+mod. **Default**: ``[0, 0, 0]``
+        )doc"))
+        .def_readwrite("offsetOnlyWithGameFace", &AGRC::GIMIComponentFixerConfig::Component::offsetOnlyWithGameFace, py::doc(R"doc(
+:class:`bool`: Whether :attr:`positionOffset` applies only while the mod draws with the GAME's face
+
+A mod that hides the game's face (``handling = skip`` on the source's face diffuse hash) draws its own
+inside its head mesh, and its eyes are placed for that face: shifting them drops them below it. Read
+per ``.ini`` file. **Default**: ``False``, the offset always applies
         )doc"))
         .def_readwrite("slotRegisters", &AGRC::GIMIComponentFixerConfig::Component::slotRegisters, py::doc(R"doc(
 List[:class:`str`]: Every ``ps-t`` register the TARGET's own slot binds, or empty to leave the
@@ -379,6 +522,15 @@ List[Tuple[:class:`str`, List[:class:`str`]]]: The skin's draw SLOTS nothing is 
 
 Each withdraws a pending `TexFx`_ request on that slot's draw, which would otherwise be served on a
 slot the mod never reaches. Written only when the mod calls TexFx
+        )doc"))
+        .def_readwrite("sideMeshes", &AGRC::GIMIComponentFixerConfig::sideMeshes, py::doc(R"doc(
+List[:class:`str`]: The hash types of the source's SIDE MESHES (its own draws that are no mod object,
+eg. ``["ib_face", "ib_headupper"]``)
+
+A mod's section on one of those hashes -- a mask hiding the face with ``ib = null`` -- is written again
+on the target's hash of the same type (filed under :attr:`targetSkin`), since the skin draws its own
+side meshes under other hashes. A mesh both characters share is left to the mod's own section. Empty
+by default
         )doc"))
         // Properties over toTexFilter / toPyRefFunction rather than def_readwrite: pybind11's own
         // conversion of a filter hands it a COPY of the texture, so an edit written in Python would
@@ -436,6 +588,12 @@ moves the alpha a band is read from. **Default**: ``True``
                         py::doc(":class:`bool`: Whether a 20-byte texcoord's second UV set is zeroed. **Default**: ``True``"))
         .def_readwrite("sourceLayout", &AGRC::GIMIComponentFixerConfig::sourceLayout,
                         py::doc(":class:`GIMIComponentFixerConfig.SourceLayout`: The SOURCE mod's texture layout. **Default**: :attr:`GIMIComponentFixerConfig.SourceLayout.Plain`"))
+        .def_readwrite("texRegsByName", &AGRC::GIMIComponentFixerConfig::texRegsByName, py::doc(R"doc(
+:class:`bool`: Whether each drawn object's texture bindings go to the register their resource NAME's role belongs on
+(``ps-t0`` diffuse / ``ps-t1`` light map, or ``ps-t0`` normal map / ``ps-t1`` diffuse / ``ps-t2`` light map when a normal
+map is among them) before any other texture edit -- for a mod written in the GAME's register order rather than GIMI's.
+A binding naming no role stays put. **Default**: ``False``
+        )doc"))
         .def_readwrite("faceSwapOnlyFromDiffuseReg", &AGRC::GIMIComponentFixerConfig::faceSwapOnlyFromDiffuseReg, py::doc(R"doc(
 :class:`bool`: Whether the face's ``ps-t0`` <-> ``ps-t1`` swap runs only for a mod binding its face
 diffuse at ``ps-t0`` (a pre-6.x mod). **Default**: ``False``

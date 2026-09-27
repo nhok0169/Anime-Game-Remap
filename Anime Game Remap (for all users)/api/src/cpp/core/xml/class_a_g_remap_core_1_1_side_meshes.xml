@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_side_meshes" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::SideMeshes</compoundname>
+    <includes refid="_side_meshes_8h" local="no">SideMeshes.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_side_meshes_1a079aba891bf59e3ce8c2dca13bbc08c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::SideMeshes::SideMeshes</definition>
+        <argsstring>()=delete</argsstring>
+        <name>SideMeshes</name>
+        <qualifiedname>AGRemapCore::SideMeshes::SideMeshes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/SideMeshes.h" line="41" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_side_meshes_1a64b4cbea761d349ecbaf659d7d2f75f1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::SideMeshes::build</definition>
+        <argsstring>(const std::string &amp;fileTxt, Hashes &amp;hashes, const std::string &amp;srcName, const std::optional&lt; Version &gt; &amp;fromVersion, const std::vector&lt; std::string &gt; &amp;types, const std::string &amp;targetName, const std::optional&lt; Version &gt; &amp;toVersion)</argsstring>
+        <name>build</name>
+        <qualifiedname>AGRemapCore::SideMeshes::build</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fileTxt</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_hashes" kindref="compound">Hashes</ref> &amp;</type>
+          <declname>hashes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>srcName</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>fromVersion</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>types</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>targetName</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>toVersion</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The re-issued sections: each section of &apos;fileTxt&apos; whose ``hash`` is one of the SOURCE&apos;s
+side meshes of a type in &apos;types&apos;, with its body copied and its ``hash`` replaced by the
+TARGET&apos;s hash of the same type. The section is renamed with the target&apos;s name and the Remap
+keyword appended, so an undo takes it with the rest of the fix. A mesh both characters SHARE
+(the same hash on both sides) is left to the mod&apos;s own section. Empty when there is nothing
+to write
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fileTxt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s <computeroutput>.ini</computeroutput> text </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hashes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash table both characters&apos; side meshes are filed in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>srcName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source&apos;s mod type name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The version the mod is written for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>types</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The side-mesh hash types, eg. <computeroutput>{"ib_face", "ib_headupper"}</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>targetName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name the target&apos;s side-mesh rows are filed under </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The version the fix is for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The sections, with a leading comment, or empty </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/SideMeshes.h" line="64" column="32" bodyfile="src/data/IniFixData/SideMeshes.cpp" bodystart="63" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A mod&apos;s sections on the SOURCE character&apos;s side meshes, written again on the TARGET&apos;s
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A side mesh is one of a character&apos;s own draws that is no mod object -- the face, the head-upper --
+and a mod may hide one by hash to put something of its own in its place (Neuvillette9&apos;s mask:
+``ib = null`` on Neuvillette&apos;s face meshes). The other character draws its OWN side meshes under
+different hashes, so the mod&apos;s section reaches nothing there, and the face showed through the mask
+in pieces (2026-09-26). Shared by both multi-component templates: the component one
+(:cpp:member:`GIMIComponentFixerConfig::sideMeshes`, a character onto a skin) and the merge one
+(:cpp:member:`GIMIMergeFixerConfig::sideMeshes`, a skin onto a character) -- the same trap, both ways
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/SideMeshes.h" line="39" column="5" bodyfile="include/AGRemapCore/data/IniFixData/SideMeshes.h" bodystart="39" bodyend="67"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_side_meshes_1a64b4cbea761d349ecbaf659d7d2f75f1" prot="public" virt="non-virtual"><scope>AGRemapCore::SideMeshes</scope><name>build</name></member>
+      <member refid="class_a_g_remap_core_1_1_side_meshes_1a079aba891bf59e3ce8c2dca13bbc08c2" prot="public" virt="non-virtual"><scope>AGRemapCore::SideMeshes</scope><name>SideMeshes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

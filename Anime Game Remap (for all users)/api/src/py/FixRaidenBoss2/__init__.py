@@ -119,6 +119,7 @@ from .core import CppGammaFilter
 from .core import CppColourReplaceFilter
 from .core import CppTransparencyAdjustFilter
 from .core import CppInvertAlphaFilter
+from .core import CppMaterialBandRemapFilter
 from .core import CppHueAdjust
 from .core import CppPixelFilter
 from .core import CppBaseTexEditor
@@ -158,6 +159,7 @@ from .core import GIMIComponentParserConfig
 from .core import GIMIMergeFixerConfig
 from .core import makeGIMIComponentParser
 from .core import makeGIMIMergeFixer
+from .core import SideMeshes
 from .core import WWMIParserConfig
 from .core import WWMIFixerConfig
 from .core import makeWWMIParser
@@ -294,6 +296,7 @@ from .model.strategies.texEditors.texFilters.ColourReplaceFilter import ColourRe
 from .model.strategies.texEditors.texFilters.GammaFilter import GammaFilter
 from .model.strategies.texEditors.texFilters.HueAdjust import HueAdjust
 from .model.strategies.texEditors.texFilters.InvertAlphaFilter import InvertAlphaFilter
+from .model.strategies.texEditors.texFilters.MaterialBandRemapFilter import MaterialBandRemapFilter
 from .model.strategies.texEditors.texFilters.PixelFilter import PixelFilter
 from .model.strategies.texEditors.texFilters.TexMetadataFilter import TexMetadataFilter
 from .model.strategies.texEditors.texFilters.TransparencyAdjustFilter import TransparencyAdjustFilter
@@ -364,13 +367,13 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "CppBufFile", "BlendFile", "PositionFile", "IbFile", "VbFile", "BaseBufEditor", "BufEditor",
            "CppColour", "CppColourRange", "CppTextureFile",
            "CppBasePixelTransform", "CppCorrectGamma", "CppColourReplace", "CppHighlightShadow", "CppInvertAlpha", "CppTempControl", "CppTintTransform", "CppTransparency",
-           "CppBaseTexFilter", "CppGammaFilter", "CppColourReplaceFilter", "CppTransparencyAdjustFilter", "CppInvertAlphaFilter", "CppHueAdjust", "CppPixelFilter",
+           "CppBaseTexFilter", "CppGammaFilter", "CppColourReplaceFilter", "CppTransparencyAdjustFilter", "CppInvertAlphaFilter", "CppMaterialBandRemapFilter", "CppHueAdjust", "CppPixelFilter",
            "CppBaseTexEditor", "CppTexEditor", "CppTexCreator",
            "IfTemplateNode", "IfTemplateTree", "IfTemplate", "CallGraph", "SectionIterData", "SectionIterQueryData", "IniSectionGraph",
            "BaseIniPartEdit", "BaseIniGraphPartEdit", "BaseRegEdit", "RegAdd", "RegAssetRemap", "RegNewVals", "RegRemap", "RegRemove",
            "GIMIObjPartFilter", "CppIniNamingTools",
            "GIMICharParserConfig", "GIMICharFixerConfig", "makeGIMICharParser", "makeGIMICharFixer",
-           "GIMIComponentParserConfig", "GIMIMergeFixerConfig", "makeGIMIComponentParser", "makeGIMIMergeFixer",
+           "GIMIComponentParserConfig", "GIMIMergeFixerConfig", "makeGIMIComponentParser", "makeGIMIMergeFixer", "SideMeshes",
            "WWMIParserConfig", "WWMIFixerConfig", "makeWWMIParser", "makeWWMIFixer",
            "BaseIniGraphEdit", "GraphRename", "RegFillMissing",
            "GraphRemove", "GraphInherit", "GraphGroupRemap", "GraphGroupEdit",
@@ -392,7 +395,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "IniParseBuilder",
            "CppBaseIniRemover", "BaseIniRemover", "CppIniRemoveBuilderArgs", "IniRemovalContext", "RemapIniRemover", "GlobalRemapIniRemover", "IniRemoveBuilder",
            "BasePixelTransform", "ColourReplace", "CorrectGamma", "InvertAlpha", "HighlightShadow", "TempControl", "TintTransform", "Transparency",
-           "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
+           "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "MaterialBandRemapFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",
            "IfPredLogicGenerator", "SympyIfPredGenerator", "IfPredParser", "SympyParser",
@@ -416,8 +419,8 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
 # Guarded rather than imported outright, so a `core` build older than that day (the Windows .pyd until
 # it is rebuilt) still imports the package; remove the guard once every build carries them.
 try:
-    from .core import VGComponentSpec, VGComponentSplitStats, VGComponentBuffers, VGComponentSplit, VGSplitGroupResource, BufReplace
-    __all__ += ["VGComponentSpec", "VGComponentSplitStats", "VGComponentBuffers", "VGComponentSplit", "VGSplitGroupResource", "BufReplace"]
+    from .core import VGComponentSpec, VGComponentSplitStats, VGComponentBuffers, VGComponentSplit, VGSplitGroupResource, BufReplace, VGPushAway
+    __all__ += ["VGComponentSpec", "VGComponentSplitStats", "VGComponentBuffers", "VGComponentSplit", "VGSplitGroupResource", "BufReplace", "VGPushAway"]
 except ImportError:
     pass
 

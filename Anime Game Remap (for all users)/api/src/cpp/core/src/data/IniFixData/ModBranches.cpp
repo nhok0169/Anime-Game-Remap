@@ -263,6 +263,31 @@ namespace AGRemapCore {
     }
 
 
+    std::unique_ptr<RegBranchAdd<>> ModBranches::removePerBranch(std::vector<BranchVal> branches, std::string keyPrefix,
+                                                                 BranchRemovals removalsOf) {
+        return std::make_unique<RegBranchAdd<>>(
+            [this, branches = std::move(branches), keyPrefix = std::move(keyPrefix),
+             removalsOf = std::move(removalsOf)](const Z3Predicate& query, const RegBranchAdd<>::IterData&) {
+                RegBranchAdd<>::Branch result;
+
+                const std::optional<Z3Predicate> local = localQuery(&query);
+                const long long branch = branchIndexOf(branches, local);
+                if (branch < 0) {
+                    return result;
+                }
+
+                std::vector<std::string> removals = removalsOf(static_cast<std::size_t>(branch), local);
+                if (removals.empty()) {
+                    return result;
+                }
+
+                result.key = keyPrefix + ";" + std::to_string(branch);
+                result.removals = std::move(removals);
+                return result;
+            });
+    }
+
+
     std::optional<std::string> ModBranches::firstVal(const Template& tpl, const std::string& key) {
         for (const auto& part : tpl.parts()) {
             const auto* content = dynamic_cast<const Template::ContentPart*>(part.get());

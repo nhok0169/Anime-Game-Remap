@@ -214,6 +214,16 @@ namespace AGRemapCore {
             static ModType monaCN();
 
             /**
+             * @brief Creates the :cpp:class:`ModType` for Neuvillette
+             */
+            static ModType neuvillette();
+
+            /**
+             * @brief Creates the :cpp:class:`ModType` for NeuvilletteMelusent
+             */
+            static ModType neuvilletteMelusent();
+
+            /**
              * @brief Creates the :cpp:class:`ModType` for Nilou
              */
             static ModType nilou();

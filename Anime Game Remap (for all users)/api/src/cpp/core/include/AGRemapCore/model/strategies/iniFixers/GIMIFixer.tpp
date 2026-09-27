@@ -14,8 +14,11 @@
 #ifndef AGRemapCore_GIMIFixer_TPP
 #define AGRemapCore_GIMIFixer_TPP
 
+#include <cctype>
 #include <string_view>
+#include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "GIMIFixer.h"
 #include "AGRemapCore/constants/IniKeywords.h"
@@ -30,6 +33,87 @@ namespace AGRemapCore {
         // GIMIParser::classifyByTextureOverrideName uses to refuse to classify its own output.
         inline bool hasRemapKeyword(const std::string& txt) {
             return StringTools::toLower(txt).find(StringTools::toLower(IniKeywords::Remap)) != std::string::npos;
+        }
+
+        // Splits rendered .ini text into its preamble (before the first section) and its sections, each
+        // as (lowered name, whole text from its header up to the next header). Byte-wise on the ASCII
+        // delimiters '\n' and '[' / ']', which is what a section header is.
+        inline std::pair<std::string, std::vector<std::pair<std::string, std::string>>> splitSections(const std::string& txt) {
+            std::vector<std::size_t> starts;
+            for (std::size_t at = 0; at < txt.size(); at = txt.find('\n', at), at = (at == std::string::npos) ? txt.size() : at + 1) {
+                if (txt[at] == '[') {
+                    starts.push_back(at);
+                }
+            }
+
+            std::pair<std::string, std::vector<std::pair<std::string, std::string>>> result;
+            result.first = txt.substr(0, starts.empty() ? txt.size() : starts.front());
+            for (std::size_t k = 0; k < starts.size(); ++k) {
+                const std::size_t end = (k + 1 < starts.size()) ? starts[k + 1] : txt.size();
+                const std::string text = txt.substr(starts[k], end - starts[k]);
+                const std::size_t close = text.find(']');
+                const std::string name = (close == std::string::npos) ? text : text.substr(1, close - 1);
+                result.second.emplace_back(StringTools::toLower(name), text);
+            }
+            return result;
+        }
+
+        // 'block' without the sections 'accumulated' already declares WORD FOR WORD (trailing blank
+        // lines aside). Several fixers write into one .ini -- one per target component -- and each
+        // renders the parser's download resources its sections bind, so a skin of four components
+        // declared every download four times: 3DMigoto warns "Duplicate section" and drops the
+        // repeats' lines as "entry outside of section". A same-named section with DIFFERENT text is
+        // kept, so a real conflict still shows.
+        // A section's text split into its body (header and keys) and its tail: the trailing comment and
+        // blank lines, which belong to whatever follows -- the next fixer's heading, as often as not.
+        inline std::pair<std::string, std::string> sectionBodyAndTail(const std::string& text) {
+            // Line by line from the end. `end` is where the line being looked at stops (just past its
+            // newline, or the end of the text); each step moves it back to where that line STARTS,
+            // which is strictly smaller -- the first version searched from end - 1, found the newline
+            // AT end - 1, and looped forever on the empty "line" after a trailing newline.
+            std::size_t end = text.size();
+            while (end > 0) {
+                const std::size_t lineEnd = (text[end - 1] == '\n') ? end - 1 : end;
+                const std::size_t newline = (lineEnd == 0) ? std::string::npos : text.rfind('\n', lineEnd - 1);
+                const std::size_t lineStart = (newline == std::string::npos) ? 0 : newline + 1;
+                const std::string_view line = StringTools::strip(std::string_view(text).substr(lineStart, lineEnd - lineStart));
+                if (lineStart == 0 || !(line.empty() || line.front() == ';')) {
+                    break;
+                }
+                end = lineStart;
+            }
+            return {std::string(StringTools::rstrip(std::string_view(text).substr(0, end))), text.substr(end)};
+        }
+
+        inline std::string dropRepeatedSections(const std::string& accumulated, const std::string& block) {
+            if (accumulated.empty()) {
+                return block;
+            }
+
+            std::unordered_map<std::string, std::string> declared;
+            for (const auto& [name, text] : splitSections(accumulated).second) {
+                declared.emplace(name, sectionBodyAndTail(text).first);
+            }
+
+            auto [preamble, sections] = splitSections(block);
+            std::string result = preamble;
+            bool dropped = false;
+            for (const auto& [name, text] : sections) {
+                auto [body, tail] = sectionBodyAndTail(text);
+                auto found = declared.find(name);
+                if (found != declared.end() && found->second == body) {
+                    dropped = true;
+                    // The tail only when it says something (the next block's heading); a blank one is the
+                    // gap before the dropped section's successor, and kept, each dropped section left an
+                    // empty line behind (Jean's JeanSea block: six in a row).
+                    if (!StringTools::strip(tail).empty()) {
+                        result += tail;
+                    }
+                    continue;
+                }
+                result += text;
+            }
+            return dropped ? std::string(StringTools::rstrip(result)) : block;
         }
     }
 
@@ -241,7 +325,7 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename FixerBase>
     std::string GIMIFixer<K, V, KeyHash, KeyEqual, FixerBase>::groupToStr(std::size_t groupInd) const {
         std::string result;
-        if (graphGroups_ == nullptr || !config_.sectionToStr) {
+        if (graphGroups_ == nullptr || !config_.sectionToStr || groupInd >= graphGroups_->size()) {
             return result;
         }
 
@@ -281,6 +365,59 @@ namespace AGRemapCore {
 
             result += current;
             first = false;
+        }
+
+        // A COPY DECLARES THE DOWNLOADS IT REFERENCES (2026-09-25). The parser's download resources
+        // are graphs of group 0 only, and 3DMigoto resolves a resource within its own .ini file --
+        // so a generated copy binding one (`ps-t1 = Resource<Obj>DiffuseRemapDL`, for an object the
+        // mod ships no texture of) referenced a section its file does not have: "Unrecognised
+        // entry", and the object drew with whatever that register held before (Neuvillette2 on
+        // NeuvilletteMelusent, the dress drawn through the Coat's copy). Only what the copy names,
+        // as a whole name: a collected buffer's resource starts with its download's name too.
+        if (groupInd > 0 && graphGroups_->size() > 0) {
+            const std::string lowered = StringTools::toLower(result);
+            const auto references = [&lowered](const std::string& name) {
+                const std::string needle = StringTools::toLower(name);
+                for (std::size_t at = lowered.find(needle); at != std::string::npos; at = lowered.find(needle, at + 1)) {
+                    const std::size_t end = at + needle.size();
+                    const char next = (end < lowered.size()) ? lowered[end] : '\n';
+                    if (!(std::isalnum(static_cast<unsigned char>(next)) || next == '_' || next == '.')) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            for (const ModObj& modObj : graphGroups_->modObjs(0)) {
+                if (modObj.first != IniGraphModObjKeywords::Download) {
+                    continue;
+                }
+
+                Graph* graph = graphGroups_->getGraph(0, modObj);
+                if (graph == nullptr) {
+                    continue;
+                }
+
+                bool referenced = false;
+                for (const auto& section : graph->sections()) {
+                    referenced = referenced || (emitted.count(section.first) == 0 && references(section.first));
+                }
+                if (!referenced) {
+                    continue;
+                }
+
+                std::string current = graph->toStr(config_.sectionToStr, true, &emitted);
+                if (current.empty()) {
+                    continue;
+                }
+
+                if (!first) {
+                    result += "\n\n";
+                }
+
+                result += current;
+                first = false;
+            }
         }
 
         return result;
@@ -387,16 +524,33 @@ namespace AGRemapCore {
         //
         // 'fixOnly' only decides the WORDING: that mode is the one that leaves an existing fixed
         // file in place, so it is the only one with an "old stinky ini" to talk about.
-        if (backingUp && ctx_->fixedFileExists()) {
+        fixTargets_ = getFix(parseData, false);
+        fixedContents_.clear();
+
+        // NO GROUPS, BUT SECTIONS OF ITS OWN TO WRITE (2026-09-24). A fixer that draws nothing ends
+        // with no groups and so no targets -- and appendedSections, which belong to no group, went
+        // with them. The owner of a multi-component fix's hidden components is the LAST component's
+        // fixer, and when that component is the one a mod leaves empty (a skin's Eye, under a mod
+        // that paints its eyes on the head), the hide sections were built and never written: the
+        // skin's own bangs drew over the mod's hair (NeuvilletteMelusent, Neuvillette5). The mod's
+        // own file is the target they belong to.
+        if (fixTargets_.empty() && !appendedSections.empty() && ctx_ != nullptr) {
+            fixTargets_.push_back(ctx_->fixedFilePath(0));
+        }
+
+        // THE BACKUP ONLY ONCE THERE IS SOMETHING TO WRITE IN ITS PLACE (2026-09-26). Disabling moves
+        // the .ini file aside, and only the writes below put a file back -- so a fixer with no target
+        // (a texture-only recolour that defers to its mesh sibling, a multi-component fixer that gave
+        // up) left the user's mod WITHOUT that .ini: NeuvilletteMelusent1's tex.ini vanished on the
+        // first fix, every later run drew the game's textures, and nothing said so (it was even
+        // counted fixed). getFix only builds text, so it does not care where the file is.
+        if (backingUp && !fixTargets_.empty() && ctx_->fixedFileExists()) {
             if (fixOnly) {
                 ctx_->log("Cleaning up and disabling the OLD STINKY ini");
             }
 
             ctx_->disableIni();
         }
-
-        fixTargets_ = getFix(parseData, false);
-        fixedContents_.clear();
 
         // Hiding comes *after* the fix is built, not before: which sections to comment out is
         // #touchedSectionNames, and there is nothing to read that off until the groups exist. The
@@ -470,10 +624,6 @@ namespace AGRemapCore {
             // per target.
             const std::string blockKey = fixKey(i, fixTargets_[i]);
 
-            if (fixingCtx.labelTargets) {
-                content = labelTargetBlock(content);
-            }
-
             // The fix's own sections, which belong to no copied object -- see appendedSections. Group
             // 0 only: this is written once per .ini file, not once per generated copy.
             //
@@ -486,9 +636,17 @@ namespace AGRemapCore {
                                           : std::string(StringTools::rstrip(content)) + "\n\n" + appendedSections;
             }
 
+            // The target's heading AFTER the appended sections, so they sit inside its `; ***** X *****` block
+            // with the fix's other sections -- labelled first, they landed after the block's closing line
+            // (the component template's hide and side-mesh sections, 2026-09-26).
+            if (fixingCtx.labelTargets) {
+                content = labelTargetBlock(content);
+            }
+
             if (fixingCtx.priorFixBlocks != nullptr) {
                 std::string& accumulated = (*fixingCtx.priorFixBlocks)[blockKey];
 
+                content = GIMIFixerDetail::dropRepeatedSections(accumulated, content);
                 if (content.empty()) {
                     content = accumulated;
                 } else if (!accumulated.empty()) {

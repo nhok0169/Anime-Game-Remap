@@ -240,6 +240,16 @@ class ModTypes(StrEnum, DeferredEnum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(monacn).*\]``
 
+    Neuvillette: :class:`ModType`
+        **Neuvillette mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(neuvillette)((?!melusent).)*\]``
+
+    NeuvilletteMelusent: :class:`ModType`
+        **Neuvillette Melusent Gift mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(neuvillettemelusent).*\]``
+
     Nilou: :class:`ModType`
         **Nilou mods** :raw-html:`<br />`
 
@@ -364,6 +374,8 @@ class ModTypes(StrEnum, DeferredEnum):
     LisaStudent = (GIBuilder.lisaStudent, )
     Mona = (GIBuilder.mona, )
     MonaCN = (GIBuilder.monaCN, )
+    Neuvillette = (GIBuilder.neuvillette, )
+    NeuvilletteMelusent = (GIBuilder.neuvilletteMelusent, )
     Nilou = (GIBuilder.nilou, )
     NilouBreeze = (GIBuilder.nilouBreeze, )
     Ningguang = (GIBuilder.ningguang, )

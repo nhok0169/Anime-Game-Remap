@@ -284,10 +284,103 @@ namespace AGRemapCore {
     VGComponentBuffers VGComponentSplit::split(const std::string& component) const {
         for (std::size_t i = 0; i < specs_.size(); ++i) {
             if (specs_[i].name == component) {
-                return specs_[i].negativeIndex ? splitNegative(specs_[i]) : splitCut(i);
+                if (specs_[i].negativeIndex) {
+                    return splitNegative(specs_[i]);
+                }
+
+                VGComponentBuffers result = splitCut(i);
+                addMirroredLayer(result, specs_[i].mirroredIbs);
+                return result;
             }
         }
         throw std::invalid_argument("no component named '" + component + "'");
+    }
+
+
+    // The inner layer -- see VGComponentSpec::mirroredIbs. Each corner of a mirrored buffer's triangles is copied
+    // once (a vertex two mirrored buffers share gets one copy), and every triangle is followed by its copy wound
+    // the other way, under the same source id.
+    void VGComponentSplit::addMirroredLayer(VGComponentBuffers& result, const std::vector<std::size_t>& ibs) {
+        if (ibs.empty()) {
+            return;
+        }
+
+        result.mirrored.assign(result.vertices.size(), false);
+        std::unordered_map<unsigned long long, unsigned long long> copyOf;
+        const auto copy = [&](unsigned long long corner) {
+            auto found = copyOf.find(corner);
+            if (found != copyOf.end()) {
+                return found->second;
+            }
+
+            const unsigned long long made = static_cast<unsigned long long>(result.vertices.size());
+            result.vertices.push_back(result.vertices[static_cast<std::size_t>(corner)]);
+            result.weights.push_back(result.weights[static_cast<std::size_t>(corner)]);
+            result.indices.push_back(result.indices[static_cast<std::size_t>(corner)]);
+            if (!result.live.empty()) {
+                result.live.push_back(result.live[static_cast<std::size_t>(corner)]);
+            }
+            result.mirrored.push_back(true);
+            copyOf.emplace(corner, made);
+            ++result.stats.mirroredVertices;
+            return made;
+        };
+
+        std::vector<bool> done(result.ibs.size(), false);
+        for (std::size_t which : ibs) {
+            if (which >= result.ibs.size() || done[which]) {
+                continue;
+            }
+            done[which] = true;
+
+            Triangles layered;
+            std::vector<std::size_t> layeredIds;
+            layered.reserve(result.ibs[which].size() * 2);
+            layeredIds.reserve(result.ibs[which].size() * 2);
+            const std::vector<std::size_t>& ids = result.keptTriangleIds[which];
+            for (std::size_t t = 0; t < result.ibs[which].size(); ++t) {
+                const auto& triangle = result.ibs[which][t];
+                const std::size_t id = t < ids.size() ? ids[t] : 0;
+                layered.push_back(triangle);
+                layeredIds.push_back(id);
+
+                const unsigned long long a = copy(triangle[0]);
+                const unsigned long long b = copy(triangle[1]);
+                const unsigned long long c = copy(triangle[2]);
+                layered.push_back({a, c, b});
+                layeredIds.push_back(id);
+                ++result.stats.mirroredTriangles;
+            }
+
+            result.ibs[which] = std::move(layered);
+            result.keptTriangleIds[which] = std::move(layeredIds);
+            if (which < result.stats.trianglesKept.size()) {
+                result.stats.trianglesKept[which] = result.ibs[which].size();
+            }
+        }
+
+        result.stats.keptVertices = result.vertices.size();
+    }
+
+
+    ByteVec VGComponentSplit::mirrorPositionLine(const ByteVec& line, float offset) {
+        constexpr std::size_t NormalAt = 12;
+        if (line.size() < NormalAt + 3 * sizeof(float)) {
+            return line;
+        }
+
+        ByteVec out = line;
+        float position[3];
+        float normal[3];
+        std::memcpy(position, out.data(), sizeof(position));
+        std::memcpy(normal, out.data() + NormalAt, sizeof(normal));
+        for (std::size_t k = 0; k < 3; ++k) {
+            position[k] -= normal[k] * offset;
+            normal[k] = -normal[k];
+        }
+        std::memcpy(out.data(), position, sizeof(position));
+        std::memcpy(out.data() + NormalAt, normal, sizeof(normal));
+        return out;
     }
 
 
@@ -366,9 +459,26 @@ namespace AGRemapCore {
             }
         }
 
+        // A component with a claimShare takes a vertex only when that much of its weight is the
+        // component's own -- see VGComponentSpec::claimShare; a vertex nothing can claim falls back
+        // to the plain majority.
+        auto claims = [&](std::size_t c, std::size_t v) {
+            const double need = specs_[c].claimShare;
+            return need <= 0.0 || shares[c][v] >= need * totals_[v] - 1e-9;
+        };
         std::vector<long long> owner(n, -1);
         for (std::size_t v = 0; v < n; ++v) {
             double best = 0.0;
+            for (std::size_t c : fillColumns) {
+                if (shares[c][v] > best && claims(c, v)) {
+                    best = shares[c][v];
+                    owner[v] = static_cast<long long>(c);
+                }
+            }
+            if (owner[v] >= 0) {
+                continue;
+            }
+            best = 0.0;
             for (std::size_t c : fillColumns) {
                 if (shares[c][v] > best) {
                     best = shares[c][v];
@@ -409,11 +519,12 @@ namespace AGRemapCore {
         // Per index buffer: a triangle goes to the fill component most of its corners belong to,
         // ties broken by the corners' summed share (scaled by that buffer's largest sum)
         std::vector<Triangles> keptTriangles;
+        std::vector<std::vector<bool>> keepMask(ibs_.size());
+        std::vector<std::vector<bool>> drawnByCut(ibs_.size());
         for (std::size_t i = 0; i < ibs_.size(); ++i) {
             const Triangles& ib = ibs_[i];
-            Triangles kept;
-            std::vector<std::size_t> keptIds;
-            std::size_t dropped = 0;
+            keepMask[i].assign(ib.size(), false);
+            drawnByCut[i].assign(ib.size(), false);
 
             // float, not double: the summed share is a float32 sum in the numpy original, and the
             // tie-break it feeds has to round the same way
@@ -448,9 +559,68 @@ namespace AGRemapCore {
                         bestColumn = static_cast<long long>(c);
                     }
                 }
-                bool keep = bestColumn == static_cast<long long>(column) && bestScore > 0.0 && !excluded[i][t];
-                if (keep) {
-                    kept.push_back(ib[t]);
+                keepMask[i][t] = bestColumn == static_cast<long long>(column) && bestScore > 0.0 && !excluded[i][t];
+                drawnByCut[i][t] = bestScore > 0.0 && !excluded[i][t];
+            }
+        }
+
+        // The overlap band -- see VGComponentSpec::overlapRings: each ring adds every triangle another
+        // cut component draws that touches a vertex this component already draws. The rings are
+        // grown across every index buffer at once, since a seam can run between two objects.
+        const std::size_t rings = specs_[column].overlapRings;
+        if (rings > 0) {
+            std::vector<bool> near(n, false);
+            for (std::size_t i = 0; i < ibs_.size(); ++i) {
+                for (std::size_t t = 0; t < ibs_[i].size(); ++t) {
+                    if (keepMask[i][t]) {
+                        for (unsigned long long corner : ibs_[i][t]) {
+                            if (corner < n) {
+                                near[corner] = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (std::size_t ring = 0; ring < rings; ++ring) {
+                std::vector<std::pair<std::size_t, std::size_t>> added;
+                for (std::size_t i = 0; i < ibs_.size(); ++i) {
+                    for (std::size_t t = 0; t < ibs_[i].size(); ++t) {
+                        if (keepMask[i][t] || !drawnByCut[i][t]) {
+                            continue;
+                        }
+                        for (unsigned long long corner : ibs_[i][t]) {
+                            if (corner < n && near[corner]) {
+                                added.emplace_back(i, t);
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (added.empty()) {
+                    break;
+                }
+
+                // marked after the pass, so each pass is exactly one ring
+                for (const auto& [i, t] : added) {
+                    keepMask[i][t] = true;
+                    ++result.stats.overlapTriangles;
+                    for (unsigned long long corner : ibs_[i][t]) {
+                        if (corner < n) {
+                            near[corner] = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        for (std::size_t i = 0; i < ibs_.size(); ++i) {
+            Triangles kept;
+            std::vector<std::size_t> keptIds;
+            std::size_t dropped = 0;
+            for (std::size_t t = 0; t < ibs_[i].size(); ++t) {
+                if (keepMask[i][t]) {
+                    kept.push_back(ibs_[i][t]);
                     keptIds.push_back(t);
                 } else {
                     ++dropped;
@@ -482,10 +652,11 @@ namespace AGRemapCore {
         }
         result.stats.keptVertices = result.vertices.size();
 
-        // The blend in the component's bones: forward remap only, foreign weight dropped and the
-        // rest renormalised; a vertex a triangle dragged in with no bone here is skinned to the
-        // bone its triangle neighbours mostly use (fallback: the component's commonest bone)
-        Membership member = membership(specs_[column], false);
+        // The blend in the component's bones: forward remap (and the component's stand-ins, when it
+        // has any -- VGComponentSpec::secondary), foreign weight dropped and the rest renormalised; a
+        // vertex a triangle dragged in with no bone here is skinned to the bone its triangle
+        // neighbours mostly use (fallback: the component's commonest bone)
+        Membership member = membership(specs_[column], !specs_[column].secondary.empty());
         const std::size_t kept = result.vertices.size();
         result.weights.assign(kept, std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
         result.indices.assign(kept, std::array<long long, 4>{0, 0, 0, 0});
@@ -572,6 +743,60 @@ namespace AGRemapCore {
             for (std::size_t k = 0; k < 4; ++k) {
                 float w = static_cast<float>(result.weights[r][k]) / rowTotals[r];
                 result.weights[r][k] = static_cast<double>(w);
+            }
+        }
+
+        // Shared groups -- see VGComponentSpec::splitGroups. Over the final weights: each influence whose
+        // SOURCE group is shared becomes one per bone of the share, equal bones merged, the 4 largest kept.
+        const auto& splitGroups = specs_[column].splitGroups;
+        if (!splitGroups.empty()) {
+            for (std::size_t r = 0; r < kept; ++r) {
+                const std::size_t v = result.vertices[r];
+                bool touched = false;
+                std::vector<std::pair<long long, double>> influences;
+                const auto add = [&influences](long long bone, double weight) {
+                    for (auto& entry : influences) {
+                        if (entry.first == bone) {
+                            entry.second += weight;
+                            return;
+                        }
+                    }
+                    influences.emplace_back(bone, weight);
+                };
+
+                for (std::size_t k = 0; k < 4; ++k) {
+                    const double weight = result.weights[r][k];
+                    if (weight <= 0.0) {
+                        continue;
+                    }
+                    auto shared = member.inComponent[v][k] ? splitGroups.find(indices_[v][k]) : splitGroups.end();
+                    if (shared == splitGroups.end()) {
+                        add(result.indices[r][k], weight);
+                        continue;
+                    }
+                    touched = true;
+                    for (const auto& [bone, share] : shared->second) {
+                        add(bone, weight * share);
+                    }
+                }
+
+                if (!touched) {
+                    continue;
+                }
+
+                std::stable_sort(influences.begin(), influences.end(),
+                                 [](const auto& a, const auto& b) { return a.second > b.second; });
+                influences.resize(std::min<std::size_t>(influences.size(), 4));
+                double total = 0.0;
+                for (const auto& entry : influences) {
+                    total += entry.second;
+                }
+                for (std::size_t k = 0; k < 4; ++k) {
+                    const bool has = k < influences.size() && total > 0.0;
+                    result.indices[r][k] = has ? influences[k].first : 0;
+                    result.weights[r][k] = has ? static_cast<double>(static_cast<float>(influences[k].second / total)) : 0.0;
+                }
+                ++result.stats.splitVertices;
             }
         }
 

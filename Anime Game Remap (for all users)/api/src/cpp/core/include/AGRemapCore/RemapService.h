@@ -18,6 +18,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
@@ -921,6 +922,61 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Deletes the resources an undo of one ``.ini`` file reported, and records each in the
+             stats bucket its kind names :raw-html:`<br />` :raw-html:`<br />`
+
+             Shared by the source file's removal and every ``RemapFix`` copy's
+             (:cpp:func:`_removeRemapCopies`), which is the point: a copy that was undone without
+             its resources being deleted left every file only it named behind. A resource this
+             run has already FIXED is never deleted -- see the comment in the definition
+             @endrst
+             *
+             * @param removedResources What the removal reported, per kind of resource
+             * @param iniName The ``.ini`` file's name, for the log
+             */
+            void _deleteRemovedResources(std::unordered_map<std::string, std::vector<std::unique_ptr<IniResource>>>& removedResources,
+                                         const std::string& iniName);
+
+            /**
+             * @brief Whether this run has already produced 'path' or named it in a fixed ``.ini``
+             *
+             @rst
+             True when a ``.ini`` file fixed earlier in this run -- or one of its generated copies --
+             names the file on a ``filename =`` line (see :cpp:func:`_rememberReferences`), whatever
+             kind of file it is, or when some stats bucket recorded it as fixed. A file type no bucket
+             knows (a mod's own ``.foo``) is protected by the first; the buckets alone were not enough
+             even for the kinds they know, since the two halves name them differently -- a split's
+             index buffer is fixed as ``buf`` and removed as ``other`` (see the comment in
+             :cpp:func:`_deleteRemovedResources`). Compared after normalising the path lexically and,
+             on Windows, by case
+             @endrst
+             *
+             * @param path The resource's path
+             *
+             * @return Whether this run must keep the file
+             */
+            bool _producedThisRun(const std::string& path) const;
+
+            /**
+             * @brief
+             @rst
+             Records every file the just-fixed ``.ini`` file and its generated copies name on a
+             ``filename =`` line, resolved against the file's folder -- the set
+             :cpp:func:`_producedThisRun` protects for the rest of the run
+             @endrst
+             *
+             * @param iniPath The fixed ``.ini`` file's path
+             */
+            void _rememberReferences(const std::string& iniPath);
+
+            /**
+             * @brief Normalises a path for :cpp:func:`_producedThisRun`'s comparisons
+             */
+            static std::string _normalRunPath(const std::string& path);
+
+            /**
+             * @brief
+             @rst
              Forces one resource's texture writer to skip compression -- what
              #compressTextures actually *does*, by **not** doing it :raw-html:`<br />`
              :raw-html:`<br />`
@@ -966,6 +1022,9 @@ namespace AGRemapCore {
             //   through such a folder fixed forever, since the fix run DID reach it. _fix walks
             //   these beside the .ini file's own, and clears them for the next file.
             std::vector<std::string> removedResourceFolders_;
+
+            // Every file a .ini fixed in this run names, normalised -- see _rememberReferences.
+            std::unordered_set<std::string> referencedThisRun_;
 
             // What this run has already pulled off the network, so the same URL is fetched once
             //   and copied everywhere else. Lives here rather than on the FileDownload objects

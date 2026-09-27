@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_neuvillette_melusent_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::NeuvilletteMelusentParser</compoundname>
+    <includes refid="_neuvillette_melusent_parser_8h" local="no">NeuvilletteMelusentParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_neuvillette_melusent_parser_1ae6772ba800183ea09baedc435dbb062e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::NeuvilletteMelusentParser::NeuvilletteMelusentParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>NeuvilletteMelusentParser</name>
+        <qualifiedname>AGRemapCore::NeuvilletteMelusentParser::NeuvilletteMelusentParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/NeuvilletteMelusent/NeuvilletteMelusentParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_neuvillette_melusent_parser_1aeee5d5163964d19a8eb5984531093201" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::NeuvilletteMelusentParser::v6_3</definition>
+        <argsstring>()</argsstring>
+        <name>v6_3</name>
+        <qualifiedname>AGRemapCore::NeuvilletteMelusentParser::v6_3</qualifiedname>
+        <briefdescription>
+<para>The parser for a 6.3-era NeuvilletteMelusent <computeroutput>.ini</computeroutput> file <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ae5f0679a08dc5a7b76713f6bdcbf9bfb" kindref="member">IniParseBuilderFuncs::neuvilletteMelusent6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/NeuvilletteMelusent/NeuvilletteMelusentParser.h" line="40" column="45" bodyfile="src/data/IniParseData/NeuvilletteMelusent/NeuvilletteMelusentParser.cpp" bodystart="84" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+NeuvilletteMelusent&apos;s own ``.ini`` parsers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A skin of FOUR components -- an UNNAMED main mesh (component ``&quot;&quot;``: Head, Body, Dress), a ``Coat``, a
+``Bang`` and an ``Eye`` -- see :cpp:func:`makeGIMIComponentParser`. Pair this with
+:cpp:class:`NeuvilletteMelusentFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/NeuvilletteMelusent/NeuvilletteMelusentParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/NeuvilletteMelusent/NeuvilletteMelusentParser.h" bodystart="32" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_neuvillette_melusent_parser_1ae6772ba800183ea09baedc435dbb062e" prot="public" virt="non-virtual"><scope>AGRemapCore::NeuvilletteMelusentParser</scope><name>NeuvilletteMelusentParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_neuvillette_melusent_parser_1aeee5d5163964d19a8eb5984531093201" prot="public" virt="non-virtual"><scope>AGRemapCore::NeuvilletteMelusentParser</scope><name>v6_3</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -144,6 +144,8 @@ from .test_CppTransparency import CppTransparencyTest
 from .test_CppColourReplaceFilter import CppColourReplaceFilterTest
 from .test_CppTransparencyAdjustFilter import CppTransparencyAdjustFilterTest
 from .test_CppInvertAlphaFilter import CppInvertAlphaFilterTest
+from .test_CppMaterialBandRemapFilter import CppMaterialBandRemapFilterTest
+from .test_NeuvilletteTemplateOptions import NeuvilletteTemplateOptionsTest
 from .test_CppHueAdjust import CppHueAdjustTest
 from .test_CppPixelFilter import CppPixelFilterTest
 from .test_PixelFilter import PixelFilterTest
@@ -173,7 +175,7 @@ __all__ += ["BaseBufEditorTest", "BufEditorTest"]
 __all__ += ["TexEngineTest", "CppColourTest", "CppTexCacheTest", "CppTextureFileTest", "TextureFileTest"]
 __all__ += ["CppBaseTexEditorTest", "BaseTexEditorTest", "CppBaseTexFilterTest", "CppGammaFilterTest"]
 __all__ += ["CppBasePixelTransformTest", "CppCorrectGammaTest", "CppColourReplaceTest", "CppHighlightShadowTest", "CppInvertAlphaTest", "CppTempControlTest", "CppTintTransformTest", "CppTransparencyTest"]
-__all__ += ["CppColourReplaceFilterTest", "CppTransparencyAdjustFilterTest", "CppInvertAlphaFilterTest", "CppHueAdjustTest", "CppPixelFilterTest", "PixelFilterTest"]
+__all__ += ["CppColourReplaceFilterTest", "CppTransparencyAdjustFilterTest", "CppInvertAlphaFilterTest", "CppMaterialBandRemapFilterTest", "CppHueAdjustTest", "CppPixelFilterTest", "PixelFilterTest"]
 __all__ += ["CppTexEditorTest", "TexEditorTest", "CppTexCreatorTest", "TexCreatorTest"]
 __all__ += ["FileStatsTest", "CachedFileStatsTest", "RemapStatsTest", "FileDownloadTest"]
 __all__ += ["IniResourceTest", "IniFixResourceTest", "IniGroupedResourceTest", "RemapIniGroupedResourceTest"]
@@ -185,3 +187,4 @@ __all__ += ["StrategyOverridesTest"]
 __all__ += ["GIMICharBuildersTest"]
 __all__ += ["GIMIComponentBuildersTest"]
 __all__ += ["BaseIniFixerTest"]
+__all__ += ["NeuvilletteTemplateOptionsTest"]

@@ -659,6 +659,18 @@ CppInvertAlphaFilter
 
 :raw-html:`<br />`
 
+CppMaterialBandRemapFilter
+==========================
+
+.. attributetable:: FixRaidenBoss2.CppMaterialBandRemapFilter
+
+.. autoclass:: FixRaidenBoss2.CppMaterialBandRemapFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 CppPixelFilter
 ==============
 
@@ -1190,6 +1202,19 @@ InvertAlphaFilter
     :inherited-members:
     :members:
     :private-members:
+
+:raw-html:`<br />`
+
+MaterialBandRemapFilter
+=======================
+
+.. attributetable:: FixRaidenBoss2.MaterialBandRemapFilter
+
+.. autoclass:: FixRaidenBoss2.MaterialBandRemapFilter
+    :inherited-members:
+    :members:
+    :private-members:
+    :exclude-members: Band
 
 :raw-html:`<br />`
 

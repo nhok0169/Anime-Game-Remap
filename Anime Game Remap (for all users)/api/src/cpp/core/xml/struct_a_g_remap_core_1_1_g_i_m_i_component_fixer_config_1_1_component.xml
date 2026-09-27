@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="98" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="98" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="101" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="101" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1abc2e02f12cd1943aad220c26f9fbc09a" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -37,7 +37,7 @@ eg. ``YelanTranquilBody``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="108" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="108" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="111" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="111" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ad008bff7447c546064b38ebc309a3683" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -55,7 +55,7 @@ The target&apos;s draw slot the mod is drawn through -- the object name of the c
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="117" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="117" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="120" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="120" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a604b4ce3410b8e5e720a59d807bb8e89" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -79,7 +79,7 @@ whose rows are safe to file
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="132" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="132" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="135" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="135" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a80381192297836d8fd300ac00c1b856f" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
@@ -105,7 +105,35 @@ own ``.ini`` group already, so each can take its own slot. **Default**: empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="149" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="149" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="152" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a8034b8ab5857a7bb10c085d79ff1fa3d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::GIMIComponentFixerConfig::Component::slotIndices</definition>
+        <argsstring></argsstring>
+        <name>slotIndices</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::slotIndices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+EVERY draw slot of this TARGET component, by ``match_first_index`` -- eg. ``{&quot;0&quot;, &quot;46620&quot;,
+&quot;71025&quot;}`` -- or empty to declare none :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+What lets the fixer work out, per mod, which of the skin&apos;s slots nothing is drawn through:
+every slot here that no DRAWN source object is routed to (:cpp:member:`slotIndex` /
+:cpp:member:`objSlotIndices`), and every slot of a component the mod draws nothing onto at
+all, gets the TexFx guard :cpp:member:`GIMIComponentFixerConfig::unremappedSlots` writes --
+read off the result, where that field is a list somebody keeps by hand and goes stale the
+moment the routing changes (NeuvilletteMelusent, 2026-09-24: the dress moved from the Dress
+slot to the Body slot, the Dress slot was left unguarded, and a TexFx transparency request
+was spent on it -- the mod&apos;s see-through shirt vanished). Added to, never replacing, that
+field. **Default**: empty, the behaviour before this existed
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="171" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="171" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1acf7ef1b1d9d5108f03f885580d4d9d63" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -126,7 +154,217 @@ and every buffer is filtered to the vertices it uses). See :cpp:class:`VGCompone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="160" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="160" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="182" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a8a6e3aa1143a327fafd7b262e9c474dc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double AGRemapCore::GIMIComponentFixerConfig::Component::claimShare</definition>
+        <argsstring></argsstring>
+        <name>claimShare</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::claimShare</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+For a cut component: the least share of a vertex&apos;s weight on this component&apos;s groups for it
+to claim the vertex -- see :cpp:member:`VGComponentSpec::claimShare`. **Default**: ``0``,
+the plain majority
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="192" column="20" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab62936cc39c35b9e9c98fcca5697f0b5" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; long long, long long &gt;</type>
+        <definition>std::unordered_map&lt;long long, long long&gt; AGRemapCore::GIMIComponentFixerConfig::Component::standIns</definition>
+        <argsstring></argsstring>
+        <name>standIns</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::standIns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+For a cut component: the source groups this component does NOT own, each to the bone of
+this component that stands in for it -- see :cpp:member:`VGComponentSpec::secondary`. A
+group the component&apos;s own row already maps is ignored here. **Default**: empty, a foreign
+weight is dropped
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="203" column="32" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab511611368c2e834b9a778be9c94c531" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::GIMIComponentFixerConfig::Component::overlapRings</definition>
+        <argsstring></argsstring>
+        <name>overlapRings</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::overlapRings</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+For a cut component: how many rings of its neighbours&apos; triangles it draws as well, so a seam
+that opens when the skin poses is covered -- see :cpp:member:`VGComponentSpec::overlapRings`.
+**Default**: ``0``, no overlap
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="213" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab57732e17c092f1bb8509403de678a16" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GIMIComponentFixerConfig::Component::dropTexFx</definition>
+        <argsstring></argsstring>
+        <name>dropTexFx</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::dropTexFx</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether this component&apos;s remapped sections drop the mod&apos;s `TexFx`_ transparency: its
+``ps-t69`` / ``ps-t70`` bindings and every ``run = CommandList\\TexFx\\...`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+TexFx replaces a draw&apos;s pixel shader with its own, recognised by shader pattern, and a
+skin&apos;s slot may use a shader it does not recognise. There the request is not served and the
+transparency texture bound at ``ps-t69`` blanks the part out entirely: Neuvillette8&apos;s sheer
+shirt vanished on NeuvilletteMelusent&apos;s main mesh while its triangles were skinned and drawn
+every frame (2026-09-25). Dropped, the part draws opaque -- a texture fault, where a missing
+part is a geometry one. **Default**: ``false``, the mod&apos;s TexFx lines are kept
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="229" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae74ea7c73f7a9013e807f81e3b9ce492" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float AGRemapCore::GIMIComponentFixerConfig::Component::texFxBlend</definition>
+        <argsstring></argsstring>
+        <name>texFxBlend</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::texFxBlend</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+For a component whose mod&apos;s TexFx transparency is dropped (:cpp:member:`dropTexFx`): the
+opacity its SEE-THROUGH draws are blended at instead, 0 to 1; ``0`` leaves them opaque
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Which draws are see-through is the mod&apos;s own answer: TexFx reads opacity off the RED
+channel of the mask it binds at ``ps-t69`` (0 opaque, 1-254 see-through, 255 not drawn),
+so each ``drawindexed = &lt;count&gt;, &lt;start&gt;, ...`` range of an object with a mask is judged by
+the mask under its triangles&apos; UVs, and a range most of whose vertices sit on 1-254 is drawn
+through a ``CustomShader`` of its own. That keeps the game&apos;s shaders and blends only the
+G-buffer&apos;s COLOUR target (``o1``), at this factor, leaving the normals and material ids of
+whatever is under it: blending all of them, or the colour alone at a low factor, washed a
+navy shirt out to white, since a mix is dominated by the brighter surface
+(Neuvillette8&apos;s shirt on NeuvilletteMelusent, measured in game 2026-09-26: ``0.9`` looks
+like the TexFx original, ``0.45`` nearly invisible). An ``auto`` draw, and a mod that
+branches, keep their draw as it is. **Default**: ``0``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="251" column="19" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7e3f2b2b4da50d78455aa4fbed594377" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::GIMIComponentFixerConfig::Component::mirroredObjs</definition>
+        <argsstring></argsstring>
+        <name>mirroredObjs</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::mirroredObjs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The SOURCE objects (lowercase, eg. ``&quot;dress&quot;``) whose triangles get a MIRRORED INNER LAYER
+on this component -- see :cpp:member:`VGComponentSpec::mirroredIbs` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+For single-layer cloth whose inside the target&apos;s shader does not shade as cloth:
+Neuvillette2&apos;s inner skirt came out flat light blue on NeuvilletteMelusent, the back faces
+of his dress lit like rim light, where his own shader shades them like the outside (a
+``cull = back`` test in game kept the light blue and dropped the navy, 2026-09-26). Each
+triangle gets a twin wound the other way, its normal turned round and moved
+:cpp:member:`mirrorOffset` inward, so the inside is a front face with a normal that faces
+the viewer. Doubles those objects&apos; triangles. Cut components only. **Default**: empty
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="269" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a19769206a6de54ee199134908fb567a5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float AGRemapCore::GIMIComponentFixerConfig::Component::mirrorOffset</definition>
+        <argsstring></argsstring>
+        <name>mirrorOffset</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::mirrorOffset</qualifiedname>
+        <initializer>= 0.005f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How far inside the surface the mirrored layer sits, in model units -- enough that the depth
+buffer always puts it BEHIND the surface seen from outside, small enough not to show as a gap
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The game&apos;s depth buffer cannot separate surfaces a millimetre apart at the outfit preview&apos;s
+distance: at ``0.001`` the twins, their normals turned round, fought the surface and every
+mirrored garment came out dark and speckled, &quot;metallic&quot; (Neuvillette1&apos;s white apron went
+navy; at ``0.0001`` entirely). ``0.004`` and ``0.008`` rendered as clean as with no layer at
+all (in game, 2026-09-26). **Default**: ``0.005`` (5 mm on a GI character)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="285" column="19" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a3f614ffd858d4f04d59be573d711f0a5" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; long long, std::vector&lt; std::pair&lt; long long, double &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;long long, std::vector&lt;std::pair&lt;long long, double&gt; &gt; &gt; AGRemapCore::GIMIComponentFixerConfig::Component::splitGroups</definition>
+        <argsstring></argsstring>
+        <name>splitGroups</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::splitGroups</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Source groups whose weight this component SHARES among several of its bones, as
+``{source group: [(bone, share), ...]}`` -- see :cpp:member:`VGComponentSpec::splitGroups`. For a
+cloth part the target has no counterpart for, between a bone it clips on and one it folds on.
+**Default**: empty
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="296" column="32" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a091fd718eea17cace6c632a0ae7b1a6c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_v_g_push_away" kindref="compound">VGPushAway</ref> &gt;</type>
+        <definition>std::vector&lt;VGPushAway&gt; AGRemapCore::GIMIComponentFixerConfig::Component::pushAway</definition>
+        <argsstring></argsstring>
+        <name>pushAway</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::pushAway</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Cloth pushed HORIZONTALLY away from a point on this component, by its weight share on the push&apos;s
+source groups -- see :cpp:member:`VGSplitGroupConfig::pushAway`. For cloth that clips a limb the
+target moves differently. Cut components only. **Default**: empty
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="306" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="306" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a41fc1fe25b79dd9a3fecf1691285ca04" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -151,7 +389,7 @@ since a plain slot has nowhere to put the normal map
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="175" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="175" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="321" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="321" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7760edfd8956346f514455eced0a1ad7" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -167,7 +405,7 @@ since a plain slot has nowhere to put the normal map
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="180" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="180" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="326" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="326" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae2c0b9f4af8f721add0e6a6b68f63603" prot="public" static="no" mutable="no">
         <type>std::size_t</type>
@@ -199,7 +437,70 @@ Yelan&apos;s Texcoord is already 20, the width all three of her slots read
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="202" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="202" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="348" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a5225f56ed78bb88097d27d42afa73840" prot="public" static="no" mutable="no">
+        <type>std::array&lt; float, 3 &gt;</type>
+        <definition>std::array&lt;float, 3&gt; AGRemapCore::GIMIComponentFixerConfig::Component::positionOffset</definition>
+        <argsstring></argsstring>
+        <name>positionOffset</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::positionOffset</qualifiedname>
+        <initializer>= {0.0f, 0.0f, 0.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A translation, in model space, added to every vertex position written for this
+component, or all zeros to write the mod&apos;s own positions :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A mod&apos;s vertices are in its SOURCE&apos;s bind pose, and a bone of the target moves them
+relative to the TARGET&apos;s bind pose. For most parts the difference is invisible -- hair or
+a coat a centimetre higher still reads as the same outfit -- but a part that has to sit
+inside something the GAME draws cannot be off at all. The eyes sit in the sockets of a
+face mesh neither mod carries: Neuvillette&apos;s eye mesh is the skin&apos;s to the vertex,
+1.24 cm higher, and on the skin&apos;s face that put his irises behind the upper lid, which
+read in game as white eyes with no pupils.
+
+Measure it rather than guess it: take the target component&apos;s own Position buffer and the
+component this fix writes for the character&apos;s identity mod, and difference them vertex
+for vertex (the ib and UVs of both must agree first). A translation is right only when
+the residual is small against the part&apos;s size; anything else is not a shift and needs
+its own edit.
+
+Only the position is moved: a translation leaves normals and tangents as they are
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="373" column="24" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="373" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a461e9236e3bbb7ff666a4c97014e772b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GIMIComponentFixerConfig::Component::offsetOnlyWithGameFace</definition>
+        <argsstring></argsstring>
+        <name>offsetOnlyWithGameFace</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::offsetOnlyWithGameFace</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether :cpp:member:`positionOffset` applies only while the mod draws with the GAME&apos;s face
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The offset fits the source&apos;s part into the face the GAME draws. A mod can hide that face --
+``handling = skip`` on the source&apos;s face diffuse hash -- and draw its own inside its head
+mesh, which reaches the target unshifted; its eyes are placed for THAT face, and shifting
+them drops them below it. Neuvillette2 (its own anime face and eyes) looked down on the
+skin until its eyes were left exactly where the mod put them.
+
+Read per ``.ini`` file: a file whose face-diffuse section skips the draw keeps the mod&apos;s own
+positions for this component. **Default**: ``false``, the offset always applies
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="391" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="391" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7268856272e0561b22ab78e94e2d7c93" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -230,7 +531,7 @@ Read these off the target&apos;s identity mod, never off a mod of it. Only a lit
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="224" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="224" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="413" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="413" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -238,18 +539,30 @@ Read these off the target&apos;s identity mod, never off a mod of it. Only a lit
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="94" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="94" bodyend="225"/>
+    <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="97" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="97" bodyend="414"/>
     <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a8a6e3aa1143a327fafd7b262e9c474dc" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>claimShare</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab57732e17c092f1bb8509403de678a16" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>dropTexFx</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7760edfd8956346f514455eced0a1ad7" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>face</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7e3f2b2b4da50d78455aa4fbed594377" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>mirroredObjs</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a19769206a6de54ee199134908fb567a5" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>mirrorOffset</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1abc2e02f12cd1943aad220c26f9fbc09a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>modTypeName</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ac3fbf31f6884ea7073a5eb5aeceb6313" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>name</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1acf7ef1b1d9d5108f03f885580d4d9d63" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>negativeIndex</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a41fc1fe25b79dd9a3fecf1691285ca04" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>normalMap</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a80381192297836d8fd300ac00c1b856f" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>objSlotIndices</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a461e9236e3bbb7ff666a4c97014e772b" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>offsetOnlyWithGameFace</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab511611368c2e834b9a778be9c94c531" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>overlapRings</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a5225f56ed78bb88097d27d42afa73840" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>positionOffset</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a091fd718eea17cace6c632a0ae7b1a6c" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>pushAway</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ad008bff7447c546064b38ebc309a3683" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>slot</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a604b4ce3410b8e5e720a59d807bb8e89" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>slotIndex</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a8034b8ab5857a7bb10c085d79ff1fa3d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>slotIndices</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7268856272e0561b22ab78e94e2d7c93" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>slotRegisters</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a3f614ffd858d4f04d59be573d711f0a5" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>splitGroups</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab62936cc39c35b9e9c98fcca5697f0b5" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>standIns</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae2c0b9f4af8f721add0e6a6b68f63603" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>texcoordStride</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae74ea7c73f7a9013e807f81e3b9ce492" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>texFxBlend</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

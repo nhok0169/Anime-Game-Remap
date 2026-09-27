@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="74" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="74" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="153" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="153" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a41bbf09e1ac9eac00385b6f8625e6c88" prot="public" static="no" mutable="no">
         <type>std::size_t</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="75" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="75" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="154" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="154" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_stats_1af9e7217315e56747b5f50d14f9d9049a" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::size_t &gt;</type>
@@ -46,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="76" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="76" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="155" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="155" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a2c3e7ca5bddd9b405808e20d7b8c14be" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::size_t &gt;</type>
@@ -60,7 +60,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="77" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="77" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="156" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="156" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a9d124a3a6b84f4ed5931995a9fa0d036" prot="public" static="no" mutable="no">
         <type>std::size_t</type>
@@ -75,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="78" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="78" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="157" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="157" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_stats_1ac7897eed97d64310d334d605ad7d7767" prot="public" static="no" mutable="no">
         <type>std::size_t</type>
@@ -90,7 +90,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="79" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="79" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="158" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_stats_1aad102887dc4faf07e225623e0220b73d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::VGComponentSplitStats::overlapTriangles</definition>
+        <argsstring></argsstring>
+        <name>overlapTriangles</name>
+        <qualifiedname>AGRemapCore::VGComponentSplitStats::overlapTriangles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="159" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="159" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a3a68e3236f770be1598c9c6a4df101b1" prot="public" static="no" mutable="no">
         <type>std::size_t</type>
@@ -105,7 +120,52 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="80" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="80" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="160" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a9804f304038b321b399985e331353fb6" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::VGComponentSplitStats::mirroredVertices</definition>
+        <argsstring></argsstring>
+        <name>mirroredVertices</name>
+        <qualifiedname>AGRemapCore::VGComponentSplitStats::mirroredVertices</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="161" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_stats_1afee27ea0d3e4732cc24d34d6cecf650e" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::VGComponentSplitStats::mirroredTriangles</definition>
+        <argsstring></argsstring>
+        <name>mirroredTriangles</name>
+        <qualifiedname>AGRemapCore::VGComponentSplitStats::mirroredTriangles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="162" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a43583c97fc41746306e1d2d6b5404bdb" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::VGComponentSplitStats::splitVertices</definition>
+        <argsstring></argsstring>
+        <name>splitVertices</name>
+        <qualifiedname>AGRemapCore::VGComponentSplitStats::splitVertices</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="163" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="163" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -113,12 +173,16 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="73" column="5" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="73" bodyend="81"/>
+    <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="152" column="5" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="152" bodyend="164"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a41bbf09e1ac9eac00385b6f8625e6c88" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>keptVertices</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1afee27ea0d3e4732cc24d34d6cecf650e" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>mirroredTriangles</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a9804f304038b321b399985e331353fb6" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>mirroredVertices</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1ac7897eed97d64310d334d605ad7d7767" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>neighbourSkinned</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1aad102887dc4faf07e225623e0220b73d" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>overlapTriangles</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a9d124a3a6b84f4ed5931995a9fa0d036" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>renormalised</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a3a68e3236f770be1598c9c6a4df101b1" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>sentinels</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a43583c97fc41746306e1d2d6b5404bdb" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>splitVertices</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a2c3e7ca5bddd9b405808e20d7b8c14be" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>trianglesDropped</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1af9e7217315e56747b5f50d14f9d9049a" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>trianglesKept</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a287fb32688c4220d2640b40c9b522487" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplitStats</scope><name>vertexCount</name></member>

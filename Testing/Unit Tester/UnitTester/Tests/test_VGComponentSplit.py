@@ -95,6 +95,141 @@ class VGComponentSplitTest(BaseUnitTest):
         self.assertEqual(len(body.keptTriangleIds[0]), body.stats.trianglesKept[0])
         self.assertEqual(len(bang.keptTriangleIds[0]), bang.stats.trianglesKept[0])
 
+    # ================ seams between two cut components ================
+
+    # A strip of four triangles over six vertices: 0-1 wholly on the Main's group 0, 4-5 wholly on the Coat's
+    # group 1, and 2-3 on both (0.4 Main, 0.6 Coat) -- one surface blended across two components, the shape
+    # of a cape weighted to the spine and to the coat chains at once
+    SeamWeights = [[1, 0, 0, 0], [1, 0, 0, 0], [0.4, 0.6, 0, 0], [0.4, 0.6, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0]]
+    SeamIndices = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0]]
+    SeamIbs = [[[0, 1, 2], [1, 2, 3], [2, 3, 4], [3, 4, 5]]]
+
+    def _seam(self, main = None, coat = None):
+        main = main or {}; coat = coat or {}
+        specs = [FRB.VGComponentSpec("", {0: 10}, **main), FRB.VGComponentSpec("Coat", {1: 20}, **coat)]
+        split = FRB.VGComponentSplit(self.SeamWeights, self.SeamIndices, self.SeamIbs, specs)
+        return split.split(""), split.split("Coat")
+
+    def test_seam_plainMajority(self):
+        # the mixed vertices are the Coat's (0.6 > 0.4), so the seam runs through the middle of the blend
+        main, coat = self._seam()
+        self.assertEqual(main.keptTriangleIds, [[0]])
+        self.assertEqual(coat.keptTriangleIds, [[1, 2, 3]])
+        self.assertEqual(main.stats.overlapTriangles, 0)
+
+    def test_seam_claimShare_movesTheSeamToCleanWeights(self):
+        # a Coat that claims only what is 90% its own leaves the mixed vertices to the Main
+        main, coat = self._seam(coat = {"claimShare": 0.9})
+        self.assertEqual(main.keptTriangleIds, [[0, 1, 2]])
+        self.assertEqual(coat.keptTriangleIds, [[3]])
+
+        # and a share nothing else can claim still falls back to the majority
+        spec = FRB.VGComponentSpec("Coat", {1: 20}, claimShare = 0.9)
+        self.assertAlmostEqual(spec.claimShare, 0.9)
+        self.assertEqual(FRB.VGComponentSpec("A", {1: 2}).claimShare, 0.0)
+
+    def test_seam_secondaryOnACut_keepsTheForeignWeightOnAStandIn(self):
+        # without a stand-in the Main drops vertex 2's Coat weight and renormalises the rest to 1
+        main, _ = self._seam()
+        row = main.vertices.index(2)
+        self.assertEqual(main.indices[row][0], 10)
+        self.assertAlmostEqual(main.weights[row][0], 1.0, places = 5)
+
+        # with one, the weight stays -- on the stand-in bone, unrenormalised -- and ownership does not move
+        main, coat = self._seam(main = {"secondary": {1: 99}})
+        row = main.vertices.index(2)
+        self.assertEqual(main.indices[row][:2], [10, 99])
+        self.assertEqual([round(w, 5) for w in main.weights[row][:2]], [0.4, 0.6])
+        self.assertEqual(main.keptTriangleIds, [[0]])
+        self.assertEqual(coat.keptTriangleIds, [[1, 2, 3]])
+
+    def test_seam_overlapRings_drawsTheNeighboursBandAsWell(self):
+        # one ring: every Coat triangle touching a vertex the Main draws; ownership is unchanged
+        main, coat = self._seam(main = {"overlapRings": 1})
+        self.assertEqual(main.keptTriangleIds, [[0, 1, 2]])
+        self.assertEqual(main.stats.overlapTriangles, 2)
+        self.assertEqual(main.stats.trianglesKept, [3])
+        self.assertEqual(coat.keptTriangleIds, [[1, 2, 3]])
+        self.assertEqual(coat.stats.overlapTriangles, 0)
+
+        # a second ring reaches one step further through the shared vertices
+        main, _ = self._seam(main = {"overlapRings": 2})
+        self.assertEqual(main.keptTriangleIds, [[0, 1, 2, 3]])
+        self.assertEqual(main.stats.overlapTriangles, 3)
+        self.assertEqual(sorted(main.vertices), [0, 1, 2, 3, 4, 5])
+
+    # ================ the mirrored inner layer ================
+
+    def _mirrorSpecs(self, mirrored):
+        specs = makeSpecs()
+        specs[0].mirroredIbs = mirrored
+        specs[1].mirroredIbs = mirrored
+        return specs
+
+    def test_mirroredIbs_eachTriangleFollowedByItsTwinWoundBack(self):
+        body = FRB.VGComponentSplit(Weights, Indices, Ibs, self._mirrorSpecs([0])).split("Body")
+
+        # every corner copied once, after the kept vertices, with its weights; a corner two triangles share
+        # (2) is one copy
+        self.assertEqual(body.vertices, [0, 1, 2, 3, 4, 0, 1, 2, 3, 4])
+        self.assertEqual(body.mirrored, [False] * 5 + [True] * 5)
+        self.assertEqual(body.indices[5:], body.indices[:5])
+        self.assertEqual(body.weights[5:], body.weights[:5])
+
+        # each triangle followed by its twin, wound the other way, under the SAME source id
+        self.assertEqual(body.ibs, [[[0, 1, 2], [5, 7, 6], [2, 3, 4], [7, 9, 8]], []])
+        self.assertEqual(body.keptTriangleIds, [[0, 0, 1, 1], []])
+        self.assertEqual((body.stats.mirroredVertices, body.stats.mirroredTriangles), (5, 2))
+        self.assertEqual(body.stats.keptVertices, 10)
+        self.assertEqual(body.stats.trianglesKept, [4, 0])
+
+    def test_mirroredIbs_emptyOrOnANegativeIndexComponent_changesNothing(self):
+        plain = self._split.split("Body")
+        self.assertEqual(plain.mirrored, [])
+        self.assertEqual(plain.stats.mirroredTriangles, 0)
+
+        # a negative-index component's vertex buffers are not rewritten, so it has nowhere to put copies
+        bang = FRB.VGComponentSplit(Weights, Indices, Ibs, self._mirrorSpecs([1])).split("Bang")
+        self.assertEqual(bang.ibs, self._split.split("Bang").ibs)
+        self.assertEqual(bang.mirrored, [])
+
+    def test_mirrorPositionLine_normalTurnedRoundAndMovedInside(self):
+        line = struct.pack("<3f3f4f", 1, 2, 3, 0, 0, 1, 1, 0, 0, 1)
+        out = struct.unpack("<3f3f4f", FRB.VGComponentSplit.mirrorPositionLine(line, 0.5))
+        self.assertEqual(out[:3], (1.0, 2.0, 2.5))
+        self.assertEqual(out[3:6], (0.0, 0.0, -1.0))
+        self.assertEqual(out[6:], (1.0, 0.0, 0.0, 1.0))
+
+        # too short to hold a normal: as it is
+        self.assertEqual(FRB.VGComponentSplit.mirrorPositionLine(b"\x01" * 12, 0.5), b"\x01" * 12)
+
+    # ================ shared groups ================
+
+    def test_splitGroups_aGroupsWeightSharedAmongBones(self):
+        specs = makeSpecs()
+        specs[0].splitGroups = {0: [(10, 0.25), (99, 0.75)]}
+        body = FRB.VGComponentSplit(Weights, Indices, Ibs, specs).split("Body")
+
+        # vertex 0 is wholly group 0: its weight is shared 0.75 / 0.25, the larger first
+        self.assertEqual(body.indices[0][:2], [99, 10])
+        self.assertEqual([round(w, 6) for w in body.weights[0][:2]], [0.75, 0.25])
+        # vertex 1 is half 0, half 1 (-> 11): 0.375 on 99, 0.5 on 11, 0.125 on 10
+        self.assertEqual(body.indices[1][:3], [11, 99, 10])
+        self.assertEqual([round(w, 6) for w in body.weights[1][:3]], [0.5, 0.375, 0.125])
+        # a vertex with no share untouched, and the count
+        self.assertEqual(body.indices[2], [11, 0, 0, 0])
+        self.assertEqual(body.stats.splitVertices, 2)
+
+    def test_splitGroups_keepsTheFourLargest(self):
+        specs = makeSpecs()
+        specs[0].splitGroups = {1: [(20, 0.4), (21, 0.3), (22, 0.2), (23, 0.1)]}
+        body = FRB.VGComponentSplit(Weights, Indices, Ibs, specs).split("Body")
+
+        # vertex 1: 0.5 on group 0 (-> 10) and 0.5 shared four ways -- five influences, the smallest dropped
+        self.assertEqual(body.indices[1], [10, 20, 21, 22])
+        self.assertAlmostEqual(sum(body.weights[1]), 1.0, places = 5)
+        self.assertEqual(self._split.split("Body").stats.splitVertices, 0)
+
     def test_unknownComponent_raises(self):
         with self.assertRaises(ValueError):
             self._split.split("Nope")
@@ -156,6 +291,42 @@ class VGSplitGroupResourceTest(BaseUnitTest):
         self.assertEqual(self._read("HeadFixed.ib"), FRB.VGComponentSplit.encodeIb(body.ibs[0]))
         self.assertEqual(self._read("PositionFixed.buf"), b"".join(struct.pack("<3f", i, i, i) for i in [0, 1, 2, 3, 4]))
         self.assertEqual(self._read("TexcoordFixed.buf"), bytes(sum(([4 * i, 128, 4 * i + 2, 4 * i + 3] for i in [0, 1, 2, 3, 4]), [])))
+
+    def test_fix_mirrorLineEdit_onlyOnTheMirroredLines(self):
+        group = self._makeGroup("Body")
+        specs = makeSpecs()
+        specs[0].mirroredIbs = [0]
+        group.specs = specs
+        group.mirrorLineEdit = lambda line: b"\xff" * len(line)
+        self.assertTrue(group.fix())
+
+        # the kept vertices' lines, then their copies' -- edited
+        kept = b"".join(struct.pack("<3f", i, i, i) for i in [0, 1, 2, 3, 4])
+        self.assertEqual(self._read("PositionFixed.buf"), kept + b"\xff" * len(kept))
+        body = FRB.VGComponentSplit(Weights, Indices, Ibs, specs).split("Body")
+        self.assertEqual(self._read("HeadFixed.ib"), FRB.VGComponentSplit.encodeIb(body.ibs[0]))
+
+    def test_fix_pushAway_byWeightShareHorizontally(self):
+        group = self._makeGroup("Body")
+        group.pushAway = [FRB.VGPushAway([0], [-1.0, 0.0, 0.0], 0.5)]
+        self.assertTrue(group.fix())
+
+        lines = [struct.unpack("<3f", self._read("PositionFixed.buf")[12 * i: 12 * i + 12]) for i in range(5)]
+        # vertex 0, at the origin and wholly on group 0: 0.5 along +x, away from (-1, _, 0)
+        self.assertEqual(lines[0], (0.5, 0.0, 0.0))
+        # vertex 1, (1, 1, 1) half on group 0: 0.25 along (2, 0, 1) / sqrt(5) -- height never moves
+        self.assertAlmostEqual(lines[1][0], 1.0 + 0.5 / 5 ** 0.5, places = 5)
+        self.assertEqual(lines[1][1], 1.0)
+        self.assertAlmostEqual(lines[1][2], 1.0 + 0.25 / 5 ** 0.5, places = 5)
+        # vertex 2 carries no group 0: untouched
+        self.assertEqual(lines[2], (2.0, 2.0, 2.0))
+
+    def test_fix_pushAway_sideLimitsToOneHalf(self):
+        group = self._makeGroup("Body")
+        group.pushAway = [FRB.VGPushAway([0], [-1.0, 0.0, 0.0], 0.5, -1)]
+        self.assertTrue(group.fix())
+        # every vertex here has x >= 0, so a push limited to x < 0 moves nothing
+        self.assertEqual(self._read("PositionFixed.buf"), b"".join(struct.pack("<3f", i, i, i) for i in [0, 1, 2, 3, 4]))
 
     def test_fix_negativeComponent_wholeVertexBuffersTrimmedIb(self):
         group = self._makeGroup("Bang")

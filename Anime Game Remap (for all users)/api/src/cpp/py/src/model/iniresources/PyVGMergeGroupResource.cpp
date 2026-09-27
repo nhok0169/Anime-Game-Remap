@@ -20,6 +20,7 @@
 
 #include "../../tools/PyRefFunction.h"
 #include "../buffers/PyVGComponentMerge.h"
+#include "PyVGSplitGroupResource.h"
 
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
@@ -64,7 +65,21 @@ texcoordPath: :class:`str`
         .def_readwrite("spec", &AGRC::VGMergeComponentFiles::spec, py::doc(":class:`VGMergeComponentSpec`: The component and its row"))
         .def_readwrite("blendPath", &AGRC::VGMergeComponentFiles::blendPath, py::doc(":class:`str`: This component's ``Blend.buf``"))
         .def_readwrite("positionPath", &AGRC::VGMergeComponentFiles::positionPath, py::doc(":class:`str`: This component's ``Position.buf``"))
-        .def_readwrite("texcoordPath", &AGRC::VGMergeComponentFiles::texcoordPath, py::doc(":class:`str`: This component's ``Texcoord.buf``"));
+        .def_readwrite("texcoordPath", &AGRC::VGMergeComponentFiles::texcoordPath, py::doc(":class:`str`: This component's ``Texcoord.buf``"))
+        .def_property("positionLineEdit",
+            [](const AGRC::VGMergeComponentFiles &self) -> py::object {
+                if (!self.positionLineEdit) {
+                    return py::none();
+                }
+                auto edit = self.positionLineEdit;
+                return py::cpp_function([edit](const py::bytes &line) {
+                    std::string s = line;
+                    AGRC::ByteVec out = edit(AGRC::ByteVec(s.begin(), s.end()));
+                    return py::bytes(reinterpret_cast<const char*>(out.data()), out.size());
+                });
+            },
+            [](AGRC::VGMergeComponentFiles &self, const py::object &edit) { self.positionLineEdit = lineEditFromPy(edit); },
+            py::doc("Optional[Callable[[:class:`bytes`], :class:`bytes`]]: Applied to every line of this component's ``Position.buf`` as it is read"));
 
     py::class_<AGRC::VGMergeObject>(m, "VGMergeObject", R"doc(
 One object of the TARGET, and the source objects drawn through it
@@ -159,5 +174,8 @@ isBuilt: :class:`bool`
         .def_property("objects", [](const PyVGMergeGroupResource &self) { return self.config.objects; },
                       [](PyVGMergeGroupResource &self, std::vector<AGRC::VGMergeObject> objects) {
                           self.config.objects = std::move(objects);
-                      }, py::doc("List[:class:`VGMergeObject`]: The target's drawn objects"));
+                      }, py::doc("List[:class:`VGMergeObject`]: The target's drawn objects"))
+        .def_property("texcoordStride", [](const PyVGMergeGroupResource &self) { return self.config.texcoordStride; },
+                      [](PyVGMergeGroupResource &self, std::size_t stride) { self.config.texcoordStride = stride; },
+                      py::doc(":class:`int`: The TARGET's texcoord stride, the floor of the merged buffer's. **Default**: ``0``, the widest component's"));
 }

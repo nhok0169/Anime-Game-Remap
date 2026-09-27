@@ -42,7 +42,7 @@ AGRC::VGSplitGroupConfig::LineEdit lineEditFromPy(const py::object &edit) {
 PyVGSplitGroupResource::PyVGSplitGroupResource(std::string name, py::dict resources, AGRC::VGSplitGroupConfig config,
                                                std::function<bool(AGRC::IniGroupedResource&)> fixFunc, bool isBuilt):
     PyIniGroupedResource(std::move(name), std::move(resources), std::move(fixFunc), isBuilt),
-    config(std::move(config)), texcoordLineEditObj(py::none()), positionLineEditObj(py::none()) {}
+    config(std::move(config)), texcoordLineEditObj(py::none()), positionLineEditObj(py::none()), mirrorLineEditObj(py::none()) {}
 
 
 bool PyVGSplitGroupResource::_fix() {
@@ -51,6 +51,19 @@ bool PyVGSplitGroupResource::_fix() {
 
 
 void initCppVGSplitGroupResource(pybind11::module_ &m) {
+    py::class_<AGRC::VGPushAway>(m, "VGPushAway", R"doc(
+A push of cloth HORIZONTALLY away from a point: every vertex on :attr:`groups` moves by :attr:`distance` times its
+weight share on them, away from :attr:`from_`'s (x, z)
+    )doc")
+        .def(py::init([](std::vector<long long> groups, std::array<float, 3> from, float distance, int side) {
+            return AGRC::VGPushAway{std::move(groups), from, distance, side};
+        }), py::arg("groups") = std::vector<long long>{}, py::arg("from_") = std::array<float, 3>{0.0f, 0.0f, 0.0f},
+            py::arg("distance") = 0.0f, py::arg("side") = 0)
+        .def_readwrite("groups", &AGRC::VGPushAway::groups, py::doc("List[:class:`int`]: The SOURCE vertex groups whose vertices are pushed"))
+        .def_readwrite("from_", &AGRC::VGPushAway::from, py::doc("List[:class:`float`]: The point pushed away from; only its (x, z) counts"))
+        .def_readwrite("distance", &AGRC::VGPushAway::distance, py::doc(":class:`float`: How far a vertex wholly on :attr:`groups` moves"))
+        .def_readwrite("side", &AGRC::VGPushAway::side, py::doc(":class:`int`: Only vertices with x > 0 (``1``), x < 0 (``-1``), or both (``0``)"));
+
     py::class_<PyVGSplitGroupResource, PyIniGroupedResource, AGRC::RemapIniResourceMixin, py::smart_holder>(m, "VGSplitGroupResource", R"doc(
 This class inherits from :class:`IniGroupedResource` and :class:`RemapIniResourceMixin`
 
@@ -153,5 +166,13 @@ isBuilt: :class:`bool`
                       [](PyVGSplitGroupResource &self, const py::object &edit) {
                           self.positionLineEditObj = edit;
                           self.config.positionLineEdit = lineEditFromPy(edit);
-                      }, py::doc("Optional[Callable[[:class:`bytes`], :class:`bytes`]]: Applied to every line of the ``Position.buf``"));
+                      }, py::doc("Optional[Callable[[:class:`bytes`], :class:`bytes`]]: Applied to every line of the ``Position.buf``"))
+        .def_property("pushAway", [](const PyVGSplitGroupResource &self) { return self.config.pushAway; },
+                      [](PyVGSplitGroupResource &self, std::vector<AGRC::VGPushAway> pushes) { self.config.pushAway = std::move(pushes); },
+                      py::doc("List[:class:`VGPushAway`]: Pushes applied to the written ``Position.buf`` -- see :class:`VGPushAway`"))
+        .def_property("mirrorLineEdit", [](const PyVGSplitGroupResource &self) { return self.mirrorLineEditObj; },
+                      [](PyVGSplitGroupResource &self, const py::object &edit) {
+                          self.mirrorLineEditObj = edit;
+                          self.config.mirrorLineEdit = lineEditFromPy(edit);
+                      }, py::doc("Optional[Callable[[:class:`bytes`], :class:`bytes`]]: Applied, after filtering, to the ``Position.buf`` lines of the vertices the split mirrored -- see :meth:`VGComponentSplit.mirrorPositionLine`"));
 }

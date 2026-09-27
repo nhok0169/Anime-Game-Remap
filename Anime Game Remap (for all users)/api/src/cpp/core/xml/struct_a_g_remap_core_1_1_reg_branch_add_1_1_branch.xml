@@ -60,16 +60,40 @@ second one of those would not correct the first, it would draw twice
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="153" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="153" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a7dd5160651d0278af43a46ba25d66715" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; K &gt;</type>
+        <definition>std::vector&lt;K&gt; AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::Branch::removals</definition>
+        <argsstring></argsstring>
+        <name>removals</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::Branch::removals</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Keys REMOVED from the branch&apos;s part, before any replacement or addition
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+For a binding a branch must stop making: a merged master&apos;s variant that leaves one
+generated ``.ini`` file nothing to draw still carries the mod&apos;s own ``vb0 =`` and
+``vb1 =`` there, and a file that binds the SOURCE&apos;s raw buffers on the target&apos;s hash
+overrides what the file that does draw bound
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="167" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
 <para>What belongs in one branch, and which branch it is. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="126" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="126" bodyend="154"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="126" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="126" bodyend="168"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a33097cdd4ab3308b783c6382bb73e12c" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd::Branch</scope><name>additions</name></member>
       <member refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a8452f7399163a6a7087547bd619386b2" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd::Branch</scope><name>key</name></member>
+      <member refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a7dd5160651d0278af43a46ba25d66715" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd::Branch</scope><name>removals</name></member>
       <member refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch_1a2ef15b8204600eba07d77833944804db" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd::Branch</scope><name>replacements</name></member>
     </listofallmembers>
   </compounddef>

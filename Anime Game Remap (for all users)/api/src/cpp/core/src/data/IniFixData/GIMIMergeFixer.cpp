@@ -12,11 +12,14 @@
 #include "AGRemapCore/data/IniFixData/GIMIMergeFixer.h"
 
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
+#include "AGRemapCore/data/IniFixData/SideMeshes.h"
 #include "AGRemapCore/data/IniFixData/TexRegLayout.h"
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
 #include "AGRemapCore/data/IniParseData/GIMIComponentParser.h"
 
 #include <algorithm>
+#include <array>
+#include <cstring>
 #include <map>
 #include <filesystem>
 #include <memory>
@@ -216,6 +219,7 @@ namespace AGRemapCore {
 
         const std::string FormatKey = "format";
         const std::string R32Format = "DXGI_FORMAT_R32_UINT";
+        const std::string StrideKey = "stride";
 
         // 'extras' are forced onto the generated resource section -- see ResEditConfig::extraKVPs.
         BaseResEdit<>::ResEditConfig makeResEditConfig(std::vector<std::pair<std::string, std::string>> extras = {}) {
@@ -282,6 +286,11 @@ namespace AGRemapCore {
             // for itself has expressed what it wants drawn, and `drawindexed = auto` on top of that
             // always draws something twice -- see where fillAdapter_ is applied.
             bool draws = false;
+
+            // Whether the slot's texture bindings were read by their NAMES -- see readFiles, where a
+            // name is believed only when the section makes no fix call of its own and every name is
+            // one distinct role.
+            bool byName = false;
 
             // Every draw the slot issues, with the condition it issues it under. A merged master
             // draws in SOME of its branches and not others -- this mod issues none in four of its
@@ -404,6 +413,52 @@ namespace AGRemapCore {
 
                     // Nothing hidden: source and target are different models with different hashes.
                     this->copyPreamble = config_.copyPreamble;
+
+                    buildAppendedSections();
+                }
+
+                // The fix's own sections, which belong to no copied object: the mod's side-mesh hides on the
+                // target's hashes (GIMIMergeFixerConfig::sideMeshes) and the TexFx guards for the target objects
+                // nothing is drawn through (GIMIMergeFixerConfig::texFxGuardUnreached). One fixer per file here,
+                // so no owner question -- and the mod's own .ini only.
+                void buildAppendedSections() {
+                    IniFile* iniFile = ctx_.getIniFile();
+                    Hashes* hashes = ctx_.modTypeHashes();
+                    Indices* indices = ctx_.modTypeIndices();
+                    if (iniFile == nullptr || hashes == nullptr) {
+                        return;
+                    }
+
+                    const std::optional<Version> toVersion = iniFile->toVersion;
+                    std::string text = SideMeshes::build(iniFile->getFileTxt(), *hashes, ctx_.modTypeName().value_or(""), ctx_.version(),
+                                                         config_.sideMeshes, toModName_, toVersion);
+
+                    const bool callsTexFx = StringTools::containsIgnoreCase(iniFile->getFileTxt(), IniKeywords::TexFxFolder + "\\");
+                    if (config_.texFxGuardUnreached && callsTexFx && indices != nullptr) {
+                        const std::optional<std::string> ib = hashes->get({toModName_, IbHashKey}, toVersion, false);
+                        std::string guards;
+                        for (const std::string& obj : config_.targetObjs) {
+                            if (!ib.has_value() || ib->empty() || std::find(drawn_.begin(), drawn_.end(), obj) != drawn_.end()) {
+                                continue;
+                            }
+                            const std::optional<std::string> index = indices->get({toModName_, "", obj}, toVersion, false);
+                            if (!index.has_value()) {
+                                continue;
+                            }
+                            guards += "\n[TextureOverride" + toModName_ + obj + IniKeywords::Remap + "TexFxGuard]\n"
+                                      "hash = " + *ib + "\n"
+                                      "match_first_index = " + *index + "\n"
+                                      "$\\TexFx\\use_default_shader = -1\n";
+                        }
+                        if (!guards.empty()) {
+                            text += (text.empty() ? "" : "\n") + std::string(
+                                "; The target's objects nothing of the mod is drawn through. They withdraw a TexFx request\n"
+                                "; the mod's draw made, which that object's own outline draw would otherwise serve by\n"
+                                "; drawing its whole ib over the merged buffers.\n") + guards;
+                        }
+                    }
+
+                    this->appendedSections = text;
                 }
 
             protected:
@@ -621,6 +676,12 @@ namespace AGRemapCore {
                                 // The VertexLimitRaise -- see ComponentFiles::hasOtherSection.
                                 files.hasOtherSection = true;
                             } else if (hashType == FaceDiffuseHashKey) {
+                                // Whether the mod hides the GAME's face -- see Component::offsetOnlyWithGameFace.
+                                const std::optional<std::string> handling = firstVal(tpl, IniKeywords::Handling);
+                                if (handling.has_value() && StringTools::equalsIgnoreCase(StringTools::strip(*handling), "skip")) {
+                                    skipsGameFace_ = true;
+                                }
+
                                 if (faceFile_.empty()) {
                                     faceFile_ = fileOf(resourceOf(branches_.firstValThroughRun(templates, sectionName, DiffuseReg)));
                                 }
@@ -695,8 +756,7 @@ namespace AGRemapCore {
 
                                     // Measured first, config second -- see Slot::indexCount. Only
                                     // a target object several slots land on ever reads this.
-                                    slotFiles.indexCount =
-                                        static_cast<long long>(fileSize(slotFiles.ib) / IbIndexStride);
+                                    slotFiles.indexCount = indexCountOf(slotFiles.ib);
                                     if (slotFiles.indexCount == 0) {
                                         slotFiles.indexCount = slot.indexCount;
                                     }
@@ -720,7 +780,24 @@ namespace AGRemapCore {
                                     // rewrote its DIFFUSE and named the result `...LightMapRemapTex`.
                                     // See GIMIMergeFixerConfig::texRegsByName. A role the mod does
                                     // not name keeps whatever the positional reading gave it.
+                                    //
+                                    // ONLY WHERE THE NAMES CAN BE BELIEVED (2026-09-26): a name is the
+                                    // author's label, and one Neuvillette mod labels its textures one
+                                    // position off (its normal map "Diffuse", its diffuse "LightMap", its
+                                    // light map "Shadow") and drew flat yellow read by name. So the names are
+                                    // believed only when every texture bound at ps-t0..2 names exactly one
+                                    // role, no two the same -- "Shadow" names none.
+                                    //
+                                    // NOT the component template's second condition, that the section makes
+                                    // no fix-library call of its own: a skin mod on GIMI's newer API
+                                    // (`run = CommandList\GIMI\SetTextures`) is normalized into bindings PLUS
+                                    // an ORFix call its author never wrote, and its names are right. With the
+                                    // condition, every Citlali skin mod lost its names and the band edit
+                                    // rewrote the DIFFUSE (caught by the reverse-direction regression).
                                     if (config_.texRegsByName) {
+                                        bool trusted = true;
+
+                                        std::string byNameNormal, byNameLight, byNameDiffuse;
                                         for (const std::string& reg : {NormalMapReg, NormalShiftedDiffuseReg,
                                                                        NormalShiftedLightMapReg}) {
                                             const std::string res(resourceOf(branches_.firstValThroughRun(
@@ -729,12 +806,25 @@ namespace AGRemapCore {
                                                 continue;
                                             }
 
-                                            if (RegValChecks::isNormalMap(res)) {
-                                                slotFiles.normalMapRes = res;
-                                            } else if (RegValChecks::isLightMap(res)) {
-                                                slotFiles.lightMapRes = res;
-                                            } else if (RegValChecks::isDiffuse(res)) {
-                                                slotFiles.diffuseRes = res;
+                                            std::string* role = RegValChecks::isNormalMap(res) ? &byNameNormal
+                                                              : RegValChecks::isLightMap(res) ? &byNameLight
+                                                              : RegValChecks::isDiffuse(res) ? &byNameDiffuse : nullptr;
+                                            trusted = trusted && role != nullptr && role->empty();
+                                            if (role != nullptr) {
+                                                *role = res;
+                                            }
+                                        }
+
+                                        if (trusted) {
+                                            slotFiles.byName = true;
+                                            if (!byNameNormal.empty()) {
+                                                slotFiles.normalMapRes = byNameNormal;
+                                            }
+                                            if (!byNameLight.empty()) {
+                                                slotFiles.lightMapRes = byNameLight;
+                                            }
+                                            if (!byNameDiffuse.empty()) {
+                                                slotFiles.diffuseRes = byNameDiffuse;
                                             }
                                         }
                                     }
@@ -933,8 +1023,22 @@ namespace AGRemapCore {
                     return component + ";" + slot;
                 }
 
+                // How many indices a source index buffer holds, at its DECLARED width (ibBytesPerIndex_,
+                // 4 where the .ini says nothing). Bytes / 4 halved every count of a 16-bit mod.
+                long long indexCountOf(const std::string& path) {
+                    auto width = ibBytesPerIndex_.find(path);
+                    const std::size_t bytes = (width == ibBytesPerIndex_.end() || width->second == 0) ? IbIndexStride : width->second;
+                    return static_cast<long long>(fileSize(path) / bytes);
+                }
+
                 std::string componentModTypeName(const std::string& component) const {
-                    // The skin's own name plus the component, which is how ModTypeId names them.
+                    // The component's own name where the config gives one (an unnamed main mesh), else the
+                    // skin's own name plus the component, which is how ModTypeId names them.
+                    for (const GIMIMergeFixerConfig::Component& entry : config_.components) {
+                        if (entry.name == component && !entry.modTypeName.empty()) {
+                            return entry.modTypeName;
+                        }
+                    }
                     return ctx_.modTypeName().value_or("") + component;
                 }
 
@@ -1190,6 +1294,11 @@ namespace AGRemapCore {
                     std::vector<ObjGroupEdit::IniEdits> iniEdits(1);
                     for (const auto& component : files_) {
                         for (const auto& slot : component.second.slots) {
+                            // Only a slot whose names were believed -- see SlotFiles::byName.
+                            if (!slot.second.byName) {
+                                continue;
+                            }
+
                             const ModObj objKey(component.first, slot.first);
 
                             std::vector<ObjGroupEdit::PartEdit*> edits;
@@ -1333,6 +1442,7 @@ namespace AGRemapCore {
 
                     VGMergeGroupConfig config;
                     config.ibBytesPerIndex = ibBytesPerIndex_;
+                    config.texcoordStride = config_.texcoordStride;
 
                     for (const std::string& component : mergeOrder_) {
                         const ComponentFiles* files = componentFiles(component);
@@ -1347,6 +1457,25 @@ namespace AGRemapCore {
                         entry.blendPath = branches_.pick(files->blends, files->blend, local);
                         entry.positionPath = branches_.pick(files->positions, files->position, local);
                         entry.texcoordPath = branches_.pick(files->texcoords, files->texcoord, local);
+
+                        // A component moved to the target's height -- see Component::positionOffset.
+                        for (const GIMIMergeFixerConfig::Component& c : config_.components) {
+                            if (c.name != component || c.positionOffset == std::array<float, 3>{0.0f, 0.0f, 0.0f}
+                                    || (c.offsetOnlyWithGameFace && skipsGameFace_)) {
+                                continue;
+                            }
+                            const std::array<float, 3> offset = c.positionOffset;
+                            entry.positionLineEdit = [offset](const ByteVec& line) {
+                                ByteVec out = line;
+                                for (std::size_t k = 0; k < 3 && (k + 1) * sizeof(float) <= out.size(); ++k) {
+                                    float value;
+                                    std::memcpy(&value, out.data() + k * sizeof(float), sizeof(float));
+                                    value += offset[k];
+                                    std::memcpy(out.data() + k * sizeof(float), &value, sizeof(float));
+                                }
+                                return out;
+                            };
+                        }
                         config.components.push_back(std::move(entry));
                     }
 
@@ -1487,7 +1616,17 @@ namespace AGRemapCore {
                         element[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(element[0])));
                         const GraphId resObj(0, "", "Merged" + element);
 
-                        auto replace = std::make_unique<BufReplace<>>(resObj, makeResEditConfig(), kind.first, std::nullopt);
+                        // The texcoord at the TARGET's width, where the config gives one: the copied
+                        // section's `stride` came from the mod -- see GIMIMergeFixerConfig::texcoordStride.
+                        std::vector<std::pair<std::string, std::string>> extras;
+                        if (kind.first == "texcoord" && config_.texcoordStride != 0) {
+                            extras.emplace_back(StrideKey, std::to_string(config_.texcoordStride));
+                        }
+
+                        // One fixed file per section -- see ResEditConfig::filePerSection.
+                        BaseResEdit<>::ResEditConfig resConfig = makeResEditConfig(std::move(extras));
+                        resConfig.filePerSection = true;
+                        auto replace = std::make_unique<BufReplace<>>(resObj, std::move(resConfig), kind.first, std::nullopt);
                         srcRegs[resObj] = {{kind.second.first, kind.second.second}};
                         resEdits[resObj] = {{MergeGroupType, replace.get()}};
                         bufReplaces_.push_back(std::move(replace));
@@ -1504,7 +1643,9 @@ namespace AGRemapCore {
                             extras.emplace_back(FormatKey, R32Format);
                         }
 
-                        auto replace = std::make_unique<BufReplace<>>(resObj, makeResEditConfig(std::move(extras)), "ib",
+                        BaseResEdit<>::ResEditConfig ibConfig = makeResEditConfig(std::move(extras));
+                        ibConfig.filePerSection = true;
+                        auto replace = std::make_unique<BufReplace<>>(resObj, std::move(ibConfig), "ib",
                                                                        std::optional<std::string>(obj));
                         srcRegs[resObj] = {{GraphId(0, "", obj), IniKeywords::Ib}};
                         resEdits[resObj] = {{MergeGroupType, replace.get()}};
@@ -1618,7 +1759,7 @@ namespace AGRemapCore {
                                     continue;
                                 }
 
-                                const long long count = static_cast<long long>(fileSize(path) / IbIndexStride);
+                                const long long count = indexCountOf(path);
                                 if (count <= 0) {
                                     // Guessing a count would address whatever happens to sit at that
                                     // offset -- and every member after it too, so the whole branch
@@ -2536,6 +2677,9 @@ namespace AGRemapCore {
                 std::unordered_map<std::string, bool> normalMap_;
                 std::vector<std::pair<std::string, std::string>> borrowed_;
                 std::string faceFile_;
+
+                // Whether the mod hides the game's face -- see Component::offsetOnlyWithGameFace.
+                bool skipsGameFace_ = false;
 
                 std::vector<std::string> mergeOrder_;
                 std::string ibDonor_;                // the component whose ib section becomes the target's skip

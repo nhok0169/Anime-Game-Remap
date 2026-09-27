@@ -481,6 +481,12 @@ namespace AGRemapCore {
     }
 
 
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
+    void GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::setDownloadAltRegs(const ModObj& modObj, const K& reg, std::vector<K> altRegs) {
+        config_.downloadAltRegs[modObj][reg] = std::move(altRegs);
+    }
+
+
     // Whether 'section' issues its first draw BEFORE it binds 'reg' -- a linear walk of the
     // section's own parts, which is what a mod of this shape writes. Always false without a
     // ParserConfig::drawKey, which is every caller but the component parser.
@@ -559,11 +565,32 @@ namespace AGRemapCore {
                         }
                     }
                 } else if (ctx_->downloadMode() != DownloadMode::Always) {
+                    // The registers that satisfy this download as well -- see ParserConfig::downloadAltRegs.
+                    std::vector<std::pair<K, std::unordered_map<std::string, bool>>> altCoverage;
+                    auto altObj = config_.downloadAltRegs.find(modObj);
+                    if (altObj != config_.downloadAltRegs.end()) {
+                        auto altRegs = altObj->second.find(reg);
+                        if (altRegs != altObj->second.end()) {
+                            for (const K& alt : altRegs->second) {
+                                altCoverage.emplace_back(alt, commandGraph->rootsAreFullyCovered(alt));
+                            }
+                        }
+                    }
+
                     for (const auto& coverEntry : commandGraph->rootsAreFullyCovered(reg)) {
                         Section* section = commandGraph->getSection(coverEntry.first);
 
                         // ORDERED, when the caller says which KVP draws -- see ParserConfig::drawKey.
-                        if (!coverEntry.second || drawsBeforeBound(section, reg)) {
+                        bool covered = coverEntry.second && !drawsBeforeBound(section, reg);
+                        for (const auto& [alt, coverage] : altCoverage) {
+                            if (covered) {
+                                break;
+                            }
+                            auto altEntry = coverage.find(coverEntry.first);
+                            covered = altEntry != coverage.end() && altEntry->second && !drawsBeforeBound(section, alt);
+                        }
+
+                        if (!covered) {
                             needed = true;
                             targets.sections.insert(section);
                         }

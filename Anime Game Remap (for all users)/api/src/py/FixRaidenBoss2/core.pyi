@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniNamingTools', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniNamingTools', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppMaterialBandRemapFilter', 'CppListTools', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -4414,6 +4414,221 @@ class CppListTools:
                                 List[T]
                                     The new list with elements specified by indices removed
         """
+class CppMaterialBandRemapFilter(CppBaseTexFilter):
+    """
+    
+    This class inherits from :class:`CppBaseTexFilter`
+    
+    Moves a light map's MATERIAL BANDS from one skin's legend onto another's, optionally conditioned on
+    the DIFFUSE underneath each pixel. See :cpp:class:`AGRemapCore::MaterialBandRemapFilter` for why the
+    legend differs per skin and per object, and why a move off band ``0`` wants a gate
+    
+    .. warning::
+        Every decision is made from the **ORIGINAL** alpha, never from a value an earlier band wrote:
+        the moves are typically a *permutation*, and applied in sequence a permutation chases itself
+    
+    A diffuse that is absent or cannot be read makes every gate PASS
+    
+    :raw-html:`<br />`
+    
+    .. container:: operations
+    
+        **Supported Operations:**
+    
+        .. describe:: x(texFile)
+    
+            Calls :meth:`CppBaseTexFilter.transform` for the filter, ``x``
+    
+    :raw-html:`<br />`
+    
+    Examples
+    --------
+    
+    The per-object light map edit a fixer config's ``lightMapEdit`` wants, from one table:
+    
+    .. code-block:: python
+        :linenos:
+    
+        import FixRaidenBoss2 as FRB
+    
+        Band = FRB.CppMaterialBandRemapFilter.Band
+        bands = [Band(76, 77, 178),                  # gold onto the target's gold
+                 Band(115, 127, 255, FRB.CppMaterialBandRemapFilter.skinColoured)]
+    
+        config.lightMapEdit = lambda diffusePath: FRB.CppMaterialBandRemapFilter(bands, diffusePath)
+        
+    """
+    class Band:
+        """
+        
+        One move: a source band (or an inclusive range of bands) to the alpha to write, with an optional test
+        on the diffuse under the pixel
+            
+        """
+        @typing.overload
+        def __init__(self, band: typing.SupportsInt | typing.SupportsIndex, to: typing.SupportsInt | typing.SupportsIndex, when: collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], bool] | None = None, negate: bool = False) -> None:
+            """
+            Constructs a move off a single band
+            
+            Parameters
+            ----------
+            band: :class:`int`
+                The source band
+            
+            to: :class:`int`
+                The alpha to write
+            
+            when: Optional[Callable[[:class:`int`, :class:`int`, :class:`int`], :class:`bool`]]
+                The test the diffuse's red, green and blue under the pixel must pass. ``None`` moves unconditionally.
+                Pass :meth:`CppMaterialBandRemapFilter.skinColoured` or :meth:`CppMaterialBandRemapFilter.whiteFurColoured`
+                to keep the test in C++ -- a Python function here is called once per pixel :raw-html:`<br />` :raw-html:`<br />`
+            
+                **Default**: ``None``
+            
+            negate: :class:`bool`
+                Whether ``when`` is inverted -- the move happens where the diffuse does **not** pass it :raw-html:`<br />` :raw-html:`<br />`
+            
+                **Default**: ``False``
+            """
+        @typing.overload
+        def __init__(self, low: typing.SupportsInt | typing.SupportsIndex, high: typing.SupportsInt | typing.SupportsIndex, to: typing.SupportsInt | typing.SupportsIndex, when: collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], bool] | None = None, negate: bool = False) -> None:
+            """
+            Constructs a move off a range of bands
+            
+            Parameters
+            ----------
+            low: :class:`int`
+                The lowest alpha of the source band, inclusive
+            
+            high: :class:`int`
+                The highest alpha of the source band, inclusive
+            
+            to: :class:`int`
+                The alpha to write
+            
+            when: Optional[Callable[[:class:`int`, :class:`int`, :class:`int`], :class:`bool`]]
+                As for the single-band constructor :raw-html:`<br />` :raw-html:`<br />`
+            
+                **Default**: ``None``
+            
+            negate: :class:`bool`
+                Whether ``when`` is inverted :raw-html:`<br />` :raw-html:`<br />`
+            
+                **Default**: ``False``
+            """
+        @property
+        def hasTest(self) -> bool:
+            """
+            :class:`bool`: Whether the move is conditioned on the diffuse
+            """
+        @property
+        def high(self) -> int:
+            """
+            :class:`int`: The highest alpha of the source band, inclusive
+            """
+        @high.setter
+        def high(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def low(self) -> int:
+            """
+            :class:`int`: The lowest alpha of the source band, inclusive
+            """
+        @low.setter
+        def low(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def negate(self) -> bool:
+            """
+            :class:`bool`: Whether the diffuse test is inverted
+            """
+        @negate.setter
+        def negate(self, arg0: bool) -> None:
+            ...
+        @property
+        def to(self) -> int:
+            """
+            :class:`int`: The alpha to write
+            """
+        @to.setter
+        def to(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+    @staticmethod
+    def skinColoured(red: typing.SupportsInt | typing.SupportsIndex, green: typing.SupportsInt | typing.SupportsIndex, blue: typing.SupportsInt | typing.SupportsIndex) -> bool:
+        """
+        Whether a colour looks like SKIN -- warm, not too dark, red at least green at least blue, and separated
+        enough to not be a grey
+        
+        Parameters
+        ----------
+        red: :class:`int`
+            The red channel, 0-255
+        
+        green: :class:`int`
+            The green channel, 0-255
+        
+        blue: :class:`int`
+            The blue channel, 0-255
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the colour looks like skin
+        """
+    @staticmethod
+    def whiteFurColoured(red: typing.SupportsInt | typing.SupportsIndex, green: typing.SupportsInt | typing.SupportsIndex, blue: typing.SupportsInt | typing.SupportsIndex) -> bool:
+        """
+        Whether a colour looks like WHITE FUR -- bright, and close to grey
+        
+        Parameters
+        ----------
+        red: :class:`int`
+            The red channel, 0-255
+        
+        green: :class:`int`
+            The green channel, 0-255
+        
+        blue: :class:`int`
+            The blue channel, 0-255
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the colour looks like white fur
+        """
+    def __init__(self, bands: collections.abc.Sequence[CppMaterialBandRemapFilter.Band] | None = None, diffusePath: str = '') -> None:
+        """
+        Constructs a new material band remap filter
+        
+        Parameters
+        ----------
+        bands: Optional[List[:class:`CppMaterialBandRemapFilter.Band`]]
+            The moves to apply, all from the ORIGINAL alpha; the FIRST whose source range contains a pixel's
+            band is the one that applies :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, no moves
+        
+        diffusePath: :class:`str`
+            The diffuse to read the gates against. If this names no readable file, every gate passes :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        """
+    @property
+    def bands(self) -> list[CppMaterialBandRemapFilter.Band]:
+        """
+        List[:class:`CppMaterialBandRemapFilter.Band`]: The moves to apply, all from the ORIGINAL alpha
+        """
+    @bands.setter
+    def bands(self, arg0: collections.abc.Sequence[CppMaterialBandRemapFilter.Band]) -> None:
+        ...
+    @property
+    def diffusePath(self) -> str:
+        """
+        :class:`str`: The diffuse to read the gates against
+        """
+    @diffusePath.setter
+    def diffusePath(self, arg0: str) -> None:
+        ...
 class CppPixelFilter(CppBaseTexFilter):
     """
     
@@ -6277,6 +6492,16 @@ class GIBuilder:
         Creates the :class:`ModType` for MonaCN
         """
     @staticmethod
+    def neuvillette() -> ModType:
+        """
+        Creates the :class:`ModType` for Neuvillette
+        """
+    @staticmethod
+    def neuvilletteMelusent() -> ModType:
+        """
+        Creates the :class:`ModType` for NeuvilletteMelusent
+        """
+    @staticmethod
     def nilou() -> ModType:
         """
         Creates the :class:`ModType` for Nilou
@@ -6769,7 +6994,18 @@ class GIMICharParserConfig:
         Where one object's downloaded textures are bound, for :attr:`GIMICharParserConfig.objDownloadRegs`
             
         """
-        def __init__(self, obj: str, diffuseReg: str = 'ps-t0', lightMapReg: str = 'ps-t1', normalMapReg: str = '') -> None:
+        def __init__(self, obj: str, diffuseReg: str = 'ps-t0', lightMapReg: str = 'ps-t1', normalMapReg: str = '', coverRegs: collections.abc.Sequence[str] | None = None) -> None:
+            ...
+        @property
+        def coverRegs(self) -> list[str]:
+            """
+            List[:class:`str`]: Registers ANY of which, bound in the object's `section`_, mean its textures are the mod's own, so
+            none of its texture downloads fires -- for a character whose mods write one object in more than one register layout
+            (Neuvillette's head: plain ``ps-t0``/``ps-t1`` or normal-map ``ps-t1``/``ps-t2``). **Default**: empty, each download's
+            own one-register test
+            """
+        @coverRegs.setter
+        def coverRegs(self, arg0: collections.abc.Sequence[str]) -> None:
             ...
         @property
         def diffuseReg(self) -> str:
@@ -6948,12 +7184,52 @@ class GIMIComponentFixerConfig:
         def __init__(self) -> None:
             ...
         @property
+        def claimShare(self) -> float:
+            """
+            :class:`float`: For a cut component, the least share of a vertex's weight on this component's groups
+            for it to claim the vertex (``0`` to ``1``) -- a coat that should take only its hanging tails, not the
+            back panel they blend into, sets a high one and the seam moves to where the weights are clean. See
+            :attr:`VGComponentSpec.claimShare`. **Default**: ``0``, the plain majority
+            """
+        @claimShare.setter
+        def claimShare(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def dropTexFx(self) -> bool:
+            """
+            :class:`bool`: Whether this component's remapped sections drop the mod's TexFx transparency (``ps-t69`` /
+            ``ps-t70`` and every ``run = CommandList\\TexFx\\...``) -- for a slot whose shader TexFx does not
+            recognise, where the transparency texture blanks the part out entirely instead of fading it. The part
+            then draws opaque. **Default**: ``False``
+            """
+        @dropTexFx.setter
+        def dropTexFx(self, arg0: bool) -> None:
+            ...
+        @property
         def face(self) -> bool:
             """
             :class:`bool`: Whether this component's fix carries the face graph --- exactly one should. **Default**: ``False``
             """
         @face.setter
         def face(self, arg0: bool) -> None:
+            ...
+        @property
+        def mirrorOffset(self) -> float:
+            """
+            :class:`float`: How far inside the surface the mirrored layer sits, in model units --- ``0.005`` by default: at 1 mm it z-fought the surface from outside
+            """
+        @mirrorOffset.setter
+        def mirrorOffset(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def mirroredObjs(self) -> list[str]:
+            """
+            List[:class:`str`]: The SOURCE objects (lowercase) whose triangles get a MIRRORED INNER LAYER on this component,
+            for single-layer cloth whose back faces the target's shader does not shade as cloth --- see
+            :attr:`VGComponentSpec.mirroredIbs`. Cut components only; empty by default
+            """
+        @mirroredObjs.setter
+        def mirroredObjs(self, arg0: collections.abc.Sequence[str]) -> None:
             ...
         @property
         def modTypeName(self) -> str:
@@ -7002,6 +7278,51 @@ class GIMIComponentFixerConfig:
         def objSlotIndices(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
             ...
         @property
+        def offsetOnlyWithGameFace(self) -> bool:
+            """
+            :class:`bool`: Whether :attr:`positionOffset` applies only while the mod draws with the GAME's face
+            
+            A mod that hides the game's face (``handling = skip`` on the source's face diffuse hash) draws its own
+            inside its head mesh, and its eyes are placed for that face: shifting them drops them below it. Read
+            per ``.ini`` file. **Default**: ``False``, the offset always applies
+            """
+        @offsetOnlyWithGameFace.setter
+        def offsetOnlyWithGameFace(self, arg0: bool) -> None:
+            ...
+        @property
+        def overlapRings(self) -> int:
+            """
+            :class:`int`: For a cut component, how many rings of its neighbours' triangles it draws as well, past its
+            own edge -- a seam that opens when the skin poses is then covered by the other side's copy. Ownership is
+            unchanged. See :attr:`VGComponentSpec.overlapRings`. **Default**: ``0``
+            """
+        @overlapRings.setter
+        def overlapRings(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def positionOffset(self) -> typing.Annotated[list[float], "FixedSize(3)"]:
+            """
+            List[:class:`float`]: A model-space translation ``[x, y, z]`` added to every vertex position written
+            for this component, or all zeros to keep the mod's own
+            
+            A mod's vertices are in its SOURCE's bind pose. A part that must sit inside something the GAME draws
+            -- the eyes in a face mesh neither mod carries -- cannot be off by the difference: measure it by
+            differencing the target component's own Position buffer against this fix's output for the identity
+            mod. **Default**: ``[0, 0, 0]``
+            """
+        @positionOffset.setter
+        def positionOffset(self, arg0: typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]) -> None:
+            ...
+        @property
+        def pushAway(self) -> list[...]:
+            """
+            List[:class:`VGPushAway`]: Cloth pushed horizontally away from a point on this component, by its weight share on the
+            push's source groups --- for cloth that clips a limb the target moves differently. Empty by default
+            """
+        @pushAway.setter
+        def pushAway(self, arg0: collections.abc.Sequence[...]) -> None:
+            ...
+        @property
         def slot(self) -> str:
             """
             :class:`str`: The target draw slot the mod is drawn through, eg. ``A``
@@ -7021,6 +7342,20 @@ class GIMIComponentFixerConfig:
         def slotIndex(self, arg0: str) -> None:
             ...
         @property
+        def slotIndices(self) -> list[str]:
+            """
+            Every draw slot of this TARGET component, by ``match_first_index`` (eg. ``["0", "46620", "71025"]``), or empty
+            
+            The slots no drawn source object is routed to -- and every slot of a component the mod draws nothing onto -- get
+            the TexFx guard :attr:`GIMIComponentFixerConfig.unremappedSlots` writes, read off the result rather than kept by
+            hand. Added to that field, never replacing it. **Default**: empty
+            
+            :type: List[:class:`str`]
+            """
+        @slotIndices.setter
+        def slotIndices(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
+        @property
         def slotRegisters(self) -> list[str]:
             """
             List[:class:`str`]: Every ``ps-t`` register the TARGET's own slot binds, or empty to leave the
@@ -7031,6 +7366,40 @@ class GIMIComponentFixerConfig:
             """
         @slotRegisters.setter
         def slotRegisters(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
+        @property
+        def splitGroups(self) -> dict[int, list[tuple[int, float]]]:
+            """
+            Dict[:class:`int`, List[Tuple[:class:`int`, :class:`float`]]]: Source groups whose weight this component SHARES
+            among several of its bones, as ``{source group: [(bone, share), ...]}`` --- see
+            :attr:`VGComponentSpec.splitGroups`. Empty by default
+            """
+        @splitGroups.setter
+        def splitGroups(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsFloat | typing.SupportsIndex]]]) -> None:
+            ...
+        @property
+        def standIns(self) -> dict[int, int]:
+            """
+            Dict[:class:`int`, :class:`int`]: For a cut component, source groups it does not own, each to the bone
+            of this component that stands in for it -- so a vertex on a seam keeps that weight instead of dropping
+            it. A group the component's own row maps is ignored. **Default**: ``{}``
+            """
+        @standIns.setter
+        def standIns(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]) -> None:
+            ...
+        @property
+        def texFxBlend(self) -> float:
+            """
+            :class:`float`: For a component whose mod's TexFx is dropped (:attr:`dropTexFx`): the opacity, 0 to 1, its
+            SEE-THROUGH draws are blended at instead --- ``0`` (the default) leaves them opaque
+            
+            A ``drawindexed`` range of an object whose section binds a TexFx mask at ``ps-t69`` is see-through when most
+            of its vertices sit on a mask code of 1-254 (TexFx's own legend, on the red channel). Such a range is drawn
+            through a ``CustomShader`` of its own that blends only the G-buffer's colour target, keeping the game's
+            shaders
+            """
+        @texFxBlend.setter
+        def texFxBlend(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
             ...
         @property
         def texcoordStride(self) -> int:
@@ -7205,6 +7574,20 @@ class GIMIComponentFixerConfig:
     def normaliseVertexColour(self, arg0: bool) -> None:
         ...
     @property
+    def sideMeshes(self) -> list[str]:
+        """
+        List[:class:`str`]: The hash types of the source's SIDE MESHES (its own draws that are no mod object,
+        eg. ``["ib_face", "ib_headupper"]``)
+        
+        A mod's section on one of those hashes -- a mask hiding the face with ``ib = null`` -- is written again
+        on the target's hash of the same type (filed under :attr:`targetSkin`), since the skin draws its own
+        side meshes under other hashes. A mesh both characters share is left to the mod's own section. Empty
+        by default
+        """
+    @sideMeshes.setter
+    def sideMeshes(self, arg0: collections.abc.Sequence[str]) -> None:
+        ...
+    @property
     def sourceLayout(self) -> GIMIComponentFixerConfig.SourceLayout:
         """
         :class:`GIMIComponentFixerConfig.SourceLayout`: The SOURCE mod's texture layout. **Default**: :attr:`GIMIComponentFixerConfig.SourceLayout.Plain`
@@ -7219,6 +7602,17 @@ class GIMIComponentFixerConfig:
         """
     @targetSkin.setter
     def targetSkin(self, arg0: str) -> None:
+        ...
+    @property
+    def texRegsByName(self) -> bool:
+        """
+        :class:`bool`: Whether each drawn object's texture bindings go to the register their resource NAME's role belongs on
+        (``ps-t0`` diffuse / ``ps-t1`` light map, or ``ps-t0`` normal map / ``ps-t1`` diffuse / ``ps-t2`` light map when a normal
+        map is among them) before any other texture edit -- for a mod written in the GAME's register order rather than GIMI's.
+        A binding naming no role stays put. **Default**: ``False``
+        """
+    @texRegsByName.setter
+    def texRegsByName(self, arg0: bool) -> None:
         ...
     @property
     def unremappedSlots(self) -> list[tuple[str, list[str]]]:
@@ -7681,12 +8075,41 @@ class GIMIMergeFixerConfig:
         def __init__(self) -> None:
             ...
         @property
+        def modTypeName(self) -> str:
+            """
+            :class:`str`: The component's own mod type name, whose hashes find its sections --- empty for the skin's name followed
+            by :attr:`name`. For a component not named that way, eg. NeuvilletteMelusent's UNNAMED main mesh (``""``), filed as
+            ``NeuvilletteMelusentMain``. **Default**: empty
+            """
+        @modTypeName.setter
+        def modTypeName(self, arg0: str) -> None:
+            ...
+        @property
         def name(self) -> str:
             """
             :class:`str`: The component's name, eg. ``Body``
             """
         @name.setter
         def name(self, arg0: str) -> None:
+            ...
+        @property
+        def offsetOnlyWithGameFace(self) -> bool:
+            """
+            :class:`bool`: Whether :attr:`positionOffset` applies only while the mod keeps the GAME's face (not when it skips
+            the source's face diffuse and brings its own). ``False`` by default
+            """
+        @offsetOnlyWithGameFace.setter
+        def offsetOnlyWithGameFace(self, arg0: bool) -> None:
+            ...
+        @property
+        def positionOffset(self) -> typing.Annotated[list[float], "FixedSize(3)"]:
+            """
+            List[:class:`float`]: Added to every vertex position of this component as it is merged, in model units ---
+            ``[0, 0, 0]`` (the default) writes the mod's own. NeuvilletteMelusent's Eye sits 1.24 cm lower than
+            Neuvillette's, and merged as it is the eyes looked down
+            """
+        @positionOffset.setter
+        def positionOffset(self, arg0: typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]) -> None:
             ...
         @property
         def slots(self) -> list[GIMIMergeFixerConfig.Slot]:
@@ -7917,6 +8340,16 @@ class GIMIMergeFixerConfig:
     def mipmaps(self, arg0: bool) -> None:
         ...
     @property
+    def sideMeshes(self) -> list[str]:
+        """
+        List[:class:`str`]: The hash types of the SOURCE skin's side meshes (its own draws that are no mod object, eg.
+        ``["ib_face", "ib_headupper"]``) --- a mod's section hiding one is written again on the target's hash of the
+        same type. Empty by default
+        """
+    @sideMeshes.setter
+    def sideMeshes(self, arg0: collections.abc.Sequence[str]) -> None:
+        ...
+    @property
     def targetLayout(self) -> GIMIMergeFixerConfig.TargetLayout:
         """
         :class:`GIMIMergeFixerConfig.TargetLayout`: How the TARGET's shader reads its textures
@@ -7935,6 +8368,16 @@ class GIMIMergeFixerConfig:
     def targetObjs(self, arg0: collections.abc.Sequence[str]) -> None:
         ...
     @property
+    def texFxGuardUnreached(self) -> bool:
+        """
+        :class:`bool`: Whether a target object NO slot is drawn through gets a section withdrawing a pending `TexFx`_
+        request, when the mod calls TexFx --- that object's own outline draw would otherwise serve it over the merged
+        buffers. ``False`` by default
+        """
+    @texFxGuardUnreached.setter
+    def texFxGuardUnreached(self, arg0: bool) -> None:
+        ...
+    @property
     def texRegsByName(self) -> bool:
         """
         :class:`bool`: Whether a carried binding goes to the register its resource NAME says, rather than
@@ -7951,6 +8394,16 @@ class GIMIMergeFixerConfig:
         """
     @texRegsByName.setter
     def texRegsByName(self, arg0: bool) -> None:
+        ...
+    @property
+    def texcoordStride(self) -> int:
+        """
+        :class:`int`: The TARGET's texcoord stride: the merged ``Texcoord.buf`` is at least this wide, zero-padded at the end
+        of each line, and the copied section declares it --- for a target reading more UV sets than any source component
+        carries (Neuvillette's 20 bytes under NeuvilletteMelusent's 12). **Default**: ``0``, the widest component's
+        """
+    @texcoordStride.setter
+    def texcoordStride(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
 class GIMIObjPartFilter:
     """
@@ -14844,6 +15297,18 @@ class ModTypeId:
     
       MonaCN : Mona Chinese version from GI
     
+      Neuvillette : Neuvillette from GI
+    
+      NeuvilletteMelusent : Neuvillette outfit skin (Melusent Gift) from GI -- four skinned components (an unnamed main mesh, Coat, Bang, Eye)
+    
+      NeuvilletteMelusentMain : NeuvilletteMelusent's main mesh (its component name is the empty string), as a fix target -- a skin of several components is fixed one component at a time, and each is a mod type for the tables' purposes
+    
+      NeuvilletteMelusentCoat : NeuvilletteMelusent's Coat component, as a fix target
+    
+      NeuvilletteMelusentBang : NeuvilletteMelusent's Bang component, as a fix target
+    
+      NeuvilletteMelusentEye : NeuvilletteMelusent's Eye component, as a fix target
+    
       Nilou : Nilou from GI
     
       NilouBreeze : Nilou summer skin from GI
@@ -14910,8 +15375,8 @@ class ModTypeId:
     CharlotteHurlockCamera: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockCamera: 18>
     CharlotteHurlockEyes: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockEyes: 17>
     CherryHuTao: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CherryHuTao: 19>
-    Chisa: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Chisa: 68>
-    ChisaParfait: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ChisaParfait: 69>
+    Chisa: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Chisa: 74>
+    ChisaParfait: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ChisaParfait: 75>
     Citlali: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Citlali: 20>
     CitlaliWhisperofStars: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStars: 21>
     CitlaliWhisperofStarsBangs: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStarsBangs: 23>
@@ -14939,28 +15404,34 @@ class ModTypeId:
     LisaStudent: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LisaStudent: 44>
     Mona: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Mona: 45>
     MonaCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.MonaCN: 46>
-    Nilou: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Nilou: 47>
-    NilouBreeze: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NilouBreeze: 48>
-    Ningguang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Ningguang: 49>
-    NingguangOrchid: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NingguangOrchid: 50>
-    Raiden: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Raiden: 51>
-    RaidenBoss: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RaidenBoss: 52>
-    Rosaria: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Rosaria: 53>
-    RosariaCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RosariaCN: 54>
-    Sanhua: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Sanhua: 66>
-    SanhuaExorcist: typing.ClassVar[ModTypeId]  # value = <ModTypeId.SanhuaExorcist: 67>
-    Shenhe: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Shenhe: 55>
-    ShenheFrostFlower: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ShenheFrostFlower: 56>
-    Xiangling: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xiangling: 57>
-    XianglingCheer: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XianglingCheer: 58>
-    Xingqiu: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xingqiu: 59>
-    XingqiuBamboo: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XingqiuBamboo: 60>
-    Yelan: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Yelan: 61>
-    YelanTranquil: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquil: 62>
-    YelanTranquilBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBang: 64>
-    YelanTranquilBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBody: 63>
-    YelanTranquilEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilEye: 65>
-    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'Bennett': <ModTypeId.Bennett: 8>, 'BennettAdventure': <ModTypeId.BennettAdventure: 9>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 10>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 11>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 12>, 'Charlotte': <ModTypeId.Charlotte: 13>, 'CharlotteHurlock': <ModTypeId.CharlotteHurlock: 14>, 'CharlotteHurlockBody': <ModTypeId.CharlotteHurlockBody: 15>, 'CharlotteHurlockBangs': <ModTypeId.CharlotteHurlockBangs: 16>, 'CharlotteHurlockEyes': <ModTypeId.CharlotteHurlockEyes: 17>, 'CharlotteHurlockCamera': <ModTypeId.CharlotteHurlockCamera: 18>, 'CherryHuTao': <ModTypeId.CherryHuTao: 19>, 'Citlali': <ModTypeId.Citlali: 20>, 'CitlaliWhisperofStars': <ModTypeId.CitlaliWhisperofStars: 21>, 'CitlaliWhisperofStarsBody': <ModTypeId.CitlaliWhisperofStarsBody: 22>, 'CitlaliWhisperofStarsBangs': <ModTypeId.CitlaliWhisperofStarsBangs: 23>, 'CitlaliWhisperofStarsEyes': <ModTypeId.CitlaliWhisperofStarsEyes: 24>, 'Diluc': <ModTypeId.Diluc: 25>, 'DilucFlamme': <ModTypeId.DilucFlamme: 26>, 'Fischl': <ModTypeId.Fischl: 27>, 'FischlHighness': <ModTypeId.FischlHighness: 28>, 'Ganyu': <ModTypeId.Ganyu: 29>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 30>, 'HuTao': <ModTypeId.HuTao: 31>, 'Jean': <ModTypeId.Jean: 32>, 'JeanCN': <ModTypeId.JeanCN: 33>, 'JeanSea': <ModTypeId.JeanSea: 34>, 'Kaeya': <ModTypeId.Kaeya: 35>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 36>, 'Keqing': <ModTypeId.Keqing: 37>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 38>, 'Kirara': <ModTypeId.Kirara: 39>, 'KiraraBoots': <ModTypeId.KiraraBoots: 40>, 'Klee': <ModTypeId.Klee: 41>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 42>, 'Lisa': <ModTypeId.Lisa: 43>, 'LisaStudent': <ModTypeId.LisaStudent: 44>, 'Mona': <ModTypeId.Mona: 45>, 'MonaCN': <ModTypeId.MonaCN: 46>, 'Nilou': <ModTypeId.Nilou: 47>, 'NilouBreeze': <ModTypeId.NilouBreeze: 48>, 'Ningguang': <ModTypeId.Ningguang: 49>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 50>, 'Raiden': <ModTypeId.Raiden: 51>, 'RaidenBoss': <ModTypeId.RaidenBoss: 52>, 'Rosaria': <ModTypeId.Rosaria: 53>, 'RosariaCN': <ModTypeId.RosariaCN: 54>, 'Shenhe': <ModTypeId.Shenhe: 55>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 56>, 'Xiangling': <ModTypeId.Xiangling: 57>, 'XianglingCheer': <ModTypeId.XianglingCheer: 58>, 'Xingqiu': <ModTypeId.Xingqiu: 59>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 60>, 'Yelan': <ModTypeId.Yelan: 61>, 'YelanTranquil': <ModTypeId.YelanTranquil: 62>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 63>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 64>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 65>, 'Sanhua': <ModTypeId.Sanhua: 66>, 'SanhuaExorcist': <ModTypeId.SanhuaExorcist: 67>, 'Chisa': <ModTypeId.Chisa: 68>, 'ChisaParfait': <ModTypeId.ChisaParfait: 69>}
+    Neuvillette: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Neuvillette: 47>
+    NeuvilletteMelusent: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusent: 48>
+    NeuvilletteMelusentBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentBang: 51>
+    NeuvilletteMelusentCoat: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentCoat: 50>
+    NeuvilletteMelusentEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentEye: 52>
+    NeuvilletteMelusentMain: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentMain: 49>
+    Nilou: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Nilou: 53>
+    NilouBreeze: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NilouBreeze: 54>
+    Ningguang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Ningguang: 55>
+    NingguangOrchid: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NingguangOrchid: 56>
+    Raiden: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Raiden: 57>
+    RaidenBoss: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RaidenBoss: 58>
+    Rosaria: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Rosaria: 59>
+    RosariaCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RosariaCN: 60>
+    Sanhua: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Sanhua: 72>
+    SanhuaExorcist: typing.ClassVar[ModTypeId]  # value = <ModTypeId.SanhuaExorcist: 73>
+    Shenhe: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Shenhe: 61>
+    ShenheFrostFlower: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ShenheFrostFlower: 62>
+    Xiangling: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xiangling: 63>
+    XianglingCheer: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XianglingCheer: 64>
+    Xingqiu: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xingqiu: 65>
+    XingqiuBamboo: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XingqiuBamboo: 66>
+    Yelan: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Yelan: 67>
+    YelanTranquil: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquil: 68>
+    YelanTranquilBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBang: 70>
+    YelanTranquilBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBody: 69>
+    YelanTranquilEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilEye: 71>
+    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'Bennett': <ModTypeId.Bennett: 8>, 'BennettAdventure': <ModTypeId.BennettAdventure: 9>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 10>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 11>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 12>, 'Charlotte': <ModTypeId.Charlotte: 13>, 'CharlotteHurlock': <ModTypeId.CharlotteHurlock: 14>, 'CharlotteHurlockBody': <ModTypeId.CharlotteHurlockBody: 15>, 'CharlotteHurlockBangs': <ModTypeId.CharlotteHurlockBangs: 16>, 'CharlotteHurlockEyes': <ModTypeId.CharlotteHurlockEyes: 17>, 'CharlotteHurlockCamera': <ModTypeId.CharlotteHurlockCamera: 18>, 'CherryHuTao': <ModTypeId.CherryHuTao: 19>, 'Citlali': <ModTypeId.Citlali: 20>, 'CitlaliWhisperofStars': <ModTypeId.CitlaliWhisperofStars: 21>, 'CitlaliWhisperofStarsBody': <ModTypeId.CitlaliWhisperofStarsBody: 22>, 'CitlaliWhisperofStarsBangs': <ModTypeId.CitlaliWhisperofStarsBangs: 23>, 'CitlaliWhisperofStarsEyes': <ModTypeId.CitlaliWhisperofStarsEyes: 24>, 'Diluc': <ModTypeId.Diluc: 25>, 'DilucFlamme': <ModTypeId.DilucFlamme: 26>, 'Fischl': <ModTypeId.Fischl: 27>, 'FischlHighness': <ModTypeId.FischlHighness: 28>, 'Ganyu': <ModTypeId.Ganyu: 29>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 30>, 'HuTao': <ModTypeId.HuTao: 31>, 'Jean': <ModTypeId.Jean: 32>, 'JeanCN': <ModTypeId.JeanCN: 33>, 'JeanSea': <ModTypeId.JeanSea: 34>, 'Kaeya': <ModTypeId.Kaeya: 35>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 36>, 'Keqing': <ModTypeId.Keqing: 37>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 38>, 'Kirara': <ModTypeId.Kirara: 39>, 'KiraraBoots': <ModTypeId.KiraraBoots: 40>, 'Klee': <ModTypeId.Klee: 41>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 42>, 'Lisa': <ModTypeId.Lisa: 43>, 'LisaStudent': <ModTypeId.LisaStudent: 44>, 'Mona': <ModTypeId.Mona: 45>, 'MonaCN': <ModTypeId.MonaCN: 46>, 'Neuvillette': <ModTypeId.Neuvillette: 47>, 'NeuvilletteMelusent': <ModTypeId.NeuvilletteMelusent: 48>, 'NeuvilletteMelusentMain': <ModTypeId.NeuvilletteMelusentMain: 49>, 'NeuvilletteMelusentCoat': <ModTypeId.NeuvilletteMelusentCoat: 50>, 'NeuvilletteMelusentBang': <ModTypeId.NeuvilletteMelusentBang: 51>, 'NeuvilletteMelusentEye': <ModTypeId.NeuvilletteMelusentEye: 52>, 'Nilou': <ModTypeId.Nilou: 53>, 'NilouBreeze': <ModTypeId.NilouBreeze: 54>, 'Ningguang': <ModTypeId.Ningguang: 55>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 56>, 'Raiden': <ModTypeId.Raiden: 57>, 'RaidenBoss': <ModTypeId.RaidenBoss: 58>, 'Rosaria': <ModTypeId.Rosaria: 59>, 'RosariaCN': <ModTypeId.RosariaCN: 60>, 'Shenhe': <ModTypeId.Shenhe: 61>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 62>, 'Xiangling': <ModTypeId.Xiangling: 63>, 'XianglingCheer': <ModTypeId.XianglingCheer: 64>, 'Xingqiu': <ModTypeId.Xingqiu: 65>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 66>, 'Yelan': <ModTypeId.Yelan: 67>, 'YelanTranquil': <ModTypeId.YelanTranquil: 68>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 69>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 70>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 71>, 'Sanhua': <ModTypeId.Sanhua: 72>, 'SanhuaExorcist': <ModTypeId.SanhuaExorcist: 73>, 'Chisa': <ModTypeId.Chisa: 74>, 'ChisaParfait': <ModTypeId.ChisaParfait: 75>}
     def __eq__(self, other: typing.Any) -> bool:
         ...
     def __getstate__(self) -> int:
@@ -17647,7 +18118,7 @@ class RegBranchAdd(BaseIniGraphEdit):
     
     Parameters
     ----------
-    branchOf: Optional[Callable[[:class:`Z3Predicate`, :class:`SectionIterData`], Optional[Tuple[:class:`str`, List[Tuple[:class:`str`, :class:`str`]], List[Tuple[:class:`str`, :class:`str`]]]]]]
+    branchOf: Optional[Callable[[:class:`Z3Predicate`, :class:`SectionIterData`], Optional[Tuple[:class:`str`, List[Tuple[:class:`str`, :class:`str`]], List[Tuple[:class:`str`, :class:`str`]], List[:class:`str`]]]]]
         Decides what belongs in each branch, from the condition a part runs under and the part itself.
         It answers ``None`` for nothing, or a tuple of: :raw-html:`<br />` :raw-html:`<br />`
     
@@ -17655,7 +18126,9 @@ class RegBranchAdd(BaseIniGraphEdit):
         #. The `KVPs`_ to append in that branch
         #. *Optional:* the `KVPs`_ to SET in that branch --- replacing what the branch carries, and
            added where it carries nothing. For a key the branch already answers for itself, like a
-           ``draw``, where a second one would not correct the first :raw-html:`<br />` :raw-html:`<br />`
+           ``draw``, where a second one would not correct the first
+        #. *Optional:* the keys to REMOVE from that branch, before anything is set or appended --- for a
+           binding the branch must stop making :raw-html:`<br />` :raw-html:`<br />`
     
         ``None`` makes the edit a no-op :raw-html:`<br />` :raw-html:`<br />`
     
@@ -21763,6 +22236,50 @@ class ShapeKeyChecksums(ModMappedAssets):
         
             **Default**: ``None``
         """
+class SideMeshes:
+    """
+    
+    A mod's sections on the SOURCE character's side meshes (its own draws that are no mod object -- the face, the
+    head-upper), written again on the TARGET's. Both multi-component templates use it: see
+    :attr:`GIMIComponentFixerConfig.sideMeshes` and :attr:`GIMIMergeFixerConfig.sideMeshes`
+        
+    """
+    @staticmethod
+    def build(fileTxt: str, hashes: Hashes, srcName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None, types: collections.abc.Sequence[str], targetName: str, toVersion: FixRaidenBoss2.core.CppVersion | None) -> str:
+        """
+        The re-issued sections: each section of ``fileTxt`` whose ``hash`` is one of the SOURCE's side meshes of a type in
+        ``types``, its body copied and its ``hash`` replaced by the TARGET's of the same type, renamed with the target's
+        name and the Remap keyword. A mesh both characters share is left to the mod's own section
+        
+        Parameters
+        ----------
+        fileTxt: :class:`str`
+            The mod's ``.ini`` text
+        
+        hashes: :class:`Hashes`
+            The hash table both characters' side meshes are filed in
+        
+        srcName: :class:`str`
+            The source's mod type name
+        
+        fromVersion: Optional[:class:`CppVersion`]
+            The version the mod is written for, ``None`` for the latest
+        
+        types: List[:class:`str`]
+            The side-mesh hash types, eg. ``["ib_face", "ib_headupper"]``
+        
+        targetName: :class:`str`
+            The name the target's side-mesh rows are filed under
+        
+        toVersion: Optional[:class:`CppVersion`]
+            The version the fix is for, ``None`` for the latest
+        
+        Returns
+        -------
+        :class:`str`
+            The sections with a leading comment, or an empty string
+        """
+
 class SympyParser:
     """
     
@@ -22691,6 +23208,11 @@ class VGComponentBuffers:
         List[:class:`bool`]: Negative index only: per mod vertex, whether it carries no sentinel
         """
     @property
+    def mirrored(self) -> list[bool]:
+        """
+        List[:class:`bool`]: Per entry of :attr:`vertices`, whether it is a copy for the mirrored inner layer (empty without one)
+        """
+    @property
     def stats(self) -> VGComponentSplitStats:
         """
         :class:`VGComponentSplitStats`: Counts worth reporting
@@ -22743,8 +23265,21 @@ class VGComponentMerge:
         Tuple[List[List[:class:`int`]], List[:class:`int`]]
             The remapped indices, and every weighted group that had no entry
         """
-    def __init__(self, components: collections.abc.Sequence[VGMergeComponent]) -> None:
-        ...
+    def __init__(self, components: collections.abc.Sequence[VGMergeComponent], minTexcoordStride: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
+        """
+        Merges the components, in the order given
+        
+        Parameters
+        ----------
+        components: List[:class:`VGComponentMerge.Component`]
+            The source's components; the first takes offset 0
+        
+        minTexcoordStride: :class:`int`
+            The TARGET's texcoord stride: the merged buffer is at least this wide, every line zero-padded at its end
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``0``, the widest component's
+        """
     def mergeIbs(self, members: collections.abc.Sequence[tuple[str, collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(3)"]]]]) -> list[typing.Annotated[list[int], "FixedSize(3)"]]:
         """
         One target object's index buffer: each member's triangles offset by its component's first vertex,
@@ -22846,8 +23381,9 @@ class VGComponentSpec:
     
     secondary: Optional[Dict[:class:`int`, :class:`int`]]
         Further source groups the component has a bone for, honoured only on a vertex that also carries
-        one of ``remap``'s groups -- the reverse remap turned around. Only used by a negative-index
-        component :raw-html:`<br />` :raw-html:`<br />`
+        one of ``remap``'s groups -- the reverse remap turned around. On a cut component they are
+        stand-ins: a kept vertex's weight on another component's group goes to the stand-in bone instead
+        of being dropped; they never decide which component takes a triangle :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``None``
     
@@ -22859,9 +23395,42 @@ class VGComponentSpec:
         :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``False``
+    
+    claimShare: :class:`float`
+        For a cut component, the least share of a vertex's weight on ``remap``'s groups for it to claim the
+        vertex (``0`` to ``1``); a vertex below it goes to the next component that claims it, and one no
+        component can claim falls back to the plain majority :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``0``, the plain majority
+    
+    overlapRings: :class:`int`
+        For a cut component, how many rings of its neighbours' triangles it draws as well, past its own
+        edge, so a seam that opens when the skin poses is covered by the other side's copy. Ownership is
+        unchanged :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``0``, no overlap
         
     """
-    def __init__(self, name: str, remap: typing.Any = None, secondary: typing.Any = None, negativeIndex: bool = False) -> None:
+    def __init__(self, name: str, remap: typing.Any = None, secondary: typing.Any = None, negativeIndex: bool = False, claimShare: typing.SupportsFloat | typing.SupportsIndex = 0.0, overlapRings: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
+        ...
+    @property
+    def claimShare(self) -> float:
+        """
+        :class:`float`: For a cut component, the least own share of a vertex's weight to claim it
+        """
+    @claimShare.setter
+    def claimShare(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def mirroredIbs(self) -> list[int]:
+        """
+        List[:class:`int`]: For a cut component, the source index buffers (by position) whose triangles get a MIRRORED
+        INNER LAYER: each corner copied once (flagged in :attr:`VGComponentBuffers.mirrored`) and each triangle followed
+        by its copy wound the other way, under the same source triangle id. For single-layer cloth whose back faces the
+        target's shader does not shade as cloth. Empty by default
+        """
+    @mirroredIbs.setter
+    def mirroredIbs(self, arg0: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
         ...
     @property
     def name(self) -> str:
@@ -22880,6 +23449,14 @@ class VGComponentSpec:
     def negativeIndex(self, arg0: bool) -> None:
         ...
     @property
+    def overlapRings(self) -> int:
+        """
+        :class:`int`: For a cut component, how many rings of its neighbours' triangles it draws as well
+        """
+    @overlapRings.setter
+    def overlapRings(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
     def remap(self) -> VGRemap:
         """
         :class:`VGRemap`: The mod's vertex group to this component's bone
@@ -22894,6 +23471,17 @@ class VGComponentSpec:
         """
     @secondary.setter
     def secondary(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]) -> None:
+        ...
+    @property
+    def splitGroups(self) -> dict[int, list[tuple[int, float]]]:
+        """
+        Dict[:class:`int`, List[Tuple[:class:`int`, :class:`float`]]]: For a cut component, source groups whose weight is
+        SHARED among several of the component's bones, ``{source group: [(bone, share), ...]}``, applied over the vertex's
+        final weights; a vertex left with more than 4 influences keeps its 4 largest, renormalised. For a cloth part
+        between a bone it clips on and one it folds on. Empty by default
+        """
+    @splitGroups.setter
+    def splitGroups(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsFloat | typing.SupportsIndex]]]) -> None:
         ...
 class VGComponentSplit:
     """
@@ -22937,6 +23525,26 @@ class VGComponentSplit:
         """
         Keeps only the given lines of a fixed-stride buffer, in the order given
         """
+    @staticmethod
+    def mirrorPositionLine(line: bytes, offset: typing.SupportsFloat | typing.SupportsIndex) -> bytes:
+        """
+        A GIMI ``Position.buf`` line (position, normal, tangent) for the mirrored inner layer: the normal turned round and
+        the position moved ``offset`` model units against the original normal. A line shorter than the normal comes back
+        as it is
+        
+        Parameters
+        ----------
+        line: :class:`bytes`
+            The source line
+        
+        offset: :class:`float`
+            How far inward, in model units
+        
+        Returns
+        -------
+        :class:`bytes`
+            The mirrored line
+        """
     def __init__(self, weights: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(4)"]], indices: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(4)"]], ibs: collections.abc.Sequence[collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(3)"]]], specs: collections.abc.Sequence[VGComponentSpec]) -> None:
         ...
     def split(self, component: str) -> VGComponentBuffers:
@@ -22970,9 +23578,24 @@ class VGComponentSplitStats:
         :class:`int`: The vertices the component draws
         """
     @property
+    def mirroredTriangles(self) -> int:
+        """
+        :class:`int`: Cut only: triangles added as the mirrored inner layer
+        """
+    @property
+    def mirroredVertices(self) -> int:
+        """
+        :class:`int`: Cut only: vertices copied for the mirrored inner layer -- see :attr:`VGComponentSpec.mirroredIbs`
+        """
+    @property
     def neighbourSkinned(self) -> int:
         """
         :class:`int`: Cut only: vertices skinned to a neighbour's bone
+        """
+    @property
+    def overlapTriangles(self) -> int:
+        """
+        :class:`int`: Cut only: triangles drawn as the overlap band -- see :attr:`VGComponentSpec.overlapRings`
         """
     @property
     def renormalised(self) -> int:
@@ -22983,6 +23606,11 @@ class VGComponentSplitStats:
     def sentinels(self) -> int:
         """
         :class:`int`: Negative index only: sentinel indices written
+        """
+    @property
+    def splitVertices(self) -> int:
+        """
+        :class:`int`: Cut only: vertices whose weight was shared -- see :attr:`VGComponentSpec.splitGroups`
         """
     @property
     def trianglesDropped(self) -> list[int]:
@@ -23130,6 +23758,14 @@ class VGMergeComponentFiles:
     def blendPath(self, arg0: str) -> None:
         ...
     @property
+    def positionLineEdit(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`bytes`], :class:`bytes`]]: Applied to every line of this component's ``Position.buf`` as it is read
+        """
+    @positionLineEdit.setter
+    def positionLineEdit(self, arg1: typing.Any) -> None:
+        ...
+    @property
     def positionPath(self) -> str:
         """
         :class:`str`: This component's ``Position.buf``
@@ -23250,6 +23886,14 @@ class VGMergeGroupResource(IniGroupedResource, RemapIniResourceMixin):
     @objects.setter
     def objects(self, arg1: collections.abc.Sequence[VGMergeObject]) -> None:
         ...
+    @property
+    def texcoordStride(self) -> int:
+        """
+        :class:`int`: The TARGET's texcoord stride, the floor of the merged buffer's. **Default**: ``0``, the widest component's
+        """
+    @texcoordStride.setter
+    def texcoordStride(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
 class VGMergeObject:
     """
     
@@ -23322,6 +23966,48 @@ class VGOffsets(ModMappedAssets):
         
             **Default**: ``None``
         """
+class VGPushAway:
+    """
+    
+    A push of cloth HORIZONTALLY away from a point: every vertex on :attr:`groups` moves by :attr:`distance` times its
+    weight share on them, away from :attr:`from_`'s (x, z)
+        
+    """
+    def __init__(self, groups: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex] = [], from_: typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"] = [0.0, 0.0, 0.0], distance: typing.SupportsFloat | typing.SupportsIndex = 0.0, side: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
+        ...
+    @property
+    def distance(self) -> float:
+        """
+        :class:`float`: How far a vertex wholly on :attr:`groups` moves
+        """
+    @distance.setter
+    def distance(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def from_(self) -> typing.Annotated[list[float], "FixedSize(3)"]:
+        """
+        List[:class:`float`]: The point pushed away from; only its (x, z) counts
+        """
+    @from_.setter
+    def from_(self, arg0: typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]) -> None:
+        ...
+    @property
+    def groups(self) -> list[int]:
+        """
+        List[:class:`int`]: The SOURCE vertex groups whose vertices are pushed
+        """
+    @groups.setter
+    def groups(self, arg0: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
+        ...
+    @property
+    def side(self) -> int:
+        """
+        :class:`int`: Only vertices with x > 0 (``1``), x < 0 (``-1``), or both (``0``)
+        """
+    @side.setter
+    def side(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+
 class VGRemap:
     """
     
@@ -23561,12 +24247,28 @@ class VGSplitGroupResource(IniGroupedResource, RemapIniResourceMixin):
     def ibPaths(self, arg1: collections.abc.Sequence[str]) -> None:
         ...
     @property
+    def mirrorLineEdit(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`bytes`], :class:`bytes`]]: Applied, after filtering, to the ``Position.buf`` lines of the vertices the split mirrored -- see :meth:`VGComponentSplit.mirrorPositionLine`
+        """
+    @mirrorLineEdit.setter
+    def mirrorLineEdit(self, arg1: typing.Any) -> None:
+        ...
+    @property
     def positionLineEdit(self) -> typing.Any:
         """
         Optional[Callable[[:class:`bytes`], :class:`bytes`]]: Applied to every line of the ``Position.buf``
         """
     @positionLineEdit.setter
     def positionLineEdit(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def pushAway(self) -> list[VGPushAway]:
+        """
+        List[:class:`VGPushAway`]: Pushes applied to the written ``Position.buf`` -- see :class:`VGPushAway`
+        """
+    @pushAway.setter
+    def pushAway(self, arg1: collections.abc.Sequence[VGPushAway]) -> None:
         ...
     @property
     def specs(self) -> list[VGComponentSpec]:

@@ -74,6 +74,32 @@ fetched
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="167" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="167" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a7260f100fdf22055862e0471606565d2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::GIMICharParserConfig::ObjDownloadRegs::coverRegs</definition>
+        <argsstring></argsstring>
+        <name>coverRegs</name>
+        <qualifiedname>AGRemapCore::GIMICharParserConfig::ObjDownloadRegs::coverRegs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Registers ANY of which, bound in this object&apos;s `section`_, mean its textures are the
+mod&apos;s own -- so none of its texture downloads fires. Empty (the default) keeps each
+download&apos;s own one-register test :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+For a character whose mods write one object in more than one register layout: every
+Neuvillette head is plain (``ps-t0`` / ``ps-t1``) or normal-map (``ps-t1`` / ``ps-t2``),
+and a download on either layout&apos;s registers fires on the other one&apos;s mods, landing a
+texture in the wrong role. ``{&quot;ps-t0&quot;, &quot;ps-t1&quot;, &quot;ps-t2&quot;}`` says &quot;a section binding any
+texture brings its own set&quot;, and a section binding none still gets the downloads. See
+``GIMIParser::ParserConfig::downloadAltRegs``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="184" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -94,8 +120,9 @@ while her body and dress are already the modern one -- so this is keyed by objec
 and every object not named here keeps the defaults
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="139" column="9" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="139" bodyend="168"/>
+    <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h" line="139" column="9" bodyfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" bodystart="139" bodyend="185"/>
     <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a7260f100fdf22055862e0471606565d2" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig::ObjDownloadRegs</scope><name>coverRegs</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a6e47a983ee1dc111d278e7678f30e2c3" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig::ObjDownloadRegs</scope><name>diffuseReg</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a62e9c0dd7f26da38a416e095378deb03" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig::ObjDownloadRegs</scope><name>lightMapReg</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a39607e33f163d473dedef1b6fe2753dc" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharParserConfig::ObjDownloadRegs</scope><name>normalMapReg</name></member>

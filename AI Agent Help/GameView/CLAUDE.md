@@ -109,6 +109,39 @@ py -3 main.py mods GIMI restore                                  # at the end: e
   Check the written `.dds` first. If the file is right and the game is not, `close --force` then
   `launch` settles it.
 
+## Observing a remap in game: see it yourself, before the maintainer does (the maintainer's rule, 2026-09-27)
+
+**Be diligent and look at the details.** Most of what the maintainer reported on Neuvillette -> NeuvilletteMelusent
+was visible to the agent in its own screenshots and went unnoticed: Neuvillette2's inner dress drawing flat light
+blue instead of its texture, NeuvilletteMelusent1 wearing the default outfit's colours ("all the textures are
+wrong") while the agent checked only its eyes, a flap clipping the leg that a single idle frame happened to hide,
+and two whole rounds of screenshots of NILOU because the preview had closed back to the shop grid. Each cost the
+maintainer a message and a round trip. Before you report, look for yourself:
+
+* **Prove the page before every capture.** Read the outfit's name (a crop of the name area; compare the bright
+  text pixels with a known shot) -- the preview closes back to the shop grid now and then, and a blind card
+  click opens someone else's outfit. And the window can flip between 1920 and 3840 wide mid-session: take the
+  scale from a fresh screenshot, never from an old one.
+* **Every angle.** Drag LEFT / RIGHT to turn the character about the vertical axis (front, both sides, back),
+  and drag UP / DOWN to tilt the view up and down -- the underside of a skirt or coat, the inside of a cape, the
+  top of the head. A part's inside and underside are where lining, backface and clipping faults live.
+* **Every distance.** Scroll a LOT: zoomed right in on the face, the hems, a flap against the leg; zoomed right
+  out for the silhouette. A texture fault can be invisible at the default framing.
+* **Every toggle the mod has.** Read the mod's `[Key...]` sections and cycle each one (outfit variants, merged
+  master `$swapvar`s, accessories, a help menu) -- and in the outfit PREVIEW, since on the shop grid a key does
+  nothing (Creating Remaps' "test mod toggles").
+* **Over time, not one frame.** The idle animation moves the limbs: a timed series (several shots a couple of
+  seconds apart) shows a clip or a fold one frame can hide.
+* **Against the mod on its OWN character**, part by part -- colours, every garment, the face, the eyes.
+  "Looks plausible" is not a check: a remap drawing the target's default outfit looks plausible.
+* **In the overworld, for a character the account has unlocked.** Walk with `hold w 2` (WASD moves; never
+  press Enter there, it opens chat), which shows cloth swinging and legs stepping as the preview never does.
+  Change the time of day from the game menu's CLOCK: on Genshin it is on the menu's LEFT side bar, on WuWa on its
+  BOTTOM bar -- daylight and night light a surface differently, and a lighting fault may show only in one.
+
+Say in your report what you looked at and what you did not. A fault the maintainer has to find in a screenshot you
+already took is a fault you missed.
+
 ## Keeping a screenshot for the next agent
 
 Scratch shots live in `~/.claude/gameview/shots/` and nobody else sees them. When a picture is

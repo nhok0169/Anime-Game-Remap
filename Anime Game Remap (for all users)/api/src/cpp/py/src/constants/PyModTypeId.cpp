@@ -112,6 +112,12 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
 
         .value("MonaCN", AGRC::ModTypeId::MonaCN, R"doc(Mona Chinese version from GI)doc")
 
+        .value("Neuvillette", AGRC::ModTypeId::Neuvillette, R"doc(Neuvillette from GI)doc")
+        .value("NeuvilletteMelusent", AGRC::ModTypeId::NeuvilletteMelusent, R"doc(Neuvillette outfit skin (Melusent Gift) from GI -- four skinned components (an unnamed main mesh, Coat, Bang, Eye))doc")
+        .value("NeuvilletteMelusentMain", AGRC::ModTypeId::NeuvilletteMelusentMain, R"doc(NeuvilletteMelusent's main mesh (its component name is the empty string), as a fix target -- a skin of several components is fixed one component at a time, and each is a mod type for the tables' purposes)doc")
+        .value("NeuvilletteMelusentCoat", AGRC::ModTypeId::NeuvilletteMelusentCoat, R"doc(NeuvilletteMelusent's Coat component, as a fix target)doc")
+        .value("NeuvilletteMelusentBang", AGRC::ModTypeId::NeuvilletteMelusentBang, R"doc(NeuvilletteMelusent's Bang component, as a fix target)doc")
+        .value("NeuvilletteMelusentEye", AGRC::ModTypeId::NeuvilletteMelusentEye, R"doc(NeuvilletteMelusent's Eye component, as a fix target)doc")
         .value("Nilou", AGRC::ModTypeId::Nilou, R"doc(Nilou from GI)doc")
 
         .value("NilouBreeze", AGRC::ModTypeId::NilouBreeze, R"doc(Nilou summer skin from GI)doc")

@@ -97,13 +97,26 @@ namespace AGRemapCore {
 
             BinaryFile positionFile(files.positionPath);
             component.position = positionFile.read();
+
+            // Line by line -- see VGMergeComponentFiles::positionLineEdit.
+            if (files.positionLineEdit && !component.weights.empty() && component.position.size() % component.weights.size() == 0) {
+                const std::size_t stride = component.position.size() / component.weights.size();
+                for (std::size_t i = 0; i < component.weights.size(); ++i) {
+                    const auto from = component.position.begin() + static_cast<std::ptrdiff_t>(i * stride);
+                    ByteVec edited = files.positionLineEdit(ByteVec(from, from + static_cast<std::ptrdiff_t>(stride)));
+                    if (edited.size() != stride) {
+                        throw std::invalid_argument("a position line edit of '" + files.positionPath + "' changed a line's size");
+                    }
+                    std::copy(edited.begin(), edited.end(), from);
+                }
+            }
             BinaryFile texcoordFile(files.texcoordPath);
             component.texcoord = texcoordFile.read();
 
             components.push_back(std::move(component));
         }
 
-        VGComponentMerge merge(std::move(components));
+        VGComponentMerge merge(std::move(components), config.texcoordStride);
 
         // A group whose bones have nowhere to go writes a NEGATIVE index and the model kinks there,
         // which nothing downstream reports -- so say so here

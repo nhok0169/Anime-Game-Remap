@@ -20,15 +20,20 @@ yourself** and hand the maintainer one final check at the end (Overview habit 69
 | --- | --- | --- |
 | 1 | **Add the downloads** for both characters, **commit them, then STOP and tell the maintainer** so they can merge them into GitHub's `master` before you go on | "The download assets" and "Proving a NEW download folder". GI: `Tools/Misc/Prototypes/giDownloadFolder.py`. WuWa: `wwmiDownloadFolder.py`, or `wwmiExtractDump.py` over a frame dump (`Tools/GameView` takes one) |
 | 2 | **Make the RemapDraft** (`Data/RemapDrafts/<Char>RemapDraft.xlsx`, both directions, `Credits` sheet) | [Vertex Group Remaps](../VGRemaps/CLAUDE.md), `Tools/VGRemapFinder` |
+| 2a | **AUDIT the draft for how each mapping will BEHAVE in game**, not only how close it is -- capes, tails, flaps, skirts and anything else the target has no counterpart for | "THE VERTEX GROUP BEHAVIOUR AUDIT" below, and [Vertex Group Remaps](../VGRemaps/CLAUDE.md)' recipe step 3a |
 | 3 | **Populate the mod data in the API**: the `ModTypeId`s, vertex group remap, hashes, indices, vertex counts (and WuWa's four extra tables) | "Adding a `ModTypeId`: every place it enters", then bump the `core/tests` counts |
 | 4 | **Make IDENTITY mods for both the original character and their skin**: each one's own model written out as a mod, every object, vertex group, texture and material band of the real model in one folder | GI: `Tools/Misc/Prototypes/identityMod.py <PlayerCharacterData/Name> <mod folder>` ("The Yelan lessons, for ANY new remap", point 1). WuWa: `Tools/Misc/Prototypes/wwmiIdentityMod.py <asset folder> <mod folder> [--name <Skin>]`, from a frame dump via `wwmiExtractDump.py` when WWMI-Assets lacks the character (the Chisa pair). The source's identity mod is the first mod every prototype is tested on; the target's is the ground truth for its register layout and band legend ("A REMAPPED SECTION MAY BIND ONLY WHAT THE TARGET'S SLOT BINDS"), and the first mod the reverse direction is tested on |
 | 5 | **Prototype `char -> skin`** under `Tools/Misc/Prototypes/`, using as much of the library API as possible, with **every gap noted** in a comment where the custom code lives | "The loop changed" and "A prototype is built FROM the library" |
+| 5a | **AUDIT the prototype** against every lesson in these files and against every mod a person COULD make -- not only the mods you have | "THE AUDIT GATE" below |
 | 6 | **Test the prototype on a variety of mods** so it does not overfit | the identity mod first, then "CHOOSING TEST MODS". In game: [Game View](../GameView/CLAUDE.md)'s every-mod loop (`mods ... only <mod> --from <folder>`) |
 | 7 | **Add the `char -> skin` fix to the API**, filling each gap the prototype found by creating or editing modules (`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, the tools modules, ...) | the template sections for the character's SHAPE (the `START HERE` table below). A new module ships with its whole surface: core + binding + tests + Sphinx. Grep the family for an existing class to EXTEND first (Overview habit 53) |
+| 7a | **AUDIT the compiled fix** the same way -- the port is new code, and a template option that exists in one template may not exist in the one this direction uses | "THE AUDIT GATE" below |
 | 8 | **Test the API fix on all the mods** | A/B against the prototype (`--ab`, `abWWMI.py`, `abCitlaliRev.py`-style), then in game with Game View |
 | 9 | **Prototype `skin -> char`**, library first again | as step 5. It is its own prototype, not step 5 run backwards: the reverse direction of every pair so far needed a different template (split vs merge, `makeGIMIComponentFixer` vs `makeGIMIMergeFixer`) |
+| 9a | **AUDIT the reverse prototype** -- including everything the FORWARD direction of this pair needed | "THE AUDIT GATE" below |
 | 10 | **Test it on a variety of mods** | as step 6 |
 | 11 | **Add the `skin -> char` fix to the API**, filling its gaps | as step 7 |
+| 11a | **AUDIT the compiled reverse fix** | "THE AUDIT GATE" below |
 | 12 | **Test the API fix on all the mods** | as step 8 |
 | 13 | **Document it**: README tables and the Sphinx docs | "Closing out a remap" and `Tools/Misc/Diagnostics/checkModTypeTables.py` (not done until it prints `ALL FOUR AGREE WITH THE LIBRARY`), plus regenerated `core/xml` / `core.pyi` for any new class |
 
@@ -41,6 +46,13 @@ What the order is for:
   otherwise hit 404s -- which surface as dangling `...RemapDL` references and a light map band
   output that changes run to run, not as an error.
 
+- **DO THE FIRST THING RIGHT (the maintainer's rule, 2026-09-27).** A mistake in an early step costs
+  exponentially more to fix later: every later step builds on it, is tested against it and has to be redone
+  around it. On Neuvillette -> NeuvilletteMelusent the vertex group rows (step 2) put his coat links on the
+  skin's nearest bones and split one garment across two components; everything after -- the torn capes, the
+  seam options, the swinging hems, the folded and clipping flaps -- was debugging THAT, over two extra days of
+  messages that a correct step 2 would not have needed. So do not move on from a step on "good enough, later
+  steps will tell": audit it (2a, 5a, 7a, 9a, 11a), predict how it will behave, and fix it where it is.
 - **Prototype before port, both times.** A rebuild per idea is what the prototype saves (the
   `CppStrategyOverrides` route), and the prototype stays as the ORACLE the compiled fix is A/B'd
   against. Keep it working after the port.
@@ -51,10 +63,99 @@ What the order is for:
 - **"Every mod" is the mods the maintainer points you at**, not one that happens to work. An
   overfit fix passing one mod is the most common way a remap came back broken (see the Yelan,
   Bennett and Citlali sections).
-- **Steps 6, 8, 10 and 12 happen IN GAME, by you,** with `Tools/GameView`.
+- **Steps 6, 8, 10 and 12 happen IN GAME, by you,** with `Tools/GameView` -- and diligently: every angle
+  (drag left / right AND up / down), every distance (scroll a lot), every toggle, a timed series, the overworld
+  where the character is unlocked, and always against the mod on its own character. See [Game View](../GameView/CLAUDE.md)'s
+  "Observing a remap in game". Most of Neuvillette's reported faults were in the agent's own screenshots.
+- **The audits (5a, 7a, 9a, 11a) are not optional and not a skim** -- see the next section.
 - **Test mods the maintainer hands you as downloaded archives** go in with `Tools/ModInstaller`
   (`<archive folder> <mods folder> <Name>` -> `<Name>1`, `<Name>2`, ...; `.zip`, `.rar`, `.7z`),
   into whichever folder they name -- then `mods ... --from` that folder drives the every-mod loop.
+
+<br>
+
+## THE VERTEX GROUP BEHAVIOUR AUDIT: after the RemapDraft (step 2a, 2026-09-27)
+
+**The closest vertex group is not necessarily the right one (the maintainer's rule, 2026-09-27).** A
+proximity match answers "which target bone is nearest this source bone"; the question the game asks is "how
+will this part MOVE on the target's skeleton, in the target's animations". For every part the target has no
+counterpart for -- capes, coat tails, flaps, skirts, sleeves, ribbons, loose panels -- predict the motion of
+the bone it lands on before the in-game test, and write the reasoning into the draft's Comments column. What
+the Neuvillette -> NeuvilletteMelusent rows cost when this was skipped (all in "NEUVILLETTE <->
+NEUVILLETTEMELUSENT" in Creating Remaps):
+* **a cut between components tears**: his coat links landed on the skin's Coat component and his coat body on
+  its main mesh, the two share no bone, and the capes of three mods ripped open along the seam -- one garment
+  belongs on ONE component's bones;
+* **a bending joint swings what hangs from it**: coat links on the skin's knees and shins (the nearest bones)
+  swung the hems with every bend of the idle pose -- panels splayed, a flap folded in, two cape halves crossed;
+* **a bone that moves with the legs folds cloth that should not**: the upper links on the back-skirt bones
+  folded a front flap back over its lining; on the skin's skirt root it folded too;
+* **a bone that never moves lets a limb go through**: every link on the pelvis made the side flap clip the
+  stepping thigh (fixed by pushing the cloth clear, `VGPushAway`, and sharing weight, `splitGroups`);
+* **the part may not ride the chain you think**: Neuvillette3's clipping flap rides his TAIL chain, not the
+  front-panel chain the first fix went on -- tally which groups carry the part in EACH mod before tuning it;
+* and before this pair, **hair is simulated**: Chisa's jacket shoulders on ChisaParfait's hair bones swung
+  "like jello".
+Prefer, for a hanging part, a bone that barely moves over one that bends, the farther the part hangs from it;
+keep a garment on one component; never put a non-hair part on hair; and check left against right. Then look
+at it IN MOTION -- a timed series of shots through the idle animation, not one frame, since a single pose can
+hide a clip or a fold that the next frame shows.
+
+<br>
+
+## THE AUDIT GATE: after every prototype and every compiled fix (the maintainer's rule, 2026-09-27)
+
+**The fix has to be right for mods nobody has tested it on.** Some characters have very few mods on the
+internet -- NeuvilletteMelusent had ONE -- so the mods in hand cannot exercise every edge case, and an
+in-game pass over them proves only that those mods work. What the maintainer wants never to happen is an
+external user filing a bug about a remap on GitHub or GameBanana. So after the prototype (steps 5 and 9)
+and again after the compiled fix (steps 7 and 11), before calling the step done, **audit what you
+implemented** against two things:
+
+1. **Every mistake a previous agent made, and every issue you hit yourself.** Go through THIS file,
+   [Overview](../Overview/CLAUDE.md)'s habits and the other guides' sections for the subsystems you touched,
+   and for each lesson answer: does it apply to this pair and direction? what field or code handles it?
+   does THIS config set it, and to what? how do the comparable configs set it? Mark each COVERED / NOT
+   COVERED / UNCLEAR with a reason. A lesson learned in one TEMPLATE is not automatically in the other: the
+   2026-09-26 audit of NeuvilletteMelusent -> Neuvillette found the eye offset, the side-mesh hides, the
+   texture-name trust rule and the TexFx guard all missing from the merge template, because each had only
+   been built into the component template that week -- and the one real mod had shown one of them (the eyes)
+   while every A/B passed. **Include everything the OTHER direction of the same pair needed**; the two share
+   the models, so they share most of the traps.
+2. **Every mod a person could make, not only the ones you have.** For each shape below, say what your fix
+   does with it -- and where no real mod has the shape, BUILD one (a synthetic variant of the identity mod,
+   as `Tools/Misc/Prototypes/neuvilletteMelusentSynth.py` does) or write a unit test, and run the fix on it:
+   * a merged master (`$swapvar` branches, `run =` command lists, `ib = null` in some branches), a
+     `namespace_merge.py` merge, `DISABLED*` variants carrying stale hashes;
+   * a texture-only recolour in its own `.ini` or beside the mesh file, a help / toggle overlay that only
+     watches the character, several `.ini` files in one folder naming the same generated files;
+   * a mod missing a whole component or object, a 16-bit index buffer, its own `drawindexed` ranges under
+     toggles, its own `NNFix` / `ORFix` / TexFx calls, GIMI's newer API (`CommandList\GIMI\SetTextures`);
+   * texture files named one role off, a mod that hides the game's face (`handling = skip`) and brings its
+     own, a mod that hides side meshes by hash (`ib = null` on the face / head-upper -- a mask);
+   * cloth the target has no bones for (capes, tails, flaps -- does it tear, fold, swing, clip?), single-layer
+     cloth whose inside the target's shader lights differently;
+   * the fix run TWICE on one folder (every file still there? nothing counted fixed that was not?), undone,
+     and a non-Latin folder name.
+
+**How.** A read-only subagent given this file, the configs of both directions and the comparable pairs'
+configs, and asked for a numbered COVERED / NOT COVERED checklist, did the first pass of the 2026-09-26
+audit well; the judgement on each NOT COVERED is yours. Fix each gap **in the shared library**, with the
+default off so no earlier character's output moves, and prove it with the regression runs: the other
+characters byte-identical, the pair's own mods A/B-identical to the prototype, and a REVERSE-direction
+regression too (a copy of every skin mod of every merge pair -- the forward-only regression set is why a
+name-trust change that broke every Citlali skin mod was nearly shipped). **And for any change to SHARED
+rendering code, the Integration Tester on Linux** (Testing's "Integration Tester"): its goldens are the only
+set with a mod type of TWO targets in one file (Jean) and with generated COPIES (Keqing, Kirara), and the
+2026-09-26 week's two `GIMIFixer` changes -- copies declaring their downloads, and a section repeated word
+for word dropped -- moved eight goldens that every hand-built regression passed; CI found them. **Your test copies are only as
+good as the moment you took them**: NeuvilletteMelusent1's `tex.ini` had already been deleted by an earlier
+fix when its pristine copy was taken, so every comparison passed on two equally wrong outputs. Take the
+copy from the mod as its AUTHOR shipped it.
+
+**In game, check against the mod on its OWN character** (the skin card beside the base card), feature by
+feature -- colours, every part, the face -- not against "does it look plausible": a remap that draws the
+target's default outfit looks plausible. Say what you checked and what you did not.
 
 <br>
 
@@ -66,7 +167,7 @@ surprises you.
 
 | the request | read, in this order |
 | --- | --- |
-| **"add the remap for X -> Y"**, and X and Y are ordinary GI characters | "THE MAINTAINER'S REMAP PIPELINE" above for the order of the whole job, then "The loop changed" (prototype, then port), then "Start here: adding a character, in order", then "Most characters are two short files". **Pick the shape from the HASH and INDEX tables, never from the character's name** --- Arlecchino remaps onto a boss and is not the Raiden shape |
+| **"add the remap for X -> Y"**, and X and Y are ordinary GI characters | "THE MAINTAINER'S REMAP PIPELINE" above for the order of the whole job and "THE AUDIT GATE" after each prototype and port, then "The loop changed" (prototype, then port), then "Start here: adding a character, in order", then "Most characters are two short files". **Pick the shape from the HASH and INDEX tables, never from the character's name** --- Arlecchino remaps onto a boss and is not the Raiden shape |
 | the target is a **skin of several components** (every GI character from Bennett on) | "Recipe: a classic-shape mod onto a multi-component skin", then [Vertex Group Remaps](../VGRemaps/CLAUDE.md)'s recipe. The reverse direction (several components onto one mesh) is "The reverse direction is COMPILED TOO" |
 | a **WuWa** pair | "The next WuWa pair: what a config needs, and how the loop runs", then "WUWA IS COMPILED". A WuWa character is ONE mesh of draw slots on a merged skeleton --- one fix row for the pair, not one per component |
 | **"the model is warped / kinked / stretched in game"** | [Vertex Group Remaps](../VGRemaps/CLAUDE.md): an unmapped source group becomes a NEGATIVE bone index, and `overrideVgRemap.py --dump` names them. Then "When the blend IS remapped and the model still kinks" |
@@ -80,6 +181,12 @@ surprises you.
 | **black shards / lighting-shaped dark patches** on one object of a component remap, on some mods and not the identity | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 8: the target SLOT decides the pixel shader. Hand-edit that group's `match_first_index` to another slot of the component and reload before theorising; `Component::objSlotIndices` then routes the object for good |
 | **stretched triangles** reaching from one part to another (skirt up to the chest) on a MERGE, on one mod and not the identity, with a vertex group table that looks right | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 9: list the slot sections the MOD declares. A slot it leaves out under a component `handling = skip` was being downloaded and drawn over the mod's own vertices. Comment out that slot's `run =` in the fixed `.ini` and reload to confirm in one step |
 | **the remapped mod is a DIFFERENT COLOUR from the same mod on its own character** (CharlotteHurlock5: turquoise on the skin, red on Charlotte) | Usually NOT a fix bug ([Overview](../Overview/CLAUDE.md)'s habit 80). Open the mod's own diffuse (Pillow reads the `.dds`) and run `reload --mod` on it. If the texture already has the "wrong" colour and the SOURCE's own sections show `Unrecognised entry: resource\gimi\...` / `run = commandlist\gimi\settextures`, the maintainer's old-loader GIMI never binds the mod's textures on its own character. The fix normalises those lines into `ps-t` bindings, so the remap is the first place the author's real colours show. The maintainer's call (2026-09-24): not our problem |
+| **one variant of a merged master shatters** on a COMPONENT remap (the others fine) | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 4: a `.ini` group whose object keeps nothing in a state still bound the SOURCE's raw buffers there. List every generated file's per-`$swapvar` `vb0` / `vb1` / `ib` bindings and the vertex counts behind them before touching code |
+| the mod's **mesh file binds no textures** and a SEPARATE `.ini` recolours the skin by texture hash | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 7: the mesh file imports its siblings' `this =` overrides, the recolour file defers to it |
+| a cape or coat **torn / ripped open along a line**, dark lining showing through, on a multi-component skin | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 11: one garment cut between two components whose bones differ. Hide one component's draw to see the seam; count the cut pieces with the split from Python; the fix that held is the whole outfit on ONE component (move the groups in `VGRemapData`), not a moved or covered seam |
+| the eyes **look down / up** on the target but not on the source, on ONE mod | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 10's second half: the mod hides the game's face (`handling = skip` on the face diffuse hash) and brings its own, so the eye offset must not apply -- `Component::offsetOnlyWithGameFace` |
+| **white eyes with no pupils** (or eyes gone) on the target, the eye textures and UVs right | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 10: the eyes sit in the GAME's face mesh and the source's bind pose puts them behind the lids. Difference the target's own Eye `Position.buf` against the fix's output for the identity mod, vertex for vertex, and set `Component::positionOffset` |
+| a **mantle / cape sleeve, a cuff or a loose panel** sticks out or hangs wrong on the target when an arm moves | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 8: find the target's REAL forearm by which bone shares vertices with the hand chain, and audit the rows for left / right asymmetry |
 | the remap **works and you are finishing up** | "Verifying", then "Closing out a remap" --- five files and a regenerated `core/xml`, and the vertex-group draft's `Credits` sheet |
 
 Four things hold whichever row you are on, and each has cost a session:
@@ -1504,6 +1611,273 @@ CherryHuTao4 onto Hu Tao shows both its variants. Those CherryHuTao mods are pre
 their OWN skin in the current game; that is the mods, and the remap is right.
 
 <br>
+
+## NEUVILLETTE <-> NEUVILLETTEMELUSENT (2026-09-24/25): the fifth component pair, compiled both ways
+
+Neuvillette is one mesh (`head` 0 / `body` 33879 / `dress` 79377); NeuvilletteMelusent ("Melusent Gift", 6.3) is an
+UNNAMED main mesh (component `""`: Head 0 / Body 46620 / Dress 71025, filed as `NeuvilletteMelusentMain`), a
+`Coat`, a `Bang` and an `Eye`. Prototypes `Tools/Misc/Prototypes/neuvilletteMelusentFix.py` and
+`neuvilletteFromMelusentFix.py` stay the oracles; the compiled rows (`IniFixData/Neuvillette/`,
+`IniFixData/NeuvilletteMelusent/`, and the two parsers) are byte-identical to them on ten forward mods and six
+reverse ones. **There is ONE real mod of the skin**, so the reverse was also tested on four synthetic ones
+(`Tools/Misc/Prototypes/neuvilletteMelusentSynth.py`: a merged master, a texture-only recolour, a mod without its
+Eye, a 16-bit one) -- and two of those four found library bugs. Build synthetic variants for any skin with few
+mods. Every point below is in SHARED code unless it says otherwise; the regression over 17 forward and 20
+merge-direction mods moved nothing but Bennett5 (point 3).
+
+1. **His mods do not agree on a layout.** His head and dress are plain, his body normal-map -- but one mod writes
+   the head normal-map with `ORFix`, and a diffuse download keyed on `ps-t0` fired on it and put the diffuse in the
+   NORMAL-MAP slot (a hair ribbon drawn flat green). `GIMICharParserConfig::ObjDownloadRegs::coverRegs`: a section
+   binding ANY of its object's texture registers brings its own set.
+2. **Names are an author's labels.** `GIMIComponentFixerConfig::texRegsByName` routes bindings by resource NAME
+   (one mod writes its dress in the GAME's register order with no fix call). Then Neuvillette7 named its normal map
+   "Diffuse", its diffuse "LightMap" and its light map "Shadow" -- one position off -- and by name the whole outfit
+   drew flat YELLOW. Names are believed only when the section calls no fix library itself (`NNFix` / `ORFix` read
+   fixed registers, so such a section is in GIMI's order) and every `ps-t0..2` file names exactly one role.
+   **Look at the textures** (`TextureFile.saveAs` to `.png`) before trusting either reading: a flat
+   `(128, 128, 0)` is a normal map whatever it is called. Neuvillette9 is past what names can say (game order,
+   game-original fillers, a 3072 "light map" that is a diffuse atlas) and is left to the maintainer.
+3. **A component can come out EMPTY for one mod** (a summer outfit with no coat): the component template now hides
+   it by what the output DRAWS, owned by the last component's fixer. And when that OWNER (the Eye) drew nothing,
+   `GIMIFixer` had no groups, no targets -- and dropped its `appendedSections`, the hides included: the skin's own
+   bangs drew over a Yu-Gi-Oh mod's hair. It now renders them into the mod's own file. Bennett5 (HuoHuo over
+   Bennett) gained the same hides; flagged for the maintainer's eye.
+4. **A merged master splits into one `.ini` per drawn object, and a state is per GROUP, not per component.**
+   Neuvillette4's second variant nulls the dress: the dress group's file still carried the component's vertex
+   count as its `draw` (fixed to `0,0` per group) AND its unconverted `vb0` / `vb1` -- the SOURCE's raw buffers on
+   the skin's Main hashes. Whichever file ran last fed the draw his layout, and the variant shattered.
+   `RegBranchAdd::Branch::removals` / `ModBranches::removePerBranch` take those bindings out.
+   `ResEditConfig::filePerSection` gives two sections naming one source file their own fixed files (a shared
+   `.ib` over different blends) -- defensive: here the two splits happened to be identical.
+5. **A copy (`<ini>RemapFix<N>.ini`) must DECLARE the downloads it binds.** 3DMigoto resolves a resource per
+   `.ini`, and download resources lived in group 0 only: `Unrecognised entry: ps-t1 = Resource...RemapDL`.
+   `GIMIFixer::groupToStr` now adds every group-0 download a copy names.
+6. **Reverse: a component's hashes, the target's texcoord width, a 16-bit mod.** The merge built a component's
+   mod type name as skin + component, which for `""` is the skin itself (no buffer hashes; every buffer fell to a
+   download) -- `GIMIMergeFixerConfig::Component::modTypeName`. Every skin component carries a 12-byte Texcoord and
+   Neuvillette reads 20; "the widest component's" was 12 -- `GIMIMergeFixerConfig::texcoordStride` (a FLOOR, the
+   lines zero-padded at the end). And a 16-bit mod had every `drawindexed` count and offset HALVED: counts were
+   bytes / 4 whatever the declared width.
+7. **A recolour in a SIBLING `.ini`** (NeuvilletteMelusent1: its mesh binds no textures; `tex.ini` is
+   `hash = <skin texture> / this = ...`). The mesh's slots took downloads and the recolour, which on the skin works
+   through the game's own bindings, never reached them. The component parser now reads its siblings' overrides too
+   (only a file that draws the mesh; its own overrides win) and declares each file under a `...RemapRef` resource
+   of its own (an undo keeps the `.dds`). The recolour file, which alone would draw a whole second model from
+   downloads, defers to a sibling that draws the mesh. **On a re-run the RemapRef section exists already** (the
+   previous fix's, read before its undo): skipping it declared nothing and every binding went `Unrecognised`.
+   Test every fix TWICE.
+8. **The skin wears its coat as a MANTLE** -- its sleeves hang EMPTY behind the arms on a chain of their own
+   (z -0.18..-0.30 against the arm's -0.03). Neuvillette has nothing like it; five mappings were tried in game
+   (the draft's cuff piece + shoulder cloth: the cuff jutted out at elbow height; elbow; forearm; shoulder cloth
+   alone: swung forward; clavicle: rigid and flared at idle) and the whole chain on his UPPER ARM won. Two methods
+   worth reusing: **a bone's role is what it shares vertices with** (his forearm is the one his hand chain shares
+   weight with; 84 was the elbow and 58 an isolated cuff piece), and **audit a row for left / right asymmetry**
+   by mirroring centroids -- it found the mantle's right shoulder on 65 where the left's mirror is 67. And
+   **hide the part to name it**: commenting out one member's `drawindexed` in the fixed `.ini` proved the stuck
+   cuff was the Coat's in one reload.
+9. **Smaller ones.** An undo of a merge's COPIES never deleted their resources (`RemapService::_removeRemapCopies`),
+   so a stale created normal map survived a re-fix. The flat normal map invented for a plain object has B = 0
+   (this skin reads normal-map B as a GLITTER mask). No band move: his white mods render right on the skin's legend
+   (`CppMaterialBandRemapFilter` is bound to Python now, for the next pair that needs one). A download's first
+   request can fail DNS (`Could not resolve host`) three times inside 3 s and leave a slot bald for that run --
+   environmental, but it reads exactly like a fix bug.
+
+10. **His eyes were WHITE, with no pupils, on the skin -- on every mod, the identity too** (reported on
+   Neuvillette3, 2026-09-25). Everything a texture question asks came back clean: the eye region of his head atlas
+   is the skin's, the UVs and vertex colours match, both passes of the skin's Eye (`aa207905`, then `d68b526e`)
+   got the right diffuse through `NNFix`, and hiding the Eye draw left EMPTY sockets, so the draw was drawing. The
+   answer was in the positions: his eye mesh IS the skin's -- same 168 vertices in the same order, same ib, same
+   UVs -- and **1.24 cm higher**. Neither mod carries a face: both characters' eyes sit in the sockets of the
+   GAME's face mesh, which on the skin is lower, so at his height the irises were behind the upper lids and only
+   the white below them showed through. Hair or a coat a centimetre off reads as the same outfit; a part that
+   has to sit inside something the game draws cannot be off at all.
+   `GIMIComponentFixerConfig::Component::positionOffset` (shared: a translation through the split's
+   `positionLineEdit`, all zeros = no edit, so every other character's output is byte-identical -- 1966 of 1966
+   files) moves his Eye by the measured `(0, -0.01237, -0.00021)`; the written eye is now within 1.4 mm of the
+   skin's own. **To measure one**: build the identity mod, fix it, and difference the target component's
+   downloaded `Position.buf` against the fix's `...RemapPosition...` for that component, vertex for vertex --
+   check the ib and UVs agree first, and accept a translation only when the residual is small against the part
+   (here 0.3 mm against a 19 mm eye). Matching by UV instead is a trap: an eye's UVs repeat (168 vertices, 64
+   distinct matches), and the "mismatched normals" it reports are other vertices' normals.
+
+   **And then one mod's eyes LOOKED DOWN with the offset on** (Neuvillette2, its own anime eyes): **a mod can
+   hide the game's face and bring its own.** Its `[TextureOverride...FaceHeadDiffuse]` says `hash = 81e80510` /
+   `handling = skip` (and the fix carries the skip onto the skin's `6dab6f0e`), its face lives in his HEAD mesh,
+   and the head reaches the skin unshifted -- so the 1.24 cm moved its eyes below ITS face. With no shift at all
+   they look straight, exactly like on his own outfit. `Component::offsetOnlyWithGameFace` (shared, default off)
+   drops the offset for any `.ini` whose face-diffuse section skips the draw; Neuvillette's Eye turns it on.
+   **Grep a mod for `handling = skip` on the source's face hash before reasoning about its eyes.**
+   The wrong turn is worth knowing: the frame dumps' face draws (UV-matched per side of the face -- face UVs are
+   MIRRORED, so a plain UV match pairs left with right) show the skin's eye OPENING is two-thirds as tall as his,
+   and scaling the mod's 8.4 mm eye drop by that fit predicted "+3 mm", which even looked right in two of six
+   hand-test frames. It was built, and in game it was "still the same" -- the premise (the eyes sit in the game's
+   face) was false for this mod. A hand edit to "no shift" settled it in one reload. Two cautions from it: a
+   head-bone space's up axis is its `x` here, not `y`; and an outfit-preview idle animation turns the head and
+   blinks, so compare several frames against the character's own outfit, never one.
+
+11. **Capes and coat tails tore open on the skin (Neuvillette3, 4 and 5), and the fix is to cut NOTHING.** Kaiba's cape
+   showed jagged holes at shoulder-blade and waist height with its dark lining through them. The split had cut one
+   surface between the main mesh and the Coat: a cut component keeps only its own bones, so each side of the seam lost
+   about half its weight (45% / 55%) and the two copies of every seam point followed different bones. **No two
+   components share a bone** (every matrix of the two skinning passes' `vs-t0` palettes compared), so a seam through
+   blended cloth cannot close. **Hide one component's draw to see a seam**: commenting out the Coat's `drawindexed`
+   removed the cape from the shoulder blades down and left the jagged edge exactly where the rips were.
+   What was tried in game, in order, and why each fell short -- keep this list, it is the expensive part:
+   * nearest-bone stand-ins (`VGComponentSpec::secondary`, honoured on a cut since `fea074b1`): the waist band closed,
+     the shoulder band did not -- the Coat has no spine, its centre back is a chain hanging 10-20 cm off the body;
+   * a Coat claim share of 0.9 (`claimShare`): the shoulder band closed, a hip band opened, and Neuvillette3's coat
+     edge ZIGZAGGED;
+   * an overlap band (`overlapRings`, 1 and 3 rings): most gaps covered, but the main mesh's copy of a SWINGING tail
+     poked out (spikes, a flap under the hem), and specks stayed -- shipped in `fea074b1` and reported still ripped;
+   * whole connected pieces to one side: no seam inside a piece, but a coat's shell and its LINING are separate pieces
+     millimetres apart, and when they went to different sides the lining came through the shell as a flat navy panel.
+     Grouping welded and layered pieces fixes that -- and links almost the whole outfit into one group, 92-98% main
+     mesh on every mod: **a mod's outfit is one garment**.
+   **So the whole outfit goes to the main mesh**: his coat groups (0, 1, 32-47) are in the main mesh's `VGRemapData`
+   row and the Coat's row is EMPTY; the template hides a component that draws nothing, so the skin's own mantle stays
+   hidden. The cost is swing: the main mesh has no long coat bones, so ALL his coat links ride its PELVIS, and a hem
+   hangs with the hips. They first rode the nearest bones -- the upper links the back-skirt bones, the lower ones the
+   knees and shins -- and cloth hanging 20-30 cm off a joint that moves swung with every bend of the idle pose:
+   Neuvillette2's front panels splayed open over the lining, Neuvillette3's cape folded in (and later, with only the
+   lower links moved, its right front flap folded back), Kaiba's cape halves crossed. **For a stand-in, nearest is not
+   enough: prefer a bone that barely moves over one that bends, the farther the cloth hangs from it.**
+   **And "all his coat links" means ALL of them (2026-09-26).** Neuvillette3's front flap stayed folded after the
+   back links moved, because its corner was the one piece of that coat on his FRONT panel chains (48-51, 52-55),
+   still riding the skin's front skirt chains (70 / 81 / 83) while its neighbours rode the pelvis. Found in minutes
+   by tallying the weights of the coat's connected islands per region (front / back, left / right, by height): one
+   region carried groups no other coat region used. Those chains are on the pelvis now too.
+12. **Two more, from the same round (2026-09-25).** *A sheer shirt vanished* (Neuvillette8): TexFx transparency
+   (`ps-t69` + `run = CommandList\TexFx\T.0`) replaces a draw's pixel shader by PATTERN, and it does not recognise
+   the skin's main-mesh shaders -- the shirt was skinned and drawn every frame (a frame dump shows the injected
+   `DrawIndexed`), yet invisible, and it came back opaque with the TexFx lines removed.
+   `GIMIComponentFixerConfig::Component::dropTexFx` strips them from a component's remapped sections; opaque is a
+   texture fault, missing is a geometry one. The way it was found: rule out the geometry first (the split kept all
+   3,648 triangles; the skinned `vb0` put them on the body), THEN the bindings, one line at a time. *An inner skirt
+   came out flat bright blue* (Neuvillette2): the skin's BODY slot shader lights the inside of cloth as if it faced
+   out, where her own outfit shades it navy; a light-map band move changed nothing, and routing his `dress` object
+   through the skin's DRESS slot shaded it right. That object is his cravat and lace on his own outfit, which the Dress
+   slot had once given dark blotches -- the maintainer chose the Dress slot anyway. And *Neuvillette9's* colours are
+   a texture fault: its files are named one role off (the "LightMap" is a 3072 colour atlas), which the maintainer
+   chose to leave -- but its CRACKED MASK was not a texture, see point 13.
+   *And the body came and went* (Neuvillette2, headless for minutes at a time): a frame dump showed the body's draw
+   issuing `DrawIndexed(0, 0, 0)` because the `.ib` its section named did not exist -- the live folder, re-fixed in place
+   a dozen times that day (some while the game had it loaded), had lost two files a clean fix writes. Not reproduced
+   on scratch copies then -- it ALTERNATES from run to run, see point 13. **Count, per mod, the `filename =` lines that name a missing file**
+   (`missingRefs`-style) before debugging a part that is not drawn. The same check found a real bug: every component
+   fixer of a skin writes into ONE `.ini`, and each declared the parser's download resources again -- 30 duplicate
+   sections per file on Neuvillette2 ("Duplicate section" on every reload). `GIMIFixer` now drops a section the
+   accumulated file already declares word for word (trailing comments aside, and kept); its first version looped
+   forever on the empty line after a trailing newline, which showed only as a fix that never finished -- cap a
+   verification run with `timeout`.
+   The maintainer grades geometry faults above texture ones and a hole as the worst of them; all ten mods were checked
+   whole front and back in game.
+   **Measure before an in-game round**: run the library's own split from Python (`VGComponentSplit` on the mod's
+   buffers) and count, per mod, the connected pieces cut between two components and the weight a seam drops. And a
+   warning from the checking: a frame taken right after `mods only` + reload can show a HALF-LOADED mod (Neuvillette4
+   once came up as a jacket and a head) -- wait, re-take, and cycle a merged mod's variant key (`h` here) in the
+   outfit PREVIEW only; on the shop grid it does nothing.
+13. **The next round (2026-09-26): three shared-code findings, one of them in `RemapService`.**
+   *A cracked mask* (Neuvillette9, "you would still see the mask covering the left face"): the mod hides his own
+   FACE meshes by hash (`ib = null` on `24f8b383` face, `8559c8e2` head-upper, `f151ddf7` eyebrows) to put a mask in
+   their place. Those are no mod object, so nothing remapped them, and the skin draws its own face and head-upper
+   under OTHER hashes (`97cd1620`, `81780578`; the eyebrows are shared) -- its face showed through the mask. Found by
+   matching the two frame dumps' draws on shader pair and index count. `GIMIComponentFixerConfig::sideMeshes` names
+   such hash types (`ib_face`, `ib_headupper`, rows in `HashData` for both characters, the skin's under
+   `targetSkin`), and the owner writes each such section of the mod again on the target's hash, body copied.
+   *A see-through shirt WITHOUT TexFx* (Neuvillette8): 3DMigoto can blend a draw through a `CustomShader` that
+   names no shaders (the game's stay bound) -- but GI's G-buffer is several targets, and only `o1` carries colour.
+   Blending `o0` alone changed nothing, `o1` alone at 0.45 washed navy to white, every target at once likewise, and
+   `o1` at 0.9 (others `ADD ZERO ONE`: the body's normals and material ids stay) matched the TexFx original. A mix
+   is dominated by the brighter surface, so the factor is not TexFx's opacity. Which draws: the mod's own TexFx
+   mask (`ps-t69`, RED 1-254 = see-through) sampled at each `drawindexed` range's UVs -- on Neuvillette8 the shirt
+   range is 95% see-through and every other range 100% opaque. `Component::texFxBlend` (the factor, 0 = off).
+   *The fix was not idempotent* (Neuvillette2, "headless for minutes"; and Bennett7's ACTIVE merged fix, found by
+   the regression): a folder is handled one `.ini` at a time, undo then fix, and `RemapService`'s guard against an
+   undo deleting what this run just produced asked only the removal's own stats bucket -- but a split's index buffer
+   is FIXED as `buf` and REMOVED as `other`, so no `.ib` was ever protected. Two `.ini` files of one mod whose fixes
+   name the same generated file (Neuvillette2's `0.ini` and `DISABLEDmerged.ini`) then lost it on alternate runs.
+   `_producedThisRun` asks every bucket -- and, since a mod can bring a file type no bucket knows (the maintainer's
+   `.foo`), first asks whether any `.ini` fixed EARLIER IN THIS RUN, or one of its generated copies, names the file
+   on a `filename =` line (`_rememberReferences`): type-agnostic, and the rule the bucket check only approximated.
+   The proofs are scratch copies with one `.ini`'s old fix pointed at a file the other `.ini` names -- a generated
+   `.ib` (one missing reference on the old build, none on the new) and a `shared.foo` the mod names itself (deleted
+   by the bucket-only build, kept by this one). **Run every fix twice, and count the missing references after EACH
+   run** -- the alternation is invisible to a single run.
+   *Neuvillette2's light-blue inner skirt is the INSIDE of single-layer cloth*: drawn with `cull = back` the light
+   blue panels stay and the navy outside vanishes, so the two face opposite ways. Neuvillette's shader shades a back
+   face as cloth; the skin's lights it like rim light. A light-map band move, the Body slot and the Dress slot all
+   gave the same inside. The fix is geometry, and the template builds it now:
+   `GIMIComponentFixerConfig::Component::mirroredObjs` (Neuvillette's `dress`) makes `VGComponentSplit` follow each
+   triangle of those objects with a twin wound the other way over copied corners (same weights, flagged in
+   `VGComponentBuffers::mirrored`), and the writer turns each copy's normal round and moves it `mirrorOffset` (5 mm)
+   inside (`VGComponentSplit::mirrorPositionLine`, applied through `VGSplitGroupConfig::mirrorLineEdit`). The twin
+   keeps its triangle's SOURCE id, so a mod's own `drawindexed` ranges take both, and the vertex-count split and the
+   buffer-writing split build their specs through one function (`specsFor`), so the `.ini`'s skinning `draw = N`
+   always matches the written buffers (Neuvillette2: 50492 -> 65329). In game the inner skirt renders dark navy like
+   his own outfit. Cut components only: a negative-index component's vertex buffers are not rewritten.
+   **The offset has to beat the depth buffer, not the geometry**: shipped at 1 mm, every mirrored garment came back
+   "metallic" -- dark, speckled, Neuvillette1's white apron navy -- because at the preview's distance the twins
+   z-fought the surface from outside, and their turned-round normals shaded the losing pixels dark. Bisected in game
+   on the written buffer: twins collapsed away = clean (so not the vertex count), normals kept = nearly clean (so the
+   twins WERE showing), 0.1 mm = worse, 4 and 8 mm = clean. 5 mm now.
+
+14. **A flap between two bones, and the reverse direction audited against everything above (2026-09-26).**
+   *The front flap clipped the leg* once every coat link rode the pelvis (Neuvillette3). Tried in game, each as a
+   TIMED SERIES (five shots 2.5 s apart, one camera -- the idle animation moves the leg, and single shots of two
+   variants taken at different moments compare different poses): the pelvis clips, the thigh (23 / 43) follows the
+   leg but swings the panel's face round and shows the lining, the skin's skirt root (70 / 71) folds it back as
+   its skirt chain did. What neither bone can do, a SHARE can: `VGComponentSpec::splitGroups` /
+   `GIMIComponentFixerConfig::Component::splitGroups` give a source group's weight to several bones (after the
+   remap, over the final weights, the 4 largest kept), and the panel links now go pelvis / thigh 75/25, 50/50,
+   25/75 down the chain -- neither fault in the frames where the others broke. **When a part has no counterpart
+   and both nearest candidates are wrong in opposite directions, split the weight before trading anything off.**
+   *The reverse direction had none of this week's lessons* -- an audit of the merge template against every
+   section of this file found the eye offset, the side-mesh hides, the name-trust rule and the TexFx guard all
+   missing, because each had been built into the COMPONENT template only. NeuvilletteMelusent1's eyes looked down:
+   the skin's Eye is his eyes 1.24 cm lower, merged as it was (measured: the merged eye vertices sat 4.4 mm below
+   his on average, up to 12 mm; now 0.0). The merge template has `Component::positionOffset` /
+   `offsetOnlyWithGameFace`, `sideMeshes` (the component template's code moved into a shared `SideMeshes`),
+   `texFxGuardUnreached` (opt-in), and the name trust -- with ONE condition, not two: a skin mod on GIMI's newer
+   API is normalized into bindings PLUS an `ORFix` its author never wrote, so "the section makes no fix call"
+   rejected every Citlali skin mod's (correct) names and the band edit rewrote their diffuse. **The regression
+   set had no reverse-direction mod at all**, which is how that would have shipped: `revRun.py` (scratchpad
+   pattern) copies every skin mod of the five merge pairs, fixes them downloads-disabled and hashes the output --
+   caught it on the first run. Note what downloads-disabled cannot see: a mod missing a component (NeuvilletteMelusent1
+   ships no Coat) writes no merged buffers at all then, so check such a mod with downloads on.
+   *A GameView trap that cost two rounds*: the outfit preview closes back to the shop GRID now and then, and a card
+   click aimed at the preview then lands on a grid card -- Nilou's, twice, with every screenshot of the "variant"
+   showing her. Prove the page before every series: compare the bright TEXT pixels of the outfit-name area with a
+   crop from a known shot (a plain pixel difference cannot tell -- sparkles and backgrounds swamp it; the text
+   mask separates Melusent Gift at 5-12 from every other page at 78-100), and accept the base card's name too
+   ("Clear Adjudication" is his page), or the check pages away from the right one.
+
+15. **A fix that writes nothing used to DELETE the .ini (2026-09-26).** `GIMIFixer` moved the file aside to its
+   backup before building the fix and put a file back only per fix target -- so a fixer with none (a texture-only
+   recolour deferring to its mesh sibling, a multi-component fixer that gave up) left the mod without that `.ini`.
+   NeuvilletteMelusent1's `tex.ini` went on the first fix; every later run drew the game's textures ("all the
+   textures are wrong"), the run still counted it fixed, and every A/B and regression passed, because each started
+   from a copy taken AFTER the file was gone. The backup now happens only once there is something to write.
+   **In game, compare against the mod on its OWN character** (the skin card beside the base card), not against
+   "does it look plausible": a remap drawing the default outfit looks plausible.
+
+16. **The flap that clipped was never the one being fixed (2026-09-27).** The graded share (point 14) went on his
+   FRONT panel chains 48-55, and Neuvillette3 carries no weight at all on 52-55: its clipping flap is the side
+   panel on his TAIL chain 40-42 (and 32-34 opposite), which the pelvis carries. Found by tallying weights over
+   the coat's own connected islands only -- a box over the region caught the trouser leg instead (his 105 / 88).
+   **Before tuning a part's weights, confirm WHICH groups carry the part in THAT mod** (`chainUse`-style tally
+   per mod; one mod's front panel is another's tail). The fix is `VGPushAway` (`VGSplitGroupConfig::pushAway`,
+   `GIMIComponentFixerConfig::Component::pushAway`): a vertex on the push's groups moves horizontally away from a
+   point by its weight share times a distance -- 4 cm from the skin's thigh, both sides; in game it hangs clear
+   in every frame of a timed series, and Neuvillette1 / 4 / 5 still look right. **Its first compiled version
+   moved nothing** -- the split takes the blend by move, and the push read the moved-from vectors -- while the
+   in-game series LOOKED fixed (the idle pose happened not to step into the flap). The unit test caught it; the
+   written buffer confirms it (count the lines not at a source position). A screenshot is not evidence a buffer
+   changed.
+
+**Open for the maintainer**: Neuvillette2's inner skirt (point 13: the mirrored layer, to be confirmed by eye);
+Neuvillette3's flap: pushed clear (point 16), confirmed only in the preview's idle loop, not walking;
+Neuvillette9's colours (point 2); the cravat's faint cyan cast (his 126-128 is the skin's cyan band; moving it to 255 hardened the
+shadows); a zero-byte fall-through `.ib` logs `Failed to substantiate` (harmless, pre-existing).
 
 ## The reverse direction is COMPILED TOO: a multi-component SOURCE onto a classic target (2026-09-14)
 

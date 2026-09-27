@@ -45,6 +45,7 @@ class PyVGSplitGroupResource: public PyIniGroupedResource, public AGRemapCore::R
          */
         pybind11::object texcoordLineEditObj;
         pybind11::object positionLineEditObj;
+        pybind11::object mirrorLineEditObj;
 
     protected:
         bool _fix() override;

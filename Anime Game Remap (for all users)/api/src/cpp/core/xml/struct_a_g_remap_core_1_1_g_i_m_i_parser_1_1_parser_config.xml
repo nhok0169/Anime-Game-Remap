@@ -76,6 +76,34 @@ draws that follow
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="297" column="31" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="297" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a2171658749fdd88e0f1ceb8c873790aa" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref>, std::unordered_map&lt; K, std::vector&lt; K &gt;, KeyHash, KeyEqual &gt;, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a57a1473dadd837de24c8399c861bcc93" kindref="member">ModObjHash</ref> &gt;</type>
+        <definition>std::unordered_map&lt;ModObj, std::unordered_map&lt;K, std::vector&lt;K&gt;, KeyHash, KeyEqual&gt;, ModObjHash&gt; AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::ParserConfig::downloadAltRegs</definition>
+        <argsstring></argsstring>
+        <name>downloadAltRegs</name>
+        <qualifiedname>AGRemapCore::GIMIParser::ParserConfig::downloadAltRegs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Per mod object, per download register: other registers ANY of which, bound in a
+`section`_, satisfy that register&apos;s download too -- empty for the one-register test
+every caller had before :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A download keyed on one register fires whenever THAT register is unbound, and a
+character&apos;s mods need not agree on which register a texture goes to. Neuvillette&apos;s
+head is written in two layouts -- plain (diffuse ``ps-t0``, light map ``ps-t1``) and
+normal-map (diffuse ``ps-t1``, light map ``ps-t2``) -- so a diffuse download on
+``ps-t0`` fired on every normal-map mod and put the diffuse in the NORMAL MAP slot
+(a hair ribbon drawn flat green, 2026-09-24). A section binding any of its object&apos;s
+texture registers brings its own set; this says so. Only the section-level
+(``refToSection``) test reads it -- see :cpp:func:`getDownloads`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="316" column="36" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -98,9 +126,10 @@ literal here
         <label>AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::ClassifierConfig</label>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="265" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="265" bodyend="298"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="265" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="265" bodyend="317"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1ae549e37bc6608691558c43ff3911d9b1" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser::ParserConfig</scope><name>classifier</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a2171658749fdd88e0f1ceb8c873790aa" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser::ParserConfig</scope><name>downloadAltRegs</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a2238f8fbfe3f73d179f9bab8aaaf39ae" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser::ParserConfig</scope><name>drawKey</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a8c60fc434cdae20b9e383ae8f65b083b" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser::ParserConfig</scope><name>runConfig</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a783ac96e85f596cd3e96d33fcca4050a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser::ParserConfig</scope><name>valOfSectionName</name></member>

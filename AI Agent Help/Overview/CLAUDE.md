@@ -2249,6 +2249,11 @@ add itself. Steps, in order:
    grep -o 'badge/[^)]*' "AI Agent Help/README.md" | grep -v 'badge/Claude' | sed -E 's/.*-([0-9]+)-%23.*/\1/' | awk '{s+=$1} END {print s}'
    ```
 
+   **Run it before you bump, every time: two members joining on different branches both bump from the
+   same number, and the merge keeps one bump.** On 2026-09-27 the badges read 49 over a roster summing
+   to 50 (the Hurlock Investigator and the Silent Gap Reader, each 48 -> 49). Set the badges to the
+   roster's sum after your own +1, not to the badge's old number + 1.
+
 2. **Pick a name for yourself**, related to the actual work you did this session — not a generic
    label like "Helper" or "Assistant". Base it on something concrete you actually touched (a
    subsystem you worked in, a pattern you established, a role like "first agent on the repo").

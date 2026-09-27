@@ -141,6 +141,8 @@ static const std::vector<RemapRow>& expectedRows() {
         {"LisaStudent", {"Lisa"}, {"Lisa"}},
         {"Mona", {"MonaCN"}, {"MonaCN"}},
         {"MonaCN", {"Mona"}, {"Mona"}},
+        {"Neuvillette", {"NeuvilletteMelusentMain", "NeuvilletteMelusentCoat", "NeuvilletteMelusentBang", "NeuvilletteMelusentEye"}, {"NeuvilletteMelusentMain", "NeuvilletteMelusentCoat", "NeuvilletteMelusentBang", "NeuvilletteMelusentEye"}},
+        {"NeuvilletteMelusent", {"Neuvillette"}, {"Neuvillette"}},
         {"Nilou", {"NilouBreeze"}, {"NilouBreeze"}},
         {"NilouBreeze", {"Nilou"}, {"Nilou"}},
         {"Ningguang", {"NingguangOrchid"}, {"NingguangOrchid"}},
@@ -196,7 +198,7 @@ static ModTypeId idOf(const std::string& name) {
 
 static void testEveryRowMatchesPython() {
     std::printf("testEveryRowMatchesPython\n");
-    check(expectedRows().size() == 55, "the oracle itself still has all 55 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali, CitlaliWhisperofStars, Charlotte and CharlotteHurlock, plus the four WuWa types)");
+    check(expectedRows().size() == 57, "the oracle itself still has all 57 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali, CitlaliWhisperofStars, Charlotte, CharlotteHurlock, Neuvillette and NeuvilletteMelusent, plus the four WuWa types)");
     for (const RemapRow& row : expectedRows()) {
         ModTypeId id = idOf(row.name);
 
@@ -240,7 +242,7 @@ static void testBuiltModTypesCarryTheirMap() {
     std::printf("testBuiltModTypesCarryTheirMap\n");
 
     std::vector<AGRC::ModType> built = AGRC::GIBuilder::all();
-    check(built.size() == 51, "GIBuilder::all() builds all 51 mod types");
+    check(built.size() == 53, "GIBuilder::all() builds all 53 mod types");
 
     for (const AGRC::ModType& modType : built) {
         const RemapRow* expected = nullptr;

@@ -197,6 +197,24 @@ int main() {
               "an unmapped group is reported against the component it came from");
     }
 
+    // ---- the target's texcoord stride is a floor ----
+    {
+        std::vector<AGRC::VGComponentMerge::Component> components;
+        components.push_back(makeComponent("Body", {{0, 10}}, {{1.0, 0.0, 0.0, 0.0}}, {{0, 0, 0, 0}}, 40, 3, 0xAA));
+        components.push_back(makeComponent("Bang", {{0, 64}}, {{1.0, 0.0, 0.0, 0.0}}, {{0, 0, 0, 0}}, 40, 2, 0xBB));
+        AGRC::VGComponentMerge merge(std::move(components), 5);
+
+        check(merge.stats().texcoordStride == 5, "a target wider than every component sets the merged stride");
+        check(merge.stats().paddedComponents == 2, "and every component is padded up to it");
+        check(merge.texcoord() == AGRC::ByteVec({0xAA, 0xAA, 0xAA, 0, 0, 0xBB, 0xBB, 0, 0, 0}),
+              "each line keeps its bytes and is zero-padded at its end");
+
+        std::vector<AGRC::VGComponentMerge::Component> narrow;
+        narrow.push_back(makeComponent("Body", {{0, 10}}, {{1.0, 0.0, 0.0, 0.0}}, {{0, 0, 0, 0}}, 40, 4, 0xAA));
+        check(AGRC::VGComponentMerge(std::move(narrow), 2).stats().texcoordStride == 4,
+              "a target narrower than the widest component changes nothing -- it is a floor, never a cut");
+    }
+
     std::cout << (failures == 0 ? "\nALL PASSED\n" : "\n" + std::to_string(failures) + " FAILED\n");
     return failures == 0 ? 0 : 1;
 }

@@ -12,6 +12,7 @@
 #ifndef AGRemapCore_VGSplitGroupResource_H
 #define AGRemapCore_VGSplitGroupResource_H
 
+#include <array>
 #include <functional>
 #include <memory>
 #include <string>
@@ -34,6 +35,31 @@ namespace AGRemapCore {
      index buffers take part
      @endrst
      */
+    struct VGPushAway {
+        /**
+         * @brief The SOURCE vertex groups whose vertices are pushed
+         */
+        std::vector<long long> groups;
+
+        /**
+         * @brief The point pushed away from, in model units; only its horizontal (x, z) position counts
+         */
+        std::array<float, 3> from{0.0f, 0.0f, 0.0f};
+
+        /**
+         * @brief How far a vertex wholly on :cpp:member:`groups` moves, in model units
+         */
+        float distance = 0.0f;
+
+        /**
+         * @brief
+         @rst
+         Only vertices on this side of x = 0: ``1`` for x > 0, ``-1`` for x < 0, ``0`` both
+         @endrst
+         */
+        int side = 0;
+    };
+
     struct VGSplitGroupConfig {
         /**
          * @brief A per-line edit of a vertex buffer, applied before the lines are filtered
@@ -84,6 +110,31 @@ namespace AGRemapCore {
          * @brief Applied to every line of the ``Position.buf`` before filtering, or empty
          */
         LineEdit positionLineEdit;
+
+        /**
+         * @brief
+         @rst
+         Applied, after filtering, to the ``Position.buf`` lines of the vertices the split MIRRORED
+         (:cpp:member:`VGComponentBuffers::mirrored`), or empty -- see
+         :cpp:func:`VGComponentSplit::mirrorPositionLine`
+         @endrst
+         */
+        LineEdit mirrorLineEdit;
+
+        /**
+         * @brief
+         @rst
+         Pushes applied to the written ``Position.buf`` -- each kept vertex (and its mirrored copy) moves
+         HORIZONTALLY away from a push's :cpp:member:`VGPushAway::from` by :cpp:member:`VGPushAway::distance`
+         times its weight share on the push's groups, read off the SOURCE blend :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         For cloth that clips a limb the target moves differently: Neuvillette3's side coat flap rides his tail
+         chain, which on the skin rides the pelvis, and the stepping thigh went through it (2026-09-26). Pushed
+         outward, it hangs clear. Empty by default
+         @endrst
+         */
+        std::vector<VGPushAway> pushAway;
     };
 
     /**

@@ -18,7 +18,33 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="144" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="144" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="145" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1afc2c8fce2888e997c0bfb7290265e630" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIMergeFixerConfig::Component::modTypeName</definition>
+        <argsstring></argsstring>
+        <name>modTypeName</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::Component::modTypeName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The component&apos;s own mod type name, whose hashes find its `sections`_ -- empty for the
+skin&apos;s name followed by :cpp:member:`name`, which is how :cpp:enum:`ModTypeId` names
+every component so far :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The same field as ``GIMIComponentParserConfig::Component::modTypeName``, for a component
+that is not named that way: NeuvilletteMelusent&apos;s main mesh is the UNNAMED component
+``&quot;&quot;`` (its files are ``NeuvilletteMelusentHead.ib``, ``NeuvilletteMelusentBlend.buf``)
+and is filed as ``NeuvilletteMelusentMain``. Derived, the name was the skin&apos;s own, which
+has no buffer hashes, and every buffer of the main mesh fell back to a download
+(2026-09-25). **Default**: empty
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="162" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="162" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1ac7a5209932913b4fe21846d38c9bbdbf" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot" kindref="compound">Slot</ref> &gt;</type>
@@ -33,7 +59,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="149" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="149" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="167" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="167" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1aecebc1423a6c0dfa0a66f841803542b6" prot="public" static="no" mutable="no">
         <type>long long</type>
@@ -71,7 +97,53 @@ component that is missing AND has no download to fall back on
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="177" column="23" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="177" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="195" column="23" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a56070ffb0264e75fa368fd1b79c96597" prot="public" static="no" mutable="no">
+        <type>std::array&lt; float, 3 &gt;</type>
+        <definition>std::array&lt;float, 3&gt; AGRemapCore::GIMIMergeFixerConfig::Component::positionOffset</definition>
+        <argsstring></argsstring>
+        <name>positionOffset</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::Component::positionOffset</qualifiedname>
+        <initializer>{0.0f, 0.0f, 0.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Added to every vertex position of this component as it is merged, in model units -- ``{0, 0, 0}``
+(the default) writes the mod&apos;s own :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Two skins of one character may put the same part at different heights: NeuvilletteMelusent&apos;s
+Eye is Neuvillette&apos;s 168 eye vertices 1.24 cm lower, so the forward fix moves his eyes DOWN
+(``GIMIComponentFixerConfig::Component::positionOffset``), and the reverse, without this, put
+the skin&apos;s eyes 1.24 cm low in his face -- NeuvilletteMelusent1&apos;s &quot;eyes looking down&quot;
+(2026-09-26). The reverse of the forward offset
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="210" column="24" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a26753f8b7bf4495c8f379e6bbbbce143" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GIMIMergeFixerConfig::Component::offsetOnlyWithGameFace</definition>
+        <argsstring></argsstring>
+        <name>offsetOnlyWithGameFace</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::Component::offsetOnlyWithGameFace</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether :cpp:member:`positionOffset` applies only while the mod keeps the GAME&apos;s face -- not when it
+hides it (``handling = skip`` on the source&apos;s face diffuse) and brings its own, whose eyes already
+sit where its own face has them. The forward direction&apos;s rule, see
+``GIMIComponentFixerConfig::Component::offsetOnlyWithGameFace``. **Default**: ``false``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="221" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="221" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -79,9 +151,12 @@ component that is missing AND has no download to fall back on
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="140" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="140" bodyend="178"/>
+    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="141" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="141" bodyend="222"/>
     <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1afc2c8fce2888e997c0bfb7290265e630" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>modTypeName</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a068618ed142582f5aa27ad806b04ee3d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a26753f8b7bf4495c8f379e6bbbbce143" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>offsetOnlyWithGameFace</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a56070ffb0264e75fa368fd1b79c96597" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>positionOffset</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1ac7a5209932913b4fe21846d38c9bbdbf" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>slots</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1aecebc1423a6c0dfa0a66f841803542b6" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>vertexCount</name></member>
     </listofallmembers>

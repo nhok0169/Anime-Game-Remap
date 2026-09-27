@@ -119,9 +119,12 @@ named keeps the defaults
     py::class_<AGRC::GIMICharParserConfig::ObjDownloadRegs>(m.attr("GIMICharParserConfig"), "ObjDownloadRegs", R"doc(
 Where one object's downloaded textures are bound, for :attr:`GIMICharParserConfig.objDownloadRegs`
     )doc")
-        .def(py::init([](std::string obj, std::string diffuseReg, std::string lightMapReg, std::string normalMapReg) {
-            return AGRC::GIMICharParserConfig::ObjDownloadRegs{std::move(obj), std::move(diffuseReg), std::move(lightMapReg), std::move(normalMapReg)};
-        }), py::arg("obj"), py::arg("diffuseReg") = "ps-t0", py::arg("lightMapReg") = "ps-t1", py::arg("normalMapReg") = "")
+        .def(py::init([](std::string obj, std::string diffuseReg, std::string lightMapReg, std::string normalMapReg,
+                         std::optional<std::vector<std::string>> coverRegs) {
+            return AGRC::GIMICharParserConfig::ObjDownloadRegs{std::move(obj), std::move(diffuseReg), std::move(lightMapReg), std::move(normalMapReg),
+                                                               coverRegs.value_or(std::vector<std::string>{})};
+        }), py::arg("obj"), py::arg("diffuseReg") = "ps-t0", py::arg("lightMapReg") = "ps-t1", py::arg("normalMapReg") = "",
+            py::arg("coverRegs") = py::none())
         .def_readwrite("obj", &AGRC::GIMICharParserConfig::ObjDownloadRegs::obj,
             py::doc(":class:`str`: The drawn object, lowercase"))
         .def_readwrite("diffuseReg", &AGRC::GIMICharParserConfig::ObjDownloadRegs::diffuseReg,
@@ -129,7 +132,13 @@ Where one object's downloaded textures are bound, for :attr:`GIMICharParserConfi
         .def_readwrite("lightMapReg", &AGRC::GIMICharParserConfig::ObjDownloadRegs::lightMapReg,
             py::doc(":class:`str`: The register its light map download is bound to. **Default**: ``\"ps-t1\"``"))
         .def_readwrite("normalMapReg", &AGRC::GIMICharParserConfig::ObjDownloadRegs::normalMapReg,
-            py::doc(":class:`str`: The register its normal map download is bound to, or ``\"\"`` for none. **Default**: ``\"\"``"));
+            py::doc(":class:`str`: The register its normal map download is bound to, or ``\"\"`` for none. **Default**: ``\"\"``"))
+        .def_readwrite("coverRegs", &AGRC::GIMICharParserConfig::ObjDownloadRegs::coverRegs, py::doc(R"doc(
+List[:class:`str`]: Registers ANY of which, bound in the object's `section`_, mean its textures are the mod's own, so
+none of its texture downloads fires -- for a character whose mods write one object in more than one register layout
+(Neuvillette's head: plain ``ps-t0``/``ps-t1`` or normal-map ``ps-t1``/``ps-t2``). **Default**: empty, each download's
+own one-register test
+        )doc"));
 
     // ------------------------------------------------------------------- the fixer config
     py::class_<AGRC::GIMICharFixerConfig> fixerConfig(m, "GIMICharFixerConfig", R"doc(

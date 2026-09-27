@@ -52,6 +52,15 @@ namespace AGRemapCore {
          * @brief This component's ``Texcoord.buf``
          */
         std::string texcoordPath;
+
+        /**
+         * @brief
+         @rst
+         Applied to every line of this component's ``Position.buf`` as it is read, or empty -- eg. the
+         Eye moved to the target's eye height (:cpp:member:`GIMIMergeFixerConfig::Component::positionOffset`)
+         @endrst
+         */
+        std::function<ByteVec(const ByteVec&)> positionLineEdit;
     };
 
     /**
@@ -118,6 +127,15 @@ namespace AGRemapCore {
          @endrst
          */
         std::unordered_map<std::string, std::size_t> ibBytesPerIndex;
+
+        /**
+         * @brief
+         @rst
+         The TARGET's texcoord stride, the floor of the merged buffer's -- see
+         :cpp:func:`VGComponentMerge::VGComponentMerge`. ``0`` (the default) is the widest component's
+         @endrst
+         */
+        std::size_t texcoordStride = 0;
     };
 
     /**

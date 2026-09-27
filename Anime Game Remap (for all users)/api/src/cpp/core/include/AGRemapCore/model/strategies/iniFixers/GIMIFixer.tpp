@@ -519,14 +519,6 @@ namespace AGRemapCore {
         //
         // 'fixOnly' only decides the WORDING: that mode is the one that leaves an existing fixed
         // file in place, so it is the only one with an "old stinky ini" to talk about.
-        if (backingUp && ctx_->fixedFileExists()) {
-            if (fixOnly) {
-                ctx_->log("Cleaning up and disabling the OLD STINKY ini");
-            }
-
-            ctx_->disableIni();
-        }
-
         fixTargets_ = getFix(parseData, false);
         fixedContents_.clear();
 
@@ -539,6 +531,20 @@ namespace AGRemapCore {
         // own file is the target they belong to.
         if (fixTargets_.empty() && !appendedSections.empty() && ctx_ != nullptr) {
             fixTargets_.push_back(ctx_->fixedFilePath(0));
+        }
+
+        // THE BACKUP ONLY ONCE THERE IS SOMETHING TO WRITE IN ITS PLACE (2026-09-26). Disabling moves
+        // the .ini file aside, and only the writes below put a file back -- so a fixer with no target
+        // (a texture-only recolour that defers to its mesh sibling, a multi-component fixer that gave
+        // up) left the user's mod WITHOUT that .ini: NeuvilletteMelusent1's tex.ini vanished on the
+        // first fix, every later run drew the game's textures, and nothing said so (it was even
+        // counted fixed). getFix only builds text, so it does not care where the file is.
+        if (backingUp && !fixTargets_.empty() && ctx_->fixedFileExists()) {
+            if (fixOnly) {
+                ctx_->log("Cleaning up and disabling the OLD STINKY ini");
+            }
+
+            ctx_->disableIni();
         }
 
         // Hiding comes *after* the fix is built, not before: which sections to comment out is

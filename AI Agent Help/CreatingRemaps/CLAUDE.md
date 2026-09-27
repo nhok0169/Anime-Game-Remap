@@ -1750,6 +1750,15 @@ merge-direction mods moved nothing but Bennett5 (point 3).
    mask separates Melusent Gift at 5-12 from every other page at 78-100), and accept the base card's name too
    ("Clear Adjudication" is his page), or the check pages away from the right one.
 
+15. **A fix that writes nothing used to DELETE the .ini (2026-09-26).** `GIMIFixer` moved the file aside to its
+   backup before building the fix and put a file back only per fix target -- so a fixer with none (a texture-only
+   recolour deferring to its mesh sibling, a multi-component fixer that gave up) left the mod without that `.ini`.
+   NeuvilletteMelusent1's `tex.ini` went on the first fix; every later run drew the game's textures ("all the
+   textures are wrong"), the run still counted it fixed, and every A/B and regression passed, because each started
+   from a copy taken AFTER the file was gone. The backup now happens only once there is something to write.
+   **In game, compare against the mod on its OWN character** (the skin card beside the base card), not against
+   "does it look plausible": a remap drawing the default outfit looks plausible.
+
 **Open for the maintainer**: Neuvillette2's inner skirt (point 13: the mirrored layer, to be confirmed by eye);
 Neuvillette3's flap (point 14: the graded share, to be confirmed in motion);
 Neuvillette9's colours (point 2); the cravat's faint cyan cast (his 126-128 is the skin's cyan band; moving it to 255 hardened the

@@ -1885,6 +1885,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | a whole garment turns a NEW wrong colour right after a texture fix | the fix bound a texture that is not the source character's -- read off a register her draw INHERITED, from an NPC's draw | `wwmiPassLayout.py --against <the other dump>`: a `!` marks exactly that |
 | a warm or red cast on BARE SKIN only, the clothes right | the 512 x 25 subsurface lookup: the two skins' differ and the target's is the redder | the register the target's clothing pass reads it at -- `ps-t10` upper, `ps-t6` lower, `ps-t7` on the hair pass |
 | a warm cast that survives a corrected ramp and sits on the hair ENDS only | a SECOND per-character ramp that pass reads (a 512 x 4 gradient), plus the subsurface one -- the tips are where the hair catches light, so a warm term shows there first | every register of that pass, not just the ones the plan names |
+| irregular BLOTCHES on a part, following no shape the mod has, plus bands of wrong shadow | a UV-MAPPED register the plan leaves to the game: the TARGET's own texture sampled at the SOURCE's UVs | bind the mod's own there, repacked into the target's channel layout; blotches rather than a gradient is the tell |
 | a part wears the SOURCE CHARACTER's own art where the mod has its own print | that component names its texture in its OWN section (`ps-tN =`, or `Resource\RabbitFX\Diffuse`), and the fix took a vanilla fallback -- or the mod's hash overrides are dead on this game version | `--paint` for WHICH component, then read that component's section; `declaredBindings()` |
 | the remap shows the MOD's art (pink hair, a white shirt) where the maintainer's base screenshot shows the source character's own | the base is the broken one: every one of the mod's texture hashes is from an older game version, so on the source the mod's geometry draws with the GAME's textures, while the remap binds by register and shows what the author painted | grep a frame dump of today's game for each `TextureOverrideTexture` hash; then the mod's own preview image |
 | a garment PEARLY / iridescent -- pink-lavender highlights -- where the source's is matte | the SHEEN texture: the source's is packed grayscale sheen profiles, the target's slot is a holographic FOIL read as colour | translate it (`SheenTranslations`), never bind it raw -- see "THE SAME SHEEN SLOT HOLDS DIFFERENT KINDS OF DATA" |
@@ -2371,6 +2372,81 @@ Three candidates were then closed, each by measurement rather than argument:
   not what the difference between those two maps is, and that avenue is closed.
 * **`ps-t0`, the mask.** See the retraction above: this one was mine, and putting it back is the
   change this round actually made.
+
+### A REGISTER LEFT TO THE GAME IS ONLY SAFE IF IT IS NOT UV-INDEXED (2026-09-26)
+
+`WWMIFixerConfig::Binding` could say two things -- bind this role here, or say nothing so the GAME's
+texture serves the register -- and the second was the silent default for every role the plan did not
+name. It is harmless only for a LOOKUP: a ramp, a matcap, a subsurface table, anything indexed by a
+scalar. **For a UV-mapped texture it is wrong by construction**, because the geometry drawn through
+that slot is the SOURCE's, so the target's art is sampled at UVs it was never authored for.
+
+Chisa's hair `ps-t5` is a 2048 x 2048 map and was exactly that. It painted irregular magenta
+blotches on the strands and a band of wrong shadow through the middle of the hair; it was reported
+twice, survived a revert, and outlived every hypothesis aimed at the ramps and the mask.
+
+**The SHAPE of the symptom is the tell, and it is worth more than the diagnosis.** A lookup indexed
+along a strand can only make a GRADIENT; a texture read at wrong UVs makes BLOTCHES that follow the
+*target's* atlas and no shape the mod has. Measured off the maintainer's own screenshot: `+9.0` in
+R-B against the same mod's hair elsewhere in the same frame, 45.8% of the tips' pixels warm against
+24.4%, `G` the lowest channel. Magenta, patchy, not a gradient.
+
+**Bind the mod's own file there, repacked -- do not null it and do not invent a flat.** Only ONE
+channel of that map carries signal, and which one is a measurement rather than a guess:
+
+```
+    the target's own d547f3c6    R = 0 over 99.4% of texels    B = 0 over 93.7%    A = 255 over 98.3%
+                                 G: 170 distinct values        <- the strand term, and all of it
+```
+
+So the edit keeps the mod's `G` -- its own strand detail, at its own UVs -- and forces `R`, `B` and
+`A` to the target's packing (`hairNormalFilter` in `ChisaFixer.cpp`). Two things about getting there:
+
+* **Binding the file RAW renders the hair copper-orange**, and so does repacking only `B` and `A`.
+  That near miss is the lesson: the first attempt fixed the two channels whose difference was
+  *obvious from the means* and left `R` at the source's 8.6, where the target's is 0 over 99.4% of
+  its texels. **A repack is not done until every channel is accounted for**, including the ones that
+  look close enough.
+* **Nulling the register and binding a flat `(0, 75, 0, 255)` also clear the blotches, and all three
+  are indistinguishable in game** (the maintainer, 2026-09-26). The tie-break is what each one
+  DESTROYS: null throws the strand term away entirely, the flat replaces it with a constant, and the
+  repack keeps all 211 of the mod's own values. **When candidates look the same, ship the one that
+  discards the least** -- it is the only one of the three that cannot be hiding a second defect.
+
+`"null"` (`IniKeywords::Null`) is a reserved role now and writes `<reg> = null`, which is the right
+answer for a UV-mapped register the mod has no file for at all. Chisa does not use it.
+
+**Enumerate the registers a pass SETS and account for every one as UV-indexed or not.** That is the
+bisect rule one step on: knowing which registers the plan leaves alone is not enough, you have to
+know what KIND of texture each holds, because the safe default differs.
+
+### AND THE NULL TEST IS WHAT SETTLED IT, AFTER A DAY OF MEASUREMENT DID NOT (2026-09-26)
+
+Worth recording as a process failure, because the instrument was written down in this file the whole
+time ("NULL A REGISTER IN THE GENERATED .INI -- IT IS FASTER THAN EVERY PROBE IN THIS FILE") and was
+reached for last.
+
+A whole session went into trying to A/B this defect in game and **not one round produced a usable
+number.** Three confounds, each of which produced a clean-looking table:
+
+* **WuWa's overworld clock runs a full day in about twenty minutes.** Two shots twenty seconds apart
+  differ more than most fixes do. Setting the time from the Terminal's clock works -- and does not
+  hold: it was dark again four minutes after being set to noon.
+* **The character moves between captures**, so a fixed measurement box lands on different things.
+* **The character screen, which has fixed light and a fixed pose, washes the defect out** -- 0.36%
+  magenta at a mean of (86, 74, 80), barely tinted.
+
+Every statistic built on those selected the wrong pixels, and each was caught only by painting the
+selection back over the image: one measured the character's own costume (the red ears and leotard,
+magenta by any R-over-G test), one the yellow leaf litter behind her, one the sky. The rule from
+`screenshotPart.py`'s header held every time: **a statistic over the wrong region reads exactly like
+one over the right region.**
+
+What settled it was the maintainer nulling one register at a time and looking -- minutes, no
+rebuild, no measurement. **When a defect is reported that you cannot reproduce, do not build an
+instrument for it; hand back the one-line test.** The shape to hand over appends `<reg> = null` last
+in the slot's own texture list (so it wins over whatever is bound), covers the registers the plan
+LEAVES ALONE as well as the ones it binds, and restores the file byte for byte.
 
 ### A BISECT IS ONLY AS COMPLETE AS THE REGISTER LIST IT ENUMERATES (2026-09-20)
 

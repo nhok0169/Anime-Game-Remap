@@ -84,6 +84,34 @@ namespace AGRemapCore {
             };
         }
 
+        // The hair's ps-t5 is a 2048 x 2048 UV-MAPPED map, so it cannot be left to the game: the
+        // geometry drawn through that slot is Chisa's, and the skin's own art there lands at UVs it
+        // was never authored for -- irregular magenta blotches on the strands and a band of wrong
+        // shadow (2026-09-26, reported twice and confirmed by nulling the register by hand).
+        //
+        // Only G carries signal. Measured on the target's own d547f3c6: R = 0 over 99.4% of its
+        // texels, B = 0 over 93.7%, A = 255 over 98.3%, and G 170 distinct values -- the strand
+        // term. So the mod's own G is kept, at the mod's own UVs, and the other three channels take
+        // the target's packing. Binding the mod's file RAW renders the hair copper-orange, and so
+        // does repacking only B and A: R has to go too, which is what that attempt missed.
+        //
+        // Nulling the register and binding a flat (0, 75, 0, 255) both also clear the blotches and
+        // are indistinguishable from this in game (the maintainer, 2026-09-26) -- this one is
+        // chosen because it is the only one of the three that keeps the mod's own strand detail.
+        TexEditor::Filter hairNormalFilter() {
+            return [](TextureFile& tex) {
+                tex.setGamma(std::nullopt);          // these bytes are data, not colour
+                std::vector<std::uint8_t> px = tex.getPixels();
+                for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
+                    px[i] = 0;                       // R: the target's is 0 over 99.4%
+                    px[i + 2] = 0;                   // B: ...and its B over 93.7%
+                    px[i + 3] = 255;                 // A: ...and its A is 255 over 98.3%
+                }
+
+                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
+            };
+        }
+
         // Repack a material mask from the SOURCE's layout into the TARGET's. Every non-skin texel
         // keeps the source's own R and G -- R is the shared band legend and G is how SHINY a surface
         // is, not a material id -- and takes only the target's packing in B and A. Skin is R >= 0.9,
@@ -408,7 +436,10 @@ namespace AGRemapCore {
         // ---- source component -> target slot and the registers it binds ----
         config.plan = {
             {0, {0, {{"ps-t0", "frontHairMask"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}}},
-            {1, {1, {{"ps-t0", "hairMask"}, {"ps-t1", "hairDiffuse"}, {"ps-t2", "hairRamp"}}}},
+            // ps-t5 must NOT be left to the game -- see hairNormalFilter for why, and for why
+            // the mod's own map is repacked rather than bound raw
+            {1, {1, {{"ps-t0", "hairMask"}, {"ps-t1", "hairDiffuse"}, {"ps-t2", "hairRamp"},
+                     {"ps-t5", "hairNormal"}}}},
             {2, {2, {{"ps-t0", "faceMask"}, {"ps-t1", "faceDiffuse"}}}},
             {3, {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t3", "upperDiffuse"}, {"ps-t8", "bodySheen"}, {"ps-t2", "DetailZero000000FF"}, {"ps-t4", "DetailZero00000000"}, {"ps-t10", "DetailZero00000000"}}}},
             {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t3", "lowerDiffuse"}, {"ps-t5", "bodySheen"}, {"ps-t2", "DetailZero000000FF"}}}},
@@ -631,8 +662,11 @@ namespace AGRemapCore {
         // the two skins do not agree about. See WWMIFixerConfig::cleanTexcoords.
         config.cleanTexcoords = true;
 
-        // ---- the three texture edits ------------------------------------------------------------
+        // ---- the four texture edits -------------------------------------------------------------
         config.texEdits = {
+            {"hairNormal", "Repack", [](const WWMIFixerConfig::TexEditContext&) {
+                 return hairNormalFilter();
+             }},
             {"upperMask", "Repack", [](const WWMIFixerConfig::TexEditContext& ctx) {
                  const auto diffuse = ctx.fileOfRole.find("upperDiffuse");
                  return maskFilter(diffuse == ctx.fileOfRole.end() ? "" : diffuse->second);

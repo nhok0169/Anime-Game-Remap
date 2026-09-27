@@ -94,7 +94,18 @@ namespace AGRemapCore {
              @rst
              The role (a value of :cpp:member:`roles` or :cpp:member:`typeRoles`, or the name of a
              :cpp:member:`createdTextures` entry). A role no file of the mod has is left unbound,
-             so the GAME's texture serves the register
+             so the GAME's texture serves the register.
+
+             ``"null"`` (:cpp:member:`IniKeywords::Null`) is reserved and means **bind nothing** --
+             ``<reg> = null`` is written, and the target's own texture does NOT serve the register.
+
+             .. note::
+                 Leaving a register to the game is only safe when what it holds is not indexed by
+                 UV: a lookup, a ramp, a matcap. For a UV-MAPPED texture it is wrong by
+                 construction, because the geometry under it is the SOURCE's, so the target's art
+                 is sampled at UVs it was never authored for -- which renders as irregular blotches
+                 that follow the target's layout rather than the mod's. Chisa's hair ``ps-t5`` is a
+                 2048 x 2048 map and was exactly that (2026-09-26); confirmed in game by nulling it.
              @endrst
              */
             std::string role;
@@ -652,10 +663,11 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         Edits the fix makes to a role's texture before binding it. Chisa needs three: her material
+         Edits the fix makes to a role's texture before binding it. Chisa needs four: her material
          mask repacked into the target's layout, her packed four-profile sheen matcap translated into
-         the skin's holographic foil, and a colour grade on her accessory diffuse -- a shader family
-         is a colour grade, and the texture is the only place to put it back
+         the skin's holographic foil, a colour grade on her accessory diffuse -- a shader family is a
+         colour grade, and the texture is the only place to put it back -- and her hair's ps-t5 map
+         repacked so a UV-mapped register need not be left to the game
          @endrst
          */
         std::vector<TexEdit> texEdits;

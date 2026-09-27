@@ -1631,6 +1631,11 @@ namespace AGRemapCore {
 
                         std::vector<std::string> bindings;
                         for (const WWMIFixerConfig::Binding& binding : planned.bindings) {
+                            if (binding.role == IniKeywords::Null) {
+                                bindings.push_back(nullLine(binding.reg));
+                                continue;
+                            }
+
                             const std::string* resource = resourceFor(binding.role, component);
                             if (resource != nullptr) {
                                 bindings.push_back(bindLine(binding.role, binding.reg, *resource));
@@ -2072,6 +2077,14 @@ namespace AGRemapCore {
                 // `run =` into a copy of the mod's [TextureOverrideTexture*] instead, with 3dmigoto's
                 // matching keys dropped and `this` renamed to the register -- so the toggle comes
                 // across untouched rather than collapsing to its first variant.
+                /**
+                 * @brief `<reg> = null` -- bind NOTHING, rather than letting the game's own
+                 *        texture serve the register (see WWMIFixerConfig::Binding::role)
+                 */
+                std::string nullLine(const std::string& reg) {
+                    return "    " + reg + " = " + std::string(IniKeywords::Null);
+                }
+
                 std::string bindLine(const std::string& role, const std::string& reg, const std::string& resource) {
                     const std::string direct = "    " + reg + " = " + resource;
 

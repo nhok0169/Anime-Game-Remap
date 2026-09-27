@@ -2845,12 +2845,32 @@ namespace AGRemapCore {
                         }
                     }
 
-                    // U outside [0, 1), except on a triangle whose vertices straddle a tile
+                    // U at or above 1, except on a triangle whose vertices straddle a tile.
+                    //
+                    // NOT U BELOW 0 (2026-09-27). The fold exists for a mod that UVs half a part
+                    // into the [1, 2) TILE and relies on the sampler wrapping -- a large, coherent,
+                    // deliberate region (47% of one Chisa mod's component 3). A U just BELOW zero
+                    // is the opposite thing: the edge bleed an authoring tool leaves around a UV
+                    // island, a thin fringe a few hundredths wide that a clamping sampler is meant
+                    // to extend. Folding it sends those texels to the FAR SIDE of the atlas --
+                    // `-0.054` became `0.945` -- so the fringe of every island sampled unrelated
+                    // art. On Chisa13's black hair dye that drew a regular checkerboard of blonde
+                    // blocks through the lock: 905 such vertices on the bangs and 2 elsewhere in
+                    // the mesh, which is why one part of one mod showed it.
+                    //
+                    // The fold is wrap-equivalent per VERTEX, which is what was measured when it
+                    // went in, and that holds only while the pass WRAPS. Neither character's own
+                    // model leaves [0, 1), so the game never exercises its own address mode there
+                    // and the two passes are free to differ -- and this one demonstrably does not
+                    // wrap: the mod's own UVs and a fold restricted to `>= 1` both render the dye
+                    // as one solid sweep, and the full fold does not. Leaving the fringe alone is
+                    // also the pre-fold behaviour for it, so it cannot regress a mod that was
+                    // right before the fold existed.
                     std::vector<float> u(vertices, 0.0f);
                     std::vector<bool> needs(vertices, false);
                     for (std::size_t v = 0; v < vertices; ++v) {
                         u[v] = halfToFloat(halfAt(v * perVertex));
-                        needs[v] = (u[v] >= 1.0f) || (u[v] < 0.0f);
+                        needs[v] = (u[v] >= 1.0f);
                     }
 
                     std::size_t folded = 0;

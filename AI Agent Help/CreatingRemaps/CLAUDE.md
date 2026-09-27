@@ -2486,6 +2486,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | a texture EDIT looks ignored -- the file is written, referenced and still not what renders -- on some mods only | its role is DOWNLOADED on those mods, and the download declared the edit's own resource section name | grep the fixed `.ini` for a `[Resource...]` name declared twice |
 | one part is a FLAT primary colour -- green, red -- rather than merely wrong | a texture EDIT ran on a file that is not the role it was assigned: an edit that keeps one channel turns a diffuse into that channel | the run's `also has the role` warning, then whether the losing file's NAME carries the hash |
 | ONE mod of a character shades a part harshly or blotchily while its siblings are fine | that mod aliases RabbitFX's Lightmap and Normalmap onto one resource, so the MASK role resolved to a normal map and the shader reads slope as material codes | count the `MaskPst` command lists per mod -- the odd one out is the bug |
+| a REGULAR CHECKERBOARD of the surrounding colour punched through one painted region, on the remap and not on the same mod's own character | the texcoord fold sent that island's edge BLEED (U just below 0) to the far side of the atlas | count the mod's vertices with `-1 < U < 0` per component |
 | a part wears the SOURCE CHARACTER's own art where the mod has its own print | that component names its texture in its OWN section (`ps-tN =`, or `Resource\RabbitFX\Diffuse`), and the fix took a vanilla fallback -- or the mod's hash overrides are dead on this game version | `--paint` for WHICH component, then read that component's section; `declaredBindings()` |
 | the remap shows the MOD's art (pink hair, a white shirt) where the maintainer's base screenshot shows the source character's own | the base is the broken one: every one of the mod's texture hashes is from an older game version, so on the source the mod's geometry draws with the GAME's textures, while the remap binds by register and shows what the author painted | grep a frame dump of today's game for each `TextureOverrideTexture` hash; then the mod's own preview image |
 | a garment PEARLY / iridescent -- pink-lavender highlights -- where the source's is matte | the SHEEN texture: the source's is packed grayscale sheen profiles, the target's slot is a holographic FOIL read as colour | translate it (`SheenTranslations`), never bind it raw -- see "THE SAME SHEEN SLOT HOLDS DIFFERENT KINDS OF DATA" |
@@ -3132,6 +3133,48 @@ register left to the game, an edit written but overridden -- each was inert, and
 visible defect the moment something downstream actually reached the GPU. **Making a value REACH the
 shader is what tests everything upstream of it**, so expect a change that binds something new to
 surface bugs that have nothing to do with the change.
+
+### THE U FOLD MUST NOT TOUCH U BELOW ZERO -- THAT IS ISLAND BLEED, NOT A TILE (2026-09-27)
+
+The fold exists for a mod that UVs half a part into the `[1, 2)` **tile** and relies on the sampler
+wrapping -- a large, coherent, deliberate region (47% of one mod's component 3). Its condition was
+`(u >= 1.0f) || (u < 0.0f)`, and the second clause is a different thing entirely: a U just BELOW
+zero is the **edge bleed** an authoring tool leaves around a UV island, a fringe a few hundredths
+wide that a clamping sampler is meant to extend. Folding it sends those texels to the FAR SIDE of
+the atlas -- `-0.054` became `0.945` -- so the fringe of every island sampled unrelated art.
+
+On Chisa13's black hair dye that drew a **regular checkerboard of blonde blocks** through the lock.
+The distribution is why exactly one part of one mod showed it: **905** such vertices on the bangs
+and **2** in the rest of the mesh.
+
+**The wrap-equivalence the fold was justified on is a per-VERTEX claim** ("100.000% of vertices
+select the same texel under wrap") and holds only while the pass wraps. This pass demonstrably does
+not: the mod's own UVs, and a fold restricted to `>= 1`, both render the dye as one solid sweep;
+the full fold does not. Leaving the fringe alone is also the pre-fold behaviour for it, so it cannot
+regress a mod that was right before the fold existed. Blast radius over the corpus: two mods'
+texcoord buffers.
+
+### AND THE FIRST FOUR READINGS OF THAT SCREENSHOT WERE ALL WRONG
+
+None of the four is about WuWa, and the order they failed in is the useful part:
+
+1. **"The teeth are painted into the mod's own atlas."** The atlas was decoded and its island
+   boundary really is stair-stepped -- but only its RGB was looked at, and boundary stair-stepping
+   is what EVERY bitmap edge looks like. The maintainer's two screenshots settle it in one glance:
+   same file, smooth on the base, checkered on the remap. **A defect that appears on the remap and
+   not on the same mod's own character cannot be in a file both of them read.**
+2. **"Only 2 triangles are affected by the fold."** This is what let the fold be dismissed early,
+   and it was measured against an incomplete set: the check classified a fold as `U - 1`, so it
+   never saw the 905 **upward** folds (`-0.05 -> 0.95`) at all. **A set built by one arm of a
+   two-armed condition will answer confidently about the half it can see.**
+3. **"Two probes changed the shading and left the pattern identical, so it is not a texture."**
+   True of both probes and the wrong conclusion. `--paint`-style **flat magenta** on that register
+   -- the instrument this guide already says to reach for FIRST -- gave solid magenta with no
+   blocks, i.e. the diffuse's *sampling* all along. A probe that alters a texture's CONTENT cannot
+   distinguish "not this texture" from "not this texture's content".
+4. **A probe run against a `.ini` still carrying the previous probe.** One reload tested nothing,
+   because `vb2` was still pointed at the mod's own buffer from the experiment before it. Restore
+   between probes, and print what the binding is rather than assuming.
 
 ### A MASK ROLE SATISFIED BY THE SLOT'S NORMAL MAP IS NOT A MASK (2026-09-27)
 

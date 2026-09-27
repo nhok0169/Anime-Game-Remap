@@ -2575,8 +2575,17 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                 #   backwards across the atlas. Those vertices keep what they had -- 13 triangles of
                 #   281850 on this mod, and a vertex is left alone if ANY triangle it belongs to
                 #   straddles.
+                #   AND NOT U BELOW 0 (2026-09-27). The fold is for a deliberate TILE -- half
+                #   a part UV'd into [1, 2). A U just below zero is the opposite: the edge bleed an
+                #   authoring tool leaves around an island, a fringe a few hundredths wide that a
+                #   clamping sampler extends. Folding it sends those texels to the FAR side of the
+                #   atlas (-0.054 -> 0.945), and on Chisa13's black hair dye that drew a regular
+                #   checkerboard of blonde blocks -- 905 such vertices on the bangs, 2 in the rest
+                #   of the mesh, which is why one part of one mod showed it. The wrap-equivalence
+                #   measured above is per VERTEX and holds only while the pass wraps; this one does
+                #   not, and the mod's own UVs render the dye as one solid sweep.
                 u = halves.reshape(-1, 8)[:, 0].astype(np.float32)
-                needs = (u >= 1.0) | (u < 0.0)
+                needs = (u >= 1.0)
                 if (needs.any()):
                     keep = np.zeros(len(u), dtype = bool)          # vertices of a straddling triangle
                     ibLines = next((ls for nm, ls in files.sections.items()

@@ -1760,7 +1760,9 @@ merge-direction mods moved nothing but Bennett5 (point 3).
    "does it look plausible": a remap drawing the default outfit looks plausible.
 
 **Open for the maintainer**: Neuvillette2's inner skirt (point 13: the mirrored layer, to be confirmed by eye);
-Neuvillette3's flap (point 14: the graded share, to be confirmed in motion);
+Neuvillette3's flap is a DECIDED trade-off (2026-09-26): the graded share still clips the leg slightly in motion,
+and the maintainer, offered clipping against folding / showing the lining, chose clipping -- do not reopen it
+without a new idea (untried: pushing the flap's vertices outward, away from the leg);
 Neuvillette9's colours (point 2); the cravat's faint cyan cast (his 126-128 is the skin's cyan band; moving it to 255 hardened the
 shadows); a zero-byte fall-through `.ib` logs `Failed to substantiate` (harmless, pre-existing).
 

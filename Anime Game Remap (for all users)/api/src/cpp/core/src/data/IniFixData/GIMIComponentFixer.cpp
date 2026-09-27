@@ -390,6 +390,13 @@ namespace AGRemapCore {
             // map), so a normal-map slot needs no shift -- see GIMIComponentFixerConfig::sourceLayout.
             bool normalMapLayout = false;
 
+            // Whether the section was read as PLAIN only because it renders through its own NNFix,
+            // while binding something at ps-t2 all the same -- see
+            // GIMIComponentFixerConfig::layoutFromOwnFixCall. Its own ps-t2 is dropped before the
+            // shift puts the light map there, or the section binds ps-t2 twice and which survives
+            // is down to the order its author wrote them in.
+            bool plainByOwnCall = false;
+
             // Whether the object's section (through `run =`) already calls ORFix itself -- see
             // buildEdits for why such a mod's own calls are kept.
             bool ownORFix = false;
@@ -686,14 +693,21 @@ namespace AGRemapCore {
                             // The first branch's textures: a band legend's diffuse gate is one
                             // filter per object, not per branch.
                             using SourceLayout = GIMIComponentFixerConfig::SourceLayout;
-                            objFiles.normalMapLayout = (config_.sourceLayout == SourceLayout::NormalMap)
-                                || (config_.sourceLayout == SourceLayout::Detect && !firstFile(sectionName, ShiftedLightMapReg).empty());
+                            bool ownNNFix = false;
                             for (const BranchVal& call : branches_.valsThroughRun(templates, sectionName, IniKeywords::Run)) {
-                                if (StringTools::equalsIgnoreCase(StringTools::strip(call.val), IniKeywords::ORFixPath)) {
-                                    objFiles.ownORFix = true;
-                                    break;
-                                }
+                                const std::string path(StringTools::strip(call.val));
+                                objFiles.ownORFix = objFiles.ownORFix || StringTools::equalsIgnoreCase(path, IniKeywords::ORFixPath);
+                                ownNNFix = ownNNFix || StringTools::equalsIgnoreCase(path, IniKeywords::NNFixPath);
                             }
+
+                            // A section rendering through its own NNFix is plain, whatever it binds at ps-t2 --
+                            // see GIMIComponentFixerConfig::layoutFromOwnFixCall.
+                            const bool plainByOwnCall = config_.layoutFromOwnFixCall && ownNNFix && !objFiles.ownORFix;
+                            objFiles.normalMapLayout = (config_.sourceLayout == SourceLayout::NormalMap)
+                                || (config_.sourceLayout == SourceLayout::Detect && !plainByOwnCall
+                                    && !firstFile(sectionName, ShiftedLightMapReg).empty());
+                            objFiles.plainByOwnCall = !objFiles.normalMapLayout && plainByOwnCall
+                                && !firstFile(sectionName, ShiftedLightMapReg).empty();
 
                             if (objFiles.normalMapLayout) {
                                 objFiles.diffuse = firstFile(sectionName, ShiftedDiffuseReg);
@@ -1198,8 +1212,22 @@ namespace AGRemapCore {
                             renameRule(LightMapReg, {ShiftedLightMapReg})});
                         auto shiftAdapter = std::make_unique<RegPartEdit<>>(shift.get());
 
+                        // A section read as plain by its own NNFix binds something at ps-t2 that the
+                        // light map is about to land on -- see ModObjectFiles::plainByOwnCall. Dropped
+                        // first, in the same pass, so the shifted light map is the only ps-t2.
+                        std::vector<ObjGroupEdit::PartEdit*> shiftParts{shiftAdapter.get()};
+                        if (files != nullptr && files->plainByOwnCall) {
+                            auto dropOwn = std::make_unique<RegRemove<>>(
+                                std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
+                                    {ShiftedLightMapReg, std::nullopt}});
+                            auto dropOwnAdapter = std::make_unique<RegPartEdit<>>(dropOwn.get());
+                            shiftParts.insert(shiftParts.begin(), dropOwnAdapter.get());
+                            regRemoves_.push_back(std::move(dropOwn));
+                            regRemapAdapters_.push_back(std::move(dropOwnAdapter));
+                        }
+
                         std::vector<ObjGroupEdit::IniEdits> shiftIniEdits(groupCount_);
-                        shiftIniEdits[group].edits[ModObj("", component_.slot)] = {shiftAdapter.get()};
+                        shiftIniEdits[group].edits[ModObj("", component_.slot)] = std::move(shiftParts);
                         shiftIniEdits[group].trackKeys[ModObj("", component_.slot)] = false;
                         auto shiftEdit = std::make_unique<ObjGroupEdit>(std::move(shiftIniEdits), false);
 
@@ -1895,6 +1923,8 @@ namespace AGRemapCore {
                         IniKeywords::DrawIndexed,
                         RegFillMissing<>::makeFillMissing(IniKeywords::DrawIndexed, DrawIndexedAuto),
                         RegFillMissingMode::BottomCover);
+                    // ...and only where the mod draws nowhere, when asked -- see fillDrawOnlyWhenUndrawn.
+                    fillDrawIndexed_->onlyWhenAbsent = config_.fillDrawOnlyWhenUndrawn;
 
                     const std::string fixPath = component_.normalMap ? IniKeywords::ORFixPath : IniKeywords::NNFixPath;
                     // ONE CALL PER PATH, as the classic and merge templates already do: ORFix /

@@ -209,6 +209,35 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Whether a COVER (:cpp:enumerator:`RegFillMissingMode::TopdownCover` /
+             :cpp:enumerator:`RegFillMissingMode::BottomCover`) fills a root only when **no** part reachable
+             from it -- the root and every section it ``run``\s -- has \ref reg at all :raw-html:`<br />` :raw-html:`<br />`
+
+             A cover is added unconditionally at a root whenever SOME path through the graph lacks the
+             register, so on a section that draws as an ``if`` / ``else if`` chain with no ``else`` (a mod's own
+             toggle between variants of one object) the covering ``drawindexed = auto`` runs on EVERY path,
+             each variant's own ranges included, and every variant draws at once (Yaoyao2's three hairstyles
+             on YaoyaoBamboo, 2026-09-27). With this on, a root that already draws on some path is left as its
+             author wrote it -- the path that draws nothing drew nothing on the mod's own character too --
+             and only a root with no draw anywhere below it is covered. :cpp:enumerator:`RegFillMissingMode::FillMissing`
+             is not affected :raw-html:`<br />` :raw-html:`<br />`
+
+             Asked PER ROOT, and only of the parts the edit's part filter accepts: a graph of two roots
+             where one draws still covers the other, and a ``run =`` list several objects share does not
+             count another object's draw as this one's :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                A draw the fix itself rewrites away before this edit runs (eg. a see-through range turned
+                into a ``run = CustomShader...`` line) is not a draw here, so such a root is covered again
+
+             **Default**: ``false``
+             @endrst
+             */
+            bool onlyWhenAbsent = false;
+
+            /**
+             * @brief
+             @rst
              Whether the editing is dependent on :cpp:member:`IniFile::downloadMode` -- see
              \ref editFromIni :raw-html:`<br />` :raw-html:`<br />`
 
@@ -279,6 +308,23 @@ namespace AGRemapCore {
              * @return The filler
              */
             static FillMissingFunc makeFillMissing(K reg, V value, bool toFront = false);
+
+            /**
+             * @brief
+             @rst
+             The roots of 'graph' from which some :cpp:class:`IfContentPart` has 'reg' -- the root
+             itself or any section reachable from it through ``run =`` -- counting only the parts
+             'selection''s ``partFilter`` accepts, when it has one. What \ref onlyWhenAbsent asks
+             @endrst
+             *
+             * @param graph The graph to search
+             * @param reg The register to search for
+             * @param selection The edit's part selection
+             *
+             * @return The names of the roots that reach 'reg'
+             */
+            static std::unordered_set<std::string> rootsWithReg(const Graph& graph, const K& reg,
+                                                                const PartSelection& selection = {});
 
             /**
              * @brief
@@ -395,10 +441,13 @@ namespace AGRemapCore {
              * @param fillMissing The function to modify the parts that are missing the desired register
              * @param selection Which roots may be covered. **Default**: accept every root
              *
+             * @param skipRoots Roots never to cover, eg. \ref rootsWithReg for \ref onlyWhenAbsent. **Default**: ``nullptr``, none
+             *
              * @return The same graph that was passed in, with its roots covered
              */
             static Graph& addCover(Graph& graph, const K& reg, const FillMissingFunc& fillMissing,
-                                    const PartSelection& selection = {});
+                                    const PartSelection& selection = {},
+                                    const std::unordered_set<std::string>* skipRoots = nullptr);
 
             /**
              * @brief
@@ -424,10 +473,13 @@ namespace AGRemapCore {
              * @param fillMissing The function to modify the parts that are missing the desired register
              * @param selection Which roots may be covered. **Default**: accept every root
              *
+             * @param skipRoots Roots never to cover, eg. \ref rootsWithReg for \ref onlyWhenAbsent. **Default**: ``nullptr``, none
+             *
              * @return The same graph that was passed in, with its roots covered
              */
             static Graph& addBottomCover(Graph& graph, const K& reg, const FillMissingFunc& fillMissing,
-                                          const PartSelection& selection = {});
+                                          const PartSelection& selection = {},
+                                          const std::unordered_set<std::string>* skipRoots = nullptr);
 
             /**
              * @brief

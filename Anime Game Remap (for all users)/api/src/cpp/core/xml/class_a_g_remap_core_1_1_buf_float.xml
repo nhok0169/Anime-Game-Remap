@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="97" column="22" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="157" bodyend="157"/>
+        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="97" column="22" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="164" bodyend="164"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_float_1a4f6f3423f21a3ee5540c1281527b1c26" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_data_type" kindref="compound">BufDataType</ref> &gt;</type>
@@ -60,7 +60,7 @@ than one :cpp:class:`BufElementType` without being consumed by the first use
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="99" column="29" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="159" bodyend="161"/>
+        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="99" column="29" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="166" bodyend="168"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

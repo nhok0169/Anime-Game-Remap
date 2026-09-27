@@ -165,6 +165,23 @@ namespace AGRemapCore {
              @endrst
              */
             std::string normalMapReg;
+
+            /**
+             * @brief
+             @rst
+             Registers ANY of which, bound in this object's `section`_, mean its textures are the
+             mod's own -- so none of its texture downloads fires. Empty (the default) keeps each
+             download's own one-register test :raw-html:`<br />` :raw-html:`<br />`
+
+             For a character whose mods write one object in more than one register layout: every
+             Neuvillette head is plain (``ps-t0`` / ``ps-t1``) or normal-map (``ps-t1`` / ``ps-t2``),
+             and a download on either layout's registers fires on the other one's mods, landing a
+             texture in the wrong role. ``{"ps-t0", "ps-t1", "ps-t2"}`` says "a section binding any
+             texture brings its own set", and a section binding none still gets the downloads. See
+             ``GIMIParser::ParserConfig::downloadAltRegs``
+             @endrst
+             */
+            std::vector<std::string> coverRegs;
         };
 
         /**

@@ -39,6 +39,8 @@
         <link refid="_ini_keywords_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
       <node id="9">
         <label>AGRemapCore/model/SectionIterData.h</label>

@@ -79,6 +79,16 @@ namespace AGRemapCore {
             static ModType bennettAdventure();
 
             /**
+             * @brief Creates the :cpp:class:`ModType` for Charlotte
+             */
+            static ModType charlotte();
+
+            /**
+             * @brief Creates the :cpp:class:`ModType` for CharlotteHurlock
+             */
+            static ModType charlotteHurlock();
+
+            /**
              * @brief Creates the :cpp:class:`ModType` for CherryHuTao
              */
             static ModType cherryHutao();
@@ -202,6 +212,16 @@ namespace AGRemapCore {
              * @brief Creates the :cpp:class:`ModType` for MonaCN
              */
             static ModType monaCN();
+
+            /**
+             * @brief Creates the :cpp:class:`ModType` for Neuvillette
+             */
+            static ModType neuvillette();
+
+            /**
+             * @brief Creates the :cpp:class:`ModType` for NeuvilletteMelusent
+             */
+            static ModType neuvilletteMelusent();
 
             /**
              * @brief Creates the :cpp:class:`ModType` for Nilou

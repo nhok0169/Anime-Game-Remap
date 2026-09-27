@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_charlotte_hurlock_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::CharlotteHurlockFixer</compoundname>
+    <includes refid="_charlotte_hurlock_fixer_8h" local="no">CharlotteHurlockFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_charlotte_hurlock_fixer_1a96507e33e8614ab10e59fb880156121a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::CharlotteHurlockFixer::CharlotteHurlockFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>CharlotteHurlockFixer</name>
+        <qualifiedname>AGRemapCore::CharlotteHurlockFixer::CharlotteHurlockFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/CharlotteHurlock/CharlotteHurlockFixer.h" line="37" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_charlotte_hurlock_fixer_1af900d2a580beb7f7f456af352ea076bb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::CharlotteHurlockFixer::toCharlotte6_7</definition>
+        <argsstring>()</argsstring>
+        <name>toCharlotte6_7</name>
+        <qualifiedname>AGRemapCore::CharlotteHurlockFixer::toCharlotte6_7</qualifiedname>
+        <briefdescription>
+<para>The fix onto Charlotte <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a63c07d7a88a6adefbd17206d942dfcc2" kindref="member">IniFixBuilderFuncs::charlotteHurlockToCharlotte6_7</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/CharlotteHurlock/CharlotteHurlockFixer.h" line="42" column="43" bodyfile="src/data/IniFixData/CharlotteHurlock/CharlotteHurlockFixer.cpp" bodystart="100" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+CharlotteHurlock&apos;s own fixers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The FOURTH remap of a skin of SEVERAL components onto a target of ONE, and the inverse of
+:cpp:class:`CharlotteFixer`&apos;s direction. See :cpp:func:`makeGIMIMergeFixer`. Pair this with
+:cpp:class:`CharlotteHurlockParser`. The same two template options CitlaliWhisperofStars
+needs -- ``targetLayout`` and ``texRegsByName`` -- and nothing of Charlotte&apos;s own beyond the
+config
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/CharlotteHurlock/CharlotteHurlockFixer.h" line="34" column="5" bodyfile="include/AGRemapCore/data/IniFixData/CharlotteHurlock/CharlotteHurlockFixer.h" bodystart="34" bodyend="43"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_charlotte_hurlock_fixer_1a96507e33e8614ab10e59fb880156121a" prot="public" virt="non-virtual"><scope>AGRemapCore::CharlotteHurlockFixer</scope><name>CharlotteHurlockFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_charlotte_hurlock_fixer_1af900d2a580beb7f7f456af352ea076bb" prot="public" virt="non-virtual"><scope>AGRemapCore::CharlotteHurlockFixer</scope><name>toCharlotte6_7</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

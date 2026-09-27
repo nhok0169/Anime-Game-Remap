@@ -1,5 +1,47 @@
 # Ini Graph Editing
 
+## An external command covers NOTHING -- `isKeyFullyCover` said it covered everything (2026-09-24)
+
+`IfTemplate::isKeyFullyCoverNode` asks whether every path through a section binds a key, following
+`run =` into the command lists the graph holds. A call to a name that is NOT a section of the graph
+-- `CommandList\global\ORFix\ORFix`, a TexFx command, a dangling author's call -- was skipped with
+`continue` while `childrenResult` sat at its initial `true`, so a section whose only child was such a
+call read as **fully covered for any key**. Its sibling `getKeyMissingPartsNode` had been fixed the
+other way for GanyuTwilight (an external command counts as entirely missing the key); this one never
+got the matching change.
+
+What it broke is everything that asks "does this already have X": `RegFillMissing`'s
+`BottomCover` / `Cover` gate, and the parser's download decision (`rootsAreFullyCovered`). The
+CharlotteHurlock merge carries a slot's own section as a command list and appends its draw only when
+the copy does not already draw -- the identity mod's Body B and Bangs end in an ORFix call, so neither
+was drawn and Charlotte wore her own outfit under the skin's hair. Fixed by counting only children that
+said something (`evaluated`): a node whose only children are external commands keeps its own verdict.
+
+Pinned by `test_IniSectionGraph.py`'s two `isKeyFullyCover_...external...` tests, which fail against
+the old build (`{'a': True}` for a key the section never sets). The regression corpus with downloads
+disabled was byte-identical (3272 files); with downloads on, three download decisions moved and all
+three were corrections -- see Creating Remaps' "CHARLOTTE <-> CHARLOTTEHURLOCK".
+
+<br>
+
+## A section guarded by ONE `if` is filled at the end of the guard, not at its root (2026-09-24)
+
+`RegFillMissing`'s default placement reports, for a section every branch of which lacks the key, the
+section's ROOT part -- right for an ordinary section, wrong for a namespace-merged mod's, whose root
+holds nothing but `hash` / `match_first_index` / `match_priority` and whose every command sits under
+`if $\<Char>\Master\swapvar == n`. The draw landed before the guard: ahead of its own bindings and on
+every variant. `RegFillMissing::guardedBranchEnd` redirects a fill for exactly that shape (a root of
+matching settings only, one `if ... endif`, no `else` / `elif`, nothing after) to the last part of the
+guarded branch. Any other part comes back unchanged, which is why the regression corpus did not move.
+
+The same shape needed the index machinery taught the same rule -- a `hash` written in the root and the
+`match_first_index` in the guarded part -- in `GIMISectionClassifier::classify` and
+`GIMIObjPartFilter::filter`: see Creating Remaps' "A NAMESPACE-MERGED MOD WRITES EVERYTHING INSIDE ONE
+`if`". Both look only at the SAME section's parts, never a callee's, which keeps the GanyuTwilight rule
+(a command list inheriting its caller's hash is not rooted in its own right) intact.
+
+<br>
+
 ## `ResGroupCollect` keys call sites by LOCATION, and owns every replica it writes (2026-09-17)
 
 Two bugs in the group collect, both reachable from the Python API and both silent:

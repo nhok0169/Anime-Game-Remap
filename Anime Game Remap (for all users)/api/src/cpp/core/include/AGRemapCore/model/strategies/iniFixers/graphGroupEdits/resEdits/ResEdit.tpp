@@ -302,6 +302,9 @@ namespace AGRemapCore {
         std::string shortGraphHash = graphId.empty() ? std::string() : HashTools::getShortDeterministicHashStr(graphId);
         const GraphId& currentResModObj = (resModObj == nullptr) ? this->resModObj : *resModObj;
 
+        // fixed file -> the section that took it -- see ResEditConfig::filePerSection
+        std::unordered_map<std::string, std::string> fileTakenBy;
+
         auto parts = graph.iterByContentPart();
         while (parts.next()) {
             auto& iterData = parts.value();
@@ -325,6 +328,12 @@ namespace AGRemapCore {
                 // Unlike the base implementation, the value is rewritten to the *fixed* path (with
                 // the graph id folded in), and the model is built from both paths.
                 std::string newVal = this->getFixFile(val, modName, shortGraphHash);
+                if (this->config.filePerSection) {
+                    auto taken = fileTakenBy.emplace(newVal, sectionName);
+                    if (!taken.second && taken.first->second != sectionName) {
+                        newVal = this->fileAddGraphId(newVal, HashTools::getShortDeterministicHashStr(sectionName));
+                    }
+                }
                 part->setValByInd(ind, this->config.valOfFile(newVal));
                 this->buildResModel(this->resType, val, newVal, modName, fileKey, ctx);
                 replacedHere = true;

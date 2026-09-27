@@ -11,6 +11,8 @@
     <innerdir refid="dir_55689a2f74de097d7544f31808fe514d">src/data/IniFixData/BarbaraSummertime</innerdir>
     <innerdir refid="dir_b4083deb9ee5df384b03ac4be66b4787">src/data/IniFixData/Bennett</innerdir>
     <innerdir refid="dir_f9dcce53c4497ea4a936644a43852d54">src/data/IniFixData/BennettAdventure</innerdir>
+    <innerdir refid="dir_dc1fa23fd2f930e817230f2b06afc0ce">src/data/IniFixData/Charlotte</innerdir>
+    <innerdir refid="dir_0a0c0f8c1d29d4a07bf20fde4e95affc">src/data/IniFixData/CharlotteHurlock</innerdir>
     <innerdir refid="dir_5f8bbb49ea673357d6c26a09abefdccd">src/data/IniFixData/CherryHuTao</innerdir>
     <innerdir refid="dir_d629c3202cd9f16f808b0c0180cf0a0e">src/data/IniFixData/Chisa</innerdir>
     <innerdir refid="dir_e536cc6f6d33aaa40fa8bcab08687b55">src/data/IniFixData/Citlali</innerdir>
@@ -37,6 +39,8 @@
     <innerdir refid="dir_5cbb0946bf5bc41fc88fe96bfa57437a">src/data/IniFixData/LisaStudent</innerdir>
     <innerdir refid="dir_0f276ca38dafcc3dcc40a33a1cdb7007">src/data/IniFixData/Mona</innerdir>
     <innerdir refid="dir_605b4137314663323ca47a3cc7379050">src/data/IniFixData/MonaCN</innerdir>
+    <innerdir refid="dir_86e3de239d8f3c8e914a04fb8473dfb7">src/data/IniFixData/Neuvillette</innerdir>
+    <innerdir refid="dir_73abb7fc4b4adca37f52b91081b715b1">src/data/IniFixData/NeuvilletteMelusent</innerdir>
     <innerdir refid="dir_65c6f2589d8b4fcffecdf70dcc42e45d">src/data/IniFixData/Nilou</innerdir>
     <innerdir refid="dir_fd6b41d432b521eb1185f3d5192e2242">src/data/IniFixData/NilouBreeze</innerdir>
     <innerdir refid="dir_8c4417f973481dd42ac0a0273bc1a8e6">src/data/IniFixData/Ningguang</innerdir>
@@ -61,6 +65,7 @@
     <innerfile refid="_jean_shading_8cpp">JeanShading.cpp</innerfile>
     <innerfile refid="_mod_branches_8cpp">ModBranches.cpp</innerfile>
     <innerfile refid="_reg_val_checks_8cpp">RegValChecks.cpp</innerfile>
+    <innerfile refid="_side_meshes_8cpp">SideMeshes.cpp</innerfile>
     <innerfile refid="_tex_reg_layout_8cpp">TexRegLayout.cpp</innerfile>
     <innerfile refid="_w_w_m_i_fixer_8cpp">WWMIFixer.cpp</innerfile>
     <briefdescription>

@@ -24,7 +24,7 @@ build/test/doc pipelines from scratch when they're already written down.
 | Tools | [`AI Agent Help/Tools/CLAUDE.md`](AI%20Agent%20Help/Tools/CLAUDE.md) | touching anything under `Tools/` — the builders, the `CIPipeline`, the script, or the shared `AGRemapUtils` library. **Nothing tests this layer and it rots silently: run the tool before you change it.** One session found three tools that could not run at all, each broken by the API's package moving during the C++ migration. Also covers the `##### Script` keyword sections and the substring trap in them, and where an option goes now that the script no longer contains the API |
 | CI | [`AI Agent Help/CI/CLAUDE.md`](AI%20Agent%20Help/CI/CLAUDE.md) | touching anything under `.github/workflows`, or a CI run, badge or pull request check behaves oddly -- the map of the eleven workflows, **why renaming a job strands branch protection** (checks are matched by the job-name CHAIN), why the testers need the API's own dependencies installed, which cache works (z3) and which cannot (`cbuild`: checkout resets mtimes), cibuildwheel's copied-not-mounted container, what a "No status" badge means, and how to see the remote when `git fetch` is blocked here. **Run `Tools/Misc/Diagnostics/checkWorkflowWiring.py` before and after any workflow change** |
 | Vertex Group Remaps | [`AI Agent Help/VGRemaps/CLAUDE.md`](AI%20Agent%20Help/VGRemaps/CLAUDE.md) | touching `data/VGRemapData.cpp`, `Data/RemapDrafts/`, `Tools/VGRemapFinder`, or a **"the model is warped / kinked in game"** bug -- where the blend-weight table sits in the maintainer's 8-step remap process, the rule that **every source vertex group must map somewhere** (an unmapped one becomes a *negative* bone index, not nothing), which geometry copy matches the library's versions, and the two recipes: a new character's remap end to end, and diagnosing a deformed model in minutes |
-| Game View | [`AI Agent Help/GameView/CLAUDE.md`](AI%20Agent%20Help/GameView/CLAUDE.md) | about to **ask the maintainer for an in-game screenshot, a frame dump, or "does it look right now?"** -- don't; `Tools/GameView` takes screenshots, drives keyboard and mouse, reloads 3DMigoto and reports the reload's warnings per mod, takes labelled frame dumps, and parks / restores mod folders. Covers the elevated helper the USER starts (Genshin runs as admin, and Windows silently drops input from anything that is not), the per-mod verification loop, how to get a character on screen, and the rules: **never click anything that spends or sends, and never press Enter in the overworld (it opens chat)** |
+| Game View | [`AI Agent Help/GameView/CLAUDE.md`](AI%20Agent%20Help/GameView/CLAUDE.md) | about to **ask the maintainer for an in-game screenshot, a frame dump, or "does it look right now?"** -- don't; `Tools/GameView` takes screenshots, drives keyboard and mouse, reloads 3DMigoto and reports the reload's warnings per mod, takes labelled frame dumps, and parks / restores mod folders. Covers the elevated helper the USER starts (Genshin runs as admin, and Windows silently drops input from anything that is not), the per-mod verification loop, how to get a character on screen, and the rules: **never click anything that spends or sends, and never press Enter in the overworld (it opens chat)**. Also read it before **changing how GameView reads `d3d11_log.txt`** (a bug report against `reload` / `log`): the log is buffered, 3DMigoto goes silent while it loads Resource files, and `Tools/GameView/tests/` has the replay and parser tests |
 
 **AGENTS CAN LOOK AT THE GAME THEMSELVES NOW (2026-09-23).** Every in-game check used to be a
 round trip through the maintainer, and they asked for that to stop: an agent given a remap and the
@@ -34,8 +34,10 @@ half of that. `compare` shows the same frame with mods and with F9 held (every m
 `VertexLimitRaise` section the fix writes rejected as `Unrecognised entry` by the old-loader GIMI
 the maintainer uses. **The maintainer steps in ONCE, at the end, for the final check** (Overview
 habit 69). Before that, stop only for what the tool cannot do: the UAC click that starts its helper
-(once per Windows session, asked at the start), a game login, anything that spends or sends, and
-decisions the guides call theirs. A remap is tested on **every** mod of the character in the folder
+(once per Windows session, asked at the start), a game login, anything that spends or sends,
+decisions the guides call theirs, and **the new download folders once pipeline step 1 has built
+them** -- commit them, stop, and tell the maintainer, who merges them into GitHub's `master` (the
+fix fetches downloads from `master` at run time, so until then every download 404s). A remap is tested on **every** mod of the character in the folder
 they name: `mods <IMP> only <mod> --from <folder>` swaps one in, and the previous one goes back
 where it came from. On WuWa, a frame dump with XXMI's WWMI call/debug logging on froze the game long
 enough for Unreal's watchdog to kill it, and turning that logging off is the maintainer's switch.
@@ -43,15 +45,78 @@ enough for Unreal's watchdog to kill it, and turning that logging off is the mai
 bottom of every capture for that, and an image from anywhere else is cropped the same way before it
 is kept or shown. See [Game View](AI%20Agent%20Help/GameView/CLAUDE.md).
 
-**A NEW `char <-> skin` REMAP HAS A FIXED TWELVE-STEP PIPELINE, WRITTEN DOWN BY THE MAINTAINER
+**A NEW `char <-> skin` REMAP HAS A FIXED THIRTEEN-STEP PIPELINE, WRITTEN DOWN BY THE MAINTAINER
 (2026-09-23).** In short: downloads -> RemapDraft -> mod data in the API (vertex group remap,
-hashes, indices, ...) -> prototype `char -> skin` from the library API, noting its gaps -> test it on
+hashes, indices, ...) -> identity mods of both -> prototype `char -> skin` from the library API, noting its gaps -> test it on
 a VARIETY of mods -> port it into the API, filling each gap with a new or extended module
 (`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, tools) -> test the port on ALL
 the mods -> the same prototype / test / port / test for `skin -> char` -> README and Sphinx docs.
+**DO THE FIRST THING RIGHT (2026-09-27).** A mistake early in the pipeline costs exponentially more
+later: Neuvillette's torn / folded / clipping coat was one wrong vertex group step, and cost two extra days of
+back-and-forth debugging that a correct RemapDraft would have avoided. **And observe in game diligently** --
+every angle (drag left / right and up / down), every distance (scroll), every toggle, a timed series, the
+overworld (WASD; the menu's clock sets the time of day), always against the mod on its own character: most
+of the faults the maintainer reported were visible in the agent's own screenshots. See Game View's "Observing
+a remap in game".
+**After the RemapDraft, a vertex group BEHAVIOUR audit (2026-09-27)**: the mathematically closest group
+is not necessarily right for a cape, coat tail, flap or skirt -- predict how each such part moves on the
+target's bone (Neuvillette's coat tore on a component seam, swung on the knees, folded on the skirt bones and
+clipped on the pelvis). See Creating Remaps' "THE VERTEX GROUP BEHAVIOUR AUDIT".
+**After every prototype and every compiled fix, a full AUDIT (the maintainer's rule, 2026-09-27)**:
+against every mistake earlier agents made and every issue you hit, and against every mod a person
+COULD make -- some characters have almost no mods to test on, so the fix must be right for the ones
+nobody has, and the worst outcome is an external user reporting a remap bug on GitHub or GameBanana.
+The audit of NeuvilletteMelusent -> Neuvillette found four lessons from the other template missing,
+and a fix run that silently deleted a mod's recolour `.ini`. See Creating Remaps' "THE AUDIT GATE".
 Each step's detail and tools are in
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s **"THE MAINTAINER'S REMAP
 PIPELINE, END TO END"**, its first section. Read it before starting any new pair.
+
+**CHARLOTTE <-> CHARLOTTEHURLOCK IS COMPILED BOTH WAYS (2026-09-24), THE FIRST PAIR AN AGENT RAN
+THROUGH THE WHOLE PIPELINE ALONE -- AND FIVE OF ITS FINDINGS ARE IN SHARED CODE, NOT CHARLOTTE'S.**
+`isKeyFullyCover` counted an EXTERNAL `run =` (ORFix, TexFx) as covering every key, so the merge left
+a slot that calls ORFix itself undrawn (Charlotte in her own outfit under the skin's hair). A hash two
+characters share now votes for neither in the classifier (`61b441bd`, YelanTranquil's and
+CharlotteHurlock's eyes). A fix-library path is matched case-insensitively. The merge template tells a
+**texture-only recolour** (`this =` on the skin's slot texture hashes, now `tex_<slot>_<role>` rows)
+from a file that only **watches** the skin (a help overlay or a merged master's `$active` section),
+which now gets its own sections on the target's hashes and nothing drawn -- the old script's shape. And
+**namespace-merged mods** (`namespace_merge.py`: every key under `if $\<Char>\Master\swapvar == n`)
+were misread three ways (classification, the index rewrite's window, where the draw lands) -- fixed,
+proved against a de-namespaced control, and checked in game on HuTao4 / CherryHuTao4. A merged member's
+TexFx registers (`ps-t69` / `ps-t70`) are cleared after its draw now, or they colour every later
+member's outline. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "CHARLOTTE <->
+CHARLOTTEHURLOCK" and "A NAMESPACE-MERGED MOD", and [Game View](AI%20Agent%20Help/GameView/CLAUDE.md)'s
+outfit-shop notes (**a second `Esc` in the shop opens the Paimon menu, which shows the UID top LEFT**).
+
+**THREE LATER CHARLOTTE REPORTS, THREE DIFFERENT ANSWERS, AND NONE OF THEM WAS THE VERTEX
+GROUPS' FAULT (2026-09-24).** *Black shards on a cardigan*: a skin's slots draw on
+DIFFERENT pixel shaders, and her body had been routed through the skin's hair-shader slot
+(`GIMIComponentFixerConfig::Component::objSlotIndices` gives each source object its own slot now).
+*Skirt triangles up to the chest*: the merge downloaded index buffers for slots the MOD never draws
+(it skips the component and declares no section for them) and drew them over the mod's own vertices;
+such a slot is now left undrawn (`GIMIComponentParseFacts::isSlotUndrawn`). *Turquoise turned red*:
+the fix was right -- the mod's textures ARE red, and the maintainer's old-loader GIMI rejects the
+newer-API lines that bind them on its own character. Each was settled by ONE hand edit of the fixed
+`.ini` or one look at the mod's texture, before any code changed (Overview habits 79-80). And
+`GameView reload --mod` had been answering "no warnings" over real ones by reading only until the
+log paused (habit 78) -- fixed, but distrust any earlier empty answer from it. Creating Remaps' Charlotte
+points 8-9 and its START HERE table map each symptom to its cause.
+
+**NEUVILLETTE <-> NEUVILLETTEMELUSENT IS COMPILED BOTH WAYS (2026-09-25), AND THE SKIN HAS ONE REAL MOD --
+SO FOUR SYNTHETIC ONES WERE BUILT, AND TWO OF THEM FOUND LIBRARY BUGS.** The skin's main mesh is an UNNAMED
+component (`""`, filed as `NeuvilletteMelusentMain`), which the merge could not name (`Component::modTypeName`);
+every skin component carries a 12-byte Texcoord where Neuvillette reads 20 (`GIMIMergeFixerConfig::texcoordStride`);
+a 16-bit mod had every merged `drawindexed` HALVED; and a mod whose mesh binds no textures and recolours in a
+SEPARATE `tex.ini` now carries the recolour over (the mesh file reads its siblings' `this =`, the recolour file
+defers). Forward, three shared-code bugs: a merged master's `.ini` GROUP whose object is empty in one variant bound
+the SOURCE's raw buffers on the target's hashes (the variant shattered), a component OWNER that drew nothing dropped
+the hide sections, and a generated copy bound downloads it never declared. `texRegsByName` now believes a file's
+NAMES only when the section makes no fix call of its own and every name is one distinct role -- one mod labels its
+textures one position off and drew flat yellow. **Build synthetic variants from the identity mod for a skin with few
+mods** (`Tools/Misc/Prototypes/neuvilletteMelusentSynth.py`), and **run every fix twice**: a re-run found a resource
+the second pass stopped declaring. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s
+"NEUVILLETTE <-> NEUVILLETTEMELUSENT".
 
 **A COUNTER THAT CAN ONLY EVER BE ZERO READS EXACTLY LIKE A ZERO THAT MEANS SOMETHING
 (2026-09-10).** Two of this repo's own summary lines were saying nothing, for weeks, and both
@@ -102,7 +167,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is seventy-one short habits, none of
+feature or bug request here: the habits that pay" first.** It is eighty short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -197,7 +262,7 @@ out are grapheme indices, and a byte cursor and a grapheme cursor must be separa
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
 
-**FORTY-EIGHT characters are real now (Citlali, 2026-09-21; count them with
+**FIFTY-TWO characters are real now (Neuvillette / NeuvilletteMelusent, 2026-09-25; count them with
 `ls -d "Anime Game Remap (for all users)/api/src/cpp/core/src/data/IniFixData/*/"` rather than
 trusting this number -- the written one has been wrong before), in SIX different shapes, and which
 one you have decides almost everything else.** Five of them are below; the sixth is the
@@ -366,22 +431,22 @@ a section still binding its diffuse to `ps-t0` hands it to the lightmap slot. Th
 `RegRemap` (`ps-t0` <-> `ps-t1`) over the face graph --- one of the things NNFix does under the
 hood. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The face diffuse".
 
-**THE FIX IS LIVE FOR FORTY-EIGHT CHARACTERS (verified end-to-end, and every one of them in
+**THE FIX IS LIVE FOR FIFTY-TWO CHARACTERS (verified end-to-end, and every one of them in
 game -- Citlali through her prototype, which the compiled fix is A/B-identical to). Earlier revisions of this
 file said every `IniFixer`/`IniParser` was stubbed and that `IniFile::getResources()` comes back
 empty --- that is NO LONGER TRUE, and believing it will cost you the best verification tool the repo
 has.** Real fixers and parsers exist for **Amber, AmberCN, Arlecchino, Ayaka, AyakaSpringbloom,
-Barbara, BarbaraSummertime, Bennett, BennettAdventure, CherryHuTao, Citlali, Diluc, DilucFlamme, Fischl,
+Barbara, BarbaraSummertime, Bennett, BennettAdventure, Charlotte, CharlotteHurlock, CherryHuTao, Citlali, Diluc, DilucFlamme, Fischl,
 FischlHighness, Ganyu, GanyuTwilight, HuTao, Jean, JeanCN, JeanSea, Kaeya, KaeyaSailwind, Keqing,
 KeqingOpulent, Kirara, KiraraBoots, Klee, KleeBlossomingStarlight, Lisa, LisaStudent,
-Mona, MonaCN, Nilou, NilouBreeze, Ningguang, NingguangOrchid, Raiden, Rosaria, RosariaCN, Shenhe,
+Mona, MonaCN, Neuvillette, NeuvilletteMelusent, Nilou, NilouBreeze, Ningguang, NingguangOrchid, Raiden, Rosaria, RosariaCN, Shenhe,
 ShenheFrostFlower, Xiangling, XianglingCheer, Xingqiu, XingqiuBamboo, Yelan, YelanTranquil**
 (`core/src/data/Ini{Fix,Parse}Data/`), a real run generates remapped sections,
 and `fixResources` really does correct `Blend.buf` files and really does write textures. Confirmed by
 running the CLI over the in-repo Jean fixture and watching two `.dds` files appear.
 
 Two consequences, both the opposite of what this file used to say:
-- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these forty-eight.
+- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these fifty-two.
   Prefer it over any unit test when the change could possibly affect a fix.
 - **Characters outside that list still have no fixer**, so a run over one of *those* still writes
   only the credit header. That is the stub, not a bug. Check
@@ -549,7 +614,8 @@ maintainer's: every clean variant had ONE remapped section per Exorcist draw, so
 the extra sections of a draw window into their own `.ini` files, the GIMI merge's shape.** See
 [Vertex Group Remaps](AI%20Agent%20Help/VGRemaps/CLAUDE.md)'s "WuWa: Sanhua <-> SanhuaExorcist" ---
 including why the broken-build check for a new reader is a group COUNT and not a score, the four facts
-of a WWMI mod's anatomy, and that `py -3.11`, not `py -3`, is the Python with `openpyxl` here.
+of a WWMI mod's anatomy, and that `py -3.11`, not `py -3`, is the Python with `openpyxl` on the Xeon -- the laptop has no 3.11 and
+`openpyxl` is on its `py -3` (Overview habit 77: run `py -0` and ask).
 
 **AND THE WUWA FIX IS COMPILED (2026-09-19): `makeWWMIFixer` / `makeWWMIParser` ARE THE FOURTH
 TEMPLATE, for a MULTI-COMPONENT character onto a MULTI-COMPONENT skin -- which every WuWa pair is.**

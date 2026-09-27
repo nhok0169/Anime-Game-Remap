@@ -75,7 +75,7 @@ is looking at. The tool refuses if the window has been resized since then. Other
 | `scroll N [--at X Y]` | wheel notches (+ = zoom in) |
 | `wait S` | pause (inside `do`) |
 | `do "step; step; ..."` or `do --file steps.txt` | several steps, one focus, one helper round trip |
-| `reload [--mod GLOB]` | F10, **wait until 3DMigoto has finished reloading**, then list the log's warnings **grouped by the section they belong to**. `--mod` keeps only `Mods\<GLOB>` |
+| `reload [--mod GLOB] [--wait S]` | F10, **wait until 3DMigoto logs `> d3dx.ini reloaded`** (every section and warning comes before it), then list the log's warnings **grouped by the section they belong to**. A duplicate hash is listed under **every** section 3DMigoto names for it, so a conflict between two mods shows under both. `--mod` keeps only `Mods\<GLOB>`. It never prints a bare zero: a clean result says how many sections (by kind) it parsed, `NOTHING WAS CHECKED` means none of the mod's sections were in the text, and a `NOTE` names the mod's `.ini` files that log under a `namespace` (which `--mod` cannot attribute) |
 | `log [--problems] [--mod GLOB] [--tail N]` | the importer's `d3d11_log.txt`, read from the end (WWMI's has reached 91 GB) |
 | `dump [--label L] [--options "dump_ib txt"]` | F8, re-pressed if nothing reacts; waits for the log's `Frame analysis saved to`; renames the folder. `--options` swaps `analyse_options` for this dump only and restores `d3dx.ini` byte-for-byte |
 | `toggle` | toggle hunting (numpad 0). WWMI ships `hunting = 2`, where F8/F9 are dead until toggled; `dump` does this itself |
@@ -100,6 +100,17 @@ Every hotkey is read from the importer's own `d3dx.ini` `[Hunting]` section (`re
   helper. **Without the helper, capture of the elevated game fails with access denied**, and input
   would be silently dropped.
 - **`compare`:** F9 held showed the unmodded model, released showed the mod.
+- **`reload`, fixed the same day:** the first version waited for the log to go quiet for 1.5 s. 3DMigoto
+  logs the `[Resource...]` sections, then loads every Resource file **without logging anything**, then
+  logs the `[TextureOverride...]` sections. `reload --mod` printed "no warnings" for five Charlotte mods
+  whose Duplicate-hash AND `Unrecognised entry` warnings were in the log; that both kinds were missing
+  says the text stopped before the TextureOverride sections, i.e. in that gap (inferred from the log,
+  not timed live). It now waits for `> d3dx.ini reloaded`, which came after every section and warning in all
+  15 reloads of the GIMI log. The reload's real last line cannot be used: with `[Logging] unbuffered=0`
+  its last few KB stay in 3DMigoto's buffer until the next reload. A replay of the log, checked against
+  each Duplicate block's own list of sections, matched for all 11 Charlotte reloads.
+  `tests/` (`py -3 -m unittest discover -s tests`) pins the parser on real log lines and the wait on
+  a fake log with the gap.
 - **`reload`:** waited out a multi-second reload. `--mod Bennett*` listed 18 real warnings, and
   `--mod Citlali*` listed none. (The Bennett ones include `Unrecognised entry: override_byte_stride` on the fix's
   `VertexLimitRaise` sections, because the old-loader `d3d11.dll` predates that key.)

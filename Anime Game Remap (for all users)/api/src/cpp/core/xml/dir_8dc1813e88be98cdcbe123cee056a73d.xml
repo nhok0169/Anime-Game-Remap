@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8dc1813e88be98cdcbe123cee056a73d" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/Charlotte</compoundname>
+    <innerfile refid="_charlotte_parser_8h">CharlotteParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Charlotte/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_neuvillette_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::NeuvilletteParser</compoundname>
+    <includes refid="_neuvillette_parser_8h" local="no">NeuvilletteParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_neuvillette_parser_1a80f972079b39faced1bcf5f7ddc77d89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::NeuvilletteParser::NeuvilletteParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>NeuvilletteParser</name>
+        <qualifiedname>AGRemapCore::NeuvilletteParser::NeuvilletteParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Neuvillette/NeuvilletteParser.h" line="36" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_neuvillette_parser_1a3ebaa445030069d70674c14267484b43" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::NeuvilletteParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::NeuvilletteParser::v4_0</qualifiedname>
+        <briefdescription>
+<para>The parser for a 4.0-era Neuvillette <computeroutput>.ini</computeroutput> file <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aa2f1f954895b4c9ee16ced050708cac5" kindref="member">IniParseBuilderFuncs::neuvillette4_0</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Neuvillette/NeuvilletteParser.h" line="41" column="45" bodyfile="src/data/IniParseData/Neuvillette/NeuvilletteParser.cpp" bodystart="60" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Neuvillette&apos;s own ``.ini`` parsers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The standard GIMI character shape, drawing ``head`` / ``body`` / ``dress`` -- his head and dress on
+the plain texture layout, his body on the normal-map one, and his mods not agreeing with either. Pair
+this with :cpp:class:`NeuvilletteFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Neuvillette/NeuvilletteParser.h" line="33" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Neuvillette/NeuvilletteParser.h" bodystart="33" bodyend="42"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_neuvillette_parser_1a80f972079b39faced1bcf5f7ddc77d89" prot="public" virt="non-virtual"><scope>AGRemapCore::NeuvilletteParser</scope><name>NeuvilletteParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_neuvillette_parser_1a3ebaa445030069d70674c14267484b43" prot="public" virt="non-virtual"><scope>AGRemapCore::NeuvilletteParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

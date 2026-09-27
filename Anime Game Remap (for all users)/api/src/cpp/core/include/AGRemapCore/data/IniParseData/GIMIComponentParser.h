@@ -199,6 +199,55 @@ namespace AGRemapCore {
      @endrst
      */
     IniParseBuilder::Factory makeGIMIComponentParser(GIMIComponentParserConfig config);
+
+    /**
+     * @brief
+     @rst
+     What a parser from :cpp:func:`makeGIMIComponentParser` learned about a ``.ini`` file that its
+     merge fixer needs, and cannot read off the sections :raw-html:`<br />` :raw-html:`<br />`
+
+     The fixer reaches it by ``dynamic_cast`` from the parser it is handed. Absent (another parser),
+     everything is assumed to be there -- the behaviour before this existed
+     @endrst
+     */
+    class GIMIComponentParseFacts {
+        public:
+            virtual ~GIMIComponentParseFacts() = default;
+
+            /**
+             * @brief
+             @rst
+             Whether the ``.ini`` file carries anything of the skin to remap: a section of its own
+             that binds a buffer, an index buffer, a texture or a draw, or a texture override by one
+             of the skin's slot texture hashes :raw-html:`<br />` :raw-html:`<br />`
+
+             ``false`` for a file that only WATCHES the skin -- a help overlay whose one section
+             matches the position hash to know she is on screen (2026-09-24). Everything the parser
+             would give such a file comes from downloads, and remapping it puts a second full copy
+             of the skin over the real mod's
+             @endrst
+             */
+            virtual bool hasRemappableContent() const = 0;
+
+            /**
+             * @brief
+             @rst
+             Whether the mod leaves this source slot UNDRAWN: it carries the component's own buffers
+             and skips the component's index buffer (``handling = skip``), and declares no section for
+             the slot -- so on its own character the slot is never drawn :raw-html:`<br />` :raw-html:`<br />`
+
+             Such a slot gets no download and brings nothing to the merge. The game's index buffer
+             for it counts in the GAME's vertex order, and drawn over the mod's own buffers it is
+             shards of stretched triangles: CharlotteHurlock1 draws its slot C geometry inside its
+             slot B section and has no C or D section, and the downloaded C and D put its skirt up to
+             its chest (2026-09-24)
+             @endrst
+
+             @param[in] component The source component, eg. ``Body``
+             @param[in] slot The source slot, eg. ``C``
+             */
+            virtual bool isSlotUndrawn(const std::string& component, const std::string& slot) const = 0;
+    };
 }
 
 #endif

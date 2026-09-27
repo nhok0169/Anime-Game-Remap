@@ -2114,6 +2114,27 @@ By default, the mod will show on both the original character and the remapped ch
             [ResourceKeqingHeadDiffuseRemapDLKeqingOpulentOpaqueDiffuseRemapTex]
             filename = KeqingOpulentHeadRemapTexCgN J93.dds
 
+            [ResourceKeqingHeadLightMapRemapDL]
+            filename = KeqingHeadLightMapRemapDL.dds
+
+            [ResourceKeqingHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KeqingHeadRemapDL.ib
+
+            [ResourceKeqingFaceDiffuseRemapDL]
+            filename = KeqingFaceDiffuseRemapDL.dds
+
+            [ResourceKeqingPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = KeqingPositionRemapDL.buf
+
+            [ResourceKeqingTexcoordRemapDL]
+            type = Buffer
+            stride = 20
+            filename = KeqingTexcoordRemapDL.buf
+
             ; --------------------------------------------
 
 
@@ -2607,6 +2628,27 @@ This example shows a weird use case of wanting to fix the .ini file to an older 
 
             [ResourceKeqingHeadDiffuseRemapDLKeqingOpulentOpaqueHeadDiffuseRemapTex]
             filename = KeqingOpulentHeadRemapTexCgN FaT.dds
+
+            [ResourceKeqingHeadLightMapRemapDL]
+            filename = KeqingHeadLightMapRemapDL.dds
+
+            [ResourceKeqingHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KeqingHeadRemapDL.ib
+
+            [ResourceKeqingFaceDiffuseRemapDL]
+            filename = KeqingFaceDiffuseRemapDL.dds
+
+            [ResourceKeqingPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = KeqingPositionRemapDL.buf
+
+            [ResourceKeqingTexcoordRemapDL]
+            type = Buffer
+            stride = 20
+            filename = KeqingTexcoordRemapDL.buf
 
             ; --------------------------------------------
 
@@ -4264,6 +4306,9 @@ Reference: https://gamebanana.com/posts/12191289
             [ResourceKiraraFaceDiffuseRemapDLKiraraBootsOpaqueFaceDiffuseRemapTex]
             filename = KiraraBootsFaceRemapTexPoj JcH.dds
 
+            [ResourceKiraraFaceDiffuseRemapDL]
+            filename = KiraraFaceDiffuseRemapDL.dds
+
             ; --------------------------------------------
 
 
@@ -5715,41 +5760,6 @@ Mods for Shenhe and Raiden will not be fixed.
             hash = c2d1a57e
             ps-t1 = ResourceJeanFaceDiffuseRemapDL
 
-            [ResourceJeanHeadDiffuseRemapDL]
-            filename = JeanHeadDiffuseRemapDL.dds
-
-            [ResourceJeanHeadLightMapRemapDL]
-            filename = JeanHeadLightMapRemapDL.dds
-
-            [ResourceJeanHeadIbRemapDL]
-            type = Buffer
-            format = DXGI_FORMAT_R32_UINT
-            filename = JeanHeadRemapDL.ib
-
-            [ResourceJeanBodyDiffuseRemapDL]
-            filename = JeanBodyDiffuseRemapDL.dds
-
-            [ResourceJeanBodyLightMapRemapDL]
-            filename = JeanBodyLightMapRemapDL.dds
-
-            [ResourceJeanBodyIbRemapDL]
-            type = Buffer
-            format = DXGI_FORMAT_R32_UINT
-            filename = JeanBodyRemapDL.ib
-
-            [ResourceJeanFaceDiffuseRemapDL]
-            filename = JeanFaceDiffuseRemapDL.dds
-
-            [ResourceJeanPositionRemapDL]
-            type = Buffer
-            stride = 40
-            filename = JeanPositionRemapDL.buf
-
-            [ResourceJeanTexcoordRemapDL]
-            type = Buffer
-            stride = 12
-            filename = JeanTexcoordRemapDL.buf
-
             [TextureOverrideJeanHeadJeanSeaRemapFix]
             ib = ResourceJeanHeadIbRemapDL
             ps-t1 = ResourceJeanHeadLightMapRemapDL
@@ -5903,30 +5913,6 @@ Mods for Shenhe and Raiden will not be fixed.
             [TextureOverrideJeanFaceJeanSeaRemapFix]
             hash = c2d1a57e
             ps-t1 = ResourceJeanFaceDiffuseRemapDL
-
-            [ResourceJeanHeadDiffuseRemapDL]
-            filename = JeanHeadDiffuseRemapDL.dds
-
-            [ResourceJeanHeadLightMapRemapDL]
-            filename = JeanHeadLightMapRemapDL.dds
-
-            [ResourceJeanHeadIbRemapDL]
-            type = Buffer
-            format = DXGI_FORMAT_R32_UINT
-            filename = JeanHeadRemapDL.ib
-
-            [ResourceJeanFaceDiffuseRemapDL]
-            filename = JeanFaceDiffuseRemapDL.dds
-
-            [ResourceJeanPositionRemapDL]
-            type = Buffer
-            stride = 40
-            filename = JeanPositionRemapDL.buf
-
-            [ResourceJeanTexcoordRemapDL]
-            type = Buffer
-            stride = 12
-            filename = JeanTexcoordRemapDL.buf
 
             [TextureOverrideJeanHeadJeanSeaRemapFix]
             ib = ResourceJeanHeadIbRemapDL
@@ -6136,30 +6122,6 @@ Mods for Shenhe and Raiden will not be fixed.
             [TextureOverrideJeanFaceJeanSeaRemapFix]
             hash = c2d1a57e
             ps-t1 = ResourceJeanFaceDiffuseRemapDL
-
-            [ResourceJeanHeadDiffuseRemapDL]
-            filename = JeanHeadDiffuseRemapDL.dds
-
-            [ResourceJeanHeadLightMapRemapDL]
-            filename = JeanHeadLightMapRemapDL.dds
-
-            [ResourceJeanHeadIbRemapDL]
-            type = Buffer
-            format = DXGI_FORMAT_R32_UINT
-            filename = JeanHeadRemapDL.ib
-
-            [ResourceJeanFaceDiffuseRemapDL]
-            filename = JeanFaceDiffuseRemapDL.dds
-
-            [ResourceJeanPositionRemapDL]
-            type = Buffer
-            stride = 40
-            filename = JeanPositionRemapDL.buf
-
-            [ResourceJeanTexcoordRemapDL]
-            type = Buffer
-            stride = 12
-            filename = JeanTexcoordRemapDL.buf
 
             [TextureOverrideJeanHeadJeanSeaRemapFix]
             ib = ResourceJeanHeadIbRemapDL
@@ -6573,6 +6535,27 @@ Mods for Shenhe and Raiden will not be fixed.
             [ResourceKeqingHeadDiffuseRemapDLKeqingOpulentOpaqueDiffuseRemapTex]
             filename = KeqingOpulentHeadRemapTexCgN J93.dds
 
+            [ResourceKeqingHeadLightMapRemapDL]
+            filename = KeqingHeadLightMapRemapDL.dds
+
+            [ResourceKeqingHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KeqingHeadRemapDL.ib
+
+            [ResourceKeqingFaceDiffuseRemapDL]
+            filename = KeqingFaceDiffuseRemapDL.dds
+
+            [ResourceKeqingPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = KeqingPositionRemapDL.buf
+
+            [ResourceKeqingTexcoordRemapDL]
+            type = Buffer
+            stride = 20
+            filename = KeqingTexcoordRemapDL.buf
+
             ; --------------------------------------------
 
 
@@ -6981,6 +6964,27 @@ Mods for Shenhe and Raiden will not be fixed.
 
             [ResourceKeqingHeadDiffuseRemapDLKeqingOpulentOpaqueDiffuseRemapTex]
             filename = KeqingOpulentHeadRemapTexCgN J93.dds
+
+            [ResourceKeqingHeadLightMapRemapDL]
+            filename = KeqingHeadLightMapRemapDL.dds
+
+            [ResourceKeqingHeadIbRemapDL]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KeqingHeadRemapDL.ib
+
+            [ResourceKeqingFaceDiffuseRemapDL]
+            filename = KeqingFaceDiffuseRemapDL.dds
+
+            [ResourceKeqingPositionRemapDL]
+            type = Buffer
+            stride = 40
+            filename = KeqingPositionRemapDL.buf
+
+            [ResourceKeqingTexcoordRemapDL]
+            type = Buffer
+            stride = 20
+            filename = KeqingTexcoordRemapDL.buf
 
             ; --------------------------------------------
 

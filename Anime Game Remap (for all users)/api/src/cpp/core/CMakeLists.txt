@@ -58,6 +58,7 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/JeanCN/JeanCNFixer.cpp
     src/data/IniFixData/DarkDiffuse.cpp
     src/data/IniFixData/RegValChecks.cpp
+    src/data/IniFixData/SideMeshes.cpp
     src/data/IniFixData/TexRegLayout.cpp
     src/data/IniParseData/Barbara/BarbaraParser.cpp
     src/data/IniFixData/Barbara/BarbaraFixer.cpp
@@ -141,6 +142,14 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Citlali/CitlaliFixer.cpp
     src/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.cpp
     src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp
+    src/data/IniParseData/Charlotte/CharlotteParser.cpp
+    src/data/IniFixData/Charlotte/CharlotteFixer.cpp
+    src/data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.cpp
+    src/data/IniFixData/CharlotteHurlock/CharlotteHurlockFixer.cpp
+    src/data/IniParseData/Neuvillette/NeuvilletteParser.cpp
+    src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp
+    src/data/IniParseData/NeuvilletteMelusent/NeuvilletteMelusentParser.cpp
+    src/data/IniFixData/NeuvilletteMelusent/NeuvilletteMelusentFixer.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp
     src/data/IniFixData/Shenhe/ShenheFixer.cpp

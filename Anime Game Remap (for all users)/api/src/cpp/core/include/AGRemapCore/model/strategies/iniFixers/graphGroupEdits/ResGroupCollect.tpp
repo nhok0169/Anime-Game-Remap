@@ -22,6 +22,7 @@
 #include "AGRemapCore/constants/IfPredPartType.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.h"
 #include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/model/iftemplate/IfPredPart.h"
 
 
@@ -217,6 +218,19 @@ namespace AGRemapCore {
             for (const auto& regVal : regVals) {
                 if (resPredicate != nullptr && !(*resPredicate)(srcReg, regVal.second, iterData)) {
                     continue;
+                }
+
+                // `ib = null` (any register bound to null) HIDES the object on that branch -- it names
+                // no resource. Recorded as a call, it became a target of the resource graph built from
+                // these calls, and building that graph looked up a section called 'null' and threw
+                // ("The section by the name 'null' does not exist"), skipping the whole .ini. Only a
+                // MIXED object reaches here: drawn on one $swapvar branch and nulled on another (a
+                // Neuvillette merged master, 2026-09-24); one nulled on every branch is not drawn at
+                // all and never collected, which is why every earlier master got through.
+                if constexpr (std::is_convertible_v<V, std::string>) {
+                    if (StringTools::equalsIgnoreCase(StringTools::strip(std::string(regVal.second)), nullValue)) {
+                        continue;
+                    }
                 }
 
                 resCalls[resModObj][srcModObj][iterData.sectionName][part->id()][regVal.first] =

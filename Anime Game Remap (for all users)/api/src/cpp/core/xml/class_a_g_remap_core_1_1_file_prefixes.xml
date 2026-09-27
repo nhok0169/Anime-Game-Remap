@@ -20,6 +20,35 @@
         </inbodydescription>
         <location file="include/AGRemapCore/constants/FilePrefixes.h" line="36" column="45" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="36" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_prefixes_1a7492fac6da0d3d53026f1f4378ee75c7" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FilePrefixes::DisabledPrefix</definition>
+        <argsstring></argsstring>
+        <name>DisabledPrefix</name>
+        <qualifiedname>AGRemapCore::FilePrefixes::DisabledPrefix</qualifiedname>
+        <initializer>= &quot;disabled&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What a mod&apos;s own name is prefixed with to turn it OFF :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Not this software&apos;s convention but the ecosystem&apos;s: mod managers rename a folder or a
+file this way, and so do modders by hand, so a mod library holds disabled ``.ini``
+files, disabled variants inside a merged mod, and disabled copies of whole folders.
+Matched case-insensitively -- ``DISABLED``, ``Disabled`` and ``disabled`` are all in
+the wild :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   GIMI&apos;s hash-updating tools skip these, which is why a merged mod&apos;s disabled
+   variants can still carry hashes several game versions old
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FilePrefixes.h" line="55" column="45" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_prefixes_1ae45cd2272a266589ad2aac300697be0a" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
         <definition>const std::string AGRemapCore::FilePrefixes::OldBackupFilePrefixV3</definition>
@@ -41,7 +70,7 @@ treat it as a mod&apos;s own ``.ini`` file
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FilePrefixes.h" line="49" column="45" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="49" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FilePrefixes.h" line="68" column="45" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="68" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_prefixes_1ad02b9c45bf54f99f697cd709c11cc485" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -60,7 +89,7 @@ recognized but never written, exactly as #OldBackupFilePrefixV3 is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FilePrefixes.h" line="58" column="45" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="58" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FilePrefixes.h" line="77" column="45" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="77" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -72,9 +101,10 @@ Prefixes this software puts on the files it renames :raw-html:`&lt;br /&gt;` :ra
 A complete port of the pure-Python ``FilePrefixes`` enum (``constants/FilePrefixes.py``)
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/FilePrefixes.h" line="30" column="5" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="30" bodyend="59"/>
+    <location file="include/AGRemapCore/constants/FilePrefixes.h" line="30" column="5" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="30" bodyend="78"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_file_prefixes_1a4c0d8a4cee932769c60a822cac7e9ea1" prot="public" virt="non-virtual"><scope>AGRemapCore::FilePrefixes</scope><name>BackupFilePrefix</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_prefixes_1a7492fac6da0d3d53026f1f4378ee75c7" prot="public" virt="non-virtual"><scope>AGRemapCore::FilePrefixes</scope><name>DisabledPrefix</name></member>
       <member refid="class_a_g_remap_core_1_1_file_prefixes_1ae45cd2272a266589ad2aac300697be0a" prot="public" virt="non-virtual"><scope>AGRemapCore::FilePrefixes</scope><name>OldBackupFilePrefixV3</name></member>
       <member refid="class_a_g_remap_core_1_1_file_prefixes_1ad02b9c45bf54f99f697cd709c11cc485" prot="public" virt="non-virtual"><scope>AGRemapCore::FilePrefixes</scope><name>OldBackupFilePrefixV4_3</name></member>
     </listofallmembers>

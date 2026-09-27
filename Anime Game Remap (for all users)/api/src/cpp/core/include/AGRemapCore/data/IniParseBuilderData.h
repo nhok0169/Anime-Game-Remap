@@ -723,6 +723,17 @@ namespace AGRemapCore {
              */
             static IniParseBuilder::Factory citlali5_3();
 
+            /**
+             * @brief
+             @rst
+             The parser for a **Charlotte** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head`` / ``body`` on the normal-map texture
+             layout. See ``data/IniParseData/Charlotte/CharlotteParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory charlotte4_0();
+
             static IniParseBuilder::Factory yelan4_0();
 
             /**
@@ -782,6 +793,41 @@ namespace AGRemapCore {
              @endrst
              */
             static IniParseBuilder::Factory citlaliWhisperofStars6_7();
+
+            /**
+             * @brief
+             @rst
+             The parser for a **CharlotteHurlock** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             A skin of several components, read one component at a time -- see
+             :cpp:func:`makeGIMIComponentParser` and
+             ``data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory charlotteHurlock6_7();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Neuvillette** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head`` / ``body`` / ``dress`` -- his head and
+             dress plain, his body on the normal-map layout. See
+             ``data/IniParseData/Neuvillette/NeuvilletteParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory neuvillette4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 6.3-era **NeuvilletteMelusent** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             A skin of four components -- an unnamed main mesh, a Coat, a Bang and an Eye. See
+             ``data/IniParseData/NeuvilletteMelusent/NeuvilletteMelusentParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory neuvilletteMelusent6_3();
 
     };
 

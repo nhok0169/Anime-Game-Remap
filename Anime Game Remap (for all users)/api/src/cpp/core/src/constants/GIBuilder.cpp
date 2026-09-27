@@ -150,7 +150,7 @@ namespace AGRemapCore {
                            // lands on ModType's own VertexCounts() default).
                            //
                            // nullptr vgRemaps is NOT the same thing: ModType's fallback there is the
-                           // single shared ModDataAssets::vgRemaps, so all 49 GI mod types share one
+                           // single shared ModDataAssets::vgRemaps, so all 53 GI mod types share one
                            // remap table. That too matches the original -- see ModType::vgRemaps.
                            nullptr, nullptr,
                            giIniParseBuilder(), giIniFixBuilder(), giIniRemoveBuilder());
@@ -191,6 +191,14 @@ namespace AGRemapCore {
 
     ModType GIBuilder::bennettAdventure() {
         return makeGIModType(ModTypeId::BennettAdventure, {"BennyAdventure", "AdventureBennett", "AdventureBenny", "SummerBenny", "BennySummer", "SummerBennett", "BennettSummer", "NatlanBennett", "BennettNatlan", "NatlanBenny", "BennyNatlan"});
+    }
+
+    ModType GIBuilder::charlotte() {
+        return makeGIModType(ModTypeId::Charlotte);
+    }
+
+    ModType GIBuilder::charlotteHurlock() {
+        return makeGIModType(ModTypeId::CharlotteHurlock, {"HurlockCharlotte"});
     }
 
     ModType GIBuilder::cherryHutao() {
@@ -293,6 +301,14 @@ namespace AGRemapCore {
         return makeGIModType(ModTypeId::MonaCN, {"NoMoraCN", "BigHatCN"});
     }
 
+    ModType GIBuilder::neuvillette() {
+        return makeGIModType(ModTypeId::Neuvillette, {"Neuv", "Iudex", "ChiefJustice", "HydroDragon", "HydroSovereign"});
+    }
+
+    ModType GIBuilder::neuvilletteMelusent() {
+        return makeGIModType(ModTypeId::NeuvilletteMelusent, {"MelusentNeuvillette", "NeuvMelusent", "MelusentNeuv", "NeuvilletteMelusentGift", "MelusentGiftNeuvillette"});
+    }
+
     ModType GIBuilder::nilou() {
         return makeGIModType(ModTypeId::Nilou, {"Dancer", "Morgiana", "BloomGirl"});
     }
@@ -367,6 +383,8 @@ namespace AGRemapCore {
             barbaraSummerTime(),
             bennett(),
             bennettAdventure(),
+            charlotte(),
+            charlotteHurlock(),
             cherryHutao(),
             citlali(),
             citlaliWhisperofStars(),
@@ -392,6 +410,8 @@ namespace AGRemapCore {
             lisaStudent(),
             mona(),
             monaCN(),
+            neuvillette(),
+            neuvilletteMelusent(),
             nilou(),
             nilouBreeze(),
             ningguang(),

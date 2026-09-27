@@ -34,6 +34,8 @@
         <link refid="_ini_keywords_8h"/>
         <childnode refid="7" relation="include">
         </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
       <node id="82">
         <label>AGRemapCore/data/IniFixBuilderData.h</label>

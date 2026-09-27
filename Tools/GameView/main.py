@@ -269,47 +269,104 @@ def cmdWait(args, ctx):
 
 
 def _reload(ctx, maximum=30.0):
-    """Press reload_config and wait until 3DMigoto has finished reloading: its log says
-    "Reloading d3dx.ini" and then goes quiet. Presses once more if the first press was not seen.
-    Returns (the log text the reload appended, whether a reload was seen at all)."""
+    """Press reload_config and wait until 3DMigoto has finished parsing the .ini files: its log
+    says "Reloading d3dx.ini" and later "> d3dx.ini reloaded" (migoto.RELOAD_DONE says why not
+    "until the log goes quiet"). Presses once more if the first press was not seen.
+    Returns (the log text the reload appended, whether a reload was seen, whether it finished)."""
     folder = ctx.folder
     keysToPress = _hotkey(ctx, "reload_config", "f10")
     seen = False
     for _ in range(2):
         offset = migoto.logSize(folder)
         ctx.session.chord(keysToPress, hold=0.15)
-        migoto.waitLog(folder, offset, until=lambda text: migoto.RELOAD_MARK in text,
-                       minimum=0.3, maximum=6.0)
-        text = migoto.waitLog(folder, offset, quiet=1.5, minimum=1.0, maximum=maximum)
+        text = migoto.waitLog(folder, offset, until=lambda text: migoto.RELOAD_MARK in text,
+                              minimum=0.3, maximum=6.0)
         if migoto.RELOAD_MARK in text:
             seen = True
             break
-    return text, seen
+    if not seen:
+        return migoto.readLogFrom(folder, offset), False, False
+    text = migoto.waitLog(folder, offset, until=migoto.RELOAD_DONE.search, minimum=0.3,
+                          maximum=maximum)
+    done = bool(migoto.RELOAD_DONE.search(text))
+    if done:
+        # Shader patching follows; let it settle so a following F8 (`dump`) is not lost in it.
+        # Capped, because with WWMI's call logging on the log never goes quiet.
+        text = migoto.waitLog(folder, offset, quiet=1.0, minimum=0.0, maximum=5.0)
+    return text, True, done
 
 
 def cmdReload(args, ctx):
     folder = ctx.folder
-    text, seen = _reload(ctx, args.wait)
+    text, seen, done = _reload(ctx, args.wait)
     print("reloaded {} ({})".format(ctx.importer, folder))
     if not seen:
         print("WARNING: the log never said 'Reloading d3dx.ini' -- the key may not have reached "
               "the game (focus?), or this importer's log is off")
+    elif not done:
+        print("WARNING: the log never said '> d3dx.ini reloaded' within {}s -- the reload may "
+              "still be running, and the list below covers only what was logged so far "
+              "(pass a larger --wait)".format(args.wait))
     found = migoto.problems(text, args.limit, args.mod)
-    _printProblems(found, "since the reload", args.mod)
+    _printProblems(found, "since the reload", args.mod, text)
 
 
-def _printProblems(found, when, mod):
+def _printProblems(found, when, mod, text):
+    """Print ``found`` (from migoto.problems over ``text``). A scan that saw none of the mod's
+    sections says so instead of printing like a clean result (Overview habit 66)."""
     scope = " under Mods\\{}".format(mod) if mod else ""
-    if not found:
-        print("no warnings in d3d11_log.txt {}{}".format(when, scope))
+    parsed = migoto.sectionsParsed(text, mod)
+    if not found and not parsed:
+        files = migoto.iniFilesRead(text, mod) if mod else []
+        if files:
+            print("NOTHING WAS CHECKED: 3DMigoto read {} .ini file(s){} {} but logged none of "
+                  "their sections under Mods\\ -- typically they set `namespace =`, so their "
+                  "sections are logged under the namespace and --mod cannot attribute them. Not "
+                  "a pass: run "
+                  "`log --problems` without --mod and look for the namespace.".format(
+                      len(files), scope, when))
+        else:
+            print("NOTHING WAS CHECKED: no section{} was parsed in d3d11_log.txt {} -- not a "
+                  "pass. Is the mod loaded (`mods <IMP> list`), does --mod match its folder "
+                  "name, and did the reload finish?".format(scope, when))
         return
-    print("{} distinct warning(s){} {}:".format(len(found), scope, when))
-    lastSection = None
-    for line, section in found:
-        if section != lastSection:
-            print("  [{}]".format(section or "before any section"))
-            lastSection = section
-        print("    " + line.strip())
+    if not found:
+        # By kind, because a report cut off after the [Resource...] sections still "parsed" some:
+        # "0 TextureOverride" in a line that says clean is the thing to notice.
+        kinds = {"TextureOverride": 0}
+        for section in parsed:
+            kind = section.split("\\", 1)[0]
+            kinds[kind] = kinds.get(kind, 0) + 1
+        print("no warnings in d3d11_log.txt {}{} ({} section(s) parsed there: {})".format(
+            when, scope, len(parsed),
+            ", ".join("{} {}".format(n, k) for k, n in sorted(kinds.items()))))
+    else:
+        print("{} distinct warning(s){} {}:".format(len(found), scope, when))
+        lastSection = None
+        for line, section in found:
+            if section != lastSection:
+                print("  [{}]".format(section or "before any section"))
+                lastSection = section
+            print("    " + line.strip())
+    if mod:
+        _namespacedNote(text, mod, parsed)
+
+
+def _namespacedNote(text, mod, parsed):
+    """Name the mod's .ini files that were read but have no section under Mods\\ (typically they
+    set `namespace =`): whatever they warned about is not in the list above."""
+    withSections = {"\\".join(p.split("\\")[1:-1]).lower() for p in parsed}
+    unattributed = []
+    for path in migoto.iniFilesRead(text, mod):
+        parts = path.split("\\")
+        relative = "\\".join(parts[[p.lower() for p in parts].index("mods"):])
+        if relative.lower() not in withSections:
+            unattributed.append(relative)
+    if unattributed:
+        print("NOTE: {} .ini file(s) of this mod were read but logged no section under Mods\\ "
+              "(typically `namespace =`), so their warnings are NOT in this report (run "
+              "`log --problems` without --mod): {}".format(len(unattributed),
+                                                           ", ".join(unattributed)))
 
 
 def cmdToggleHunting(args, ctx):
@@ -377,7 +434,7 @@ def cmdLog(args, ctx):
     if args.problems or args.mod:
         text = migoto.readLogFrom(folder, 0, cap=int(args.scan_mb * 1024 * 1024))
         _printProblems(migoto.problems(text, args.tail, args.mod),
-                       "in the last {} MB".format(args.scan_mb), args.mod)
+                       "in the last {} MB".format(args.scan_mb), args.mod, text)
         return
     for line in migoto.tailLog(folder, args.tail):
         print(line)

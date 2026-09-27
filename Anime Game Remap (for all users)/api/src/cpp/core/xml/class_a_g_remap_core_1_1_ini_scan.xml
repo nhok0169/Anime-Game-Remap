@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_scan" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniScan</compoundname>
+    <includes refid="_ini_scan_8h" local="no">IniScan.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_scan_1a4882b43a49ad410851982f8aef6728bb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_ini_scan_section" kindref="compound">IniScanSection</ref> &gt;</type>
+        <definition>std::vector&lt; IniScanSection &gt; AGRemapCore::IniScan::scan</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>scan</name>
+        <qualifiedname>AGRemapCore::IniScan::scan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every `section`_ of the ``.ini`` file at &apos;path&apos;, in file order :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Blank lines and ``;`` comments are dropped, both sides of every ``=`` are stripped, and
+a line before the first section header is ignored. A section header is a line that both
+starts with ``[`` and ends with ``]`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   A line with no ``=`` is skipped, which includes 3dmigoto&apos;s ``local $var``. That is a
+   statement rather than a `KVP`_, and this is not the reader that has to preserve it --
+   :cpp:class:`IniFile` is, and does
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>.ini</computeroutput> file to read</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Its sections, or an empty list if the file will not open </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/IniScan.h" line="94" column="32" bodyfile="src/model/files/IniScan.cpp" bodystart="25" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_scan_1ac9f0c2268150c3124b208adcf3f10e29" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::IniScan::firstVal</definition>
+        <argsstring>(const IniScanSection &amp;section, const std::string &amp;key)</argsstring>
+        <name>firstVal</name>
+        <qualifiedname>AGRemapCore::IniScan::firstVal</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_ini_scan_section" kindref="compound">IniScanSection</ref> &amp;</type>
+          <declname>section</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The first value in &apos;section&apos; under &apos;key&apos;, compared exactly
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>section</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The section to search </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to look for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The value, or <computeroutput>std::nullopt</computeroutput> if the key is not in &apos;section&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/IniScan.h" line="107" column="34" bodyfile="src/model/files/IniScan.cpp" bodystart="57" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Reading an ``.ini`` file as flat lines, deliberately understanding almost none of it
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+:cpp:class:`IniFile` is the real parser: it builds a section graph, follows ``run =``, tracks
+the conditions each part sits under, and needs a :cpp:class:`ModType` to classify against.
+This does none of that. It answers &quot;what does this file SAY&quot; for a file that is not the one
+being fixed :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Which comes up more than it sounds. A mod&apos;s textures are commonly declared in a companion
+``.ini`` that the file being fixed only namespaces to, a mod&apos;s folders may hold several ``.ini``
+files of which one is the mod and the rest are LODs or variants, and a fix that wants to know
+which file a resource name points at has to read a file no classifier will ever hand it. Every
+one of those is a ``filename =``, a ``hash =`` or a ``this =`` sitting under a section header
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. warning::
+   What this DOESN&apos;T do is the point, so do not grow it into a parser. It ignores ``if``/
+   ``endif`` nesting rather than tracking it, keeps no conditions, follows no ``run =``, and
+   does not concatenate a section declared twice. A caller that needs any of those wants
+   :cpp:class:`IniFile`, and a caller that quietly needs one of them while using this is
+   reading a mod it does not understand
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/files/IniScan.h" line="71" column="5" bodyfile="include/AGRemapCore/model/files/IniScan.h" bodystart="71" bodyend="108"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_scan_1ac9f0c2268150c3124b208adcf3f10e29" prot="public" virt="non-virtual"><scope>AGRemapCore::IniScan</scope><name>firstVal</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_scan_1a4882b43a49ad410851982f8aef6728bb" prot="public" virt="non-virtual"><scope>AGRemapCore::IniScan</scope><name>scan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

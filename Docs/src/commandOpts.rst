@@ -217,6 +217,14 @@ Below are the supported types of mods
        | SummerBenny
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(bennettadventure).*\]``
+   * - **Charlotte**
+     - GI
+     - 
+     - check if the .ini file contains a section matching the regex, ``^\s*\[\s*textureoverride.*(charlotte)((?!hurlock).)*\]``
+   * - **CharlotteHurlock**
+     - GI
+     - HurlockCharlotte
+     - check if the .ini file contains a section matching the regex, ``^\s*\[\s*textureoverride.*(charlottehurlock).*\]``
    * - **CherryHuTao**
      - GI
      - | 77thDirectoroftheWangshengFuneralParlorCherry, 
@@ -420,6 +428,16 @@ Below are the supported types of mods
      - | NoMoraCN, BigHatCN
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(monacn).*\]``
+   * - **Neuvillette**
+     - GI
+     - | ChiefJustice, HydroDragon, HydroSovereign, Iudex, Neuv
+     - | check if the .ini file contains a section matching the regex, 
+       | ``^\s*\[\s*textureoverride.*(neuvillette)((?!melusent).)*\]``
+   * - **NeuvilletteMelusent**
+     - GI
+     - | MelusentGiftNeuvillette, MelusentNeuv, MelusentNeuvillette, NeuvMelusent, NeuvilletteMelusentGift
+     - | check if the .ini file contains a section matching the regex, 
+       | ``^\s*\[\s*textureoverride.*(neuvillettemelusent).*\]``
    * - **Nilou**
      - GI
      - | BloomGirl, Dancer, Morgiana

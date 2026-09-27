@@ -151,6 +151,20 @@ namespace AGRemapCore {
                  @endrst
                  */
                 Additions replacements;
+
+                /**
+                 * @brief
+                 @rst
+                 Keys REMOVED from the branch's part, before any replacement or addition
+                 :raw-html:`<br />` :raw-html:`<br />`
+
+                 For a binding a branch must stop making: a merged master's variant that leaves one
+                 generated ``.ini`` file nothing to draw still carries the mod's own ``vb0 =`` and
+                 ``vb1 =`` there, and a file that binds the SOURCE's raw buffers on the target's hash
+                 overrides what the file that does draw bound
+                 @endrst
+                 */
+                std::vector<K> removals;
             };
 
             /**

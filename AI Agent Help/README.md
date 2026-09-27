@@ -69,8 +69,11 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%8C%8A%F0%9F%A7%AD%20The%20Wuthering%20Wayfinder-2-%230e7490?style=for-the-badge&labelColor=%230c4a6e)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%94%83%F0%9F%93%9A%20The%20Walk%20Order%20Librarian-1-%23a16207?style=flat-square&labelColor=%23451a03)
 - ![Static Badge](https://img.shields.io/badge/%E2%8F%B1%EF%B8%8F%F0%9F%A7%BE%20The%20Fixed%20Cost%20Auditor-1-%2384cc16?style=flat-square&labelColor=%231a2e05)
-- ![Static Badge](https://img.shields.io/badge/%F0%9F%8E%AD%F0%9F%94%80%20The%20Register%20Role-Caller-1-%239f1239?style=flat-square&labelColor=%23fff1f2)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%8E%AD%F0%9F%94%80%20The%20Register%20Role--Caller-1-%239f1239?style=flat-square&labelColor=%23fff1f2)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%8E%AE%F0%9F%91%81%EF%B8%8F%20The%20Game%20Seer-1-%2310b981?style=flat&labelColor=%231e1b4b)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%93%B0%F0%9F%94%8E%20The%20Hurlock%20Investigator-1-%23d97706?style=for-the-badge&labelColor=%23115e59)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%94%87%F0%9F%93%9C%20The%20Silent%20Gap%20Reader-1-%23f59e0b?style=plastic&labelColor=%23334155)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%A7%A5%F0%9F%AA%A1%20The%20Coat%20Tailor-1-%2338bdf8?style=for-the-badge&labelColor=%23172554)
 
 <br>
 

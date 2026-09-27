@@ -4,6 +4,7 @@
     <compoundname>src/model/textures</compoundname>
     <innerfile refid="_colour_8cpp">Colour.cpp</innerfile>
     <innerfile refid="_colour_range_8cpp">ColourRange.cpp</innerfile>
+    <innerfile refid="_tex_thumbprint_8cpp">TexThumbprint.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

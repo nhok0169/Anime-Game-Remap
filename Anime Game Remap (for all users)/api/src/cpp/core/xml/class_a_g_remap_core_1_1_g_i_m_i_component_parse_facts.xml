@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>AGRemapCore::GIMIComponentParseFacts</compoundname>
+    <includes refid="_g_i_m_i_component_parser_8h" local="no">GIMIComponentParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1a93cc82dfad0b283f35a41a17d41a74bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::GIMIComponentParseFacts::~GIMIComponentParseFacts</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GIMIComponentParseFacts</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParseFacts::~GIMIComponentParseFacts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="215" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1a4075f7c93d5a18acb244ad25f910486a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::GIMIComponentParseFacts::hasRemappableContent</definition>
+        <argsstring>() const =0</argsstring>
+        <name>hasRemappableContent</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParseFacts::hasRemappableContent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the ``.ini`` file carries anything of the skin to remap: a section of its own
+that binds a buffer, an index buffer, a texture or a draw, or a texture override by one
+of the skin&apos;s slot texture hashes :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+``false`` for a file that only WATCHES the skin -- a help overlay whose one section
+matches the position hash to know she is on screen (2026-09-24). Everything the parser
+would give such a file comes from downloads, and remapping it puts a second full copy
+of the skin over the real mod&apos;s
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="230" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1adb8ccdf4a9af3dd9fe5606e030e141b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::GIMIComponentParseFacts::isSlotUndrawn</definition>
+        <argsstring>(const std::string &amp;component, const std::string &amp;slot) const =0</argsstring>
+        <name>isSlotUndrawn</name>
+        <qualifiedname>AGRemapCore::GIMIComponentParseFacts::isSlotUndrawn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>slot</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the mod leaves this source slot UNDRAWN: it carries the component&apos;s own buffers
+and skips the component&apos;s index buffer (``handling = skip``), and declares no section for
+the slot -- so on its own character the slot is never drawn :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Such a slot gets no download and brings nothing to the merge. The game&apos;s index buffer
+for it counts in the GAME&apos;s vertex order, and drawn over the mod&apos;s own buffers it is
+shards of stretched triangles: CharlotteHurlock1 draws its slot C geometry inside its
+slot B section and has no C or D section, and the downloaded C and D put its skirt up to
+its chest (2026-09-24)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source component, eg. <computeroutput>Body</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">slot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source slot, eg. <computeroutput>C</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="249" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What a parser from :cpp:func:`makeGIMIComponentParser` learned about a ``.ini`` file that its
+merge fixer needs, and cannot read off the sections :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The fixer reaches it by ``dynamic_cast`` from the parser it is handed. Absent (another parser),
+everything is assumed to be there -- the behaviour before this existed
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="213" column="5" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="213" bodyend="250"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1a4075f7c93d5a18acb244ad25f910486a" prot="public" virt="pure-virtual"><scope>AGRemapCore::GIMIComponentParseFacts</scope><name>hasRemappableContent</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1adb8ccdf4a9af3dd9fe5606e030e141b4" prot="public" virt="pure-virtual"><scope>AGRemapCore::GIMIComponentParseFacts</scope><name>isSlotUndrawn</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1a93cc82dfad0b283f35a41a17d41a74bb" prot="public" virt="virtual"><scope>AGRemapCore::GIMIComponentParseFacts</scope><name>~GIMIComponentParseFacts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

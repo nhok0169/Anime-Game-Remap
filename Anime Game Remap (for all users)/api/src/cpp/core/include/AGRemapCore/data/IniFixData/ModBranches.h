@@ -225,6 +225,26 @@ namespace AGRemapCore {
                                                              BranchReplacements replacementsOf);
 
             /**
+             * @brief What one branch's removed keys are, given the branch's index and its query in #context
+             */
+            using BranchRemovals = std::function<std::vector<std::string>(std::size_t, const std::optional<Z3Predicate>&)>;
+
+            /**
+             * @brief
+             @rst
+             An edit REMOVING keys from each branch of ``branches`` -- #replacePerBranch's
+             counterpart, with the same attribution rule: a part that cannot be attributed to exactly
+             one branch is left alone, and so is a branch whose removals come back empty
+             @endrst
+
+             * @param branches The values that define the branches
+             * @param keyPrefix Tells this edit's branches apart from another edit's over the same graph
+             * @param removalsOf The keys to remove in one branch
+             */
+            std::unique_ptr<RegBranchAdd<>> removePerBranch(std::vector<BranchVal> branches, std::string keyPrefix,
+                                                            BranchRemovals removalsOf);
+
+            /**
              * @brief The first value of ``key`` in one section's own parts, ignoring ``run =``
              */
             static std::optional<std::string> firstVal(const Template& tpl, const std::string& key);

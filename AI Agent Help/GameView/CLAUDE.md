@@ -12,8 +12,10 @@ chooses which mods are loaded.
 really intervene is at the end when they finished the entire remap, and want my final check."**
 Given a remap, the mod folders and the asset folders, the whole pipeline is yours: the downloads,
 the fix, testing **every mod of the character in that folder** in game, and documenting the
-result in the README and Sphinx. Stop early for only four things: the helper's UAC click (below),
-a game login, anything that spends or sends, and a decision the guides say is the maintainer's.
+result in the README and Sphinx. Stop early for only five things: the helper's UAC click (below),
+a game login, anything that spends or sends, a decision the guides say is the maintainer's, and the
+new download folders once step 1 of the remap pipeline has built them (commit them and stop, so the
+maintainer can merge them into GitHub's `master` -- see Creating Remaps' pipeline).
 Everything else, including a failed test, is yours to diagnose and retry. The final check is one
 message, with the evidence (kept screenshots, `pair`s of base vs remap per mod, the warnings that
 remain and why). Read the tool's README for the command reference. This file is how to use it well.
@@ -114,6 +116,16 @@ py -3 main.py mods GIMI restore                                  # at the end: e
   3DMigoto logged during that reload and attributes each to the section it was parsing, which is
   what the orange overlay text cannot tell you. A new `Unrecognised entry` or `entry outside of
   section` under the mod you just fixed is a bug in the fix, found without a screenshot.
+  "Empty" means the line that says **how many sections it parsed**, with a non-zero
+  `TextureOverride` count. `NOTHING WAS CHECKED` is not empty, and neither is a `NOTE` about
+  `namespace` .ini files, whose sections `--mod` cannot attribute. A `Duplicate TextureOverride
+  hash` is listed under every section 3DMigoto names for it. For a fix that writes a second
+  `...RemapFix1.ini` next to the original, expect it under both files: that is a real double
+  match to explain, not noise. (Until 2026-09-23 the wait could stop while 3DMigoto was loading
+  Resource files, and five Charlotte mods came back "empty" with these warnings in the log.)
+  **If the orange overlay shows warnings the command did not, suspect the tool first** and grep
+  `d3d11_log.txt` after the last `Reloading d3dx.ini`: a branch without the 2026-09-23 fix said
+  "no warnings" for `CharlotteHurlock2` over 47 real ones.
 - **`compare` is the default picture.** It is the same frame with mods and with every mod off
   (F9 held): same pose, camera and light. For a REMAP, "mods off" is the target's own skin, which is the
   baseline for "did the mod replace everything it should". What it does **not** give you is the
@@ -132,6 +144,39 @@ py -3 main.py mods GIMI restore                                  # at the end: e
   a texture it already loaded (Creating Remaps' "A SCREENSHOT IS EVIDENCE ABOUT THE GAME'S STATE").
   Check the written `.dds` first. If the file is right and the game is not, `close --force` then
   `launch` settles it.
+
+## Observing a remap in game: see it yourself, before the maintainer does (the maintainer's rule, 2026-09-27)
+
+**Be diligent and look at the details.** Most of what the maintainer reported on Neuvillette -> NeuvilletteMelusent
+was visible to the agent in its own screenshots and went unnoticed: Neuvillette2's inner dress drawing flat light
+blue instead of its texture, NeuvilletteMelusent1 wearing the default outfit's colours ("all the textures are
+wrong") while the agent checked only its eyes, a flap clipping the leg that a single idle frame happened to hide,
+and two whole rounds of screenshots of NILOU because the preview had closed back to the shop grid. Each cost the
+maintainer a message and a round trip. Before you report, look for yourself:
+
+* **Prove the page before every capture.** Read the outfit's name (a crop of the name area; compare the bright
+  text pixels with a known shot) -- the preview closes back to the shop grid now and then, and a blind card
+  click opens someone else's outfit. And the window can flip between 1920 and 3840 wide mid-session: take the
+  scale from a fresh screenshot, never from an old one.
+* **Every angle.** Drag LEFT / RIGHT to turn the character about the vertical axis (front, both sides, back),
+  and drag UP / DOWN to tilt the view up and down -- the underside of a skirt or coat, the inside of a cape, the
+  top of the head. A part's inside and underside are where lining, backface and clipping faults live.
+* **Every distance.** Scroll a LOT: zoomed right in on the face, the hems, a flap against the leg; zoomed right
+  out for the silhouette. A texture fault can be invisible at the default framing.
+* **Every toggle the mod has.** Read the mod's `[Key...]` sections and cycle each one (outfit variants, merged
+  master `$swapvar`s, accessories, a help menu) -- and in the outfit PREVIEW, since on the shop grid a key does
+  nothing (Creating Remaps' "test mod toggles").
+* **Over time, not one frame.** The idle animation moves the limbs: a timed series (several shots a couple of
+  seconds apart) shows a clip or a fold one frame can hide.
+* **Against the mod on its OWN character**, part by part -- colours, every garment, the face, the eyes.
+  "Looks plausible" is not a check: a remap drawing the target's default outfit looks plausible.
+* **In the overworld, for a character the account has unlocked.** Walk with `hold w 2` (WASD moves; never
+  press Enter there, it opens chat), which shows cloth swinging and legs stepping as the preview never does.
+  Change the time of day from the game menu's CLOCK: on Genshin it is on the menu's LEFT side bar, on WuWa on its
+  BOTTOM bar -- daylight and night light a surface differently, and a lighting fault may show only in one.
+
+Say in your report what you looked at and what you did not. A fault the maintainer has to find in a screenshot you
+already took is a fault you missed.
 
 ## Keeping a screenshot for the next agent
 
@@ -155,6 +200,34 @@ supports. Do not keep routine shots: the folder is committed.
 The character screen's lighting is the same every time, which is why it beats the overworld for
 before/after pairs. Record the exact steps you used (`do --file` keeps them) so the next shot
 repeats the camera.
+
+### The Genshin outfit shop, driven (Charlotte, Hu Tao; 2026-09-23/24)
+
+The shop preview is the fastest before/after rig there is: the base card and the skin card sit side
+by side (top right, view `1285,118` and `1412,118` at 3440x1382), a mod of the base shows on the first
+and a remap onto the skin on the second, or the other way round. What the Charlotte pair taught about
+driving it:
+
+- **A reload (F10) sometimes drops the preview back to the shop GRID** (and sometimes does not): take a
+  screenshot after every `reload` and reopen the outfit card before you click a variant card, or the
+  click lands on another character's card.
+- **The left / right arrows (view `88,328` / `1478,328`) step through the grid in order**, one outfit
+  per click. That is the way from one character's preview to another's without leaving the shop; the
+  "Character Outfits" header top left is NOT a back button. Read the title under the price after each
+  step rather than counting clicks.
+- **`Esc` in a preview hides the UI; a SECOND `Esc` leaves the shop for the overworld and opens the
+  Paimon menu, which prints the account UID top LEFT** -- outside the 4% the tool crops. One screenshot
+  of it was taken and deleted on 2026-09-24. Never press `Esc` twice in the shop, and if you must, do
+  not screenshot until the Paimon menu is closed. Back into the shop from there: the Paimon menu's
+  **Shop** tile (view `162,245`), then **Character Outfits** (view `130,152`), then `scroll -25 --at
+  900 400` for the outfits far down the grid.
+- **Both cards can play the base outfit's idle** (Charlotte's newspaper): the pose does not say which
+  card is shown, and a shot right after a card click can catch the switch. Wait 12 s after a card
+  click, and when two shots of "different cards" look alike, check the title before believing either.
+- **A merged mod's variants cycle on its own key** (`h` / `n` for `namespace_merge.py` masters; the
+  number keys for CharlotteHurlock4) and the master PERSISTS the variable: press it until you are back
+  where you started. A parked master's persisted value is dropped from `d3dx_user.ini` at the next
+  save (the reload says so in a NOTICE) -- restoring the folder brings the mod back, not the variant.
 
 ## Getting a character on screen (WuWa, the maintainer's notes + verified 2026-09-23)
 
@@ -216,6 +289,39 @@ This is the maintainer's real account, and the tool presses real keys.
 - **The tool takes the foreground.** Each interactive command focuses the game and then hands focus
   back. While a `do` sequence runs, the maintainer's own keyboard and mouse fight it. Batch steps
   into one `do` so each window of it is short.
+
+## How `d3d11_log.txt` behaves (read before changing `reload` or `log`)
+
+Each fact below was measured on the GIMI log on 2026-09-23, and each one broke a detector that assumed otherwise.
+
+- **The log is buffered.** `d3dx.ini` ships `[Logging] unbuffered=0`, so the last few KB of anything
+  3DMigoto logs stay in its memory until more is logged. A reload's real last line (`> successfully
+  reloaded shaders from ShaderFixes`) was still not on disk 90 s after that reload. It lands only when
+  the NEXT reload starts. **Never wait for a final line.** Wait for one that has plenty of text
+  after it. `reload` waits for `> d3dx.ini reloaded`, which came after every section header and warning in
+  all 15 reloads of that log.
+- **"The log went quiet" is not "the reload ended".** 3DMigoto logs the `[Resource...]` sections,
+  then loads every Resource file without logging anything, then logs the `[TextureOverride...]`
+  sections. A 1.5 s quiet window fell in that gap, and `reload --mod` printed "no warnings" for five
+  Charlotte mods that had Duplicate-hash and `Unrecognised entry` warnings in the log.
+- **A warning is not always about the section above it.** `Possible Mod Conflict: Duplicate
+  TextureOverride hash=...` is followed by the name of every section carrying that hash, in any mod,
+  in the same `[Kind\Mods\...]` format as a section being parsed, and then `If this is intentional...`.
+  Those names are part of the warning, not new sections being parsed.
+- **`--mod` goes by path, and a `namespace =` .ini has no `Mods\` path.** Its sections are logged as
+  `[Resource\global\ORFix\...]`. The only sign that it belongs to a mod folder is the `Processing
+  "...\Mods\<mod>\x.ini"` line. `reload` and `log` name such files instead of reporting them clean.
+- **The whole history is in the file.** Every reload since the game started is there, each opening
+  with `Reloading d3dx.ini` and a `D3D11 DLL starting init - ... <time>` line. When a report says the
+  tool got a reload wrong, **replay that reload's slice of the log through the parser** before you
+  change the parser. The Charlotte report pointed at the parser, and the replay showed the parser
+  was fine: the text `reload` had read was incomplete. `py -3 -m unittest discover -s tests` (from
+  `Tools/GameView`) runs the parser tests on real lines and the wait tests on a fake log with the
+  silent gap.
+- **Another session may be driving the game.** Before you press anything, look at the newest
+  `D3D11 DLL starting init` time and the log's size. If a reload happened minutes ago and you did not
+  do it, someone else is testing, and an F10 from you lands in the middle of their check. A log-only
+  question is answered with `log --problems --mod`, which reads without pressing anything.
 
 ## When it does not work
 

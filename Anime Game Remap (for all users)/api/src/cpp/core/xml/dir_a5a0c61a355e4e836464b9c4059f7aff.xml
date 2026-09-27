@@ -11,6 +11,8 @@
     <innerdir refid="dir_f50db978cf27bf6ebc2731f38393c974">include/AGRemapCore/data/IniFixData/BarbaraSummertime</innerdir>
     <innerdir refid="dir_16e2ada0df804d4b8299437d530df2c0">include/AGRemapCore/data/IniFixData/Bennett</innerdir>
     <innerdir refid="dir_9c5117e60e9d0cd2686bba5891e06b92">include/AGRemapCore/data/IniFixData/BennettAdventure</innerdir>
+    <innerdir refid="dir_35242caf10d3b703dc2211b9e8db10bb">include/AGRemapCore/data/IniFixData/Charlotte</innerdir>
+    <innerdir refid="dir_a110576e1f4f6e9d91923ce94eaa3fe7">include/AGRemapCore/data/IniFixData/CharlotteHurlock</innerdir>
     <innerdir refid="dir_d1b567bca0b06600843b7d9f38f46df1">include/AGRemapCore/data/IniFixData/CherryHuTao</innerdir>
     <innerdir refid="dir_76a9a359d48e9ca80c2b28aac8320f06">include/AGRemapCore/data/IniFixData/Chisa</innerdir>
     <innerdir refid="dir_3961cfc6cedb9a40b0dd4f271e227f33">include/AGRemapCore/data/IniFixData/Citlali</innerdir>
@@ -37,6 +39,8 @@
     <innerdir refid="dir_b821292843f65316d92d3eec2f62ffb6">include/AGRemapCore/data/IniFixData/LisaStudent</innerdir>
     <innerdir refid="dir_51831c5eb17d14b6b1e155442fb0ff32">include/AGRemapCore/data/IniFixData/Mona</innerdir>
     <innerdir refid="dir_a74f4936aa2782804106f1404d9582bd">include/AGRemapCore/data/IniFixData/MonaCN</innerdir>
+    <innerdir refid="dir_4e7d35cbb098e6a9ef732c5812669f47">include/AGRemapCore/data/IniFixData/Neuvillette</innerdir>
+    <innerdir refid="dir_d906fc635302d2b222cf16ed8c777dc6">include/AGRemapCore/data/IniFixData/NeuvilletteMelusent</innerdir>
     <innerdir refid="dir_1ad4a3f5ab066418fc335a1a83dd89af">include/AGRemapCore/data/IniFixData/Nilou</innerdir>
     <innerdir refid="dir_96c5a40dbb7d65c6d462967f72e7bcdd">include/AGRemapCore/data/IniFixData/NilouBreeze</innerdir>
     <innerdir refid="dir_014da131f24c46cd92baed22e944d3e0">include/AGRemapCore/data/IniFixData/Ningguang</innerdir>
@@ -61,6 +65,7 @@
     <innerfile refid="_jean_shading_8h">JeanShading.h</innerfile>
     <innerfile refid="_mod_branches_8h">ModBranches.h</innerfile>
     <innerfile refid="_reg_val_checks_8h">RegValChecks.h</innerfile>
+    <innerfile refid="_side_meshes_8h">SideMeshes.h</innerfile>
     <innerfile refid="_tex_reg_layout_8h">TexRegLayout.h</innerfile>
     <innerfile refid="_w_w_m_i_fixer_8h">WWMIFixer.h</innerfile>
     <briefdescription>

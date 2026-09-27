@@ -257,6 +257,23 @@ namespace AGRemapCore {
                         }
                         add(config, {"", obj}, IniKeywords::Ib, file + "Ib", file, ".ib",
                              DownloadTools::ibResourceKVPs(), {}, true);
+
+                        // A texture download any of the object's cover registers satisfies -- see
+                        // GIMICharParserConfig::ObjDownloadRegs::coverRegs.
+                        if (!regs.coverRegs.empty()) {
+                            for (const std::string& reg : {regs.normalMapReg, regs.diffuseReg, regs.lightMapReg}) {
+                                if (reg.empty()) {
+                                    continue;
+                                }
+                                std::vector<std::string> alts;
+                                for (const std::string& cover : regs.coverRegs) {
+                                    if (cover != reg) {
+                                        alts.push_back(cover);
+                                    }
+                                }
+                                this->setDownloadAltRegs({"", obj}, reg, std::move(alts));
+                            }
+                        }
                     }
 
                     // The face diffuse. Named for the character rather than for an object, so

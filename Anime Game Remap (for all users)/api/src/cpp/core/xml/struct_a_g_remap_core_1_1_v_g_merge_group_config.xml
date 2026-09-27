@@ -20,7 +20,7 @@ buffers pass through unchanged -- worth putting the biggest there
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="101" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="101" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="110" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="110" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_merge_group_config_1a4ccbab3ff1866244490bc874b3bf79ed" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_v_g_merge_object" kindref="compound">VGMergeObject</ref> &gt;</type>
@@ -35,7 +35,7 @@ buffers pass through unchanged -- worth putting the biggest there
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="106" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="106" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="115" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="115" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_merge_group_config_1acfbc3cc67c93d8e5c3f280c86c7e5cb2" prot="public" static="no" mutable="no">
         <type>std::unordered_map&lt; std::string, std::size_t &gt;</type>
@@ -58,7 +58,26 @@ and with values past the end of the mesh. See :cpp:class:`IbFile`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="120" column="28" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="120" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="129" column="28" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_merge_group_config_1afe3a4a47687c3c4ca25e6d4aa0d007bf" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::VGMergeGroupConfig::texcoordStride</definition>
+        <argsstring></argsstring>
+        <name>texcoordStride</name>
+        <qualifiedname>AGRemapCore::VGMergeGroupConfig::texcoordStride</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The TARGET&apos;s texcoord stride, the floor of the merged buffer&apos;s -- see
+:cpp:func:`VGComponentMerge::VGComponentMerge`. ``0`` (the default) is the widest component&apos;s
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="138" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="138" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -70,11 +89,12 @@ SOURCE (the merge is joint -- an index buffer&apos;s offset is the sum of the ve
 component) and which source objects each target object draws
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="93" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="93" bodyend="121"/>
+    <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="102" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="102" bodyend="139"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1a8f81e888fe8bd57b492efb8f60ca2c39" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupConfig</scope><name>components</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1acfbc3cc67c93d8e5c3f280c86c7e5cb2" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupConfig</scope><name>ibBytesPerIndex</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1a4ccbab3ff1866244490bc874b3bf79ed" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupConfig</scope><name>objects</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1afe3a4a47687c3c4ca25e6d4aa0d007bf" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupConfig</scope><name>texcoordStride</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

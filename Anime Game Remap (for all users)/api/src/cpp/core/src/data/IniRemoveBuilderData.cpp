@@ -36,6 +36,8 @@ namespace AGRemapCore {
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::barbaraSummertime4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::bennett4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::bennettAdventure4_0() { return IniRemoveBuilder::defaultFactory(); }
+    IniRemoveBuilder::Factory IniRemoveBuilderFuncs::charlotte4_0() { return IniRemoveBuilder::defaultFactory(); }
+    IniRemoveBuilder::Factory IniRemoveBuilderFuncs::charlotteHurlock4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::cherryHuTao4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::citlali4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::citlaliWhisperofStars4_0() { return IniRemoveBuilder::defaultFactory(); }
@@ -61,6 +63,8 @@ namespace AGRemapCore {
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::lisaStudent4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::mona4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::monaCN4_0() { return IniRemoveBuilder::defaultFactory(); }
+    IniRemoveBuilder::Factory IniRemoveBuilderFuncs::neuvillette4_0() { return IniRemoveBuilder::defaultFactory(); }
+    IniRemoveBuilder::Factory IniRemoveBuilderFuncs::neuvilletteMelusent4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::nilou4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::nilouBreeze4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::ningguang4_0() { return IniRemoveBuilder::defaultFactory(); }
@@ -93,6 +97,8 @@ namespace AGRemapCore {
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::BarbaraSummertime)}, IniRemoveBuilderFuncs::barbaraSummertime4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Bennett)}, IniRemoveBuilderFuncs::bennett4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::BennettAdventure)}, IniRemoveBuilderFuncs::bennettAdventure4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Charlotte)}, IniRemoveBuilderFuncs::charlotte4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::CharlotteHurlock)}, IniRemoveBuilderFuncs::charlotteHurlock4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::CherryHuTao)}, IniRemoveBuilderFuncs::cherryHuTao4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Citlali)}, IniRemoveBuilderFuncs::citlali4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars)}, IniRemoveBuilderFuncs::citlaliWhisperofStars4_0()},
@@ -118,6 +124,8 @@ namespace AGRemapCore {
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::LisaStudent)}, IniRemoveBuilderFuncs::lisaStudent4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Mona)}, IniRemoveBuilderFuncs::mona4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::MonaCN)}, IniRemoveBuilderFuncs::monaCN4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Neuvillette)}, IniRemoveBuilderFuncs::neuvillette4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent)}, IniRemoveBuilderFuncs::neuvilletteMelusent4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Nilou)}, IniRemoveBuilderFuncs::nilou4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::NilouBreeze)}, IniRemoveBuilderFuncs::nilouBreeze4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Ningguang)}, IniRemoveBuilderFuncs::ningguang4_0()},

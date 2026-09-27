@@ -51,6 +51,8 @@
       <node id="83">
         <label>AGRemapCore/data/IniFixData/GIMIMergeFixer.h</label>
         <link refid="_g_i_m_i_merge_fixer_8h"/>
+        <childnode refid="84" relation="include">
+        </childnode>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
@@ -59,7 +61,7 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="84" relation="include">
+        <childnode refid="85" relation="include">
         </childnode>
       </node>
       <node id="26">
@@ -464,13 +466,13 @@
         <childnode refid="79" relation="include">
         </childnode>
       </node>
-      <node id="85">
+      <node id="86">
         <label>AGRemapCore/model/strategies/texEditors/BaseTexEditor.h</label>
         <link refid="_base_tex_editor_8h"/>
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="84">
+      <node id="85">
         <label>AGRemapCore/model/strategies/texEditors/TexEditor.h</label>
         <link refid="_tex_editor_8h"/>
         <childnode refid="4" relation="include">
@@ -479,7 +481,7 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="85" relation="include">
+        <childnode refid="86" relation="include">
         </childnode>
       </node>
       <node id="36">
@@ -764,6 +766,9 @@
       </node>
       <node id="28">
         <label>algorithm</label>
+      </node>
+      <node id="84">
+        <label>array</label>
       </node>
       <node id="50">
         <label>cmath</label>

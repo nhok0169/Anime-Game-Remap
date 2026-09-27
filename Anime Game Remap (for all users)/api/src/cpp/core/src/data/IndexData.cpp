@@ -234,6 +234,19 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getIndexDat
         // (Body A 0 / B 60888 / C 111096 / D 122916, Bangs A 0, Eyes A 0) belong in the fixer's config.
         {{"5.3", "Citlali", "", "head"}, "0"},
         {{"5.3", "Citlali", "", "body"}, "27393"},
+        // Charlotte (2026-09-23): unchanged across every commit of her hash.json. NO rows for
+        // CharlotteHurlock's components, on purpose -- the same reasoning as Citlali's: their slot
+        // indices (Body A 0 / B 53529 / C 99756 / D 103914 / E 104172; Bangs, Eyes and Camera A 0)
+        // belong in the fixer's config.
+        {{"4.0", "Charlotte", "", "head"}, "0"},
+        {{"4.0", "Charlotte", "", "body"}, "23271"},
+
+        // Neuvillette (2026-09-24): unchanged across every commit of his hash.json. NO rows for
+        // NeuvilletteMelusent's components, as for Charlotte's: their slot indices (main Head 0 / Body
+        // 46620 / Dress 71025; Coat, Bang and Eye A 0) belong in the fixer's config.
+        {{"4.0", "Neuvillette", "", "head"}, "0"},
+        {{"4.0", "Neuvillette", "", "body"}, "33879"},
+        {{"4.0", "Neuvillette", "", "dress"}, "79377"},
 
         // ===== WuWa: Sanhua and SanhuaExorcist (2026-09-19) =====
         // The match_first_index of every draw slot -- a WWMI character's 'components' in

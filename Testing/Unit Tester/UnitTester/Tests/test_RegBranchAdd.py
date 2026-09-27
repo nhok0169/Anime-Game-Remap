@@ -174,7 +174,21 @@ class RegBranchAddTest(BaseUnitTest):
         graph = FRB.IniSectionGraph({"root": section}, ["root"], z3Ctx = _Z3CTX)
 
         with self.assertRaises(TypeError):
-            FRB.RegBranchAdd(lambda query, iterData: ("a", [], [], "too many")).edit(graph, None)
+            FRB.RegBranchAdd(lambda query, iterData: ("a", [], [], [], "too many")).edit(graph, None)
+
+    def test_edit_removals_dropTheKeysBeforeAnythingIsSetOrAdded(self):
+        # a branch that must stop binding a raw buffer: its vb0 goes, its draw is SET, and nothing else moves
+        section = FRB.IfTemplate(self._chain([FRB.IfContentPart({"vb0": [(0, f"Pos{i}")], "draw": [(1, "9, 0")]}, 1)
+                                              for i in range(2)]))
+        graph = FRB.IniSectionGraph({"root": section}, ["root"], z3Ctx = _Z3CTX)
+
+        branchOf = self._branchOf(2, lambda i: ("", []) if i == 0 else ("blend;1", [], [("draw", "0,0")], ["vb0"]))
+        FRB.RegBranchAdd(branchOf).edit(graph, None)
+
+        self.compareList(self._contentEntries(section), [
+            [("vb0", "Pos0"), ("draw", "9, 0")],
+            [("draw", "0,0")],
+        ])
 
     def test_edit_reassignedBranchOf_takesEffect(self):
         section = FRB.IfTemplate(self._chain([FRB.IfContentPart({"ib": [(0, "Ib0")]}, 1)]))

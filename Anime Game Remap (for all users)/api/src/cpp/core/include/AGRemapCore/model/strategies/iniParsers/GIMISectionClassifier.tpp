@@ -119,10 +119,9 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     std::vector<typename GIMISectionClassifier<K, V, KeyHash, KeyEqual>::ModObj> GIMISectionClassifier<K, V, KeyHash, KeyEqual>::classify(
             const std::string& sectionName, Section* section, const Colouring& partKeys) const {
-        // 'section' is part of the pure-Python original's signature and unused by its body too --
-        // kept so a caller can swap this classifier for any other ObjTargetFunc without changing
-        // shape. 'sectionName' IS read now; see below.
-        (void)section;
+        // 'section' was unused in the pure-Python original's body; it is read now for a
+        // namespace-merged mod's index (see below), and may be null, which skips that.
+        // 'sectionName' is read too; see below.
 
         std::vector<ModObj> result;
 
@@ -207,6 +206,38 @@ namespace AGRemapCore {
             };
 
             std::vector<V> indexVals = partKeys.getVals(config_.matchFirstIndexKey, filter);
+
+            // A NAMESPACE-MERGED MOD WRITES ITS INDEX INSIDE AN `if` (2026-09-24). Its sub-mods
+            // read `hash = ...` at the top of each section and everything else -- the
+            // match_first_index included -- under `if $\<Char>\Master\swapvar == n`, so the part
+            // that writes the hash has no index, and the part that has the index only INHERITS the
+            // hash (skipped above, for GanyuTwilight's reason). Every head and body section then
+            // classified as the hash-only ("", "ib") object: the index was never remapped (HuTao's
+            // body stayed at 16509 on CherryHuTao, where it matches nothing) and no split ran, so
+            // the target's dress and extra were never hidden. The old script read these fine.
+            //
+            // So a hash with no index in its own part takes the index from the SAME section's
+            // later parts -- its own, not a command list it runs into, which is the inheritance
+            // the skip above exists to refuse.
+            if (indexVals.empty() && section != nullptr && hashValsLen == 1) {
+                bool afterHashPart = false;
+                for (const auto& part : section->parts()) {
+                    const auto* content = dynamic_cast<const IfContentPart<K, V, KeyHash, KeyEqual>*>(part.get());
+                    if (content == nullptr) {
+                        continue;
+                    }
+                    if (!afterHashPart) {
+                        afterHashPart = !content->getVals(config_.hashKey).empty();
+                        continue;
+                    }
+                    if (!content->getVals(config_.hashKey).empty()) {
+                        break;
+                    }
+                    for (const V& val : content->getVals(config_.matchFirstIndexKey)) {
+                        indexVals.push_back(val);
+                    }
+                }
+            }
 
             for (const V& indexVal : indexVals) {
                 const ModObj* indexModObj = nullptr;

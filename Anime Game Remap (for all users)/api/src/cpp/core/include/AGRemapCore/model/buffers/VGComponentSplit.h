@@ -49,10 +49,89 @@ namespace AGRemapCore {
          Further source groups the component has a bone for, honoured only on a vertex that also
          carries one of \ref remap's groups -- the reverse remap turned around. A hair vertex
          weighted head + bang keeps its head weight on the Bang's head bone; a face vertex weighted
-         to the head alone still collapses. Only used by a negative-index component
+         to the head alone still collapses :raw-html:`<br />` :raw-html:`<br />`
+
+         On a **cut** component these are STAND-INS: a kept vertex's weight on another component's
+         group goes to the stand-in bone instead of being dropped and renormalised away. Where one
+         surface is cut between two components, each side of the seam otherwise keeps only its own
+         half of the weights, and the two copies of every seam point follow different bones --
+         Neuvillette5's cape tore open across the back. They never decide which component takes a
+         triangle; only \ref remap does. Empty (every cut component until 2026-09-25): foreign
+         weight is dropped, as before
          @endrst
          */
         std::unordered_map<long long, long long> secondary;
+
+        /**
+         * @brief
+         @rst
+         For a **cut** component: the least share of a vertex's weight that must sit on
+         \ref remap's groups for the component to CLAIM the vertex, from ``0`` to ``1``
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         Ownership is otherwise a plain majority, which puts the seam between two components exactly
+         where a surface's weight is split half and half -- the one place both sides lose the most. A
+         component that should take only what is clearly its own (a coat's hanging tails, not the
+         back panel they are blended into) sets a high share: a vertex below it goes to the next
+         component that claims it, and the seam moves to where the weights are clean. A vertex no
+         component can claim falls back to the plain majority. **Default**: ``0``, the plain majority
+         @endrst
+         */
+        double claimShare = 0.0;
+
+        /**
+         * @brief
+         @rst
+         For a **cut** component: how many rings of its NEIGHBOURS' triangles it draws as well, past
+         its own edge :raw-html:`<br />` :raw-html:`<br />`
+
+         Where one surface is cut between two components, the two sides of the seam are skinned by
+         different bones -- no two components share a bone -- and when the skin poses they pull
+         apart, showing whatever is behind (Neuvillette5's cape, torn across the back). A band of
+         overlap is drawn by BOTH components, so a gap narrower than the band is covered by the other
+         side's copy. It never changes which component owns a triangle: the band is drawn in
+         addition, skinned with this component's bones (and its \ref secondary stand-ins), and a
+         ring is one step through a shared vertex. **Default**: ``0``, no overlap
+         @endrst
+         */
+        std::size_t overlapRings = 0;
+
+        /**
+         * @brief
+         @rst
+         For a **cut** component: the source index buffers (by position in the split's list) whose
+         triangles get a MIRRORED INNER LAYER :raw-html:`<br />` :raw-html:`<br />`
+
+         Single-layer cloth shows its back faces from inside -- a skirt's inner side -- and whether
+         a back face renders as cloth is up to the target's shader: Neuvillette's shades it like the
+         outside, NeuvilletteMelusent's lights it like rim light, flat light blue (Neuvillette2's inner
+         skirt, 2026-09-26). The layer gives each such triangle a front-facing twin seen from the
+         other side: every corner is copied once (same weights, same source vertex -- flagged in
+         :cpp:member:`VGComponentBuffers::mirrored`, so the vertex buffers' writer can turn its normal
+         round, see :cpp:func:`VGComponentSplit::mirrorPositionLine`), and each triangle is followed
+         by its copy wound the other way. The copy carries the SAME source triangle id in
+         :cpp:member:`VGComponentBuffers::keptTriangleIds`, so a mod's own draw range takes both.
+         Ignored on a negative-index component, whose vertex buffers are not rewritten. **Default**:
+         empty, no layer
+         @endrst
+         */
+        std::vector<std::size_t> mirroredIbs;
+
+        /**
+         * @brief
+         @rst
+         For a **cut** component: source groups whose weight is SHARED among several of the component's bones,
+         as ``{source group: [(bone, share), ...]}`` -- applied after the remap, over the vertex's final
+         weights, the shares summing to 1 :raw-html:`<br />` :raw-html:`<br />`
+
+         A cloth part of the source with no counterpart on the target rides ONE bone of it, and either choice
+         can be wrong: Neuvillette3's front coat flap on the skin's pelvis (rigid) went through the leg as it
+         stepped, and on its thigh (following) swung its face round and showed the lining (2026-09-26). Shared
+         between the two, a link moves part of the way with each. A vertex left with more than 4 influences
+         keeps its 4 largest, renormalised. **Default**: empty
+         @endrst
+         */
+        std::unordered_map<long long, std::vector<std::pair<long long, double>>> splitGroups;
 
         /**
          * @brief
@@ -77,7 +156,11 @@ namespace AGRemapCore {
         std::vector<std::size_t> trianglesDropped;
         std::size_t renormalised = 0;
         std::size_t neighbourSkinned = 0;
+        std::size_t overlapTriangles = 0;
         std::size_t sentinels = 0;
+        std::size_t mirroredVertices = 0;
+        std::size_t mirroredTriangles = 0;
+        std::size_t splitVertices = 0;
     };
 
     /**
@@ -125,6 +208,16 @@ namespace AGRemapCore {
          * @brief Negative index only: per mod vertex, whether it carries no sentinel
          */
         std::vector<bool> live;
+
+        /**
+         * @brief
+         @rst
+         Per entry of \ref vertices: whether it is a MIRRORED copy -- the inner layer of
+         :cpp:member:`VGComponentSpec::mirroredIbs`, whose position line the writer turns round.
+         Empty when the component has no layer
+         @endrst
+         */
+        std::vector<bool> mirrored;
 
         VGComponentSplitStats stats;
     };
@@ -196,6 +289,23 @@ namespace AGRemapCore {
              */
             static ByteVec keepLines(const ByteVec& src, std::size_t bytesPerLine, const std::vector<std::size_t>& lines);
 
+            /**
+             * @brief
+             @rst
+             A GIMI ``Position.buf`` line (``POSITION`` float3, ``NORMAL`` float3, ``TANGENT`` float4)
+             for the mirrored inner layer: the normal turned round, and the position moved ``offset``
+             model units against the ORIGINAL normal -- to the inside, so the layer is nearer a viewer
+             who sees the back face and behind the surface from the outside, and never ties with it in
+             depth. The tangent is kept. A line shorter than the normal is returned as it is
+             @endrst
+             *
+             * @param line The source line
+             * @param offset How far inward, in model units
+             *
+             * @return The mirrored line
+             */
+            static ByteVec mirrorPositionLine(const ByteVec& line, float offset);
+
             std::size_t vertexCount() const;
             const std::vector<VGComponentSpec>& specs() const;
 
@@ -217,6 +327,7 @@ namespace AGRemapCore {
             std::vector<bool> liveVertices(const VGComponentSpec& spec) const;
             VGComponentBuffers splitNegative(const VGComponentSpec& spec) const;
             VGComponentBuffers splitCut(std::size_t column) const;
+            static void addMirroredLayer(VGComponentBuffers& result, const std::vector<std::size_t>& ibs);
 
             Weights weights_;
             Indices indices_;

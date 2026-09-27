@@ -20,6 +20,15 @@ NOISE = re.compile(r"(?i)^\s*Reverting \w+ not found in ShaderFixes|^If this is 
 # 3DMigoto logs each section's name as it parses it, so a warning belongs to the last one:
 # [TextureOverride\Mods\Bennett7\gb_bennett\merged.ini\BennettBody]
 SECTION = re.compile(r"^\[(\w+)\\(.+)\]\s*$")
+# ...except a duplicate hash, which is one warning line FOLLOWED by the name of every section
+# carrying that hash (in any mod), in the same format as a section being parsed:
+#   WARNING: Possible Mod Conflict: Duplicate TextureOverride hash=e35ce2c4
+#   [TextureOverride\Mods\CharlotteIdentity\Charlotte.ini\CharlottePosition...]
+#   [TextureOverride\Mods\CharlotteIdentity\CharlotteRemapFix1.ini\CharlottePosition...]
+#   If this is intentional, add a match_priority=n to suppress warning and disambiguate order
+# The warning belongs to every listed section, and the listed names are not sections being parsed.
+CONFLICT = re.compile(r"(?i)^\s*WARNING:\s*Possible Mod Conflict\b")
+CONFLICT_END = re.compile(r"(?i)^If this is intentional\b")
 
 
 def importerFolder(config, importer):
@@ -61,6 +70,14 @@ def readLogFrom(folder, offset, cap=32 * 1024 * 1024):
 
 
 RELOAD_MARK = "Reloading d3dx.ini"
+# Logged once every section has been parsed; every section header and warning of a reload comes
+# before it (checked on all 15 reloads of the GIMI log, 2026-09-23). The reload goes on to patch
+# shaders, but that tail may never reach the file: with d3dx.ini's [Logging] unbuffered=0 the last
+# few KB sit in 3DMigoto's buffer until something else is logged -- typically the NEXT reload.
+# "The log went quiet" is not the end either: 3DMigoto loads every Resource file silently between
+# logging the [Resource...] and the [TextureOverride...] sections, and a 1.5 s quiet window there
+# cut CharlotteIdentity's report off before any of its TextureOverride warnings.
+RELOAD_DONE = re.compile(r"(?m)^> d3dx\.ini reloaded\b")
 # "Frame analysis saved to ..." / "Frame Analysis: Unable to create ..." -- WITH the space. With call
 # logging on (WWMI's XXMI default) every log line starts "FrameAnalysisContext(...)", which a
 # space-optional pattern matched, so a dump that never started looked like one in progress.
@@ -98,26 +115,63 @@ def tailLog(folder, lines=60, cap=4 * 1024 * 1024):
     return text.splitlines()[-lines:]
 
 
+def _sectionName(header):
+    return header.group(1) + "\\" + header.group(2)
+
+
+def inMod(section, mod):
+    """Whether a section path (``TextureOverride\\Mods\\<folder>\\...``) is under
+    ``Mods\\<mod>`` (a case-insensitive glob over the mod's folder name)."""
+    parts = section.split("\\")
+    folder = parts[2] if len(parts) > 2 and parts[1].lower() == "mods" else ""
+    return fnmatch.fnmatch(folder.lower(), mod.lower())
+
+
+def _entries(text):
+    """(warning line, section) for every problem line, and the set of sections parsed. A
+    duplicate-hash warning yields one entry per section it lists (see CONFLICT)."""
+    lines = text.splitlines()
+    entries, parsed = [], set()
+    section = ""
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        i += 1
+        header = SECTION.match(line)
+        if header:
+            section = _sectionName(header)
+            parsed.add(section)
+            continue
+        if not PROBLEM.search(line) or NOISE.search(line):
+            continue
+        if CONFLICT.search(line):
+            listed = []
+            while i < len(lines) and SECTION.match(lines[i]):
+                listed.append(_sectionName(SECTION.match(lines[i])))
+                i += 1
+            if listed and not (i < len(lines) and CONFLICT_END.search(lines[i])):
+                # The list did not end the way 3DMigoto ends it, so its last name may be the next
+                # section being parsed: keep it as the context, as the plain loop would have.
+                section = listed[-1]
+                parsed.add(section)
+            for name in listed or [section]:
+                entries.append((line, name))
+            continue
+        entries.append((line, section))
+    return entries, parsed
+
+
 def problems(text, limit=60, mod=None):
     """[(warning line, section it was logged under or "")], de-duplicated per section, in order.
     3DMigoto reports a bad .ini line (an unknown key, a line outside any section, a duplicate
     hash) here and in orange on screen. ``mod`` keeps only warnings under ``Mods\\<mod>``
-    (a glob over the mod's folder name)."""
+    (a glob over the mod's folder name). A duplicate hash is reported under every section that
+    carries it, so a conflict between two mods shows up under both."""
     seen = set()
     result = []
-    section = ""
-    for line in text.splitlines():
-        header = SECTION.match(line)
-        if header:
-            section = header.group(1) + "\\" + header.group(2)
+    for line, section in _entries(text)[0]:
+        if mod is not None and not inMod(section, mod):
             continue
-        if not PROBLEM.search(line) or NOISE.search(line):
-            continue
-        if mod is not None:
-            parts = section.split("\\")
-            folder = parts[2] if len(parts) > 2 and parts[1].lower() == "mods" else ""
-            if not fnmatch.fnmatch(folder.lower(), mod.lower()):
-                continue
         key = (re.sub(r"\d+", "#", line.strip()), section)
         if key in seen:
             continue
@@ -126,6 +180,33 @@ def problems(text, limit=60, mod=None):
         if len(result) >= limit:
             break
     return result
+
+
+# Logged as each .ini is read:  Processing "E:\...\GIMI\Mods\BufferValues\ORFix.ini"
+PROCESSING = re.compile(r'(?m)^\s*Processing "(.+?\.ini)"\s*$')
+
+
+def iniFilesRead(text, mod):
+    """The .ini files under ``Mods\\<mod>`` that 3DMigoto logged reading. Files read but no
+    section parsed means the .ini sets ``namespace =``: its sections are logged under the
+    namespace (``[Resource\\global\\ORFix\\...]``), which --mod cannot attribute to a folder."""
+    found = []
+    for path in PROCESSING.findall(text):
+        parts = path.replace("/", "\\").split("\\")
+        lowered = [p.lower() for p in parts]
+        if "mods" in lowered:
+            at = lowered.index("mods")  # the importer's Mods; a mod may have its own "Mods"
+            if at + 1 < len(parts) - 1 and fnmatch.fnmatch(lowered[at + 1], mod.lower()):
+                found.append(path)
+    return sorted(set(found))
+
+
+def sectionsParsed(text, mod=None):
+    """The sections 3DMigoto logged as parsed in ``text`` (under ``Mods\\<mod>`` when given).
+    Empty means the text never reached the mod's sections: "no warnings" would then be a report
+    about nothing, not a pass."""
+    parsed = _entries(text)[1]
+    return {s for s in parsed if mod is None or inMod(s, mod)}
 
 
 # ---------------------------------------------------------------- frame analysis

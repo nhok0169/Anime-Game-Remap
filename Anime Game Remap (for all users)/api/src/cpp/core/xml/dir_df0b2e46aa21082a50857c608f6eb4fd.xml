@@ -11,6 +11,8 @@
     <innerdir refid="dir_2078836bcd6a988550c40e8beac7d66a">src/data/IniParseData/BarbaraSummertime</innerdir>
     <innerdir refid="dir_1e259576dcaf849afef751a510e376ef">src/data/IniParseData/Bennett</innerdir>
     <innerdir refid="dir_d443bbda8c296afd9d188bf9e1bd8789">src/data/IniParseData/BennettAdventure</innerdir>
+    <innerdir refid="dir_18b7d372e7b088f90fa122253e610c29">src/data/IniParseData/Charlotte</innerdir>
+    <innerdir refid="dir_26a8721990620239e29e867911647810">src/data/IniParseData/CharlotteHurlock</innerdir>
     <innerdir refid="dir_25a7db1bb6bc60a250ad437f8aee695a">src/data/IniParseData/CherryHuTao</innerdir>
     <innerdir refid="dir_5703ff93bc4ca65ff6d07ea3f18b799c">src/data/IniParseData/Chisa</innerdir>
     <innerdir refid="dir_bb5efb3c1b2f3ffd8558fde37d88057b">src/data/IniParseData/Citlali</innerdir>
@@ -37,6 +39,8 @@
     <innerdir refid="dir_7d73376d641d75fa42fe2a1657940aff">src/data/IniParseData/LisaStudent</innerdir>
     <innerdir refid="dir_8f5bf5a9e6f82f5ebb05da8e603ecbc8">src/data/IniParseData/Mona</innerdir>
     <innerdir refid="dir_7354bd2ec5e57e0ae2ee0931671ab40f">src/data/IniParseData/MonaCN</innerdir>
+    <innerdir refid="dir_165e623751b8370d6ebcdea880fe6618">src/data/IniParseData/Neuvillette</innerdir>
+    <innerdir refid="dir_c0c4e55ca95135a44c8c91e8f072a913">src/data/IniParseData/NeuvilletteMelusent</innerdir>
     <innerdir refid="dir_2773a236b14999538cfd7d8ef10f588d">src/data/IniParseData/Nilou</innerdir>
     <innerdir refid="dir_ef1c0834780db492af873d1d7b53d149">src/data/IniParseData/NilouBreeze</innerdir>
     <innerdir refid="dir_0adc358d87518781b54f054970880751">src/data/IniParseData/Ningguang</innerdir>

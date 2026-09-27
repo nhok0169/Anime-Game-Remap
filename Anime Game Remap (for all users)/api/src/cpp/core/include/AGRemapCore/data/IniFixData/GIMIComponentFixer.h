@@ -14,11 +14,14 @@
 
 // ##### EndCredits
 
+#include <array>
 #include <functional>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "AGRemapCore/model/iniresources/VGSplitGroupResource.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 #include "AGRemapCore/model/textures/Colour.h"
@@ -134,6 +137,42 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Per SOURCE object, the ``match_first_index`` of the slot that object is drawn through
+             instead of :cpp:member:`slotIndex` -- eg. ``{{"body", "53529"}}``. An object not listed
+             uses :cpp:member:`slotIndex` :raw-html:`<br />` :raw-html:`<br />`
+
+             A skin's slots draw on DIFFERENT pixel shaders, and a source object shaded by the wrong
+             one renders wrong in ways the textures cannot explain (2026-09-24): CharlotteHurlock
+             draws its Body slot A (hair and skin) on a hair shader and its slot B (the outfit) on
+             ``6546504e`` -- Charlotte's own -- and her body through slot A put black shards over a
+             mod's dark cardigan, gone once it was drawn through slot B. Each source object is its
+             own ``.ini`` group already, so each can take its own slot. **Default**: empty
+             @endrst
+             */
+            std::vector<std::pair<std::string, std::string>> objSlotIndices;
+
+            /**
+             * @brief
+             @rst
+             EVERY draw slot of this TARGET component, by ``match_first_index`` -- eg. ``{"0", "46620",
+             "71025"}`` -- or empty to declare none :raw-html:`<br />` :raw-html:`<br />`
+
+             What lets the fixer work out, per mod, which of the skin's slots nothing is drawn through:
+             every slot here that no DRAWN source object is routed to (:cpp:member:`slotIndex` /
+             :cpp:member:`objSlotIndices`), and every slot of a component the mod draws nothing onto at
+             all, gets the TexFx guard :cpp:member:`GIMIComponentFixerConfig::unremappedSlots` writes --
+             read off the result, where that field is a list somebody keeps by hand and goes stale the
+             moment the routing changes (NeuvilletteMelusent, 2026-09-24: the dress moved from the Dress
+             slot to the Body slot, the Dress slot was left unguarded, and a TexFx transparency request
+             was spent on it -- the mod's see-through shirt vanished). Added to, never replacing, that
+             field. **Default**: empty, the behaviour before this existed
+             @endrst
+             */
+            std::vector<std::string> slotIndices;
+
+            /**
+             * @brief
+             @rst
              ``true``: the **negative-index** strategy (the component draws the whole mod, every
              bone of another component becomes a sentinel, and the ib is trimmed); ``false``: the
              **graph cut** (the component takes the triangles the negative-index components leave,
@@ -145,11 +184,138 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             For a cut component: the least share of a vertex's weight on this component's groups for it
+             to claim the vertex -- see :cpp:member:`VGComponentSpec::claimShare`. **Default**: ``0``,
+             the plain majority
+             @endrst
+             */
+            double claimShare = 0.0;
+
+            /**
+             * @brief
+             @rst
+             For a cut component: the source groups this component does NOT own, each to the bone of
+             this component that stands in for it -- see :cpp:member:`VGComponentSpec::secondary`. A
+             group the component's own row already maps is ignored here. **Default**: empty, a foreign
+             weight is dropped
+             @endrst
+             */
+            std::unordered_map<long long, long long> standIns;
+
+            /**
+             * @brief
+             @rst
+             For a cut component: how many rings of its neighbours' triangles it draws as well, so a seam
+             that opens when the skin poses is covered -- see :cpp:member:`VGComponentSpec::overlapRings`.
+             **Default**: ``0``, no overlap
+             @endrst
+             */
+            std::size_t overlapRings = 0;
+
+            /**
+             * @brief
+             @rst
+             Whether this component's remapped sections drop the mod's `TexFx`_ transparency: its
+             ``ps-t69`` / ``ps-t70`` bindings and every ``run = CommandList\\TexFx\\...`` :raw-html:`<br />` :raw-html:`<br />`
+
+             TexFx replaces a draw's pixel shader with its own, recognised by shader pattern, and a
+             skin's slot may use a shader it does not recognise. There the request is not served and the
+             transparency texture bound at ``ps-t69`` blanks the part out entirely: Neuvillette8's sheer
+             shirt vanished on NeuvilletteMelusent's main mesh while its triangles were skinned and drawn
+             every frame (2026-09-25). Dropped, the part draws opaque -- a texture fault, where a missing
+             part is a geometry one. **Default**: ``false``, the mod's TexFx lines are kept
+             @endrst
+             */
+            bool dropTexFx = false;
+
+            /**
+             * @brief
+             @rst
+             For a component whose mod's TexFx transparency is dropped (:cpp:member:`dropTexFx`): the
+             opacity its SEE-THROUGH draws are blended at instead, 0 to 1; ``0`` leaves them opaque
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Which draws are see-through is the mod's own answer: TexFx reads opacity off the RED
+             channel of the mask it binds at ``ps-t69`` (0 opaque, 1-254 see-through, 255 not drawn),
+             so each ``drawindexed = <count>, <start>, ...`` range of an object with a mask is judged by
+             the mask under its triangles' UVs, and a range most of whose vertices sit on 1-254 is drawn
+             through a ``CustomShader`` of its own. That keeps the game's shaders and blends only the
+             G-buffer's COLOUR target (``o1``), at this factor, leaving the normals and material ids of
+             whatever is under it: blending all of them, or the colour alone at a low factor, washed a
+             navy shirt out to white, since a mix is dominated by the brighter surface
+             (Neuvillette8's shirt on NeuvilletteMelusent, measured in game 2026-09-26: ``0.9`` looks
+             like the TexFx original, ``0.45`` nearly invisible). An ``auto`` draw, and a mod that
+             branches, keep their draw as it is. **Default**: ``0``
+             @endrst
+             */
+            float texFxBlend = 0.0f;
+
+            /**
+             * @brief
+             @rst
+             The SOURCE objects (lowercase, eg. ``"dress"``) whose triangles get a MIRRORED INNER LAYER
+             on this component -- see :cpp:member:`VGComponentSpec::mirroredIbs` :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             For single-layer cloth whose inside the target's shader does not shade as cloth:
+             Neuvillette2's inner skirt came out flat light blue on NeuvilletteMelusent, the back faces
+             of his dress lit like rim light, where his own shader shades them like the outside (a
+             ``cull = back`` test in game kept the light blue and dropped the navy, 2026-09-26). Each
+             triangle gets a twin wound the other way, its normal turned round and moved
+             :cpp:member:`mirrorOffset` inward, so the inside is a front face with a normal that faces
+             the viewer. Doubles those objects' triangles. Cut components only. **Default**: empty
+             @endrst
+             */
+            std::vector<std::string> mirroredObjs;
+
+            /**
+             * @brief
+             @rst
+             How far inside the surface the mirrored layer sits, in model units -- enough that the depth
+             buffer always puts it BEHIND the surface seen from outside, small enough not to show as a gap
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The game's depth buffer cannot separate surfaces a millimetre apart at the outfit preview's
+             distance: at ``0.001`` the twins, their normals turned round, fought the surface and every
+             mirrored garment came out dark and speckled, "metallic" (Neuvillette1's white apron went
+             navy; at ``0.0001`` entirely). ``0.004`` and ``0.008`` rendered as clean as with no layer at
+             all (in game, 2026-09-26). **Default**: ``0.005`` (5 mm on a GI character)
+             @endrst
+             */
+            float mirrorOffset = 0.005f;
+
+            /**
+             * @brief
+             @rst
+             Source groups whose weight this component SHARES among several of its bones, as
+             ``{source group: [(bone, share), ...]}`` -- see :cpp:member:`VGComponentSpec::splitGroups`. For a
+             cloth part the target has no counterpart for, between a bone it clips on and one it folds on.
+             **Default**: empty
+             @endrst
+             */
+            std::unordered_map<long long, std::vector<std::pair<long long, double>>> splitGroups;
+
+            /**
+             * @brief
+             @rst
+             Cloth pushed HORIZONTALLY away from a point on this component, by its weight share on the push's
+             source groups -- see :cpp:member:`VGSplitGroupConfig::pushAway`. For cloth that clips a limb the
+             target moves differently. Cut components only. **Default**: empty
+             @endrst
+             */
+            std::vector<VGPushAway> pushAway;
+
+            /**
+             * @brief
+             @rst
              Whether the slot's shader reads the normal-map layout -- ``ps-t0`` normal map,
              ``ps-t1`` diffuse, ``ps-t2`` lightmap, re-slotted by ``ORFix`` -- in which case the
              mod's ``ps-t0`` / ``ps-t1`` are shifted up, a flat normal map is created on ``ps-t0``
              and ``ORFix`` is re-issued. ``false``: ``ps-t0`` diffuse / ``ps-t1`` lightmap under
-             ``NNFix``, textures untouched
+             ``NNFix`` -- a mod object on the plain layout is left as it is, and one already on the
+             normal-map layout (see :cpp:member:`GIMIComponentFixerConfig::sourceLayout`) has its
+             normal map dropped and its diffuse and lightmap moved down to ``ps-t0`` / ``ps-t1``,
+             since a plain slot has nowhere to put the normal map
              @endrst
              */
             bool normalMap = true;
@@ -180,6 +346,49 @@ namespace AGRemapCore {
              @endrst
              */
             std::size_t texcoordStride = 0;
+
+            /**
+             * @brief
+             @rst
+             A translation, in model space, added to every vertex position written for this
+             component, or all zeros to write the mod's own positions :raw-html:`<br />` :raw-html:`<br />`
+
+             A mod's vertices are in its SOURCE's bind pose, and a bone of the target moves them
+             relative to the TARGET's bind pose. For most parts the difference is invisible -- hair or
+             a coat a centimetre higher still reads as the same outfit -- but a part that has to sit
+             inside something the GAME draws cannot be off at all. The eyes sit in the sockets of a
+             face mesh neither mod carries: Neuvillette's eye mesh is the skin's to the vertex,
+             1.24 cm higher, and on the skin's face that put his irises behind the upper lid, which
+             read in game as white eyes with no pupils.
+
+             Measure it rather than guess it: take the target component's own Position buffer and the
+             component this fix writes for the character's identity mod, and difference them vertex
+             for vertex (the ib and UVs of both must agree first). A translation is right only when
+             the residual is small against the part's size; anything else is not a shift and needs
+             its own edit.
+
+             Only the position is moved: a translation leaves normals and tangents as they are
+             @endrst
+             */
+            std::array<float, 3> positionOffset = {0.0f, 0.0f, 0.0f};
+
+            /**
+             * @brief
+             @rst
+             Whether :cpp:member:`positionOffset` applies only while the mod draws with the GAME's face
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The offset fits the source's part into the face the GAME draws. A mod can hide that face --
+             ``handling = skip`` on the source's face diffuse hash -- and draw its own inside its head
+             mesh, which reaches the target unshifted; its eyes are placed for THAT face, and shifting
+             them drops them below it. Neuvillette2 (its own anime face and eyes) looked down on the
+             skin until its eyes were left exactly where the mod put them.
+
+             Read per ``.ini`` file: a file whose face-diffuse section skips the draw keeps the mod's own
+             positions for this component. **Default**: ``false``, the offset always applies
+             @endrst
+             */
+            bool offsetOnlyWithGameFace = false;
 
             /**
              * @brief
@@ -272,6 +481,26 @@ namespace AGRemapCore {
          @endrst
          */
         std::vector<std::pair<std::string, std::vector<std::string>>> unremappedSlots;
+
+        /**
+         * @brief
+         @rst
+         The hash types of the source's SIDE MESHES -- its own draws that are no mod object, such as
+         the face and the head-upper, eg. ``{"ib_face", "ib_headupper"}`` :raw-html:`<br />` :raw-html:`<br />`
+
+         A mod may hide one of them by hash to put something of its own in its place (Neuvillette9's
+         mask: ``ib = null`` on Neuvillette's face, head-upper and eyebrow meshes). The skin draws its
+         OWN side meshes, under different hashes, so a section left on the source's hash hides
+         nothing and the skin's face showed through the mask in pieces. Each such section of the mod
+         is written again on the target's hash of the same type -- filed in ``HashData`` under
+         :cpp:member:`targetSkin` -- by the same owner as :cpp:member:`hiddenComponents`, the rest of
+         its body copied as the mod wrote it. A mesh the two characters SHARE (the same hash on both
+         sides, Neuvillette's eyebrows) is left to the mod's own section :raw-html:`<br />` :raw-html:`<br />`
+
+         Empty for every config before the pair that needed it, so no earlier output moves
+         @endrst
+         */
+        std::vector<std::string> sideMeshes;
 
         /**
          * @brief
@@ -391,6 +620,33 @@ namespace AGRemapCore {
          @endrst
          */
         bool faceSwapOnlyFromDiffuseReg = false;
+
+        /**
+         * @brief
+         @rst
+         Whether each drawn object's texture bindings go to the register their resource NAME's
+         role belongs on (``ps-t0`` diffuse / ``ps-t1`` light map, or ``ps-t0`` normal map /
+         ``ps-t1`` diffuse / ``ps-t2`` light map when a normal map is among them) BEFORE any other
+         texture edit reads a register -- :cpp:member:`GIMIMergeFixerConfig::texRegsByName`'s rule,
+         through the same :cpp:class:`TexRegLayout` :raw-html:`<br />` :raw-html:`<br />`
+
+         A mod may be written in the GAME's register order rather than GIMI's: one Neuvillette mod
+         binds its Dress ``ps-t0 = <light map>`` / ``ps-t1 = <diffuse>`` with no fix call, which is
+         right on his own plain shader and, read positionally, put the light map in the diffuse role
+         on the skin -- a hair ribbon drawn flat green (2026-09-24). The layout (normal map or not)
+         and the diffuse / light map files an object's edits read are decided by name as well. A
+         binding naming no role stays where it is, so a mod already in GIMI's order is untouched.
+
+         Names are an author's labels, so an object's are believed only when its section calls no
+         fix library itself (``NNFix`` / ``ORFix`` read fixed registers, so such a section is in
+         GIMI's order whatever its files are called) and every texture it binds at ``ps-t0`` ..
+         ``ps-t2`` names exactly one role, no two alike. Anything else is read positionally: another
+         Neuvillette mod names its normal map "Diffuse", its diffuse "LightMap" and its light map
+         "Shadow", and read by name drew its whole outfit flat yellow (2026-09-25).
+         **Default**: ``false``, the positional reading every earlier config was confirmed with
+         @endrst
+         */
+        bool texRegsByName = false;
 
         /**
          * @brief What every generated ``.ini`` file opens with -- see :cpp:member:`GIMIFixer::copyPreamble`

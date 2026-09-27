@@ -95,6 +95,16 @@ class ModTypes(StrEnum, DeferredEnum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(bennettadventure).*\]``
 
+    Charlotte: :class:`ModType`
+        **Charlotte mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(charlotte)((?!hurlock).)*\]``
+
+    CharlotteHurlock: :class:`ModType`
+        **Charlotte Hurlock mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(charlottehurlock).*\]``
+
     CherryHuTao: :class:`ModType`
         **Hu Tao Lantern Rite mods** :raw-html:`<br />`
 
@@ -230,6 +240,16 @@ class ModTypes(StrEnum, DeferredEnum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(monacn).*\]``
 
+    Neuvillette: :class:`ModType`
+        **Neuvillette mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(neuvillette)((?!melusent).)*\]``
+
+    NeuvilletteMelusent: :class:`ModType`
+        **Neuvillette Melusent Gift mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(neuvillettemelusent).*\]``
+
     Nilou: :class:`ModType`
         **Nilou mods** :raw-html:`<br />`
 
@@ -325,6 +345,8 @@ class ModTypes(StrEnum, DeferredEnum):
     BarbaraSummertime = (GIBuilder.barbaraSummerTime, )
     Bennett = (GIBuilder.bennett, )
     BennettAdventure = (GIBuilder.bennettAdventure, )
+    Charlotte = (GIBuilder.charlotte, )
+    CharlotteHurlock = (GIBuilder.charlotteHurlock, )
     CherryHuTao = (GIBuilder.cherryHutao, )
     Chisa = (WWMIBuilder.chisa, )
     ChisaParfait = (WWMIBuilder.chisaParfait, )
@@ -352,6 +374,8 @@ class ModTypes(StrEnum, DeferredEnum):
     LisaStudent = (GIBuilder.lisaStudent, )
     Mona = (GIBuilder.mona, )
     MonaCN = (GIBuilder.monaCN, )
+    Neuvillette = (GIBuilder.neuvillette, )
+    NeuvilletteMelusent = (GIBuilder.neuvilletteMelusent, )
     Nilou = (GIBuilder.nilou, )
     NilouBreeze = (GIBuilder.nilouBreeze, )
     Ningguang = (GIBuilder.ningguang, )

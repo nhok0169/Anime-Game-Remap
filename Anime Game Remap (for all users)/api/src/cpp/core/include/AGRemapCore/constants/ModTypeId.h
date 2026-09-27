@@ -112,6 +112,45 @@ namespace AGRemapCore {
         BennettAdventureEye,
 
         /**
+         * @brief Charlotte from GI
+         */
+        Charlotte,
+
+        /**
+         * @brief Charlotte outfit skin (Hurlock) from GI -- FOUR skinned components (Body, Bangs, Eyes, Camera)
+         */
+        CharlotteHurlock,
+
+        /**
+         * @brief
+         @rst
+         CharlotteHurlock's ``Body`` component, as a fix TARGET :raw-html:`<br />` :raw-html:`<br />`
+
+         The same arrangement as :cpp:enumerator:`CitlaliWhisperofStarsBody` and :cpp:enumerator:`BennettAdventureBody`:
+         a skin of several components is fixed by one fixer per component, and the tables those fixers read
+         are keyed by a mod type NAME, so each component is a mod type of its own for their purposes.
+         Nothing classifies a ``.ini`` file AS one of these; the skin itself is
+         :cpp:enumerator:`CharlotteHurlock`, whose vertex-group rows are keyed by component
+         @endrst
+         */
+        CharlotteHurlockBody,
+
+        /**
+         * @brief CharlotteHurlock's ``Bangs`` component, as a fix target -- see :cpp:enumerator:`CharlotteHurlockBody`
+         */
+        CharlotteHurlockBangs,
+
+        /**
+         * @brief CharlotteHurlock's ``Eyes`` component, as a fix target -- see :cpp:enumerator:`CharlotteHurlockBody`
+         */
+        CharlotteHurlockEyes,
+
+        /**
+         * @brief CharlotteHurlock's ``Camera`` component (the camera the skin carries at her hip), as a fix target -- see :cpp:enumerator:`CharlotteHurlockBody`
+         */
+        CharlotteHurlockCamera,
+
+        /**
          * @brief Hu Tao Lantern Rite skin from GI
          */
         CherryHuTao,
@@ -259,6 +298,44 @@ namespace AGRemapCore {
          * @brief Mona Chinese version from GI
          */
         MonaCN,
+
+        /**
+         * @brief Neuvillette from GI
+         */
+        Neuvillette,
+
+        /**
+         * @brief Neuvillette outfit skin (Melusent Gift) from GI -- FOUR skinned components (an unnamed main mesh, Coat, Bang, Eye)
+         */
+        NeuvilletteMelusent,
+
+        /**
+         * @brief
+         @rst
+         NeuvilletteMelusent's MAIN mesh (Head / Body / Dress on one index buffer), as a fix TARGET
+         :raw-html:`<br />` :raw-html:`<br />`
+         The same arrangement as :cpp:enumerator:`CharlotteHurlockBody`, with one difference: the
+         skin's own asset files and mods leave this component UNNAMED (``NeuvilletteMelusentHead.ib``,
+         ``NeuvilletteMelusentPosition.buf``), so its component name -- in the vertex-group table and
+         the download file names -- is the empty string, and only this fix-target id carries ``Main``
+         @endrst
+         */
+        NeuvilletteMelusentMain,
+
+        /**
+         * @brief NeuvilletteMelusent's ``Coat`` component, as a fix target -- see :cpp:enumerator:`NeuvilletteMelusentMain`
+         */
+        NeuvilletteMelusentCoat,
+
+        /**
+         * @brief NeuvilletteMelusent's ``Bang`` component, as a fix target -- see :cpp:enumerator:`NeuvilletteMelusentMain`
+         */
+        NeuvilletteMelusentBang,
+
+        /**
+         * @brief NeuvilletteMelusent's ``Eye`` component, as a fix target -- see :cpp:enumerator:`NeuvilletteMelusentMain`
+         */
+        NeuvilletteMelusentEye,
 
         /**
          * @brief Nilou from GI

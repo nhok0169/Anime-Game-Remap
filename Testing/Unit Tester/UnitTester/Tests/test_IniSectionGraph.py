@@ -193,6 +193,25 @@ class IniSectionGraphTest(BaseUnitTest):
         self.assertEqual(graph.rootsAreFullyCovered("x"), {"a": True})
         self.assertEqual(graph.rootsAreFullyCovered("z"), {"a": False})
 
+    def test_isKeyFullyCover_onlyCallIsAnExternalCommand_false(self):
+        # A 'run =' to a name that is not a section of the graph is a library command (ORFix,
+        # NNFix, ...) and covers NOTHING. It used to read as fully covered for any key, so the merge
+        # template never gave a CharlotteHurlock slot that calls ORFix itself its drawindexed.
+        sections = {"a": FRB.IfTemplate([FRB.IfContentPart({"x": [(0, "1")], "run": [(1, r"CommandList\global\ORFix\ORFix")]}, 0)], name = "a")}
+        graph = FRB.IniSectionGraph(sections, ["a"])
+        self.assertEqual(graph.isKeyFullyCover("z"), {"a": False})
+        self.assertEqual(graph.rootsAreFullyCovered("z"), {"a": False})
+        self.assertEqual(graph.isKeyFullyCover("x"), {"a": True})
+
+    def test_isKeyFullyCover_externalCommandBesideACoveringSubCommand_true(self):
+        # The external call must not stop a real callee that has the key from covering.
+        sections = {
+            "main": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "run": [(1, "external"), (2, "sub")]}, 0)], name = "main"),
+            "sub": FRB.IfTemplate([FRB.IfContentPart({"z": [(0, "2")]}, 0)], name = "sub"),
+        }
+        graph = FRB.IniSectionGraph(sections, ["main"])
+        self.assertEqual(graph.rootsAreFullyCovered("z"), {"main": True})
+
     def test_getKeyMissingParts_keyMissingFromSection_partReturnedForThatSection(self):
         sections = {"a": FRB.IfTemplate([FRB.IfContentPart({"x": [(0, "1")]}, 0)], name = "a")}
         graph = FRB.IniSectionGraph(sections, ["a"])

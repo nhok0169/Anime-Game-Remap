@@ -38,6 +38,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BlendEdit.h"
+#include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h"
@@ -295,7 +296,10 @@ namespace AGRemapCore {
                     //    the fix re-issues NNFix itself below, in the one place it actually belongs,
                     //    and ORFix has no equivalent re-issue.
                     auto isFixCall = [](long long, const std::string& value) {
-                        return value == IniKeywords::ORFixPath || value == IniKeywords::NNFixPath;
+                        // Case-insensitively, as 3DMigoto matches a CommandList path: a mod writing
+                        // CommandList\Global\ORFix\ORFix kept its own call beside the re-issued one (2026-09-23).
+                        return StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::ORFixPath) ||
+                               StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::NNFixPath);
                     };
 
                     removeFixCalls_ = std::make_unique<RegRemove<>>(

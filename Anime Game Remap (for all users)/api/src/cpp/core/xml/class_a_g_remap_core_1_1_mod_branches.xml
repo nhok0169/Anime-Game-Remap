@@ -47,6 +47,21 @@
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="206" column="13" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="206" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_mod_branches_1a7d5c7ca7a63802fa6b54ab5e54a9d0f4" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::string &gt;(std::size_t, const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt; &amp;)&gt;</type>
+        <definition>using AGRemapCore::ModBranches::BranchRemovals = std::function&lt;std::vector&lt;std::string&gt;(std::size_t, const std::optional&lt;Z3Predicate&gt;&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>BranchRemovals</name>
+        <qualifiedname>AGRemapCore::ModBranches::BranchRemovals</qualifiedname>
+        <briefdescription>
+<para>What one branch&apos;s removed keys are, given the branch&apos;s index and its query in <ref refid="class_a_g_remap_core_1_1_mod_branches_1ae506679cc1b8d877bf840851388c6430" kindref="member">context</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="230" column="13" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_branches_1ac94f1a7e61f2d2de9ee5fbd787f5d888" prot="private" static="no" mutable="no">
@@ -61,7 +76,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="265" column="23" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="265" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="320" column="23" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="320" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -528,6 +543,63 @@ branch whose replacements come back empty
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="224" column="29" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="241" bodyend="263"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a3b3c2910d7ecdf2dc09a705af4334df5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_reg_branch_add" kindref="compound">RegBranchAdd</ref>&lt;&gt; &gt;</type>
+        <definition>std::unique_ptr&lt; RegBranchAdd&lt;&gt; &gt; AGRemapCore::ModBranches::removePerBranch</definition>
+        <argsstring>(std::vector&lt; BranchVal &gt; branches, std::string keyPrefix, BranchRemovals removalsOf)</argsstring>
+        <name>removePerBranch</name>
+        <qualifiedname>AGRemapCore::ModBranches::removePerBranch</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_branch_val" kindref="compound">BranchVal</ref> &gt;</type>
+          <declname>branches</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>keyPrefix</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_mod_branches_1a7d5c7ca7a63802fa6b54ab5e54a9d0f4" kindref="member">BranchRemovals</ref></type>
+          <declname>removalsOf</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+An edit REMOVING keys from each branch of ``branches`` -- #replacePerBranch&apos;s
+counterpart, with the same attribution rule: a part that cannot be attributed to exactly
+one branch is left alone, and so is a branch whose removals come back empty
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>branches</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The values that define the branches </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keyPrefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tells this edit&apos;s branches apart from another edit&apos;s over the same graph </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>removalsOf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keys to remove in one branch </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="244" column="29" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="266" bodyend="288"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a112302d165e411719d4307fddab67e80" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -551,7 +623,95 @@ branch whose replacements come back empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="230" column="34" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="266" bodyend="280"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="250" column="34" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="291" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1ad4a6a00694eb16c89ed0f15d116a6711" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::ModBranches::looseKey</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>looseKey</name>
+        <qualifiedname>AGRemapCore::ModBranches::looseKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A `KVP`_ key reduced to a form two spellings of it compare equal under -- lowercased,
+with every backslash written as a forward slash
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to reduce</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The comparison key </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="263" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="308" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a30e38afd6dbcb5ab1424db279a6add5d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::ModBranches::firstValLoose</definition>
+        <argsstring>(const Template &amp;tpl, const std::string &amp;key)</argsstring>
+        <name>firstValLoose</name>
+        <qualifiedname>AGRemapCore::ModBranches::firstValLoose</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_branches_1a07b959634d280a514ce91677c3ddc09e" kindref="member">Template</ref> &amp;</type>
+          <declname>tpl</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Like :cpp:func:`firstVal`, but matching the key through :cpp:func:`looseKey`
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. warning::
+   Prefer this wherever the key being looked up is one a MOD&apos;s author wrote rather than
+   one this library emitted. A namespaced key is the usual case --
+   ``Resource\RabbitFX\Lightmap`` is spelled in whatever case its author used and with
+   either slash -- and an exact lookup that misses is indistinguishable from a mod that
+   binds nothing there. That is how a whole table of roles came back empty and five of
+   one mod&apos;s own textures were replaced by downloads of the game&apos;s (2026-09-25)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tpl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>section</computeroutput>_ to search </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to look for, matched loosely</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The first value found, stripped, or <computeroutput>std::nullopt</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="285" column="34" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="315" bodyend="336"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a38fdec1169b919fb688764d8d9bef55a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -573,7 +733,7 @@ an empty one, or ``null``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="239" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="283" bodyend="289"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="294" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="339" bodyend="345"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1acffd2f631f449b8f681e018e1ee6d9d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -629,7 +789,7 @@ no section or its section no ``filename``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="252" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="292" bodyend="308"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="307" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="348" bodyend="364"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a9b18cb2556065d736f4eb9db0664d321" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -656,7 +816,7 @@ none
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="262" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="311" bodyend="319"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="317" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="367" bodyend="375"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -697,25 +857,29 @@ and so will a fix of several components onto several
         <link refid="class_a_g_remap_core_1_1_z3_context"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="82" column="5" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="82" bodyend="266"/>
+    <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="82" column="5" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="82" bodyend="321"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1a5d430a04d9d31b3ee17827cce515cbe7" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>anyCompatible</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1a8bbfe3ef7382f569861eb280b7ba646c" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>branchIndexOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1a7d5c7ca7a63802fa6b54ab5e54a9d0f4" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>BranchRemovals</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1a02c1c265182c191bec1f49b51d301c0b" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>BranchReplacements</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1aa7d1f153a9821ff05d0698c39e0f1cea" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>compatible</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1ae506679cc1b8d877bf840851388c6430" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>context</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1ac94f1a7e61f2d2de9ee5fbd787f5d888" prot="private" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>ctx_</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1acffd2f631f449b8f681e018e1ee6d9d4" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>fileOf</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1a112302d165e411719d4307fddab67e80" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>firstVal</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1a30e38afd6dbcb5ab1424db279a6add5d" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>firstValLoose</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1addc39d6ed906b817553da5a2d06c0ec5" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>firstValThroughRun</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1a9b18cb2556065d736f4eb9db0664d321" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>ibBytesPerIndexOf</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1aa288fec2ef963ce1da04b73d64193f21" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>localQuery</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1ad4a6a00694eb16c89ed0f15d116a6711" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>looseKey</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1a1d61873028b334a4ea001aee2b60e6db" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>ModBranches</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1ab8c5ca8bf8f99fbbd9dbb97e4231907c" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>ModBranches</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1ae390f59903979213f5747ca64ab4bec8" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>ModBranches</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1a9d43fb7ac06d7d8e47ab8f3468fea310" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>operator=</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1a645c63e2956b9d045226620e036cb7b6" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>operator=</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1a29b6f5a0ba507cef63e5d4b97f41efe3" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>pick</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1a3b3c2910d7ecdf2dc09a705af4334df5" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>removePerBranch</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1a1e103c3914180208a3d4aa810ea0b1c8" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>replacePerBranch</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1a38fdec1169b919fb688764d8d9bef55a" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>resourceOf</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1a346ee0a12fd68f18d20d1f5c72761f31" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>states</name></member>

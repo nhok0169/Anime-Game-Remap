@@ -26,7 +26,7 @@ reported in, so a walk popping the back reads each batch backwards -- folders
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="630" column="28" bodyfile="include/AGRemapCore/RemapService.h" bodystart="630" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapService.h" line="631" column="28" bodyfile="include/AGRemapCore/RemapService.h" bodystart="631" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1ac552d2f9e034fba385ab3e07cfdebc2d" prot="public" static="no" mutable="no">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -41,7 +41,7 @@ reported in, so a walk popping the back reads each batch backwards -- folders
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="635" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="635" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapService.h" line="636" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="636" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1abdc8888d9cf48291ead5a72be21d0268" prot="public" static="no" mutable="no">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -56,7 +56,7 @@ reported in, so a walk popping the back reads each batch backwards -- folders
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="640" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="640" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapService.h" line="641" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="641" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1aaa51d62e58d8ce392838008ca161398b" prot="public" static="no" mutable="no">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -71,7 +71,7 @@ reported in, so a walk popping the back reads each batch backwards -- folders
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="645" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="645" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapService.h" line="646" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="646" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -105,7 +105,7 @@ queued
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="656" column="22" bodyfile="src/RemapService.cpp" bodystart="91" bodyend="104"/>
+        <location file="include/AGRemapCore/RemapService.h" line="657" column="22" bodyfile="src/RemapService.cpp" bodystart="94" bodyend="107"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -127,7 +127,7 @@ queue and must not be queued twice, and a folder already in **gotNeighbours** ha
 already had the subtree beneath it enumerated by some earlier folder&apos;s recursive scan
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/RemapService.h" line="616" column="13" bodyfile="include/AGRemapCore/RemapService.h" bodystart="616" bodyend="657"/>
+    <location file="include/AGRemapCore/RemapService.h" line="617" column="13" bodyfile="include/AGRemapCore/RemapService.h" bodystart="617" bodyend="658"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1a7b8e8ba33afa18e0fc6fb139ca5a6d35" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService::FolderWalk</scope><name>dirs</name></member>
       <member refid="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1aaa51d62e58d8ce392838008ca161398b" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService::FolderWalk</scope><name>gotNeighbours</name></member>

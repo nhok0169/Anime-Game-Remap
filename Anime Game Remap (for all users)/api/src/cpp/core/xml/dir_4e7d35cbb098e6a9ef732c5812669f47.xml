@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_4e7d35cbb098e6a9ef732c5812669f47" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/Neuvillette</compoundname>
+    <innerfile refid="_neuvillette_fixer_8h">NeuvilletteFixer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Neuvillette/"/>
+  </compounddef>
+</doxygen>

@@ -20,6 +20,9 @@
 #include <utility>
 
 #include "AGRemapCore/constants/DownloadMode.h"
+#include "AGRemapCore/constants/IfPredPartType.h"
+#include "AGRemapCore/model/iftemplate/IfPredPart.h"
+#include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/model/files/IniFile.h"
 
 
@@ -66,6 +69,77 @@ namespace AGRemapCore {
         return keysToTrack.has_value() ? keysToTrack : callerKeysToTrack;
     }
 
+    // A NAMESPACE-MERGED MOD GUARDS A WHOLE SECTION WITH ONE `if` (2026-09-24):
+    //
+    //     [TextureOverrideHutaoBody]
+    //     hash = 3de1efe2
+    //     match_priority = 1
+    //     if $\HuTao\Master\swapvar==1
+    //         match_first_index = 16509
+    //         ib = ...  ps-t0 = ...  ps-t1 = ...
+    //     endif
+    //
+    // Every branch lacks a draw, so getKeyMissingParts bubbles the fill up to the section's
+    // root part -- which here holds nothing but matching settings, and sits BEFORE the guard.
+    // The draw then ran ahead of its own bindings and on every variant, not just its own.
+    // For exactly this shape -- a root part of matching settings only, then one `if ... endif`
+    // with no else and nothing after -- the fill goes to the end of the guarded branch, where
+    // the old script put it. Any other part comes back unchanged.
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename RegFillMissing<K, V, KeyHash, KeyEqual>::ContentPart*
+    RegFillMissing<K, V, KeyHash, KeyEqual>::guardedBranchEnd(Section* section, ContentPart* part) {
+        if (section == nullptr || part == nullptr) {
+            return part;
+        }
+
+        static const std::unordered_set<std::string> MatchingKeys = {"hash", "match_first_index", "match_priority"};
+
+        const auto& parts = section->parts();
+        if (parts.empty() || parts.front().get() != part) {
+            return part;
+        }
+        for (const K& key : part->getKeys()) {
+            if (MatchingKeys.count(StringTools::toLower(key)) == 0) {
+                return part;
+            }
+        }
+
+        // parts: [root] [if] ...branch... [endif], with nothing at depth 0 after the endif and no
+        // else / elif at depth 1.
+        if (parts.size() < 3) {
+            return part;
+        }
+        const auto* open = dynamic_cast<const IfPredPart*>(parts[1].get());
+        const auto* close = dynamic_cast<const IfPredPart*>(parts.back().get());
+        if (open == nullptr || close == nullptr || open->type != IfPredPartType::If || close->type != IfPredPartType::EndIf) {
+            return part;
+        }
+
+        ContentPart* branchEnd = nullptr;
+        int depth = 0;
+        for (std::size_t i = 2; i + 1 < parts.size(); ++i) {
+            if (const auto* pred = dynamic_cast<const IfPredPart*>(parts[i].get())) {
+                if (pred->type == IfPredPartType::If) {
+                    ++depth;
+                } else if (pred->type == IfPredPartType::EndIf) {
+                    if (depth == 0) {
+                        return part;     // the guard closed early: something follows it at depth 0
+                    }
+                    --depth;
+                } else if (depth == 0) {
+                    return part;         // an else / elif of the guard itself
+                }
+                branchEnd = nullptr;     // a nested block's end is not the branch's end
+                continue;
+            }
+            if (depth == 0) {
+                branchEnd = dynamic_cast<ContentPart*>(parts[i].get());
+            }
+        }
+
+        return (branchEnd != nullptr) ? branchEnd : part;
+    }
+
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename RegFillMissing<K, V, KeyHash, KeyEqual>::Graph& RegFillMissing<K, V, KeyHash, KeyEqual>::fillMissingGraph(
             Graph& graph, const K& reg, const FillMissingFunc& fillMissing, const PartSelection& selection) {
@@ -83,9 +157,10 @@ namespace AGRemapCore {
         // 'partVisited' set.
         std::unordered_set<ContentPart*> missing;
         for (const auto& entry : parts) {
+            Section* section = graph.getSection(entry.first);
             for (ContentPart* part : entry.second) {
                 if (part != nullptr) {
-                    missing.insert(part);
+                    missing.insert(guardedBranchEnd(section, part));
                 }
             }
         }

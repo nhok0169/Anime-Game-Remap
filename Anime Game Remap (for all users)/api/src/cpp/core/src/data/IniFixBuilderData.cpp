@@ -380,6 +380,15 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali),
                   "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStarsEyes)}, IniFixBuilderFuncs::citlaliWhisperofStarsEyes6_7()},
 
+                // ===== Charlotte @ toVersion 6.7 (2026-09-23) =====
+                // TWO rows, onto the skin's Body and Eyes. Her fringe is on her head bone, so no
+                // forward vertex-group row reaches the Bangs, and the skin's Camera is an accessory
+                // rather than part of her: both are hidden by the Body fixer's config instead.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Charlotte),
+                  "6.7", ModTypeIdTools::getName(ModTypeId::CharlotteHurlockBody)}, IniFixBuilderFuncs::charlotteHurlockBody6_7()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Charlotte),
+                  "6.7", ModTypeIdTools::getName(ModTypeId::CharlotteHurlockEyes)}, IniFixBuilderFuncs::charlotteHurlockEyes6_7()},
+
                 // ===== CitlaliWhisperofStars @ toVersion 6.7 (2026-09-22) =====
                 //
                 // ONE row where the direction above needs three: a skin of several components onto
@@ -389,6 +398,31 @@ namespace AGRemapCore {
                 {{"6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars),
                   "6.7", ModTypeIdTools::getName(ModTypeId::Citlali)},
                  IniFixBuilderFuncs::citlaliWhisperofStarsToCitlali6_7()},
+
+                // ===== CharlotteHurlock @ toVersion 6.7 (2026-09-24) =====
+                // The merge back: ONE row, the skin's components folded onto Charlotte's one mesh.
+                {{"6.7", ModTypeIdTools::getName(ModTypeId::CharlotteHurlock),
+                  "6.7", ModTypeIdTools::getName(ModTypeId::Charlotte)},
+                 IniFixBuilderFuncs::charlotteHurlockToCharlotte6_7()},
+
+                // ===== Neuvillette @ toVersion 6.3 (2026-09-25) =====
+                // FOUR rows, one per target component, the Eye LAST: its fixer owns the hidden
+                // components and the TexFx guards and has to run after the other three. At 6.3 because
+                // the skin's hashes are filed there.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Neuvillette),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusentMain)}, IniFixBuilderFuncs::neuvilletteMelusentMain6_3()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Neuvillette),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusentCoat)}, IniFixBuilderFuncs::neuvilletteMelusentCoat6_3()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Neuvillette),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusentBang)}, IniFixBuilderFuncs::neuvilletteMelusentBang6_3()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Neuvillette),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusentEye)}, IniFixBuilderFuncs::neuvilletteMelusentEye6_3()},
+
+                // ===== NeuvilletteMelusent @ toVersion 6.3 (2026-09-25) =====
+                // The merge back: ONE row, the skin's components folded onto Neuvillette's one mesh.
+                {{"6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::Neuvillette)},
+                 IniFixBuilderFuncs::neuvilletteMelusentToNeuvillette6_3()},
 
                 // ===== Keqing @ toVersion 6.1 =====
                 //

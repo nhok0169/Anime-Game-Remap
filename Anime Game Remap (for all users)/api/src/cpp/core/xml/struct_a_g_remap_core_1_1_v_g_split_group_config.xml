@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="41" column="9" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="41" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="67" column="9" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="67" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="46" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="46" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="72" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="72" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1ad3072152740b4cd107fd883aac2a7f22" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_v_g_component_spec" kindref="compound">VGComponentSpec</ref> &gt;</type>
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="51" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="51" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="77" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="77" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1afa1fede04d255fc720b9bc56c67b1a80" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -69,7 +69,7 @@ object&apos;s index buffer cannot index. Empty: the group&apos;s own ``ib`` memb
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="62" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="62" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="88" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="88" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1ad75ebe60410e2eec68015719fe4a3a0b" prot="public" static="no" mutable="no">
         <type>std::unordered_map&lt; std::string, std::size_t &gt;</type>
@@ -92,7 +92,7 @@ and with values past the end of the mesh. See :cpp:class:`IbFile`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="76" column="28" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="76" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="102" column="28" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="102" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1a421459c2130b60316250d30bbb86d1c6" prot="public" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a3e9174cf0f745d58259601f8e4b5c6f4" kindref="member">LineEdit</ref></type>
@@ -107,7 +107,7 @@ and with values past the end of the mesh. See :cpp:class:`IbFile`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="81" column="18" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="81" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="107" column="18" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="107" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1ab2f3ce8c9cbd2704ce0e7461327073f9" prot="public" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a3e9174cf0f745d58259601f8e4b5c6f4" kindref="member">LineEdit</ref></type>
@@ -122,26 +122,65 @@ and with values past the end of the mesh. See :cpp:class:`IbFile`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="86" column="18" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="86" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="112" column="18" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1a5a81818945ae980a46c0702aaa893cbc" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a3e9174cf0f745d58259601f8e4b5c6f4" kindref="member">LineEdit</ref></type>
+        <definition>LineEdit AGRemapCore::VGSplitGroupConfig::mirrorLineEdit</definition>
+        <argsstring></argsstring>
+        <name>mirrorLineEdit</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupConfig::mirrorLineEdit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Applied, after filtering, to the ``Position.buf`` lines of the vertices the split MIRRORED
+(:cpp:member:`VGComponentBuffers::mirrored`), or empty -- see
+:cpp:func:`VGComponentSplit::mirrorPositionLine`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="122" column="18" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1af3381873bc02309262c55f1c70ca2bc1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_v_g_push_away" kindref="compound">VGPushAway</ref> &gt;</type>
+        <definition>std::vector&lt;VGPushAway&gt; AGRemapCore::VGSplitGroupConfig::pushAway</definition>
+        <argsstring></argsstring>
+        <name>pushAway</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupConfig::pushAway</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Pushes applied to the written ``Position.buf`` -- each kept vertex (and its mirrored copy) moves
+HORIZONTALLY away from a push&apos;s :cpp:member:`VGPushAway::from` by :cpp:member:`VGPushAway::distance`
+times its weight share on the push&apos;s groups, read off the SOURCE blend :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+For cloth that clips a limb the target moves differently: Neuvillette3&apos;s side coat flap rides his tail
+chain, which on the skin rides the pelvis, and the stepping thigh went through it (2026-09-26). Pushed
+outward, it hangs clear. Empty by default
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="137" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="137" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
-<para><verbatim>embed:rst 
-What a :cpp:class:`VGSplitGroupResource` needs to know beyond its members: which component of
-the target it writes, every component of the target (the split is joint -- which triangles a
-cut component gets depends on what the negative-index components keep), and which of the mod&apos;s
-index buffers take part
-</verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="37" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="37" bodyend="87"/>
+    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="63" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="63" bodyend="138"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a4e8b12263210463aab075475aaafa2bd" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>component</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ad75ebe60410e2eec68015719fe4a3a0b" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>ibBytesPerIndex</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1afa1fede04d255fc720b9bc56c67b1a80" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>ibPaths</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a3e9174cf0f745d58259601f8e4b5c6f4" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>LineEdit</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a5a81818945ae980a46c0702aaa893cbc" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>mirrorLineEdit</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ab2f3ce8c9cbd2704ce0e7461327073f9" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>positionLineEdit</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1af3381873bc02309262c55f1c70ca2bc1" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>pushAway</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ad3072152740b4cd107fd883aac2a7f22" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>specs</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a421459c2130b60316250d30bbb86d1c6" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>texcoordLineEdit</name></member>
     </listofallmembers>

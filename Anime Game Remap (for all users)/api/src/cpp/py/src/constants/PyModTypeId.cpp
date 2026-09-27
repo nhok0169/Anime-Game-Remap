@@ -55,6 +55,12 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
         .value("BennettAdventureBody", AGRC::ModTypeId::BennettAdventureBody, R"doc(BennettAdventure's Body component, as a fix target -- a skin of several components is fixed one component at a time, and each is a mod type for the tables' purposes)doc")
         .value("BennettAdventureBang", AGRC::ModTypeId::BennettAdventureBang, R"doc(BennettAdventure's Bang component, as a fix target)doc")
         .value("BennettAdventureEye", AGRC::ModTypeId::BennettAdventureEye, R"doc(BennettAdventure's Eye component, as a fix target)doc")
+        .value("Charlotte", AGRC::ModTypeId::Charlotte, R"doc(Charlotte from GI)doc")
+        .value("CharlotteHurlock", AGRC::ModTypeId::CharlotteHurlock, R"doc(Charlotte outfit skin (Hurlock) from GI -- four skinned components (Body, Bangs, Eyes, Camera))doc")
+        .value("CharlotteHurlockBody", AGRC::ModTypeId::CharlotteHurlockBody, R"doc(CharlotteHurlock's Body component, as a fix target -- a skin of several components is fixed one component at a time, and each is a mod type for the tables' purposes)doc")
+        .value("CharlotteHurlockBangs", AGRC::ModTypeId::CharlotteHurlockBangs, R"doc(CharlotteHurlock's Bangs component, as a fix target)doc")
+        .value("CharlotteHurlockEyes", AGRC::ModTypeId::CharlotteHurlockEyes, R"doc(CharlotteHurlock's Eyes component, as a fix target)doc")
+        .value("CharlotteHurlockCamera", AGRC::ModTypeId::CharlotteHurlockCamera, R"doc(CharlotteHurlock's Camera component, as a fix target)doc")
         .value("CherryHuTao", AGRC::ModTypeId::CherryHuTao, R"doc(Hu Tao Lantern Rite skin from GI)doc")
         .value("Citlali", AGRC::ModTypeId::Citlali, R"doc(Citlali from GI)doc")
         .value("CitlaliWhisperofStars", AGRC::ModTypeId::CitlaliWhisperofStars, R"doc(Citlali outfit skin (Whisper of Stars) from GI -- three skinned components (Body, Bangs, Eyes))doc")
@@ -106,6 +112,12 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
 
         .value("MonaCN", AGRC::ModTypeId::MonaCN, R"doc(Mona Chinese version from GI)doc")
 
+        .value("Neuvillette", AGRC::ModTypeId::Neuvillette, R"doc(Neuvillette from GI)doc")
+        .value("NeuvilletteMelusent", AGRC::ModTypeId::NeuvilletteMelusent, R"doc(Neuvillette outfit skin (Melusent Gift) from GI -- four skinned components (an unnamed main mesh, Coat, Bang, Eye))doc")
+        .value("NeuvilletteMelusentMain", AGRC::ModTypeId::NeuvilletteMelusentMain, R"doc(NeuvilletteMelusent's main mesh (its component name is the empty string), as a fix target -- a skin of several components is fixed one component at a time, and each is a mod type for the tables' purposes)doc")
+        .value("NeuvilletteMelusentCoat", AGRC::ModTypeId::NeuvilletteMelusentCoat, R"doc(NeuvilletteMelusent's Coat component, as a fix target)doc")
+        .value("NeuvilletteMelusentBang", AGRC::ModTypeId::NeuvilletteMelusentBang, R"doc(NeuvilletteMelusent's Bang component, as a fix target)doc")
+        .value("NeuvilletteMelusentEye", AGRC::ModTypeId::NeuvilletteMelusentEye, R"doc(NeuvilletteMelusent's Eye component, as a fix target)doc")
         .value("Nilou", AGRC::ModTypeId::Nilou, R"doc(Nilou from GI)doc")
 
         .value("NilouBreeze", AGRC::ModTypeId::NilouBreeze, R"doc(Nilou summer skin from GI)doc")

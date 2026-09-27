@@ -1344,6 +1344,161 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"6.7", "CitlaliWhisperofStarsEyes", "ib"}, "f4cca9ef"},
         {{"6.7", "CitlaliWhisperofStarsEyes", "tex_face_diffuse"}, "5783625d"},
 
+        // ===== Charlotte and CharlotteHurlock (2026-09-23) =====
+        //
+        // Charlotte's rows follow the assets repo's history of her hash.json, the Bennett way: the state
+        // before "THE GREAT 4.1 HASH FIX" is the 4.0 row ("adding charlotte", 2023-05-25), and each later
+        // commit that moved a value is a row of its own -- draw_vb at 4.1, ib at "GREAT 4.3 Hash fix",
+        // and two textures at "Characters re-dump" (2024-12-14, filed at 5.2, the version live that day),
+        // whose .dds files changed bytes with them. Position, blend and texcoord, the object indices and
+        // the other textures have not moved since the first dump.
+        //
+        // The face diffuse 58d9859b is filed at 4.0 although the first dump labelled it a NormalMap: it is
+        // Kirara's case (see her rows above) -- a label the re-dump corrected, not a texture that changed.
+        // Her MetalMap b0e08915 is the shared asset every character lists and is not filed.
+        {{"4.0", "Charlotte", "draw_vb"}, "c11fcbde"},
+        {{"4.0", "Charlotte", "position_vb"}, "c5a6d98e"},
+        {{"4.0", "Charlotte", "blend_vb"}, "c195ab20"},
+        {{"4.0", "Charlotte", "texcoord_vb"}, "54841c9b"},
+        {{"4.0", "Charlotte", "ib"}, "c7812015"},
+        {{"4.0", "Charlotte", "tex_head_normalmap"}, "263df356"},
+        {{"4.0", "Charlotte", "tex_head_diffuse"}, "5579adce"},
+        {{"4.0", "Charlotte", "tex_head_lightmap"}, "2da0b1d3"},
+        {{"4.0", "Charlotte", "tex_body_normalmap"}, "32554d73"},
+        {{"4.0", "Charlotte", "tex_body_diffuse"}, "9c1dcc05"},
+        {{"4.0", "Charlotte", "tex_body_lightmap"}, "48fb8348"},
+        {{"4.0", "Charlotte", "tex_face_diffuse"}, "58d9859b"},
+        {{"4.1", "Charlotte", "draw_vb"}, "48fae4f9"},
+        {{"4.3", "Charlotte", "ib"}, "ff554aca"},
+        {{"5.2", "Charlotte", "tex_head_lightmap"}, "bb72c96f"},
+        {{"5.2", "Charlotte", "tex_body_diffuse"}, "69b8ca31"},
+
+        // CharlotteHurlock (6.7) draws a Body (slots A-E), a Bangs, an Eyes and a Camera, each skinned and
+        // with its own buffers, filed under the component's name as CitlaliWhisperofStars's are. Read off
+        // the skin's own asset dump (hash.json). Her face diffuse is Charlotte's own 58d9859b: the face is
+        // drawn from the same texture on both, and tex_face_diffuse is not an identifying hash type, so
+        // filing it under both names is what every CN skin sharing its base's face already does.
+        //
+        // Deliberately NOT here: the skin's per-object texture hashes (Body A / B), for the reason
+        // BennettAdventure gives -- this table's tex_<object>_<kind> vocabulary has no slot names.
+        //
+        // ONE value here is not unique: the Eyes draw_vb 61b441bd is also YelanTranquilEye's (and, in the
+        // assets repo, Jahoda's eyes'). It is filed anyway, as YelanTranquil's was, because the forward
+        // fix rewrites Charlotte's VertexLimitRaise onto each target component's draw_vb and the Eyes one
+        // would otherwise come out as HashNotFound. Every other hash of either skin still identifies it.
+        {{"6.7", "CharlotteHurlockBody", "draw_vb"}, "f45bbdaf"},
+        {{"6.7", "CharlotteHurlockBody", "position_vb"}, "e35ce2c4"},
+        {{"6.7", "CharlotteHurlockBody", "blend_vb"}, "d3a63a25"},
+        {{"6.7", "CharlotteHurlockBody", "texcoord_vb"}, "637e74a3"},
+        {{"6.7", "CharlotteHurlockBody", "ib"}, "5d42c20a"},
+        {{"6.7", "CharlotteHurlockBody", "tex_face_diffuse"}, "58d9859b"},
+
+        // THE SLOTS' OWN TEXTURES, off the asset's hash.json (2026-09-24), keyed
+        // tex_<slot>_<role>. Not identifying (the classifier reads none of them): they are here
+        // for a mod that recolours the skin by texture hash alone (`this = ...`) -- see
+        // GIMIComponentParserConfig, whose parser binds such an override in place of the
+        // download for that slot.
+        {{"6.7", "CharlotteHurlockBody", "tex_a_diffuse"}, "ef84e3a2"},
+        {{"6.7", "CharlotteHurlockBody", "tex_a_lightmap"}, "568b4633"},
+        {{"6.7", "CharlotteHurlockBody", "tex_a_normalmap"}, "7f17929f"},
+        {{"6.7", "CharlotteHurlockBody", "tex_b_diffuse"}, "de63ec65"},
+        {{"6.7", "CharlotteHurlockBody", "tex_b_lightmap"}, "fe270fd4"},
+        {{"6.7", "CharlotteHurlockBody", "tex_b_normalmap"}, "b7fb158e"},
+        {{"6.7", "CharlotteHurlockBangs", "draw_vb"}, "270e0ffd"},
+        {{"6.7", "CharlotteHurlockBangs", "position_vb"}, "53d723bf"},
+        {{"6.7", "CharlotteHurlockBangs", "blend_vb"}, "88e539c7"},
+        {{"6.7", "CharlotteHurlockBangs", "texcoord_vb"}, "78468110"},
+        {{"6.7", "CharlotteHurlockBangs", "ib"}, "60af405e"},
+        {{"6.7", "CharlotteHurlockBangs", "tex_face_diffuse"}, "58d9859b"},
+        {{"6.7", "CharlotteHurlockEyes", "draw_vb"}, "61b441bd"},
+        {{"6.7", "CharlotteHurlockEyes", "position_vb"}, "c813722b"},
+        {{"6.7", "CharlotteHurlockEyes", "blend_vb"}, "bd6d3bcd"},
+        {{"6.7", "CharlotteHurlockEyes", "texcoord_vb"}, "c37b323a"},
+        {{"6.7", "CharlotteHurlockEyes", "ib"}, "a64cdb3d"},
+        {{"6.7", "CharlotteHurlockEyes", "tex_face_diffuse"}, "58d9859b"},
+        {{"6.7", "CharlotteHurlockCamera", "draw_vb"}, "127d2fe8"},
+        {{"6.7", "CharlotteHurlockCamera", "position_vb"}, "1ec056e4"},
+        {{"6.7", "CharlotteHurlockCamera", "blend_vb"}, "c1923b49"},
+        {{"6.7", "CharlotteHurlockCamera", "texcoord_vb"}, "18514e5e"},
+        {{"6.7", "CharlotteHurlockCamera", "ib"}, "f7f00837"},
+        {{"6.7", "CharlotteHurlockCamera", "tex_face_diffuse"}, "58d9859b"},
+
+        // ===== Neuvillette and NeuvilletteMelusent (2026-09-24) =====
+        //
+        // Neuvillette's rows follow the assets repo's history of his hash.json, the Charlotte way: the
+        // first dump ("Neuvillette added", 2023-09-27) is the 4.0 row, and the ib moved at "GREAT 4.3 Hash
+        // fix". Nothing else has moved since, and a 6.x frame dump of his base outfit
+        // (FrameAnalysis-Neuvillette-2026-09-24-205101) draws every one of these hashes today.
+        // His head draws on the PLAIN shader (no normal map); his body reads one. The MetalMap /
+        // ShadowRamp hashes the early dumps list are shared assets and are not filed.
+        {{"4.0", "Neuvillette", "draw_vb"}, "550c9ae1"},
+        {{"4.0", "Neuvillette", "position_vb"}, "cad3a022"},
+        {{"4.0", "Neuvillette", "blend_vb"}, "f060f732"},
+        {{"4.0", "Neuvillette", "texcoord_vb"}, "ea5c17ee"},
+        {{"4.0", "Neuvillette", "ib"}, "c8818002"},
+        {{"4.0", "Neuvillette", "tex_head_diffuse"}, "359d45a8"},
+        {{"4.0", "Neuvillette", "tex_head_lightmap"}, "88a634b5"},
+        {{"4.0", "Neuvillette", "tex_body_normalmap"}, "29bdadcf"},
+        {{"4.0", "Neuvillette", "tex_body_diffuse"}, "48c325bb"},
+        {{"4.0", "Neuvillette", "tex_body_lightmap"}, "da40b605"},
+        {{"4.0", "Neuvillette", "tex_dress_diffuse"}, "48c325bb"},
+        {{"4.0", "Neuvillette", "tex_dress_lightmap"}, "da40b605"},
+        {{"4.0", "Neuvillette", "tex_face_diffuse"}, "81e80510"},
+        {{"4.3", "Neuvillette", "ib"}, "f055eadd"},
+
+        // His SIDE MESHES -- his own unskinned draws that are no mod object -- for a mod that hides one by
+        // hash (Neuvillette9's mask: `ib = null` on each). See GIMIComponentFixerConfig::sideMeshes. Read
+        // off FrameAnalysis-Neuvillette-2026-09-24-205101: the face (6996 indices), the head-upper (3648)
+        // and the eyebrows, which the skin draws under the SAME hash (f151ddf7) and so are not filed.
+        {{"4.0", "Neuvillette", "ib_face"}, "24f8b383"},
+        {{"4.0", "Neuvillette", "ib_headupper"}, "8559c8e2"},
+
+        // NeuvilletteMelusent (6.3, "Melusent Gift") draws an UNNAMED main mesh (Head / Body / Dress on one
+        // index buffer -- filed under NeuvilletteMelusentMain), a Coat, a Bang and an Eye, each skinned and
+        // with its own buffers. No asset repo has it: every value here was read off a frame dump of the
+        // skin's shop preview (FrameAnalysis-NeuvilletteMelusent-2026-09-24-204316, through giDrawTable.py)
+        // and matches the one real mod of it (NeuvilletteMelusent1). The main mesh's slot textures are
+        // filed as tex_<slot>_<role> for a texture-only recolour (see CharlotteHurlockBody's); its Dress,
+        // the Coat, the Bang and the Eye draw with the Head's or the Body's, and file none of their own.
+        // The face diffuse 6dab6f0e is the skin's own (Neuvillette's is 81e80510), drawn on the unskinned
+        // face meshes both characters share; like Charlotte's it is filed under every component.
+        {{"6.3", "NeuvilletteMelusentMain", "draw_vb"}, "ffa97f00"},
+        {{"6.3", "NeuvilletteMelusentMain", "position_vb"}, "102faf04"},
+        {{"6.3", "NeuvilletteMelusentMain", "blend_vb"}, "9382866e"},
+        {{"6.3", "NeuvilletteMelusentMain", "texcoord_vb"}, "9a8d48d3"},
+        {{"6.3", "NeuvilletteMelusentMain", "ib"}, "e6c3cde1"},
+        {{"6.3", "NeuvilletteMelusentMain", "tex_head_diffuse"}, "f9635e58"},
+        {{"6.3", "NeuvilletteMelusentMain", "tex_head_lightmap"}, "1a459a0b"},
+        {{"6.3", "NeuvilletteMelusentMain", "tex_head_normalmap"}, "77b4f04a"},
+        {{"6.3", "NeuvilletteMelusentMain", "tex_body_diffuse"}, "aa75c82e"},
+        {{"6.3", "NeuvilletteMelusentMain", "tex_body_lightmap"}, "41c1c725"},
+        {{"6.3", "NeuvilletteMelusentMain", "tex_body_normalmap"}, "a8c0d859"},
+        {{"6.3", "NeuvilletteMelusentMain", "tex_face_diffuse"}, "6dab6f0e"},
+        {{"6.3", "NeuvilletteMelusentCoat", "draw_vb"}, "2d6bc773"},
+        {{"6.3", "NeuvilletteMelusentCoat", "position_vb"}, "f9220539"},
+        {{"6.3", "NeuvilletteMelusentCoat", "blend_vb"}, "d20c0406"},
+        {{"6.3", "NeuvilletteMelusentCoat", "texcoord_vb"}, "a94b7f74"},
+        {{"6.3", "NeuvilletteMelusentCoat", "ib"}, "5084b153"},
+        {{"6.3", "NeuvilletteMelusentCoat", "tex_face_diffuse"}, "6dab6f0e"},
+        {{"6.3", "NeuvilletteMelusentBang", "draw_vb"}, "d6f09ecc"},
+        {{"6.3", "NeuvilletteMelusentBang", "position_vb"}, "48ebf5d3"},
+        {{"6.3", "NeuvilletteMelusentBang", "blend_vb"}, "2341c41c"},
+        {{"6.3", "NeuvilletteMelusentBang", "texcoord_vb"}, "7e91f197"},
+        {{"6.3", "NeuvilletteMelusentBang", "ib"}, "d39a7138"},
+        {{"6.3", "NeuvilletteMelusentBang", "tex_face_diffuse"}, "6dab6f0e"},
+        {{"6.3", "NeuvilletteMelusentEye", "draw_vb"}, "fbf6a372"},
+        {{"6.3", "NeuvilletteMelusentEye", "position_vb"}, "c2b92f2e"},
+        {{"6.3", "NeuvilletteMelusentEye", "blend_vb"}, "bd570b78"},
+        {{"6.3", "NeuvilletteMelusentEye", "texcoord_vb"}, "b48884e6"},
+        {{"6.3", "NeuvilletteMelusentEye", "ib"}, "9181b82c"},
+        {{"6.3", "NeuvilletteMelusentEye", "tex_face_diffuse"}, "6dab6f0e"},
+
+        // The skin's own side meshes, filed under the skin as a whole (no component draws them) -- see
+        // Neuvillette's above. Drawn with his face's shaders beside the shared eyebrows in the skin's dump:
+        // the face at the same 6996 indices, the head-upper at 3714.
+        {{"6.3", "NeuvilletteMelusent", "ib_face"}, "97cd1620"},
+        {{"6.3", "NeuvilletteMelusent", "ib_headupper"}, "81780578"},
+
         // ===== version 5.4 =====
         // LisaStudent
         {{"5.4", "LisaStudent", "tex_head_normalmap"}, "a64a57de"},

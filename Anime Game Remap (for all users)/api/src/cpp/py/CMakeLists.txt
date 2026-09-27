@@ -192,6 +192,7 @@ pybind11_add_module(core
     src/model/strategies/texEditors/texFilters/PyColourReplaceFilter.cpp
     src/model/strategies/texEditors/texFilters/PyTransparencyAdjustFilter.cpp
     src/model/strategies/texEditors/texFilters/PyInvertAlphaFilter.cpp
+    src/model/strategies/texEditors/texFilters/PyMaterialBandRemapFilter.cpp
     src/model/strategies/texEditors/texFilters/PyHueAdjust.cpp
     src/model/strategies/texEditors/texFilters/PyPixelFilter.cpp
     src/model/strategies/texEditors/PyBaseTexEditor.cpp

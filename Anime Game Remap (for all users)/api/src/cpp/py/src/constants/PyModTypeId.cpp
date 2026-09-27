@@ -146,6 +146,12 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
 
         .value("XingqiuBamboo", AGRC::ModTypeId::XingqiuBamboo, R"doc(Xingqiu Lantern Rite skin from GI)doc")
 
+        .value("Yaoyao", AGRC::ModTypeId::Yaoyao, R"doc(Yaoyao from GI)doc")
+        .value("YaoyaoBamboo", AGRC::ModTypeId::YaoyaoBamboo, R"doc(Yaoyao outfit skin (Rainlit Bamboo Reverie) from GI -- three skinned components (an unnamed main mesh, Bang, Eye))doc")
+        .value("YaoyaoBambooMain", AGRC::ModTypeId::YaoyaoBambooMain, R"doc(YaoyaoBamboo's main mesh (its component name is the empty string), as a fix target -- a skin of several components is fixed one component at a time, and each is a mod type for the tables' purposes)doc")
+        .value("YaoyaoBambooBang", AGRC::ModTypeId::YaoyaoBambooBang, R"doc(YaoyaoBamboo's Bang component, as a fix target)doc")
+        .value("YaoyaoBambooEye", AGRC::ModTypeId::YaoyaoBambooEye, R"doc(YaoyaoBamboo's Eye component, as a fix target)doc")
+
         .value("Yelan", AGRC::ModTypeId::Yelan, R"doc(Yelan from GI)doc")
 
         .value("YelanTranquil", AGRC::ModTypeId::YelanTranquil, R"doc(Yelan summer skin (Tranquil Banquet) from GI -- three components (Body, Bang, Eye))doc")

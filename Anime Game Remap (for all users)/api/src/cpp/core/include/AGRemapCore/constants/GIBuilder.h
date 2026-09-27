@@ -289,6 +289,16 @@ namespace AGRemapCore {
             static ModType xingqiuBamboo();
 
             /**
+             * @brief Creates the :cpp:class:`ModType` for Yaoyao
+             */
+            static ModType yaoyao();
+
+            /**
+             * @brief Creates the :cpp:class:`ModType` for YaoyaoBamboo
+             */
+            static ModType yaoyaoBamboo();
+
+            /**
              * @brief Creates the :cpp:class:`ModType` for Yelan
              */
             static ModType yelan();

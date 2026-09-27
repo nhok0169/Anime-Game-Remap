@@ -520,6 +520,24 @@ namespace AGRemapCore {
             static IniRemoveBuilder::Factory xingqiuBamboo4_0();
 
             /**
+             * @brief
+             @rst
+             Stub for the yaoyao4_0's remover -- returns
+             :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
+             @endrst
+             */
+            static IniRemoveBuilder::Factory yaoyao4_0();
+
+            /**
+             * @brief
+             @rst
+             Stub for the yaoyaoBamboo4_0's remover -- returns
+             :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
+             @endrst
+             */
+            static IniRemoveBuilder::Factory yaoyaoBamboo4_0();
+
+            /**
              * @brief Stub for Yelan's remover -- returns :cpp:func:`IniRemoveBuilder::defaultFactory`
              */
             static IniRemoveBuilder::Factory yelan4_0();

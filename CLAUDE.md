@@ -51,6 +51,13 @@ hashes, indices, ...) -> identity mods of both -> prototype `char -> skin` from 
 a VARIETY of mods -> port it into the API, filling each gap with a new or extended module
 (`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, tools) -> test the port on ALL
 the mods -> the same prototype / test / port / test for `skin -> char` -> README and Sphinx docs.
+**DO THE FIRST THING RIGHT (2026-09-27).** A mistake early in the pipeline costs exponentially more
+later: Neuvillette's torn / folded / clipping coat was one wrong vertex group step, and cost two extra days of
+back-and-forth debugging that a correct RemapDraft would have avoided. **And observe in game diligently** --
+every angle (drag left / right and up / down), every distance (scroll), every toggle, a timed series, the
+overworld (WASD; the menu's clock sets the time of day), always against the mod on its own character: most
+of the faults the maintainer reported were visible in the agent's own screenshots. See Game View's "Observing
+a remap in game".
 **After the RemapDraft, a vertex group BEHAVIOUR audit (2026-09-27)**: the mathematically closest group
 is not necessarily right for a cape, coat tail, flap or skirt -- predict how each such part moves on the
 target's bone (Neuvillette's coat tore on a component seam, swung on the knees, folded on the skirt bones and

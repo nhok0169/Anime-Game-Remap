@@ -46,6 +46,13 @@ What the order is for:
   otherwise hit 404s -- which surface as dangling `...RemapDL` references and a light map band
   output that changes run to run, not as an error.
 
+- **DO THE FIRST THING RIGHT (the maintainer's rule, 2026-09-27).** A mistake in an early step costs
+  exponentially more to fix later: every later step builds on it, is tested against it and has to be redone
+  around it. On Neuvillette -> NeuvilletteMelusent the vertex group rows (step 2) put his coat links on the
+  skin's nearest bones and split one garment across two components; everything after -- the torn capes, the
+  seam options, the swinging hems, the folded and clipping flaps -- was debugging THAT, over two extra days of
+  messages that a correct step 2 would not have needed. So do not move on from a step on "good enough, later
+  steps will tell": audit it (2a, 5a, 7a, 9a, 11a), predict how it will behave, and fix it where it is.
 - **Prototype before port, both times.** A rebuild per idea is what the prototype saves (the
   `CppStrategyOverrides` route), and the prototype stays as the ORACLE the compiled fix is A/B'd
   against. Keep it working after the port.
@@ -56,7 +63,10 @@ What the order is for:
 - **"Every mod" is the mods the maintainer points you at**, not one that happens to work. An
   overfit fix passing one mod is the most common way a remap came back broken (see the Yelan,
   Bennett and Citlali sections).
-- **Steps 6, 8, 10 and 12 happen IN GAME, by you,** with `Tools/GameView`.
+- **Steps 6, 8, 10 and 12 happen IN GAME, by you,** with `Tools/GameView` -- and diligently: every angle
+  (drag left / right AND up / down), every distance (scroll a lot), every toggle, a timed series, the overworld
+  where the character is unlocked, and always against the mod on its own character. See [Game View](../GameView/CLAUDE.md)'s
+  "Observing a remap in game". Most of Neuvillette's reported faults were in the agent's own screenshots.
 - **The audits (5a, 7a, 9a, 11a) are not optional and not a skim** -- see the next section.
 - **Test mods the maintainer hands you as downloaded archives** go in with `Tools/ModInstaller`
   (`<archive folder> <mods folder> <Name>` -> `<Name>1`, `<Name>2`, ...; `.zip`, `.rar`, `.7z`),

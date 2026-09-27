@@ -3084,6 +3084,26 @@ Then the loop, which differs from the GI one in three mechanics:
 - **The launcher is `WWMI/Mods/FixRaidenBoss7.py`** (the maintainer moved it there), run from that
   folder as `py -3 FixRaidenBoss7.py -s <folder under Mods>`; it exits 255 from the ENTER prompt when
   stdin is closed, which is not a failure. `-u` undoes.
+- **AND IT LOADS `AG_REMAP_REPO` OR THE MAIN CHECKOUT -- NEVER YOUR WORKTREE (2026-09-26).** Its
+  fallback is hard-coded to `Repos\Anime-Game-Remap`, and `Tools/APIBuilder`'s build copies the
+  `core.*.pyd` into the package of **whichever checkout it was run from**. So an agent working in a
+  worktree builds there, sets `AG_REMAP_REPO` to point at it "for convenience", and from that moment
+  every check it runs is about a binary the maintainer's own command cannot load. Measured the day it
+  happened: the worktree's `.pyd` was 21:48 and the main checkout's was **13:44** -- eight hours and
+  three fixes stale -- while a full corpus regression, a 24-folder sweep and a prototype A/B all
+  passed, because all three had the override set. The maintainer's report was simply *"I ran
+  `py -3 FixRaidenBoss7.py -s Chisa1` and still see the issue"*, and they were right.
+
+  Both checkouts sat at the same COMMIT throughout, so nothing in `git status` or a diff could show
+  it; only the compiled artifact was behind. **The check is the file's mtime, not the branch.**
+
+  Two rules out of it. **Verify with the command the maintainer actually types**, not a
+  parameterised variant of it -- in a harness that means `env = {k: v for k, v in os.environ.items()
+  if k != "AG_REMAP_REPO"}` rather than setting it. And when a remap is ready to be looked at,
+  **install the build into the checkout the launcher defaults to** (copy the `.pyd` across and stamp
+  its mtime, or build there); a worktree build is for your own loop, not for theirs. This is habit
+  64's "the fixed mod tells you which SCRIPT ran" arriving from the other direction: not their stale
+  copy, but your own convenience flag.
 - **The prototype's copy beside the mods, `WWMI/Mods/sanhuaExorcistFix.py`, is what the maintainer
   runs, and it is LF where the repo's is CRLF.** Every change to `Tools/Misc/Prototypes/
   sanhuaExorcistFix.py` is re-copied there with the line endings converted, or the two drift and the

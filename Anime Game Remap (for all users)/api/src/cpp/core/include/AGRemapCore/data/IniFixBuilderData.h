@@ -1389,6 +1389,29 @@ namespace AGRemapCore {
              */
             static IniFixBuilder::Factory neuvilletteMelusentEye6_3();
 
+            /**
+             * @brief
+             @rst
+             The 6.3 fix remapping **Yaoyao onto YaoyaoBamboo's main mesh** :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A skin of THREE components whose main mesh is unnamed. One fixer per target component, all
+             three built from one :cpp:class:`GIMIComponentFixerConfig`. See
+             ``data/IniFixData/Yaoyao/YaoyaoFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory yaoyaoBambooMain6_3();
+
+            /**
+             * @brief The 6.3 fix remapping **Yaoyao onto YaoyaoBamboo's Bang** -- see :cpp:func:`yaoyaoBambooMain6_3`
+             */
+            static IniFixBuilder::Factory yaoyaoBambooBang6_3();
+
+            /**
+             * @brief The 6.3 fix remapping **Yaoyao onto YaoyaoBamboo's Eye** -- see :cpp:func:`yaoyaoBambooMain6_3`
+             */
+            static IniFixBuilder::Factory yaoyaoBambooEye6_3();
+
             static IniFixBuilder::Factory yelanTranquilBody6_1();
 
             /**
@@ -1449,6 +1472,19 @@ namespace AGRemapCore {
              @endrst
              */
             static IniFixBuilder::Factory neuvilletteMelusentToNeuvillette6_3();
+
+            /**
+             * @brief
+             @rst
+             The 6.3 fix remapping **YaoyaoBamboo onto Yaoyao** :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The SIXTH merge of a skin of several components onto a target of one, and the inverse of
+             :cpp:func:`yaoyaoBambooMain6_3` and its siblings. See
+             ``data/IniFixData/YaoyaoBamboo/YaoyaoBambooFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory yaoyaoBambooToYaoyao6_3();
 
     };
 

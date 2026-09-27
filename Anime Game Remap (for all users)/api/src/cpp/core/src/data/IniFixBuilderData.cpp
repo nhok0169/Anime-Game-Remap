@@ -418,11 +418,28 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Neuvillette),
                   "6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusentEye)}, IniFixBuilderFuncs::neuvilletteMelusentEye6_3()},
 
+                // ===== Yaoyao @ toVersion 6.3 (2026-09-27) =====
+                // THREE rows, one per target component, the Eye LAST: its fixer owns the hidden components
+                // and the TexFx guards and has to run after the other two. At 6.3 because the skin's hashes
+                // are filed there.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Yaoyao),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::YaoyaoBambooMain)}, IniFixBuilderFuncs::yaoyaoBambooMain6_3()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Yaoyao),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::YaoyaoBambooBang)}, IniFixBuilderFuncs::yaoyaoBambooBang6_3()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Yaoyao),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::YaoyaoBambooEye)}, IniFixBuilderFuncs::yaoyaoBambooEye6_3()},
+
                 // ===== NeuvilletteMelusent @ toVersion 6.3 (2026-09-25) =====
                 // The merge back: ONE row, the skin's components folded onto Neuvillette's one mesh.
                 {{"6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent),
                   "6.3", ModTypeIdTools::getName(ModTypeId::Neuvillette)},
                  IniFixBuilderFuncs::neuvilletteMelusentToNeuvillette6_3()},
+
+                // ===== YaoyaoBamboo @ toVersion 6.3 (2026-09-27) =====
+                // The merge back: ONE row, the skin's components folded onto Yaoyao's one mesh.
+                {{"6.3", ModTypeIdTools::getName(ModTypeId::YaoyaoBamboo),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::Yaoyao)},
+                 IniFixBuilderFuncs::yaoyaoBambooToYaoyao6_3()},
 
                 // ===== Keqing @ toVersion 6.1 =====
                 //

@@ -147,6 +147,10 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp
     src/data/IniParseData/NeuvilletteMelusent/NeuvilletteMelusentParser.cpp
     src/data/IniFixData/NeuvilletteMelusent/NeuvilletteMelusentFixer.cpp
+    src/data/IniParseData/Yaoyao/YaoyaoParser.cpp
+    src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp
+    src/data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.cpp
+    src/data/IniFixData/YaoyaoBamboo/YaoyaoBambooFixer.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp
     src/data/IniFixData/Shenhe/ShenheFixer.cpp

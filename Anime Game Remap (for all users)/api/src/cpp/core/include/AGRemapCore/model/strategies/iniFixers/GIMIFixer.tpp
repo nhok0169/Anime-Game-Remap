@@ -103,7 +103,12 @@ namespace AGRemapCore {
                 auto found = declared.find(name);
                 if (found != declared.end() && found->second == body) {
                     dropped = true;
-                    result += tail;
+                    // The tail only when it says something (the next block's heading); a blank one is the
+                    // gap before the dropped section's successor, and kept, each dropped section left an
+                    // empty line behind (Jean's JeanSea block: six in a row).
+                    if (!StringTools::strip(tail).empty()) {
+                        result += tail;
+                    }
                     continue;
                 }
                 result += text;

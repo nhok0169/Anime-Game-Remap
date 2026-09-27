@@ -144,7 +144,11 @@ audit well; the judgement on each NOT COVERED is yours. Fix each gap **in the sh
 default off so no earlier character's output moves, and prove it with the regression runs: the other
 characters byte-identical, the pair's own mods A/B-identical to the prototype, and a REVERSE-direction
 regression too (a copy of every skin mod of every merge pair -- the forward-only regression set is why a
-name-trust change that broke every Citlali skin mod was nearly shipped). **Your test copies are only as
+name-trust change that broke every Citlali skin mod was nearly shipped). **And for any change to SHARED
+rendering code, the Integration Tester on Linux** (Testing's "Integration Tester"): its goldens are the only
+set with a mod type of TWO targets in one file (Jean) and with generated COPIES (Keqing, Kirara), and the
+2026-09-26 week's two `GIMIFixer` changes -- copies declaring their downloads, and a section repeated word
+for word dropped -- moved eight goldens that every hand-built regression passed; CI found them. **Your test copies are only as
 good as the moment you took them**: NeuvilletteMelusent1's `tex.ini` had already been deleted by an earlier
 fix when its pristine copy was taken, so every comparison passed on two equally wrong outputs. Take the
 copy from the mod as its AUTHOR shipped it.

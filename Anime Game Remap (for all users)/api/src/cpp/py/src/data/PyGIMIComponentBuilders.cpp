@@ -427,6 +427,10 @@ back panel they blend into, sets a high one and the seam moves to where the weig
 own edge -- a seam that opens when the skin poses is then covered by the other side's copy. Ownership is
 unchanged. See :attr:`VGComponentSpec.overlapRings`. **Default**: ``0``
         )doc"))
+        .def_readwrite("pushAway", &AGRC::GIMIComponentFixerConfig::Component::pushAway, py::doc(R"doc(
+List[:class:`VGPushAway`]: Cloth pushed horizontally away from a point on this component, by its weight share on the
+push's source groups --- for cloth that clips a limb the target moves differently. Empty by default
+        )doc"))
         .def_readwrite("splitGroups", &AGRC::GIMIComponentFixerConfig::Component::splitGroups, py::doc(R"doc(
 Dict[:class:`int`, List[Tuple[:class:`int`, :class:`float`]]]: Source groups whose weight this component SHARES
 among several of its bones, as ``{source group: [(bone, share), ...]}`` --- see

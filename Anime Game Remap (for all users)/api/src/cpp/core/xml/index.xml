@@ -874,6 +874,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7e3f2b2b4da50d78455aa4fbed594377" kind="variable"><name>mirroredObjs</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a19769206a6de54ee199134908fb567a5" kind="variable"><name>mirrorOffset</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a3f614ffd858d4f04d59be573d711f0a5" kind="variable"><name>splitGroups</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a091fd718eea17cace6c632a0ae7b1a6c" kind="variable"><name>pushAway</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a41fc1fe25b79dd9a3fecf1691285ca04" kind="variable"><name>normalMap</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7760edfd8956346f514455eced0a1ad7" kind="variable"><name>face</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae2c0b9f4af8f721add0e6a6b68f63603" kind="variable"><name>texcoordStride</name></member>
@@ -5091,6 +5092,12 @@
   <compound refid="class_a_g_remap_core_1_1_v_g_offsets" kind="class"><name>AGRemapCore::VGOffsets</name>
     <member refid="class_a_g_remap_core_1_1_v_g_offsets_1a74816b0c035b505679412e000138e938" kind="function"><name>VGOffsets</name></member>
   </compound>
+  <compound refid="struct_a_g_remap_core_1_1_v_g_push_away" kind="struct"><name>AGRemapCore::VGPushAway</name>
+    <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1a207b7248972efcd98098c591c25f159d" kind="variable"><name>groups</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1ac35866357791eac94910e7a5ee53c4b9" kind="variable"><name>from</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1a6135fcd2ba1a4fb58274e604f868154d" kind="variable"><name>distance</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1ae8041ce3f70f6873248e9840d3d4e8e3" kind="variable"><name>side</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_v_g_remap" kind="class"><name>AGRemapCore::VGRemap</name>
     <member refid="class_a_g_remap_core_1_1_v_g_remap_1ae7c7af4c2c7e27026b11d087fac5dae3" kind="variable"><name>remap_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_remap_1a511d3cc4fe3f5ea7324f7b8915f732d5" kind="variable"><name>maxIndex_</name></member>
@@ -5122,6 +5129,7 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a421459c2130b60316250d30bbb86d1c6" kind="variable"><name>texcoordLineEdit</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ab2f3ce8c9cbd2704ce0e7461327073f9" kind="variable"><name>positionLineEdit</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a5a81818945ae980a46c0702aaa893cbc" kind="variable"><name>mirrorLineEdit</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1af3381873bc02309262c55f1c70ca2bc1" kind="variable"><name>pushAway</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder" kind="class"><name>AGRemapCore::VGSplitGroupResBuilder</name>
     <member refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder_1a8ad693978ec25999af3557462377c94f" kind="typedef"><name>GraphId</name></member>

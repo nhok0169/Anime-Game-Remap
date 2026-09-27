@@ -135,6 +135,11 @@ namespace AGRemapCore {
             // the leg went through it as it stepped (Neuvillette3's front flap, 2026-09-26); on the thigh alone it swung its
             // face round with the leg and showed the lining; on the skin's skirt root (70 / 71) it folded back as it did on
             // the skirt chain. Graded, it moves part of the way with the leg -- neither fault in a timed series in game.
+            // His side coat flaps ride his tail chains (40-42 on +x, 32-34 on -x), which the pelvis carries here, and
+            // the stepping thigh went through them (Neuvillette3, 2026-09-26; the maintainer took clipping over
+            // folding). Pushed 4 cm away from the skin's thigh on each side they hang clear -- in game, a timed series.
+            main.pushAway = {VGPushAway{{40, 41, 42}, {0.061f, 0.596f, -0.010f}, 0.04f, 1},
+                             VGPushAway{{32, 33, 34}, {-0.061f, 0.596f, -0.010f}, 0.04f, -1}};
             main.splitGroups = {{49, {{0, 0.75}, {23, 0.25}}}, {50, {{0, 0.5}, {23, 0.5}}}, {51, {{0, 0.25}, {23, 0.75}}},
                                 {53, {{0, 0.75}, {43, 0.25}}}, {54, {{0, 0.5}, {43, 0.5}}}, {55, {{0, 0.25}, {43, 0.75}}}};
 

@@ -419,8 +419,8 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
 # Guarded rather than imported outright, so a `core` build older than that day (the Windows .pyd until
 # it is rebuilt) still imports the package; remove the guard once every build carries them.
 try:
-    from .core import VGComponentSpec, VGComponentSplitStats, VGComponentBuffers, VGComponentSplit, VGSplitGroupResource, BufReplace
-    __all__ += ["VGComponentSpec", "VGComponentSplitStats", "VGComponentBuffers", "VGComponentSplit", "VGSplitGroupResource", "BufReplace"]
+    from .core import VGComponentSpec, VGComponentSplitStats, VGComponentBuffers, VGComponentSplit, VGSplitGroupResource, BufReplace, VGPushAway
+    __all__ += ["VGComponentSpec", "VGComponentSplitStats", "VGComponentBuffers", "VGComponentSplit", "VGSplitGroupResource", "BufReplace", "VGPushAway"]
 except ImportError:
     pass
 

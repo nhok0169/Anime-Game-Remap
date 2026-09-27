@@ -306,6 +306,28 @@ class VGSplitGroupResourceTest(BaseUnitTest):
         body = FRB.VGComponentSplit(Weights, Indices, Ibs, specs).split("Body")
         self.assertEqual(self._read("HeadFixed.ib"), FRB.VGComponentSplit.encodeIb(body.ibs[0]))
 
+    def test_fix_pushAway_byWeightShareHorizontally(self):
+        group = self._makeGroup("Body")
+        group.pushAway = [FRB.VGPushAway([0], [-1.0, 0.0, 0.0], 0.5)]
+        self.assertTrue(group.fix())
+
+        lines = [struct.unpack("<3f", self._read("PositionFixed.buf")[12 * i: 12 * i + 12]) for i in range(5)]
+        # vertex 0, at the origin and wholly on group 0: 0.5 along +x, away from (-1, _, 0)
+        self.assertEqual(lines[0], (0.5, 0.0, 0.0))
+        # vertex 1, (1, 1, 1) half on group 0: 0.25 along (2, 0, 1) / sqrt(5) -- height never moves
+        self.assertAlmostEqual(lines[1][0], 1.0 + 0.5 / 5 ** 0.5, places = 5)
+        self.assertEqual(lines[1][1], 1.0)
+        self.assertAlmostEqual(lines[1][2], 1.0 + 0.25 / 5 ** 0.5, places = 5)
+        # vertex 2 carries no group 0: untouched
+        self.assertEqual(lines[2], (2.0, 2.0, 2.0))
+
+    def test_fix_pushAway_sideLimitsToOneHalf(self):
+        group = self._makeGroup("Body")
+        group.pushAway = [FRB.VGPushAway([0], [-1.0, 0.0, 0.0], 0.5, -1)]
+        self.assertTrue(group.fix())
+        # every vertex here has x >= 0, so a push limited to x < 0 moves nothing
+        self.assertEqual(self._read("PositionFixed.buf"), b"".join(struct.pack("<3f", i, i, i) for i in [0, 1, 2, 3, 4]))
+
     def test_fix_negativeComponent_wholeVertexBuffersTrimmedIb(self):
         group = self._makeGroup("Bang")
         self.assertTrue(group.fix())

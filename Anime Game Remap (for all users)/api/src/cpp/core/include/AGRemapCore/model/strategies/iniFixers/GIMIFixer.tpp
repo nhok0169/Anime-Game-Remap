@@ -619,10 +619,6 @@ namespace AGRemapCore {
             // per target.
             const std::string blockKey = fixKey(i, fixTargets_[i]);
 
-            if (fixingCtx.labelTargets) {
-                content = labelTargetBlock(content);
-            }
-
             // The fix's own sections, which belong to no copied object -- see appendedSections. Group
             // 0 only: this is written once per .ini file, not once per generated copy.
             //
@@ -633,6 +629,13 @@ namespace AGRemapCore {
             if ((i == 0 || appendedSectionsInCopies) && !appendedSections.empty()) {
                 content = content.empty() ? appendedSections
                                           : std::string(StringTools::rstrip(content)) + "\n\n" + appendedSections;
+            }
+
+            // The target's heading AFTER the appended sections, so they sit inside its `; ***** X *****` block
+            // with the fix's other sections -- labelled first, they landed after the block's closing line
+            // (the component template's hide and side-mesh sections, 2026-09-26).
+            if (fixingCtx.labelTargets) {
+                content = labelTargetBlock(content);
             }
 
             if (fixingCtx.priorFixBlocks != nullptr) {

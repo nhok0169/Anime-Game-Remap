@@ -1759,10 +1759,22 @@ merge-direction mods moved nothing but Bennett5 (point 3).
    **In game, compare against the mod on its OWN character** (the skin card beside the base card), not against
    "does it look plausible": a remap drawing the default outfit looks plausible.
 
+16. **The flap that clipped was never the one being fixed (2026-09-27).** The graded share (point 14) went on his
+   FRONT panel chains 48-55, and Neuvillette3 carries no weight at all on 52-55: its clipping flap is the side
+   panel on his TAIL chain 40-42 (and 32-34 opposite), which the pelvis carries. Found by tallying weights over
+   the coat's own connected islands only -- a box over the region caught the trouser leg instead (his 105 / 88).
+   **Before tuning a part's weights, confirm WHICH groups carry the part in THAT mod** (`chainUse`-style tally
+   per mod; one mod's front panel is another's tail). The fix is `VGPushAway` (`VGSplitGroupConfig::pushAway`,
+   `GIMIComponentFixerConfig::Component::pushAway`): a vertex on the push's groups moves horizontally away from a
+   point by its weight share times a distance -- 4 cm from the skin's thigh, both sides; in game it hangs clear
+   in every frame of a timed series, and Neuvillette1 / 4 / 5 still look right. **Its first compiled version
+   moved nothing** -- the split takes the blend by move, and the push read the moved-from vectors -- while the
+   in-game series LOOKED fixed (the idle pose happened not to step into the flap). The unit test caught it; the
+   written buffer confirms it (count the lines not at a source position). A screenshot is not evidence a buffer
+   changed.
+
 **Open for the maintainer**: Neuvillette2's inner skirt (point 13: the mirrored layer, to be confirmed by eye);
-Neuvillette3's flap is a DECIDED trade-off (2026-09-26): the graded share still clips the leg slightly in motion,
-and the maintainer, offered clipping against folding / showing the lining, chose clipping -- do not reopen it
-without a new idea (untried: pushing the flap's vertices outward, away from the leg);
+Neuvillette3's flap: pushed clear (point 16), confirmed only in the preview's idle loop, not walking;
 Neuvillette9's colours (point 2); the cravat's faint cyan cast (his 126-128 is the skin's cyan band; moving it to 255 hardened the
 shadows); a zero-byte fall-through `.ib` logs `Failed to substantiate` (harmless, pre-existing).
 

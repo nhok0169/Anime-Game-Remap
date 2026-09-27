@@ -208,6 +208,9 @@ def fixerConfig(dressSlot: str = "Dress") -> "FRB.GIMIComponentFixerConfig":
     # the leg went through it as it stepped (Neuvillette3's front flap, 2026-09-26); on the thigh alone it swung its
     # face round with the leg and showed the lining; on the skin's skirt root (70 / 71) it folded back as it did on
     # the skirt chain. Graded, it moves part of the way with the leg -- neither fault in a timed series in game.
+    # his side coat flaps pushed 4 cm clear of the skin's thigh (Neuvillette3 clipped the stepping leg)
+    main.pushAway = [FRB.VGPushAway([40, 41, 42], [0.061, 0.596, -0.010], 0.04, 1),
+                     FRB.VGPushAway([32, 33, 34], [-0.061, 0.596, -0.010], 0.04, -1)]
     main.splitGroups = {49: [(0, 0.75), (23, 0.25)], 50: [(0, 0.5), (23, 0.5)], 51: [(0, 0.25), (23, 0.75)],
                         53: [(0, 0.75), (43, 0.25)], 54: [(0, 0.5), (43, 0.5)], 55: [(0, 0.25), (43, 0.75)]}
 

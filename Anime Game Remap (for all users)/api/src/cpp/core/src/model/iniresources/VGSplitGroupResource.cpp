@@ -12,6 +12,9 @@
 #include "AGRemapCore/model/iniresources/VGSplitGroupResource.h"
 
 #include <algorithm>
+#include <array>
+#include <cmath>
+#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
@@ -138,6 +141,41 @@ namespace AGRemapCore {
         BlendFile blendFile(blend->srcPath);
         auto [weights, indices] = VGComponentSplit::readBlend(blendFile);
 
+        // Each source vertex's push -- see VGSplitGroupConfig::pushAway. Read off the source blend before the
+        // split takes it, applied to the written lines by their source vertex.
+        // A COPY: the split below takes weights and indices by move, and a push read after it read nothing --
+        // the first compiled push wrote every vertex where it was (caught by its unit test, not in game).
+        const auto pushWeights = config.pushAway.empty() ? decltype(weights){} : weights;
+        const auto pushIndices = config.pushAway.empty() ? decltype(indices){} : indices;
+        std::vector<std::array<float, 3>> pushes;
+        const auto pushOf = [&](const ByteVec& positions, std::size_t stride) {
+            pushes.assign(pushWeights.size(), {0.0f, 0.0f, 0.0f});
+            for (std::size_t v = 0; v < pushWeights.size() && (v + 1) * stride <= positions.size(); ++v) {
+                float pos[3];
+                std::memcpy(pos, positions.data() + v * stride, sizeof(pos));
+                for (const VGPushAway& push : config.pushAway) {
+                    if ((push.side > 0 && pos[0] <= 0.0f) || (push.side < 0 && pos[0] >= 0.0f)) {
+                        continue;
+                    }
+                    double share = 0.0;
+                    for (std::size_t k = 0; k < 4; ++k) {
+                        if (std::find(push.groups.begin(), push.groups.end(), pushIndices[v][k]) != push.groups.end()) {
+                            share += pushWeights[v][k];
+                        }
+                    }
+                    const float dx = pos[0] - push.from[0];
+                    const float dz = pos[2] - push.from[2];
+                    const float len = std::sqrt(dx * dx + dz * dz);
+                    if (share <= 0.0 || len <= 1e-6f) {
+                        continue;
+                    }
+                    const float amount = static_cast<float>(share) * push.distance / len;
+                    pushes[v][0] += dx * amount;
+                    pushes[v][2] += dz * amount;
+                }
+            }
+        };
+
         std::vector<VGComponentSplit::Triangles> triangles;
         for (const std::string& path : ibPaths) {
             // The DECLARED width -- see VGSplitGroupConfig::ibBytesPerIndex for why it cannot be
@@ -179,6 +217,26 @@ namespace AGRemapCore {
 
         if (position != nullptr) {
             ByteVec lines = filterVertexBuffer(position->srcPath, split.vertexCount(), buffers.vertices, config.positionLineEdit);
+
+            // The pushes, by each written line's source vertex -- see VGSplitGroupConfig::pushAway.
+            if (!config.pushAway.empty() && !buffers.vertices.empty()) {
+                BinaryFile srcPositions(position->srcPath);
+                const ByteVec src = srcPositions.read();
+                const std::size_t stride = lines.size() / buffers.vertices.size();
+                pushOf(src, src.size() / std::max<std::size_t>(split.vertexCount(), 1));
+                for (std::size_t i = 0; i < buffers.vertices.size(); ++i) {
+                    const std::size_t v = buffers.vertices[i];
+                    if (v >= pushes.size() || stride < 12) {
+                        continue;
+                    }
+                    float pos[3];
+                    std::memcpy(pos, lines.data() + i * stride, sizeof(pos));
+                    for (std::size_t k = 0; k < 3; ++k) {
+                        pos[k] += pushes[v][k];
+                    }
+                    std::memcpy(lines.data() + i * stride, pos, sizeof(pos));
+                }
+            }
 
             // The inner layer's copies, turned round -- see VGComponentSpec::mirroredIbs.
             if (config.mirrorLineEdit && !buffers.mirrored.empty() && !buffers.vertices.empty()) {

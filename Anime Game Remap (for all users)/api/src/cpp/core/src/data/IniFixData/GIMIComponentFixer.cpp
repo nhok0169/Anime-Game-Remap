@@ -1325,6 +1325,7 @@ namespace AGRemapCore {
                     splitConfig.ibBytesPerIndex = files_.ibBytesPerIndex;
                     splitConfig.texcoordLineEdit = makeTexcoordLineEdit();
                     splitConfig.positionLineEdit = makePositionLineEdit();
+                    splitConfig.pushAway = component_.pushAway;
                     if (!component_.mirroredObjs.empty()) {
                         const float offset = component_.mirrorOffset;
                         splitConfig.mirrorLineEdit = [offset](const ByteVec& line) { return VGComponentSplit::mirrorPositionLine(line, offset); };

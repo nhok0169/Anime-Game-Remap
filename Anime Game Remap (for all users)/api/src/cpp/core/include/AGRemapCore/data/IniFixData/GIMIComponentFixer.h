@@ -21,6 +21,7 @@
 #include <utility>
 #include <vector>
 
+#include "AGRemapCore/model/iniresources/VGSplitGroupResource.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 #include "AGRemapCore/model/textures/Colour.h"
@@ -293,6 +294,16 @@ namespace AGRemapCore {
              @endrst
              */
             std::unordered_map<long long, std::vector<std::pair<long long, double>>> splitGroups;
+
+            /**
+             * @brief
+             @rst
+             Cloth pushed HORIZONTALLY away from a point on this component, by its weight share on the push's
+             source groups -- see :cpp:member:`VGSplitGroupConfig::pushAway`. For cloth that clips a limb the
+             target moves differently. Cut components only. **Default**: empty
+             @endrst
+             */
+            std::vector<VGPushAway> pushAway;
 
             /**
              * @brief

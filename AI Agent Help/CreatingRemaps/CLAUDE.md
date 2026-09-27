@@ -1887,6 +1887,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | a warm cast that survives a corrected ramp and sits on the hair ENDS only | a SECOND per-character ramp that pass reads (a 512 x 4 gradient), plus the subsurface one -- the tips are where the hair catches light, so a warm term shows there first | every register of that pass, not just the ones the plan names |
 | irregular BLOTCHES on a part, following no shape the mod has, plus bands of wrong shadow | a UV-MAPPED register the plan leaves to the game: the TARGET's own texture sampled at the SOURCE's UVs | bind the mod's own there, repacked into the target's channel layout; blotches rather than a gradient is the tell |
 | a texture EDIT looks ignored -- the file is written, referenced and still not what renders -- on some mods only | its role is DOWNLOADED on those mods, and the download declared the edit's own resource section name | grep the fixed `.ini` for a `[Resource...]` name declared twice |
+| one part is a FLAT primary colour -- green, red -- rather than merely wrong | a texture EDIT ran on a file that is not the role it was assigned: an edit that keeps one channel turns a diffuse into that channel | the run's `also has the role` warning, then whether the losing file's NAME carries the hash |
 | a part wears the SOURCE CHARACTER's own art where the mod has its own print | that component names its texture in its OWN section (`ps-tN =`, or `Resource\RabbitFX\Diffuse`), and the fix took a vanilla fallback -- or the mod's hash overrides are dead on this game version | `--paint` for WHICH component, then read that component's section; `declaredBindings()` |
 | the remap shows the MOD's art (pink hair, a white shirt) where the maintainer's base screenshot shows the source character's own | the base is the broken one: every one of the mod's texture hashes is from an older game version, so on the source the mod's geometry draws with the GAME's textures, while the remap binds by register and shows what the author painted | grep a frame dump of today's game for each `TextureOverrideTexture` hash; then the mod's own preview image |
 | a garment PEARLY / iridescent -- pink-lavender highlights -- where the source's is matte | the SHEEN texture: the source's is packed grayscale sheen profiles, the target's slot is a holographic FOIL read as colour | translate it (`SheenTranslations`), never bind it raw -- see "THE SAME SHEEN SLOT HOLDS DIFFERENT KINDS OF DATA" |
@@ -2495,6 +2496,44 @@ Chisa11 came back orange; the report was "those orange spots on the hair now rea
 works on most mods and not one, ask what is STRUCTURALLY different about that mod before touching
 the character's config -- here it is "ships the texture" versus "falls back to the download", which
 is the axis the test-mod table already tells you to vary.
+
+### A MOD MAY DECLARE A TEXTURE UNDER A HASH ITS OWN NAME DISAGREES WITH (2026-09-27)
+
+Chisa13 declares the hair normal's hash `d8ed7611` in **two** `TextureOverride` sections:
+
+```ini
+[TextureOverrideTexture7]   hash = d8ed7611   ->  Components-1 t=d8ed7611.dds    ; the real normal map
+[TextureOverrideTexture31]  hash = d8ed7611   ->  Components-1 t=23b680fe.dds    ; the hair DIFFUSE
+```
+
+Both then rank identically for the `hairNormal` role -- same component tag, both already carrying a
+resource, same folder, and **the same filename LENGTH** -- so the winner fell through to the last
+tiebreak in the ordering, which is alphabetical. `23b680fe` sorts first, so **the diffuse was bound
+as the normal map**, decided by nothing but its name.
+
+That had been true and harmless for as long as the hair's `ps-t5` went unbound. The moment it was
+bound AND repacked -- the repack keeps `G` and zeroes `R` and `B` -- a diffuse became **flat green**.
+
+The tie-break now asks whether a file's own name agrees with the hash it was matched under, and
+demotes it if not. Deliberately narrow: a candidate not matched by hash, or matched by a hash its
+name contains, keeps exactly the previous ordering, so the only behaviour that can move is this one
+contradiction. Each candidate already carries WHY it matched (`"hash <h> (...)"`), which is where the
+hash to compare against comes from -- **not** `config_.roles`, whose hashes are one generation of the
+character's textures while a mod carries whatever its author dumped. Written that way first, it
+matched nothing and changed nothing.
+
+Measured: **six** ambiguities resolved over the corpus, across four Chisa mods, a GUID-named
+mod-manager mod and the Sanhua pair. Every folder that moved lost warnings and none gained any
+(Chisa12 3 -> 0, Chisa13 1 -> 0, Chisa15 1 -> 0, Chisa10 2 -> 1, both identities 11 -> 10). One is a
+behaviour change on a remap confirmed in game rather than a fix: SanhuaExorcist4's component 3
+`ps-t2`, previously left to the game, now binds a torso diffuse the mod ships -- the maintainer's
+call to keep, on the reasoning that the old winner was chosen alphabetically.
+
+**The lesson under all three of this round's bugs is the same.** A role resolved but never bound, a
+register left to the game, an edit written but overridden -- each was inert, and each became a
+visible defect the moment something downstream actually reached the GPU. **Making a value REACH the
+shader is what tests everything upstream of it**, so expect a change that binds something new to
+surface bugs that have nothing to do with the change.
 
 ### A BISECT IS ONLY AS COMPLETE AS THE REGISTER LIST IT ENUMERATES (2026-09-20)
 

@@ -1361,13 +1361,55 @@ namespace AGRemapCore {
                             }
 
                             std::vector<std::pair<std::string, std::string>> candidates = found->second;
+
+                            // A file NAMED for a hash of this role is the self-consistent choice and
+                            // beats everything below (2026-09-27). A mod may declare a texture under
+                            // a hash its own name disagrees with: Chisa13 binds its hair DIFFUSE
+                            // (`Components-1 t=23b680fe.dds`) in a SECOND TextureOverride carrying
+                            // the hair normal's hash `d8ed7611`, beside the correct
+                            // `Components-1 t=d8ed7611.dds`. Both then rank identically -- same
+                            // component tag, both with a resource, same folder, same NAME LENGTH --
+                            // so the winner was the last tiebreak, which is alphabetical, and
+                            // "23b680fe" sorts first. The diffuse was bound as the normal map; once
+                            // the hair's ps-t5 was actually bound and repacked (R and B zeroed) that
+                            // rendered the hair GREEN.
+                            // Each candidate carries WHY it matched -- "hash <h> (...)" when a hash
+                            // put it here. A file whose own name contradicts that hash is demoted;
+                            // everything else keeps the order below, so the only behaviour that
+                            // moves is this one contradiction.
+                            auto contradictsItsHash = [&](const std::pair<std::string, std::string>& candidate) {
+                                static const std::string prefix = "hash ";
+                                if (!StringTools::startsWith(candidate.second, prefix)) {
+                                    return 0;               // not matched by hash: nothing to contradict
+                                }
+
+                                std::string hash = candidate.second.substr(prefix.size());
+                                const std::size_t end = hash.find(' ');
+                                if (end != std::string::npos) {
+                                    hash = hash.substr(0, end);
+                                }
+
+                                const std::string name = StringTools::toLower(
+                                    FileService::baseName(index_->real(candidate.first)));
+                                return name.find(StringTools::toLower(hash)) == std::string::npos ? 1 : 0;
+                            };
+
                             std::sort(candidates.begin(), candidates.end(),
-                                      [&](const auto& a, const auto& b) { return rank(a.first, component) < rank(b.first, component); });
+                                      [&](const auto& a, const auto& b) {
+                                          const int badA = contradictsItsHash(a);
+                                          const int badB = contradictsItsHash(b);
+                                          if (badA != badB) {
+                                              return badA < badB;
+                                          }
+
+                                          return rank(a.first, component) < rank(b.first, component);
+                                      });
                             const std::string& best = candidates.front().first;
                             if (candidates.size() > 1) {
                                 const auto first = rank(best, component);
                                 const auto second = rank(candidates[1].first, component);
-                                if (std::get<0>(first) == std::get<0>(second) && std::get<1>(first) == std::get<1>(second)
+                                if (contradictsItsHash(candidates.front()) == contradictsItsHash(candidates[1])
+                                    && std::get<0>(first) == std::get<0>(second) && std::get<1>(first) == std::get<1>(second)
                                     && std::get<2>(first) == std::get<2>(second)
                                     && saidAmbiguous.insert(role + "\n" + best + "\n" + candidates[1].first).second) {
                                     // Two shipped textures equally close on one role: the first is bound

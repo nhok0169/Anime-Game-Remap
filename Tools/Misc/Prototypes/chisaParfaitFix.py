@@ -1370,6 +1370,13 @@ RabbitFXRoles: Dict[str, Dict[int, str]] = {
 #   not have it placed by shape: it is not a role, it is the game's, and the game still binds it.
 SharedGameTextures = {"742c5c7b", "8224e584"}
 
+# The region-marking roles -- WWMIFixerConfig::flatLeftToGame plus ::flatFallsBackToSource. A mask
+#   says WHICH MATERIAL each texel is, so a file that is not one cannot stand in for it, and the two
+#   sets differ only in what happens when the mod has none: the hair's is left to the GAME (Chisa's
+#   own is a flat "all of this is skin", which shaded the crown red), the others fall back to hers.
+MaskRoles = {"hairMask", "frontHairMask", "upperMask", "lowerMask", "faceMask"}
+LeftToGameRoles = {"hairMask", "frontHairMask"}
+
 FallbackTextures: Dict[str, str] = {
     # CHISA's hashes -- this table arrived as a copy of Sanhua's and sat unmeasured until 2026-09-20,
     #   where every role name matched hers and every hash did not, so a role the mod lacked would have
@@ -1998,6 +2005,9 @@ class TextureRoles():
                 unreferenced[role] = real(best)
 
         # a role a component's OWN section names (SourceRegisterRoles / RabbitFXRoles) wins over placement
+        claimsOf: Dict[tuple, set] = {}          # (component, resource) -> the roles it was read for
+        claimedFrom: Dict[str, tuple] = {}       # role -> the (component, resource) it came from
+        self.leftToGame: set = set()             # roles nothing may stand in for (see MaskRoles)
         for name, lines in self.sections.items():
             match = re.fullmatch(r"TextureOverrideComponent(\d+)", name, re.IGNORECASE)
             if (not match):
@@ -2020,7 +2030,34 @@ class TextureRoles():
                 self.resourceOfRole[role] = resource
                 self.fileOfRole[role] = f
                 unreferenced.pop(role, None)
+                claimsOf.setdefault((component, resource.lower()), set()).add(role)
+                claimedFrom[role] = (component, resource.lower())
                 print(f"    {role}: bound by component {component}'s own section ({k} = {resource})")
+
+        # A MASK ROLE SATISFIED BY THE FILE THAT ALSO SERVES THE SLOT'S NORMAL IS NOT A MASK
+        #   (2026-09-27). RabbitFX's Lightmap is what this file calls the mask, and Chisa13 points
+        #   its Lightmap AND its Normalmap at one resource, on BOTH hair slots. The mask role then
+        #   resolves to a real file, the flat test never fires, and the target's shader reads SLOPE
+        #   data as material codes: what it bound measures as Chisa's own normal maps to a tenth of
+        #   a channel mean (d8ed7611 R 8.6 / G 52.8 / B 41.1 against e921181d 8.6 / 52.8 / 41.0)
+        #   where a real mask of hers is R = 255, G = 0, B = 126 flat. Chisa13 was the only mod of
+        #   50 in the corpus binding a hair mask at all; the other 17 emit none and are confirmed in
+        #   game. Narrow on purpose -- only a mask role, and only when the SAME component offers that
+        #   file for another role too, since a file legitimately plays every role its HASHES name.
+        for role in [r for r in self.resourceOfRole if (r in MaskRoles)]:
+            where = claimedFrom.get(role)
+            if (where is None) or (len(claimsOf.get(where, set())) < 2):
+                continue
+            others = ", ".join(sorted(claimsOf[where] - {role}))
+            toGame = role in LeftToGameRoles
+            self.resourceOfRole.pop(role, None)
+            self.fileOfRole.pop(role, None)
+            if (toGame):
+                self.leftToGame.add(role)
+            fate = "left to the game" if (toGame) else "the source's own is used instead"
+            print(f"    {role}: component {where[0]}'s {where[1]} is its {others} too, so it is"
+                  f" not a mask; {fate}")
+
         # A SHARED ATLAS IS ALSO ONE THE FILE'S OWN NAME DECLARES SHARED (2026-09-22). Two roles
         #   landing on one file is only the case where the fixer can SEE the sharing; WWMI writes the
         #   components a texture serves into its name, and a mod may give a six-component atlas to
@@ -2055,7 +2092,7 @@ class TextureRoles():
         self.downloads: Dict[str, str] = {}         # role -> the file
         self.downloadUrls: Dict[str, str] = {}      # role -> where the library fetches it from
         for role in plannedRoles:
-            if (role in self.sectionOfRole):
+            if (role in self.sectionOfRole) or (role in self.leftToGame):
                 continue
             if (role in unreferenced):
                 self.downloads[role] = unreferenced[role]

@@ -1221,6 +1221,10 @@ namespace AGRemapCore {
                     // ...and the roles the mod's OWN sections name by the register they bind at --
                     // see WWMIFixerConfig::sourceRegisterRoles. Added as candidates beside the
                     // others, which is what the ranking below expects.
+                    // file -> source component -> the roles that component's own register
+                    // bindings offer it for. One file offered two roles of ONE slot is the alias
+                    // the mask drop below is about.
+                    std::map<std::string, std::map<int, std::set<std::string>>> regRolesOfFile;
                     if (!config_.sourceRegisterRoles.empty()) {
                         std::unordered_map<std::string, std::string> fileOfResource;
                         for (const auto& entry : index_->resourcesOf(iniPath)) {
@@ -1261,6 +1265,7 @@ namespace AGRemapCore {
 
                                     byRole[role].emplace_back(
                                         file->second, "the " + reg + " its own section binds it at");
+                                    regRolesOfFile[file->second][entry.first].insert(role);
                                 }
                             }
                         }
@@ -1282,6 +1287,60 @@ namespace AGRemapCore {
                         }
 
                         entry.second = std::move(unique);
+                    }
+
+                    // A MASK ROLE SATISFIED BY THE FILE THAT ALSO SERVES THE SLOT'S NORMAL IS
+                    // NOT A MASK (2026-09-27). RabbitFX's Lightmap is this fix's material mask, and
+                    // a mod may point its Lightmap and its Normalmap at ONE resource -- Chisa13
+                    // does, for both hair slots. The mask role then resolves to a real file, the
+                    // flat test below never fires, and the target's shader reads SLOPE data as
+                    // material codes. Measured: what it bound is statistically indistinguishable
+                    // from Chisa's own normal maps (`d8ed7611` R mean 8.6 / G 52.8 / B 41.1 against
+                    // `e921181d` 8.6 / 52.8 / 41.0; `d0d2cc80` against `9ccd7ea7` likewise) where a
+                    // real mask of hers is R = 255, G = 0, B = 126 flat. Chisa13 was the only mod of
+                    // 50 in the corpus binding a hair mask at all -- the other 17 Chisa mods emit
+                    // none and are confirmed in game -- so this puts the aliased mod on their path.
+                    //
+                    // Narrow on purpose. Only a region-marking role can be dropped, and only when
+                    // the SAME source component offers that same file for another role as well: a
+                    // file legitimately plays every role its HASHES name, across components, and
+                    // that is untouched here. The role then takes the ordinary "the mod has no file
+                    // for this role" path, exactly as a flat one does.
+                    for (auto& entry : byRole) {
+                        const bool toGame = config_.flatLeftToGame.count(entry.first) > 0;
+                        if (!toGame && config_.flatFallsBackToSource.count(entry.first) == 0) {
+                            continue;
+                        }
+
+                        std::vector<std::pair<std::string, std::string>> kept;
+                        for (const auto& candidate : entry.second) {
+                            const auto perComponent = regRolesOfFile.find(candidate.first);
+                            bool aliased = false;
+                            if (perComponent != regRolesOfFile.end()) {
+                                for (const auto& slot : perComponent->second) {
+                                    if (slot.second.count(entry.first) > 0 && slot.second.size() > 1) {
+                                        aliased = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (!aliased) {
+                                kept.push_back(candidate);
+                                continue;
+                            }
+
+                            ctx_.log(FileService::getRelPath(index_->real(candidate.first), iniFolder)
+                                     + " is bound for another role of its own slot too, so it is not"
+                                     + " the mod's " + entry.first + "; "
+                                     + (toGame ? "left to the game" : "the source's own is used instead"));
+                        }
+
+                        if (kept.empty() && !entry.second.empty() && toGame) {
+                            leftToGame_.insert(entry.first);
+                        }
+
+                        entry.second = std::move(kept);
                     }
 
                     // A FLAT candidate for a region-marking role is not a usable file. Dropping it
@@ -2178,8 +2237,17 @@ namespace AGRemapCore {
                         if (key == ThisKey) {
                             const std::string indent = line.substr(0, line.size() - StringTools::lstrip(line).size());
                             std::string val(StringTools::strip(line.substr(equals + 1)));
-                            const auto swap = editedResourceOf_.find(StringTools::toLower(val));
-                            if (swap != editedResourceOf_.end()) {
+                            // ...but ONLY for the role the edit was registered for. One file can
+                            // serve several roles -- Chisa13 points RabbitFX's Lightmap AND Normalmap
+                            // at one resource, and this fix reads that Lightmap as the material MASK
+                            // -- so a swap keyed on the RESOURCE alone put the repacked normal map on
+                            // the mask register too: material code 0 over the whole head and A = 255
+                            // where the target's mask carries 0 (2026-09-27).
+                            const std::string key = StringTools::toLower(val);
+                            const auto swap = editedResourceOf_.find(key);
+                            const auto owns = editedRoleOf_.find(key);
+                            if (swap != editedResourceOf_.end()
+                                && owns != editedRoleOf_.end() && owns->second == role) {
                                 val = swap->second;
                             }
 
@@ -2605,6 +2673,7 @@ namespace AGRemapCore {
                         const std::string* was = sharedResourceFor(edit.role);
                         if (was != nullptr) {
                             editedResourceOf_[StringTools::toLower(*was)] = resource;
+                            editedRoleOf_[StringTools::toLower(*was)] = edit.role;
                             sourceOfEdited_[StringTools::toLower(resource)] = *was;
 
                             // EVERY variant of the role, not just the one fileOfRole_ resolved to.
@@ -2639,6 +2708,7 @@ namespace AGRemapCore {
                                     plannedEdits_.push_back(PlannedEdit{&edit, file->second, variantRel});
                                     editedResources_.emplace_back(variantResource, variantRel);
                                     editedResourceOf_[StringTools::toLower(variant)] = variantResource;
+                                    editedRoleOf_[StringTools::toLower(variant)] = edit.role;
                                     sourceOfEdited_[StringTools::toLower(variantResource)] = variant;
                                 }
 
@@ -2989,6 +3059,7 @@ namespace AGRemapCore {
                 std::unordered_map<std::string, std::vector<std::string>> variantsOf_;  // that section -> every resource it binds, in order
                 std::unordered_map<std::string, std::string> fileOfResource_;         // the mod's resource -> the file it names
                 std::unordered_map<std::string, std::string> editedResourceOf_;       // the mod's resource -> the edited copy of it
+                std::unordered_map<std::string, std::string> editedRoleOf_;           // ...and the ROLE that edit was registered for, since one file may serve several
                 std::unordered_map<std::string, std::string> sourceOfEdited_;         // ...and back
                 std::map<std::pair<std::string, std::string>, std::string> roleLists_;   // (role, register) -> the copied list's name
                 std::vector<std::string> roleListTexts_;                              // ...and their section text

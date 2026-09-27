@@ -1888,6 +1888,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | irregular BLOTCHES on a part, following no shape the mod has, plus bands of wrong shadow | a UV-MAPPED register the plan leaves to the game: the TARGET's own texture sampled at the SOURCE's UVs | bind the mod's own there, repacked into the target's channel layout; blotches rather than a gradient is the tell |
 | a texture EDIT looks ignored -- the file is written, referenced and still not what renders -- on some mods only | its role is DOWNLOADED on those mods, and the download declared the edit's own resource section name | grep the fixed `.ini` for a `[Resource...]` name declared twice |
 | one part is a FLAT primary colour -- green, red -- rather than merely wrong | a texture EDIT ran on a file that is not the role it was assigned: an edit that keeps one channel turns a diffuse into that channel | the run's `also has the role` warning, then whether the losing file's NAME carries the hash |
+| ONE mod of a character shades a part harshly or blotchily while its siblings are fine | that mod aliases RabbitFX's Lightmap and Normalmap onto one resource, so the MASK role resolved to a normal map and the shader reads slope as material codes | count the `MaskPst` command lists per mod -- the odd one out is the bug |
 | a part wears the SOURCE CHARACTER's own art where the mod has its own print | that component names its texture in its OWN section (`ps-tN =`, or `Resource\RabbitFX\Diffuse`), and the fix took a vanilla fallback -- or the mod's hash overrides are dead on this game version | `--paint` for WHICH component, then read that component's section; `declaredBindings()` |
 | the remap shows the MOD's art (pink hair, a white shirt) where the maintainer's base screenshot shows the source character's own | the base is the broken one: every one of the mod's texture hashes is from an older game version, so on the source the mod's geometry draws with the GAME's textures, while the remap binds by register and shows what the author painted | grep a frame dump of today's game for each `TextureOverrideTexture` hash; then the mod's own preview image |
 | a garment PEARLY / iridescent -- pink-lavender highlights -- where the source's is matte | the SHEEN texture: the source's is packed grayscale sheen profiles, the target's slot is a holographic FOIL read as colour | translate it (`SheenTranslations`), never bind it raw -- see "THE SAME SHEEN SLOT HOLDS DIFFERENT KINDS OF DATA" |
@@ -2534,6 +2535,53 @@ register left to the game, an edit written but overridden -- each was inert, and
 visible defect the moment something downstream actually reached the GPU. **Making a value REACH the
 shader is what tests everything upstream of it**, so expect a change that binds something new to
 surface bugs that have nothing to do with the change.
+
+### A MASK ROLE SATISFIED BY THE SLOT'S NORMAL MAP IS NOT A MASK (2026-09-27)
+
+RabbitFX's **Lightmap** is what this fix calls the material mask. A mod may point its Lightmap and
+its Normalmap at **one resource** -- Chisa13 does, for both hair slots -- and the mask role then
+resolves to a real file, so the flat test never fires and the target's shader is handed **slope
+data where it expects material codes**.
+
+It is measurable in one table, which is how it was settled rather than argued:
+
+| file | R | G | B | A |
+| --- | --- | --- | --- | --- |
+| a real mask of Chisa's (`a842d51f`, `d3b9ba76`) | 255 / ~247 | 0 | flat 126 | 0 |
+| bound at Chisa13's hair `ps-t0` (`d8ed7611`) | mean 8.6 | 52.8 | 41.1 | 0 |
+| Chisa's own hair **normal** (`e921181d`) | mean 8.6 | 52.8 | 41.0 | 0 |
+| bound at its bangs `ps-t0` (`d0d2cc80`) | 26.7 | 49.9 | 101.4 | 0 |
+| Chisa's own bangs **normal** (`9ccd7ea7`) | 26.7 | 49.9 | 101.3 | 0 |
+
+**The corpus is what names the culprit, not the symptom.** Chisa13 was the only one of 50 fixed mods
+that bound a hair mask at all -- the other 17 Chisa mods emit no `HairMaskPst0` section and leave the
+register to the game, and they are confirmed in game. A per-mod count of one command list is a
+sharper instrument here than any amount of looking at the pixels.
+
+The rule is in `WWMIFixer`, beside the flat drop it is modelled on and deliberately as narrow: only a
+region-marking role (`flatLeftToGame` / `flatFallsBackToSource`) can be dropped, and only when the
+**same source component** offers that same file for another role too. A file legitimately plays every
+role its HASHES name, across components -- that is a separate, older finding and it is untouched.
+
+### AND THE FIRST THREE READINGS OF THAT MOD WERE ALL WRONG, EACH FOR A DIFFERENT REASON
+
+Worth more than the finding, because none of the three is about WuWa:
+
+- **A screenshot diff over a whole crop measures the weather.** Two shots said 19.1% of the head
+  region differed and the obvious reading was "the toggle switched the hair". Painting the changed
+  pixels red showed every one of them was **leaves, tree canopy and a sub-pixel outline** -- the hair
+  interior had not moved at all. This is the fifth time in this pair's history that a statistic over
+  an unverified mask has pointed the opposite way to the truth; `whereDiff.py`-style "show me WHICH
+  pixels" costs one command and settles it.
+- **An injected keypress is not a toggle.** `ctrl+left`, `lctrl+left` and even a plain `left` all
+  failed to reach this mod's hotkeys, so the two "states" compared were one state twice. What proved
+  it was **painting the two branch files different flat colours**: the `$hair == 0` files never
+  appeared, which no amount of staring at hair could have established.
+- **A defect in the art reads exactly like a defect in the fix.** The reported "orange splotches in
+  the black dye" are hard rectangular teeth **painted into the mod's own gyaru atlas**, visible at
+  native resolution and unchanged whether the mask is bound or not. The fix can change how strongly
+  such a boundary reads -- it cannot invent it. Crop the UV island and LOOK before attributing a
+  pattern to the pipeline.
 
 ### A BISECT IS ONLY AS COMPLETE AS THE REGISTER LIST IT ENUMERATES (2026-09-20)
 

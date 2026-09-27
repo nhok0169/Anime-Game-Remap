@@ -1458,13 +1458,14 @@ namespace AGRemapCore {
 
                                 const std::string kind = TextTools::capitalize(binding.role);
                                 const std::string fileName = DownloadTools::fixedFileName(config_.downloadPrefix, kind, DdsExt);
+                                const std::string resource = ResourcePrefix + config_.downloadPrefix + kind + IniKeywords::RemapDL;
                                 fallbacks_[binding.role] = Fallback{
                                     DownloadTools::downloadFolder() + "/"
                                         + DownloadTools::urlPath(config_.downloadGameFolder, config_.downloadCharFolder,
                                                                  config_.downloadVersionFolder, config_.downloadPrefix,
                                                                  "Texture" + fallback->second, DdsExt),
-                                    fileName, textureFolder_ + "/" + fileName};
-                                resourceOfRole_[binding.role] = ResourcePrefix + config_.downloadPrefix + kind + IniKeywords::RemapDL;
+                                    fileName, textureFolder_ + "/" + fileName, resource};
+                                resourceOfRole_[binding.role] = resource;
                             }
                         }
 
@@ -1498,13 +1499,14 @@ namespace AGRemapCore {
 
                             const std::string kind = TextTools::capitalize(role);
                             const std::string fileName = DownloadTools::fixedFileName(config_.downloadPrefix, kind, DdsExt);
+                            const std::string resource = ResourcePrefix + config_.downloadPrefix + kind + IniKeywords::RemapDL;
                             fallbacks_[role] = Fallback{
                                 DownloadTools::downloadFolder() + "/"
                                     + DownloadTools::urlPath(config_.downloadGameFolder, config_.downloadCharFolder,
                                                              config_.downloadVersionFolder, config_.downloadPrefix,
                                                              "Texture" + fallback->second, DdsExt),
-                                fileName, textureFolder_ + "/" + fileName};
-                            resourceOfRole_[role] = ResourcePrefix + config_.downloadPrefix + kind + IniKeywords::RemapDL;
+                                fileName, textureFolder_ + "/" + fileName, resource};
+                            resourceOfRole_[role] = resource;
                         }
                     }
                 }
@@ -2381,8 +2383,11 @@ namespace AGRemapCore {
                         out += "[" + declaredName_[entry.first] + "]\n" + IniKeywords::Filename + " = " + entry.second + "\n\n";
                     }
 
+                    // its OWN name -- see Fallback::resource. resourceOfRole_ may by now be the
+                    // resource of a texture EDIT of this role, and writing the download's section
+                    // under that name declares it twice, raw file and edited file.
                     for (const auto& entry : fallbacks_) {
-                        out += "[" + resourceOfRole_[entry.first] + "]\n" + IniKeywords::Filename + " = " + entry.second.relPath + "\n\n";
+                        out += "[" + entry.second.resource + "]\n" + IniKeywords::Filename + " = " + entry.second.relPath + "\n\n";
                     }
 
                     if (config_.zeroShapeKeyStream && meshVertexCount_ > 0) {
@@ -2832,6 +2837,19 @@ namespace AGRemapCore {
                     std::string url;
                     std::string fileName;
                     std::string relPath;
+                    /**
+                     * @brief
+                     @rst
+                     The section name this download DECLARES itself under.
+
+                     Not ``resourceOfRole_[role]``: a texture edit of the same role overwrites that
+                     with its OWN resource, on purpose, so every BINDING follows the edited file.
+                     Reading it back here wrote the download's section under the edit's name, so the
+                     name was declared twice -- once naming the raw download and once the edited
+                     file -- and the raw one won. 21 such pairs across one corpus (2026-09-27).
+                     @endrst
+                     */
+                    std::string resource;
                 };
 
                 void addFallbackDownloads() {

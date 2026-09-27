@@ -1886,6 +1886,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | a warm or red cast on BARE SKIN only, the clothes right | the 512 x 25 subsurface lookup: the two skins' differ and the target's is the redder | the register the target's clothing pass reads it at -- `ps-t10` upper, `ps-t6` lower, `ps-t7` on the hair pass |
 | a warm cast that survives a corrected ramp and sits on the hair ENDS only | a SECOND per-character ramp that pass reads (a 512 x 4 gradient), plus the subsurface one -- the tips are where the hair catches light, so a warm term shows there first | every register of that pass, not just the ones the plan names |
 | irregular BLOTCHES on a part, following no shape the mod has, plus bands of wrong shadow | a UV-MAPPED register the plan leaves to the game: the TARGET's own texture sampled at the SOURCE's UVs | bind the mod's own there, repacked into the target's channel layout; blotches rather than a gradient is the tell |
+| a texture EDIT looks ignored -- the file is written, referenced and still not what renders -- on some mods only | its role is DOWNLOADED on those mods, and the download declared the edit's own resource section name | grep the fixed `.ini` for a `[Resource...]` name declared twice |
 | a part wears the SOURCE CHARACTER's own art where the mod has its own print | that component names its texture in its OWN section (`ps-tN =`, or `Resource\RabbitFX\Diffuse`), and the fix took a vanilla fallback -- or the mod's hash overrides are dead on this game version | `--paint` for WHICH component, then read that component's section; `declaredBindings()` |
 | the remap shows the MOD's art (pink hair, a white shirt) where the maintainer's base screenshot shows the source character's own | the base is the broken one: every one of the mod's texture hashes is from an older game version, so on the source the mod's geometry draws with the GAME's textures, while the remap binds by register and shows what the author painted | grep a frame dump of today's game for each `TextureOverrideTexture` hash; then the mod's own preview image |
 | a garment PEARLY / iridescent -- pink-lavender highlights -- where the source's is matte | the SHEEN texture: the source's is packed grayscale sheen profiles, the target's slot is a holographic FOIL read as colour | translate it (`SheenTranslations`), never bind it raw -- see "THE SAME SHEEN SLOT HOLDS DIFFERENT KINDS OF DATA" |
@@ -2447,6 +2448,53 @@ rebuild, no measurement. **When a defect is reported that you cannot reproduce, 
 instrument for it; hand back the one-line test.** The shape to hand over appends `<reg> = null` last
 in the slot's own texture list (so it wins over whatever is bound), covers the registers the plan
 LEAVES ALONE as well as the ones it binds, and restores the file byte for byte.
+
+### A DOWNLOADED ROLE THAT ALSO HAS A TEXTURE EDIT DECLARED ITS SECTION TWICE (2026-09-27)
+
+One line, shipped for weeks, and it silently threw away **every texture edit on a role the mod does
+not supply**:
+
+```ini
+[ResourceHairNormalRepackRemapTexChisaParfaitRemapFix]
+filename = Textures/ChisaHairNormalRemapDL.dds          ; the RAW download
+...
+[ResourceHairNormalRepackRemapTexChisaParfaitRemapFix]
+filename = Textures/ChisaHairNormalRepackRemapTex.dds   ; the EDITED file
+```
+
+The fallback download emitted its section under `resourceOfRole_[role]` -- which a texture edit of
+that role has deliberately overwritten with its OWN resource, so that every BINDING follows the
+edited file. The overwrite is right; re-reading it as the section NAME is not. `Fallback::resource`
+remembers the download's own name now.
+
+**The raw file wins**, so the edit is computed, written to disk, counted in the summary and then
+overridden. Measured over one corpus: **21 such pairs in 10 mods**, on every role that both
+downloads and is edited -- `bodySheen` (the sheen foil), `upperMask` and `lowerMask` (the mask
+repacks), `accessoryDiffuse` (the colour grade) and `hairNormal`. So on those mods the mask repack
+and the foil translation were never reaching the GPU, which is a defect in four fixes that were all
+verified in game on mods that happened to SHIP those textures.
+
+**Nothing in the existing checks could see it**, and that is the part worth keeping:
+
+* the edit's section IS emitted, so a per-section check finds it;
+* both files exist, so `check_dangling.py` passes;
+* the file is written, so the summary's `editted N *.dds files` is honest;
+* both names resolve, so `check_sections.py` passes;
+* and the A/B against the prototype is blind, because the prototype names its generated resources
+  differently and so does not collide.
+
+**The check is one grep, and it belongs in the acceptance set**: parse the fixed `.ini` into
+`[Resource...] -> {filename}` and report any name mapping to more than one file. This is the same
+shape as the GI merge's "the same section defined twice, naming two different files" (see *"One
+texture FILE per edit"*), which survived there only because the two files happened to hold identical
+bytes. Here they never do -- that is the whole point of an edit.
+
+**And the symptom is mod-dependent, which is what made it look like a config problem.** Only two
+mods of eighteen download the hair normal rather than shipping one, so seventeen looked right and
+Chisa11 came back orange; the report was "those orange spots on the hair now reappear". When a fix
+works on most mods and not one, ask what is STRUCTURALLY different about that mod before touching
+the character's config -- here it is "ships the texture" versus "falls back to the download", which
+is the axis the test-mod table already tells you to vary.
 
 ### A BISECT IS ONLY AS COMPLETE AS THE REGISTER LIST IT ENUMERATES (2026-09-20)
 

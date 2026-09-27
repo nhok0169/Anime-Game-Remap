@@ -1879,6 +1879,54 @@ Neuvillette3's flap: pushed clear (point 16), confirmed only in the preview's id
 Neuvillette9's colours (point 2); the cravat's faint cyan cast (his 126-128 is the skin's cyan band; moving it to 255 hardened the
 shadows); a zero-byte fall-through `.ib` logs `Failed to substantiate` (harmless, pre-existing).
 
+## YAOYAO <-> YAOYAOBAMBOO (2026-09-27): the sixth component pair, compiled both ways
+
+Yaoyao is one mesh (`head`, `body`, both on the PLAIN shader, no normal map -- the `0fa35364` her asset
+`hash.json` calls one is a global bound on every draw of the frame); YaoyaoBamboo is an unnamed main mesh
+(Head / Body), a `Bang` and an `Eye`, like NeuvilletteMelusent without the Coat. Both share the face meshes AND the
+face diffuse hash (`c70ae897`). Prototypes: `Tools/Misc/Prototypes/yaoyaoBambooFix.py` and
+`yaoyaoFromBambooFix.py` (the oracles), synthetic skin mods `yaoyaoBambooSynth.py`, A/Bs
+`Tools/Misc/Diagnostics/abYaoyao.py` / `abYaoyaoRev.py` (both take `--src` for unfixed copies).
+
+1. **A diffuse ALPHA is read by the target's shader, and the two characters swap theirs.** Hers: head 255, body
+   ~0; the skin's: head ~0, body 255. Forward, the skin's head read her 255 and her hair and bells came out pale
+   (a blonde mod grey-green), which needed her head alpha AND her head light map's band moved (her 255 = hair, the
+   skin's 255 = its puffball cloth). Reverse, her BODY shader reads alpha 255 as a glow and the skin's identity came
+   out lit up white from the collar down -- `GIMIMergeFixerConfig::diffuseEdits` (new, per TARGET object) sets
+   it to 0. Her head's alpha changed nothing measurable reverse (fringe 171.3/136.6/91.0 against 171.5/136.8/90.6),
+   so it is left. Each settled by ONE hand edit of a fixed copy before any code (Overview habits 79-80).
+2. **A toggle chain with no `else` drew every variant at once** (Yaoyao2's three hairstyles): the component
+   template's unconditional `drawindexed = auto` -- `fillDrawOnlyWhenUndrawn` /
+   `RegFillMissing::onlyWhenAbsent`, asked PER ROOT and of the parts the edit's filter accepts (the audit: asked of
+   the whole graph, one root's draw suppressed another's cover).
+3. **A section rendering through its own `NNFix` is plain whatever it binds at `ps-t2`** (Yaoyao3 / 10 bind a
+   third texture called a normal map; read by `ps-t2` their light maps became the skin's diffuse, vivid green) --
+   `layoutFromOwnFixCall`, which also DROPS that `ps-t2` before the shift puts the light map there (written
+   ahead of the light map, it won).
+4. **The merge template had three merged-master faults, all general** (found on synthetic masters; none visible on
+   an unmerged mod):
+   - an APPENDED member re-issued one set of bindings for every branch -- the first branch's -- so branch 1's eyes
+     drew on branch 0's head light map. Now per branch (`SlotFiles::texRegVals` / `rolesInBranch`), and a
+     BORROWER takes its donor's per-branch values (the audit caught the first version re-binding a borrower to the
+     donor's first variant in every other one);
+   - a target object only ONE slot lands on got no draw in a branch that left it to the game's draw, because the
+     mod draws it in another branch (the identity variant had no body);
+   - with `texRegsByName`, a slot whose names were NOT believed was neither normalised by name nor shifted by
+     position (`byNameOf`): a body named `ResourceTexture1/2/3` bound its normal map as her diffuse. It only
+     shows where source and target layouts differ -- normal-map onto plain here.
+5. **Two skins on one face hash: copy the face only when it has to move** (`faceOnlyWhenMoved`). A copy is a
+   second override on `c70ae897` and 3DMigoto reports "Possible Mod Conflict" on every reload. The move test is
+   the DIFFUSE on the wrong register (by name, or the only face binding) -- a correct 6.x face binds its light map
+   there.
+6. **A mod on GIMI's newer `SetTextures` API can look wrong on its OWN character** under the maintainer's
+   old-loader GIMI (YaoyaoBamboo1: blonde-white hair, a pale dress) while the remap, which normalises the bindings,
+   renders the mod's real textures. Check the mod's textures before calling either side wrong (Charlotte point 9).
+7. **The white eyes in two toggle pairs were an animation frame**, not the fix: a 30-frame face series in the same
+   state showed normal and closed eyes only. One frame is not a symptom.
+8. **Open, handed to the maintainer**: Yaoyao5's long hair shows two small brown shards of the basket through it on
+   the skin (the basket rides the skin's crate bone); Yaoyao8's tassel hangs lower; a see-through `TexFx\T.0` mod
+   has not been seen on the skin (none of the ten uses it).
+
 ## The reverse direction is COMPILED TOO: a multi-component SOURCE onto a classic target (2026-09-14)
 
 `YelanTranquil -> Yelan` is the **third fixer template**: `GIMIMergeFixerConfig` +

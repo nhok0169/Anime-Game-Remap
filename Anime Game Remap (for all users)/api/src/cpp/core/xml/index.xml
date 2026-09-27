@@ -1243,6 +1243,8 @@
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a9cb845d129fd1923f3fbebaed59e76fa" kind="function"><name>xianglingCheer</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a8408dc8f47709391d3c0e12e37e90e0d" kind="function"><name>xingqiu</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1add2e213abd350d473bb78b116dabfdd2" kind="function"><name>xingqiuBamboo</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a85d24452cc1fcf1bb7347bc88a9ceee2" kind="function"><name>yaoyao</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1ab04883c639adf2feae1e646b6cc03c00" kind="function"><name>yaoyaoBamboo</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1ab1fffd2ad12c692a6381392b3e51c589" kind="function"><name>yelan</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1af3cf429a3bbf67bda0e3c14aabfb3ea6" kind="function"><name>yelanTranquil</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1ad9cb9533849253f3b04effcff52b8845" kind="function"><name>all</name></member>
@@ -1309,7 +1311,9 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aea153cdb88716d1065e57c2b9533a89a" kind="variable"><name>normaliseVertexColour</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1addd0e78a5f6228f360f9c0ba68dfc41e" kind="variable"><name>zeroSecondUV</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a88d0ad61a114ed71ea76dc2d31d40ae8" kind="variable"><name>sourceLayout</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a5b30a430ceae4c90cfd06f3a51eba7e5" kind="variable"><name>layoutFromOwnFixCall</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4a3452953a770a968f699df3d639bef" kind="variable"><name>faceSwapOnlyFromDiffuseReg</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1acd8d21481f588f092bdda6ea264058c3" kind="variable"><name>fillDrawOnlyWhenUndrawn</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a49a757630bf62ecf1afa2c1018f90586" kind="variable"><name>texRegsByName</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1af4e7a7c6ad78febe612b368f4c4894b0" kind="variable"><name>copyPreamble</name></member>
   </compound>
@@ -1383,10 +1387,12 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1aede8d26c7769bd67afe8e3544752b25b" kind="variable"><name>targetObjs</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1afb00d98b91be3266655662c40391a023" kind="variable"><name>downloadPrefix</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a8ee3c323dd66da09c76585f63b966f19" kind="variable"><name>faceReg</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a66d058b6d4b21463e1a0b21e2fbbf179" kind="variable"><name>faceOnlyWhenMoved</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ad1d10816cdf24046f9d33c0744e7ae5a" kind="variable"><name>targetLayout</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a7e32b3c49bfd1e85edf5900bf6ec7548" kind="variable"><name>texRegsByName</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a68bffe3cae94876e5ad1fd0f7c93cd50" kind="variable"><name>texcoordStride</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ab5d13699a51abbdeb17be08aaaf7d339" kind="variable"><name>lightMapEdit</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ae851ed67d53c833aa2f6538d4ae69b09" kind="variable"><name>diffuseEdits</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a490ec76ef342ee114af63d4681e4f0bd" kind="variable"><name>mipmaps</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1abbaec13107513e023ec38d3c302f6dae" kind="variable"><name>compressTextures</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a2cadd8ab685fb8229ba09e9eb3f0c420" kind="variable"><name>copyPreamble</name></member>
@@ -2440,6 +2446,9 @@
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ab366c3d766f0f581fdb6b53a65140083" kind="function"><name>neuvilletteMelusentCoat6_3</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aeb45e9a555a93d90ec9fe2b1c735f4b7" kind="function"><name>neuvilletteMelusentBang6_3</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9d8d7211eeda7f23045e3aa2a1b85847" kind="function"><name>neuvilletteMelusentEye6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a3513e54244248e53b33139d8dc890737" kind="function"><name>yaoyaoBambooMain6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ab0617580779efe3c30b4872976b8008b" kind="function"><name>yaoyaoBambooBang6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9e85cfcd5a11837b50c3828d61b03149" kind="function"><name>yaoyaoBambooEye6_3</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" kind="function"><name>yelanTranquilBody6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a52b8823aca4f15e712953d93319cd846" kind="function"><name>yelanTranquilBang6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28abe81ceeed138ca10039b96346910d" kind="function"><name>yelanTranquilEye6_1</name></member>
@@ -2447,6 +2456,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0148594d01298b546410e21c4abf87a7" kind="function"><name>citlaliWhisperofStarsToCitlali6_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a63c07d7a88a6adefbd17206d942dfcc2" kind="function"><name>charlotteHurlockToCharlotte6_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a15e01f23d185722e1923fc82d05a785d" kind="function"><name>neuvilletteMelusentToNeuvillette6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a36cbe56a14f88d017d25f021a02ed763" kind="function"><name>yaoyaoBambooToYaoyao6_3</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_fix_context" kind="class"><name>AGRemapCore::IniFixContext</name>
     <member refid="class_a_g_remap_core_1_1_ini_fix_context_1aae1aaacec327c0a95e452402a3874f2a" kind="typedef"><name>GraphGroups</name></member>
@@ -2701,7 +2711,9 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8e18205ea433a4d25c6fe6c663dbe376" kind="function"><name>citlaliWhisperofStars6_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a13308c49b1f5b66c810a0e984d25ed49" kind="function"><name>charlotteHurlock6_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aa2f1f954895b4c9ee16ced050708cac5" kind="function"><name>neuvillette4_0</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7fdbadcb5f58c43b5d2cd1b9c93403da" kind="function"><name>yaoyao4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ae5f0679a08dc5a7b76713f6bdcbf9bfb" kind="function"><name>neuvilletteMelusent6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a824eb509b168813ba0fd3e3ba52a0405" kind="function"><name>yaoyaoBamboo6_3</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_parse_context" kind="class"><name>AGRemapCore::IniParseContext</name>
     <member refid="class_a_g_remap_core_1_1_ini_parse_context_1a2e1b4ada0f5bd8aaf5d1f6167cd6e250" kind="typedef"><name>Section</name></member>
@@ -2817,6 +2829,8 @@
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a159b123976db91ecc3887615fbb72b5f" kind="function"><name>xianglingCheer4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5ed8a17b00b91c0c0731fbcc866ac3dc" kind="function"><name>xingqiu4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a0080f1d350cd17bdf32e8b791adc28de" kind="function"><name>xingqiuBamboo4_0</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1af0c02effdd0557deda36c3b99869e232" kind="function"><name>yaoyao4_0</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a9e6f3ebb0fd2e01830711f52bb5b76de" kind="function"><name>yaoyaoBamboo4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ad6717b3404c06ac4a8c15a186a190d6f" kind="function"><name>yelan4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a09b13f7819b6dfe511fccc8b81fea923" kind="function"><name>yelanTranquil4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1adedfdaad1f809eb106ceb51acb0fa82c" kind="function"><name>wwmiStub</name></member>
@@ -3840,6 +3854,7 @@
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a1c32e9c060a43ea0dfb6eeeaae4ba0e6" kind="variable"><name>reg</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a505d5747520ec87e7ca01f34f92f5263" kind="variable"><name>fillMissing</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ad376f5769818acdfb3d0b187b3b08d67" kind="variable"><name>fillMode</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ae4aafad7963384ce054d92f09f142e5b" kind="variable"><name>onlyWhenAbsent</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac2e5ee05e28df2bfdfdbe6cc72731994" kind="variable"><name>dependOnDownload</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab9a6a988065723e69cfc492a7511c951" kind="variable"><name>trackKeys</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a1ac8560969aee969e922a07fe9aa4474" kind="variable"><name>keysToTrack</name></member>
@@ -3849,11 +3864,12 @@
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab56a1cae31a17339171eb4b7369a4c47" kind="function"><name>editFromIni</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a1e9cb3ccb6fcc62f730aa7be2444ce3a" kind="function"><name>edit</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a550c8407da76f287025fab9143959a4f" kind="function"><name>makeFillMissing</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a51daff617e52b4f29f02cffc64f726c2" kind="function"><name>rootsWithReg</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1abb20e4e069fa2f522157a40bdbe2fe29" kind="function"><name>makeFillMissing</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1aead95cbdb950e99aca4384e1e3eb19be" kind="function"><name>fillMissingGraph</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac419c260824dbadd77f27967d3ec340a" kind="function"><name>guardedBranchEnd</name></member>
-    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1aee8de30eef8ee5377083a0cc136c040a" kind="function"><name>addCover</name></member>
-    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a09778dba6ab55ec550f62f53622ce7bd" kind="function"><name>addBottomCover</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1afa0f7bec9e81d53b048b902f735df8f5" kind="function"><name>addCover</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5419d05d111d8236f0b5885501831d9a" kind="function"><name>addBottomCover</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1aaded3ba4cce6cef2b6de20023850ceb1" kind="function"><name>editImpl</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_reg_new_vals" kind="class"><name>AGRemapCore::RegNewVals</name>
@@ -5233,6 +5249,24 @@
     <member refid="class_a_g_remap_core_1_1_xingqiu_parser_1add734140a89ee4a9bf489c06a9fb26c7" kind="function"><name>XingqiuParser</name></member>
     <member refid="class_a_g_remap_core_1_1_xingqiu_parser_1a0ae751ad24097649b001ab8546061152" kind="function"><name>v4_0</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_yaoyao_bamboo_fixer" kind="class"><name>AGRemapCore::YaoyaoBambooFixer</name>
+    <member refid="class_a_g_remap_core_1_1_yaoyao_bamboo_fixer_1ace72893ebbeae540b344c8e4b8039f5c" kind="function"><name>YaoyaoBambooFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_yaoyao_bamboo_fixer_1a7372729651ed5e99e57e48450e52145a" kind="function"><name>toYaoyao6_3</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_yaoyao_bamboo_parser" kind="class"><name>AGRemapCore::YaoyaoBambooParser</name>
+    <member refid="class_a_g_remap_core_1_1_yaoyao_bamboo_parser_1a2dc094ad0fbc6b5f5e19873c6550dd35" kind="function"><name>YaoyaoBambooParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_yaoyao_bamboo_parser_1adef17abe388b75ef7f6c6ceb98c9d9eb" kind="function"><name>v6_3</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_yaoyao_fixer" kind="class"><name>AGRemapCore::YaoyaoFixer</name>
+    <member refid="class_a_g_remap_core_1_1_yaoyao_fixer_1a405b806141d62d426a58d45ef313720e" kind="function"><name>YaoyaoFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_yaoyao_fixer_1a512065756c97e556a151314551ed01b7" kind="function"><name>main6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_yaoyao_fixer_1a86eceb5301349b951eea162b7845757e" kind="function"><name>bang6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_yaoyao_fixer_1a1983a7fd41e78741f6bd8c53a6da3f45" kind="function"><name>eye6_3</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_yaoyao_parser" kind="class"><name>AGRemapCore::YaoyaoParser</name>
+    <member refid="class_a_g_remap_core_1_1_yaoyao_parser_1a80a3f3f346887ac59b6bf5d784d2562e" kind="function"><name>YaoyaoParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_yaoyao_parser_1ad63e557a508d013aae76ad65970dce1c" kind="function"><name>v4_0</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_yelan_fixer" kind="class"><name>AGRemapCore::YelanFixer</name>
     <member refid="class_a_g_remap_core_1_1_yelan_fixer_1a91073f903752bde40a88307f2cadb310" kind="function"><name>YelanFixer</name></member>
     <member refid="class_a_g_remap_core_1_1_yelan_fixer_1afac87e038471a0a23af1167576848b1c" kind="function"><name>body6_1</name></member>
@@ -5852,6 +5886,10 @@
   </compound>
   <compound refid="_xingqiu_bamboo_fixer_8h" kind="file"><name>XingqiuBambooFixer.h</name>
   </compound>
+  <compound refid="_yaoyao_fixer_8h" kind="file"><name>YaoyaoFixer.h</name>
+  </compound>
+  <compound refid="_yaoyao_bamboo_fixer_8h" kind="file"><name>YaoyaoBambooFixer.h</name>
+  </compound>
   <compound refid="_yelan_fixer_8h" kind="file"><name>YelanFixer.h</name>
   </compound>
   <compound refid="_yelan_tranquil_fixer_8h" kind="file"><name>YelanTranquilFixer.h</name>
@@ -5969,6 +6007,10 @@
   <compound refid="_xingqiu_parser_8h" kind="file"><name>XingqiuParser.h</name>
   </compound>
   <compound refid="_xingqiu_bamboo_parser_8h" kind="file"><name>XingqiuBambooParser.h</name>
+  </compound>
+  <compound refid="_yaoyao_parser_8h" kind="file"><name>YaoyaoParser.h</name>
+  </compound>
+  <compound refid="_yaoyao_bamboo_parser_8h" kind="file"><name>YaoyaoBambooParser.h</name>
   </compound>
   <compound refid="_yelan_parser_8h" kind="file"><name>YelanParser.h</name>
   </compound>
@@ -7541,6 +7583,22 @@
   <compound refid="dir_73058d2535db65c491982e9ec7b04dc6" kind="dir"><name>src/data/IniFixData/XingqiuBamboo</name>
   </compound>
   <compound refid="dir_abe2f63a4c8bf5636c10b30b75ce7782" kind="dir"><name>src/data/IniParseData/XingqiuBamboo</name>
+  </compound>
+  <compound refid="dir_57ed808e697b889886e7c32f6121cd55" kind="dir"><name>include/AGRemapCore/data/IniFixData/Yaoyao</name>
+  </compound>
+  <compound refid="dir_e6f118396f01665640cce246e7ef12ed" kind="dir"><name>include/AGRemapCore/data/IniParseData/Yaoyao</name>
+  </compound>
+  <compound refid="dir_7f20140ab1849abb468227ea54c19e0e" kind="dir"><name>src/data/IniFixData/Yaoyao</name>
+  </compound>
+  <compound refid="dir_e6aba19caf9c77dac06af553b6223180" kind="dir"><name>src/data/IniParseData/Yaoyao</name>
+  </compound>
+  <compound refid="dir_693bad7a6cc10f243b3768a93fac04c6" kind="dir"><name>include/AGRemapCore/data/IniFixData/YaoyaoBamboo</name>
+  </compound>
+  <compound refid="dir_63cc90c7a7d3af36b9f0f294be8af7d3" kind="dir"><name>include/AGRemapCore/data/IniParseData/YaoyaoBamboo</name>
+  </compound>
+  <compound refid="dir_1991375e77a96f8890dc61cc0aa22ea7" kind="dir"><name>src/data/IniFixData/YaoyaoBamboo</name>
+  </compound>
+  <compound refid="dir_d5dab6db2eee9b3593b918296f6edea5" kind="dir"><name>src/data/IniParseData/YaoyaoBamboo</name>
   </compound>
   <compound refid="dir_4b23f89fa91d874fac459d33c91dc40b" kind="dir"><name>include/AGRemapCore/data/IniFixData/Yelan</name>
   </compound>

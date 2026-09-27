@@ -6567,6 +6567,16 @@ class GIBuilder:
         Creates the :class:`ModType` for XingqiuBamboo
         """
     @staticmethod
+    def yaoyao() -> ModType:
+        """
+        Creates the :class:`ModType` for Yaoyao
+        """
+    @staticmethod
+    def yaoyaoBamboo() -> ModType:
+        """
+        Creates the :class:`ModType` for YaoyaoBamboo, the skin of three components; its component ids are fix targets only and have no factory
+        """
+    @staticmethod
     def yelan() -> ModType:
         """
         Creates the :class:`ModType` for Yelan
@@ -7511,6 +7521,16 @@ class GIMIComponentFixerConfig:
     def faceSwapOnlyFromDiffuseReg(self, arg0: bool) -> None:
         ...
     @property
+    def fillDrawOnlyWhenUndrawn(self) -> bool:
+        """
+        :class:`bool`: Whether a remapped slot section gets ``drawindexed = auto`` only when the mod's own section
+        draws on no path -- a mod toggling variants of one object on an ``if`` / ``else if`` chain with no ``else``
+        otherwise draws every variant at once (see :attr:`RegFillMissing.onlyWhenAbsent`). **Default**: ``False``
+        """
+    @fillDrawOnlyWhenUndrawn.setter
+    def fillDrawOnlyWhenUndrawn(self, arg0: bool) -> None:
+        ...
+    @property
     def flatNormal(self) -> ...:
         """
         :class:`CppColour`: The flat normal map created for a normal-map slot, sRGB pre-corrected. **Default**: ``(55, 55, 255, 255)``
@@ -7534,6 +7554,16 @@ class GIMIComponentFixerConfig:
         """
     @hiddenComponents.setter
     def hiddenComponents(self, arg0: collections.abc.Sequence[str]) -> None:
+        ...
+    @property
+    def layoutFromOwnFixCall(self) -> bool:
+        """
+        :class:`bool`: Whether :attr:`GIMIComponentFixerConfig.SourceLayout.Detect` reads a section rendering through its own
+        ``NNFix`` (and no ``ORFix``) as the PLAIN layout even when it binds ``ps-t2`` -- ``NNFix`` reads only ``ps-t0`` / ``ps-t1``.
+        **Default**: ``False``
+        """
+    @layoutFromOwnFixCall.setter
+    def layoutFromOwnFixCall(self, arg0: bool) -> None:
         ...
     @property
     def lightMapEdit(self) -> collections.abc.Callable[[str], collections.abc.Callable[[...], None] | None] | None:
@@ -8291,6 +8321,17 @@ class GIMIMergeFixerConfig:
     def copyPreamble(self, arg0: str) -> None:
         ...
     @property
+    def diffuseEdits(self) -> list:
+        """
+        List[Tuple[:class:`str`, Callable[[:class:`CppTextureFile`], ``None``]]]: A diffuse edit per TARGET
+        object, applied to the diffuse every slot landing on that object draws with --- eg. a body diffuse
+        brought to alpha 0 where the target's shader reads alpha 255 as a glow. The edit is handed the texture
+        itself and edits it in place. **Default**: empty
+        """
+    @diffuseEdits.setter
+    def diffuseEdits(self, arg1: collections.abc.Sequence[tuple[str, typing.Any]]) -> None:
+        ...
+    @property
     def downloadPrefix(self) -> str:
         """
         :class:`str`: The source character's download prefix --- the same string the parse row gives
@@ -8301,6 +8342,19 @@ class GIMIMergeFixerConfig:
         """
     @downloadPrefix.setter
     def downloadPrefix(self, arg0: str) -> None:
+        ...
+    @property
+    def faceOnlyWhenMoved(self) -> bool:
+        """
+        :class:`bool`: Whether the mod's face section is copied onto the target ONLY when its diffuse has to
+        move onto :attr:`faceReg`
+        
+        For two skins drawing the SAME face meshes on the SAME face hash, the mod's own section already fires
+        on the target and a copy is a second override on that hash --- a mod conflict on every reload.
+        **Default**: ``False``
+        """
+    @faceOnlyWhenMoved.setter
+    def faceOnlyWhenMoved(self, arg0: bool) -> None:
         ...
     @property
     def faceReg(self) -> str:
@@ -15337,6 +15391,16 @@ class ModTypeId:
     
       XingqiuBamboo : Xingqiu Lantern Rite skin from GI
     
+      Yaoyao : Yaoyao from GI
+    
+      YaoyaoBamboo : Yaoyao outfit skin (Rainlit Bamboo Reverie) from GI -- three skinned components (an unnamed main mesh, Bang, Eye)
+    
+      YaoyaoBambooMain : YaoyaoBamboo's main mesh (its component name is the empty string), as a fix target -- a skin of several components is fixed one component at a time, and each is a mod type for the tables' purposes
+    
+      YaoyaoBambooBang : YaoyaoBamboo's Bang component, as a fix target
+    
+      YaoyaoBambooEye : YaoyaoBamboo's Eye component, as a fix target
+    
       Yelan : Yelan from GI
     
       YelanTranquil : Yelan summer skin (Tranquil Banquet) from GI -- three components (Body, Bang, Eye)
@@ -15375,8 +15439,8 @@ class ModTypeId:
     CharlotteHurlockCamera: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockCamera: 18>
     CharlotteHurlockEyes: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockEyes: 17>
     CherryHuTao: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CherryHuTao: 19>
-    Chisa: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Chisa: 74>
-    ChisaParfait: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ChisaParfait: 75>
+    Chisa: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Chisa: 79>
+    ChisaParfait: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ChisaParfait: 80>
     Citlali: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Citlali: 20>
     CitlaliWhisperofStars: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStars: 21>
     CitlaliWhisperofStarsBangs: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStarsBangs: 23>
@@ -15418,20 +15482,25 @@ class ModTypeId:
     RaidenBoss: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RaidenBoss: 58>
     Rosaria: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Rosaria: 59>
     RosariaCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RosariaCN: 60>
-    Sanhua: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Sanhua: 72>
-    SanhuaExorcist: typing.ClassVar[ModTypeId]  # value = <ModTypeId.SanhuaExorcist: 73>
+    Sanhua: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Sanhua: 77>
+    SanhuaExorcist: typing.ClassVar[ModTypeId]  # value = <ModTypeId.SanhuaExorcist: 78>
     Shenhe: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Shenhe: 61>
     ShenheFrostFlower: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ShenheFrostFlower: 62>
     Xiangling: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xiangling: 63>
     XianglingCheer: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XianglingCheer: 64>
     Xingqiu: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xingqiu: 65>
     XingqiuBamboo: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XingqiuBamboo: 66>
-    Yelan: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Yelan: 67>
-    YelanTranquil: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquil: 68>
-    YelanTranquilBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBang: 70>
-    YelanTranquilBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBody: 69>
-    YelanTranquilEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilEye: 71>
-    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'Bennett': <ModTypeId.Bennett: 8>, 'BennettAdventure': <ModTypeId.BennettAdventure: 9>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 10>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 11>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 12>, 'Charlotte': <ModTypeId.Charlotte: 13>, 'CharlotteHurlock': <ModTypeId.CharlotteHurlock: 14>, 'CharlotteHurlockBody': <ModTypeId.CharlotteHurlockBody: 15>, 'CharlotteHurlockBangs': <ModTypeId.CharlotteHurlockBangs: 16>, 'CharlotteHurlockEyes': <ModTypeId.CharlotteHurlockEyes: 17>, 'CharlotteHurlockCamera': <ModTypeId.CharlotteHurlockCamera: 18>, 'CherryHuTao': <ModTypeId.CherryHuTao: 19>, 'Citlali': <ModTypeId.Citlali: 20>, 'CitlaliWhisperofStars': <ModTypeId.CitlaliWhisperofStars: 21>, 'CitlaliWhisperofStarsBody': <ModTypeId.CitlaliWhisperofStarsBody: 22>, 'CitlaliWhisperofStarsBangs': <ModTypeId.CitlaliWhisperofStarsBangs: 23>, 'CitlaliWhisperofStarsEyes': <ModTypeId.CitlaliWhisperofStarsEyes: 24>, 'Diluc': <ModTypeId.Diluc: 25>, 'DilucFlamme': <ModTypeId.DilucFlamme: 26>, 'Fischl': <ModTypeId.Fischl: 27>, 'FischlHighness': <ModTypeId.FischlHighness: 28>, 'Ganyu': <ModTypeId.Ganyu: 29>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 30>, 'HuTao': <ModTypeId.HuTao: 31>, 'Jean': <ModTypeId.Jean: 32>, 'JeanCN': <ModTypeId.JeanCN: 33>, 'JeanSea': <ModTypeId.JeanSea: 34>, 'Kaeya': <ModTypeId.Kaeya: 35>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 36>, 'Keqing': <ModTypeId.Keqing: 37>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 38>, 'Kirara': <ModTypeId.Kirara: 39>, 'KiraraBoots': <ModTypeId.KiraraBoots: 40>, 'Klee': <ModTypeId.Klee: 41>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 42>, 'Lisa': <ModTypeId.Lisa: 43>, 'LisaStudent': <ModTypeId.LisaStudent: 44>, 'Mona': <ModTypeId.Mona: 45>, 'MonaCN': <ModTypeId.MonaCN: 46>, 'Neuvillette': <ModTypeId.Neuvillette: 47>, 'NeuvilletteMelusent': <ModTypeId.NeuvilletteMelusent: 48>, 'NeuvilletteMelusentMain': <ModTypeId.NeuvilletteMelusentMain: 49>, 'NeuvilletteMelusentCoat': <ModTypeId.NeuvilletteMelusentCoat: 50>, 'NeuvilletteMelusentBang': <ModTypeId.NeuvilletteMelusentBang: 51>, 'NeuvilletteMelusentEye': <ModTypeId.NeuvilletteMelusentEye: 52>, 'Nilou': <ModTypeId.Nilou: 53>, 'NilouBreeze': <ModTypeId.NilouBreeze: 54>, 'Ningguang': <ModTypeId.Ningguang: 55>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 56>, 'Raiden': <ModTypeId.Raiden: 57>, 'RaidenBoss': <ModTypeId.RaidenBoss: 58>, 'Rosaria': <ModTypeId.Rosaria: 59>, 'RosariaCN': <ModTypeId.RosariaCN: 60>, 'Shenhe': <ModTypeId.Shenhe: 61>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 62>, 'Xiangling': <ModTypeId.Xiangling: 63>, 'XianglingCheer': <ModTypeId.XianglingCheer: 64>, 'Xingqiu': <ModTypeId.Xingqiu: 65>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 66>, 'Yelan': <ModTypeId.Yelan: 67>, 'YelanTranquil': <ModTypeId.YelanTranquil: 68>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 69>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 70>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 71>, 'Sanhua': <ModTypeId.Sanhua: 72>, 'SanhuaExorcist': <ModTypeId.SanhuaExorcist: 73>, 'Chisa': <ModTypeId.Chisa: 74>, 'ChisaParfait': <ModTypeId.ChisaParfait: 75>}
+    Yaoyao: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Yaoyao: 67>
+    YaoyaoBamboo: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBamboo: 68>
+    YaoyaoBambooBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooBang: 70>
+    YaoyaoBambooEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooEye: 71>
+    YaoyaoBambooMain: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooMain: 69>
+    Yelan: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Yelan: 72>
+    YelanTranquil: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquil: 73>
+    YelanTranquilBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBang: 75>
+    YelanTranquilBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBody: 74>
+    YelanTranquilEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilEye: 76>
+    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'Bennett': <ModTypeId.Bennett: 8>, 'BennettAdventure': <ModTypeId.BennettAdventure: 9>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 10>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 11>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 12>, 'Charlotte': <ModTypeId.Charlotte: 13>, 'CharlotteHurlock': <ModTypeId.CharlotteHurlock: 14>, 'CharlotteHurlockBody': <ModTypeId.CharlotteHurlockBody: 15>, 'CharlotteHurlockBangs': <ModTypeId.CharlotteHurlockBangs: 16>, 'CharlotteHurlockEyes': <ModTypeId.CharlotteHurlockEyes: 17>, 'CharlotteHurlockCamera': <ModTypeId.CharlotteHurlockCamera: 18>, 'CherryHuTao': <ModTypeId.CherryHuTao: 19>, 'Citlali': <ModTypeId.Citlali: 20>, 'CitlaliWhisperofStars': <ModTypeId.CitlaliWhisperofStars: 21>, 'CitlaliWhisperofStarsBody': <ModTypeId.CitlaliWhisperofStarsBody: 22>, 'CitlaliWhisperofStarsBangs': <ModTypeId.CitlaliWhisperofStarsBangs: 23>, 'CitlaliWhisperofStarsEyes': <ModTypeId.CitlaliWhisperofStarsEyes: 24>, 'Diluc': <ModTypeId.Diluc: 25>, 'DilucFlamme': <ModTypeId.DilucFlamme: 26>, 'Fischl': <ModTypeId.Fischl: 27>, 'FischlHighness': <ModTypeId.FischlHighness: 28>, 'Ganyu': <ModTypeId.Ganyu: 29>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 30>, 'HuTao': <ModTypeId.HuTao: 31>, 'Jean': <ModTypeId.Jean: 32>, 'JeanCN': <ModTypeId.JeanCN: 33>, 'JeanSea': <ModTypeId.JeanSea: 34>, 'Kaeya': <ModTypeId.Kaeya: 35>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 36>, 'Keqing': <ModTypeId.Keqing: 37>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 38>, 'Kirara': <ModTypeId.Kirara: 39>, 'KiraraBoots': <ModTypeId.KiraraBoots: 40>, 'Klee': <ModTypeId.Klee: 41>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 42>, 'Lisa': <ModTypeId.Lisa: 43>, 'LisaStudent': <ModTypeId.LisaStudent: 44>, 'Mona': <ModTypeId.Mona: 45>, 'MonaCN': <ModTypeId.MonaCN: 46>, 'Neuvillette': <ModTypeId.Neuvillette: 47>, 'NeuvilletteMelusent': <ModTypeId.NeuvilletteMelusent: 48>, 'NeuvilletteMelusentMain': <ModTypeId.NeuvilletteMelusentMain: 49>, 'NeuvilletteMelusentCoat': <ModTypeId.NeuvilletteMelusentCoat: 50>, 'NeuvilletteMelusentBang': <ModTypeId.NeuvilletteMelusentBang: 51>, 'NeuvilletteMelusentEye': <ModTypeId.NeuvilletteMelusentEye: 52>, 'Nilou': <ModTypeId.Nilou: 53>, 'NilouBreeze': <ModTypeId.NilouBreeze: 54>, 'Ningguang': <ModTypeId.Ningguang: 55>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 56>, 'Raiden': <ModTypeId.Raiden: 57>, 'RaidenBoss': <ModTypeId.RaidenBoss: 58>, 'Rosaria': <ModTypeId.Rosaria: 59>, 'RosariaCN': <ModTypeId.RosariaCN: 60>, 'Shenhe': <ModTypeId.Shenhe: 61>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 62>, 'Xiangling': <ModTypeId.Xiangling: 63>, 'XianglingCheer': <ModTypeId.XianglingCheer: 64>, 'Xingqiu': <ModTypeId.Xingqiu: 65>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 66>, 'Yaoyao': <ModTypeId.Yaoyao: 67>, 'YaoyaoBamboo': <ModTypeId.YaoyaoBamboo: 68>, 'YaoyaoBambooMain': <ModTypeId.YaoyaoBambooMain: 69>, 'YaoyaoBambooBang': <ModTypeId.YaoyaoBambooBang: 70>, 'YaoyaoBambooEye': <ModTypeId.YaoyaoBambooEye: 71>, 'Yelan': <ModTypeId.Yelan: 72>, 'YelanTranquil': <ModTypeId.YelanTranquil: 73>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 74>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 75>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 76>, 'Sanhua': <ModTypeId.Sanhua: 77>, 'SanhuaExorcist': <ModTypeId.SanhuaExorcist: 78>, 'Chisa': <ModTypeId.Chisa: 79>, 'ChisaParfait': <ModTypeId.ChisaParfait: 80>}
     def __eq__(self, other: typing.Any) -> bool:
         ...
     def __getstate__(self) -> int:
@@ -18688,6 +18757,17 @@ class RegFillMissing(BaseIniGraphEdit):
         """
     @keysToTrack.setter
     def keysToTrack(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def onlyWhenAbsent(self) -> bool:
+        """
+        :class:`bool`: Whether a cover (``TopdownCover`` / ``BottomCover``) fills only when NO part of the graph -- the
+        roots and every section they ``run`` -- has the register at all. A cover otherwise lands on every path of a
+        section that draws on some of them (an ``if`` / ``else if`` chain with no ``else``), each variant's draw
+        included. ``FillMissing`` is not affected. **Default**: ``False``
+        """
+    @onlyWhenAbsent.setter
+    def onlyWhenAbsent(self, arg1: bool) -> None:
         ...
     @property
     def reg(self) -> str:

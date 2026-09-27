@@ -17,6 +17,7 @@
     <includedby refid="_citlali_fixer_8cpp" local="yes">src/data/IniFixData/Citlali/CitlaliFixer.cpp</includedby>
     <includedby refid="_g_i_m_i_component_fixer_8cpp" local="yes">src/data/IniFixData/GIMIComponentFixer.cpp</includedby>
     <includedby refid="_neuvillette_fixer_8cpp" local="yes">src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp</includedby>
+    <includedby refid="_yaoyao_fixer_8cpp" local="yes">src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp</includedby>
     <includedby refid="_yelan_fixer_8cpp" local="yes">src/data/IniFixData/Yelan/YelanFixer.cpp</includedby>
     <incdepgraph>
       <node id="53">
@@ -1039,6 +1040,8 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniFixData/Bennett/BennettFixer.cpp</label>
@@ -1061,6 +1064,10 @@
         <link refid="_neuvillette_fixer_8cpp"/>
       </node>
       <node id="7">
+        <label>src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp</label>
+        <link refid="_yaoyao_fixer_8cpp"/>
+      </node>
+      <node id="8">
         <label>src/data/IniFixData/Yelan/YelanFixer.cpp</label>
         <link refid="_yelan_fixer_8cpp"/>
       </node>
@@ -1186,18 +1193,22 @@
 <codeline lineno="603"><highlight class="normal"></highlight></codeline>
 <codeline lineno="607" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a88d0ad61a114ed71ea76dc2d31d40ae8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a79c25ff858d93f249c7c0a2c03bb257e" kindref="member">SourceLayout</ref><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a88d0ad61a114ed71ea76dc2d31d40ae8" kindref="member">sourceLayout</ref><sp/>=<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a79c25ff858d93f249c7c0a2c03bb257ea4cd8413207629a963225f4314b53adcd" kindref="member">SourceLayout::Plain</ref>;</highlight></codeline>
 <codeline lineno="608"><highlight class="normal"></highlight></codeline>
-<codeline lineno="622" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4a3452953a770a968f699df3d639bef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4a3452953a770a968f699df3d639bef" kindref="member">faceSwapOnlyFromDiffuseReg</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="623"><highlight class="normal"></highlight></codeline>
-<codeline lineno="649" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a49a757630bf62ecf1afa2c1018f90586" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a49a757630bf62ecf1afa2c1018f90586" kindref="member">texRegsByName</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="650"><highlight class="normal"></highlight></codeline>
-<codeline lineno="654" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1af4e7a7c6ad78febe612b368f4c4894b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1af4e7a7c6ad78febe612b368f4c4894b0" kindref="member">copyPreamble</ref>;</highlight></codeline>
-<codeline lineno="655"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="656"><highlight class="normal"></highlight></codeline>
-<codeline lineno="657"><highlight class="normal"></highlight></codeline>
-<codeline lineno="672"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1afa90e717a5e7edeab5e5d9188ef93001" kindref="member">makeGIMIComponentFixer</ref>(<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config" kindref="compound">GIMIComponentFixerConfig</ref><sp/>config,<sp/>std::string<sp/>component);</highlight></codeline>
-<codeline lineno="673"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="674"><highlight class="normal"></highlight></codeline>
-<codeline lineno="675"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="628" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a5b30a430ceae4c90cfd06f3a51eba7e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a5b30a430ceae4c90cfd06f3a51eba7e5" kindref="member">layoutFromOwnFixCall</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="629"><highlight class="normal"></highlight></codeline>
+<codeline lineno="643" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4a3452953a770a968f699df3d639bef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4a3452953a770a968f699df3d639bef" kindref="member">faceSwapOnlyFromDiffuseReg</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="644"><highlight class="normal"></highlight></codeline>
+<codeline lineno="661" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1acd8d21481f588f092bdda6ea264058c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1acd8d21481f588f092bdda6ea264058c3" kindref="member">fillDrawOnlyWhenUndrawn</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="662"><highlight class="normal"></highlight></codeline>
+<codeline lineno="688" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a49a757630bf62ecf1afa2c1018f90586" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a49a757630bf62ecf1afa2c1018f90586" kindref="member">texRegsByName</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="689"><highlight class="normal"></highlight></codeline>
+<codeline lineno="693" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1af4e7a7c6ad78febe612b368f4c4894b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1af4e7a7c6ad78febe612b368f4c4894b0" kindref="member">copyPreamble</ref>;</highlight></codeline>
+<codeline lineno="694"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="695"><highlight class="normal"></highlight></codeline>
+<codeline lineno="696"><highlight class="normal"></highlight></codeline>
+<codeline lineno="711"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1afa90e717a5e7edeab5e5d9188ef93001" kindref="member">makeGIMIComponentFixer</ref>(<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config" kindref="compound">GIMIComponentFixerConfig</ref><sp/>config,<sp/>std::string<sp/>component);</highlight></codeline>
+<codeline lineno="712"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="713"><highlight class="normal"></highlight></codeline>
+<codeline lineno="714"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h"/>
   </compounddef>

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_yaoyao_bamboo_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::YaoyaoBambooParser</compoundname>
+    <includes refid="_yaoyao_bamboo_parser_8h" local="no">YaoyaoBambooParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yaoyao_bamboo_parser_1a2dc094ad0fbc6b5f5e19873c6550dd35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::YaoyaoBambooParser::YaoyaoBambooParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>YaoyaoBambooParser</name>
+        <qualifiedname>AGRemapCore::YaoyaoBambooParser::YaoyaoBambooParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.h" line="34" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yaoyao_bamboo_parser_1adef17abe388b75ef7f6c6ceb98c9d9eb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::YaoyaoBambooParser::v6_3</definition>
+        <argsstring>()</argsstring>
+        <name>v6_3</name>
+        <qualifiedname>AGRemapCore::YaoyaoBambooParser::v6_3</qualifiedname>
+        <briefdescription>
+<para>The parser for a 6.3-era YaoyaoBamboo <computeroutput>.ini</computeroutput> file <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a824eb509b168813ba0fd3e3ba52a0405" kindref="member">IniParseBuilderFuncs::yaoyaoBamboo6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.h" line="39" column="45" bodyfile="src/data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.cpp" bodystart="74" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+YaoyaoBamboo&apos;s own ``.ini`` parsers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A skin of THREE components -- an UNNAMED main mesh (component ``&quot;&quot;``: Head, Body), a ``Bang`` and an
+``Eye`` -- see :cpp:func:`makeGIMIComponentParser`. Pair this with :cpp:class:`YaoyaoBambooFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.h" line="31" column="5" bodyfile="include/AGRemapCore/data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.h" bodystart="31" bodyend="40"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_yaoyao_bamboo_parser_1adef17abe388b75ef7f6c6ceb98c9d9eb" prot="public" virt="non-virtual"><scope>AGRemapCore::YaoyaoBambooParser</scope><name>v6_3</name></member>
+      <member refid="class_a_g_remap_core_1_1_yaoyao_bamboo_parser_1a2dc094ad0fbc6b5f5e19873c6550dd35" prot="public" virt="non-virtual"><scope>AGRemapCore::YaoyaoBambooParser</scope><name>YaoyaoBambooParser</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -329,6 +329,29 @@ Grading
    * - | **Xingqiu <--> XingqiuBamboo**
      - | :greenBold:`4.9`
      - |
+   * - | **Yaoyao --> YaoyaoBamboo**
+     - | :greenBold:`4.4`
+     - | Yaoyao is ONE mesh (``head``, ``body``) and YaoyaoBamboo is THREE components (an unnamed main mesh,
+       | ``Bang``, ``Eye``), so the mod is split per component and each half's blend weights are remapped
+       | through its own row.
+       |
+       | - Her head's light map and diffuse alpha are moved onto the skin's legend, or her hair and bells
+       | render pale -- a blonde mod grey-green.
+       |
+       | - Her backpack basket rides the skin's bamboo crate; a mod whose long hair falls over the basket
+       | can show two small shards of the basket through it, and a tassel on the basket hangs a little lower.
+       |
+       | - A mod whose own outfit is broken by a stale 4.0 hash renders right on the skin.
+   * - | **YaoyaoBamboo --> Yaoyao**
+     - | :greenBold:`4.6`
+     - | The inverse: the skin's main mesh, ``Bang`` and ``Eye`` merged onto one mesh -- the head's textures
+       | onto Yaoyao's ``head``, the body's onto her ``body``.
+       |
+       | - Her body shader reads the diffuse alpha as a glow, so the skin's body diffuse is written with alpha
+       | 0, or the outfit renders lit up white.
+       |
+       | - A mod written on GIMI's newer ``SetTextures`` API can look wrong on the skin itself with an older
+       | GIMI while it renders right on Yaoyao.
    * - | **Yelan --> YelanTranquil**
      - | :greenBold:`4.6`
      - | Yelan is ONE mesh and YelanTranquil is THREE (``Body``, ``Bang``, ``Eye``), each with its own buffers

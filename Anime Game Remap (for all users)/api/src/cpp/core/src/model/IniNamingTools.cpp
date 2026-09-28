@@ -260,18 +260,30 @@ namespace AGRemapCore {
         return getResourceName(getRemapPositionName(name, modName));
     }
 
+    // FileService::strToPath on the way in AND on the way out of every one of these, never
+    // `fs::path(str)` or `folder / str`: on Windows those read a narrow string as the ACTIVE CODE
+    // PAGE, so a UTF-8 name goes in and a DIFFERENT name comes out -- see strToPath's own danger
+    // note, and the ten sites the 2026-09-11 sweep found. These three were not among them.
+    //
+    // What it cost: a mod whose .ini has a non-Latin FILENAME -- `mod-自动生成.ini`, on a real
+    // ChisaParfait mod -- had every generated file named from the mangled round trip, so the fix
+    // wrote `mod-è‡ªåŠ¨ç”ŸæˆRemapFix1.ini` beside it. The undo then could not match that back to the
+    // .ini it belongs to and left it on disk, still carrying remapped sections, so the mod went on
+    // drawing on the target with no fix installed. A non-Latin FOLDER name was already covered and
+    // works; the filename was the untested half.
     std::string IniNamingTools::getFixedFile(const std::string& file, const std::string& modName, std::optional<std::string> fileExt) {
-        fs::path path(file);
+        fs::path path = FileService::strToPath(file);
         fs::path folder = pathlibStyleParent(path);
         std::string baseName = FileService::pathToStr(path.stem());
         std::string ext = fileExt.has_value() ? *fileExt : FileService::pathToStr(path.extension());
 
         std::string newName = getRemapFixName(baseName, modName) + ext;
-        return FileService::pathToIniStr((folder / newName));
+        return FileService::pathToIniStr((folder / FileService::strToPath(newName)));
     }
 
+    // strToPath on the way in and out -- see getFixedFile's note.
     std::string IniNamingTools::getFixedElementFile(const std::string& file, const std::string& elementName, const std::string& modName, std::optional<std::string> fileExt) {
-        fs::path path(file);
+        fs::path path = FileService::strToPath(file);
         fs::path folder = pathlibStyleParent(path);
         std::string baseName = FileService::pathToStr(path.stem());
         std::string ext = fileExt.has_value() ? *fileExt : FileService::pathToStr(path.extension());
@@ -281,7 +293,7 @@ namespace AGRemapCore {
             return newName;
         }
 
-        return FileService::pathToIniStr((folder / newName));
+        return FileService::pathToIniStr((folder / FileService::strToPath(newName)));
     }
 
     std::string IniNamingTools::getFixedBlendFile(const std::string& blendFile, const std::string& modName) {
@@ -292,8 +304,9 @@ namespace AGRemapCore {
         return getFixedElementFile(positionFile, IniKeywords::Position, modName, FileExt::Buf);
     }
 
+    // strToPath on the way in and out -- see getFixedFile's note.
     std::string IniNamingTools::getFixedTexFile(const std::string& texFile, const std::string& modName) {
-        fs::path path(texFile);
+        fs::path path = FileService::strToPath(texFile);
         fs::path folder = path.parent_path();  // no "." fallback here -- see pathlibStyleParent's comment
         std::string baseName = FileService::pathToStr(path.filename());
 
@@ -309,7 +322,7 @@ namespace AGRemapCore {
         }
 
         std::string newName = getRemapTexName(baseName, modName) + FileExt::DDS;
-        return FileService::pathToStr((folder / newName));
+        return FileService::pathToStr((folder / FileService::strToPath(newName)));
     }
 
     std::string IniNamingTools::getTextureOverrideRemapFix(const std::string& component, const std::string& obj, const std::string& modName) {

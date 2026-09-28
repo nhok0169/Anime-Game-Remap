@@ -65,6 +65,47 @@ the `RemapServiceCLI` log file, `IniFile`, `IniFileRemoveContext`, `RemapService
 two in `py/` that had never included `FileService.h` at all. **`py/` is as much part of this rule as
 `core/` is** and is easy to leave out of a sweep.
 
+### And the JOIN form has no keyword in it, so neither grep can see it (2026-09-28)
+
+`folder / someNarrowString` is the same conversion as `fs::path(someNarrowString)` — `operator/`
+takes a `std::string` and reads it as the active code page — but it contains none of the words the
+two greps above look for. **Six of these were still in shared code three weeks after the "ten more"
+sweep**, in four functions:
+
+| Site | What it names | How it showed |
+| --- | --- | --- |
+| `IniFileFixContext::fixedFilePath` | the generated `<stem>RemapFix<N>.ini` | the copy **survived every undo** |
+| `IniFile::disableIni` | the `RemapBKUP<stem>.txt` backup | nothing — see below |
+| `IniFileRemoveContext::removeBackup` | the same backup, to delete it | nothing — see below |
+| `IniNamingTools::getFixedFile` / `getFixedElementFile` / `getFixedTexFile` | every generated resource file name | latent |
+
+The first is the one that cost a day. A ChisaParfait mod ships `mod-自动生成.ini`, and its copy was
+written as `mod-è‡ªåŠ¨ç”ŸæˆRemapFix1.ini`; `RemapService::_origIniPath` — fixed in the same pass, and
+correct — then could not map that name back to the `.ini` it belongs to, so `_removeRemapCopies`
+never deleted it. **A leftover `<stem>RemapFix1.ini` still carries remapped sections**, so the mod
+went on drawing on the target with no fix installed. Every arm of the diagnosis pointed at the undo;
+the defect was in what the FIX had written, and the control that settled it in one run was renaming
+that one file to ASCII while keeping the non-Latin FOLDER (which undid cleanly).
+
+**The two backup sites are the more interesting pair, because nothing was broken.** They mangle the
+name identically, so the delete found what the rename had written and the round trip worked — while
+the file on disk carried a name nobody meant. Fixing either one alone would have made the undo stop
+deleting the backup. When you find a conversion bug, **check whether its opposite has the same one**
+before deciding how much is broken.
+
+`Tools/Misc/Diagnostics/pathJoinSweep.py` is the third grep, and it reads STATEMENTS rather than
+lines — the bug's own join was written across two lines with the `/` at the end of the first, which
+a line-based reader cannot see. Its first two versions each would have passed the build they were
+written to fail (one skipped every operand whose *name* contained `path`, which skipped
+`pathToStr(...)` — a function returning a narrow string), so it carries `--prove`, which runs it
+over the broken form and requires a hit. Seven sites remain in the tree and all seven were read:
+integer division, ASCII constants, and two in `core/tests`.
+
+**And the behaviour is checkable too**: `Tools/Misc/Diagnostics/nonLatinNames.py <mod>` fixes and
+undoes two copies of a real mod, one with its `.ini` files renamed to ASCII, and requires the same
+files and no leftovers. It exits non-zero on a mod with no non-Latin name at all, rather than
+reporting a tidy zero over nothing.
+
 ### Reading the mojibake tells you WHICH bug you have, before you read any code
 
 The reported log carried the same path twice, in two different shapes, and only one was a defect:

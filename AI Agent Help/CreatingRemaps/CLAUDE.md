@@ -4073,6 +4073,39 @@ keeping in mind:
 
 <br>
 
+## ...and it recognises it by NAME, so a mis-named copy is invisible to it (2026-09-28)
+
+The rule above is about which sections an undo takes. This is the other half: **which FILES it can
+find at all.** A merge writes `<stem>RemapFix<N>.ini` beside the mod's own, and the undo walks the
+folder, spots each `*RemapFix*.ini` and asks `RemapService::_origIniPath` which `.ini` it belongs to.
+Both halves derive that name from the `.ini`'s stem, so they agree — unless one of them mangles it.
+
+A ChisaParfait mod ships `mod-自动生成.ini`. Its copy was being WRITTEN as
+`mod-è‡ªåŠ¨ç”ŸæˆRemapFix1.ini` (`IniFileFixContext::fixedFilePath` joined the assembled name onto the
+folder as a narrow `std::string`, which Windows reads as the active code page), so the undo's
+question came back with a stem that matches no file and **the copy survived every undo** — still
+carrying remapped sections, so the mod went on drawing on Chisa with no fix installed. Two sibling
+sites named the backup the same wrong way and cancelled out, so nothing there looked broken. The
+full account, the other four sites and the two tools are in
+[Architecture](../Architecture/CLAUDE.md)'s "And the JOIN form has no keyword in it".
+
+Three things to carry out of it, none of them about encodings:
+
+* **A symptom in the undo can be a defect in the fix.** Every hypothesis for a day was about the
+  remover, because that is where the leftover file was noticed. The undo was correct throughout.
+* **The control was to change ONE variable.** Renaming that `.ini` to ASCII while keeping its
+  non-Latin FOLDER undid cleanly, which named the file's own name as the variable in a single run —
+  after measurements of the remover had said nothing. `Tools/Misc/Diagnostics/nonLatinNames.py` is
+  that control as a tool.
+* **Do not look for a generated file with a glob.** A mojibake `mod-<mojibake>RemapFix1.ini` still
+  matches `*RemapFix*.ini`, and a `find` for it reports a tidy success. Compare the NAME to the one
+  the stem should have produced, byte for byte. `fixUndoCycle.py` compares sections and could not
+  have seen this.
+
+Acceptance, over the whole GI + WuWa corpus: **708 files byte-identical, 0 changed**, and the only
+difference is that one file's name. Plus six new assertions in `core/tests/IniNamingTools_test.cpp`,
+proved to fail against the broken build before being trusted on the fixed one.
+
 ## Compiling a DIRECTION for a type that already exists (2026-09-22)
 
 The checklist below is for a type that does not exist yet. A remap's SECOND direction is a much

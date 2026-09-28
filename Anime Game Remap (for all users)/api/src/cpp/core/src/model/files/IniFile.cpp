@@ -544,8 +544,13 @@ namespace AGRemapCore {
 
         // Prefix on the name and a .txt extension, matching FileService.disableFile exactly -- the
         // extension change is what stops a mod loader from reading it as a .ini file at all.
-        std::filesystem::path backup = path.parent_path() /
-            (FilePrefixes::BackupFilePrefix + FileService::pathToStr(path.stem()) + FileExt::Txt);
+        //
+        // strToPath around the assembled name: `parent_path() / <narrow string>` reads it as the
+        // ACTIVE CODE PAGE on Windows, so a mod whose .ini has a non-Latin name was backed up under
+        // a mojibake one (`RemapBKUPmod-è‡ªåŠ¨ç”Ÿæˆ.txt` for `mod-自动生成.ini`). It worked only
+        // because IniFileRemoveContext::removeBackup mangled it identically -- see its own note.
+        std::filesystem::path backup = path.parent_path() / FileService::strToPath(
+            FilePrefixes::BackupFilePrefix + FileService::pathToStr(path.stem()) + FileExt::Txt);
 
         std::filesystem::rename(path, backup, err);
         if (err) {

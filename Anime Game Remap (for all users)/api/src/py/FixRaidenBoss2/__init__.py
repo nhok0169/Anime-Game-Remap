@@ -462,3 +462,13 @@ try:
     __all__ += ["GIMIComponentFixerConfig", "makeGIMIComponentFixer"]
 except ImportError:
     pass
+
+# ----- Added 2026-09-28: GraphCreate, the graph group edit that ADDS a graph to a group -- the
+# counterpart of GraphRemove. Guarded for the same reason as the blocks above: an unguarded name here
+# does not merely go missing on a platform whose .pyd is older, it makes the whole package fail to
+# import.
+try:
+    from .core import GraphCreate
+    __all__ += ["GraphCreate"]
+except ImportError:
+    pass

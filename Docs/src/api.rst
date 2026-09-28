@@ -844,6 +844,18 @@ GIMISectionClassifier
 
 :raw-html:`<br />`
 
+GraphCreate
+===========
+
+.. attributetable:: FixRaidenBoss2.GraphCreate
+
+.. autoclass:: FixRaidenBoss2.GraphCreate
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 GraphGroupEdit
 ==============
 

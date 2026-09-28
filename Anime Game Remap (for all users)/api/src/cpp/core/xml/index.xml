@@ -1566,6 +1566,19 @@
     <member refid="class_a_g_remap_core_1_1_global_remap_ini_remover_1a9e6bb4154f5d40aef6e6ff88c2b17724" kind="function"><name>GlobalRemapIniRemover</name></member>
     <member refid="class_a_g_remap_core_1_1_global_remap_ini_remover_1ad091c7ccb8e24a53be5bf3fce25f27cb" kind="function"><name>remove</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_graph_create" kind="class"><name>AGRemapCore::GraphCreate</name>
+    <member refid="class_a_g_remap_core_1_1_graph_create_1a3c528c8a25a5a26bc0be2ffd7c1cda19" kind="typedef"><name>Base</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_create_1ae02e06de153675ca48df413f77d0b222" kind="typedef"><name>GraphGroups</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_create_1ac97f88113919dd51136281ede515e54f" kind="typedef"><name>Graph</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_create_1aaf4bf93198caf2f720dee971cea6ecb3" kind="typedef"><name>ModObj</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_create_1ac1893d7c87927b058dd1e6993f057a52" kind="typedef"><name>GraphId</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_create_1a86df6e5aaa1e2bae185dd66802f49b5d" kind="variable"><name>graphId</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_create_1a928830144067760a88b9e9556a29235a" kind="variable"><name>graph</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_create_1a4fd89081bf0d0b904ec0eb341c7edba2" kind="variable"><name>minimal</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_create_1a6167263b5bafbdc4e3cff39dc4a9d3fd" kind="variable"><name>newPartIds</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_create_1a17daa3bd896435a77bdcc347eb9f2d56" kind="function"><name>GraphCreate</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_create_1af65184484b4cc8bc8f84d71c01c7f0c6" kind="function"><name>edit</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_grapheme_iterator" kind="class"><name>AGRemapCore::GraphemeIterator</name>
     <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1ab5dda27ff24c73e8e13363b265113820" kind="variable"><name>m_text</name></member>
     <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1a96a2accd410aef187805d5c1694fbac3" kind="variable"><name>m_pos</name></member>
@@ -6269,6 +6282,8 @@
   <compound refid="_reg_surrounded_add_8h" kind="file"><name>RegSurroundedAdd.h</name>
   </compound>
   <compound refid="_base_ini_graph_group_edit_8h" kind="file"><name>BaseIniGraphGroupEdit.h</name>
+  </compound>
+  <compound refid="_graph_create_8h" kind="file"><name>GraphCreate.h</name>
   </compound>
   <compound refid="_graph_group_edit_8h" kind="file"><name>GraphGroupEdit.h</name>
   </compound>

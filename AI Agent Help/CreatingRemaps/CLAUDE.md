@@ -3753,6 +3753,47 @@ changed; every Chisa and Sanhua folder identical, proving the new field's defaul
 lists where the previous build had **0**; and each one resolved to the right file — component 5
 bound the panel's own diffuse and component 7 the prop's, not their slot-mates'.
 
+### SEEN IN GAME (2026-09-28): three mods, and every part this session touched renders right
+
+The first in-game round for `ChisaParfait -> Chisa`, on the identity mod, `ChisaParfait1` and
+`ChisaParfait3`. **No defect found** — which after seven rounds on the forward direction is worth
+saying plainly rather than hedging.
+
+What was checked, and what each answers:
+
+| looked at | what it would have shown |
+| --- | --- |
+| the whole figure at rest, front / side / back | a drape or "jello" body — the blend remap onto a past-256-bone target |
+| running (WASD), mid-stride | a part left behind, or swinging on the wrong bones |
+| skin, close | the red translucent stain — the material mask packed wrong |
+| hair and beret, close | magenta blotches — the `ps-t5` repack, and the register left to the game |
+| the face, front | white cheek spots, a blank face, or a mask bound as a diffuse |
+| the frilled skirt and the belt pouch | the two parts Chisa has no counterpart for |
+
+All clean. The braids hang and swing symmetrically, the skirt and pouch stay where their author put
+them, the skin is the right colour, and the face is correct on the mod whose face the fix
+**downloads**.
+
+**That last one settles an open question the right way round.** `ChisaParfait1` is the older export
+whose `090e5fe5` could not be identified on hash-level evidence, so the fix falls back to
+downloading the game's face for it. The guess-from-appearance answer was refused; in game the
+downloaded face renders correctly, so refusing cost nothing and a wrong guess would have put a
+coded mask where a face goes.
+
+**And the non-Latin mod closed the loop on the session's first bug.** `ChisaParfait3`'s `.ini` is
+`mod-自动生成.ini`; its generated copy came out as `mod-自动生成RemapFix1.ini` — the real name, not
+the mojibake one — and the undo removed it completely, in the maintainer's own folder rather than a
+scratch copy.
+
+Two mechanics worth knowing for the next WuWa round. WWMI's `d3d11_log.txt` is **off** here (0.0 MB),
+so `reload --mod` can report nothing and says so (`NOTHING WAS CHECKED`) rather than passing — the
+picture is the instrument, not the log. And `crop` takes **view** coordinates, not the full-res ones
+the screenshot line prints; a crop in full-res numbers lands somewhere else entirely and looks like
+a rendering fault.
+
+Not done: `ChisaParfait2`, and a timed series over a longer animation. `mods WWMI restore` was run
+and all four folders are leftover-free.
+
 ### A CHARACTER'S OLDER TEXTURE HASHES, and the mod that has none of today's (2026-09-28)
 
 `WWMIFixerConfig::roles` is written from ONE generation of a character's textures, and WuWa rehashes

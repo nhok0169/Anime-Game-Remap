@@ -186,7 +186,8 @@ Grading
        | - The hair's detail map is repacked into Chisa's channel layout. One of Chisa's channels has
        | no counterpart in the skin's art and is written flat.
        |
-       | - Not yet checked in game.
+       | - Checked in game on three mods, including the character's own model as a mod. No fault seen
+       | at rest or in motion, from any angle.
    * - | **Citlali --> CitlaliWhisperofStars**
      - | :greenBold:`4.5`
      - | Citlali is ONE mesh (``head`` and ``body``) and CitlaliWhisperofStars is THREE components

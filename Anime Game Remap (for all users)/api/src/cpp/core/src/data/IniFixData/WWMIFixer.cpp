@@ -1798,28 +1798,42 @@ namespace AGRemapCore {
                                 return name.find(StringTools::toLower(hash)) == std::string::npos ? 1 : 0;
                             };
 
-                            // A FILE THIS .ini DECLARES A RESOURCE FOR IS IN USE; ONE NOTHING NAMES
-                            // IS A SPARE (2026-09-28). Chisa2 ships its active upper atlas as
-                            // `Textures/Components-3 t=4c7e5ddf.dds` -- its `[ResourceBase]` -- and
-                            // three spare colourways beside it under
-                            // `2Color Variation/{Black,Red,White}/` for the user to copy in by hand.
-                            // Its own file takes upperDiffuse from `2970cef1`, one of SEVEN hashes it
-                            // aliases onto that resource, and its name carries `4c7e5ddf` instead --
-                            // so the demotion below rejected the mod's own atlas and bound the
-                            // untouched RED spare, whose name and hash agree. In game: the kimono all
-                            // red, which is what was reported.
+                            // THE DEMOTION BELONGS AFTER rank()'s FIRST TWO ELEMENTS, NOT ABOVE ALL
+                            // OF THEM (2026-09-28). rank() already orders by how specifically a
+                            // file's `Components-<list>` name is tagged for this component, and then
+                            // by whether this .ini DECLARES a resource for it -- a file nothing names
+                            // is a spare the user copies in by hand. Sorting the 2026-09-27
+                            // contradiction above both let a spare win on a name:
                             //
-                            // Above the demotion, not inside it: Chisa13, the mod that tie-break was
-                            // built for, declares BOTH its candidates, so this ties there and the
-                            // demotion still decides.
+                            // Chisa2 ships its active upper atlas as `Textures/Components-3
+                            // t=4c7e5ddf.dds` (its `[ResourceBase]`) with three spare colourways
+                            // beside it under `2Color Variation/{Black,Red,White}/`. Its own file
+                            // takes upperDiffuse from `2970cef1`, one of SEVEN hashes it aliases onto
+                            // that resource, and its name carries `4c7e5ddf` -- so it was demoted and
+                            // the untouched RED spare, whose name and hash agree, was bound over it.
+                            // In game: the kimono all red, which is what was reported.
+                            //
+                            // Specificity stays FIRST, which is what keeps the 2026-09-19 rule:
+                            // sanhua_qiming ships its bangs' own mask as `Components-0
+                            // t=d153e37f.dds` and the game's shared one as `Components-0-1-2-3-4
+                            // t=d153e37f.dds`, declaring only the shared one, and the per-component
+                            // file must still win. Hoisting the declared test above specificity moved
+                            // 56 bindings onto different bytes across Sanhua and Chisa.
+                            auto firstTwo = [&](const std::string& file) {
+                                const auto r = rank(file, component);
+                                return std::make_pair(std::get<0>(r), std::get<1>(r));
+                            };
+
                             std::sort(candidates.begin(), candidates.end(),
                                       [&](const auto& a, const auto& b) {
-                                          const int spareA = resourceOfFile.count(a.first) > 0 ? 0 : 1;
-                                          const int spareB = resourceOfFile.count(b.first) > 0 ? 0 : 1;
-                                          if (spareA != spareB) {
-                                              return spareA < spareB;
+                                          const auto headA = firstTwo(a.first);
+                                          const auto headB = firstTwo(b.first);
+                                          if (headA != headB) {
+                                              return headA < headB;
                                           }
 
+                                          // Chisa13 declares BOTH its candidates at one specificity,
+                                          // so the contradiction still decides there
                                           const int badA = contradictsItsHash(a);
                                           const int badB = contradictsItsHash(b);
                                           if (badA != badB) {

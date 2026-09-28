@@ -3201,13 +3201,21 @@ Chisa's older hashes made all four candidates for `upperDiffuse`, and the mod's 
 The fix bound the Red spare over the mod's own atlas. Literally: the kimono went red
 (`Images/Chisa/2_8/Chisa2KimonoRed.jpg`).
 
-**A file this `.ini` declares a resource for is IN USE; one nothing names is a spare**, and that now
-sorts above the demotion -- above it rather than inside it, because Chisa13, the mod the demotion was
-built for, declares BOTH its candidates, so this ties there and the demotion still decides. Over the
-corpus it also moved seven Sanhua and SanhuaExorcist files, every one off an untouched
-`Components-N t=hash.dds` left lying in the folder (one of them under `新建文件夹`, "New folder") and
-onto the resource the author actually declares -- which is the 2026-09-19 finding, crept back. Role
-warnings 23 -> 17.
+**`rank()` already ranked a declared file above a spare** -- it is its SECOND element, under
+specificity. The only thing out of place was the 2026-09-27 demotion, which sat above all of it. Put
+back between `rank()`'s first two elements and the rest, every case falls out:
+
+| both candidates | decided by | on |
+| --- | --- | --- |
+| differ in specificity | the component tag, first as always | `sanhua_qiming`'s per-component bangs mask beats the shared one -- unchanged |
+| tagged alike, one declared | declared beats spare | **Chisa2's own atlas beats the Red spare** -- the red kimono |
+| tagged alike, both declared | the demotion, as before | Chisa13's hair normal -- unchanged |
+
+**Hoisting the declared test ABOVE specificity instead was wrong, and the sweep is what said so**:
+it overrode the 2026-09-19 per-component rule and moved **56 bindings onto different bytes** across
+Sanhua, SanhuaExorcist and Chisa -- including binding `sanhua_qiming`'s bangs DIFFUSE and bangs MASK
+to one file. Ordered properly it is 6, all on Chisa7, all the same shape as Chisa2's. Role warnings
+23 -> 22.
 
 **Then one of those corrections exposed an author typo, which is its own rule.**
 SanhuaExorcist4's `[TextureOverrideTexture7_injured]` says `this = ResourceTexture7.1` / `.2` where
@@ -3222,7 +3230,16 @@ narrow what the copy overrides.
 
 * **A `.ini` the fix edits IN PLACE is not in a "fix-written files" manifest.** The corpus
   regression compares what the fix generates, so the whole `mod.ini` change -- which is where this
-  defect lived -- was invisible to it. Diff the mod's own `.ini` between the two builds as well.
+  defect lived -- was invisible to it. `Tools/Misc/Diagnostics/wwmiSweep.py` compares two fixed
+  corpora three ways instead: every file of every folder, every binding **per toggle BRANCH**, and
+  whether every reference resolves. Proved against the build that shipped this defect first, where
+  it names the binding outright.
+* **A binding diff is not enough either: resolve both sides to BYTES.** A move from
+  `ResourceFooRemapRef` to `ResourceTexture7` is cosmetic when the two name the same file and a
+  real change when they do not, and nothing in the text says which -- `wwmiResolveDiff.py` md5s
+  both. It is what caught the 56. And it has its own blind spot, so read the file list too: a
+  resource that keeps its NAME and points somewhere new (Chisa14's accessory diffuse) shows up only
+  as a changed `mod.ini`.
 * **Prove the reload lands before reading a null result.** `reload --mod` can only say
   `NOTHING WAS CHECKED` here, because WWMI's `d3d11_log.txt` is off. Parking the mod and reloading
   reverted her to the vanilla outfit in one command, which is what made the two unchanged probes

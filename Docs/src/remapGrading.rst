@@ -183,9 +183,6 @@ Grading
        | - The hair's detail map is repacked into Chisa's channel layout. One of Chisa's channels has
        | no counterpart in the skin's art and is written flat.
        |
-       | - Several of Chisa's passes draw a slot's geometry with a different first texture, and the fix
-       | does not yet name them, so on those passes the mod's mesh is drawn with Chisa's own art.
-       |
        | - Not yet checked in game.
    * - | **Citlali --> CitlaliWhisperofStars**
      - | :greenBold:`4.5`

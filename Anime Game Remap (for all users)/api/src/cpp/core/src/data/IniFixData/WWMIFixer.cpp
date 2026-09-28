@@ -2068,6 +2068,13 @@ namespace AGRemapCore {
                             for (const auto& [pass, regs] : extra->second) {
                                 std::vector<std::string> extraBindings;
                                 for (const WWMIFixerConfig::Binding& binding : regs) {
+                                    // A binding for ONE source, on a slot two sources merge onto --
+                                    // see Binding::srcComponent. The default -1 takes every source,
+                                    // which is what every config written before 2026-09-28 means.
+                                    if (binding.srcComponent >= 0 && binding.srcComponent != component) {
+                                        continue;
+                                    }
+
                                     const std::string* resource = resourceFor(binding.role, component);
                                     if (resource != nullptr) {
                                         extraBindings.push_back(bindLine(binding.role, binding.reg, *resource));

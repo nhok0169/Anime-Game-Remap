@@ -361,6 +361,43 @@ namespace AGRemapCore {
         // part UV'd into the next tile relying on the sampler wrapping.
         config.cleanTexcoords = true;
 
+        // ---- the passes that take a slot's art at a DIFFERENT register ---------------------------
+        // `slotPasses` above names the pass that SETS each slot's whole register set. Chisa draws
+        // every slot more than once, and a pass named in NEITHER table still draws -- with the
+        // GAME's textures. The 2026-09-28 audit found this table missing entirely while the comment
+        // on `slotPasses` promised it.
+        //
+        // Measured off her max-LOD dump with `wwmiPassLayout.py --against <the skin's dump>`, which
+        // separates a register the draw SETS from one it INHERITED -- the distinction that matters,
+        // and the one a draw table cannot make. Her extra passes fall into three kinds:
+        //
+        //   * `21176cf68a65ab7a` SETS `ps-t0` alone, to that slot's own DIFFUSE, on slots 0, 1, 3
+        //     and 4. That is the whole gap: the main pass takes the diffuse at ps-t1 (hair) or
+        //     ps-t2 (clothing), so a fix that binds only the main layout leaves this pass drawing
+        //     the mod's mesh with CHISA's diffuse. These are the four rows below.
+        //   * `320a753b019eff67` (slot 2) sets ps-t1 and `92ca4bd985fe6887` (slot 6) sets ps-t0 and
+        //     ps-t1 -- but to a flat grey and a green ramp that are in NO role of either character.
+        //     They are outline / shadow passes reading a lookup, so binding the mod's art there
+        //     would be wrong, not missing. No rows.
+        //   * `94d9d5e981938d52`, `32414b557630d98d`, `259b766b59f72419`, `50f2ed8061f3d351` and
+        //     `f1ba4fec4b21dd8b` SET NOTHING -- every register inherited. Whatever the preceding
+        //     draw left stands, which for a fixed mod is the fix's own binding. No rows.
+        //
+        // Chisa's slot 5 takes no source in this direction, so it needs none either.
+        //
+        // The two MERGED slots carry `srcComponent`: slot 3 is her upper body plus the skin's
+        // frilled panel, slot 4 her lower body plus the hip prop, and "the diffuse" is a different
+        // file for each. Without it both bindings land in one list and the second wins for the
+        // source it does not belong to.
+        config.extraPassRegs = {
+            {0, {{"21176cf68a65ab7a", {{"ps-t0", "frontHairDiffuse"}}}}},
+            {1, {{"21176cf68a65ab7a", {{"ps-t0", "hairDiffuse"}}}}},
+            {3, {{"21176cf68a65ab7a", {{"ps-t0", "upperDiffuse", 3},
+                                      {"ps-t0", "panelDiffuse", 5}}}}},
+            {4, {{"21176cf68a65ab7a", {{"ps-t0", "lowerDiffuse", 4},
+                                      {"ps-t0", "propDiffuse", 7}}}}},
+        };
+
         // ---- the shape keys are RETARGETED, not hidden -------------------------------------------
         // The same two lines the forward direction sets, for the same reason, and the 2026-09-28
         // audit found them missing here: the template's DEFAULTS hide the two shape-key overrides

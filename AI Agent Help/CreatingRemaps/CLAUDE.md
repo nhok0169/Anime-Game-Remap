@@ -3683,7 +3683,7 @@ real:
 | --- | --- |
 | `hiddenObjs`, `zeroShapeKeyStream` | **the fix commented out 53 lines of the mod's OWN text**, its shape-key overrides among them — so a ChisaParfait mod fixed for Chisa was broken on ChisaParfait too. The forward direction turns both off with a nine-line comment saying exactly this; the reverse had never been given it. Now 0 lines. |
 | `flatLeftToGame` | the hair masks were in neither flat set, switching off two protections. The comment justifying that reasoned about the DOWNLOAD's structure, and both rules operate on the MOD's candidate file. |
-| `extraPassRegs` | **the config's own comment promised it and no assignment existed.** Eight of Chisa's passes draw a slot's art with a different `ps-t0`; on those the mod's mesh draws with Chisa's own art. NOT fixed yet — it needs the per-pass register measurement the others got, not a transcription. |
+| `extraPassRegs` | **the config's own comment promised it and no assignment existed.** Fixed, and the measurement is its own section below. |
 | `sharedMeshes`, `anchorChains`, `sourceVgMaps`, `createdTextures` | each absent, each with its own verdict; `sourceVgMaps` is safe-by-design (the template refuses rather than mis-remapping) and the rest are open. |
 
 Two lessons about the method itself. **"Does a comment say it is handled" is not the question; "is
@@ -3715,6 +3715,42 @@ is treated as a hidden object rather than a missing one, so it triggers no downl
 
 The runner is `synthRun.py`'s shape: fix, fix AGAIN, undo, and compare the file set after each pass
 — three of the gate's checks that only mean something together.
+
+### FILLING `extraPassRegs`: only a `sets` line is evidence, and a MERGED slot needs a third column (2026-09-28)
+
+The gap the audit found, closed. Worth reading as the worked example of the field, because the
+answer is not "every pass the target draws the slot on" — it is a three-way split, and two of the
+three kinds need **no** row.
+
+**Do not build this from a draw table.** The first attempt did, picking each slot's main pass as
+"the one binding the most registers" — which is the inherited-vs-set trap that cost a yellow kimono,
+in a new costume. `wwmiPassLayout.py --against <the other character's dump>` is the tool: it marks a
+register the draw SETS, one it INHERITED (`~`), and one left standing by a draw that appears in BOTH
+dumps (`!`, something in the scene that is neither character). Two practical notes: leave slot 0's
+`--starts 0` out of the argument list or every UI quad in the frame comes back, and take that slot
+by its index COUNT instead.
+
+Chisa's extra passes, measured:
+
+| kind | passes | row? |
+| --- | --- | --- |
+| **sets one register, to that slot's own ART** | `21176cf68a65ab7a` sets `ps-t0` to the slot's DIFFUSE on slots 0, 1, 3 and 4 | **yes** — the main pass takes the diffuse at `ps-t1` (hair) or `ps-t2` (clothing), so without a row this pass draws the mod's mesh with the target's diffuse |
+| **sets one register, to a GLOBAL** | `320a753b019eff67` (slot 2, `ps-t1`), `92ca4bd985fe6887` (slot 6, `ps-t0`/`ps-t1`) — a flat grey and a green ramp, in no role of either character | no: an outline pass reading a lookup. Binding the mod's art there would be wrong, not missing |
+| **sets nothing** | `94d9d5e981938d52`, `32414b557630d98d`, `259b766b59f72419`, `50f2ed8061f3d351`, `f1ba4fec4b21dd8b` | no: every register inherited, so whatever the preceding draw left stands — which for a fixed mod is the fix's own binding |
+
+**And a merged target slot needed a template change.** `extraPassRegs` is keyed by TARGET slot,
+which is right until two sources merge onto one: "the diffuse at `ps-t0`" is then a different file
+per source, and the role lookup falls back to a component-agnostic one, so either role resolves for
+either section. Two bindings on one register in one list means the last wins, silently, for the
+source it does not belong to. `Binding::srcComponent` (default `-1`, every source — so no config
+written before this moves) limits a binding to one source, the same shape as GI's `TexEdit::srcObj`
+and for the same reason: **a merge is the one case a target-keyed table cannot express.** Chisa has
+two such slots, her upper body sharing with the skin's frilled panel and her lower with the hip prop.
+
+Acceptance: 706 files byte-identical across the corpus with only the four ChisaParfait `.ini`
+changed; every Chisa and Sanhua folder identical, proving the new field's default; 8 `TexturesPass`
+lists where the previous build had **0**; and each one resolved to the right file — component 5
+bound the panel's own diffuse and component 7 the prop's, not their slot-mates'.
 
 ### TWO SKINS OF ONE CHARACTER CAN PACK THEIR MATERIAL MASK DIFFERENTLY (2026-09-20)
 

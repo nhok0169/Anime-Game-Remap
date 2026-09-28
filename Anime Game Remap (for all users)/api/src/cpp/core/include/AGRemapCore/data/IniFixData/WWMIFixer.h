@@ -109,6 +109,26 @@ namespace AGRemapCore {
              @endrst
              */
             std::string role;
+
+            /**
+             * @brief
+             @rst
+             In :cpp:member:`extraPassRegs` only: the SOURCE component this binding is for, or
+             ``-1`` (the default) for every source that reaches the slot.
+
+             Everything else in that table is keyed by the TARGET slot, which is right until two
+             sources MERGE onto one -- and then "the diffuse at ``ps-t0``" is a different file per
+             source, while the role lookup falls back to a component-agnostic one and so resolves
+             either role for either section. Two bindings on one register in one list means the last
+             one wins, silently, for whichever source it does not belong to.
+
+             The same shape as GI's ``TexEdit::srcObj``, and for the same reason: a merge is the one
+             case a target-keyed table cannot express. ChisaParfait -> Chisa has two merged slots
+             (her frilled panel joins the upper body, her hip prop the lower), so both of its merged
+             rows carry this
+             @endrst
+             */
+            int srcComponent = -1;
         };
 
         /**

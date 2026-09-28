@@ -3565,6 +3565,82 @@ grep -n "Override = ref Resource" <mod>/mod.ini
 Count it per SECTION, not per file: three of seven sections carried it, and a file-level "contains
 it" reads the same before and after a fix that only got one of them.
 
+### ...AND REMAPPING **ONTO** ONE MEANS THE FIX HAS TO WRITE THAT PAIR ITSELF (2026-09-28)
+
+The section above is the forward direction: the SOURCE is past 256 bones, and the cure is to strip
+what the mod carried. `ChisaParfait -> Chisa` is the other way round, and it is not the mirror image
+of it -- the TARGET is past 256 bones, so the fix's remapped `Blend.buf` cannot address the bones it
+has just remapped onto. Chisa's merged skeleton is 420 slots; an 8-bit id silently wraps, and a bone
+at 418 lands on 162.
+
+So the fix writes all three buffers, beside its own blend:
+
+| File | Holds |
+| --- | --- |
+| `<mod>RemapBlendRemapVertexVG.buf` | every vertex's FULL 16-bit target ids |
+| `<mod>RemapBlendRemapForward.buf` | 512 `uint16`, local -> merged (`SkeletonRemapper` gathers through it) |
+| `<mod>RemapBlendRemapReverse.buf` | 512 `uint16`, merged -> local (`BlendRemapper` rewrites the blend through it) |
+
+and the remapped section binds the same three `Resource*Override` lines the forward direction strips
+-- pointed at the fix's own, which is what makes stripping the MOD's correct rather than merely
+convenient.
+
+The skeleton buffers have to be big enough too. A mod declares `array = 768` (256 bones x 3 rows),
+sized for its OWN character; `WWMIFixerConfig::mergedSkeletonSlots` is what the fix declares instead,
+and ChisaParfait -> Chisa sets it to `1536`. **The fix supplies its own skeleton sections at that
+size rather than editing the mod's declaration** -- the same rule as everywhere else here, so the mod
+installed on its own character is untouched and the undo has nothing outside the fix block to take
+back. `legacySkeletonSections()` already did this for legacy mods and now runs for a past-256 target
+as well, which is why the whole `.ini` half cost one condition rather than a new writer.
+
+**Three things this got wrong before it was right, and the first is the general one.**
+
+**ONE remap for the whole mesh, not one per component.** WWMI Tools writes a remap per component,
+which is what the scheme exists for: it lets a mesh using more than 256 bones give each component a
+set that fits. Copying that needs each component's VERTEX SET, and the two answers available at fix
+time DISAGREE on a real mod -- the section's declared window (`match_first_index` /
+`match_index_count`) against the mod's own toggled `drawindexed` ranges. Measured: **16433 of one
+component's 83582 weighted slots landed on the wrong bone**, and a mod with a component it never
+draws shifted every later remap index past the end. The union over the whole mesh has no such
+ambiguity and is bounded by the ROW rather than hoped about -- this pair's names 182 distinct
+targets against a remap's 256 entries, and 173-182 are used across the four mods in hand. A union
+that does not fit is REFUSED, never truncated: a short remap sends every bone past the cut to local
+0, which is a limb pinned to the root with nothing in the output to say so.
+
+**The `.ini` is written BEFORE the buffers are**, so anything both of them name has to come from
+something neither can change. Deriving the bone count from the mod's used bones and the `.ini`'s
+from anything else is two answers to one question. Both read the vertex group ROW's distinct
+targets; an entry no vertex reaches costs two bytes and is never gathered. It also makes the remap
+identical across every mod of a pair, which is one fewer thing to be mod-dependent and wrong on the
+mod nobody tested.
+
+**And the decision has to be made before the per-section additions run.** `targetPast256_` was being
+computed after them, so the sections were written and nothing ran them -- a fix that produces every
+file, logs success, and has no effect. Found by reading the generated `.ini`, not by any counter. A
+second one of the same shape: the remapped section still ran the MOD's own merge list, writing
+Chisa's bone 269 into a 256-bone buffer, so the fix now removes `run = CommandListMergeSkeleton`
+from it.
+
+**The acceptance check is `Tools/Misc/Diagnostics/wwmiCheckBlendRemap.py`**, pointed at the fix's
+own file names:
+
+```bash
+py -3 Tools/Misc/Diagnostics/wwmiCheckBlendRemap.py <fixed mod>... \
+    --blend ChisaRemapBlend.buf --vertexVg ChisaRemapBlendRemapVertexVG.buf \
+    --forward ChisaRemapBlendRemapForward.buf --reverse ChisaRemapBlendRemapReverse.buf
+```
+
+It runs both shaders' arithmetic over the written files and requires every weighted slot of every
+vertex to round-trip. **Nothing weaker distinguishes a remap that is present from one that is
+right**: all three buffers are the correct size whatever is in them, and a swapped reverse entry
+moves one limb in game and changes nothing else. It is what caught the per-component version, which
+passed on the identity mod -- the identity mod being the easy case again -- and failed on all three
+real ones.
+
+One trap in the checker itself, worth knowing before writing any tool that reads a mod's component
+windows: keying them by component NUMBER lets a fixed mod's remapped section overwrite the
+original's entry, so the tool reports the OTHER character's windows. Key on the section NAME.
+
 ### TWO SKINS OF ONE CHARACTER CAN PACK THEIR MATERIAL MASK DIFFERENTLY (2026-09-20)
 
 Binding the mod's own mask on the target's draw is not automatically right, even when the mod ships

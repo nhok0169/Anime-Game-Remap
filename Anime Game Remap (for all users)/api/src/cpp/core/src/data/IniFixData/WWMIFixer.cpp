@@ -403,6 +403,175 @@ namespace AGRemapCore {
         }
 
 
+        // ---- a target past 256 merged bones ------------------------------------------------
+        //
+        // Where the blend is remapped ONTO a character whose merged skeleton passes 256 slots, the
+        // 8-bit ids of a WWMI Blend.buf cannot name the bones the row asks for -- so the fix has to
+        // write WWMI's own blend remap, exactly as WWMI Tools writes one for such a character's own
+        // mods (blender_export/data_models/data_model_wwmi.py's build_blend_remap, and this repo's
+        // Tools/Misc/Prototypes/wwmiIdentityMod.py, whose output renders correctly in game).
+        //
+        // Four files come out of one pass, because they are four views of one computation:
+        //   * the remapped blend      -- the mapped ids TRUNCATED to 8 bits, plus the mod's own
+        //                                weights untouched. What a component with no remap reads.
+        //   * ...BlendRemapVertexVG   -- every vertex's mapped ids at their full 16 bits
+        //   * ...BlendRemapForward    -- 512 uint16 per remapped component, local -> merged
+        //   * ...BlendRemapReverse    -- 512 per remap, merged -> local
+        //
+        // ONE remap for the whole mesh, shared by every component -- where WWMI Tools writes one
+        // per component. Its scheme exists so that a mesh using more than 256 bones can still give
+        // each component a set that fits; it needs each component's VERTEX SET, and the two answers
+        // available here disagree on a real mod -- the section's declared window against the mod's
+        // own toggled `drawindexed` ranges. Measured, on the three real ChisaParfait mods: 16433 of
+        // one component's 83582 weighted slots landed on the wrong bone, and a mod with a component
+        // it never draws shifted every later remap index past the end. The identity mod passed all
+        // of it, being the easy case as ever.
+        //
+        // The union over the whole mesh has no such ambiguity, and it is bounded by the ROW rather
+        // than hoped about: this pair's names 182 distinct targets against a remap's 256 entries,
+        // and 173-182 are used across the four mods in hand. A union that does NOT fit is refused
+        // rather than truncated -- see the check below.
+        struct BlendRemapOut {
+            std::string vertexVG;
+            std::string forward;
+            std::string reverse;
+        };
+
+        bool writeBlendRemap(RemapBlendResource& resource, const std::string& srcVertexVGPath,
+                             const std::string& positionPath, const BlendRemapOut& out) {
+            constexpr std::size_t RemapSize = 512;          // entries per remap, WWMI's own size
+
+            std::ifstream blendIn(FileService::strToPath(resource.srcPath), std::ios::binary);
+            if (!blendIn.is_open()) {
+                return false;
+            }
+
+            std::vector<std::uint8_t> blend((std::istreambuf_iterator<char>(blendIn)), std::istreambuf_iterator<char>());
+            blendIn.close();
+
+            // The layout is derived, never assumed -- hardcoding it is what made the legacy lift
+            // silently do nothing on these same mods, and what read an 8-influence line as two.
+            std::error_code err;
+            const std::uintmax_t positionSize =
+                std::filesystem::file_size(FileService::strToPath(positionPath), err);
+            if (err || positionSize < 12) {
+                return false;
+            }
+
+            const std::size_t vertices = static_cast<std::size_t>(positionSize / 12);
+            if (vertices == 0 || blend.empty() || blend.size() % vertices != 0) {
+                return false;
+            }
+
+            const std::size_t stride = blend.size() / vertices;      // N ids + N weights, a byte each
+            if (stride < 2 || stride % 2 != 0) {
+                return false;
+            }
+
+            const std::size_t influences = stride / 2;
+
+            // The TRUE ids: the mod's own 16-bit ones when it carries a blend remap of its own,
+            // otherwise Blend.buf's, which are the whole truth for a source under 256 bones.
+            std::vector<std::uint16_t> trueIds(vertices * influences, 0);
+            bool haveVertexVG = false;
+            if (!srcVertexVGPath.empty()) {
+                std::ifstream vgIn(FileService::strToPath(srcVertexVGPath), std::ios::binary);
+                if (vgIn.is_open()) {
+                    std::vector<std::uint8_t> vg((std::istreambuf_iterator<char>(vgIn)), std::istreambuf_iterator<char>());
+                    if (vg.size() == vertices * influences * 2) {
+                        std::memcpy(trueIds.data(), vg.data(), vg.size());
+                        haveVertexVG = true;
+                    }
+                }
+            }
+
+            if (!haveVertexVG) {
+                for (std::size_t vertex = 0; vertex < vertices; ++vertex) {
+                    for (std::size_t b = 0; b < influences; ++b) {
+                        trueIds[vertex * influences + b] = blend[vertex * stride + b];
+                    }
+                }
+            }
+
+            // ---- map every id through the library's row --------------------------------------
+            const std::unordered_map<long long, long long>& row = resource.vgRemap.getRemap();
+            std::vector<std::uint16_t> mapped(trueIds);
+            for (std::size_t vertex = 0; vertex < vertices; ++vertex) {
+                for (std::size_t b = 0; b < influences; ++b) {
+                    const std::size_t at = vertex * influences + b;
+                    if (blend[vertex * stride + influences + b] == 0) {
+                        continue;                                     // a weight-zero slot
+                    }
+
+                    const auto target = row.find(static_cast<long long>(trueIds[at]));
+                    if (target != row.end() && target->second >= 0
+                            && static_cast<std::size_t>(target->second) < RemapSize) {
+                        mapped[at] = static_cast<std::uint16_t>(target->second);
+                    }
+                }
+            }
+
+            // ---- the blend, with the mapped ids truncated -------------------------------------
+            std::vector<std::uint8_t> fixed(blend);
+            for (std::size_t vertex = 0; vertex < vertices; ++vertex) {
+                for (std::size_t b = 0; b < influences; ++b) {
+                    fixed[vertex * stride + b] =
+                        static_cast<std::uint8_t>(mapped[vertex * influences + b] & 0xFF);
+                }
+            }
+
+            const auto write = [](const std::string& path, const void* data, std::size_t bytes) {
+                std::error_code dirErr;
+                std::filesystem::create_directories(
+                    FileService::strToPath(path).parent_path(), dirErr);
+                std::ofstream file(FileService::strToPath(path), std::ios::binary);
+                if (!file.is_open()) {
+                    return false;
+                }
+
+                file.write(reinterpret_cast<const char*>(data), static_cast<std::streamsize>(bytes));
+                return true;
+            };
+
+            if (!write(resource.fixedPath, fixed.data(), fixed.size())
+                    || !write(out.vertexVG, mapped.data(), mapped.size() * 2)) {
+                return false;
+            }
+
+            // ---- the one map, over the ROW's distinct targets ----------------------------------
+            // Not over the bones this mod happens to weight: the .ini naming the remap's bone count
+            // is written BEFORE this runs, so the two have to derive it from the same thing, and the
+            // row is the only thing neither can change. An entry no vertex reaches costs two bytes.
+            std::set<std::uint16_t> used;
+            for (const auto& [srcBone, dstBone] : row) {
+                (void)srcBone;
+                if (dstBone >= 0 && static_cast<std::size_t>(dstBone) < RemapSize) {
+                    used.insert(static_cast<std::uint16_t>(dstBone));
+                }
+            }
+
+            if (used.size() > RemapSize) {
+                // Refused rather than truncated: a silently short remap sends every bone past the
+                // cut to local 0, which is a limb pinned to the root and nothing in the output to
+                // say so. Cannot happen for a pair whose row names fewer distinct targets than a
+                // remap holds, which is checked when the row is read.
+                return false;
+            }
+
+            std::vector<std::uint16_t> forward(RemapSize, 0);
+            std::vector<std::uint16_t> reverse(RemapSize, 0);
+            std::uint16_t local = 0;
+            for (const std::uint16_t merged : used) {
+                forward[local] = merged;
+                reverse[merged] = local;
+                ++local;
+            }
+
+            return write(out.forward, forward.data(), forward.size() * 2)
+                   && write(out.reverse, reverse.data(), reverse.size() * 2);
+        }
+
+
         bool liftLegacyBlend(RemapBlendResource& resource, const std::string& indexPath,
                              const std::string& positionPath,
                              const std::map<int, std::vector<std::pair<long long, long long>>>& drawRanges,
@@ -1173,6 +1342,16 @@ namespace AGRemapCore {
                             if (slash != std::string::npos && slash > 0) {
                                 meshFolder_ = forward.substr(0, slash);
                             }
+
+                            // The mod's OWN blend line, derived from its own file rather than the
+                            // `stride` it declares: a declaration can disagree with the bytes, and
+                            // this is the number WWMI's BlendRemapper is handed.
+                            const std::string blendPath =
+                                FileService::absPathOfRelPath(forward, ctx_.getIniFile()->getFolder());
+                            const std::string positionPath =
+                                FileService::absPathOfRelPath(positionFile_, ctx_.getIniFile()->getFolder());
+                            blendInfluences_ = wwmiBlendInfluences(blendPath, meshVertexCount_, positionPath);
+                            blendStride_ = blendInfluences_ * 2;
                         }
                     }
 
@@ -1681,6 +1860,39 @@ namespace AGRemapCore {
                     const std::optional<Version> from = fromVersion();
                     const std::optional<Version> to = toVersion();
 
+                    // Does the TARGET's merged skeleton pass what an 8-bit blend index can name?
+                    // The row's largest target id answers it, and it is a property of the PAIR --
+                    // so the .ini and the buffers, written at different moments, cannot disagree
+                    // about whether there is a blend remap. Chisa reaches 418; ChisaParfait, going
+                    // the other way, stops at 250 and needs none.
+                    if (source != nullptr) {
+                        const std::optional<VGRemap> row = source->getVGRemap(toModName_, from, to);
+                        if (row.has_value()) {
+                            std::set<long long> targets;
+                            for (const auto& [srcBone, dstBone] : row->getRemap()) {
+                                (void)srcBone;
+                                targets.insert(dstBone);
+                                if (dstBone > 255) {
+                                    targetPast256_ = true;
+                                }
+                            }
+
+                            blendRemapBones_ = targets.size();
+
+                            // A row naming more distinct targets than one remap holds would need
+                            // WWMI's per-component scheme back. Refused rather than truncated: a
+                            // short remap sends every bone past the cut to local 0, which is a limb
+                            // pinned to the root and nothing in the output to say so.
+                            if (targetPast256_ && blendRemapBones_ > 512) {
+                                note("the vertex group row names " + std::to_string(blendRemapBones_)
+                                     + " distinct target bones, past the 512 one blend remap holds;"
+                                     + " the blend remap is not written");
+                                targetPast256_ = false;
+                            }
+                        }
+                    }
+
+
                     assetRemap_ = std::make_unique<RegAssetRemap<>>(
                         std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
                             {IniKeywords::Hash, RegAssetRemap<>::AssetSpec(ctx_.modTypeHashes(), IniKeywords::HashNotFound)},
@@ -1690,10 +1902,27 @@ namespace AGRemapCore {
 
                     // Lines a remapped section drops -- see WWMIFixerConfig::removedRegs for why
                     // each kind is there. Built once and hung on every remapped slot section.
-                    if (!config_.removedRegs.empty()) {
+                    std::vector<WWMIFixerConfig::RegRemoval> removals = config_.removedRegs;
+                    if (targetPast256_) {
+                        // The MOD's own merge list, dropped from the remapped sections. It writes
+                        // the TARGET's bones -- Chisa's slot 3 starts at merged offset 142 and runs
+                        // to 269 -- into the mod's own merged skeleton, which every ChisaParfait mod
+                        // declares for 256 bones. The writes past the end are dropped by D3D, but
+                        // the ones that land corrupt the SOURCE's skeleton whenever both characters
+                        // are on screen at once. The fix's own merge list (CommandListMergeSlot<N>)
+                        // does the same work into a buffer sized for the target, and is added to
+                        // these sections beside it.
+                        //
+                        // Matched by prefix, which covers the name both before and after the group
+                        // remap renames it. A mod whose merge list is named something else keeps it,
+                        // which is wasted work rather than a wrong picture.
+                        removals.push_back(WWMIFixerConfig::RegRemoval{IniKeywords::Run, "commandlistmergeskeleton"});
+                    }
+
+                    if (!removals.empty()) {
                         std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>> keys;
-                        keys.reserve(config_.removedRegs.size());
-                        for (const WWMIFixerConfig::RegRemoval& removal : config_.removedRegs) {
+                        keys.reserve(removals.size());
+                        for (const WWMIFixerConfig::RegRemoval& removal : removals) {
                             if (removal.valuePrefix.empty()) {
                                 keys.emplace_back(removal.reg, std::nullopt);
                                 continue;
@@ -1777,8 +2006,17 @@ namespace AGRemapCore {
 
                         const WWMIFixerConfig::SourceComponent& planned = entry.second;
                         RegSurroundedAdd<>::Additions additions;
-                        if (legacy_) {
+                        if (legacy_ || targetPast256_) {
+                            // The fix's own merge list, not the mod's: for a legacy mod because it
+                            // has none, and for a target past 256 bones because the mod's own
+                            // merged skeleton is declared for 256 and the target's bones run past it.
                             additions.emplace_back(IniKeywords::Run, mergeListName(planned.slot));
+                        }
+
+                        if (targetPast256_) {
+                            // After the merge list, so the private skeleton exists, and after the
+                            // shared override, whose `vb4` this rebinds to the remapped blend.
+                            additions.emplace_back(IniKeywords::Run, blendRemapInitList());
                         }
 
                         if (config_.zeroShapeKeyStream && meshVertexCount_ > 0) {
@@ -1958,7 +2196,27 @@ namespace AGRemapCore {
                     // collect is addressed by GraphId, whose iniIndex is the group).
                     for (std::size_t g = 0; g < groups_.size(); ++g) {
                         std::function<bool(RemapBlendResource&)> lift;
-                        if (vertexVGFile_.has_value()) {
+                        if (targetPast256_) {
+                            // The target cannot be named by an 8-bit blend index, so the fix writes
+                            // WWMI's blend remap. Takes precedence over both lifts below: each of
+                            // them writes 8-bit ids only, which for this target is the silent
+                            // truncation this exists to stop (81004 weighted slots of one real mod,
+                            // not one of them landing on the bone the row asks for).
+                            std::string vgRel = vertexVGFile_.value_or("");
+                            std::replace(vgRel.begin(), vgRel.end(), '\\', '/');
+                            const std::string vgPath = vgRel.empty()
+                                ? std::string()
+                                : FileService::absPathOfRelPath(vgRel, ctx_.getIniFile()->getFolder());
+                            const std::string posPath =
+                                FileService::absPathOfRelPath(positionFile_, ctx_.getIniFile()->getFolder());
+                            const BlendRemapOut out{
+                                FileService::absPathOfRelPath(blendRemapFile("VertexVG"), ctx_.getIniFile()->getFolder()),
+                                FileService::absPathOfRelPath(blendRemapFile("Forward"), ctx_.getIniFile()->getFolder()),
+                                FileService::absPathOfRelPath(blendRemapFile("Reverse"), ctx_.getIniFile()->getFolder())};
+                            lift = [vgPath, posPath, out](RemapBlendResource& resource) {
+                                return writeBlendRemap(resource, vgPath, posPath, out);
+                            };
+                        } else if (vertexVGFile_.has_value()) {
                             std::string vgRel = *vertexVGFile_;
                             std::replace(vgRel.begin(), vgRel.end(), '\\', '/');
                             const std::string vgPath =
@@ -2522,11 +2780,25 @@ namespace AGRemapCore {
                     out += "[" + fixName("TextureOverrideMarkBoneDataCB") + "]\n" + IniKeywords::Hash + " = " + target_.cb4Hash
                            + "\nmatch_priority = 0\nfilter_index = " + config_.boneDataFilter + "\n\n";
 
+                    // The private skeleton a blend remap needs, gathered right after the merge:
+                    // SkeletonRemapper writes remapped[i] = merged[forward[i]], so a vertex whose
+                    // blend names LOCAL i reaches the bone forward[i] -- which is how an 8-bit index
+                    // addresses a 420-slot skeleton at all. Bound in place of the merged one.
+                    const std::string remappedRW = fixName(ResourcePrefix + std::string("RemappedSkeletonRW"));
+                    const std::string remapped = fixName(ResourcePrefix + std::string("RemappedSkeleton"));
+                    const std::string extraRemappedRW = fixName(ResourcePrefix + std::string("ExtraRemappedSkeletonRW"));
+                    const std::string extraRemapped = fixName(ResourcePrefix + std::string("ExtraRemappedSkeleton"));
+                    if (targetPast256_) {
+                        for (const std::string& name : {remapped, extraRemapped, remappedRW, extraRemappedRW}) {
+                            out += "[" + name + "]\n\n";
+                        }
+                    }
+
                     for (std::size_t slot = 0; slot < target_.slots.size(); ++slot) {
                         const Slot& s = target_.slots[slot];
                         out += "[" + mergeListName(static_cast<int>(slot)) + "]\n";
-                        for (const auto& cb : {std::make_tuple(std::string("vs-cb4"), mergedRW, merged),
-                                               std::make_tuple(std::string("vs-cb3"), extraRW, extra)}) {
+                        for (const auto& cb : {std::make_tuple(std::string("vs-cb4"), mergedRW, merged, remappedRW, remapped),
+                                               std::make_tuple(std::string("vs-cb3"), extraRW, extra, extraRemappedRW, extraRemapped)}) {
                             out += "if " + std::get<0>(cb) + " == " + config_.boneDataFilter + "\n"
                                    + "    " + VgOffsetKey + " = " + s.vgOffset + "\n"
                                    + "    " + VgCountKey + " = " + s.vgCount + "\n"
@@ -2534,13 +2806,83 @@ namespace AGRemapCore {
                                    + "    cs-cb8 = ref " + std::get<0>(cb) + "\n"
                                    + "    cs-u6 = " + std::get<1>(cb) + "\n"
                                    + "    run = CustomShader\\WWMIv1\\SkeletonMerger\n"
-                                   + "    " + std::get<2>(cb) + " = copy " + std::get<1>(cb) + "\n"
-                                   + "    " + std::get<0>(cb) + " = " + std::get<2>(cb) + "\nendif\n";
+                                   + "    " + std::get<2>(cb) + " = copy " + std::get<1>(cb) + "\n";
+
+                            if (targetPast256_) {
+                                out += "    cs-t37 = " + fixName(ResourcePrefix + std::string("BlendRemapForwardBuffer")) + "\n"
+                                       + "    $\\WWMIv1\\blend_remap_id = 0\n"
+                                       + "    " + VgCountKey + " = " + std::to_string(blendRemapBones_) + "\n"
+                                       + "    cs-t38 = " + std::get<2>(cb) + "\n"
+                                       + "    cs-u5 = " + std::get<3>(cb) + "\n"
+                                       + "    run = CustomShader\\WWMIv1\\SkeletonRemapper\n"
+                                       + "    " + std::get<4>(cb) + " = copy " + std::get<3>(cb) + "\n"
+                                       + "    " + std::get<0>(cb) + " = " + std::get<4>(cb) + "\nendif\n";
+                            } else {
+                                out += "    " + std::get<0>(cb) + " = " + std::get<2>(cb) + "\nendif\n";
+                            }
                         }
 
                         out += "\n";
                     }
 
+                    if (targetPast256_) {
+                        out += blendRemapSections();
+                    }
+
+                    return out;
+                }
+
+                // The blend remap's resources, and the one-time run of WWMI's BlendRemapper that
+                // rewrites the remapped blend's ids into the remap's LOCAL space. Guarded by a
+                // `local`, so it costs one dispatch on the first drawn frame and nothing after.
+                //
+                // The strided view is the fix's own declaration of the same file rather than the
+                // collect's resource: `copy_desc` needs a buffer with the blend's stride, and
+                // declaring it here keeps this text independent of what the collect happened to
+                // name its resource.
+                std::string blendRemapSections() const {
+                    const std::string vertexVG = fixName(ResourcePrefix + std::string("BlendRemapVertexVGBuffer"));
+                    const std::string forward = fixName(ResourcePrefix + std::string("BlendRemapForwardBuffer"));
+                    const std::string reverse = fixName(ResourcePrefix + std::string("BlendRemapReverseBuffer"));
+                    const std::string noStride = fixName(ResourcePrefix + std::string("BlendNoStride"));
+                    const std::string strided = fixName(ResourcePrefix + std::string("BlendStrided"));
+                    const std::string blendRW = fixName(ResourcePrefix + std::string("RemappedBlendBufferRW"));
+                    const std::string blendOut = fixName(ResourcePrefix + std::string("RemappedBlendBuffer"));
+                    const std::string blendPath = blendFixedFile();
+
+                    std::string out;
+                    // no stride on the three the compute shader reads: a Buffer declared with one
+                    // cannot be addressed by a compute shader (wwmiIdentityMod.py's own note)
+                    for (const auto& entry : {std::make_pair(vertexVG, blendRemapFile("VertexVG")),
+                                              std::make_pair(forward, blendRemapFile("Forward")),
+                                              std::make_pair(reverse, blendRemapFile("Reverse")),
+                                              std::make_pair(noStride, blendPath)}) {
+                        out += "[" + entry.first + "]\ntype = Buffer\nformat = "
+                               + (entry.first == noStride ? std::string("DXGI_FORMAT_R8_UINT")
+                                                          : std::string("DXGI_FORMAT_R16_UINT"))
+                               + "\n" + IniKeywords::Filename + " = " + entry.second + "\n\n";
+                    }
+
+                    out += "[" + strided + "]\ntype = Buffer\nformat = DXGI_FORMAT_R8_UINT\nstride = "
+                           + std::to_string(blendStride_) + "\n" + IniKeywords::Filename + " = " + blendPath + "\n\n";
+                    out += "[" + blendRW + "]\n\n[" + blendOut + "]\n\n";
+
+                    out += "[" + blendRemapInitList() + "]\n"
+                           "local $blendRemapReady\n"
+                           "if !$blendRemapReady\n"
+                           "    $\\WWMIv1\\custom_vertex_count = $mesh_vertex_count\n"
+                           "    $\\WWMIv1\\weights_per_vertex_count = " + std::to_string(blendInfluences_) + "\n"
+                           "    $\\WWMIv1\\blend_remap_id = 0\n"
+                           "    cs-t34 = ref " + reverse + "\n"
+                           "    cs-t35 = ref " + vertexVG + "\n"
+                           "    " + blendRW + " = copy " + noStride + "\n"
+                           "    cs-u4 = ref " + blendRW + "\n"
+                           "    run = CustomShader\\WWMIv1\\BlendRemapper\n"
+                           "    " + blendOut + " = copy " + blendRW + "\n"
+                           "    " + blendOut + " = copy_desc " + strided + "\n"
+                           "    $blendRemapReady = 1\n"
+                           "endif\n"
+                           + config_.blendReg + " = " + blendOut + "\n\n";
                     return out;
                 }
 
@@ -2594,7 +2936,7 @@ namespace AGRemapCore {
                                + "endif\n\n";
                     }
 
-                    if (legacy_) {
+                    if (legacy_ || targetPast256_) {
                         out += legacySkeletonSections();
                     }
 
@@ -2650,6 +2992,22 @@ namespace AGRemapCore {
                     }
 
                     this->appendedSections = std::string(StringTools::rstrip(out));
+                }
+
+                // The three blend remap buffers, named so the undo takes them: a file the fix
+                // wrote carries the target's name and `Remap`, and the resource section that names
+                // it lives inside the fix's block.
+                std::string blendRemapInitList() const {
+                    return fixName("CommandListBlendRemap");
+                }
+
+                // The remapped blend as the collect writes it, which is what the BlendRemapper reads
+                std::string blendFixedFile() const {
+                    return meshFolder_ + "/" + toModName_ + IniKeywords::Remap + "Blend.buf";
+                }
+
+                std::string blendRemapFile(const std::string& which) const {
+                    return meshFolder_ + "/" + toModName_ + IniKeywords::Remap + "BlendRemap" + which + ".buf";
                 }
 
                 std::string zeroStreamFile() const {
@@ -3108,6 +3466,21 @@ namespace AGRemapCore {
                 std::string positionFile_ = "Meshes/Position.buf";     // ...and [ResourcePositionBuffer]
                 std::string texcoordFile_ = "Meshes/TexCoord.buf";     // ...and [ResourceTexcoordBuffer]
                 std::map<int, std::vector<std::pair<long long, long long>>> drawRanges_;   // source component -> its (index count, first index) draws
+
+                // Whether the TARGET's merged skeleton passes what an 8-bit blend index can name.
+                // Read off the vertex group row's largest target id, which is a property of the
+                // PAIR -- so the .ini and the buffers, written at different times, cannot disagree
+                // about whether there is a blend remap.
+                bool targetPast256_ = false;
+
+                // How many bones the one remap holds -- the DISTINCT targets the vertex group row
+                // names, so the .ini (written first) and the buffers agree without either having to
+                // read the other. 182 for ChisaParfait -> Chisa.
+                std::size_t blendRemapBones_ = 0;
+
+                // The mod's own blend line: N ids + N weights, and its byte stride
+                std::size_t blendInfluences_ = 4;
+                std::size_t blendStride_ = 8;
                 std::vector<std::string> passOrder_;
 
                 std::unique_ptr<GraphGroupRemap<>> slotRemap_;

@@ -369,6 +369,16 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             ``ChisaParfait -> Chisa`` at game version ``2.8``, built by :cpp:func:`makeWWMIFixer`.
+             The FIRST fix onto a target past 256 merged bones, so it writes WWMI's own blend remap.
+             See ``data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory chisa2_8();
+
+            /**
+             * @brief
+             @rst
              Stub for the pure-Python ``IniFixBuilderFuncs.rosaria4_0`` -- returns
              :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
              @endrst

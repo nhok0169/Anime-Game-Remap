@@ -119,12 +119,15 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/WWMIFixer.cpp
     src/data/IniFixData/Chisa/ChisaFixer.cpp
     src/data/IniFixData/Chisa/ChisaThumbprints.cpp
+    src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp
+    src/data/IniFixData/ChisaParfait/ChisaParfaitThumbprints.cpp
     src/data/IniFixData/Sanhua/SanhuaFixer.cpp
     src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp
     src/data/IniFixData/SanhuaExorcist/SanhuaExorcistThumbprints.cpp
     src/data/IniFixData/Sanhua/SanhuaThumbprints.cpp
     src/data/IniParseData/WWMIParser.cpp
     src/data/IniParseData/Chisa/ChisaParser.cpp
+    src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp
     src/data/IniParseData/Sanhua/SanhuaParser.cpp
     src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp
     src/data/IniFixData/ModBranches.cpp

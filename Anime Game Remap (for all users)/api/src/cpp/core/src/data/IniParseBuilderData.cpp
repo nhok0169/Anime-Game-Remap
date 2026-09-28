@@ -146,7 +146,7 @@ namespace AGRemapCore {
                 // neither has a parser yet, so a .ini of theirs classifies by vb0 hash and is then
                 // parsed by nothing.
                 {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa)}, IniParseBuilderFuncs::chisa2_8()},
-                {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait)}, IniParseBuilderFuncs::wwmiStub()},
+                {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait)}, IniParseBuilderFuncs::chisaParfait3_5()},
 
                 // ===== Bennett (2026-09-15) =====
                 // Two drawn objects, where every character above has three or four, and a

@@ -337,7 +337,7 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Chisa),
                   "3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait)}, IniFixBuilderFuncs::chisaParfait3_5()},
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::ChisaParfait),
-                  "2.8", ModTypeIdTools::getName(ModTypeId::Chisa)}, IniFixBuilderFuncs::wwmiStub()},
+                  "2.8", ModTypeIdTools::getName(ModTypeId::Chisa)}, IniFixBuilderFuncs::chisa2_8()},
 
                 // ===== YelanTranquil @ toVersion 6.1 (2026-09-14) =====
                 //

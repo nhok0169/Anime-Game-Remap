@@ -3669,6 +3669,53 @@ The method, and the two mistakes it is built to avoid, are in
 order". And `frontHairNormal` needs nothing: the two download folders hold it byte-identically, as
 they do `frontHairMask` — the same asset on both characters is the one case that is free.
 
+### Its AUDIT GATE found five things, and the two worst were in what the config did NOT say (2026-09-28)
+
+Both halves of the gate earned their keep, and in different ways.
+
+**Half one — every lesson, against this config.** A read-only subagent given this file, the Overview
+habits, both directions' configs and the template's doc comments produced a numbered COVERED / NOT
+COVERED list. **The highest-value question it asked was simply "which fields does the FORWARD
+direction set that this one does not"** — a one-line grep, and seven of the eight it returned were
+real:
+
+| field | what taking the default meant |
+| --- | --- |
+| `hiddenObjs`, `zeroShapeKeyStream` | **the fix commented out 53 lines of the mod's OWN text**, its shape-key overrides among them — so a ChisaParfait mod fixed for Chisa was broken on ChisaParfait too. The forward direction turns both off with a nine-line comment saying exactly this; the reverse had never been given it. Now 0 lines. |
+| `flatLeftToGame` | the hair masks were in neither flat set, switching off two protections. The comment justifying that reasoned about the DOWNLOAD's structure, and both rules operate on the MOD's candidate file. |
+| `extraPassRegs` | **the config's own comment promised it and no assignment existed.** Eight of Chisa's passes draw a slot's art with a different `ps-t0`; on those the mod's mesh draws with Chisa's own art. NOT fixed yet — it needs the per-pass register measurement the others got, not a transcription. |
+| `sharedMeshes`, `anchorChains`, `sourceVgMaps`, `createdTextures` | each absent, each with its own verdict; `sourceVgMaps` is safe-by-design (the template refuses rather than mis-remapping) and the rest are open. |
+
+Two lessons about the method itself. **"Does a comment say it is handled" is not the question; "is
+the field assigned" is** — `extraPassRegs` had a paragraph describing what goes in it and no
+`config.extraPassRegs =` anywhere in the file. And a subagent's report is a first pass: every claim
+was re-checked by grep or by measurement before anything changed, and the hair-mask one turned out
+to be right for a reason different from the one given.
+
+**Half two — every mod a person COULD make.** ChisaParfait has three mods on the internet, so most
+shapes had to be built: `Tools/Misc/Prototypes/chisaParfaitSynth.py` makes six from the identity —
+a missing component, `ib = null`, a texture-only `tex.ini`, a `DISABLED*` variant with a stale hash,
+a mod-manager-packaged mod, and one binding through RabbitFX. **Measure what the real mods already
+cover before building anything** (`modAxes.py`'s shape), or the synthetic ones duplicate what is
+tested and miss what is not. A 16-bit index buffer is the one axis deliberately skipped: a WWMI
+index buffer is `R32_UINT` and this mesh is 280k+ indices, so the shape is unreachable rather than
+untested.
+
+**The packaged one found a bug, and it was mine.** `blendFixedFile()` built the generated blend's
+name from the CHARACTER (`Meshes/<Mod>RemapBlend.buf`) while the resource machinery names it from
+the MOD's own file. For an ordinary mod those agree; for a mod whose buffers are GUIDs under an
+`.assets` extension they do not, so the `.ini` named a file that was not there — 2 of 88 references
+dangling, both of them the blend, which every draw needs. In game that is the 2026-09-25 symptom: a
+packaged mod rendering nothing but its weapon. **Ask for a generated name, never reconstruct it.**
+
+Two things the synthetic mods proved RIGHT, which is also worth recording: a texture-only `tex.ini`
+carries its recolour over (the mesh file reads its siblings' `this =`, and the tinted diffuse is
+what the fix binds — md5-checked against the download, so it is not the fallback), and `ib = null`
+is treated as a hidden object rather than a missing one, so it triggers no download.
+
+The runner is `synthRun.py`'s shape: fix, fix AGAIN, undo, and compare the file set after each pass
+— three of the gate's checks that only mean something together.
+
 ### TWO SKINS OF ONE CHARACTER CAN PACK THEIR MATERIAL MASK DIFFERENTLY (2026-09-20)
 
 Binding the mod's own mask on the target's draw is not automatically right, even when the mod ships

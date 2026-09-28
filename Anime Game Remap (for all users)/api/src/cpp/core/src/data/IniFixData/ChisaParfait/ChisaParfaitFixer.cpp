@@ -319,9 +319,11 @@ namespace AGRemapCore {
         };
 
         // A mask marks REGIONS, so a mod shipping a constant one has given the fix nothing to place:
-        // the body's take her own, whose regions land right because the mod's UVs ARE hers. Her hair
-        // mask is in neither list -- unlike Chisa's flat (255, 0, 126, 0) it is a structured map, so
-        // the flat test cannot fire on it either way.
+        // the body's take her own, whose regions land right because the mod's UVs ARE hers. The two
+        // hair masks go in `flatLeftToGame` instead, above -- an earlier version of this comment
+        // left them out of BOTH lists on the grounds that ChisaParfait's own hair mask is a
+        // structured map, which is the wrong artifact: both the flat test and the alias check run on
+        // the MOD's candidate file, not on the download.
         config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask", "panelMask", "propMask"};
 
         config.textureThumbprints = chisaParfaitTextureThumbprints();
@@ -358,6 +360,33 @@ namespace AGRemapCore {
         // than of a direction: a second UV that is NaN where the other skin's shader reads it, and a
         // part UV'd into the next tile relying on the sampler wrapping.
         config.cleanTexcoords = true;
+
+        // ---- the shape keys are RETARGETED, not hidden -------------------------------------------
+        // The same two lines the forward direction sets, for the same reason, and the 2026-09-28
+        // audit found them missing here: the template's DEFAULTS hide the two shape-key overrides
+        // and bind every remapped draw a zero `vb6` stream, and hiding comments sections out of the
+        // MOD'S OWN TEXT -- so a ChisaParfait mod that really uses its keys is broken on
+        // ChisaParfait as well as on Chisa, which is the worst class of bug in this repo.
+        //
+        // Retargeting instead: the overrides keep firing, and the shared asset remap rewrites their
+        // hashes and the shape-key checksum onto the target's, so WWMI's own pipeline fills `vb6`
+        // and no zero stream is wanted. That is also what `sourceVersion` above is for -- a
+        // versionless reverse lookup resolves the checksum the two characters SHARE (2610) to the
+        // wrong one and writes `ChecksumNotFound`, and the field is pointless while the keys are
+        // hidden.
+        config.hiddenObjs = {};
+        config.zeroShapeKeyStream = false;
+
+        // ---- a flat mask is LEFT TO THE GAME on the hair, as in the forward direction ------------
+        // `flatFallsBackToSource` below is about a mask whose REGIONS are missing; this is about the
+        // hair, where the right answer is neither the mod's nor the source's. Chisa's own hair mask
+        // is a flat (255, 0, 126, 0) -- "all of this is skin" -- so a flat one is not a neutral one
+        // and the register is better left alone. The earlier comment justified omitting this by the
+        // DOWNLOAD's structure, which is the wrong artifact: both this rule and the alias check run
+        // on the MOD's own candidate file, and a ChisaParfait mod is free to ship a flat hair mask
+        // or to alias RabbitFX's Lightmap and Normalmap onto one resource (Chisa13 does exactly
+        // that, on both hair slots).
+        config.flatLeftToGame = {"hairMask", "frontHairMask"};
 
         // ---- the one texture edit ----------------------------------------------------------------
         // One, where the forward direction needs five, and each of the missing four is absent for a

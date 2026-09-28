@@ -1343,6 +1343,10 @@ namespace AGRemapCore {
                                 meshFolder_ = forward.substr(0, slash);
                             }
 
+                            // Kept whole, because the name of the blend the FIX writes is derived
+                            // from it and not from the character -- see blendFixedFile().
+                            blendSourceFile_ = *file;
+
                             // The mod's OWN blend line, derived from its own file rather than the
                             // `stride` it declares: a declaration can disagree with the bytes, and
                             // this is the number WWMI's BlendRemapper is handed.
@@ -3002,8 +3006,22 @@ namespace AGRemapCore {
                 }
 
                 // The remapped blend as the collect writes it, which is what the BlendRemapper reads
+                // ASK FOR THE NAME, DO NOT ASSUME IT. The blend the fix writes goes through the
+                // resource machinery, which names it from the MOD's own file
+                // (IniNamingTools::getFixedBlendFile: the file's stem with the element keyword
+                // replaced, or appended when the stem does not contain it). For an ordinary mod
+                // whose blend is `Meshes/Blend.buf` that lands on `Meshes\<Mod>RemapBlend.buf`,
+                // which is what this used to hardcode -- and for a MOD-MANAGER-PACKAGED mod, whose
+                // buffers are GUIDs under an `.assets` extension, it lands on
+                // `Meshes\<guid><Mod>RemapBlend.buf` and the hardcoded name names nothing.
+                //
+                // The 2026-09-28 audit built exactly that mod (chisaParfaitSynth.py's SynthPackaged)
+                // and found 2 of its 88 references dangling -- both of them the blend, which is the
+                // one buffer every draw needs. In game that is the 2026-09-25 symptom: a packaged
+                // mod rendering nothing but its weapon. No real ChisaParfait mod is packaged, so
+                // nothing in hand could have shown it.
                 std::string blendFixedFile() const {
-                    return meshFolder_ + "/" + toModName_ + IniKeywords::Remap + "Blend.buf";
+                    return IniNamingTools::getFixedBlendFile(blendSourceFile_, toModName_);
                 }
 
                 std::string blendRemapFile(const std::string& which) const {
@@ -3464,6 +3482,7 @@ namespace AGRemapCore {
                 bool legacy_ = false;                                 // a mod from before WWMI's merged skeleton
                 std::string indexFile_ = "Meshes/Index.buf";           // as the mod's own [ResourceIndexBuffer] names it
                 std::string positionFile_ = "Meshes/Position.buf";     // ...and [ResourcePositionBuffer]
+                std::string blendSourceFile_ = "Meshes/Blend.buf";      // ...and [ResourceBlendBuffer]; blendFixedFile() derives the fix's name FROM it
                 std::string texcoordFile_ = "Meshes/TexCoord.buf";     // ...and [ResourceTexcoordBuffer]
                 std::map<int, std::vector<std::pair<long long, long long>>> drawRanges_;   // source component -> its (index count, first index) draws
 

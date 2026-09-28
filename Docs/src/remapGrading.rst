@@ -159,6 +159,34 @@ Grading
        | - A mod that binds a texture behind its own toggle is followed, one variant per branch. The
        | exception is a single variant under a real condition with no ``else``, which is bound
        | unconditionally.
+   * - | **ChisaParfait --> Chisa**
+     - | :greenBold:`4`
+     - | The inverse of the pair above, and NOT its mirror image. Chisa's merged skeleton is 420 slots
+       | where a blend index is 8 bits, so the fix writes Wuthering Waves' blend-remap buffers itself
+       | and declares a skeleton at 512 bones rather than the 256 a mod of the skin declares.
+       |
+       | - Chisa has no counterpart for ChisaParfait's frilled panel or her right-hip prop. Both are
+       | routed onto a Chisa slot that draws with the same shader family, so they are drawn and lit
+       | correctly, but they are not anchored: a part whose bones map by proximity can swing or lean
+       | where the source held it still.
+       |
+       | - The vertex group table was proposed from the geometry by ``Tools/VGRemapFinder`` and, unlike
+       | the forward direction's, has not had a hand review.
+       |
+       | - ChisaParfait's clothing shader binds a detail map that Chisa's has no input for. It is
+       | dropped rather than translated.
+       |
+       | - Her sheen is a holographic foil whose colour Chisa's shader cannot read at all, so the
+       | register is left to the game and a mod that recolours the foil is not followed. The one
+       | channel Chisa could use is her own matcap already.
+       |
+       | - The hair's detail map is repacked into Chisa's channel layout. One of Chisa's channels has
+       | no counterpart in the skin's art and is written flat.
+       |
+       | - Several of Chisa's passes draw a slot's geometry with a different first texture, and the fix
+       | does not yet name them, so on those passes the mod's mesh is drawn with Chisa's own art.
+       |
+       | - Not yet checked in game.
    * - | **Citlali --> CitlaliWhisperofStars**
      - | :greenBold:`4.5`
      - | Citlali is ONE mesh (``head`` and ``body``) and CitlaliWhisperofStars is THREE components

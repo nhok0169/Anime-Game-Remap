@@ -1894,7 +1894,7 @@ def roleOfHash(h: str) -> Optional[str]:
     a texture between versions and a mod carries whatever hash its author dumped, so a hash this file
     does not list used to fall through to the shape guess -- which took Chisa8's qipao diffuse
     (`2970cef1`, an older upper-body diffuse hash) for a normal map and bound Chisa's own vanilla diffuse
-    in its place. The older rows are built by Tools/Misc/Diagnostics/chisaHashHistory.py from hash-level
+    in its place. The older rows are built by Tools/Misc/Diagnostics/wwmiHashHistory.py from hash-level
     evidence only. Roles above stays the fallback for a library that predates those rows."""
     global _libraryHashes
     if (_libraryHashes is None):

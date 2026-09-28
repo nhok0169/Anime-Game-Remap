@@ -3753,6 +3753,51 @@ changed; every Chisa and Sanhua folder identical, proving the new field's defaul
 lists where the previous build had **0**; and each one resolved to the right file — component 5
 bound the panel's own diffuse and component 7 the prop's, not their slot-mates'.
 
+### A CHARACTER'S OLDER TEXTURE HASHES, and the mod that has none of today's (2026-09-28)
+
+`WWMIFixerConfig::roles` is written from ONE generation of a character's textures, and WuWa rehashes
+a texture between game versions, so **a mod exported at an older patch names hashes the config does
+not know** — every role of it falls through to the register map, and failing that downloads the
+GAME's texture over the mod's own art. That is the first of the seven 2026-09-25 findings, and
+`WWMIFixer`'s `roleOfHash` asks the LIBRARY first for exactly this reason.
+
+The library only helps if the rows are there. ChisaParfait had four rows in `HashData` (`vb0`, `cb4`
+and the two shape keys) and no texture rows at all, so that lookup was inert in this direction.
+Measured: of her three mods on the internet, **ChisaParfait1 is such an export — 19 of its 19
+texture hashes were unknown to the config.**
+
+`Tools/Misc/Diagnostics/wwmiHashHistory.py` (was `chisaHashHistory.py`, generalised) derives the
+history from the mods, on hash-level evidence only. Ten of the nineteen came back, each a file the
+mod ships UNMODIFIED whose pixels correlate ≥ 0.998 with the current texture of that role, with the
+role's component named in the file's own `Components-<list>`. They are filed.
+
+**Three things worth carrying to the next pair.**
+
+*Filing them changed no output, and that is not a reason to skip it.* The corpus regression is
+byte-identical: those ten were already being resolved by `textureThumbprints`, the 16x16 pixel
+identity. The hash path matters for what a thumbprint cannot catch — a **repainted** texture under
+an old hash, which correlates with nothing. It is a second, cheaper, independent route to the same
+answer, and the mod that needs it is the one nobody has yet.
+
+*What the rule refuses to identify is as important as what it takes.* Eight hashes remain unknown,
+and the one that matters is `090e5fe5` — ChisaParfait1's only component-2 file, so it is her face,
+and the fix downloads BOTH face roles over it today. Its channel structure says picture rather than
+coded mask, which would make it the diffuse; its correlation against the current faceDiffuse is
+**0.211, against the faceMask 0.184**, so the measurement does not discriminate at all. It is a
+heavy repaint. **Not filed** — guessing from the picture is what the tool's own header warns
+against, and a wrong guess puts a mask where a face goes, which is worse than today's vanilla face.
+A frame dump of that mod settles it, and the in-game step produces one anyway.
+
+*Her CURRENT hashes are deliberately not filed either.* They already resolve through `config.roles`,
+and putting a character's live texture hashes in `HashData` also makes them REMAPPABLE, which is a
+behaviour change this pair has no need of.
+
+**And check the other direction's evidence file for staleness while you are there.** Regenerating
+Chisa's to prove the refactor faithful found her committed lineage **26 hashes behind** — nothing
+missing and no role changed, purely new ones, because her mod corpus grew after it was written. Her
+`HashData` rows are that far behind too. Not filed here: that is the forward direction's data, it is
+confirmed in game, and the command to reproduce it is in the tool's own help.
+
 ### `sharedMeshes` and `anchorChains`: both measured, both correctly EMPTY (2026-09-28)
 
 The other two fields the forward direction sets and the reverse does not. Neither is an omission,

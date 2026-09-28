@@ -1,7 +1,7 @@
 #
-# ===== chisaHashHistory =====
+# ===== wwmiHashHistory =====
 #
-# Chisa's texture hash HISTORY, built from the mods themselves. WuWa rehashes a texture between game
+# A WuWa character's texture hash HISTORY, built from the mods themselves. WuWa rehashes a texture between game
 # versions and a mod carries whatever hash its author dumped, so a fix that knows only today's hashes
 # cannot say what a mod's `Components-3 t=2970cef1.dds` is -- and guessing it from the picture is
 # fragile (a qipao's saturated diffuse read as a normal map; a pale or tanned skin read as cloth).
@@ -20,10 +20,21 @@
 # Data/Mod Downloads/WuWa/Chisa/2_8/ChisaHashLineage.json, and its rows go into core's HashData.cpp
 # (Chisa's texture rows, typed by role: current at 3.6, older at 3.0).
 #
-#   py -3 chisaHashHistory.py <WWMI folder holding the Chisa mods> [--out <json>]
+#   py -3 wwmiHashHistory.py <WWMI folder holding the mods> [--char Chisa] [--roles <json>]
+#                            [--downloads <folder>] [--skip <substr>...] [--out <json>]
 #
-# Mods are the folders named Chisa* directly under the WWMI folder and under its Mods/ (the maintainer
-# moves them between the two); ChisaParfait* and *Identity* folders are skipped.
+# Mods are the folders named <char>* directly under the WWMI folder and under its Mods/ (the maintainer
+# moves them between the two); *Identity* folders are skipped, and `--skip` adds more (Chisa's run
+# skips `parfait`, since ChisaParfait's mods are a different character's).
+#
+# `--roles` is a JSON of `{"roles": {hash: role}, "roleComponent": {role: component}}` -- the
+# character's CURRENT hashes and which source component owns each role, both transcribed from her
+# fixer config. Without it the forward prototype's tables are used, which are Chisa's.
+#
+# WHAT IT IS FOR, restated because the yield varies: a mod exported at an older patch names hashes
+# today's config does not know, so every role of it falls through to the register map and then to
+# DOWNLOADING the game's texture over the mod's own art. Measured on ChisaParfait (2026-09-28), one
+# of her three mods is such an export: 19 of its 19 texture hashes were unknown.
 #
 
 import argparse
@@ -45,7 +56,7 @@ import FixRaidenBoss2 as FRB                                   # noqa: E402
 from PIL import Image                                          # noqa: E402
 import chisaParfaitFix as C                                    # noqa: E402
 
-Downloads = os.path.join(Repo, "Data", "Mod Downloads", "WuWa", "Chisa", "2_8")
+DefaultDownloads = os.path.join(Repo, "Data", "Mod Downloads", "WuWa", "Chisa", "2_8")
 _cache = {}
 
 
@@ -74,15 +85,31 @@ def md5(path):
 
 
 def main():
-    parser = argparse.ArgumentParser(description = "Chisa's texture hash history, from the mods")
-    parser.add_argument("wwmi", help = "the WWMI folder holding the Chisa mods (and its Mods/)")
-    parser.add_argument("--out", default = os.path.join(Downloads, "ChisaHashLineage.json"), help = "the evidence file to write")
+    parser = argparse.ArgumentParser(description = "a WuWa character's texture hash history, from the mods")
+    parser.add_argument("wwmi", help = "the WWMI folder holding the mods (and its Mods/)")
+    parser.add_argument("--char", default = "Chisa", help = "the character, which is also the mod folders' prefix")
+    parser.add_argument("--roles", default = None, help = "JSON of {roles, roleComponent}; default: the forward prototype's (Chisa's)")
+    parser.add_argument("--downloads", default = None, help = "her Data/Mod Downloads folder")
+    parser.add_argument("--skip", nargs = "*", default = None, help = "extra folder-name substrings to skip")
+    parser.add_argument("--out", default = None, help = "the evidence file to write")
     args = parser.parse_args()
 
-    refs = {h: rgb(os.path.join(Downloads, f"ChisaTexture{h}.dds")) for h in C.Roles}
+    Roles, RoleComponent = dict(C.Roles), dict(C.RoleComponent)
+    downloads = args.downloads or DefaultDownloads
+    prefix = args.char
+    if (args.roles):
+        with open(args.roles, encoding = "utf-8") as f:
+            spec = json.load(f)
+        Roles, RoleComponent = spec["roles"], spec["roleComponent"]
+        prefix = spec.get("downloadPrefix", args.char)
+
+    out = args.out or os.path.join(downloads, f"{args.char}HashLineage.json")
+    skip = ["identity"] + [s.lower() for s in (args.skip if (args.skip is not None) else (["parfait"] if (args.char == "Chisa") else []))]
+
+    refs = {h: rgb(os.path.join(downloads, f"{prefix}Texture{h}.dds")) for h in Roles}
     refs = {h: v for h, v in refs.items() if (v is not None)}
-    mods = sorted({os.path.normpath(d) for d in glob.glob(os.path.join(args.wwmi, "Chisa*")) + glob.glob(os.path.join(args.wwmi, "Mods", "Chisa*"))
-                   if (os.path.isdir(d) and "parfait" not in os.path.basename(d).lower() and "identity" not in os.path.basename(d).lower())})
+    mods = sorted({os.path.normpath(d) for d in glob.glob(os.path.join(args.wwmi, args.char + "*")) + glob.glob(os.path.join(args.wwmi, "Mods", args.char + "*"))
+                   if (os.path.isdir(d) and not any(s in os.path.basename(d).lower() for s in skip))})
     print("mods:", [os.path.basename(m) for m in mods])
 
     identified = collections.defaultdict(list)
@@ -102,15 +129,15 @@ def main():
                 continue
             h, comps = named.group(2).lower(), named.group(1)
             files.append((path, h, comps))
-            if (h in C.Roles):
+            if (h in Roles):
                 continue
             x = rgb(path)
             if (x is None):
                 continue
-            allowed = [r for r in refs if (str(C.RoleComponent.get(C.Roles[r])) in comps.split("-"))]
+            allowed = [r for r in refs if (str(RoleComponent.get(Roles[r])) in comps.split("-"))]
             scores = sorted(((corr(x, refs[r]), r) for r in allowed), reverse = True)
             if (scores and scores[0][0] >= C.IdentityMin and (len(scores) == 1 or scores[1][0] < C.IdentityGap)):
-                identified[h].append((C.Roles[scores[0][1]], f"{scores[0][0]:.3f}", os.path.basename(mod), comps))
+                identified[h].append((Roles[scores[0][1]], f"{scores[0][0]:.3f}", os.path.basename(mod), comps))
 
     # A dump file's register -> role, by the pass it was dumped from. Only the old UPPER-body pass has
     #   been seen in a mod (Chisa5's draw 134, ps dce450ef), and it binds its normal at ps-t0 and its
@@ -129,10 +156,10 @@ def main():
         byMd5[md5(path)].add((h, comps))
     inherited = {}
     for path, h, comps in files:
-        if (h in history or h in C.Roles):
-            role = history[h][0][0] if (h in history) else C.Roles[h]
+        if (h in history or h in Roles):
+            role = history[h][0][0] if (h in history) else Roles[h]
             for other, otherComps in byMd5[md5(path)]:
-                if (other != h and other not in C.Roles and other not in history and otherComps == comps):
+                if (other != h and other not in Roles and other not in history and otherComps == comps):
                     inherited.setdefault(other, (role, h))
 
     older = {h: {"role": ev[0][0], "evidence": sorted({f"{e[2]}:{e[1]}" for e in ev})} for h, ev in history.items()}
@@ -141,13 +168,13 @@ def main():
         print(f"  {h} -> {v['role']:18s} {', '.join(v['evidence'])}")
     if (conflicts):
         print("NOT FILED, evidence disagrees:", conflicts)
-    with open(args.out, "w", encoding = "utf-8") as f:
-        json.dump({"_about": "Chisa's texture hashes by role. current: the download folder's (game 3.6). older: hashes seen in mods, "
+    with open(out, "w", encoding = "utf-8") as f:
+        json.dump({"_about": f"{args.char}'s texture hashes by role. current: the download folder's. older: hashes seen in mods, "
                              "each with the evidence that fixes its role -- <mod>:<correlation with the current texture>, "
                              "<mod>:dump ps-tN, or byte-identical to another identified hash. Generated by "
-                             "Tools/Misc/Diagnostics/chisaHashHistory.py; filed in core's HashData.cpp at 3.6 and 3.0.",
-                   "current": dict(C.Roles), "older": older}, f, indent = 1, sort_keys = True)
-    print(f"{len(older)} older hashes -> {args.out}")
+                             "Tools/Misc/Diagnostics/wwmiHashHistory.py; its rows go into core's HashData.cpp.",
+                   "current": dict(Roles), "older": older}, f, indent = 1, sort_keys = True)
+    print(f"{len(older)} older hashes -> {out}")
 
 
 if (__name__ == "__main__"):

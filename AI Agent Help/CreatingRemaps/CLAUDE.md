@@ -3684,7 +3684,8 @@ real:
 | `hiddenObjs`, `zeroShapeKeyStream` | **the fix commented out 53 lines of the mod's OWN text**, its shape-key overrides among them — so a ChisaParfait mod fixed for Chisa was broken on ChisaParfait too. The forward direction turns both off with a nine-line comment saying exactly this; the reverse had never been given it. Now 0 lines. |
 | `flatLeftToGame` | the hair masks were in neither flat set, switching off two protections. The comment justifying that reasoned about the DOWNLOAD's structure, and both rules operate on the MOD's candidate file. |
 | `extraPassRegs` | **the config's own comment promised it and no assignment existed.** Fixed, and the measurement is its own section below. |
-| `sharedMeshes`, `anchorChains`, `sourceVgMaps`, `createdTextures` | each absent, each with its own verdict; `sourceVgMaps` is safe-by-design (the template refuses rather than mis-remapping) and the rest are open. |
+| `sharedMeshes`, `anchorChains` | both measured, and both correctly absent — the section after next. |
+| `sourceVgMaps`, `createdTextures` | safe-by-design: the template REFUSES a pre-merged-skeleton mod rather than mis-remapping one, and Chisa's shader reads one input fewer than the skin's, so there is no register to invent a neutral for. |
 
 Two lessons about the method itself. **"Does a comment say it is handled" is not the question; "is
 the field assigned" is** — `extraPassRegs` had a paragraph describing what goes in it and no
@@ -3751,6 +3752,39 @@ Acceptance: 706 files byte-identical across the corpus with only the four ChisaP
 changed; every Chisa and Sanhua folder identical, proving the new field's default; 8 `TexturesPass`
 lists where the previous build had **0**; and each one resolved to the right file — component 5
 bound the panel's own diffuse and component 7 the prop's, not their slot-mates'.
+
+### `sharedMeshes` and `anchorChains`: both measured, both correctly EMPTY (2026-09-28)
+
+The other two fields the forward direction sets and the reverse does not. Neither is an omission,
+and the reasons are different — and the second is a limit of the template rather than of the config,
+which is worth knowing before the next pair.
+
+**`sharedMeshes` — nothing to rebind.** Both characters draw `b00403dc`, the hair ribbon, and the
+forward gives it three passes. Measured on both dumps with `wwmiPassLayout.py`, the pass that SETS
+that mesh's whole register set (`9e7d8aea36ff99e6`) binds **byte-identical textures on the two
+characters**, and so do the registers the other three passes set (`c7c8e963`, `90adf0cf`). Every
+difference between the two characters on that mesh is in a register the pass INHERITED from the
+preceding hair or panel draw — which the fix already controls through the slot lists. So there is
+nothing for a `sharedMeshes` row to correct. (The forward's rows bind at registers those passes
+inherit rather than set; that direction is confirmed in game and was not touched, but it is the
+first thing to re-read if its ribbon ever misbehaves again.)
+
+**`anchorChains` — the field's precondition does not hold, and using it anyway would weld the
+torso.** `wwmiAnchorSearch.py` says both of the skin's extra parts are badly placed on Chisa today:
+her hip prop lands 67 units from where it is modelled and **stretched x0.56**, her frilled panel
+70 units away and **stretched x2.17 across 40 target bones**. Both searches name target bone 3.
+
+But `AnchorChains` remaps every member to whatever the ROOT maps to, and **its key space is the
+source skeleton globally, not per component.** The field's two worked examples are parts with bones
+of their OWN — Chisa's fox mask, her back skirt panel. These are not: measured by
+`Tools/Misc/Diagnostics/anchorSafety.py`, **100% of the hip prop's weight and 81.3% of the panel's
+sits on bones the upper or lower body also uses.** A chain over them pins those bones in the BODY
+too, which is a welded torso and legs — silently, and totally.
+
+So the honest verdict is no row, and the deformation is real but is not an anchor problem: the
+parts ride the body's own bones, so what moves them is the vertex group row, which for this
+direction is still `Tools/VGRemapFinder`'s unreviewed proposal. **Check the precondition before
+reaching for this field** — nothing in the template does, and the failure mode is not subtle.
 
 ### TWO SKINS OF ONE CHARACTER CAN PACK THEIR MATERIAL MASK DIFFERENTLY (2026-09-20)
 

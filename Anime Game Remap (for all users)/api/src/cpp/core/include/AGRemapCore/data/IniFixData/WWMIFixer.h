@@ -520,7 +520,19 @@ namespace AGRemapCore {
          here is a silent no-op-shaped error. Pick the root by skinning the part with each candidate
          and keeping the ones whose RMS radius from the centroid is unchanged
          (``Tools/Misc/Diagnostics/wwmiAnchorSearch.py``) -- never off a bone's ``vs-cb4``
-         translation column, which is a skinning matrix and not a pose
+         translation column, which is a skinning matrix and not a pose.
+
+         .. warning::
+             **Both examples above are parts with bones of their OWN, and that is a precondition
+             this does not check.** The key space is the source skeleton GLOBALLY, not per
+             component, so a member another component also weights is pinned in that component too
+             -- and for a body bone that is a welded torso, silently and totally.
+
+             Measured on ChisaParfait -> Chisa (2026-09-28): ``wwmiAnchorSearch.py`` named a good
+             bone for both of her extra parts, and **100% of the hip prop's weight and 81.3% of the
+             frilled panel's sits on bones the upper or lower body also uses**, so neither may be
+             anchored at all and that pair's row is deliberately empty. Check with
+             ``Tools/Misc/Diagnostics/anchorSafety.py`` before adding a row
          @endrst
          */
         std::map<long long, std::vector<long long>> anchorChains;

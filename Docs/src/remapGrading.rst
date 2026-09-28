@@ -167,8 +167,11 @@ Grading
        |
        | - Chisa has no counterpart for ChisaParfait's frilled panel or her right-hip prop. Both are
        | routed onto a Chisa slot that draws with the same shader family, so they are drawn and lit
-       | correctly, but they are not anchored: a part whose bones map by proximity can swing or lean
-       | where the source held it still.
+       | correctly --- but they are DEFORMED: measured against where their author modelled them, the
+       | prop lands about 67 units away at 0.56x its size and the panel about 70 away at 2.17x.
+       | Neither can be pinned to a single bone the way a prop with bones of its own would be,
+       | because both ride bones the body also uses (all of the prop's weight and 81% of the
+       | panel's), so pinning them would pin the body with them.
        |
        | - The vertex group table was proposed from the geometry by ``Tools/VGRemapFinder`` and, unlike
        | the forward direction's, has not had a hand review.

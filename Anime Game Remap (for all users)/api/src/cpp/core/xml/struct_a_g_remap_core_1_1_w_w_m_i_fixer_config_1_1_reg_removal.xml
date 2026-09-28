@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="452" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="452" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="472" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="472" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_reg_removal_1ac9b0ba1ab40bcd385b9135e272d3b412" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -36,7 +36,7 @@ Drop it only when its value begins with this, ignoring case and leading space. E
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="460" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="460" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="480" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="480" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -44,7 +44,7 @@ Drop it only when its value begins with this, ignoring case and leading space. E
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="448" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="448" bodyend="461"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="468" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="468" bodyend="481"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_reg_removal_1abf23b4cd415aeb45730fa62069145150" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::RegRemoval</scope><name>reg</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_reg_removal_1ac9b0ba1ab40bcd385b9135e272d3b412" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::RegRemoval</scope><name>valuePrefix</name></member>

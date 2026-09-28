@@ -650,7 +650,7 @@ always has a folder prefix -- contrast with #getFixedElementFile) :raw-html:`&lt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniNamingTools.h" line="255" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="263" bodyend="271"/>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="255" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="274" bodyend="282"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a25f78e59e20be5115a22591de0f10ecf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -726,7 +726,7 @@ Retrieves the file path for a fixed element :raw-html:`&lt;br /&gt;` :raw-html:`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniNamingTools.h" line="276" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="273" bodyend="285"/>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="276" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="285" bodyend="297"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1af96e449686a1fb13fa62a308400b78d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -770,7 +770,7 @@ Retrieves the file path for a fixed element :raw-html:`&lt;br /&gt;` :raw-html:`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniNamingTools.h" line="286" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="287" bodyend="289"/>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="286" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="299" bodyend="301"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a9917b5d1411cf40fc23ee04550ebfded" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -814,7 +814,7 @@ Retrieves the file path for a fixed element :raw-html:`&lt;br /&gt;` :raw-html:`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniNamingTools.h" line="296" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="291" bodyend="293"/>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="296" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="303" bodyend="305"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a21bcb16680ad475099472ff0b47f3ccb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -867,7 +867,7 @@ Retrieves the file path for the fixed RemapTex.dds file :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniNamingTools.h" line="316" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="295" bodyend="313"/>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="316" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="308" bodyend="326"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a085a3c3f880a75b713f311411100f57b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -923,7 +923,7 @@ Retrieves the file path for the fixed RemapTex.dds file :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniNamingTools.h" line="327" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="315" bodyend="317"/>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="327" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="328" bodyend="330"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a3fc1b7f115ed6ff06bc2c9f9f48eac2a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1071,7 +1071,7 @@ separators come out and the result is capitalized to join onto whatever precedes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniNamingTools.h" line="381" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="319" bodyend="334"/>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="381" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="332" bodyend="347"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

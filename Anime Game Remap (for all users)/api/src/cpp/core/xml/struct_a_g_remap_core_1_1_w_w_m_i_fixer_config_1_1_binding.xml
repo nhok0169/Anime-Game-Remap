@@ -50,16 +50,47 @@ so the GAME&apos;s texture serves the register.
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="111" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="111" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding_1aca109c48fe2fae8ea8d5b8f0c787ed74" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::WWMIFixerConfig::Binding::srcComponent</definition>
+        <argsstring></argsstring>
+        <name>srcComponent</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Binding::srcComponent</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+In :cpp:member:`extraPassRegs` only: the SOURCE component this binding is for, or
+``-1`` (the default) for every source that reaches the slot.
+
+Everything else in that table is keyed by the TARGET slot, which is right until two
+sources MERGE onto one -- and then &quot;the diffuse at ``ps-t0``&quot; is a different file per
+source, while the role lookup falls back to a component-agnostic one and so resolves
+either role for either section. Two bindings on one register in one list means the last
+one wins, silently, for whichever source it does not belong to.
+
+The same shape as GI&apos;s ``TexEdit::srcObj``, and for the same reason: a merge is the one
+case a target-keyed table cannot express. ChisaParfait -&gt; Chisa has two merged slots
+(her frilled panel joins the upper body, her hip prop the lower), so both of its merged
+rows carry this
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="131" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
 <para>One register of a target slot&apos;s draw and the ROLE of the mod texture bound there. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="86" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="86" bodyend="112"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="86" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="86" bodyend="132"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding_1a99e4c6e3364f88d11563948895948872" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Binding</scope><name>reg</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding_1ad0f70660feabdef8c691a192c49aa385" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Binding</scope><name>role</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding_1aca109c48fe2fae8ea8d5b8f0c787ed74" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Binding</scope><name>srcComponent</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

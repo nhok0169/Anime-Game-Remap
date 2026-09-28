@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_57d405047f74674770c8ae208f4789e1" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/ChisaParfait</compoundname>
+    <innerfile refid="_chisa_parfait_parser_8h">ChisaParfaitParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/ChisaParfait/"/>
+  </compounddef>
+</doxygen>

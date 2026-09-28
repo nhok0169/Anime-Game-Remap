@@ -552,6 +552,7 @@
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding" kind="struct"><name>AGRemapCore::WWMIFixerConfig::Binding</name>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding_1a99e4c6e3364f88d11563948895948872" kind="variable"><name>reg</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding_1ad0f70660feabdef8c691a192c49aa385" kind="variable"><name>role</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding_1aca109c48fe2fae8ea8d5b8f0c787ed74" kind="variable"><name>srcComponent</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_blend_file" kind="class"><name>AGRemapCore::BlendFile</name>
     <member refid="class_a_g_remap_core_1_1_blend_file_1a0b006ae2521b373ef323141ad696710c" kind="function"><name>BlendFile</name></member>
@@ -798,6 +799,14 @@
   <compound refid="class_a_g_remap_core_1_1_chisa_fixer" kind="class"><name>AGRemapCore::ChisaFixer</name>
     <member refid="class_a_g_remap_core_1_1_chisa_fixer_1ac32afffbb67e667c8570f7420a72c2a0" kind="function"><name>ChisaFixer</name></member>
     <member refid="class_a_g_remap_core_1_1_chisa_fixer_1a13fccb7d093308a6f98a211563090aa2" kind="function"><name>parfait3_5</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_chisa_parfait_fixer" kind="class"><name>AGRemapCore::ChisaParfaitFixer</name>
+    <member refid="class_a_g_remap_core_1_1_chisa_parfait_fixer_1a328dc59a34656b9e52efce89ff936002" kind="function"><name>ChisaParfaitFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_chisa_parfait_fixer_1a80453746ab78d0b6105edb97efb1e2f5" kind="function"><name>chisa2_8</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_chisa_parfait_parser" kind="class"><name>AGRemapCore::ChisaParfaitParser</name>
+    <member refid="class_a_g_remap_core_1_1_chisa_parfait_parser_1acd97bfc4c04b2b35c00afe50088eafba" kind="function"><name>ChisaParfaitParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_chisa_parfait_parser_1ae1a0641900f207e651dcc65d9cce9d77" kind="function"><name>v3_5</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_chisa_parser" kind="class"><name>AGRemapCore::ChisaParser</name>
     <member refid="class_a_g_remap_core_1_1_chisa_parser_1a8168516de0eea512fcf7bae7ff1982ae" kind="function"><name>ChisaParser</name></member>
@@ -2369,6 +2378,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af51b14728644097cddbdb3ce79898db2" kind="function"><name>sanhuaExorcist2_5</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a189f1be27493d65a6104e270520c0abc" kind="function"><name>sanhua2_5</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a7da83e1206c315786556a69bc77c2685" kind="function"><name>chisaParfait3_5</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a06a2e72cdccb9e4e657036e98d215551" kind="function"><name>chisa2_8</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a16960ce595eb8499137893f38dc3c4af" kind="function"><name>rosaria4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a62d47ce9fcabbec4612623328d3656ac" kind="function"><name>rosariaCN4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9449758657ce3e63dcdf8f8b2c18164e" kind="function"><name>shenhe4_0</name></member>
@@ -2733,6 +2743,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac06832891ae4c3e507b130b1ebdf4a3a" kind="function"><name>sanhua2_5</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a1a5b75132e61479cf3e35918c9e149aa" kind="function"><name>sanhuaExorcist2_5</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a2588e3e99d6d57c360b69e78a4adad83" kind="function"><name>chisa2_8</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a91f650c56e6961895d3a45fa7ea0181f" kind="function"><name>chisaParfait3_5</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7d30d1abce22b6dc5f644d8ff225e123" kind="function"><name>yelanTranquil5_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8e18205ea433a4d25c6fe6c663dbe376" kind="function"><name>citlaliWhisperofStars6_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a13308c49b1f5b66c810a0e984d25ed49" kind="function"><name>charlotteHurlock6_7</name></member>
@@ -5508,6 +5519,7 @@
     <member refid="namespace_a_g_remap_core_1ae342200be5432178d9b17ba9be0979ce" kind="variable"><name>GITransition</name></member>
     <member refid="namespace_a_g_remap_core_1adddf2f253947024ce6490784143a6bd8" kind="variable"><name>WuWaTransition</name></member>
     <member refid="namespace_a_g_remap_core_1a70652c43e2725b050dc97264ae17feac" kind="function"><name>chisaTextureThumbprints</name></member>
+    <member refid="namespace_a_g_remap_core_1a8a3cdb2fee3b17d4f9d01c5af5dda7bc" kind="function"><name>chisaParfaitTextureThumbprints</name></member>
     <member refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kind="function"><name>makeGIMICharFixer</name></member>
     <member refid="namespace_a_g_remap_core_1afa90e717a5e7edeab5e5d9188ef93001" kind="function"><name>makeGIMIComponentFixer</name></member>
     <member refid="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" kind="function"><name>makeGIMIMergeFixer</name></member>
@@ -5661,6 +5673,8 @@
   <compound refid="namespace_a_g_remap_core_1_1_0d201025213044054002310027204104205130114131222211" kind="namespace"><name>AGRemapCore::@201025213044054002310027204104205130114131222211</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d202017326223255220107141110100211066117321213142" kind="namespace"><name>AGRemapCore::@202017326223255220107141110100211066117321213142</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d205070171041251121204237061112011346127270131245" kind="namespace"><name>AGRemapCore::@205070171041251121204237061112011346127270131245</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d213320375045131337025247006335160241010341265177" kind="namespace"><name>AGRemapCore::@213320375045131337025247006335160241010341265177</name>
   </compound>
@@ -5866,6 +5880,10 @@
   </compound>
   <compound refid="_chisa_thumbprints_8h" kind="file"><name>ChisaThumbprints.h</name>
   </compound>
+  <compound refid="_chisa_parfait_fixer_8h" kind="file"><name>ChisaParfaitFixer.h</name>
+  </compound>
+  <compound refid="_chisa_parfait_thumbprints_8h" kind="file"><name>ChisaParfaitThumbprints.h</name>
+  </compound>
   <compound refid="_citlali_fixer_8h" kind="file"><name>CitlaliFixer.h</name>
   </compound>
   <compound refid="_citlali_whisperof_stars_fixer_8h" kind="file"><name>CitlaliWhisperofStarsFixer.h</name>
@@ -6003,6 +6021,8 @@
   <compound refid="_cherry_hu_tao_parser_8h" kind="file"><name>CherryHuTaoParser.h</name>
   </compound>
   <compound refid="_chisa_parser_8h" kind="file"><name>ChisaParser.h</name>
+  </compound>
+  <compound refid="_chisa_parfait_parser_8h" kind="file"><name>ChisaParfaitParser.h</name>
   </compound>
   <compound refid="_citlali_parser_8h" kind="file"><name>CitlaliParser.h</name>
   </compound>
@@ -6632,6 +6652,10 @@
   </compound>
   <compound refid="_chisa_thumbprints_8cpp" kind="file"><name>ChisaThumbprints.cpp</name>
   </compound>
+  <compound refid="_chisa_parfait_fixer_8cpp" kind="file"><name>ChisaParfaitFixer.cpp</name>
+  </compound>
+  <compound refid="_chisa_parfait_thumbprints_8cpp" kind="file"><name>ChisaParfaitThumbprints.cpp</name>
+  </compound>
   <compound refid="_citlali_fixer_8cpp" kind="file"><name>CitlaliFixer.cpp</name>
   </compound>
   <compound refid="_citlali_whisperof_stars_fixer_8cpp" kind="file"><name>CitlaliWhisperofStarsFixer.cpp</name>
@@ -6769,6 +6793,8 @@
   <compound refid="_cherry_hu_tao_parser_8cpp" kind="file"><name>CherryHuTaoParser.cpp</name>
   </compound>
   <compound refid="_chisa_parser_8cpp" kind="file"><name>ChisaParser.cpp</name>
+  </compound>
+  <compound refid="_chisa_parfait_parser_8cpp" kind="file"><name>ChisaParfaitParser.cpp</name>
   </compound>
   <compound refid="_citlali_parser_8cpp" kind="file"><name>CitlaliParser.cpp</name>
   </compound>
@@ -7301,6 +7327,14 @@
   <compound refid="dir_d629c3202cd9f16f808b0c0180cf0a0e" kind="dir"><name>src/data/IniFixData/Chisa</name>
   </compound>
   <compound refid="dir_5703ff93bc4ca65ff6d07ea3f18b799c" kind="dir"><name>src/data/IniParseData/Chisa</name>
+  </compound>
+  <compound refid="dir_5bd1f3f8a21584d7645d89194558bd84" kind="dir"><name>include/AGRemapCore/data/IniFixData/ChisaParfait</name>
+  </compound>
+  <compound refid="dir_57d405047f74674770c8ae208f4789e1" kind="dir"><name>include/AGRemapCore/data/IniParseData/ChisaParfait</name>
+  </compound>
+  <compound refid="dir_e41d4936d20991bd7af68fdc8e666a4b" kind="dir"><name>src/data/IniFixData/ChisaParfait</name>
+  </compound>
+  <compound refid="dir_c01c7ccc4a3dd2ae9a5e25fb7eb3f4bf" kind="dir"><name>src/data/IniParseData/ChisaParfait</name>
   </compound>
   <compound refid="dir_3961cfc6cedb9a40b0dd4f271e227f33" kind="dir"><name>include/AGRemapCore/data/IniFixData/Citlali</name>
   </compound>

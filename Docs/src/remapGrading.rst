@@ -167,14 +167,14 @@ Grading
        |
        | - Chisa has no counterpart for ChisaParfait's frilled panel or her right-hip prop. Both are
        | routed onto a Chisa slot that draws with the same shader family, so they are drawn and lit
-       | correctly --- but they are DEFORMED: measured against where their author modelled them, the
-       | prop lands about 67 units away at 0.56x its size and the panel about 70 away at 2.17x.
-       | Neither can be pinned to a single bone the way a prop with bones of its own would be,
-       | because both ride bones the body also uses (all of the prop's weight and 81% of the
-       | panel's), so pinning them would pin the body with them.
+       | correctly, and both ride the body's own bones rather than bones of their own --- all of the
+       | prop's weight and 81% of the panel's. So they follow the body rather than moving the way the
+       | skin's own garment does, and neither can be pinned to a single bone the way a prop with its
+       | own bones would be, because pinning them would pin the body with them.
        |
-       | - The vertex group table was proposed from the geometry by ``Tools/VGRemapFinder`` and, unlike
-       | the forward direction's, has not had a hand review.
+       | - The vertex group table was proposed from the geometry by ``Tools/VGRemapFinder`` and then
+       | reviewed by hand against the forward direction's, which is confirmed in game: the two agree
+       | on 70% of the table outright, and every place they differ is within one bone's width.
        |
        | - ChisaParfait's clothing shader binds a detail map that Chisa's has no input for. It is
        | dropped rather than translated.

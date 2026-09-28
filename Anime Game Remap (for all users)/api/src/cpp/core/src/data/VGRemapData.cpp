@@ -1380,10 +1380,28 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         // Both directions from Data/RemapDrafts/ChisaRemapDraft.xlsx, in the same MERGED
         // skeleton space as Sanhua's rows above -- one row each way, empty components. Chisa is
         // 419 groups and her skin 251; a bone no vertex uses carries 0, the draft's convention.
-        // UNLIKE Sanhua's forward row, NEITHER of these has a hand-made sheet behind it: both are
-        // Tools/VGRemapFinder's proposal, unreviewed and NOT CONFIRMED IN GAME. Nothing reads them
-        // yet either -- both fix rows are stubs -- so they are data waiting for a fixer, and the
-        // draft's Uncertainty column is the review order when one exists.
+        // UNLIKE Sanhua's forward row, NEITHER of these has a hand-made sheet behind it: both began
+        // as Tools/VGRemapFinder's proposal. The FORWARD row has since been corrected by hand four
+        // times and confirmed in game (see below). The REVERSE row was reviewed on 2026-09-28
+        // against invariant 5 and passes -- reviewed, not confirmed in game:
+        //
+        //   * `vgSymmetry.py --hair 1`: ZERO bones of another component sent into the hair, the
+        //     physics component that made the forward direction's jacket swing like jello, and zero
+        //     mirror pairs skewed past 6 units. One centre bone sits 4.9 off the mid-line (167 ->
+        //     289), which is within one bone.
+        //   * The component grid's one kind-looking crossing -- ten of her component-3 bones into
+        //     Chisa's component 5, her props -- is NOT a fault. The forward row maps Chisa's
+        //     409..418 onto exactly those ten (84..93), so the two directions agree that they are
+        //     one part; the two characters simply file that prop under different components. The
+        //     grid cannot know that, which is why a crossing is read and not assumed.
+        //   * `vgAgreement.py` against the forward row: 176 of 251 rows (70%) agree outright, and
+        //     of the 75 that do not, 53 are source bones NO vertex of hers weights. The 22 real
+        //     disagreements are all within 7.1 units -- a bone is about two wide, so these are the
+        //     neighbouring bone of one part, which invariant 2 expects since several sources may
+        //     share a target.
+        //   * Invariants 1 and 4: 251 rows, source 0..250 with no gaps, every one mapped. The 54
+        //     rows pointing at target 0 are 53 holes -- bones her own model never weights -- plus
+        //     the root's identity, which is the draft's documented convention and not a collapse.
         //
         // THREE HAIR TIPS CORRECTED (2026-09-22): the finder sent the last bone of three of Chisa's
         // long-hair chains -- 29 and 32 onto ChisaParfait's 186, 105 onto her 248, both BODY bones

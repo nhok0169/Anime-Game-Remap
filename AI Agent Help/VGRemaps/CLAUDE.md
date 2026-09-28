@@ -91,6 +91,23 @@ once against the question *what part is this bone, and is its target the same pa
   heights --- ChisaParfait's component 3 is z 80-154 against Chisa's 69-138 --- so 29% of her
   BODY maps across components and renders correctly. What matters is a crossing between
   different KINDS: body to hair, cloth to skin, a rigid prop onto a simulated chain.
+* **...and the two characters may file ONE part under different components**, which reads as a
+  kind crossing and is not one. Reviewing `ChisaParfait -> Chisa` (2026-09-28), the grid flagged ten
+  of her component-3 bones going into Chisa's component 5, her props -- body onto prop, textbook.
+  They are her fox-mask chain, which Chisa carries in component 5 and the skin in component 3, and
+  the forward row maps Chisa's 409..418 onto exactly those ten. So read a crossing before believing
+  it, and **when the opposite direction is confirmed in game it is the best oracle the unreviewed
+  one has**: `Tools/Misc/Diagnostics/vgAgreement.py` asks, for every row `s -> t`, what the other
+  direction says about `t`. On that pair 70% agreed outright, 53 of the 75 that did not were bones
+  no vertex weights, and the 22 real disagreements were all within 7.1 units -- one bone's width,
+  which invariant 2 expects.
+
+**And do not read `wwmiAnchorSearch.py`'s `TODAY` line as a verdict.** Its "STRETCHED xN / N away"
+compares the part's REST vertices against the target's skeleton as the dump captured it -- a POSED
+frame -- so a part that renders perfectly still reports a large stretch. Measured on the same pair:
+the frilled panel reports x2.17, and the UPPER BODY, which renders correctly, reports x2.37. Those
+figures reached this repo's user-facing grading page as a stated defect before the control was run.
+The numbers rank CANDIDATES within one run; that is all.
 
 <br>
 

@@ -3770,9 +3770,14 @@ inherit rather than set; that direction is confirmed in game and was not touched
 first thing to re-read if its ribbon ever misbehaves again.)
 
 **`anchorChains` — the field's precondition does not hold, and using it anyway would weld the
-torso.** `wwmiAnchorSearch.py` says both of the skin's extra parts are badly placed on Chisa today:
-her hip prop lands 67 units from where it is modelled and **stretched x0.56**, her frilled panel
-70 units away and **stretched x2.17 across 40 target bones**. Both searches name target bone 3.
+torso.** `wwmiAnchorSearch.py` names target bone 3 for both of the skin's extra parts.
+
+*(Its `TODAY` line also reported the hip prop 67 units out at x0.56 and the frilled panel 70 out at
+x2.17, and those numbers were briefly written up here and in `remapGrading.rst` as a defect. They
+are not: the control — the same search on her UPPER BODY, which renders correctly — reports x2.37
+and 54.1 away, worse on the part that is right. The line compares rest vertices against a POSED
+skeleton, so everything "stretches"; it is a comparison between candidates, never a verdict. Run it
+on a part you know is fine before reading any absolute figure as a defect.)*
 
 But `AnchorChains` remaps every member to whatever the ROOT maps to, and **its key space is the
 source skeleton globally, not per component.** The field's two worked examples are parts with bones
@@ -3781,10 +3786,9 @@ of their OWN — Chisa's fox mask, her back skirt panel. These are not: measured
 sits on bones the upper or lower body also uses.** A chain over them pins those bones in the BODY
 too, which is a welded torso and legs — silently, and totally.
 
-So the honest verdict is no row, and the deformation is real but is not an anchor problem: the
-parts ride the body's own bones, so what moves them is the vertex group row, which for this
-direction is still `Tools/VGRemapFinder`'s unreviewed proposal. **Check the precondition before
-reaching for this field** — nothing in the template does, and the failure mode is not subtle.
+So the honest verdict is no row: both parts ride the body's own bones, so they follow the body, and
+an anchor is not available to them. **Check the precondition before reaching for this field** —
+nothing in the template does, and the failure mode is not subtle.
 
 ### TWO SKINS OF ONE CHARACTER CAN PACK THEIR MATERIAL MASK DIFFERENTLY (2026-09-20)
 

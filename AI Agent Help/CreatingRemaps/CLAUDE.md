@@ -3641,6 +3641,34 @@ One trap in the checker itself, worth knowing before writing any tool that reads
 windows: keying them by component NUMBER lets a fixed mod's remapped section overwrite the
 original's entry, so the tool reports the OTHER character's windows. Key on the section NAME.
 
+**Its texture half is ONE edit where the forward direction needs five, and each of the other four
+is absent for a measured reason (2026-09-28).** The reverse of a texture edit is not a texture edit:
+
+| Forward (Chisa -> the skin) | Reverse | Why |
+| --- | --- | --- |
+| hair `ps-t5` repack | **repacked, with different constants** | both pack the map differently; her A is 0 over 99.4% of her islands where the skin's is 255 |
+| sheen foil translation | **no edit, and no binding** | measured — see below |
+| material mask repack | none | a mod of the skin already ships the skin's art, and Chisa reads the same band legend |
+| accessory colour grade | none | that is Chisa's ribbon on a CLOTH shader; the skin's ribbon is her component 5, which lands on Chisa's slot 3, cloth to cloth |
+| (the detail map) | none | her `R8_UNORM` `ps-t2` has no input on Chisa's shader — dropped by the absence of a plan row, not by an edit |
+
+**The sheen is the one worth reading**, because "no edit" came out of a measurement rather than out
+of not looking. Chisa's sheen is one matcap at four sharpnesses in RGBA; the skin's is holographic
+foil in RGB with a matcap in ALPHA. Both are matcaps, so they are indexed the same way whatever
+mesh they sit on — the one case where correlating two characters' textures per texel means
+anything. The skin's LOWER sheen alpha **is** Chisa's own matcap (r = +0.984 against her sharpest,
+falling monotonically to +0.757 against her blurriest), so binding it hands her back one profile and
+destroys three; her BODY sheen alpha is a different matcap (r = +0.109), so binding that is the
+"pearly white shirt" bug pointing the other way; and every foil RGB channel correlates |r| <= 0.21
+with everything of Chisa's, being colour her shader cannot read. A matcap is view-indexed, so
+leaving the register to the game is safe — the one condition under which leaving a register alone is
+safe at all.
+
+The method, and the two mistakes it is built to avoid, are in
+[Texture Editing](../TextureEditing/CLAUDE.md)'s "DESIGNING A REPACK: three measurements, in this
+order". And `frontHairNormal` needs nothing: the two download folders hold it byte-identically, as
+they do `frontHairMask` — the same asset on both characters is the one case that is free.
+
 ### TWO SKINS OF ONE CHARACTER CAN PACK THEIR MATERIAL MASK DIFFERENTLY (2026-09-20)
 
 Binding the mod's own mask on the target's draw is not automatically right, even when the mod ships

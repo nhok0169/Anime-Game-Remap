@@ -13,6 +13,8 @@
 
 // ##### EndCredits
 
+#include <cstdint>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -21,9 +23,67 @@
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitThumbprints.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
+#include "AGRemapCore/model/files/TextureFile.h"
 
 
 namespace AGRemapCore {
+    namespace {
+        // ---- the hair's ps-t5, repacked into CHISA's layout --------------------------------------
+        //
+        // The inverse of ChisaFixer's hairNormalFilter, and not a copy of it: the two characters
+        // pack this map DIFFERENTLY, so the constants are different and had to be measured on
+        // Chisa's own art rather than carried across.
+        //
+        // Measured INSIDE the UV islands (`islandPacking.py`; over the whole atlas the modal is just
+        // the colour of the empty background, which is the "a statistic is only as good as its mask"
+        // trap that sent the material-mask repack the wrong way round for four in-game rounds):
+        //
+        //                     Chisa e921181d (target)            ChisaParfait d547f3c6 (mod side)
+        //   background        0 in every channel                 R 0, G 75, B ~0, A 255
+        //   R                 sparse, 83.8% zero, mean 11.1      EMPTY, 98.2% zero, mean 0.0
+        //   G                 signal, 211 distinct, p50 74       signal, 169 distinct, p50 105
+        //   B                 signal, p50 24, p95 202            sparse, 79.1% zero, p95 251
+        //   A                 0 at 99.4%                         255 at 93.7%
+        //
+        // So:
+        //   * G is the same quantity on both -- the strand term, and both are centred on ~75, which
+        //     is also the value the skin's atlas uses as its neutral background. The mod's own G is
+        //     kept, at the mod's own UVs, exactly as the forward direction keeps it.
+        //   * A is a hard constant on both sides and they are OPPOSITE. This is the one correction
+        //     that is not a judgement call: feeding Chisa's shader 255 where its own art holds 0
+        //     over 99.4% of the islands is the largest possible wrong value.
+        //   * R the mod does not have (98.2% zero), so writing Chisa's 0 there loses nothing.
+        //   * B is the one channel with NO measured counterpart: Chisa's is broad (p50 24, p95 202)
+        //     and the mod's is sparse highlights (79.1% zero). Neither keeping it nor moving it is
+        //     supported by anything measured, so it takes Chisa's own modal 0 -- "no contribution",
+        //     which her art also holds over 17.4% of its islands.
+        //
+        // If the hair reads flat or over-dark in game, the next thing to try is the UNTESTED
+        // hypothesis this deliberately did not act on: that the skin's B is Chisa's R, both being
+        // sparse strand highlights in different channels. It is named here rather than silently
+        // chosen, because two atlases of different characters cannot be correlated per texel and
+        // appearance alone is how the mask repack went wrong.
+        //
+        // Leaving the register to the game is NOT an option, in either direction: it is a 2048x2048
+        // UV-MAPPED map, the geometry drawn through the slot is the mod's, and the other character's
+        // art lands at UVs it was never authored for -- reported twice on the forward direction as
+        // magenta blotches on the strands.
+        TexEditor::Filter hairNormalFilter() {
+            return [](TextureFile& tex) {
+                tex.setGamma(std::nullopt);          // these bytes are data, not colour
+                std::vector<std::uint8_t> px = tex.getPixels();
+                for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
+                    px[i] = 0;                       // R: Chisa's is 0 over 83.8% of her islands
+                    px[i + 2] = 0;                   // B: no counterpart -- her modal, see above
+                    px[i + 3] = 0;                   // A: hers is 0 over 99.4%, the skin's is 255
+                }
+
+                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
+            };
+        }
+    }
+
+
     IniFixBuilder::Factory IniFixBuilderFuncs::chisa2_8() {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::Chisa;
@@ -127,21 +187,42 @@ namespace AGRemapCore {
         // register in this direction, and the R8_UNORM detail map she carries has no input on
         // Chisa's shader and is simply not bound.
         //
-        // Deliberately NOT bound, each for a measured reason:
-        //   * Chisa's sheen matcap (`bb73967a` at her upper ps-t3 / lower ps-t8). ChisaParfait's is a
-        //     HOLOGRAPHIC FOIL (`4bee4070`) and Chisa's is four packed grayscale sheen profiles, so
-        //     binding the foil raw is the "pearly white shirt" bug in reverse. A matcap is indexed by
-        //     view-space normal rather than by UV, so leaving it to the game is safe -- which is the
-        //     one condition under which leaving a register alone is safe at all. The inverse of
-        //     `sheenFilter` is the texture pass's job.
-        //   * Chisa's hair ps-t5 (`e921181d`). It IS UV-mapped, so leaving it to the game is NOT
-        //     safe and neither is binding hers raw: the forward direction had to repack that map
-        //     channel by channel. The reverse repack is a measurement this config has not made yet,
-        //     so the row is absent rather than wrong -- if the hair comes back blotchy, this is the
-        //     first line to add.
+        // THE SHEEN IS DELIBERATELY NOT BOUND, AND THAT IS NOW A MEASURED RESULT RATHER THAN A
+        // GUESS (2026-09-28). Chisa's `bb73967a` (her upper ps-t3 / lower ps-t8) is 512x512 and all
+        // four of its channels are the SAME matcap disc at four sharpnesses -- R sharpest through A
+        // blurriest, which is what "four grayscale sheen profiles blended by the normal map's alpha"
+        // looks like when you render the channels. The skin's two are holographic FOIL in RGB with a
+        // matcap in ALPHA. Cross-correlating every channel against every channel (`crossChan.py` --
+        // both are matcaps, so they are indexed the same way whatever mesh they sit on, which is the
+        // one case where a per-texel correlation between two characters' textures means anything):
+        //
+        //   * `74a761f5` (her lower sheen): its ALPHA is Chisa's own matcap, r = +0.984 against
+        //     Chisa's R and falling monotonically to +0.757 against her A -- the skin's alpha IS the
+        //     sharp profile. Binding it would hand Chisa her own sharpest profile and throw away the
+        //     three blurrier ones, which is strictly worse than what the game already gives her.
+        //   * `4bee4070` (her upper / body sheen): its alpha is a DIFFERENT matcap, r = +0.109
+        //     against Chisa's sharpest -- a hard foil ring. Binding that is the "pearly white shirt"
+        //     bug the forward direction exists to fix, pointing the other way.
+        //   * every foil RGB channel correlates |r| <= 0.21 with every Chisa channel. It is colour,
+        //     Chisa's shader has no colour input for it, and it is unrepresentable either way.
+        //
+        // And a matcap is indexed by view-space normal rather than by UV, so leaving the register to
+        // the game is SAFE -- the one condition under which leaving a register alone is safe at all.
+        // So there is no inverse of `sheenFilter` to write: the translation would lose Chisa's
+        // roughness range to buy a mod-side quantity her shader cannot read.
+        //
+        // THE HAIR ps-t5 IS BOUND AND REPACKED -- see hairNormalFilter above for the measurement.
+        // It is UV-mapped, so unlike the sheen it may not be left to the game, and unlike the
+        // shared roles it may not be bound raw either.
+        //
+        // `frontHairNormal` (`9ccd7ea7`) needs neither: the two download folders hold it
+        // byte-identically (md5 f4cc2bac...), as they do `frontHairMask` (`d3b9ba76`). The same
+        // asset on both characters is the one case that is free.
         config.plan = {
             {0, {0, {{"ps-t0", "frontHairMask"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}}},
-            {1, {1, {{"ps-t0", "hairMask"}, {"ps-t1", "hairDiffuse"}, {"ps-t2", "hairRamp"}}}},
+            // ps-t5 must NOT be left to the game -- it is UV-mapped; see hairNormalFilter.
+            {1, {1, {{"ps-t0", "hairMask"}, {"ps-t1", "hairDiffuse"}, {"ps-t2", "hairRamp"},
+                     {"ps-t5", "hairNormal"}}}},
             {2, {2, {{"ps-t0", "faceMask"}, {"ps-t1", "faceDiffuse"}}}},
             {3, {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDiffuse"}}}},
             {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDiffuse"}}}},
@@ -277,6 +358,24 @@ namespace AGRemapCore {
         // than of a direction: a second UV that is NaN where the other skin's shader reads it, and a
         // part UV'd into the next tile relying on the sampler wrapping.
         config.cleanTexcoords = true;
+
+        // ---- the one texture edit ----------------------------------------------------------------
+        // One, where the forward direction needs five, and each of the missing four is absent for a
+        // measured reason rather than for want of looking:
+        //   * the material mask -- the skin's own art is what a mod of HER ships, and Chisa's shader
+        //     reads the same band legend (both mark bare skin with R = 255; the "inverse packing"
+        //     reading was wrong and cost four in-game rounds). Nothing to repack.
+        //   * the sheen -- not bound at all, see the plan's note and its correlation table.
+        //   * the accessory colour grade -- that is Chisa's ribbon drawn through the skin's CLOTH
+        //     shader, a problem this direction does not have: the skin's ribbon is her component 5,
+        //     which lands on Chisa's slot 3 (cloth to cloth).
+        //   * the detail map -- her R8_UNORM ps-t2 has no input on Chisa's shader and is dropped,
+        //     which needs no edit, only the absence of a plan row.
+        config.texEdits = {
+            {"hairNormal", "Repack", [](const WWMIFixerConfig::TexEditContext&) {
+                 return hairNormalFilter();
+             }},
+        };
 
         config.sourceLabels = {
             {0, "front hair"},

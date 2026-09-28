@@ -246,6 +246,79 @@ place* to the pixel buffer. Neither is wanted when the point is to see the textu
 pixels. It also leaves `src` pointing at the original file — it's an export, not a "save as and
 move on".
 
+## DESIGNING A REPACK: three measurements, in this order (2026-09-28)
+
+A repack moves a texture from one character's channel layout into another's. Deciding what goes
+where is where this keeps going wrong, so the order below is the one that works, and each step
+exists because skipping it produced a shipped defect.
+
+**1. Render every channel beside the composite, and LOOK.** `chanSheet.py`'s layout — the RGB
+composite then R, G, B, A as grayscale tiles, one row per file. This is not a nicety: the Chisa
+material-mask repack was built from a percentage-of-flesh-like-texels statistic over two atlases,
+which her pale cream art defeats, and it shaded a kimono with subsurface scattering for four
+in-game rounds. Rendering the two masks' R channels beside their diffuses settles it in one glance.
+For the hair `ps-t5` pair the tiles said immediately what the histograms did not: Chisa's R and the
+skin's B are both *sparse strand highlights*, her B is a *broad gradient* with no counterpart, and
+their G is the same strand term.
+
+**2. Measure the packing INSIDE the UV islands, not over the whole atlas.** An atlas is mostly
+empty, so a whole-atlas modal is usually just the colour of the background. `islandPacking.py`
+reports each channel over the islands and over the background separately, so the difference is
+visible rather than assumed. It changed the answer here: Chisa's hair map is 77.4% island, and her
+B is 17.4% zero *inside* the islands against a very different figure outside.
+
+**3. Correlate every channel against every channel — but only when that means something.** A
+per-texel correlation between two characters' UV atlases is meaningless: different meshes, different
+islands, and the numbers come back near zero whatever the truth is (measured: |r| <= 0.15 on two
+maps that are obviously the same quantity by eye). It is meaningful for **matcaps**, which are
+indexed by view-space normal rather than by UV and so are indexed identically whatever mesh they sit
+on. `crossChan.py` prints the 4x4 table with max |difference| beside each r, so `r ~ +1, d = 0` (the
+same bytes) is distinguishable from `r ~ +1, d > 0` (the same image, scaled or blurred).
+
+That table is what closed the ChisaParfait sheen question without touching the game. Chisa's sheen
+is one matcap at four sharpnesses in RGBA; the skin's is holographic foil in RGB with a matcap in A.
+Her lower sheen's alpha **is** Chisa's own matcap (r = +0.984 against Chisa's sharpest, falling
+monotonically to +0.757 against her blurriest — exactly the signature of four progressive blurs of
+one image), and her body sheen's alpha is a different matcap entirely (r = +0.109). So translating
+would hand Chisa back her own sharpest profile while destroying the other three, or hand her a foil
+ring. **The measured answer was "make no edit at all"**, which is a result, not an omission — and
+it is only available because a matcap is view-indexed, the one condition under which leaving a
+register to the game is safe.
+
+**And a channel with no counterpart is the one to write down rather than guess at.** The reverse
+hair repack has nothing to put in Chisa's B; it writes her modal 0 and the comment names the
+untested alternative (that the skin's B is her R) instead of quietly picking it. Appearance alone is
+how the mask repack went wrong.
+
+The three scripts live in the session scratchpad rather than `Tools/Misc/`, because each is a dozen
+lines over `TextureFile.getPixels()` and the shape of the question changes per pair; what is worth
+keeping is the ORDER above. `Tools/Misc/Diagnostics/editedButUnbound.py` is the one that earned a
+permanent home — see below.
+
+## An edit that runs is not an edit that renders
+
+A texture edit has three independent halves and the summary line reports only the first:
+
+1. the edit ran and wrote a file — `editted 4 *.dds files and skipped 0`
+2. a resource section names that file
+3. a section that DRAWS binds that resource
+
+On 2026-09-25 the compiled WuWa fix did (1) on four files and neither (2) nor (3) on any of them,
+and the summary said exactly what a working run says. The A/B against the prototype was blind to it
+too, because both sides wrote the same orphans. `Tools/Misc/Diagnostics/editedButUnbound.py` asks
+(2) and (3) directly; `--prove` unbinds a resource on a copy and requires the check to fail.
+
+Two things it taught the moment it was run:
+
+* **Binding is file-scoped, the FILE on disk is not.** A merge writes several `.ini` files beside
+  each other, and a buffer declared in one is used only in that one. Asking "does anything declare
+  this file" per `.ini` reports every buffer of a merged mod as an orphan once per sibling. Ask it
+  over the tree; ask "is it bound" per file.
+* **A download that feeds an EDIT is declared and never bound**, because the edited output is what
+  the section binds. 23 of these across the WuWa corpus, on characters verified in game — it costs
+  a texture load and renders nothing wrong, and is left alone deliberately rather than fixed in a
+  pass that would move eight verified mods' `.ini` text.
+
 ## The vendored Compressonator reads and writes ordinary image formats too
 
 Worth knowing before you reach for Pillow (or a new dependency) to handle a non-`.dds` format:

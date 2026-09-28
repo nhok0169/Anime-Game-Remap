@@ -1412,8 +1412,38 @@ namespace AGRemapCore {
                             continue;
                         }
 
+                        // TWO SECTIONS MAY BIND ONE RESOURCE BEHIND A TOGGLE, AND ONLY ONE OF THEM
+                        // MAY BE WHOLE (2026-09-28). SanhuaExorcist4 selects `7 / 7a / 7b` in
+                        // `[TextureOverrideTexture7]` and `7 / 7.1 / 7.2` in
+                        // `[TextureOverrideTexture7_injured]`, where the author typed names the mod
+                        // never declares. Last-writer-wins gave the copy the typo'd one -- one live
+                        // branch of three, so on the other two values the TARGET's own diffuse stayed
+                        // bound at the mod's UVs. Count the branches that name a section this .ini
+                        // has, and keep the section that answers for most of its own variants.
+                        const auto& templates = ini->getIfTemplates();
+                        const auto resolves = [&templates](const std::vector<std::string>& vals) {
+                            std::size_t n = 0;
+                            for (const std::string& val : vals) {
+                                if (templates.count(val) > 0) {
+                                    ++n;
+                                }
+                            }
+
+                            return n;
+                        };
+
+                        const std::size_t score = resolves(bound);
                         for (const std::string& resource : bound) {
-                            conditionalOwner_[StringTools::toLower(resource)] = entry.first;
+                            const std::string key = StringTools::toLower(resource);
+                            const auto owner = conditionalOwner_.find(key);
+                            if (owner != conditionalOwner_.end()) {
+                                const auto held = variantsOf_.find(owner->second);
+                                if (held != variantsOf_.end() && resolves(held->second) >= score) {
+                                    continue;
+                                }
+                            }
+
+                            conditionalOwner_[key] = entry.first;
                         }
 
                         variantsOf_[entry.first] = bound;

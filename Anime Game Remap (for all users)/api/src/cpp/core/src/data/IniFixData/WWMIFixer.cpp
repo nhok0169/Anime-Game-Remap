@@ -1798,8 +1798,28 @@ namespace AGRemapCore {
                                 return name.find(StringTools::toLower(hash)) == std::string::npos ? 1 : 0;
                             };
 
+                            // A FILE THIS .ini DECLARES A RESOURCE FOR IS IN USE; ONE NOTHING NAMES
+                            // IS A SPARE (2026-09-28). Chisa2 ships its active upper atlas as
+                            // `Textures/Components-3 t=4c7e5ddf.dds` -- its `[ResourceBase]` -- and
+                            // three spare colourways beside it under
+                            // `2Color Variation/{Black,Red,White}/` for the user to copy in by hand.
+                            // Its own file takes upperDiffuse from `2970cef1`, one of SEVEN hashes it
+                            // aliases onto that resource, and its name carries `4c7e5ddf` instead --
+                            // so the demotion below rejected the mod's own atlas and bound the
+                            // untouched RED spare, whose name and hash agree. In game: the kimono all
+                            // red, which is what was reported.
+                            //
+                            // Above the demotion, not inside it: Chisa13, the mod that tie-break was
+                            // built for, declares BOTH its candidates, so this ties there and the
+                            // demotion still decides.
                             std::sort(candidates.begin(), candidates.end(),
                                       [&](const auto& a, const auto& b) {
+                                          const int spareA = resourceOfFile.count(a.first) > 0 ? 0 : 1;
+                                          const int spareB = resourceOfFile.count(b.first) > 0 ? 0 : 1;
+                                          if (spareA != spareB) {
+                                              return spareA < spareB;
+                                          }
+
                                           const int badA = contradictsItsHash(a);
                                           const int badB = contradictsItsHash(b);
                                           if (badA != badB) {
@@ -2682,6 +2702,20 @@ namespace AGRemapCore {
                             if (swap != editedResourceOf_.end()
                                 && owns != editedRoleOf_.end() && owns->second == role) {
                                 val = swap->second;
+                            }
+
+                            // A BRANCH NAMING A RESOURCE THE MOD NEVER DECLARES IS THE AUTHOR'S
+                            // TYPO, AND COPYING IT CAN ONLY MAKE THINGS WORSE (2026-09-28).
+                            // SanhuaExorcist4's `_injured` override says `ResourceTexture7.1` /
+                            // `.2` where it declares `ResourceTexture7a` / `7b`; this list runs
+                            // AFTER the mod's own component section, whose own $yifu toggle
+                            // binds all three correctly, so a dead branch replaces a good
+                            // binding with nothing. Dropped, the mod's own stands for those
+                            // values and the fix binds the one branch that resolves.
+                            const std::string bound = StringTools::toLower(val);
+                            if (editedResourceOf_.count(bound) == 0 && fileOfResource_.count(bound) == 0
+                                    && templates.count(val) == 0) {
+                                continue;
                             }
 
                             body += indent + reg + " = " + val + "\n";

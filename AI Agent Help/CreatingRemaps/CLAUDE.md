@@ -3180,6 +3180,58 @@ Chisa2 is byte-identical and Chisa7's and Chisa10's genuine gains are kept. Ever
 Sanhua folder and both directions of the Chisa pair are byte-identical. Chisa2 fixed TWICE is
 idempotent with 0 dangling references.
 
+### A FILE THE .INI DECLARES IS IN USE; ONE NOTHING NAMES IS A SPARE (2026-09-28)
+
+**And this, not the section above it, is what "Chisa2's kimono became all red" actually was.** The
+component guard was a real bug and the wrong suspect -- it moves only component 4, whose whole draw
+is 18516 indices, while the kimono is component 3 at ~400k. Two probes in game changed nothing, and
+that is what said so.
+
+Chisa2 ships its active upper atlas as `Textures/Components-3 t=4c7e5ddf.dds` -- its
+`[ResourceBase]` -- with three spare colourways beside it under `2Color Variation/{Black,Red,White}/`
+for the user to copy in by hand. **The installed file is byte-identical to the Black one.** Filing
+Chisa's older hashes made all four candidates for `upperDiffuse`, and the mod's OWN file lost:
+
+* it takes the role from `2970cef1`, one of SEVEN hashes the mod aliases onto `ResourceBase`, and
+  its name carries `4c7e5ddf` instead -- so the 2026-09-27 `contradictsItsHash` tie-break demoted
+  it;
+* the untouched **Red** spare is named `t=4c7e5ddf`, the hash that placed it, so it was
+  self-consistent and won.
+
+The fix bound the Red spare over the mod's own atlas. Literally: the kimono went red
+(`Images/Chisa/2_8/Chisa2KimonoRed.jpg`).
+
+**A file this `.ini` declares a resource for is IN USE; one nothing names is a spare**, and that now
+sorts above the demotion -- above it rather than inside it, because Chisa13, the mod the demotion was
+built for, declares BOTH its candidates, so this ties there and the demotion still decides. Over the
+corpus it also moved seven Sanhua and SanhuaExorcist files, every one off an untouched
+`Components-N t=hash.dds` left lying in the folder (one of them under `新建文件夹`, "New folder") and
+onto the resource the author actually declares -- which is the 2026-09-19 finding, crept back. Role
+warnings 23 -> 17.
+
+**Then one of those corrections exposed an author typo, which is its own rule.**
+SanhuaExorcist4's `[TextureOverrideTexture7_injured]` says `this = ResourceTexture7.1` / `.2` where
+the mod declares `ResourceTexture7a` / `7b`, so two of three branches name nothing. Copied into the
+fix's texture list -- which runs AFTER the mod's own component section, whose own `$yifu` toggle
+binds all three correctly -- a dead branch replaces a good binding with nothing. **A copied branch
+naming a resource the mod never declares is dropped**, so the mod's own binding stands for those
+values; with every branch dead the copy falls back to the direct binding, so it can only ever
+narrow what the copy overrides.
+
+**Three process notes, and the first is the one that cost the round.**
+
+* **A `.ini` the fix edits IN PLACE is not in a "fix-written files" manifest.** The corpus
+  regression compares what the fix generates, so the whole `mod.ini` change -- which is where this
+  defect lived -- was invisible to it. Diff the mod's own `.ini` between the two builds as well.
+* **Prove the reload lands before reading a null result.** `reload --mod` can only say
+  `NOTHING WAS CHECKED` here, because WWMI's `d3d11_log.txt` is off. Parking the mod and reloading
+  reverted her to the vanilla outfit in one command, which is what made the two unchanged probes
+  evidence instead of a doubt.
+* **A one-line swap in the live `.ini`, reloaded, is the instrument** (the section above on nulling
+  a register). Back the file up byte for byte first and restore from that backup, and check what the
+  binding is WORTH probing: `md5sum` said the installed atlas is the Black variant and the fix bound
+  the Red one, which settled the diagnosis before the game was touched at all.
+
 ### THE U FOLD MUST NOT TOUCH U BELOW ZERO -- THAT IS ISLAND BLEED, NOT A TILE (2026-09-27)
 
 The fold exists for a mod that UVs half a part into the `[1, 2)` **tile** and relies on the sampler

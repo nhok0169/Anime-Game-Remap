@@ -2492,6 +2492,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | a garment PEARLY / iridescent -- pink-lavender highlights -- where the source's is matte | the SHEEN texture: the source's is packed grayscale sheen profiles, the target's slot is a holographic FOIL read as colour | translate it (`SheenTranslations`), never bind it raw -- see "THE SAME SHEEN SLOT HOLDS DIFFERENT KINDS OF DATA" |
 | a garment shiny or skin-shaded while the source's is matte, and bare skin fine | the mask repack's skin/cloth split: a code in the source's MATTE band read as skin, or rewritten to a target code that means something else | the source shader's R bands (a hunting-mode dump); `SourceMaskSkinAbove` / `SourceMaskFleshBand` |
 | an accessory (mask, pins, a charm) is simply ABSENT, and its draw IS re-emitted | its bones were matched one at a time and it is smeared through the body -- or it is not a placement problem at all (a floating-bone probe shows nothing ANYWHERE) | `--standIn` a far bone to test placement first; then `--anchor`; the game's per-slot `vs-cb4` is NOT what a WWMI remap skins with |
+| ONE part wearing ANOTHER part's art, on one mod, right after a hash row was filed | the mod aliases one file under every hash it knows, and the new row aimed it at a role it does not serve. The row is right and the aliasing is not | the file's own `Components-<list>` name against the ROLE's component; the guard and its three conditions are below |
 
 Two things that were suspected and were NOT the cause, each ruled out by reading rather than by
 argument: RabbitFX (its shader patch changes no pixel without a glow map bound through its own
@@ -3133,6 +3134,51 @@ register left to the game, an edit written but overridden -- each was inert, and
 visible defect the moment something downstream actually reached the GPU. **Making a value REACH the
 shader is what tests everything upstream of it**, so expect a change that binds something new to
 surface bugs that have nothing to do with the change.
+
+### A MOD MAY ALIAS ONE FILE UNDER EVERY HASH IT KNOWS, AND A NEW HASH ROW THEN AIMS IT SOMEWHERE (2026-09-28)
+
+Filing Chisa's 26 older texture hashes fixed two mods and broke a third: **"Chisa2's kimono became
+all red"**. It is the sharpest example yet of a correct change surfacing a defect elsewhere, and the
+two obvious readings of it are both wrong.
+
+Chisa2 declares **one** `.dds` -- its component-3 kimono atlas, `Components-3 t=4c7e5ddf.dds`, an
+8192 x 8192 red-dominated file -- under **seven** `TextureOverrideTexture` hashes, a shotgun so the
+mod keeps working across game versions. One of the seven, `6616fe2c`, is genuinely a `lowerDiffuse`
+generation (`Components-4 t=6616fe2c.dds` and `Components-2-4 t=6616fe2c.dds` exist in other mods),
+so once it was filed the kimono resolved as the lower body's diffuse and was bound at that slot's
+`ps-t3`, in place of the download of Chisa's own. The garment is what rendered.
+
+**The first fix was to delete the row, and it was wrong.** The row is right -- a hash the library
+files is a fact about the GAME's textures, and this mod's aliasing is a fact about the mod. Deleting
+it would have put back the 2026-09-25 defect (a painted outfit rendering vanilla) for every mod
+carrying that generation honestly. **Check what a value IS before removing it because one consumer
+misused it.**
+
+The guard is in `WWMIFixer`'s role resolution: **a candidate the exporter TAGGED for other
+components is not this role's texture, when a HASH is all that put it there.** "A file plays every
+role its hashes name" is untouched -- that is how one atlas serves two components, and such a file's
+name LISTS both. Dropping every candidate is a real answer: the mod ships nothing for that role,
+which is what the fallback download is for.
+
+**Three conditions, and each was added because the version before it broke something measured.**
+They are worth reading as a set, because each is a different way the tag can fail to mean what it
+looks like:
+
+| condition | what it costs to leave out |
+| --- | --- |
+| compare against the ROLE's own component, not the component ASKING | Chisa's accessory slot and four extra passes bind `frontHairDiffuse`, so comparing against the asker refused the front hair's own `Components-0` file on every one of them -- **13 mods gained a download** of the game's front hair, and Sanhua moved too. Role -> component comes from `sourceRegisterRoles` / `typeRoles`, which are written per component |
+| only when the tags are in the SOURCE's numbering | the tag is written by the exporter in the numbering of the character the mod was made FOR. Sanhua has seven components and SanhuaExorcist six, so a Sanhua mod fixed as the Exorcist carries a `Components-6` her plan has no component for -- **her eyes lost both their textures**. A tag naming a component the source does not have says the whole numbering is somebody else's, so the guard switches off for that `.ini` |
+| never over a role the mod's OWN section names | Chisa2's component 5 binds the kimono atlas itself (`Resource\RabbitFX\Diffuse = ref ResourceTexture15`), deliberately -- a component's own section is the strongest statement there is about what it is textured with, stronger than a file name. **And this is not readable off the candidate's `how` string**: `byRole` is built hash-first and deduplicated to one entry per file keeping the FIRST way it was decided, so a file found both ways carries the hash's. Ask `regRolesOfFile`, which is that route's own map |
+
+`rank()` reads the same tag two screens above and can only mis-PREFER; a refusal deletes, which is
+why it needs conditions a preference does not.
+
+**Blast radius, measured over 60 mod folders / 710 written files**: against the build that shipped
+the defect, **one** mod moves and only its lower body -- `lowerDiffuse` and `lowerMask` back to
+downloads, and the lower mask repack that follows from it. Against the build BEFORE the hash rows,
+Chisa2 is byte-identical and Chisa7's and Chisa10's genuine gains are kept. Every GI folder, every
+Sanhua folder and both directions of the Chisa pair are byte-identical. Chisa2 fixed TWICE is
+idempotent with 0 dangling references.
 
 ### THE U FOLD MUST NOT TOUCH U BELOW ZERO -- THAT IS ISLAND BLEED, NOT A TILE (2026-09-27)
 

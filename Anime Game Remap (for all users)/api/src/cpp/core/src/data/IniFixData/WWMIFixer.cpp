@@ -1616,6 +1616,48 @@ namespace AGRemapCore {
                         entry.second = std::move(varying);
                     }
 
+                    // Which source component each role BELONGS to, off the two config tables that
+                    // are written per component. Not the same question as which component's slot is
+                    // asking for it: Chisa's accessory slot and four of her extra passes bind
+                    // `frontHairDiffuse`, which is component 0's.
+                    std::unordered_map<std::string, std::set<int>> componentsOfRole;
+                    for (const auto& entry : config_.sourceRegisterRoles) {
+                        for (const auto& reg : entry.second) {
+                            componentsOfRole[reg.second].insert(entry.first);
+                        }
+                    }
+
+                    for (const auto& entry : config_.typeRoles) {
+                        for (const auto& type : entry.second) {
+                            componentsOfRole[type.second].insert(entry.first);
+                        }
+                    }
+
+                    // ...and whether this mod's tags are in the SOURCE's numbering at all. A
+                    // `Components-<N>` tag is written by the exporter in the numbering of the
+                    // character the mod was made for, which for a mod installed on the other half
+                    // of a pair is the other character's: Sanhua has seven components and
+                    // SanhuaExorcist six, so a Sanhua mod fixed as the Exorcist carries a
+                    // `Components-6` her plan has no component for. A tag naming a component the
+                    // source does not have says the whole numbering is somebody else's, so the
+                    // refusal below is switched off for the file -- rank() reads the same tag and
+                    // can only mis-PREFER, where a refusal deletes.
+                    std::set<int> sourceComponents;
+                    for (const auto& entry : config_.plan) {
+                        sourceComponents.insert(entry.first);
+                    }
+
+                    bool tagsAreOurs = true;
+                    for (const auto& entry : byRole) {
+                        for (const auto& candidate : entry.second) {
+                            for (int c : componentTag(index_->real(candidate.first))) {
+                                if (sourceComponents.count(c) == 0) {
+                                    tagsAreOurs = false;
+                                }
+                            }
+                        }
+                    }
+
                     // How well a file serves ONE source component: first how specifically its
                     // WWMI-Tools `Components-<a>-<b>... t=<hash>.dds` name is tagged for that component,
                     // then whether this .ini already has a resource for it, then its distance.
@@ -1660,6 +1702,69 @@ namespace AGRemapCore {
                             }
 
                             std::vector<std::pair<std::string, std::string>> candidates = found->second;
+
+                            // A file the exporter TAGGED for other components is not this ROLE's
+                            // texture, whatever hash the mod aliased onto it (2026-09-28). Chisa2
+                            // binds one file -- its component-3 kimono atlas
+                            // `Components-3 t=4c7e5ddf.dds` -- under SEVEN hashes, a shotgun so the
+                            // mod survives a game version bump; one of them, `6616fe2c`, is
+                            // genuinely a lowerDiffuse, so once that generation was filed in
+                            // HashData the kimono was bound at the lower body's ps-t3 and the whole
+                            // garment rendered red in game. The hash row is right; the mod's
+                            // aliasing is what is not.
+                            //
+                            // "A file plays EVERY role its hashes name" is unchanged -- that is how
+                            // one atlas serves two components, and such a file's name LISTS both
+                            // (`Components-2-4 t=<hash>.dds`). Refused only when the name names
+                            // components and the role's own is not among them, so a file with no
+                            // tag (`Upper_D.dds`, a GUID, `Component3.dds`) and a role no config
+                            // table places are both untouched. Dropping every candidate is a real
+                            // answer too: the mod ships nothing for that role, which is what the
+                            // fallback download is for.
+                            auto roleComponents = componentsOfRole.find(role);
+                            if (tagsAreOurs && roleComponents != componentsOfRole.end()) {
+                                candidates.erase(
+                                    std::remove_if(candidates.begin(), candidates.end(),
+                                                   [&](const std::pair<std::string, std::string>& candidate) {
+                                                       // Only a candidate a HASH put here. A role read
+                                                       // off the mod's own component section -- its
+                                                       // `ps-tN` or its `Resource\RabbitFX\...` line --
+                                                       // is the author saying what that component is
+                                                       // textured with, which outranks a file name:
+                                                       // Chisa2's component 5 binds the kimono atlas
+                                                       // itself, deliberately.
+                                                       //
+                                                       // Not readable off `how`: byRole is built
+                                                       // hash-first and deduplicated to one entry per
+                                                       // file keeping the FIRST way it was decided, so a
+                                                       // file found both ways carries the hash's. Ask
+                                                       // regRolesOfFile, which is that route's own map.
+                                                       if (!StringTools::startsWith(candidate.second, "hash ")) {
+                                                           return false;
+                                                       }
+
+                                                       auto regRoles = regRolesOfFile.find(candidate.first);
+                                                       if (regRoles != regRolesOfFile.end()) {
+                                                           for (const auto& perComponent : regRoles->second) {
+                                                               if (perComponent.second.count(role) > 0) {
+                                                                   return false;
+                                                               }
+                                                           }
+                                                       }
+
+                                                       const std::vector<int> tag = componentTag(index_->real(candidate.first));
+                                                       if (tag.empty()) {
+                                                           return false;
+                                                       }
+
+                                                       return std::none_of(tag.begin(), tag.end(),
+                                                                           [&](int c) { return roleComponents->second.count(c) > 0; });
+                                                   }),
+                                    candidates.end());
+                                if (candidates.empty()) {
+                                    return;
+                                }
+                            }
 
                             // A file NAMED for a hash of this role is the self-consistent choice and
                             // beats everything below (2026-09-27). A mod may declare a texture under

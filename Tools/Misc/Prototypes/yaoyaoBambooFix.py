@@ -63,8 +63,14 @@
 #   * YAOYAO3 AND YAOYAO10 CAME OUT VIVID GREEN: a third texture called a normal map at ps-t2 beside their own NNFix
 #     read the section as the normal-map layout, and the light map became the diffuse -- layoutFromOwnFixCall.
 #   * Mods whose own outfit is broken by a stale 4.0 hash (Yaoyao4, 7, 9: ib 54c0b1e8) render right on the skin.
-#   * OPEN: Yaoyao5's basket pokes through its long hair on the skin in two small brown shards (the basket rides the
-#     skin's crate bone, which is not where her own basket bones are). --backOn tries another bone for the assembly.
+#   * Yaoyao5's long hair shows small dark shards on the skin, and they are NOT the basket: they are the OUTLINE pass. Her
+#     long hair is built in close layers, and the skin's outline shell sits further out than hers, so the inner layers'
+#     shell pokes through the outer layer (2026-09-27). Found by elimination in game: the shards stayed with the whole
+#     back hair rigid on the head bone (--vgMove 0:20,1:20,2:20,3:20; her rest pose renders clean), with a flat light
+#     map, diffuse alpha 0, the vertex colour put back, and with the head painted in flat ID colours; they belong to the
+#     head's draw (purpleSlot.py), and went with `if vs != 037730.0` round its drawindexed -- which also drops every
+#     mod's hair outline. Vertex colour B moves them (255 worse, 0 fewer). KEPT, by the maintainer's choice: one mod of
+#     ten shows it, and skipping the outline changes all of them.
 #
 # ---- Library gaps found, all filled in SHARED code, each default off so no earlier character moves ----
 #
@@ -254,6 +260,8 @@ def main():
     parser.add_argument("--noHeadAlpha", action = "store_true", help = "leave the head diffuse's alpha alone (the A/B for the edit below)")
     parser.add_argument("--headLightR", type = int, default = None, help = "set the head light map's R to this (an experiment)")
     parser.add_argument("--backOn", type = int, default = None, help = "put her whole back assembly on this skin main-mesh bone (an A/B; default: the VGRemapData rows)")
+    parser.add_argument("--vgMove", default = None,
+                        help = "source:target main-mesh group moves for an A/B in game, eg. `1:20,2:20` (default: the rows)")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--download", default = None,
@@ -262,6 +270,8 @@ def main():
 
     if (args.backOn is not None):
         applyVgMoves({g: args.backOn for g in BackGroups})
+    if (args.vgMove):
+        applyVgMoves({int(a): int(b) for a, b in (m.split(":") for m in args.vgMove.split(","))})
     config = fixerConfig(None if args.headHairBand < 0 else args.headHairBand, not args.noHeadAlpha, args.headLightR, args.headBandGate)
     FRB.CppStrategyOverrides.clear()
     FRB.CppStrategyOverrides.setParser(SrcName, FRB.makeGIMICharParser(parserConfig()))

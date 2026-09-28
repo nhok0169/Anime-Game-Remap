@@ -338,8 +338,12 @@ Grading
        | - Her head's light map and diffuse alpha are moved onto the skin's legend, or her hair and bells
        | render pale -- a blonde mod grey-green.
        |
-       | - Her backpack basket rides the skin's bamboo crate; a mod whose long hair falls over the basket
-       | can show two small shards of the basket through it, and a tassel on the basket hangs a little lower.
+       | - A mod whose long hair is built in close LAYERS can show small dark shards in it on the skin: the
+       | skin's outline shell sits further out than hers, and the inner layers' outline pokes through the outer
+       | one. Leaving the hair out of the outline pass removes them, and every mod's outline with them, so the
+       | outline is kept.
+       |
+       | - A tassel on her basket hangs a little lower on the skin.
        |
        | - A mod whose own outfit is broken by a stale 4.0 hash renders right on the skin.
    * - | **YaoyaoBamboo --> Yaoyao**

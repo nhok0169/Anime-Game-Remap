@@ -1923,8 +1923,15 @@ face diffuse hash (`c70ae897`). Prototypes: `Tools/Misc/Prototypes/yaoyaoBambooF
    renders the mod's real textures. Check the mod's textures before calling either side wrong (Charlotte point 9).
 7. **The white eyes in two toggle pairs were an animation frame**, not the fix: a 30-frame face series in the same
    state showed normal and closed eyes only. One frame is not a symptom.
-8. **Open, handed to the maintainer**: Yaoyao5's long hair shows two small brown shards of the basket through it on
-   the skin (the basket rides the skin's crate bone); Yaoyao8's tassel hangs lower; a see-through `TexFx\T.0` mod
+8. **Dark shards in LAYERED hair are the OUTLINE pass, not the geometry** (Yaoyao5). Her long hair is close layers,
+   and the skin's outline shell sits further out than hers, so the inner layers' shell pokes through the outer one.
+   What settled it, in order -- each ruled one thing out: the shards stayed with the back hair RIGID on the head bone
+   (so not the rig; `yaoyaoBambooFix.py --vgMove`), her rest pose rendered offline is clean, they belong to the head
+   draw (`purpleSlot.py --skin YaoyaoBamboo --component Main`, then body only), and they stayed DARK with the head
+   painted in flat ID colours -- a texture cannot be what darkens them. Gone with `if vs != 037730.0` round the
+   head's `drawindexed`, which drops every mod's hair outline, so the maintainer KEPT the outline (one mod of ten).
+   Vertex colour B moves them (255 worse, 0 fewer) -- the lead if a mod ever needs it gone. The first guess, the
+   basket riding the crate bone, was wrong; **eliminate before fixing.** Still open: Yaoyao8's tassel hangs lower; a see-through `TexFx\T.0` mod
    has not been seen on the skin (none of the ten uses it).
 
 ## The reverse direction is COMPILED TOO: a multi-component SOURCE onto a classic target (2026-09-14)

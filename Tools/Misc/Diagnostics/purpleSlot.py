@@ -69,6 +69,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description = "Rebind one remapped slot to a flat magenta texture")
     parser.add_argument("mod", help = "the mod folder")
     parser.add_argument("--component", default = "Eye", help = "target component to paint (default: %(default)s)")
+    parser.add_argument("--skin", default = "BennettAdventure",
+                        help = "the target skin whose component it is, as its sections name it (default: %(default)s)")
     parser.add_argument("--register", default = "ps-t0", help = "which register to replace (default: %(default)s)")
     parser.add_argument("--off", action = "store_true", help = "restore the .ini files from the backup and stop")
     args = parser.parse_args()
@@ -98,7 +100,7 @@ def main() -> int:
 
         edits = []
         for name, start, end in sections(text):
-            if (f"BennettAdventure{args.component}" not in name or "Remap" not in name):
+            if (f"{args.skin}{args.component}" not in name or "Remap" not in name):
                 continue
             body = text[start:end]
             hit = re.search(rf"^(\s*){re.escape(args.register)}\s*=.*$", body, re.M)

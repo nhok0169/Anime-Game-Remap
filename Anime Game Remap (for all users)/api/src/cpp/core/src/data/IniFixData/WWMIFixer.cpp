@@ -171,20 +171,72 @@ namespace AGRemapCore {
         const int MaxFolderClimb = 3;
 
 
-        // The 8-byte WWMI blend line: four R8 bone indices then four R8 weights (Metadata.json's
-        // export_format 'Blend'); the library's default BlendFile layout is GIMI's 32-byte one.
-        std::vector<std::unique_ptr<BufElementType>> wwmiBlendElements() {
+        // The WWMI blend line: N R8 bone indices then N R8 weights (Metadata.json's export_format
+        // 'Blend'); the library's default BlendFile layout is GIMI's 32-byte one.
+        //
+        // N IS PER CHARACTER AND HAS TO BE DERIVED. Sanhua's line is 8 bytes (four influences) and
+        // Chisa, ChisaParfait, Augusta, Iuno and Galbrena carry EIGHT (16 bytes). Fixed at four,
+        // BufFile reads a 16-byte line as TWO lines -- so BlendFile::remapIndices remaps ids 0-3
+        // gated on ids 4-7 read as weights, and then remaps the real WEIGHTS 0-3 through the vertex
+        // group table as if they were bone ids. The result is a blend with corrupted weights,
+        // written with no error anywhere. Every ChisaParfait mod is 8-influence and none carries a
+        // blend remap, so ChisaParfait -> Chisa meets it on every mod.
+        //
+        // The format name is 3dmigoto's label, read back only when a buffer is written as dump text
+        // (VbFile). WWMI Tools' own `.fmt` calls the 8-wide element `R8_UINT`, so that is what an
+        // 8-influence line is called here; four keeps the name it has always had, so the shipped
+        // characters' output cannot move.
+        std::vector<std::unique_ptr<BufElementType>> wwmiBlendElements(std::size_t influences) {
             std::vector<std::unique_ptr<BufElementType>> elements;
+            const std::string format = influences == 4 ? "R8G8B8A8_UINT" : "R8_UINT";
             for (const char* name : {"BLENDINDICES", "BLENDWEIGHT"}) {
                 std::vector<std::unique_ptr<BufDataType>> types;
-                for (int i = 0; i < 4; ++i) {
+                for (std::size_t i = 0; i < influences; ++i) {
                     types.push_back(std::make_unique<BufUnSignedInt>("UnsignedInt8", 1, false));
                 }
 
-                elements.push_back(std::make_unique<BufElementType>(name, "R8G8B8A8_UINT", std::move(types)));
+                elements.push_back(std::make_unique<BufElementType>(name, format, std::move(types)));
             }
 
             return elements;
+        }
+
+
+        // How many bone influences a vertex the mod's OWN blend carries: its byte stride over the
+        // vertex count, halved. 'vertices' is the mod's declared `global $mesh_vertex_count`, and the
+        // Position.buf stands in when it has none (a mod-manager-packaged mod declares [Constants]
+        // more than once, and the count can come back 0).
+        //
+        // Falls back to FOUR whenever it cannot be derived, which is exactly the behaviour before
+        // this existed -- so a derivation that fails cannot move a shipped character's output.
+        std::size_t wwmiBlendInfluences(const std::string& blendPath, long long vertices,
+                                        const std::string& positionPath) {
+            constexpr std::size_t Fallback = 4;
+            std::error_code err;
+            if (vertices <= 0 && !positionPath.empty()) {
+                const std::uintmax_t positionSize =
+                    std::filesystem::file_size(FileService::strToPath(positionPath), err);
+                if (!err && positionSize >= 12) {
+                    vertices = static_cast<long long>(positionSize / 12);
+                }
+            }
+
+            if (vertices <= 0) {
+                return Fallback;
+            }
+
+            const std::uintmax_t blendSize =
+                std::filesystem::file_size(FileService::strToPath(blendPath), err);
+            if (err || blendSize == 0 || blendSize % static_cast<std::uintmax_t>(vertices) != 0) {
+                return Fallback;
+            }
+
+            const std::uintmax_t stride = blendSize / static_cast<std::uintmax_t>(vertices);
+            if (stride < 2 || stride % 2 != 0) {
+                return Fallback;
+            }
+
+            return static_cast<std::size_t>(stride / 2);
         }
 
         BaseResEdit<>::ResEditConfig makeResEditConfig() {
@@ -212,10 +264,12 @@ namespace AGRemapCore {
                 WWMIBlendReplace(GraphId resModObj, ResEditConfig config, const ModType* modType,
                                  std::optional<Version> fromVersion, std::optional<Version> toVersion,
                                  std::function<bool(RemapBlendResource&)> fixFunc = {},
-                                 std::map<long long, std::vector<long long>> anchorChains = {}):
+                                 std::map<long long, std::vector<long long>> anchorChains = {},
+                                 long long vertices = 0, std::string positionPath = {}):
                     Base(std::move(resModObj), std::move(config), "blend"),
                     modType_(modType), fromVersion_(std::move(fromVersion)), toVersion_(std::move(toVersion)),
-                    fixFunc_(std::move(fixFunc)), anchorChains_(std::move(anchorChains)) {}
+                    fixFunc_(std::move(fixFunc)), anchorChains_(std::move(anchorChains)),
+                    vertices_(vertices), positionPath_(std::move(positionPath)) {}
 
             protected:
                 void buildResModel(const std::string& resType, const std::string& srcPath, const std::string& fixedPath,
@@ -252,7 +306,8 @@ namespace AGRemapCore {
 
                     auto resource = std::make_unique<RemapBlendResource>(
                         ctx.iniFolder(), srcPath, fixedPath, std::move(*vgRemap), this->resType,
-                        fixFunc_, wwmiBlendElements());
+                        fixFunc_,
+                        wwmiBlendElements(wwmiBlendInfluences(srcPath, vertices_, positionPath_)));
                     resource->logger = ctx.logger();
                     ctx.storeResource(fileKey, std::move(resource));
                 }
@@ -263,6 +318,8 @@ namespace AGRemapCore {
                 std::optional<Version> toVersion_;
                 std::function<bool(RemapBlendResource&)> fixFunc_;
                 std::map<long long, std::vector<long long>> anchorChains_;
+                long long vertices_ = 0;
+                std::string positionPath_;
         };
 
 
@@ -1923,7 +1980,9 @@ namespace AGRemapCore {
                         }
 
                         auto replace = std::make_unique<WWMIBlendReplace>(GraphId(g, "", "blend"), makeResEditConfig(), source, from, to,
-                                                                          std::move(lift), config_.anchorChains);
+                                                                          std::move(lift), config_.anchorChains,
+                                                                          meshVertexCount_,
+                                                                          FileService::absPathOfRelPath(positionFile_, ctx_.getIniFile()->getFolder()));
                         auto collect = std::make_unique<Collector>();
                         for (int component : groups_[g]) {
                             const ModObj obj = targetSlotObj(config_.plan.at(component).slot);

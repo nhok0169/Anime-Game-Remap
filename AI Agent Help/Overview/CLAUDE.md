@@ -4,6 +4,53 @@ What this project is, how the repo is laid out, and the operating norms that don
 under Building/Testing/Documentation/Architecture. Read this one first if you're new to the repo;
 it's the map the other [AI Agent Help](../README.md) files assume you have.
 
+## A SAFETY NET OUTLIVES THE BUG IT CAUGHT, AND ONLY A COUNT SAYS SO (2026-09-29)
+
+`WWMIFixer::verified()` re-read the fix's own rendered text and repaired three things a graph edit
+was supposed to have done. It was written when a graph edit could not reach a section whose closing
+`endif`s live in a CALLED section -- and the graph builders were taught that shape a week later
+("all three now close whatever is still open when the parts run out", Ini Graph Editing).
+
+Nobody went back. Counted over every WuWa mod folder on disk, 58 of them:
+
+```
+ 0   a graph edit did not place ...
+ 0   a graph edit did not rewrite ...
+19   a copy of the shared-resource override bound ...
+```
+
+Two of the three rules had been correcting nothing, anywhere, since the upstream fix. They were 130
+lines, three hand-rolled `.ini` line parsers and a member -- and, worse than dead, they are the kind
+of code that would have *hidden* a real graph-edit regression by quietly patching the text.
+
+**A net that logs when it catches something can be counted. Count it before keeping it**, and prefer
+a net that logs to one that silently repairs, for exactly this reason: the log is what made the
+measurement possible at all.
+
+**And when the surviving rule moved onto the model, matching the old output was NOT sufficient
+evidence.** The oracle would also have been satisfied if something else were doing the rebind and
+the new edit did nothing -- which is how two separate defects hid earlier the same day. The edit was
+gated behind an env var and run both ways:
+
+```
+off -> vb4 = ref ResourceBlendBufferOverride
+on  -> vb4 = ResourceChisaParfaitRemapBlendBuffer
+```
+
+One build. That is the difference between "the output is right" and "my code is what makes it right".
+
+## DO NOT PIPE YOUR OWN MEASUREMENT THROUGH `tail` (2026-09-29)
+
+The corpus run above was first captured as `py -3 probe.py | tail -40`. Its own summary line said
+**19 corrections**; the 40 visible lines showed 13, all of one kind. Read off that, the breakdown was
+"0, 0, 13" -- and deleting two code paths on it would have been a decision made without seeing 6 of
+the corrections.
+
+The tell was there: the script's total disagreed with what could be counted in the output. **When a
+run prints a total, check it against what you can actually see**, and capture to a file rather than a
+window. This is habit 34's family -- a check that silently covers less than it claims -- applied to
+the thing doing the checking.
+
 ## A BLANKET `str.replace` CANNOT TELL A USE FROM THE DEFINITION (2026-09-29)
 
 A patch script inserted two constants and then replaced the literal with the constant's name across

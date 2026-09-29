@@ -390,6 +390,14 @@ whatever is still open when the parts run out (`test_IfTemplateTree.py`'s
 `test_unclosedIf_closedAtTheEndOfTheSection`, which fails against the old build). The norm tree
 adds no synthetic `else` for such a block, because that would insert parts the section never had.
 
+**And that fix retired a workaround nobody had re-measured (2026-09-29).** `WWMIFixer::verified()`
+repaired, in the fix's own rendered TEXT, the lines a graph edit had failed to place or rewrite in
+exactly this shape. Counted over 58 WuWa mod folders a week later it corrected **zero** of either --
+the builders reach those parts now -- so it went, along with three hand-rolled `.ini` line parsers.
+Its one surviving rule was not about malformed sections at all and is a `RegNewVals` over the graphs.
+**If you fix a graph builder, grep for the workarounds that existed because it was broken.**
+
+
 ## Two graph representations — don't reach for the wrong one
 
 - **`IniSectionGraph.buildPartPredecessorGraph()`** — a static, part-level "who runs immediately

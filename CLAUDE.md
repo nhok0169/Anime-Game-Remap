@@ -111,6 +111,14 @@ game, and untrusted-name slots never shifted (`byNameOf`). **And GameView's arro
 `vk_...` toggle** -- `key --vk`; a round of identical toggle pairs had proved nothing. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "YAOYAO <-> YAOYAOBAMBOO" and
 [Game View](AI%20Agent%20Help/GameView/CLAUDE.md)'s "When it does not work".
+**Its two last faults (2026-09-29) are both general.** *Dark shards in layered hair* were the OUTLINE
+shell of the hair's inner faces, which `Component::innerOutlineObjs` (core `InnerLayerOutline`) now
+zeroes per triangle. They were found only after five wrong guesses, by eliminating WHAT first and then
+painting one index slice's outline at a time (`Tools/Misc/Diagnostics/outlinePaint.py`; Overview habit
+82). *White cheeks, on her own outfit too*, were a face swap that had existed all along and NEVER RAN:
+the face hash is shared with the skin, and a versionless `ModMappedAssets::getKey` looked only in the
+skin's newer bucket, so the face was never classified. Charlotte had the same gap, now fixed with it
+(habits 81 and 83).
 
 **NEUVILLETTE <-> NEUVILLETTEMELUSENT IS COMPILED BOTH WAYS (2026-09-25), AND THE SKIN HAS ONE REAL MOD --
 SO FOUR SYNTHETIC ONES WERE BUILT, AND TWO OF THEM FOUND LIBRARY BUGS.** The skin's main mesh is an UNNAMED
@@ -176,7 +184,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is eighty short habits, none of
+feature or bug request here: the habits that pay" first.** It is eighty-three short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you

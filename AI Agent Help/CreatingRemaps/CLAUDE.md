@@ -187,6 +187,8 @@ surprises you.
 | the eyes **look down / up** on the target but not on the source, on ONE mod | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 10's second half: the mod hides the game's face (`handling = skip` on the face diffuse hash) and brings its own, so the eye offset must not apply -- `Component::offsetOnlyWithGameFace` |
 | **white eyes with no pupils** (or eyes gone) on the target, the eye textures and UVs right | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 10: the eyes sit in the GAME's face mesh and the source's bind pose puts them behind the lids. Difference the target's own Eye `Position.buf` against the fix's output for the identity mod, vertex for vertex, and set `Component::positionOffset` |
 | a **mantle / cape sleeve, a cuff or a loose panel** sticks out or hangs wrong on the target when an arm moves | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 8: find the target's REAL forearm by which bone shares vertices with the hand chain, and audit the rows for left / right asymmetry |
+| **dark shards or wedges in LAYERED hair** (long hair of two-sided sheets, a fringe over a fringe) that turn with the camera, while the same mod's texture and bones check out | "YAOYAO <-> YAOYAOBAMBOO", point 8. It is the outline shell of the INNER faces, drawn in front of the outer ones. Confirm with `if vs != 037730.0` around the draw (shards gone, so it is the outline), locate it with `Tools/Misc/Diagnostics/outlinePaint.py`, then fix with `Component::innerOutlineObjs`. Lowering the outline width does NOT shrink them, and that is the test that rules out "the shell sits too far out" |
+| **white cheeks** on the remap, **and on the BASE outfit too** | "The face diffuse" below (a `ps-t0` <-> `ps-t1` swap). A remap corrects the base as well; the maintainer calls this a GI 6.1 break, not the mod's fault. If the output has **no remapped face section at all**, the swap never ran: see "YAOYAO <-> YAOYAOBAMBOO", point 9 (a face hash two characters share, and the versionless lookup). Check the face in the SHOP PREVIEW at full-resolution crops over several frames, because a single frame can catch a blink |
 | the remap **works and you are finishing up** | "Verifying", then "Closing out a remap" --- five files and a regenerated `core/xml`, and the vertex-group draft's `Credits` sheet |
 
 Four things hold whichever row you are on, and each has cost a session:
@@ -4495,7 +4497,12 @@ Two pieces:
    iniEdits.edits[FaceObj] = {renameAdapter_.get(), faceSwapAdapter_.get()};
    ```
 
-Four things worth knowing:
+Four things worth knowing (plus a fifth, 2026-09-29: **the swap is only as good as the face
+section's CLASSIFICATION**. When the two characters of a pair share a face diffuse hash, and their rows
+sit in different version buckets, the face was never recognised as the source's and the swap silently
+did nothing. `getKey` is fixed for it, but on a new pair, grep the output for the remapped face section
+before believing the swap ran. And a face copy that keeps its hash needs the ORIGINAL hidden, and must
+not carry a fix-library call. See "YAOYAO <-> YAOYAOBAMBOO", point 9):
 
 - **Both directions must be in ONE `RegRemap`.** `IfContentPart::remapKeys` rebuilds the part in a
   single pass, consulting the rules once per *original* key, so one edit gives a true swap. Two

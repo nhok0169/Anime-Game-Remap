@@ -1319,7 +1319,13 @@ left a triangle with corners at different outline widths, which stretched its sh
 a `py -3` pass over `HashData.cpp` for the same value filed under two names found Charlotte in seconds.
 **(2) Regress every compiled character's mods byte-for-byte**, old build against new: 13 characters came
 back identical, and in Yaoyao and Charlotte only the face sections moved, which is the change's exact
-footprint. **(3) Look at the one that moved, in game, old build against new**: stage both fixed copies on
+footprint. **Then run the Integration Tester on Linux as well.** That regression covered the mods on
+disk and missed its Kirara fixture: Kirara (4.0) and KiraraBoots (4.8) share face `6eb20522`, and the
+`iniPath_ImplOverride` golden had frozen the very bug that `HashData.cpp`'s Kirara comment describes (the
+mod's own face unclassified, with a face diffuse downloaded instead). CI failed it after the push. When
+a fix moves a golden, find out whether the golden encoded a known bug before calling it a regression.
+Then regenerate it on Linux and regenerate `Docs/src/apiExamples.rst` from it (Testing's "Integration
+Tester"). **(3) Look at the one that moved, in game, old build against new**: stage both fixed copies on
 the importer's drive and swap them with `mods only` (GameView's "Proving a shared-code change in game").
 A byte-for-byte diff says WHAT changed; only the game says whether the change is right.
 

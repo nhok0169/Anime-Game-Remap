@@ -3249,6 +3249,49 @@ narrow what the copy overrides.
   binding is WORTH probing: `md5sum` said the installed atlas is the Black variant and the fix bound
   the Red one, which settled the diagnosis before the game was touched at all.
 
+### A RESOURCE THE FIX DECLARES IS NOT A DEAD BRANCH, AND FIX-TWICE IS HOW IT SHOWED (2026-09-28)
+
+A rule that drops a copied toggle branch naming a resource the mod never declares has to know that
+by the time a branch reaches it, its value may already have been swapped for one of the **fix's
+own** edited resources. Those are in none of the MOD's maps, so a test written against
+`fileOfResource_` and the parsed sections alone drops **every** branch of a toggled role that
+carries an edit, `anyBinding` stays false, and the list collapses to the resolved variant's single
+direct binding. `sourceOfEdited_` is keyed by exactly those names.
+
+What it cost: Chisa7 toggles its hair normal map between two files, which its author states
+outright --
+
+    [TextureOverrideTexture6]  hash = d8ed7611  ->  ResourceTexture6 / ResourceTexture6A
+
+-- and on a CLEAN fix both repacks were written, both resource sections declared, and the second
+bound by **nothing**, so at `$Char != 0` the hair took variant 0's normal map. Fix the folder a
+second time and it came out right.
+
+**That asymmetry is the lesson, not the bug.** A defect that only appears on the FIRST fix is
+invisible to every check that runs over a folder you have already fixed -- which, once you have been
+testing in game, is most of them. `Tools/Misc/Diagnostics/wwmiFixTwiceSweep.py` undoes each copy
+before it snapshots for exactly this reason: it fixes, fixes again and undoes, so "the first run
+differs from the second" is a reportable result rather than something you never see.
+
+**And the same contamination will lie to you about WHOSE bug it is.** I called this one pre-existing
+because the corpus said the mod was byte-identical to the last known-good build -- but I had fixed
+that mod live during an in-game round, so the harness copied an already-fixed folder and measured
+the second-run path. The same thing made 25 folders look like undo failures. **Undo the folders you
+touched before measuring**, and prefer a harness that undoes for you.
+
+**How it was found**, after reasoning about the code had already produced two wrong answers: an
+env-gated trace of the decision chain (`AGREMAP_WWMI_TRACE`), clean run against re-run. They were
+identical up to the owner lookup and then diverged at `bail: no binding survived`, which named the
+drop; making the drop switchable (`AGREMAP_WWMI_NODROP`) put the toggled list back on a clean run
+and settled it inside ONE binary, with no rebuild between the two states. That is Overview's
+"MAKE THIS FASTER" recipe used for a correctness bug, and it is worth reaching for the moment two
+runs of the same input disagree.
+
+**What a clean bill of health looks like on that sweep** (58 folders, 3147 fixed files, 2026-09-28):
+0 new broken references, 0 files lost, and the only rows left are cosmetic -- `RemapBKUP*` backups
+left behind (what `--deleteBackup` is for) and a single trailing blank line after a mod's own
+`; SHA256 CHECKSUM:` line. Both converge by the second pass.
+
 ### THE U FOLD MUST NOT TOUCH U BELOW ZERO -- THAT IS ISLAND BLEED, NOT A TILE (2026-09-27)
 
 The fold exists for a mod that UVs half a part into the `[1, 2)` **tile** and relies on the sampler

@@ -2596,6 +2596,7 @@
   <compound refid="class_a_g_remap_core_1_1_ini_keywords" kind="class"><name>AGRemapCore::IniKeywords</name>
     <member refid="class_a_g_remap_core_1_1_ini_keywords_1a27d2c42c6996a4a709bb76dc8b94fe09" kind="variable"><name>Resource</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_keywords_1ac451ee538f75835c0f8778946f16ea4d" kind="variable"><name>TextureOverride</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_keywords_1a80be90e045c2921383bc6e12eec4b8d8" kind="variable"><name>CommandList</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_keywords_1a301ccbca5f9e43d624a47ec5f8d765af" kind="variable"><name>This</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_keywords_1a1711e269e7af667dd2b0151a647763cc" kind="variable"><name>ShaderOverride</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_keywords_1a2deec4c399bc094b325907613b493568" kind="variable"><name>Remap</name></member>
@@ -2615,6 +2616,10 @@
     <member refid="class_a_g_remap_core_1_1_ini_keywords_1a109cb8484b6b9b86bb7c1ca566fea778" kind="variable"><name>MatchType</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_keywords_1a79af5209650d91131fa71d46fe3bfb7e" kind="variable"><name>MatchKeys</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_keywords_1ae7b06e4f9664f4c634630000ace95bc6" kind="variable"><name>Filename</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_keywords_1a6b29e20e87bbc84076a4539e1859771c" kind="variable"><name>Ref</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_keywords_1ace37a75ebdee9e230ae00cdb63c37f4c" kind="variable"><name>Type</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_keywords_1aca3907b8873f883401b3a794ad8b205d" kind="variable"><name>Stride</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_keywords_1a0f5247c1a0975015665b6abaddf95f4a" kind="variable"><name>Format</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_keywords_1a6d32f5bf3ed7a3dd84a053f8dec9b76c" kind="variable"><name>Null</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_keywords_1a8fe7de095b9841fb8a24b6f186134dcd" kind="variable"><name>Ib</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_keywords_1ad98707bf380b9940042e52feddd2cca6" kind="variable"><name>Vb0</name></member>
@@ -2642,6 +2647,8 @@
   <compound refid="class_a_g_remap_core_1_1_ini_naming_tools" kind="class"><name>AGRemapCore::IniNamingTools</name>
     <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a84554a7fb766c11208ea17a13b43c135" kind="function"><name>getResourceName</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a7b2e0efb0187faca695485bee66c27ed" kind="function"><name>removeResourceName</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1aa0cdbe9f1ad26abc1bf4ba25032ecb86" kind="function"><name>removeRefPrefix</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a16ad99fd2b38e8d7ab214cece41cf875" kind="function"><name>hasRefPrefix</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a69a7a72287a46b580f0a814554af7a79" kind="function"><name>getRemapElementName</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a07d2c24a38092e47d1648e03e3aff0df" kind="function"><name>getRemapBlendName</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1ab9f7ccab40e61804e3d35b0c7d7ad5ca" kind="function"><name>getRemapPositionName</name></member>

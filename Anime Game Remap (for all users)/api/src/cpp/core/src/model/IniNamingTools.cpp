@@ -148,6 +148,25 @@ namespace AGRemapCore {
         return name;
     }
 
+    std::string IniNamingTools::removeRefPrefix(const std::string& value) {
+        const std::string_view stripped = StringTools::strip(value);
+
+        // The prefix is a WORD, so `reference` must not match it -- the space is part of the test
+        // rather than part of the constant, and `ref` alone (a binding with no name after it) has
+        // nothing to strip down to.
+        const std::string prefix = IniKeywords::Ref + " ";
+        if (!StringTools::startsWith(StringTools::toLower(std::string(stripped)), prefix)) {
+            return std::string(stripped);
+        }
+
+        return std::string(StringTools::strip(stripped.substr(prefix.size())));
+    }
+
+    bool IniNamingTools::hasRefPrefix(const std::string& value) {
+        return StringTools::startsWith(
+            StringTools::toLower(std::string(StringTools::lstrip(value))), IniKeywords::Ref + " ");
+    }
+
     std::string IniNamingTools::getRemapElementName(const std::string& name, const std::string& elementName, const std::string& modName) {
         std::string remapName = modName + IniKeywords::Remap + elementName;
 

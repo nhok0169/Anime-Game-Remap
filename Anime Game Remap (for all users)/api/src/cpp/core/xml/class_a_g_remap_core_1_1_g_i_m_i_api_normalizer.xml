@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/GIMIApiNormalizer.h" line="88" column="32" bodyfile="src/model/files/GIMIApiNormalizer.cpp" bodystart="164" bodyend="172"/>
+        <location file="include/AGRemapCore/model/files/GIMIApiNormalizer.h" line="88" column="32" bodyfile="src/model/files/GIMIApiNormalizer.cpp" bodystart="156" bodyend="164"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_api_normalizer_1aa091af14b7989bf9ff5f998e2c818a59" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>

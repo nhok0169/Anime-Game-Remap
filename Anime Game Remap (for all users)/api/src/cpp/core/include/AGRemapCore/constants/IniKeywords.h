@@ -49,6 +49,15 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The `section`_ prefix of a ``3dmigoto`` command list -- a `section`_ that is run by name
+             rather than matched against a draw
+             @endrst
+             */
+            static inline const std::string CommandList = "CommandList";
+
+            /**
+             * @brief
+             @rst
              The `KVP`_ key that overrides the resource the `section`_ itself matched
              :raw-html:`<br />` :raw-html:`<br />`
 
@@ -217,6 +226,41 @@ namespace AGRemapCore {
              @endrst
              */
             static inline const std::string Filename = "filename";
+
+            /**
+             * @brief
+             @rst
+             The prefix a register binding uses to name a resource `section`_ rather than a value --
+             ``ps-t0 = ref ResourceFoo``. Strip it with
+             :cpp:func:`IniNamingTools::removeRefPrefix` rather than by hand: it was written out at
+             seven sites across three files, one of them carrying the literal's LENGTH as a bare 4
+             @endrst
+             */
+            static inline const std::string Ref = "ref";
+
+            /**
+             * @brief
+             @rst
+             A resource `section`_'s kind, eg. ``type = Buffer``
+             @endrst
+             */
+            static inline const std::string Type = "type";
+
+            /**
+             * @brief
+             @rst
+             A resource `section`_'s bytes per element, eg. ``stride = 40``
+             @endrst
+             */
+            static inline const std::string Stride = "stride";
+
+            /**
+             * @brief
+             @rst
+             A resource `section`_'s element format, eg. ``format = R32_UINT``
+             @endrst
+             */
+            static inline const std::string Format = "format";
 
             /**
              * @brief

@@ -28,6 +28,7 @@
 #include <vector>
 
 #include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
@@ -295,11 +296,8 @@ namespace AGRemapCore {
                             for (const auto& reg : table->second) {
                                 for (const BranchVal& bound :
                                          branches_.valsThroughRun(templates, entry.first, reg.first)) {
-                                    std::string val(StringTools::strip(bound.val));
-                                    const std::string ref = "ref ";
-                                    if (StringTools::startsWith(StringTools::toLower(val), ref)) {
-                                        val = std::string(StringTools::strip(val.substr(ref.size())));
-                                    }
+                                    const std::string val =
+                                        IniNamingTools::removeRefPrefix(std::string(bound.val));
 
                                     auto file = fileOf.find(StringTools::toLower(val));
                                     if (file != fileOf.end()) {

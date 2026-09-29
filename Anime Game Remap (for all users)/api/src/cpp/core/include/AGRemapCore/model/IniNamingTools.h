@@ -66,6 +66,44 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Removes the ``ref`` prefix a register binding may name a resource `section`_ with, and
+             strips the result :raw-html:`<br />` :raw-html:`<br />`
+
+             Examples: ``"ref ResourceCuteLittleEi"`` -> ``"ResourceCuteLittleEi"``;
+             ``"ResourceCuteLittleEi"`` -> ``"ResourceCuteLittleEi"`` (unchanged)
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A texture register is bound by reference either way and every reader in the library
+             looks the value up as a `section`_ name, so the two spellings mean the same thing. The
+             prefix is matched without regard to case, as ``3dmigoto`` reads it
+             @endrst
+             *
+             * @param value The value of the register binding
+             *
+             * @return The `section`_ name it refers to
+             */
+            static std::string removeRefPrefix(const std::string& value);
+
+            /**
+             * @brief
+             @rst
+             Whether a register binding names its resource `section`_ with the ``ref`` prefix
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The companion of \ref removeRefPrefix, for a caller that has to tell the two spellings
+             APART rather than read through them -- a mod that binds one register both ways means
+             two different things by it
+             @endrst
+             *
+             * @param value The value of the register binding
+             *
+             * @return Whether it carries the prefix
+             */
+            static bool hasRefPrefix(const std::string& value);
+
+            /**
+             * @brief
+             @rst
              Changes a `section`_ name to have the keyword from 'elementName' to identify that the
              `section`_ is created by this fix -- replaces the LAST occurrence of 'elementName'
              within 'name' with ``{modName}Remap{elementName}``, or appends it if 'elementName'

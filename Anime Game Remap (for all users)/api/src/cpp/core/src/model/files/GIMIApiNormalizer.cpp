@@ -22,6 +22,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h"
 #include "AGRemapCore/tools/StringTools.h"
+#include "AGRemapCore/model/IniNamingTools.h"
 
 
 namespace AGRemapCore {
@@ -59,15 +60,6 @@ namespace AGRemapCore {
             return "";
         }
 
-        // `ref X` -> `X`: a texture register is bound by reference anyway, and every reader in the
-        // library looks the value up as a section name.
-        std::string withoutRef(const std::string& value) {
-            std::string stripped(StringTools::strip(value));
-            if (StringTools::startsWith(StringTools::toLower(stripped), "ref ")) {
-                return std::string(StringTools::strip(std::string_view(stripped).substr(4)));
-            }
-            return stripped;
-        }
     }
 
 
@@ -124,7 +116,7 @@ namespace AGRemapCore {
                     continue;
                 }
                 keys.insert(kvp.first);
-                if (withoutRef(kvp.second) != StringTools::strip(kvp.second)) {
+                if (IniNamingTools::removeRefPrefix(kvp.second) != StringTools::strip(kvp.second)) {
                     refValues.insert(kvp);
                 }
             }
@@ -133,7 +125,7 @@ namespace AGRemapCore {
             for (const auto& kvp : refValues) {
                 const std::string old = kvp.second;
                 NewVals dropRef({{kvp.first, NewVals::NewValSpec(std::pair<NewVals::NewVal, NewVals::ModTypePredicate>(
-                    NewVals::NewVal(withoutRef(old)),
+                    NewVals::NewVal(IniNamingTools::removeRefPrefix(old)),
                     [old](const std::string& value, const ModType*) { return value == old; }))}});
                 dropRef.edit(*contentPart, sectionName);
             }

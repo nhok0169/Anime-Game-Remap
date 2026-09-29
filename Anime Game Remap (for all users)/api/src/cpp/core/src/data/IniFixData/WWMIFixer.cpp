@@ -2743,9 +2743,19 @@ namespace AGRemapCore {
                             // binds all three correctly, so a dead branch replaces a good
                             // binding with nothing. Dropped, the mod's own stands for those
                             // values and the fix binds the one branch that resolves.
+                            // ...and a resource the FIX declares is not dead either. By the time a
+                            // branch reaches here its value may already have been swapped for an
+                            // edited resource of ours, which is in none of the MOD's maps -- so the
+                            // test dropped every branch of a toggled role that carries an edit,
+                            // `anyBinding` stayed false, and the whole list collapsed to the single
+                            // direct binding of the resolved variant. Chisa7 toggles its hair normal
+                            // between `Components-1 t=d8ed7611.dds` and `... A.dds`; on a clean fix
+                            // the second repack was written, declared and bound by NOTHING, so at
+                            // `$Char != 0` the hair took variant 0's normal map (2026-09-28).
+                            // `sourceOfEdited_` is keyed by exactly those names.
                             const std::string bound = StringTools::toLower(val);
-                            if (editedResourceOf_.count(bound) == 0 && fileOfResource_.count(bound) == 0
-                                    && templates.count(val) == 0) {
+                            if (editedResourceOf_.count(bound) == 0 && sourceOfEdited_.count(bound) == 0
+                                    && fileOfResource_.count(bound) == 0 && templates.count(val) == 0) {
                                 continue;
                             }
 

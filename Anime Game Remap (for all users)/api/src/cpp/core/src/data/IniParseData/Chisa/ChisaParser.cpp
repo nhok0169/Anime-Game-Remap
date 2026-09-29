@@ -16,6 +16,7 @@
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniParseBuilderData.h"
 #include "AGRemapCore/data/IniParseData/WWMIParser.h"
+#include "AGRemapCore/data/IniFixData/Chisa/ChisaTextures.h"
 
 
 namespace AGRemapCore {
@@ -26,6 +27,9 @@ namespace AGRemapCore {
         WWMIParserConfig config{};
         config.modTypeId = ModTypeId::Chisa;
         config.version = "2.8";
+        // Her own textures, so a mod of hers can be sorted into roles at PARSE time -- which is
+        // where deciding what a section is belongs.
+        config.textures = chisaTextureFacts();
         return makeWWMIParser(std::move(config));
     }
 

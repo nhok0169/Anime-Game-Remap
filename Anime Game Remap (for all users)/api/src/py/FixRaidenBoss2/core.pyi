@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniNamingTools', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCreate', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniNamingTools', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCreate', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -6368,6 +6368,43 @@ class FilteredTokenizer(BaseTokenizer):
     def keywordTokenIds(self) -> set[str]:
         """
         Set[:class:`str`]: The ids of the accepting states in the `DFA`_ such that their corresponding tokens are simply keyword names
+        """
+class FromOldVal:
+    """
+    
+    Marks a callable in a :class:`RegNewVals` value slot as wanting the value already there
+    
+    A bare callable in that slot already means ``newVal(modType)``, so the one that also reads the old
+    value says so by being wrapped in this -- the way :class:`ReplaceList` and :class:`ReplaceIf` say
+    which of :meth:`IfContentPart.replaceVals`' forms they are. Wrapped, it is called as
+    ``newVal(oldValue, modType)``
+    
+    Nothing else in the `regEdits` family can write a value derived from the old one:
+    :class:`RegRemap` moves the KEY (its :class:`RemappedKeyData` may *test* the value and cannot change
+    it), and :class:`RegAssetRemap` maps a value through :class:`ModMappedAssets`, which is the right
+    answer for a hash or an index and no help for anything else
+    
+    .. note::
+        A register the :class:`IfContentPart` does not have has no old value to read, so ``addNewKVPs``
+        does not apply to one of these -- an absent register stays absent
+    
+    Parameters
+    ----------
+    producer: Callable[[:class:`str`, Optional[:class:`ModType`]], :class:`str`]
+        Called as ``producer(oldValue, modType)`` when :meth:`RegNewVals.edit` runs, to produce the
+        value to write :raw-html:`<br />` :raw-html:`<br />`
+    
+        eg. :raw-html:`<br />`
+        ``{"ps-t1": FromOldVal(lambda old, modType: old + "Edited")}``
+        
+    """
+    def __init__(self, producer: typing.Any) -> None:
+        ...
+    @property
+    def producer(self) -> typing.Any:
+        """
+        Callable[[:class:`str`, Optional[:class:`ModType`]], :class:`str`]: The callable to invoke, as
+        ``producer(oldValue, modType)``
         """
 class GIBuilder:
     """
@@ -24943,32 +24980,6 @@ class WWMIFixerConfig:
     def hiddenObjs(self, arg0: collections.abc.Sequence[str]) -> None:
         ...
     @property
-    def identifyTexture(self) -> collections.abc.Callable[[str], str | None]:
-        """
-        Optional[Callable[[:class:`str`], Optional[:class:`str`]]]: A hook that names the texture hash a mod
-        file IS -- pixel identity with one of the game's own textures -- for a file no hash names and whose
-        name says something else. ``None`` skips the step
-        """
-    @identifyTexture.setter
-    def identifyTexture(self, arg0: collections.abc.Callable[[str], str | None]) -> None:
-        ...
-    @property
-    def identityGap(self) -> float:
-        """
-        :class:`float`: The correlation every OTHER thumbprint must stay under. **Default**: ``0.90``
-        """
-    @identityGap.setter
-    def identityGap(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
-        ...
-    @property
-    def identityMin(self) -> float:
-        """
-        :class:`float`: The correlation a file needs with ONE thumbprint to be that texture. **Default**: ``0.97``
-        """
-    @identityMin.setter
-    def identityMin(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
-        ...
-    @property
     def plan(self) -> dict[int, WWMIFixerConfig.SourceComponent]:
         """
         Dict[:class:`int`, :class:`WWMIFixerConfig.SourceComponent`]: Source component -> how it is drawn on
@@ -24978,17 +24989,6 @@ class WWMIFixerConfig:
         """
     @plan.setter
     def plan(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, WWMIFixerConfig.SourceComponent]) -> None:
-        ...
-    @property
-    def roles(self) -> dict[str, str]:
-        """
-        Dict[:class:`str`, :class:`str`]: Texture hash -> role, for every version of the source's textures a
-        mod may carry. A file's role is decided in this order: the hash an override section of ANY ``.ini``
-        of the mod matches for it; the ``t=<hash>`` in its file name; :attr:`identifyTexture`; and last
-        the ``Component<N>_<Diffuse|LM|NM>`` name convention through :attr:`typeRoles`
-        """
-    @roles.setter
-    def roles(self, arg0: collections.abc.Mapping[str, str]) -> None:
         ...
     @property
     def shapeKeyStreamReg(self) -> str:
@@ -25057,31 +25057,11 @@ class WWMIFixerConfig:
     def targetLabels(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, str]) -> None:
         ...
     @property
-    def textureThumbprints(self) -> dict[str, list[int]]:
-        """
-        Dict[:class:`str`, List[:class:`int`]]: The game's own textures by hash, each a :attr:`thumbprintSize`
-        square grayscale box average of the decoded file (``Tools/Misc/Diagnostics/wwmiTextureThumbs.py``
-        generates them). A mod file no hash names is thumbprinted the same way and correlated against every
-        entry; it IS the texture it correlates at least :attr:`identityMin` with while every other stays
-        under :attr:`identityGap`. Consulted after :attr:`identifyTexture`; empty skips the step
-        """
-    @textureThumbprints.setter
-    def textureThumbprints(self, arg0: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]]) -> None:
-        ...
-    @property
-    def thumbprintSize(self) -> int:
-        """
-        :class:`int`: The side of a thumbprint. **Default**: ``16``
-        """
-    @thumbprintSize.setter
-    def thumbprintSize(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
-        ...
-    @property
     def typeRoles(self) -> dict[int, dict[str, str]]:
         """
         Dict[:class:`int`, Dict[:class:`str`, :class:`str`]]: Source component ->
-        ``{"diffuse" | "mask" | "normal" -> role}``, for a file named by component and type and by nothing
-        else
+        ``{"diffuse" | "mask" | "normal" -> role}``. Read for which components a role belongs to; what
+        IDENTIFIES a mod's textures is :class:`WWMITextureFacts`, on the parser
         """
     @typeRoles.setter
     def typeRoles(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Mapping[str, str]]) -> None:
@@ -25153,6 +25133,15 @@ class WWMIParserConfig:
     def slotPrefix(self, arg0: str) -> None:
         ...
     @property
+    def textures(self) -> WWMITextureFacts:
+        """
+        :class:`WWMITextureFacts`: What this character's textures are -- what the parser identifies a mod's
+        textures WITH. Leaving it empty means every role falls back to downloading the game's own texture
+        """
+    @textures.setter
+    def textures(self, arg0: WWMITextureFacts) -> None:
+        ...
+    @property
     def version(self) -> str:
         """
         :class:`str`: The game version the library files the character's rows under, used when the ``.ini``
@@ -25163,6 +25152,99 @@ class WWMIParserConfig:
         """
     @version.setter
     def version(self, arg0: str) -> None:
+        ...
+class WWMITextureFacts:
+    """
+    
+    What a Wuthering Waves character's textures ARE, read by her parser (and by her fixer for what a role
+    belongs to)
+    
+    A texture is identified by a HASH and a REGISTER: the hash is either the texture's own -- the
+    `section`_ IS that texture and its ``this =`` names the file -- or the MESH's, in which case
+    :class:`GIMISectionClassifier` places the section on a component and the register says what the file
+    it binds is. WuWa almost always uses the first (609 files against 31 over this corpus) and GI the
+    second, and both are read because either mod can be written
+    
+    A file the mod DECLARES that neither names is identified by its pixels, against
+    :attr:`textureThumbprints`. Files the mod does not declare are not candidates at all
+        
+    """
+    def __init__(self) -> None:
+        ...
+    @property
+    def identifyTexture(self) -> collections.abc.Callable[[str], str | None]:
+        """
+        Optional[Callable[[:class:`str`], Optional[:class:`str`]]]: A hook that names the texture hash a mod
+        file IS -- pixel identity with one of the game's own textures -- for a declared file no hash and no
+        register names. ``None`` skips the step
+        """
+    @identifyTexture.setter
+    def identifyTexture(self, arg0: collections.abc.Callable[[str], str | None]) -> None:
+        ...
+    @property
+    def identityGap(self) -> float:
+        """
+        :class:`float`: The correlation every OTHER thumbprint must stay under. **Default**: ``0.90``
+        """
+    @identityGap.setter
+    def identityGap(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def identityMin(self) -> float:
+        """
+        :class:`float`: The correlation a file needs with ONE thumbprint to be that texture. **Default**: ``0.97``
+        """
+    @identityMin.setter
+    def identityMin(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def registerRoles(self) -> dict[int, dict[str, str]]:
+        """
+        Dict[:class:`int`, Dict[:class:`str`, :class:`str`]]: Which role each register binds, per source
+        component, as ``component -> {register -> role}`` -- the other way a texture is identified, for a
+        `section`_ carrying the MESH's hash
+        """
+    @registerRoles.setter
+    def registerRoles(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Mapping[str, str]]) -> None:
+        ...
+    @property
+    def roles(self) -> dict[str, str]:
+        """
+        Dict[:class:`str`, :class:`str`]: Texture hash -> role, for every version of the source's textures a
+        mod may carry -- the current hashes and the older ones the community's hash maps and
+        ``Data/Mod Downloads/WuWa/<Name>/<Name>HashLineage.json`` know
+        
+        A file plays EVERY role its hashes name: a mod declares one file under two hashes when one atlas
+        serves two components, and taking only the first leaves the second component drawing with the
+        TARGET's own textures
+        """
+    @roles.setter
+    def roles(self, arg0: collections.abc.Mapping[str, str]) -> None:
+        ...
+    @property
+    def textureThumbprints(self) -> dict[str, list[int]]:
+        """
+        Dict[:class:`str`, List[:class:`int`]]: The game's own textures by hash, each a
+        :attr:`thumbprintSize` square grayscale box average of the decoded file
+        (``Tools/Misc/Diagnostics/wwmiTextureThumbs.py`` generates them). A declared file nothing else names
+        is thumbprinted the same way and correlated against every entry; it IS the texture it correlates at
+        least :attr:`identityMin` with while every other stays under :attr:`identityGap`. Consulted after
+        :attr:`identifyTexture`; empty skips the step
+        
+        .. note::
+            Leaving this empty is how the pass silently identified nothing for a whole session -- the
+            thumbprints were being set on the FIXER's config, which no longer reads them
+        """
+    @textureThumbprints.setter
+    def textureThumbprints(self, arg0: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]]) -> None:
+        ...
+    @property
+    def thumbprintSize(self) -> int:
+        """
+        :class:`int`: The side of a thumbprint. **Default**: ``16``
+        """
+    @thumbprintSize.setter
+    def thumbprintSize(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
 class Z3Context:
     """

@@ -1,4 +1,5 @@
 #include "AGRemapCore/data/IniFixData/Chisa/ChisaFixer.h"
+#include "AGRemapCore/data/IniFixData/Chisa/ChisaTextures.h"
 
 // ##### Credits
 
@@ -482,30 +483,6 @@ namespace AGRemapCore {
         };
 
         // ---- her textures by the hash the game binds them under ----
-        config.roles = {
-            {"019c268e", "accessoryDiffuse"},
-            {"06790f7e", "skinRamp"},
-            {"165f3a1b", "upperDiffuse"},
-            {"226b31fc", "irisDiffuse"},
-            {"232c2dbc", "hairRamp"},
-            {"2b16c5ac", "hairTipRamp"},
-            {"2b6f8bcb", "lowerNormal"},
-            {"3f0e6f21", "lowerMask"},
-            {"40528957", "accessoryNormal"},
-            {"4eaa9816", "accessorySheen"},
-            {"526b9ed0", "upperNormal"},
-            {"6ae8dd10", "faceMask"},
-            {"90196068", "upperMask"},
-            {"9ccd7ea7", "frontHairNormal"},
-            {"a842d51f", "hairMask"},
-            {"bb73967a", "bodySheen"},
-            {"cbab5910", "hairDiffuse"},
-            {"d030af95", "faceDiffuse"},
-            {"d3b9ba76", "frontHairMask"},
-            {"e921181d", "hairNormal"},
-            {"f2646d21", "frontHairDiffuse"},
-            {"f642139e", "lowerDiffuse"},
-        };
 
         // ---- and the register her OWN sections bind each role at ----
         // The SOURCE's own binding per component, which is how a role finds the mod's file when
@@ -517,15 +494,7 @@ namespace AGRemapCore {
         // RabbitFX's "lightmap" is this fix's mask. The normal map IS taken, following the
         // prototype's table (2026-09-21) rather than an older comment beside it that says it is
         // deliberately not -- if orange hair comes back, component 1's normalmap row goes first.
-        config.sourceRegisterRoles = {
-            {0, {{"ps-t0", "frontHairMask"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}, {"Resource\\RabbitFX\\Diffuse", "frontHairDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "frontHairNormal"}, {"Resource\\RabbitFX\\Lightmap", "frontHairMask"}}},
-            {1, {{"ps-t0", "hairMask"}, {"ps-t1", "hairDiffuse"}, {"ps-t2", "hairRamp"}, {"ps-t5", "hairNormal"}, {"Resource\\RabbitFX\\Diffuse", "hairDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "hairNormal"}, {"Resource\\RabbitFX\\Lightmap", "hairMask"}}},
-            {2, {{"ps-t0", "faceMask"}, {"ps-t1", "faceDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "faceDiffuse"}, {"Resource\\RabbitFX\\Lightmap", "faceMask"}}},
-            {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "upperDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "upperNormal"}, {"Resource\\RabbitFX\\Lightmap", "upperMask"}}},
-            {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "lowerDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "lowerNormal"}, {"Resource\\RabbitFX\\Lightmap", "lowerMask"}}},
-            {5, {{"ps-t0", "accessoryDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "accessoryDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "accessoryNormal"}}},
-            {6, {{"ps-t1", "irisDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "irisDiffuse"}}},
-        };
+        config.sourceRegisterRoles = chisaTextureFacts().registerRoles;
 
         // ---- the flats the fix invents, named as the prototype names them ----
         config.createdTextures = {
@@ -589,7 +558,6 @@ namespace AGRemapCore {
             {"upperMask", "90196068"},
             {"upperNormal", "526b9ed0"},
         };
-        config.textureThumbprints = chisaTextureThumbprints();
 
         // ---- the three lines that would undo the whole fix, and RabbitFX's SetTextures ----
         config.removedRegs = {

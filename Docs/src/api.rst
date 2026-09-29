@@ -2091,6 +2091,17 @@ RemapServiceCLI
 
 :raw-html:`<br />`
 
+FromOldVal
+==========
+
+.. attributetable:: FixRaidenBoss2.FromOldVal
+
+.. autoclass:: FixRaidenBoss2.FromOldVal
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 ReplaceIf
 =========
 

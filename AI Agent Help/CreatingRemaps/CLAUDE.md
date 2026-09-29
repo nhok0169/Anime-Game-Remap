@@ -9,6 +9,101 @@ Read [Architecture](../Architecture/CLAUDE.md) first if you have never touched
 
 <br>
 
+## THE PARSER IDENTIFIES A MOD'S TEXTURES, AND ONLY THE FILES ITS `.ini` DECLARES (2026-09-29)
+
+**A texture is identified by a HASH and a REGISTER** -- the hash being the texture's own (the section
+IS that texture, and `this =` names the file) or the MESH's (the section is a draw
+`GIMISectionClassifier` placed, and the register says what it binds). That is section classification,
+so **the parser does it** (`WWMIParser::buildRoles` -> `WWMITextureRoles`) and the fixer asks through
+the `WWMIParseFacts` seam, the way `GIMIComponentParseFacts` already works. It holds for both games;
+GI uses the mesh-hash form and WuWa almost always the texture's own -- 609 files against 31 over this
+corpus -- and the mesh route is kept because a future mod could be written that way.
+
+**What it replaced walked the mod's FOLDER**, climbing up to three parents, and guessed each `.dds`
+from a hash inside its filename, its pixels, or a `Component 1 Diffuse` naming convention. Three
+things were wrong with that, and only the first is obvious:
+
+1. **A file the mod never binds was a candidate.** Chisa7 keeps spare colourways beside the installed
+   one, and a spare won `upperDiffuse` -- which is what turned a kimono red. Over ten mods the scan
+   offered **51** such files; none of them is a candidate now.
+2. **A naming convention is not a rule.** A user is free to call a texture `foo.dds`, or to put a
+   hash in the name that is not the texture's. Both routes are gone; neither identified anything in
+   the corpus the hash and the pixels did not.
+3. **It keyed everything by a LOWERCASED path** and mapped back through a `real()` table that
+   answered with its own argument when the key was absent -- so an absolute path came back
+   lowercased, `getRelPath` could not relativise it against a real-cased folder, and the fix wrote
+   `c:/users/.../textures/...` into someone else's `.ini`. Broken the moment the mod moves.
+
+**Pixel identity stays, scoped to the declared files.** A mod that ships a texture dumped straight
+out of the game declares no hash for it and binds it through no slot the character's table lists, so
+the hash and the register both say nothing: **13 of 220 placements in the corpus are the pixels and
+nothing else**, and dropping them sent ChisaParfait1's `panelMask` and `panelNormal` to downloads.
+The thumbprints (`TexThumbprint::identifyFile`, a 16x16 grayscale of each game texture in the config)
+were never the folder walk's idea -- they run over the files the `.ini` names, as a third pass after
+the hash and the register.
+
+**The measurement that settled the switchover** was dumping both identifications from one run
+(`AGREMAP_WWMI_ROLES=1`, `WWMIROLE` and `WWMIROLE2`) over 10 mods across all four characters: 164
+agree, **0 regressions**, 17 gained, 51 dropped -- the dropped being exactly the files no `.ini`
+names, which is the point. Two files report BOTH roles the mod binds them for where the old rule
+reported one, which is the mask/normal aliasing the fixer already handles downstream.
+
+**AND THE PIXEL PASS WAS INERT ON ITS FIRST BUILD, WITH NOTHING SAYING SO.** `WWMITextureFacts`
+declares `textureThumbprints`, `thumbprintSize`, `identityMin`, `identityGap` and `identifyTexture`
+-- and the four `<Char>Textures.cpp` that fill that struct set only `roles` and `registerRoles`. The
+thumbprints were still being set on the **fixer's** config, where identification used to live and
+where nothing had read them since. So the new pass ran over an empty table on every mod of every
+character, correlated against nothing, and placed nothing. The build was green, the corpus sweep was
+clean, and the summary said what it always says.
+
+What found it in two minutes was **asking the mod the feature was FOR**: ChisaParfait1's `panelMask`
+and `panelNormal` are the two files that need pixel identity, and `AGREMAP_WWMI_ROLES=1` showed them
+still resolving to downloads. They now read `the game's own 2f911db8 by its pixels`. **A new feature's
+acceptance test is the case that motivated it, named specifically, not the suite going green** --
+"the run was clean" was never evidence here (Overview habit 1).
+
+Two things landed with the fix, and the second is the general one: the thumbprints moved into each
+character's `<Char>Textures.cpp` so the parser and the fixer read ONE table, which is what extracting
+that file was for -- and the six now-unread fields (`roles`, `identifyTexture`, `textureThumbprints`,
+`thumbprintSize`, `identityMin`, `identityGap`) were **deleted from `WWMIFixerConfig`**. A config
+field that four character rows dutifully fill and nothing reads is how this happened; leaving it in
+place is leaving the next one loaded. `typeRoles` stays, because the fixer still reads it for which
+components a role belongs to. The Python side moved with them: `WWMIParserConfig::textures` had never
+been bound at all, so the whole identification surface was unreachable from a prototype -- it is
+`WWMITextureFacts` now.
+
+**AND THE MOMENT IT WORKED IT ATE ITS OWN OUTPUT.** The corpus sweep came back with two newly
+non-idempotent files: `Sanhua2/Sanhua_simplified_A/mod copy.ini` declared **ten fewer `RemapDL`
+download sections** on a second fix than on the first. Fixing the mod twice with
+`AGREMAP_WWMI_ROLES=1` and diffing what the parser decided each pass named it in one run -- nine
+files placed only on the second pass, every one of them the FIRST pass's own download:
+
+```
+mod copy.ini / sanhuaexorcistbangsdiffuseremapdl.dds
+    bangsDiffuse   [the game's own f8d5c991 by its pixels]
+```
+
+**A download is a byte copy of the game's texture, so it correlates perfectly with the thumbprint OF
+that texture -- because it is one.** The identification is not wrong; it is answering a question
+nobody asked. The fix then bound the previous run's file instead of declaring a fresh download, and
+the same mod fixed twice produced two different `.ini`.
+
+Three things worth carrying:
+
+- **Only pixel identity can do this.** The hash and register routes read what the mod's own sections
+  SAY, and a mod declares nothing about a file that did not exist when it was written. Any check that
+  looks at CONTENT is exposed to content the fix itself produced.
+- **The guard is about the fix's output, not about identification.** A file whose name carries
+  `RemapDL` or `RemapTex` immediately before its extension was written by a previous run -- the same
+  marker `RemapIniRemover` uses to decide what an undo deletes -- and is no evidence about the mod.
+- **A fix may not assume the undo was complete.** An undo normally takes those files with it; this
+  mod is one of the corpus's 25 incomplete undos, which is exactly the folder a real user has.
+  Deliberately NOT done: preferring the existing download. It renders the same and makes the output
+  depend on how many times the fix has run, which is the property that broke.
+
+**Run every fix twice** (Neuvillette, 2026-09-26) is what caught it, and `finalSweep.py` does it for
+the whole corpus -- the two-line change in its report was the only thing that said so.
+
 ## THE MAINTAINER'S REMAP PIPELINE, END TO END (2026-09-23)
 
 A new character pair, `char <-> skin`, goes through these thirteen steps in this order. The

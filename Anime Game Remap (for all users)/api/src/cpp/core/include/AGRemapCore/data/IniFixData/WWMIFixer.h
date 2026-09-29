@@ -265,23 +265,6 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         Texture hash -> role, for every version of the source's textures a mod may carry: the
-         current hashes, and the older ones the community's hash maps and
-         ``Data/Mod Downloads/WuWa/<Name>/<Name>HashLineage.json`` know :raw-html:`<br />`
-         :raw-html:`<br />`
-         A file's roles are decided in this order: the hashes the override sections (``hash =``
-         plus ``this = Resource``) of ANY ``.ini`` of the mod match for it, plus the ``t=<hash>``
-         in its file name (how WWMI Tools names an export) -- and a file plays EVERY role those
-         hashes name, because a mod declares one file under two hashes when one atlas serves two
-         components; then :cpp:member:`identifyTexture`; and last the
-         ``Component<N>_<Diffuse|LM|NM>`` name convention through :cpp:member:`typeRoles`
-         @endrst
-         */
-        std::unordered_map<std::string, std::string> roles;
-
-        /**
-         * @brief
-         @rst
          Source component -> ``{"diffuse" | "mask" | "normal" -> role}``, for a file named by
          component and type and by nothing else (``Component4_NM.dds``: the RabbitFX / WWMI-Tools
          export names). The suffixes accepted: ``diffuse``, ``albedo``, ``base``, ``color``,
@@ -389,48 +372,6 @@ namespace AGRemapCore {
          @endrst
          */
         std::set<std::string> flatLeftToGame;
-
-        /**
-         * @brief
-         @rst
-         An optional hook that names the texture hash a mod file IS -- pixel identity with one of
-         the game's own textures -- for a file no hash names and whose name says something else.
-         The prototype measures this by image correlation against the download folder
-         (``Component6_Diffuse.dds`` of one mod is the ``ps-t5`` ramp by its pixels, not the iris
-         its name says). Empty skips the step
-         @endrst
-         */
-        std::function<std::optional<std::string>(const std::string& file)> identifyTexture;
-
-        /**
-         * @brief
-         @rst
-         The game's own textures by hash, each as a THUMBPRINT -- a :cpp:member:`thumbprintSize`
-         square grayscale box average of the decoded file, generated from the character's download
-         folder by ``Tools/Misc/Diagnostics/wwmiTextureThumbs.py``. A mod file no hash names is
-         decoded, thumbprinted the same way and correlated against every entry: it IS the texture
-         it correlates at least :cpp:member:`identityMin` with when every other entry stays under
-         :cpp:member:`identityGap`. Measured on the cloak mod's 19 files, 16 x 16 grayscale makes
-         the same decision as a full-size colour correlation on every one, and needs no download.
-         Consulted after :cpp:member:`identifyTexture`; empty skips the step
-         @endrst
-         */
-        std::unordered_map<std::string, std::vector<std::uint8_t>> textureThumbprints;
-
-        /**
-         * @brief The side of a thumbprint. **Default**: ``16``
-         */
-        int thumbprintSize = 16;
-
-        /**
-         * @brief The correlation a file needs with ONE thumbprint to be that texture. **Default**: ``0.97``
-         */
-        double identityMin = 0.97;
-
-        /**
-         * @brief The correlation every OTHER thumbprint must stay under. **Default**: ``0.90``
-         */
-        double identityGap = 0.90;
 
         /**
          * @brief Whether every remapped draw binds a zero shape-key offset stream (item 3 above). **Default**: ``true``

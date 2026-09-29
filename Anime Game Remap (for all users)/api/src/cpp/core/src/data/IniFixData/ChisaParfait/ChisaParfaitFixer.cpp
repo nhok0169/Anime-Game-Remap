@@ -1,4 +1,5 @@
 #include "AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h"
+#include "AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitTextures.h"
 
 // ##### Credits
 
@@ -239,22 +240,6 @@ namespace AGRemapCore {
         // Her components 0, 2 and 6 bind the SAME hashes Chisa does (`d3b9ba76`, `f2646d21`,
         // `9ccd7ea7`, `226b31fc`): the same mesh and the same art, the skin keeping her bangs, face
         // and eyes. Her FACE is the exception -- the same mesh, different textures.
-        config.roles = {
-            // shared with Chisa outright
-            {"d3b9ba76", "frontHairMask"}, {"f2646d21", "frontHairDiffuse"}, {"9ccd7ea7", "frontHairNormal"},
-            {"226b31fc", "irisDiffuse"},
-            // hers
-            {"3f433212", "hairMask"}, {"a94ee44f", "hairDiffuse"}, {"81f48e54", "hairRamp"},
-            {"57aa5a71", "hairTipRamp"}, {"d547f3c6", "hairNormal"},
-            {"226d9bc4", "faceMask"}, {"53e96488", "faceDiffuse"},
-            {"3c4279a9", "upperNormal"}, {"6b7ae743", "upperMask"}, {"4c420ea9", "upperDiffuse"},
-            {"b9a888ec", "lowerNormal"}, {"4668fce8", "lowerMask"}, {"1d79fc96", "lowerDiffuse"},
-            {"74a761f5", "lowerSheen"},
-            {"4bee4070", "bodySheen"},              // the holographic foil -- see the plan's note
-            {"2f911db8", "panelMask"}, {"56e725c4", "panelNormal"}, {"1e1b7bbc", "panelDiffuse"},
-            {"00e3f13b", "panelMatcap"},
-            {"2c990f51", "propMask"}, {"71a6e63f", "propDiffuse"}, {"e4463fca", "propNormal"},
-        };
 
         // ---- a file named by component and type and by nothing else ------------------------------
         config.typeRoles = {
@@ -276,29 +261,7 @@ namespace AGRemapCore {
         //
         // Her slot 5 is the clothing layout with ps-t0 and ps-t2 EXCHANGED (detail at t0, normal at
         // t2), measured from the pixels rather than assumed from its neighbours.
-        config.sourceRegisterRoles = {
-            {0, {{"ps-t0", "frontHairMask"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"},
-                 {"Resource\\RabbitFX\\Diffuse", "frontHairDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "frontHairNormal"},
-                 {"Resource\\RabbitFX\\Lightmap", "frontHairMask"}}},
-            {1, {{"ps-t0", "hairMask"}, {"ps-t1", "hairDiffuse"}, {"ps-t2", "hairRamp"}, {"ps-t4", "hairTipRamp"},
-                 {"ps-t5", "hairNormal"}, {"Resource\\RabbitFX\\Diffuse", "hairDiffuse"},
-                 {"Resource\\RabbitFX\\Normalmap", "hairNormal"}, {"Resource\\RabbitFX\\Lightmap", "hairMask"}}},
-            {2, {{"ps-t0", "faceMask"}, {"ps-t1", "faceDiffuse"},
-                 {"Resource\\RabbitFX\\Diffuse", "faceDiffuse"}, {"Resource\\RabbitFX\\Lightmap", "faceMask"}}},
-            {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t3", "upperDiffuse"}, {"ps-t8", "bodySheen"},
-                 {"Resource\\RabbitFX\\Diffuse", "upperDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "upperNormal"},
-                 {"Resource\\RabbitFX\\Lightmap", "upperMask"}}},
-            {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t3", "lowerDiffuse"}, {"ps-t5", "lowerSheen"},
-                 {"Resource\\RabbitFX\\Diffuse", "lowerDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "lowerNormal"},
-                 {"Resource\\RabbitFX\\Lightmap", "lowerMask"}}},
-            {5, {{"ps-t1", "panelMask"}, {"ps-t2", "panelNormal"}, {"ps-t3", "panelDiffuse"},
-                 {"Resource\\RabbitFX\\Diffuse", "panelDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "panelNormal"},
-                 {"Resource\\RabbitFX\\Lightmap", "panelMask"}}},
-            {6, {{"ps-t1", "irisDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "irisDiffuse"}}},
-            {7, {{"ps-t0", "propMask"}, {"ps-t2", "propDiffuse"}, {"ps-t4", "propNormal"},
-                 {"Resource\\RabbitFX\\Diffuse", "propDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "propNormal"},
-                 {"Resource\\RabbitFX\\Lightmap", "propMask"}}},
-        };
+        config.sourceRegisterRoles = chisaParfaitTextureFacts().registerRoles;
 
         // ---- a role the mod ships no file for falls back to HER game texture ----------------------
         // The mod's UVs are ChisaParfait's, so her own texture is the right default and Chisa's is
@@ -326,7 +289,6 @@ namespace AGRemapCore {
         // the MOD's candidate file, not on the download.
         config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask", "panelMask", "propMask"};
 
-        config.textureThumbprints = chisaParfaitTextureThumbprints();
 
         // ---- RabbitFX's own texture binding, which would override the fix's ----------------------
         // Her mods do NOT carry the three `Resource*Override = ref ...Component<N>` lines the

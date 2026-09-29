@@ -12,8 +12,8 @@
 // ##### EndCredits
 
 
-#ifndef WWMI_TEXTURE_INDEX_H
-#define WWMI_TEXTURE_INDEX_H
+#ifndef WWMI_TEXTURE_FACTS_H
+#define WWMI_TEXTURE_FACTS_H
 
 #include <algorithm>
 #include <cstdint>
@@ -98,65 +98,22 @@ namespace AGRemapCore {
          @endrst
          */
         std::function<std::optional<std::string>(const std::string& file)> identifyTexture;
+
+        /**
+         * @brief
+         @rst
+         Which role each register binds, per source component, as ``component -> {register -> role}``
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         The other way a texture is identified: the `section`_ carries the MESH's hash, so
+         :cpp:class:`GIMISectionClassifier` places it on a component, and the register says what the
+         file it binds is. The usual GI form; rare in WuWa -- 31 files against 609 over this
+         corpus -- and kept because a future mod could be written that way
+         @endrst
+         */
+        std::map<int, std::map<std::string, std::string>> registerRoles;
     };
 
-
-
-    const std::unordered_map<std::string, std::string> TypeOfSuffix = {
-        {"diffuse", "diffuse"}, {"albedo", "diffuse"}, {"base", "diffuse"}, {"color", "diffuse"}, {"colour", "diffuse"}, {"d", "diffuse"},
-        {"lm", "mask"}, {"lightmap", "mask"}, {"mask", "mask"}, {"m", "mask"},
-        {"nm", "normal"}, {"normal", "normal"}, {"normalmap", "normal"}, {"n", "normal"}};
-
-    // ---- the mod's textures, by role ----
-
-    struct TextureRole {
-        std::string role;
-        std::string how;
-    };
-
-    /**
-     * Every .dds under the mod's root with the roles it plays, and every .ini's resource
-     * sections -> files. A file plays EVERY role its hashes name: a mod declares one file
-     * under two hashes when one atlas serves two components (Upper_D.dds as both the arm
-     * skin's and the bodice's diffuse), and taking only the first left the second component
-     * unbound, drawing with the TARGET's own textures (2026-09-19). The root is the .ini file's own folder, climbed while the parent
-     * holds a .ini file of its own (LOD folders under a file that declares their textures).
-     */
-    class WWMITextureIndex {
-        public:
-            WWMITextureIndex(const std::string& iniFolder, const WWMITextureFacts& facts, const std::string& remapTexKeyword,
-                         const Hashes* libraryHashes, const std::string& sourceName);
-
-            const std::string& root() const { return root_; }
-            std::size_t fileCount() const { return real_.size(); }
-            std::size_t byHash() const { return byHash_; }
-            std::size_t byPixels() const { return byPixels_; }
-            std::size_t byName() const { return byName_; }
-            const std::vector<std::string>& unresolved() const { return unresolved_; }
-            const std::unordered_map<std::string, std::vector<TextureRole>>& rolesOf() const { return rolesOf_; }
-
-            // The file's real spelling, for what gets written into the .ini.
-            std::string real(const std::string& key) const;
-
-            // (resource section, file key) in the .ini's own declaration order: the FIRST resource
-            // naming a file is the one bound, as the prototype binds it
-            const std::vector<std::pair<std::string, std::string>>& resourcesOf(const std::string& iniPath) const;
-
-        private:
-            static std::string findRoot(const std::string& iniFolder);
-
-            // A DISABLED-prefixed folder or file, anywhere under the root: the game ignores it.
-            bool isDisabled(const std::string& file) const;
-
-            std::string root_;
-            std::unordered_map<std::string, std::string> real_;
-            std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>> resourcesByIni_;
-            std::unordered_map<std::string, std::vector<TextureRole>> rolesOf_;
-            std::vector<std::string> unresolved_;
-            std::size_t byHash_ = 0;
-            std::size_t byPixels_ = 0;
-            std::size_t byName_ = 0;
-    };
 }
 
 #endif

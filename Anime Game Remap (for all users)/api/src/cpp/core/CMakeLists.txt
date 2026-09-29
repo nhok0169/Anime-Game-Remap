@@ -36,7 +36,7 @@ add_library(AGRemapCore STATIC
     src/data/VGCountData.cpp
     src/data/ShapeKeyChecksumData.cpp
     src/data/VGRemapData.cpp
-    src/data/WWMITextureIndex.cpp
+    src/data/WWMITextureRoles.cpp
     src/data/ModDataAssets.cpp
     src/data/IniParseBuilderData.cpp
     src/data/IniFixBuilderData.cpp
@@ -119,11 +119,15 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/GIMIComponentFixer.cpp
     src/data/IniFixData/WWMIFixer.cpp
     src/data/IniFixData/Chisa/ChisaFixer.cpp
+    src/data/IniFixData/Chisa/ChisaTextures.cpp
     src/data/IniFixData/Chisa/ChisaThumbprints.cpp
     src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp
+    src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp
     src/data/IniFixData/ChisaParfait/ChisaParfaitThumbprints.cpp
     src/data/IniFixData/Sanhua/SanhuaFixer.cpp
+    src/data/IniFixData/Sanhua/SanhuaTextures.cpp
     src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp
+    src/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.cpp
     src/data/IniFixData/SanhuaExorcist/SanhuaExorcistThumbprints.cpp
     src/data/IniFixData/Sanhua/SanhuaThumbprints.cpp
     src/data/IniParseData/WWMIParser.cpp

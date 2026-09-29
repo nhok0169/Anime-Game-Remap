@@ -1,4 +1,5 @@
 #include "AGRemapCore/data/IniFixData/Sanhua/SanhuaFixer.h"
+#include "AGRemapCore/data/IniFixData/Sanhua/SanhuaTextures.h"
 
 // ##### Credits
 
@@ -77,23 +78,6 @@ namespace AGRemapCore {
             // and the same textures under the hashes of the 2024-2025 game versions the maintainer's
             // mods were exported from (Data/Mod Downloads/WuWa/Sanhua/SanhuaHashLineage.json, each pair
             // measured by pixel identity or taken from the community's hash maps).
-            config.roles = {
-                // current (2.5)
-                {"c88cc1fc", "eyeMask"}, {"ae6e9014", "bangsDiffuse"}, {"1dcc0f1d", "irisDiffuse"}, {"1035197c", "t5Ramp"},
-                {"1c0c8b91", "bangsMask"},
-                {"68ca7071", "hairDiffuse"}, {"cef6494f", "hairNormal"},
-                {"46177147", "faceMask"}, {"881c236d", "faceDiffuse"},
-                {"e39835c7", "skinNormal"}, {"fde0f298", "skinDiffuse"},
-                {"efb25eb3", "bodiceNormal"}, {"89ba19a1", "bodiceMask"}, {"abda232b", "bodiceDiffuse"},
-                {"f3b217ab", "skirtNormal"}, {"f0713dc7", "skirtMask"}, {"c689a8ee", "skirtDiffuse"},
-                // older
-                {"2584190a", "hairNormal"}, {"98b9635b", "hairDiffuse"}, {"aa70ef15", "faceDiffuse"},
-                {"03d9850b", "skinNormal"}, {"4b6d52b9", "skinDiffuse"},
-                {"0521977a", "bodiceNormal"}, {"ebeeda8c", "bodiceDiffuse"}, {"5efe7892", "bodiceMask"},
-                {"16695017", "skirtNormal"}, {"2c0c2728", "skirtDiffuse"}, {"11b9cadd", "skirtMask"},
-                {"1bdd0987", "t5Ramp"},
-                {"48616ac9", "bangsDiffuse"}, {"3cd03f60", "irisDiffuse"}, {"345368c9", "bangsMask"},
-            };
 
             // A file named by component and type and by nothing else (Component4_NM.dds: the
             // RabbitFX / WWMI-Tools export names). cef6494f reads as a mask by its pixels; the
@@ -129,7 +113,6 @@ namespace AGRemapCore {
 
             // Her own textures' thumbprints, so a file named by nothing (Component6_Diffuse.dds: the
             // ps-t5 ramp, not the iris its name says) is placed by what it IS.
-            config.textureThumbprints = sanhuaTextureThumbprints();
 
             config.sourceLabels = {{0, "bangs"}, {1, "hair"}, {2, "face"}, {3, "arm skin"}, {4, "bodice, hat, ribbons, boots"},
                                    {5, "skirt"}, {6, "eyes"}};

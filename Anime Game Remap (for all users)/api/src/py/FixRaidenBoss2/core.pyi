@@ -25109,14 +25109,6 @@ class WWMIParserConfig:
     def hashOnlyObjs(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
         ...
     @property
-    def modTypeId(self) -> ModTypeId:
-        """
-        :class:`ModTypeId`: The mod type a ``.ini`` of this character classifies as
-        """
-    @modTypeId.setter
-    def modTypeId(self, arg0: ModTypeId) -> None:
-        ...
-    @property
     def slotHashType(self) -> str:
         """
         :class:`str`: The hash type every draw slot section matches. **Default**: ``"vb0"``

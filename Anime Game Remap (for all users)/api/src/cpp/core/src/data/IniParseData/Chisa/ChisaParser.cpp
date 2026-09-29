@@ -25,7 +25,6 @@ namespace AGRemapCore {
         // produces. Nothing is Chisa-specific beyond her id: her seven draw slots come off the
         // library's Indices rows, her hashes off HashData.
         WWMIParserConfig config{};
-        config.modTypeId = ModTypeId::Chisa;
         config.version = "2.8";
         // Her own textures, so a mod of hers can be sorted into roles at PARSE time -- which is
         // where deciding what a section is belongs.

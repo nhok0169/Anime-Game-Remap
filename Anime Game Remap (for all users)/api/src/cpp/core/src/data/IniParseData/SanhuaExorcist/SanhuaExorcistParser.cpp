@@ -22,7 +22,6 @@
 namespace AGRemapCore {
     IniParseBuilder::Factory IniParseBuilderFuncs::sanhuaExorcist2_5() {
         WWMIParserConfig config{};
-        config.modTypeId = ModTypeId::SanhuaExorcist;
         config.version = "2.5";
         // Her own textures, so a mod of hers is sorted into roles at PARSE time.
         config.textures = sanhuaExorcistTextureFacts();

@@ -27,7 +27,6 @@ namespace AGRemapCore {
         // The version is the SKIN's, 3.5, which is the one her assets are filed at and the one
         // downloadVersionFolder has to agree with.
         WWMIParserConfig config{};
-        config.modTypeId = ModTypeId::ChisaParfait;
         config.version = "3.5";
         // Her own textures, so a mod of hers is sorted into roles at PARSE time.
         config.textures = chisaParfaitTextureFacts();

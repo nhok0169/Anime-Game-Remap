@@ -94,8 +94,6 @@ becomes the mod object ``("", "componentN")``, and each entry of :attr:`hashOnly
 ``("", <obj>)``
     )doc")
         .def(py::init<>())
-        .def_readwrite("modTypeId", &AGRC::WWMIParserConfig::modTypeId,
-                        py::doc(":class:`ModTypeId`: The mod type a ``.ini`` of this character classifies as"))
         .def_readwrite("version", &AGRC::WWMIParserConfig::version, py::doc(R"doc(
 :class:`str`: The game version the library files the character's rows under, used when the ``.ini``
 carries no version of its own. A reverse lookup with no version resolves through the newest bucket

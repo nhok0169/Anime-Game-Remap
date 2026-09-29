@@ -1052,11 +1052,6 @@ namespace AGRemapCore {
                 // ever building anything -- see GIMICharFixerImpl. The files the fix writes outside
                 // the resource system (the zero stream) and the resources it adds by hand (the
                 // created textures) go in here too, at fix time, so a parse alone writes nothing.
-                // Every group's text, checked against what the edits were meant to write -- see verified()
-                std::string groupToStr(std::size_t groupInd) const override {
-                    return verified(Fixer::groupToStr(groupInd));
-                }
-
                 void applyGraphGroupEdits(const std::string& modName) override {
                     if (this->graphGroups() == nullptr) {
                         return;
@@ -1072,6 +1067,93 @@ namespace AGRemapCore {
                     for (Fixer::GroupEdit* edit : this->graphGroupEdits) {
                         if (edit != nullptr) {
                             edit->editFromIni(*this->graphGroups(), ctx_.getIniFile(), nullptr, modName);
+                        }
+                    }
+
+                    rebindBlendOverride();
+                }
+
+                // A MOD OF A CHARACTER PAST 256 BONES BINDS THE BLEND REGISTER TWICE: `vb4 =
+                // ResourceBlendBuffer` (a file) and `vb4 = ref ResourceBlendBufferOverride` (a buffer
+                // WWMI's BlendRemapper fills at load). The collect takes only the first -- the second
+                // names no file, and collecting it kills the run looking for a section called
+                // `Resourceref Resource...` -- so without this the second keeps pointing at the
+                // SOURCE's own override, which is an inverse of the whole remap.
+                //
+                // Here rather than at render time: this runs after every group edit, including the
+                // GraphGroupRemap that makes the copies, so the copies are in the graphs and the
+                // rewrite is one RegNewVals over them. It used to be a pass over the fix's own
+                // rendered TEXT -- `getline`, find the `=`, splice lines back -- which is the section
+                // model written out and read straight back in. Fires on 19 of the 58 WuWa mod folders
+                // on disk, all of them this character's (2026-09-29).
+                // The context's log is not const where the callers are, so this is the one place
+                // that casts it away.
+                void note(const std::string& message) const {
+                    const_cast<IniFileFixContext&>(ctx_).log(message);
+                }
+
+                void rebindBlendOverride() {
+                    if (gaveUp_ || config_.blendReg.empty() || this->graphGroups() == nullptr) {
+                        return;
+                    }
+
+                    Fixer::GraphGroups& groups = *this->graphGroups();
+                    for (std::size_t g = 0; g < groups.size(); ++g) {
+                        // The remapped blend as the GRAPH spells it, which is what the collect wrote
+                        // -- read rather than rebuilt, so the two cannot drift apart.
+                        std::string remapped;
+                        forEachPart(groups, g, [&](ContentPart& part) {
+                            if (!remapped.empty()) {
+                                return;
+                            }
+
+                            for (const std::string& value : part.getVals(config_.blendReg)) {
+                                if (!IniNamingTools::hasRefPrefix(value)
+                                        && value.find(IniKeywords::Remap) != std::string::npos) {
+                                    remapped = std::string(StringTools::strip(value));
+                                    break;
+                                }
+                            }
+                        });
+
+                        if (remapped.empty()) {
+                            continue;                   // nothing remapped this group's blend
+                        }
+
+                        RegNewVals<> rebind({{config_.blendReg, RegNewVals<>::NewVal(
+                            RegNewVals<>::OldValProducer(
+                                [&remapped](const std::string& oldValue, const ModType*) {
+                                    return IniNamingTools::hasRefPrefix(oldValue) ? remapped : oldValue;
+                                }))}});
+
+                        forEachPart(groups, g, [&](ContentPart& part) {
+                            rebind.edit(part, "");
+                        });
+                    }
+                }
+
+                using ContentPart = IfContentPart<std::string, std::string>;
+
+                // Every content part of every section of every graph in one group.
+                template <typename Fn>
+                void forEachPart(Fixer::GraphGroups& groups, std::size_t groupInd, Fn&& fn) const {
+                    for (const ModObj& obj : groups.modObjs(groupInd)) {
+                        auto* graph = groups.getGraph(groupInd, obj);
+                        if (graph == nullptr) {
+                            continue;
+                        }
+
+                        for (const auto& entry : graph->sections()) {
+                            if (entry.second == nullptr) {
+                                continue;
+                            }
+
+                            for (const std::unique_ptr<IfTemplatePart>& part : entry.second->parts()) {
+                                auto* content = dynamic_cast<ContentPart*>(part.get());
+                                if (content != nullptr) {
+                                    fn(*content);
+                                }
+                            }
                         }
                     }
                 }
@@ -2260,9 +2342,6 @@ namespace AGRemapCore {
                             }
 
                             for (const std::string& section : present_.at(planned.first)) {
-                                expected_[ModBranches::looseKey(fixName(section))].values = {
-                                    {IniKeywords::MatchFirstIndex, s.indexOffset}, {IniKeywords::MatchIndexCount, s.indexCount},
-                                    {VgOffsetKey, s.vgOffset}, {VgCountKey, s.vgCount}};
                             }
                         }
 
@@ -2376,10 +2455,6 @@ namespace AGRemapCore {
                         }
 
                         if (!additions.empty()) {
-                            for (const std::string& section : present_.at(component)) {
-                                expected_[ModBranches::looseKey(fixName(section))].additions = additions;
-                            }
-
                             // The remap has already renamed the called list by the time this runs,
                             // so the anchor is matched under either name.
                             const std::string sharedList = config_.sharedResourcesList;
@@ -2552,182 +2627,6 @@ namespace AGRemapCore {
 
                 // ---- what the WRITTEN text must say ----
 
-                /**
-                 * A graph edit that cannot reach a line does nothing and says nothing, so the text this
-                 * fixer produced is checked against what it MEANT to produce before it is handed back.
-                 *
-                 * SanhuaExorcist4's author ends the torso's section with `run = CustomShader1` and puts
-                 * the section's closing `endif`s inside THAT section, so its `if` blocks do not balance.
-                 * For that one section the `RegNewVals` left `vg_offset` / `vg_count` at the SOURCE's
-                 * 22 / 105 (the target's bone data then merged into the wrong window of the merged
-                 * skeleton: every torso vertex on a bone nothing wrote), the `RegSurroundedAdd` added
-                 * neither the zero stream nor the texture list, and a copy of the shared-resource
-                 * override kept binding the mod's own blend. The flat lines of the same section were
-                 * rewritten correctly, which is what makes it so quiet: the section looks retargeted.
-                 * A mod's text is the modder's, and 3dmigoto accepts what the graph model cannot edit.
-                 */
-                // verified() reports through this: the context's log is not const, and rendering a group is
-                void note(const std::string& message) const {
-                    const_cast<IniFileFixContext&>(ctx_).log(message);
-                }
-
-                std::string verified(const std::string& text) const {
-                    // StringTools::splitlines, not a hand-rolled loop: this function already
-                    // re-reads text the section model rendered, and writing the line split out
-                    // by hand as well is the same reinvention one level down.
-                    std::vector<std::string> lines;
-                    for (const std::string_view line : StringTools::splitlines(text)) {
-                        lines.emplace_back(line);
-                    }
-
-                    // `splitlines` follows Python: a trailing newline TERMINATES the last line
-                    // rather than starting an empty one. The rejoin below is a plain `\n`
-                    // between lines, so without this the text comes back one newline shorter
-                    // than it went in -- from a function whose job is to hand it back otherwise
-                    // unchanged.
-                    if (!text.empty() && text.back() == '\n') {
-                        lines.emplace_back();
-                    }
-                    std::string sectionKey;
-                    std::vector<std::size_t> anchors;                  // where each section's additions belong
-                    std::map<std::size_t, std::vector<std::string>> inserts;
-                    std::string blendResource;                         // the remapped blend, as the text spells it
-
-                    // the remapped blend's own name, to rebind any copy that kept the mod's
-                    for (const std::string& line : lines) {
-                        const std::pair<std::string, std::string> kvp = keyValueOf(line);
-                        if (kvp.first == config_.blendReg && kvp.second.find(IniKeywords::Remap) != std::string::npos) {
-                            blendResource = kvp.second;
-                            break;
-                        }
-                    }
-
-                    std::set<std::string> held;
-                    std::size_t anchorAt = std::string::npos;
-                    auto closeSection = [&]() {
-                        auto expectation = expected_.find(sectionKey);
-                        if (expectation == expected_.end() || anchorAt == std::string::npos) {
-                            return;
-                        }
-
-                        std::vector<std::string> missing;
-                        std::string names;
-                        for (const auto& addition : expectation->second.additions) {
-                            if (held.count(addition.first + " = " + addition.second) == 0) {
-                                missing.push_back(indentOf(lines[anchorAt]) + addition.first + " = " + addition.second);
-                                names += (names.empty() ? "" : ", ") + addition.second;
-                            }
-                        }
-
-                        // One line per SECTION, and it does not name a cause. It used to say the
-                        // section's `if` blocks do not balance, which is true of the mod that
-                        // motivated this check and false of others -- Chisa1's component 5 balances
-                        // exactly and still lands here. All the verifier knows is that the graph edit
-                        // did not reach the line and that this put it where it belongs.
-                        if (!missing.empty()) {
-                            note("a graph edit did not place " + std::to_string(missing.size())
-                                 + (missing.size() == 1 ? " line (" : " lines (") + names + ") in "
-                                 + sectionKey + "; added after the shared-resource override");
-                        }
-
-                        if (!missing.empty()) {
-                            inserts[anchorAt] = std::move(missing);
-                        }
-                    };
-
-                    for (std::size_t k = 0; k < lines.size(); ++k) {
-                        const std::string name = sectionNameOf(lines[k]);
-                        if (!name.empty()) {
-                            closeSection();
-                            sectionKey = ModBranches::looseKey(name);
-                            held.clear();
-                            anchorAt = std::string::npos;
-                            continue;
-                        }
-
-                        const std::pair<std::string, std::string> kvp = keyValueOf(lines[k]);
-                        if (kvp.first.empty()) {
-                            continue;
-                        }
-
-                        // every copy of the shared-resource override binds the REMAPPED blend
-                        if (kvp.first == config_.blendReg && !blendResource.empty() && kvp.second != blendResource) {
-                            lines[k] = indentOf(lines[k]) + kvp.first + " = " + blendResource;
-                            note("a copy of the shared-resource override bound " + kvp.second
-                                     + "; rebound to the remapped blend " + blendResource);
-                            continue;
-                        }
-
-                        auto expectation = expected_.find(sectionKey);
-                        if (expectation == expected_.end()) {
-                            continue;
-                        }
-
-                        held.insert(kvp.first + " = " + kvp.second);
-                        if (kvp.first == IniKeywords::Run && kvp.second.find(config_.sharedResourcesList) != std::string::npos
-                            && anchorAt == std::string::npos) {
-                            anchorAt = k;
-                        }
-
-                        for (const auto& value : expectation->second.values) {
-                            if (kvp.first == value.first && kvp.second != value.second) {
-                                lines[k] = indentOf(lines[k]) + kvp.first + " = " + value.second;
-                                // no cause named, for the same reason as the placement note above
-                                note("a graph edit did not rewrite `" + kvp.first + "` in " + sectionKey
-                                         + "; corrected " + kvp.second + " -> " + value.second);
-                            }
-                        }
-                    }
-
-                    closeSection();
-                    if (inserts.empty()) {
-                        std::string out;
-                        for (std::size_t k = 0; k < lines.size(); ++k) {
-                            out += (k == 0 ? "" : "\n") + lines[k];
-                        }
-
-                        return out;
-                    }
-
-                    std::string out;
-                    for (std::size_t k = 0; k < lines.size(); ++k) {
-                        out += (k == 0 ? "" : "\n") + lines[k];
-                        auto added = inserts.find(k);
-                        if (added != inserts.end()) {
-                            for (const std::string& line : added->second) {
-                                out += "\n" + line;
-                            }
-                        }
-                    }
-
-                    return out;
-                }
-
-                // `[Name]` -> `Name`, for a line that is a section header
-                static std::string sectionNameOf(const std::string& line) {
-                    const std::string trimmed{StringTools::strip(line)};
-                    if (trimmed.size() < 3 || trimmed.front() != '[' || trimmed.back() != ']') {
-                        return "";
-                    }
-
-                    return trimmed.substr(1, trimmed.size() - 2);
-                }
-
-                // `key = value` -> {key, value}, for a line that is one and is not commented out
-                static std::pair<std::string, std::string> keyValueOf(const std::string& line) {
-                    const std::string trimmed{StringTools::strip(line)};
-                    const std::size_t equals = trimmed.find('=');
-                    if (trimmed.empty() || trimmed.front() == ';' || equals == std::string::npos) {
-                        return {"", ""};
-                    }
-
-                    return {std::string{StringTools::strip(trimmed.substr(0, equals))},
-                            std::string{StringTools::strip(trimmed.substr(equals + 1))}};
-                }
-
-                static std::string indentOf(const std::string& line) {
-                    return line.substr(0, line.size() - std::string{StringTools::lstrip(line)}.size());
-                }
 
                 // The resource a component binds for a role: its own choice (readTextures), else what
                 // every component shares -- a created texture, or a download of the source's own
@@ -3919,13 +3818,7 @@ namespace AGRemapCore {
                 std::vector<std::string> textureLists_;
                 std::unordered_map<std::string, std::string> passFilters_;
 
-                // what a remapped slot section must hold once it is written -- see verified()
-                struct Expectation {
-                    std::vector<std::pair<std::string, std::string>> values;
-                    std::vector<std::pair<std::string, std::string>> additions;
-                };
 
-                std::map<std::string, Expectation> expected_;
 
                 bool legacy_ = false;                                 // a mod from before WWMI's merged skeleton
                 std::string indexFile_ = "Meshes/Index.buf";           // as the mod's own [ResourceIndexBuffer] names it

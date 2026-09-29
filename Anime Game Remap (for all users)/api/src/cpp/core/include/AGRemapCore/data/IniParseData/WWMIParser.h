@@ -50,11 +50,6 @@ namespace AGRemapCore {
      */
     struct WWMIParserConfig {
         /**
-         * @brief The mod type a ``.ini`` of this character classifies as, eg. ``Sanhua``
-         */
-        ModTypeId modTypeId = ModTypeId::Sanhua;
-
-        /**
          * @brief
          @rst
          The game version the library files the character's rows under, used when the ``.ini``

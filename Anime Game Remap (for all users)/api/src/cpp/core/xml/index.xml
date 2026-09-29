@@ -5312,7 +5312,6 @@
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_parse_facts_1adb23dd627d2822604a655d1d1f78ae2a" kind="function"><name>textureRoles</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" kind="struct"><name>AGRemapCore::WWMIParserConfig</name>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a69dad4a0209de0a402263ddff82ba5dc" kind="variable"><name>modTypeId</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ade553798b44b928e14a0ad40c1ec20a8" kind="variable"><name>version</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ae136acddb4c36c678ef101f46a8df030" kind="variable"><name>slotHashType</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a0b5add8a9b297a25a19d9f97c8c324ae" kind="variable"><name>slotPrefix</name></member>

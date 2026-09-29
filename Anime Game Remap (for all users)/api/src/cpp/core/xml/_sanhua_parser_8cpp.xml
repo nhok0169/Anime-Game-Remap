@@ -1350,18 +1350,17 @@
 <codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>produces.<sp/>Nothing<sp/>is<sp/>Sanhua-specific<sp/>beyond<sp/>her<sp/>id:<sp/>her<sp/>seven<sp/>draw<sp/>slots<sp/>come<sp/>off<sp/>the</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>library&apos;s<sp/>Indices<sp/>rows,<sp/>her<sp/>hashes<sp/>off<sp/>HashData.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WWMIParserConfig<sp/>config{};</highlight></codeline>
-<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.modTypeId<sp/>=<sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e5b87c395273646f1f7267f2de3ba63" kindref="member">ModTypeId::Sanhua</ref>;</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.version<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2.5&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Her<sp/>own<sp/>textures,<sp/>so<sp/>a<sp/>mod<sp/>of<sp/>hers<sp/>is<sp/>sorted<sp/>into<sp/>roles<sp/>at<sp/>PARSE<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.textures<sp/>=<sp/><ref refid="namespace_a_g_remap_core_1adfafe466c85bc08cd9d8608e2e8f98db" kindref="member">sanhuaTextureFacts</ref>();</highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a71353ecec052c71edfa6c5b90da4c4e5" kindref="member">makeWWMIParser</ref>(std::move(config));</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.version<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2.5&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Her<sp/>own<sp/>textures,<sp/>so<sp/>a<sp/>mod<sp/>of<sp/>hers<sp/>is<sp/>sorted<sp/>into<sp/>roles<sp/>at<sp/>PARSE<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.textures<sp/>=<sp/><ref refid="namespace_a_g_remap_core_1adfafe466c85bc08cd9d8608e2e8f98db" kindref="member">sanhuaTextureFacts</ref>();</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a71353ecec052c71edfa6c5b90da4c4e5" kindref="member">makeWWMIParser</ref>(std::move(config));</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_sanhua_parser_1a3ec118e48afe5ec3472cf764f47c6724" kindref="member">SanhuaParser::v2_5</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac06832891ae4c3e507b130b1ebdf4a3a" kindref="member">IniParseBuilderFuncs::sanhua2_5</ref>();</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_sanhua_parser_1a3ec118e48afe5ec3472cf764f47c6724" kindref="member">SanhuaParser::v2_5</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac06832891ae4c3e507b130b1ebdf4a3a" kindref="member">IniParseBuilderFuncs::sanhua2_5</ref>();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/data/IniParseData/Sanhua/SanhuaParser.cpp"/>
   </compounddef>

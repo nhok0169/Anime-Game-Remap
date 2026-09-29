@@ -2059,7 +2059,7 @@ of their own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/WWMIFixer.cpp" line="3992" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="3992" bodyend="3996" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="763" declcolumn="28"/>
+        <location file="src/data/IniFixData/WWMIFixer.cpp" line="3885" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="3885" bodyend="3889" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="763" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -2175,7 +2175,7 @@ Builds the parser for a mod of one Wuthering Waves character -- see :cpp:struct:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/WWMIParser.cpp" line="366" column="30" bodyfile="src/data/IniParseData/WWMIParser.cpp" bodystart="366" bodyend="377" declfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" declline="150" declcolumn="30"/>
+        <location file="src/data/IniParseData/WWMIParser.cpp" line="366" column="30" bodyfile="src/data/IniParseData/WWMIParser.cpp" bodystart="366" bodyend="377" declfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" declline="145" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a691d142e23d6f610f8f9831ce21bce5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>

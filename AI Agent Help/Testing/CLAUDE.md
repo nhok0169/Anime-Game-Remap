@@ -649,8 +649,12 @@ has been actively fixing these incrementally (a large batch — `test_FileServic
 all went from broken to fully passing in one pass), so **don't trust this list blindly; re-run and
 re-verify rather than assuming stale entries are still accurate**, in either direction.
 
-> **Current baseline --- Windows, 2026-09-17: 2288 tests, 0 failures, 0 errors, 0 expected
-> failures** (measured twice in a row, on the build carrying both of that day's binding/core fixes).
+> **Current baseline --- Windows, 2026-09-29: 2386 tests, 0 failures, 0 errors, 0 expected
+> failures** (`cd "Testing/Unit Tester" && py -3 main.py`, ~45s). It was **2288** on 2026-09-17 and
+> that figure was still written here on the 29th: the 98 arrived with other work and nobody re-read
+> it. **Run it and read the number** rather than trusting this line --- the counts in `core/tests`
+> sat three rows stale the same way, and each carried a comment deriving them from a history that
+> had drifted.
 > The seven `baseIniFileTest.py` classes described in the box below RUN now, on the C++ `IniFile`
 > and the C++ `IniClassifier` (see "The `.ini` fixture classes run on the C++ `IniFile`" further
 > down), and the two `expectedFailure`s that box used to carry are gone --- the `ResGroupCollect`

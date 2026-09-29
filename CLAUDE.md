@@ -454,7 +454,9 @@ Two consequences, both the opposite of what this file used to say:
   anything --- the list grows, and this paragraph will go stale the same way the last one did.
 
 **THE UNIT TESTER IS GREEN ON BOTH OPERATING SYSTEMS NOW, AND "THE BASELINE HAS 7 ERRORS" IS DEAD
-ADVICE (2026-09-17).** Windows: **2288 tests, 0 failures, 0 errors**. Linux: the same **2288**, and
+ADVICE (2026-09-17).** Windows: **2386 tests, 0 failures, 0 errors** (re-measured 2026-09-29; it
+was 2288 when this line was written, so run the suite rather than trusting the number). Linux: the
+same suite, and
 **0 failures too since 2026-09-18** --- the 11 it used to report were called "test-side assumptions",
 and TWO of them were product bugs: the pure-Python `IniNamingTools.getFixedFile` wrote `./x` into a
 `.ini` path on Linux where the core writes `.\x`, and `IfTemplateNode.children` listed branches in

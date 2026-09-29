@@ -128,8 +128,9 @@ void testPrePopulated() {
     // +6 on 2026-09-23: Charlotte <-> CharlotteHurlock: Body and Eyes forward, four components back.
     // +8 on 2026-09-24: Neuvillette <-> NeuvilletteMelusent: all four components each way.
     // +6 on 2026-09-27: Yaoyao <-> YaoyaoBamboo: all three components each way.
-    check(Data::getVGRemapDataRows().size() == 93,
-          "93 rows -- this table's own count, 41 ahead of the Python builder's 52");
+    // +6 on 2026-09-29: Lumine <-> LumineHeaven: all three components each way.
+    check(Data::getVGRemapDataRows().size() == 99,
+          "99 rows -- this table's own count, 47 ahead of the Python builder's 52");
 }
 
 void testRealLookups() {

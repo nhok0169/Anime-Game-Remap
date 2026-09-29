@@ -150,7 +150,7 @@ namespace AGRemapCore {
                            // lands on ModType's own VertexCounts() default).
                            //
                            // nullptr vgRemaps is NOT the same thing: ModType's fallback there is the
-                           // single shared ModDataAssets::vgRemaps, so all 55 GI mod types share one
+                           // single shared ModDataAssets::vgRemaps, so all 57 GI mod types share one
                            // remap table. That too matches the original -- see ModType::vgRemaps.
                            nullptr, nullptr,
                            giIniParseBuilder(), giIniFixBuilder(), giIniRemoveBuilder());
@@ -293,6 +293,14 @@ namespace AGRemapCore {
         return makeGIModType(ModTypeId::LisaStudent, {"LisaSumeru", "SumeruLisa", "AkademiyaLisa", "LisaAkademiya"});
     }
 
+    ModType GIBuilder::lumine() {
+        return makeGIModType(ModTypeId::Lumine, {"TravelerGirl", "FemaleTraveler", "TravelerFemale", "Hotaru"});
+    }
+
+    ModType GIBuilder::lumineHeaven() {
+        return makeGIModType(ModTypeId::LumineHeaven, {"LumineSkin", "HeavenLumine", "LumineAsHeavenAndEarthAreMadeAnew", "AsHeavenAndEarthAreMadeAnewLumine", "TravelerGirlHeaven"});
+    }
+
     ModType GIBuilder::mona() {
         return makeGIModType(ModTypeId::Mona, {"NoMora", "BigHat"});
     }
@@ -416,6 +424,8 @@ namespace AGRemapCore {
             kleeBlossomingStarlight(),
             lisa(),
             lisaStudent(),
+            lumine(),
+            lumineHeaven(),
             mona(),
             monaCN(),
             neuvillette(),

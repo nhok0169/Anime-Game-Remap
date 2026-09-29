@@ -1555,6 +1555,80 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"6.3", "YaoyaoBambooEye", "ib"}, "34e4bace"},
         {{"6.3", "YaoyaoBambooEye", "tex_face_diffuse"}, "c70ae897"},
 
+        // ===== Lumine and LumineHeaven (2026-09-29) =====
+        //
+        // Lumine's rows follow the assets repo's history of TravelerGirl's hash.json, the Yaoyao way: the first dump
+        // (2022-07) is the 4.0 row, the draw_vb moved at "THE GREAT 4.1 HASH FIX" and the ib at "GREAT 4.3 Hash fix". A
+        // frame dump of her default outfit in the overworld (FrameAnalysis-Lumine-2026-09-29-185919) draws every
+        // geometry hash here today, but ONE texture has moved since the repo's last dump (2024-12): the body / dress
+        // light map it binds is d298f0bc, not 015fadf5 -- the same image with its ALPHA bands redrawn on ~7% of the
+        // pixels. When it moved is not recorded anywhere this checkout can see, so it is filed at 6.3, the earliest
+        // version the dump vouches for (the skin exists). Her head and body draw on the PLAIN shader; the MetalMap /
+        // ShadowRamp hashes her hash.json lists are shared assets and are not filed. Her Dress draws with the Body's
+        // textures.
+        {{"4.0", "Lumine", "draw_vb"}, "0d8adebb"},
+        {{"4.0", "Lumine", "position_vb"}, "8239be13"},
+        {{"4.0", "Lumine", "blend_vb"}, "8772fa81"},
+        {{"4.0", "Lumine", "texcoord_vb"}, "8d2c7c7c"},
+        {{"4.0", "Lumine", "ib"}, "dfb54407"},
+        {{"4.0", "Lumine", "tex_head_diffuse"}, "dae4b580"},
+        {{"4.0", "Lumine", "tex_head_lightmap"}, "390f357b"},
+        {{"4.0", "Lumine", "tex_body_diffuse"}, "c4c881a9"},
+        {{"4.0", "Lumine", "tex_body_lightmap"}, "015fadf5"},
+        {{"4.0", "Lumine", "tex_dress_diffuse"}, "c4c881a9"},
+        {{"4.0", "Lumine", "tex_dress_lightmap"}, "015fadf5"},
+        {{"4.0", "Lumine", "tex_face_diffuse"}, "cdabcf6f"},
+        {{"4.1", "Lumine", "draw_vb"}, "846ff19c"},
+        {{"4.3", "Lumine", "ib"}, "e7612ed8"},
+        {{"6.3", "Lumine", "tex_body_lightmap"}, "d298f0bc"},
+        {{"6.3", "Lumine", "tex_dress_lightmap"}, "d298f0bc"},
+
+        // Her SIDE MESHES -- unskinned draws that are no mod object -- for a mod that hides one by hash (see
+        // GIMIComponentFixerConfig::sideMeshes). Read off the same dump: the face (4014 indices, binding the face
+        // diffuse) and the head-upper (4290); the eyebrows (b33b1c97) the skin draws under the SAME hash, so they are
+        // not filed.
+        {{"4.0", "Lumine", "ib_face"}, "3049e662"},
+        {{"4.0", "Lumine", "ib_headupper"}, "92af2d49"},
+
+        // LumineHeaven (6.3, "As Heaven and Earth Are Made Anew") draws an UNNAMED main mesh (Head / Body on one
+        // index buffer -- filed under LumineHeavenMain), a Bang and an Eye, each skinned and with its own buffers. No
+        // asset repo has it: every value here was read off a frame dump of the skin's preview in the character menu's
+        // Dressing Room (FrameAnalysis-LumineHeaven-2026-09-29-190651, through giDrawTable.py) and matches the three real
+        // mods of it (LumineHeaven1-3). Both of the main mesh's objects draw on the NORMAL-MAP shader (light map,
+        // normal map, diffuse at ps-t0..2), filed as tex_<slot>_<role> for a texture-only recolour. The Bang draws with
+        // the Head's textures; the Eye has its own shader and textures (47b6d152 / bde4c76a), which have no
+        // tex_<object>_<kind> slot here and are not filed. The face diffuse 1e92b57a is the skin's own (Lumine's is
+        // cdabcf6f), drawn on face meshes of its own; like Charlotte's it is filed under every component.
+        {{"6.3", "LumineHeavenMain", "draw_vb"}, "e3050e5d"},
+        {{"6.3", "LumineHeavenMain", "position_vb"}, "f44024e8"},
+        {{"6.3", "LumineHeavenMain", "blend_vb"}, "9d21697f"},
+        {{"6.3", "LumineHeavenMain", "texcoord_vb"}, "3c73d0f8"},
+        {{"6.3", "LumineHeavenMain", "ib"}, "9634fc3d"},
+        {{"6.3", "LumineHeavenMain", "tex_head_diffuse"}, "0c6f8065"},
+        {{"6.3", "LumineHeavenMain", "tex_head_lightmap"}, "be447210"},
+        {{"6.3", "LumineHeavenMain", "tex_head_normalmap"}, "6047c273"},
+        {{"6.3", "LumineHeavenMain", "tex_body_diffuse"}, "f07f0f1e"},
+        {{"6.3", "LumineHeavenMain", "tex_body_lightmap"}, "d243092e"},
+        {{"6.3", "LumineHeavenMain", "tex_body_normalmap"}, "c8a81cc8"},
+        {{"6.3", "LumineHeavenMain", "tex_face_diffuse"}, "1e92b57a"},
+        {{"6.3", "LumineHeavenBang", "draw_vb"}, "6eedab0d"},
+        {{"6.3", "LumineHeavenBang", "position_vb"}, "c04f6a33"},
+        {{"6.3", "LumineHeavenBang", "blend_vb"}, "d64f34de"},
+        {{"6.3", "LumineHeavenBang", "texcoord_vb"}, "eb066bfa"},
+        {{"6.3", "LumineHeavenBang", "ib"}, "e4e2950f"},
+        {{"6.3", "LumineHeavenBang", "tex_face_diffuse"}, "1e92b57a"},
+        {{"6.3", "LumineHeavenEye", "draw_vb"}, "cf21b035"},
+        {{"6.3", "LumineHeavenEye", "position_vb"}, "f02928e4"},
+        {{"6.3", "LumineHeavenEye", "blend_vb"}, "55f71eef"},
+        {{"6.3", "LumineHeavenEye", "texcoord_vb"}, "2f19fb2a"},
+        {{"6.3", "LumineHeavenEye", "ib"}, "36f018fc"},
+        {{"6.3", "LumineHeavenEye", "tex_face_diffuse"}, "1e92b57a"},
+
+        // The skin's own side meshes, filed under the skin as a whole (no component draws them): the face (6552
+        // indices, same extent as Lumine's) and the head-upper (3690), beside the shared eyebrows.
+        {{"6.3", "LumineHeaven", "ib_face"}, "15825079"},
+        {{"6.3", "LumineHeaven", "ib_headupper"}, "82d9b411"},
+
         // ===== version 5.4 =====
         // LisaStudent
         {{"5.4", "LisaStudent", "tex_head_normalmap"}, "a64a57de"},

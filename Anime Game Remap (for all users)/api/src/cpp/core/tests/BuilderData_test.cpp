@@ -131,7 +131,7 @@ void testTableShape() {
           "the fix table has 148 rows -- 78 historical, the 50 at 6.1 this port added, the four WuWa stubs, Citlali's three at 6.7, the CitlaliWhisperofStars merge back, Charlotte's two at 6.7, the CharlotteHurlock merge back, Neuvillette's four at 6.3, the NeuvilletteMelusent merge back, Yaoyao's three at 6.3 and the YaoyaoBamboo merge back");
 
     // The remove table has no Python original -- one row per GI mod type, all at 4.0.
-    check(IniRemoveBuilderData::repo()->size() == 59, "the remove table has one row per mod type (43 GI, plus Yelan, YelanTranquil, Bennett and BennettAdventure, Citlali and CitlaliWhisperofStars, Charlotte and CharlotteHurlock, Neuvillette and NeuvilletteMelusent, Yaoyao and YaoyaoBamboo, plus the four WuWa stubs)");
+    check(IniRemoveBuilderData::repo()->size() == 61, "the remove table has one row per mod type (43 GI, plus Yelan, YelanTranquil, Bennett and BennettAdventure, Citlali and CitlaliWhisperofStars, Charlotte and CharlotteHurlock, Neuvillette and NeuvilletteMelusent, Yaoyao and YaoyaoBamboo, Lumine and LumineHeaven, plus the four WuWa stubs)");
 
     check(IniParseBuilderData::repo()->getTotalIndices() == 2, "the parse table has 2 index columns");
     check(IniParseBuilderData::repo()->getVersionIndexPos() == 0, "with the version at position 0");

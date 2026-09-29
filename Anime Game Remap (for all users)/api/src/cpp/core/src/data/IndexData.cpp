@@ -254,6 +254,13 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getIndexDat
         {{"4.0", "Yaoyao", "", "head"}, "0"},
         {{"4.0", "Yaoyao", "", "body"}, "21678"},
 
+        // Lumine (2026-09-29): unchanged across every commit of TravelerGirl's hash.json, and in a 6.x frame dump. NO
+        // rows for LumineHeaven's components, as for Yaoyao's: their slot indices (main Head 0 / Body 57141; Bang and
+        // Eye A 0) belong in the fixer's config.
+        {{"4.0", "Lumine", "", "head"}, "0"},
+        {{"4.0", "Lumine", "", "body"}, "6915"},
+        {{"4.0", "Lumine", "", "dress"}, "40413"},
+
         // ===== WuWa: Sanhua and SanhuaExorcist (2026-09-19) =====
         // The match_first_index of every draw slot -- a WWMI character's 'components' in
         // Metadata.json, filed as component0, component1, ... under the empty component column,

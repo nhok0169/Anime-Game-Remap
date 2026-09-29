@@ -120,7 +120,8 @@ void testPrePopulated() {
     // +1 on 2026-09-23: Charlotte at 4.0.
     // +1 on 2026-09-24: Neuvillette at 4.0.
     // +1 on 2026-09-27: Yaoyao at 4.0.
-    check(counts.size() == 53, "53 rows -- this table's own count, ten ahead of the Python dict's 43");
+    // +1 on 2026-09-29: Lumine at 4.0.
+    check(counts.size() == 54, "54 rows -- this table's own count, eleven ahead of the Python dict's 43");
 
     // Same depth as Hashes now (3), one shallower than Indices (4).
     check(counts.getTotalIndices() == 3, "3 index columns (version, name, component)");
@@ -232,10 +233,10 @@ void testModTypeAttribute() {
     check(amber.vertexCounts != nullptr && amber.vertexCounts->size() > 0, "GIBuilder mod types get populated vertexCounts");
     check(amber.vertexCounts != jean.vertexCounts, "and each GI mod type gets its own");
 
-    // Almost every GI mod type has a row of its own -- 49 rows against 55 GI mod types, the six
+    // Almost every GI mod type has a row of its own -- 50 rows against 57 GI mod types, the seven
     // exceptions being YelanTranquil, BennettAdventure, CitlaliWhisperofStars, CharlotteHurlock,
-    // NeuvilletteMelusent and YaoyaoBamboo, skins of several components that ship no single vertex
-    // count of their own (measured 2026-09-27).
+    // NeuvilletteMelusent, YaoyaoBamboo and LumineHeaven, skins of several components that ship no
+    // single vertex count of their own (measured 2026-09-29).
     check(amber.vertexCounts->get({amber.name, ""}, std::nullopt, false).has_value(), "Amber has a row");
     check(jean.vertexCounts->get({jean.name, ""}, std::nullopt, false).has_value(), "Jean has a row");
 }

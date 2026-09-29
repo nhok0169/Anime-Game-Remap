@@ -230,6 +230,16 @@ class ModTypes(StrEnum, DeferredEnum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(lisastudent).*\]``
 
+    Lumine: :class:`ModType`
+        **Lumine mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(lumine|travelergirl)((?!heaven|skin).)*\]``
+
+    LumineHeaven: :class:`ModType`
+        **Lumine As Heaven and Earth Are Made Anew mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(lumine(heaven|skin)).*\]``
+
     Mona: :class:`ModType`
         **Mona mods** :raw-html:`<br />`
 
@@ -382,6 +392,8 @@ class ModTypes(StrEnum, DeferredEnum):
     KleeBlossomingStarlight = (GIBuilder.kleeBlossomingStarlight, )
     Lisa = (GIBuilder.lisa, )
     LisaStudent = (GIBuilder.lisaStudent, )
+    Lumine = (GIBuilder.lumine, )
+    LumineHeaven = (GIBuilder.lumineHeaven, )
     Mona = (GIBuilder.mona, )
     MonaCN = (GIBuilder.monaCN, )
     Neuvillette = (GIBuilder.neuvillette, )

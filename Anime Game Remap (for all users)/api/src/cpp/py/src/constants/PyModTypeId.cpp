@@ -108,6 +108,12 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
 
         .value("LisaStudent", AGRC::ModTypeId::LisaStudent, R"doc(Lisa Sumeru skin from GI)doc")
 
+        .value("Lumine", AGRC::ModTypeId::Lumine, R"doc(Lumine (the female Traveler) from GI)doc")
+        .value("LumineHeaven", AGRC::ModTypeId::LumineHeaven, R"doc(Lumine outfit skin (As Heaven and Earth Are Made Anew) from GI -- three skinned components (an unnamed main mesh, Bang, Eye))doc")
+        .value("LumineHeavenMain", AGRC::ModTypeId::LumineHeavenMain, R"doc(LumineHeaven's main mesh (its component name is the empty string), as a fix target -- a skin of several components is fixed one component at a time, and each is a mod type for the tables' purposes)doc")
+        .value("LumineHeavenBang", AGRC::ModTypeId::LumineHeavenBang, R"doc(LumineHeaven's Bang component, as a fix target)doc")
+        .value("LumineHeavenEye", AGRC::ModTypeId::LumineHeavenEye, R"doc(LumineHeaven's Eye component, as a fix target)doc")
+
         .value("Mona", AGRC::ModTypeId::Mona, R"doc(Mona from GI)doc")
 
         .value("MonaCN", AGRC::ModTypeId::MonaCN, R"doc(Mona Chinese version from GI)doc")

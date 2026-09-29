@@ -204,6 +204,16 @@ namespace AGRemapCore {
             static ModType lisaStudent();
 
             /**
+             * @brief Creates the :cpp:class:`ModType` for Lumine
+             */
+            static ModType lumine();
+
+            /**
+             * @brief Creates the :cpp:class:`ModType` for LumineHeaven
+             */
+            static ModType lumineHeaven();
+
+            /**
              * @brief Creates the :cpp:class:`ModType` for Mona
              */
             static ModType mona();

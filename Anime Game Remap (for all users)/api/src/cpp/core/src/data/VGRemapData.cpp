@@ -1402,6 +1402,87 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {0, 4}, {1, 5}
          })},
 
+        // ===== from Lumine @ 1.0 (2026-09-29) =====
+        // LumineHeaven ("As Heaven and Earth Are Made Anew", 6.3) is THREE skinned components -- an UNNAMED main mesh
+        // (component ""), a Bang and an Eye -- each with its own vertex group index space, so Lumine's 114 groups are
+        // split across rows keyed by the target component, the Yaoyao way. From Data/RemapDrafts/LumineRemapDraft.xlsx:
+        // Tools/VGRemapFinder's proposal, every row whose chain / vertices / nearest answers disagreed reviewed for the
+        // KIND of part on both models by rendering the vertices each bone drives and against the skin's Dressing Room
+        // preview ('Reviewed:' in the draft's Comments), and audited for how each will MOVE ('Behaviour:'). The main
+        // skeleton, arms, legs, back ribbons and skirt chains align by constant offsets (spine 0-2 -> 53-55, arms 29-30 ->
+        // 26-27 and 61-62 -> 49-50, fingers 31-45 -> 10-24 and 63-77 -> 33-47, legs 105-112 -> 28/8/25/29 and
+        // 51/31/48/52). Her head stays on the skin's main head (7) -- the
+        // face and scalp belong to the main mesh -- and her two front side bangs go to the skin's two Bang locks
+        // (Bang:6 / Bang:7); her back and side hair onto the skin's matching hair chains, one chain onto one chain; her
+        // eyes to its Eye. Her CENTRE front panel (102-104) rides the skin's RIGHT front skirt chain (110-112), since the
+        // skin's front skirt has no centre -- flagged for the walking check. The union of the rows covers each of
+        // Lumine's 114 groups exactly once. PROPOSED, not confirmed in game.
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Lumine), "",
+          "6.3", ModTypeIdTools::getName(ModTypeId::LumineHeaven), ""},
+         VGRemap({
+            {0, 53}, {1, 54}, {2, 55}, {3, 30}, {4, 7}, {9, 78}, {10, 80}, {12, 76}, {13, 76}, {14, 71},
+            {15, 73}, {16, 70}, {17, 75}, {20, 79}, {21, 81}, {22, 72}, {23, 74}, {24, 77}, {25, 77}, {27, 82},
+            {28, 9}, {29, 26}, {30, 27}, {31, 10}, {32, 11}, {33, 12}, {34, 13}, {35, 14}, {36, 15}, {37, 16},
+            {38, 17}, {39, 18}, {40, 19}, {41, 20}, {42, 21}, {43, 22}, {44, 23}, {45, 24}, {46, 3}, {47, 4},
+            {48, 56}, {49, 56}, {50, 58}, {51, 60}, {52, 60}, {53, 62}, {54, 32}, {55, 57}, {56, 57}, {57, 59},
+            {58, 61}, {59, 61}, {60, 63}, {61, 49}, {62, 50}, {63, 33}, {64, 34}, {65, 35}, {66, 36}, {67, 37},
+            {68, 38}, {69, 39}, {70, 40}, {71, 41}, {72, 42}, {73, 43}, {74, 44}, {75, 45}, {76, 46}, {77, 47},
+            {78, 5}, {79, 6}, {80, 1}, {81, 0}, {82, 107}, {83, 108}, {84, 109}, {85, 113}, {86, 115}, {87, 117},
+            {88, 117}, {89, 119}, {90, 121}, {91, 123}, {92, 114}, {93, 116}, {94, 118}, {95, 118}, {96, 120}, {97, 122},
+            {98, 124}, {99, 110}, {100, 111}, {101, 112}, {102, 110}, {103, 111}, {104, 112}, {105, 28}, {106, 8}, {107, 25},
+            {108, 29}, {109, 51}, {110, 31}, {111, 48}, {112, 52}, {113, 2}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Lumine), "",
+          "6.3", ModTypeIdTools::getName(ModTypeId::LumineHeaven), "Bang"},
+         VGRemap({
+            {7, 6}, {8, 6}, {11, 4}, {18, 7}, {19, 7}, {26, 4}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Lumine), "",
+          "6.3", ModTypeIdTools::getName(ModTypeId::LumineHeaven), "Eye"},
+         VGRemap({
+            {5, 1}, {6, 0}
+         })},
+
+        // ===== from LumineHeaven @ 1.0 (2026-09-29) =====
+        // One row per source component, the main mesh's under the empty component name. The skin's neck scarf, its
+        // hanging tail, the back bow and the waist ribbons ride Lumine's spine and pelvis (2 / 0 / 113), rigid -- the
+        // tool had them on a hair tip, a breast and one side's skirt bones; its thigh garters her thighs (105 / 109); its
+        // flared cuffs her arm bones (29 / 30, 61 / 62); its long back tails her back ribbons (48-53 / 55-60); its
+        // centre forelock (Bang:1-3) her HEAD (4), where the tool had put it on her eye bones. PROPOSED, not confirmed
+        // in game.
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::LumineHeaven), "",
+          "6.3", ModTypeIdTools::getName(ModTypeId::Lumine), ""},
+         VGRemap({
+            {0, 81}, {1, 80}, {2, 113}, {3, 46}, {4, 47}, {5, 78}, {6, 79}, {7, 4}, {8, 106}, {9, 28},
+            {10, 31}, {11, 32}, {12, 33}, {13, 34}, {14, 35}, {15, 36}, {16, 37}, {17, 38}, {18, 39}, {19, 40},
+            {20, 41}, {21, 42}, {22, 43}, {23, 44}, {24, 45}, {25, 107}, {26, 29}, {27, 30}, {28, 105}, {29, 108},
+            {30, 3}, {31, 110}, {32, 54}, {33, 63}, {34, 64}, {35, 65}, {36, 66}, {37, 67}, {38, 68}, {39, 69},
+            {40, 70}, {41, 71}, {42, 72}, {43, 73}, {44, 74}, {45, 75}, {46, 76}, {47, 77}, {48, 111}, {49, 61},
+            {50, 62}, {51, 109}, {52, 112}, {53, 0}, {54, 1}, {55, 2}, {56, 48}, {57, 55}, {58, 50}, {59, 57},
+            {60, 51}, {61, 58}, {62, 53}, {63, 60}, {64, 53}, {65, 60}, {66, 2}, {67, 2}, {68, 29}, {69, 61},
+            {70, 16}, {71, 14}, {72, 22}, {73, 15}, {74, 23}, {75, 17}, {76, 8}, {77, 19}, {78, 9}, {79, 20},
+            {80, 10}, {81, 21}, {82, 27}, {83, 105}, {84, 109}, {85, 2}, {86, 2}, {87, 0}, {88, 0}, {89, 9},
+            {90, 2}, {91, 46}, {92, 25}, {93, 28}, {94, 54}, {95, 0}, {96, 113}, {97, 0}, {98, 113}, {99, 87},
+            {100, 94}, {101, 88}, {102, 95}, {103, 85}, {104, 92}, {105, 50}, {106, 57}, {107, 82}, {108, 82}, {109, 83},
+            {110, 99}, {111, 99}, {112, 100}, {113, 85}, {114, 92}, {115, 86}, {116, 93}, {117, 87}, {118, 94}, {119, 89},
+            {120, 96}, {121, 90}, {122, 97}, {123, 91}, {124, 98}, {125, 29}, {126, 61}, {127, 30}, {128, 62}, {129, 29},
+            {130, 61}, {131, 29}, {132, 61}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::LumineHeaven), "Bang",
+          "6.3", ModTypeIdTools::getName(ModTypeId::Lumine), ""},
+         VGRemap({
+            {0, 4}, {1, 4}, {2, 4}, {3, 4}, {4, 26}, {5, 7}, {6, 8}, {7, 19}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::LumineHeaven), "Eye",
+          "6.3", ModTypeIdTools::getName(ModTypeId::Lumine), ""},
+         VGRemap({
+            {0, 6}, {1, 5}
+         })},
+
         // ===== WuWa: Sanhua <-> SanhuaExorcist (2026-09-19) =====
         // Both directions from Data/RemapDrafts/SanhuaRemapDraft.xlsx, in WWMI's MERGED skeleton
         // (the space every component's vg_map in Metadata.json maps into, and the space a WWMI

@@ -61,6 +61,8 @@ namespace AGRemapCore {
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::kleeBlossomingStarlight4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::lisa4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::lisaStudent4_0() { return IniRemoveBuilder::defaultFactory(); }
+    IniRemoveBuilder::Factory IniRemoveBuilderFuncs::lumine4_0() { return IniRemoveBuilder::defaultFactory(); }
+    IniRemoveBuilder::Factory IniRemoveBuilderFuncs::lumineHeaven4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::mona4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::monaCN4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::neuvillette4_0() { return IniRemoveBuilder::defaultFactory(); }
@@ -124,6 +126,8 @@ namespace AGRemapCore {
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::KleeBlossomingStarlight)}, IniRemoveBuilderFuncs::kleeBlossomingStarlight4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Lisa)}, IniRemoveBuilderFuncs::lisa4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::LisaStudent)}, IniRemoveBuilderFuncs::lisaStudent4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Lumine)}, IniRemoveBuilderFuncs::lumine4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::LumineHeaven)}, IniRemoveBuilderFuncs::lumineHeaven4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Mona)}, IniRemoveBuilderFuncs::mona4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::MonaCN)}, IniRemoveBuilderFuncs::monaCN4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Neuvillette)}, IniRemoveBuilderFuncs::neuvillette4_0()},

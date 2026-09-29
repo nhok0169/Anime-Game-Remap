@@ -37,6 +37,7 @@
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
+#include "AGRemapCore/data/WWMITextureIndex.h"
 #include "AGRemapCore/model/iftemplate/IfContentPart.h"
 #include "AGRemapCore/model/iftemplate/IfPredPart.h"
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
@@ -200,24 +201,12 @@ namespace AGRemapCore {
         const std::string DefaultTextureFolder = "Textures";
         const std::string DefaultMeshFolder = "Meshes";
         const std::string TextureOverridePrefix = "TextureOverride";
-        const std::string TextureOverrideTexturePrefix = "TextureOverrideTexture";
-        const std::string ResourcePrefix = "Resource";
-        const std::string ThisKey = "this";
-        const std::string DdsExt = ".dds";
-        const std::string IniExt = ".ini";
 
         // How a file's name may say what type of texture it is, when nothing else does.
-        const std::unordered_map<std::string, std::string> TypeOfSuffix = {
-            {"diffuse", "diffuse"}, {"albedo", "diffuse"}, {"base", "diffuse"}, {"color", "diffuse"}, {"colour", "diffuse"}, {"d", "diffuse"},
-            {"lm", "mask"}, {"lightmap", "mask"}, {"mask", "mask"}, {"m", "mask"},
-            {"nm", "normal"}, {"normal", "normal"}, {"normalmap", "normal"}, {"n", "normal"}};
-        const std::regex FileHashPattern(R"(t=([0-9a-fA-F]{8})\.dds$)", std::regex::icase);
-        const std::regex ComponentFilePattern(R"(component[\s_-]*(\d+)[\s_-]+([a-z]+)\.dds$)", std::regex::icase);
 
         // How far above the .ini file's own folder the mod may reach for its textures: each level
         // climbed has to hold a .ini file of its own (a LOD folder's parent holding the file that
         // declares the textures), so a library of many mods is never indexed as one.
-        const int MaxFolderClimb = 3;
 
 
         // The WWMI blend line: N R8 bone indices then N R8 weights (Metadata.json's export_format
@@ -837,268 +826,12 @@ namespace AGRemapCore {
 
 
         // ---- the mod's textures, by role ----
-
-        struct TextureRole {
-            std::string role;
-            std::string how;
-        };
-
-        /**
-         * Every .dds under the mod's root with the roles it plays, and every .ini's resource
-         * sections -> files. A file plays EVERY role its hashes name: a mod declares one file
-         * under two hashes when one atlas serves two components (Upper_D.dds as both the arm
-         * skin's and the bodice's diffuse), and taking only the first left the second component
-         * unbound, drawing with the TARGET's own textures (2026-09-19). The root is the .ini file's own folder, climbed while the parent
-         * holds a .ini file of its own (LOD folders under a file that declares their textures).
-         */
-        class TextureIndex {
-            public:
-                TextureIndex(const std::string& iniFolder, const WWMIFixerConfig& config, const std::string& remapTexKeyword,
-                             const Hashes* libraryHashes, const std::string& sourceName) {
-                    root_ = findRoot(iniFolder);
-
-                    // The roles this config knows what to do with -- the gate on the library
-                    // lookup below, so a `vb0` or `cb4` row can never be read as a texture role.
-                    std::unordered_set<std::string> knownRoles;
-                    for (const auto& entry : config.roles) {
-                        knownRoles.insert(entry.second);
-                    }
-
-                    // A ROLE IS ASKED OF THE LIBRARY FIRST. `config.roles` is written from one
-                    // generation of the character's textures and a mod carries whatever hash its
-                    // author dumped, so a mod a version or two old matched almost nothing and
-                    // downloaded the GAME's texture for role after role -- someone's painted outfit
-                    // rendering as the vanilla one, with "downloaded 13 files" in the summary.
-                    // HashData files them typed by role at every generation.
-                    //
-                    // One call, no version: ModMappedAssets keys its buckets by the ASSET, so a
-                    // hash's buckets are its own generations and a hash that only ever existed at
-                    // 3.0 has exactly one.
-                    auto roleOfHash = [&config, &knownRoles, libraryHashes, &sourceName]
-                                      (const std::string& hash) -> std::optional<TextureRole> {
-                        if (libraryHashes != nullptr && !sourceName.empty()) {
-                            std::optional<std::vector<std::string>> key =
-                                libraryHashes->getKey(hash, std::nullopt, {sourceName, std::nullopt}, false);
-                            if (key.has_value() && key->size() > 1 && knownRoles.count((*key)[1]) > 0) {
-                                return TextureRole{(*key)[1], "hash " + hash + " (the library's history)"};
-                            }
-                        }
-
-                        auto role = config.roles.find(hash);
-                        if (role != config.roles.end()) {
-                            return TextureRole{role->second, "hash " + hash};
-                        }
-
-                        return std::nullopt;
-                    };
-
-                    std::unordered_map<std::string, std::vector<std::string>> hashesOfFile;
-                    std::vector<std::string> ddsFiles;
-                    const std::string remapTex = StringTools::toLower(remapTexKeyword);
-                    const std::string remapFix = StringTools::toLower(IniKeywords::RemapFix);
-                    for (const std::string& file : FileService::getFilesAndDirs(root_, true).first) {
-                        if (isDisabled(file)) {
-                            continue;
-                        }
-
-                        const std::string name = StringTools::toLower(FileService::baseName(file));
-                        if (StringTools::endsWith(name, DdsExt)) {
-                            if (name.find(remapTex) == std::string::npos) {
-                                const std::string key = FileService::pathKey(file);
-                                ddsFiles.push_back(key);
-                                real_[key] = file;
-                            }
-
-                            continue;
-                        }
-
-                        if (!StringTools::endsWith(name, IniExt) || name.find(remapFix) != std::string::npos) {
-                            continue;
-                        }
-
-                        const std::string folder = FileService::parentOf(file);
-                        std::vector<std::pair<std::string, std::string>> resources;     // in declaration order
-                        std::unordered_map<std::string, std::string> fileOfResource;
-                        const std::vector<IniScanSection> sections = IniScan::scan(file);
-                        for (const IniScanSection& section : sections) {
-                            if (!StringTools::startsWith(section.name, ResourcePrefix)
-                                || StringTools::toLower(section.name).find(remapFix) != std::string::npos) {
-                                continue;
-                            }
-
-                            std::optional<std::string> fileName = IniScan::firstVal(section, IniKeywords::Filename);
-                            if (fileName.has_value() && StringTools::endsWith(StringTools::toLower(*fileName), DdsExt)) {
-                                const std::string key = FileService::pathKey(FileService::absPathOfRelPath(*fileName, folder));
-                                resources.emplace_back(section.name, key);
-                                fileOfResource[section.name] = key;
-                            }
-                        }
-
-                        for (const IniScanSection& section : sections) {
-                            if (!StringTools::startsWith(section.name, TextureOverrideTexturePrefix)) {
-                                continue;
-                            }
-
-                            std::optional<std::string> hash = IniScan::firstVal(section, IniKeywords::Hash);
-                            std::optional<std::string> resource = IniScan::firstVal(section, ThisKey);
-                            if (hash.has_value() && resource.has_value() && fileOfResource.count(*resource) > 0) {
-                                hashesOfFile[fileOfResource[*resource]].push_back(StringTools::toLower(*hash));
-                            }
-                        }
-
-                        resourcesByIni_[FileService::pathKey(file)] = std::move(resources);
-                    }
-
-                    std::vector<std::string> pending;
-                    for (const std::string& file : ddsFiles) {
-                        std::vector<std::string> hashes = hashesOfFile[file];
-                        std::smatch match;
-                        if (std::regex_search(file, match, FileHashPattern)) {
-                            hashes.push_back(StringTools::toLower(match[1].str()));
-                        }
-
-                        std::vector<TextureRole> roles;
-                        for (const std::string& hash : hashes) {
-                            std::optional<TextureRole> role = roleOfHash(hash);
-                            if (!role.has_value()) {
-                                continue;
-                            }
-
-                            const bool known = std::any_of(roles.begin(), roles.end(),
-                                                           [&](const TextureRole& r) { return r.role == role->role; });
-                            if (!known) {
-                                roles.push_back(*role);
-                            }
-                        }
-
-                        if (!roles.empty()) {
-                            rolesOf_[file] = std::move(roles);
-                            ++byHash_;
-                        } else {
-                            pending.push_back(file);
-                        }
-                    }
-
-                    for (const std::string& file : pending) {
-                        std::optional<std::string> hash;
-                        if (config.identifyTexture) {
-                            hash = config.identifyTexture(real_[file]);
-                        }
-
-                        if (!hash.has_value()) {
-                            hash = TexThumbprint::identifyFile(real_[file], config.textureThumbprints, config.thumbprintSize,
-                                                      config.identityMin, config.identityGap);
-                        }
-
-                        if (hash.has_value()) {
-                            std::optional<TextureRole> role = roleOfHash(StringTools::toLower(*hash));
-                            if (role.has_value()) {
-                                rolesOf_[file] = {TextureRole{role->role, "the game's own " + *hash + " by its pixels"}};
-                                ++byPixels_;
-                                continue;
-                            }
-                        }
-
-                        std::smatch match;
-                        const std::string name = FileService::baseName(file);
-                        if (std::regex_search(name, match, ComponentFilePattern)) {
-                            const int component = std::stoi(match[1].str());
-                            auto type = TypeOfSuffix.find(StringTools::toLower(match[2].str()));
-                            auto typeRoles = config.typeRoles.find(component);
-                            if (type != TypeOfSuffix.end() && typeRoles != config.typeRoles.end()) {
-                                auto role = typeRoles->second.find(type->second);
-                                if (role != typeRoles->second.end()) {
-                                    rolesOf_[file] = {TextureRole{role->second, "its name"}};
-                                    ++byName_;
-                                    continue;
-                                }
-                            }
-                        }
-
-                        unresolved_.push_back(file);
-                    }
-                }
-
-                const std::string& root() const { return root_; }
-                std::size_t fileCount() const { return real_.size(); }
-                std::size_t byHash() const { return byHash_; }
-                std::size_t byPixels() const { return byPixels_; }
-                std::size_t byName() const { return byName_; }
-                const std::vector<std::string>& unresolved() const { return unresolved_; }
-                const std::unordered_map<std::string, std::vector<TextureRole>>& rolesOf() const { return rolesOf_; }
-
-                // The file's real spelling, for what gets written into the .ini.
-                std::string real(const std::string& key) const {
-                    auto it = real_.find(key);
-                    return it == real_.end() ? key : it->second;
-                }
-
-                // (resource section, file key) in the .ini's own declaration order: the FIRST resource
-                // naming a file is the one bound, as the prototype binds it
-                const std::vector<std::pair<std::string, std::string>>& resourcesOf(const std::string& iniPath) const {
-                    static const std::vector<std::pair<std::string, std::string>> none;
-                    auto it = resourcesByIni_.find(FileService::pathKey(iniPath));
-                    return it == resourcesByIni_.end() ? none : it->second;
-                }
-
-            private:
-                static std::string findRoot(const std::string& iniFolder) {
-                    std::string folder = iniFolder;
-                    for (int i = 0; i < MaxFolderClimb; ++i) {
-                        const std::string parent = FileService::parentOf(folder);
-                        if (parent.empty() || parent == folder) {
-                            break;
-                        }
-
-                        bool holdsIni = false;
-                        for (const std::string& file : FileService::getFilesAndDirs(parent, false).first) {
-                            const std::string name = FileService::baseName(file);
-                            if (StringTools::endsWith(StringTools::toLower(name), IniExt) && !IniNamingTools::isDisabled(name)) {
-                                holdsIni = true;
-                                break;
-                            }
-                        }
-
-                        if (!holdsIni) {
-                            break;
-                        }
-
-                        folder = parent;
-                    }
-
-                    return folder;
-                }
-
-                // A DISABLED-prefixed folder or file, anywhere under the root: the game ignores it.
-                bool isDisabled(const std::string& file) const {
-                    const std::string rel = FileService::pathKey(FileService::getRelPath(file, root_));
-                    std::size_t start = 0;
-                    while (start <= rel.size()) {
-                        const std::size_t end = rel.find('/', start);
-                        const std::string part = rel.substr(start, end == std::string::npos ? std::string::npos : end - start);
-                        if (IniNamingTools::isDisabled(part)) {
-                            return true;
-                        }
-
-                        if (end == std::string::npos) {
-                            break;
-                        }
-
-                        start = end + 1;
-                    }
-
-                    return false;
-                }
-
-                std::string root_;
-                std::unordered_map<std::string, std::string> real_;
-                std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>> resourcesByIni_;
-                std::unordered_map<std::string, std::vector<TextureRole>> rolesOf_;
-                std::vector<std::string> unresolved_;
-                std::size_t byHash_ = 0;
-                std::size_t byPixels_ = 0;
-                std::size_t byName_ = 0;
-        };
+        //
+        // `TextureRole` and `TextureIndex` MOVED to data/WWMITextureIndex.h (2026-09-29), with the
+        // constants and the `Component<N>_<Type>` table they read. Sorting a mod's files into roles
+        // is CLASSIFICATION -- it reads only the SOURCE's own textures and never the target, the
+        // plan or the fix -- so it belongs where a parser can reach it too, which is the point of
+        // the header. The fixer still constructs it here; moving WHEN it runs is the next step.
 
 
         // ---- the fixer ----
@@ -1563,8 +1296,19 @@ namespace AGRemapCore {
                     const std::string iniPath = ini->getFile().value_or("");
                     readConditionalBindings();
                     const ModType* sourceType = ctx_.modType();
-                    index_ = std::make_unique<TextureIndex>(
-                        iniFolder, config_, IniKeywords::RemapTex,
+                    // The last place the source's texture facts and the FIX's config are tied
+                    // together. Once the parser owns the index, this goes with it.
+                    WWMITextureFacts facts;
+                    facts.roles = config_.roles;
+                    facts.typeRoles = config_.typeRoles;
+                    facts.textureThumbprints = config_.textureThumbprints;
+                    facts.thumbprintSize = config_.thumbprintSize;
+                    facts.identityMin = config_.identityMin;
+                    facts.identityGap = config_.identityGap;
+                    facts.identifyTexture = config_.identifyTexture;
+
+                    index_ = std::make_unique<WWMITextureIndex>(
+                        iniFolder, facts, IniKeywords::RemapTex,
                         sourceType != nullptr ? sourceType->hashes.get() : nullptr,
                         sourceType != nullptr ? sourceType->name : std::string());
 
@@ -3883,7 +3627,7 @@ namespace AGRemapCore {
                 std::string meshFolder_;
                 std::string textureFolder_;
 
-                std::unique_ptr<TextureIndex> index_;
+                std::unique_ptr<WWMITextureIndex> index_;
                 std::map<std::string, std::string> resourceOfRole_;   // role -> resource, for what every component shares (a created texture, a download)
                 std::map<std::pair<std::string, int>, std::string> resourceOfSlotRole_;   // (role, source component) -> the resource that component binds
                 std::vector<std::pair<std::string, std::string>> declared_;   // (file, path relative to the .ini) for a file no resource of the .ini names

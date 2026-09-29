@@ -1320,13 +1320,45 @@ namespace AGRemapCore {
                         fileOfResource_.emplace(StringTools::toLower(entry.first), index_->real(entry.second));
                     }
 
+                    // WHERE THE FIX WRITES ITS OWN TEXTURES: the folder MOST of the mod's textures
+                    // are already in, and never an absolute one.
+                    //
+                    // This used to read `resourceOfFile.begin()`, which on an unordered_map is
+                    // whichever entry the table hashed first -- so a mod whose textures are not all
+                    // in one folder got a folder picked at random, and the pick could move between
+                    // runs. That is what made Chisa13's mod.ini come out with four different hashes
+                    // over four corpus sweeps while six isolated runs agreed.
+                    //
+                    // And `WWMITextureIndex::real()` answers with its ARGUMENT when the key is
+                    // absent -- a lowercased ABSOLUTE path -- which `getRelPath` cannot relativise
+                    // against a real-cased `iniFolder`. The folder then came out absolute and every
+                    // download, edit and created texture was written into the mod's .ini as
+                    // `c:/users/.../textures/...`: broken the moment the mod moves, and the fixing
+                    // machine's paths in someone else's file. A path that is not relative is
+                    // refused, which leaves `Textures` -- what a mod with no textures of its own
+                    // already gets (2026-09-29).
                     textureFolder_ = DefaultTextureFolder;
-                    if (!resourceOfFile.empty()) {
-                        const std::string rel = FileService::getRelPath(index_->real(resourceOfFile.begin()->first), iniFolder);
-                        const std::string forward = FileService::iniPathToRel(rel);
-                        const std::size_t slash = forward.rfind('/');
+                    std::map<std::string, std::size_t> folderCounts;
+                    for (const auto& entry : resourceOfFile) {
+                        const std::string rel =
+                            FileService::iniPathToRel(FileService::getRelPath(index_->real(entry.first), iniFolder));
+                        if (FileService::strToPath(rel).is_absolute()) {
+                            continue;                   // the index could not place it: not a folder of this mod
+                        }
+
+                        const std::size_t slash = rel.rfind('/');
                         if (slash != std::string::npos && slash > 0) {
-                            textureFolder_ = forward.substr(0, slash);
+                            ++folderCounts[rel.substr(0, slash)];
+                        }
+                    }
+
+                    // most textures wins; a tie goes to the lowest path, so the answer is the mod's
+                    // rather than an iteration order's
+                    std::size_t best = 0;
+                    for (const auto& entry : folderCounts) {
+                        if (entry.second > best) {
+                            best = entry.second;
+                            textureFolder_ = entry.first;
                         }
                     }
 

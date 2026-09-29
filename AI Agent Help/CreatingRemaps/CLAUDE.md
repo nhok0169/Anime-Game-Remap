@@ -3950,30 +3950,9 @@ behaviour change this pair has no need of.
 
 **And check the other direction's evidence file for staleness while you are there.** Regenerating
 Chisa's to prove the refactor faithful found her committed lineage **26 hashes behind** — nothing
-missing and no role changed, purely new ones, because her mod corpus grew after it was written.
-
-**Those 26 are filed now, and unlike ChisaParfait's they CHANGED OUTPUT — for the better.** Two of
-her mods stopped downloading: `Chisa2` no longer fetches the game's `lowerDiffuse` and `lowerMask`,
-`Chisa10` no longer fetches its `lowerMask`, and four `*MaskRepackRemapTex.dds` now repack the MOD's
-own mask instead of a downloaded one. That is the 2026-09-25 defect — *a painted outfit rendering
-vanilla* — being fixed on mods nobody had noticed it on. 703 of 707 files byte-identical, and
-nothing on the GI side or in the reverse direction moved.
-
-**Two things about filing them.** The version key is a PLACEHOLDER inside the character's life, one
-generation per version because the key is `(version, name, role)` and two hashes of one role at one
-version overwrite each other — so each new hash takes the next FREE slot, and a role that runs out
-means widening the range, never overwriting. `lowerDiffuse` now uses seven of the eight. And a
-texture role at 2.8 does not collide with the four non-texture rows there, because the key carries
-the role.
-
-**Expect new "also has the role" warnings, and read them before worrying.** Her count went 21 to 23:
-every new one is a mod's colour-variant file (`2Color Variation\Red\Components-3 ...`) now resolving
-to a role that already has a file, so the fixer says the first is bound. Before the rows those files
-resolved to NOTHING, which is not silence worth keeping — a warning naming two candidates is a truer
-description of the mod than no candidate at all.
-
-**And this is a standing chore, not a one-off**: the rows are derived FROM the mods, so every mod
-added later carries hashes nobody has filed. Re-run `wwmiHashHistory.py` when the corpus grows.
+missing and no role changed, purely new ones, because her mod corpus grew after it was written. Her
+`HashData` rows are that far behind too. Not filed here: that is the forward direction's data, it is
+confirmed in game, and the command to reproduce it is in the tool's own help.
 
 ### `sharedMeshes` and `anchorChains`: both measured, both correctly EMPTY (2026-09-28)
 

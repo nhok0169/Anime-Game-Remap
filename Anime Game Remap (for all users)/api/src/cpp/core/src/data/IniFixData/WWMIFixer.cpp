@@ -1849,21 +1849,8 @@ namespace AGRemapCore {
                             // t=d153e37f.dds`, declaring only the shared one, and the per-component
                             // file must still win. Hoisting the declared test above specificity moved
                             // 56 bindings onto different bytes across Sanhua and Chisa.
-                            auto firstTwo = [&](const std::string& file) {
-                                const auto r = rank(file, component);
-                                return std::make_pair(std::get<0>(r), std::get<1>(r));
-                            };
-
                             std::sort(candidates.begin(), candidates.end(),
                                       [&](const auto& a, const auto& b) {
-                                          const auto headA = firstTwo(a.first);
-                                          const auto headB = firstTwo(b.first);
-                                          if (headA != headB) {
-                                              return headA < headB;
-                                          }
-
-                                          // Chisa13 declares BOTH its candidates at one specificity,
-                                          // so the contradiction still decides there
                                           const int badA = contradictsItsHash(a);
                                           const int badB = contradictsItsHash(b);
                                           if (badA != badB) {

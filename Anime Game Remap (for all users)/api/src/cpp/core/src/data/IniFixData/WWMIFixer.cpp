@@ -1336,8 +1336,7 @@ namespace AGRemapCore {
                     if (blend != templates.end() && blend->second != nullptr) {
                         std::optional<std::string> file = ModBranches::firstVal(*blend->second, IniKeywords::Filename);
                         if (file.has_value()) {
-                            std::string forward = *file;
-                            std::replace(forward.begin(), forward.end(), '\\', '/');
+                            const std::string forward = FileService::iniPathToRel(*file);
                             const std::size_t slash = forward.rfind('/');
                             if (slash != std::string::npos && slash > 0) {
                                 meshFolder_ = forward.substr(0, slash);
@@ -1472,8 +1471,7 @@ namespace AGRemapCore {
                     textureFolder_ = DefaultTextureFolder;
                     if (!resourceOfFile.empty()) {
                         const std::string rel = FileService::getRelPath(index_->real(resourceOfFile.begin()->first), iniFolder);
-                        std::string forward = rel;
-                        std::replace(forward.begin(), forward.end(), '\\', '/');
+                        const std::string forward = FileService::iniPathToRel(rel);
                         const std::size_t slash = forward.rfind('/');
                         if (slash != std::string::npos && slash > 0) {
                             textureFolder_ = forward.substr(0, slash);
@@ -1708,12 +1706,21 @@ namespace AGRemapCore {
                             pos += 3;
                         }
 
+                        // AN UNTAGGED FILE MAKES NO CLAIM, AND IS NOT EVIDENCE AGAINST (2026-09-28).
+                        // `Components-<i>-<j>... t=<hash>.dds` is WWMI-Tools' export name and no mod
+                        // author is obliged to keep it -- a mod-manager-packaged mod names every
+                        // texture a GUID, and `Component3.dds`, `Upper_D.dds` and `wumao.dds` are all
+                        // in this corpus. Ranking "no tag" the same as "tagged for other components"
+                        // put every file of such a mod in the worst bucket, where one leftover
+                        // vanilla `Components-<this> t=<hash>.dds` outranked all of them.
                         const std::vector<int> tag = componentTag(index_->real(file));
-                        int specificity = 2;
+                        int specificity = 2;                               // no tag: says nothing
                         if (tag.size() == 1 && tag.front() == component) {
-                            specificity = 0;
+                            specificity = 0;                               // exactly this component
                         } else if (std::find(tag.begin(), tag.end(), component) != tag.end()) {
-                            specificity = 1;
+                            specificity = 1;                               // this one among others
+                        } else if (!tag.empty()) {
+                            specificity = 3;                               // tagged, and NOT this one
                         }
 
                         return std::make_tuple(specificity, resourceOfFile.count(file) > 0 ? 0 : 1, ups, rel.size(), rel);
@@ -1896,8 +1903,8 @@ namespace AGRemapCore {
 
                                 usedDeclaredNames_.insert(name);
                                 declaredName = declaredName_.emplace(best, name).first;
-                                std::string rel = FileService::getRelPath(index_->real(best), iniFolder);
-                                std::replace(rel.begin(), rel.end(), '/', '\\');
+                                const std::string rel = FileService::pathToIniStr(
+                                    FileService::strToPath(FileService::getRelPath(index_->real(best), iniFolder)));
                                 declared_.emplace_back(best, rel);
                             }
 
@@ -2369,8 +2376,7 @@ namespace AGRemapCore {
                             // them writes 8-bit ids only, which for this target is the silent
                             // truncation this exists to stop (81004 weighted slots of one real mod,
                             // not one of them landing on the bone the row asks for).
-                            std::string vgRel = vertexVGFile_.value_or("");
-                            std::replace(vgRel.begin(), vgRel.end(), '\\', '/');
+                            const std::string vgRel = FileService::iniPathToRel(vertexVGFile_.value_or(""));
                             const std::string vgPath = vgRel.empty()
                                 ? std::string()
                                 : FileService::absPathOfRelPath(vgRel, ctx_.getIniFile()->getFolder());
@@ -2384,8 +2390,7 @@ namespace AGRemapCore {
                                 return writeBlendRemap(resource, vgPath, posPath, out);
                             };
                         } else if (vertexVGFile_.has_value()) {
-                            std::string vgRel = *vertexVGFile_;
-                            std::replace(vgRel.begin(), vgRel.end(), '\\', '/');
+                            const std::string vgRel = FileService::iniPathToRel(*vertexVGFile_);
                             const std::string vgPath =
                                 FileService::absPathOfRelPath(vgRel, ctx_.getIniFile()->getFolder());
                             const std::string posPath =
@@ -3422,8 +3427,7 @@ namespace AGRemapCore {
                         return;
                     }
 
-                    std::string rel = *name;
-                    std::replace(rel.begin(), rel.end(), '\\', '/');
+                    const std::string rel = FileService::iniPathToRel(*name);
                     const std::string path = FileService::absPathOfRelPath(rel, ini->getFolder());
                     std::ifstream in(FileService::strToPath(path), std::ios::binary);
                     if (!in.is_open()) {

@@ -181,6 +181,14 @@ namespace AGRemapCore {
         return startupPath;
     }
 
+    std::string FileService::iniPathToRel(const std::string& path) {
+        // Only the separator: the value may be relative, may start `.\`, and normalising it
+        // here would resolve it against the WRONG folder -- the caller knows which one.
+        std::string result = path;
+        std::replace(result.begin(), result.end(), '\\', '/');
+        return result;
+    }
+
     std::string FileService::parseOSPath(const std::string& path) {
         return pathToStr(strToPath(path).lexically_normal());
     }

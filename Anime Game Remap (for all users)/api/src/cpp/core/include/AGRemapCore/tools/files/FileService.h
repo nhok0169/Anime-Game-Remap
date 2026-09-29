@@ -105,6 +105,20 @@ namespace AGRemapCore {
             static std::string pathToIniStr(const std::filesystem::path& path);
 
             /**
+             * @brief The reverse of :cpp:func:`FileService::pathToIniStr`: a path as a ``.ini``
+             *      spells it, as a relative path this OS can open
+             *
+             * A path inside a ``.ini`` is a Windows path on every OS, so on POSIX
+             * ``.\\Textures\\x.dds`` is one nonexistent FILENAME rather than a path and every
+             * mod pointing into a subfolder fails. Feed the result to
+             * :cpp:func:`FileService::absPathOfRelPath`.
+             *
+             * @param path The path as the ``.ini`` writes it
+             * @return The same path with this OS's separators
+             */
+            static std::string iniPathToRel(const std::string& path);
+
+            /**
              * @brief
              @rst
              The last component of 'path' -- its file name, extension and all

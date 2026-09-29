@@ -37,6 +37,11 @@
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
+#include "AGRemapCore/model/iftemplate/IfContentPart.h"
+#include "AGRemapCore/model/iftemplate/IfPredPart.h"
+#include "AGRemapCore/model/iftemplate/IfTemplate.h"
+#include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
+#include "AGRemapCore/tools/z3/Z3Context.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/assets/Hashes.h"
 #include "AGRemapCore/model/Version.h"
@@ -101,6 +106,79 @@ namespace AGRemapCore {
         const std::string IndexBufferResource = "ResourceIndexBuffer";
         const std::string PositionBufferResource = "ResourcePositionBuffer";
         const std::string TexcoordBufferResource = "ResourceTexcoordBuffer";
+
+        // ONE OF THE FIX'S OWN SECTIONS, BUILT RATHER THAN CONCATENATED (2026-09-29).
+        //
+        // `IfTemplate` is a section, `IfContentPart` a run of `key = value` lines, `IfPredPart` an
+        // `if` / `endif`, and `renderIfTemplate` turns the three back into text -- including the
+        // `[name]` header and the indentation. This file used to assemble all of that as strings,
+        // twenty section headers' worth, which is the same structure written twice: once as the
+        // model every other part of the fix is edited through, and once as text here.
+        //
+        // The renderer indents with a TAB where the string version used four spaces. That is the
+        // only output difference, it is inside the fix's own block, and it makes the file
+        // self-consistent -- every section that reaches the page through the section graph is
+        // already rendered by this same function.
+        class SectionText {
+            public:
+                SectionText(Z3Context& z3Ctx, std::string name): z3_(z3Ctx), name_(std::move(name)) {}
+
+                // A run of `key = value` lines. A value of "" is a line with no `=` at all --
+                // 3dmigoto's `local $var` -- which is how IfContentPart already reads one.
+                SectionText& keys(const std::vector<std::pair<std::string, std::string>>& kvps) {
+                    parts_.push_back(std::make_unique<IfContentPart<std::string, std::string>>(kvps, depth_));
+                    return *this;
+                }
+
+                SectionText& key(const std::string& k, const std::string& v = "") {
+                    return keys({{k, v}});
+                }
+
+                SectionText& open(const std::string& predicate) {
+                    parts_.push_back(std::make_unique<IfPredPart>("if " + predicate, IfPredPartType::If, z3_));
+                    ++depth_;
+                    return *this;
+                }
+
+                // A comment above the `[name]` line. IfTemplate carries it, so even this is
+                // the model's rather than text glued on the front.
+                SectionText& prefix(std::string text) {
+                    prefix_ = std::move(text);
+                    return *this;
+                }
+
+                SectionText& close() {
+                    if (depth_ > 0) {
+                        --depth_;
+                    }
+
+                    parts_.push_back(std::make_unique<IfPredPart>("endif", IfPredPartType::EndIf, z3_));
+                    return *this;
+                }
+
+                // The blank line after a section is this file's own convention, not the renderer's.
+                std::string str() {
+                    IfTemplate<std::string, std::string> section{
+                        std::move(parts_),
+                        IfTemplateRunConfig<std::string, std::string>{
+                            IniKeywords::Run,
+                            [](const std::string& val) { return val; },
+                            [](const std::string& name) { return name; }},
+                        name_,
+                        IfTemplate<std::string, std::string>::TreeKind::NonEmptyNode,
+                        prefix_};
+
+                    return renderIfTemplate(section) + "\n\n";
+                }
+
+            private:
+                Z3Context& z3_;
+                std::string name_;
+                std::string prefix_;
+                std::vector<std::unique_ptr<IfTemplatePart>> parts_;
+                int depth_ = 0;
+        };
+
 
         // The one element a texcoord line decodes into: `stride / 2` halves, named so
         // the BufFile filters can find it in the decoded line.
@@ -1026,6 +1104,11 @@ namespace AGRemapCore {
         // ---- the fixer ----
 
         class WWMIFixerImpl: public Fixer {
+            // DECLARED FIRST, and it has to be: everything Z3 hands out belongs to this
+            // context and must not outlive it, which member destruction order decides.
+            // ModBranches carries the same note about its own.
+            Z3Context z3_;
+
             public:
                 WWMIFixerImpl(BaseIniParser<>* parser, const std::string& toModName, std::optional<int> modTypeId,
                               WWMIFixerConfig config):
@@ -2987,19 +3070,25 @@ namespace AGRemapCore {
                 // their read-only copies, the marker on the game's bone-data constant buffer, and one
                 // merge list per target slot -- each gated on the marker, so a pass with something else in
                 // that slot cannot merge junk into the skeleton.
-                std::string legacySkeletonSections() const {
+                std::string legacySkeletonSections() {
                     const std::string merged = fixName(ResourcePrefix + std::string("MergedSkeleton"));
                     const std::string mergedRW = fixName(ResourcePrefix + std::string("MergedSkeletonRW"));
                     const std::string extra = fixName(ResourcePrefix + std::string("ExtraMergedSkeleton"));
                     const std::string extraRW = fixName(ResourcePrefix + std::string("ExtraMergedSkeletonRW"));
-                    std::string out = "[" + merged + "]\n\n[" + extra + "]\n\n";
+                    std::string out = SectionText(z3_, merged).str() + SectionText(z3_, extra).str();
                     for (const std::string& name : {mergedRW, extraRW}) {
-                        out += "[" + name + "]\ntype = RWBuffer\nformat = R32G32B32A32_FLOAT\narray = "
-                               + std::to_string(config_.mergedSkeletonSlots) + "\n\n";
+                        out += SectionText(z3_, name)
+                                   .keys({{"type", "RWBuffer"},
+                                          {"format", "R32G32B32A32_FLOAT"},
+                                          {"array", std::to_string(config_.mergedSkeletonSlots)}})
+                                   .str();
                     }
 
-                    out += "[" + fixName("TextureOverrideMarkBoneDataCB") + "]\n" + IniKeywords::Hash + " = " + target_.cb4Hash
-                           + "\nmatch_priority = 0\nfilter_index = " + config_.boneDataFilter + "\n\n";
+                    out += SectionText(z3_, fixName("TextureOverrideMarkBoneDataCB"))
+                               .keys({{IniKeywords::Hash, target_.cb4Hash},
+                                      {"match_priority", "0"},
+                                      {"filter_index", config_.boneDataFilter}})
+                               .str();
 
                     // The private skeleton a blend remap needs, gathered right after the merge:
                     // SkeletonRemapper writes remapped[i] = merged[forward[i]], so a vertex whose
@@ -3011,39 +3100,41 @@ namespace AGRemapCore {
                     const std::string extraRemapped = fixName(ResourcePrefix + std::string("ExtraRemappedSkeleton"));
                     if (targetPast256_) {
                         for (const std::string& name : {remapped, extraRemapped, remappedRW, extraRemappedRW}) {
-                            out += "[" + name + "]\n\n";
+                            out += SectionText(z3_, name).str();
                         }
                     }
 
                     for (std::size_t slot = 0; slot < target_.slots.size(); ++slot) {
                         const Slot& s = target_.slots[slot];
-                        out += "[" + mergeListName(static_cast<int>(slot)) + "]\n";
+                        SectionText mergeList(z3_, mergeListName(static_cast<int>(slot)));
                         for (const auto& cb : {std::make_tuple(std::string("vs-cb4"), mergedRW, merged, remappedRW, remapped),
                                                std::make_tuple(std::string("vs-cb3"), extraRW, extra, extraRemappedRW, extraRemapped)}) {
-                            out += "if " + std::get<0>(cb) + " == " + config_.boneDataFilter + "\n"
-                                   + "    " + VgOffsetKey + " = " + s.vgOffset + "\n"
-                                   + "    " + VgCountKey + " = " + s.vgCount + "\n"
-                                   + "    $\\WWMIv1\\custom_mesh_scale = 1.00\n"
-                                   + "    cs-cb8 = ref " + std::get<0>(cb) + "\n"
-                                   + "    cs-u6 = " + std::get<1>(cb) + "\n"
-                                   + "    run = CustomShader\\WWMIv1\\SkeletonMerger\n"
-                                   + "    " + std::get<2>(cb) + " = copy " + std::get<1>(cb) + "\n";
+                            mergeList.open(std::get<0>(cb) + " == " + config_.boneDataFilter)
+                                     .keys({{VgOffsetKey, s.vgOffset},
+                                            {VgCountKey, s.vgCount},
+                                            {"$\\WWMIv1\\custom_mesh_scale", "1.00"},
+                                            {"cs-cb8", "ref " + std::get<0>(cb)},
+                                            {"cs-u6", std::get<1>(cb)},
+                                            {IniKeywords::Run, "CustomShader\\WWMIv1\\SkeletonMerger"},
+                                            {std::get<2>(cb), "copy " + std::get<1>(cb)}});
 
                             if (targetPast256_) {
-                                out += "    cs-t37 = " + fixName(ResourcePrefix + std::string("BlendRemapForwardBuffer")) + "\n"
-                                       + "    $\\WWMIv1\\blend_remap_id = 0\n"
-                                       + "    " + VgCountKey + " = " + std::to_string(blendRemapBones_) + "\n"
-                                       + "    cs-t38 = " + std::get<2>(cb) + "\n"
-                                       + "    cs-u5 = " + std::get<3>(cb) + "\n"
-                                       + "    run = CustomShader\\WWMIv1\\SkeletonRemapper\n"
-                                       + "    " + std::get<4>(cb) + " = copy " + std::get<3>(cb) + "\n"
-                                       + "    " + std::get<0>(cb) + " = " + std::get<4>(cb) + "\nendif\n";
+                                mergeList.keys({{"cs-t37", fixName(ResourcePrefix + std::string("BlendRemapForwardBuffer"))},
+                                                {"$\\WWMIv1\\blend_remap_id", "0"},
+                                                {VgCountKey, std::to_string(blendRemapBones_)},
+                                                {"cs-t38", std::get<2>(cb)},
+                                                {"cs-u5", std::get<3>(cb)},
+                                                {IniKeywords::Run, "CustomShader\\WWMIv1\\SkeletonRemapper"},
+                                                {std::get<4>(cb), "copy " + std::get<3>(cb)},
+                                                {std::get<0>(cb), std::get<4>(cb)}});
                             } else {
-                                out += "    " + std::get<0>(cb) + " = " + std::get<2>(cb) + "\nendif\n";
+                                mergeList.key(std::get<0>(cb), std::get<2>(cb));
                             }
+
+                            mergeList.close();
                         }
 
-                        out += "\n";
+                        out += mergeList.str();
                     }
 
                     if (targetPast256_) {
@@ -3061,7 +3152,7 @@ namespace AGRemapCore {
                 // collect's resource: `copy_desc` needs a buffer with the blend's stride, and
                 // declaring it here keeps this text independent of what the collect happened to
                 // name its resource.
-                std::string blendRemapSections() const {
+                std::string blendRemapSections() {
                     const std::string vertexVG = fixName(ResourcePrefix + std::string("BlendRemapVertexVGBuffer"));
                     const std::string forward = fixName(ResourcePrefix + std::string("BlendRemapForwardBuffer"));
                     const std::string reverse = fixName(ResourcePrefix + std::string("BlendRemapReverseBuffer"));
@@ -3078,32 +3169,40 @@ namespace AGRemapCore {
                                               std::make_pair(forward, blendRemapFile("Forward")),
                                               std::make_pair(reverse, blendRemapFile("Reverse")),
                                               std::make_pair(noStride, blendPath)}) {
-                        out += "[" + entry.first + "]\ntype = Buffer\nformat = "
-                               + (entry.first == noStride ? std::string("DXGI_FORMAT_R8_UINT")
-                                                          : std::string("DXGI_FORMAT_R16_UINT"))
-                               + "\n" + IniKeywords::Filename + " = " + entry.second + "\n\n";
+                        out += SectionText(z3_, entry.first)
+                                   .keys({{"type", "Buffer"},
+                                          {"format", entry.first == noStride ? "DXGI_FORMAT_R8_UINT"
+                                                                             : "DXGI_FORMAT_R16_UINT"},
+                                          {IniKeywords::Filename, entry.second}})
+                                   .str();
                     }
 
-                    out += "[" + strided + "]\ntype = Buffer\nformat = DXGI_FORMAT_R8_UINT\nstride = "
-                           + std::to_string(blendStride_) + "\n" + IniKeywords::Filename + " = " + blendPath + "\n\n";
-                    out += "[" + blendRW + "]\n\n[" + blendOut + "]\n\n";
+                    out += SectionText(z3_, strided)
+                               .keys({{"type", "Buffer"},
+                                      {"format", "DXGI_FORMAT_R8_UINT"},
+                                      {"stride", std::to_string(blendStride_)},
+                                      {IniKeywords::Filename, blendPath}})
+                               .str();
+                    out += SectionText(z3_, blendRW).str();
+                    out += SectionText(z3_, blendOut).str();
 
-                    out += "[" + blendRemapInitList() + "]\n"
-                           "local $blendRemapReady\n"
-                           "if !$blendRemapReady\n"
-                           "    $\\WWMIv1\\custom_vertex_count = $mesh_vertex_count\n"
-                           "    $\\WWMIv1\\weights_per_vertex_count = " + std::to_string(blendInfluences_) + "\n"
-                           "    $\\WWMIv1\\blend_remap_id = 0\n"
-                           "    cs-t34 = ref " + reverse + "\n"
-                           "    cs-t35 = ref " + vertexVG + "\n"
-                           "    " + blendRW + " = copy " + noStride + "\n"
-                           "    cs-u4 = ref " + blendRW + "\n"
-                           "    run = CustomShader\\WWMIv1\\BlendRemapper\n"
-                           "    " + blendOut + " = copy " + blendRW + "\n"
-                           "    " + blendOut + " = copy_desc " + strided + "\n"
-                           "    $blendRemapReady = 1\n"
-                           "endif\n"
-                           + config_.blendReg + " = " + blendOut + "\n\n";
+                    out += SectionText(z3_, blendRemapInitList())
+                               .key("local $blendRemapReady")
+                               .open("!$blendRemapReady")
+                               .keys({{"$\\WWMIv1\\custom_vertex_count", "$mesh_vertex_count"},
+                                      {"$\\WWMIv1\\weights_per_vertex_count", std::to_string(blendInfluences_)},
+                                      {"$\\WWMIv1\\blend_remap_id", "0"},
+                                      {"cs-t34", "ref " + reverse},
+                                      {"cs-t35", "ref " + vertexVG},
+                                      {blendRW, "copy " + noStride},
+                                      {"cs-u4", "ref " + blendRW},
+                                      {IniKeywords::Run, "CustomShader\\WWMIv1\\BlendRemapper"},
+                                      {blendOut, "copy " + blendRW},
+                                      {blendOut, "copy_desc " + strided},
+                                      {"$blendRemapReady", "1"}})
+                               .close()
+                               .key(config_.blendReg, blendOut)
+                               .str();
                     return out;
                 }
 
@@ -3112,19 +3211,27 @@ namespace AGRemapCore {
                 void buildAppended() {
                     std::string out;
                     for (const auto& entry : declared_) {
-                        out += "[" + declaredName_[entry.first] + "]\n" + IniKeywords::Filename + " = " + entry.second + "\n\n";
+                        out += SectionText(z3_, declaredName_[entry.first])
+                                   .key(IniKeywords::Filename, entry.second)
+                                   .str();
                     }
 
                     // its OWN name -- see Fallback::resource. resourceOfRole_ may by now be the
                     // resource of a texture EDIT of this role, and writing the download's section
                     // under that name declares it twice, raw file and edited file.
                     for (const auto& entry : fallbacks_) {
-                        out += "[" + entry.second.resource + "]\n" + IniKeywords::Filename + " = " + entry.second.relPath + "\n\n";
+                        out += SectionText(z3_, entry.second.resource)
+                                   .key(IniKeywords::Filename, entry.second.relPath)
+                                   .str();
                     }
 
                     if (config_.zeroShapeKeyStream && meshVertexCount_ > 0) {
-                        out += "[" + fixName(ResourcePrefix + ShapeKeyZero) + "]\ntype = Buffer\nformat = DXGI_FORMAT_R32G32B32_FLOAT\nstride = "
-                               + std::to_string(config_.shapeKeyStride) + "\n" + IniKeywords::Filename + " = " + zeroStreamFile() + "\n\n";
+                        out += SectionText(z3_, fixName(ResourcePrefix + ShapeKeyZero))
+                                   .keys({{"type", "Buffer"},
+                                          {"format", "DXGI_FORMAT_R32G32B32_FLOAT"},
+                                          {"stride", std::to_string(config_.shapeKeyStride)},
+                                          {IniKeywords::Filename, zeroStreamFile()}})
+                                   .str();
                     }
 
                     for (const std::string& list : textureLists_) {
@@ -3140,21 +3247,33 @@ namespace AGRemapCore {
                         auto label = config_.targetLabels.find(static_cast<int>(slot));
                         const std::string labelText = label == config_.targetLabels.end() ? std::to_string(slot) : label->second;
                         const std::string state = "$state_id_" + std::to_string(slot);
-                        out += "; nothing of the mod is drawn through " + toModName_ + "'s " + labelText
-                               + " slot: the skin's own geometry is skipped and its bones still merged\n"
-                               + "[TextureOverride" + toModName_ + TextTools::capitalize(config_.slotPrefix) + std::to_string(slot) + IniKeywords::Remap + "Hide]\n"
-                               + IniKeywords::Hash + " = " + target_.vb0Hash + "\n"
-                               + IniKeywords::MatchFirstIndex + " = " + s.indexOffset + "\n"
-                               + MatchIndexCountKey + " = " + s.indexCount + "\n"
-                               + "$object_detected = 1\nif $mod_enabled\n"
-                               + (legacy_
-                                      ? "    run = " + mergeListName(slot) + "\n    handling = skip\n"
-                                      : "    local " + state + "\n    if " + state + " != $state_id\n"
-                                            + "        " + state + " = $state_id\n        " + VgOffsetKey + " = " + s.vgOffset
-                                            + "\n        " + VgCountKey + " = " + s.vgCount + "\n"
-                                            + "        run = " + fixName("CommandListMergeSkeleton") + "\n    endif\n"
-                                            + "    if ResourceMergedSkeleton !== null\n        handling = skip\n    endif\n")
-                               + "endif\n\n";
+                        SectionText hide(z3_, "TextureOverride" + toModName_
+                                                 + TextTools::capitalize(config_.slotPrefix)
+                                                 + std::to_string(slot) + IniKeywords::Remap + "Hide");
+                        hide.prefix("; nothing of the mod is drawn through " + toModName_ + "'s " + labelText
+                                    + " slot: the skin's own geometry is skipped and its bones still merged")
+                            .keys({{IniKeywords::Hash, target_.vb0Hash},
+                                   {IniKeywords::MatchFirstIndex, s.indexOffset},
+                                   {MatchIndexCountKey, s.indexCount},
+                                   {"$object_detected", "1"}})
+                            .open("$mod_enabled");
+
+                        if (legacy_) {
+                            hide.keys({{IniKeywords::Run, mergeListName(slot)}, {"handling", "skip"}});
+                        } else {
+                            hide.key("local " + state)
+                                .open(state + " != $state_id")
+                                .keys({{state, "$state_id"},
+                                       {VgOffsetKey, s.vgOffset},
+                                       {VgCountKey, s.vgCount},
+                                       {IniKeywords::Run, fixName("CommandListMergeSkeleton")}})
+                                .close()
+                                .open("ResourceMergedSkeleton !== null")
+                                .key("handling", "skip")
+                                .close();
+                        }
+
+                        out += hide.close().str();
                     }
 
                     if (legacy_ || targetPast256_) {
@@ -3164,8 +3283,9 @@ namespace AGRemapCore {
                     passFilter("");
                     std::size_t i = 0;
                     for (const std::string& pass : passOrder_) {
-                        out += "[" + fixName("ShaderOverridePass" + std::to_string(i)) + "]\n" + IniKeywords::Hash + " = " + pass
-                               + "\nfilter_index = " + passFilters_[pass] + "\n\n";
+                        out += SectionText(z3_, fixName("ShaderOverridePass" + std::to_string(i)))
+                                   .keys({{IniKeywords::Hash, pass}, {"filter_index", passFilters_[pass]}})
+                                   .str();
                         ++i;
                     }
 
@@ -3201,11 +3321,15 @@ namespace AGRemapCore {
                     }
 
                     for (const auto& edited : editedResources_) {
-                        out += "[" + edited.first + "]\n" + IniKeywords::Filename + " = " + edited.second + "\n\n";
+                        out += SectionText(z3_, edited.first)
+                                   .key(IniKeywords::Filename, edited.second)
+                                   .str();
                     }
 
                     for (const WWMIFixerConfig::CreatedTexture& created : config_.createdTextures) {
-                        out += "[" + resourceOfRole_[created.role] + "]\n" + IniKeywords::Filename + " = " + createdTextureFile(created) + "\n\n";
+                        out += SectionText(z3_, resourceOfRole_[created.role])
+                                   .key(IniKeywords::Filename, createdTextureFile(created))
+                                   .str();
                     }
 
                     for (const std::string& list : roleListTexts_) {
@@ -3662,11 +3786,14 @@ namespace AGRemapCore {
 
                     const std::optional<std::string> format = ModBranches::firstVal(*resource, "format");
                     texcoordResource_ = fixName(ResourcePrefix + "TexcoordNoNaN");
-                    texcoordSection_ = "[" + *texcoordResource_ + "]\ntype = Buffer\nformat = "
-                                       + std::string(format.has_value() ? StringTools::strip(*format)
-                                                                        : std::string_view("DXGI_FORMAT_R16G16_FLOAT"))
-                                       + "\nstride = " + std::to_string(stride) + "\n"
-                                       + IniKeywords::Filename + " = " + fixedRel + "\n\n";
+                    texcoordSection_ = SectionText(z3_, *texcoordResource_)
+                                           .keys({{"type", "Buffer"},
+                                                  {"format", std::string(format.has_value()
+                                                                             ? StringTools::strip(*format)
+                                                                             : std::string_view("DXGI_FORMAT_R16G16_FLOAT"))},
+                                                  {"stride", std::to_string(stride)},
+                                                  {IniKeywords::Filename, fixedRel}})
+                                           .str();
                     ctx_.log("texcoords: " + std::to_string(clearedCount) + " NaN halves set to 0 and "
                              + std::to_string(foldedCount) + " U values folded into [0, 1) in a remap-only copy");
                 }

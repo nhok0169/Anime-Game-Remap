@@ -212,6 +212,106 @@ class RegFillMissingTest(BaseUnitTest):
 
         self.compareList(self.entries(graph), [("x", "1")])
 
+    def makeChainGraph(self, withDraw: bool = True) -> FRB.IniSectionGraph:
+        # the shape a fixer hands the fill: a collected binding spliced into its own `if 1 ... endif`, then the mod's
+        # own if / else if chain with NO else -- its toggle between variants of one object. The `if 1` block is a
+        # branch without the register, so a cover lands at the bottom and runs on every path
+        z3Ctx = FRB.Z3Context()
+        branch0 = {"z": [(0, "a")]} if withDraw else {"y": [(0, "a")]}
+        branch1 = {"z": [(0, "b")]} if withDraw else {"y": [(0, "b")]}
+        sections = {"a": FRB.IfTemplate([
+            FRB.IfPredPart("if 1", FRB.IfPredPartType.If, z3Ctx),
+            FRB.IfContentPart({"ib": [(0, "r")]}, 1),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, z3Ctx),
+            FRB.IfContentPart({"x": [(0, "1")]}, 0),
+            FRB.IfPredPart("if $i == 0", FRB.IfPredPartType.If, z3Ctx),
+            FRB.IfContentPart(branch0, 1),
+            FRB.IfPredPart("else if $i == 1", FRB.IfPredPartType.Elif, z3Ctx),
+            FRB.IfContentPart(branch1, 1),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, z3Ctx),
+        ], name = "a")}
+        return FRB.IniSectionGraph(sections, ["a"])
+
+    def test_onlyWhenAbsent_defaultsToFalse(self):
+        self.assertFalse(FRB.RegFillMissing("z", "9").onlyWhenAbsent)
+
+    def test_edit_bottomCover_chainWithoutElse_coveredByDefault(self):
+        # the path through neither branch lacks 'z', so the default cover lands at the bottom -- on EVERY path
+        graph = self.makeChainGraph()
+        FRB.RegFillMissing("z", "9", fillMode = FRB.RegFillMissingMode.BottomCover).edit(graph, None)
+
+        self.assertEqual(len(graph.getSection("a")), 10)
+        self.compareList(graph.getSection("a").parts[9].entries(), [("z", "9")])
+
+    def test_edit_bottomCover_onlyWhenAbsent_chainThatDrawsSomewhere_leftAlone(self):
+        graph = self.makeChainGraph()
+        edit = FRB.RegFillMissing("z", "9", fillMode = FRB.RegFillMissingMode.BottomCover)
+        edit.onlyWhenAbsent = True
+        edit.edit(graph, None)
+
+        self.assertEqual(len(graph.getSection("a")), 9)
+
+    def test_edit_bottomCover_onlyWhenAbsent_graphWithoutTheRegister_stillCovered(self):
+        graph = self.makeChainGraph(withDraw = False)
+        edit = FRB.RegFillMissing("z", "9", fillMode = FRB.RegFillMissingMode.BottomCover)
+        edit.onlyWhenAbsent = True
+        edit.edit(graph, None)
+
+        self.assertEqual(len(graph.getSection("a")), 10)
+        self.compareList(graph.getSection("a").parts[9].entries(), [("z", "9")])
+
+    def test_edit_topdownCover_onlyWhenAbsent_chainThatDrawsSomewhere_leftAlone(self):
+        graph = self.makeChainGraph()
+        edit = FRB.RegFillMissing("z", "9", fillMode = FRB.RegFillMissingMode.TopdownCover)
+        edit.onlyWhenAbsent = True
+        edit.edit(graph, None)
+
+        self.assertEqual(len(graph.getSection("a")), 9)
+
+    def test_edit_bottomCover_onlyWhenAbsent_askedPerRoot(self):
+        # two roots: 'a' draws on some path, 'b' nowhere -- a mod keeping two sections for one slot. Asked of the
+        # whole graph, a's draw suppressed b's cover and b's object vanished
+        graph = self.makeChainGraph()
+        sections = {"a": graph.getSection("a"), "b": FRB.IfTemplate([FRB.IfContentPart({"y": [(0, "1")]}, 0)], name = "b")}
+        graph = FRB.IniSectionGraph(sections, ["a", "b"])
+
+        edit = FRB.RegFillMissing("z", "9", fillMode = FRB.RegFillMissingMode.BottomCover)
+        edit.onlyWhenAbsent = True
+        edit.edit(graph, None)
+
+        self.assertEqual(len(graph.getSection("a")), 9)
+        # b's one part is already at the section's own depth, so the bottom cover reuses it
+        self.compareList(graph.getSection("b").parts[-1].entries(), [("y", "1"), ("z", "9")])
+
+    def test_edit_bottomCover_onlyWhenAbsent_drawBehindRun_counts(self):
+        # the root's only draw is in a section it runs -- a merged master's shape -- so it is left alone
+        z3Ctx = FRB.Z3Context()
+        sections = {"a": FRB.IfTemplate([
+                        FRB.IfContentPart({"run": [(0, "c")]}, 0),
+                        FRB.IfPredPart("if $i == 0", FRB.IfPredPartType.If, z3Ctx),
+                        FRB.IfContentPart({"y": [(0, "1")]}, 1),
+                        FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, z3Ctx)], name = "a"),
+                    "c": FRB.IfTemplate([
+                        FRB.IfPredPart("if $j == 0", FRB.IfPredPartType.If, z3Ctx),
+                        FRB.IfContentPart({"z": [(0, "c")]}, 1),
+                        FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, z3Ctx)], name = "c")}
+        graph = FRB.IniSectionGraph(sections, ["a"])
+
+        edit = FRB.RegFillMissing("z", "9", fillMode = FRB.RegFillMissingMode.BottomCover)
+        edit.onlyWhenAbsent = True
+        edit.edit(graph, None)
+
+        self.assertEqual(len(graph.getSection("a")), 4)
+
+    def test_edit_fillMissing_onlyWhenAbsent_ignored(self):
+        # FillMissing fills the parts lacking the register one by one; onlyWhenAbsent is a cover option only
+        graph = self.makeGraph()
+        edit = FRB.RegFillMissing("z", "9")
+        edit.onlyWhenAbsent = True
+        edit.edit(graph, None)
+
+        self.compareList(self.entries(graph), [("x", "1"), ("z", "9")])
+
     def test_addBottomCover_static_addsToTheBack(self):
         graph = self.makeGraph()
         result = FRB.RegFillMissing.addBottomCover(graph, "z", "9")

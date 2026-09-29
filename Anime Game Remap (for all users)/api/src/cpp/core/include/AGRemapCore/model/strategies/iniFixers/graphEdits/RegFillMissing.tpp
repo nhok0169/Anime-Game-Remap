@@ -219,7 +219,8 @@ namespace AGRemapCore {
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename RegFillMissing<K, V, KeyHash, KeyEqual>::Graph& RegFillMissing<K, V, KeyHash, KeyEqual>::addCover(
-            Graph& graph, const K& reg, const FillMissingFunc& fillMissing, const PartSelection& selection) {
+            Graph& graph, const K& reg, const FillMissingFunc& fillMissing, const PartSelection& selection,
+            const std::unordered_set<std::string>* skipRoots) {
         if (!fillMissing) {
             return graph;
         }
@@ -239,7 +240,7 @@ namespace AGRemapCore {
         }
 
         // Nothing to gate on -- cover every root, the pre-selection behaviour preserved exactly.
-        if (!selection.partFilter) {
+        if (!selection.partFilter && skipRoots == nullptr) {
             for (Section* section : graph.getRootSections()) {
                 if (section == nullptr) {
                     continue;
@@ -256,7 +257,7 @@ namespace AGRemapCore {
 
         for (const std::string& rootName : graph.roots()) {
             Section* section = graph.getSection(rootName);
-            if (section == nullptr) {
+            if (section == nullptr || (skipRoots != nullptr && skipRoots->count(rootName) != 0)) {
                 continue;
             }
 
@@ -273,7 +274,7 @@ namespace AGRemapCore {
 
             // A section with no IfContentPart at all has nothing to discriminate on, so it is
             // accepted rather than silently dropped.
-            if (firstPart != nullptr) {
+            if (firstPart != nullptr && selection.partFilter) {
                 Colouring colouring;
                 IterData iterData(rootName, section, firstPart, 1, selection.trackKeys ? &colouring : nullptr);
 
@@ -293,8 +294,66 @@ namespace AGRemapCore {
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::unordered_set<std::string> RegFillMissing<K, V, KeyHash, KeyEqual>::rootsWithReg(
+            const Graph& graph, const K& reg, const PartSelection& selection) {
+        std::unordered_set<std::string> result;
+        const auto& neighbours = graph.neighbours();
+
+        for (const std::string& root : graph.roots()) {
+            std::unordered_set<std::string> seen{root};
+            std::vector<std::string> stack{root};
+            bool found = false;
+
+            while (!stack.empty() && !found) {
+                const std::string name = std::move(stack.back());
+                stack.pop_back();
+
+                Section* section = graph.getSection(name, false);
+                if (section != nullptr) {
+                    for (const auto& part : section->parts()) {
+                        auto* contentPart = dynamic_cast<ContentPart*>(part.get());
+                        if (contentPart == nullptr || !contentPart->containsKey(reg)) {
+                            continue;
+                        }
+
+                        // Only a part the caller's filter accepts counts: a `run =` list shared by
+                        // several objects holds the others' draws too.
+                        if (selection.partFilter) {
+                            Colouring colouring;
+                            IterData iterData(name, section, contentPart, 1, selection.trackKeys ? &colouring : nullptr);
+                            if (selection.partFilter(iterData, selection.modType, selection.ini).isEmpty()) {
+                                continue;
+                            }
+                        }
+
+                        found = true;
+                        break;
+                    }
+                }
+
+                auto next = neighbours.find(name);
+                if (next == neighbours.end()) {
+                    continue;
+                }
+                for (const std::string& child : next->second) {
+                    if (seen.insert(child).second) {
+                        stack.push_back(child);
+                    }
+                }
+            }
+
+            if (found) {
+                result.insert(root);
+            }
+        }
+
+        return result;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename RegFillMissing<K, V, KeyHash, KeyEqual>::Graph& RegFillMissing<K, V, KeyHash, KeyEqual>::addBottomCover(
-            Graph& graph, const K& reg, const FillMissingFunc& fillMissing, const PartSelection& selection) {
+            Graph& graph, const K& reg, const FillMissingFunc& fillMissing, const PartSelection& selection,
+            const std::unordered_set<std::string>* skipRoots) {
         if (!fillMissing) {
             return graph;
         }
@@ -315,7 +374,7 @@ namespace AGRemapCore {
 
         for (const std::string& rootName : graph.roots()) {
             Section* section = graph.getSection(rootName);
-            if (section == nullptr) {
+            if (section == nullptr || (skipRoots != nullptr && skipRoots->count(rootName) != 0)) {
                 continue;
             }
 
@@ -397,10 +456,17 @@ namespace AGRemapCore {
         selection.trackKeys = effectiveTrackKeys(callerTrackKeys);
         selection.keysToTrack = effectiveKeysToTrack(callerKeysToTrack);
 
+        // A cover asked to fill only the roots whose paths never have the register -- see onlyWhenAbsent.
+        std::unordered_set<std::string> skipRoots;
+        if (onlyWhenAbsent && fillMode != RegFillMissingMode::FillMissing) {
+            skipRoots = rootsWithReg(graph, reg, selection);
+        }
+        const std::unordered_set<std::string>* skip = skipRoots.empty() ? nullptr : &skipRoots;
+
         if (fillMode == RegFillMissingMode::TopdownCover) {
-            addCover(graph, reg, fillMissing, selection);
+            addCover(graph, reg, fillMissing, selection, skip);
         } else if (fillMode == RegFillMissingMode::BottomCover) {
-            addBottomCover(graph, reg, fillMissing, selection);
+            addBottomCover(graph, reg, fillMissing, selection, skip);
         } else if (fillMode == RegFillMissingMode::FillMissing) {
             fillMissingGraph(graph, reg, fillMissing, selection);
         }

@@ -150,7 +150,7 @@ namespace AGRemapCore {
                            // lands on ModType's own VertexCounts() default).
                            //
                            // nullptr vgRemaps is NOT the same thing: ModType's fallback there is the
-                           // single shared ModDataAssets::vgRemaps, so all 53 GI mod types share one
+                           // single shared ModDataAssets::vgRemaps, so all 55 GI mod types share one
                            // remap table. That too matches the original -- see ModType::vgRemaps.
                            nullptr, nullptr,
                            giIniParseBuilder(), giIniFixBuilder(), giIniRemoveBuilder());
@@ -361,6 +361,14 @@ namespace AGRemapCore {
         return makeGIModType(ModTypeId::XingqiuBamboo, {"XingqiuLanternRite", "GuhuaGeekLanternRite", "BookwormLanternRite", "SecondSonofTheFeiyunCommerceGuildLanternRite", "ChongyunsBestieLanternRite", "LanternRiteXingqiu", "LanternRiteGuhuaGeek", "LanternRiteBookworm", "LanternRiteSecondSonofTheFeiyunCommerceGuild", "LanternRiteChongyunsBestie", "GuhuaGeekBamboo", "BookwormBamboo", "SecondSonofTheFeiyunCommerceGuildBamboo", "ChongyunsBestieBamboo"});
     }
 
+    ModType GIBuilder::yaoyao() {
+        return makeGIModType(ModTypeId::Yaoyao, {"YaoYao", "YueguisMaster", "BubuPharmacyApprentice"});
+    }
+
+    ModType GIBuilder::yaoyaoBamboo() {
+        return makeGIModType(ModTypeId::YaoyaoBamboo, {"YaoyaoRainlit", "RainlitYaoyao", "YaoyaoRainlitBambooReverie", "RainlitBambooReverieYaoyao", "BambooYaoyao", "YaoyaoLanternRite", "LanternRiteYaoyao"});
+    }
+
     ModType GIBuilder::yelan() {
         return makeGIModType(ModTypeId::Yelan, {"ShenhesBestie", "TsaritsaJacketStealer"});
     }
@@ -425,6 +433,8 @@ namespace AGRemapCore {
             xianglingCheer(),
             xingqiu(),
             xingqiuBamboo(),
+            yaoyao(),
+            yaoyaoBamboo(),
             yelan(),
             yelanTranquil()
             // NOT the three YelanTranquil component ids: they are fix targets only, like the boss

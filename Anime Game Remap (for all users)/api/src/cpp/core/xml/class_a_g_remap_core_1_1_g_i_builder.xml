@@ -769,6 +769,36 @@
         </inbodydescription>
         <location file="include/AGRemapCore/constants/GIBuilder.h" line="289" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="360" bodyend="362"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a85d24452cc1fcf1bb7347bc88a9ceee2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::yaoyao</definition>
+        <argsstring>()</argsstring>
+        <name>yaoyao</name>
+        <qualifiedname>AGRemapCore::GIBuilder::yaoyao</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Yaoyao. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="294" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="364" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1ab04883c639adf2feae1e646b6cc03c00" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::yaoyaoBamboo</definition>
+        <argsstring>()</argsstring>
+        <name>yaoyaoBamboo</name>
+        <qualifiedname>AGRemapCore::GIBuilder::yaoyaoBamboo</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for YaoyaoBamboo. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="299" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="368" bodyend="370"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1ab1fffd2ad12c692a6381392b3e51c589" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
         <definition>ModType AGRemapCore::GIBuilder::yelan</definition>
@@ -782,7 +812,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="294" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="364" bodyend="366"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="304" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="372" bodyend="374"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1af3cf429a3bbf67bda0e3c14aabfb3ea6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -804,7 +834,7 @@ population is not built to hold one
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="307" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="368" bodyend="370"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="317" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="376" bodyend="378"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1ad9cb9533849253f3b04effcff52b8845" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &gt;</type>
@@ -834,7 +864,7 @@ on the C++ side only (measured 2026-09-13)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="327" column="32" bodyfile="src/constants/GIBuilder.cpp" bodystart="372" bodyend="433"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="337" column="32" bodyfile="src/constants/GIBuilder.cpp" bodystart="380" bodyend="443"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -848,7 +878,7 @@ lighter, C++-side :cpp:class:`ModType` (id, name, and aliases only) instead of t
 pure-Python ``ModType``
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/GIBuilder.h" line="33" column="5" bodyfile="include/AGRemapCore/constants/GIBuilder.h" bodystart="33" bodyend="328"/>
+    <location file="include/AGRemapCore/constants/GIBuilder.h" line="33" column="5" bodyfile="include/AGRemapCore/constants/GIBuilder.h" bodystart="33" bodyend="338"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_g_i_builder_1ad9cb9533849253f3b04effcff52b8845" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>all</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_builder_1a144fc5dd87f9218152a03cb11a76a682" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>amber</name></member>
@@ -902,6 +932,8 @@ pure-Python ``ModType``
       <member refid="class_a_g_remap_core_1_1_g_i_builder_1a9cb845d129fd1923f3fbebaed59e76fa" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>xianglingCheer</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_builder_1a8408dc8f47709391d3c0e12e37e90e0d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>xingqiu</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_builder_1add2e213abd350d473bb78b116dabfdd2" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>xingqiuBamboo</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a85d24452cc1fcf1bb7347bc88a9ceee2" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>yaoyao</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1ab04883c639adf2feae1e646b6cc03c00" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>yaoyaoBamboo</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_builder_1ab1fffd2ad12c692a6381392b3e51c589" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>yelan</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_builder_1af3cf429a3bbf67bda0e3c14aabfb3ea6" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>yelanTranquil</name></member>
     </listofallmembers>

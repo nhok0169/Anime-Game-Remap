@@ -158,26 +158,27 @@ class Session:
 
     # ---------------------------------------------------------- input
 
-    def keyDown(self, vk):
-        (win32.sendKeyVk if keys.byVk(vk) else win32.sendKeyScan)(vk, True)
+    def keyDown(self, vk, forceVk=False):
+        (win32.sendKeyVk if forceVk or keys.byVk(vk) else win32.sendKeyScan)(vk, True)
 
-    def keyUp(self, vk):
-        (win32.sendKeyVk if keys.byVk(vk) else win32.sendKeyScan)(vk, False)
+    def keyUp(self, vk, forceVk=False):
+        (win32.sendKeyVk if forceVk or keys.byVk(vk) else win32.sendKeyScan)(vk, False)
 
-    def chord(self, vks, hold=0.08):
+    def chord(self, vks, hold=0.08, forceVk=False):
         """Press every key of a chord in order, hold, release in reverse. A hotkey 3DMigoto polls
-        once per frame needs the hold, or a fast frame-less tap is missed."""
+        once per frame needs the hold, or a fast frame-less tap is missed. 'forceVk' injects by
+        virtual key even where the scan code is the default (see `key --vk`)."""
         self.ensureFocus()
         pressed = []
         try:
             for vk in vks:
-                self.keyDown(vk)
+                self.keyDown(vk, forceVk)
                 pressed.append(vk)
                 time.sleep(0.02)
             time.sleep(hold)
         finally:
             for vk in reversed(pressed):
-                self.keyUp(vk)
+                self.keyUp(vk, forceVk)
                 time.sleep(0.02)
 
     def holdKeys(self, vks, seconds):

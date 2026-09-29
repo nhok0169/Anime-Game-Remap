@@ -308,6 +308,30 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The SOURCE objects (lowercase, eg. ``"head"``) whose INNER layers draw no outline on this component --
+             see :cpp:class:`InnerLayerOutline` :raw-html:`<br />` :raw-html:`<br />`
+
+             For hair of close two-sided sheets: on a skin whose outline sits further out than the character's own,
+             the inner face's outline shell comes out in front of the outer face as small dark shards (Yaoyao5's long
+             hair on YaoyaoBamboo, 2026-09-28). The outer faces keep theirs, so the silhouette outline stays. Needs
+             the component's ``Position.buf`` (not a :cpp:member:`negativeIndex` one). **Default**: empty
+             @endrst
+             */
+            std::vector<std::string> innerOutlineObjs;
+
+            /**
+             * @brief How far along its normal a vertex looks for a covering layer -- :cpp:member:`InnerLayerOutline::reach`. **Default**: ``0.1``
+             */
+            float innerOutlineReach = 0.1f;
+
+            /**
+             * @brief Whether a face turned in towards the head's vertical axis is inner too -- :cpp:member:`InnerLayerOutline::facingAxis`. **Default**: ``true``
+             */
+            bool innerOutlineFacingAxis = true;
+
+            /**
+             * @brief
+             @rst
              Whether the slot's shader reads the normal-map layout -- ``ps-t0`` normal map,
              ``ps-t1`` diffuse, ``ps-t2`` lightmap, re-slotted by ``ORFix`` -- in which case the
              mod's ``ps-t0`` / ``ps-t1`` are shifted up, a flat normal map is created on ``ps-t0``
@@ -609,6 +633,27 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         Whether :cpp:enumerator:`SourceLayout::Detect` asks the section's OWN fix call before it asks whether
+         ``ps-t2`` is bound :raw-html:`<br />` :raw-html:`<br />`
+
+         ``NNFix`` reads the diffuse out of ``ps-t0`` and the light map out of ``ps-t1`` and nothing else, so a
+         section that renders through its own ``NNFix`` (and no ``ORFix``) is the PLAIN layout on its own
+         character, whatever else it binds. Yaoyao3 binds a third texture it calls a normal map at ``ps-t2``
+         beside ``run = CommandList\global\ORFix\NNFix``; read by ``ps-t2`` alone that is the normal-map
+         layout, its light map became the skin's DIFFUSE, and the whole outfit came out vivid green
+         (2026-09-27). With this on, such a section is plain, and on a normal-map slot its extra ``ps-t2`` is
+         DROPPED before the shift puts the light map there -- kept, the section bound ``ps-t2`` twice and the
+         line its author happened to write first won, which on a mod writing the extra texture ahead of its
+         light map was the fake normal map :raw-html:`<br />` :raw-html:`<br />`
+
+         **Default**: ``false``
+         @endrst
+         */
+        bool layoutFromOwnFixCall = false;
+
+        /**
+         * @brief
+         @rst
          Whether the face's two-way ``ps-t0`` <-> ``ps-t1`` swap runs ONLY when the mod binds its
          face diffuse at ``ps-t0`` :raw-html:`<br />` :raw-html:`<br />`
 
@@ -620,6 +665,24 @@ namespace AGRemapCore {
          @endrst
          */
         bool faceSwapOnlyFromDiffuseReg = false;
+
+        /**
+         * @brief
+         @rst
+         Whether a remapped slot section gets the template's ``drawindexed = auto`` only when the mod's own
+         section draws on NO path -- see :cpp:member:`RegFillMissing::onlyWhenAbsent` :raw-html:`<br />` :raw-html:`<br />`
+
+         The fill is a bottom cover, added unconditionally whenever some path lacks a draw. A mod that draws
+         one object as variants on an ``if`` / ``else if`` chain with no ``else`` (Yaoyao2: three hairstyles on
+         ``$Hair``) then drew EVERY variant at once on the skin, on top of its own remapped ranges. With this
+         on, a section that draws somewhere keeps exactly its author's draws, as on the mod's own character,
+         and a section that draws nowhere (an identity mod's) is still filled. ``false`` (the default) is the
+         cover every config before Yaoyao's was confirmed in game with :raw-html:`<br />` :raw-html:`<br />`
+
+         **Default**: ``false``
+         @endrst
+         */
+        bool fillDrawOnlyWhenUndrawn = false;
 
         /**
          * @brief

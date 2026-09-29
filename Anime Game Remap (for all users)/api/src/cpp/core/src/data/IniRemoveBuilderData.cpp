@@ -78,6 +78,8 @@ namespace AGRemapCore {
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::xianglingCheer4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::xingqiu4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::xingqiuBamboo4_0() { return IniRemoveBuilder::defaultFactory(); }
+    IniRemoveBuilder::Factory IniRemoveBuilderFuncs::yaoyao4_0() { return IniRemoveBuilder::defaultFactory(); }
+    IniRemoveBuilder::Factory IniRemoveBuilderFuncs::yaoyaoBamboo4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::yelan4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::yelanTranquil4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::wwmiStub() { return IniRemoveBuilder::defaultFactory(); }
@@ -139,6 +141,8 @@ namespace AGRemapCore {
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::XianglingCheer)}, IniRemoveBuilderFuncs::xianglingCheer4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Xingqiu)}, IniRemoveBuilderFuncs::xingqiu4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::XingqiuBamboo)}, IniRemoveBuilderFuncs::xingqiuBamboo4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Yaoyao)}, IniRemoveBuilderFuncs::yaoyao4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::YaoyaoBamboo)}, IniRemoveBuilderFuncs::yaoyaoBamboo4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Yelan)}, IniRemoveBuilderFuncs::yelan4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::YelanTranquil)}, IniRemoveBuilderFuncs::yelanTranquil4_0()},
 

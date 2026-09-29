@@ -1499,6 +1499,62 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"6.3", "NeuvilletteMelusent", "ib_face"}, "97cd1620"},
         {{"6.3", "NeuvilletteMelusent", "ib_headupper"}, "81780578"},
 
+        // ===== Yaoyao and YaoyaoBamboo (2026-09-27) =====
+        //
+        // Yaoyao's rows follow the assets repo's history of her hash.json, the Neuvillette way: the first dumps
+        // (2023-04 / -09) are the 4.0 row, the draw_vb moved at "THE GREAT 4.1 HASH FIX" and the ib at "GREAT 4.3
+        // Hash fix". Nothing has moved since, and a frame dump of her base outfit in the shop preview
+        // (FrameAnalysis-Yaoyao-2026-09-27-093623) draws every one of these hashes today. Her head AND body draw on
+        // the PLAIN shader (no normal map): the '0fa35364' the repo's 5.4 hash.json lists as her NormalMap is a
+        // global texture bound at ps-t6 on every draw of that dump, the face's included, and is not filed; nor are
+        // the older 43b608b3 / 51c301d3 it replaced, which no draw of today's client binds.
+        {{"4.0", "Yaoyao", "draw_vb"}, "cf68b0bd"},
+        {{"4.0", "Yaoyao", "position_vb"}, "293449d6"},
+        {{"4.0", "Yaoyao", "blend_vb"}, "139a19fb"},
+        {{"4.0", "Yaoyao", "texcoord_vb"}, "bea7a2f7"},
+        {{"4.0", "Yaoyao", "ib"}, "54c0b1e8"},
+        {{"4.0", "Yaoyao", "tex_head_diffuse"}, "b3e065c5"},
+        {{"4.0", "Yaoyao", "tex_head_lightmap"}, "bebfcd2b"},
+        {{"4.0", "Yaoyao", "tex_body_diffuse"}, "78671236"},
+        {{"4.0", "Yaoyao", "tex_body_lightmap"}, "f7e1436e"},
+        {{"4.0", "Yaoyao", "tex_face_diffuse"}, "c70ae897"},
+        {{"4.1", "Yaoyao", "draw_vb"}, "468d9f9a"},
+        {{"4.3", "Yaoyao", "ib"}, "6c14db37"},
+
+        // YaoyaoBamboo (6.3, "Rainlit Bamboo Reverie") draws an UNNAMED main mesh (Head / Body on one index
+        // buffer -- filed under YaoyaoBambooMain), a Bang and an Eye, each skinned and with its own buffers. No
+        // asset repo has it: every value here was read off a frame dump of the skin's shop preview
+        // (FrameAnalysis-YaoyaoBamboo-2026-09-27-093332, through giDrawTable.py) and matches the one real mod of it
+        // (YaoyaoBamboo1). Unlike Yaoyao, both of the main mesh's objects draw on the NORMAL-MAP shader (light map,
+        // normal map, diffuse at ps-t0..2). Its slot textures are filed as tex_<slot>_<role> for a texture-only
+        // recolour (see CharlotteHurlockBody's); the Bang and the Eye draw with the Head's and file none of their
+        // own. The face diffuse is c70ae897 -- the SAME texture as Yaoyao's, on the unskinned face meshes both
+        // characters draw under the same hashes -- and is filed under every component, as Charlotte's is.
+        {{"6.3", "YaoyaoBambooMain", "draw_vb"}, "dae33700"},
+        {{"6.3", "YaoyaoBambooMain", "position_vb"}, "726158c2"},
+        {{"6.3", "YaoyaoBambooMain", "blend_vb"}, "48a21bd5"},
+        {{"6.3", "YaoyaoBambooMain", "texcoord_vb"}, "e7be5a21"},
+        {{"6.3", "YaoyaoBambooMain", "ib"}, "50fa0372"},
+        {{"6.3", "YaoyaoBambooMain", "tex_head_diffuse"}, "3133e7a5"},
+        {{"6.3", "YaoyaoBambooMain", "tex_head_lightmap"}, "1ce0145e"},
+        {{"6.3", "YaoyaoBambooMain", "tex_head_normalmap"}, "e4065fe9"},
+        {{"6.3", "YaoyaoBambooMain", "tex_body_diffuse"}, "3b95c36c"},
+        {{"6.3", "YaoyaoBambooMain", "tex_body_lightmap"}, "44143cb3"},
+        {{"6.3", "YaoyaoBambooMain", "tex_body_normalmap"}, "d9c1bb0b"},
+        {{"6.3", "YaoyaoBambooMain", "tex_face_diffuse"}, "c70ae897"},
+        {{"6.3", "YaoyaoBambooBang", "draw_vb"}, "ddca7979"},
+        {{"6.3", "YaoyaoBambooBang", "position_vb"}, "e40297a2"},
+        {{"6.3", "YaoyaoBambooBang", "blend_vb"}, "3c2375f6"},
+        {{"6.3", "YaoyaoBambooBang", "texcoord_vb"}, "481b3117"},
+        {{"6.3", "YaoyaoBambooBang", "ib"}, "a7e1ee80"},
+        {{"6.3", "YaoyaoBambooBang", "tex_face_diffuse"}, "c70ae897"},
+        {{"6.3", "YaoyaoBambooEye", "draw_vb"}, "4c215c73"},
+        {{"6.3", "YaoyaoBambooEye", "position_vb"}, "5842068b"},
+        {{"6.3", "YaoyaoBambooEye", "blend_vb"}, "a3127362"},
+        {{"6.3", "YaoyaoBambooEye", "texcoord_vb"}, "2eddb6c7"},
+        {{"6.3", "YaoyaoBambooEye", "ib"}, "34e4bace"},
+        {{"6.3", "YaoyaoBambooEye", "tex_face_diffuse"}, "c70ae897"},
+
         // ===== version 5.4 =====
         // LisaStudent
         {{"5.4", "LisaStudent", "tex_head_normalmap"}, "a64a57de"},

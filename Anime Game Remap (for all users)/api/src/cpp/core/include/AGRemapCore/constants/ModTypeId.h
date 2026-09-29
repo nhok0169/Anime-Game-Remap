@@ -408,6 +408,39 @@ namespace AGRemapCore {
         XingqiuBamboo,
 
         /**
+         * @brief Yaoyao from GI
+         */
+        Yaoyao,
+
+        /**
+         * @brief Yaoyao outfit skin (Rainlit Bamboo Reverie) from GI -- THREE skinned components (an unnamed main mesh, Bang, Eye)
+         */
+        YaoyaoBamboo,
+
+        /**
+         * @brief
+         @rst
+         YaoyaoBamboo's MAIN mesh (Head / Body on one index buffer), as a fix TARGET
+         :raw-html:`<br />` :raw-html:`<br />`
+         The :cpp:enumerator:`NeuvilletteMelusentMain` arrangement: the skin's own dump and its mods leave this
+         component UNNAMED (``YaoyaoBambooHead.ib``, ``YaoyaoBambooPosition.buf``), so its component name -- in the
+         vertex-group table and the download file names -- is the empty string, and only this fix-target id
+         carries ``Main``
+         @endrst
+         */
+        YaoyaoBambooMain,
+
+        /**
+         * @brief YaoyaoBamboo's ``Bang`` component, as a fix target -- see :cpp:enumerator:`YaoyaoBambooMain`
+         */
+        YaoyaoBambooBang,
+
+        /**
+         * @brief YaoyaoBamboo's ``Eye`` component, as a fix target -- see :cpp:enumerator:`YaoyaoBambooMain`
+         */
+        YaoyaoBambooEye,
+
+        /**
          * @brief Yelan from GI
          */
         Yelan,

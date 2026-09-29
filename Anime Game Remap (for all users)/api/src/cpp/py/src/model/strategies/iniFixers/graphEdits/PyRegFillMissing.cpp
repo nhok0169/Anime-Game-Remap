@@ -327,6 +327,17 @@ fill in the :class:`IfContentPart`\s with their corresponding values
 :class:`bool`: Whether the editting is dependent on :attr:`IniFile.downloadMode`
     )doc"));
 
+    cls.def_property("onlyWhenAbsent", [](const PyRegFillMissing &self) {
+        return self.onlyWhenAbsent;
+    }, [](PyRegFillMissing &self, bool onlyWhenAbsent) {
+        self.onlyWhenAbsent = onlyWhenAbsent;
+    }, py::doc(R"doc(
+:class:`bool`: Whether a cover (``TopdownCover`` / ``BottomCover``) fills only when NO part of the graph -- the
+roots and every section they ``run`` -- has the register at all. A cover otherwise lands on every path of a
+section that draws on some of them (an ``if`` / ``else if`` chain with no ``else``), each variant's draw
+included. ``FillMissing`` is not affected. **Default**: ``False``
+    )doc"));
+
     cls.def_property("trackKeys", [](const PyRegFillMissing &self) {
         return self.trackKeys;
     }, [](PyRegFillMissing &self, bool trackKeys) {

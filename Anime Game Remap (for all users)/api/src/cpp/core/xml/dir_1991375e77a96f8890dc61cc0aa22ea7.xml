@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_1991375e77a96f8890dc61cc0aa22ea7" kind="dir">
+    <compoundname>src/data/IniFixData/YaoyaoBamboo</compoundname>
+    <innerfile refid="_yaoyao_bamboo_fixer_8cpp">YaoyaoBambooFixer.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniFixData/YaoyaoBamboo/"/>
+  </compounddef>
+</doxygen>

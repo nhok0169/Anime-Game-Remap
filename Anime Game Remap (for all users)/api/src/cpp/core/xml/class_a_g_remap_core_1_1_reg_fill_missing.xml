@@ -256,6 +256,45 @@ What mode is used to search for and fill the missing register :raw-html:`&lt;br 
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="207" column="32" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="207" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_fill_missing_1ae4aafad7963384ce054d92f09f142e5b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::onlyWhenAbsent</definition>
+        <argsstring></argsstring>
+        <name>onlyWhenAbsent</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::onlyWhenAbsent</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether a COVER (:cpp:enumerator:`RegFillMissingMode::TopdownCover` /
+:cpp:enumerator:`RegFillMissingMode::BottomCover`) fills a root only when **no** part reachable
+from it -- the root and every section it ``run``\s -- has \ref reg at all :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A cover is added unconditionally at a root whenever SOME path through the graph lacks the
+register, so on a section that draws as an ``if`` / ``else if`` chain with no ``else`` (a mod&apos;s own
+toggle between variants of one object) the covering ``drawindexed = auto`` runs on EVERY path,
+each variant&apos;s own ranges included, and every variant draws at once (Yaoyao2&apos;s three hairstyles
+on YaoyaoBamboo, 2026-09-27). With this on, a root that already draws on some path is left as its
+author wrote it -- the path that draws nothing drew nothing on the mod&apos;s own character too --
+and only a root with no draw anywhere below it is covered. :cpp:enumerator:`RegFillMissingMode::FillMissing`
+is not affected :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Asked PER ROOT, and only of the parts the edit&apos;s part filter accepts: a graph of two roots
+where one draws still covers the other, and a ``run =`` list several objects share does not
+count another object&apos;s draw as this one&apos;s :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   A draw the fix itself rewrites away before this edit runs (eg. a see-through range turned
+   into a ``run = CustomShader...`` line) is not a draw here, so such a root is covered again
+
+**Default**: ``false``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="236" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_fill_missing_1ac2e5ee05e28df2bfdfdbe6cc72731994" prot="public" static="no" mutable="no">
         <type>bool</type>
         <definition>bool AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::dependOnDownload</definition>
@@ -275,7 +314,7 @@ Whether the editing is dependent on :cpp:member:`IniFile::downloadMode` -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="218" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="218" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="247" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="247" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_fill_missing_1ab9a6a988065723e69cfc492a7511c951" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -302,7 +341,7 @@ Whether to track the `KVPs`_ seen so far for colouring while walking the graph, 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="236" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="236" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="265" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="265" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_fill_missing_1a1ac8560969aee969e922a07fe9aa4474" prot="public" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a749689b663250fe1058ed6bb10d496a6" kindref="member">KeySet</ref> &gt;</type>
@@ -326,7 +365,7 @@ Which keys \ref trackKeys should colour, or ``std::nullopt`` for **every** key -
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="252" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="252" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="281" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="281" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -423,7 +462,7 @@ Which keys \ref trackKeys should colour, or ``std::nullopt`` for **every** key -
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="264" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="293" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1ac07db5389064c81ba5d8fb38a68353d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -463,7 +502,7 @@ only ever a performance choice; it never changes which parts get filled
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="313" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="359" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1ab662ecedf37ce8afb5213bf1e2348b32" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a749689b663250fe1058ed6bb10d496a6" kindref="member">KeySet</ref> &gt; &amp;</type>
@@ -501,7 +540,7 @@ resolves *which* set to use, not whether the result is narrowing
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="330" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="376" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1ab56a1cae31a17339171eb4b7369a4c47" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" kindref="member">Graph</ref> &amp;</type>
@@ -629,7 +668,7 @@ adds no download-specific behaviour of its own :raw-html:`&lt;br /&gt;` :raw-htm
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="466" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="518" column="19"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1a1e9cb3ccb6fcc62f730aa7be2444ce3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" kindref="member">Graph</ref> &amp;</type>
@@ -742,7 +781,7 @@ filled -- an empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="500" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="552" column="19"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -802,7 +841,67 @@ Builds a #FillMissingFunc adding the single `KVP`_ ``reg = value`` to a part
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="281" column="36"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="310" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1a51daff617e52b4f29f02cffc64f726c2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>static std::unordered_set&lt; std::string &gt; AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::rootsWithReg</definition>
+        <argsstring>(const Graph &amp;graph, const K &amp;reg, const PartSelection &amp;selection={})</argsstring>
+        <name>rootsWithReg</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::rootsWithReg</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const K &amp;</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection" kindref="compound">PartSelection</ref> &amp;</type>
+          <declname>selection</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The roots of &apos;graph&apos; from which some :cpp:class:`IfContentPart` has &apos;reg&apos; -- the root
+itself or any section reachable from it through ``run =`` -- counting only the parts
+&apos;selection&apos;&apos;s ``partFilter`` accepts, when it has one. What \ref onlyWhenAbsent asks
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to search </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register to search for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>selection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The edit&apos;s part selection</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The names of the roots that reach &apos;reg&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="326" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1abb20e4e069fa2f522157a40bdbe2fe29" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac2f376fcae563e7da08534e9086a13c0" kindref="member">FillMissingFunc</ref></type>
@@ -848,7 +947,7 @@ Builds a #FillMissingFunc adding every `KVP`_ in &apos;kvps&apos; to a part
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="294" column="36"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="340" column="36"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1aead95cbdb950e99aca4384e1e3eb19be" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" kindref="member">Graph</ref> &amp;</type>
@@ -928,7 +1027,7 @@ A part reachable from more than one `section`_ is filled exactly once :raw-html:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="355" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="401" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1ac419c260824dbadd77f27967d3ec340a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a35ed222f4eb735c86827a65c32f27e92" kindref="member">ContentPart</ref> *</type>
@@ -975,12 +1074,12 @@ section -- a root part of matching settings only, then one ``if ... endif`` with
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="371" column="32"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="417" column="32"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1aee8de30eef8ee5377083a0cc136c040a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1afa0f7bec9e81d53b048b902f735df8f5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" kindref="member">Graph</ref> &amp;</type>
         <definition>static Graph &amp; AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::addCover</definition>
-        <argsstring>(Graph &amp;graph, const K &amp;reg, const FillMissingFunc &amp;fillMissing, const PartSelection &amp;selection={})</argsstring>
+        <argsstring>(Graph &amp;graph, const K &amp;reg, const FillMissingFunc &amp;fillMissing, const PartSelection &amp;selection={}, const std::unordered_set&lt; std::string &gt; *skipRoots=nullptr)</argsstring>
         <name>addCover</name>
         <qualifiedname>AGRemapCore::RegFillMissing::addCover</qualifiedname>
         <param>
@@ -999,6 +1098,11 @@ section -- a root part of matching settings only, then one ``if ... endif`` with
           <type>const <ref refid="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection" kindref="compound">PartSelection</ref> &amp;</type>
           <declname>selection</declname>
           <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::unordered_set&lt; std::string &gt; *</type>
+          <declname>skipRoots</declname>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
         </briefdescription>
@@ -1052,6 +1156,14 @@ Nothing is added at all when every root already fully covers &apos;reg&apos; :ra
 <para>Which roots may be covered. <bold>Default</bold>: accept every root</para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>skipRoots</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Roots never to cover, eg. <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a51daff617e52b4f29f02cffc64f726c2" kindref="member">rootsWithReg</ref> for <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ae4aafad7963384ce054d92f09f142e5b" kindref="member">onlyWhenAbsent</ref>. <bold>Default</bold>: <computeroutput>nullptr</computeroutput>, none</para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 <simplesect kind="return"><para>The same graph that was passed in, with its roots covered </para>
 </simplesect>
@@ -1059,12 +1171,12 @@ Nothing is added at all when every root already fully covers &apos;reg&apos; :ra
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="400" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="448" column="26"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1a09778dba6ab55ec550f62f53622ce7bd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1a5419d05d111d8236f0b5885501831d9a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" kindref="member">Graph</ref> &amp;</type>
         <definition>static Graph &amp; AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::addBottomCover</definition>
-        <argsstring>(Graph &amp;graph, const K &amp;reg, const FillMissingFunc &amp;fillMissing, const PartSelection &amp;selection={})</argsstring>
+        <argsstring>(Graph &amp;graph, const K &amp;reg, const FillMissingFunc &amp;fillMissing, const PartSelection &amp;selection={}, const std::unordered_set&lt; std::string &gt; *skipRoots=nullptr)</argsstring>
         <name>addBottomCover</name>
         <qualifiedname>AGRemapCore::RegFillMissing::addBottomCover</qualifiedname>
         <param>
@@ -1083,6 +1195,11 @@ Nothing is added at all when every root already fully covers &apos;reg&apos; :ra
           <type>const <ref refid="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection" kindref="compound">PartSelection</ref> &amp;</type>
           <declname>selection</declname>
           <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::unordered_set&lt; std::string &gt; *</type>
+          <declname>skipRoots</declname>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
         </briefdescription>
@@ -1135,6 +1252,14 @@ Nothing is added at all when every root already fully covers &apos;reg&apos; :ra
 <para>Which roots may be covered. <bold>Default</bold>: accept every root</para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>skipRoots</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Roots never to cover, eg. <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a51daff617e52b4f29f02cffc64f726c2" kindref="member">rootsWithReg</ref> for <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ae4aafad7963384ce054d92f09f142e5b" kindref="member">onlyWhenAbsent</ref>. <bold>Default</bold>: <computeroutput>nullptr</computeroutput>, none</para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 <simplesect kind="return"><para>The same graph that was passed in, with its roots covered </para>
 </simplesect>
@@ -1142,7 +1267,7 @@ Nothing is added at all when every root already fully covers &apos;reg&apos; :ra
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="429" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="480" column="26"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -1254,7 +1379,7 @@ through here is what lets the ``.ini``-aware caller keep it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="527" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="579" column="19"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1349,10 +1474,10 @@ particular register
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="48" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="48" bodyend="530"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="48" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="48" bodyend="582"/>
     <listofallmembers>
-      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a09778dba6ab55ec550f62f53622ce7bd" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>addBottomCover</name></member>
-      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1aee8de30eef8ee5377083a0cc136c040a" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>addCover</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5419d05d111d8236f0b5885501831d9a" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>addBottomCover</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1afa0f7bec9e81d53b048b902f735df8f5" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>addCover</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ae837f786b032c9fd7067dbcf56e6c28f" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>Base</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::RegFillMissing</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5849733d18ee0ec406d56b11f430ab9d" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>Colouring</name></member>
@@ -1374,10 +1499,12 @@ particular register
       <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a1ac8560969aee969e922a07fe9aa4474" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>keysToTrack</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a550c8407da76f287025fab9143959a4f" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>makeFillMissing</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1abb20e4e069fa2f522157a40bdbe2fe29" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>makeFillMissing</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ae4aafad7963384ce054d92f09f142e5b" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>onlyWhenAbsent</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a0b3fee01b93b7422c09ef8c68bd2a7db" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>OrderRanges</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab5eea13f019e0c2edd62ad863a11aeef" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>PartFilter</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a1c32e9c060a43ea0dfb6eeeaae4ba0e6" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>reg</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a05e9b6d54e9e8a1034cc6444ff327f3f" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>RegFillMissing</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a51daff617e52b4f29f02cffc64f726c2" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>rootsWithReg</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a37257b4bb23d8553a8b6de2ab8067760" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>Section</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab9a6a988065723e69cfc492a7511c951" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>trackKeys</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::RegFillMissing</scope><name>~BaseIniPartEdit</name></member>

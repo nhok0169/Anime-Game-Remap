@@ -22,9 +22,22 @@ namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
 
+// The pure-Python TextureFile keeps a Pillow image in 'img'; a CppTextureFile a fixer opens inside C++ (the one a
+// config's diffuseEdits / TexEdit filter is handed) has no such attribute at all. Both mean the same thing: the
+// native buffer is the source of truth. Before this, every filter routed through these helpers raised
+// "'CppTextureFile' object has no attribute 'img'" there, and the fixer recorded the texture as skipped.
+// (Not a ?: -- its common type would be py::none, and casting the Pillow image to that raises.)
+static py::object imgOf(const py::object &texFileObj) {
+    if (!py::hasattr(texFileObj, "img")) {
+        return py::none();
+    }
+    return texFileObj.attr("img");
+}
+
+
 AGRC::TextureFile& syncTextureFileFromImg(py::object texFileObj) {
     AGRC::TextureFile &texFile = texFileObj.cast<AGRC::TextureFile&>();
-    py::object img = texFileObj.attr("img");
+    py::object img = imgOf(texFileObj);
 
     // 'img' is None whenever TextureFile isn't maintaining it (TexEngine.Compressonator +
     // readPillowImg == False) -- the native Compressonator buffer is already the up-to-date
@@ -43,7 +56,7 @@ AGRC::TextureFile& syncTextureFileFromImg(py::object texFileObj) {
 }
 
 void syncTextureFileToImg(py::object texFileObj) {
-    py::object img = texFileObj.attr("img");
+    py::object img = imgOf(texFileObj);
 
     // Symmetric with syncTextureFileFromImg's own early-out: if 'img' isn't being maintained,
     // leave it alone (still None) rather than forcing it into existence -- the transform's result
@@ -56,5 +69,5 @@ void syncTextureFileToImg(py::object texFileObj) {
     const std::vector<std::uint8_t> &pixels = texFile.getPixels();
 
     py::bytes newBytes(reinterpret_cast<const char*>(pixels.data()), pixels.size());
-    texFileObj.attr("img").attr("frombytes")(newBytes);
+    img.attr("frombytes")(newBytes);
 }

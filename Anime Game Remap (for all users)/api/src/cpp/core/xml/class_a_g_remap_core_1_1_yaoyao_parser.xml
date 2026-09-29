@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_yaoyao_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::YaoyaoParser</compoundname>
+    <includes refid="_yaoyao_parser_8h" local="no">YaoyaoParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yaoyao_parser_1a80a3f3f346887ac59b6bf5d784d2562e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::YaoyaoParser::YaoyaoParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>YaoyaoParser</name>
+        <qualifiedname>AGRemapCore::YaoyaoParser::YaoyaoParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Yaoyao/YaoyaoParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yaoyao_parser_1ad63e557a508d013aae76ad65970dce1c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::YaoyaoParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::YaoyaoParser::v4_0</qualifiedname>
+        <briefdescription>
+<para>The parser for a 4.0-era Yaoyao <computeroutput>.ini</computeroutput> file <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7fdbadcb5f58c43b5d2cd1b9c93403da" kindref="member">IniParseBuilderFuncs::yaoyao4_0</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Yaoyao/YaoyaoParser.h" line="40" column="45" bodyfile="src/data/IniParseData/Yaoyao/YaoyaoParser.cpp" bodystart="58" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Yaoyao&apos;s own ``.ini`` parsers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The standard GIMI character shape, drawing ``head`` / ``body`` -- both on the plain texture layout. Pair
+this with :cpp:class:`YaoyaoFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Yaoyao/YaoyaoParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Yaoyao/YaoyaoParser.h" bodystart="32" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_yaoyao_parser_1ad63e557a508d013aae76ad65970dce1c" prot="public" virt="non-virtual"><scope>AGRemapCore::YaoyaoParser</scope><name>v4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_yaoyao_parser_1a80a3f3f346887ac59b6bf5d784d2562e" prot="public" virt="non-virtual"><scope>AGRemapCore::YaoyaoParser</scope><name>YaoyaoParser</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

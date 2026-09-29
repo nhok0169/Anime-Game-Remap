@@ -575,6 +575,24 @@ Below are the supported types of mods
        | XingqiuLanternRite
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(xingqiubamboo).*\]``
+   * - **Yaoyao**
+     - GI
+     - | BubuPharmacyApprentice,
+       | YaoYao,
+       | YueguisMaster
+     - | check if the .ini file contains a section matching the regex,
+       | ``^\s*\[\s*textureoverride.*(yaoyao)((?!(bamboo|rainlit)).)*\]``
+   * - **YaoyaoBamboo**
+     - GI
+     - | BambooYaoyao,
+       | LanternRiteYaoyao,
+       | RainlitBambooReverieYaoyao,
+       | RainlitYaoyao,
+       | YaoyaoLanternRite,
+       | YaoyaoRainlit,
+       | YaoyaoRainlitBambooReverie
+     - | check if the .ini file contains a section matching the regex,
+       | ``^\s*\[\s*textureoverride.*(yaoyaobamboo|yaoyaorainlit).*\]``
    * - **Yelan**
      - GI
      - | ShenhesBestie,

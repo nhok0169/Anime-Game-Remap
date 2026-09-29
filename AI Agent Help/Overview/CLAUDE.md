@@ -1291,6 +1291,44 @@ the old loader accepts. The mod on its own character is therefore not ground tru
 `reload --mod` lists `Unrecognised entry` under the SOURCE's own sections. Two witnesses settle it in
 minutes: the mod's texture files (Pillow opens the `.dds`) and those warnings.
 
+**81. WHEN AN EDIT THAT EXISTS HAS NO EFFECT, ASK WHETHER ITS INPUT WAS EVER FOUND (2026-09-29).**
+Yaoyao's white cheeks had a fix in the template for weeks -- the `ps-t0` <-> `ps-t1` face swap -- and it
+never ran, because the face section was never CLASSIFIED as hers: the face hash is shared with the skin,
+and a versionless `ModMappedAssets::getKey` looked only in the newest version bucket, which belonged to
+the skin. No error, no log line; the output simply had no remapped face section. Before debugging an
+edit, grep the output for the section it should have produced. If the section is missing, the problem is
+upstream of the edit -- in classification, a hash lookup, or a filter -- and the edit's own code is
+innocent. A value filed under two names in different versions is the usual cause (Chisa's
+`ChecksumNotFound` was the same bug).
+
+**82. ELIMINATE *WHAT* BEFORE GUESSING *WHY*, AND MAKE THE SUSPECT UNMISTAKABLE (2026-09-29).** Five
+rounds on Yaoyao's hair shards went to guesses about why (the slot, the tangents, the outline width,
+routing the hair like Kirara's), each tested in game and each wrong. What worked was elimination
+first: with the rig frozen the shards stayed (so not the bones), with flat ID colours painted on the
+head they stayed dark (so not a texture), and with `if vs != 037730.0` around the draw they went (so
+the outline pass). Then the location: paint ONE index slice's outline flat grey-teal per round
+(`Tools/Misc/Diagnostics/outlinePaint.py`) and bisect. With/without screenshots cannot settle a subtle
+geometry question, because the idle pose and the camera move between them. A change of colour on
+one named slice survives any pose. It is the purple-slot method (below) applied to a PASS rather than
+a texture. And when the fix is a per-primitive property, decide it per primitive: deciding per vertex
+left a triangle with corners at different outline widths, which stretched its shell into a wedge.
+
+**83. A FIX IN SHARED CODE IS A CHANGE TO OTHER CHARACTERS: FIND THEM FROM THE DATA, THEN LOOK AT THEM
+(2026-09-29).** The `getKey` fix was for Yaoyao, and Charlotte -> CharlotteHurlock had the identical gap
+(face `58d9859b`). Three steps, in this order. **(1) Find the others from the tables**, not from memory:
+a `py -3` pass over `HashData.cpp` for the same value filed under two names found Charlotte in seconds.
+**(2) Regress every compiled character's mods byte-for-byte**, old build against new: 13 characters came
+back identical, and in Yaoyao and Charlotte only the face sections moved, which is the change's exact
+footprint. **Then run the Integration Tester on Linux as well.** That regression covered the mods on
+disk and missed its Kirara fixture: Kirara (4.0) and KiraraBoots (4.8) share face `6eb20522`, and the
+`iniPath_ImplOverride` golden had frozen the very bug that `HashData.cpp`'s Kirara comment describes (the
+mod's own face unclassified, with a face diffuse downloaded instead). CI failed it after the push. When
+a fix moves a golden, find out whether the golden encoded a known bug before calling it a regression.
+Then regenerate it on Linux and regenerate `Docs/src/apiExamples.rst` from it (Testing's "Integration
+Tester"). **(3) Look at the one that moved, in game, old build against new**: stage both fixed copies on
+the importer's drive and swap them with `mods only` (GameView's "Proving a shared-code change in game").
+A byte-for-byte diff says WHAT changed; only the game says whether the change is right.
+
 **A note that belongs with 66 and 67, since both were instrumentation:** when a count assertion in a
 suite fails, **print the number before believing the message**. Nothing builds `core/tests`, so
 those asserts rot; three of them were stale on arrival this session and only one failure of four was

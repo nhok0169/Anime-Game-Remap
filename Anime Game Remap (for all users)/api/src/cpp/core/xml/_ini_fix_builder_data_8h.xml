@@ -60,6 +60,8 @@
     <includedby refid="_xiangling_cheer_fixer_8cpp" local="yes">src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp</includedby>
     <includedby refid="_xingqiu_fixer_8cpp" local="yes">src/data/IniFixData/Xingqiu/XingqiuFixer.cpp</includedby>
     <includedby refid="_xingqiu_bamboo_fixer_8cpp" local="yes">src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp</includedby>
+    <includedby refid="_yaoyao_fixer_8cpp" local="yes">src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp</includedby>
+    <includedby refid="_yaoyao_bamboo_fixer_8cpp" local="yes">src/data/IniFixData/YaoyaoBamboo/YaoyaoBambooFixer.cpp</includedby>
     <includedby refid="_yelan_fixer_8cpp" local="yes">src/data/IniFixData/Yelan/YelanFixer.cpp</includedby>
     <includedby refid="_yelan_tranquil_fixer_8cpp" local="yes">src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</includedby>
     <incdepgraph>
@@ -955,6 +957,10 @@
         </childnode>
         <childnode refid="59" relation="include">
         </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/constants/GIBuilder.cpp</label>
@@ -1181,10 +1187,18 @@
         <link refid="_xingqiu_bamboo_fixer_8cpp"/>
       </node>
       <node id="58">
+        <label>src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp</label>
+        <link refid="_yaoyao_fixer_8cpp"/>
+      </node>
+      <node id="59">
+        <label>src/data/IniFixData/YaoyaoBamboo/YaoyaoBambooFixer.cpp</label>
+        <link refid="_yaoyao_bamboo_fixer_8cpp"/>
+      </node>
+      <node id="60">
         <label>src/data/IniFixData/Yelan/YelanFixer.cpp</label>
         <link refid="_yelan_fixer_8cpp"/>
       </node>
-      <node id="59">
+      <node id="61">
         <label>src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</label>
         <link refid="_yelan_tranquil_fixer_8cpp"/>
       </node>
@@ -1488,32 +1502,40 @@
 <codeline lineno="1386"><highlight class="normal"></highlight></codeline>
 <codeline lineno="1390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9d8d7211eeda7f23045e3aa2a1b85847" kindref="member">neuvilletteMelusentEye6_3</ref>();</highlight></codeline>
 <codeline lineno="1391"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" kindref="member">yelanTranquilBody6_1</ref>();</highlight></codeline>
-<codeline lineno="1393"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a52b8823aca4f15e712953d93319cd846" kindref="member">yelanTranquilBang6_1</ref>();</highlight></codeline>
-<codeline lineno="1398"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1402"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28abe81ceeed138ca10039b96346910d" kindref="member">yelanTranquilEye6_1</ref>();</highlight></codeline>
-<codeline lineno="1403"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1416"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a02974b8d07fc3de5d09e72a10ba4c8c5" kindref="member">yelanTranquilToYelan6_1</ref>();</highlight></codeline>
-<codeline lineno="1417"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1425"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0148594d01298b546410e21c4abf87a7" kindref="member">citlaliWhisperofStarsToCitlali6_7</ref>();</highlight></codeline>
+<codeline lineno="1403"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a3513e54244248e53b33139d8dc890737" kindref="member">yaoyaoBambooMain6_3</ref>();</highlight></codeline>
+<codeline lineno="1404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ab0617580779efe3c30b4872976b8008b" kindref="member">yaoyaoBambooBang6_3</ref>();</highlight></codeline>
+<codeline lineno="1409"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1413"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9e85cfcd5a11837b50c3828d61b03149" kindref="member">yaoyaoBambooEye6_3</ref>();</highlight></codeline>
+<codeline lineno="1414"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1415"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" kindref="member">yelanTranquilBody6_1</ref>();</highlight></codeline>
+<codeline lineno="1416"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a52b8823aca4f15e712953d93319cd846" kindref="member">yelanTranquilBang6_1</ref>();</highlight></codeline>
+<codeline lineno="1421"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1425"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28abe81ceeed138ca10039b96346910d" kindref="member">yelanTranquilEye6_1</ref>();</highlight></codeline>
 <codeline lineno="1426"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1438"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a63c07d7a88a6adefbd17206d942dfcc2" kindref="member">charlotteHurlockToCharlotte6_7</ref>();</highlight></codeline>
-<codeline lineno="1439"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1451"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a15e01f23d185722e1923fc82d05a785d" kindref="member">neuvilletteMelusentToNeuvillette6_3</ref>();</highlight></codeline>
-<codeline lineno="1452"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1453"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1454"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1479" refid="class_a_g_remap_core_1_1_ini_fix_builder_data" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a1e204de7c3df0fabad7d32775493e0f6" kindref="member">IniFixBuilderData</ref><sp/>{</highlight></codeline>
-<codeline lineno="1480"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="1481"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1482" refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a1e204de7c3df0fabad7d32775493e0f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a1e204de7c3df0fabad7d32775493e0f6" kindref="member">IniFixBuilderData</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1483"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1498"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;const<sp/>IniFixBuilder::ArgsRepo&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a74456d4ba9053093a3797db72cf4ca73" kindref="member">repo</ref>();</highlight></codeline>
-<codeline lineno="1499"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1500"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1501"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1502"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="1439"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a02974b8d07fc3de5d09e72a10ba4c8c5" kindref="member">yelanTranquilToYelan6_1</ref>();</highlight></codeline>
+<codeline lineno="1440"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1448"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0148594d01298b546410e21c4abf87a7" kindref="member">citlaliWhisperofStarsToCitlali6_7</ref>();</highlight></codeline>
+<codeline lineno="1449"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1461"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a63c07d7a88a6adefbd17206d942dfcc2" kindref="member">charlotteHurlockToCharlotte6_7</ref>();</highlight></codeline>
+<codeline lineno="1462"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1474"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a15e01f23d185722e1923fc82d05a785d" kindref="member">neuvilletteMelusentToNeuvillette6_3</ref>();</highlight></codeline>
+<codeline lineno="1475"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1487"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a36cbe56a14f88d017d25f021a02ed763" kindref="member">yaoyaoBambooToYaoyao6_3</ref>();</highlight></codeline>
+<codeline lineno="1488"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1489"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1490"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1515" refid="class_a_g_remap_core_1_1_ini_fix_builder_data" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a1e204de7c3df0fabad7d32775493e0f6" kindref="member">IniFixBuilderData</ref><sp/>{</highlight></codeline>
+<codeline lineno="1516"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="1517"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1518" refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a1e204de7c3df0fabad7d32775493e0f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a1e204de7c3df0fabad7d32775493e0f6" kindref="member">IniFixBuilderData</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1519"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1534"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;const<sp/>IniFixBuilder::ArgsRepo&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a74456d4ba9053093a3797db72cf4ca73" kindref="member">repo</ref>();</highlight></codeline>
+<codeline lineno="1535"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1536"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1537"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1538"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/data/IniFixBuilderData.h"/>
   </compounddef>

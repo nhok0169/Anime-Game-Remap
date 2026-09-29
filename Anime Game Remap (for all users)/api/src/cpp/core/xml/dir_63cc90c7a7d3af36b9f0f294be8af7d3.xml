@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_63cc90c7a7d3af36b9f0f294be8af7d3" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/YaoyaoBamboo</compoundname>
+    <innerfile refid="_yaoyao_bamboo_parser_8h">YaoyaoBambooParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/YaoyaoBamboo/"/>
+  </compounddef>
+</doxygen>

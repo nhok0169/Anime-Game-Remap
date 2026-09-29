@@ -920,6 +920,49 @@ delegation chain. In the order you'll actually touch them:
    silently stop being valid implementations (see the trampoline-arity gotcha immediately below
    for why "silently" is doing real work in that sentence).
 
+## An enum used as a DEFAULT ARGUMENT must be registered BEFORE the function that defaults to it (2026-09-29)
+
+pybind11 resolves a `py::arg("x") = <value>` default at **registration** time, not at call time. So
+an enum registered after the class whose constructor defaults to it produces, on import:
+
+```
+ImportError: arg(): could not convert default argument into a Python object (type not registered yet?)
+```
+
+**The blast radius is the whole package, not the binding.** `FixRaidenBoss2/__init__.py` imports
+`core` on its first line, so nothing in the library can be imported at all -- and every run, A/B,
+sweep and prototype after that build is measuring a module that never loaded. It cost a legacy-blend
+A/B that "passed" (both sides produced identical files, because neither side ran and both folders
+had inherited the file from an earlier fix -- see Creating Remaps' "getting a genuinely unfixed
+baseline").
+
+Register the enum first, at module scope, above the `py::class_`:
+
+```cpp
+py::enum_<AGRC::BufFloat16::Rounding>(m, "BufFloat16Rounding") /* ... */;
+
+py::class_<AGRC::BufFloat16, ...>(m, "BufFloat16")
+    .def(py::init<bool, AGRC::BufFloat16::Rounding>(), py::arg("isBigEndian") = false,
+         py::arg("rounding") = AGRC::BufFloat16::Rounding::Truncate);
+```
+
+**And the check is one command, which is worth running after ANY binding change** -- it is far
+cheaper than discovering it three measurements later:
+
+```bash
+py -3 -c "import FixRaidenBoss2; print('import OK')"
+```
+
+**Then regenerate `core.pyi`** (`py -3 -m pybind11_stubgen FixRaidenBoss2.core -o . --root-suffix ""`
+from `api/src/py`), because it is a committed artifact the published docs render from. Compare the
+`__all__` name SETS before and after rather than reading the diff: `__all__` is one enormous line
+that re-sorts on every regeneration, so a whole-file diff looks like dozens of classes were removed
+when nothing was (`Tools/Misc/Diagnostics/`-style script, ~20 lines, `ast.literal_eval` on the
+`__all__` line). The 2026-09-29 regeneration reads as +1 / -0 that way and as a wall of churn
+otherwise.
+
+<br>
+
 ## pybind11 trampoline gotcha: changing an existing virtual method's arity breaks every call, not just new-param ones
 
 This is the single most expensive-to-discover gotcha found while extending this codebase.

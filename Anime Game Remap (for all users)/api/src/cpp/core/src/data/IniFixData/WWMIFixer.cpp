@@ -41,7 +41,9 @@
 #include "AGRemapCore/model/assets/Hashes.h"
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/buffers/BufElementType.h"
+#include "AGRemapCore/model/buffers/BufFloat.h"
 #include "AGRemapCore/model/buffers/BufInt.h"
+#include "AGRemapCore/model/files/IbFile.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/files/IniScan.h"
@@ -99,53 +101,22 @@ namespace AGRemapCore {
         const std::string IndexBufferResource = "ResourceIndexBuffer";
         const std::string PositionBufferResource = "ResourcePositionBuffer";
         const std::string TexcoordBufferResource = "ResourceTexcoordBuffer";
+
+        // The one element a texcoord line decodes into: `stride / 2` halves, named so
+        // the BufFile filters can find it in the decoded line.
+        const std::string TexcoordElement = "Texcoord";
         const std::string Cb4HashKey = "cb4";
         constexpr std::size_t WWMIBlendStride = 8;      // four R8 bone indices then four R8 weights
 
-        // IEEE half <-> float, for the texcoord copy. A WWMI texcoord buffer is halves, and the two
-        // faults it can carry -- a NaN in the second UV, a U outside [0, 1) -- are read and written
-        // in that format rather than converted through the whole buffer.
-        // A half-float pair of this fix's OWN, deliberately not model/buffers/BufFloat.cpp's pair of
-        // the same name -- see the note there. These two are written for one job: reading and
-        // rewriting a folded texture coordinate, matching numpy's rounding rather than the
-        // truncation a general decoder does. Sharing either one moves UVs.
-        float halfToFloat(std::uint16_t bits) {
-            const int sign = (bits >> 15) & 0x1;
-            const int exponent = (bits >> 10) & 0x1F;
-            const int mantissa = bits & 0x3FF;
-            float value = 0.0f;
-            if (exponent == 0) {
-                value = std::ldexp(static_cast<float>(mantissa), -24);
-            } else if (exponent != 0x1F) {
-                value = std::ldexp(static_cast<float>(mantissa + 1024), exponent - 25);
-            }
-
-            return sign ? -value : value;
-        }
-
-        std::uint16_t floatToHalf(float value) {
-            if (!(value > 0.0f)) {
-                return 0;                        // this is only ever handed a folded U in [0, 1)
-            }
-
-            int exponent = 0;
-            const float scaled = std::frexp(value, &exponent);        // value = scaled * 2^exponent
-            const int biased = exponent + 14;
-            if (biased <= 0) {
-                return 0;
-            }
-
-            if (biased >= 0x1F) {
-                return 0x7BFF;                   // the largest finite half
-            }
-
-            // round-half-to-EVEN, which is what numpy's float16 cast does and so what the
-            // prototype's copy holds. lround rounds half away from zero, and the two differ
-            // on 104 of 1,508,336 halves by one ULP -- harmless in a UV, but a permanent
-            // source of noise in the A/B that would hide a real difference later.
-            const int mantissa = static_cast<int>(std::nearbyint(scaled * 2048.0f)) - 1024;
-            return static_cast<std::uint16_t>((biased << 10) | (mantissa & 0x3FF));
-        }
+        // THE HALF CODEC THAT USED TO LIVE HERE IS GONE (2026-09-29). It was a second
+        // implementation of `model/buffers/BufFloat.cpp`'s, kept apart because that one TRUNCATES
+        // where a folded UV needs round-half-to-even -- and both files carried a comment telling
+        // the next reader not to merge them.
+        //
+        // That was a missing PARAMETER, not two different jobs: `BufFloat16::Rounding::NearestEven`
+        // is the mode, and under it decode-then-encode is an exact identity over all 65536 half bit
+        // patterns, which is what lets `BufFile::fix` -- it re-encodes every line, touched or not --
+        // own this buffer. See `core/tests/BufFloat16_Rounding_test.cpp`.
         const std::string ShapeKeyZero = "ShapeKeyZero";
         const std::string ChecksumNotFound = "ChecksumNotFound";
         const std::string DefaultTextureFolder = "Textures";
@@ -576,14 +547,30 @@ namespace AGRemapCore {
                              const std::string& positionPath,
                              const std::map<int, std::vector<std::pair<long long, long long>>>& drawRanges,
                              const std::map<int, std::vector<int>>& vgMaps) {
-            std::ifstream indices(FileService::strToPath(indexPath), std::ios::binary);
-            std::ifstream blendIn(FileService::strToPath(resource.srcPath), std::ios::binary);
-            if (!indices.is_open() || !blendIn.is_open()) {
+            // The index buffer through IbFile: it decodes the triangles, and a flat list of its
+            // vertex ids is those triples in order -- which is what a draw range indexes into.
+            std::vector<std::uint32_t> indexList;
+            try {
+                IbFile indices{indexPath};
+                const BufFile::Filter collect =
+                    [&indexList](const BufLineData& line, long long, double, long long) {
+                        const auto at = line.find(IbFile::TriangleBufElementKey);
+                        if (at != line.end()) {
+                            for (const BufValue& value : at->second) {
+                                if (std::holds_alternative<unsigned long long>(value)) {
+                                    indexList.push_back(static_cast<std::uint32_t>(
+                                        std::get<unsigned long long>(value)));
+                                }
+                            }
+                        }
+
+                        return line;
+                    };
+
+                indices.fix(std::nullopt, {collect});
+            } catch (const std::exception&) {
                 return false;
             }
-
-            std::vector<char> indexBytes((std::istreambuf_iterator<char>(indices)), std::istreambuf_iterator<char>());
-            std::vector<unsigned char> blend((std::istreambuf_iterator<char>(blendIn)), std::istreambuf_iterator<char>());
             // THE LAYOUT IS DERIVED, NOT ASSUMED. WWMIBlendStride is four R8 ids then four R8
             // weights, which is one WWMI layout and not the only one: Chisa's mods carry EIGHT of
             // each. Reading a 16-byte vertex as two 8-byte ones gives twice the vertex count, so
@@ -598,17 +585,28 @@ namespace AGRemapCore {
             }
 
             const std::size_t vertices = static_cast<std::size_t>(positionSize / 12);
-            if (vertices == 0 || blend.size() % vertices != 0) {
+            const std::uintmax_t blendSize =
+                std::filesystem::file_size(FileService::strToPath(resource.srcPath), sizeErr);
+            if (sizeErr || vertices == 0 || blendSize == 0 || blendSize % vertices != 0) {
                 return false;
             }
 
-            const std::size_t stride = blend.size() / vertices;
+            const std::size_t stride = static_cast<std::size_t>(blendSize / vertices);
             if (stride < 2 || stride % 2 != 0) {
                 return false;
             }
 
-            const std::size_t influences = stride / 2;
-            const std::size_t indexCount = indexBytes.size() / 4;
+            // The same answer `wwmiBlendInfluences` gives, from the same two file sizes -- asked of
+            // it rather than restated. Its FALLBACK of 4 is the one thing not shared: it exists so a
+            // failed derivation cannot move a shipped character's output, and here a failed
+            // derivation must lift nothing at all, which is what the guards above already decided.
+            const std::size_t influences = wwmiBlendInfluences(resource.srcPath,
+                                                              static_cast<long long>(vertices), positionPath);
+            if (influences != stride / 2) {
+                return false;
+            }
+
+            const std::size_t indexCount = indexList.size();
 
             // which component draws each vertex
             std::vector<int> componentOf(vertices, -1);
@@ -619,8 +617,7 @@ namespace AGRemapCore {
                             break;
                         }
 
-                        std::uint32_t vertex = 0;
-                        std::memcpy(&vertex, indexBytes.data() + static_cast<std::size_t>(k) * 4, 4);
+                        const std::uint32_t vertex = indexList[static_cast<std::size_t>(k)];
                         if (vertex < vertices) {
                             componentOf[vertex] = entry.first;
                         }
@@ -628,43 +625,71 @@ namespace AGRemapCore {
                 }
             }
 
-            const std::unordered_map<long long, long long>& row = resource.vgRemap.getRemap();
-            std::size_t unmapped = 0;
-            for (std::size_t vertex = 0; vertex < vertices; ++vertex) {
-                const int component = componentOf[vertex];
-                auto vgMap = vgMaps.find(component);
-                if (component < 0 || vgMap == vgMaps.end()) {
-                    continue;
-                }
-
-                for (std::size_t b = 0; b < influences; ++b) {
-                    const std::size_t at = vertex * stride + b;
-                    if (blend[at + influences] == 0) {
-                        continue;                       // a weight-zero slot: the library leaves those alone too
-                    }
-
-                    const std::size_t local = blend[at];
-                    if (local >= vgMap->second.size()) {
-                        ++unmapped;
-                        continue;
-                    }
-
-                    auto target = row.find(vgMap->second[local]);
-                    if (target == row.end()) {
-                        ++unmapped;
-                        continue;
-                    }
-
-                    blend[at] = static_cast<unsigned char>(target->second);
-                }
-            }
-
-            std::ofstream out(FileService::strToPath(resource.fixedPath), std::ios::binary);
-            if (!out.is_open()) {
+            // A blend line is `wwmiBlendElements`' two elements -- `influences` ids then `influences`
+            // weights, one unsigned byte each -- so BufFile hands the filter the ids and the weights
+            // already separated, and its decode/encode of an integer is exact. That last part is
+            // what makes this refactor provable where the texcoord one is not.
+            BufFile blend{resource.srcPath, wwmiBlendElements(influences)};
+            if (!blend.isValid()) {
                 return false;
             }
 
-            out.write(reinterpret_cast<const char*>(blend.data()), static_cast<std::streamsize>(blend.size()));
+            const std::unordered_map<long long, long long>& row = resource.vgRemap.getRemap();
+            const BufFile::Filter lift =
+                [&componentOf, &vgMaps, &row, vertices, influences](const BufLineData& line, long long,
+                                                                    double index, long long) {
+                    BufLineData out = line;
+                    const auto vertex = static_cast<std::size_t>(index);
+                    if (vertex >= vertices) {
+                        return out;
+                    }
+
+                    const int component = componentOf[vertex];
+                    auto vgMap = vgMaps.find(component);
+                    if (component < 0 || vgMap == vgMaps.end()) {
+                        return out;
+                    }
+
+                    const auto ids = out.find("BLENDINDICES");
+                    const auto weights = out.find("BLENDWEIGHT");
+                    if (ids == out.end() || weights == out.end()) {
+                        return out;
+                    }
+
+                    for (std::size_t b = 0; b < influences && b < ids->second.size()
+                                            && b < weights->second.size(); ++b) {
+                        if (!std::holds_alternative<unsigned long long>(weights->second[b])
+                                || std::get<unsigned long long>(weights->second[b]) == 0) {
+                            continue;                   // a weight-zero slot: the library leaves those alone too
+                        }
+
+                        if (!std::holds_alternative<unsigned long long>(ids->second[b])) {
+                            continue;
+                        }
+
+                        const auto local = static_cast<std::size_t>(
+                            std::get<unsigned long long>(ids->second[b]));
+                        if (local >= vgMap->second.size()) {
+                            continue;
+                        }
+
+                        auto target = row.find(vgMap->second[local]);
+                        if (target == row.end()) {
+                            continue;
+                        }
+
+                        ids->second[b] = static_cast<unsigned long long>(target->second);
+                    }
+
+                    return out;
+                };
+
+            try {
+                blend.fix(resource.fixedPath, {lift});
+            } catch (const std::exception&) {
+                return false;
+            }
+
             return true;
         }
 
@@ -3429,14 +3454,6 @@ namespace AGRemapCore {
 
                     const std::string rel = FileService::iniPathToRel(*name);
                     const std::string path = FileService::absPathOfRelPath(rel, ini->getFolder());
-                    std::ifstream in(FileService::strToPath(path), std::ios::binary);
-                    if (!in.is_open()) {
-                        return;
-                    }
-
-                    std::vector<std::uint8_t> bytes((std::istreambuf_iterator<char>(in)),
-                                                    std::istreambuf_iterator<char>());
-                    in.close();
                     const std::optional<std::string> strideVal = ModBranches::firstVal(*resource, "stride");
                     std::size_t stride = 16;
                     if (strideVal.has_value()) {
@@ -3447,38 +3464,68 @@ namespace AGRemapCore {
                         }
                     }
 
-                    if (stride < 4 || stride % 2 != 0 || bytes.size() % stride != 0) {
+                    if (stride < 4 || stride % 2 != 0) {
                         return;
                     }
 
+                    // One element of `stride / 2` halves, rounded the way a folded UV needs. That
+                    // mode is the whole reason this can be a BufFile at all -- see the note where
+                    // this file's own half codec used to be.
                     const std::size_t perVertex = stride / 2;
-                    const std::size_t vertices = bytes.size() / stride;
-                    auto halfAt = [&bytes](std::size_t i) {
-                        std::uint16_t bits = 0;
-                        std::memcpy(&bits, bytes.data() + i * 2, 2);
-                        return bits;
-                    };
-                    auto setHalf = [&bytes](std::size_t i, std::uint16_t bits) {
-                        std::memcpy(bytes.data() + i * 2, &bits, 2);
+                    auto texcoordElements = [perVertex]() {
+                        std::vector<std::unique_ptr<BufDataType>> halves;
+                        for (std::size_t i = 0; i < perVertex; ++i) {
+                            halves.push_back(std::make_unique<BufFloat16>(false,
+                                                                          BufFloat16::Rounding::NearestEven));
+                        }
+
+                        std::vector<std::unique_ptr<BufElementType>> elements;
+                        elements.push_back(std::make_unique<BufElementType>(TexcoordElement, "",
+                                                                           std::move(halves)));
+                        return elements;
                     };
 
-                    std::size_t cleared = 0;
-                    for (std::size_t i = 0; i < bytes.size() / 2; ++i) {
-                        const std::uint16_t bits = halfAt(i);
-                        if (((bits >> 10) & 0x1F) == 0x1F && (bits & 0x3FF) != 0) {
-                            setHalf(i, 0);
-                            ++cleared;
-                        }
+                    BufFile texcoord{path, texcoordElements()};
+                    if (!texcoord.isValid()) {
+                        return;                         // not a whole number of vertices: leave it alone
+                    }
+
+                    // Pass one: every vertex's U, with a NaN read as the 0 the clean pass will make
+                    // it -- the straddle test below has to see the same values the write does.
+                    std::vector<float> u;
+                    const BufFile::Filter collect =
+                        [&u](const BufLineData& line, long long, double, long long) {
+                            const auto at = line.find(TexcoordElement);
+                            if (at != line.end() && !at->second.empty()
+                                    && std::holds_alternative<double>(at->second.front())) {
+                                const double value = std::get<double>(at->second.front());
+                                u.push_back(std::isnan(value) ? 0.0f : static_cast<float>(value));
+                            } else {
+                                u.push_back(0.0f);
+                            }
+
+                            return line;
+                        };
+
+                    try {
+                        texcoord.fix(std::nullopt, {collect});
+                    } catch (const std::exception&) {
+                        return;                         // unreadable: leave the mod alone
+                    }
+
+                    const std::size_t vertices = u.size();
+                    if (vertices == 0) {
+                        return;
                     }
 
                     // U at or above 1, except on a triangle whose vertices straddle a tile.
                     //
                     // NOT U BELOW 0 (2026-09-27). The fold exists for a mod that UVs half a part
                     // into the [1, 2) TILE and relies on the sampler wrapping -- a large, coherent,
-                    // deliberate region (47% of one Chisa mod's component 3). A U just BELOW zero
-                    // is the opposite thing: the edge bleed an authoring tool leaves around a UV
-                    // island, a thin fringe a few hundredths wide that a clamping sampler is meant
-                    // to extend. Folding it sends those texels to the FAR SIDE of the atlas --
+                    // deliberate region (47% of one Chisa mod's component 3). A U just BELOW zero is
+                    // the opposite thing: the edge bleed an authoring tool leaves around a UV
+                    // island, a fringe a few hundredths wide that a clamping sampler is meant to
+                    // extend. Folding it sends those texels to the FAR SIDE of the atlas --
                     // `-0.054` became `0.945` -- so the fringe of every island sampled unrelated
                     // art. On Chisa13's black hair dye that drew a regular checkerboard of blonde
                     // blocks through the lock: 905 such vertices on the bangs and 2 elsewhere in
@@ -3492,54 +3539,106 @@ namespace AGRemapCore {
                     // as one solid sweep, and the full fold does not. Leaving the fringe alone is
                     // also the pre-fold behaviour for it, so it cannot regress a mod that was
                     // right before the fold existed.
-                    std::vector<float> u(vertices, 0.0f);
-                    std::vector<bool> needs(vertices, false);
-                    for (std::size_t v = 0; v < vertices; ++v) {
-                        u[v] = halfToFloat(halfAt(v * perVertex));
-                        needs[v] = (u[v] >= 1.0f);
+                    //
+                    // Folding one corner of a straddling triangle would widen its U span from a few
+                    // hundredths to nearly 1 and interpolate it backwards across the atlas, so such
+                    // a vertex is left alone -- which also protects deliberate TILING.
+                    //
+                    // Still read at 4 bytes per index, which is what the hand-rolled loop assumed;
+                    // `IbFile::bytesPerIndexOf(<the declared format>)` is how a mod declaring
+                    // `DXGI_FORMAT_R16_UINT` gets answered, and that is a BEHAVIOUR change rather
+                    // than a refactor. A failure here leaves `keep` false, which folds more rather
+                    // than less -- the same answer the unopenable-file branch gave before.
+                    std::vector<bool> keep(vertices, false);
+                    if (!indexFile_.empty()) {
+                        const std::string indexPath = FileService::absPathOfRelPath(
+                            FileService::iniPathToRel(indexFile_), ini->getFolder());
+                        try {
+                            IbFile indices{indexPath};
+                            const BufFile::Filter straddles =
+                                [&keep, &u, vertices](const BufLineData& line, long long, double, long long) {
+                                    const auto at = line.find(IbFile::TriangleBufElementKey);
+                                    if (at == line.end() || at->second.size() < IbFile::VerticesPerTriangle) {
+                                        return line;
+                                    }
+
+                                    std::size_t tri[3] = {0, 0, 0};
+                                    for (std::size_t i = 0; i < IbFile::VerticesPerTriangle; ++i) {
+                                        if (!std::holds_alternative<unsigned long long>(at->second[i])) {
+                                            return line;
+                                        }
+
+                                        tri[i] = static_cast<std::size_t>(
+                                            std::get<unsigned long long>(at->second[i]));
+                                        if (tri[i] >= vertices) {
+                                            return line;
+                                        }
+                                    }
+
+                                    const float a = std::floor(u[tri[0]]);
+                                    const float b = std::floor(u[tri[1]]);
+                                    const float c = std::floor(u[tri[2]]);
+                                    if (a != b || b != c) {
+                                        keep[tri[0]] = true;
+                                        keep[tri[1]] = true;
+                                        keep[tri[2]] = true;
+                                    }
+
+                                    return line;
+                                };
+
+                            indices.fix(std::nullopt, {straddles});
+                        } catch (const std::exception&) {
+                            // no index buffer to read: every vertex stays foldable, as before
+                        }
                     }
 
+                    // A NaN in any half set to 0, and the fold in U. A NaN is `std::isnan` on the
+                    // decoded value now rather than an exponent and mantissa test on the raw bits.
+                    std::size_t cleared = 0;
                     std::size_t folded = 0;
-                    if (std::find(needs.begin(), needs.end(), true) != needs.end()) {
-                        std::vector<bool> keep(vertices, false);
-                        const std::string indexPath = FileService::absPathOfRelPath(indexFile_, ini->getFolder());
-                        std::ifstream ib(FileService::strToPath(indexPath), std::ios::binary);
-                        if (ib.is_open()) {
-                            std::vector<std::uint8_t> raw((std::istreambuf_iterator<char>(ib)),
-                                                          std::istreambuf_iterator<char>());
-                            const std::size_t count = raw.size() / 4;
-                            for (std::size_t t = 0; t + 2 < count; t += 3) {
-                                std::uint32_t tri[3] = {0, 0, 0};
-                                std::memcpy(tri, raw.data() + t * 4, 12);
-                                if (tri[0] >= vertices || tri[1] >= vertices || tri[2] >= vertices) {
-                                    continue;
-                                }
+                    const BufFile::Filter clean =
+                        [&cleared, &folded, &keep, vertices](const BufLineData& line, long long,
+                                                             double index, long long) {
+                            BufLineData out = line;
+                            const auto at = out.find(TexcoordElement);
+                            if (at == out.end() || at->second.empty()) {
+                                return out;
+                            }
 
-                                const float a = std::floor(u[tri[0]]);
-                                const float b = std::floor(u[tri[1]]);
-                                const float c = std::floor(u[tri[2]]);
-                                if (a != b || b != c) {
-                                    keep[tri[0]] = true;
-                                    keep[tri[1]] = true;
-                                    keep[tri[2]] = true;
+                            for (BufValue& value : at->second) {
+                                if (std::holds_alternative<double>(value)
+                                        && std::isnan(std::get<double>(value))) {
+                                    value = 0.0;
+                                    ++cleared;
                                 }
                             }
-                        }
 
-                        for (std::size_t v = 0; v < vertices; ++v) {
-                            if (needs[v] && !keep[v]) {
-                                float wrapped = std::fmod(u[v], 1.0f);
-                                if (wrapped < 0.0f) {
-                                    wrapped += 1.0f;
-                                }
+                            if (!std::holds_alternative<double>(at->second.front())) {
+                                return out;
+                            }
 
-                                setHalf(v * perVertex, floatToHalf(wrapped));
+                            const auto vertex = static_cast<std::size_t>(index);
+                            const auto first = static_cast<float>(std::get<double>(at->second.front()));
+                            if (first >= 1.0f && vertex < vertices && !keep[vertex]) {
+                                at->second.front() = static_cast<double>(std::fmod(first, 1.0f));
                                 ++folded;
                             }
-                        }
+
+                            return out;
+                        };
+
+                    // Counted before anything is written, because the copy exists only when it
+                    // differs -- a mod with clean texcoords keeps its own buffer and its own binding.
+                    try {
+                        texcoord.fix(std::nullopt, {clean});
+                    } catch (const std::exception&) {
+                        return;
                     }
 
-                    if (cleared == 0 && folded == 0) {
+                    const std::size_t clearedCount = cleared;
+                    const std::size_t foldedCount = folded;
+                    if (clearedCount == 0 && foldedCount == 0) {
                         return;
                     }
 
@@ -3547,13 +3646,19 @@ namespace AGRemapCore {
                     const std::string fixedPath = FileService::absPathOfRelPath(fixedRel, ini->getFolder());
                     std::error_code err;
                     std::filesystem::create_directories(FileService::strToPath(fixedPath).parent_path(), err);
-                    std::ofstream out(FileService::strToPath(fixedPath), std::ios::binary);
-                    if (!out.is_open()) {
+
+                    // The same filter again, writing this time -- so the counters run up a second
+                    // time and the snapshot above is what the log reports.
+                    //
+                    // `fix(path, ...)` RETURNS THE PATH ON SUCCESS: the string alternative of
+                    // FixResult means "written to this file", not "failed", and a failure throws.
+                    // Reading it as an error is what made an earlier version of this write the
+                    // buffer correctly and then never bind it.
+                    try {
+                        texcoord.fix(fixedPath, {clean});
+                    } catch (const std::exception&) {
                         return;
                     }
-
-                    out.write(reinterpret_cast<const char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
-                    out.close();
 
                     const std::optional<std::string> format = ModBranches::firstVal(*resource, "format");
                     texcoordResource_ = fixName(ResourcePrefix + "TexcoordNoNaN");
@@ -3562,8 +3667,8 @@ namespace AGRemapCore {
                                                                         : std::string_view("DXGI_FORMAT_R16G16_FLOAT"))
                                        + "\nstride = " + std::to_string(stride) + "\n"
                                        + IniKeywords::Filename + " = " + fixedRel + "\n\n";
-                    ctx_.log("texcoords: " + std::to_string(cleared) + " NaN halves set to 0 and "
-                             + std::to_string(folded) + " U values folded into [0, 1) in a remap-only copy");
+                    ctx_.log("texcoords: " + std::to_string(clearedCount) + " NaN halves set to 0 and "
+                             + std::to_string(foldedCount) + " U values folded into [0, 1) in a remap-only copy");
                 }
 
                 void addCreatedTextures() {

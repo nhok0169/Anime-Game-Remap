@@ -147,6 +147,7 @@ from .test_CppTexFilterOnCppTextureFile import CppTexFilterOnCppTextureFileTest
 from .test_CppInvertAlphaFilter import CppInvertAlphaFilterTest
 from .test_CppMaterialBandRemapFilter import CppMaterialBandRemapFilterTest
 from .test_NeuvilletteTemplateOptions import NeuvilletteTemplateOptionsTest
+from .test_InnerLayerOutline import InnerLayerOutlineTest, VGSplitGroupInnerOutlineTest
 from .test_CppHueAdjust import CppHueAdjustTest
 from .test_CppPixelFilter import CppPixelFilterTest
 from .test_PixelFilter import PixelFilterTest
@@ -189,3 +190,4 @@ __all__ += ["GIMICharBuildersTest"]
 __all__ += ["GIMIComponentBuildersTest"]
 __all__ += ["BaseIniFixerTest"]
 __all__ += ["NeuvilletteTemplateOptionsTest"]
+__all__ += ["InnerLayerOutlineTest", "VGSplitGroupInnerOutlineTest"]

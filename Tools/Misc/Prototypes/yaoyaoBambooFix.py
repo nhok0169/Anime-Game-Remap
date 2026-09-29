@@ -63,14 +63,17 @@
 #   * YAOYAO3 AND YAOYAO10 CAME OUT VIVID GREEN: a third texture called a normal map at ps-t2 beside their own NNFix
 #     read the section as the normal-map layout, and the light map became the diffuse -- layoutFromOwnFixCall.
 #   * Mods whose own outfit is broken by a stale 4.0 hash (Yaoyao4, 7, 9: ib 54c0b1e8) render right on the skin.
-#   * Yaoyao5's long hair shows small dark shards on the skin, and they are NOT the basket: they are the OUTLINE pass. Her
-#     long hair is built in close layers, and the skin's outline shell sits further out than hers, so the inner layers'
-#     shell pokes through the outer layer (2026-09-27). Found by elimination in game: the shards stayed with the whole
-#     back hair rigid on the head bone (--vgMove 0:20,1:20,2:20,3:20; her rest pose renders clean), with a flat light
-#     map, diffuse alpha 0, the vertex colour put back, and with the head painted in flat ID colours; they belong to the
-#     head's draw (purpleSlot.py), and went with `if vs != 037730.0` round its drawindexed -- which also drops every
-#     mod's hair outline. Vertex colour B moves them (255 worse, 0 fewer). KEPT, by the maintainer's choice: one mod of
-#     ten shows it, and skipping the outline changes all of them.
+#   * Yaoyao5's long hair showed small dark shards on the skin: the OUTLINE pass of her hair's INNER faces. Her long
+#     hair is two-sided sheets in close layers, and the inner face's outline shell came out in front of the outer face.
+#     Fixed by innerOutlineObjs = ["head"] on Main and Bang (InnerLayerOutline): every hair triangle facing in towards
+#     the head's vertical axis, or with two corners whose normal runs into the mod's own mesh within 0.1, draws no
+#     outline (vertex colour alpha 0) -- all three corners, since a triangle with corners at different widths stretches
+#     its shell into a wedge (a dark rectangle on a front lock, per-vertex). --keepInnerOutline is the A/B.
+#     What did NOT work, each tried in game (2026-09-27/28): the hair through the Body slot or the Bang component (the
+#     Kirara-style remapping), smoothing the outline normals (fewer, not gone), lowering the outline width everywhere
+#     (the shards do not shrink with it) or by clearance, a uniform tangent w (both signs add stripes). Located by
+#     painting the outline pass one index slice at a time (Tools/Misc/Diagnostics/outlinePaint.py) -- comparing frames
+#     with and without had not.
 #
 # ---- Library gaps found, all filled in SHARED code, each default off so no earlier character moves ----
 #
@@ -125,7 +128,8 @@ def parserConfig() -> "FRB.GIMICharParserConfig":
     return config
 
 
-def fixerConfig(headHairBand = 127, headAlphaOne = True, headLightR = None, headBandGate = False) -> "FRB.GIMIComponentFixerConfig":
+def fixerConfig(headHairBand = 127, headAlphaOne = True, headLightR = None, headBandGate = False,
+                innerOutline = True) -> "FRB.GIMIComponentFixerConfig":
     config = FRB.GIMIComponentFixerConfig()
     config.targetSkin = Skin
     config.drawnObjs = ["head", "body"]
@@ -184,6 +188,13 @@ def fixerConfig(headHairBand = 127, headAlphaOne = True, headLightR = None, head
     # offset goes in. offsetOnlyWithGameFace so a mod that hides the game's face and brings its own is never moved.
     eye.positionOffset = [0.0, 0.0, 0.0]
     eye.offsetOnlyWithGameFace = True
+
+    # Her hair's INNER layers draw no outline (vertex colour alpha 0): Yaoyao5's close two-sided hair sheets showed
+    # small dark shards on the skin -- the inner faces' outline shell, pushed out further by the skin's outline, came
+    # through the outer faces. The outer faces keep theirs, so the silhouette stays. See the header.
+    if (innerOutline):
+        main.innerOutlineObjs = ["head"]
+        bang.innerOutlineObjs = ["head"]
 
     config.components = [main, bang, eye]
     config.hiddenComponents = []
@@ -260,6 +271,8 @@ def main():
     parser.add_argument("--noHeadAlpha", action = "store_true", help = "leave the head diffuse's alpha alone (the A/B for the edit below)")
     parser.add_argument("--headLightR", type = int, default = None, help = "set the head light map's R to this (an experiment)")
     parser.add_argument("--backOn", type = int, default = None, help = "put her whole back assembly on this skin main-mesh bone (an A/B; default: the VGRemapData rows)")
+    parser.add_argument("--keepInnerOutline", action = "store_true",
+                        help = "an A/B: leave the hair's inner layers their outline (the shards come back on close layered hair)")
     parser.add_argument("--vgMove", default = None,
                         help = "source:target main-mesh group moves for an A/B in game, eg. `1:20,2:20` (default: the rows)")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
@@ -272,7 +285,8 @@ def main():
         applyVgMoves({g: args.backOn for g in BackGroups})
     if (args.vgMove):
         applyVgMoves({int(a): int(b) for a, b in (m.split(":") for m in args.vgMove.split(","))})
-    config = fixerConfig(None if args.headHairBand < 0 else args.headHairBand, not args.noHeadAlpha, args.headLightR, args.headBandGate)
+    config = fixerConfig(None if args.headHairBand < 0 else args.headHairBand, not args.noHeadAlpha, args.headLightR, args.headBandGate,
+                         innerOutline = not args.keepInnerOutline)
     FRB.CppStrategyOverrides.clear()
     FRB.CppStrategyOverrides.setParser(SrcName, FRB.makeGIMICharParser(parserConfig()))
     for component in config.components:

@@ -417,6 +417,10 @@ namespace AGRemapCore {
             // GIMIComponentFixerConfig::faceSwapOnlyFromDiffuseReg.
             bool faceOnDiffuseReg = false;
 
+            // The hash of the mod's face diffuse section, lowercase -- whether the remapped face keeps it
+            // decides whether the original is hidden (see the end of the constructor).
+            std::string faceHash;
+
             // Whether the mod hides the game's face (`handling = skip` on the source's face diffuse
             // hash) -- see GIMIComponentFixerConfig::Component::offsetOnlyWithGameFace.
             bool skipsGameFace = false;
@@ -512,9 +516,37 @@ namespace AGRemapCore {
                         this->graphGroupEdits.push_back(&mainEdits_);
                     }
 
-                    // Nothing hidden: the source and the target are different models with
-                    // different hashes, the face included, so no section of the original can fire
-                    // on the target.
+                    // The body and the buffers are never hidden: the source and the target are different models
+                    // with different hashes, so no section of the original can fire on the target.
+                    //
+                    // The FACE can be the exception. A skin may reuse its character's face under the same
+                    // tex_face_diffuse hash (Yaoyao / YaoyaoBamboo c70ae897, Charlotte / CharlotteHurlock
+                    // 58d9859b), and then the original face section and its remapped copy match the same
+                    // texture: left in, the original binds the diffuse at ps-t0 while the copy's swap binds it
+                    // at ps-t1, the diffuse lands in both registers and the cheeks come out white -- the GI 6.x
+                    // face bug the swap exists to fix. GIMICharFixer's rule, for the same reason: hide the
+                    // original face when the remap keeps its hash.
+                    //
+                    // Asked of EVERY component's fixer, not only the one that copies the face: each fixer's output
+                    // replaces the .ini's text, so the file ends as the LAST fixer wrote it -- the Eye, which
+                    // copies no face. Checked only on the Main, the original stayed live in the main .ini.
+                    const bool anyFace = std::any_of(config_.components.begin(), config_.components.end(),
+                                                     [](const GIMIComponentFixerConfig::Component& c) { return c.face; });
+                    if (anyFace && !files_.faceHash.empty()) {
+                        IniFile* iniFile = ctx_.getIniFile();
+                        Hashes* hashes = ctx_.modTypeHashes();
+                        const std::optional<Version> toVersion = (iniFile == nullptr) ? std::nullopt : iniFile->toVersion;
+                        std::optional<std::string> moved;
+                        if (hashes != nullptr) {
+                            moved = hashes->replace(files_.faceHash, ctx_.version(),
+                                                    std::vector<std::optional<std::string>>{ctx_.modTypeName(), std::nullopt},
+                                                    toVersion, toModName_, false);
+                        }
+                        if (moved.has_value() && StringTools::equalsIgnoreCase(*moved, files_.faceHash)) {
+                            this->hiddenModObjs.insert(FaceObj);
+                        }
+                    }
+
                     this->copyPreamble = config_.copyPreamble;
                 }
 
@@ -632,6 +664,10 @@ namespace AGRemapCore {
                             const std::optional<std::string> handling = firstVal(tpl, IniKeywords::Handling);
                             if (handling.has_value() && StringTools::equalsIgnoreCase(StringTools::strip(*handling), "skip")) {
                                 files_.skipsGameFace = true;
+                            }
+
+                            if (files_.faceHash.empty()) {
+                                files_.faceHash = StringTools::toLower(StringTools::strip(*hashVal));
                             }
 
                             if (files_.face.empty()) {
@@ -1354,6 +1390,12 @@ namespace AGRemapCore {
                     splitConfig.texcoordLineEdit = makeTexcoordLineEdit();
                     splitConfig.positionLineEdit = makePositionLineEdit();
                     splitConfig.pushAway = component_.pushAway;
+                    if (!component_.innerOutlineObjs.empty()) {
+                        InnerLayerOutline inner;
+                        inner.reach = component_.innerOutlineReach;
+                        inner.facingAxis = component_.innerOutlineFacingAxis;
+                        splitConfig.innerOutline = inner;
+                    }
                     if (!component_.mirroredObjs.empty()) {
                         const float offset = component_.mirrorOffset;
                         splitConfig.mirrorLineEdit = [offset](const ByteVec& line) { return VGComponentSplit::mirrorPositionLine(line, offset); };
@@ -1370,6 +1412,19 @@ namespace AGRemapCore {
                             auto [names, paths] = ibsFor(branches_.localQuery(query));
                             config.ibPaths = std::move(paths);
                             config.specs = specsFor(names);
+                            // The inner-outline objects by their POSITION in this state's list, like the mirrored ones
+                            if (config.innerOutline.has_value()) {
+                                config.innerOutlineIbs.clear();
+                                for (std::size_t i = 0; i < names.size(); ++i) {
+                                    const auto& objs = component_.innerOutlineObjs;
+                                    if (std::find(objs.begin(), objs.end(), names[i]) != objs.end()) {
+                                        config.innerOutlineIbs.push_back(i);
+                                    }
+                                }
+                                if (config.innerOutlineIbs.empty()) {
+                                    config.innerOutline.reset();     // none of its objects drawn in this state
+                                }
+                            }
                             return config;
                         },
                         ctx_.getIniFile());
@@ -2141,10 +2196,19 @@ namespace AGRemapCore {
                         if (component_.face) {
                             // The swap only for a mod on the pre-6.x register, when the config asks
                             // -- see GIMIComponentFixerConfig::faceSwapOnlyFromDiffuseReg.
+                            //
+                            // And A FACE DRAW CARRIES NO FIX LIBRARY CALL -- GIMIMergeFixer's rule (the maintainer:
+                            // "NNFix/ORFix does not work well for face in GI"). A mod's own call is stripped
+                            // BEFORE the swap: Yaoyao10 binds diffuse / light map at ps-t0 / ps-t1 and runs NNFix,
+                            // which re-slots them itself, so swapping and keeping the call moved them twice and put
+                            // a yellow light-map patch on the face (2026-09-29). Bound by hand, it is what the
+                            // swap gives on its own.
                             if (!config_.faceSwapOnlyFromDiffuseReg || files_.faceOnDiffuseReg) {
-                                iniEdits.edits[FaceObj] = {renameAdapter_.get(), faceAssetAdapter_.get(), faceSwapAdapter_.get()};
+                                iniEdits.edits[FaceObj] = {renameAdapter_.get(), removeFixCallsAdapter_.get(),
+                                                           faceAssetAdapter_.get(), faceSwapAdapter_.get()};
                             } else {
-                                iniEdits.edits[FaceObj] = {renameAdapter_.get(), faceAssetAdapter_.get()};
+                                iniEdits.edits[FaceObj] = {renameAdapter_.get(), removeFixCallsAdapter_.get(),
+                                                           faceAssetAdapter_.get()};
                             }
                             iniEdits.trackKeys[FaceObj] = false;
                         }

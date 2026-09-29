@@ -308,6 +308,30 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The SOURCE objects (lowercase, eg. ``"head"``) whose INNER layers draw no outline on this component --
+             see :cpp:class:`InnerLayerOutline` :raw-html:`<br />` :raw-html:`<br />`
+
+             For hair of close two-sided sheets: on a skin whose outline sits further out than the character's own,
+             the inner face's outline shell comes out in front of the outer face as small dark shards (Yaoyao5's long
+             hair on YaoyaoBamboo, 2026-09-28). The outer faces keep theirs, so the silhouette outline stays. Needs
+             the component's ``Position.buf`` (not a :cpp:member:`negativeIndex` one). **Default**: empty
+             @endrst
+             */
+            std::vector<std::string> innerOutlineObjs;
+
+            /**
+             * @brief How far along its normal a vertex looks for a covering layer -- :cpp:member:`InnerLayerOutline::reach`. **Default**: ``0.1``
+             */
+            float innerOutlineReach = 0.1f;
+
+            /**
+             * @brief Whether a face turned in towards the head's vertical axis is inner too -- :cpp:member:`InnerLayerOutline::facingAxis`. **Default**: ``true``
+             */
+            bool innerOutlineFacingAxis = true;
+
+            /**
+             * @brief
+             @rst
              Whether the slot's shader reads the normal-map layout -- ``ps-t0`` normal map,
              ``ps-t1`` diffuse, ``ps-t2`` lightmap, re-slotted by ``ORFix`` -- in which case the
              mod's ``ps-t0`` / ``ps-t1`` are shifted up, a flat normal map is created on ``ps-t0``

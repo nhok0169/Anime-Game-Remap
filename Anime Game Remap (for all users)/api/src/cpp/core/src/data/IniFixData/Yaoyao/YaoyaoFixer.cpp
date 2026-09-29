@@ -127,6 +127,14 @@ namespace AGRemapCore {
             eye.slotRegisters = {"ps-t0", "ps-t1"};
             eye.offsetOnlyWithGameFace = true;
 
+            // Her hair's INNER layers draw no outline. A mod of close two-sided hair sheets (Yaoyao5's long hair) got
+            // small dark shards all over it on the skin: the inner faces' outline shell, pushed out further by the
+            // skin's outline than by hers, came through the outer faces. Found by painting the outline pass one slice
+            // of the index buffer at a time (2026-09-28). The outer faces keep theirs, so the silhouette is kept.
+            // Set AFTER the Eye copies the Bang: her eyes are in the head object too, and keep their outline.
+            main.innerOutlineObjs = {"head"};
+            bang.innerOutlineObjs = {"head"};
+
             // The Eye LAST: it owns the hidden components and the TexFx guards, so it has to be the last fixer to
             // run -- the same order as the rows in IniFixBuilderData.
             config.components = {main, bang, eye};

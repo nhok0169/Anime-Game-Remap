@@ -111,20 +111,33 @@ namespace AGRemapCore {
             }
         }
 
-        const VersionBucket& bucket = buckets[idx];
+        // The chosen bucket first, then each OLDER one: a value two characters share is filed in both their
+        // buckets, and the newest may hold only the other character's row. Stopping at the first bucket made a
+        // filtered lookup of the shared value find nothing -- Yaoyao's face diffuse c70ae897 is also
+        // YaoyaoBamboo's, at 6.3, so a versionless lookup filtered to "Yaoyao" failed and her mods' face section
+        // was never classified, copied or swapped (white cheeks on the skin, 2026-09-28). A lookup that found
+        // something before finds the same thing: only a not-found can change.
+        for (std::size_t at = idx + 1; at-- > 0;) {
+            const VersionBucket& bucket = buckets[at];
 
-        for (const std::vector<K>& candidate : bucket.candidates) {
-            bool matches = true;
-            if (!fromNonVersionVals.empty()) {
-                for (std::size_t i = 0; i < candidate.size(); ++i) {
-                    if (fromNonVersionVals[i].has_value() && !KeyEqual{}(*fromNonVersionVals[i], candidate[i])) {
-                        matches = false;
-                        break;
+            for (const std::vector<K>& candidate : bucket.candidates) {
+                bool matches = true;
+                if (!fromNonVersionVals.empty()) {
+                    for (std::size_t i = 0; i < candidate.size(); ++i) {
+                        if (fromNonVersionVals[i].has_value() && !KeyEqual{}(*fromNonVersionVals[i], candidate[i])) {
+                            matches = false;
+                            break;
+                        }
                     }
                 }
+                if (matches) {
+                    return InternalKeyResult{bucket.version, candidate};
+                }
             }
-            if (matches) {
-                return InternalKeyResult{bucket.version, candidate};
+
+            // With no filter every candidate matches, so the chosen bucket always answers
+            if (fromNonVersionVals.empty()) {
+                break;
             }
         }
 

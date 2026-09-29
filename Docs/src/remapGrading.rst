@@ -338,10 +338,9 @@ Grading
        | - Her head's light map and diffuse alpha are moved onto the skin's legend, or her hair and bells
        | render pale -- a blonde mod grey-green.
        |
-       | - A mod whose long hair is built in close LAYERS can show small dark shards in it on the skin: the
-       | skin's outline shell sits further out than hers, and the inner layers' outline pokes through the outer
-       | one. Leaving the hair out of the outline pass removes them, and every mod's outline with them, so the
-       | outline is kept.
+       | - Her hair's inner layers (the faces turned in towards her head, or covered by another layer) draw no
+       | outline on the skin. A mod whose long hair is built of close two-sided sheets showed small dark shards
+       | there otherwise; the outer faces keep their outline, so the silhouette is unchanged.
        |
        | - A tassel on her basket hangs a little lower on the skin.
        |

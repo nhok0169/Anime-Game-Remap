@@ -15,11 +15,13 @@
 #include <array>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "AGRemapCore/model/buffers/BufValue.h"
+#include "AGRemapCore/model/buffers/InnerLayerOutline.h"
 #include "AGRemapCore/model/buffers/VGComponentSplit.h"
 #include "AGRemapCore/model/iniresources/RemapIniResource.h"
 
@@ -135,6 +137,25 @@ namespace AGRemapCore {
          @endrst
          */
         std::vector<VGPushAway> pushAway;
+
+        /**
+         * @brief
+         @rst
+         When set, the written ``Texcoord.buf`` draws NO OUTLINE (vertex colour alpha 0) on the inner layers of
+         the index buffers in :cpp:member:`innerOutlineIbs` -- see :cpp:class:`InnerLayerOutline`. Decided on the
+         SOURCE mesh, every one of :cpp:member:`ibPaths` covering, so a layer another component's part covers is
+         found too; needs the group's ``Position.buf``. Unset by default
+         @endrst
+         */
+        std::optional<InnerLayerOutline> innerOutline;
+
+        /**
+         * @brief
+         @rst
+         Which of :cpp:member:`ibPaths`, by position, :cpp:member:`innerOutline` asks about. Empty: all of them
+         @endrst
+         */
+        std::vector<std::size_t> innerOutlineIbs;
     };
 
     /**

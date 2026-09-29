@@ -228,6 +228,7 @@ add_library(AGRemapCore STATIC
     src/model/buffers/BufUnorm.cpp
     src/model/buffers/BufElementType.cpp
     src/model/buffers/VGComponentSplit.cpp
+    src/model/buffers/InnerLayerOutline.cpp
     src/model/buffers/VGComponentMerge.cpp
     src/model/files/BufFileErrors.cpp
     src/model/files/BinaryFile.cpp

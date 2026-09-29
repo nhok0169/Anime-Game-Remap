@@ -1923,16 +1923,46 @@ face diffuse hash (`c70ae897`). Prototypes: `Tools/Misc/Prototypes/yaoyaoBambooF
    renders the mod's real textures. Check the mod's textures before calling either side wrong (Charlotte point 9).
 7. **The white eyes in two toggle pairs were an animation frame**, not the fix: a 30-frame face series in the same
    state showed normal and closed eyes only. One frame is not a symptom.
-8. **Dark shards in LAYERED hair are the OUTLINE pass, not the geometry** (Yaoyao5). Her long hair is close layers,
-   and the skin's outline shell sits further out than hers, so the inner layers' shell pokes through the outer one.
-   What settled it, in order -- each ruled one thing out: the shards stayed with the back hair RIGID on the head bone
-   (so not the rig; `yaoyaoBambooFix.py --vgMove`), her rest pose rendered offline is clean, they belong to the head
-   draw (`purpleSlot.py --skin YaoyaoBamboo --component Main`, then body only), and they stayed DARK with the head
-   painted in flat ID colours -- a texture cannot be what darkens them. Gone with `if vs != 037730.0` round the
-   head's `drawindexed`, which drops every mod's hair outline, so the maintainer KEPT the outline (one mod of ten).
-   Vertex colour B moves them (255 worse, 0 fewer) -- the lead if a mod ever needs it gone. The first guess, the
-   basket riding the crate bone, was wrong; **eliminate before fixing.** Still open: Yaoyao8's tassel hangs lower; a see-through `TexFx\T.0` mod
+8. **Dark shards in LAYERED hair are the outline of the INNER faces** (Yaoyao5), and
+   `GIMIComponentFixerConfig::Component::innerOutlineObjs` removes them while keeping the outline. Her long hair is
+   two-sided sheets in close layers; the inner face's outline shell came out in front of the outer face. The rule
+   (`InnerLayerOutline`, run on the SOURCE mesh inside the split so every object covers every other): a target
+   triangle facing in towards the head's vertical axis, or with two corners whose normal runs into the mod's own mesh
+   within 0.1, gets vertex colour alpha 0 on ALL THREE corners -- decided per vertex, a triangle with corners at
+   different widths stretched its shell into a wedge, a dark rectangle on a front lock. The outer faces keep theirs,
+   so the silhouette is unchanged; all ten mods and the identity checked in game round 360 degrees.
+   **How it was found is the part to reuse.** Eliminating first settled WHAT: the shards stayed with the back hair
+   rigid on the head bone (not the rig), stayed dark with the head painted in flat ID colours (not a texture), and
+   went with `if vs != 037730.0` round the head's draw (the outline). Then round after round of "with and without"
+   frames, each a guess at WHY, went nowhere -- the pose, the camera and the idle all move between shots. What located them
+   was painting the outline pass of ONE index slice at a time with a flat texture (the outline takes its colour
+   from the bound textures, so that slice's outline comes out grey-teal from any angle):
+   `Tools/Misc/Diagnostics/outlinePaint.py`, four rounds. Wrong on the way, each tried in game: hair routed through
+   the Body slot or into the Bang (the Kirara-style remapping), smoothing the outline normals (fewer, not gone), the
+   outline width lowered everywhere (**the shards do not shrink with it**, which is what killed "the shell sits
+   further out") or by clearance, and a uniform tangent `w` (both signs add stripes). And the first guess, the basket
+   riding the crate bone, was wrong; **eliminate before fixing.** Still open: Yaoyao8's tassel hangs lower; a see-through `TexFx\T.0` mod
    has not been seen on the skin (none of the ten uses it).
+9. **White cheeks: a SHARED face hash made the face swap silently never run** (2026-09-29). Most of her mods bind the
+   face diffuse at `ps-t0` (pre-6.x), which GI 6.x reads as the face light map -- white cheeks, on her own outfit too
+   (the maintainer: "the correct remap should correct the base"). The template's `ps-t0` <-> `ps-t1` face swap existed
+   and was never applied, because the face section was never CLASSIFIED: her face diffuse `c70ae897` is also
+   YaoyaoBamboo's, and `ModMappedAssets::getKey` with no version looked only in the NEWEST bucket holding the value --
+   the skin's 6.3 row -- so a lookup filtered to "Yaoyao" found nothing, in the parser and the fixer alike. No error,
+   no log line, no face section in the output: the same shape as `ChecksumNotFound` on Chisa (a versionless reverse
+   lookup of a shared value). `getKey` now walks down to older buckets when the chosen one has no candidate passing the
+   filter -- only a not-found can change -- and the component template hides the ORIGINAL face section whenever the
+   remapped face keeps its hash (`GIMICharFixer`'s rule: left in, it binds the diffuse at `ps-t0` beside the copy's
+   `ps-t1`). The hide is asked by EVERY component's fixer, not only the one copying the face: each fixer's output
+   replaces the .ini text, so the file ends as the last one (the Eye) wrote it, and checked on the Main alone the
+   original stayed live in the main .ini. **Charlotte -> CharlotteHurlock had the identical gap** (face `58d9859b`) and
+   its output moves with this. `Amber`/`AmberCN` never showed it only because both rows sit in the same version bucket.
+   **And the face copy carries NO fix-library call** (`GIMIMergeFixer`'s rule, now the component template's too):
+   Yaoyao10 binds diffuse / light map at `ps-t0` / `ps-t1` and runs `NNFix`, which re-slots them itself -- swapped AND
+   kept, they moved twice and put a yellow light-map patch and blue streaks on the face. The call is stripped before
+   the swap, so the face is bound by hand.
+   To find the next one: `py -3` over `HashData.cpp` for any `tex_face_diffuse` value filed under two names, then
+   `Hashes().getKey(value, None, [base, None], False)` -- `None` is this bug.
 
 ## The reverse direction is COMPILED TOO: a multi-component SOURCE onto a classic target (2026-09-14)
 

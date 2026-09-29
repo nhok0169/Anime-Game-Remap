@@ -185,6 +185,40 @@ namespace AGRemapCore {
             triangles.push_back(VGComponentSplit::readIb(ibFile));
         }
 
+        // Which source vertices draw no outline -- see VGSplitGroupConfig::innerOutline. On the SOURCE mesh and before
+        // the split takes the triangles: every object's buffer covers, so a Main layer under a Bang lock is found.
+        std::vector<bool> noOutline;
+        if (config.innerOutline.has_value() && texcoord != nullptr) {
+            if (position == nullptr) {
+                if (logger != nullptr) {
+                    logger->log("No Position.buf in the group, so every inner layer keeps its outline");
+                }
+            } else {
+                BinaryFile srcPositions(position->srcPath);
+                const ByteVec src = srcPositions.read();
+                const std::size_t count = std::max<std::size_t>(weights.size(), 1);
+                std::vector<InnerLayerOutline::Vec3> points;
+                std::vector<InnerLayerOutline::Vec3> normals;
+                if (src.size() % count == 0 && src.size() / count >= 24) {
+                    InnerLayerOutline::readPositions(src, src.size() / count, points, normals);
+                } else if (logger != nullptr) {
+                    // no normals to follow (a Position.buf is 40 bytes a vertex in every GIMI mod; this is a stub)
+                    logger->log("The Position.buf has no normals, so every inner layer keeps its outline");
+                }
+
+                std::vector<const InnerLayerOutline::Triangles*> occluders;
+                std::vector<const InnerLayerOutline::Triangles*> targets;
+                for (std::size_t i = 0; i < triangles.size(); ++i) {
+                    occluders.push_back(&triangles[i]);
+                    if (config.innerOutlineIbs.empty()
+                            || std::find(config.innerOutlineIbs.begin(), config.innerOutlineIbs.end(), i) != config.innerOutlineIbs.end()) {
+                        targets.push_back(&triangles[i]);
+                    }
+                }
+                noOutline = config.innerOutline->find(points, normals, occluders, targets);
+            }
+        }
+
         VGComponentSplit split(std::move(weights), std::move(indices), std::move(triangles), config.specs);
         VGComponentBuffers buffers = split.split(config.component);
 
@@ -258,8 +292,20 @@ namespace AGRemapCore {
         }
 
         if (texcoord != nullptr) {
-            writeBytes(texcoord->fixedPath,
-                       filterVertexBuffer(texcoord->srcPath, split.vertexCount(), buffers.vertices, config.texcoordLineEdit));
+            ByteVec lines = filterVertexBuffer(texcoord->srcPath, split.vertexCount(), buffers.vertices, config.texcoordLineEdit);
+
+            // The inner layers' outline width (the vertex colour's alpha, byte 3), by each line's source vertex
+            if (!noOutline.empty() && !buffers.vertices.empty()) {
+                const std::size_t stride = lines.size() / buffers.vertices.size();
+                for (std::size_t i = 0; i < buffers.vertices.size() && stride >= 4; ++i) {
+                    const std::size_t v = buffers.vertices[i];
+                    if (v < noOutline.size() && noOutline[v]) {
+                        lines[i * stride + 3] = 0;
+                    }
+                }
+            }
+
+            writeBytes(texcoord->fixedPath, lines);
         }
 
         return true;

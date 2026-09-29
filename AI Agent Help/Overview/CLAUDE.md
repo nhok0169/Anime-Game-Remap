@@ -4,6 +4,57 @@ What this project is, how the repo is laid out, and the operating norms that don
 under Building/Testing/Documentation/Architecture. Read this one first if you're new to the repo;
 it's the map the other [AI Agent Help](../README.md) files assume you have.
 
+## A BLANKET `str.replace` CANNOT TELL A USE FROM THE DEFINITION (2026-09-29)
+
+A patch script inserted two constants and then replaced the literal with the constant's name across
+the whole file -- which rewrote the two declarations it had just written:
+
+```cpp
+const std::string WWMIBlendIndicesKey = WWMIBlendIndicesKey;   // self-initialised
+```
+
+Both constants end up **empty**. Every `line.find(<key>)` missed, the blend code read no vertex ids
+from any buffer, and **it compiled clean**. The damage was the usual shape: one character's blend
+"skipped due to warnings" across 25 mod folders and every other character's blend written with
+different bytes, while the run reported `fixed 1 *.ini files and skipped 0`.
+
+**The rule: a blanket rename runs BEFORE the definition is inserted, or excludes it.** An anchored
+replacement asserts its match count (the repo's own rule, trap 1's first corollary) and would have
+caught this; a bare file-wide `str.replace` has nothing to assert against, because both the use and
+the definition match.
+
+Two things worth taking from how it was found:
+
+- **It was in the safest change on the list.** Replacing literals with constants is the item you
+  would skip verifying. The four risky changes in the same batch were all fine.
+- **Only the corpus sweep saw it**, because the acceptance test was *the manifest must be
+  byte-identical*, not *the build must be clean*. A refactor that is supposed to change no output
+  has exactly one honest check, and it is the bytes.
+
+## AN AUDIT OF ONE SUBSYSTEM: THE SIX QUESTIONS THAT FOUND SOMETHING (2026-09-29)
+
+Asked of `WWMIFixer.cpp` / `WWMIParser.cpp` (4200 lines) and worth asking of any file in `data/`.
+Each is one grep, and five of the six found a real defect:
+
+| Question | grep | What it found |
+| --- | --- | --- |
+| Raw file IO where a `BufFile` / `TextureFile` models the file? | `ifstream\|ofstream\|istreambuf` | the last of three sibling blend helpers still hand-rolled |
+| Text re-parsed that the section model already holds? | `getline\|istringstream\|find('=')` | a repair pass with three `.ini` line parsers, and a hand-rolled `splitlines` |
+| A keyword spelled as a literal? | `"(ps-t[0-9]*\|this\|hash\|type\|stride\|format)"` | 16 sites, one of them a file-local *re-declaration* of a constant that existed |
+| A file-local constant whose literal is ALSO used? | declare-then-count both | one, two lines apart |
+| A member written and never read? | count mentions; 2 means declare + assign | a list of discarded components nobody printed |
+| **A config field the character rows fill that the template never reads?** | `config_.<field>` vs `config.<field>` | **two inert fields, one of them a whole feature** |
+
+The last one is the highest-yield and the least obvious, because the rows look like they are
+configuring something. It found `sourceLabels` (declared "a label for the log", filled by four
+characters, read by nothing) and, earlier the same day, the thumbprint table that made a new feature
+run against an empty input while reporting success. **Ask it of every config-driven template.**
+
+Two findings were deliberately NOT patched, and that is part of the job: a text-level repair pass
+whose proper fix is in shared graph machinery behind 52 characters, and a Python-bound config field
+that is either deleted or given meaning. Both are decisions, and a decision belongs to the
+maintainer (habit 53: show it and ask).
+
 ## What this project is
 
 **Anime Game Remap** (formerly `FixRaidenBoss2`) — a library/CLI that remaps mods installed on

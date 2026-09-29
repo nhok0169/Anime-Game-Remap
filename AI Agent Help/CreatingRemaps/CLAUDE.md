@@ -9,6 +9,23 @@ Read [Architecture](../Architecture/CLAUDE.md) first if you have never touched
 
 <br>
 
+## `ref` IS A KEYWORD, AND IT HAD NO CONSTANT (2026-09-29)
+
+`ps-t0 = ref ResourceFoo` and `ps-t0 = ResourceFoo` name the same `section`_, and every reader in the
+library looks the value up as a section name -- so the prefix has to be read through. It was spelled
+`"ref "` at **seven sites across three files**, and `GIMIApiNormalizer` carried a file-local
+`withoutRef` in an anonymous namespace (including `substr(4)`, the literal's length, as a bare
+number) that the WuWa fixer and parser could not reach, so each wrote the strip again inline.
+
+It is `IniKeywords::Ref` plus `IniNamingTools::removeRefPrefix` / `hasRefPrefix` now, beside
+`removeResourceName` -- same family, "strip a spelling down to the section name it refers to". The
+predicate exists because one caller has to tell the two spellings APART rather than read through
+them: a mod that binds the shared-resource override twice means different things by the two lines,
+and reading through the prefix there merges them.
+
+**Both spellings are legal 3dmigoto and mods use both**, so a remap that handles only one is a remap
+that works on the mods you happened to test.
+
 ## THE PARSER IDENTIFIES A MOD'S TEXTURES, AND ONLY THE FILES ITS `.ini` DECLARES (2026-09-29)
 
 **A texture is identified by a HASH and a REGISTER** -- the hash being the texture's own (the section

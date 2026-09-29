@@ -1260,7 +1260,7 @@ See ``data/IniParseData/Sanhua/SanhuaParser.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="753" column="45" bodyfile="src/data/IniParseData/Sanhua/SanhuaParser.cpp" bodystart="22" bodyend="30"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="753" column="45" bodyfile="src/data/IniParseData/Sanhua/SanhuaParser.cpp" bodystart="23" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a1a5b75132e61479cf3e35918c9e149aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1279,7 +1279,7 @@ override and the two shape-key overrides by their own hashes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="763" column="45" bodyfile="src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp" bodystart="22" bodyend="27"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="763" column="45" bodyfile="src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp" bodystart="23" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a2588e3e99d6d57c360b69e78a4adad83" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1299,7 +1299,7 @@ own. See ``data/IniParseData/Chisa/ChisaParser.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="774" column="45" bodyfile="src/data/IniParseData/Chisa/ChisaParser.cpp" bodystart="22" bodyend="30"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="774" column="45" bodyfile="src/data/IniParseData/Chisa/ChisaParser.cpp" bodystart="23" bodyend="34"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a91f650c56e6961895d3a45fa7ea0181f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1319,7 +1319,7 @@ are filed at. See ``data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="785" column="45" bodyfile="src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp" bodystart="22" bodyend="32"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="785" column="45" bodyfile="src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7d30d1abce22b6dc5f644d8ff225e123" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>

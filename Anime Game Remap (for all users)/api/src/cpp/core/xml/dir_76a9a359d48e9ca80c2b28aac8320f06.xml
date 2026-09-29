@@ -3,6 +3,7 @@
   <compounddef id="dir_76a9a359d48e9ca80c2b28aac8320f06" kind="dir">
     <compoundname>include/AGRemapCore/data/IniFixData/Chisa</compoundname>
     <innerfile refid="_chisa_fixer_8h">ChisaFixer.h</innerfile>
+    <innerfile refid="_chisa_textures_8h">ChisaTextures.h</innerfile>
     <innerfile refid="_chisa_thumbprints_8h">ChisaThumbprints.h</innerfile>
     <briefdescription>
     </briefdescription>

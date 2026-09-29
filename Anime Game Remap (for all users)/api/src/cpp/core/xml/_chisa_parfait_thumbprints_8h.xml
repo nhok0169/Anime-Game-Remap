@@ -7,6 +7,7 @@
     <includes local="no">unordered_map</includes>
     <includes local="no">vector</includes>
     <includedby refid="_chisa_parfait_fixer_8cpp" local="yes">src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp</includedby>
+    <includedby refid="_chisa_parfait_textures_8cpp" local="yes">src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp</includedby>
     <includedby refid="_chisa_parfait_thumbprints_8cpp" local="yes">src/data/IniFixData/ChisaParfait/ChisaParfaitThumbprints.cpp</includedby>
     <incdepgraph>
       <node id="1">
@@ -42,12 +43,18 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp</label>
         <link refid="_chisa_parfait_fixer_8cpp"/>
       </node>
       <node id="3">
+        <label>src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp</label>
+        <link refid="_chisa_parfait_textures_8cpp"/>
+      </node>
+      <node id="4">
         <label>src/data/IniFixData/ChisaParfait/ChisaParfaitThumbprints.cpp</label>
         <link refid="_chisa_parfait_thumbprints_8cpp"/>
       </node>

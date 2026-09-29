@@ -622,7 +622,7 @@ landing on one target slot written into a further ``.ini`` file. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="348" column="43" bodyfile="src/data/IniFixData/Sanhua/SanhuaFixer.cpp" bodystart="146" bodyend="148"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="348" column="43" bodyfile="src/data/IniFixData/Sanhua/SanhuaFixer.cpp" bodystart="129" bodyend="131"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a189f1be27493d65a6104e270520c0abc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -641,7 +641,7 @@ the reverse of :cpp:func:`sanhuaExorcist2_5`, built by :cpp:func:`makeWWMIFixer`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="358" column="43" bodyfile="src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp" bodystart="181" bodyend="183"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="358" column="43" bodyfile="src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp" bodystart="160" bodyend="162"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a7da83e1206c315786556a69bc77c2685" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -659,7 +659,7 @@ See ``data/IniFixData/Chisa/ChisaFixer.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="367" column="43" bodyfile="src/data/IniFixData/Chisa/ChisaFixer.cpp" bodystart="394" bodyend="685"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="367" column="43" bodyfile="src/data/IniFixData/Chisa/ChisaFixer.cpp" bodystart="395" bodyend="653"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a06a2e72cdccb9e4e657036e98d215551" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -678,7 +678,7 @@ See ``data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="377" column="43" bodyfile="src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp" bodystart="87" bodyend="468"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="377" column="43" bodyfile="src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp" bodystart="88" bodyend="430"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a16960ce595eb8499137893f38dc3c4af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>

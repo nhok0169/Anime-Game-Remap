@@ -5,6 +5,7 @@
     <includes local="no">optional</includes>
     <includes local="no">string</includes>
     <includes local="no">utility</includes>
+    <includedby refid="_w_w_m_i_texture_facts_8h" local="yes">include/AGRemapCore/data/WWMITextureFacts.h</includedby>
     <includedby refid="_position_edit_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/PositionEdit.h</includedby>
     <includedby refid="_g_i_m_i_char_fixer_8cpp" local="yes">src/data/IniFixData/GIMICharFixer.cpp</includedby>
     <includedby refid="_g_i_m_i_component_fixer_8cpp" local="yes">src/data/IniFixData/GIMIComponentFixer.cpp</includedby>
@@ -35,57 +36,183 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="1">
-        <label>include/AGRemapCore/model/IniNamingTools.h</label>
-        <link refid="_ini_naming_tools_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
+      <node id="3">
+        <label>include/AGRemapCore/data/IniFixData/Chisa/ChisaTextures.h</label>
+        <link refid="_chisa_textures_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
+      </node>
+      <node id="7">
+        <label>include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitTextures.h</label>
+        <link refid="_chisa_parfait_textures_8h"/>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-      </node>
-      <node id="2">
-        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/PositionEdit.h</label>
-        <link refid="_position_edit_8h"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="3">
+      <node id="11">
+        <label>include/AGRemapCore/data/IniFixData/Sanhua/SanhuaTextures.h</label>
+        <link refid="_sanhua_textures_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.h</label>
+        <link refid="_sanhua_exorcist_textures_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/AGRemapCore/data/IniParseData/WWMIParser.h</label>
+        <link refid="_w_w_m_i_parser_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/data/WWMITextureFacts.h</label>
+        <link refid="_w_w_m_i_texture_facts_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/model/IniNamingTools.h</label>
+        <link refid="_ini_naming_tools_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/PositionEdit.h</label>
+        <link refid="_position_edit_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/data/IniFixData/Chisa/ChisaFixer.cpp</label>
+        <link refid="_chisa_fixer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/data/IniFixData/Chisa/ChisaTextures.cpp</label>
+        <link refid="_chisa_textures_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp</label>
+        <link refid="_chisa_parfait_fixer_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp</label>
+        <link refid="_chisa_parfait_textures_8cpp"/>
+      </node>
+      <node id="23">
         <label>src/data/IniFixData/GIMICharFixer.cpp</label>
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
-      <node id="4">
+      <node id="24">
         <label>src/data/IniFixData/GIMIComponentFixer.cpp</label>
         <link refid="_g_i_m_i_component_fixer_8cpp"/>
       </node>
-      <node id="5">
+      <node id="25">
         <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
       </node>
-      <node id="6">
+      <node id="26">
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
-      <node id="7">
+      <node id="12">
+        <label>src/data/IniFixData/Sanhua/SanhuaFixer.cpp</label>
+        <link refid="_sanhua_fixer_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/data/IniFixData/Sanhua/SanhuaTextures.cpp</label>
+        <link refid="_sanhua_textures_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp</label>
+        <link refid="_sanhua_exorcist_fixer_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.cpp</label>
+        <link refid="_sanhua_exorcist_textures_8cpp"/>
+      </node>
+      <node id="20">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
-      <node id="8">
+      <node id="6">
+        <label>src/data/IniParseData/Chisa/ChisaParser.cpp</label>
+        <link refid="_chisa_parser_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp</label>
+        <link refid="_chisa_parfait_parser_8cpp"/>
+      </node>
+      <node id="27">
         <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
         <link refid="_g_i_m_i_component_parser_8cpp"/>
       </node>
-      <node id="9">
+      <node id="14">
+        <label>src/data/IniParseData/Sanhua/SanhuaParser.cpp</label>
+        <link refid="_sanhua_parser_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp</label>
+        <link refid="_sanhua_exorcist_parser_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/data/IniParseData/WWMIParser.cpp</label>
+        <link refid="_w_w_m_i_parser_8cpp"/>
+      </node>
+      <node id="28">
         <label>src/model/IniNamingTools.cpp</label>
         <link refid="_ini_naming_tools_8cpp"/>
       </node>

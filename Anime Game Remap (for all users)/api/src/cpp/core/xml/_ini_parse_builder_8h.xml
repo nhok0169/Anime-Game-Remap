@@ -820,31 +820,31 @@
       <node id="167">
         <label>include/AGRemapCore/RemapServiceCLI.h</label>
         <link refid="_remap_service_c_l_i_8h"/>
-        <childnode refid="135" relation="include">
+        <childnode refid="136" relation="include">
         </childnode>
       </node>
-      <node id="132">
+      <node id="133">
         <label>include/AGRemapCore/constants/GIBuilder.h</label>
         <link refid="_g_i_builder_8h"/>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="133" relation="include">
+        <childnode refid="134" relation="include">
         </childnode>
       </node>
-      <node id="134">
+      <node id="135">
         <label>include/AGRemapCore/constants/GlobalModTypes.h</label>
         <link refid="_global_mod_types_8h"/>
-        <childnode refid="135" relation="include">
-        </childnode>
         <childnode refid="136" relation="include">
         </childnode>
-        <childnode refid="133" relation="include">
+        <childnode refid="137" relation="include">
+        </childnode>
+        <childnode refid="134" relation="include">
         </childnode>
       </node>
-      <node id="137">
+      <node id="138">
         <label>include/AGRemapCore/constants/ModTypeId.h</label>
         <link refid="_mod_type_id_8h"/>
-        <childnode refid="138" relation="include">
+        <childnode refid="139" relation="include">
         </childnode>
         <childnode refid="87" relation="include">
         </childnode>
@@ -852,13 +852,13 @@
         </childnode>
         <childnode refid="123" relation="include">
         </childnode>
-        <childnode refid="135" relation="include">
+        <childnode refid="136" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="136" relation="include">
+        <childnode refid="137" relation="include">
         </childnode>
-        <childnode refid="133" relation="include">
+        <childnode refid="134" relation="include">
         </childnode>
         <childnode refid="144" relation="include">
         </childnode>
@@ -876,9 +876,9 @@
         </childnode>
         <childnode refid="150" relation="include">
         </childnode>
-        <childnode refid="139" relation="include">
-        </childnode>
         <childnode refid="140" relation="include">
+        </childnode>
+        <childnode refid="141" relation="include">
         </childnode>
         <childnode refid="151" relation="include">
         </childnode>
@@ -886,11 +886,11 @@
         </childnode>
         <childnode refid="153" relation="include">
         </childnode>
-        <childnode refid="141" relation="include">
-        </childnode>
         <childnode refid="142" relation="include">
         </childnode>
         <childnode refid="143" relation="include">
+        </childnode>
+        <childnode refid="124" relation="include">
         </childnode>
         <childnode refid="154" relation="include">
         </childnode>
@@ -1042,16 +1042,14 @@
       <node id="164">
         <label>include/AGRemapCore/constants/WWMIBuilder.h</label>
         <link refid="_w_w_m_i_builder_8h"/>
-        <childnode refid="133" relation="include">
+        <childnode refid="134" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="138">
+      <node id="139">
         <label>include/AGRemapCore/data/IniFixData/WWMIFixer.h</label>
         <link refid="_w_w_m_i_fixer_8h"/>
-        <childnode refid="139" relation="include">
-        </childnode>
         <childnode refid="140" relation="include">
         </childnode>
         <childnode refid="141" relation="include">
@@ -1059,6 +1057,8 @@
         <childnode refid="142" relation="include">
         </childnode>
         <childnode refid="143" relation="include">
+        </childnode>
+        <childnode refid="124" relation="include">
         </childnode>
       </node>
       <node id="6">
@@ -1612,6 +1612,8 @@
       <node id="123">
         <label>include/AGRemapCore/data/IniParseData/WWMIParser.h</label>
         <link refid="_w_w_m_i_parser_8h"/>
+        <childnode refid="124" relation="include">
+        </childnode>
         <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
@@ -1620,40 +1622,40 @@
         </childnode>
         <childnode refid="58" relation="include">
         </childnode>
-        <childnode refid="124" relation="include">
+        <childnode refid="125" relation="include">
         </childnode>
       </node>
-      <node id="125">
+      <node id="126">
         <label>include/AGRemapCore/data/IniParseData/Xiangling/XianglingParser.h</label>
         <link refid="_xiangling_parser_8h"/>
         <childnode refid="61" relation="include">
         </childnode>
       </node>
-      <node id="126">
+      <node id="127">
         <label>include/AGRemapCore/data/IniParseData/XianglingCheer/XianglingCheerParser.h</label>
         <link refid="_xiangling_cheer_parser_8h"/>
         <childnode refid="62" relation="include">
         </childnode>
       </node>
-      <node id="127">
+      <node id="128">
         <label>include/AGRemapCore/data/IniParseData/Xingqiu/XingqiuParser.h</label>
         <link refid="_xingqiu_parser_8h"/>
         <childnode refid="63" relation="include">
         </childnode>
       </node>
-      <node id="128">
+      <node id="129">
         <label>include/AGRemapCore/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.h</label>
         <link refid="_xingqiu_bamboo_parser_8h"/>
         <childnode refid="64" relation="include">
         </childnode>
       </node>
-      <node id="129">
+      <node id="130">
         <label>include/AGRemapCore/data/IniParseData/Yelan/YelanParser.h</label>
         <link refid="_yelan_parser_8h"/>
         <childnode refid="65" relation="include">
         </childnode>
       </node>
-      <node id="130">
+      <node id="131">
         <label>include/AGRemapCore/data/IniParseData/YelanTranquil/YelanTranquilParser.h</label>
         <link refid="_yelan_tranquil_parser_8h"/>
         <childnode refid="66" relation="include">
@@ -1668,11 +1670,11 @@
         </childnode>
         <childnode refid="90" relation="include">
         </childnode>
-        <childnode refid="143" relation="include">
+        <childnode refid="124" relation="include">
         </childnode>
         <childnode refid="91" relation="include">
         </childnode>
-        <childnode refid="124" relation="include">
+        <childnode refid="125" relation="include">
         </childnode>
         <childnode refid="162" relation="include">
         </childnode>
@@ -1691,14 +1693,14 @@
         <childnode refid="163" relation="include">
         </childnode>
       </node>
-      <node id="131">
+      <node id="132">
         <label>include/AGRemapCore/model/strategies/ModType.h</label>
         <link refid="_mod_type_8h"/>
-        <childnode refid="132" relation="include">
+        <childnode refid="133" relation="include">
         </childnode>
-        <childnode refid="134" relation="include">
+        <childnode refid="135" relation="include">
         </childnode>
-        <childnode refid="137" relation="include">
+        <childnode refid="138" relation="include">
         </childnode>
         <childnode refid="164" relation="include">
         </childnode>
@@ -1706,7 +1708,7 @@
         </childnode>
         <childnode refid="176" relation="include">
         </childnode>
-        <childnode refid="136" relation="include">
+        <childnode refid="137" relation="include">
         </childnode>
         <childnode refid="169" relation="include">
         </childnode>
@@ -1714,7 +1716,7 @@
         </childnode>
         <childnode refid="178" relation="include">
         </childnode>
-        <childnode refid="143" relation="include">
+        <childnode refid="124" relation="include">
         </childnode>
         <childnode refid="170" relation="include">
         </childnode>
@@ -1846,8 +1848,6 @@
         </childnode>
         <childnode refid="123" relation="include">
         </childnode>
-        <childnode refid="125" relation="include">
-        </childnode>
         <childnode refid="126" relation="include">
         </childnode>
         <childnode refid="127" relation="include">
@@ -1859,6 +1859,8 @@
         <childnode refid="130" relation="include">
         </childnode>
         <childnode refid="131" relation="include">
+        </childnode>
+        <childnode refid="132" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
@@ -1873,7 +1875,7 @@
         <label>src/RemapService.cpp</label>
         <link refid="_remap_service_8cpp"/>
       </node>
-      <node id="135">
+      <node id="136">
         <label>src/RemapServiceCLI.cpp</label>
         <link refid="_remap_service_c_l_i_8cpp"/>
       </node>
@@ -1881,11 +1883,11 @@
         <label>src/constants/GIBuilder.cpp</label>
         <link refid="_g_i_builder_8cpp"/>
       </node>
-      <node id="136">
+      <node id="137">
         <label>src/constants/GlobalIniClassifiers.cpp</label>
         <link refid="_global_ini_classifiers_8cpp"/>
       </node>
-      <node id="133">
+      <node id="134">
         <label>src/constants/GlobalModTypes.cpp</label>
         <link refid="_global_mod_types_8cpp"/>
       </node>
@@ -1925,11 +1927,11 @@
         <label>src/data/IniFixData/Charlotte/CharlotteFixer.cpp</label>
         <link refid="_charlotte_fixer_8cpp"/>
       </node>
-      <node id="139">
+      <node id="140">
         <label>src/data/IniFixData/Chisa/ChisaFixer.cpp</label>
         <link refid="_chisa_fixer_8cpp"/>
       </node>
-      <node id="140">
+      <node id="141">
         <label>src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp</label>
         <link refid="_chisa_parfait_fixer_8cpp"/>
       </node>
@@ -1961,15 +1963,15 @@
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
-      <node id="141">
+      <node id="142">
         <label>src/data/IniFixData/Sanhua/SanhuaFixer.cpp</label>
         <link refid="_sanhua_fixer_8cpp"/>
       </node>
-      <node id="142">
+      <node id="143">
         <label>src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp</label>
         <link refid="_sanhua_exorcist_fixer_8cpp"/>
       </node>
-      <node id="143">
+      <node id="124">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
@@ -2197,7 +2199,7 @@
         <label>src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp</label>
         <link refid="_shenhe_frost_flower_parser_8cpp"/>
       </node>
-      <node id="124">
+      <node id="125">
         <label>src/data/IniParseData/WWMIParser.cpp</label>
         <link refid="_w_w_m_i_parser_8cpp"/>
       </node>

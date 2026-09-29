@@ -59,7 +59,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="46" column="13" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="143" bodyend="144"/>
+        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="46" column="13" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="219" bodyend="220"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_base_float_1a9d2cc2ecb0018efb2e4f30448394a30f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref></type>
@@ -97,7 +97,7 @@ Decode the raw bytes to a 32-bit `floating point`_ number
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="61" column="22" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="146" bodyend="151"/>
+        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="61" column="22" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="222" bodyend="227"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_base_float_1a04fdd1b708ac77f730deef3d8d70fcc6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -135,7 +135,7 @@ Encodes the `floating point`_ back to raw bytes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="76" column="21" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="153" bodyend="158"/>
+        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="76" column="21" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="229" bodyend="234"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_base_float_1ac59d2c14e47e96a470d70ca5a183d2fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" kindref="member">BufDataType</ref> &gt;</type>
@@ -164,7 +164,7 @@ than one :cpp:class:`BufElementType` without being consumed by the first use
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="78" column="29" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="160" bodyend="162"/>
+        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="78" column="29" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="236" bodyend="238"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

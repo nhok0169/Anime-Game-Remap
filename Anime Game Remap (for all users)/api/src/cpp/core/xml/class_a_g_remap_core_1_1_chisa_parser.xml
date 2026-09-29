@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/Chisa/ChisaParser.h" line="41" column="45" bodyfile="src/data/IniParseData/Chisa/ChisaParser.cpp" bodystart="33" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseData/Chisa/ChisaParser.h" line="41" column="45" bodyfile="src/data/IniParseData/Chisa/ChisaParser.cpp" bodystart="37" bodyend="39"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

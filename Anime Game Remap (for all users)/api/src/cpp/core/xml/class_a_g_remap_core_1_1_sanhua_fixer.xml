@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Sanhua/SanhuaFixer.h" line="35" column="43" bodyfile="src/data/IniFixData/Sanhua/SanhuaFixer.cpp" bodystart="151" bodyend="153"/>
+        <location file="include/AGRemapCore/data/IniFixData/Sanhua/SanhuaFixer.h" line="35" column="43" bodyfile="src/data/IniFixData/Sanhua/SanhuaFixer.cpp" bodystart="134" bodyend="136"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

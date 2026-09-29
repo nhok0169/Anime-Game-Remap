@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/Sanhua/SanhuaParser.h" line="36" column="45" bodyfile="src/data/IniParseData/Sanhua/SanhuaParser.cpp" bodystart="33" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseData/Sanhua/SanhuaParser.h" line="36" column="45" bodyfile="src/data/IniParseData/Sanhua/SanhuaParser.cpp" bodystart="36" bodyend="38"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

@@ -47,6 +47,19 @@ namespace AGRemapCore {
             static inline const std::string TextureOverride = "TextureOverride";
 
             /**
+             * @brief
+             @rst
+             The `KVP`_ key that overrides the resource the `section`_ itself matched
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A texture-only recolour is written with it -- ``hash`` names one of the game's textures
+             and ``this`` names what to draw in its place -- so a `section`_ carrying it binds no
+             register of its own
+             @endrst
+             */
+            static inline const std::string This = "this";
+
+            /**
              * @brief The starting prefix used for some `section`_ that overrides a mod's shader
              */
             static inline const std::string ShaderOverride = "ShaderOverride";

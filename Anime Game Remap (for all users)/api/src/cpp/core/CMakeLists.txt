@@ -36,6 +36,7 @@ add_library(AGRemapCore STATIC
     src/data/VGCountData.cpp
     src/data/ShapeKeyChecksumData.cpp
     src/data/VGRemapData.cpp
+    src/data/WWMITextureIndex.cpp
     src/data/ModDataAssets.cpp
     src/data/IniParseBuilderData.cpp
     src/data/IniFixBuilderData.cpp

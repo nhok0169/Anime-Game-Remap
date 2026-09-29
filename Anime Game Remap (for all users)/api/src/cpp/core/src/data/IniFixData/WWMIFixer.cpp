@@ -34,6 +34,7 @@
 #include <utility>
 #include <vector>
 
+#include "AGRemapCore/constants/FileExt.h"
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
@@ -200,7 +201,6 @@ namespace AGRemapCore {
         const std::string ChecksumNotFound = "ChecksumNotFound";
         const std::string DefaultTextureFolder = "Textures";
         const std::string DefaultMeshFolder = "Meshes";
-        const std::string TextureOverridePrefix = "TextureOverride";
 
         // How a file's name may say what type of texture it is, when nothing else does.
 
@@ -882,7 +882,7 @@ namespace AGRemapCore {
                     // source character, and a copy exists only for one more claimant of a draw.
                     this->appendedSectionsInCopies = true;
                     for (const auto& entry : ctx_.getIniFile()->getIfTemplates()) {
-                        if (StringTools::startsWith(entry.first, TextureOverridePrefix)) {
+                        if (StringTools::startsWith(entry.first, IniKeywords::TextureOverride)) {
                             this->copyHiddenSectionNames.insert(entry.first);
                         }
                     }
@@ -1220,7 +1220,7 @@ namespace AGRemapCore {
 
                     for (const auto& entry : ini->getIfTemplates()) {
                         if (entry.second == nullptr
-                            || !StringTools::startsWith(entry.first, TextureOverrideTexturePrefix)) {
+                            || !StringTools::startsWith(entry.first, (IniKeywords::TextureOverride + "Texture"))) {
                             continue;
                         }
 
@@ -1232,7 +1232,7 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            for (const std::string& val : content->getVals(ThisKey)) {
+                            for (const std::string& val : content->getVals(IniKeywords::This)) {
                                 bound.push_back(std::string(StringTools::strip(val)));
                             }
                         }
@@ -1748,9 +1748,9 @@ namespace AGRemapCore {
                             // section names. Two files of one role each get their own.
                             auto declaredName = declaredName_.find(best);
                             if (declaredName == declaredName_.end()) {
-                                std::string name = ResourcePrefix + TextTools::capitalize(role) + toModName_ + IniKeywords::RemapRef;
+                                std::string name = IniKeywords::Resource + TextTools::capitalize(role) + toModName_ + IniKeywords::RemapRef;
                                 for (std::size_t n = 2; usedDeclaredNames_.count(name) > 0; ++n) {
-                                    name = ResourcePrefix + TextTools::capitalize(role) + std::to_string(n) + toModName_ + IniKeywords::RemapRef;
+                                    name = IniKeywords::Resource + TextTools::capitalize(role) + std::to_string(n) + toModName_ + IniKeywords::RemapRef;
                                 }
 
                                 usedDeclaredNames_.insert(name);
@@ -1787,7 +1787,7 @@ namespace AGRemapCore {
                     }
 
                     for (const WWMIFixerConfig::CreatedTexture& created : config_.createdTextures) {
-                        resourceOfRole_[created.role] = fixName(ResourcePrefix + created.role);
+                        resourceOfRole_[created.role] = fixName(IniKeywords::Resource + created.role);
                     }
 
                     // A planned role the mod has NO file for: the SOURCE's own game texture, as a
@@ -1813,13 +1813,13 @@ namespace AGRemapCore {
                                 }
 
                                 const std::string kind = TextTools::capitalize(binding.role);
-                                const std::string fileName = DownloadTools::fixedFileName(config_.downloadPrefix, kind, DdsExt);
-                                const std::string resource = ResourcePrefix + config_.downloadPrefix + kind + IniKeywords::RemapDL;
+                                const std::string fileName = DownloadTools::fixedFileName(config_.downloadPrefix, kind, FileExt::DDS);
+                                const std::string resource = IniKeywords::Resource + config_.downloadPrefix + kind + IniKeywords::RemapDL;
                                 fallbacks_[binding.role] = Fallback{
                                     DownloadTools::downloadFolder() + "/"
                                         + DownloadTools::urlPath(config_.downloadGameFolder, config_.downloadCharFolder,
                                                                  config_.downloadVersionFolder, config_.downloadPrefix,
-                                                                 "Texture" + fallback->second, DdsExt),
+                                                                 "Texture" + fallback->second, FileExt::DDS),
                                     fileName, textureFolder_ + "/" + fileName, resource};
                                 resourceOfRole_[binding.role] = resource;
                             }
@@ -1854,13 +1854,13 @@ namespace AGRemapCore {
                             }
 
                             const std::string kind = TextTools::capitalize(role);
-                            const std::string fileName = DownloadTools::fixedFileName(config_.downloadPrefix, kind, DdsExt);
-                            const std::string resource = ResourcePrefix + config_.downloadPrefix + kind + IniKeywords::RemapDL;
+                            const std::string fileName = DownloadTools::fixedFileName(config_.downloadPrefix, kind, FileExt::DDS);
+                            const std::string resource = IniKeywords::Resource + config_.downloadPrefix + kind + IniKeywords::RemapDL;
                             fallbacks_[role] = Fallback{
                                 DownloadTools::downloadFolder() + "/"
                                     + DownloadTools::urlPath(config_.downloadGameFolder, config_.downloadCharFolder,
                                                              config_.downloadVersionFolder, config_.downloadPrefix,
-                                                             "Texture" + fallback->second, DdsExt),
+                                                             "Texture" + fallback->second, FileExt::DDS),
                                 fileName, textureFolder_ + "/" + fileName, resource};
                             resourceOfRole_[role] = resource;
                         }
@@ -2039,7 +2039,7 @@ namespace AGRemapCore {
                         }
 
                         if (config_.zeroShapeKeyStream && meshVertexCount_ > 0) {
-                            additions.emplace_back(config_.shapeKeyStreamReg, fixName(ResourcePrefix + ShapeKeyZero));
+                            additions.emplace_back(config_.shapeKeyStreamReg, fixName(IniKeywords::Resource + ShapeKeyZero));
                         }
 
                         if (texcoordResource_.has_value()) {
@@ -2575,7 +2575,7 @@ namespace AGRemapCore {
                             continue;                       // 3dmigoto's matching keys mean nothing in a list
                         }
 
-                        if (key == ThisKey) {
+                        if (key == IniKeywords::This) {
                             const std::string indent = line.substr(0, line.size() - StringTools::lstrip(line).size());
                             std::string val(StringTools::strip(line.substr(equals + 1)));
                             // ...but ONLY for the role the edit was registered for. One file can
@@ -2815,10 +2815,10 @@ namespace AGRemapCore {
                 // merge list per target slot -- each gated on the marker, so a pass with something else in
                 // that slot cannot merge junk into the skeleton.
                 std::string legacySkeletonSections() {
-                    const std::string merged = fixName(ResourcePrefix + std::string("MergedSkeleton"));
-                    const std::string mergedRW = fixName(ResourcePrefix + std::string("MergedSkeletonRW"));
-                    const std::string extra = fixName(ResourcePrefix + std::string("ExtraMergedSkeleton"));
-                    const std::string extraRW = fixName(ResourcePrefix + std::string("ExtraMergedSkeletonRW"));
+                    const std::string merged = fixName(IniKeywords::Resource + std::string("MergedSkeleton"));
+                    const std::string mergedRW = fixName(IniKeywords::Resource + std::string("MergedSkeletonRW"));
+                    const std::string extra = fixName(IniKeywords::Resource + std::string("ExtraMergedSkeleton"));
+                    const std::string extraRW = fixName(IniKeywords::Resource + std::string("ExtraMergedSkeletonRW"));
                     std::string out = SectionText(z3_, merged).str() + SectionText(z3_, extra).str();
                     for (const std::string& name : {mergedRW, extraRW}) {
                         out += SectionText(z3_, name)
@@ -2838,10 +2838,10 @@ namespace AGRemapCore {
                     // SkeletonRemapper writes remapped[i] = merged[forward[i]], so a vertex whose
                     // blend names LOCAL i reaches the bone forward[i] -- which is how an 8-bit index
                     // addresses a 420-slot skeleton at all. Bound in place of the merged one.
-                    const std::string remappedRW = fixName(ResourcePrefix + std::string("RemappedSkeletonRW"));
-                    const std::string remapped = fixName(ResourcePrefix + std::string("RemappedSkeleton"));
-                    const std::string extraRemappedRW = fixName(ResourcePrefix + std::string("ExtraRemappedSkeletonRW"));
-                    const std::string extraRemapped = fixName(ResourcePrefix + std::string("ExtraRemappedSkeleton"));
+                    const std::string remappedRW = fixName(IniKeywords::Resource + std::string("RemappedSkeletonRW"));
+                    const std::string remapped = fixName(IniKeywords::Resource + std::string("RemappedSkeleton"));
+                    const std::string extraRemappedRW = fixName(IniKeywords::Resource + std::string("ExtraRemappedSkeletonRW"));
+                    const std::string extraRemapped = fixName(IniKeywords::Resource + std::string("ExtraRemappedSkeleton"));
                     if (targetPast256_) {
                         for (const std::string& name : {remapped, extraRemapped, remappedRW, extraRemappedRW}) {
                             out += SectionText(z3_, name).str();
@@ -2863,7 +2863,7 @@ namespace AGRemapCore {
                                             {std::get<2>(cb), "copy " + std::get<1>(cb)}});
 
                             if (targetPast256_) {
-                                mergeList.keys({{"cs-t37", fixName(ResourcePrefix + std::string("BlendRemapForwardBuffer"))},
+                                mergeList.keys({{"cs-t37", fixName(IniKeywords::Resource + std::string("BlendRemapForwardBuffer"))},
                                                 {"$\\WWMIv1\\blend_remap_id", "0"},
                                                 {VgCountKey, std::to_string(blendRemapBones_)},
                                                 {"cs-t38", std::get<2>(cb)},
@@ -2897,13 +2897,13 @@ namespace AGRemapCore {
                 // declaring it here keeps this text independent of what the collect happened to
                 // name its resource.
                 std::string blendRemapSections() {
-                    const std::string vertexVG = fixName(ResourcePrefix + std::string("BlendRemapVertexVGBuffer"));
-                    const std::string forward = fixName(ResourcePrefix + std::string("BlendRemapForwardBuffer"));
-                    const std::string reverse = fixName(ResourcePrefix + std::string("BlendRemapReverseBuffer"));
-                    const std::string noStride = fixName(ResourcePrefix + std::string("BlendNoStride"));
-                    const std::string strided = fixName(ResourcePrefix + std::string("BlendStrided"));
-                    const std::string blendRW = fixName(ResourcePrefix + std::string("RemappedBlendBufferRW"));
-                    const std::string blendOut = fixName(ResourcePrefix + std::string("RemappedBlendBuffer"));
+                    const std::string vertexVG = fixName(IniKeywords::Resource + std::string("BlendRemapVertexVGBuffer"));
+                    const std::string forward = fixName(IniKeywords::Resource + std::string("BlendRemapForwardBuffer"));
+                    const std::string reverse = fixName(IniKeywords::Resource + std::string("BlendRemapReverseBuffer"));
+                    const std::string noStride = fixName(IniKeywords::Resource + std::string("BlendNoStride"));
+                    const std::string strided = fixName(IniKeywords::Resource + std::string("BlendStrided"));
+                    const std::string blendRW = fixName(IniKeywords::Resource + std::string("RemappedBlendBufferRW"));
+                    const std::string blendOut = fixName(IniKeywords::Resource + std::string("RemappedBlendBuffer"));
                     const std::string blendPath = blendFixedFile();
 
                     std::string out;
@@ -2970,7 +2970,7 @@ namespace AGRemapCore {
                     }
 
                     if (config_.zeroShapeKeyStream && meshVertexCount_ > 0) {
-                        out += SectionText(z3_, fixName(ResourcePrefix + ShapeKeyZero))
+                        out += SectionText(z3_, fixName(IniKeywords::Resource + ShapeKeyZero))
                                    .keys({{"type", "Buffer"},
                                           {"format", "DXGI_FORMAT_R32G32B32_FLOAT"},
                                           {"stride", std::to_string(config_.shapeKeyStride)},
@@ -3118,7 +3118,7 @@ namespace AGRemapCore {
                 }
 
                 std::string createdTextureFile(const WWMIFixerConfig::CreatedTexture& created) const {
-                    return textureFolder_ + "/" + created.role + toModName_ + IniKeywords::RemapTex + DdsExt;
+                    return textureFolder_ + "/" + created.role + toModName_ + IniKeywords::RemapTex + FileExt::DDS;
                 }
 
                 // ---- at fix time ----
@@ -3181,11 +3181,11 @@ namespace AGRemapCore {
                         }
 
                         const std::string fixedRel = textureFolder_ + "/" + config_.downloadPrefix
-                                                     + TextTools::capitalize(edit.role) + edit.name + IniKeywords::RemapTex + DdsExt;
+                                                     + TextTools::capitalize(edit.role) + edit.name + IniKeywords::RemapTex + FileExt::DDS;
                         plannedEdits_.push_back(PlannedEdit{&edit, source, fixedRel});
 
                         // every binding of the role follows the edited file
-                        const std::string resource = fixName(ResourcePrefix + TextTools::capitalize(edit.role) + edit.name
+                        const std::string resource = fixName(IniKeywords::Resource + TextTools::capitalize(edit.role) + edit.name
                                                              + IniKeywords::RemapTex);
 
                         // Which of the mod's resources this replaces, so a copied toggle chain can
@@ -3221,9 +3221,9 @@ namespace AGRemapCore {
                                     const std::string suffix = std::to_string(n);
                                     const std::string variantRel =
                                         textureFolder_ + "/" + config_.downloadPrefix + TextTools::capitalize(edit.role)
-                                        + edit.name + suffix + IniKeywords::RemapTex + DdsExt;
+                                        + edit.name + suffix + IniKeywords::RemapTex + FileExt::DDS;
                                     const std::string variantResource =
-                                        fixName(ResourcePrefix + TextTools::capitalize(edit.role) + edit.name + suffix
+                                        fixName(IniKeywords::Resource + TextTools::capitalize(edit.role) + edit.name + suffix
                                                 + IniKeywords::RemapTex);
                                     plannedEdits_.push_back(PlannedEdit{&edit, file->second, variantRel});
                                     editedResources_.emplace_back(variantResource, variantRel);
@@ -3529,7 +3529,7 @@ namespace AGRemapCore {
                     }
 
                     const std::optional<std::string> format = ModBranches::firstVal(*resource, "format");
-                    texcoordResource_ = fixName(ResourcePrefix + "TexcoordNoNaN");
+                    texcoordResource_ = fixName(IniKeywords::Resource + "TexcoordNoNaN");
                     texcoordSection_ = SectionText(z3_, *texcoordResource_)
                                            .keys({{"type", "Buffer"},
                                                   {"format", std::string(format.has_value()

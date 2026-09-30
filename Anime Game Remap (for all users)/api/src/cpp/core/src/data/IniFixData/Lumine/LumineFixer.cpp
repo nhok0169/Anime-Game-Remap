@@ -21,7 +21,6 @@
 #include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
-#include "AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h"
 
 
 namespace AGRemapCore {
@@ -40,17 +39,6 @@ namespace AGRemapCore {
         // on 126-128, but moved to 127 her hair came out a saturated gold beside her own outfit's pale cream; left on
         // 255 it matched (one variable at a time, on her identity mod in the Dressing Room preview).
         const int HeadDiffuseAlpha = 1;
-
-        // Her dark cloth onto the skin's dark-cloth band 78 -- see lumineHeavenConfig. "Dark" is a mean diffuse RGB
-        // under 90: Lumine1's jacket is ~60, her own white cloth ~190.
-        const int DarkClothMean = 90;
-        bool darkCloth(int red, int green, int blue) {
-            return red + green + blue < 3 * DarkClothMean;
-        }
-        const std::vector<MaterialBandRemapFilter::Band> DarkClothBands = {
-            {0, 63, 78, &darkCloth},
-            {151, 200, 78, &darkCloth},
-        };
 
 
         void alphaOne(TextureFile& texFile) {
@@ -120,6 +108,14 @@ namespace AGRemapCore {
             // dress brown ones). A triangle with a layer facing the other way within 1 cm behind it gets no twin.
             main.mirrorBackedReach = 0.01f;
 
+            // ...and her layered clothes lose the outline of their INNER layers (Yaoyao's hair fix, core
+            // InnerLayerOutline). The skin's outline shell sits further out than hers, and the shell of a jacket's
+            // under-layer came out through the jacket as small dark red squares on the sleeve, the waist and the
+            // chest (Lumine1, 2026-09-30); zeroing every outline removed them and her silhouette line with them. The
+            // facing-the-axis rule stays on: without it one red triangle stayed at her chest (a sheet facing inward
+            // with nothing along its normal), and the inside of her arms looked the same either way.
+            main.innerOutlineObjs = {"body", "dress"};
+
             // The Bang: one slot, on the normal-map layout with the Head's textures. Her two front bangs and her
             // flower land here.
             GIMIComponentFixerConfig::Component bang{};
@@ -159,14 +155,7 @@ namespace AGRemapCore {
             config.sideMeshes = {"ib_face", "ib_headupper"};
 
             config.diffuseEdits = {{"head", &alphaOne}};
-
-            // DARK CLOTH onto the skin's dark-cloth band. The skin's body legend splits cloth in two -- 0 its white
-            // cloth, 78 its dark -- and band 0's shadow ramp is warm: Lumine1's black jacket (her bands 44 / 170) went
-            // RED wherever it fell into shadow, small red squares on the sleeve and the waist, and moved onto 78 the
-            // same shadow is a neutral dark (in game, 2026-09-30). Gated on the diffuse, because a mod may keep light
-            // and dark cloth on one band -- her own white cloth stays on 0. 96-150 was tried too and changed nothing.
-            config.lightMapEdit = MaterialBandRemapFilter::lightMapEdit(DarkClothBands);
-            config.lightMapObjs = {"body", "dress"};
+            config.lightMapEdit = nullptr;
             config.compressTextures = false;
 
             return config;

@@ -2064,17 +2064,19 @@ redrawn since (`d298f0bc`, filed at 6.3). Prototypes: `Tools/Misc/Prototypes/lum
    Dressing Room's soft light shows none of this; the overworld's shade does, and `look DX DY` is how to turn the camera
    there. **Pressing a mod's toggle key in the overworld also presses the GAME's key**: `j` opened the quest journal
    (one Esc closes it, and the toggle still registered).
-11. **Dark cloth goes onto the skin's DARK-cloth band, or its shadow turns red** (2026-09-30). Lumine1's black jacket sits
-   on her bands 44 and 170; the skin's body legend is 0 white cloth, 78 dark cloth, 177 gold, 255 skin, and the band-0
-   ramp's shadow is warm -- made for white cloth. Every patch of the jacket in shadow came out as a small RED square (the
-   sleeve, the waist), which I first called the mod's own design because I looked at the cape tips (those ARE the
-   mod's). The maintainer's zoomed pair of screenshots pinned the spots; then one variable at a time: without the dress
-   draw -- still there; light map bands 200-255 or 100-199 moved, light map RGB flattened -- still there; the whole
-   diffuse painted flat GREEN -- the spots are darker green, i.e. SHADED geometry, not texture; bands 40-49 onto 0 --
-   still red, onto 78 -- neutral dark. `lightMapEdit` now moves bands 0-63 and 151-200 over a DARK diffuse (mean RGB
-   under 90) onto 78, body and dress only; gated, so her white cloth (~190) stays on 0. Lumine2 / 3 / 8 and the identity
-   render as before. **A spot that only shows in shadow is a ramp row, and painting the diffuse flat is what tells
-   shading from texture.**
+11. **Small dark red squares on a layered jacket were the skin's OUTLINE shells, not shading** (2026-09-30). Lumine1's
+   jacket showed them on the sleeve, the waist and the chest. My first answer -- the skin's warm band-0 shadow, "fixed" by
+   moving her dark cloth onto band 78 -- only darkened them: the maintainer's words, "you made those polygons dark red,
+   almost camouflaging with her coat". Ruled out one variable at a time: the dress draw, the light map bands and RGB,
+   the diffuse (painted flat green, the squares stayed, darker), drawing the body through the skin's HEAD draw instead
+   (the maintainer's Kirara fix; the squares stayed). Then the vertex colour ALPHA -- the outline's width -- zeroed on
+   the whole mesh: every square gone, and her silhouette line with them. So it is the Yaoyao hair lesson on clothes:
+   the skin's outline sits further out than hers, and the shell of an UNDER-layer comes out through the layer over it.
+   `Component::innerOutlineObjs = {"body", "dress"}` (core `InnerLayerOutline`) zeroes the outline of inner triangles
+   only, and the facing-the-axis rule stays ON: without it one red triangle stayed at her chest. The band move is
+   reverted. **A mark that changes COLOUR with a band edit but never goes away is not the band; zero the outline width
+   before theorising about shading** -- and an outline takes its colour from the band, which is why the band edit
+   "worked" enough to hide it.
 
 ## The reverse direction is COMPILED TOO: a multi-component SOURCE onto a classic target (2026-09-14)
 

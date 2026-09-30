@@ -254,7 +254,8 @@ Grading
        |
        | - A part of the mod that glows takes the skin's own glow colour: a blue glow comes out red or green.
        |
-       | - Dark cloth is moved onto the skin's dark-cloth shading, or its shadows turn red.
+       | - Layered clothes lose the outline of their inner layers, or it shows through the outer one as small dark
+       | red marks.
        |
        | - Her centre front skirt panel has no centre counterpart on the skin and follows its right front skirt.
        |

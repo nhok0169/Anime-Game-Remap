@@ -111,6 +111,9 @@ def parserConfig() -> "FRB.GIMICharParserConfig":
     return config
 
 
+InnerOutlineAxis = True
+
+
 def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = False, carryFace = False,
                 mirrored = ("dress",), mirrorBackedReach = 0.01, darkCloth = None, darkClothMid = False) -> "FRB.GIMIComponentFixerConfig":
     config = FRB.GIMIComponentFixerConfig()
@@ -179,8 +182,9 @@ def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = False, 
     main.mirrorBackedReach = mirrorBackedReach
 
     if (innerOutline):
-        main.innerOutlineObjs = ["head"]
-        bang.innerOutlineObjs = ["head"]
+        main.innerOutlineObjs = list(innerOutline)
+        main.innerOutlineFacingAxis = InnerOutlineAxis
+        bang.innerOutlineObjs = [o for o in innerOutline if o == "head"]
 
     config.components = [main, bang, eye]
     config.hiddenComponents = []
@@ -227,18 +231,21 @@ def main():
     parser.add_argument("--headHairBand", type = int, default = -1, help = "move the head light map's 254-255 onto this band (an A/B: 127 is the skin's hair band; default -1, none)")
     parser.add_argument("--mirror", default = "dress", help = "comma-separated source objects given a mirrored inner layer on the main mesh (default `dress`; `none` for the A/B)")
     parser.add_argument("--mirrorBackedReach", type = float, default = 0.01, help = "a mirrored triangle with a layer facing the other way this close behind it gets no twin (default 0.01; 0 mirrors every triangle, the A/B)")
-    parser.add_argument("--darkCloth", type = int, default = 90, help = "move body / dress bands 0-63 and 151-200 over a diffuse darker than this (mean RGB) onto the skin's dark-cloth band 78 (default 90; -1 off, the A/B)")
+    parser.add_argument("--darkCloth", type = int, default = -1, help = "move body / dress bands 0-63 and 151-200 over a diffuse darker than this (mean RGB) onto the skin's dark-cloth band 78 (default -1, off: an A/B -- the red squares it was for were OUTLINES, see --innerOutline)")
     parser.add_argument("--darkClothMid", action = "store_true", help = "an A/B: --darkCloth also moves 96-150")
     parser.add_argument("--carryFace", action = "store_true", help = "an A/B: carry the mod's face diffuse onto the skin's face hash (it lands on a different mesh)")
     parser.add_argument("--noHeadAlpha", action = "store_true", help = "leave the head diffuse's alpha alone (the A/B for the edit)")
-    parser.add_argument("--innerOutline", action = "store_true", help = "drop the outline of the hair's inner layers (Yaoyao's layered-hair fix)")
+    parser.add_argument("--noInnerOutlineAxis", action = "store_true", help = "an A/B: a triangle facing the vertical axis is NOT taken for an inner layer (it left one red triangle at Lumine1's chest)")
+    parser.add_argument("--innerOutline", default = "body,dress", help = "comma-separated source objects whose INNER layers lose their outline (Yaoyao's fix; empty for none)")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--download", default = None,
                         help = "the API's downloadMode, eg. `disabled` -- omit for the API's own default")
     args = parser.parse_args()
+    global InnerOutlineAxis
+    InnerOutlineAxis = not args.noInnerOutlineAxis
 
-    config = fixerConfig(None if args.headHairBand < 0 else args.headHairBand, not args.noHeadAlpha, args.innerOutline, args.carryFace,
+    config = fixerConfig(None if args.headHairBand < 0 else args.headHairBand, not args.noHeadAlpha, [o for o in args.innerOutline.split(",") if o], args.carryFace,
                          [o for o in args.mirror.split(",") if o and o != "none"], args.mirrorBackedReach,
                          None if args.darkCloth < 0 else args.darkCloth, args.darkClothMid)
     FRB.CppStrategyOverrides.clear()

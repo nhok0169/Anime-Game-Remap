@@ -131,8 +131,8 @@ two more, both general:** a mirrored inner layer pokes through a coat that model
 `Component::mirrorBackedReach` gives a triangle with a layer facing the other way right behind it no twin), and a skin
 slot holding cloth beside hair went to her head draw, which shades everything as hair (white sleeves yellow in shade;
 the slot is SPLIT per triangle by light map band now, hair to her head and cloth to her body:
-`GIMIMergeFixerConfig::Slot::splitFrom`), and dark cloth on the skin's white-cloth band shades red in shadow (moved onto
-its dark-cloth band 78 by a diffuse-gated `lightMapEdit`). See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s
+`GIMIMergeFixerConfig::Slot::splitFrom`), and small dark red squares on a layered jacket were the skin's wider OUTLINE shells coming through
+it (Yaoyao's `innerOutlineObjs`, on body and dress; a band move had only darkened them). See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s
 "LUMINE <-> LUMINEHEAVEN".
 
 **NEUVILLETTE <-> NEUVILLETTEMELUSENT IS COMPILED BOTH WAYS (2026-09-25), AND THE SKIN HAS ONE REAL MOD --

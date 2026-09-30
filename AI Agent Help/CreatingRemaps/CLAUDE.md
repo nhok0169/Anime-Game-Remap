@@ -2026,17 +2026,15 @@ redrawn since (`d298f0bc`, filed at 6.3). Prototypes: `Tools/Misc/Prototypes/lum
    Three other characters' mods fix byte-identically with it built in.
 6. **Her centre front panel has no centre counterpart** (the skin's front skirt is a left and a right chain); it rides the
    right chain, flagged for a walking check the account cannot do on this skin.
-7. **A mod's GLOW takes the TARGET shader's own glow colour, and that is out of a texture's reach** (2026-09-30).
-   Lumine10's arm guards, gems, boots and flower glow blue on her and green / red-orange on the skin. It is not TexFx
-   (removing the call changes nothing on either side), not the diffuse's RGB or alpha, and not the light map -- each was
-   painted flat and the glow did not move. With every glowing pixel of the diffuse painted WHITE, her own shader glows
-   white and the skin's glows red-orange: the skin's body shader multiplies every glow by a warm tint of its own (its
-   gems glow gold), so blue light comes out dark red and cyan comes out green. Two lessons in how this was found: an
-   earlier "cannot reproduce" was a helper that skipped the card click when given `-` (both shots were of her OWN
-   outfit), and three paint tests were blind for a while because the mod's `$eyes` toggle had switched the dress to a
-   second diffuse file the tests did not touch -- **know which file a draw binds under the CURRENT toggle state before
-   editing one**. Open, the maintainer's call: override the skin's material constants per draw, route the glowing parts
-   through a draw with a neutral tint, or accept the skin's glow colour.
+7. **A mod's COOL glow is cleared, not carried** (2026-09-30). Lumine10's arm guards, gems and boots are blue on her and
+   came out green / orange on the skin -- with TexFx off on both sides too (the maintainer's test), so not TexFx. Her
+   body diffuse marks those pixels with alpha 255, which the skin's body shader reads as "glow" and multiplies by its own
+   warm gold (a glow painted white: white on her, red-orange on the skin). `diffuseEdits` on body and dress now clear the
+   alpha of a pixel that is bright (max RGB > 60) and bluer than red; the skin then lights it in its own colour: blue.
+   Clearing ALL alpha-255 pixels was wrong -- the skin reads that alpha on dark cloth too, and her black dress went grey.
+   A warm glow keeps its alpha (the tint barely moves it). Only Lumine10 has much of it (1.4M pixels; others 0-14k).
+   And a re-fix in place can lose its DOWNLOADS to the intermittent GitHub failure, leaving the head draw bound to
+   nothing and the whole remap invisible: check every `filename =` resolves after a re-fix.
 8. **Mods whose own outfit is broken on the maintainer's old-loader GIMI** -- four shattered by a stale 4.0 ib
    (`dfb54407`), four drawn green -- render right on the skin, where the remap resolves the old hash and normalises the
    bindings.

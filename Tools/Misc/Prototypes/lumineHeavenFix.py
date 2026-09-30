@@ -115,7 +115,7 @@ InnerOutlineAxis = True
 
 
 def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = False, carryFace = False,
-                mirrored = ("dress",), mirrorBackedReach = 0.01, darkCloth = None, darkClothMid = False) -> "FRB.GIMIComponentFixerConfig":
+                mirrored = ("dress",), mirrorBackedReach = 0.01, darkCloth = None, darkClothMid = False, coolGlow = 60) -> "FRB.GIMIComponentFixerConfig":
     config = FRB.GIMIComponentFixerConfig()
     config.targetSkin = Skin
     config.drawnObjs = ["head", "body", "dress"]
@@ -221,6 +221,20 @@ def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = False, 
             px[:, 3] = 1
             texFile.setPixels(px.tobytes(), texFile.width, texFile.height)
         config.diffuseEdits = [("head", alphaOne)]
+    if (coolGlow >= 0):
+        # A GLOW the mod paints COOL: her shader glows a diffuse-alpha-255 pixel in its own colour, the skin's body
+        # shader multiplies every glow by its own warm gold -- so Lumine10's blue arm guards, gems and boots came out
+        # green / dark red on the skin (a glow painted white: white on her, red-orange on the skin). Such a pixel loses
+        # its alpha, and the skin renders it lit in its own colour instead. A WARM glow (red >= blue) keeps it: the tint
+        # does it little harm, and the skin's own gems glow gold.
+        def clearCoolGlow(texFile):
+            import numpy as np
+            px = np.frombuffer(texFile.getPixels(), dtype = np.uint8).copy().reshape(-1, 4)
+            rgb = px[:, :3].astype(np.int32)
+            sel = (px[:, 3] > 200) & (rgb.max(axis = 1) > coolGlow) & (rgb[:, 2] > rgb[:, 0])
+            px[sel, 3] = 0
+            texFile.setPixels(px.tobytes(), texFile.width, texFile.height)
+        config.diffuseEdits = list(config.diffuseEdits) + [("body", clearCoolGlow), ("dress", clearCoolGlow)]
     config.compressTextures = False  # a band selector is exact; BC7 would move it
     return config
 
@@ -232,6 +246,7 @@ def main():
     parser.add_argument("--mirror", default = "dress", help = "comma-separated source objects given a mirrored inner layer on the main mesh (default `dress`; `none` for the A/B)")
     parser.add_argument("--mirrorBackedReach", type = float, default = 0.01, help = "a mirrored triangle with a layer facing the other way this close behind it gets no twin (default 0.01; 0 mirrors every triangle, the A/B)")
     parser.add_argument("--darkCloth", type = int, default = -1, help = "move body / dress bands 0-63 and 151-200 over a diffuse darker than this (mean RGB) onto the skin's dark-cloth band 78 (default -1, off: an A/B -- the red squares it was for were OUTLINES, see --innerOutline)")
+    parser.add_argument("--coolGlow", type = int, default = 60, help = "body / dress diffuse pixels with alpha > 200, brighter than this and bluer than red lose their alpha (the skin glows them gold); -1 off, the A/B")
     parser.add_argument("--darkClothMid", action = "store_true", help = "an A/B: --darkCloth also moves 96-150")
     parser.add_argument("--carryFace", action = "store_true", help = "an A/B: carry the mod's face diffuse onto the skin's face hash (it lands on a different mesh)")
     parser.add_argument("--noHeadAlpha", action = "store_true", help = "leave the head diffuse's alpha alone (the A/B for the edit)")
@@ -247,7 +262,7 @@ def main():
 
     config = fixerConfig(None if args.headHairBand < 0 else args.headHairBand, not args.noHeadAlpha, [o for o in args.innerOutline.split(",") if o], args.carryFace,
                          [o for o in args.mirror.split(",") if o and o != "none"], args.mirrorBackedReach,
-                         None if args.darkCloth < 0 else args.darkCloth, args.darkClothMid)
+                         None if args.darkCloth < 0 else args.darkCloth, args.darkClothMid, args.coolGlow)
     FRB.CppStrategyOverrides.clear()
     FRB.CppStrategyOverrides.setParser(SrcName, FRB.makeGIMICharParser(parserConfig()))
     for component in config.components:

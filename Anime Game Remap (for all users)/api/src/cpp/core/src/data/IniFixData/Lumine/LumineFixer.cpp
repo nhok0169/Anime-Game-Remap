@@ -13,6 +13,8 @@
 
 #include "AGRemapCore/data/IniFixData/Lumine/LumineFixer.h"
 
+#include <algorithm>
+#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -39,6 +41,30 @@ namespace AGRemapCore {
         // on 126-128, but moved to 127 her hair came out a saturated gold beside her own outfit's pale cream; left on
         // 255 it matched (one variable at a time, on her identity mod in the Dressing Room preview).
         const int HeadDiffuseAlpha = 1;
+
+
+        // ---- a GLOW painted in a COOL colour (2026-09-30) ----
+        //
+        // Her shader glows a diffuse-alpha-255 pixel in its own colour; the skin's body shader multiplies every glow by a
+        // warm gold of its own. Lumine10's blue arm guards, gems and boots came out green / dark red on the skin, TexFx or
+        // not (painted white, the glow was white on her and red-orange on the skin). Such a pixel loses its alpha and the
+        // skin renders it lit in its own colour: blue again. A dark pixel keeps it (on the skin that alpha keeps black
+        // cloth black), and so does a WARM glow (red >= blue), which the tint barely changes -- the skin's own gems glow
+        // gold.
+        const int CoolGlowBrightness = 60;
+
+        void clearCoolGlow(TextureFile& texFile) {
+            std::vector<std::uint8_t> pixels = texFile.getPixels();
+            for (std::size_t i = 0; i + 3 < pixels.size(); i += 4) {
+                const int red = pixels[i], green = pixels[i + 1], blue = pixels[i + 2];
+                if (pixels[i + 3] > 200 && std::max({red, green, blue}) > CoolGlowBrightness && blue > red) {
+                    pixels[i + 3] = 0;
+                }
+            }
+            const int width = texFile.getWidth();
+            const int height = texFile.getHeight();
+            texFile.setPixels(std::move(pixels), width, height);
+        }
 
 
         void alphaOne(TextureFile& texFile) {
@@ -154,7 +180,7 @@ namespace AGRemapCore {
             // hides the skin's too.
             config.sideMeshes = {"ib_face", "ib_headupper"};
 
-            config.diffuseEdits = {{"head", &alphaOne}};
+            config.diffuseEdits = {{"head", &alphaOne}, {"body", &clearCoolGlow}, {"dress", &clearCoolGlow}};
             config.lightMapEdit = nullptr;
             config.compressTextures = false;
 

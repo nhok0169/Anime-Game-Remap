@@ -79,6 +79,25 @@ class ModMappedAssetsTest(BaseUnitTest):
         self.assertIsInstance(key, tuple)
         self.assertEqual(key, ("cherryHuTao", "blend_vb"))
 
+    def test_getKey_sharedValue_filteredToTheOlderOwner_isFound(self):
+        # A value two characters share, filed under the base at an OLD version and the skin at a NEWER one --
+        # Yaoyao's face diffuse c70ae897 is also YaoyaoBamboo's, at 6.3. The newest bucket holds only the
+        # skin's row, and a lookup filtered to the base used to stop there and find nothing, so her mods' face
+        # section was never classified (white cheeks on the skin, 2026-09-28). It walks down to older buckets now.
+        repo = FRB.ModDictAssets.fromNestedDict(3, 0, {"4.0": {"yaoyao": {"face": "shared"}},
+                                                       "6.3": {"skin": {"face": "shared"}}})
+        modAssets = FRB.ModMappedAssets(repo, map = {"yaoyao": ["skin"]})
+
+        self.assertEqual(modAssets.getKey("shared", None, ["yaoyao", None], False), ("yaoyao", "face"))
+        self.assertEqual(modAssets.getKey("shared", "6.3", ["yaoyao", None], False), ("yaoyao", "face"))
+        # ...while an answer the newest bucket gives is unchanged, filtered or not
+        self.assertEqual(modAssets.getKey("shared", None, ["skin", None], False), ("skin", "face"))
+        self.assertEqual(modAssets.getKey("shared", None, None), ("skin", "face"))
+        # ...and a filter nothing matches in ANY bucket still finds nothing
+        self.assertIsNone(modAssets.getKey("shared", None, ["nobody", None], False))
+        # ...and a version below every bucket's owner is not searched upwards
+        self.assertIsNone(modAssets.getKey("shared", "3.0", ["skin", None], False))
+
     def test_getKeyMissing_raisesOrReturnsNone(self):
         modAssets = self.createModAssets()
 

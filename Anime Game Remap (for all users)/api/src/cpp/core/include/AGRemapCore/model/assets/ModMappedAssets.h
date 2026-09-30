@@ -161,7 +161,14 @@ namespace AGRemapCore {
              If ``std::nullopt``, the latest version 'asset' is available at is used. Otherwise,
              the closest available version is used (the same corrected, inclusive-floor
              resolution as :cpp:class:`ModDictAssets`'s own version search -- an exact match
-             returns itself)
+             returns itself) :raw-html:`<br />` :raw-html:`<br />`
+
+             When no candidate at that version passes 'fromNonVersionVals', each OLDER version
+             'asset' is available at is tried in turn, newest first. A value two characters share is
+             filed under both, often at different versions -- Yaoyao's face diffuse ``c70ae897`` is
+             also YaoyaoBamboo's, at 6.3 -- and stopping at the newest one made a lookup filtered to
+             the older owner find nothing. Only a not-found can change: whatever the first version
+             answers, it still answers
              @endrst
              * @param fromNonVersionVals
              @rst

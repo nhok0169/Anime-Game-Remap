@@ -248,6 +248,12 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getIndexDat
         {{"4.0", "Neuvillette", "", "body"}, "33879"},
         {{"4.0", "Neuvillette", "", "dress"}, "79377"},
 
+        // Yaoyao (2026-09-27): unchanged across every commit of her hash.json, and in a 6.3 frame dump. NO rows
+        // for YaoyaoBamboo's components, as for Neuvillette's: their slot indices (main Head 0 / Body 43092;
+        // Bang and Eye A 0) belong in the fixer's config.
+        {{"4.0", "Yaoyao", "", "head"}, "0"},
+        {{"4.0", "Yaoyao", "", "body"}, "21678"},
+
         // ===== WuWa: Sanhua and SanhuaExorcist (2026-09-19) =====
         // The match_first_index of every draw slot -- a WWMI character's 'components' in
         // Metadata.json, filed as component0, component1, ... under the empty component column,

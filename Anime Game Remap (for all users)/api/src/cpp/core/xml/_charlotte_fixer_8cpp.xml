@@ -110,9 +110,9 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="125" relation="include">
+        <childnode refid="126" relation="include">
         </childnode>
-        <childnode refid="127" relation="include">
+        <childnode refid="128" relation="include">
         </childnode>
       </node>
       <node id="26">
@@ -428,6 +428,18 @@
         </childnode>
       </node>
       <node id="115">
+        <label>AGRemapCore/model/buffers/InnerLayerOutline.h</label>
+        <link refid="_inner_layer_outline_8h"/>
+        <childnode refid="112" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="114" relation="include">
+        </childnode>
+      </node>
+      <node id="116">
         <label>AGRemapCore/model/buffers/VGComponentSplit.h</label>
         <link refid="_v_g_component_split_8h"/>
         <childnode refid="112" relation="include">
@@ -633,7 +645,7 @@
         <childnode refid="68" relation="include">
         </childnode>
       </node>
-      <node id="117">
+      <node id="118">
         <label>AGRemapCore/model/iniresources/IniResource.h</label>
         <link refid="_ini_resource_8h"/>
         <childnode refid="4" relation="include">
@@ -648,10 +660,10 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="118" relation="include">
+        <childnode refid="119" relation="include">
         </childnode>
       </node>
-      <node id="116">
+      <node id="117">
         <label>AGRemapCore/model/iniresources/RemapIniResource.h</label>
         <link refid="_remap_ini_resource_8h"/>
         <childnode refid="4" relation="include">
@@ -662,11 +674,11 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="117" relation="include">
+        <childnode refid="118" relation="include">
         </childnode>
-        <childnode refid="120" relation="include">
+        <childnode refid="121" relation="include">
         </childnode>
-        <childnode refid="123" relation="include">
+        <childnode refid="124" relation="include">
         </childnode>
       </node>
       <node id="113">
@@ -677,6 +689,8 @@
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
@@ -690,8 +704,10 @@
         </childnode>
         <childnode refid="116" relation="include">
         </childnode>
+        <childnode refid="117" relation="include">
+        </childnode>
       </node>
-      <node id="121">
+      <node id="122">
         <label>AGRemapCore/model/stats/CachedFileStats.h</label>
         <link refid="_cached_file_stats_8h"/>
         <childnode refid="73" relation="include">
@@ -704,10 +720,10 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="122" relation="include">
+        <childnode refid="123" relation="include">
         </childnode>
       </node>
-      <node id="122">
+      <node id="123">
         <label>AGRemapCore/model/stats/FileStats.h</label>
         <link refid="_file_stats_8h"/>
         <childnode refid="73" relation="include">
@@ -721,14 +737,14 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="120">
+      <node id="121">
         <label>AGRemapCore/model/stats/RemapStats.h</label>
         <link refid="_remap_stats_8h"/>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="121" relation="include">
-        </childnode>
         <childnode refid="122" relation="include">
+        </childnode>
+        <childnode refid="123" relation="include">
         </childnode>
       </node>
       <node id="83">
@@ -891,13 +907,13 @@
         <childnode refid="98" relation="include">
         </childnode>
       </node>
-      <node id="126">
+      <node id="127">
         <label>AGRemapCore/model/strategies/texEditors/BaseTexEditor.h</label>
         <link refid="_base_tex_editor_8h"/>
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="125">
+      <node id="126">
         <label>AGRemapCore/model/strategies/texEditors/TexEditor.h</label>
         <link refid="_tex_editor_8h"/>
         <childnode refid="4" relation="include">
@@ -906,10 +922,10 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="126" relation="include">
+        <childnode refid="127" relation="include">
         </childnode>
       </node>
-      <node id="127">
+      <node id="128">
         <label>AGRemapCore/model/textures/Colour.h</label>
         <link refid="_colour_8h"/>
         <childnode refid="12" relation="include">
@@ -959,7 +975,7 @@
         <childnode refid="74" relation="include">
         </childnode>
       </node>
-      <node id="119">
+      <node id="120">
         <label>AGRemapCore/tools/Heading.h</label>
         <link refid="_heading_8h"/>
         <childnode refid="12" relation="include">
@@ -993,10 +1009,10 @@
         <childnode refid="104" relation="include">
         </childnode>
       </node>
-      <node id="123">
+      <node id="124">
         <label>AGRemapCore/tools/files/FileDownload.h</label>
         <link refid="_file_download_8h"/>
-        <childnode refid="124" relation="include">
+        <childnode refid="125" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
@@ -1229,7 +1245,7 @@
         <childnode refid="61" relation="include">
         </childnode>
       </node>
-      <node id="118">
+      <node id="119">
         <label>AGRemapCore/view/BaseLogger.h</label>
         <link refid="_base_logger_8h"/>
         <childnode refid="12" relation="include">
@@ -1244,7 +1260,7 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="119" relation="include">
+        <childnode refid="120" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -1325,7 +1341,7 @@
       <node id="112">
         <label>array</label>
       </node>
-      <node id="124">
+      <node id="125">
         <label>chrono</label>
       </node>
       <node id="50">

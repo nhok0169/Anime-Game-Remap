@@ -57,6 +57,8 @@
     <innerdir refid="dir_f4fc5d9a8a4f0170c0a374b18f7150b9">include/AGRemapCore/data/IniFixData/XianglingCheer</innerdir>
     <innerdir refid="dir_1fa005bb91d3b538d90613440943d3dc">include/AGRemapCore/data/IniFixData/Xingqiu</innerdir>
     <innerdir refid="dir_38a9d25ddc7b140e2484d581dcc18f49">include/AGRemapCore/data/IniFixData/XingqiuBamboo</innerdir>
+    <innerdir refid="dir_57ed808e697b889886e7c32f6121cd55">include/AGRemapCore/data/IniFixData/Yaoyao</innerdir>
+    <innerdir refid="dir_693bad7a6cc10f243b3768a93fac04c6">include/AGRemapCore/data/IniFixData/YaoyaoBamboo</innerdir>
     <innerdir refid="dir_4b23f89fa91d874fac459d33c91dc40b">include/AGRemapCore/data/IniFixData/Yelan</innerdir>
     <innerdir refid="dir_4161e81800e2d961cbbaa3c3b0108169">include/AGRemapCore/data/IniFixData/YelanTranquil</innerdir>
     <innerfile refid="_dark_diffuse_8h">DarkDiffuse.h</innerfile>

@@ -325,6 +325,16 @@ class ModTypes(StrEnum, DeferredEnum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(xingqiubamboo).*\]``
 
+    Yaoyao: :class:`ModType`
+        **Yaoyao mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(yaoyao)((?!bamboo|rainlit).)*\]``
+
+    YaoyaoBamboo: :class:`ModType`
+        **Yaoyao Rainlit Bamboo Reverie mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(yaoyao(bamboo|rainlit)).*\]``
+
     Yelan: :class:`ModType`
         **Yelan mods** :raw-html:`<br />`
 
@@ -391,6 +401,8 @@ class ModTypes(StrEnum, DeferredEnum):
     XianglingCheer = (GIBuilder.xianglingCheer, )
     Xingqiu = (GIBuilder.xingqiu, )
     XingqiuBamboo = (GIBuilder.xingqiuBamboo, )
+    Yaoyao = (GIBuilder.yaoyao, )
+    YaoyaoBamboo = (GIBuilder.yaoyaoBamboo, )
     Yelan = (GIBuilder.yelan, )
     YelanTranquil = (GIBuilder.yelanTranquil, )
     

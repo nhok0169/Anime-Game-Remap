@@ -155,6 +155,8 @@ static const std::vector<KeywordRow>& expectedRows() {
         {"XianglingCheer", {"xianglingcheer", "xianglingnewyear"}},
         {"Xingqiu", {"xingqiu"}},
         {"XingqiuBamboo", {"xingqiubamboo"}},
+        {"Yaoyao", {"yaoyao"}},
+        {"YaoyaoBamboo", {"yaoyaobamboo", "yaoyaorainlit"}},
         {"Yelan", {"yelan"}},
         {"YelanTranquil", {"yelantranquil"}},
         // The WuWa types (Sanhua, SanhuaExorcist) have no keyword rows: a WWMI .ini never names
@@ -184,7 +186,7 @@ static ModTypeId idOf(const std::string& name) {
 static void testEveryKeywordRowMatchesPython() {
     std::printf("testEveryKeywordRowMatchesPython\n");
 
-    check(expectedRows().size() == 53, "the oracle itself still has all 53 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali, CitlaliWhisperofStars, Charlotte, CharlotteHurlock, Neuvillette and NeuvilletteMelusent)");
+    check(expectedRows().size() == 55, "the oracle itself still has all 55 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali, CitlaliWhisperofStars, Charlotte, CharlotteHurlock, Neuvillette, NeuvilletteMelusent, Yaoyao and YaoyaoBamboo)");
 
     for (const KeywordRow& row : expectedRows()) {
         checkKeywords(ModTypeIdTools::getSectionKeywords(idOf(row.name)), row.keywords,
@@ -274,6 +276,8 @@ static void testMaximalMatchDisambiguatesOverlappingNames() {
         {"[TextureOverrideJeanCNBody]", ModTypeId::JeanCN, ModTypeId::Jean},
         {"[TextureOverrideKleeBlossomingStarlightBody]", ModTypeId::KleeBlossomingStarlight, ModTypeId::Klee},
         {"[TextureOverrideXingqiuBambooBody]", ModTypeId::XingqiuBamboo, ModTypeId::Xingqiu},
+        {"[TextureOverrideYaoyaoBambooBody]", ModTypeId::YaoyaoBamboo, ModTypeId::Yaoyao},
+        {"[TextureOverrideYaoYaoRainlitHead]", ModTypeId::YaoyaoBamboo, ModTypeId::Yaoyao},
         {"[TextureOverrideNingguangOrchidBody]", ModTypeId::NingguangOrchid, ModTypeId::Ningguang},
     };
 

@@ -57,6 +57,8 @@
     <innerdir refid="dir_f275c964bba2106f1ed4be7d5ddc67db">src/data/IniFixData/XianglingCheer</innerdir>
     <innerdir refid="dir_c08bc3b230dcd29dabd387a8d78e1399">src/data/IniFixData/Xingqiu</innerdir>
     <innerdir refid="dir_73058d2535db65c491982e9ec7b04dc6">src/data/IniFixData/XingqiuBamboo</innerdir>
+    <innerdir refid="dir_7f20140ab1849abb468227ea54c19e0e">src/data/IniFixData/Yaoyao</innerdir>
+    <innerdir refid="dir_1991375e77a96f8890dc61cc0aa22ea7">src/data/IniFixData/YaoyaoBamboo</innerdir>
     <innerdir refid="dir_f035f484004152963d202b9cb1390d08">src/data/IniFixData/Yelan</innerdir>
     <innerdir refid="dir_e31a1f38e0294e2911de92e9c3b15e07">src/data/IniFixData/YelanTranquil</innerdir>
     <innerfile refid="_dark_diffuse_8cpp">DarkDiffuse.cpp</innerfile>

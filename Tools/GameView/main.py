@@ -219,7 +219,7 @@ def cmdKey(args, ctx):
     for i, chord in enumerate(args.chords):
         if i:
             time.sleep(args.gap / 1000.0)
-        ctx.session.chord(_vks(chord), hold=args.hold / 1000.0)
+        ctx.session.chord(_vks(chord), hold=args.hold / 1000.0, forceVk=args.vk)
     print("pressed {}".format(" ".join(args.chords)))
 
 
@@ -696,6 +696,8 @@ def buildParser():
     p.add_argument("chords", nargs="+")
     p.add_argument("--hold", type=float, default=80, help="ms each chord is held (default 80)")
     p.add_argument("--gap", type=float, default=150, help="ms between chords (default 150)")
+    p.add_argument("--vk", action="store_true",
+                   help="inject by virtual key instead of scan code (a mod's 3DMigoto key such as vk_down)")
     p.set_defaults(func=cmdKey)
 
     p = sub.add_parser("hold", parents=[target], help="hold a key: hold w 1.5 (walk forward)")

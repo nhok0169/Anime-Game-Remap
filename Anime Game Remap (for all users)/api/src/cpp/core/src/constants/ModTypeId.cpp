@@ -221,6 +221,21 @@ namespace AGRemapCore {
             case static_cast<int>(ModTypeId::XingqiuBamboo):
                 return ModTypeId::XingqiuBamboo;
 
+            case static_cast<int>(ModTypeId::Yaoyao):
+                return ModTypeId::Yaoyao;
+
+            case static_cast<int>(ModTypeId::YaoyaoBamboo):
+                return ModTypeId::YaoyaoBamboo;
+
+            case static_cast<int>(ModTypeId::YaoyaoBambooMain):
+                return ModTypeId::YaoyaoBambooMain;
+
+            case static_cast<int>(ModTypeId::YaoyaoBambooBang):
+                return ModTypeId::YaoyaoBambooBang;
+
+            case static_cast<int>(ModTypeId::YaoyaoBambooEye):
+                return ModTypeId::YaoyaoBambooEye;
+
             case static_cast<int>(ModTypeId::Yelan):
                 return ModTypeId::Yelan;
 
@@ -457,6 +472,21 @@ namespace AGRemapCore {
 
             case ModTypeId::XingqiuBamboo:
                 return "XingqiuBamboo";
+
+            case ModTypeId::Yaoyao:
+                return "Yaoyao";
+
+            case ModTypeId::YaoyaoBamboo:
+                return "YaoyaoBamboo";
+
+            case ModTypeId::YaoyaoBambooMain:
+                return "YaoyaoBambooMain";
+
+            case ModTypeId::YaoyaoBambooBang:
+                return "YaoyaoBambooBang";
+
+            case ModTypeId::YaoyaoBambooEye:
+                return "YaoyaoBambooEye";
 
             case ModTypeId::Yelan:
                 return "Yelan";
@@ -700,6 +730,14 @@ namespace AGRemapCore {
             case ModTypeId::XingqiuBamboo:
                 return {ModTypeId::Xingqiu};
 
+            // As Neuvillette: the targets are the skin's three COMPONENT ids, not the skin itself.
+            // YaoyaoBamboo remaps back onto plain Yaoyao, who is one mesh.
+            case ModTypeId::Yaoyao:
+                return {ModTypeId::YaoyaoBambooMain, ModTypeId::YaoyaoBambooBang, ModTypeId::YaoyaoBambooEye};
+
+            case ModTypeId::YaoyaoBamboo:
+                return {ModTypeId::Yaoyao};
+
             // A skin of several components is remapped onto per COMPONENT -- one fixer, one set
             // of hash and index rows each -- so the targets are the component ids, not the skin's.
             case ModTypeId::Yelan:
@@ -746,6 +784,9 @@ namespace AGRemapCore {
 
             case ModTypeId::NeuvilletteMelusent:
                 return {ModTypeId::NeuvilletteMelusentMain, ModTypeId::NeuvilletteMelusentCoat, ModTypeId::NeuvilletteMelusentBang, ModTypeId::NeuvilletteMelusentEye};
+
+            case ModTypeId::YaoyaoBamboo:
+                return {ModTypeId::YaoyaoBambooMain, ModTypeId::YaoyaoBambooBang, ModTypeId::YaoyaoBambooEye};
 
             // Every other mod type is one mesh. The component ids themselves included -- a
             // component has no components of its own.
@@ -927,6 +968,14 @@ namespace AGRemapCore {
 
             case ModTypeId::XingqiuBamboo:
                 return {"xingqiubamboo"};
+
+            case ModTypeId::Yaoyao:
+                return {"yaoyao"};
+
+            // The skin's one mod in hand (YaoyaoBamboo1) names its sections 'YaoYaoRainlit...', after the
+            // outfit's in-game name "Rainlit Bamboo Reverie"
+            case ModTypeId::YaoyaoBamboo:
+                return {"yaoyaobamboo", "yaoyaorainlit"};
 
             case ModTypeId::Yelan:
                 return {"yelan"};

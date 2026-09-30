@@ -412,6 +412,8 @@ surprises you.
 | the eyes **look down / up** on the target but not on the source, on ONE mod | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 10's second half: the mod hides the game's face (`handling = skip` on the face diffuse hash) and brings its own, so the eye offset must not apply -- `Component::offsetOnlyWithGameFace` |
 | **white eyes with no pupils** (or eyes gone) on the target, the eye textures and UVs right | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 10: the eyes sit in the GAME's face mesh and the source's bind pose puts them behind the lids. Difference the target's own Eye `Position.buf` against the fix's output for the identity mod, vertex for vertex, and set `Component::positionOffset` |
 | a **mantle / cape sleeve, a cuff or a loose panel** sticks out or hangs wrong on the target when an arm moves | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 8: find the target's REAL forearm by which bone shares vertices with the hand chain, and audit the rows for left / right asymmetry |
+| **dark shards or wedges in LAYERED hair** (long hair of two-sided sheets, a fringe over a fringe) that turn with the camera, while the same mod's texture and bones check out | "YAOYAO <-> YAOYAOBAMBOO", point 8. It is the outline shell of the INNER faces, drawn in front of the outer ones. Confirm with `if vs != 037730.0` around the draw (shards gone, so it is the outline), locate it with `Tools/Misc/Diagnostics/outlinePaint.py`, then fix with `Component::innerOutlineObjs`. Lowering the outline width does NOT shrink them, and that is the test that rules out "the shell sits too far out" |
+| **white cheeks** on the remap, **and on the BASE outfit too** | "The face diffuse" below (a `ps-t0` <-> `ps-t1` swap). A remap corrects the base as well; the maintainer calls this a GI 6.1 break, not the mod's fault. If the output has **no remapped face section at all**, the swap never ran: see "YAOYAO <-> YAOYAOBAMBOO", point 9 (a face hash two characters share, and the versionless lookup). Check the face in the SHOP PREVIEW at full-resolution crops over several frames, because a single frame can catch a blink |
 | the remap **works and you are finishing up** | "Verifying", then "Closing out a remap" --- five files and a regenerated `core/xml`, and the vertex-group draft's `Credits` sheet |
 
 Four things hold whichever row you are on, and each has cost a session:
@@ -2113,6 +2115,91 @@ merge-direction mods moved nothing but Bennett5 (point 3).
 Neuvillette3's flap: pushed clear (point 16), confirmed only in the preview's idle loop, not walking;
 Neuvillette9's colours (point 2); the cravat's faint cyan cast (his 126-128 is the skin's cyan band; moving it to 255 hardened the
 shadows); a zero-byte fall-through `.ib` logs `Failed to substantiate` (harmless, pre-existing).
+
+## YAOYAO <-> YAOYAOBAMBOO (2026-09-27): the sixth component pair, compiled both ways
+
+Yaoyao is one mesh (`head`, `body`, both on the PLAIN shader, no normal map -- the `0fa35364` her asset
+`hash.json` calls one is a global bound on every draw of the frame); YaoyaoBamboo is an unnamed main mesh
+(Head / Body), a `Bang` and an `Eye`, like NeuvilletteMelusent without the Coat. Both share the face meshes AND the
+face diffuse hash (`c70ae897`). Prototypes: `Tools/Misc/Prototypes/yaoyaoBambooFix.py` and
+`yaoyaoFromBambooFix.py` (the oracles), synthetic skin mods `yaoyaoBambooSynth.py`, A/Bs
+`Tools/Misc/Diagnostics/abYaoyao.py` / `abYaoyaoRev.py` (both take `--src` for unfixed copies).
+
+1. **A diffuse ALPHA is read by the target's shader, and the two characters swap theirs.** Hers: head 255, body
+   ~0; the skin's: head ~0, body 255. Forward, the skin's head read her 255 and her hair and bells came out pale
+   (a blonde mod grey-green), which needed her head alpha AND her head light map's band moved (her 255 = hair, the
+   skin's 255 = its puffball cloth). Reverse, her BODY shader reads alpha 255 as a glow and the skin's identity came
+   out lit up white from the collar down -- `GIMIMergeFixerConfig::diffuseEdits` (new, per TARGET object) sets
+   it to 0. Her head's alpha changed nothing measurable reverse (fringe 171.3/136.6/91.0 against 171.5/136.8/90.6),
+   so it is left. Each settled by ONE hand edit of a fixed copy before any code (Overview habits 79-80).
+2. **A toggle chain with no `else` drew every variant at once** (Yaoyao2's three hairstyles): the component
+   template's unconditional `drawindexed = auto` -- `fillDrawOnlyWhenUndrawn` /
+   `RegFillMissing::onlyWhenAbsent`, asked PER ROOT and of the parts the edit's filter accepts (the audit: asked of
+   the whole graph, one root's draw suppressed another's cover).
+3. **A section rendering through its own `NNFix` is plain whatever it binds at `ps-t2`** (Yaoyao3 / 10 bind a
+   third texture called a normal map; read by `ps-t2` their light maps became the skin's diffuse, vivid green) --
+   `layoutFromOwnFixCall`, which also DROPS that `ps-t2` before the shift puts the light map there (written
+   ahead of the light map, it won).
+4. **The merge template had three merged-master faults, all general** (found on synthetic masters; none visible on
+   an unmerged mod):
+   - an APPENDED member re-issued one set of bindings for every branch -- the first branch's -- so branch 1's eyes
+     drew on branch 0's head light map. Now per branch (`SlotFiles::texRegVals` / `rolesInBranch`), and a
+     BORROWER takes its donor's per-branch values (the audit caught the first version re-binding a borrower to the
+     donor's first variant in every other one);
+   - a target object only ONE slot lands on got no draw in a branch that left it to the game's draw, because the
+     mod draws it in another branch (the identity variant had no body);
+   - with `texRegsByName`, a slot whose names were NOT believed was neither normalised by name nor shifted by
+     position (`byNameOf`): a body named `ResourceTexture1/2/3` bound its normal map as her diffuse. It only
+     shows where source and target layouts differ -- normal-map onto plain here.
+5. **Two skins on one face hash: copy the face only when it has to move** (`faceOnlyWhenMoved`). A copy is a
+   second override on `c70ae897` and 3DMigoto reports "Possible Mod Conflict" on every reload. The move test is
+   the DIFFUSE on the wrong register (by name, or the only face binding) -- a correct 6.x face binds its light map
+   there.
+6. **A mod on GIMI's newer `SetTextures` API can look wrong on its OWN character** under the maintainer's
+   old-loader GIMI (YaoyaoBamboo1: blonde-white hair, a pale dress) while the remap, which normalises the bindings,
+   renders the mod's real textures. Check the mod's textures before calling either side wrong (Charlotte point 9).
+7. **The white eyes in two toggle pairs were an animation frame**, not the fix: a 30-frame face series in the same
+   state showed normal and closed eyes only. One frame is not a symptom.
+8. **Dark shards in LAYERED hair are the outline of the INNER faces** (Yaoyao5), and
+   `GIMIComponentFixerConfig::Component::innerOutlineObjs` removes them while keeping the outline. Her long hair is
+   two-sided sheets in close layers; the inner face's outline shell came out in front of the outer face. The rule
+   (`InnerLayerOutline`, run on the SOURCE mesh inside the split so every object covers every other): a target
+   triangle facing in towards the head's vertical axis, or with two corners whose normal runs into the mod's own mesh
+   within 0.1, gets vertex colour alpha 0 on ALL THREE corners -- decided per vertex, a triangle with corners at
+   different widths stretched its shell into a wedge, a dark rectangle on a front lock. The outer faces keep theirs,
+   so the silhouette is unchanged; all ten mods and the identity checked in game round 360 degrees.
+   **How it was found is the part to reuse.** Eliminating first settled WHAT: the shards stayed with the back hair
+   rigid on the head bone (not the rig), stayed dark with the head painted in flat ID colours (not a texture), and
+   went with `if vs != 037730.0` round the head's draw (the outline). Then round after round of "with and without"
+   frames, each a guess at WHY, went nowhere -- the pose, the camera and the idle all move between shots. What located them
+   was painting the outline pass of ONE index slice at a time with a flat texture (the outline takes its colour
+   from the bound textures, so that slice's outline comes out grey-teal from any angle):
+   `Tools/Misc/Diagnostics/outlinePaint.py`, four rounds. Wrong on the way, each tried in game: hair routed through
+   the Body slot or into the Bang (the Kirara-style remapping), smoothing the outline normals (fewer, not gone), the
+   outline width lowered everywhere (**the shards do not shrink with it**, which is what killed "the shell sits
+   further out") or by clearance, and a uniform tangent `w` (both signs add stripes). And the first guess, the basket
+   riding the crate bone, was wrong; **eliminate before fixing.** Still open: Yaoyao8's tassel hangs lower; a see-through `TexFx\T.0` mod
+   has not been seen on the skin (none of the ten uses it).
+9. **White cheeks: a SHARED face hash made the face swap silently never run** (2026-09-29). Most of her mods bind the
+   face diffuse at `ps-t0` (pre-6.x), which GI 6.x reads as the face light map -- white cheeks, on her own outfit too
+   (the maintainer: "the correct remap should correct the base"). The template's `ps-t0` <-> `ps-t1` face swap existed
+   and was never applied, because the face section was never CLASSIFIED: her face diffuse `c70ae897` is also
+   YaoyaoBamboo's, and `ModMappedAssets::getKey` with no version looked only in the NEWEST bucket holding the value --
+   the skin's 6.3 row -- so a lookup filtered to "Yaoyao" found nothing, in the parser and the fixer alike. No error,
+   no log line, no face section in the output: the same shape as `ChecksumNotFound` on Chisa (a versionless reverse
+   lookup of a shared value). `getKey` now walks down to older buckets when the chosen one has no candidate passing the
+   filter -- only a not-found can change -- and the component template hides the ORIGINAL face section whenever the
+   remapped face keeps its hash (`GIMICharFixer`'s rule: left in, it binds the diffuse at `ps-t0` beside the copy's
+   `ps-t1`). The hide is asked by EVERY component's fixer, not only the one copying the face: each fixer's output
+   replaces the .ini text, so the file ends as the last one (the Eye) wrote it, and checked on the Main alone the
+   original stayed live in the main .ini. **Charlotte -> CharlotteHurlock had the identical gap** (face `58d9859b`) and
+   its output moves with this. `Amber`/`AmberCN` never showed it only because both rows sit in the same version bucket.
+   **And the face copy carries NO fix-library call** (`GIMIMergeFixer`'s rule, now the component template's too):
+   Yaoyao10 binds diffuse / light map at `ps-t0` / `ps-t1` and runs `NNFix`, which re-slots them itself -- swapped AND
+   kept, they moved twice and put a yellow light-map patch and blue streaks on the face. The call is stripped before
+   the swap, so the face is bound by hand.
+   To find the next one: `py -3` over `HashData.cpp` for any `tex_face_diffuse` value filed under two names, then
+   `Hashes().getKey(value, None, [base, None], False)` -- `None` is this bug.
 
 ## The reverse direction is COMPILED TOO: a multi-component SOURCE onto a classic target (2026-09-14)
 
@@ -5699,7 +5786,12 @@ Two pieces:
    iniEdits.edits[FaceObj] = {renameAdapter_.get(), faceSwapAdapter_.get()};
    ```
 
-Four things worth knowing:
+Four things worth knowing (plus a fifth, 2026-09-29: **the swap is only as good as the face
+section's CLASSIFICATION**. When the two characters of a pair share a face diffuse hash, and their rows
+sit in different version buckets, the face was never recognised as the source's and the swap silently
+did nothing. `getKey` is fixed for it, but on a new pair, grep the output for the remapped face section
+before believing the swap ran. And a face copy that keeps its hash needs the ORIGINAL hidden, and must
+not carry a fix-library call. See "YAOYAO <-> YAOYAOBAMBOO", point 9):
 
 - **Both directions must be in ONE `RegRemap`.** `IfContentPart::remapKeys` rebuilds the part in a
   single pass, consulting the rules once per *original* key, so one edit gives a true swap. Two

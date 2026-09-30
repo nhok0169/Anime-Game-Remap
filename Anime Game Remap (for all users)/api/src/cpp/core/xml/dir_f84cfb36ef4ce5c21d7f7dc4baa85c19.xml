@@ -57,6 +57,8 @@
     <innerdir refid="dir_1723ea311370d40df422f50b71dc6f85">include/AGRemapCore/data/IniParseData/XianglingCheer</innerdir>
     <innerdir refid="dir_4f7aedeef76c624af55d55442dd84055">include/AGRemapCore/data/IniParseData/Xingqiu</innerdir>
     <innerdir refid="dir_279f8e6c2bbd6ab4a82ea52984e35825">include/AGRemapCore/data/IniParseData/XingqiuBamboo</innerdir>
+    <innerdir refid="dir_e6f118396f01665640cce246e7ef12ed">include/AGRemapCore/data/IniParseData/Yaoyao</innerdir>
+    <innerdir refid="dir_63cc90c7a7d3af36b9f0f294be8af7d3">include/AGRemapCore/data/IniParseData/YaoyaoBamboo</innerdir>
     <innerdir refid="dir_6f8c66ab580060f586334e13507f6714">include/AGRemapCore/data/IniParseData/Yelan</innerdir>
     <innerdir refid="dir_00a830b2d0a3714ea23f1ff25ad8c93d">include/AGRemapCore/data/IniParseData/YelanTranquil</innerdir>
     <innerfile refid="_g_i_m_i_char_parser_8h">GIMICharParser.h</innerfile>

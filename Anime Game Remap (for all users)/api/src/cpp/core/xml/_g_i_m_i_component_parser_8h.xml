@@ -12,6 +12,7 @@
     <includedby refid="_citlali_whisperof_stars_parser_8cpp" local="yes">src/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.cpp</includedby>
     <includedby refid="_g_i_m_i_component_parser_8cpp" local="yes">src/data/IniParseData/GIMIComponentParser.cpp</includedby>
     <includedby refid="_neuvillette_melusent_parser_8cpp" local="yes">src/data/IniParseData/NeuvilletteMelusent/NeuvilletteMelusentParser.cpp</includedby>
+    <includedby refid="_yaoyao_bamboo_parser_8cpp" local="yes">src/data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.cpp</includedby>
     <includedby refid="_yelan_tranquil_parser_8cpp" local="yes">src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp</includedby>
     <incdepgraph>
       <node id="47">
@@ -1168,6 +1169,8 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
@@ -1194,6 +1197,10 @@
         <link refid="_neuvillette_melusent_parser_8cpp"/>
       </node>
       <node id="8">
+        <label>src/data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.cpp</label>
+        <link refid="_yaoyao_bamboo_parser_8cpp"/>
+      </node>
+      <node id="9">
         <label>src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp</label>
         <link refid="_yelan_tranquil_parser_8cpp"/>
       </node>

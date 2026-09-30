@@ -271,6 +271,21 @@ namespace AGRemapCore {
         std::string faceReg;
 
         /**
+         * @brief
+         @rst
+         Whether the mod's face section is copied onto the target ONLY when its diffuse has to move onto
+         \ref faceReg -- the mod binds it at the other register :raw-html:`<br />` :raw-html:`<br />`
+
+         For two skins of one character that draw the SAME face meshes with the SAME face diffuse hash
+         (Yaoyao and YaoyaoBamboo: ``c70ae897``), the mod's own section already fires on the target, and a
+         copy is a second `TextureOverride`_ on that hash -- 3DMigoto reports it as a mod conflict on every
+         reload. A binding by ``this =`` names no register and never moves. The forward direction's rule
+         is ``GIMIComponentFixerConfig::faceSwapOnlyFromDiffuseReg``. **Default**: ``false``, always copied
+         @endrst
+         */
+        bool faceOnlyWhenMoved = false;
+
+        /**
          * @brief How the TARGET's shader reads its textures
          */
         enum class TargetLayout {
@@ -357,6 +372,21 @@ namespace AGRemapCore {
          @endrst
          */
         std::function<TexEditor::Filter(const std::string& diffusePath)> lightMapEdit;
+
+        /**
+         * @brief
+         @rst
+         A diffuse edit per TARGET object, eg. ``{"body", <alpha to 0>}`` -- applied to the diffuse every
+         slot landing on that object draws with :raw-html:`<br />` :raw-html:`<br />`
+
+         A diffuse's ALPHA is read by the target's own shader, and two skins of one character may mean
+         different things by it. YaoyaoBamboo's body diffuse is alpha 255 all over and Yaoyao's is ~0: on
+         her body shader 255 is a glow, and the skin's identity mod came out lit up white from the collar
+         down (2026-09-27). The component template's ``GIMIComponentFixerConfig::diffuseEdits`` is the same
+         idea keyed by the source object. **Default**: empty, no edit
+         @endrst
+         */
+        std::vector<std::pair<std::string, TexEditor::Filter>> diffuseEdits;
 
         /**
          * @brief Whether written textures carry a mip chain -- without one they speckle at distance

@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="42" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="42" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="44" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="44" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_push_away_1ac35866357791eac94910e7a5ee53c4b9" prot="public" static="no" mutable="no">
         <type>std::array&lt; float, 3 &gt;</type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="47" column="20" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="47" bodyend="47"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="49" column="20" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="49" bodyend="49"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_push_away_1a6135fcd2ba1a4fb58274e604f868154d" prot="public" static="no" mutable="no">
         <type>float</type>
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="52" column="15" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="52" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="54" column="15" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="54" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_push_away_1ae8041ce3f70f6873248e9840d3d4e8e3" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -67,7 +67,7 @@ Only vertices on this side of x = 0: ``1`` for x &gt; 0, ``-1`` for x &lt; 0, ``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="60" column="13" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="60" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="62" column="13" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="62" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -80,7 +80,7 @@ cut component gets depends on what the negative-index components keep), and whic
 index buffers take part
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="38" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="38" bodyend="61"/>
+    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="40" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="40" bodyend="63"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1a6135fcd2ba1a4fb58274e604f868154d" prot="public" virt="non-virtual"><scope>AGRemapCore::VGPushAway</scope><name>distance</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1ac35866357791eac94910e7a5ee53c4b9" prot="public" virt="non-virtual"><scope>AGRemapCore::VGPushAway</scope><name>from</name></member>

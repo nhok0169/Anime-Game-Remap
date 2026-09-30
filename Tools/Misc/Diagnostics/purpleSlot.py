@@ -69,12 +69,15 @@ def main() -> int:
     parser = argparse.ArgumentParser(description = "Rebind one remapped slot to a flat magenta texture")
     parser.add_argument("mod", help = "the mod folder")
     parser.add_argument("--component", default = "Eye", help = "target component to paint (default: %(default)s)")
+    parser.add_argument("--skin", default = "BennettAdventure",
+                        help = "the target skin whose component it is, as its sections name it (default: %(default)s)")
     parser.add_argument("--register", default = "ps-t0", help = "which register to replace (default: %(default)s)")
     parser.add_argument("--match", default = None,
                         help = "regex a remapped section name must contain to be painted; "
-                               "defaults to BennettAdventure<component>. A WuWa fix names its "
-                               "bindings CommandList<Src>Component<N>Textures, so for those "
-                               "pass e.g. --match Component5Textures")
+                               "defaults to <skin><component>. A WuWa fix names its "
+                               "bindings CommandList<Src>Component<N>Textures, which no "
+                               "skin-plus-component string matches, so for those pass e.g. "
+                               "--match Component5Textures")
     parser.add_argument("--off", action = "store_true", help = "restore the .ini files from the backup and stop")
     args = parser.parse_args()
 
@@ -95,7 +98,7 @@ def main() -> int:
         return 0
 
     #: a plain substring is what the old test did, and re.escape keeps the default exactly that
-    pattern = re.compile(args.match if (args.match) else re.escape(f"BennettAdventure{args.component}"))
+    pattern = re.compile(args.match if (args.match) else re.escape(f"{args.skin}{args.component}"))
 
     touched = 0
     for iniPath in activeInis(folder):

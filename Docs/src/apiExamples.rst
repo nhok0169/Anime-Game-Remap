@@ -3908,10 +3908,6 @@ Reference: https://gamebanana.com/posts/12191289
             |
             +--> KiraraBootsBodyRemapTexDsa GG3.dds
             |
-            +--> KiraraBootsFaceRemapTexPoj JcH.dds
-            |
-            +--> KiraraFaceDiffuseRemapDL.dds
-            |
             +--> KiraraKiraraBootsRemapBlend.buf
             |
             +--> Neko.dds
@@ -3983,15 +3979,15 @@ Reference: https://gamebanana.com/posts/12191289
             ps-t2 = ResourceKiraraDressLightMap
             run = CommandList\global\ORFix\ORFix
 
-            [TextureOverrideKiraraFaceHeadNormalMap]
-            hash = 6eb20522
-            ps-t0 = ResourceKiraraFaceHeadNormalMap
-
-
-            ; CommandList -----------------------
-
-            ; Resources -------------------------
-
+            ;RemapFixHideOrig -->[TextureOverrideKiraraFaceHeadNormalMap]
+            ;RemapFixHideOrig -->hash = 6eb20522
+            ;RemapFixHideOrig -->ps-t0 = ResourceKiraraFaceHeadNormalMap
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->; CommandList -----------------------
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->; Resources -------------------------
+            ;RemapFixHideOrig -->
             [ResourceKiraraPosition]
             type = Buffer
             stride = 40
@@ -4056,9 +4052,6 @@ Reference: https://gamebanana.com/posts/12191289
             ; Kirara remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Kirara mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-            [ResourceKiraraFaceDiffuseRemapDL]
-            filename = KiraraFaceDiffuseRemapDL.dds
-
             [TextureOverrideKiraraHeadKiraraBootsRemapFix]
             hash = 846979e2
             match_first_index = 0
@@ -4108,18 +4101,18 @@ Reference: https://gamebanana.com/posts/12191289
             [TextureOverrideKiraraVertexLimitRaiseKiraraBootsRemapFix]
             hash = 4955fc99
 
-            [TextureOverrideKiraraFaceKiraraBootsRemapFix]
+            [TextureOverrideKiraraFaceHeadNormalMapKiraraBootsRemapFix]
             hash = 6eb20522
-            ps-t1 = ResourceKiraraFaceDiffuseRemapDL
-            ps-t0 = ResourceKiraraFaceDiffuseRemapDLKiraraBootsOpaqueFaceDiffuseRemapTex
+            ps-t1 = ResourceKiraraFaceHeadNormalMap
+            ps-t0 = ResourceKiraraFaceHeadNormalMapKiraraBootsOpaqueFaceDiffuseRemapTex
 
             [ResourceKiraraKiraraBootsRemapBlend]
             type = Buffer
             stride = 32
             filename = KiraraKiraraBootsRemapBlend.buf
 
-            [ResourceKiraraFaceDiffuseRemapDLKiraraBootsOpaqueFaceDiffuseRemapTex]
-            filename = KiraraBootsFaceRemapTexPoj JcH.dds
+            [ResourceKiraraFaceHeadNormalMapKiraraBootsOpaqueFaceDiffuseRemapTex]
+            filename = KiraraBootsFaceRemapTexEKW JcH.dds
 
             ; --------------------------------------------
 
@@ -4186,15 +4179,15 @@ Reference: https://gamebanana.com/posts/12191289
             ps-t2 = ResourceKiraraDressLightMap
             run = CommandList\global\ORFix\ORFix
 
-            [TextureOverrideKiraraFaceHeadNormalMap]
-            hash = 6eb20522
-            ps-t0 = ResourceKiraraFaceHeadNormalMap
-
-
-            ; CommandList -----------------------
-
-            ; Resources -------------------------
-
+            ;RemapFixHideOrig -->[TextureOverrideKiraraFaceHeadNormalMap]
+            ;RemapFixHideOrig -->hash = 6eb20522
+            ;RemapFixHideOrig -->ps-t0 = ResourceKiraraFaceHeadNormalMap
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->; CommandList -----------------------
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->; Resources -------------------------
+            ;RemapFixHideOrig -->
             [ResourceKiraraPosition]
             type = Buffer
             stride = 40
@@ -4290,10 +4283,10 @@ Reference: https://gamebanana.com/posts/12191289
             [TextureOverrideKiraraVertexLimitRaiseKiraraBootsRemapFix]
             hash = 4955fc99
 
-            [TextureOverrideKiraraFaceKiraraBootsRemapFix]
+            [TextureOverrideKiraraFaceHeadNormalMapKiraraBootsRemapFix]
             hash = 6eb20522
-            ps-t1 = ResourceKiraraFaceDiffuseRemapDL
-            ps-t0 = ResourceKiraraFaceDiffuseRemapDLKiraraBootsOpaqueFaceDiffuseRemapTex
+            ps-t1 = ResourceKiraraFaceHeadNormalMap
+            ps-t0 = ResourceKiraraFaceHeadNormalMapKiraraBootsOpaqueFaceDiffuseRemapTex
 
             [ResourceKiraraKiraraBootsRemapBlend]
             type = Buffer
@@ -4303,11 +4296,8 @@ Reference: https://gamebanana.com/posts/12191289
             [ResourceKiraraBodyDiffuseKiraraBootsDarkenDiffuseRemapTex]
             filename = KiraraBootsBodyRemapTexDsa GG3.dds
 
-            [ResourceKiraraFaceDiffuseRemapDLKiraraBootsOpaqueFaceDiffuseRemapTex]
-            filename = KiraraBootsFaceRemapTexPoj JcH.dds
-
-            [ResourceKiraraFaceDiffuseRemapDL]
-            filename = KiraraFaceDiffuseRemapDL.dds
+            [ResourceKiraraFaceHeadNormalMapKiraraBootsOpaqueFaceDiffuseRemapTex]
+            filename = KiraraBootsFaceRemapTexEKW JcH.dds
 
             ; --------------------------------------------
 

@@ -183,11 +183,21 @@ namespace AGRemapCore {
                 // At 4.0, where his downloads are.
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Neuvillette)}, IniParseBuilderFuncs::neuvillette4_0()},
 
+                // ===== Yaoyao (2026-09-27) =====
+                // Two drawn objects off one mesh, both plain. At 4.0, where her downloads are.
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Yaoyao)}, IniParseBuilderFuncs::yaoyao4_0()},
+
                 // ===== NeuvilletteMelusent (2026-09-25) =====
                 // The fifth row built by makeGIMIComponentParser, the reverse of the four Neuvillette rows. At 6.3,
                 // where the skin's assets are.
                 {{"6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent)},
                  IniParseBuilderFuncs::neuvilletteMelusent6_3()},
+
+                // ===== YaoyaoBamboo (2026-09-27) =====
+                // The sixth row built by makeGIMIComponentParser, the reverse of the three Yaoyao rows. At 6.3,
+                // where the skin's assets are.
+                {{"6.3", ModTypeIdTools::getName(ModTypeId::YaoyaoBamboo)},
+                 IniParseBuilderFuncs::yaoyaoBamboo6_3()},
             };
         }
     }

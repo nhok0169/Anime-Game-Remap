@@ -832,6 +832,17 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The parser for a 4.0-era **Yaoyao** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head`` / ``body``, both on the plain layout. See
+             ``data/IniParseData/Yaoyao/YaoyaoParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory yaoyao4_0();
+
+            /**
+             * @brief
+             @rst
              The parser for a 6.3-era **NeuvilletteMelusent** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
 
              A skin of four components -- an unnamed main mesh, a Coat, a Bang and an Eye. See
@@ -839,6 +850,17 @@ namespace AGRemapCore {
              @endrst
              */
             static IniParseBuilder::Factory neuvilletteMelusent6_3();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 6.3-era **YaoyaoBamboo** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             A skin of three components -- an unnamed main mesh, a Bang and an Eye. See
+             ``data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory yaoyaoBamboo6_3();
 
     };
 

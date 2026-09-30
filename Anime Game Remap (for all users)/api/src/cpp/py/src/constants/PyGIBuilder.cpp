@@ -78,6 +78,8 @@ Mirrors the pure-Python :class:`GIBuilder` class, but builds the lighter, C++-si
         .def_static("xianglingCheer", &AGRC::GIBuilder::xianglingCheer, py::doc(R"doc(Creates the :class:`ModType` for XianglingCheer)doc"))
         .def_static("xingqiu", &AGRC::GIBuilder::xingqiu, py::doc(R"doc(Creates the :class:`ModType` for Xingqiu)doc"))
         .def_static("xingqiuBamboo", &AGRC::GIBuilder::xingqiuBamboo, py::doc(R"doc(Creates the :class:`ModType` for XingqiuBamboo)doc"))
+        .def_static("yaoyao", &AGRC::GIBuilder::yaoyao, py::doc(R"doc(Creates the :class:`ModType` for Yaoyao)doc"))
+        .def_static("yaoyaoBamboo", &AGRC::GIBuilder::yaoyaoBamboo, py::doc(R"doc(Creates the :class:`ModType` for YaoyaoBamboo, the skin of three components; its component ids are fix targets only and have no factory)doc"))
         .def_static("yelan", &AGRC::GIBuilder::yelan, py::doc(R"doc(Creates the :class:`ModType` for Yelan)doc"))
         .def_static("yelanTranquil", &AGRC::GIBuilder::yelanTranquil, py::doc(R"doc(Creates the :class:`ModType` for YelanTranquil, the skin of three components; her component ids are fix targets only and have no factory)doc"));
 }

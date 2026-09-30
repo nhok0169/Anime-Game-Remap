@@ -99,6 +99,9 @@ namespace AGRemapCore {
         const std::string NormalShiftedDiffuseReg = "ps-t1";
         const std::string NormalShiftedLightMapReg = "ps-t2";
 
+        // The three registers a slot's textures sit in, in order -- see SlotFiles::texRegVals.
+        const std::array<std::string, 3> TexRegs{"ps-t0", "ps-t1", "ps-t2"};
+
         // True everywhere but the outline pass: ORFix tags every outline vertex shader with this
         // filter_index (BufferValues/ORFix.ini, [ShaderOverrideOutlineVS...]).
         const std::string NotOutlinePass = "vs != 037730.0";
@@ -297,6 +300,21 @@ namespace AGRemapCore {
             // twelve -- so "does the mod draw here" is a per-branch question wherever the branches
             // are different models.
             std::vector<BranchVal> drawVals;
+
+            // The raw values of ps-t0, ps-t1 and ps-t2, through `run =`, each with the condition it is
+            // bound under. The roles above are ONE reading, taken off whichever branch binds each
+            // register first -- right for the section's own lines, which are remapped in place, and
+            // wrong for a member whose bindings the merge re-issues ahead of its appended draw: a
+            // merged master's variants bind different textures, and YaoyaoBamboo's synthetic master
+            // (an identity beside a mod on GIMI's newer API) drew branch 0's eyes on its head LIGHT
+            // MAP beside branch 1's (2026-09-27). See rolesInBranch.
+            std::vector<BranchVal> texRegVals[3];
+
+            // Whether the slot binds nothing of its own and took its textures from a donor -- see
+            // Slot::borrowFrom. Its texRegVals are then the DONOR's: a borrower in a merged master whose
+            // donor binds different textures per variant was re-bound to the donor's FIRST variant in every
+            // other one (the audit of YaoyaoBamboo -> Yaoyao, reproduced on a master of two identities).
+            bool borrowed = false;
         };
 
         // ---- what one source COMPONENT's sections name ----
@@ -685,6 +703,20 @@ namespace AGRemapCore {
                                 if (faceFile_.empty()) {
                                     faceFile_ = fileOf(resourceOf(branches_.firstValThroughRun(templates, sectionName, DiffuseReg)));
                                 }
+
+                                // Whether the face DIFFUSE sits on the register faceReg moves it off -- see
+                                // GIMIMergeFixerConfig::faceOnlyWhenMoved. Not just anything bound there: a
+                                // correct 6.x face binds its LIGHT MAP on the other register. So the binding
+                                // there counts when its name says diffuse, or when the face binds nothing on
+                                // faceReg itself (a pre-6.x face with one texture on ps-t0).
+                                const std::string& otherReg = (config_.faceReg == DiffuseReg) ? LightMapReg : DiffuseReg;
+                                const std::string onOther(resourceOf(branches_.firstValThroughRun(templates, sectionName, otherReg)));
+                                const std::string onFaceReg(config_.faceReg.empty() ? std::string()
+                                    : resourceOf(branches_.firstValThroughRun(templates, sectionName, config_.faceReg)));
+                                if (!config_.faceReg.empty() && !onOther.empty()
+                                        && (RegValChecks::isDiffuse(onOther) || onFaceReg.empty())) {
+                                    faceNeedsMove_ = true;
+                                }
                             } else if (hashType == IbHashKey) {
                                 std::optional<std::string> index = firstVal(tpl, IniKeywords::MatchFirstIndex);
                                 if (!index.has_value()) {
@@ -715,6 +747,9 @@ namespace AGRemapCore {
                                     SlotFiles slotFiles;
                                     slotFiles.found = true;
                                     slotFiles.section = sectionName;
+                                    for (std::size_t reg = 0; reg < TexRegs.size(); ++reg) {
+                                        slotFiles.texRegVals[reg] = branches_.valsThroughRun(templates, sectionName, TexRegs[reg]);
+                                    }
 
                                     for (const BranchVal& call : branches_.valsThroughRun(templates, sectionName, IniKeywords::Run)) {
                                         const std::string value(StringTools::strip(call.val));
@@ -931,6 +966,12 @@ namespace AGRemapCore {
                             files->diffuseRes = donor->diffuseRes;
                             files->lightMap = donor->lightMap;
                             files->lightMapRes = donor->lightMapRes;
+                            // ...and the donor's bindings per BRANCH, so a merged master's borrower reads
+                            // the textures its donor binds in the branch being drawn -- see rolesInBranch.
+                            for (std::size_t reg = 0; reg < TexRegs.size(); ++reg) {
+                                files->texRegVals[reg] = donor->texRegVals[reg];
+                            }
+                            files->borrowed = true;
                             // Added in the target's own layout, so nothing to shift afterwards.
                             normalMap_[key(component.name, slot.name)] = false;
                             borrowed_.push_back({component.name, slot.name});
@@ -1202,7 +1243,7 @@ namespace AGRemapCore {
                     }
 
                     std::vector<SlotRemap::RemapTarget> faceTargets;
-                    if (!config_.faceReg.empty()) {
+                    if (copiesFace()) {
                         faceTargets.emplace_back(GraphId(0, FaceObj.first, FaceObj.second), keepName);
                     }
                     remap.emplace_back(GraphId(0, FaceObj.first, FaceObj.second), std::move(faceTargets));
@@ -1315,7 +1356,107 @@ namespace AGRemapCore {
                     texRegNormalize_ = ObjGroupEdit(std::move(iniEdits), false);
                 }
 
+                // ---- 3a'. the diffuse edits, per TARGET object -- see GIMIMergeFixerConfig::diffuseEdits ----
+                //
+                // The same two halves as the light map's below: the object's own diffuse, collected off
+                // the target's graph, and a member that brings its OWN, collected off the member's graph
+                // ahead of the fold. A member on the representative's textures needs nothing of its own:
+                // its re-issued binding names the edited resource (editedDiffuse).
+                const TexEditor::Filter* diffuseEditOf(const std::string& obj) const {
+                    for (const auto& entry : config_.diffuseEdits) {
+                        if (entry.first == obj && entry.second) {
+                            return &entry.second;
+                        }
+                    }
+                    return nullptr;
+                }
+
+                // The target object a source slot lands on -- GIMIMergeFixerConfig::Slot::to.
+                std::string slotTarget(const std::pair<std::string, std::string>& member) const {
+                    for (const GIMIMergeFixerConfig::Component& component : config_.components) {
+                        if (component.name != member.first) {
+                            continue;
+                        }
+                        for (const GIMIMergeFixerConfig::Slot& slot : component.slots) {
+                            if (slot.name == member.second) {
+                                return slot.to;
+                            }
+                        }
+                    }
+                    return std::string();
+                }
+
+                // The name a member's diffuse binding is re-issued under: the edited one where its target
+                // object has a diffuse edit -- worked out with the function that names the edit's output.
+                std::string editedDiffuse(const std::string& res, const std::pair<std::string, std::string>& member) const {
+                    if (res.empty() || diffuseEditOf(slotTarget(member)) == nullptr) {
+                        return res;
+                    }
+                    return IniNamingTools::getRemapTexResourceName(res, TextTools::capitalize(toModName_) + "Diffuse");
+                }
+
+                void buildDiffuseEdits() {
+                    for (const std::string& obj : drawn_) {
+                        const TexEditor::Filter* filter = diffuseEditOf(obj);
+                        auto repIt = representative_.find(obj);
+                        if (filter == nullptr || repIt == representative_.end()) {
+                            continue;
+                        }
+
+                        const SlotFiles* repFiles = slotFiles(repIt->second.first, repIt->second.second);
+                        if (repFiles != nullptr && !repFiles->diffuseRes.empty()) {
+                            const bool normalMap = hasNormalMap(repIt->second.first, repIt->second.second);
+                            const std::string reg = byNameOf(repFiles)
+                                ? targetDiffuseReg() : (normalMap ? NormalShiftedDiffuseReg : DiffuseReg);
+
+                            auto replace = std::make_unique<TexEditorReplace<>>(
+                                GraphId(0, "", obj + "RemapTexDiffuse"),
+                                TexEditor({*filter}, config_.compressTextures, config_.mipmaps), makeResEditConfig(),
+                                "resourceRemapTexEdit", std::string("Diffuse"));
+
+                            auto collect = std::make_unique<Collector>();
+                            collect->srcRegs = {{GraphId(0, "", obj), reg}};
+                            collect->resEdits = {{"diffuse", replace.get()}};
+
+                            texGroupEdits_.push_back(collect.get());
+                            texReplaces_.push_back(std::move(replace));
+                            texCollects_.push_back(std::move(collect));
+                        }
+
+                        auto membersIt = members_.find(obj);
+                        if (membersIt == members_.end()) {
+                            continue;
+                        }
+                        for (const auto& member : membersIt->second) {
+                            const SlotFiles* files = slotFiles(member.first, member.second);
+                            if (member == repIt->second || files == nullptr || files->diffuseRes.empty()
+                                    || (repFiles != nullptr && files->diffuseRes == repFiles->diffuseRes)) {
+                                continue;
+                            }
+
+                            const bool normalMap = hasNormalMap(member.first, member.second);
+                            const std::string reg = byNameOf(files)
+                                ? targetDiffuseReg() : (normalMap ? NormalShiftedDiffuseReg : DiffuseReg);
+
+                            auto replace = std::make_unique<TexEditorReplace<>>(
+                                GraphId(0, member.first, member.second + "RemapTexDiffuse"),
+                                TexEditor({*filter}, config_.compressTextures, config_.mipmaps), makeResEditConfig(),
+                                "resourceRemapTexEdit", std::string("Diffuse"));
+
+                            auto collect = std::make_unique<Collector>();
+                            collect->srcRegs = {{GraphId(0, member.first, member.second), reg}};
+                            collect->resEdits = {{"diffuse", replace.get()}};
+
+                            preRemapTexGroupEdits_.push_back(collect.get());
+                            texReplaces_.push_back(std::move(replace));
+                            texCollects_.push_back(std::move(collect));
+                        }
+                    }
+                }
+
                 void buildTexEdits() {
+                    buildDiffuseEdits();
+
                     if (!config_.lightMapEdit) {
                         return;
                     }
@@ -1337,7 +1478,7 @@ namespace AGRemapCore {
                         }
 
                         const bool normalMap = hasNormalMap(it->second.first, it->second.second);
-                        const std::string reg = config_.texRegsByName
+                        const std::string reg = byNameOf(files)
                             ? targetLightMapReg() : (normalMap ? NormalShiftedLightMapReg : LightMapReg);
 
                         auto replace = std::make_unique<TexEditorReplace<>>(
@@ -1396,7 +1537,7 @@ namespace AGRemapCore {
                             }
 
                             const bool normalMap = hasNormalMap(member.first, member.second);
-                            const std::string reg = config_.texRegsByName
+                            const std::string reg = byNameOf(files)
                                 ? targetLightMapReg() : (normalMap ? NormalShiftedLightMapReg : LightMapReg);
 
                             auto replace = std::make_unique<TexEditorReplace<>>(
@@ -1744,7 +1885,13 @@ namespace AGRemapCore {
 
                             RegBranchAdd<>::Additions additions;
                             long long offset = 0;
-                            const SlotFiles* bound = repFiles;
+
+                            // Every member's textures as THIS branch binds them -- see rolesInBranch.
+                            // Reserved up front: 'bound' points into it.
+                            std::vector<SlotFiles> inBranch;
+                            inBranch.reserve(members.size() + 1);
+                            inBranch.push_back(rolesInBranch(*repFiles, local));
+                            const SlotFiles* bound = &inBranch.back();
 
                             for (std::size_t i = 0; i < members.size(); ++i) {
                                 const SlotFiles* files = slotFiles(members[i].first, members[i].second);
@@ -1772,7 +1919,8 @@ namespace AGRemapCore {
                                         ctx_.log("the '" + members[i].first + " " + members[i].second
                                                   + "' slot is drawn per branch, so it stays in the outline pass");
                                     }
-                                    appendMemberBindings(additions, members[i], bound);
+                                    inBranch.push_back(rolesInBranch(*files, local));
+                                    appendMemberBindings(additions, members[i], bound, &inBranch.back());
                                 }
 
                                 if (i > 0 || !branchDraws) {
@@ -1797,6 +1945,102 @@ namespace AGRemapCore {
                     return true;
                 }
 
+                // Whether a slot's bindings were put in the target's layout BY NAME (buildTexRegNormalize), which
+                // is only the slots whose names were believed -- SlotFiles::byName. Every other slot is still in
+                // its own layout when the collects look a register up, and is shifted by position afterwards.
+                // Asking the config flag alone left an untrusted-names slot neither normalised nor shifted: a
+                // YaoyaoBamboo body named ResourceTexture1/2/3 bound its normal map as her diffuse (2026-09-27).
+                bool byNameOf(const SlotFiles* files) const {
+                    return config_.texRegsByName && files != nullptr && files->byName;
+                }
+
+                // Whether some branch of a merged master gives this slot an ib and no draw of its own.
+                bool someBranchUndrawn(const SlotFiles& files) {
+                    for (const BranchVal& ib : files.ibs) {
+                        if (!ib.val.empty() && !branches_.anyCompatible(files.drawVals, ib.query)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                // A slot's texture roles in ONE branch of a merged master: readFiles' reading, asked of
+                // the bindings that branch can take and of nothing else. A register this branch does
+                // not bind is empty here rather than borrowed from another branch -- ModBranches::pick
+                // takes a lone candidate whatever its condition, which is how branch 1's light map
+                // reached branch 0's eyes. With no query, or bindings that do not branch at all, the
+                // slot's single reading comes back unchanged.
+                SlotFiles rolesInBranch(const SlotFiles& files, const std::optional<Z3Predicate>& local) {
+                    SlotFiles out = files;
+                    if (!local.has_value()) {
+                        return out;
+                    }
+
+                    bool branched = false;
+                    for (const std::vector<BranchVal>& vals : files.texRegVals) {
+                        for (const BranchVal& val : vals) {
+                            branched = branched || val.query.has_value();
+                        }
+                    }
+                    if (!branched) {
+                        return out;
+                    }
+
+                    std::array<std::string, 3> res;
+                    for (std::size_t reg = 0; reg < res.size(); ++reg) {
+                        for (const BranchVal& val : files.texRegVals[reg]) {
+                            if (!val.query.has_value() || branches_.compatible(*local, *val.query)) {
+                                res[reg] = ModBranches::resourceOf(std::optional<std::string>(val.val));
+                                break;
+                            }
+                        }
+                    }
+
+                    // Positional first, the same rule as readFiles: a ps-t2 is the normal-map layout.
+                    const bool normalMap = !res[2].empty();
+                    // A borrower never carried its donor's normal map (readFiles copies the diffuse and the
+                    // light map only), and resolving per branch does not change what it binds.
+                    if (!files.borrowed) {
+                        out.normalMapRes = normalMap ? res[0] : std::string();
+                    }
+                    out.diffuseRes = normalMap ? res[1] : res[0];
+                    out.lightMapRes = normalMap ? res[2] : res[1];
+                    out.byName = false;
+
+                    // ...then by NAME, believed only as readFiles believes it.
+                    if (config_.texRegsByName) {
+                        bool trusted = true;
+                        std::string byNameNormal, byNameLight, byNameDiffuse;
+                        for (const std::string& r : res) {
+                            if (r.empty()) {
+                                continue;
+                            }
+                            std::string* role = RegValChecks::isNormalMap(r) ? &byNameNormal
+                                              : RegValChecks::isLightMap(r) ? &byNameLight
+                                              : RegValChecks::isDiffuse(r) ? &byNameDiffuse : nullptr;
+                            trusted = trusted && role != nullptr && role->empty();
+                            if (role != nullptr) {
+                                *role = r;
+                            }
+                        }
+
+                        if (trusted) {
+                            out.byName = true;
+                            if (!byNameNormal.empty()) {
+                                out.normalMapRes = byNameNormal;
+                            }
+                            if (!byNameLight.empty()) {
+                                out.lightMapRes = byNameLight;
+                            }
+                            if (!byNameDiffuse.empty()) {
+                                out.diffuseRes = byNameDiffuse;
+                            }
+                        }
+                    }
+
+                    return out;
+                }
+
                 // A member that reads its own textures binds them ahead of its draw, and then needs
                 // its own fix call -- rebinding ps-t0/ps-t1 starts a new binding generation and
                 // NNFix re-slots whatever is bound when it runs. Shared with the unbranched path so
@@ -1807,9 +2051,13 @@ namespace AGRemapCore {
                 // back. CitlaliWhisperofStars' Eyes borrow Body A's set and are merged after Body D,
                 // which binds its own, and the eyes drew with Body D's atlas (2026-09-22). 'bound'
                 // starts as the representative's and follows every member that rebinds.
+                //
+                // 'inBranch', when given, is the member's textures as one branch of a merged master
+                // binds them (rolesInBranch) rather than its single reading.
                 void appendMemberBindings(std::vector<std::pair<std::string, std::string>>& additions,
-                                           const std::pair<std::string, std::string>& member, const SlotFiles*& bound) {
-                    const SlotFiles* files = slotFiles(member.first, member.second);
+                                           const std::pair<std::string, std::string>& member, const SlotFiles*& bound,
+                                           const SlotFiles* inBranch = nullptr) {
+                    const SlotFiles* files = (inBranch != nullptr) ? inBranch : slotFiles(member.first, member.second);
                     const bool ownTextures = (files != nullptr) && (bound != nullptr)
                                               && (!files->diffuseRes.empty() || !files->lightMapRes.empty())
                                               && (files->diffuseRes != bound->diffuseRes
@@ -1826,7 +2074,7 @@ namespace AGRemapCore {
                     }
 
                     if (!files->diffuseRes.empty()) {
-                        additions.emplace_back(targetDiffuseReg(), files->diffuseRes);
+                        additions.emplace_back(targetDiffuseReg(), editedDiffuse(files->diffuseRes, member));
                     }
 
                     if (!files->lightMapRes.empty()) {
@@ -2072,7 +2320,7 @@ namespace AGRemapCore {
                     // issues exactly one for the whole path, ahead of every draw on it.
                     for (const std::string& obj : drawn_) {
                         auto membersIt = members_.find(obj);
-                        if (membersIt == members_.end() || membersIt->second.size() < 2) {
+                        if (membersIt == members_.end() || membersIt->second.empty()) {
                             continue;
                         }
 
@@ -2080,6 +2328,19 @@ namespace AGRemapCore {
                         const SlotFiles* repFiles = (repIt == representative_.end())
                                                      ? nullptr : slotFiles(repIt->second.first, repIt->second.second);
                         if (repFiles == nullptr) {
+                            continue;
+                        }
+
+                        // ONE slot on the object has no later member to append -- but a merged master
+                        // may still draw it in some branches and leave it to the whole-ib override in
+                        // others, which the remap takes away. SlotFiles::draws is true for the object
+                        // as a whole, so the `auto` fill below stays off and those branches drew
+                        // nothing: YaoyaoBamboo's synthetic master lost the identity variant's whole
+                        // body (2026-09-27). The per-branch draw gives exactly those branches one.
+                        if (membersIt->second.size() < 2) {
+                            if (repFiles->draws && repFiles->ibs.size() > 1 && someBranchUndrawn(*repFiles)) {
+                                buildBranchDraws(obj);
+                            }
                             continue;
                         }
 
@@ -2387,8 +2648,10 @@ namespace AGRemapCore {
                             edits.push_back(removeFixCallsAdapter_.get());
                         }
                         // texRegsByName did both of these before the remap -- see
-                        // buildTexRegNormalize -- and a positional shift on top would undo it.
-                        if (config_.texRegsByName) {
+                        // buildTexRegNormalize -- and a positional shift on top would undo it. Only
+                        // for a slot whose names were BELIEVED: one whose names were not is still in
+                        // its own layout, and is shifted by position like any other.
+                        if (byNameOf(files)) {
                             // nothing: already in the target's layout
                         } else if (normalMap && !normalTarget()) {
                             edits.push_back(dropNormalMapAdapter_.get());
@@ -2469,8 +2732,10 @@ namespace AGRemapCore {
                             edits.push_back(removeFixCallsAdapter_.get());
                         }
                         // texRegsByName did both of these before the remap -- see
-                        // buildTexRegNormalize -- and a positional shift on top would undo it.
-                        if (config_.texRegsByName) {
+                        // buildTexRegNormalize -- and a positional shift on top would undo it. Only
+                        // for a slot whose names were BELIEVED: one whose names were not is still in
+                        // its own layout, and is shifted by position like any other.
+                        if (byNameOf(files)) {
                             // nothing: already in the target's layout
                         } else if (normalMap && !normalTarget()) {
                             edits.push_back(dropNormalMapAdapter_.get());
@@ -2512,7 +2777,7 @@ namespace AGRemapCore {
                                 bindings.emplace_back(DiffuseReg, files->normalMapRes);
                             }
                             if (!files->diffuseRes.empty()) {
-                                bindings.emplace_back(targetDiffuseReg(), files->diffuseRes);
+                                bindings.emplace_back(targetDiffuseReg(), editedDiffuse(files->diffuseRes, member));
                             }
                             if (!files->lightMapRes.empty()) {
                                 bindings.emplace_back(targetLightMapReg(),
@@ -2626,7 +2891,7 @@ namespace AGRemapCore {
                     iniEdits.edits[otherObj] = {renameAdapter_.get(), otherAsset, overridesAdapter_.get()};
                     iniEdits.trackKeys[otherObj] = false;
 
-                    if (!config_.faceReg.empty()) {
+                    if (copiesFace()) {
                         // A FACE DRAW CARRIES NO FIX LIBRARY CALL.
                         //
                         // Every one of Citlali's own mods binds her face diffuse and calls nothing:
@@ -2677,6 +2942,14 @@ namespace AGRemapCore {
                 std::unordered_map<std::string, bool> normalMap_;
                 std::vector<std::pair<std::string, std::string>> borrowed_;
                 std::string faceFile_;
+
+                // Whether some face section binds the diffuse on the register faceReg moves it off.
+                bool faceNeedsMove_ = false;
+
+                // Whether the face section is copied onto the target -- see GIMIMergeFixerConfig::faceOnlyWhenMoved.
+                bool copiesFace() const {
+                    return !config_.faceReg.empty() && (!config_.faceOnlyWhenMoved || faceNeedsMove_);
+                }
 
                 // Whether the mod hides the game's face -- see Component::offsetOnlyWithGameFace.
                 bool skipsGameFace_ = false;

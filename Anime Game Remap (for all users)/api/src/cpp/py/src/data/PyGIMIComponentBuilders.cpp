@@ -245,6 +245,14 @@ alone
 GI 6.x swapped the face diffuse and the face light map, so a mod still writing the pre-6.x register
 hands its diffuse to the light map slot --- the white shiny cheek spots
         )doc"))
+        .def_readwrite("faceOnlyWhenMoved", &AGRC::GIMIMergeFixerConfig::faceOnlyWhenMoved, py::doc(R"doc(
+:class:`bool`: Whether the mod's face section is copied onto the target ONLY when its diffuse has to
+move onto :attr:`faceReg`
+
+For two skins drawing the SAME face meshes on the SAME face hash, the mod's own section already fires
+on the target and a copy is a second override on that hash --- a mod conflict on every reload.
+**Default**: ``False``
+        )doc"))
         // A property over toPyRefFunction rather than def_readwrite: pybind11's own conversion hands
         // the filter this RETURNS a copy of the texture, so a light map edit written in Python ran and
         // saved the unedited light map.
@@ -266,6 +274,25 @@ its source character's legend --- from being mangled
 The edit it returns is handed the texture itself, not a copy, so it edits in place --- eg. through
 :meth:`CppTextureFile.getPixels` / :meth:`CppTextureFile.setPixels`. Returning ``None`` leaves that
 object's light map alone
+        )doc"))
+        .def_property("diffuseEdits",
+            [](const AGRC::GIMIMergeFixerConfig &self) {
+                py::list result;
+                for (const auto &edit : self.diffuseEdits) {
+                    result.append(py::make_tuple(edit.first, fromPyRefFunction<void(AGRC::TextureFile&)>(edit.second)));
+                }
+                return result;
+            },
+            [](AGRC::GIMIMergeFixerConfig &self, const std::vector<std::pair<std::string, py::object>> &edits) {
+                self.diffuseEdits.clear();
+                for (const auto &edit : edits) {
+                    self.diffuseEdits.emplace_back(edit.first, toTexFilter(edit.second));
+                }
+            }, py::doc(R"doc(
+List[Tuple[:class:`str`, Callable[[:class:`CppTextureFile`], ``None``]]]: A diffuse edit per TARGET
+object, applied to the diffuse every slot landing on that object draws with --- eg. a body diffuse
+brought to alpha 0 where the target's shader reads alpha 255 as a glow. The edit is handed the texture
+itself and edits it in place. **Default**: empty
         )doc"))
         .def_readwrite("targetLayout", &AGRC::GIMIMergeFixerConfig::targetLayout, py::doc(R"doc(
 :class:`GIMIMergeFixerConfig.TargetLayout`: How the TARGET's shader reads its textures
@@ -431,6 +458,18 @@ unchanged. See :attr:`VGComponentSpec.overlapRings`. **Default**: ``0``
 List[:class:`VGPushAway`]: Cloth pushed horizontally away from a point on this component, by its weight share on the
 push's source groups --- for cloth that clips a limb the target moves differently. Empty by default
         )doc"))
+        .def_readwrite("innerOutlineObjs", &AGRC::GIMIComponentFixerConfig::Component::innerOutlineObjs, py::doc(R"doc(
+List[:class:`str`]: The SOURCE objects (lowercase, eg. ``"head"``) whose INNER layers draw no outline on this
+component --- the faces turned in towards the head, or covered by another layer, get vertex colour alpha 0. For hair
+of close two-sided sheets, whose inner outline shows through as dark shards on a skin whose outline sits further out
+(Yaoyao5 on YaoyaoBamboo). Needs the component's ``Position.buf``. Empty by default
+        )doc"))
+        .def_readwrite("innerOutlineReach", &AGRC::GIMIComponentFixerConfig::Component::innerOutlineReach, py::doc(R"doc(
+float: How far along its normal a vertex looks for a covering layer, in model units. ``0.1`` by default
+        )doc"))
+        .def_readwrite("innerOutlineFacingAxis", &AGRC::GIMIComponentFixerConfig::Component::innerOutlineFacingAxis, py::doc(R"doc(
+bool: Whether a face turned in towards the vertical axis through the objects' centre is inner too. ``True`` by default
+        )doc"))
         .def_readwrite("splitGroups", &AGRC::GIMIComponentFixerConfig::Component::splitGroups, py::doc(R"doc(
 Dict[:class:`int`, List[Tuple[:class:`int`, :class:`float`]]]: Source groups whose weight this component SHARES
 among several of its bones, as ``{source group: [(bone, share), ...]}`` --- see
@@ -588,6 +627,11 @@ moves the alpha a band is read from. **Default**: ``True``
                         py::doc(":class:`bool`: Whether a 20-byte texcoord's second UV set is zeroed. **Default**: ``True``"))
         .def_readwrite("sourceLayout", &AGRC::GIMIComponentFixerConfig::sourceLayout,
                         py::doc(":class:`GIMIComponentFixerConfig.SourceLayout`: The SOURCE mod's texture layout. **Default**: :attr:`GIMIComponentFixerConfig.SourceLayout.Plain`"))
+        .def_readwrite("layoutFromOwnFixCall", &AGRC::GIMIComponentFixerConfig::layoutFromOwnFixCall, py::doc(R"doc(
+:class:`bool`: Whether :attr:`GIMIComponentFixerConfig.SourceLayout.Detect` reads a section rendering through its own
+``NNFix`` (and no ``ORFix``) as the PLAIN layout even when it binds ``ps-t2`` -- ``NNFix`` reads only ``ps-t0`` / ``ps-t1``.
+**Default**: ``False``
+        )doc"))
         .def_readwrite("texRegsByName", &AGRC::GIMIComponentFixerConfig::texRegsByName, py::doc(R"doc(
 :class:`bool`: Whether each drawn object's texture bindings go to the register their resource NAME's role belongs on
 (``ps-t0`` diffuse / ``ps-t1`` light map, or ``ps-t0`` normal map / ``ps-t1`` diffuse / ``ps-t2`` light map when a normal
@@ -597,6 +641,11 @@ A binding naming no role stays put. **Default**: ``False``
         .def_readwrite("faceSwapOnlyFromDiffuseReg", &AGRC::GIMIComponentFixerConfig::faceSwapOnlyFromDiffuseReg, py::doc(R"doc(
 :class:`bool`: Whether the face's ``ps-t0`` <-> ``ps-t1`` swap runs only for a mod binding its face
 diffuse at ``ps-t0`` (a pre-6.x mod). **Default**: ``False``
+        )doc"))
+        .def_readwrite("fillDrawOnlyWhenUndrawn", &AGRC::GIMIComponentFixerConfig::fillDrawOnlyWhenUndrawn, py::doc(R"doc(
+:class:`bool`: Whether a remapped slot section gets ``drawindexed = auto`` only when the mod's own section
+draws on no path -- a mod toggling variants of one object on an ``if`` / ``else if`` chain with no ``else``
+otherwise draws every variant at once (see :attr:`RegFillMissing.onlyWhenAbsent`). **Default**: ``False``
         )doc"))
         .def_readwrite("copyPreamble", &AGRC::GIMIComponentFixerConfig::copyPreamble,
                         py::doc(":class:`str`: The comment written at the top of each generated `section`_ group"));

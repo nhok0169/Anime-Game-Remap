@@ -71,6 +71,10 @@ colours** -- then "did it switch" is a colour, not a statistic.
    running, at the START of the work. If the prompt goes unanswered, the command fails after 60 s. Ask the maintainer to click it, or to run `helper serve` from an admin terminal. Do not
    look for a way around the prompt. A registered highest-privilege task was proposed for that and
    refused as unrequested persistence.
+   **The helper runs under whichever Python started it, and screenshots need Pillow in THAT one**
+   (2026-09-29). A helper started under the laptop's 3.12, which has no Pillow, drove keys fine and
+   failed every capture. Ask for it to be restarted under the Python that has Pillow (`py -3`, 3.9
+   there; habit 77 says to check with `py -0`), rather than installing packages into another one.
 3. **Is hunting on?** `status` shows `hunting` per importer. `show_original` (F9, which `compare`
    uses) and `analyse_frame` (F8, the dump) only work while it is **1**. WWMI ships `2`
    (soft-off); `dump` toggles it for itself, and `toggle` does it by hand.
@@ -111,6 +115,30 @@ py -3 main.py mods GIMI restore                                  # at the end: e
   if they reject it.
 - Pick the ORDER by structural axis (Creating Remaps' "choosing test mods by structural axis"): the
   identity mod first, then one mod per shape the fix has to handle.
+- **`only X --from F` does not replace a mod named X that is already in `Mods`** (2026-09-29): the
+  loaded one stays, and you look at the wrong build without knowing it. Park the loaded one first
+  (`only` with another name, or an empty selection), then load from `F`. Check which copy is loaded
+  from `reload --mod`'s path, not from its name.
+- **`restore` returns to the state when the journal STARTED**, which can include a test copy you
+  loaded before an earlier restore. List `Mods` after restoring and park anything of yours that is
+  still there.
+
+### Proving a shared-code change in game: the old build against the new (2026-09-29)
+
+When a fix changes shared code, the other characters it touches need an in-game look too (Overview
+habit 83). Fix one copy of the mod with the OLD build and one with the NEW build. Stage both on the
+importer's drive, e.g. `GIMI\compareFace\old\<mod>` and `...\new\<mod>`, because a cross-drive
+folder is refused. Then load each in turn with `only <mod> --from <that folder>`, parking in between,
+at the same camera. The outfit shop preview is the best rig for a face or a colour: the base card and
+the skin card show the base mod and the remap one click apart. **Also, the character screen keeps
+the model's rotation across a reload**, so a drag-to-angle done once holds for both builds. Crop the
+part at full resolution from several shots into one strip per build (the idle moves the face), and
+compare strips, not single frames. Delete the staged copies, or list them for the maintainer, when
+you finish.
+
+Write coordinates in any script you keep with `--space frac`. The window has been 1920x1037,
+3440x1382 and 3840 wide in different sessions, and a script in `view` pixels breaks silently when
+that changes.
 
 - **`reload --mod` must come back empty, or with warnings you can explain.** It reads the lines
   3DMigoto logged during that reload and attributes each to the section it was parsing, which is
@@ -166,6 +194,10 @@ maintainer a message and a round trip. Before you report, look for yourself:
 * **Every toggle the mod has.** Read the mod's `[Key...]` sections and cycle each one (outfit variants, merged
   master `$swapvar`s, accessories, a help menu) -- and in the outfit PREVIEW, since on the shop grid a key does
   nothing (Creating Remaps' "test mod toggles").
+  **Press a mod's key with `key <k> --vk` (2026-09-27).** A mod's `key = vk_down` is 3DMigoto polling a VIRTUAL
+  key, and the arrows' default path (by scan code, extended) never reached it: a whole round of toggle pairs on
+  Yaoyao came back identical state after state, which reads as "the toggle works on both" and proved nothing. The
+  check that catches it is a toggle whose states LOOK different -- see one change before believing any pair.
 * **Over time, not one frame.** The idle animation moves the limbs: a timed series (several shots a couple of
   seconds apart) shows a clip or a fold one frame can hide.
 * **Against the mod on its OWN character**, part by part -- colours, every garment, the face, the eyes.
@@ -335,6 +367,10 @@ Each fact below was measured on the GIMI log on 2026-09-23, and each one broke a
 | clicks land in the wrong place | the view is from before a resolution change, or the click was in `client` space with `view` numbers. Take a fresh screenshot |
 | the game vanished (WuWa) | read the newest `Client/Saved/Crashes/*/CrashContext.runtime-xml` under the game folder. Its `Client.log` is encrypted, but this file's `ErrorMessage` and call-stack module names are plain text. "Hang detected on GameThread" means a frame dump ran too long; `0xc0000417` with `d3d11` on top is 3DMigoto itself |
 | every command takes ~3 s | two Python start-ups (client + helper child) and a focus hand-off. Put steps in one `do` |
+| keys work, every screenshot fails in the helper | the helper runs under a Python without Pillow. Ask for it to be restarted under the one that has it |
+| the fix changed and the game shows the old result | a same-named mod was already in `Mods`, and `only --from` kept it. Park it, then load |
+| a mod's toggle key "works" and nothing changes | the key went by scan code; 3DMigoto reads a mod's `vk_...` by virtual key. `key <k> --vk` |
+| the shop UI is gone, a green `VS:0/0 PS:0/0 ... IB:n/m skip` line is at the top | hunting is ON and its selected IB is the shop UI's own (`35a2ed91`), which hunting hides. GIMI's `d3dx.ini` ships `hunting = 1`, so **every `reload` turns it back on a few seconds after it returns**, and the IB selection survives. `toggle`, but only when the overlay is really there -- `toggle` flips blind, and a scripted "toggle when the page check fails" turned it ON. The overlay is ~2600 pixels of `g > 200, g - r > 40` in the band 12-42 px below the top, 640-1280 across a 1920-wide shot |
 
 ## What the first session found with it (2026-09-23)
 

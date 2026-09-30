@@ -1319,6 +1319,89 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {0, 13}, {1, 14}
          })},
 
+        // ===== from Yaoyao @ 1.0 (2026-09-27) =====
+        // YaoyaoBamboo is THREE skinned components -- an UNNAMED main mesh (component ""), a Bang and an Eye -- each
+        // with its own vertex group index space, so Yaoyao's 112 groups are split across rows keyed by the target
+        // component, as Neuvillette's are. From Data/RemapDrafts/YaoyaoRemapDraft.xlsx: Tools/VGRemapFinder's proposal,
+        // every row whose chain / vertices / nearest answers disagreed reviewed for the KIND of part on both models by
+        // rendering the vertices each bone drives and by looking at both outfits from behind in the shop preview
+        // (overrides say 'Reviewed:' in the draft's Comments), and audited for how each will MOVE on the target
+        // ('Behaviour:'). The main skeleton aligns by a constant offset (61-111 -> 20-70) and the skirt ring likewise
+        // (25-39 -> 1-15). Both outfits carry a container on the back with the yellow rabbit plush on top -- her round
+        // woven basket, the skin's square bamboo crate -- so the basket goes to the crate (0), its rim knobs to the
+        // crate's corner knobs (80 / 79) and the rabbit to the rabbit (75-78). Her Vision, which hangs from the bottom of
+        // the basket 10-15 cm behind her skirt (54-58), rides the crate as well: on the back skirt bones beside it, it
+        // would swing in a wide arc with each step and pass into the crate. Her sleeves go to the skin's puffy sleeves
+        // (119 / 120) and her cuff rings to its cuff rings (93 / 94). Her pouch on the front-left hip (59 / 60) has no
+        // counterpart and rides the front-left SKIRT bones it lies on (8 / 9), so a stepping thigh carries it forward
+        // rather than passing through it. Her side locks and front bangs go to the skin's Bang, her eyes to its Eye.
+        // The union of the rows covers each of Yaoyao's 112 groups exactly once. PROPOSED, not confirmed in game.
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Yaoyao), "",
+          "6.3", ModTypeIdTools::getName(ModTypeId::YaoyaoBamboo), ""},
+         VGRemap({
+            {0, 0}, {1, 0}, {2, 0}, {3, 0}, {6, 97}, {7, 99}, {8, 98}, {9, 100}, {13, 103}, {17, 104},
+            {19, 80}, {20, 78}, {21, 76}, {22, 77}, {23, 75}, {24, 79}, {25, 1}, {26, 2}, {27, 3}, {28, 4},
+            {29, 5}, {30, 6}, {31, 7}, {32, 8}, {33, 9}, {34, 10}, {35, 11}, {36, 12}, {37, 13}, {38, 14},
+            {39, 15}, {40, 119}, {41, 93}, {42, 93}, {43, 93}, {44, 93}, {45, 120}, {46, 94}, {47, 94}, {48, 94},
+            {49, 94}, {50, 16}, {51, 17}, {52, 18}, {53, 19}, {54, 0}, {55, 0}, {56, 0}, {57, 0}, {58, 0},
+            {59, 8}, {60, 9}, {61, 20}, {62, 21}, {63, 22}, {64, 23}, {65, 24}, {66, 25}, {67, 26}, {68, 27},
+            {69, 28}, {70, 29}, {71, 30}, {72, 31}, {73, 32}, {74, 33}, {75, 34}, {76, 35}, {77, 36}, {78, 37},
+            {79, 38}, {80, 39}, {81, 40}, {82, 41}, {83, 42}, {84, 43}, {85, 44}, {86, 45}, {87, 46}, {88, 47},
+            {89, 48}, {90, 49}, {91, 50}, {92, 51}, {93, 52}, {94, 53}, {95, 54}, {96, 55}, {97, 56}, {98, 57},
+            {99, 58}, {100, 59}, {101, 60}, {102, 61}, {103, 62}, {104, 63}, {105, 64}, {106, 65}, {107, 66}, {108, 67},
+            {109, 68}, {110, 69}, {111, 70}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Yaoyao), "",
+          "6.3", ModTypeIdTools::getName(ModTypeId::YaoyaoBamboo), "Bang"},
+         VGRemap({
+            {10, 2}, {11, 10}, {12, 12}, {14, 4}, {15, 11}, {16, 13}, {18, 5}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Yaoyao), "",
+          "6.3", ModTypeIdTools::getName(ModTypeId::YaoyaoBamboo), "Eye"},
+         VGRemap({
+            {4, 0}, {5, 1}
+         })},
+
+        // ===== from YaoyaoBamboo @ 1.0 (2026-09-27) =====
+        // One row per source component, the main mesh's under the empty component name. The skin's bamboo crate and its
+        // straps go to the centre of Yaoyao's basket (2), the one bone that drives both her basket and its waist strap;
+        // the two tassels hanging off the crate to the basket's sides (0 / 3); the crate's shoulder straps across her
+        // chest to her spine (111 / 109); its shorts to her THIGHS (82 / 106), which they are worn on, with the two
+        // crotch pieces on her pelvis (25); its puffy sleeves to her sleeve bones (40 / 45); the root of its back braid to
+        // her head (61) and the braid to the lock hanging behind her buns (6-9). PROPOSED, not confirmed in game.
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::YaoyaoBamboo), "",
+          "6.3", ModTypeIdTools::getName(ModTypeId::Yaoyao), ""},
+         VGRemap({
+            {0, 2}, {1, 25}, {2, 26}, {3, 27}, {4, 28}, {5, 29}, {6, 30}, {7, 31}, {8, 32}, {9, 33},
+            {10, 34}, {11, 35}, {12, 36}, {13, 37}, {14, 38}, {15, 39}, {16, 50}, {17, 51}, {18, 52}, {19, 53},
+            {20, 61}, {21, 62}, {22, 63}, {23, 64}, {24, 65}, {25, 66}, {26, 67}, {27, 68}, {28, 69}, {29, 70},
+            {30, 71}, {31, 72}, {32, 73}, {33, 74}, {34, 75}, {35, 76}, {36, 77}, {37, 78}, {38, 79}, {39, 80},
+            {40, 81}, {41, 82}, {42, 83}, {43, 84}, {44, 85}, {45, 86}, {46, 87}, {47, 88}, {48, 89}, {49, 90},
+            {50, 91}, {51, 92}, {52, 93}, {53, 94}, {54, 95}, {55, 96}, {56, 97}, {57, 98}, {58, 99}, {59, 100},
+            {60, 101}, {61, 102}, {62, 103}, {63, 104}, {64, 105}, {65, 106}, {66, 107}, {67, 108}, {68, 109}, {69, 110},
+            {70, 111}, {71, 111}, {72, 111}, {73, 109}, {74, 109}, {75, 20}, {76, 21}, {77, 22}, {78, 20}, {79, 24},
+            {80, 19}, {81, 110}, {82, 110}, {83, 109}, {84, 109}, {85, 111}, {86, 63}, {87, 87}, {88, 63}, {89, 87},
+            {90, 111}, {91, 13}, {92, 17}, {93, 80}, {94, 104}, {95, 61}, {96, 61}, {97, 6}, {98, 8}, {99, 7},
+            {100, 9}, {101, 7}, {102, 9}, {103, 13}, {104, 17}, {105, 82}, {106, 106}, {107, 25}, {108, 25}, {109, 82},
+            {110, 106}, {111, 82}, {112, 106}, {113, 82}, {114, 106}, {115, 82}, {116, 106}, {117, 0}, {118, 0}, {119, 40},
+            {120, 45}, {121, 3}, {122, 3}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::YaoyaoBamboo), "Bang",
+          "6.3", ModTypeIdTools::getName(ModTypeId::Yaoyao), ""},
+         VGRemap({
+            {0, 61}, {1, 10}, {2, 10}, {3, 10}, {4, 14}, {5, 18}, {6, 11}, {7, 15}, {8, 11}, {9, 15},
+            {10, 11}, {11, 15}, {12, 12}, {13, 16}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::YaoyaoBamboo), "Eye",
+          "6.3", ModTypeIdTools::getName(ModTypeId::Yaoyao), ""},
+         VGRemap({
+            {0, 4}, {1, 5}
+         })},
+
         // ===== WuWa: Sanhua <-> SanhuaExorcist (2026-09-19) =====
         // Both directions from Data/RemapDrafts/SanhuaRemapDraft.xlsx, in WWMI's MERGED skeleton
         // (the space every component's vg_map in Metadata.json maps into, and the space a WWMI

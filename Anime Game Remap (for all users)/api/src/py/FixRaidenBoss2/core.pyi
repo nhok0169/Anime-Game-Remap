@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniNamingTools', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCreate', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniNamingTools', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCreate', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -6671,6 +6671,16 @@ class GIBuilder:
         Creates the :class:`ModType` for XingqiuBamboo
         """
     @staticmethod
+    def yaoyao() -> ModType:
+        """
+        Creates the :class:`ModType` for Yaoyao
+        """
+    @staticmethod
+    def yaoyaoBamboo() -> ModType:
+        """
+        Creates the :class:`ModType` for YaoyaoBamboo, the skin of three components; its component ids are fix targets only and have no factory
+        """
+    @staticmethod
     def yelan() -> ModType:
         """
         Creates the :class:`ModType` for Yelan
@@ -7318,6 +7328,33 @@ class GIMIComponentFixerConfig:
         def face(self, arg0: bool) -> None:
             ...
         @property
+        def innerOutlineFacingAxis(self) -> bool:
+            """
+            bool: Whether a face turned in towards the vertical axis through the objects' centre is inner too. ``True`` by default
+            """
+        @innerOutlineFacingAxis.setter
+        def innerOutlineFacingAxis(self, arg0: bool) -> None:
+            ...
+        @property
+        def innerOutlineObjs(self) -> list[str]:
+            """
+            List[:class:`str`]: The SOURCE objects (lowercase, eg. ``"head"``) whose INNER layers draw no outline on this
+            component --- the faces turned in towards the head, or covered by another layer, get vertex colour alpha 0. For hair
+            of close two-sided sheets, whose inner outline shows through as dark shards on a skin whose outline sits further out
+            (Yaoyao5 on YaoyaoBamboo). Needs the component's ``Position.buf``. Empty by default
+            """
+        @innerOutlineObjs.setter
+        def innerOutlineObjs(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
+        @property
+        def innerOutlineReach(self) -> float:
+            """
+            float: How far along its normal a vertex looks for a covering layer, in model units. ``0.1`` by default
+            """
+        @innerOutlineReach.setter
+        def innerOutlineReach(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+            ...
+        @property
         def mirrorOffset(self) -> float:
             """
             :class:`float`: How far inside the surface the mirrored layer sits, in model units --- ``0.005`` by default: at 1 mm it z-fought the surface from outside
@@ -7615,6 +7652,16 @@ class GIMIComponentFixerConfig:
     def faceSwapOnlyFromDiffuseReg(self, arg0: bool) -> None:
         ...
     @property
+    def fillDrawOnlyWhenUndrawn(self) -> bool:
+        """
+        :class:`bool`: Whether a remapped slot section gets ``drawindexed = auto`` only when the mod's own section
+        draws on no path -- a mod toggling variants of one object on an ``if`` / ``else if`` chain with no ``else``
+        otherwise draws every variant at once (see :attr:`RegFillMissing.onlyWhenAbsent`). **Default**: ``False``
+        """
+    @fillDrawOnlyWhenUndrawn.setter
+    def fillDrawOnlyWhenUndrawn(self, arg0: bool) -> None:
+        ...
+    @property
     def flatNormal(self) -> ...:
         """
         :class:`CppColour`: The flat normal map created for a normal-map slot, sRGB pre-corrected. **Default**: ``(55, 55, 255, 255)``
@@ -7638,6 +7685,16 @@ class GIMIComponentFixerConfig:
         """
     @hiddenComponents.setter
     def hiddenComponents(self, arg0: collections.abc.Sequence[str]) -> None:
+        ...
+    @property
+    def layoutFromOwnFixCall(self) -> bool:
+        """
+        :class:`bool`: Whether :attr:`GIMIComponentFixerConfig.SourceLayout.Detect` reads a section rendering through its own
+        ``NNFix`` (and no ``ORFix``) as the PLAIN layout even when it binds ``ps-t2`` -- ``NNFix`` reads only ``ps-t0`` / ``ps-t1``.
+        **Default**: ``False``
+        """
+    @layoutFromOwnFixCall.setter
+    def layoutFromOwnFixCall(self, arg0: bool) -> None:
         ...
     @property
     def lightMapEdit(self) -> collections.abc.Callable[[str], collections.abc.Callable[[...], None] | None] | None:
@@ -8395,6 +8452,17 @@ class GIMIMergeFixerConfig:
     def copyPreamble(self, arg0: str) -> None:
         ...
     @property
+    def diffuseEdits(self) -> list:
+        """
+        List[Tuple[:class:`str`, Callable[[:class:`CppTextureFile`], ``None``]]]: A diffuse edit per TARGET
+        object, applied to the diffuse every slot landing on that object draws with --- eg. a body diffuse
+        brought to alpha 0 where the target's shader reads alpha 255 as a glow. The edit is handed the texture
+        itself and edits it in place. **Default**: empty
+        """
+    @diffuseEdits.setter
+    def diffuseEdits(self, arg1: collections.abc.Sequence[tuple[str, typing.Any]]) -> None:
+        ...
+    @property
     def downloadPrefix(self) -> str:
         """
         :class:`str`: The source character's download prefix --- the same string the parse row gives
@@ -8405,6 +8473,19 @@ class GIMIMergeFixerConfig:
         """
     @downloadPrefix.setter
     def downloadPrefix(self, arg0: str) -> None:
+        ...
+    @property
+    def faceOnlyWhenMoved(self) -> bool:
+        """
+        :class:`bool`: Whether the mod's face section is copied onto the target ONLY when its diffuse has to
+        move onto :attr:`faceReg`
+        
+        For two skins drawing the SAME face meshes on the SAME face hash, the mod's own section already fires
+        on the target and a copy is a second override on that hash --- a mod conflict on every reload.
+        **Default**: ``False``
+        """
+    @faceOnlyWhenMoved.setter
+    def faceOnlyWhenMoved(self, arg0: bool) -> None:
         ...
     @property
     def faceReg(self) -> str:
@@ -14400,6 +14481,112 @@ class IniTexModel(IniFixResourceModel):
     @texEdits.setter
     def texEdits(self, arg1: dict) -> None:
         ...
+class InnerLayerOutline:
+    """
+    
+    Which vertices of a mesh's INNER layers draw no outline (vertex colour alpha 0). The outline pass redraws a mesh as a
+    shell pushed out along each vertex's outline normal; on hair of close two-sided sheets, the inner face's shell can come
+    out in front of the outer face as small dark shards when the target's outline sits further out (Yaoyao5 on
+    YaoyaoBamboo). A target triangle is inner when at least two of its corners are :meth:`covered`, or with
+    :attr:`facingAxis` when its face points in towards the vertical axis through the targets' centre -- and the decision
+    takes all three corners, since a triangle with its corners at different widths stretches its shell into a wedge
+        
+    """
+    @staticmethod
+    def readPositions(buffer: bytes, stride: typing.SupportsInt | typing.SupportsIndex) -> tuple[list[typing.Annotated[list[float], "FixedSize(3)"]], list[typing.Annotated[list[float], "FixedSize(3)"]]]:
+        """
+        Reads positions and normals out of a GIMI ``Position.buf`` (``POSITION`` float3, ``NORMAL`` float3 at byte 12)
+        
+        Parameters
+        ----------
+        buffer: :class:`bytes`
+            The buffer's bytes
+        
+        stride: :class:`int`
+            The bytes per line, at least 24
+        
+        Raises
+        ------
+        ValueError
+            If the stride has no room for a normal, or the buffer is not a whole number of lines
+        
+        Returns
+        -------
+        Tuple[List[Tuple[:class:`float`, :class:`float`, :class:`float`]], List[Tuple[:class:`float`, :class:`float`, :class:`float`]]]
+            The positions and the normals
+        """
+    def __init__(self, reach: typing.SupportsFloat | typing.SupportsIndex = 0.10000000149011612, facingAxis: bool = True, facingCos: typing.SupportsFloat | typing.SupportsIndex = 0.20000000298023224) -> None:
+        ...
+    def covered(self, positions: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]], normals: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]], occluders: collections.abc.Sequence[collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(3)"]]], targets: collections.abc.Sequence[collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(3)"]]]) -> list[bool]:
+        """
+        Whether each target vertex's normal runs into an occluder triangle (not one of its own) within :attr:`reach`
+        
+        Parameters
+        ----------
+        positions: List[Tuple[:class:`float`, :class:`float`, :class:`float`]]
+            Per vertex, its position
+        
+        normals: List[Tuple[:class:`float`, :class:`float`, :class:`float`]]
+            Per vertex, its normal
+        
+        occluders: List[List[Tuple[:class:`int`, :class:`int`, :class:`int`]]]
+            Every triangle list that can cover a layer
+        
+        targets: List[List[Tuple[:class:`int`, :class:`int`, :class:`int`]]]
+            The triangle lists whose corners are asked about
+        
+        Returns
+        -------
+        List[:class:`bool`]
+            Per vertex
+        """
+    def find(self, positions: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]], normals: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]], occluders: collections.abc.Sequence[collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(3)"]]], targets: collections.abc.Sequence[collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(3)"]]]) -> list[bool]:
+        """
+        The vertices whose outline goes: every corner of every inner target triangle
+        
+        Parameters
+        ----------
+        positions: List[Tuple[:class:`float`, :class:`float`, :class:`float`]]
+            Per vertex, its position
+        
+        normals: List[Tuple[:class:`float`, :class:`float`, :class:`float`]]
+            Per vertex, its normal
+        
+        occluders: List[List[Tuple[:class:`int`, :class:`int`, :class:`int`]]]
+            Every triangle list that can cover a layer -- the whole mesh
+        
+        targets: List[List[Tuple[:class:`int`, :class:`int`, :class:`int`]]]
+            The triangle lists that may lose their outline -- the hair
+        
+        Returns
+        -------
+        List[:class:`bool`]
+            Per vertex
+        """
+    @property
+    def facingAxis(self) -> bool:
+        """
+        :class:`bool`: Whether a face turned in towards the targets' vertical axis is inner too
+        """
+    @facingAxis.setter
+    def facingAxis(self, arg0: bool) -> None:
+        ...
+    @property
+    def facingCos(self) -> float:
+        """
+        :class:`float`: How far in a face must point to count as facing the axis (cosine below ``-facingCos``)
+        """
+    @facingCos.setter
+    def facingCos(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def reach(self) -> float:
+        """
+        :class:`float`: How far along its normal a vertex looks for a covering layer, in model units
+        """
+    @reach.setter
+    def reach(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
 class KeyRemapData:
     """
     
@@ -15548,6 +15735,16 @@ class ModTypeId:
     
       XingqiuBamboo : Xingqiu Lantern Rite skin from GI
     
+      Yaoyao : Yaoyao from GI
+    
+      YaoyaoBamboo : Yaoyao outfit skin (Rainlit Bamboo Reverie) from GI -- three skinned components (an unnamed main mesh, Bang, Eye)
+    
+      YaoyaoBambooMain : YaoyaoBamboo's main mesh (its component name is the empty string), as a fix target -- a skin of several components is fixed one component at a time, and each is a mod type for the tables' purposes
+    
+      YaoyaoBambooBang : YaoyaoBamboo's Bang component, as a fix target
+    
+      YaoyaoBambooEye : YaoyaoBamboo's Eye component, as a fix target
+    
       Yelan : Yelan from GI
     
       YelanTranquil : Yelan summer skin (Tranquil Banquet) from GI -- three components (Body, Bang, Eye)
@@ -15586,8 +15783,8 @@ class ModTypeId:
     CharlotteHurlockCamera: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockCamera: 18>
     CharlotteHurlockEyes: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockEyes: 17>
     CherryHuTao: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CherryHuTao: 19>
-    Chisa: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Chisa: 74>
-    ChisaParfait: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ChisaParfait: 75>
+    Chisa: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Chisa: 79>
+    ChisaParfait: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ChisaParfait: 80>
     Citlali: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Citlali: 20>
     CitlaliWhisperofStars: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStars: 21>
     CitlaliWhisperofStarsBangs: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStarsBangs: 23>
@@ -15629,20 +15826,25 @@ class ModTypeId:
     RaidenBoss: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RaidenBoss: 58>
     Rosaria: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Rosaria: 59>
     RosariaCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RosariaCN: 60>
-    Sanhua: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Sanhua: 72>
-    SanhuaExorcist: typing.ClassVar[ModTypeId]  # value = <ModTypeId.SanhuaExorcist: 73>
+    Sanhua: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Sanhua: 77>
+    SanhuaExorcist: typing.ClassVar[ModTypeId]  # value = <ModTypeId.SanhuaExorcist: 78>
     Shenhe: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Shenhe: 61>
     ShenheFrostFlower: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ShenheFrostFlower: 62>
     Xiangling: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xiangling: 63>
     XianglingCheer: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XianglingCheer: 64>
     Xingqiu: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xingqiu: 65>
     XingqiuBamboo: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XingqiuBamboo: 66>
-    Yelan: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Yelan: 67>
-    YelanTranquil: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquil: 68>
-    YelanTranquilBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBang: 70>
-    YelanTranquilBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBody: 69>
-    YelanTranquilEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilEye: 71>
-    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'Bennett': <ModTypeId.Bennett: 8>, 'BennettAdventure': <ModTypeId.BennettAdventure: 9>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 10>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 11>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 12>, 'Charlotte': <ModTypeId.Charlotte: 13>, 'CharlotteHurlock': <ModTypeId.CharlotteHurlock: 14>, 'CharlotteHurlockBody': <ModTypeId.CharlotteHurlockBody: 15>, 'CharlotteHurlockBangs': <ModTypeId.CharlotteHurlockBangs: 16>, 'CharlotteHurlockEyes': <ModTypeId.CharlotteHurlockEyes: 17>, 'CharlotteHurlockCamera': <ModTypeId.CharlotteHurlockCamera: 18>, 'CherryHuTao': <ModTypeId.CherryHuTao: 19>, 'Citlali': <ModTypeId.Citlali: 20>, 'CitlaliWhisperofStars': <ModTypeId.CitlaliWhisperofStars: 21>, 'CitlaliWhisperofStarsBody': <ModTypeId.CitlaliWhisperofStarsBody: 22>, 'CitlaliWhisperofStarsBangs': <ModTypeId.CitlaliWhisperofStarsBangs: 23>, 'CitlaliWhisperofStarsEyes': <ModTypeId.CitlaliWhisperofStarsEyes: 24>, 'Diluc': <ModTypeId.Diluc: 25>, 'DilucFlamme': <ModTypeId.DilucFlamme: 26>, 'Fischl': <ModTypeId.Fischl: 27>, 'FischlHighness': <ModTypeId.FischlHighness: 28>, 'Ganyu': <ModTypeId.Ganyu: 29>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 30>, 'HuTao': <ModTypeId.HuTao: 31>, 'Jean': <ModTypeId.Jean: 32>, 'JeanCN': <ModTypeId.JeanCN: 33>, 'JeanSea': <ModTypeId.JeanSea: 34>, 'Kaeya': <ModTypeId.Kaeya: 35>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 36>, 'Keqing': <ModTypeId.Keqing: 37>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 38>, 'Kirara': <ModTypeId.Kirara: 39>, 'KiraraBoots': <ModTypeId.KiraraBoots: 40>, 'Klee': <ModTypeId.Klee: 41>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 42>, 'Lisa': <ModTypeId.Lisa: 43>, 'LisaStudent': <ModTypeId.LisaStudent: 44>, 'Mona': <ModTypeId.Mona: 45>, 'MonaCN': <ModTypeId.MonaCN: 46>, 'Neuvillette': <ModTypeId.Neuvillette: 47>, 'NeuvilletteMelusent': <ModTypeId.NeuvilletteMelusent: 48>, 'NeuvilletteMelusentMain': <ModTypeId.NeuvilletteMelusentMain: 49>, 'NeuvilletteMelusentCoat': <ModTypeId.NeuvilletteMelusentCoat: 50>, 'NeuvilletteMelusentBang': <ModTypeId.NeuvilletteMelusentBang: 51>, 'NeuvilletteMelusentEye': <ModTypeId.NeuvilletteMelusentEye: 52>, 'Nilou': <ModTypeId.Nilou: 53>, 'NilouBreeze': <ModTypeId.NilouBreeze: 54>, 'Ningguang': <ModTypeId.Ningguang: 55>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 56>, 'Raiden': <ModTypeId.Raiden: 57>, 'RaidenBoss': <ModTypeId.RaidenBoss: 58>, 'Rosaria': <ModTypeId.Rosaria: 59>, 'RosariaCN': <ModTypeId.RosariaCN: 60>, 'Shenhe': <ModTypeId.Shenhe: 61>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 62>, 'Xiangling': <ModTypeId.Xiangling: 63>, 'XianglingCheer': <ModTypeId.XianglingCheer: 64>, 'Xingqiu': <ModTypeId.Xingqiu: 65>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 66>, 'Yelan': <ModTypeId.Yelan: 67>, 'YelanTranquil': <ModTypeId.YelanTranquil: 68>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 69>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 70>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 71>, 'Sanhua': <ModTypeId.Sanhua: 72>, 'SanhuaExorcist': <ModTypeId.SanhuaExorcist: 73>, 'Chisa': <ModTypeId.Chisa: 74>, 'ChisaParfait': <ModTypeId.ChisaParfait: 75>}
+    Yaoyao: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Yaoyao: 67>
+    YaoyaoBamboo: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBamboo: 68>
+    YaoyaoBambooBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooBang: 70>
+    YaoyaoBambooEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooEye: 71>
+    YaoyaoBambooMain: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooMain: 69>
+    Yelan: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Yelan: 72>
+    YelanTranquil: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquil: 73>
+    YelanTranquilBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBang: 75>
+    YelanTranquilBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBody: 74>
+    YelanTranquilEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilEye: 76>
+    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'Bennett': <ModTypeId.Bennett: 8>, 'BennettAdventure': <ModTypeId.BennettAdventure: 9>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 10>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 11>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 12>, 'Charlotte': <ModTypeId.Charlotte: 13>, 'CharlotteHurlock': <ModTypeId.CharlotteHurlock: 14>, 'CharlotteHurlockBody': <ModTypeId.CharlotteHurlockBody: 15>, 'CharlotteHurlockBangs': <ModTypeId.CharlotteHurlockBangs: 16>, 'CharlotteHurlockEyes': <ModTypeId.CharlotteHurlockEyes: 17>, 'CharlotteHurlockCamera': <ModTypeId.CharlotteHurlockCamera: 18>, 'CherryHuTao': <ModTypeId.CherryHuTao: 19>, 'Citlali': <ModTypeId.Citlali: 20>, 'CitlaliWhisperofStars': <ModTypeId.CitlaliWhisperofStars: 21>, 'CitlaliWhisperofStarsBody': <ModTypeId.CitlaliWhisperofStarsBody: 22>, 'CitlaliWhisperofStarsBangs': <ModTypeId.CitlaliWhisperofStarsBangs: 23>, 'CitlaliWhisperofStarsEyes': <ModTypeId.CitlaliWhisperofStarsEyes: 24>, 'Diluc': <ModTypeId.Diluc: 25>, 'DilucFlamme': <ModTypeId.DilucFlamme: 26>, 'Fischl': <ModTypeId.Fischl: 27>, 'FischlHighness': <ModTypeId.FischlHighness: 28>, 'Ganyu': <ModTypeId.Ganyu: 29>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 30>, 'HuTao': <ModTypeId.HuTao: 31>, 'Jean': <ModTypeId.Jean: 32>, 'JeanCN': <ModTypeId.JeanCN: 33>, 'JeanSea': <ModTypeId.JeanSea: 34>, 'Kaeya': <ModTypeId.Kaeya: 35>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 36>, 'Keqing': <ModTypeId.Keqing: 37>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 38>, 'Kirara': <ModTypeId.Kirara: 39>, 'KiraraBoots': <ModTypeId.KiraraBoots: 40>, 'Klee': <ModTypeId.Klee: 41>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 42>, 'Lisa': <ModTypeId.Lisa: 43>, 'LisaStudent': <ModTypeId.LisaStudent: 44>, 'Mona': <ModTypeId.Mona: 45>, 'MonaCN': <ModTypeId.MonaCN: 46>, 'Neuvillette': <ModTypeId.Neuvillette: 47>, 'NeuvilletteMelusent': <ModTypeId.NeuvilletteMelusent: 48>, 'NeuvilletteMelusentMain': <ModTypeId.NeuvilletteMelusentMain: 49>, 'NeuvilletteMelusentCoat': <ModTypeId.NeuvilletteMelusentCoat: 50>, 'NeuvilletteMelusentBang': <ModTypeId.NeuvilletteMelusentBang: 51>, 'NeuvilletteMelusentEye': <ModTypeId.NeuvilletteMelusentEye: 52>, 'Nilou': <ModTypeId.Nilou: 53>, 'NilouBreeze': <ModTypeId.NilouBreeze: 54>, 'Ningguang': <ModTypeId.Ningguang: 55>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 56>, 'Raiden': <ModTypeId.Raiden: 57>, 'RaidenBoss': <ModTypeId.RaidenBoss: 58>, 'Rosaria': <ModTypeId.Rosaria: 59>, 'RosariaCN': <ModTypeId.RosariaCN: 60>, 'Shenhe': <ModTypeId.Shenhe: 61>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 62>, 'Xiangling': <ModTypeId.Xiangling: 63>, 'XianglingCheer': <ModTypeId.XianglingCheer: 64>, 'Xingqiu': <ModTypeId.Xingqiu: 65>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 66>, 'Yaoyao': <ModTypeId.Yaoyao: 67>, 'YaoyaoBamboo': <ModTypeId.YaoyaoBamboo: 68>, 'YaoyaoBambooMain': <ModTypeId.YaoyaoBambooMain: 69>, 'YaoyaoBambooBang': <ModTypeId.YaoyaoBambooBang: 70>, 'YaoyaoBambooEye': <ModTypeId.YaoyaoBambooEye: 71>, 'Yelan': <ModTypeId.Yelan: 72>, 'YelanTranquil': <ModTypeId.YelanTranquil: 73>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 74>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 75>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 76>, 'Sanhua': <ModTypeId.Sanhua: 77>, 'SanhuaExorcist': <ModTypeId.SanhuaExorcist: 78>, 'Chisa': <ModTypeId.Chisa: 79>, 'ChisaParfait': <ModTypeId.ChisaParfait: 80>}
     def __eq__(self, other: typing.Any) -> bool:
         ...
     def __getstate__(self) -> int:
@@ -18899,6 +19101,17 @@ class RegFillMissing(BaseIniGraphEdit):
         """
     @keysToTrack.setter
     def keysToTrack(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def onlyWhenAbsent(self) -> bool:
+        """
+        :class:`bool`: Whether a cover (``TopdownCover`` / ``BottomCover``) fills only when NO part of the graph -- the
+        roots and every section they ``run`` -- has the register at all. A cover otherwise lands on every path of a
+        section that draws on some of them (an ``if`` / ``else if`` chain with no ``else``), each variant's draw
+        included. ``FillMissing`` is not affected. **Default**: ``False``
+        """
+    @onlyWhenAbsent.setter
+    def onlyWhenAbsent(self, arg1: bool) -> None:
         ...
     @property
     def reg(self) -> str:
@@ -24454,6 +24667,22 @@ class VGSplitGroupResource(IniGroupedResource, RemapIniResourceMixin):
         """
     @ibPaths.setter
     def ibPaths(self, arg1: collections.abc.Sequence[str]) -> None:
+        ...
+    @property
+    def innerOutline(self) -> FixRaidenBoss2.core.InnerLayerOutline | None:
+        """
+        Optional[:class:`InnerLayerOutline`]: When set, the written ``Texcoord.buf`` draws no outline on the inner layers of :attr:`innerOutlineIbs` -- decided on the SOURCE mesh, every index buffer covering. ``None`` by default
+        """
+    @innerOutline.setter
+    def innerOutline(self, arg1: FixRaidenBoss2.core.InnerLayerOutline | None) -> None:
+        ...
+    @property
+    def innerOutlineIbs(self) -> list[int]:
+        """
+        List[:class:`int`]: Which of :attr:`ibPaths`, by position, :attr:`innerOutline` asks about; empty for all
+        """
+    @innerOutlineIbs.setter
+    def innerOutlineIbs(self, arg1: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
         ...
     @property
     def mirrorLineEdit(self) -> typing.Any:

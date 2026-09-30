@@ -133,7 +133,21 @@ line --- ``0`` leaves the line out
         .def_readwrite("positionStride", &AGRC::GIMIComponentParserConfig::positionStride,
                         py::doc(":class:`int`: The position stride, shared by every component. **Default**: ``40``"))
         .def_readwrite("blendStride", &AGRC::GIMIComponentParserConfig::blendStride,
-                        py::doc(":class:`int`: The `blend`_ stride, shared by every component. **Default**: ``32``"));
+                        py::doc(":class:`int`: The `blend`_ stride, shared by every component. **Default**: ``32``"))
+        .def_readwrite("downloadsByName", &AGRC::GIMIComponentParserConfig::downloadsByName, py::doc(R"doc(
+:class:`bool`: Whether a slot's texture downloads follow the resource NAMES its own `section`_ binds, rather than
+the registers
+
+A mod written in the GAME's register order binds its textures somewhere other than the slot's registers:
+LumineHeaven1's Eye binds only ``ps-t1 = ...Diffuse``. Decided per register, the slot got the game's diffuse
+at ``ps-t0`` as well, two textures named a diffuse, and the merge's by-name reading refused both (dark eyes
+on Lumine, 2026-09-29). With this on, when a slot's own section binds its textures under names that are
+believed (every one names exactly one role, no two alike), a role the mod binds gets no download, and a
+missing role whose register holds another role's texture is downloaded onto a register the section leaves
+free. A slot binding nothing, or in the slot's own order, is untouched.
+
+**Default**: ``False``
+        )doc"));
 
     // ------------------------------------------------------------------- the merge fixer config
     py::class_<AGRC::GIMIMergeFixerConfig> fixerConfig(m, "GIMIMergeFixerConfig", R"doc(

@@ -151,6 +151,10 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp
     src/data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.cpp
     src/data/IniFixData/YaoyaoBamboo/YaoyaoBambooFixer.cpp
+    src/data/IniParseData/Lumine/LumineParser.cpp
+    src/data/IniFixData/Lumine/LumineFixer.cpp
+    src/data/IniParseData/LumineHeaven/LumineHeavenParser.cpp
+    src/data/IniFixData/LumineHeaven/LumineHeavenFixer.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp
     src/data/IniFixData/Shenhe/ShenheFixer.cpp

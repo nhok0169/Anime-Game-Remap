@@ -21,6 +21,7 @@
     <innerfile refid="_heading_8h">Heading.h</innerfile>
     <innerfile refid="_int_tools_8h">IntTools.h</innerfile>
     <innerfile refid="_list_tools_8h">ListTools.h</innerfile>
+    <innerfile refid="_num_tools_8h">NumTools.h</innerfile>
     <innerfile refid="_ranges_8h">Ranges.h</innerfile>
     <innerfile refid="_string_hash_8h">StringHash.h</innerfile>
     <innerfile refid="_string_tools_8h">StringTools.h</innerfile>

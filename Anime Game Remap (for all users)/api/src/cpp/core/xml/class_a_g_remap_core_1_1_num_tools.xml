@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_num_tools" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::NumTools</compoundname>
+    <includes refid="_num_tools_8h" local="no">NumTools.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_num_tools_1af5c7305890785eb157a6d666459b3bbf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::NumTools::formatDouble</definition>
+        <argsstring>(double value, int decimals=4)</argsstring>
+        <name>formatDouble</name>
+        <qualifiedname>AGRemapCore::NumTools::formatDouble</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>decimals</declname>
+          <defval>4</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+&apos;value&apos; as the shortest text that still says it, to at most &apos;decimals&apos; places
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Rounded to &apos;decimals&apos;, then trailing zeros and a trailing ``.`` are removed, so ``1.5``
+comes out ``1.5``, ``2.0`` comes out ``2`` and ``0.30000000000000004`` comes out
+``0.3`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+For a number being written INTO a ``.ini`` file, which is why the trimming matters: the
+file is read by a person as often as by the game, and a value this library computed
+should not arrive looking like a floating-point accident. Locale-independent -- the
+separator is always ``.``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number to render </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>decimals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The most decimal places to keep. <bold>Default</bold>: <computeroutput>4</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The number as text </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/NumTools.h" line="56" column="32" bodyfile="src/tools/NumTools.cpp" bodystart="24" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Tools for rendering numbers as text :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Separate from :cpp:class:`StringTools`, which promises `grapheme`_ semantics that mean nothing
+for a run of ASCII digits, and from :cpp:class:`TextTools`, which is a partial port of the
+pure-Python ``TextTools`` and should keep matching it
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/NumTools.h" line="32" column="5" bodyfile="include/AGRemapCore/tools/NumTools.h" bodystart="32" bodyend="57"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_num_tools_1af5c7305890785eb157a6d666459b3bbf" prot="public" virt="non-virtual"><scope>AGRemapCore::NumTools</scope><name>formatDouble</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

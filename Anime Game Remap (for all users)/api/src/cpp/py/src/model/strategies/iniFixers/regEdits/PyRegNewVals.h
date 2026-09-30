@@ -27,6 +27,38 @@ namespace AGRC = AGRemapCore;
 /**
  * @brief
  @rst
+ Marks a callable in a `PyRegNewVals` value slot as wanting the value ALREADY THERE
+ :raw-html:`<br />` :raw-html:`<br />`
+
+ A bare callable in that slot already means something -- ``newVal(modType)``, `AGRC::RegNewVals`'s
+ ``ValProducer`` -- so the one that also reads the old value has to say which it is, the way
+ `PyReplaceList` and `PyReplaceIf` say which of ``replaceVals``' forms they are. Wrapped in this, the
+ callable is invoked as ``newVal(oldValue, modType)``
+ @endrst
+ */
+class PyFromOldVal {
+    public:
+        explicit PyFromOldVal(py::object producer): producer_(std::move(producer)) {
+            // The same explicit check PyReplaceIf makes of its predicate, for the same reason: a
+            // non-callable here would otherwise fail deep inside `edit`, one mod into a run.
+            if (!PyCallable_Check(producer_.ptr())) {
+                throw py::type_error("FromOldVal(): 'producer' must be callable");
+            }
+        }
+
+        /**
+         * @brief Retrieves the raw Python callable, for a caller that supplies its own argument list
+         */
+        const py::object& producer() const { return producer_; }
+
+    private:
+        py::object producer_;
+};
+
+
+/**
+ * @brief
+ @rst
  The `pybind11`_-facing subclass of `AGRC::RegNewVals`\\<py::object, py::object\\> -- holds the
  exact `Python`_ ``dict`` given for ``vals``, for the same reason `PyRegAdd` holds its own list
  (see that class's note)

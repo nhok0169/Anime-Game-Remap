@@ -5,6 +5,170 @@ and the separate Cython extensions (`api/src/cy`). See [Building](../Building/CL
 compile, [Testing](../Testing/CLAUDE.md) to verify, and [Documentation](../Documentation/CLAUDE.md)
 for how these conventions show up in rendered docs.
 
+## A BLEND'S INFLUENCE COUNT IS A PARAMETER, AND ONE CLASS STILL SAYS FOUR (2026-09-30)
+
+Four influences a vertex is the Genshin shape. A Wuthering Waves `blend`_ carries as many as **eight**
+-- Chisa's mods do -- so any code that writes a 4 down cannot read them.
+
+**`BlendFile` is already general, and this is worth knowing before working around it.**
+:cpp:func:`BlendFile::remapIndices`, :cpp:func:`BlendFile::getMissingIndicesRemap` and
+:cpp:func:`BlendFile::remap` all run to ``std::min(blendWeights.size(), blendIndices.size())``, driven
+by whatever the file's elements declare, and the constructor takes the caller's own elements:
+
+```cpp
+BlendFile::BlendFile(BinarySrc src, std::vector<std::unique_ptr<BufElementType>> elements):
+    BufFile(std::move(src), elements.empty() ? defaultElements() : std::move(elements), "Blend.buf") {}
+```
+
+An eight-influence blend has therefore been constructible all along by handing the elements in, which
+is what `WWMIFixer` does. The only 4 was in :cpp:func:`BlendFile::defaultElements`, whose sole caller
+is that empty case; it takes an ``influences`` count now, defaulting to 4.
+
+:cpp:func:`BufElementType::repeated` is the other half -- six places built "N copies of one data type
+under one key" with a hand-written loop. The tell that the four was leaking into DESIGN rather than
+just into a constant was this, in the WuWa blend builder:
+
+```cpp
+const std::string format = influences == 4 ? "R8G8B8A8_UINT" : "R8_UINT";
+```
+
+a width special case living in a NAME. Note that `repeated` records the format name it is given and
+invents none: a first draft generated one from the type and the count, which would have changed the
+texcoord element's deliberately empty name and the WuWa blend's ``R8_UINT``, turning a deduplication
+into a behaviour change.
+
+### Still to do: `VGComponentSplit` (deferred 2026-09-30, waiting on a GI corpus)
+
+`VGComponentSplit` is the library's own blend reader and splitter, and it is the one place that still
+cannot take another width:
+
+```cpp
+using Weights = std::vector<std::array<double, 4>>;
+using Indices = std::vector<std::array<long long, 4>>;
+...
+if (column.valueInd >= 4) { continue; }        // readBlend, silently dropping influences 4..N
+```
+
+plus :cpp:member:`VGComponentBuffers::weights`/``indices`` and the internals (``mapped``,
+``inComponent``). Until it is widened, a WuWa caller cannot use ``readBlend``/``encodeBlend`` -- which
+is why `WWMIFixer` carries ``bufRows(file, elementKey, width)``, that function generalised, locally.
+Handing an eight-influence blend to ``readBlend`` today drops half of every vertex's weights SILENTLY,
+so this is a trap and not merely a gap.
+
+**Why it is not done yet, and what it needs.** The change is Python-visible
+(``PyVGComponentSplit.cpp`` binds these types) and sits on the GI component-split path -- Yelan,
+Bennett, Citlali, Neuvillette. Its 30 unit tests assert 4-wide rows literally
+(``[[-1, 0, 0, 0], [-1, -2, 0, 0], ...]``); they should still pass once the width comes from the
+buffer's own elements, since a GI blend is 4-wide, but that is a prediction. And this machine has
+exactly **one** GI mod (``GIMI/Mods/Arlecchino1``, a classic-shape character that likely never
+reaches the split), so there is no GI corpus to sweep it against the way every WuWa change this
+session was accepted.
+
+Do it when there is a GI corpus: widen the types, take the width from ``decodeAll``'s columns, and
+require the unit suite, the Integration Tester goldens AND a GI corpus sweep to come back unchanged.
+Then `WWMIFixer`'s `bufRows` should collapse into ``VGComponentSplit::readBlend``.
+
+## A STRATEGY THAT REACHES PAST `FileService` AND `BufFile` IS WRITING THE LIBRARY AGAIN (2026-09-30)
+
+`WWMIFixer.cpp` touched `std::filesystem` sixteen times and `std::ofstream` twice. None of it was
+wrong, and all of it was the library written a second time:
+
+| it wrote | the library has |
+| --- | --- |
+| `file_size(strToPath(p), err)` x8 | `FileService::fileSize(p)` -> `std::optional<std::uintmax_t>` |
+| `create_directories(strToPath(p).parent_path(), err)` x6 | `FileService::makeFolderFor(p)` |
+| `rfind('/')` + `substr` to get a folder x2 | `FileService::parentOf(p)` |
+| `s.rfind(prefix, 0) != 0` | `StringTools::startsWith(s, prefix)` |
+| `ofstream` + `reinterpret_cast<const char*>(u16.data())` | `BufFile{bytes, elements}` + `BufFile::fix(path)` |
+
+Both helpers are new; everything else already existed. Two of those rows are worth more than the
+tidying:
+
+**`parentOf` had the behaviour the hand-rolled version got wrong.** Its contract is "everything before
+the last component, or `""` if 'path' has no folder part" -- and the `rfind('/')` version, being unable
+to return the empty answer, could not count a file beside the `.ini`. That is the whole of the
+UI-art-folder bug in Creating Remaps. **When a hand-rolled helper has an edge case, check whether the
+library's version already decided it.**
+
+**A raw `ofstream` is a writer with no format and no result.** The three WWMI blend-remap buffers were
+written as `file.write(reinterpret_cast<const char*>(ids.data()), ids.size() * 2)` while the SAME
+files were read back through `BufFile` with `wwmiVertexVGElements` declaring their layout -- the reader
+declared the format and the writer hand-rolled it, so the width lived in a `* 2` and the byte order in
+a cast. And the zero shape-key stream **discarded its write result entirely**, which is the defect the
+guides already record for `TextureFile::save`, where a run reported editing 18 textures having written
+none.
+
+`BufFile` takes a `BinarySrc` (`std::variant<std::string, ByteVec>`), so a buffer synthesised in memory
+is `BufFile{std::move(bytes), elements}` and `fix(path)` writes it -- validating the line size on the
+way and throwing a named error if it cannot. It does NOT create parent folders, which is why
+`makeFolderFor` sits beside it.
+
+**What did not move, and why.** Those four buffers are produced *inside* another resource's `fix`, so
+they cannot become `IniResource`s of their own without restructuring -- and so nothing counts them: a
+run that writes four buffers reports `fixed 1 Blend.buf files`. They are declared in the fixed `.ini`
+under `...RemapFix` names, so an undo does remove them. The accounting gap is real and is the
+maintainer's call: the shape it wants is a `RemapBufAddResource` mirroring
+:cpp:class:`RemapTexAddResource`, which is the existing precedent for a file the fix invents.
+
+## A BUFFER ELEMENT NAME AND A `BufValue` DECODE BELONG TO THE LIBRARY, NOT TO EACH READER (2026-09-30)
+
+Three files each declared their own file-local pair of constants for the two element names every
+`Blend.buf` in both games uses:
+
+```cpp
+constexpr const char* BlendWeightKey  = "BLENDWEIGHT";      // BlendFile.cpp
+constexpr const char* BlendIndicesKey = "BLENDINDICES";     // VGComponentSplit.cpp, and WWMIFixer.cpp
+```
+
+They are now `BlendFile::BlendWeightKey` / `BlendFile::BlendIndicesKey`, public. That pair has form:
+a patch script inserted the `WWMIFixer` copies and then ran a blanket literal-to-name replace over
+the whole file, which rewrote **its own two declarations** into `= WWMIBlendIndicesKey;`. Both came
+out empty, `line.find("")` matched nothing, and every Sanhua blend was skipped across 25 folders from
+a clean build. A constant that exists once cannot be redefined by a pass over the file that uses it.
+
+Beside them, in `BufValue.h`, are `bufValueAsInt` and `bufValueAsFloat` -- `std::visit` casts that
+decode whatever alternative the value actually holds. **They matter for correctness, not tidiness.**
+The hand-rolled form they replace is:
+
+```cpp
+std::holds_alternative<unsigned long long>(v) ? std::get<unsigned long long>(v) : 0
+```
+
+which is right only while the `BufElementType`s the caller read the buffer with produce that
+alternative. `WWMIFixer` declares its own `BufUnSignedInt` elements on every such path, so it was
+correct -- but against a blend buffer read with the float weights of `BlendFile::defaultElements`
+(`R32G32B32A32_FLOAT`) the same test reads **every influence as weight-zero**, so a remap does
+nothing and reports success. Six sites hand-rolled it.
+
+They live on `BufValue` rather than on `BlendFile` because an INDEX buffer needs the same decode --
+`WWMIFixer` does it twice over `IbFile::TriangleBufElementKey` -- and reaching through `BlendFile` for
+that would be the wrong dependency. The first draft put them on `BlendFile` and the ib sites are what
+said otherwise.
+
+**The two ib sites were deliberately left alone.** They are not decodes with a fallback, they are
+guards with their own control flow -- one `continue`s past a value, the other abandons the whole line
+-- and rewriting control flow to make a tidy-up look complete is how a silent behaviour change gets
+written as cleanup.
+
+## `SectionText` BUILDS A SECTION; IT DOES NOT CONCATENATE ONE (`model/IniSectionText.h`, 2026-09-30)
+
+`IfTemplate` is a section, `IfContentPart` a run of `key = value` lines, `IfPredPart` an `if`/`endif`,
+and `renderIfTemplate` turns the three back into text -- including the `[name]` header and the
+indentation. A strategy that assembles that as strings writes the same structure twice: once as the
+model every other part of a fix is edited through, and once as text of its own.
+
+`SectionText(z3, name).keys({...}).open(pred).key(k, v).close().prefix(comment).str()` is the builder.
+It lived inside `WWMIFixer.cpp`, where it had replaced twenty section headers' worth of string
+assembly; it is in `model/` now because **two GI sites still build a section by hand** --
+`GIMIComponentFixer.cpp`'s translucency block (`"[" + name + "]\n"` then `blend[N]` /
+`blend_factor[N]`) and `SideMeshes.cpp`. Neither is converted: the renderer indents with a tab and
+appends its own separators, so converting either **moves GI output**, which needs a GI corpus sweep
+to accept rather than a WuWa one.
+
+It is in `model/`, not `model/iftemplate/`: that whole directory is deliberately free of `.ini`
+keyword knowledge -- nothing in it includes `constants/IniKeywords.h` -- and this needs
+`IniKeywords::Run` for its run config. `model/IniNamingTools.h` is the neighbour it belongs with.
+
 ## C++ core conventions (`api/src/cpp/core`)
 - `AGRemapCore` has zero Python/pybind11 dependency — it's meant to be usable as a standalone
   C++ library too (`-e core` build mode, see [Building](../Building/CLAUDE.md)). Keep it that
@@ -64,6 +228,47 @@ The ten were `IniFileFixContext::writeFixedFile` (the reported one), `FileDownlo
 the `RemapServiceCLI` log file, `IniFile`, `IniFileRemoveContext`, `RemapService::_origIniPath`, and
 two in `py/` that had never included `FileService.h` at all. **`py/` is as much part of this rule as
 `core/` is** and is easy to leave out of a sweep.
+
+### And the JOIN form has no keyword in it, so neither grep can see it (2026-09-28)
+
+`folder / someNarrowString` is the same conversion as `fs::path(someNarrowString)` — `operator/`
+takes a `std::string` and reads it as the active code page — but it contains none of the words the
+two greps above look for. **Six of these were still in shared code three weeks after the "ten more"
+sweep**, in four functions:
+
+| Site | What it names | How it showed |
+| --- | --- | --- |
+| `IniFileFixContext::fixedFilePath` | the generated `<stem>RemapFix<N>.ini` | the copy **survived every undo** |
+| `IniFile::disableIni` | the `RemapBKUP<stem>.txt` backup | nothing — see below |
+| `IniFileRemoveContext::removeBackup` | the same backup, to delete it | nothing — see below |
+| `IniNamingTools::getFixedFile` / `getFixedElementFile` / `getFixedTexFile` | every generated resource file name | latent |
+
+The first is the one that cost a day. A ChisaParfait mod ships `mod-自动生成.ini`, and its copy was
+written as `mod-è‡ªåŠ¨ç”ŸæˆRemapFix1.ini`; `RemapService::_origIniPath` — fixed in the same pass, and
+correct — then could not map that name back to the `.ini` it belongs to, so `_removeRemapCopies`
+never deleted it. **A leftover `<stem>RemapFix1.ini` still carries remapped sections**, so the mod
+went on drawing on the target with no fix installed. Every arm of the diagnosis pointed at the undo;
+the defect was in what the FIX had written, and the control that settled it in one run was renaming
+that one file to ASCII while keeping the non-Latin FOLDER (which undid cleanly).
+
+**The two backup sites are the more interesting pair, because nothing was broken.** They mangle the
+name identically, so the delete found what the rename had written and the round trip worked — while
+the file on disk carried a name nobody meant. Fixing either one alone would have made the undo stop
+deleting the backup. When you find a conversion bug, **check whether its opposite has the same one**
+before deciding how much is broken.
+
+`Tools/Misc/Diagnostics/pathJoinSweep.py` is the third grep, and it reads STATEMENTS rather than
+lines — the bug's own join was written across two lines with the `/` at the end of the first, which
+a line-based reader cannot see. Its first two versions each would have passed the build they were
+written to fail (one skipped every operand whose *name* contained `path`, which skipped
+`pathToStr(...)` — a function returning a narrow string), so it carries `--prove`, which runs it
+over the broken form and requires a hit. Seven sites remain in the tree and all seven were read:
+integer division, ASCII constants, and two in `core/tests`.
+
+**And the behaviour is checkable too**: `Tools/Misc/Diagnostics/nonLatinNames.py <mod>` fixes and
+undoes two copies of a real mod, one with its `.ini` files renamed to ASCII, and requires the same
+files and no leftovers. It exits non-zero on a mod with no non-Latin name at all, rather than
+reporting a tidy zero over nothing.
 
 ### Reading the mojibake tells you WHICH bug you have, before you read any code
 
@@ -878,6 +1083,49 @@ delegation chain. In the order you'll actually touch them:
    `test_CppIfContentPart.py`. Both need updating for any interface signature change, or they'll
    silently stop being valid implementations (see the trampoline-arity gotcha immediately below
    for why "silently" is doing real work in that sentence).
+
+## An enum used as a DEFAULT ARGUMENT must be registered BEFORE the function that defaults to it (2026-09-29)
+
+pybind11 resolves a `py::arg("x") = <value>` default at **registration** time, not at call time. So
+an enum registered after the class whose constructor defaults to it produces, on import:
+
+```
+ImportError: arg(): could not convert default argument into a Python object (type not registered yet?)
+```
+
+**The blast radius is the whole package, not the binding.** `FixRaidenBoss2/__init__.py` imports
+`core` on its first line, so nothing in the library can be imported at all -- and every run, A/B,
+sweep and prototype after that build is measuring a module that never loaded. It cost a legacy-blend
+A/B that "passed" (both sides produced identical files, because neither side ran and both folders
+had inherited the file from an earlier fix -- see Creating Remaps' "getting a genuinely unfixed
+baseline").
+
+Register the enum first, at module scope, above the `py::class_`:
+
+```cpp
+py::enum_<AGRC::BufFloat16::Rounding>(m, "BufFloat16Rounding") /* ... */;
+
+py::class_<AGRC::BufFloat16, ...>(m, "BufFloat16")
+    .def(py::init<bool, AGRC::BufFloat16::Rounding>(), py::arg("isBigEndian") = false,
+         py::arg("rounding") = AGRC::BufFloat16::Rounding::Truncate);
+```
+
+**And the check is one command, which is worth running after ANY binding change** -- it is far
+cheaper than discovering it three measurements later:
+
+```bash
+py -3 -c "import FixRaidenBoss2; print('import OK')"
+```
+
+**Then regenerate `core.pyi`** (`py -3 -m pybind11_stubgen FixRaidenBoss2.core -o . --root-suffix ""`
+from `api/src/py`), because it is a committed artifact the published docs render from. Compare the
+`__all__` name SETS before and after rather than reading the diff: `__all__` is one enormous line
+that re-sorts on every regeneration, so a whole-file diff looks like dozens of classes were removed
+when nothing was (`Tools/Misc/Diagnostics/`-style script, ~20 lines, `ast.literal_eval` on the
+`__all__` line). The 2026-09-29 regeneration reads as +1 / -0 that way and as a wall of churn
+otherwise.
+
+<br>
 
 ## pybind11 trampoline gotcha: changing an existing virtual method's arity breaks every call, not just new-param ones
 

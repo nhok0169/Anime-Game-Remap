@@ -240,7 +240,7 @@ as `c7a7ec1b` and `f869e47c` among its *unrecognised*, and those are exactly com
 component 4's diffuses.
 
 **The gap is a property of how the history was built.** Chisa's older generations came from
-`chisaHashHistory.py`, which identifies a mod's texture by correlating it against the game's own at
+`wwmiHashHistory.py`, which identifies a mod's texture by correlating it against the game's own at
 ~1.00 -- and that only fires for a file the mod ships UNCHANGED. A mod that REPAINTS the torso, which
 is most of them, never matched. So the roles most likely to be missing from the history are precisely
 the ones a mod is most likely to have replaced, and a run reports every accessory fixed while the

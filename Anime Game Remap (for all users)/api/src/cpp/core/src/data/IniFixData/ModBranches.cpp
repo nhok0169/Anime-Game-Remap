@@ -305,6 +305,37 @@ namespace AGRemapCore {
     }
 
 
+    std::string ModBranches::looseKey(const std::string& key) {
+        std::string out = StringTools::toLower(key);
+        std::replace(out.begin(), out.end(), '\\', '/');
+        return out;
+    }
+
+
+    std::optional<std::string> ModBranches::firstValLoose(const Template& tpl, const std::string& key) {
+        const std::string want = looseKey(key);
+        for (const auto& part : tpl.parts()) {
+            const auto* content = dynamic_cast<const Template::ContentPart*>(part.get());
+            if (content == nullptr) {
+                continue;
+            }
+
+            for (const std::string& candidate : content->getKeys()) {
+                if (looseKey(candidate) != want) {
+                    continue;
+                }
+
+                std::vector<std::string> vals = content->getVals(candidate);
+                if (!vals.empty()) {
+                    return std::string(StringTools::strip(vals.front()));
+                }
+            }
+        }
+
+        return std::nullopt;
+    }
+
+
     std::string ModBranches::resourceOf(const std::optional<std::string>& value) {
         if (!value.has_value() || value->empty() || StringTools::equalsIgnoreCase(*value, IniKeywords::Null)) {
             return "";

@@ -44,7 +44,7 @@ namespace AGRemapCore {
             return "";
         }
 
-        return FileService::pathToStr(FileService::strToPath(*iniFile_->getFile()).parent_path());
+        return FileService::parentOf(*iniFile_->getFile());
     }
 
 
@@ -174,9 +174,14 @@ namespace AGRemapCore {
         // rather than .ini. Spelled out here rather than shared, because the two are opposites --
         // one of them changing without the other is exactly the bug worth having a compile-visible
         // second copy for.
+        //
+        // strToPath around the assembled name, and the SAME change has to be in IniFile::disableIni:
+        // `parent_path() / <narrow string>` reads it as the ACTIVE CODE PAGE on Windows, so a
+        // non-Latin .ini name produced a mojibake backup on both sides. The two agreed, so nothing
+        // broke -- but fixing only one of them would delete nothing and leave the backup behind.
         std::filesystem::path path = FileService::strToPath(*iniFile_->getFile());
-        std::filesystem::path backup = path.parent_path() /
-            (FilePrefixes::BackupFilePrefix + FileService::pathToStr(path.stem()) + FileExt::Txt);
+        std::filesystem::path backup = path.parent_path() / FileService::strToPath(
+            FilePrefixes::BackupFilePrefix + FileService::pathToStr(path.stem()) + FileExt::Txt);
 
         // No existence check first: remove() reports "there was nothing there" the same way it
         // reports success, and a backup that is already gone is not a failure.

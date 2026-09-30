@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Yaoyao/YaoyaoFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp" bodystart="168" bodyend="170"/>
+        <location file="include/AGRemapCore/data/IniFixData/Yaoyao/YaoyaoFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp" bodystart="176" bodyend="178"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_yaoyao_fixer_1a86eceb5301349b951eea162b7845757e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Yaoyao/YaoyaoFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp" bodystart="173" bodyend="175"/>
+        <location file="include/AGRemapCore/data/IniFixData/Yaoyao/YaoyaoFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp" bodystart="181" bodyend="183"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_yaoyao_fixer_1a1983a7fd41e78741f6bd8c53a6da3f45" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Yaoyao/YaoyaoFixer.h" line="53" column="43" bodyfile="src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp" bodystart="178" bodyend="180"/>
+        <location file="include/AGRemapCore/data/IniFixData/Yaoyao/YaoyaoFixer.h" line="53" column="43" bodyfile="src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp" bodystart="186" bodyend="188"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

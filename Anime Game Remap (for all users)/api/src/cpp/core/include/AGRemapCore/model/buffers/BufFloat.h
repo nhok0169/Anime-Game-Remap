@@ -111,11 +111,60 @@ namespace AGRemapCore {
         public:
 
             /**
+             * @brief
+             @rst
+             How :cpp:func:`BufFloat16::encode` turns a wider value into a 16-bit half
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The two are not interchangeable and the difference is measurable: over one WuWa mod's
+             texcoord buffer they disagree on **104 halves of 1,508,336**, every one of which is a
+             moved UV.
+             @endrst
+             */
+            enum class Rounding {
+                /**
+                 * @brief Drop the low mantissa bits (``mantissa >> 13``) and flush a subnormal to zero
+                 *
+                 * The behaviour this type has always had, and the default, so that no buffer the
+                 * library already writes moves. Cheap, and NOT an exact round trip -- decoding a half
+                 * and encoding it straight back can change it.
+                 */
+                Truncate,
+
+                /**
+                 * @brief
+                 @rst
+                 Round the mantissa half to even, keep subnormals, and keep a ``NaN`` a ``NaN``
+                 :raw-html:`<br />` :raw-html:`<br />`
+
+                 What numpy's ``float16`` cast does, so a fix whose oracle is a Python prototype wants
+                 this one :raw-html:`<br />` :raw-html:`<br />`
+
+                 .. note::
+                    Under this mode :cpp:func:`BufFloat16::decode` followed by
+                    :cpp:func:`BufFloat16::encode` is an **exact identity** for every one of the
+                    65536 half bit patterns. That is what makes :cpp:func:`BufFile::fix` -- which
+                    re-encodes every line, including the ones no filter touched -- safe to run over
+                    a buffer of halves.
+                 @endrst
+                 */
+                NearestEven
+            };
+
+            /**
              * @brief Constructs a new 16-bit half-precision floating-point type
              *
              * @param isBigEndian Whether the type is in big endian mode
+             * @param rounding How #encode narrows a value to a half (see #Rounding)
              */
-            explicit BufFloat16(bool isBigEndian = false);
+            explicit BufFloat16(bool isBigEndian = false, Rounding rounding = Rounding::Truncate);
+
+            /**
+             * @brief Retrieves how #encode narrows a value to a half
+             *
+             * @return The rounding mode
+             */
+            Rounding getRounding() const;
 
             /**
              * @brief
@@ -148,6 +197,9 @@ namespace AGRemapCore {
             ByteVec encode(const BufValue& src) const override;
 
             std::unique_ptr<BufDataType> clone() const override;
+
+        private:
+            Rounding rounding_;
     };
 }
 

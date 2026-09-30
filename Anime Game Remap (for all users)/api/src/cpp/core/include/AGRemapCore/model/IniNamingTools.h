@@ -66,6 +66,44 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Removes the ``ref`` prefix a register binding may name a resource `section`_ with, and
+             strips the result :raw-html:`<br />` :raw-html:`<br />`
+
+             Examples: ``"ref ResourceCuteLittleEi"`` -> ``"ResourceCuteLittleEi"``;
+             ``"ResourceCuteLittleEi"`` -> ``"ResourceCuteLittleEi"`` (unchanged)
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A texture register is bound by reference either way and every reader in the library
+             looks the value up as a `section`_ name, so the two spellings mean the same thing. The
+             prefix is matched without regard to case, as ``3dmigoto`` reads it
+             @endrst
+             *
+             * @param value The value of the register binding
+             *
+             * @return The `section`_ name it refers to
+             */
+            static std::string removeRefPrefix(const std::string& value);
+
+            /**
+             * @brief
+             @rst
+             Whether a register binding names its resource `section`_ with the ``ref`` prefix
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The companion of \ref removeRefPrefix, for a caller that has to tell the two spellings
+             APART rather than read through them -- a mod that binds one register both ways means
+             two different things by it
+             @endrst
+             *
+             * @param value The value of the register binding
+             *
+             * @return Whether it carries the prefix
+             */
+            static bool hasRefPrefix(const std::string& value);
+
+            /**
+             * @brief
+             @rst
              Changes a `section`_ name to have the keyword from 'elementName' to identify that the
              `section`_ is created by this fix -- replaces the LAST occurrence of 'elementName'
              within 'name' with ``{modName}Remap{elementName}``, or appends it if 'elementName'
@@ -345,6 +383,39 @@ namespace AGRemapCore {
              *
              * @return The new name for the `section`_
              */
+            /**
+             * @brief
+             @rst
+             Whether 'name' names something a modder has turned OFF -- see
+             :cpp:member:`FilePrefixes::DisabledPrefix` :raw-html:`<br />` :raw-html:`<br />`
+
+             Case-insensitive, and only a PREFIX test: this answers "did someone disable this", not
+             "is this a backup of ours", which :cpp:member:`FilePrefixes::BackupFilePrefix` and the
+             two historical prefixes beside it answer
+             @endrst
+             *
+             * @param name The file, folder or section name to test
+             *
+             * @return Whether 'name' is prefixed as disabled
+             */
+            static bool isDisabled(const std::string& name);
+
+            /**
+             * @brief
+             @rst
+             A register as it is spelled inside a `section`_ NAME: ``ps-t0`` -> ``Pst0``
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A section name cannot carry the register's own punctuation and read as one word, so the
+             separators come out and the result is capitalized to join onto whatever precedes it
+             @endrst
+             *
+             * @param reg The register to spell
+             *
+             * @return The register as a name fragment
+             */
+            static std::string getRegTag(const std::string& reg);
+
             static std::string getObjRemapFixName(const std::string& name, const std::string& modName,
                                                    const std::pair<std::string, std::string>& objName,
                                                    const std::pair<std::string, std::string>& newObjName);

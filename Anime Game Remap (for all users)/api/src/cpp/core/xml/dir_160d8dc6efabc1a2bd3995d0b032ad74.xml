@@ -3,6 +3,7 @@
   <compounddef id="dir_160d8dc6efabc1a2bd3995d0b032ad74" kind="dir">
     <compoundname>src/data/IniFixData/Sanhua</compoundname>
     <innerfile refid="_sanhua_fixer_8cpp">SanhuaFixer.cpp</innerfile>
+    <innerfile refid="_sanhua_textures_8cpp">SanhuaTextures.cpp</innerfile>
     <innerfile refid="_sanhua_thumbprints_8cpp">SanhuaThumbprints.cpp</innerfile>
     <briefdescription>
     </briefdescription>

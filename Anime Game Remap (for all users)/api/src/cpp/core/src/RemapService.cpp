@@ -191,7 +191,7 @@ namespace AGRemapCore {
 
 
     std::string RemapService::_warnSkippedIniResource(const std::string& modPath, const FileStats& resourceStats) const {
-        const std::string parentFolder = FileService::pathToStr(FileService::strToPath(path_).parent_path());
+        const std::string parentFolder = FileService::parentOf(path_);
         Heading modHeading("Mod: " + FileService::getRelPath(modPath, parentFolder), 5);
 
         std::string message = modHeading.open() + "\n\n";
@@ -382,7 +382,7 @@ namespace AGRemapCore {
     void RemapService::_fix() {
         // The walk reports each folder relative to the parent of where it started, so the starting
         // folder itself still shows up by name rather than as ".".
-        const std::string parentFolder = FileService::pathToStr(FileService::strToPath(path_).parent_path());
+        const std::string parentFolder = FileService::parentOf(path_);
 
         FolderWalk walk;
         walk.push(path_);
@@ -586,7 +586,24 @@ namespace AGRemapCore {
             tail = tail.substr(extPos);
         }
 
-        return FileService::pathToStr((path.parent_path() / (head + tail)));
+        // strToPath, NOT the raw std::string: `operator/` takes a narrow string as the ACTIVE CODE
+        // PAGE, so a UTF-8 name comes back out as a DIFFERENT path -- which is what FileService::
+        // strToPath's own danger note says, and a site the 2026-09-11 sweep of conversion sites
+        // missed.
+        //
+        // What it cost: this function's answer is compared against the .ini path the walk found
+        // (_removeRemapCopies), so for a mod whose .ini has a non-Latin name -- `mod-自动生成.ini`
+        // on one real ChisaParfait mod -- the two never matched and the generated copy survived
+        // every undo. A leftover `<stem>RemapFix1.ini` still carries remapped sections, so the mod
+        // went on drawing on the target with no fix installed. ASCII names were unaffected, which
+        // is why it sat here unnoticed.
+        //
+        // One of FOUR sites of the same join, and not on its own sufficient: IniFileFixContext::
+        // fixedFilePath WROTE the copy under a mangled name too, and IniFile::disableIni and
+        // IniFileRemoveContext::removeBackup did the same to the backup (agreeing with each other,
+        // so nothing there looked broken). Architecture's "And the JOIN form has no keyword in it"
+        // has the set, and Tools/Misc/Diagnostics/pathJoinSweep.py re-finds it.
+        return FileService::pathToStr(path.parent_path() / FileService::strToPath(head + tail));
     }
 
 
@@ -606,7 +623,7 @@ namespace AGRemapCore {
                 // same folders (and the ones its new fix writes to) through its own models.
                 if (undoOnly) {
                     removedResourceFolders_.push_back(
-                        FileService::pathToStr(FileService::strToPath(resource->srcPath).parent_path()));
+                        FileService::parentOf(resource->srcPath));
                 }
 
                 // NEVER DELETE SOMETHING THIS RUN JUST PRODUCED.
@@ -668,7 +685,7 @@ namespace AGRemapCore {
 
 
     void RemapService::_rememberReferences(const std::string& iniPath) {
-        const std::string folder = FileService::pathToStr(FileService::strToPath(iniPath).parent_path());
+        const std::string folder = FileService::parentOf(iniPath);
 
         std::vector<std::string> files{iniPath};
         for (const std::string& file : FileService::getFilesAndDirs(folder).first) {
@@ -735,7 +752,7 @@ namespace AGRemapCore {
         }
 
         const std::string iniPath = *ini.getFile();
-        const std::string folder = FileService::pathToStr(FileService::strToPath(iniPath).parent_path());
+        const std::string folder = FileService::parentOf(iniPath);
 
         // Found by walking the folder and mapping each copy back to its source, rather than by
         // guessing how many copies exist: that is what the pure-Python original's

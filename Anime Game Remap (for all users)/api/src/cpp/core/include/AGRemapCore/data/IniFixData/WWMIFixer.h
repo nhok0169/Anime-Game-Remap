@@ -18,13 +18,16 @@
 #include <functional>
 #include <map>
 #include <optional>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "AGRemapCore/constants/ModTypeId.h"
+#include "AGRemapCore/data/WWMITextureFacts.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
+#include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 #include "AGRemapCore/model/textures/Colour.h"
 
 
@@ -92,10 +95,41 @@ namespace AGRemapCore {
              @rst
              The role (a value of :cpp:member:`roles` or :cpp:member:`typeRoles`, or the name of a
              :cpp:member:`createdTextures` entry). A role no file of the mod has is left unbound,
-             so the GAME's texture serves the register
+             so the GAME's texture serves the register.
+
+             ``"null"`` (:cpp:member:`IniKeywords::Null`) is reserved and means **bind nothing** --
+             ``<reg> = null`` is written, and the target's own texture does NOT serve the register.
+
+             .. note::
+                 Leaving a register to the game is only safe when what it holds is not indexed by
+                 UV: a lookup, a ramp, a matcap. For a UV-MAPPED texture it is wrong by
+                 construction, because the geometry under it is the SOURCE's, so the target's art
+                 is sampled at UVs it was never authored for -- which renders as irregular blotches
+                 that follow the target's layout rather than the mod's. Chisa's hair ``ps-t5`` is a
+                 2048 x 2048 map and was exactly that (2026-09-26); confirmed in game by nulling it.
              @endrst
              */
             std::string role;
+
+            /**
+             * @brief
+             @rst
+             In :cpp:member:`extraPassRegs` only: the SOURCE component this binding is for, or
+             ``-1`` (the default) for every source that reaches the slot.
+
+             Everything else in that table is keyed by the TARGET slot, which is right until two
+             sources MERGE onto one -- and then "the diffuse at ``ps-t0``" is a different file per
+             source, while the role lookup falls back to a component-agnostic one and so resolves
+             either role for either section. Two bindings on one register in one list means the last
+             one wins, silently, for whichever source it does not belong to.
+
+             The same shape as GI's ``TexEdit::srcObj``, and for the same reason: a merge is the one
+             case a target-keyed table cannot express. ChisaParfait -> Chisa has two merged slots
+             (her frilled panel joins the upper body, her hip prop the lower), so both of its merged
+             rows carry this
+             @endrst
+             */
+            int srcComponent = -1;
         };
 
         /**
@@ -150,6 +184,26 @@ namespace AGRemapCore {
          @endrst
          */
         std::string version = "2.5";
+        /**
+         * @brief
+         @rst
+         The SOURCE's own game version, when the pair is not filed under one.
+         :cpp:member:`version` serves both characters while they share a version, as Sanhua's pair
+         does at 2.5; Chisa is 2.8 and her skin 3.5, and the difference matters to any lookup that
+         is REVERSE-then-forward.
+
+         ``ModMappedAssets::getKey`` buckets every row holding a value by version and searches only
+         the newest bucket at or below the version asked. Chisa and ChisaParfait have the SAME
+         shape-key checksum, 2610, so asked at 3.5 the reverse half answers ChisaParfait, the
+         forward half asks what ChisaParfait remaps to in a Chisa -> ChisaParfait fix, finds
+         nothing, and writes the literal ``ChecksumNotFound`` -- after which ``ShapeKeyOverrider``
+         cannot set up and every shape key silently stops being applied. Asked at 2.8 the same
+         lookup answers Chisa.
+
+         Empty (the default) falls back to :cpp:member:`version`
+         @endrst
+         */
+        std::string sourceVersion;
 
         /**
          * @brief
@@ -212,23 +266,6 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         Texture hash -> role, for every version of the source's textures a mod may carry: the
-         current hashes, and the older ones the community's hash maps and
-         ``Data/Mod Downloads/WuWa/<Name>/<Name>HashLineage.json`` know :raw-html:`<br />`
-         :raw-html:`<br />`
-         A file's roles are decided in this order: the hashes the override sections (``hash =``
-         plus ``this = Resource``) of ANY ``.ini`` of the mod match for it, plus the ``t=<hash>``
-         in its file name (how WWMI Tools names an export) -- and a file plays EVERY role those
-         hashes name, because a mod declares one file under two hashes when one atlas serves two
-         components; then :cpp:member:`identifyTexture`; and last the
-         ``Component<N>_<Diffuse|LM|NM>`` name convention through :cpp:member:`typeRoles`
-         @endrst
-         */
-        std::unordered_map<std::string, std::string> roles;
-
-        /**
-         * @brief
-         @rst
          Source component -> ``{"diffuse" | "mask" | "normal" -> role}``, for a file named by
          component and type and by nothing else (``Component4_NM.dds``: the RabbitFX / WWMI-Tools
          export names). The suffixes accepted: ``diffuse``, ``albedo``, ``base``, ``color``,
@@ -250,84 +287,52 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         The game folder under ``Data/Mod Downloads`` the source's textures are fetched from.
-         **Default**: ``"WuWa"``
-         @endrst
-         */
-        std::string downloadGameFolder = "WuWa";
+         Roles whose texture says WHERE something is, so a CONSTANT one from the mod is not usable
+         :raw-html:`<br />` :raw-html:`<br />`
 
-        /**
-         * @brief
-         @rst
-         The source character's download folder, version folder and file prefix under
-         :cpp:member:`downloadGameFolder` -- ``Sanhua`` / ``2_5`` / ``Sanhua`` for
-         ``WuWa/Sanhua/2_5/SanhuaTexture<hash>.dds``. Empty (the default) registers no fallback
-         download at all
-         @endrst
-         */
-        std::string downloadCharFolder;
-        std::string downloadVersionFolder;
-        std::string downloadPrefix;
+         A material mask marks regions. A mod that ships one holding a single value everywhere is not
+         saying "no preference": ``R = 255`` everywhere says "all of this is bare skin", and carried
+         across faithfully that is what the target's shader is told -- a jacket shaded as skin, or
+         bare thighs shaded as cloth (Chisa13, 2026-09-26) :raw-html:`<br />` :raw-html:`<br />`
 
-        /**
-         * @brief
-         @rst
-         Role -> the source's texture hash of that role, for a planned role the mod has NO file
-         for: the register is bound to the SOURCE's own game texture, downloaded as
-         ``<downloadPrefix><Role>RemapDL.dds`` into the mod's texture folder :raw-html:`<br />`
+         A role named here whose only candidate file is flat is treated as a role the mod has NO file
+         for, so it takes \ref fallbackTextures like any other: the SOURCE's own texture, which has
+         real regions and is authored for the UVs this mesh actually carries. The target's would be
+         authored for the target's UV layout, which this mesh does not use :raw-html:`<br />`
          :raw-html:`<br />`
 
-         The mod's UVs are the source's, so what an unbound register samples on the target's draw
-         -- the TARGET's texture -- is wrong by construction: the red-camellia mod ships no bodice
-         or skirt mask, and the Exorcist's mask at its UVs put skin codes over cloth, a reddish hue
-         over the whole body while every diffuse was right (2026-09-19). The same reasoning as the
-         GI templates' texture donor. A role whose hash BOTH skins bind needs no entry: the target's
-         texture is the source's. Empty (the default) binds nothing for a missing role
+         .. note::
+            Only for roles that mark regions. A DIFFUSE may legitimately be one flat colour, and a
+            normal map is nearly flat by construction, so naming either here would throw away art the
+            mod meant :raw-html:`<br />` :raw-html:`<br />`
+
+            Measured over 24 Chisa mods: 4 of 36 repacked body masks are flat, on 2 mods. Empty (the
+            default) keeps every candidate whatever its pixels
          @endrst
          */
-        std::map<std::string, std::string> fallbackTextures;
+        std::set<std::string> flatFallsBackToSource;
 
         /**
          * @brief
          @rst
-         An optional hook that names the texture hash a mod file IS -- pixel identity with one of
-         the game's own textures -- for a file no hash names and whose name says something else.
-         The prototype measures this by image correlation against the download folder
-         (``Component6_Diffuse.dds`` of one mod is the ``ps-t5`` ramp by its pixels, not the iris
-         its name says). Empty skips the step
+         Roles like \ref flatFallsBackToSource, except that a flat one is left to the GAME rather
+         than replaced by a download :raw-html:`<br />` :raw-html:`<br />`
+
+         Both drop the mod's flat file; they differ in what stands in for it. A body mask takes the
+         source's, because the mod's UVs are the source's and its regions land where they belong. A
+         HAIR mask is left alone, which is the maintainer's call and what this repo's own hair-mask
+         finding said: a flat hair mask of ``(255, 0, 126, 0)`` shaded the crown of the hair red,
+         and the register is better left to the game than filled in :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         .. note::
+            This suppresses the fallback for that role even though \ref fallbackTextures names it.
+            A hair mask the mod never ships still downloads as before -- only a FLAT one is left
+            alone, because "the mod gave us nothing" and "the mod gave us something meaningless"
+            deserve different answers here
          @endrst
          */
-        std::function<std::optional<std::string>(const std::string& file)> identifyTexture;
-
-        /**
-         * @brief
-         @rst
-         The game's own textures by hash, each as a THUMBPRINT -- a :cpp:member:`thumbprintSize`
-         square grayscale box average of the decoded file, generated from the character's download
-         folder by ``Tools/Misc/Diagnostics/wwmiTextureThumbs.py``. A mod file no hash names is
-         decoded, thumbprinted the same way and correlated against every entry: it IS the texture
-         it correlates at least :cpp:member:`identityMin` with when every other entry stays under
-         :cpp:member:`identityGap`. Measured on the cloak mod's 19 files, 16 x 16 grayscale makes
-         the same decision as a full-size colour correlation on every one, and needs no download.
-         Consulted after :cpp:member:`identifyTexture`; empty skips the step
-         @endrst
-         */
-        std::unordered_map<std::string, std::vector<std::uint8_t>> textureThumbprints;
-
-        /**
-         * @brief The side of a thumbprint. **Default**: ``16``
-         */
-        int thumbprintSize = 16;
-
-        /**
-         * @brief The correlation a file needs with ONE thumbprint to be that texture. **Default**: ``0.97``
-         */
-        double identityMin = 0.97;
-
-        /**
-         * @brief The correlation every OTHER thumbprint must stay under. **Default**: ``0.90``
-         */
-        double identityGap = 0.90;
+        std::set<std::string> flatLeftToGame;
 
         /**
          * @brief Whether every remapped draw binds a zero shape-key offset stream (item 3 above). **Default**: ``true``
@@ -359,6 +364,288 @@ namespace AGRemapCore {
          * @brief The register the mod's blend buffer is bound at. **Default**: ``"vb4"``
          */
         std::string blendReg = "vb4";
+        /**
+         * @brief A register line a remapped section DROPS, optionally only for certain values
+         */
+        struct RegRemoval {
+            /**
+             * @brief The register or key, eg. ``"ResourceBlendBufferOverride"`` or ``"run"``
+             */
+            std::string reg;
+            /**
+             * @brief
+             @rst
+             Drop it only when its value begins with this, ignoring case and leading space. Empty
+             (the default) drops every value
+             @endrst
+             */
+            std::string valuePrefix;
+        };
+        /**
+         * @brief
+         @rst
+         Register lines a remapped section drops, on top of everything the template removes anyway.
+
+         Two kinds have needed this so far, both on Chisa:
+
+         * the ``Resource{BlendBuffer,MergedSkeleton,ExtraMergedSkeleton}Override = ref ...`` lines a
+           mod of a character past 256 merged bones carries. They point the draw at WWMI's blend
+           remap of the SOURCE, and the two shaders are exact inverses, so copied into a remapped
+           section they feed the draw the source's own merged index against the TARGET's skeleton --
+           in game, the components that have a blend remap collapse into a drape under an intact
+           head. Match ``"ref"`` and not the bare name: the shared cleanup list sets the same three
+           to ``null``, which is a safety net worth keeping
+         * the ``run`` of RabbitFX's ``SetTextures`` and the maps it names, which otherwise override
+           the fix's own texture lists positionally
+         @endrst
+         */
+        std::vector<RegRemoval> removedRegs;
+        /**
+         * @brief
+         @rst
+         Chains of SOURCE vertex groups pinned to one bone each: ``{root: members}``, where every
+         member is remapped to whatever the ROOT maps to.
+
+         A part the target has no counterpart for wants one rigid anchor rather than the finder's
+         per-bone nearest -- the Yelan lesson. Two of Chisa's need it:
+
+         * her fox mask and hairpins, a rigid prop whose bones the finder matched one at a time and
+           scattered from her head to her waist, which reads in game as the prop being GONE rather
+           than as anything misplaced, because it is smeared through the torso it is buried in
+         * her back skirt panel, which flew out behind her on the skin. Its bones are not mapped to
+           the wrong PLACE -- they land 0.8 to 6.1 units from where they live on her, and the panel
+           hangs correctly on Chisa herself -- they are mapped to bones that MOVE differently, the
+           skin's own frill bones for the garment she wears instead. Retargeting by proximity is
+           worse by that same measure, which is the sign that rigidity is the criterion
+
+         The key is a SOURCE bone and the chain takes whatever it maps to, so writing a target id
+         here is a silent no-op-shaped error. Pick the root by skinning the part with each candidate
+         and keeping the ones whose RMS radius from the centroid is unchanged
+         (``Tools/Misc/Diagnostics/wwmiAnchorSearch.py``) -- never off a bone's ``vs-cb4``
+         translation column, which is a skinning matrix and not a pose.
+
+         .. warning::
+             **Both examples above are parts with bones of their OWN, and that is a precondition
+             this does not check.** The key space is the source skeleton GLOBALLY, not per
+             component, so a member another component also weights is pinned in that component too
+             -- and for a body bone that is a welded torso, silently and totally.
+
+             Measured on ChisaParfait -> Chisa (2026-09-28): ``wwmiAnchorSearch.py`` named a good
+             bone for both of her extra parts, and **100% of the hip prop's weight and 81.3% of the
+             frilled panel's sits on bones the upper or lower body also uses**, so neither may be
+             anchored at all and that pair's row is deliberately empty. Check with
+             ``Tools/Misc/Diagnostics/anchorSafety.py`` before adding a row
+         @endrst
+         */
+        std::map<long long, std::vector<long long>> anchorChains;
+        /**
+         * @brief
+         @rst
+         Per target slot, per pass, the bindings that pass takes INSTEAD of the plan's --
+         ``{slot: {pass: bindings}}``.
+
+         :cpp:member:`slotPasses` names the passes one command list guards, all taking the plan's
+         bindings. That holds while every pass of a slot binds the same art at the same registers,
+         which is true of Sanhua and false of Chisa: a slot's register layout is per SHADER, so the
+         same role sits at different registers on different passes of one slot. Her outline and
+         shadow passes take each slot's diffuse at ``ps-t0`` where the main pass takes it at
+         ``ps-t1`` (hair) or ``ps-t3`` (clothing).
+
+         A pass named in neither table still DRAWS -- with the GAME's textures, which is the "one
+         part wearing another's art" symptom -- so this table is also what records that a pass was
+         considered. ``Tools/Misc/Diagnostics/wwmiPassCoverage.py`` lists every pass per slot
+         against both
+         @endrst
+         */
+        std::map<int, std::map<std::string, std::vector<Binding>>> extraPassRegs;
+        /**
+         * @brief
+         @rst
+         Each pass mapped to the VERTEX shaders it is drawn with. Empty (the default) tags the pass's
+         own pixel shader and guards ``ps == ...``; set, the fix tags those vertex shaders instead
+         and guards ``vs == ...``, an OR when a pass has several.
+
+         Chisa needs it and Sanhua does not. RabbitFX patches PIXEL shaders and marks each
+         ``filter_index = 1718.1``, and a shader carries one filter_index -- so tagging the same
+         pixel shader makes every RabbitFX ``SetTextures`` read ``if ps == 1718.1`` as false, and
+         because a ``[ShaderOverride]`` is keyed by shader hash GLOBALLY it does that for any mod
+         drawing with those shaders, not only this one. Tagging just the passes RabbitFX leaves alone
+         is not a readable list: six of its regexes have their dump lines commented out, so a pass
+         can be RabbitFX's with no trace in any dump -- one was, and a backless sweater's
+         see-through panels rendered red in game because the ``ps`` tag switched that pass's FX-map
+         discard off.
+
+         A pass left out of a non-empty map is an error rather than a fallback to its pixel shader:
+         the fallback would be silent and would reintroduce exactly that. Read the pairs off every
+         frame dump's draw table (``Tools/Misc/Diagnostics/wwmiDrawTable.py``) -- a pass can run on a
+         different vertex shader per component, or on different ones in different dumps
+         @endrst
+         */
+        std::map<std::string, std::vector<std::string>> passVertexShaders;
+        /**
+         * @brief
+         @rst
+         Every fact about the SOURCE character's own textures -- its hashes by role, its register
+         layout per component, its pixel thumbprints, and where its game textures are downloaded
+         from. The same object the parser is configured with
+         (:cpp:member:`WWMIParserConfig::textures`), so a character states these once, in
+         ``<Name>Textures.cpp``, rather than once per fix row :raw-html:`<br />` :raw-html:`<br />`
+
+         :cpp:member:`WWMITextureFacts::registerRoles` is the field this used to be, and the one the
+         fix reads most: ``{component: {register: role}}``.
+
+         A mod that REPAINTS a texture is identified by none of the other paths: its hash is its own,
+         its pixels are its own art, and its exporter may name the file anything. What still
+         identifies it is where the mod's own section binds it -- a file at the register the source's
+         layout calls the light map IS the light map. This is the primary path for most mods that do
+         more than swap a mesh.
+
+         Read off the source's own draws at max LOD (``Tools/Misc/Diagnostics/wwmiPassLayout.py``),
+         and remember that only a ``sets`` line is evidence about a character: a register a draw
+         INHERITED may have been written by an unrelated NPC standing in the same frame
+         @endrst
+         */
+        WWMITextureFacts sourceTextures;
+        /**
+         * @brief
+         @rst
+         Other meshes the character draws, by their own ``vb0`` hash --
+         ``{mesh hash: {pass: bindings}}``.
+
+         A character is not only her ``vb0`` mesh. Chisa and ChisaParfait both draw ``b00403dc``,
+         the same hash on both and so the same geometry, and the game textures it PER CHARACTER:
+         Chisa's draws bind her hair diffuse, the skin's bind her own. It is her hair ribbon.
+
+         Nothing else the fix writes reaches it -- the remapped sections match the MAIN mesh's
+         ``vb0`` hash, and a mod's ``[TextureOverrideTexture]`` overrides by the hash the GAME binds,
+         which on the skin is never the source's. So such a mesh keeps the target's art however much
+         texture work is done elsewhere, and a flat-colour paint reaching no slot is what finds it.
+
+         The geometry is shared, so there is nothing to remap: only the textures to rebind, on the
+         passes where the two characters differ.
+
+         .. warning::
+             The section matches the hash with NO index window, so it applies wherever that mesh is
+             drawn. It is assumed to be this character's own accessory, shared between her skins --
+             if another character draws it too, this repaints theirs as well
+         @endrst
+         */
+        std::map<std::string, std::map<std::string, std::vector<Binding>>> sharedMeshes;
+        /**
+         * @brief What a texture-edit filter is allowed to know about the mod it is editing
+         */
+        struct TexEditContext {
+            /**
+             * @brief The folder the mod's ``.ini`` sits in
+             */
+            std::string iniFolder;
+            /**
+             * @brief The mod's ``Position.buf``, or empty when it has none
+             */
+            std::string positionFile;
+            /**
+             * @brief The mod's ``Texcoord.buf``, or empty
+             */
+            std::string texcoordFile;
+            /**
+             * @brief The mod's ``Index.buf``, or empty
+             */
+            std::string indexFile;
+            /**
+             * @brief Each SOURCE component's own draws, as ``(index count, first index)``
+             */
+            std::map<int, std::vector<std::pair<long long, long long>>> drawRanges;
+            /**
+             * @brief
+             @rst
+             The file each role resolved to -- the mod's own, or the one its fallback download
+             lands. A filter may need ANOTHER role's texture: repacking a material mask asks the
+             DIFFUSE under each texel how flesh-coloured it is, because a code in the matte band is
+             skin only there
+             @endrst
+             */
+            std::map<std::string, std::string> fileOfRole;
+        };
+        /**
+         * @brief An edit the fix makes to one role's texture before binding it
+         */
+        struct TexEdit {
+            /**
+             * @brief The role whose texture is edited
+             */
+            std::string role;
+            /**
+             * @brief
+             @rst
+             A short name for the edit, part of the written file's name. Two edits of one role need
+             two names, or the second overwrites the first
+             @endrst
+             */
+            std::string name;
+            /**
+             * @brief
+             @rst
+             Builds the filter for THIS mod. A factory rather than a filter, because an edit may
+             depend on the mod's own geometry -- the accessory grade applies to a UV island, and the
+             island is rasterised from the MOD's texcoords, since the source character's do not fit
+             a mod that remeshes
+             @endrst
+             */
+            std::function<TexEditor::Filter(const TexEditContext&)> makeFilter;
+            /**
+             * @brief
+             @rst
+             Whether to re-encode to the source's compressed format. **Default**: ``false``, because
+             a mask is CODES and BCn would move them
+             @endrst
+             */
+            bool compress = false;
+        };
+        /**
+         * @brief
+         @rst
+         Edits the fix makes to a role's texture before binding it. Chisa needs four: her material
+         mask repacked into the target's layout, her packed four-profile sheen matcap translated into
+         the skin's holographic foil, a colour grade on her accessory diffuse -- a shader family is a
+         colour grade, and the texture is the only place to put it back -- and her hair's ps-t5 map
+         repacked so a UV-mapped register need not be left to the game
+         @endrst
+         */
+        std::vector<TexEdit> texEdits;
+        /**
+         * @brief
+         @rst
+         Bind the remapped sections to a CLEANED copy of the mod's texcoord buffer.
+
+         Two faults live in that buffer and neither is the mod's bug -- both are bytes that are
+         harmless on the source and not on the target:
+
+         * a **NaN** in the second UV. Chisa's fox mask, hairpins and bells are drawn, placed and
+           textured correctly and are INVISIBLE, because the skin's upper-body shader reads that
+           second UV where hers does not. Every other vertex of the mesh carries ~(0, 0) there,
+           which is what a NaN becomes in the copy
+         * a **U outside [0, 1)**, where a mod has UV'd a part into the next tile and relies on the
+           sampler wrapping. Neither character's own model ever leaves [0, 1), so the game never
+           exercises its address mode there and the two passes are free to differ -- one side of a
+           body rendering with its texture detail and the other flat and pale. U and U - 1 select
+           the same texel under wrap, so folding cannot regress a mod that already renders
+
+         A vertex on a triangle whose vertices straddle a tile boundary keeps what it had: folding
+         would widen that triangle's U span from a few hundredths to nearly 1 and interpolate it
+         backwards across the atlas.
+
+         The mod's own buffer and its own sections are untouched. **Default**: ``false``
+         @endrst
+         */
+        bool cleanTexcoords = false;
+        /**
+         * @brief
+         @rst
+         The register the texcoord buffer is bound at, for :cpp:member:`cleanTexcoords`.
+         **Default**: ``"vb2"``
+         @endrst
+         */
+        std::string texcoordReg = "vb2";
 
         /**
          * @brief

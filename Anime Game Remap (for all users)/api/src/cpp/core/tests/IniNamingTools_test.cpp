@@ -58,6 +58,7 @@
 //      <core>/src/tools/TextTools.cpp <core>/src/model/IniNamingTools.cpp ^
 //      <core>/src/tools/StringTools.cpp <core>/src/tools/StringHash.cpp ^
 //      <core>/src/tools/grapheme/GraphemeIterator.cpp <core>/src/tools/grapheme/GraphemeRange.cpp ^
+//      <core>/src/tools/files/FileService.cpp ^
 //      /Fe:test.exe
 //
 // (IniNamingTools's case-insensitive matching goes through the grapheme-aware StringTools now,
@@ -68,6 +69,7 @@
 //  -std=c++23 -I ... -o test.exe, and -DUTF8PROC_STATIC likely isn't needed)
 // -----------------------------------------------------------------------------
 
+#include "AGRemapCore/constants/FilePrefixes.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/tools/TextTools.h"
 
@@ -83,6 +85,17 @@ using AGRemapCore::TextTools;
 namespace {
 
 int failures = 0;
+
+void checkBool(bool actual, bool expected, const char* description) {
+    if (actual == expected) {
+        std::printf("[PASS] %s\n", description);
+    } else {
+        std::printf("[FAIL] %s: got %s, wanted %s\n", description, actual ? "true" : "false",
+                    expected ? "true" : "false");
+        ++failures;
+    }
+}
+
 
 void check(const std::string& actual, const std::string& expected, const char* description) {
     if (actual == expected) {
@@ -230,6 +243,52 @@ void testFixedFilePaths() {
           "getFixedTexFile: a file with no extension at all is handled (no '.' found)");
 }
 
+// A NON-LATIN FILE NAME SURVIVES THE ROUND TRIP (2026-09-28).
+//
+// All three of these used to say `fs::path(file)` on the way in and `folder / newName` on the way
+// out. On Windows both of those read a narrow string as the ACTIVE CODE PAGE, so a UTF-8 name went
+// in and a DIFFERENT name came out -- exactly what FileService::strToPath's own danger note warns
+// about, and three sites the 2026-09-11 sweep of conversion sites missed.
+//
+// The expectations are the INPUT's own bytes with the suffix spliced in, so a mangled round trip
+// cannot satisfy them by accident. On Linux a narrow path is UTF-8 either way and this passes
+// whatever the implementation does -- it is a Windows regression pin, kept here because this is
+// where the functions are covered.
+//
+// Non-ASCII is written as \xNN escapes to match testTextTools, so the source file stays pure ASCII
+// and no compiler's source-charset guess can enter into it. The names are the real ones: a
+// ChisaParfait mod ships `mod-自动生成.ini` ("mod-auto-generated") inside a folder
+// named `千咲-...`, and its generated copy was being written as
+// `mod-<mojibake>RemapFix1.ini` -- which the undo could then not match back to the .ini it belongs
+// to, so it survived every undo and went on drawing on the target with no fix installed.
+void testNonLatinFileNames() {
+    std::printf("\n-- non-Latin file names --\n");
+
+    const std::string modName = "mod-\xE8\x87\xAA\xE5\x8A\xA8\xE7\x94\x9F\xE6\x88\x90";  // mod-自动生成
+    const std::string folder = "\xE5\x8D\x83\xE5\x92\xB2";                               // 千咲
+    const std::string tex = "\xE8\x9C\x9C\xE6\xA1\x83";                                  // 蜜桃
+
+    check(IniNamingTools::getFixedFile(modName + ".ini", "Chisa"),
+          join(".", modName + "ChisaRemapFix.ini"),
+          "getFixedFile: a non-Latin base name comes back byte for byte");
+    check(IniNamingTools::getFixedFile(folder + "/" + modName + ".ini", "Chisa"),
+          folder + "\\" + modName + "ChisaRemapFix.ini",
+          "getFixedFile: a non-Latin folder AND base name both come back byte for byte");
+
+    check(IniNamingTools::getFixedElementFile(modName + ".buf", "Blend", "Chisa"),
+          modName + "ChisaRemapBlend.buf",
+          "getFixedElementFile: a non-Latin base name comes back byte for byte");
+    check(IniNamingTools::getFixedBlendFile(folder + "/" + modName + "Blend.buf", "Chisa"),
+          folder + "\\" + modName + "ChisaRemapBlend.buf",
+          "getFixedBlendFile: a non-Latin path comes back byte for byte");
+
+    check(IniNamingTools::getFixedTexFile(tex + ".dds", "Chisa"), tex + "ChisaRemapTex.dds",
+          "getFixedTexFile: a non-Latin base name comes back byte for byte");
+    check(IniNamingTools::getFixedTexFile(folder + "/" + tex + ".dds", "Chisa"),
+          join(folder.c_str(), tex + "ChisaRemapTex.dds"),
+          "getFixedTexFile: a non-Latin folder is kept as-is (native separator, not pathToIniStr)");
+}
+
 void testTextureOverrideRemapFix() {
     // getTextureOverrideRemapFix calls getRemapFixName with NO modName argument (default ""), even
     // though 'modName' was already folded into the name itself -- so the result is suffixed with
@@ -269,15 +328,47 @@ void testTextTools() {
 
 }  // namespace
 
+// isDisabled and getRegTag, lifted out of WWMIFixer (2026-09-25). Both are conventions of the mod
+// ecosystem rather than of any one game: a modder turns something off by renaming it, and a register
+// cannot keep its punctuation inside a section name and still read as one word.
+void testDisabledAndRegTag() {
+    std::printf("\n-- isDisabled and getRegTag --\n");
+
+    // Every case in the wild -- mod managers and modders disagree about it
+    checkBool(AGRemapCore::IniNamingTools::isDisabled("DISABLED_Chisa1.ini"), true, "DISABLED is disabled");
+    checkBool(AGRemapCore::IniNamingTools::isDisabled("disabled Chisa1.ini"), true, "so is lowercase");
+    checkBool(AGRemapCore::IniNamingTools::isDisabled("Disabled Nude Variant"), true, "and title case");
+
+    checkBool(AGRemapCore::IniNamingTools::isDisabled("Chisa1.ini"), false, "an ordinary name is not");
+    checkBool(AGRemapCore::IniNamingTools::isDisabled(""), false, "nor is an empty one");
+
+    // A PREFIX test: the word elsewhere in the name means nothing
+    checkBool(AGRemapCore::IniNamingTools::isDisabled("Chisa_disabled.ini"), false,
+              "the word in the MIDDLE does not disable it");
+
+    // Our own backup prefix is a different question, and one of the historical ones starts DISABLED_
+    checkBool(AGRemapCore::IniNamingTools::isDisabled(AGRemapCore::FilePrefixes::BackupFilePrefix + "mod.ini"), false,
+              "a backup of ours is not 'disabled'");
+    checkBool(AGRemapCore::IniNamingTools::isDisabled(AGRemapCore::FilePrefixes::OldBackupFilePrefixV3 + "mod.ini"), true,
+              "though version 3's backup prefix does read as disabled -- it starts with the word");
+
+    check(AGRemapCore::IniNamingTools::getRegTag("ps-t0"), "Pst0", "a register loses its dash and capitalizes");
+    check(AGRemapCore::IniNamingTools::getRegTag("vb4"), "Vb4", "one with no dash just capitalizes");
+    check(AGRemapCore::IniNamingTools::getRegTag(""), "", "and an empty register stays empty");
+}
+
+
 int main() {
     testResourceName();
     testRemapElementName();
     testRemapFixNameBugFix();
     testResourceNameComposition();
     testFixedFilePaths();
+    testNonLatinFileNames();
     testTextureOverrideRemapFix();
     testObjRemapFixName();
     testTextTools();
+    testDisabledAndRegTag();
 
     if (failures == 0) {
         std::printf("\nAll tests passed.\n");

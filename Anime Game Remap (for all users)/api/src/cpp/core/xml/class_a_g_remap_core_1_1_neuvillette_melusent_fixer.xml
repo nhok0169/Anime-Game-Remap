@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/NeuvilletteMelusent/NeuvilletteMelusentFixer.h" line="41" column="43" bodyfile="src/data/IniFixData/NeuvilletteMelusent/NeuvilletteMelusentFixer.cpp" bodystart="99" bodyend="101"/>
+        <location file="include/AGRemapCore/data/IniFixData/NeuvilletteMelusent/NeuvilletteMelusentFixer.h" line="41" column="43" bodyfile="src/data/IniFixData/NeuvilletteMelusent/NeuvilletteMelusentFixer.cpp" bodystart="117" bodyend="119"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

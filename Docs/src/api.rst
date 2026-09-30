@@ -844,6 +844,18 @@ GIMISectionClassifier
 
 :raw-html:`<br />`
 
+GraphCreate
+===========
+
+.. attributetable:: FixRaidenBoss2.GraphCreate
+
+.. autoclass:: FixRaidenBoss2.GraphCreate
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 GraphGroupEdit
 ==============
 
@@ -2074,6 +2086,17 @@ RemapServiceCLI
 
 .. autoclass:: FixRaidenBoss2.RemapServiceCLI
     :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+FromOldVal
+==========
+
+.. attributetable:: FixRaidenBoss2.FromOldVal
+
+.. autoclass:: FixRaidenBoss2.FromOldVal
     :members:
     :private-members:
 

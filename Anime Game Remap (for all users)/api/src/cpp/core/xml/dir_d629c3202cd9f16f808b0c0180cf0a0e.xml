@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_d629c3202cd9f16f808b0c0180cf0a0e" kind="dir">
+    <compoundname>src/data/IniFixData/Chisa</compoundname>
+    <innerfile refid="_chisa_fixer_8cpp">ChisaFixer.cpp</innerfile>
+    <innerfile refid="_chisa_textures_8cpp">ChisaTextures.cpp</innerfile>
+    <innerfile refid="_chisa_thumbprints_8cpp">ChisaThumbprints.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniFixData/Chisa/"/>
+  </compounddef>
+</doxygen>

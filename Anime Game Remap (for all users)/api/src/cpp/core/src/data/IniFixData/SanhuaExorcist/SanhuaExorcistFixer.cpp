@@ -1,4 +1,5 @@
 #include "AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.h"
+#include "AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.h"
 
 // ##### Credits
 
@@ -92,27 +93,6 @@ namespace AGRemapCore {
             // repo's git history, and the LIVE ones the game binds at LOD bias Ultra High, which is what a
             // mod extracted from a frame dump today carries. All of them are in
             // Data/Mod Downloads/WuWa/SanhuaExorcist/SanhuaExorcistHashLineage.json.
-            config.roles = {
-                // the asset repo's (2.5 / 2.6)
-                {"f8d5c991", "bangsDiffuse"}, {"63c807fe", "bangsMask"}, {"4478285f", "t5Ramp"},
-                {"11171f1c", "hairDiffuse"}, {"9febd992", "hairNormal"},
-                {"46177147", "faceMask"}, {"c98e83cd", "faceDiffuse"},
-                {"72739d6e", "torsoNormal"}, {"e0c15187", "torsoMask"}, {"52f35e6d", "torsoDiffuse"},
-                {"221b8ad6", "lowerNormal"}, {"8e5306a9", "lowerDiffuse"},
-                {"c88cc1fc", "eyeMask"}, {"1dcc0f1d", "irisDiffuse"},
-                // the 2.2 / 2.4 ones (sanhua_qiming carries these, and repaints most of them)
-                {"31a5f36a", "bangsDiffuse"}, {"d153e37f", "bangsMask"}, {"f22348f0", "t5Ramp"},
-                {"9522bbc7", "hairDiffuse"}, {"a0cf932f", "hairNormal"}, {"464256d1", "faceDiffuse"},
-                {"d5a089c8", "torsoNormal"}, {"6a10c291", "torsoNormal"}, {"168462a9", "torsoDiffuse"},
-                {"d96aa9b8", "lowerNormal"}, {"fd078186", "lowerDiffuse"}, {"3cd03f60", "irisDiffuse"},
-                // the live ones (the 2026-09-20 max-LOD dump), each 1.00 against the asset file
-                {"af3ba241", "bangsDiffuse"}, {"0442ed26", "bangsMask"}, {"38074c14", "t5Ramp"},
-                {"10980f87", "hairDiffuse"}, {"77a480f9", "hairNormal"},
-                {"bf16c0c7", "faceMask"}, {"280300b0", "faceDiffuse"},
-                {"773ed913", "torsoNormal"}, {"bc4f430b", "torsoMask"}, {"2dad4dfe", "torsoDiffuse"},
-                {"83b34054", "lowerNormal"}, {"dfd02e32", "lowerDiffuse"},
-                {"d0524bfb", "eyeMask"}, {"5764478b", "irisDiffuse"},
-            };
 
             // A file named by component and type and by nothing else (Component4_NM.dds: the
             // RabbitFX / WWMI-Tools export names)
@@ -150,22 +130,10 @@ namespace AGRemapCore {
 
             config.createdTextures = {{ClothMask, Colour(0, 0, 0, 255), 16}};
 
-            // A planned role a mod ships no file for is bound to SanhuaExorcist's OWN texture of that
-            // role, downloaded from her folder -- the mod's UVs are hers, so the target's texture is
-            // wrong by construction. eyeMask (c88cc1fc) and faceMask (46177147) are the same texture on
-            // both skins, and so is the iris (1dcc0f1d): they need no entry.
-            config.downloadCharFolder = "SanhuaExorcist";
-            config.downloadVersionFolder = "2_5";
-            config.downloadPrefix = "SanhuaExorcist";
-            config.fallbackTextures = {
-                {"bangsDiffuse", "f8d5c991"}, {"bangsMask", "63c807fe"}, {"t5Ramp", "4478285f"},
-                {"hairDiffuse", "11171f1c"}, {"hairNormal", "9febd992"}, {"faceDiffuse", "c98e83cd"},
-                {"torsoNormal", "72739d6e"}, {"torsoMask", "e0c15187"}, {"torsoDiffuse", "52f35e6d"},
-                {"lowerNormal", "221b8ad6"}, {"lowerDiffuse", "8e5306a9"},
-            };
+            config.sourceTextures = sanhuaExorcistTextureFacts();
+
 
             // Her own textures' thumbprints, so a file no hash names is placed by what it IS
-            config.textureThumbprints = sanhuaExorcistTextureThumbprints();
 
             config.sourceLabels = {{0, "bangs"}, {1, "hair"}, {2, "face"}, {3, "torso, arms, ribbons"},
                                    {4, "hair bun, trousers"}, {5, "eyes"}};

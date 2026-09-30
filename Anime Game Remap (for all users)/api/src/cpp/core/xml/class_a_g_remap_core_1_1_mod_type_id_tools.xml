@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="737" column="39" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="737" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="770" column="39" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="770" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_id_tools_1ad53bae7c5d75eb71e8a8162611d1310b" prot="private" static="yes" mutable="no">
         <type>unsigned long long</type>
@@ -31,7 +31,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="740" column="39" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="740" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="773" column="39" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="773" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a74b2d186127e34bbc8608cda906f4263" prot="private" static="yes" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" kindref="compound">BaseAhoCorasickDFA</ref>&lt; std::unordered_set&lt; int &gt; &gt;</type>
@@ -45,7 +45,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="745" column="39" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="745" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="778" column="39" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="778" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a9e560338915af03c8f3d4438b50a31cd" prot="private" static="yes" mutable="no">
         <type>std::unordered_map&lt; std::string, std::unordered_set&lt; int &gt; &gt;</type>
@@ -59,7 +59,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="750" column="39" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="750" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="783" column="39" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="783" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a69e692f36072d7a30e87d9d929026a2c" prot="private" static="yes" mutable="no">
         <type>bool</type>
@@ -74,7 +74,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="758" column="25" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="758" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="791" column="25" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="791" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -110,7 +110,7 @@ that the value actually corresponds to one of :cpp:enum:`ModTypeId`&apos;s decla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="502" column="34" bodyfile="src/constants/ModTypeId.cpp" bodystart="21" bodyend="254"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="535" column="34" bodyfile="src/constants/ModTypeId.cpp" bodystart="21" bodyend="269"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -145,7 +145,7 @@ Mirrors the pure-Python ``ModTypeNames`` enum&apos;s values (``constants/ModType
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="516" column="32" bodyfile="src/constants/ModTypeId.cpp" bodystart="256" bodyend="491"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="549" column="32" bodyfile="src/constants/ModTypeId.cpp" bodystart="271" bodyend="521"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1aee7d56b1c696efdaea722164b19eda9d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &gt;</type>
@@ -191,7 +191,7 @@ using some id not registered in :cpp:enum:`ModTypeId` can still be looked up her
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="542" column="34" bodyfile="src/constants/ModTypeId.cpp" bodystart="521" bodyend="528"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="575" column="34" bodyfile="src/constants/ModTypeId.cpp" bodystart="551" bodyend="558"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7161ca8d4908f7c9aa0d1a6c7c5a8e5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -226,7 +226,7 @@ overwritten with the new one
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="556" column="25" bodyfile="src/constants/ModTypeId.cpp" bodystart="950" bodyend="955"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="589" column="25" bodyfile="src/constants/ModTypeId.cpp" bodystart="999" bodyend="1004"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a905e32d0a9f31b61e3df227bc57fea20" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -265,7 +265,7 @@ against 49 names; through here the automaton is built once (see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="574" column="25" bodyfile="src/constants/ModTypeId.cpp" bodystart="957" bodyend="988"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="607" column="25" bodyfile="src/constants/ModTypeId.cpp" bodystart="1006" bodyend="1037"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1ac1b5b4a67cb332ba516679975ce45443" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref> &gt;</type>
@@ -325,7 +325,7 @@ If provided, only considers a :cpp:class:`ModType` registered under this
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="602" column="34" bodyfile="src/constants/ModTypeId.cpp" bodystart="990" bodyend="1037"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="635" column="34" bodyfile="src/constants/ModTypeId.cpp" bodystart="1039" bodyend="1086"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a52e631f033758e9dca14f1ad79e4731f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -347,7 +347,7 @@ global state between independent uses (e.g. between unit tests)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="615" column="25" bodyfile="src/constants/ModTypeId.cpp" bodystart="1039" bodyend="1046"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="648" column="25" bodyfile="src/constants/ModTypeId.cpp" bodystart="1088" bodyend="1095"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1aab992f9ff6f0ec37367e622f98acde20" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>unsigned long long</type>
@@ -381,7 +381,7 @@ nothing could resolve, permanently, for the rest of the process :raw-html:`&lt;b
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="639" column="39" bodyfile="src/constants/ModTypeId.cpp" bodystart="1049" bodyend="1051"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="672" column="39" bodyfile="src/constants/ModTypeId.cpp" bodystart="1098" bodyend="1100"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a4fb8ba441068345ac9208e45dd5a9bb2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref> &gt;</type>
@@ -425,7 +425,7 @@ table so a target can be named by :cpp:enum:`ModTypeId` rather than by a bare st
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="662" column="32" bodyfile="src/constants/ModTypeId.cpp" bodystart="530" bodyend="730"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="695" column="32" bodyfile="src/constants/ModTypeId.cpp" bodystart="560" bodyend="768"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a662e30ad3ff2f90e88ca7b8a800afb64" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref> &gt;</type>
@@ -462,7 +462,7 @@ function for the shape, and this one&apos;s implementation for the exception
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="678" column="32" bodyfile="src/constants/ModTypeId.cpp" bodystart="758" bodyend="768"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="711" column="32" bodyfile="src/constants/ModTypeId.cpp" bodystart="799" bodyend="809"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a4730608469ef13c622c1799362dd3d9f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref> &gt;</type>
@@ -511,7 +511,7 @@ same fact, and is what lets the component names be remap **sources** too
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="706" column="32" bodyfile="src/constants/ModTypeId.cpp" bodystart="733" bodyend="755"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="739" column="32" bodyfile="src/constants/ModTypeId.cpp" bodystart="771" bodyend="796"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a0b33ca653c4cf909d7ff8141a89ce4b3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -560,7 +560,7 @@ none at all
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="734" column="32" bodyfile="src/constants/ModTypeId.cpp" bodystart="771" bodyend="947"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="767" column="32" bodyfile="src/constants/ModTypeId.cpp" bodystart="812" bodyend="996"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -576,7 +576,7 @@ none at all
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="757" column="25" bodyfile="src/constants/ModTypeId.cpp" bodystart="506" bodyend="517"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="790" column="25" bodyfile="src/constants/ModTypeId.cpp" bodystart="536" bodyend="547"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -610,7 +610,7 @@ none at all
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/constants/ModTypeId.h" line="488" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="488" bodyend="759"/>
+    <location file="include/AGRemapCore/constants/ModTypeId.h" line="521" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="521" bodyend="792"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad53bae7c5d75eb71e8a8162611d1310b" prot="private" virt="non-virtual"><scope>AGRemapCore::ModTypeIdTools</scope><name>_generation</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7332d8ae69e363c97bef95d132f2ccd" prot="private" virt="non-virtual"><scope>AGRemapCore::ModTypeIdTools</scope><name>_modTypes</name></member>

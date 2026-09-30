@@ -73,7 +73,7 @@
         <qualifiedname>AGRemapCore::VGComponentMergeStats::texcoordStride</qualifiedname>
         <initializer>= 0</initializer>
         <briefdescription>
-<para>The merged <computeroutput>Texcoord.buf</computeroutput>&apos;s stride <ndash/> the widest component&apos;s. </para>
+<para>The merged <computeroutput>Texcoord.buf</computeroutput>&apos;s stride <ndash/> the widest component&apos;s, or the floor the caller gave if wider. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>

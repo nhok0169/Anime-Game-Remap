@@ -4,6 +4,7 @@
     <compoundname>AGRemapCore::BaseIniGraphGroupEdit</compoundname>
     <basecompoundref refid="class_a_g_remap_core_1_1_base_ini_part_edit" prot="public" virt="non-virtual">AGRemapCore::BaseIniPartEdit</basecompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_res_group_collect" prot="public" virt="non-virtual">AGRemapCore::GraphId</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_create" prot="public" virt="non-virtual">AGRemapCore::GraphCreate&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_group_edit" prot="public" virt="non-virtual">AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_group_remap" prot="public" virt="non-virtual">AGRemapCore::GraphGroupRemap&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_group_remove" prot="public" virt="non-virtual">AGRemapCore::GraphGroupRemove&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
@@ -170,6 +171,7 @@ Edits a group of caller/callee graphs with state info from &apos;ini&apos; :raw-
         <argsstring>(GraphGroups &amp;graphGroups, const ModType *modType, const std::string &amp;modName=&quot;&quot;)</argsstring>
         <name>edit</name>
         <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::edit</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_create_1af65184484b4cc8bc8f84d71c01c7f0c6">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_edit_1a7b75a38f5c1b0c15f127a01e2d6849c2">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_edit_1a7b75a38f5c1b0c15f127a01e2d6849c2">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_remap_1a9a367cbccdb7e492237aa1fe7c893074">edit</reimplementedby>
@@ -439,36 +441,42 @@ Note that this derives from :cpp:class:`BaseIniPartEdit` **directly**, not from
         <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
       </node>
       <node id="4">
+        <label>AGRemapCore::GraphCreate&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_create"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
         <label>AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_group_edit"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="6">
         <label>AGRemapCore::GraphGroupRemap&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_group_remap"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>AGRemapCore::GraphGroupRemove&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_group_remove"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="7">
+      <node id="8">
         <label>AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_inherit"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="8">
+      <node id="9">
         <label>AGRemapCore::GraphRemove&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_remove"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="9">
+      <node id="10">
         <label>AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_res_group_collect"/>
         <childnode refid="1" relation="public-inheritance">
@@ -480,7 +488,7 @@ Note that this derives from :cpp:class:`BaseIniPartEdit` **directly**, not from
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="10">
+      <node id="11">
         <label>AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_res_reg_collect"/>
         <childnode refid="1" relation="public-inheritance">

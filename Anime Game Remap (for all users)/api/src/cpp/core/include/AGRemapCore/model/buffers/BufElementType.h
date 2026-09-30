@@ -15,6 +15,7 @@
 // ##### EndCredits
 
 #include <cstddef>
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -48,6 +49,33 @@ namespace AGRemapCore {
              *      of each data type is transferred into this element
              */
             BufElementType(std::string name, std::string formatName, std::vector<std::unique_ptr<BufDataType>> dataTypes);
+
+            /**
+             * @brief
+             @rst
+             One element of 'count' copies of the SAME data type -- a `blend`_'s weights or indices,
+             an index buffer's corners, a shape key's bytes :raw-html:`<br />` :raw-html:`<br />`
+
+             The width is a parameter because it is a property of the buffer being read, not of the
+             format: a Genshin `blend`_ carries four influences a vertex and a Wuthering Waves one
+             carries as many as eight. Six callers wrote this loop out, and the one that varied
+             spelled its format name as ``influences == 4 ? "R8G8B8A8_UINT" : "R8_UINT"``
+             @endrst
+             *
+             * @param name The element's key, eg. :cpp:member:`BlendFile::BlendIndicesKey`
+             * @param count How many copies
+             * @param make Builds one data type
+             * @param formatName
+             @rst
+             The format to record, exactly as given -- descriptive only, and never what the decoding
+             is driven by, but not unused either: some callers deliberately record an empty one
+             @endrst
+             *
+             * @return The element
+             */
+            static std::unique_ptr<BufElementType> repeated(std::string name, std::size_t count,
+                                                            const std::function<std::unique_ptr<BufDataType>()>& make,
+                                                            std::string formatName = "");
 
             // Owns its BufDataTypes via unique_ptr, so a real copy needs a deep clone (each
             // BufDataType's own BufDataType::clone(), see that method's doc comment for why a

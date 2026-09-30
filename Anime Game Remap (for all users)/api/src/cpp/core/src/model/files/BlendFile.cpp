@@ -23,32 +23,19 @@
 namespace AGRemapCore {
 
     namespace {
-        constexpr const char* BlendWeightKey = "BLENDWEIGHT";
-        constexpr const char* BlendIndicesKey = "BLENDINDICES";
 
-        long long asIndex(const BufValue& value) {
-            return std::visit([](auto&& v) -> long long { return static_cast<long long>(v); }, value);
-        }
-
-        double asWeight(const BufValue& value) {
-            return std::visit([](auto&& v) -> double { return static_cast<double>(v); }, value);
-        }
     }
 
-    std::vector<std::unique_ptr<BufElementType>> BlendFile::defaultElements() {
+    std::vector<std::unique_ptr<BufElementType>> BlendFile::defaultElements(std::size_t influences) {
+        // The four-wide names are the ones a 3dmigoto dump writes, so they are kept for that width
+        // and generated for any other.
         std::vector<std::unique_ptr<BufElementType>> elements;
-
-        std::vector<std::unique_ptr<BufDataType>> weightTypes;
-        for (int i = 0; i < 4; ++i) {
-            weightTypes.push_back(std::make_unique<BufFloat>());
-        }
-        elements.push_back(std::make_unique<BufElementType>(BlendWeightKey, "R32G32B32A32_FLOAT", std::move(weightTypes)));
-
-        std::vector<std::unique_ptr<BufDataType>> indexTypes;
-        for (int i = 0; i < 4; ++i) {
-            indexTypes.push_back(std::make_unique<BufSignedInt>());
-        }
-        elements.push_back(std::make_unique<BufElementType>(BlendIndicesKey, "R32G32B32A32_SINT", std::move(indexTypes)));
+        elements.push_back(BufElementType::repeated(
+            BlendWeightKey, influences, [] { return std::make_unique<BufFloat>(); },
+            influences == 4 ? "R32G32B32A32_FLOAT" : ""));
+        elements.push_back(BufElementType::repeated(
+            BlendIndicesKey, influences, [] { return std::make_unique<BufSignedInt>(); },
+            influences == 4 ? "R32G32B32A32_SINT" : ""));
 
         return elements;
     }
@@ -65,7 +52,7 @@ namespace AGRemapCore {
         const auto& remap = vgRemap.getRemap();
 
         for (std::size_t i = 0; i < minBlendLen; ++i) {
-            long long index = asIndex(blendIndices[i]);
+            long long index = bufValueAsInt(blendIndices[i]);
             if (remap.find(index) == remap.end()) {
                 result[index] = -std::abs(index) - 1;
             }
@@ -87,8 +74,8 @@ namespace AGRemapCore {
         const auto& remap = vgRemap.getRemap();
 
         for (std::size_t i = 0; i < minBlendLen; ++i) {
-            double weight = asWeight(blendWeights[i]);
-            long long index = asIndex(blendIndices[i]);
+            double weight = bufValueAsFloat(blendWeights[i]);
+            long long index = bufValueAsInt(blendIndices[i]);
 
             if (weight == 0) {
                 continue;

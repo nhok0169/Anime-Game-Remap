@@ -15,6 +15,7 @@
 // ##### EndCredits
 
 #include <string>
+#include <unordered_set>
 
 
 namespace AGRemapCore {
@@ -44,6 +45,28 @@ namespace AGRemapCore {
              * @brief The starting prefix used for some `section`_ that overrides the resource of a mod
              */
             static inline const std::string TextureOverride = "TextureOverride";
+
+            /**
+             * @brief
+             @rst
+             The `section`_ prefix of a ``3dmigoto`` command list -- a `section`_ that is run by name
+             rather than matched against a draw
+             @endrst
+             */
+            static inline const std::string CommandList = "CommandList";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key that overrides the resource the `section`_ itself matched
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A texture-only recolour is written with it -- ``hash`` names one of the game's textures
+             and ``this`` names what to draw in its place -- so a `section`_ carrying it binds no
+             register of its own
+             @endrst
+             */
+            static inline const std::string This = "this";
 
             /**
              * @brief The starting prefix used for some `section`_ that overrides a mod's shader
@@ -144,6 +167,65 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The `KVP`_ key holding how many indices of the model a `section`_ draws
+             @endrst
+             */
+            static inline const std::string MatchIndexCount = "match_index_count";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key holding how many vertices the model a `section`_ draws has
+             @endrst
+             */
+            static inline const std::string MatchVertexCount = "match_vertex_count";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key breaking the tie when several `sections`_ match one draw
+             @endrst
+             */
+            static inline const std::string MatchPriority = "match_priority";
+
+            /**
+             * @brief The ``filter_index`` `KVP`_ key -- the value a shader's own draw writes into
+             *      ``IniConstants``, which a remapped `section`_ matches on to tell one pass from another
+             */
+            static inline const std::string FilterIndex = "filter_index";
+
+            /**
+             * @brief The ``array`` `KVP`_ key -- how many elements a buffer resource holds
+             */
+            static inline const std::string Array = "array";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key holding which kind of draw call a `section`_ matches
+             @endrst
+             */
+            static inline const std::string MatchType = "match_type";
+
+            /**
+             * @brief
+             @rst
+             Every `KVP`_ key by which a `section`_ selects the draw it overrides
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             These are what make a ``TextureOverride`` fire, so they are meaningful only where
+             3dmigoto is matching. A ``CommandList`` is *called*, never matched, so a fix that
+             copies a section's body into one drops these on the way -- carried across they say
+             nothing, and a stale ``hash`` in particular reads as a second claim on a draw the
+             fix has already remapped
+             @endrst
+             */
+            static inline const std::unordered_set<std::string> MatchKeys = {
+                Hash, MatchPriority, MatchFirstIndex, MatchIndexCount, MatchType, MatchVertexCount};
+
+            /**
+             * @brief
+             @rst
              The `KVP`_ key naming the file a resource `section`_ points at :raw-html:`<br />`
              :raw-html:`<br />`
 
@@ -155,6 +237,41 @@ namespace AGRemapCore {
              @endrst
              */
             static inline const std::string Filename = "filename";
+
+            /**
+             * @brief
+             @rst
+             The prefix a register binding uses to name a resource `section`_ rather than a value --
+             ``ps-t0 = ref ResourceFoo``. Strip it with
+             :cpp:func:`IniNamingTools::removeRefPrefix` rather than by hand: it was written out at
+             seven sites across three files, one of them carrying the literal's LENGTH as a bare 4
+             @endrst
+             */
+            static inline const std::string Ref = "ref";
+
+            /**
+             * @brief
+             @rst
+             A resource `section`_'s kind, eg. ``type = Buffer``
+             @endrst
+             */
+            static inline const std::string Type = "type";
+
+            /**
+             * @brief
+             @rst
+             A resource `section`_'s bytes per element, eg. ``stride = 40``
+             @endrst
+             */
+            static inline const std::string Stride = "stride";
+
+            /**
+             * @brief
+             @rst
+             A resource `section`_'s element format, eg. ``format = R32_UINT``
+             @endrst
+             */
+            static inline const std::string Format = "format";
 
             /**
              * @brief

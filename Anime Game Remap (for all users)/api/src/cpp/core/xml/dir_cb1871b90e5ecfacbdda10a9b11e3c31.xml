@@ -4,6 +4,7 @@
     <compoundname>include/AGRemapCore/model/textures</compoundname>
     <innerfile refid="_colour_8h">Colour.h</innerfile>
     <innerfile refid="_colour_range_8h">ColourRange.h</innerfile>
+    <innerfile refid="_tex_thumbprint_8h">TexThumbprint.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

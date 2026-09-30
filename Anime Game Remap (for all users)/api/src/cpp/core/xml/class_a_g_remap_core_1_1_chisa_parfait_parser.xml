@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_chisa_parfait_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ChisaParfaitParser</compoundname>
+    <includes refid="_chisa_parfait_parser_8h" local="no">ChisaParfaitParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_chisa_parfait_parser_1acd97bfc4c04b2b35c00afe50088eafba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ChisaParfaitParser::ChisaParfaitParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ChisaParfaitParser</name>
+        <qualifiedname>AGRemapCore::ChisaParfaitParser::ChisaParfaitParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/ChisaParfait/ChisaParfaitParser.h" line="38" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_chisa_parfait_parser_1ae1a0641900f207e651dcc65d9cce9d77" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::ChisaParfaitParser::v3_5</definition>
+        <argsstring>()</argsstring>
+        <name>v3_5</name>
+        <qualifiedname>AGRemapCore::ChisaParfaitParser::v3_5</qualifiedname>
+        <briefdescription>
+<para>The 3.5 parser <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a91f650c56e6961895d3a45fa7ea0181f" kindref="member">IniParseBuilderFuncs::chisaParfait3_5</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/ChisaParfait/ChisaParfaitParser.h" line="43" column="45" bodyfile="src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp" bodystart="37" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+ChisaParfait&apos;s own ``.ini`` parsers -- through :cpp:func:`makeWWMIParser`: EIGHT draw slots on
+her ``vb0`` hash (one more than Chisa, her component 7 being a small right-hip prop), the
+bone-data override and the two shape-key overrides by their own hashes. Pair this with
+:cpp:class:`ChisaParfaitFixer`
+
+.. note::
+    Unlike Chisa she does NOT carry WWMI&apos;s blend remap: her merged skeleton is 264 slots and the
+    bones her own model actually weights stop at 250, so her ``Blend.buf`` holds plain 8-bit
+    merged ids. Her mods are 8-influence all the same (16 bytes a vertex), which is what
+    ``wwmiBlendInfluences`` in the fixer is for
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/ChisaParfait/ChisaParfaitParser.h" line="36" column="5" bodyfile="include/AGRemapCore/data/IniParseData/ChisaParfait/ChisaParfaitParser.h" bodystart="36" bodyend="44"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_chisa_parfait_parser_1acd97bfc4c04b2b35c00afe50088eafba" prot="public" virt="non-virtual"><scope>AGRemapCore::ChisaParfaitParser</scope><name>ChisaParfaitParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_chisa_parfait_parser_1ae1a0641900f207e651dcc65d9cce9d77" prot="public" virt="non-virtual"><scope>AGRemapCore::ChisaParfaitParser</scope><name>v3_5</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

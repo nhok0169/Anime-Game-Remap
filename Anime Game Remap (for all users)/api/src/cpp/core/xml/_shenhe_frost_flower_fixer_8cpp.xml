@@ -23,9 +23,6 @@
       <node id="44">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="53">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="59">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -44,6 +41,8 @@
         <label>AGRemapCore/constants/IniKeywords.h</label>
         <link refid="_ini_keywords_8h"/>
         <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
       <node id="83">
@@ -246,6 +245,8 @@
         <label>AGRemapCore/model/buffers/BufElementType.h</label>
         <link refid="_buf_element_type_8h"/>
         <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
@@ -841,6 +842,9 @@
         </childnode>
         <childnode refid="84" relation="include">
         </childnode>
+      </node>
+      <node id="53">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="74">
         <label>Generator.tpp</label>

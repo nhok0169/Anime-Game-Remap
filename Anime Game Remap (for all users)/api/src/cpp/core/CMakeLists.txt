@@ -36,6 +36,7 @@ add_library(AGRemapCore STATIC
     src/data/VGCountData.cpp
     src/data/ShapeKeyChecksumData.cpp
     src/data/VGRemapData.cpp
+    src/data/WWMITextureRoles.cpp
     src/data/ModDataAssets.cpp
     src/data/IniParseBuilderData.cpp
     src/data/IniFixBuilderData.cpp
@@ -117,11 +118,21 @@ add_library(AGRemapCore STATIC
     src/data/IniParseData/KeqingOpulent/KeqingOpulentParser.cpp
     src/data/IniFixData/GIMIComponentFixer.cpp
     src/data/IniFixData/WWMIFixer.cpp
+    src/data/IniFixData/Chisa/ChisaFixer.cpp
+    src/data/IniFixData/Chisa/ChisaTextures.cpp
+    src/data/IniFixData/Chisa/ChisaThumbprints.cpp
+    src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp
+    src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp
+    src/data/IniFixData/ChisaParfait/ChisaParfaitThumbprints.cpp
     src/data/IniFixData/Sanhua/SanhuaFixer.cpp
+    src/data/IniFixData/Sanhua/SanhuaTextures.cpp
     src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp
+    src/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.cpp
     src/data/IniFixData/SanhuaExorcist/SanhuaExorcistThumbprints.cpp
     src/data/IniFixData/Sanhua/SanhuaThumbprints.cpp
     src/data/IniParseData/WWMIParser.cpp
+    src/data/IniParseData/Chisa/ChisaParser.cpp
+    src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp
     src/data/IniParseData/Sanhua/SanhuaParser.cpp
     src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp
     src/data/IniFixData/ModBranches.cpp
@@ -185,6 +196,7 @@ add_library(AGRemapCore STATIC
     src/tools/StringTools.cpp
     src/tools/DownloadTools.cpp
     src/tools/TextTools.cpp
+    src/tools/NumTools.cpp
     src/tools/grapheme/GraphemeIterator.cpp
     src/tools/grapheme/GraphemeRange.cpp
     src/tools/parsing/Token.cpp
@@ -281,8 +293,10 @@ add_library(AGRemapCore STATIC
     src/model/iftemplate/IfContentPartInstantiation.cpp
     src/model/textures/Colour.cpp
     src/model/textures/ColourRange.cpp
+    src/model/textures/TexThumbprint.cpp
     src/model/files/TexCache.cpp
     src/model/files/TextureFile.cpp
+    src/model/files/IniScan.cpp
     src/model/strategies/texEditors/pixelTransforms/BasePixelTransform.cpp
     src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp
     src/model/strategies/texEditors/pixelTransforms/ColourReplace.cpp

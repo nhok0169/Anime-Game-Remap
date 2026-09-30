@@ -14,6 +14,7 @@
     <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
     <includedby refid="_raiden_fixer_8cpp" local="yes">src/data/IniFixData/Raiden/RaidenFixer.cpp</includedby>
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
+    <includedby refid="_g_i_m_i_api_normalizer_8cpp" local="yes">src/model/files/GIMIApiNormalizer.cpp</includedby>
     <incdepgraph>
       <node id="28">
         <label>Algo.tpp</label>
@@ -385,6 +386,8 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniFixData/GIMICharFixer.cpp</label>
@@ -405,6 +408,10 @@
       <node id="6">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/model/files/GIMIApiNormalizer.cpp</label>
+        <link refid="_g_i_m_i_api_normalizer_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_reg_new_vals" prot="public">AGRemapCore::RegNewVals</innerclass>
@@ -432,9 +439,9 @@
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="64" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="64" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="define" id="_reg_new_vals_8h_1a15d7ca06dc5d5936ffddfc3af2a2a41c" prot="public" static="no">
-        <name>NewVal</name>
-        <initializer>std::variant&lt;V, std::function&lt;V(const ModType*)&gt;&gt;</initializer>
+      <memberdef kind="define" id="_reg_new_vals_8h_1af2459d5154fa1253ffc78a14875db2cd" prot="public" static="no">
+        <name>OldValProducer</name>
+        <initializer>std::function&lt;V(const V&amp;, const ModType*)&gt;</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -442,6 +449,17 @@
         <inbodydescription>
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="65" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_reg_new_vals_8h_1a15d7ca06dc5d5936ffddfc3af2a2a41c" prot="public" static="no">
+        <name>NewVal</name>
+        <initializer>std::variant&lt;V, std::function&lt;V(const ModType*)&gt;, std::function&lt;V(const V&amp;, const ModType*)&gt;&gt;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="66" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="66" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="_reg_new_vals_8h_1a755cf9ab84eac651c3437e155d5a46f9" prot="public" static="no">
         <name>NewValSpec</name>
@@ -452,7 +470,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="66" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="66" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="67" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="67" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -490,7 +508,7 @@
 <codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>;</highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight></codeline>
 <codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K<sp/>=<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V<sp/>=<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyHash<sp/>=<sp/>std::hash&lt;K&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyEqual<sp/>=<sp/>std::equal_to&lt;K&gt;&gt;</highlight></codeline>
-<codeline lineno="44" refid="class_a_g_remap_core_1_1_reg_new_vals" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1a69a5a1fb4fbcf61b6f1dade0c34e8bb1" kindref="member">RegNewVals</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit" kindref="compound">BaseRegEdit</ref>&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;<sp/>{</highlight></codeline>
+<codeline lineno="44" refid="class_a_g_remap_core_1_1_reg_new_vals" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1aa8cba7ba6e98da454b012a46a91179fe" kindref="member">RegNewVals</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit" kindref="compound">BaseRegEdit</ref>&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;<sp/>{</highlight></codeline>
 <codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="46"><highlight class="normal"></highlight></codeline>
 <codeline lineno="50" refid="class_a_g_remap_core_1_1_reg_new_vals_1a92d584900e886b2fef91d6f7a18488f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1a92d584900e886b2fef91d6f7a18488f2" kindref="member">Base</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit" kindref="compound">BaseRegEdit&lt;K, V, KeyHash, KeyEqual&gt;</ref>;</highlight></codeline>
@@ -502,32 +520,35 @@
 <codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#ifdef<sp/>AGREMAPCORE_DOCS_PARSE</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="63" refid="_reg_new_vals_8h_1af4c0cac28de729bc215b3f700c31c09b" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>ModTypePredicate<sp/>std::function&lt;bool(const<sp/>V&amp;,<sp/>const<sp/>ModType*)&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="64" refid="_reg_new_vals_8h_1a2d684caf2ae65abd5361165fce7561fa" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>ValProducer<sp/>std::function&lt;V(const<sp/>ModType*)&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="65" refid="_reg_new_vals_8h_1a15d7ca06dc5d5936ffddfc3af2a2a41c" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>NewVal<sp/>std::variant&lt;V,<sp/>std::function&lt;V(const<sp/>ModType*)&gt;&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="66" refid="_reg_new_vals_8h_1a755cf9ab84eac651c3437e155d5a46f9" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>NewValSpec<sp/>std::variant&lt;NewVal,<sp/>std::vector&lt;NewVal&gt;,<sp/>std::pair&lt;NewVal,<sp/>std::function&lt;bool(const<sp/>V&amp;,<sp/>const<sp/>ModType*)&gt;&gt;&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#else</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_reg_new_vals_8h_1af4c0cac28de729bc215b3f700c31c09b" kindref="member">ModTypePredicate</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ModType*)&gt;;</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"></highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_reg_new_vals_8h_1a2d684caf2ae65abd5361165fce7561fa" kindref="member">ValProducer</ref><sp/>=<sp/>std::function&lt;V(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ModType*)&gt;;</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"></highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_reg_new_vals_8h_1a15d7ca06dc5d5936ffddfc3af2a2a41c" kindref="member">NewVal</ref><sp/>=<sp/>std::variant&lt;V,<sp/>ValProducer&gt;;</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"></highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_reg_new_vals_8h_1a755cf9ab84eac651c3437e155d5a46f9" kindref="member">NewValSpec</ref><sp/>=<sp/>std::variant&lt;NewVal,<sp/>std::vector&lt;NewVal&gt;,<sp/>std::pair&lt;NewVal,<sp/>ModTypePredicate&gt;&gt;;</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="126"><highlight class="normal"></highlight></codeline>
-<codeline lineno="139" refid="class_a_g_remap_core_1_1_reg_new_vals_1a5a7d32ef209660236857b877a857d4ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;K,<sp/>NewValSpec&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1a5a7d32ef209660236857b877a857d4ff" kindref="member">vals</ref>;</highlight></codeline>
-<codeline lineno="140"><highlight class="normal"></highlight></codeline>
-<codeline lineno="148" refid="class_a_g_remap_core_1_1_reg_new_vals_1a1c255c5497d8eb890fe3d9b6877f37d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1a1c255c5497d8eb890fe3d9b6877f37d1" kindref="member">addNewKVPs</ref>;</highlight></codeline>
-<codeline lineno="149"><highlight class="normal"></highlight></codeline>
-<codeline lineno="162" refid="class_a_g_remap_core_1_1_reg_new_vals_1a69a5a1fb4fbcf61b6f1dade0c34e8bb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1a69a5a1fb4fbcf61b6f1dade0c34e8bb1" kindref="member">RegNewVals</ref>(std::vector&lt;std::pair&lt;K,<sp/>NewValSpec&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1a5a7d32ef209660236857b877a857d4ff" kindref="member">vals</ref><sp/>=<sp/>{},<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1a1c255c5497d8eb890fe3d9b6877f37d1" kindref="member">addNewKVPs</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="163"><highlight class="normal"></highlight></codeline>
-<codeline lineno="185" refid="class_a_g_remap_core_1_1_reg_new_vals_1ad0c4b4fc3e91c025500cd1834da4075b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1af9c6435fabe9350f3b1739579e9b2c16" kindref="member">ContentPart</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1ad0c4b4fc3e91c025500cd1834da4075b" kindref="member">edit</ref>(<ref refid="class_a_g_remap_core_1_1_reg_new_vals_1af9c6435fabe9350f3b1739579e9b2c16" kindref="member">ContentPart</ref>&amp;<sp/>part,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sectionName,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>*<sp/>modType<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1a2d401c7ecdf49ce739b149b9df614cec" kindref="member">OrderRanges</ref>*<sp/>partRanges<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="189"><highlight class="normal"></highlight></codeline>
-<codeline lineno="190"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;RegNewVals.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="191"><highlight class="normal"></highlight></codeline>
-<codeline lineno="192"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="65" refid="_reg_new_vals_8h_1af2459d5154fa1253ffc78a14875db2cd" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>OldValProducer<sp/>std::function&lt;V(const<sp/>V&amp;,<sp/>const<sp/>ModType*)&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="_reg_new_vals_8h_1a15d7ca06dc5d5936ffddfc3af2a2a41c" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>NewVal<sp/>std::variant&lt;V,<sp/>std::function&lt;V(const<sp/>ModType*)&gt;,<sp/>std::function&lt;V(const<sp/>V&amp;,<sp/>const<sp/>ModType*)&gt;&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="_reg_new_vals_8h_1a755cf9ab84eac651c3437e155d5a46f9" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>NewValSpec<sp/>std::variant&lt;NewVal,<sp/>std::vector&lt;NewVal&gt;,<sp/>std::pair&lt;NewVal,<sp/>std::function&lt;bool(const<sp/>V&amp;,<sp/>const<sp/>ModType*)&gt;&gt;&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#else</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_reg_new_vals_8h_1af4c0cac28de729bc215b3f700c31c09b" kindref="member">ModTypePredicate</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ModType*)&gt;;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_reg_new_vals_8h_1a2d684caf2ae65abd5361165fce7561fa" kindref="member">ValProducer</ref><sp/>=<sp/>std::function&lt;V(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ModType*)&gt;;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_reg_new_vals_8h_1af2459d5154fa1253ffc78a14875db2cd" kindref="member">OldValProducer</ref><sp/>=<sp/>std::function&lt;V(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ModType*)&gt;;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_reg_new_vals_8h_1a15d7ca06dc5d5936ffddfc3af2a2a41c" kindref="member">NewVal</ref><sp/>=<sp/>std::variant&lt;V,<sp/>ValProducer,<sp/>OldValProducer&gt;;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_reg_new_vals_8h_1a755cf9ab84eac651c3437e155d5a46f9" kindref="member">NewValSpec</ref><sp/>=<sp/>std::variant&lt;NewVal,<sp/>std::vector&lt;NewVal&gt;,<sp/>std::pair&lt;NewVal,<sp/>ModTypePredicate&gt;&gt;;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="class_a_g_remap_core_1_1_reg_new_vals_1a212af37ca1fb88f7b42de2996627709e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;K,<sp/>NewValSpec&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1a212af37ca1fb88f7b42de2996627709e" kindref="member">vals</ref>;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="class_a_g_remap_core_1_1_reg_new_vals_1a1c255c5497d8eb890fe3d9b6877f37d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1a1c255c5497d8eb890fe3d9b6877f37d1" kindref="member">addNewKVPs</ref>;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="class_a_g_remap_core_1_1_reg_new_vals_1aa8cba7ba6e98da454b012a46a91179fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1aa8cba7ba6e98da454b012a46a91179fe" kindref="member">RegNewVals</ref>(std::vector&lt;std::pair&lt;K,<sp/>NewValSpec&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1a212af37ca1fb88f7b42de2996627709e" kindref="member">vals</ref><sp/>=<sp/>{},<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1a1c255c5497d8eb890fe3d9b6877f37d1" kindref="member">addNewKVPs</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="class_a_g_remap_core_1_1_reg_new_vals_1ad0c4b4fc3e91c025500cd1834da4075b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1af9c6435fabe9350f3b1739579e9b2c16" kindref="member">ContentPart</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1ad0c4b4fc3e91c025500cd1834da4075b" kindref="member">edit</ref>(<ref refid="class_a_g_remap_core_1_1_reg_new_vals_1af9c6435fabe9350f3b1739579e9b2c16" kindref="member">ContentPart</ref>&amp;<sp/>part,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sectionName,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>*<sp/>modType<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1a2d401c7ecdf49ce739b149b9df614cec" kindref="member">OrderRanges</ref>*<sp/>partRanges<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;RegNewVals.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"/>
   </compounddef>

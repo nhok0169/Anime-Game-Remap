@@ -36,6 +36,15 @@ void PyRegNewVals::refresh(const py::object &modType) {
     // capture, not through the core ValProducer's own parameter, for the same reason a ReplaceIf's
     // predicate does; see PyRegNewVals::refresh's doc comment.
     auto toNewVal = [&modType](const py::object &value) -> NewVal {
+        // A FromOldVal's callable is handed the old value as well. 'modType' arrives by capture
+        // here too, for the same reason the plain producer's does.
+        if (py::isinstance<PyFromOldVal>(value)) {
+            py::object producer = value.cast<PyFromOldVal>().producer();
+            return NewVal(OldValProducer([producer, modType](const std::string &oldValue, const AGRC::ModType *) {
+                return py::str(producer(py::cast(oldValue), modType)).cast<std::string>();
+            }));
+        }
+
         if (PyCallable_Check(value.ptr())) {
             py::object producer = value;
             return NewVal(ValProducer([producer, modType](const AGRC::ModType *) {
@@ -128,6 +137,42 @@ addNewKVPs: :class:`bool`
 
     **Default**: ``False``
     )doc");
+
+    py::class_<PyFromOldVal, py::smart_holder>(m, "FromOldVal", R"doc(
+Marks a callable in a :class:`RegNewVals` value slot as wanting the value already there
+
+A bare callable in that slot already means ``newVal(modType)``, so the one that also reads the old
+value says so by being wrapped in this -- the way :class:`ReplaceList` and :class:`ReplaceIf` say
+which of :meth:`IfContentPart.replaceVals`' forms they are. Wrapped, it is called as
+``newVal(oldValue, modType)``
+
+Nothing else in the `regEdits` family can write a value derived from the old one:
+:class:`RegRemap` moves the KEY (its :class:`RemappedKeyData` may *test* the value and cannot change
+it), and :class:`RegAssetRemap` maps a value through :class:`ModMappedAssets`, which is the right
+answer for a hash or an index and no help for anything else
+
+.. note::
+    A register the :class:`IfContentPart` does not have has no old value to read, so ``addNewKVPs``
+    does not apply to one of these -- an absent register stays absent
+
+Parameters
+----------
+producer: Callable[[:class:`str`, Optional[:class:`ModType`]], :class:`str`]
+    Called as ``producer(oldValue, modType)`` when :meth:`RegNewVals.edit` runs, to produce the
+    value to write :raw-html:`<br />` :raw-html:`<br />`
+
+    eg. :raw-html:`<br />`
+    ``{"ps-t1": FromOldVal(lambda old, modType: old + "Edited")}``
+    )doc")
+        .def(py::init([](py::object producer) {
+            return std::make_unique<PyFromOldVal>(std::move(producer));
+        }), py::arg("producer"))
+        .def_property_readonly("producer", [](const PyFromOldVal &self) {
+            return self.producer();
+        }, py::doc(R"doc(
+Callable[[:class:`str`, Optional[:class:`ModType`]], :class:`str`]: The callable to invoke, as
+``producer(oldValue, modType)``
+        )doc"));
 
     cls.def(py::init([](py::object vals, bool addNewKVPs) {
         return std::make_unique<PyRegNewVals>(std::move(vals), addNewKVPs);

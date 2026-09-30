@@ -3,6 +3,7 @@
   <compounddef id="dir_b57ce82bdb733c6e5a09bf3ecd41d2ae" kind="dir">
     <compoundname>include/AGRemapCore/data/IniFixData/SanhuaExorcist</compoundname>
     <innerfile refid="_sanhua_exorcist_fixer_8h">SanhuaExorcistFixer.h</innerfile>
+    <innerfile refid="_sanhua_exorcist_textures_8h">SanhuaExorcistTextures.h</innerfile>
     <innerfile refid="_sanhua_exorcist_thumbprints_8h">SanhuaExorcistThumbprints.h</innerfile>
     <briefdescription>
     </briefdescription>

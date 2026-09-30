@@ -252,6 +252,41 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             A `KVP`_ key reduced to a form two spellings of it compare equal under -- lowercased,
+             with every backslash written as a forward slash
+             @endrst
+             *
+             * @param key The key to reduce
+             *
+             * @return The comparison key
+             */
+            static std::string looseKey(const std::string& key);
+
+            /**
+             * @brief
+             @rst
+             Like :cpp:func:`firstVal`, but matching the key through :cpp:func:`looseKey`
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             .. warning::
+                Prefer this wherever the key being looked up is one a MOD's author wrote rather than
+                one this library emitted. A namespaced key is the usual case --
+                ``Resource\RabbitFX\Lightmap`` is spelled in whatever case its author used and with
+                either slash -- and an exact lookup that misses is indistinguishable from a mod that
+                binds nothing there. That is how a whole table of roles came back empty and five of
+                one mod's own textures were replaced by downloads of the game's (2026-09-25)
+             @endrst
+             *
+             * @param tpl The `section`_ to search
+             * @param key The key to look for, matched loosely
+             *
+             * @return The first value found, stripped, or ``std::nullopt``
+             */
+            static std::optional<std::string> firstValLoose(const Template& tpl, const std::string& key);
+
+            /**
+             * @brief
+             @rst
              A register value naming a resource, as that resource's name -- or ``""`` for no value,
              an empty one, or ``null``
              @endrst

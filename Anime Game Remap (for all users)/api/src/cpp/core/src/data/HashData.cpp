@@ -1600,7 +1600,7 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         //   one generation per version because a key is (version, name, type) and same-role hashes at one
         //   version overwrite each other. A caller walks the versions newest-first.
         //
-        //   The older rows are built from the mods themselves by Tools/Misc/Diagnostics/chisaHashHistory.py,
+        //   The older rows are built from the mods themselves by Tools/Misc/Diagnostics/wwmiHashHistory.py,
         //   which keeps a hash only on hash-level evidence: a mod ships it UNMODIFIED (pixels identical to
         //   the current texture of that role, and the role's component in the file's `Components-<list>`),
         //   a mod ships a frame-dump file naming the register it was bound to, or it is byte-identical to
@@ -1662,6 +1662,36 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "cb4"}, "f02baf77"},
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "shapekey_offsets"}, "57bb099f"},
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "shapekey_scale"}, "9c738856"},
+
+        //   Her OLDER texture generation, the same shape as Chisa's rows above and for the same
+        //   reason: `WWMIFixerConfig::roles` is written from ONE generation, a mod carries whatever
+        //   hash its author dumped, and a role that resolves to nothing downloads the GAME's texture
+        //   over the mod's own art. Of her three mods on the internet, ChisaParfait1 is such an
+        //   export -- 19 of its 19 texture hashes were unknown to the config (2026-09-28).
+        //
+        //   Her CURRENT hashes are deliberately NOT here: they already resolve through
+        //   `config.roles`, and adding a character's live texture hashes to this table also makes
+        //   them remappable, which is a behaviour change this pair has no need of.
+        //
+        //   Only hash-level evidence, via Tools/Misc/Diagnostics/wwmiHashHistory.py -- each of these
+        //   is a file ChisaParfait1 ships UNMODIFIED, its pixels correlating >= 0.998 with the
+        //   current texture of that role and with the role's component named in the file's own
+        //   `Components-<list>`. Evidence per row, with the correlation:
+        //   Data/Mod Downloads/WuWa/ChisaParfait/3_5/ChisaParfaitHashLineage.json.
+        //
+        //   The version key is documentation: the fixer's lookup is VERSIONLESS (see
+        //   WWMIFixer's roleOfHash), because a hash's buckets are its own generations. 3.5 is her
+        //   release, where these were seen; the current set belongs to the 3.6-era dumps.
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "frontHairDiffuse"}, "15fbfc67"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "frontHairMask"}, "c8ebbc6a"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "hairDiffuse"}, "64e5d5ae"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "lowerDiffuse"}, "e3b7d114"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "lowerMask"}, "9a92af7f"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "lowerNormal"}, "2550774e"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "panelDiffuse"}, "24a6057d"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "upperDiffuse"}, "f72c0f87"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "upperMask"}, "405bb5b1"},
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "upperNormal"}, "f1ecfeb6"},
     };
     return rows;
 }

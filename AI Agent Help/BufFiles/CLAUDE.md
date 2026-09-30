@@ -108,6 +108,49 @@ rounds to even and MSVC's `printf` (what 3dmigoto uses) rounds away from zero, s
 calling `snprintf` per value -- locale-sensitive and much slower on a hot path -- so it was left
 alone deliberately. Don't "fix" it without asking.
 
+## `fix()` RE-ENCODES EVERY LINE, SO `decode`->`encode` HAS TO BE AN IDENTITY (2026-09-29)
+
+`BufFile::fix` decodes every line, runs the filters and encodes the result -- **including the lines
+no filter touched**. So putting a hand-rolled buffer site through it is byte-identical only where
+decoding a value and encoding it straight back cannot change it. That is a property of the
+`BufDataType`, not of the call site:
+
+| element type | `decode` -> `encode` | safe under `fix()`? |
+| --- | --- | --- |
+| `BufUnSignedInt` / `BufInt` (a blend, an index buffer) | exact | **yes** |
+| `BufFloat` (32-bit) | exact | yes |
+| `BufFloat16`, `Rounding::Truncate` (the default) | **loses 2046 of 65536 patterns** | **no** |
+| `BufFloat16`, `Rounding::NearestEven` | exact, all 65536 | **yes** |
+
+**WHEN THE MODULE IS ONE FEATURE SHORT, ADD THE FEATURE -- DO NOT KEEP THE HAND-ROLLED COPY.** This
+row was learned the wrong way round first. `WWMIFixer.cpp` carried its own `halfToFloat` /
+`floatToHalf` pair for the WuWa texcoord copy, and BOTH files carried a comment telling the next
+reader not to merge them: `BufFloat16::encode` truncated the mantissa where a folded UV needs
+round-half-to-even (numpy's `float16` cast, which the prototype that is the WuWa fix's oracle uses),
+measured at **104 halves of 1,508,336, every one a moved UV**. That reads like two different jobs.
+It was a missing **parameter**: `BufFloat16::Rounding`, `Truncate` by default so nothing the library
+already writes moves, `NearestEven` for a caller that needs exactness. The duplicate codec is
+deleted and `buildTexcoordCopy` is an ordinary `BufFile` caller now.
+
+`NearestEven` also round-trips **subnormals** (`Truncate` flushes them to zero -- that is the 2046)
+and keeps a **NaN** a NaN rather than turning it into infinity, which is what makes the identity
+hold for every bit pattern rather than merely for the ones a UV happens to reach.
+
+**The claim is asserted exhaustively, not sampled**: `core/tests/BufFloat16_Rounding_test.cpp` walks
+all 65536 half bit patterns. It also asserts that `Truncate` is still **not** exact -- a test that
+only checks the new mode would keep passing if the two modes silently became the same thing -- and
+that `clone()` carries the mode, since everything that builds a `BufFile` copies its elements, so a
+mode lost in the copy would be ignored by every real caller while passing every other assertion.
+
+**And `read()` throws on a partial line** (`data_.size() % bytesPerLine_`), where a hand-rolled loop
+usually walked whatever it could. For `IbFile` a line is a TRIANGLE, so a 16-bit index buffer read at
+the default 4 bytes per index throws rather than returning garbage -- the better failure, but still a
+failure, so wrap the construction and the `fix` and decide what the degraded answer should be.
+`IbFile::bytesPerIndexOf(<the declared format>)` is how to stop assuming. WWMI index buffers are
+`R32_UINT`; GI's are not always (see Creating Remaps' "an index buffer may be 16-bit").
+
+<br>
+
 ## Bulk (`decodeAll`/`encodeAll`) vs per-line (`decodeLine`/`encodeLine`)
 
 `decodeLine` builds a fresh keyed map per line. Calling it in a Python loop over a real mod costs

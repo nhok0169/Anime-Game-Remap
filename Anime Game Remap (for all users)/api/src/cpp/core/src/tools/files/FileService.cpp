@@ -13,6 +13,8 @@
 
 #include "AGRemapCore/tools/files/FileService.h"
 
+#include "AGRemapCore/tools/StringTools.h"
+
 #include <algorithm>
 
 #include <filesystem>
@@ -92,6 +94,52 @@ namespace AGRemapCore {
         return std::string(reinterpret_cast<const char*>(utf8.data()), utf8.size());
     }
 
+    std::string FileService::baseName(const std::string& path) {
+        return pathToStr(strToPath(path).filename());
+    }
+
+
+    std::optional<std::uintmax_t> FileService::fileSize(const std::string& path) {
+        std::error_code err;
+        const std::filesystem::path at = strToPath(path);
+        if (!std::filesystem::is_regular_file(at, err) || err) {
+            return std::nullopt;
+        }
+
+        const std::uintmax_t size = std::filesystem::file_size(at, err);
+        return err ? std::optional<std::uintmax_t>() : std::optional<std::uintmax_t>(size);
+    }
+
+
+    bool FileService::makeFolderFor(const std::string& filePath) {
+        std::error_code err;
+        const std::filesystem::path folder = strToPath(filePath).parent_path();
+        if (folder.empty()) {
+            return true;                              // the file sits in the working folder already
+        }
+
+        std::filesystem::create_directories(folder, err);
+        return std::filesystem::is_directory(folder, err) && !err;
+    }
+
+
+    std::string FileService::parentOf(const std::string& path) {
+        return pathToStr(strToPath(path).parent_path());
+    }
+
+
+    std::string FileService::stem(const std::string& path) {
+        return pathToStr(strToPath(path).stem());
+    }
+
+
+    std::string FileService::pathKey(const std::string& path) {
+        std::string out = StringTools::toLower(path);
+        std::replace(out.begin(), out.end(), '\\', '/');
+        return out;
+    }
+
+
     std::string FileService::pathToIniStr(const std::filesystem::path& path) {
         std::string result = pathToStr(path);
 
@@ -155,6 +203,14 @@ namespace AGRemapCore {
         //   decide 'pathIsCwd', so it has to stay stable across any later chdir.
         static const std::string startupPath = pathToStr(std::filesystem::current_path());
         return startupPath;
+    }
+
+    std::string FileService::iniPathToRel(const std::string& path) {
+        // Only the separator: the value may be relative, may start `.\`, and normalising it
+        // here would resolve it against the WRONG folder -- the caller knows which one.
+        std::string result = path;
+        std::replace(result.begin(), result.end(), '\\', '/');
+        return result;
     }
 
     std::string FileService::parseOSPath(const std::string& path) {

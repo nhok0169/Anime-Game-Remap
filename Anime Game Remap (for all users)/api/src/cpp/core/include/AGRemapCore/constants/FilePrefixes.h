@@ -38,6 +38,25 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             What a mod's own name is prefixed with to turn it OFF :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Not this software's convention but the ecosystem's: mod managers rename a folder or a
+             file this way, and so do modders by hand, so a mod library holds disabled ``.ini``
+             files, disabled variants inside a merged mod, and disabled copies of whole folders.
+             Matched case-insensitively -- ``DISABLED``, ``Disabled`` and ``disabled`` are all in
+             the wild :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                GIMI's hash-updating tools skip these, which is why a merged mod's disabled
+                variants can still carry hashes several game versions old
+             @endrst
+             */
+            static inline const std::string DisabledPrefix = "disabled";
+
+            /**
+             * @brief
+             @rst
              What version 3 of this software prefixed a disabled (backed-up) file's name with
              :raw-html:`<br />` :raw-html:`<br />`
 

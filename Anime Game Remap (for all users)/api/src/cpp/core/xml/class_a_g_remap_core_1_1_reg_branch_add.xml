@@ -154,7 +154,7 @@ runs under
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="163" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="163" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="177" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="177" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -171,7 +171,7 @@ runs under
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="168" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="168" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="182" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="182" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -203,7 +203,7 @@ runs under
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="175" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="189" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_branch_add_1a55e7fada6bed0cc1a41f0bf15461294b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_branch_add_1a5cd8936bb37addefe7adc43b2b750d41" kindref="member">Graph</ref> &amp;</type>
@@ -316,7 +316,7 @@ meaning &quot;every key&quot;, matching
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="180" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="194" column="19"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -455,7 +455,7 @@ branch&apos;s condition is satisfiable with
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="86" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="86" bodyend="183"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="86" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="86" bodyend="197"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a842c8e351bed5d8524644407f76fd8d5" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>Additions</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_branch_add_1adca5c2691c2e0309a0645fb4d5df4e50" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>Base</name></member>

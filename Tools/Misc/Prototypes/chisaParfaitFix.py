@@ -273,6 +273,16 @@ MaskTranslations = {"upperMask", "lowerMask"}   # the roles whose file is repack
 #   normal-map alpha selects -- and the RGB is that same profile as neutral gray, so no rainbow.
 SheenTranslations = {"bodySheen"}
 
+# A UV-MAPPED REGISTER CANNOT BE LEFT TO THE GAME (2026-09-26). The hair's ps-t5 is a 2048 x 2048
+#   map, and the geometry drawn through that slot is CHISA's -- so the skin's own art there is
+#   sampled at UVs it was never authored for, which painted irregular magenta blotches on the
+#   strands and a band of wrong shadow. Only G carries signal: the target's own d547f3c6 is R = 0
+#   over 99.4% of its texels, B = 0 over 93.7%, A = 255 over 98.3%, and G 170 distinct values.
+#   So the mod's own G is kept -- its strand detail, at its own UVs -- and R/B/A take the
+#   target's packing. Binding the file RAW goes copper-orange, and so does repacking only B and
+#   A: R has to go too, which is what that attempt missed.
+NormalRepacks = {"hairNormal"}
+
 # A SHADER FAMILY IS A COLOUR GRADE, AND A TEXTURE IS THE ONLY PLACE TO PUT IT BACK (2026-09-20).
 #   Chisa's ribbon is painted by a HAIR shader (3df800c3, the only pass her component 5 is drawn on)
 #   and the skin has nowhere to draw it but a CLOTH shader, so the two treat the same diffuse
@@ -295,6 +305,27 @@ SheenTranslations = {"bodySheen"}
 #   the target's HAIR slots so it is drawn by the shader it was authored for, which merges it into a
 #   hair draw. Precedent for grading instead: the GI side has a shared DarkDiffuse for Ningguang.
 ColourGrades = {"accessoryDiffuse": (0.772, 0.616, 0.577)}
+# AND THE GRADE APPLIES TO ONE UV ISLAND, NOT THE WHOLE ATLAS (2026-09-24). The gain above was
+#   measured on her hair RIBBON and verified in game there (brightness 1.56 against 1.56). Component
+#   5 is not only the ribbon: it runs from z 144.2 in her hair down to z 72.6 at her hip, and the
+#   lower half is a broad WHITE sash. R held with G and B pulled ~40% below it is invisible on the
+#   ribbon's saturated red and turns that sash warm brown -- reported in game as "the jacket is not
+#   supposed to have some brown texture" (2026-09-24), and on EVERY mod including the identity one,
+#   because the grade was unconditional. The fix's own log had been printing it the whole time:
+#   `median (158, 154, 156) -> (121, 94, 90)`, a neutral grey going warm.
+#
+#   THE SPLIT IS GIVEN BY THE GEOMETRY, NOT CHOSEN. Component 5's vertex heights are bimodal with an
+#   EMPTY bin at z 120.3..126.3, and of its 2534 triangles exactly ZERO straddle that gap. The two
+#   clusters rasterise into atlas islands that share NO texel: ribbon 509,708 (12.2%), sash
+#   2,747,449 (65.5%), overlap 0.
+#
+#   A single `u` threshold was tried first, because a rectangle is what a config can carry and a
+#   4-megatexel bitmask is not: u >= 0.72 keeps 100% of the ribbon and still grades 5.2% of the
+#   sash -- the grey zipper and buckle hardware interleaved with the red stripes, which would come
+#   out brown. Hence the rasterised mask, built from the source geometry in AssetsFolder.
+#
+#   (component, the z at or above which a vertex belongs to the graded island)
+ColourGradeIslands: Dict[str, Tuple[int, float]] = {"accessoryDiffuse": (5, 123.0)}
 TargetMaskSkinR = 255                           # what she marks bare skin with, in R -- the SAME as Chisa
 # CHISA'S R IS FIVE BANDS, AND ONLY THE TOP ONE IS SKIN (2026-09-21). Read off her upper-body pixel
 #   shader 42721e1d0c282918 (a hunting-mode dump): the mask's R is compared against 0.05 / 0.3 /
@@ -345,18 +376,7 @@ ExtraPassRegs = {
     1: {"21176cf68a65ab7a": {"ps-t0": "hairDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"},
         "32414b557630d98d": {"ps-t0": "hairDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
     2: {"259b766b59f72419": {"ps-t0": "upperDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
-    # THE SECOND PASS KEPT SEVEN OF THE SKIN'S TEXTURES (2026-09-24). It binds ps-t0 (the diffuse,
-    #   which this pass SETS on both characters) and the front-hair pair, and left t2, t3, t4, t6,
-    #   t7, t8, t9 as ChisaParfait's -- her normal map, her matcaps, her ramps, sampled at Chisa's
-    #   UVs. This is the pass that draws in the HAIR's stencil group (StencilRef 10, component 1's;
-    #   the main pass uses 14), so whatever it shades shows through the hair -- which is where the
-    #   black wedge on Chisa17's lower back was reported.
-    #   Two of the seven had no Chisa-side file until the download folder gained them.
-    3: {"21176cf68a65ab7a": {"ps-t0": "upperDiffuse", "ps-t1": "frontHairDiffuse",
-                             "ps-t2": "frontHairDetail", "ps-t3": "accessorySheen",
-                             "ps-t4": "hairTipRamp", "ps-t5": "frontHairNormal",
-                             "ps-t6": "skinRamp", "ps-t7": "bodyMatcap",
-                             "ps-t8": "bodySheen", "ps-t9": "skinRamp"}},
+    3: {"21176cf68a65ab7a": {"ps-t0": "upperDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
     4: {"21176cf68a65ab7a": {"ps-t0": "lowerDiffuse", "ps-t1": "frontHairDiffuse", "ps-t5": "frontHairNormal"}},
     # THE RIBBON'S PASS IS A CLOTHING SHADER WITH THE NORMAL AND THE DETAIL MAP SWAPPED (2026-09-20).
     #   87825a9a is the pass that paints it (a colour per PASS came back green, which was its), and
@@ -388,32 +408,10 @@ ExtraPassRegs = {
     #   nothing else, the nearest thing to the hair shader Chisa draws this component with. Code 0 was
     #   harmless on a red ribbon and turned Chisa6's dark knit dress -- which that mod draws through this
     #   component -- maroon. Code 5 confirmed in game on both, 2026-09-22 (--accessoryCode overrides it).
-    # ps-t5 IS THE SKIN'S IRIDESCENT MATCAP AND IT TINTED THE WHOLE ACCESSORY BROWN (2026-09-23).
-    #   `00e3f13b`, 512x512, a pearlescent rainbow sheen for her frilled dress, mean (171, 156, 166).
-    #   Chisa draws this component on a HAIR shader with no such input, so hers was never rebound and
-    #   the skin's stayed standing -- which renders her pale grey-white ribbon art (019c268e, whose
-    #   cross marks and barcode strip are what the flap shows in game) as a warm brown panel across
-    #   the lower back. Reported on Chisa17, where the component is a wide back flap rather than a
-    #   thin ribbon, so the tint covers a large area and is unmistakable.
-    #
-    #   Found by probing the four registers this pass SETS and nothing binds -- ps-t4, t5, t6, t7 --
-    #   with a colour each: flat yellow at ps-t5 turned the whole panel olive, and the blue, cyan and
-    #   magenta of the other three never appeared. ps-t7 is `6a9ec87e`, the subsurface ramp slot 3
-    #   zeroes for the red stain, and is deliberately LEFT ALONE here: this slot's probe says it does
-    #   not reach the surface, and zeroing a register on a neighbouring slot's reasoning is exactly
-    #   the mistake the mask rounds made twice.
-    #
-    #   Zeroed rather than swapped for one of Chisa's: she has no counterpart to swap in, and the
-    #   fault is not WHICH matcap but that the skin's shader gives this surface an iridescent sheen
-    #   at all -- the same call the config already makes for slot 3's ps-t10. A zero samples as
-    #   `null` does. The accessory keeps its highlight from the mask's G channel (TargetMaskAccessory),
-    #   which is a separate input and is why that mask is not TargetMaskCloth.
     5: {"87825a9a29529f9b": {"ps-t0": (AccessoryCode, 0, 0, 255), "ps-t1": TargetMaskAccessory,
-                             "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse",
-                             "ps-t5": (0, 0, 0, 0)},
+                             "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse"},
         "ced9a47fb6ad4d16": {"ps-t0": (AccessoryCode, 0, 0, 255), "ps-t1": TargetMaskAccessory,
-                             "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse",
-                             "ps-t5": (0, 0, 0, 0)}},
+                             "ps-t2": "accessoryNormal", "ps-t3": "accessoryDiffuse"}},
 }
 
 # A CHARACTER IS NOT ONLY HER vb0 MESH. Chisa and ChisaParfait both draw a SECOND mesh, vb0
@@ -571,11 +569,6 @@ Roles = {
     "526b9ed0": "upperNormal", "90196068": "upperMask", "165f3a1b": "upperDiffuse",
     "2b6f8bcb": "lowerNormal", "3f0e6f21": "lowerMask", "f642139e": "lowerDiffuse",
     "019c268e": "accessoryDiffuse", "40528957": "accessoryNormal", "4eaa9816": "accessorySheen",
-    # ADDED 2026-09-24, with the two textures they name, for the registers component 3's SECOND pass
-    #   was leaving as the skin's. Both are SET by Chisa's own draws (component 0 and component 4
-    #   respectively, each "sets the whole set"), so neither is an inherited global -- the check the
-    #   skinRamp comment above demands. Named for where they are set, not for what they are read as.
-    "b0ee686b": "frontHairDetail", "394378bf": "bodyMatcap",
     "226b31fc": "irisDiffuse",
     # 742c5c7b (1024 sRGB) and 8224e584 (2048 sRGB) are bound by BOTH characters -- a shared detail
     #   texture and an eye one -- so they are left to the game rather than given a role to rebind
@@ -617,12 +610,17 @@ Plan = {
     #
     #   B and A are structurally different between the two skins, exactly as they are in the
     #   material mask -- so the mod's map hands the target's shader a large B where it wants ~0 and
-    #   A 0 where it wants 255, and the result is a warm cast over the hair. Unbound, the slot takes
-    #   the GAME's own map, which is the right packing; its UVs are hers rather than the mod's, and
-    #   on this map that is evidently the lesser error.
+    #   A 0 where it wants 255, and the result is a warm cast over the hair.
+    #
+    #   LEAVING IT UNBOUND WAS THE WRONG ANSWER, AND IT SHIPPED FOR DAYS (2026-09-26). The slot then
+    #   takes the GAME's own map -- the right packing, at HER UVs rather than the mod's -- and that
+    #   is not the lesser error on a UV-mapped texture: it painted irregular magenta blotches on the
+    #   strands and a band of wrong shadow, reported twice. The register is bound now and the map
+    #   REPACKED (NormalRepacks / hairNormalFilter): the mod's own G, the target's R/B/A. Nulling it
+    #   and binding a flat (0, 75, 0, 255) look identical in game; this one keeps the mod's detail.
     #   NOT done for slot 0's frontHairNormal: same register, same shape of risk, untested. One at
     #   a time.
-    1: (1, {"ps-t0": "hairMask", "ps-t1": "hairDiffuse", "ps-t2": "hairRamp"}),
+    1: (1, {"ps-t0": "hairMask", "ps-t1": "hairDiffuse", "ps-t2": "hairRamp", "ps-t5": "hairNormal"}),
     2: (2, {"ps-t0": "faceMask", "ps-t1": "faceDiffuse"}),
     # ps-t10 / ps-t6 is the subsurface ramp, and the two body halves read it at different registers
     #   because the two passes bind different numbers of auxiliary maps before it. Measured off the
@@ -705,14 +703,41 @@ AnchorChains: Dict[str, Dict[int, List[int]]] = {
     #   named a bone that put the prop 90 units away. Skin the prop with each candidate and look at
     #   where the cloud lands.
     "props": {3: [409, 410, 411, 412, 413, 414, 415, 416, 417, 418]},
+    # THE BACK SKIRT PANEL, component 4's `Skirt` range -- reported in game as "black stuff sticking
+    #   out from her back" (2026-09-24). Painting each component's diffuse in turn identified it
+    #   (only the lower body's paint reached it) and hiding that one range removed it at every angle
+    #   it was visible.
+    #
+    #   Every STATIC test of its remap is clean: no outlier vertices, and its 36 source groups land
+    #   0.8 to 6.1 units from where they live on Chisa -- tighter than most of the model. The panel
+    #   also hangs correctly on CHISA herself with the fix undone, at all eight angles. So the bones
+    #   are not mapped to the wrong PLACE; they are mapped to bones that MOVE differently.
+    #   ChisaParfait wears a short frilly skirt, and 227..250 -- which only this range rides, where
+    #   every other range of the component stops at 227 -- are its frill bones. Near in rest space,
+    #   driven by a different garment once posed, and a rest-pose distance cannot see the difference.
+    #   Retargeting them to the nearest bone inside the lower body's own window was tried first and
+    #   is WORSE by that same measure (4.5-8.5 units against 1.2-3.2), which is the sign that
+    #   proximity is not the criterion here: rigidity is.
+    #
+    #   The chain is the 24 groups ONLY the skirt uses, so pinning them moves nothing else -- the 12
+    #   it shares with the rest of component 4 are left alone. The root is source 193: the largest
+    #   single share of the panel's weight (5.7%), on the mid-line at waist height, and one the body
+    #   itself moves with, which is the property the prop anchor was chosen for as well.
+    "skirt": {193: [292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303,
+                    304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315]},
 }
 
 
 def anchoredRemap(remap: Dict[int, int], mode: str) -> Dict[int, int]:
-    """'remap' with every chain of the given anchor mode pinned to its root's target"""
+    """'remap' with every chain of the given anchor mode(s) pinned to its root's target
+
+    'mode' is a comma-separated set, so more than one chain can apply without reaching for "all" --
+    which would also pull in `collar`, deliberately opt-in. A single name still means what it did.
+    """
+    wanted = {m.strip() for m in mode.split(",") if (m.strip())}
     result = dict(remap)
     for name, chains in AnchorChains.items():
-        if (mode != "all" and mode != name):
+        if ("all" not in wanted and name not in wanted):
             continue
         for root, chain in chains.items():
             for group in chain:
@@ -858,6 +883,16 @@ def sheenFilter(texFile) -> None:
     setPixels(texFile, np.stack([profile, profile, profile, profile], axis = -1))
 
 
+def hairNormalFilter(texFile) -> None:
+    """The hair's ps-t5 map in the TARGET's packing: the mod's own G, the rest the skin's (NormalRepacks)"""
+    asData(texFile)
+    px = pixelsOf(texFile)
+    px[..., 0] = 0            # R: the target's is 0 over 99.4% of its texels
+    px[..., 2] = 0            # B: ...and its B over 93.7%
+    px[..., 3] = 255          # A: ...and its A is 255 over 98.3%
+    setPixels(texFile, px)
+
+
 def maskFilter(diffusePath: Optional[str], label: str):
     """Repack a material mask from the SOURCE's layout into the TARGET's (MaskTranslations above).
 
@@ -894,17 +929,245 @@ def maskFilter(diffusePath: Optional[str], label: str):
     return edit
 
 
-def gradeFilter(gain, label: str):
-    """A per-channel gain on the RGB (ColourGrades above), alpha untouched; prints the medians it moved"""
+_islandMasks: Dict[Tuple[int, float, int, int], Optional[np.ndarray]] = {}
+
+
+def _rasterise(uv, triangles, width: int, height: int) -> np.ndarray:
+    """A boolean atlas-sized mask of the texels those UV triangles cover (half-space test per triangle)"""
+    mask = np.zeros((height, width), dtype = bool)
+    pts = np.stack([uv[triangles, 0] * width, uv[triangles, 1] * height], axis = -1)
+    for tri in pts:
+        x0, y0 = np.floor(tri.min(axis = 0)).astype(int)
+        x1, y1 = np.ceil(tri.max(axis = 0)).astype(int)
+        x0, y0 = max(int(x0), 0), max(int(y0), 0)
+        x1, y1 = min(int(x1), width - 1), min(int(y1), height - 1)
+        if (x1 <= x0 or y1 <= y0):
+            if (0 <= x0 < width and 0 <= y0 < height):
+                mask[y0, x0] = True
+            continue
+        yy, xx = np.mgrid[y0:y1 + 1, x0:x1 + 1]
+        px, py = xx + 0.5, yy + 0.5
+        (ax, ay), (bx, by), (cx, cy) = tri
+        d = (by - cy) * (ax - cx) + (cx - bx) * (ay - cy)
+        if (abs(d) < 1e-12):
+            continue
+        w0 = ((by - cy) * (px - cx) + (cx - bx) * (py - cy)) / d
+        w1 = ((cy - ay) * (px - cx) + (ax - cx) * (py - cy)) / d
+        inside = (w0 >= -1e-6) & (w1 >= -1e-6) & (w0 + w1 <= 1 + 1e-6)
+        mask[y0:y1 + 1, x0:x1 + 1] |= inside
+    return mask
+
+
+def _modMeshNear(path: str, component: int):
+    """(positions, uvs, indices, draw ranges) for 'component' of the mod that owns 'path', or None.
+
+    Walks up from the texture's folder looking for a mod root -- one holding the mesh triple, at the
+    root or under Meshes/ -- and reads the component's draw ranges out of that mod's own .ini. The
+    search is bounded and stops at the first root found, so a run pointed at a folder of many mods
+    cannot pick up a neighbour's mesh.
+    """
+    folder = os.path.dirname(os.path.abspath(path))
+    for _ in range(5):
+        for meshDir in (folder, os.path.join(folder, "Meshes")):
+            pos = os.path.join(meshDir, "Position.buf")
+            idx = os.path.join(meshDir, "Index.buf")
+            tc = next((os.path.join(meshDir, n) for n in ("TexCoord.buf", "Texcoord.buf")
+                       if (os.path.isfile(os.path.join(meshDir, n)))), None)
+            if (not (os.path.isfile(pos) and os.path.isfile(idx) and tc)):
+                continue
+
+            ini = None
+            for root, _dirs, files in os.walk(folder):
+                for f in sorted(files):
+                    if (f.lower().endswith(".ini") and not f.upper().startswith("DISABLED")):
+                        body = open(os.path.join(root, f), encoding = "utf-8", errors = "replace").read()
+                        if (f"[TextureOverrideComponent{component}]" in body):
+                            ini = body
+                            break
+                if (ini is not None):
+                    break
+            if (ini is None):
+                continue
+
+            m = re.search(rf"\[TextureOverrideComponent{component}\]([^\[]*)", ini)
+            # PER LINE, and a `;` line is not drawn. Unanchored, this matched the mod's commented-out
+            # draws too: Chisa13's component 5 went from its one live draw (276 indices) to five
+            # (15951), and the ribbon's grade island from 9349 texels to 165973. In game it changed
+            # nothing -- WWMI names a texture for the components that use it, so no other component
+            # samples this atlas, and the extra texels are dead -- but the compiled fixer reads the
+            # ranges through the real parser, where comments are already gone, and a difference that
+            # costs nothing to remove should not be left for the next A/B to re-derive.
+            ranges = [] if (not m) else [(int(c), int(s)) for c, s in
+                                         (dm.groups() for line in m.group(1).splitlines()
+                                          if (not line.strip().startswith(";"))
+                                          for dm in [re.search(r"drawindexed\s*=\s*(\d+)\s*,\s*(\d+)\s*,", line)]
+                                          if (dm is not None))]
+            if (not ranges):
+                continue
+
+            P = np.fromfile(pos, dtype = np.uint8).view(np.float32).reshape(-1, 3)
+            I = np.fromfile(idx, dtype = np.uint32).astype(np.int64)
+            blob = np.fromfile(tc, dtype = np.uint8)
+            if (not P.shape[0] or blob.size % P.shape[0]):
+                continue
+            uv = blob.reshape(P.shape[0], blob.size // P.shape[0])[:, 0:4].copy().view(np.float16).astype(np.float64)
+            if (float(uv[:, 0].max() - uv[:, 0].min()) < 0.05):
+                continue
+            return P, uv, I, ranges
+
+        parent = os.path.dirname(folder)
+        if (parent == folder):
+            break
+        folder = parent
+    return None
+
+
+def islandMask(component: int, minZ: float, width: int, height: int,
+               near: Optional[str] = None) -> Tuple[Optional[np.ndarray], str]:
+    """The atlas texels covered by 'component's triangles at or above 'minZ' -- see ColourGradeIslands.
+
+    Built from the SOURCE's own geometry in AssetsFolder, so it needs no new asset. Returns None when
+    that geometry is not there, and the caller then grades nothing rather than grading everything:
+    an unrestricted grade is the visible bug this exists to prevent.
+
+    The texcoord layout is PINNED to float16 rather than sniffed. Both float16 and float32 put 100%
+    of these UVs inside [0, 1] -- the ambiguity uvIsland.py refuses to resolve silently -- and float32
+    collapses the component into u 0.000..0.008. A range check cannot tell the two apart; the spread
+    can, so it is asserted.
+    """
+    mine = _modMeshNear(near, component) if (near) else None
+    key = (component, minZ, width, height, os.path.dirname(near or ""), mine is not None)
+    if (key in _islandMasks):
+        return _islandMasks[key]
+
+    _islandMasks[key] = (None, "nothing")
+    if (mine is not None):
+        P, uv, idx, ranges = mine
+        tris = np.concatenate([idx[s:s + c] for c, s in ranges]).reshape(-1, 3)
+        tris = tris[(tris < P.shape[0]).all(axis = 1)]
+        # BY CENTROID, not by all-three-vertices: a mod's mesh is not Chisa's, and refusing any mesh
+        #   with a triangle across the boundary sent the two mods that most need their own island
+        #   (Chisa10, Chisa18) back to the mask that leaks onto their sash. A centroid cannot
+        #   straddle, so every mesh gets an exact island and the edge is off by at most one triangle,
+        #   which the gutter dilation below already covers.
+        ribbon = P[tris, 2].mean(axis = 1) >= minZ
+        mask = _rasterise(uv, tris[ribbon], width, height)
+        other = _rasterise(uv, tris[~ribbon], width, height)
+
+        # DO THE TWO HALVES ACTUALLY SEPARATE ON THE ATLAS? The split assumes this component is the
+        #   ribbon plus its sash -- two clusters with an empty band between them, as Chisa's own has.
+        #   A mod may put something else here: Chisa10's component 5 is an 81-vertex prop spanning
+        #   z 118.8..127.6, astride the split with no structure either side, and its two halves share
+        #   atlas texels. No mask separates those, so grade nothing rather than stain the part.
+        shared = int((mask & other).sum())
+        if (shared > 0.02 * max(int(mask.sum()), 1)):
+            print(f"    !! WARNING: this mod's component {component} does not separate at z={minZ} "
+                  f"({shared} texels claimed by both halves); the grade is SKIPPED for it rather "
+                  f"than risk tinting the wrong part")
+            _islandMasks[key] = (None, "nothing -- the component does not separate")
+            return _islandMasks[key]
+
+        # A texel BOTH halves map to belongs exclusively to neither, and the sash must not be
+        #   tinted -- so it is dropped rather than tolerated. Without this the separability guard's
+        #   2% slack is 4,349 graded sash texels on the identity mod and 12,456 on Chisa6.
+        mask &= ~other
+        free = ~(mask | other)
+        for _ in range(2):
+            grown = mask.copy()
+            grown[1:, :] |= mask[:-1, :]
+            grown[:-1, :] |= mask[1:, :]
+            grown[:, 1:] |= mask[:, :-1]
+            grown[:, :-1] |= mask[:, 1:]
+            mask = mask | (grown & free)
+        _islandMasks[key] = (mask, "this mod's own mesh")
+        return _islandMasks[key]
+    need = {n: os.path.join(AssetsFolder, f"{SourceName}{n}")
+            for n in ("Metadata.json", "Position.buf", "Texcoord.buf", "Index.buf")}
+    missing = [os.path.basename(f) for f in need.values() if (not os.path.isfile(f))]
+    if (missing):
+        print(f"    !! WARNING: cannot build the grade's island mask -- {AssetsFolder} is missing "
+              f"{', '.join(missing)}. Grading nothing rather than the whole atlas.")
+        return _islandMasks[key]
+
+    meta = json.load(open(need["Metadata.json"], encoding = "utf-8"))
+    nVerts = sum(int(c["vertex_count"]) for c in meta["components"])
+    comp = meta["components"][component]
+    iOff, iCnt = int(comp["index_offset"]), int(comp["index_count"])
+
+    blob = np.fromfile(need["Texcoord.buf"], dtype = np.uint8)
+    if (blob.size % nVerts):
+        print(f"    !! WARNING: texcoord buffer {blob.size} does not divide by {nVerts} vertices; "
+              f"grading nothing")
+        return _islandMasks[key]
+    uv = blob.reshape(nVerts, blob.size // nVerts)[:, 0:4].copy().view(np.float16).astype(np.float64)
+    if (float(uv[:, 0].max() - uv[:, 0].min()) < 0.05):
+        print(f"    !! WARNING: the texcoord layout is not float16 here (u spread "
+              f"{float(uv[:, 0].max() - uv[:, 0].min()):.4f}); grading nothing")
+        return _islandMasks[key]
+
+    pos = np.fromfile(need["Position.buf"], dtype = np.uint8).view(np.float32).reshape(-1, 3)
+    idx = np.fromfile(need["Index.buf"], dtype = np.uint32).astype(np.int64)
+    tris = idx[iOff:iOff + iCnt].reshape(-1, 3)
+
+    high = pos[:, 2] >= minZ
+    lab = high[tris]
+    straddling = int((lab.any(axis = 1) & ~lab.all(axis = 1)).sum())
+    if (straddling):
+        print(f"    !! WARNING: {straddling} of component {component}'s triangles straddle z={minZ}, "
+              f"so the two islands are not cleanly separable; grading nothing")
+        return _islandMasks[key]
+
+    mask = _rasterise(uv, tris[lab.all(axis = 1)], width, height)
+    other = _rasterise(uv, tris[~lab.any(axis = 1)], width, height)
+    mask &= ~other                      # contested texels belong to neither half; see the mod branch
+    # grow into the gutter ONLY -- the two islands are adjacent, and growing into the other one
+    #   reintroduces exactly the bug this restricts
+    free = ~(mask | other)
+    for _ in range(2):
+        grown = mask.copy()
+        grown[1:, :] |= mask[:-1, :]
+        grown[:-1, :] |= mask[1:, :]
+        grown[:, 1:] |= mask[:, :-1]
+        grown[:, :-1] |= mask[:, 1:]
+        mask = mask | (grown & free)
+
+    _islandMasks[key] = (mask, f"{SourceName}'s own geometry")
+    return _islandMasks[key]
+
+
+def gradeFilter(gain, label: str, island: Optional[Tuple[int, float]] = None):
+    """A per-channel gain on the RGB (ColourGrades above), alpha untouched; prints the medians it moved
+
+    With 'island' (ColourGradeIslands) the gain is applied only to the texels that component's
+    geometry above that height covers -- see the note at ColourGradeIslands for why the whole atlas
+    is wrong. The medians are reported over the graded texels alone, because a median over the whole
+    atlas is dominated by the 65% the sash covers and would barely move however wrong the grade is.
+    """
     def edit(texFile) -> None:
         px = pixelsOf(texFile)
+        height, width = px.shape[0], px.shape[1]
+        where, basis = None, "the whole atlas"
+        if (island is not None):
+            where, basis = islandMask(island[0], island[1], width, height,
+                                      getattr(texFile, "src", None))
+            if (where is None):
+                return
+        sel = where if (where is not None) else np.ones((height, width), dtype = bool)
+        if (not sel.any()):
+            print(f"    !! WARNING: {label}'s grade island is empty at {width}x{height}; nothing graded")
+            return
+
         out = px.copy()
         for c in range(3):
-            out[..., c] = np.clip(px[..., c].astype(np.float64) * gain[c], 0, 255).astype(np.uint8)
+            out[..., c] = np.where(sel, np.clip(px[..., c].astype(np.float64) * gain[c], 0, 255),
+                                   px[..., c]).astype(np.uint8)
         setPixels(texFile, out)
-        was = tuple(int(v) for v in np.median(px.reshape(-1, 4)[:, :3], axis = 0))
-        now = tuple(int(v) for v in np.median(out.reshape(-1, 4)[:, :3], axis = 0))
-        print(f"    {label}: graded by {gain} for {TargetName}'s shader, median {was} -> {now}")
+        was = tuple(int(v) for v in np.median(px[sel][:, :3], axis = 0))
+        now = tuple(int(v) for v in np.median(out[sel][:, :3], axis = 0))
+        scope = (f"{100.0 * float(sel.mean()):.1f}% of the atlas (component {island[0]} above "
+                 f"z={island[1]}, island from {basis})" if (island is not None) else "the whole atlas")
+        print(f"    {label}: graded by {gain} for {TargetName}'s shader over {scope}, "
+              f"median {was} -> {now}")
     return edit
 
 
@@ -1107,6 +1370,13 @@ RabbitFXRoles: Dict[str, Dict[int, str]] = {
 #   not have it placed by shape: it is not a role, it is the game's, and the game still binds it.
 SharedGameTextures = {"742c5c7b", "8224e584"}
 
+# The region-marking roles -- WWMIFixerConfig::flatLeftToGame plus ::flatFallsBackToSource. A mask
+#   says WHICH MATERIAL each texel is, so a file that is not one cannot stand in for it, and the two
+#   sets differ only in what happens when the mod has none: the hair's is left to the GAME (Chisa's
+#   own is a flat "all of this is skin", which shaded the crown red), the others fall back to hers.
+MaskRoles = {"hairMask", "frontHairMask", "upperMask", "lowerMask", "faceMask"}
+LeftToGameRoles = {"hairMask", "frontHairMask"}
+
 FallbackTextures: Dict[str, str] = {
     # CHISA's hashes -- this table arrived as a copy of Sanhua's and sat unmeasured until 2026-09-20,
     #   where every role name matched hers and every hash did not, so a role the mod lacked would have
@@ -1120,11 +1390,6 @@ FallbackTextures: Dict[str, str] = {
     "lowerNormal": "2b6f8bcb", "lowerMask": "3f0e6f21", "lowerDiffuse": "f642139e",
     "accessoryDiffuse": "019c268e", "accessoryNormal": "40528957", "accessorySheen": "4eaa9816",
     "irisDiffuse": "226b31fc",
-    # ADDED 2026-09-24 with the two files they name. A role reaches a mod that ships no texture of
-    #   its own ONLY through this table, so component 3's second pass silently dropped these two
-    #   registers while binding the other eight -- the config named the roles and nothing resolved
-    #   them. Both files are now in the download folder, extracted from a dump of unmodded Chisa.
-    "frontHairDetail": "b0ee686b", "bodyMatcap": "394378bf",
 }
 IdentityMin, IdentityGap = 0.97, 0.90   # a file IS a game texture when its colour correlates >= IdentityMin with one asset and < IdentityGap with every other (alpha settles a tie)
 LayoutMin = 0.30                        # a file naming several components takes a role only if it is laid out like the source's own texture for it
@@ -1629,7 +1894,7 @@ def roleOfHash(h: str) -> Optional[str]:
     a texture between versions and a mod carries whatever hash its author dumped, so a hash this file
     does not list used to fall through to the shape guess -- which took Chisa8's qipao diffuse
     (`2970cef1`, an older upper-body diffuse hash) for a normal map and bound Chisa's own vanilla diffuse
-    in its place. The older rows are built by Tools/Misc/Diagnostics/chisaHashHistory.py from hash-level
+    in its place. The older rows are built by Tools/Misc/Diagnostics/wwmiHashHistory.py from hash-level
     evidence only. Roles above stays the fallback for a library that predates those rows."""
     global _libraryHashes
     if (_libraryHashes is None):
@@ -1740,6 +2005,9 @@ class TextureRoles():
                 unreferenced[role] = real(best)
 
         # a role a component's OWN section names (SourceRegisterRoles / RabbitFXRoles) wins over placement
+        claimsOf: Dict[tuple, set] = {}          # (component, resource) -> the roles it was read for
+        claimedFrom: Dict[str, tuple] = {}       # role -> the (component, resource) it came from
+        self.leftToGame: set = set()             # roles nothing may stand in for (see MaskRoles)
         for name, lines in self.sections.items():
             match = re.fullmatch(r"TextureOverrideComponent(\d+)", name, re.IGNORECASE)
             if (not match):
@@ -1762,7 +2030,34 @@ class TextureRoles():
                 self.resourceOfRole[role] = resource
                 self.fileOfRole[role] = f
                 unreferenced.pop(role, None)
+                claimsOf.setdefault((component, resource.lower()), set()).add(role)
+                claimedFrom[role] = (component, resource.lower())
                 print(f"    {role}: bound by component {component}'s own section ({k} = {resource})")
+
+        # A MASK ROLE SATISFIED BY THE FILE THAT ALSO SERVES THE SLOT'S NORMAL IS NOT A MASK
+        #   (2026-09-27). RabbitFX's Lightmap is what this file calls the mask, and Chisa13 points
+        #   its Lightmap AND its Normalmap at one resource, on BOTH hair slots. The mask role then
+        #   resolves to a real file, the flat test never fires, and the target's shader reads SLOPE
+        #   data as material codes: what it bound measures as Chisa's own normal maps to a tenth of
+        #   a channel mean (d8ed7611 R 8.6 / G 52.8 / B 41.1 against e921181d 8.6 / 52.8 / 41.0)
+        #   where a real mask of hers is R = 255, G = 0, B = 126 flat. Chisa13 was the only mod of
+        #   50 in the corpus binding a hair mask at all; the other 17 emit none and are confirmed in
+        #   game. Narrow on purpose -- only a mask role, and only when the SAME component offers that
+        #   file for another role too, since a file legitimately plays every role its HASHES name.
+        for role in [r for r in self.resourceOfRole if (r in MaskRoles)]:
+            where = claimedFrom.get(role)
+            if (where is None) or (len(claimsOf.get(where, set())) < 2):
+                continue
+            others = ", ".join(sorted(claimsOf[where] - {role}))
+            toGame = role in LeftToGameRoles
+            self.resourceOfRole.pop(role, None)
+            self.fileOfRole.pop(role, None)
+            if (toGame):
+                self.leftToGame.add(role)
+            fate = "left to the game" if (toGame) else "the source's own is used instead"
+            print(f"    {role}: component {where[0]}'s {where[1]} is its {others} too, so it is"
+                  f" not a mask; {fate}")
+
         # A SHARED ATLAS IS ALSO ONE THE FILE'S OWN NAME DECLARES SHARED (2026-09-22). Two roles
         #   landing on one file is only the case where the fixer can SEE the sharing; WWMI writes the
         #   components a texture serves into its name, and a mod may give a six-component atlas to
@@ -1797,7 +2092,7 @@ class TextureRoles():
         self.downloads: Dict[str, str] = {}         # role -> the file
         self.downloadUrls: Dict[str, str] = {}      # role -> where the library fetches it from
         for role in plannedRoles:
-            if (role in self.sectionOfRole):
+            if (role in self.sectionOfRole) or (role in self.leftToGame):
                 continue
             if (role in unreferenced):
                 self.downloads[role] = unreferenced[role]
@@ -2280,8 +2575,17 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                 #   backwards across the atlas. Those vertices keep what they had -- 13 triangles of
                 #   281850 on this mod, and a vertex is left alone if ANY triangle it belongs to
                 #   straddles.
+                #   AND NOT U BELOW 0 (2026-09-27). The fold is for a deliberate TILE -- half
+                #   a part UV'd into [1, 2). A U just below zero is the opposite: the edge bleed an
+                #   authoring tool leaves around an island, a fringe a few hundredths wide that a
+                #   clamping sampler extends. Folding it sends those texels to the FAR side of the
+                #   atlas (-0.054 -> 0.945), and on Chisa13's black hair dye that drew a regular
+                #   checkerboard of blonde blocks -- 905 such vertices on the bangs, 2 in the rest
+                #   of the mesh, which is why one part of one mod showed it. The wrap-equivalence
+                #   measured above is per VERTEX and holds only while the pass wraps; this one does
+                #   not, and the mod's own UVs render the dye as one solid sweep.
                 u = halves.reshape(-1, 8)[:, 0].astype(np.float32)
-                needs = (u >= 1.0) | (u < 0.0)
+                needs = (u >= 1.0)
                 if (needs.any()):
                     keep = np.zeros(len(u), dtype = bool)          # vertices of a straddling triangle
                     ibLines = next((ls for nm, ls in files.sections.items()
@@ -2541,9 +2845,12 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             elif (role in SheenTranslations):
                 print(f"    {role}: {SourceName}'s packed sheen profiles as {TargetName}'s neutral foil")
                 graphEdits.append(FRB.ResRegCollect(lists, {role: texEdit((0, "", f"res{label}"), label, sheenFilter)}))
+            elif (role in NormalRepacks):
+                print(f"    {role}: the mod's own G kept, R/B/A repacked into {TargetName}'s layout")
+                graphEdits.append(FRB.ResRegCollect(lists, {role: texEdit((0, "", f"res{label}"), label, hairNormalFilter)}))
             elif (role in ColourGrades and role not in roles.borrowed):
-                graphEdits.append(FRB.ResRegCollect(lists, {role: texEdit((0, "", f"res{label}"), label, gradeFilter(ColourGrades[role], role))}))
-        for role in MaskTranslations | SheenTranslations:
+                graphEdits.append(FRB.ResRegCollect(lists, {role: texEdit((0, "", f"res{label}"), label, gradeFilter(ColourGrades[role], role, ColourGradeIslands.get(role)))}))
+        for role in MaskTranslations | SheenTranslations | NormalRepacks:
             if (role in roles.resourceOfRole and role not in roles.graphRoles and any(r == role for r, _ in clOfPair)):
                 print(f"    WARNING: {role} is declared only in a component's own section, so it is bound as-is (no graph to edit)")
         if (dropped):
@@ -2853,6 +3160,9 @@ def removeSplitFiles(folder: str) -> int:
 
 def runService(folder: str, args) -> None:
     """The whole run through RemapService: folder walk, undo of a previous fix, backups, resources, summary"""
+    # taken BEFORE the fix, so a reference the mod already shipped broken can be told from one the
+    #   fix leaves behind -- see the report at the end of this function
+    preExistingInis = modsOwnIniFiles(folder)
     removed = removeSplitFiles(folder)
     if (removed):
         print(f"  removed {removed} extra .ini file(s) of a previous split")
@@ -2889,6 +3199,26 @@ def runService(folder: str, args) -> None:
             print(f"  SKIPPED {os.path.relpath(path, folder)}: {error}")
 
     dangling = danglingReferences(stats.ini.fixed)
+
+    # WHOSE dangling reference is it? One the mod shipped is the author's and behaves the same
+    #   fixed or not -- Chisa13 points [ResourceTexture12] at `Components-4 t=21f813ba.dds` while
+    #   shipping `... 21f813ba off.dds`, the author's way of switching that texture off. One the FIX
+    #   left is a resource that raised, and the .ini is already written naming a file nothing
+    #   created. Reporting them the same way cost a session: the message said a resource had been
+    #   skipped when every skip counter read 0 (2026-09-26). The reading taken before the run is
+    #   what tells them apart -- not whether the section's name holds `Remap`, which is the
+    #   substring landmine that once had an undo deleting a mod's own files.
+    before = {(os.path.basename(p), ref) for p, ref in danglingReferences(preExistingInis)}
+    mine = [(p, ref) for p, ref in dangling if (os.path.basename(p), ref) not in before]
+    theirs = [(p, ref) for p, ref in dangling if (os.path.basename(p), ref) in before]
+
+    if (theirs):
+        print(f"\n{len(theirs)} reference(s) the MOD ships broken (unchanged by the fix, and not "
+              + "ours to repair):")
+        for iniPath, reference in theirs:
+            print(f"  {os.path.relpath(iniPath, folder)} -> {reference}")
+
+    dangling = mine
     if (dangling):
         # A SKIPPED RESOURCE IS A DANGLING REFERENCE, AND THE .INI IS ALREADY WRITTEN. The service
         #   catches a resource that raises, records it under `skipped`, and moves on -- but the
@@ -2900,11 +3230,22 @@ def runService(folder: str, args) -> None:
         print(f"\n!! {len(dangling)} REFERENCE(S) IN THE FIXED .ini NAME A FILE THAT IS NOT THERE -- the mod will not render !!")
         for iniPath, reference in dangling:
             print(f"  {os.path.relpath(iniPath, folder)} -> {reference}")
-        print("  a resource above was skipped; fix that, or undo, before looking in game")
+        print("  a resource above was skipped and the .ini names the file it was going to write; "
+              + "fix that, or undo, before looking in game")
+
+
+def modsOwnIniFiles(folder: str) -> List[str]:
+    """Every .ini under 'folder' the fix might touch, for a reading taken BEFORE it runs"""
+    out: List[str] = []
+    for dirPath, _dirs, files in os.walk(folder):
+        for name in files:
+            if (name.lower().endswith(".ini") and not name.lower().startswith("disabled")):
+                out.append(os.path.join(dirPath, name))
+    return out
 
 
 def danglingReferences(iniPaths) -> List[Tuple[str, str]]:
-    """Every `filename = ...` of a fixed .ini whose file is not on disk (check_dangling.py's rule,
+    """Every `filename = ...` of an .ini whose file is not on disk (check_dangling.py's rule,
     run by the fix itself rather than remembered afterwards)"""
     out: List[Tuple[str, str]] = []
     for iniPath in sorted(iniPaths):
@@ -2941,8 +3282,10 @@ def main():
     #   unaffected, so there is no cost to having it on. Pass "none" to turn it off.
     parser.add_argument("--standIn", default = None,
                         help = "component:bone:standIn[,...] -- replace SlotBoneStandIns for this run (diagnostic)")
-    parser.add_argument("--anchor", choices = sorted(AnchorChains) + ["all", "none"], default = "props",
-                        help = "pin a chain the skin has no counterpart for to one bone (default: props)")
+    parser.add_argument("--anchor", default = "props,skirt",
+                        help = "comma-separated chains the skin has no counterpart for, pinned to one "
+                               f"bone each: {', '.join(sorted(AnchorChains))}, or 'all' / 'none' "
+                               "(default: %(default)s -- the chains confirmed in game)")
     # `hide` WAS THE DEFAULT AND IT BROKE THE MOD ON ITS OWN CHARACTER (2026-09-20). It comments
     #   sections out of the mod's OWN text, so whatever it does it does to the source's draws as
     #   well as the remap's -- and a real mod's shape-key pipeline is not decoration: on a 114213

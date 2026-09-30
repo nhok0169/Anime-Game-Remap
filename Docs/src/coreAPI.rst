@@ -579,6 +579,17 @@ BaseResEdit
 
 :raw-html:`<br />`
 
+GraphCreate
+-----------
+
+.. cppattributetable:: AGRemapCore::GraphCreate
+
+.. doxygenclass:: AGRemapCore::GraphCreate
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 GraphGroupEdit
 --------------
 

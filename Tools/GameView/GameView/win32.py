@@ -302,11 +302,30 @@ def _keyInput(vk, scan, flags):
     return item
 
 
+# THE KEYS WHOSE SCAN CODE MEANS SOMETHING ELSE WITHOUT THE EXTENDED FLAG. `MapVirtualKeyW(vk,
+# MAPVK_VK_TO_VSC_EX)` is documented to report extendedness in the high byte and on this machine it
+# simply does not: VK_LEFT comes back as 0x004B rather than 0xE04B, and bare scan 0x4B is NUMPAD 4.
+# So every arrow this tool sent arrived at the game as a numpad key -- silently, since the numpad is
+# a perfectly valid thing to press. A mod whose toggles are `no_modifiers VK_LEFT` and
+# `ctrl VK_LEFT` (which is most of them; one Chisa mod binds all four arrows) could not be driven at
+# all, while `f7`, `ctrl+f7`, `esc` and `numpad4` all worked -- which reads like a broken MODIFIER
+# and is nothing of the kind (2026-09-27). Forced from a table rather than asked of the OS.
+EXTENDED_VKS = frozenset((
+    0x21, 0x22, 0x23, 0x24,             # PageUp, PageDown, End, Home
+    0x25, 0x26, 0x27, 0x28,             # Left, Up, Right, Down -- the four that were reaching nothing
+    0x2C, 0x2D, 0x2E,                   # PrintScreen, Insert, Delete
+    0x5B, 0x5C, 0x5D,                   # LWin, RWin, Apps
+    0x6F,                               # numpad Divide
+    0x90,                               # NumLock
+    0xA3, 0xA5,                         # RControl, RAlt
+))
+
+
 def sendKeyScan(vk, down):
     """By SCAN CODE, which is what a game's raw input reads (Unity / Unreal ignore a bare VK)."""
     scan = user32.MapVirtualKeyW(vk, 4)  # MAPVK_VK_TO_VSC_EX: 0xE0xx for an extended key
     flags = KEYEVENTF_SCANCODE
-    if (scan >> 8) in (0xE0, 0xE1):
+    if (scan >> 8) in (0xE0, 0xE1) or vk in EXTENDED_VKS:
         flags |= KEYEVENTF_EXTENDEDKEY
     if not down:
         flags |= KEYEVENTF_KEYUP

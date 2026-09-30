@@ -11,6 +11,12 @@
 #
 # Needs: the Linux core module built and copied into the package (Tools/Misc/Linux/linuxBuild.sh), the
 # venv at AG_REMAP_WSL_VENV (default ~/agremap-venv), and directory-tree installed OUTSIDE that venv:
+#
+# ...AND THE FOUR CYTHON MODULES, which are a separate build and are NOT tracked. A fresh worktree
+# has only the Windows `.pyd`s of those, so the run dies at import with
+# `ModuleNotFoundError: No module named 'FixRaidenBoss2.CyDictTools'` -- two seconds in, long before
+# any test. They are plain build artifacts, so copying `Cy*.cpython-*.so` from a checkout that has
+# them is enough, provided `api/src/cython` is identical between the two (diff it).
 #   python -m pip install --target ~/itlib directory-tree==0.0.4
 # A full run takes ~10-13 minutes with the checkout on /mnt/e. A one-off OSError "[Errno 22] Invalid
 # argument" or a "Bus error" there has been /mnt/e I/O, not the code: re-run the affected tests once
@@ -23,9 +29,26 @@ source "${AG_REMAP_WSL_VENV:-$HOME/agremap-venv}/bin/activate"
 export PYTHONPATH="${ITLIB:-$HOME/itlib}"
 cd "$REPO/Testing/Integration Tester" || exit 1
 echo "== core: $(ls -la --time-style=long-iso "$REPO/Anime Game Remap (for all users)/api/src/py/FixRaidenBoss2/"core.cpython-*.so)"
+
+# integrationTestResults.txt is CHECKED INTO THE REPO, so a run that dies before writing it leaves
+# the grep below reporting the PREVIOUS run's numbers as though they were this one's. On 2026-09-28
+# that reported "Ran 24 tests ... FAILED (failures=21)" for a run that had exited in two seconds on
+# a ModuleNotFoundError -- a three-day-old file from a WINDOWS run, and only its Windows paths in
+# the tracebacks gave it away. So stamp it first and refuse to quote it if it did not move.
+BEFORE=$(stat -c %Y integrationTestResults.txt 2>/dev/null || echo 0)
+
 start=$(date +%s)
 python main.py "$@" > /tmp/itest_stdout.txt 2>&1
 code=$?
 echo "EXIT=$code  SECONDS=$(( $(date +%s) - start ))"
+
+AFTER=$(stat -c %Y integrationTestResults.txt 2>/dev/null || echo 0)
+if [ "$AFTER" = "$BEFORE" ]; then
+    echo "NOTHING WAS WRITTEN -- integrationTestResults.txt did not change, so anything in it is an"
+    echo "earlier run's. What THIS run actually said:"
+    tail -40 /tmp/itest_stdout.txt
+    exit "${code:-1}"
+fi
+
 grep -E "^Ran|^OK|^FAILED|^(ERROR|FAIL): " integrationTestResults.txt
 exit $code

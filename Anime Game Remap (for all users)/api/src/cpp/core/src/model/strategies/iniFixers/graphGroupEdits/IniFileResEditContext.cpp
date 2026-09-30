@@ -51,7 +51,7 @@ namespace AGRemapCore {
 
         // Derived rather than stored, the same way IniFileRemoveContext does it -- an
         // AGRemapCore::IniFile keeps only its path, with no FilePath object to ask for a folder.
-        return FileService::pathToStr(FileService::strToPath(*iniFile_->getFile()).parent_path());
+        return FileService::parentOf(*iniFile_->getFile());
     }
 
 

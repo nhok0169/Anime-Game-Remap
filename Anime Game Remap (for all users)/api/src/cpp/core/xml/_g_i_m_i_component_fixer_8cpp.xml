@@ -90,9 +90,6 @@
       <node id="197">
         <label>BufEdit.tpp</label>
       </node>
-      <node id="69">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="133">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
@@ -143,6 +140,8 @@
         <label>AGRemapCore/constants/IniKeywords.h</label>
         <link refid="_ini_keywords_8h"/>
         <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
         </childnode>
       </node>
       <node id="175">
@@ -563,6 +562,8 @@
         <label>AGRemapCore/model/buffers/BufElementType.h</label>
         <link refid="_buf_element_type_8h"/>
         <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
@@ -2110,6 +2111,8 @@
       <node id="213">
         <label>AGRemapCore/tools/files/FileService.h</label>
         <link refid="_file_service_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
         <childnode refid="121" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
@@ -2460,6 +2463,9 @@
         </childnode>
         <childnode refid="213" relation="include">
         </childnode>
+      </node>
+      <node id="69">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="168">
         <label>GIMIFixer.tpp</label>

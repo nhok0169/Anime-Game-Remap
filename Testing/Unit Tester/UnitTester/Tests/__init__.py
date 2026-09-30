@@ -62,6 +62,7 @@ from .test_ResCollects import ResCollectsTest
 from .test_GraphInherit import GraphInheritTest
 from .test_GraphRemove import GraphRemoveTest
 from .test_GraphGroupRemove import GraphGroupRemoveTest
+from .test_GraphCreate import GraphCreateTest
 from .test_GraphRename import GraphRenameTest
 from .test_RegFillMissing import RegFillMissingTest
 from .test_IfContentPart import IfContentPartTest

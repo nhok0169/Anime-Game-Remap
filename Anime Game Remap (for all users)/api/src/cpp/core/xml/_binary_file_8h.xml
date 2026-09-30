@@ -11,6 +11,7 @@
     <includedby refid="_position_file_8h" local="yes">include/AGRemapCore/model/files/PositionFile.h</includedby>
     <includedby refid="_vb_file_8h" local="yes">include/AGRemapCore/model/files/VbFile.h</includedby>
     <includedby refid="_g_i_m_i_component_fixer_8cpp" local="yes">src/data/IniFixData/GIMIComponentFixer.cpp</includedby>
+    <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
     <includedby refid="_binary_file_8cpp" local="yes">src/model/files/BinaryFile.cpp</includedby>
     <includedby refid="_v_g_merge_group_resource_8cpp" local="yes">src/model/iniresources/VGMergeGroupResource.cpp</includedby>
     <includedby refid="_v_g_split_group_resource_8cpp" local="yes">src/model/iniresources/VGSplitGroupResource.cpp</includedby>
@@ -160,6 +161,8 @@
         <childnode refid="66" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
         </childnode>
         <childnode refid="75" relation="include">
         </childnode>

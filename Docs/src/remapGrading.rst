@@ -264,8 +264,8 @@ Grading
      - | The inverse: the skin's main mesh, ``Bang`` and ``Eye`` merged onto one mesh -- the bangs and the eyes
        | onto Lumine's ``head``, the rest of the main mesh onto her ``body``; her own ``dress`` is hidden.
        |
-       | - The skin's sleeves, neck scarf and bow are drawn as Lumine's body, not her head, although they share the
-       | head's textures: her head shades as hair, which turned the white cloth yellow in shade.
+       | - The skin's head mesh is split in two by what each part is: its hair is drawn as Lumine's hair, and its
+       | sleeves, neck scarf and bow as her clothes, so neither takes the other's shading in shade.
        |
        | - Lumine's own face is drawn, for the same reason as the other way round: a mod repainting the skin's
        | face keeps Lumine's face on her.

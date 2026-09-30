@@ -45,6 +45,15 @@ namespace AGRemapCore {
             main.modTypeName = ModTypeIdTools::getName(ModTypeId::LumineHeavenMain);
             main.slots = {{"Head", "0", "body", true, "", 57141, true},
                           {"Body", "57141", "body", true, "", 47298, true}};
+
+            // ...and the HAIR of that slot onto her HEAD (2026-09-30). On her body draw the cloth shades as cloth, but
+            // the back hair shaded as cloth too: grey in shade beside the blonde bangs on her head (LumineHeaven1, in
+            // the overworld). So the Head slot is split by the band under each triangle: 126-128 is the skin's hair
+            // (4478 of the skin's own 19047 head triangles), taken with a margin. See Slot::splitFrom.
+            GIMIMergeFixerConfig::Slot hair{"Head#hair", "0", "head", true, "", 0, true};
+            hair.splitFrom = "Head";
+            hair.splitBands = {{100, 150}};
+            main.slots.push_back(std::move(hair));
             main.vertexCount = 31179;
 
             GIMIMergeFixerConfig::Component bang{};

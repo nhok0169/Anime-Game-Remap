@@ -189,6 +189,15 @@ target object it is drawn by the target's outline shader instead, which can cove
 ``False`` puts the member's block under ``if vs != 037730.0`` --- the ``filter_index`` ORFix gives every
 outline vertex shader. Honoured for a merged member drawn by an appended block
         )doc"))
+        .def_readwrite("splitFrom", &AGRC::GIMIMergeFixerConfig::Slot::splitFrom, py::doc(R"doc(
+:class:`str`: Another slot of the SAME component whose triangles this slot takes a part of --- those whose light map
+band under the centroid is in :attr:`splitBands` --- drawn onto :attr:`to`; the rest stay. For a skin slot holding
+two kinds of surface the target shades in different draws (LumineHeaven's head: back hair and cloth). Empty by default
+        )doc"))
+        .def_readwrite("splitBands", &AGRC::GIMIMergeFixerConfig::Slot::splitBands, py::doc(R"doc(
+List[Tuple[:class:`int`, :class:`int`]]: For a :attr:`splitFrom` slot, the light map alpha ranges (inclusive) that
+select its triangles. Empty by default
+        )doc"))
         .def_readwrite("indexCount", &AGRC::GIMIMergeFixerConfig::Slot::indexCount, py::doc(R"doc(
 :class:`int`: The GAME model's index count for this slot, used only when the mod does not have the
 slot's ``ib`` on disk

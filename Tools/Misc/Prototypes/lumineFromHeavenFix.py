@@ -131,7 +131,16 @@ def alphaSet(value: int):
     return edit
 
 
-def fixerConfig(headAlpha = None, headHairBand = None) -> "FRB.GIMIMergeFixerConfig":
+# The skin's main Head slot holds her back hair (bands 126-128) AND her sleeves, neck scarf and bow (band 0 and the rest),
+# all on the Head textures. On Lumine's head draw everything shades as hair -- the cloth went yellow in shade -- and on
+# her body draw everything shades as cloth -- the back hair went grey in shade beside blonde bangs (LumineHeaven1, in
+# the overworld, 2026-09-30). So the slot is SPLIT by band: the hair onto her head, the rest onto her body. Over the
+# skin's own head slot 4478 of 19047 triangles are hair, and 138 have corners that disagree.
+# (name, split from, bands, to)
+SplitSlots = [("Head#hair", "Head", [(100, 150)], "head")]
+
+
+def fixerConfig(headAlpha = None, headHairBand = None, splitHair = True) -> "FRB.GIMIMergeFixerConfig":
     config = FRB.GIMIMergeFixerConfig()
 
     components = []
@@ -154,6 +163,17 @@ def fixerConfig(headAlpha = None, headHairBand = None) -> "FRB.GIMIMergeFixerCon
             slot.indexCount = indexCount
             slot.outline = True
             slots.append(slot)
+        if (name == "" and splitHair):
+            for splitName, splitFrom, bands, to in SplitSlots:
+                slot = FRB.GIMIMergeFixerConfig.Slot()
+                slot.name = splitName
+                slot.index = next(s[2] for s in Slots if s[0] == name and s[1] == splitFrom)
+                slot.to = to
+                slot.normalMap = True
+                slot.splitFrom = splitFrom
+                slot.splitBands = bands
+                slot.outline = True
+                slots.append(slot)
         component.slots = slots
         components.append(component)
 
@@ -195,6 +215,7 @@ def main():
     parser.add_argument("--headHairBand", type = int, default = None, help = "an A/B: move the head light map's 126-128 onto this band")
     parser.add_argument("--headTo", default = "body", help = "the object the main Head slot lands on (default `body`; `head` for the A/B)")
     parser.add_argument("--bangTo", default = "head", help = "the object the Bang slot lands on (default `head`; `body` for the A/B)")
+    parser.add_argument("--noSplitHair", action = "store_true", help = "an A/B: keep the main Head slot whole (on --headTo) rather than its hair on her head")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--download", default = None,
@@ -205,7 +226,7 @@ def main():
 
     FRB.CppStrategyOverrides.clear()
     FRB.CppStrategyOverrides.setParser(SrcName, FRB.makeGIMIComponentParser(parserConfig()))
-    FRB.CppStrategyOverrides.setFixer(SrcName, DstName, FRB.makeGIMIMergeFixer(fixerConfig(args.headAlpha, args.headHairBand)))
+    FRB.CppStrategyOverrides.setFixer(SrcName, DstName, FRB.makeGIMIMergeFixer(fixerConfig(args.headAlpha, args.headHairBand, not args.noSplitHair)))
 
     folder = os.path.abspath(args.mod)
     if (not os.path.isdir(folder)):

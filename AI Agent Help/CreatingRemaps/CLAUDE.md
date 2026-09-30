@@ -2043,7 +2043,7 @@ redrawn since (`d298f0bc`, filed at 6.3). Prototypes: `Tools/Misc/Prototypes/lum
 9. **Every re-run of a fix renames its generated files** (new `_B` / `_C` suffixes) while removing the old ones, for this
    pair and for Yaoyao alike: the file COUNT and the generated CONTENTS are what the run-twice rule checks, not the names.
    And an undo returns the author's `.ini` with one trailing newline added -- compare modulo trailing whitespace.
-10. **A skin slot whose atlas holds CLOTH and HAIR belongs on TWO target draws** (2026-09-30, open). The skin's main
+10. **A skin slot whose atlas holds CLOTH and HAIR belongs on TWO target draws** (2026-09-30, fixed the same day). The skin's main
    `Head` slot carries the sleeves, neck scarf and bow (light map band 0) beside the back hair (bands 126-128), all on the
    Head textures. On Lumine's HEAD draw everything shades as hair: in the overworld's shade the white cloth took her
    hair's warm shadow. Moved to her BODY draw (a member binds its own textures, so the Head set goes with it), the cloth
@@ -2051,11 +2051,19 @@ redrawn since (`d298f0bc`, filed at 6.3). Prototypes: `Tools/Misc/Prototypes/lum
    the maintainer's second check). Measured in one shaded spot: no band of her head shader shades the cloth neutral
    (0 / 77 / 128 / 178 / 255 all cream), and the bangs moved to her body go grey too. So the slot has to be split per
    triangle -- hair to her head, cloth to her body -- by the band under each triangle: over the skin's own head slot
-   4478 of 19047 triangles are hair and only 138 have corners that disagree. The merge keys a member by `(component,
-   slot)` everywhere, a represented member's own draw ranges address the unsplit buffer, and the counts the `.ini` is
-   written with have to match the buffers, so it is a template change (`Slot` routes by band). Currently the whole slot
-   is on her body. The Dressing Room's soft light shows none of this; the overworld's shade does, and `look DX DY` is how
-   to turn the camera there.
+   4478 of 19047 triangles are hair and only 138 have corners that disagree. **`GIMIMergeFixerConfig::Slot::splitFrom`
+   / `splitBands`** (new): a config slot (`Head#hair`) takes the triangles of another slot of its component whose
+   centroid's light map band is in the ranges, onto its own `to`. It is done where the fixer READS the mod: both halves
+   are written as filtered 32-bit index buffers per branch into a scratch folder, so every count the `.ini` carries is
+   measured off the buffer the merge will read, and a split slot then behaves like a downloaded member (an appended draw
+   with its own bindings; never carried, since its section's draw ranges address the unsplit buffer; never an object's
+   representative -- the first non-split member is rotated to the front). That design avoided threading a virtual member
+   through a dozen `(component, slot)` lookups. Byte-identical on every other merge-template character; the split lands
+   exactly 4478 of 19047; run twice and undo clean on the skin's mods and four synthetic ones (a merged master in both
+   variants, 16-bit, no Eye, recolour); in the overworld's shade the hair is one blonde and the cloth white. The
+   Dressing Room's soft light shows none of this; the overworld's shade does, and `look DX DY` is how to turn the camera
+   there. **Pressing a mod's toggle key in the overworld also presses the GAME's key**: `j` opened the quest journal
+   (one Esc closes it, and the toggle still registered).
 11. **Dark cloth goes onto the skin's DARK-cloth band, or its shadow turns red** (2026-09-30). Lumine1's black jacket sits
    on her bands 44 and 170; the skin's body legend is 0 white cloth, 78 dark cloth, 177 gold, 255 skin, and the band-0
    ramp's shadow is warm -- made for white cloth. Every patch of the jacket in shadow came out as a small RED square (the

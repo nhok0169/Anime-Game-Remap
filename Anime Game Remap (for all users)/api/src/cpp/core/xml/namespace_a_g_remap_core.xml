@@ -1952,7 +1952,7 @@ for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="3055" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="3055" bodyend="3059" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="459" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="3242" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="3242" bodyend="3246" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="493" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1af12ae26e99e06da23b5ca21f45b3b3eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>

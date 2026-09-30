@@ -8301,6 +8301,25 @@ class GIMIMergeFixerConfig:
         def outline(self, arg0: bool) -> None:
             ...
         @property
+        def splitBands(self) -> list[tuple[int, int]]:
+            """
+            List[Tuple[:class:`int`, :class:`int`]]: For a :attr:`splitFrom` slot, the light map alpha ranges (inclusive) that
+            select its triangles. Empty by default
+            """
+        @splitBands.setter
+        def splitBands(self, arg0: collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]]) -> None:
+            ...
+        @property
+        def splitFrom(self) -> str:
+            """
+            :class:`str`: Another slot of the SAME component whose triangles this slot takes a part of --- those whose light map
+            band under the centroid is in :attr:`splitBands` --- drawn onto :attr:`to`; the rest stay. For a skin slot holding
+            two kinds of surface the target shades in different draws (LumineHeaven's head: back hair and cloth). Empty by default
+            """
+        @splitFrom.setter
+        def splitFrom(self, arg0: str) -> None:
+            ...
+        @property
         def to(self) -> str:
             """
             :class:`str`: The TARGET object this slot lands on, lowercase --- eg. ``body``, ``head``

@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/LumineHeaven/LumineHeavenFixer.h" line="42" column="43" bodyfile="src/data/IniFixData/LumineHeaven/LumineHeavenFixer.cpp" bodystart="107" bodyend="109"/>
+        <location file="include/AGRemapCore/data/IniFixData/LumineHeaven/LumineHeavenFixer.h" line="42" column="43" bodyfile="src/data/IniFixData/LumineHeaven/LumineHeavenFixer.cpp" bodystart="116" bodyend="118"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

@@ -14,7 +14,9 @@
 
 #include <array>
 #include <functional>
+#include <cstdint>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
@@ -133,6 +135,38 @@ namespace AGRemapCore {
              @endrst
              */
             bool outline = true;
+
+            /**
+             * @brief
+             @rst
+             Another slot of the SAME component whose triangles this slot takes a part of -- empty for an
+             ordinary slot :raw-html:`<br />` :raw-html:`<br />`
+
+             A skin slot may hold two kinds of surface the target shades in different draws: LumineHeaven's
+             main ``Head`` is the back hair AND the sleeves, neck scarf and bow, all on the Head textures. On
+             Lumine's head draw the cloth shaded as hair (yellow in shade); on her body draw the hair shaded as
+             cloth (grey in shade, beside blonde bangs), in game, 2026-09-30. A split slot lists the slot it
+             comes from, the target object its part goes to (:cpp:member:`to`) and :cpp:member:`splitBands`:
+             every triangle of that slot whose light map band under its centroid falls in one of the ranges
+             moves here, and the rest stay :raw-html:`<br />` :raw-html:`<br />`
+
+             Both halves are written to filtered index buffers of their own when the fixer reads the mod, so
+             every count the ``.ini`` carries is measured off the buffer the merge will read. Neither half is
+             carried (its own draw ranges address the unsplit buffer) or represents an object; both are drawn
+             by appended draws with their own bindings, like a downloaded member. A source slot the mod does not
+             have, or whose light map cannot be read, is not split. **Default**: empty
+             @endrst
+             */
+            std::string splitFrom;
+
+            /**
+             * @brief
+             @rst
+             For a :cpp:member:`splitFrom` slot: the light map alpha ranges, inclusive, that select the triangles
+             it takes. **Default**: empty
+             @endrst
+             */
+            std::vector<std::pair<std::uint8_t, std::uint8_t>> splitBands;
         };
 
         /**

@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="145" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="145" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="179" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="179" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1afc2c8fce2888e997c0bfb7290265e630" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -44,7 +44,7 @@ has no buffer hashes, and every buffer of the main mesh fell back to a download
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="162" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="162" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="196" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="196" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1ac7a5209932913b4fe21846d38c9bbdbf" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot" kindref="compound">Slot</ref> &gt;</type>
@@ -59,7 +59,7 @@ has no buffer hashes, and every buffer of the main mesh fell back to a download
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="167" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="167" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="201" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="201" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1aecebc1423a6c0dfa0a66f841803542b6" prot="public" static="no" mutable="no">
         <type>long long</type>
@@ -97,7 +97,7 @@ component that is missing AND has no download to fall back on
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="195" column="23" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="195" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="229" column="23" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="229" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a56070ffb0264e75fa368fd1b79c96597" prot="public" static="no" mutable="no">
         <type>std::array&lt; float, 3 &gt;</type>
@@ -122,7 +122,7 @@ the skin&apos;s eyes 1.24 cm low in his face -- NeuvilletteMelusent1&apos;s &quo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="210" column="24" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="210" bodyend="210"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="244" column="24" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="244" bodyend="244"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a26753f8b7bf4495c8f379e6bbbbce143" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -143,7 +143,7 @@ sit where its own face has them. The forward direction&apos;s rule, see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="221" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="221" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="255" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="255" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -151,7 +151,7 @@ sit where its own face has them. The forward direction&apos;s rule, see
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="141" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="141" bodyend="222"/>
+    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="175" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="175" bodyend="256"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1afc2c8fce2888e997c0bfb7290265e630" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>modTypeName</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a068618ed142582f5aa27ad806b04ee3d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>name</name></member>

@@ -4676,6 +4676,8 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a7fa587445c3646f13eec5b2d9eb79ac9" kind="variable"><name>borrowFrom</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1aff40506e757fd6a412f9f9058d830f34" kind="variable"><name>indexCount</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a37c93722756242363e4939cf61deffe1" kind="variable"><name>outline</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1afebc9b032e9da726363f5ee33d7fa432" kind="variable"><name>splitFrom</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a1bd559df662932cd9c376973bfddfe6b" kind="variable"><name>splitBands</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component" kind="struct"><name>AGRemapCore::WWMIFixerConfig::SourceComponent</name>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1a367138aa205bf3cc3ad100c8610b6263" kind="variable"><name>slot</name></member>

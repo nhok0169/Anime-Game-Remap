@@ -130,7 +130,9 @@ skin mod written in the game's register order got a doubled role from a per-regi
 two more, both general:** a mirrored inner layer pokes through a coat that models its own lining (grey polygons;
 `Component::mirrorBackedReach` gives a triangle with a layer facing the other way right behind it no twin), and a skin
 slot holding cloth beside hair went to her head draw, which shades everything as hair (white sleeves yellow in shade;
-the slot goes to her body now). See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s
+the slot is SPLIT per triangle by light map band now, hair to her head and cloth to her body:
+`GIMIMergeFixerConfig::Slot::splitFrom`), and dark cloth on the skin's white-cloth band shades red in shadow (moved onto
+its dark-cloth band 78 by a diffuse-gated `lightMapEdit`). See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s
 "LUMINE <-> LUMINEHEAVEN".
 
 **NEUVILLETTE <-> NEUVILLETTEMELUSENT IS COMPILED BOTH WAYS (2026-09-25), AND THE SKIN HAS ONE REAL MOD --

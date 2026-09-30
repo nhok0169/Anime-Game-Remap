@@ -4,6 +4,48 @@ What this project is, how the repo is laid out, and the operating norms that don
 under Building/Testing/Documentation/Architecture. Read this one first if you're new to the repo;
 it's the map the other [AI Agent Help](../README.md) files assume you have.
 
+## `return false` IS THE PATH THAT LOSES THE REASON (2026-09-29)
+
+`RemapService::_fixResource` returning **false** is a bare `continue`: the resource is counted as
+neither fixed nor skipped, and nothing is printed. A **thrown** exception is recorded against the
+resource and its message appears in the summary's per-file list -- which is exactly where
+*"skipped due to warnings (see log above)"* sends the user.
+
+So a `return false` in a fixer is a file the fix decided it could not write, with no line anywhere
+saying so and no entry in the accounting. `WWMIFixer` had **37** of them and **six**
+`catch (const std::exception&) { return; }` discarding what `BufFile` had already said about the file
+it could not read.
+
+Measured by truncating a mod's `Blend.buf` by three bytes:
+
+```
+before:  (no line anywhere)      Out of the 1 Blend.buf files ... fixed 0 ... and skipped 0
+after:   cannot fix Blend.buf: its Blend.buf does not divide evenly by its vertex count
+                                 Out of the 1 Blend.buf files ... fixed 0 ... and skipped 1
+```
+
+**Throw, with the reason.** Not because throwing is tidier, but because it is the contract the
+service is built around -- and because the numbers in the summary are wrong otherwise, which is the
+"a counter that can only ever be zero" family from the other direction: here a counter that stays
+zero *while a file failed*.
+
+Three things this pass is worth remembering for:
+
+- **Separate "nothing to do" from "gave up".** The texcoord clean had eleven silent exits and both
+  kinds were the same `return;`. The feature being off, or no UV needing a fold, is not a failure and
+  a line per mod would be noise. Not finding the resource it needs is.
+- **A fallback default is a guess, and a guess needs the same scrutiny as a failure.** A declared
+  `stride` that failed to parse fell back to 16, which mis-reads every vertex of a buffer that is not
+  16 -- the mod stated a number and the fix ignored it. Giving up beats guessing; the default is for
+  when the mod declares NOTHING, which is a different question.
+- **Read the consequence, not the comment.** One guard said *"Refused rather than truncated"* and
+  then cleared the flag that selects the wide path, routing to an 8-bit lift -- i.e. it truncated,
+  sending every bone past 255 to bone 0. The refusal that really refuses sits in a function that
+  guard makes unreachable.
+
+The cheap grep: `grep -c "return false;"` in a fixer, then check how many have a `note(`/`log(` within
+a few lines above. Zero of 37 did.
+
 ## A SAFETY NET OUTLIVES THE BUG IT CAUGHT, AND ONLY A COUNT SAYS SO (2026-09-29)
 
 `WWMIFixer::verified()` re-read the fix's own rendered text and repaired three things a graph edit

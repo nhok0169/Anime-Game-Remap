@@ -84,6 +84,7 @@
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
 #include "AGRemapCore/tools/NumTools.h"
+#include "AGRemapCore/tools/ListTools.h"
 #include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/tools/TextTools.h"
 #include "AGRemapCore/tools/files/FileService.h"
@@ -226,11 +227,48 @@ namespace AGRemapCore {
         // (VbFile). WWMI Tools' own `.fmt` calls the 8-wide element `R8_UINT`, so that is what an
         // 8-influence line is called here; four keeps the name it has always had, so the shipped
         // characters' output cannot move.
+        // A Position.buf is three floats a vertex, and dividing by that is how every lift below
+        // learns the vertex count the rest of its work is built on. It was the bare digits at seven
+        // sites across four functions until 2026-09-29.
+        constexpr std::uintmax_t WWMIPositionStride = 12;
+
+        // What a Texcoord.buf's bytes per vertex are taken to be when the resource declares
+        // none of its own.
+        constexpr std::size_t DefaultTexcoordStride = 16;
+
+        // The highest bone an 8-bit blend index can name, and the entries in one WWMI blend remap.
+        // Past the first, a character needs the remap; past the second, one remap cannot hold the
+        // row (see readMod and writeBlendRemap, which check the same fact).
+        constexpr long long WWMIMaxByteBone = 255;
+        constexpr std::size_t WWMIBlendRemapSize = 512;
+
         // The D3D semantic names every line of these buffers is keyed by. A filter that asks for
         // the wrong one finds nothing, leaves every vertex alone and reports success, so they are
         // written once.
         const std::string WWMIBlendIndicesKey = "BLENDINDICES";
         const std::string WWMIBlendWeightKey = "BLENDWEIGHT";
+
+        // A BLEND LIFT THAT GIVES UP HAS TO SAY WHY (2026-09-29).
+        //
+        // `RemapService::_fixResource` returning false is recorded as neither fixed nor skipped and
+        // logs nothing -- only a thrown exception carries a reason into the summary. So a bare
+        // `return false` here is a `.buf` the fix decided it could not write, with no line anywhere
+        // saying so, and the mod renders with a part missing.
+        //
+        // Every one of these is a shape check on the mod's own buffers, so the reason IS the
+        // diagnosis. Returns false exactly as before; this only adds the line.
+        bool bail(const RemapBlendResource& resource, const std::string& why) {
+            // THROWN, not returned. `RemapService::_fixResource` returning false is a bare
+            // `continue` -- the file is counted as neither fixed nor skipped and nothing is printed
+            // -- where a thrown exception is recorded against the resource and its message appears
+            // in the summary's per-file list, which is where "see log above" sends the user.
+            // Measured by truncating a mod's Blend.buf: `fixed 0 ... and skipped 0`, for a file the
+            // fix had just refused to write (2026-09-29).
+            throw std::runtime_error(
+                "cannot fix " + FileService::pathToStr(FileService::strToPath(resource.srcPath).filename())
+                + ": " + why);
+        }
+
 
         std::vector<std::unique_ptr<BufElementType>> wwmiBlendElements(std::size_t influences) {
             std::vector<std::unique_ptr<BufElementType>> elements;
@@ -280,7 +318,7 @@ namespace AGRemapCore {
                 const std::uintmax_t positionSize =
                     std::filesystem::file_size(FileService::strToPath(positionPath), err);
                 if (!err && positionSize >= 12) {
-                    vertices = static_cast<long long>(positionSize / 12);
+                    vertices = static_cast<long long>(positionSize / WWMIPositionStride);
                 }
             }
 
@@ -409,7 +447,7 @@ namespace AGRemapCore {
             const std::uintmax_t blendSize =
                 std::filesystem::file_size(FileService::strToPath(resource.srcPath), sizeErr);
             if (sizeErr || blendSize == 0) {
-                return false;
+                return bail(resource, "its Blend.buf is empty or unreadable");
             }
 
             // The layout is derived, not assumed -- hardcoding it is what made the legacy lift
@@ -417,18 +455,18 @@ namespace AGRemapCore {
             std::error_code err;
             const std::uintmax_t positionSize =
                 std::filesystem::file_size(FileService::strToPath(positionPath), err);
-            if (err || positionSize < 12) {
-                return false;
+            if (err || positionSize < WWMIPositionStride) {
+                return bail(resource, "its Position.buf is missing or too short to give a vertex count");
             }
 
-            const std::size_t vertices = static_cast<std::size_t>(positionSize / 12);
+            const std::size_t vertices = static_cast<std::size_t>(positionSize / WWMIPositionStride);
             if (vertices == 0 || blendSize % vertices != 0) {
-                return false;
+                return bail(resource, "its Blend.buf does not divide evenly by its vertex count");
             }
 
             const std::size_t stride = static_cast<std::size_t>(blendSize / vertices);   // N ids + N weights, a byte each
             if (stride < 2 || stride % 2 != 0) {
-                return false;
+                return bail(resource, "its Blend.buf's bytes per vertex are not an even number of influences");
             }
 
             const std::size_t influences = stride / 2;
@@ -454,16 +492,16 @@ namespace AGRemapCore {
             try {
                 BufFile vgFile{vertexVGPath, wwmiVertexVGElements(influences)};
                 if (!vgFile.isValid()) {
-                    return false;
+                    return bail(resource, "its BlendRemapVertexVG.buf could not be read");
                 }
 
                 vgFile.fix(std::nullopt, {collect});
-            } catch (const std::exception&) {
-                return false;
+            } catch (const std::exception& exception) {
+                return bail(resource, std::string("its BlendRemapVertexVG.buf could not be read: ") + exception.what());
             }
 
             if (trueIds.size() != vertices) {
-                return false;
+                return bail(resource, "its BlendRemapVertexVG.buf holds a different number of vertices than its Position.buf");
             }
 
             const std::unordered_map<long long, long long>& row = resource.vgRemap.getRemap();
@@ -501,12 +539,12 @@ namespace AGRemapCore {
             try {
                 BufFile blend{resource.srcPath, wwmiBlendElements(influences)};
                 if (!blend.isValid()) {
-                    return false;
+                    return bail(resource, "its Blend.buf could not be read");
                 }
 
                 blend.fix(resource.fixedPath, {remap});
-            } catch (const std::exception&) {
-                return false;
+            } catch (const std::exception& exception) {
+                return bail(resource, std::string("its Blend.buf could not be read: ") + exception.what());
             }
 
             return true;
@@ -549,7 +587,6 @@ namespace AGRemapCore {
 
         bool writeBlendRemap(RemapBlendResource& resource, const std::string& srcVertexVGPath,
                              const std::string& positionPath, const BlendRemapOut& out) {
-            constexpr std::size_t RemapSize = 512;          // entries per remap, WWMI's own size
 
             // The layout is derived, never assumed -- hardcoding it is what made the legacy lift
             // silently do nothing on these same mods, and what read an 8-influence line as two. The
@@ -560,18 +597,18 @@ namespace AGRemapCore {
                 std::filesystem::file_size(FileService::strToPath(positionPath), err);
             const std::uintmax_t blendSize =
                 std::filesystem::file_size(FileService::strToPath(resource.srcPath), err);
-            if (err || positionSize < 12 || blendSize == 0) {
-                return false;
+            if (err || positionSize < WWMIPositionStride || blendSize == 0) {
+                return bail(resource, "its Position.buf or Blend.buf is missing, empty or too short");
             }
 
-            const std::size_t vertices = static_cast<std::size_t>(positionSize / 12);
+            const std::size_t vertices = static_cast<std::size_t>(positionSize / WWMIPositionStride);
             if (vertices == 0 || blendSize % vertices != 0) {
-                return false;
+                return bail(resource, "its Blend.buf does not divide evenly by its vertex count");
             }
 
             const std::size_t stride = static_cast<std::size_t>(blendSize / vertices);   // N ids + N weights, a byte each
             if (stride < 2 || stride % 2 != 0) {
-                return false;
+                return bail(resource, "its Blend.buf's bytes per vertex are not an even number of influences");
             }
 
             const std::size_t influences = stride / 2;
@@ -614,16 +651,16 @@ namespace AGRemapCore {
             try {
                 BufFile blendFile{resource.srcPath, wwmiBlendElements(influences)};
                 if (!blendFile.isValid()) {
-                    return false;
+                    return bail(resource, "its Blend.buf could not be read");
                 }
 
                 blendFile.fix(std::nullopt, {readBlend});
-            } catch (const std::exception&) {
-                return false;
+            } catch (const std::exception& exception) {
+                return bail(resource, std::string("its Blend.buf could not be read: ") + exception.what());
             }
 
             if (ids.size() != vertices) {
-                return false;
+                return bail(resource, "its Blend.buf holds a different number of vertices than its Position.buf");
             }
 
             // The TRUE ids: the mod's own 16-bit ones when it carries a blend remap of its own,
@@ -681,7 +718,7 @@ namespace AGRemapCore {
 
                     const auto target = row.find(static_cast<long long>(trueIds[at]));
                     if (target != row.end() && target->second >= 0
-                            && static_cast<std::size_t>(target->second) < RemapSize) {
+                            && static_cast<std::size_t>(target->second) < WWMIBlendRemapSize) {
                         mapped[at] = static_cast<std::uint16_t>(target->second);
                     }
                 }
@@ -710,21 +747,21 @@ namespace AGRemapCore {
             try {
                 BufFile blendOut{resource.srcPath, wwmiBlendElements(influences)};
                 if (!blendOut.isValid()) {
-                    return false;
+                    return bail(resource, "its Blend.buf could not be rewritten");
                 }
 
                 blendOut.fix(resource.fixedPath, {writeIds});
-            } catch (const std::exception&) {
-                return false;
+            } catch (const std::exception& exception) {
+                return bail(resource, std::string("its Blend.buf could not be rewritten: ") + exception.what());
             }
 
-            const auto write = [](const std::string& path, const void* data, std::size_t bytes) {
+            const auto write = [&resource](const std::string& path, const void* data, std::size_t bytes) {
                 std::error_code dirErr;
                 std::filesystem::create_directories(
                     FileService::strToPath(path).parent_path(), dirErr);
                 std::ofstream file(FileService::strToPath(path), std::ios::binary);
                 if (!file.is_open()) {
-                    return false;
+                    return bail(resource, "could not open " + path + " to write");
                 }
 
                 file.write(reinterpret_cast<const char*>(data), static_cast<std::streamsize>(bytes));
@@ -732,7 +769,7 @@ namespace AGRemapCore {
             };
 
             if (!write(out.vertexVG, mapped.data(), mapped.size() * 2)) {
-                return false;
+                return bail(resource, "its BlendRemapVertexVG.buf could not be written");
             }
 
             // ---- the one map, over the ROW's distinct targets ----------------------------------
@@ -742,21 +779,27 @@ namespace AGRemapCore {
             std::set<std::uint16_t> used;
             for (const auto& [srcBone, dstBone] : row) {
                 (void)srcBone;
-                if (dstBone >= 0 && static_cast<std::size_t>(dstBone) < RemapSize) {
+                if (dstBone >= 0 && static_cast<std::size_t>(dstBone) < WWMIBlendRemapSize) {
                     used.insert(static_cast<std::uint16_t>(dstBone));
                 }
             }
 
-            if (used.size() > RemapSize) {
+            if (used.size() > WWMIBlendRemapSize) {
                 // Refused rather than truncated: a silently short remap sends every bone past the
                 // cut to local 0, which is a limb pinned to the root and nothing in the output to
                 // say so. Cannot happen for a pair whose row names fewer distinct targets than a
                 // remap holds, which is checked when the row is read.
-                return false;
+                //
+                // ...and the refusal said nothing either, until 2026-09-29. This one is a fault in
+                // the LIBRARY's vertex group row rather than in the mod, so it would otherwise be
+                // undiagnosable from the outside: the part simply does not render.
+                return bail(resource, "the vertex group row names " + std::to_string(used.size())
+                                      + " distinct target bones, more than the "
+                                      + std::to_string(WWMIBlendRemapSize) + " a WWMI blend remap holds");
             }
 
-            std::vector<std::uint16_t> forward(RemapSize, 0);
-            std::vector<std::uint16_t> reverse(RemapSize, 0);
+            std::vector<std::uint16_t> forward(WWMIBlendRemapSize, 0);
+            std::vector<std::uint16_t> reverse(WWMIBlendRemapSize, 0);
             std::uint16_t local = 0;
             for (const std::uint16_t merged : used) {
                 forward[local] = merged;
@@ -794,8 +837,8 @@ namespace AGRemapCore {
                     };
 
                 indices.fix(std::nullopt, {collect});
-            } catch (const std::exception&) {
-                return false;
+            } catch (const std::exception& exception) {
+                return bail(resource, std::string("its index buffer could not be read: ") + exception.what());
             }
             // THE LAYOUT IS DERIVED, NOT ASSUMED. WWMIBlendStride is four R8 ids then four R8
             // weights, which is one WWMI layout and not the only one: Chisa's mods carry EIGHT of
@@ -806,20 +849,20 @@ namespace AGRemapCore {
             std::error_code sizeErr;
             const std::uintmax_t positionSize =
                 std::filesystem::file_size(FileService::strToPath(positionPath), sizeErr);
-            if (sizeErr || positionSize < 12) {
-                return false;
+            if (sizeErr || positionSize < WWMIPositionStride) {
+                return bail(resource, "its Position.buf is missing or too short to give a vertex count");
             }
 
-            const std::size_t vertices = static_cast<std::size_t>(positionSize / 12);
+            const std::size_t vertices = static_cast<std::size_t>(positionSize / WWMIPositionStride);
             const std::uintmax_t blendSize =
                 std::filesystem::file_size(FileService::strToPath(resource.srcPath), sizeErr);
             if (sizeErr || vertices == 0 || blendSize == 0 || blendSize % vertices != 0) {
-                return false;
+                return bail(resource, "its Blend.buf does not divide evenly by the vertex count its Position.buf gives");
             }
 
             const std::size_t stride = static_cast<std::size_t>(blendSize / vertices);
             if (stride < 2 || stride % 2 != 0) {
-                return false;
+                return bail(resource, "its Blend.buf's bytes per vertex are not an even number of influences");
             }
 
             // The same answer `wwmiBlendInfluences` gives, from the same two file sizes -- asked of
@@ -829,7 +872,7 @@ namespace AGRemapCore {
             const std::size_t influences = wwmiBlendInfluences(resource.srcPath,
                                                               static_cast<long long>(vertices), positionPath);
             if (influences != stride / 2) {
-                return false;
+                return bail(resource, "its Blend.buf's influences per vertex disagree with its byte stride");
             }
 
             const std::size_t indexCount = indexList.size();
@@ -857,7 +900,7 @@ namespace AGRemapCore {
             // what makes this refactor provable where the texcoord one is not.
             BufFile blend{resource.srcPath, wwmiBlendElements(influences)};
             if (!blend.isValid()) {
-                return false;
+                return bail(resource, "its Blend.buf could not be read for the legacy lift");
             }
 
             const std::unordered_map<long long, long long>& row = resource.vgRemap.getRemap();
@@ -912,8 +955,9 @@ namespace AGRemapCore {
 
             try {
                 blend.fix(resource.fixedPath, {lift});
-            } catch (const std::exception&) {
-                return false;
+            } catch (const std::exception& exception) {
+                return bail(resource, std::string("its lifted Blend.buf could not be written: ")
+                                      + exception.what());
             }
 
             return true;
@@ -1311,6 +1355,12 @@ namespace AGRemapCore {
                                             std::stoll(std::string(StringTools::strip(draw.substr(0, comma)))),
                                             std::stoll(std::string(StringTools::strip(draw.substr(comma + 1, second - comma - 1)))));
                                     } catch (const std::exception&) {
+                                        // Draw ranges decide which triangles of a toggled object are
+                                        // drawn, so one dropped in silence is a piece of the mesh
+                                        // that stops being remapped for no stated reason.
+                                        note("could not read the draw range `"
+                                             + std::string(StringTools::strip(draw)) + "` in ["
+                                             + section + "], so it is not remapped");
                                         continue;
                                     }
                                 }
@@ -1349,6 +1399,12 @@ namespace AGRemapCore {
                             try {
                                 meshVertexCount_ = std::stoll(*count);
                             } catch (const std::exception&) {
+                                // 0 is not a harmless fallback: it turns the zero shape-key stream
+                                // OFF (writeZeroStream returns on <= 0), which is the wavy-vertices
+                                // fault that stream exists to remove.
+                                note("this mod's " + MeshVertexCountKey + " is `" + *count
+                                     + "`, which is not a number, so the zero shape-key stream is"
+                                     + " not written");
                                 meshVertexCount_ = 0;
                             }
                         }
@@ -2205,7 +2261,7 @@ namespace AGRemapCore {
                             for (const auto& [srcBone, dstBone] : row->getRemap()) {
                                 (void)srcBone;
                                 targets.insert(dstBone);
-                                if (dstBone > 255) {
+                                if (dstBone > WWMIMaxByteBone) {
                                     targetPast256_ = true;
                                 }
                             }
@@ -2213,13 +2269,25 @@ namespace AGRemapCore {
                             blendRemapBones_ = targets.size();
 
                             // A row naming more distinct targets than one remap holds would need
-                            // WWMI's per-component scheme back. Refused rather than truncated: a
-                            // short remap sends every bone past the cut to local 0, which is a limb
-                            // pinned to the root and nothing in the output to say so.
-                            if (targetPast256_ && blendRemapBones_ > 512) {
+                            // WWMI's per-component scheme back.
+                            //
+                            // THIS SAID "refused rather than truncated" AND THEN TRUNCATED (noted
+                            // 2026-09-29). Clearing `targetPast256_` sends the fix to an 8-bit lift,
+                            // whose ids are one byte -- so every bone past 255 lands on bone 0, the
+                            // exact outcome the comment claimed to be avoiding. `writeBlendRemap`
+                            // does refuse (it throws), but it is unreachable once this has turned
+                            // the path off.
+                            //
+                            // The line now says what happens rather than the opposite. Which of the
+                            // two guards should win -- fall back and lose the far bones, or refuse
+                            // the mod outright -- is the maintainer's call, and both are in game.
+                            if (targetPast256_ && blendRemapBones_ > WWMIBlendRemapSize) {
                                 note("the vertex group row names " + std::to_string(blendRemapBones_)
-                                     + " distinct target bones, past the 512 one blend remap holds;"
-                                     + " the blend remap is not written");
+                                     + " distinct target bones, past the "
+                                     + std::to_string(WWMIBlendRemapSize)
+                                     + " one blend remap holds; falling back to an 8-bit blend, so"
+                                     + " every bone past " + std::to_string(WWMIMaxByteBone)
+                                     + " will land on bone 0");
                                 targetPast256_ = false;
                             }
                         }
@@ -2668,9 +2736,7 @@ namespace AGRemapCore {
 
                     std::vector<std::string> out;
                     for (const std::string& role : roles) {
-                        if (std::find(out.begin(), out.end(), role) == out.end()) {
-                            out.push_back(role);
-                        }
+                        ListTools::pushDistinct(out, role);
                     }
 
                     return out;
@@ -3494,27 +3560,38 @@ namespace AGRemapCore {
                     }
 
                     if (resource == nullptr) {
+                        note("this mod declares no " + TexcoordBufferResource
+                             + ", so its UVs are left alone");
                         return;
                     }
 
                     const std::optional<std::string> name = ModBranches::firstVal(*resource, IniKeywords::Filename);
                     if (!name.has_value()) {
+                        note(TexcoordBufferResource + " names no file, so this mod's UVs are left alone");
                         return;
                     }
 
                     const std::string rel = FileService::iniPathToRel(*name);
                     const std::string path = FileService::absPathOfRelPath(rel, ini->getFolder());
+                    // A DECLARED STRIDE THAT DOES NOT PARSE IS NOT A REASON TO GUESS ONE. This
+                    // fell back to 16, which mis-reads every vertex of a buffer that is not 16 -- the
+                    // mod said a number and the fix ignored it.
                     const std::optional<std::string> strideVal = ModBranches::firstVal(*resource, IniKeywords::Stride);
-                    std::size_t stride = 16;
+                    std::size_t stride = DefaultTexcoordStride;
                     if (strideVal.has_value()) {
                         try {
                             stride = static_cast<std::size_t>(std::stoul(StringTools::strip(*strideVal).data()));
                         } catch (const std::exception&) {
-                            stride = 16;
+                            note(TexcoordBufferResource + " declares a stride of `"
+                                 + std::string(StringTools::strip(*strideVal))
+                                 + "`, which is not a number, so this mod's UVs are left alone");
+                            return;
                         }
                     }
 
                     if (stride < 4 || stride % 2 != 0) {
+                        note(TexcoordBufferResource + " declares a stride of " + std::to_string(stride)
+                             + ", which cannot hold a UV pair of halves, so this mod's UVs are left alone");
                         return;
                     }
 
@@ -3559,8 +3636,10 @@ namespace AGRemapCore {
 
                     try {
                         texcoord.fix(std::nullopt, {collect});
-                    } catch (const std::exception&) {
-                        return;                         // unreadable: leave the mod alone
+                    } catch (const std::exception& exception) {
+                        note(std::string("its Texcoord.buf could not be read: ") + exception.what()
+                             + " -- so this mod's UVs are left alone");
+                        return;
                     }
 
                     const std::size_t vertices = u.size();
@@ -3682,7 +3761,9 @@ namespace AGRemapCore {
                     // differs -- a mod with clean texcoords keeps its own buffer and its own binding.
                     try {
                         texcoord.fix(std::nullopt, {clean});
-                    } catch (const std::exception&) {
+                    } catch (const std::exception& exception) {
+                        note(std::string("its Texcoord.buf could not be read: ") + exception.what()
+                             + " -- so this mod's UVs are left alone");
                         return;
                     }
 
@@ -3706,7 +3787,9 @@ namespace AGRemapCore {
                     // buffer correctly and then never bind it.
                     try {
                         texcoord.fix(fixedPath, {clean});
-                    } catch (const std::exception&) {
+                    } catch (const std::exception& exception) {
+                        note(std::string("its cleaned Texcoord.buf could not be measured: ") + exception.what()
+                             + " -- so this mod's UVs are left alone");
                         return;
                     }
 

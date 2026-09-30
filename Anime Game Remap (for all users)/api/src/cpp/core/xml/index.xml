@@ -3254,6 +3254,7 @@
   </compound>
   <compound refid="class_a_g_remap_core_1_1_list_tools" kind="class"><name>AGRemapCore::ListTools</name>
     <member refid="class_a_g_remap_core_1_1_list_tools_1ac7cb9bc4a98992a45737f681fd5fed73" kind="function"><name>getIndsAfterRemove</name></member>
+    <member refid="class_a_g_remap_core_1_1_list_tools_1af376118b080c696f469d5138d08e1458" kind="function"><name>pushDistinct</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_version_1_1_local_segment" kind="struct"><name>AGRemapCore::Version::LocalSegment</name>
     <member refid="struct_a_g_remap_core_1_1_version_1_1_local_segment_1aa9fc09b585609144d1f8d7378bf0e5dd" kind="variable"><name>isNumeric</name></member>

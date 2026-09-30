@@ -205,6 +205,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_ini_section_graph" prot="public">AGRemapCore::IniSectionGraph</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_src_resource_model" prot="public">AGRemapCore::IniSrcResourceModel</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_tex_model" prot="public">AGRemapCore::IniTexModel</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_inner_layer_outline" prot="public">AGRemapCore::InnerLayerOutline</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_int_tools" prot="public">AGRemapCore::IntTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_invalid_download_mode" prot="public">AGRemapCore::InvalidDownloadMode</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_invalid_game_type" prot="public">AGRemapCore::InvalidGameType</innerclass>
@@ -244,6 +245,10 @@
     <innerclass refid="class_a_g_remap_core_1_1_list_tools" prot="public">AGRemapCore::ListTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_logger" prot="public">AGRemapCore::Logger</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_lru_cache" prot="public">AGRemapCore::LruCache</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_lumine_fixer" prot="public">AGRemapCore::LumineFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_lumine_heaven_fixer" prot="public">AGRemapCore::LumineHeavenFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_lumine_heaven_parser" prot="public">AGRemapCore::LumineHeavenParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_lumine_parser" prot="public">AGRemapCore::LumineParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_material_band_remap_filter" prot="public">AGRemapCore::MaterialBandRemapFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_assets" prot="public">AGRemapCore::ModAssets</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_branches" prot="public">AGRemapCore::ModBranches</innerclass>
@@ -258,6 +263,10 @@
     <innerclass refid="class_a_g_remap_core_1_1_mona_fixer" prot="public">AGRemapCore::MonaFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mona_parser" prot="public">AGRemapCore::MonaParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_multi_mod_fixer" prot="public">AGRemapCore::MultiModFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_neuvillette_fixer" prot="public">AGRemapCore::NeuvilletteFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_neuvillette_melusent_fixer" prot="public">AGRemapCore::NeuvilletteMelusentFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_neuvillette_melusent_parser" prot="public">AGRemapCore::NeuvilletteMelusentParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_neuvillette_parser" prot="public">AGRemapCore::NeuvilletteParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_nilou_breeze_fixer" prot="public">AGRemapCore::NilouBreezeFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_nilou_breeze_parser" prot="public">AGRemapCore::NilouBreezeParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_nilou_fixer" prot="public">AGRemapCore::NilouFixer</innerclass>
@@ -330,6 +339,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_shenhe_frost_flower_fixer" prot="public">AGRemapCore::ShenheFrostFlowerFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_shenhe_frost_flower_parser" prot="public">AGRemapCore::ShenheFrostFlowerParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_shenhe_parser" prot="public">AGRemapCore::ShenheParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_side_meshes" prot="public">AGRemapCore::SideMeshes</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_strategy_overrides" prot="public">AGRemapCore::StrategyOverrides</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_string_tools" prot="public">AGRemapCore::StringTools</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_string_view_hash" prot="public">AGRemapCore::StringViewHash</innerclass>
@@ -370,6 +380,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_v_g_merge_group_resource" prot="public">AGRemapCore::VGMergeGroupResource</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_v_g_merge_object" prot="public">AGRemapCore::VGMergeObject</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_v_g_offsets" prot="public">AGRemapCore::VGOffsets</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_v_g_push_away" prot="public">AGRemapCore::VGPushAway</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_v_g_remap" prot="public">AGRemapCore::VGRemap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace" prot="public">AGRemapCore::VGRemapBlendReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_v_g_remaps" prot="public">AGRemapCore::VGRemaps</innerclass>
@@ -387,6 +398,10 @@
     <innerclass refid="class_a_g_remap_core_1_1_xingqiu_bamboo_parser" prot="public">AGRemapCore::XingqiuBambooParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_xingqiu_fixer" prot="public">AGRemapCore::XingqiuFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_xingqiu_parser" prot="public">AGRemapCore::XingqiuParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_yaoyao_bamboo_fixer" prot="public">AGRemapCore::YaoyaoBambooFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_yaoyao_bamboo_parser" prot="public">AGRemapCore::YaoyaoBambooParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_yaoyao_fixer" prot="public">AGRemapCore::YaoyaoFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_yaoyao_parser" prot="public">AGRemapCore::YaoyaoParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_yelan_fixer" prot="public">AGRemapCore::YelanFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_yelan_parser" prot="public">AGRemapCore::YelanParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_yelan_tranquil_fixer" prot="public">AGRemapCore::YelanTranquilFixer</innerclass>
@@ -961,6 +976,52 @@ Nothing classifies a ``.ini`` file AS one of these; the skin itself is
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0e54f0607704cdfc2935884850e50542" prot="public">
+          <name>Lumine</name>
+          <briefdescription>
+<para>Lumine (the female Traveler) from GI <ndash/> the asset repo&apos;s <computeroutput>TravelerGirl</computeroutput>, and what her mods name their sections. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faf5ab68b99f3e6a99d2ed98c940a05db2" prot="public">
+          <name>LumineHeaven</name>
+          <briefdescription>
+<para>Lumine outfit skin (As Heaven and Earth Are Made Anew) from GI <ndash/> THREE skinned components (an unnamed main mesh, Bang, Eye). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faead27dd8f53c7bf97e037d26c9233dd1" prot="public">
+          <name>LumineHeavenMain</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+LumineHeaven&apos;s MAIN mesh (Head / Body on one index buffer), as a fix TARGET
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+The :cpp:enumerator:`YaoyaoBambooMain` arrangement: the skin&apos;s own dump leaves this component UNNAMED
+(``LumineHeavenHead.ib``, ``LumineHeavenPosition.buf``), so its component name -- in the vertex-group table
+and the download file names -- is the empty string, and only this fix-target id carries ``Main``
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa3d08bf5d9a84a828a9a1d5f3968a808" prot="public">
+          <name>LumineHeavenBang</name>
+          <briefdescription>
+<para>LumineHeaven&apos;s <computeroutput>Bang</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>LumineHeavenMain</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa48a2c8f13c28663994c0871b632fdee8" prot="public">
+          <name>LumineHeavenEye</name>
+          <briefdescription>
+<para>LumineHeaven&apos;s <computeroutput>Eye</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>LumineHeavenMain</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
         <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6954c0d8654e0391b51cf747ed6807" prot="public">
           <name>Mona</name>
           <briefdescription>
@@ -973,6 +1034,61 @@ Nothing classifies a ``.ini`` file AS one of these; the skin itself is
           <name>MonaCN</name>
           <briefdescription>
 <para>Mona Chinese version from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa7fc665b42803f1da751a781f3dee74bf" prot="public">
+          <name>Neuvillette</name>
+          <briefdescription>
+<para>Neuvillette from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6ff72b65d19b14904a07383705140dd8" prot="public">
+          <name>NeuvilletteMelusent</name>
+          <briefdescription>
+<para>Neuvillette outfit skin (Melusent Gift) from GI <ndash/> FOUR skinned components (an unnamed main mesh, Coat, Bang, Eye). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fad8cc7e3934d6b49ed05b53d41ec6a045" prot="public">
+          <name>NeuvilletteMelusentMain</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+NeuvilletteMelusent&apos;s MAIN mesh (Head / Body / Dress on one index buffer), as a fix TARGET
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+The same arrangement as :cpp:enumerator:`CharlotteHurlockBody`, with one difference: the
+skin&apos;s own asset files and mods leave this component UNNAMED (``NeuvilletteMelusentHead.ib``,
+``NeuvilletteMelusentPosition.buf``), so its component name -- in the vertex-group table and
+the download file names -- is the empty string, and only this fix-target id carries ``Main``
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa3df39cf9ec5de2149a220e18608ead36" prot="public">
+          <name>NeuvilletteMelusentCoat</name>
+          <briefdescription>
+<para>NeuvilletteMelusent&apos;s <computeroutput>Coat</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>NeuvilletteMelusentMain</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0ab8dbfdabd074472fbf571144ed4293" prot="public">
+          <name>NeuvilletteMelusentBang</name>
+          <briefdescription>
+<para>NeuvilletteMelusent&apos;s <computeroutput>Bang</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>NeuvilletteMelusentMain</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faf71829006aad1ac21938fff64b4e06a3" prot="public">
+          <name>NeuvilletteMelusentEye</name>
+          <briefdescription>
+<para>NeuvilletteMelusent&apos;s <computeroutput>Eye</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>NeuvilletteMelusentMain</computeroutput>. </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -1089,6 +1205,53 @@ Nothing classifies a ``.ini`` file AS one of these; the skin itself is
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0ac2fd09745c0d79a8c9d159d265a6c0" prot="public">
+          <name>Yaoyao</name>
+          <briefdescription>
+<para>Yaoyao from GI. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2c20b2c81b802cc379a9b573acbd9241" prot="public">
+          <name>YaoyaoBamboo</name>
+          <briefdescription>
+<para>Yaoyao outfit skin (Rainlit Bamboo Reverie) from GI <ndash/> THREE skinned components (an unnamed main mesh, Bang, Eye). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faac268fda6dfae7042c48bec3b665c474" prot="public">
+          <name>YaoyaoBambooMain</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+YaoyaoBamboo&apos;s MAIN mesh (Head / Body on one index buffer), as a fix TARGET
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+The :cpp:enumerator:`NeuvilletteMelusentMain` arrangement: the skin&apos;s own dump and its mods leave this
+component UNNAMED (``YaoyaoBambooHead.ib``, ``YaoyaoBambooPosition.buf``), so its component name -- in the
+vertex-group table and the download file names -- is the empty string, and only this fix-target id
+carries ``Main``
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa8944653f64a2783883c783c0bdda4ca7" prot="public">
+          <name>YaoyaoBambooBang</name>
+          <briefdescription>
+<para>YaoyaoBamboo&apos;s <computeroutput>Bang</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>YaoyaoBambooMain</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fade51b24c12ec8900c809b7b160ba3de2" prot="public">
+          <name>YaoyaoBambooEye</name>
+          <briefdescription>
+<para>YaoyaoBamboo&apos;s <computeroutput>Eye</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>YaoyaoBambooMain</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
         <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa58c563a4e58d7d757205ecb182511a16" prot="public">
           <name>Yelan</name>
           <briefdescription>
@@ -1198,7 +1361,7 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="38" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="38" bodyend="445"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="38" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="38" bodyend="548"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274e" prot="public" static="no" strong="yes">
         <type></type>
@@ -1755,7 +1918,7 @@ keyed by that component&apos;s own :cpp:enum:`ModTypeId`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="1636" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="1636" bodyend="1640" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="419" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="2333" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="2333" bodyend="2337" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="735" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1789,7 +1952,7 @@ for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="2630" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="2630" bodyend="2634" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="346" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="3055" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="3055" bodyend="3059" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="459" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1af12ae26e99e06da23b5ca21f45b3b3eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
@@ -1911,7 +2074,7 @@ half makes sense alone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/GIMICharParser.cpp" line="328" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="328" bodyend="385" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="262" declcolumn="30"/>
+        <location file="src/data/IniParseData/GIMICharParser.cpp" line="345" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="345" bodyend="402" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="279" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a584e65cf26c955c00926e1dcbcfa8933" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1946,7 +2109,7 @@ through :cpp:class:`Indices`; see there for why
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/GIMIComponentParser.cpp" line="589" column="30" bodyfile="src/data/IniParseData/GIMIComponentParser.cpp" bodystart="589" bodyend="605" declfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" declline="201" declcolumn="30"/>
+        <location file="src/data/IniParseData/GIMIComponentParser.cpp" line="972" column="30" bodyfile="src/data/IniParseData/GIMIComponentParser.cpp" bodystart="972" bodyend="988" declfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" declline="227" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a71353ecec052c71edfa6c5b90da4c4e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -2176,7 +2339,7 @@ draws one source object needs no member at all: its index buffer is already righ
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iniresources/VGMergeGroupResource.cpp" line="49" column="10" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="49" bodyend="151" declfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" declline="149" declcolumn="10"/>
+        <location file="src/model/iniresources/VGMergeGroupResource.cpp" line="49" column="10" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="49" bodyend="164" declfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" declline="167" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a27bf55b7bda9b241d64b7ce37fd368a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -2255,7 +2418,7 @@ and ``texcoord`` (at most one each) and ``buf`` (the index buffers, any number, 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="98" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="98" bodyend="190" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="116" declcolumn="10"/>
+        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="102" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="102" bodyend="312" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="188" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1acfa9613659a36bc4765c5f2fca7f218f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>

@@ -12,6 +12,7 @@
     <includedby refid="_buf_float_8h" local="yes">include/AGRemapCore/model/buffers/BufFloat.h</includedby>
     <includedby refid="_buf_int_8h" local="yes">include/AGRemapCore/model/buffers/BufInt.h</includedby>
     <includedby refid="_buf_unorm_8h" local="yes">include/AGRemapCore/model/buffers/BufUnorm.h</includedby>
+    <includedby refid="_inner_layer_outline_8h" local="yes">include/AGRemapCore/model/buffers/InnerLayerOutline.h</includedby>
     <includedby refid="_v_g_component_merge_8h" local="yes">include/AGRemapCore/model/buffers/VGComponentMerge.h</includedby>
     <includedby refid="_v_g_component_split_8h" local="yes">include/AGRemapCore/model/buffers/VGComponentSplit.h</includedby>
     <includedby refid="_binary_file_8h" local="yes">include/AGRemapCore/model/files/BinaryFile.h</includedby>
@@ -143,6 +144,26 @@
         <childnode refid="60" relation="include">
         </childnode>
       </node>
+      <node id="87">
+        <label>include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h</label>
+        <link refid="_g_i_m_i_component_fixer_8h"/>
+        <childnode refid="88" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="91" relation="include">
+        </childnode>
+        <childnode refid="92" relation="include">
+        </childnode>
+        <childnode refid="93" relation="include">
+        </childnode>
+        <childnode refid="94" relation="include">
+        </childnode>
+      </node>
       <node id="2">
         <label>include/AGRemapCore/model/buffers/BufDataType.h</label>
         <link refid="_buf_data_type_8h"/>
@@ -228,17 +249,19 @@
         </childnode>
         <childnode refid="85" relation="include">
         </childnode>
-        <childnode refid="90" relation="include">
+        <childnode refid="98" relation="include">
         </childnode>
-        <childnode refid="94" relation="include">
+        <childnode refid="103" relation="include">
+        </childnode>
+        <childnode refid="104" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="86" relation="include">
+        <childnode refid="99" relation="include">
         </childnode>
-        <childnode refid="91" relation="include">
+        <childnode refid="86" relation="include">
         </childnode>
         <childnode refid="57" relation="include">
         </childnode>
@@ -246,28 +269,36 @@
         </childnode>
       </node>
       <node id="85">
+        <label>include/AGRemapCore/model/buffers/InnerLayerOutline.h</label>
+        <link refid="_inner_layer_outline_8h"/>
+        <childnode refid="86" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
+        </childnode>
+      </node>
+      <node id="98">
         <label>include/AGRemapCore/model/buffers/VGComponentMerge.h</label>
         <link refid="_v_g_component_merge_8h"/>
-        <childnode refid="86" relation="include">
+        <childnode refid="99" relation="include">
         </childnode>
         <childnode refid="62" relation="include">
         </childnode>
-        <childnode refid="89" relation="include">
+        <childnode refid="102" relation="include">
         </childnode>
       </node>
-      <node id="90">
+      <node id="103">
         <label>include/AGRemapCore/model/buffers/VGComponentSplit.h</label>
         <link refid="_v_g_component_split_8h"/>
-        <childnode refid="85" relation="include">
+        <childnode refid="98" relation="include">
         </childnode>
-        <childnode refid="91" relation="include">
+        <childnode refid="86" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
       </node>
-      <node id="94">
+      <node id="104">
         <label>include/AGRemapCore/model/files/BinaryFile.h</label>
         <link refid="_binary_file_8h"/>
         <childnode refid="4" relation="include">
@@ -280,7 +311,9 @@
         </childnode>
         <childnode refid="68" relation="include">
         </childnode>
-        <childnode refid="95" relation="include">
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="105" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
@@ -387,20 +420,22 @@
         <childnode refid="67" relation="include">
         </childnode>
       </node>
-      <node id="86">
+      <node id="99">
         <label>include/AGRemapCore/model/iniresources/VGMergeGroupResource.h</label>
         <link refid="_v_g_merge_group_resource_8h"/>
-        <childnode refid="87" relation="include">
+        <childnode refid="100" relation="include">
         </childnode>
         <childnode refid="62" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="91">
+      <node id="86">
         <label>include/AGRemapCore/model/iniresources/VGSplitGroupResource.h</label>
         <link refid="_v_g_split_group_resource_8h"/>
-        <childnode refid="92" relation="include">
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="95" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
@@ -421,20 +456,20 @@
         <childnode refid="74" relation="include">
         </childnode>
       </node>
-      <node id="87">
+      <node id="100">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h</label>
         <link refid="_v_g_merge_group_res_builder_8h"/>
         <childnode refid="62" relation="include">
         </childnode>
-        <childnode refid="88" relation="include">
+        <childnode refid="101" relation="include">
         </childnode>
       </node>
-      <node id="92">
+      <node id="95">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h</label>
         <link refid="_v_g_split_group_res_builder_8h"/>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="93" relation="include">
+        <childnode refid="96" relation="include">
         </childnode>
       </node>
       <node id="71">
@@ -483,9 +518,21 @@
         <label>src/data/IniFixData/BarbaraSummertime/BarbaraSummertimeFixer.cpp</label>
         <link refid="_barbara_summertime_fixer_8cpp"/>
       </node>
+      <node id="88">
+        <label>src/data/IniFixData/Bennett/BennettFixer.cpp</label>
+        <link refid="_bennett_fixer_8cpp"/>
+      </node>
+      <node id="89">
+        <label>src/data/IniFixData/Charlotte/CharlotteFixer.cpp</label>
+        <link refid="_charlotte_fixer_8cpp"/>
+      </node>
       <node id="26">
         <label>src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp</label>
         <link refid="_cherry_hu_tao_fixer_8cpp"/>
+      </node>
+      <node id="90">
+        <label>src/data/IniFixData/Citlali/CitlaliFixer.cpp</label>
+        <link refid="_citlali_fixer_8cpp"/>
       </node>
       <node id="27">
         <label>src/data/IniFixData/Diluc/DilucFixer.cpp</label>
@@ -579,6 +626,10 @@
         <label>src/data/IniFixData/LisaStudent/LisaStudentFixer.cpp</label>
         <link refid="_lisa_student_fixer_8cpp"/>
       </node>
+      <node id="91">
+        <label>src/data/IniFixData/Lumine/LumineFixer.cpp</label>
+        <link refid="_lumine_fixer_8cpp"/>
+      </node>
       <node id="63">
         <label>src/data/IniFixData/ModBranches.cpp</label>
         <link refid="_mod_branches_8cpp"/>
@@ -590,6 +641,10 @@
       <node id="48">
         <label>src/data/IniFixData/MonaCN/MonaCNFixer.cpp</label>
         <link refid="_mona_c_n_fixer_8cpp"/>
+      </node>
+      <node id="92">
+        <label>src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp</label>
+        <link refid="_neuvillette_fixer_8cpp"/>
       </node>
       <node id="49">
         <label>src/data/IniFixData/Nilou/NilouFixer.cpp</label>
@@ -647,6 +702,14 @@
         <label>src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp</label>
         <link refid="_xingqiu_bamboo_fixer_8cpp"/>
       </node>
+      <node id="93">
+        <label>src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp</label>
+        <link refid="_yaoyao_fixer_8cpp"/>
+      </node>
+      <node id="94">
+        <label>src/data/IniFixData/Yelan/YelanFixer.cpp</label>
+        <link refid="_yelan_fixer_8cpp"/>
+      </node>
       <node id="84">
         <label>src/model/buffers/BufDataType.cpp</label>
         <link refid="_buf_data_type_8cpp"/>
@@ -667,7 +730,11 @@
         <label>src/model/buffers/BufUnorm.cpp</label>
         <link refid="_buf_unorm_8cpp"/>
       </node>
-      <node id="89">
+      <node id="97">
+        <label>src/model/buffers/InnerLayerOutline.cpp</label>
+        <link refid="_inner_layer_outline_8cpp"/>
+      </node>
+      <node id="102">
         <label>src/model/buffers/VGComponentMerge.cpp</label>
         <link refid="_v_g_component_merge_8cpp"/>
       </node>
@@ -675,7 +742,7 @@
         <label>src/model/buffers/VGComponentSplit.cpp</label>
         <link refid="_v_g_component_split_8cpp"/>
       </node>
-      <node id="95">
+      <node id="105">
         <label>src/model/files/BinaryFile.cpp</label>
         <link refid="_binary_file_8cpp"/>
       </node>
@@ -723,11 +790,11 @@
         <label>src/model/strategies/bufEditors/BufEditor.cpp</label>
         <link refid="_buf_editor_8cpp"/>
       </node>
-      <node id="88">
+      <node id="101">
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp</label>
         <link refid="_v_g_merge_group_res_builder_8cpp"/>
       </node>
-      <node id="93">
+      <node id="96">
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
         <link refid="_v_g_split_group_res_builder_8cpp"/>
       </node>

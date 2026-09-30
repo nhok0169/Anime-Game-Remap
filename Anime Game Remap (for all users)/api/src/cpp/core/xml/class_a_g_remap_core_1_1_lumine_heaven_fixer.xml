@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_lumine_heaven_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::LumineHeavenFixer</compoundname>
+    <includes refid="_lumine_heaven_fixer_8h" local="no">LumineHeavenFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lumine_heaven_fixer_1aa62029d02ed4bbc4d48871923fecb351" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::LumineHeavenFixer::LumineHeavenFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>LumineHeavenFixer</name>
+        <qualifiedname>AGRemapCore::LumineHeavenFixer::LumineHeavenFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/LumineHeaven/LumineHeavenFixer.h" line="37" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lumine_heaven_fixer_1a3518804ebe8571b180a1d1c8fd8f94e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::LumineHeavenFixer::toLumine6_3</definition>
+        <argsstring>()</argsstring>
+        <name>toLumine6_3</name>
+        <qualifiedname>AGRemapCore::LumineHeavenFixer::toLumine6_3</qualifiedname>
+        <briefdescription>
+<para>The fix onto Lumine <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae98592403e94efb74d4420feef63219d" kindref="member">IniFixBuilderFuncs::lumineHeavenToLumine6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/LumineHeaven/LumineHeavenFixer.h" line="42" column="43" bodyfile="src/data/IniFixData/LumineHeaven/LumineHeavenFixer.cpp" bodystart="102" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+LumineHeaven&apos;s own fixers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The SEVENTH remap of a skin of SEVERAL components onto a target of ONE, and the inverse of
+:cpp:class:`LumineFixer`&apos;s direction. See :cpp:func:`makeGIMIMergeFixer`. Pair this with
+:cpp:class:`LumineHeavenParser`. One parser option came out of it -- downloads that follow a slot&apos;s resource
+names (``GIMIComponentParserConfig::downloadsByName``)
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/LumineHeaven/LumineHeavenFixer.h" line="34" column="5" bodyfile="include/AGRemapCore/data/IniFixData/LumineHeaven/LumineHeavenFixer.h" bodystart="34" bodyend="43"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_lumine_heaven_fixer_1aa62029d02ed4bbc4d48871923fecb351" prot="public" virt="non-virtual"><scope>AGRemapCore::LumineHeavenFixer</scope><name>LumineHeavenFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_lumine_heaven_fixer_1a3518804ebe8571b180a1d1c8fd8f94e9" prot="public" virt="non-virtual"><scope>AGRemapCore::LumineHeavenFixer</scope><name>toLumine6_3</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

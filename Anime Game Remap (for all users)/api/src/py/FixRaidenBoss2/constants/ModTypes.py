@@ -238,7 +238,7 @@ class ModTypes(StrEnum, DeferredEnum):
     LumineHeaven: :class:`ModType`
         **Lumine As Heaven and Earth Are Made Anew mods** :raw-html:`<br />`
 
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(lumine(heaven|skin)).*\]``
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(lumineheaven|lumineskin).*\]``
 
     Mona: :class:`ModType`
         **Mona mods** :raw-html:`<br />`

@@ -488,6 +488,8 @@ Below are the supported types of mods
 | KleeBlossomingStarlight | GI | DodocoLittleWitchBuddy, FlandreScarlet, MagicDestroyerofWorlds, RedVelvetMage, ScarletFlandre | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(kleeblossomingstarlight).*\]` |
 | Lisa | GI | CutieLibrarian | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(lisa)((?!student).)*\]` |
 | LisaStudent | GI | LisaSumeru, SumeruLisa, AkademiyaLisa, LisaAkademiya | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(lisastudent).*\]` |
+| Lumine | GI | FemaleTraveler, Hotaru, TravelerFemale, TravelerGirl | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(lumine\|travelergirl)((?!heaven\|skin).)*\]` |
+| LumineHeaven | GI | AsHeavenAndEarthAreMadeAnewLumine, HeavenLumine, LumineAsHeavenAndEarthAreMadeAnew, LumineSkin, TravelerGirlHeaven | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(lumineheaven\|lumineskin).*\]` |
 | Mona | GI | BigHat, NoMora | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(mona)((?!(cn)).)*\]` |
 | MonaCN | GI | BigHatCN, NoMoraCN | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(monacn).*\]` |
 | Neuvillette | GI | ChiefJustice, HydroDragon, HydroSovereign, Iudex, Neuv | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(neuvillette)((?!melusent).)*\]` |

@@ -418,6 +418,16 @@ Below are the supported types of mods
        | LisaAkademiya
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(lisastudent).*\]``
+   * - **Lumine**
+     - GI
+     - | FemaleTraveler, Hotaru, TravelerFemale, TravelerGirl
+     - | check if the .ini file contains a section matching the regex,
+       | ``^\s*\[\s*textureoverride.*(lumine|travelergirl)((?!heaven|skin).)*\]``
+   * - **LumineHeaven**
+     - GI
+     - | AsHeavenAndEarthAreMadeAnewLumine, HeavenLumine, LumineAsHeavenAndEarthAreMadeAnew, LumineSkin, TravelerGirlHeaven
+     - | check if the .ini file contains a section matching the regex,
+       | ``^\s*\[\s*textureoverride.*(lumineheaven|lumineskin).*\]``
    * - **Mona**
      - GI
      - | BigHat, NoMora

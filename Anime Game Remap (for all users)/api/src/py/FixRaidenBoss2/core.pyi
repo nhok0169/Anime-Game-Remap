@@ -6482,6 +6482,16 @@ class GIBuilder:
         Creates the :class:`ModType` for LisaStudent
         """
     @staticmethod
+    def lumine() -> ModType:
+        """
+        Creates the :class:`ModType` for Lumine
+        """
+    @staticmethod
+    def lumineHeaven() -> ModType:
+        """
+        Creates the :class:`ModType` for LumineHeaven, the skin of three components; its component ids are fix targets only and have no factory
+        """
+    @staticmethod
     def mona() -> ModType:
         """
         Creates the :class:`ModType` for Mona
@@ -7888,6 +7898,25 @@ class GIMIComponentParserConfig:
         """
     @downloadVersionFolder.setter
     def downloadVersionFolder(self, arg0: str) -> None:
+        ...
+    @property
+    def downloadsByName(self) -> bool:
+        """
+        :class:`bool`: Whether a slot's texture downloads follow the resource NAMES its own `section`_ binds, rather than
+        the registers
+        
+        A mod written in the GAME's register order binds its textures somewhere other than the slot's registers:
+        LumineHeaven1's Eye binds only ``ps-t1 = ...Diffuse``. Decided per register, the slot got the game's diffuse
+        at ``ps-t0`` as well, two textures named a diffuse, and the merge's by-name reading refused both (dark eyes
+        on Lumine, 2026-09-29). With this on, when a slot's own section binds its textures under names that are
+        believed (every one names exactly one role, no two alike), a role the mod binds gets no download, and a
+        missing role whose register holds another role's texture is downloaded onto a register the section leaves
+        free. A slot binding nothing, or in the slot's own order, is untouched.
+        
+        **Default**: ``False``
+        """
+    @downloadsByName.setter
+    def downloadsByName(self, arg0: bool) -> None:
         ...
     @property
     def modTypeId(self) -> ModTypeId:
@@ -15480,6 +15509,16 @@ class ModTypeId:
     
       LisaStudent : Lisa Sumeru skin from GI
     
+      Lumine : Lumine (the female Traveler) from GI
+    
+      LumineHeaven : Lumine outfit skin (As Heaven and Earth Are Made Anew) from GI -- three skinned components (an unnamed main mesh, Bang, Eye)
+    
+      LumineHeavenMain : LumineHeaven's main mesh (its component name is the empty string), as a fix target -- a skin of several components is fixed one component at a time, and each is a mod type for the tables' purposes
+    
+      LumineHeavenBang : LumineHeaven's Bang component, as a fix target
+    
+      LumineHeavenEye : LumineHeaven's Eye component, as a fix target
+    
       Mona : Mona from GI
     
       MonaCN : Mona Chinese version from GI
@@ -15572,8 +15611,8 @@ class ModTypeId:
     CharlotteHurlockCamera: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockCamera: 18>
     CharlotteHurlockEyes: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockEyes: 17>
     CherryHuTao: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CherryHuTao: 19>
-    Chisa: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Chisa: 79>
-    ChisaParfait: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ChisaParfait: 80>
+    Chisa: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Chisa: 84>
+    ChisaParfait: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ChisaParfait: 85>
     Citlali: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Citlali: 20>
     CitlaliWhisperofStars: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStars: 21>
     CitlaliWhisperofStarsBangs: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStarsBangs: 23>
@@ -15599,41 +15638,46 @@ class ModTypeId:
     KleeBlossomingStarlight: typing.ClassVar[ModTypeId]  # value = <ModTypeId.KleeBlossomingStarlight: 42>
     Lisa: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Lisa: 43>
     LisaStudent: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LisaStudent: 44>
-    Mona: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Mona: 45>
-    MonaCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.MonaCN: 46>
-    Neuvillette: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Neuvillette: 47>
-    NeuvilletteMelusent: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusent: 48>
-    NeuvilletteMelusentBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentBang: 51>
-    NeuvilletteMelusentCoat: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentCoat: 50>
-    NeuvilletteMelusentEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentEye: 52>
-    NeuvilletteMelusentMain: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentMain: 49>
-    Nilou: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Nilou: 53>
-    NilouBreeze: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NilouBreeze: 54>
-    Ningguang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Ningguang: 55>
-    NingguangOrchid: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NingguangOrchid: 56>
-    Raiden: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Raiden: 57>
-    RaidenBoss: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RaidenBoss: 58>
-    Rosaria: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Rosaria: 59>
-    RosariaCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RosariaCN: 60>
-    Sanhua: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Sanhua: 77>
-    SanhuaExorcist: typing.ClassVar[ModTypeId]  # value = <ModTypeId.SanhuaExorcist: 78>
-    Shenhe: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Shenhe: 61>
-    ShenheFrostFlower: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ShenheFrostFlower: 62>
-    Xiangling: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xiangling: 63>
-    XianglingCheer: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XianglingCheer: 64>
-    Xingqiu: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xingqiu: 65>
-    XingqiuBamboo: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XingqiuBamboo: 66>
-    Yaoyao: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Yaoyao: 67>
-    YaoyaoBamboo: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBamboo: 68>
-    YaoyaoBambooBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooBang: 70>
-    YaoyaoBambooEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooEye: 71>
-    YaoyaoBambooMain: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooMain: 69>
-    Yelan: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Yelan: 72>
-    YelanTranquil: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquil: 73>
-    YelanTranquilBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBang: 75>
-    YelanTranquilBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBody: 74>
-    YelanTranquilEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilEye: 76>
-    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'Bennett': <ModTypeId.Bennett: 8>, 'BennettAdventure': <ModTypeId.BennettAdventure: 9>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 10>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 11>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 12>, 'Charlotte': <ModTypeId.Charlotte: 13>, 'CharlotteHurlock': <ModTypeId.CharlotteHurlock: 14>, 'CharlotteHurlockBody': <ModTypeId.CharlotteHurlockBody: 15>, 'CharlotteHurlockBangs': <ModTypeId.CharlotteHurlockBangs: 16>, 'CharlotteHurlockEyes': <ModTypeId.CharlotteHurlockEyes: 17>, 'CharlotteHurlockCamera': <ModTypeId.CharlotteHurlockCamera: 18>, 'CherryHuTao': <ModTypeId.CherryHuTao: 19>, 'Citlali': <ModTypeId.Citlali: 20>, 'CitlaliWhisperofStars': <ModTypeId.CitlaliWhisperofStars: 21>, 'CitlaliWhisperofStarsBody': <ModTypeId.CitlaliWhisperofStarsBody: 22>, 'CitlaliWhisperofStarsBangs': <ModTypeId.CitlaliWhisperofStarsBangs: 23>, 'CitlaliWhisperofStarsEyes': <ModTypeId.CitlaliWhisperofStarsEyes: 24>, 'Diluc': <ModTypeId.Diluc: 25>, 'DilucFlamme': <ModTypeId.DilucFlamme: 26>, 'Fischl': <ModTypeId.Fischl: 27>, 'FischlHighness': <ModTypeId.FischlHighness: 28>, 'Ganyu': <ModTypeId.Ganyu: 29>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 30>, 'HuTao': <ModTypeId.HuTao: 31>, 'Jean': <ModTypeId.Jean: 32>, 'JeanCN': <ModTypeId.JeanCN: 33>, 'JeanSea': <ModTypeId.JeanSea: 34>, 'Kaeya': <ModTypeId.Kaeya: 35>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 36>, 'Keqing': <ModTypeId.Keqing: 37>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 38>, 'Kirara': <ModTypeId.Kirara: 39>, 'KiraraBoots': <ModTypeId.KiraraBoots: 40>, 'Klee': <ModTypeId.Klee: 41>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 42>, 'Lisa': <ModTypeId.Lisa: 43>, 'LisaStudent': <ModTypeId.LisaStudent: 44>, 'Mona': <ModTypeId.Mona: 45>, 'MonaCN': <ModTypeId.MonaCN: 46>, 'Neuvillette': <ModTypeId.Neuvillette: 47>, 'NeuvilletteMelusent': <ModTypeId.NeuvilletteMelusent: 48>, 'NeuvilletteMelusentMain': <ModTypeId.NeuvilletteMelusentMain: 49>, 'NeuvilletteMelusentCoat': <ModTypeId.NeuvilletteMelusentCoat: 50>, 'NeuvilletteMelusentBang': <ModTypeId.NeuvilletteMelusentBang: 51>, 'NeuvilletteMelusentEye': <ModTypeId.NeuvilletteMelusentEye: 52>, 'Nilou': <ModTypeId.Nilou: 53>, 'NilouBreeze': <ModTypeId.NilouBreeze: 54>, 'Ningguang': <ModTypeId.Ningguang: 55>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 56>, 'Raiden': <ModTypeId.Raiden: 57>, 'RaidenBoss': <ModTypeId.RaidenBoss: 58>, 'Rosaria': <ModTypeId.Rosaria: 59>, 'RosariaCN': <ModTypeId.RosariaCN: 60>, 'Shenhe': <ModTypeId.Shenhe: 61>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 62>, 'Xiangling': <ModTypeId.Xiangling: 63>, 'XianglingCheer': <ModTypeId.XianglingCheer: 64>, 'Xingqiu': <ModTypeId.Xingqiu: 65>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 66>, 'Yaoyao': <ModTypeId.Yaoyao: 67>, 'YaoyaoBamboo': <ModTypeId.YaoyaoBamboo: 68>, 'YaoyaoBambooMain': <ModTypeId.YaoyaoBambooMain: 69>, 'YaoyaoBambooBang': <ModTypeId.YaoyaoBambooBang: 70>, 'YaoyaoBambooEye': <ModTypeId.YaoyaoBambooEye: 71>, 'Yelan': <ModTypeId.Yelan: 72>, 'YelanTranquil': <ModTypeId.YelanTranquil: 73>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 74>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 75>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 76>, 'Sanhua': <ModTypeId.Sanhua: 77>, 'SanhuaExorcist': <ModTypeId.SanhuaExorcist: 78>, 'Chisa': <ModTypeId.Chisa: 79>, 'ChisaParfait': <ModTypeId.ChisaParfait: 80>}
+    Lumine: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Lumine: 45>
+    LumineHeaven: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LumineHeaven: 46>
+    LumineHeavenBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LumineHeavenBang: 48>
+    LumineHeavenEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LumineHeavenEye: 49>
+    LumineHeavenMain: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LumineHeavenMain: 47>
+    Mona: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Mona: 50>
+    MonaCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.MonaCN: 51>
+    Neuvillette: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Neuvillette: 52>
+    NeuvilletteMelusent: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusent: 53>
+    NeuvilletteMelusentBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentBang: 56>
+    NeuvilletteMelusentCoat: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentCoat: 55>
+    NeuvilletteMelusentEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentEye: 57>
+    NeuvilletteMelusentMain: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentMain: 54>
+    Nilou: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Nilou: 58>
+    NilouBreeze: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NilouBreeze: 59>
+    Ningguang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Ningguang: 60>
+    NingguangOrchid: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NingguangOrchid: 61>
+    Raiden: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Raiden: 62>
+    RaidenBoss: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RaidenBoss: 63>
+    Rosaria: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Rosaria: 64>
+    RosariaCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RosariaCN: 65>
+    Sanhua: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Sanhua: 82>
+    SanhuaExorcist: typing.ClassVar[ModTypeId]  # value = <ModTypeId.SanhuaExorcist: 83>
+    Shenhe: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Shenhe: 66>
+    ShenheFrostFlower: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ShenheFrostFlower: 67>
+    Xiangling: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xiangling: 68>
+    XianglingCheer: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XianglingCheer: 69>
+    Xingqiu: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xingqiu: 70>
+    XingqiuBamboo: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XingqiuBamboo: 71>
+    Yaoyao: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Yaoyao: 72>
+    YaoyaoBamboo: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBamboo: 73>
+    YaoyaoBambooBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooBang: 75>
+    YaoyaoBambooEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooEye: 76>
+    YaoyaoBambooMain: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooMain: 74>
+    Yelan: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Yelan: 77>
+    YelanTranquil: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquil: 78>
+    YelanTranquilBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBang: 80>
+    YelanTranquilBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBody: 79>
+    YelanTranquilEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilEye: 81>
+    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'Bennett': <ModTypeId.Bennett: 8>, 'BennettAdventure': <ModTypeId.BennettAdventure: 9>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 10>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 11>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 12>, 'Charlotte': <ModTypeId.Charlotte: 13>, 'CharlotteHurlock': <ModTypeId.CharlotteHurlock: 14>, 'CharlotteHurlockBody': <ModTypeId.CharlotteHurlockBody: 15>, 'CharlotteHurlockBangs': <ModTypeId.CharlotteHurlockBangs: 16>, 'CharlotteHurlockEyes': <ModTypeId.CharlotteHurlockEyes: 17>, 'CharlotteHurlockCamera': <ModTypeId.CharlotteHurlockCamera: 18>, 'CherryHuTao': <ModTypeId.CherryHuTao: 19>, 'Citlali': <ModTypeId.Citlali: 20>, 'CitlaliWhisperofStars': <ModTypeId.CitlaliWhisperofStars: 21>, 'CitlaliWhisperofStarsBody': <ModTypeId.CitlaliWhisperofStarsBody: 22>, 'CitlaliWhisperofStarsBangs': <ModTypeId.CitlaliWhisperofStarsBangs: 23>, 'CitlaliWhisperofStarsEyes': <ModTypeId.CitlaliWhisperofStarsEyes: 24>, 'Diluc': <ModTypeId.Diluc: 25>, 'DilucFlamme': <ModTypeId.DilucFlamme: 26>, 'Fischl': <ModTypeId.Fischl: 27>, 'FischlHighness': <ModTypeId.FischlHighness: 28>, 'Ganyu': <ModTypeId.Ganyu: 29>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 30>, 'HuTao': <ModTypeId.HuTao: 31>, 'Jean': <ModTypeId.Jean: 32>, 'JeanCN': <ModTypeId.JeanCN: 33>, 'JeanSea': <ModTypeId.JeanSea: 34>, 'Kaeya': <ModTypeId.Kaeya: 35>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 36>, 'Keqing': <ModTypeId.Keqing: 37>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 38>, 'Kirara': <ModTypeId.Kirara: 39>, 'KiraraBoots': <ModTypeId.KiraraBoots: 40>, 'Klee': <ModTypeId.Klee: 41>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 42>, 'Lisa': <ModTypeId.Lisa: 43>, 'LisaStudent': <ModTypeId.LisaStudent: 44>, 'Lumine': <ModTypeId.Lumine: 45>, 'LumineHeaven': <ModTypeId.LumineHeaven: 46>, 'LumineHeavenMain': <ModTypeId.LumineHeavenMain: 47>, 'LumineHeavenBang': <ModTypeId.LumineHeavenBang: 48>, 'LumineHeavenEye': <ModTypeId.LumineHeavenEye: 49>, 'Mona': <ModTypeId.Mona: 50>, 'MonaCN': <ModTypeId.MonaCN: 51>, 'Neuvillette': <ModTypeId.Neuvillette: 52>, 'NeuvilletteMelusent': <ModTypeId.NeuvilletteMelusent: 53>, 'NeuvilletteMelusentMain': <ModTypeId.NeuvilletteMelusentMain: 54>, 'NeuvilletteMelusentCoat': <ModTypeId.NeuvilletteMelusentCoat: 55>, 'NeuvilletteMelusentBang': <ModTypeId.NeuvilletteMelusentBang: 56>, 'NeuvilletteMelusentEye': <ModTypeId.NeuvilletteMelusentEye: 57>, 'Nilou': <ModTypeId.Nilou: 58>, 'NilouBreeze': <ModTypeId.NilouBreeze: 59>, 'Ningguang': <ModTypeId.Ningguang: 60>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 61>, 'Raiden': <ModTypeId.Raiden: 62>, 'RaidenBoss': <ModTypeId.RaidenBoss: 63>, 'Rosaria': <ModTypeId.Rosaria: 64>, 'RosariaCN': <ModTypeId.RosariaCN: 65>, 'Shenhe': <ModTypeId.Shenhe: 66>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 67>, 'Xiangling': <ModTypeId.Xiangling: 68>, 'XianglingCheer': <ModTypeId.XianglingCheer: 69>, 'Xingqiu': <ModTypeId.Xingqiu: 70>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 71>, 'Yaoyao': <ModTypeId.Yaoyao: 72>, 'YaoyaoBamboo': <ModTypeId.YaoyaoBamboo: 73>, 'YaoyaoBambooMain': <ModTypeId.YaoyaoBambooMain: 74>, 'YaoyaoBambooBang': <ModTypeId.YaoyaoBambooBang: 75>, 'YaoyaoBambooEye': <ModTypeId.YaoyaoBambooEye: 76>, 'Yelan': <ModTypeId.Yelan: 77>, 'YelanTranquil': <ModTypeId.YelanTranquil: 78>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 79>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 80>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 81>, 'Sanhua': <ModTypeId.Sanhua: 82>, 'SanhuaExorcist': <ModTypeId.SanhuaExorcist: 83>, 'Chisa': <ModTypeId.Chisa: 84>, 'ChisaParfait': <ModTypeId.ChisaParfait: 85>}
     def __eq__(self, other: typing.Any) -> bool:
         ...
     def __getstate__(self) -> int:

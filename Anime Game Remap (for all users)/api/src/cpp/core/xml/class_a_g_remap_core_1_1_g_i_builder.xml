@@ -514,6 +514,36 @@
         </inbodydescription>
         <location file="include/AGRemapCore/constants/GIBuilder.h" line="204" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="292" bodyend="294"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a635b88a9a3870adb2a39f362f10ea624" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::lumine</definition>
+        <argsstring>()</argsstring>
+        <name>lumine</name>
+        <qualifiedname>AGRemapCore::GIBuilder::lumine</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Lumine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="209" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="296" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a1d136454b704c2e9693f5af5e7086167" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::lumineHeaven</definition>
+        <argsstring>()</argsstring>
+        <name>lumineHeaven</name>
+        <qualifiedname>AGRemapCore::GIBuilder::lumineHeaven</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for LumineHeaven. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="214" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="300" bodyend="302"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1ad3b6f5f22c666712e5c4672a2a6dd18d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
         <definition>ModType AGRemapCore::GIBuilder::mona</definition>
@@ -527,7 +557,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="209" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="296" bodyend="298"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="219" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="304" bodyend="306"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a3a0d460df739ca57e7139f5de0542e2c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -542,7 +572,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="214" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="300" bodyend="302"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="224" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="308" bodyend="310"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a02ef48f74e9403065afde12f1a7e1c4a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -557,7 +587,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="219" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="304" bodyend="306"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="229" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="312" bodyend="314"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a0eccb95abc37f425878ce6b8a3b69cbe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -572,7 +602,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="224" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="308" bodyend="310"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="234" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="316" bodyend="318"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a3564ba0f8ee7b7178a3e62a6a6254258" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -587,7 +617,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="229" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="312" bodyend="314"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="239" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="320" bodyend="322"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a03adb956185757ebc2f30eee6c61afdd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -602,7 +632,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="234" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="316" bodyend="318"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="244" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="324" bodyend="326"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1aabec5e2834f3c46c2985772e594d9432" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -617,7 +647,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="239" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="320" bodyend="322"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="249" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="328" bodyend="330"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a00db5eff8a7cd6a5efeef20ce20633f2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -632,7 +662,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="244" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="324" bodyend="326"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="254" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="332" bodyend="334"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a3aac2f7b1a38f2a3866a00b346e43d1a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -647,7 +677,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="249" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="328" bodyend="330"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="259" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="336" bodyend="338"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1afb36be20b1f0c0770b593e98d478f19f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -662,7 +692,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="254" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="332" bodyend="334"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="264" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="340" bodyend="342"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a2e86d8f8050c7c71de2e03d042c4de3e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -677,7 +707,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="259" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="336" bodyend="338"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="269" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="344" bodyend="346"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1ae3a2f0f656d4c7fed0bee1944a742b2d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -692,7 +722,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="264" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="340" bodyend="342"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="274" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="348" bodyend="350"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a421b3ccd105ae49d2b69b97f1a167e37" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -707,7 +737,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="269" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="344" bodyend="346"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="279" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="352" bodyend="354"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a3a194310b8e3afc6a572b4edf1197d60" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -722,7 +752,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="274" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="348" bodyend="350"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="284" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="356" bodyend="358"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a9cb845d129fd1923f3fbebaed59e76fa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -737,7 +767,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="279" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="352" bodyend="354"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="289" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="360" bodyend="362"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a8408dc8f47709391d3c0e12e37e90e0d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -752,7 +782,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="284" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="356" bodyend="358"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="294" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="364" bodyend="366"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1add2e213abd350d473bb78b116dabfdd2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -767,7 +797,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="289" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="360" bodyend="362"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="299" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="368" bodyend="370"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a85d24452cc1fcf1bb7347bc88a9ceee2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -782,7 +812,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="294" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="364" bodyend="366"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="304" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="372" bodyend="374"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1ab04883c639adf2feae1e646b6cc03c00" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -797,7 +827,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="299" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="368" bodyend="370"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="309" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="376" bodyend="378"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1ab1fffd2ad12c692a6381392b3e51c589" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -812,7 +842,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="304" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="372" bodyend="374"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="314" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="380" bodyend="382"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1af3cf429a3bbf67bda0e3c14aabfb3ea6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
@@ -834,7 +864,7 @@ population is not built to hold one
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="317" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="376" bodyend="378"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="327" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="384" bodyend="386"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1ad9cb9533849253f3b04effcff52b8845" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &gt;</type>
@@ -864,7 +894,7 @@ on the C++ side only (measured 2026-09-13)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GIBuilder.h" line="337" column="32" bodyfile="src/constants/GIBuilder.cpp" bodystart="380" bodyend="443"/>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="347" column="32" bodyfile="src/constants/GIBuilder.cpp" bodystart="388" bodyend="453"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -878,7 +908,7 @@ lighter, C++-side :cpp:class:`ModType` (id, name, and aliases only) instead of t
 pure-Python ``ModType``
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/GIBuilder.h" line="33" column="5" bodyfile="include/AGRemapCore/constants/GIBuilder.h" bodystart="33" bodyend="338"/>
+    <location file="include/AGRemapCore/constants/GIBuilder.h" line="33" column="5" bodyfile="include/AGRemapCore/constants/GIBuilder.h" bodystart="33" bodyend="348"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_g_i_builder_1ad9cb9533849253f3b04effcff52b8845" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>all</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_builder_1a144fc5dd87f9218152a03cb11a76a682" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>amber</name></member>
@@ -915,6 +945,8 @@ pure-Python ``ModType``
       <member refid="class_a_g_remap_core_1_1_g_i_builder_1a2c88a92a8b4a2614496f372c0fb6cf64" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>kleeBlossomingStarlight</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_builder_1a7bd5ce9cba9dcf35483925689a76987c" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>lisa</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_builder_1a5a3d04382de2e5b01324ca03ec47f5f8" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>lisaStudent</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a635b88a9a3870adb2a39f362f10ea624" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>lumine</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a1d136454b704c2e9693f5af5e7086167" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>lumineHeaven</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_builder_1ad3b6f5f22c666712e5c4672a2a6dd18d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>mona</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_builder_1a3a0d460df739ca57e7139f5de0542e2c" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>monaCN</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_builder_1a02ef48f74e9403065afde12f1a7e1c4a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>neuvillette</name></member>

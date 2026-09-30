@@ -189,6 +189,8 @@ surprises you.
 | a **mantle / cape sleeve, a cuff or a loose panel** sticks out or hangs wrong on the target when an arm moves | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 8: find the target's REAL forearm by which bone shares vertices with the hand chain, and audit the rows for left / right asymmetry |
 | **dark shards or wedges in LAYERED hair** (long hair of two-sided sheets, a fringe over a fringe) that turn with the camera, while the same mod's texture and bones check out | "YAOYAO <-> YAOYAOBAMBOO", point 8. It is the outline shell of the INNER faces, drawn in front of the outer ones. Confirm with `if vs != 037730.0` around the draw (shards gone, so it is the outline), locate it with `Tools/Misc/Diagnostics/outlinePaint.py`, then fix with `Component::innerOutlineObjs`. Lowering the outline width does NOT shrink them, and that is the test that rules out "the shell sits too far out" |
 | **white cheeks** on the remap, **and on the BASE outfit too** | "The face diffuse" below (a `ps-t0` <-> `ps-t1` swap). A remap corrects the base as well; the maintainer calls this a GI 6.1 break, not the mod's fault. If the output has **no remapped face section at all**, the swap never ran: see "YAOYAO <-> YAOYAOBAMBOO", point 9 (a face hash two characters share, and the versionless lookup). Check the face in the SHOP PREVIEW at full-resolution crops over several frames, because a single frame can catch a blink |
+| **the face washes out / loses its lashes** after a remap onto (or from) a skin, the eyes themselves right | "LUMINE <-> LUMINEHEAVEN", point 2: the two characters draw DIFFERENT face meshes and a face atlas does not move between them. Compare the face-shader draws' ib hashes in both frame dumps; if they differ, carry no face (`Component::face = false`, the merge's `faceReg = ""`) |
+| **one slot's texture is wrong only on the TARGET of a merge** (dark eyes, a light map colouring a part), the mod right on its own skin | "LUMINE <-> LUMINEHEAVEN", point 5: the mod binds that slot in the GAME's register order and a per-register download doubled a role. Read the fixed `.ini`'s member block for two textures of one role; `GIMIComponentParserConfig::downloadsByName` |
 | the remap **works and you are finishing up** | "Verifying", then "Closing out a remap" --- five files and a regenerated `core/xml`, and the vertex-group draft's `Credits` sheet |
 
 Four things hold whichever row you are on, and each has cost a session:
@@ -1965,6 +1967,58 @@ face diffuse hash (`c70ae897`). Prototypes: `Tools/Misc/Prototypes/yaoyaoBambooF
    the swap, so the face is bound by hand.
    To find the next one: `py -3` over `HashData.cpp` for any `tex_face_diffuse` value filed under two names, then
    `Hashes().getKey(value, None, [base, None], False)` -- `None` is this bug.
+
+## LUMINE <-> LUMINEHEAVEN (2026-09-29): the seventh component pair, compiled both ways
+
+Lumine is one mesh (`head`, `body`, `dress`, all PLAIN; the assets repo files her as `TravelerGirl`, and so do half her
+mods' section names -- both are keywords); LumineHeaven ("As Heaven and Earth Are Made Anew", 6.3) is an unnamed main mesh
+(Head / Body), a `Bang` and an `Eye`, the YaoyaoBamboo shape. **The skin is not in the outfit shop**: its preview is the
+character menu's Dressing Room (`c`, then `r`, then its card), which previews it without owning it -- so there is no
+overworld test of the skin on this account. **No asset repo has the skin**: its download folder and hash rows came from a
+frame dump of that preview (`genshin_3dmigoto_collect.py`, the 6.x role relabel, `giDownloadFolder.py`), and Lumine's own
+folder needed today's dump too -- the repo's dump files still carry her pre-4.3 ib hash, and her body light map had been
+redrawn since (`d298f0bc`, filed at 6.3). Prototypes: `Tools/Misc/Prototypes/lumineHeavenFix.py` and
+`lumineFromHeavenFix.py` (the oracles), synthetic skin mods `lumineHeavenSynth.py`, A/Bs
+`Tools/Misc/Diagnostics/abLumine.py` / `abLumineRev.py`.
+
+1. **Yaoyao's head fix was HALF right for this pair -- test each half.** Her head diffuse is alpha 255 and the skin's head
+   shader reads alpha, so her hair glowed ORANGE until it was set to 1 (as Yaoyao's). But the light map band move Yaoyao
+   needed (her 255 onto the skin's hair band 127) GILDED Lumine's hair next to her own pale cream; left on 255 it matched.
+   The two edits were separated by building four variants (band / alpha on and off) and shooting the same frame of each --
+   a template decision copied from the neighbouring pair is a hypothesis.
+2. **A skin with its OWN face meshes cannot take a mod's face texture.** The two characters draw different face meshes
+   (hers `3049e662` / `92af2d49`, the skin's `15825079` / `82d9b411`) and their face atlases paint the eyes differently
+   (hers open eye-whites, the skin's closed lid-lines). A face section remapped by hash put her atlas on the skin's mesh:
+   lashes gone, the face washed out, while the skin's own face with her eyes (the Eye component) looked like her. So
+   neither direction carries the face (`Component::face = false`; the merge's `faceReg = ""`), and a mod repainting the face
+   keeps the target's face. Compare Neuvillette, where the skin's face texture differs but the meshes are SHARED, and the
+   face does carry. **Check whether the face MESHES are shared (the face-shader draws' ib hashes in both dumps) before
+   carrying a face.** `sideMeshes` still translates a mod hiding the face by hash.
+3. **`SourceLayout::Detect` misreads an older mod's metal map.** Two of her mods are the older GIMI shape: diffuse, light
+   map, then a `MetalMap` / `ShadowRamp` at `ps-t2` / `ps-t3` and no fix call. Detect took the `ps-t2` for a normal-map
+   layout and put the kimono's light map in the diffuse slot (vivid green). She has no normal map on any object and none of
+   her mods binds one, so the forward is `Plain` -- Bennett's reason, and the warning `SourceLayout` already carries.
+4. **Single-layer cloth on her DRESS needs a mirrored inner layer on the skin's Body shader** (Neuvillette's
+   `mirroredObjs`): a coat's lining came out bright blue, the long drapes dark, where on her own outfit they are pale.
+5. **A skin mod may write a slot in the GAME's register order, and a per-register download then doubles a role.**
+   LumineHeaven1's Eye binds only `ps-t1 = ...Diffuse` -- right on the skin's own 6.x eye shader, which reads the diffuse
+   there. The parser saw `ps-t0` empty and downloaded the game's eye diffuse into it, so the Eye member carried TWO textures
+   named a diffuse; the merge's `texRegsByName` rightly believed neither, read by position, and the mod's diffuse became the
+   light map: dark brown eyes on Lumine. `GIMIComponentParserConfig::downloadsByName` (new, off by default): when a slot's
+   own section binds under names that are believed, a role it binds gets no download and a missing role whose register is
+   taken is downloaded onto a free one -- the Eye now carries the mod's diffuse and the GAME's eye light map, amber again.
+   Decided before `Parser::getSectionTargets` applies the downloads, off the slot's own section only (not through `run =`).
+   Three other characters' mods fix byte-identically with it built in.
+6. **Her centre front panel has no centre counterpart** (the skin's front skirt is a left and a right chain); it rides the
+   right chain, flagged for a walking check the account cannot do on this skin.
+7. **A TexFx effect does not serve the skin's shaders** (Lumine10's blue glow and starry lining render as its flat colours):
+   the maintainer's 2026-09-24 call keeps an author's effect as it is.
+8. **Mods whose own outfit is broken on the maintainer's old-loader GIMI** -- four shattered by a stale 4.0 ib
+   (`dfb54407`), four drawn green -- render right on the skin, where the remap resolves the old hash and normalises the
+   bindings.
+9. **Every re-run of a fix renames its generated files** (new `_B` / `_C` suffixes) while removing the old ones, for this
+   pair and for Yaoyao alike: the file COUNT and the generated CONTENTS are what the run-twice rule checks, not the names.
+   And an undo returns the author's `.ini` with one trailing newline added -- compare modulo trailing whitespace.
 
 ## The reverse direction is COMPILED TOO: a multi-component SOURCE onto a classic target (2026-09-14)
 

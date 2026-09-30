@@ -38,6 +38,7 @@
     <includedby refid="_klee_blossoming_starlight_parser_8cpp" local="yes">src/data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.cpp</includedby>
     <includedby refid="_lisa_parser_8cpp" local="yes">src/data/IniParseData/Lisa/LisaParser.cpp</includedby>
     <includedby refid="_lisa_student_parser_8cpp" local="yes">src/data/IniParseData/LisaStudent/LisaStudentParser.cpp</includedby>
+    <includedby refid="_lumine_parser_8cpp" local="yes">src/data/IniParseData/Lumine/LumineParser.cpp</includedby>
     <includedby refid="_mona_parser_8cpp" local="yes">src/data/IniParseData/Mona/MonaParser.cpp</includedby>
     <includedby refid="_mona_c_n_parser_8cpp" local="yes">src/data/IniParseData/MonaCN/MonaCNParser.cpp</includedby>
     <includedby refid="_neuvillette_parser_8cpp" local="yes">src/data/IniParseData/Neuvillette/NeuvilletteParser.cpp</includedby>
@@ -53,6 +54,7 @@
     <includedby refid="_xiangling_cheer_parser_8cpp" local="yes">src/data/IniParseData/XianglingCheer/XianglingCheerParser.cpp</includedby>
     <includedby refid="_xingqiu_parser_8cpp" local="yes">src/data/IniParseData/Xingqiu/XingqiuParser.cpp</includedby>
     <includedby refid="_xingqiu_bamboo_parser_8cpp" local="yes">src/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.cpp</includedby>
+    <includedby refid="_yaoyao_parser_8cpp" local="yes">src/data/IniParseData/Yaoyao/YaoyaoParser.cpp</includedby>
     <includedby refid="_yelan_parser_8cpp" local="yes">src/data/IniParseData/Yelan/YelanParser.cpp</includedby>
     <incdepgraph>
       <node id="47">
@@ -1291,6 +1293,10 @@
         </childnode>
         <childnode refid="49" relation="include">
         </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniParseData/Amber/AmberParser.cpp</label>
@@ -1421,66 +1427,74 @@
         <link refid="_lisa_student_parser_8cpp"/>
       </node>
       <node id="34">
+        <label>src/data/IniParseData/Lumine/LumineParser.cpp</label>
+        <link refid="_lumine_parser_8cpp"/>
+      </node>
+      <node id="35">
         <label>src/data/IniParseData/Mona/MonaParser.cpp</label>
         <link refid="_mona_parser_8cpp"/>
       </node>
-      <node id="35">
+      <node id="36">
         <label>src/data/IniParseData/MonaCN/MonaCNParser.cpp</label>
         <link refid="_mona_c_n_parser_8cpp"/>
       </node>
-      <node id="36">
+      <node id="37">
         <label>src/data/IniParseData/Neuvillette/NeuvilletteParser.cpp</label>
         <link refid="_neuvillette_parser_8cpp"/>
       </node>
-      <node id="37">
+      <node id="38">
         <label>src/data/IniParseData/Nilou/NilouParser.cpp</label>
         <link refid="_nilou_parser_8cpp"/>
       </node>
-      <node id="38">
+      <node id="39">
         <label>src/data/IniParseData/NilouBreeze/NilouBreezeParser.cpp</label>
         <link refid="_nilou_breeze_parser_8cpp"/>
       </node>
-      <node id="39">
+      <node id="40">
         <label>src/data/IniParseData/Ningguang/NingguangParser.cpp</label>
         <link refid="_ningguang_parser_8cpp"/>
       </node>
-      <node id="40">
+      <node id="41">
         <label>src/data/IniParseData/NingguangOrchid/NingguangOrchidParser.cpp</label>
         <link refid="_ningguang_orchid_parser_8cpp"/>
       </node>
-      <node id="41">
+      <node id="42">
         <label>src/data/IniParseData/Rosaria/RosariaParser.cpp</label>
         <link refid="_rosaria_parser_8cpp"/>
       </node>
-      <node id="42">
+      <node id="43">
         <label>src/data/IniParseData/RosariaCN/RosariaCNParser.cpp</label>
         <link refid="_rosaria_c_n_parser_8cpp"/>
       </node>
-      <node id="43">
+      <node id="44">
         <label>src/data/IniParseData/Shenhe/ShenheParser.cpp</label>
         <link refid="_shenhe_parser_8cpp"/>
       </node>
-      <node id="44">
+      <node id="45">
         <label>src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp</label>
         <link refid="_shenhe_frost_flower_parser_8cpp"/>
       </node>
-      <node id="45">
+      <node id="46">
         <label>src/data/IniParseData/Xiangling/XianglingParser.cpp</label>
         <link refid="_xiangling_parser_8cpp"/>
       </node>
-      <node id="46">
+      <node id="47">
         <label>src/data/IniParseData/XianglingCheer/XianglingCheerParser.cpp</label>
         <link refid="_xiangling_cheer_parser_8cpp"/>
       </node>
-      <node id="47">
+      <node id="48">
         <label>src/data/IniParseData/Xingqiu/XingqiuParser.cpp</label>
         <link refid="_xingqiu_parser_8cpp"/>
       </node>
-      <node id="48">
+      <node id="49">
         <label>src/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.cpp</label>
         <link refid="_xingqiu_bamboo_parser_8cpp"/>
       </node>
-      <node id="49">
+      <node id="50">
+        <label>src/data/IniParseData/Yaoyao/YaoyaoParser.cpp</label>
+        <link refid="_yaoyao_parser_8cpp"/>
+      </node>
+      <node id="51">
         <label>src/data/IniParseData/Yelan/YelanParser.cpp</label>
         <link refid="_yelan_parser_8cpp"/>
       </node>

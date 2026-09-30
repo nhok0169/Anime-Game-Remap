@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_lumine_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::LumineParser</compoundname>
+    <includes refid="_lumine_parser_8h" local="no">LumineParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lumine_parser_1a81864839a189ac684fa4c6733516f77b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::LumineParser::LumineParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>LumineParser</name>
+        <qualifiedname>AGRemapCore::LumineParser::LumineParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Lumine/LumineParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lumine_parser_1ab8ff005cbe6e547db1bd7c9ae4910114" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::LumineParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::LumineParser::v4_0</qualifiedname>
+        <briefdescription>
+<para>The parser for a 4.0-era Lumine <computeroutput>.ini</computeroutput> file <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1adeaf1352f8809b24e39a8dda09339047" kindref="member">IniParseBuilderFuncs::lumine4_0</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Lumine/LumineParser.h" line="40" column="45" bodyfile="src/data/IniParseData/Lumine/LumineParser.cpp" bodystart="58" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Lumine&apos;s own ``.ini`` parsers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The standard GIMI character shape, drawing ``head`` / ``body`` / ``dress`` -- all on the plain texture layout.
+Pair this with :cpp:class:`LumineFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Lumine/LumineParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Lumine/LumineParser.h" bodystart="32" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_lumine_parser_1a81864839a189ac684fa4c6733516f77b" prot="public" virt="non-virtual"><scope>AGRemapCore::LumineParser</scope><name>LumineParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_lumine_parser_1ab8ff005cbe6e547db1bd7c9ae4910114" prot="public" virt="non-virtual"><scope>AGRemapCore::LumineParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

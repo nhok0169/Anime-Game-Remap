@@ -296,7 +296,11 @@ namespace AGRemapCore {
                         continue;
                     }
                     const auto from = lines.begin() + static_cast<std::ptrdiff_t>(i * stride);
-                    ByteVec edited = config.mirrorLineEdit(ByteVec(from, from + static_cast<std::ptrdiff_t>(stride)));
+                    const ByteVec line(from, from + static_cast<std::ptrdiff_t>(stride));
+                    // Kept short of a lining behind it -- see VGComponentBuffers::mirrorLimits
+                    const float limit = i < buffers.mirrorLimits.size() ? buffers.mirrorLimits[i] : -1.0f;
+                    ByteVec edited = (limit >= 0.0f && limit < config.mirrorOffset)
+                        ? VGComponentSplit::mirrorPositionLine(line, limit) : config.mirrorLineEdit(line);
                     if (edited.size() != stride) {
                         throw std::invalid_argument("a mirror line edit of '" + position->srcPath + "' changed a line's size");
                     }

@@ -126,6 +126,16 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         The inward offset :cpp:member:`mirrorLineEdit` applies, so a copy with a smaller
+         :cpp:member:`VGComponentBuffers::mirrorLimits` entry is mirrored at that instead
+         (:cpp:func:`VGComponentSplit::mirrorPositionLine`). **Default**: ``0``, limits unused
+         @endrst
+         */
+        float mirrorOffset = 0.0f;
+
+        /**
+         * @brief
+         @rst
          Pushes applied to the written ``Position.buf`` -- each kept vertex (and its mirrored copy) moves
          HORIZONTALLY away from a push's :cpp:member:`VGPushAway::from` by :cpp:member:`VGPushAway::distance`
          times its weight share on the push's groups, read off the SOURCE blend :raw-html:`<br />`

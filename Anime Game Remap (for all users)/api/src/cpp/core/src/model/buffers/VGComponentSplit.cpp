@@ -312,16 +312,26 @@ namespace AGRemapCore {
         const bool checkBacked = spec.mirrorBackedReach > 0.0f && !positions_.empty() && positions_.size() == weights_.size()
             && normals_.size() == positions_.size();
         std::vector<std::vector<bool>> backed(ibs_.size());
+        std::vector<float> limitOf;     // per SOURCE vertex, see VGComponentBuffers::mirrorLimits
         if (checkBacked) {
             std::vector<const InnerLayerOutline::Triangles*> occluders;
             for (const Triangles& list : ibs_) {
                 occluders.push_back(&list);
             }
+            Triangles mirroredTris;
             for (std::size_t which : ibs) {
                 if (which < ibs_.size() && backed[which].empty()) {
                     backed[which] = InnerLayerOutline::backed(positions_, normals_, occluders, ibs_[which], spec.mirrorBackedReach);
+                    mirroredTris.insert(mirroredTris.end(), ibs_[which].begin(), ibs_[which].end());
                 }
             }
+            limitOf = InnerLayerOutline::behind(positions_, normals_, occluders, mirroredTris, spec.mirrorBackedReach);
+            for (float& limit : limitOf) {
+                if (limit >= 0.0f) {
+                    limit *= 0.5f;
+                }
+            }
+            result.mirrorLimits.assign(result.vertices.size(), -1.0f);
         }
 
         result.mirrored.assign(result.vertices.size(), false);
@@ -340,6 +350,10 @@ namespace AGRemapCore {
                 result.live.push_back(result.live[static_cast<std::size_t>(corner)]);
             }
             result.mirrored.push_back(true);
+            if (!limitOf.empty()) {
+                const std::size_t src = result.vertices[static_cast<std::size_t>(corner)];
+                result.mirrorLimits.push_back(src < limitOf.size() ? limitOf[src] : -1.0f);
+            }
             copyOf.emplace(corner, made);
             ++result.stats.mirroredVertices;
             return made;

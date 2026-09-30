@@ -227,7 +227,7 @@ Whether each target vertex&apos;s NORMAL runs into an occluder triangle (one it 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="99" column="21" bodyfile="src/model/buffers/InnerLayerOutline.cpp" bodystart="292" bodyend="346"/>
+        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="99" column="21" bodyfile="src/model/buffers/InnerLayerOutline.cpp" bodystart="388" bodyend="442"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -262,17 +262,18 @@ Whether each target vertex&apos;s NORMAL runs into an occluder triangle (one it 
         <detaileddescription>
 <para><verbatim>embed:rst 
 Which target triangles are already BACKED: an occluder triangle facing the OTHER way lies within ``reach``
-behind it, along the reverse of its corners&apos; mean normal from its centroid or from a point near any of its
-corners :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+behind it, along the reverse of its corners&apos; mean normal, from its centroid AND from a point near each of
+its corners :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 Cloth modelled with its own lining is two surfaces a few millimetres apart, facing away from each other,
 and the back of either is never seen. A mirrored inner layer (:cpp:member:`VGComponentSpec::mirroredIbs`)
 moved inward from such a surface lands IN FRONT of the other one, and shows from outside as a flat grey
 polygon over the cloth (Lumine2&apos;s coat on LumineHeaven, 2026-09-29: 27% of its twins crossed its lining
-within 5 mm). A triangle backed this way needs no twin. The corners are asked as well as the centroid
-because a lining under only part of a triangle lets the twin&apos;s corner through: from the centroid alone, 264
-of Lumine7&apos;s kept twins still did, 70 with the corners. A surface facing the SAME way behind it -- the body
-under a skirt -- does not count: a twin pushed into it is hidden behind it
+within 5 mm). A triangle backed this way needs no twin. All four points must reach the lining: a triangle
+only PARTLY over it keeps its twin, or the part the lining does not cover shows its back face (Lumine7&apos;s
+skirt, brown patches at the front opening, when one point was enough) -- such a twin is kept short of the
+lining instead, see :cpp:func:`behind`. A surface facing the SAME way behind it -- the body under a skirt --
+does not count: a twin pushed into it is hidden behind it
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -321,7 +322,47 @@ under a skirt -- does not count: a twin pushed into it is hidden behind it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="127" column="28" bodyfile="src/model/buffers/InnerLayerOutline.cpp" bodystart="176" bodyend="289"/>
+        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="128" column="28" bodyfile="src/model/buffers/InnerLayerOutline.cpp" bodystart="176" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_inner_layer_outline_1a437151c4cc626ba50eb4962c48b1329b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; AGRemapCore::InnerLayerOutline::behind</definition>
+        <argsstring>(const std::vector&lt; Vec3 &gt; &amp;positions, const std::vector&lt; Vec3 &gt; &amp;normals, const std::vector&lt; const Triangles * &gt; &amp;occluders, const Triangles &amp;targets, float reach)</argsstring>
+        <name>behind</name>
+        <qualifiedname>AGRemapCore::InnerLayerOutline::behind</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a3e0ffb78f62351ca5b0efa2a803dcb14" kindref="member">Vec3</ref> &gt; &amp;</type>
+          <declname>positions</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a3e0ffb78f62351ca5b0efa2a803dcb14" kindref="member">Vec3</ref> &gt; &amp;</type>
+          <declname>normals</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; const <ref refid="struct_a_g_remap_core_1_1_inner_layer_outline_1add23feabd4f91c4ae042c96fb259652e" kindref="member">Triangles</ref> * &gt; &amp;</type>
+          <declname>occluders</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_inner_layer_outline_1add23feabd4f91c4ae042c96fb259652e" kindref="member">Triangles</ref> &amp;</type>
+          <declname>targets</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>reach</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Per vertex of the target triangles, how far behind it (against its own normal) the nearest occluder triangle
+FACING THE OTHER WAY is, or ``-1`` for none within ``reach`` (and for a vertex no target uses) -- how far a
+mirrored twin of that vertex may move inward before it comes out through a lining, see
+:cpp:member:`VGComponentBuffers::mirrorLimits`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="140" column="28" bodyfile="src/model/buffers/InnerLayerOutline.cpp" bodystart="296" bodyend="385"/>
       </memberdef>
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_inner_layer_outline_1aa36a314c475b8b02d682e61b2ae8ffde" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -365,7 +406,7 @@ byte 12, any stride of at least 24)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="139" column="21" bodyfile="src/model/buffers/InnerLayerOutline.cpp" bodystart="349" bodyend="364"/>
+        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="152" column="21" bodyfile="src/model/buffers/InnerLayerOutline.cpp" bodystart="445" bodyend="460"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -391,9 +432,10 @@ inner triangle&apos;s wedge is back-facing, so it draws -- one such wedge showed
 lock
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="44" column="5" bodyfile="include/AGRemapCore/model/buffers/InnerLayerOutline.h" bodystart="44" bodyend="140"/>
+    <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="44" column="5" bodyfile="include/AGRemapCore/model/buffers/InnerLayerOutline.h" bodystart="44" bodyend="153"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1ab8e99e38f2d544811dd21904ea76972b" prot="public" virt="non-virtual"><scope>AGRemapCore::InnerLayerOutline</scope><name>backed</name></member>
+      <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a437151c4cc626ba50eb4962c48b1329b" prot="public" virt="non-virtual"><scope>AGRemapCore::InnerLayerOutline</scope><name>behind</name></member>
       <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a9624d744136ab24fd2b539bb81425ced" prot="public" virt="non-virtual"><scope>AGRemapCore::InnerLayerOutline</scope><name>covered</name></member>
       <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a99caa7ff291921bf6ec2a164d641ca10" prot="public" virt="non-virtual"><scope>AGRemapCore::InnerLayerOutline</scope><name>facingAxis</name></member>
       <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a924df1814e99ba2acbf62beeaedacb31" prot="public" virt="non-virtual"><scope>AGRemapCore::InnerLayerOutline</scope><name>facingCos</name></member>

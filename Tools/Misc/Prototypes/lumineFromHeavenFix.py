@@ -194,12 +194,14 @@ def main():
     parser.add_argument("--headAlpha", type = int, default = None, help = "an A/B: set the head diffuse's alpha to this")
     parser.add_argument("--headHairBand", type = int, default = None, help = "an A/B: move the head light map's 126-128 onto this band")
     parser.add_argument("--headTo", default = "body", help = "the object the main Head slot lands on (default `body`; `head` for the A/B)")
+    parser.add_argument("--bangTo", default = "head", help = "the object the Bang slot lands on (default `head`; `body` for the A/B)")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--download", default = None,
                         help = "the API's downloadMode, eg. `disabled` -- omit for the API's own default")
     args = parser.parse_args()
     Slots[0] = Slots[0][:4] + (args.headTo,) + Slots[0][5:]
+    Slots[2] = Slots[2][:4] + (args.bangTo,) + Slots[2][5:]
 
     FRB.CppStrategyOverrides.clear()
     FRB.CppStrategyOverrides.setParser(SrcName, FRB.makeGIMIComponentParser(parserConfig()))

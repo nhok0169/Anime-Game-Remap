@@ -23474,6 +23474,11 @@ class VGComponentBuffers:
         List[:class:`bool`]: Negative index only: per mod vertex, whether it carries no sentinel
         """
     @property
+    def mirrorLimits(self) -> list[float]:
+        """
+        List[:class:`float`]: Per entry of :attr:`vertices`, for a mirrored copy the most it may move inward (half way to a lining behind it), ``-1`` for no limit; empty unless :attr:`VGComponentSpec.mirrorBackedReach` applied
+        """
+    @property
     def mirrored(self) -> list[bool]:
         """
         List[:class:`bool`]: Per entry of :attr:`vertices`, whether it is a copy for the mirrored inner layer (empty without one)

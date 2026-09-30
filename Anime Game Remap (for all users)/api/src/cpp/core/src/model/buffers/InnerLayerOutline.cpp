@@ -215,8 +215,10 @@ namespace AGRemapCore {
             m = {m[0] / len, m[1] / len, m[2] / len};
             const Vec3 d{-m[0], -m[1], -m[2]};
 
-            // From the centroid and from a point near each corner (a tenth of the way in): a lining under only part of
-            // the triangle is missed by the centroid, and the twin's corner still comes out through it
+            // From the centroid and from a point near each corner (a tenth of the way in), and EVERY one of them has to
+            // reach the lining: a triangle only partly over it keeps its twin, or the part the lining does not cover
+            // shows its back face (Lumine7's skirt, brown patches at the front opening, 2026-09-30) -- the twin is
+            // kept short of the lining instead, see behind()
             std::array<Vec3, 4> origins{o, o, o, o};
             for (std::size_t c = 0; c < 3; ++c) {
                 for (std::size_t a = 0; a < 3; ++a) {
@@ -241,8 +243,9 @@ namespace AGRemapCore {
             std::sort(candidates.begin(), candidates.end());
             candidates.erase(std::unique(candidates.begin(), candidates.end()), candidates.end());
 
+            std::array<bool, 4> hit{false, false, false, false};
             for (std::size_t c : candidates) {
-                if (result[k]) {
+                if (hit[0] && hit[1] && hit[2] && hit[3]) {
                     break;
                 }
                 if (tris[c] == &self) {
@@ -265,8 +268,11 @@ namespace AGRemapCore {
                     continue;
                 }
                 const float inv = 1.0f / det;
-                for (const Vec3& from : origins) {
-                    const Vec3 s = sub(from, a);
+                for (std::size_t i = 0; i < origins.size(); ++i) {
+                    if (hit[i]) {
+                        continue;
+                    }
+                    const Vec3 s = sub(origins[i], a);
                     const float u = dot(s, h) * inv;
                     if (u < 0.0f || u > 1.0f) {
                         continue;
@@ -277,14 +283,104 @@ namespace AGRemapCore {
                         continue;
                     }
                     const float dist = dot(e2, q) * inv;
-                    if (dist > 1e-6f && dist < reach) {
-                        result[k] = true;
-                        break;
-                    }
+                    hit[i] = dist > 1e-6f && dist < reach;
+                }
+            }
+            result[k] = hit[0] && hit[1] && hit[2] && hit[3];
+        }
+
+        return result;
+    }
+
+
+    std::vector<float> InnerLayerOutline::behind(const std::vector<Vec3>& positions, const std::vector<Vec3>& normals,
+                                                 const std::vector<const Triangles*>& occluders, const Triangles& targets, float reach) {
+        const std::size_t n = positions.size();
+        std::vector<float> result(n, -1.0f);
+        if (reach <= 0.0f || normals.size() < n) {
+            return result;
+        }
+
+        std::vector<const Tri*> tris;
+        for (const Triangles* list : occluders) {
+            for (const Tri& t : *list) {
+                if (t[0] < n && t[1] < n && t[2] < n) {
+                    tris.push_back(&t);
                 }
             }
         }
 
+        std::vector<bool> asked(n, false);
+        for (const Tri& t : targets) {
+            for (unsigned long long v : t) {
+                if (v < n) {
+                    asked[v] = true;
+                }
+            }
+        }
+
+        const TriangleGrid grid(positions, tris, reach);
+        std::vector<std::size_t> candidates;
+        for (std::size_t v = 0; v < n; ++v) {
+            if (!asked[v]) {
+                continue;
+            }
+            Vec3 m = normals[v];
+            const float len = std::sqrt(dot(m, m));
+            if (len <= 1e-12f) {
+                continue;
+            }
+            m = {m[0] / len, m[1] / len, m[2] / len};
+            const Vec3 d{-m[0], -m[1], -m[2]};
+            const Vec3& o = positions[v];
+            const Vec3 end{o[0] + d[0] * reach, o[1] + d[1] * reach, o[2] + d[2] * reach};
+            const Vec3 lo{std::min(o[0], end[0]), std::min(o[1], end[1]), std::min(o[2], end[2])};
+            const Vec3 hi{std::max(o[0], end[0]), std::max(o[1], end[1]), std::max(o[2], end[2])};
+
+            candidates.clear();
+            grid.forCells(lo, hi, [&](long long key) {
+                if (const std::vector<std::size_t>* in = grid.at(key)) {
+                    candidates.insert(candidates.end(), in->begin(), in->end());
+                }
+            });
+            std::sort(candidates.begin(), candidates.end());
+            candidates.erase(std::unique(candidates.begin(), candidates.end()), candidates.end());
+
+            float nearest = -1.0f;
+            for (std::size_t c : candidates) {
+                const Tri& t = *tris[c];
+                if (t[0] == v || t[1] == v || t[2] == v) {
+                    continue;
+                }
+                const Vec3& a = positions[t[0]];
+                const Vec3 e1 = sub(positions[t[1]], a);
+                const Vec3 e2 = sub(positions[t[2]], a);
+                if (dot(cross(e1, e2), m) >= 0.0f) {
+                    continue;     // only a layer facing the other way
+                }
+                const Vec3 h = cross(d, e2);
+                const float det = dot(e1, h);
+                if (std::fabs(det) <= 1e-14f) {
+                    continue;
+                }
+                const float inv = 1.0f / det;
+                const Vec3 s = sub(o, a);
+                const float u = dot(s, h) * inv;
+                if (u < 0.0f || u > 1.0f) {
+                    continue;
+                }
+                const Vec3 q = cross(s, e1);
+                const float w = dot(d, q) * inv;
+                if (w < 0.0f || u + w > 1.0f) {
+                    continue;
+                }
+                const float dist = dot(e2, q) * inv;
+                if (dist > 1e-6f && dist < reach && (nearest < 0.0f || dist < nearest)) {
+                    nearest = dist;
+                }
+            }
+            result[v] = nearest;
+        }
         return result;
     }
 

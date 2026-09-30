@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="193" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="193" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="195" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="195" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_buffers_1a8cc100196898eb4c2a5252867ad559e6" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::array&lt; double, 4 &gt; &gt;</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="198" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="198" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="200" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="200" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_buffers_1af6acea6bfc6e7bfa1f02732a86db70b6" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::array&lt; long long, 4 &gt; &gt;</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="203" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="203" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="205" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="205" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_buffers_1af31995f273590e9ea3a2b62261e8c290" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::vector&lt; std::array&lt; unsigned long long, 3 &gt; &gt; &gt;</type>
@@ -65,7 +65,7 @@ Per source index buffer, the triangles this component draws -- renumbered into
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="212" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="212" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="214" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="214" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_buffers_1ab39e14a91333ccf25ea30fe0a0471af2" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::vector&lt; std::size_t &gt; &gt;</type>
@@ -84,7 +84,7 @@ since the split removes triangles from the middle of an object as well as its en
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="222" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="222" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="224" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="224" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_buffers_1aa627441cc2157e41b6a71c60d2dff78a" prot="public" static="no" mutable="no">
         <type>std::vector&lt; bool &gt;</type>
@@ -99,7 +99,7 @@ since the split removes triangles from the middle of an object as well as its en
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="227" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="227" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="229" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="229" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_buffers_1a1b373ea8ed94588c6bdaa973f59247ef" prot="public" static="no" mutable="no">
         <type>std::vector&lt; bool &gt;</type>
@@ -118,7 +118,27 @@ Empty when the component has no layer
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="237" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="237" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="239" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_buffers_1a22ee0e98b9491143912d1e3f279a0e9b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; AGRemapCore::VGComponentBuffers::mirrorLimits</definition>
+        <argsstring></argsstring>
+        <name>mirrorLimits</name>
+        <qualifiedname>AGRemapCore::VGComponentBuffers::mirrorLimits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Per entry of \ref vertices, for a MIRRORED copy: the most it may move inward, half the distance to the
+lining facing the other way behind it (:cpp:func:`InnerLayerOutline::backed`&apos;s partial case), or ``-1`` for
+no limit. Empty when :cpp:member:`VGComponentSpec::mirrorBackedReach` did not apply. A twin kept short of a
+lining stays hidden behind both surfaces, where one moved the full offset came out in front of it
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="250" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="250" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_buffers_1ab4e698d9e91a2e0210f31705a4077ce4" prot="public" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_v_g_component_split_stats" kindref="compound">VGComponentSplitStats</ref></type>
@@ -132,7 +152,7 @@ Empty when the component has no layer
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="239" column="31" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="239" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="252" column="31" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="252" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -155,13 +175,14 @@ What one component gets out of a split: the vertices it draws and its buffers ov
         <link refid="struct_a_g_remap_core_1_1_v_g_component_split_stats"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="189" column="5" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="189" bodyend="240"/>
+    <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="191" column="5" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="191" bodyend="253"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1af31995f273590e9ea3a2b62261e8c290" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>ibs</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1af6acea6bfc6e7bfa1f02732a86db70b6" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>indices</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1ab39e14a91333ccf25ea30fe0a0471af2" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>keptTriangleIds</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1aa627441cc2157e41b6a71c60d2dff78a" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>live</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1a1b373ea8ed94588c6bdaa973f59247ef" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>mirrored</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1a22ee0e98b9491143912d1e3f279a0e9b" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>mirrorLimits</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1ab4e698d9e91a2e0210f31705a4077ce4" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>stats</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1a6d17ca995d2e27c5780fc65c017b8df8" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>vertices</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1a8cc100196898eb4c2a5252867ad559e6" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentBuffers</scope><name>weights</name></member>

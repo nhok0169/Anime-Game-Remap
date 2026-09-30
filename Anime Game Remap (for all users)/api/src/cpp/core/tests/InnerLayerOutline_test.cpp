@@ -215,7 +215,16 @@ int main() {
         for (int k = 0; k < 3; ++k) nrm.push_back({0.0f, 0.0f, -1.0f});
         patch.push_back({b, b + 1, b + 2});     // (p1 - p0) x (p2 - p0) = (0, .4, 0) x (.5, 0, 0) -> -z
         const std::vector<bool> r = InnerLayerOutline::backed(pos, nrm, {&target, &patch}, target, 0.01f);
-        expect(r[0], "a lining under one corner backs the triangle -- its twin's corner would come through it");
+        expect(!r[0], "a lining under one corner does not back the triangle -- the rest of it would show its back face");
+
+        // ...and behind() says how far that corner's twin may move: the patch is 4 mm behind corner 1 only
+        const std::vector<float> d = InnerLayerOutline::behind(pos, nrm, {&target, &patch}, target, 0.01f);
+        expect(d.size() == pos.size(), "behind() answers per vertex");
+        expect(d[1] > 0.0039f && d[1] < 0.0041f, "corner 1 has the lining 4 mm behind it");
+        expect(d[0] < 0.0f && d[2] < 0.0f, "corners 0 and 2 have nothing behind them");
+        expect(d[b] < 0.0f, "a vertex no target triangle uses is not asked");
+        const std::vector<float> none = InnerLayerOutline::behind(pos, nrm, {&target, &patch}, target, 0.003f);
+        expect(none[1] < 0.0f, "a lining further away than the reach is not reported");
     }
 
     // ---- reading a Position.buf ----

@@ -241,6 +241,25 @@ class VGComponentSplitTest(BaseUnitTest):
         self.assertEqual([body.vertices[v] for v in twinC], [6, 8, 7])
         self.assertTrue(all(body.mirrored[v] for v in twinC))
 
+    def test_mirrorBackedReach_aPartlyLinedTriangleKeepsItsTwinShortOfTheLining(self):
+        # One panel (0, 1, 2) with a small lining patch (3, 4, 5) 4 mm under its corner 1 only, facing the other way:
+        # the panel is not wholly backed, so it keeps its twin, and the copy of corner 1 may move 2 mm at most
+        positions = [(0, 0, 0), (1, 0, 0), (0, 1, 0), (0.8, -0.1, -0.004), (0.8, 0.3, -0.004), (1.3, -0.1, -0.004)]
+        normals = [(0, 0, 1)] * 3 + [(0, 0, -1)] * 3
+        spec = FRB.VGComponentSpec("Body", {0: 10})
+        spec.mirroredIbs = [0]
+        spec.mirrorBackedReach = 0.01
+        split = FRB.VGComponentSplit([[1, 0, 0, 0]] * 6, [[0, 0, 0, 0]] * 6, [[[0, 1, 2], [3, 4, 5]]], [spec])
+        split.setGeometry(positions, normals)
+        body = split.split("Body")
+
+        self.assertEqual(body.stats.mirrorBacked, 0)
+        self.assertEqual(body.stats.mirroredTriangles, 2)
+        limits = {body.vertices[i]: body.mirrorLimits[i] for i in range(len(body.vertices)) if body.mirrored[i]}
+        self.assertAlmostEqual(limits[1], 0.002, places = 4)
+        self.assertEqual((limits[0], limits[2]), (-1.0, -1.0))
+        self.assertTrue(all(limit == -1.0 for i, limit in enumerate(body.mirrorLimits) if not body.mirrored[i]))
+
     def test_mirrorBackedReach_offOutOfReachOrWithoutGeometry_mirrorsEveryTriangle(self):
         # 0 (the default), a lining further away than the reach, and no positions handed over: every triangle mirrored
         for body in (self._backedSplit(0.0), self._backedSplit(0.003), self._backedSplit(0.01, geometry = False)):

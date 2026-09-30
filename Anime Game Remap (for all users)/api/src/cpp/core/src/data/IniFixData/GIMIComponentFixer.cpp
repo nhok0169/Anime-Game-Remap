@@ -1405,6 +1405,7 @@ namespace AGRemapCore {
                     if (!component_.mirroredObjs.empty()) {
                         const float offset = component_.mirrorOffset;
                         splitConfig.mirrorLineEdit = [offset](const ByteVec& line) { return VGComponentSplit::mirrorPositionLine(line, offset); };
+                        splitConfig.mirrorOffset = offset;
                     }
 
                     // The index buffers PER GROUP: a group is one satisfiable state of the mod, and

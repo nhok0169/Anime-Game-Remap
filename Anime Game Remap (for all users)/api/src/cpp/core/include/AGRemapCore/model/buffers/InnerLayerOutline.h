@@ -103,17 +103,18 @@ namespace AGRemapCore {
          * @brief
          @rst
          Which target triangles are already BACKED: an occluder triangle facing the OTHER way lies within ``reach``
-         behind it, along the reverse of its corners' mean normal from its centroid or from a point near any of its
-         corners :raw-html:`<br />` :raw-html:`<br />`
+         behind it, along the reverse of its corners' mean normal, from its centroid AND from a point near each of
+         its corners :raw-html:`<br />` :raw-html:`<br />`
 
          Cloth modelled with its own lining is two surfaces a few millimetres apart, facing away from each other,
          and the back of either is never seen. A mirrored inner layer (:cpp:member:`VGComponentSpec::mirroredIbs`)
          moved inward from such a surface lands IN FRONT of the other one, and shows from outside as a flat grey
          polygon over the cloth (Lumine2's coat on LumineHeaven, 2026-09-29: 27% of its twins crossed its lining
-         within 5 mm). A triangle backed this way needs no twin. The corners are asked as well as the centroid
-         because a lining under only part of a triangle lets the twin's corner through: from the centroid alone, 264
-         of Lumine7's kept twins still did, 70 with the corners. A surface facing the SAME way behind it -- the body
-         under a skirt -- does not count: a twin pushed into it is hidden behind it
+         within 5 mm). A triangle backed this way needs no twin. All four points must reach the lining: a triangle
+         only PARTLY over it keeps its twin, or the part the lining does not cover shows its back face (Lumine7's
+         skirt, brown patches at the front opening, when one point was enough) -- such a twin is kept short of the
+         lining instead, see :cpp:func:`behind`. A surface facing the SAME way behind it -- the body under a skirt --
+         does not count: a twin pushed into it is hidden behind it
          @endrst
          *
          * @param positions Per vertex, its position
@@ -126,6 +127,18 @@ namespace AGRemapCore {
          */
         static std::vector<bool> backed(const std::vector<Vec3>& positions, const std::vector<Vec3>& normals,
                                         const std::vector<const Triangles*>& occluders, const Triangles& targets, float reach);
+
+        /**
+         * @brief
+         @rst
+         Per vertex of the target triangles, how far behind it (against its own normal) the nearest occluder triangle
+         FACING THE OTHER WAY is, or ``-1`` for none within ``reach`` (and for a vertex no target uses) -- how far a
+         mirrored twin of that vertex may move inward before it comes out through a lining, see
+         :cpp:member:`VGComponentBuffers::mirrorLimits`
+         @endrst
+         */
+        static std::vector<float> behind(const std::vector<Vec3>& positions, const std::vector<Vec3>& normals,
+                                         const std::vector<const Triangles*>& occluders, const Triangles& targets, float reach);
 
         /**
          * @brief

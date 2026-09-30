@@ -250,8 +250,9 @@ Grading
        | - Her head's diffuse alpha is moved onto the skin's legend, or her hair renders a glowing orange.
        |
        | - Cloth on her ``dress`` (coats, capes, long skirt tails) is given an inside layer, or its lining renders
-       | bright blue or dark on the skin -- except where the mod models its own lining, which the layer would
-       | poke through as flat grey or brown polygons.
+       | bright blue or dark on the skin. Where the mod models its own lining, the layer stays behind it.
+       |
+       | - A part of the mod that glows takes the skin's own glow colour: a blue glow comes out red or green.
        |
        | - Her centre front skirt panel has no centre counterpart on the skin and follows its right front skirt.
        |

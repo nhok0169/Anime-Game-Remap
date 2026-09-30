@@ -127,8 +127,10 @@ namespace AGRemapCore {
          Cloth modelled with its own lining needs no inner layer, and a twin moved inward from it pokes through the
          lining a few millimetres behind: Lumine2's coat on LumineHeaven showed flat grey polygons over its flaps,
          and they went with the backed twins (in game, 2026-09-29). Needs the mod's positions, handed over by
-         :cpp:func:`VGComponentSplit::setGeometry`; without them every triangle is mirrored. **Default**: ``0``,
-         every triangle of a mirrored buffer gets its twin
+         :cpp:func:`VGComponentSplit::setGeometry`; without them every triangle is mirrored. A triangle only PARTLY
+         over a lining keeps its twin, moved inward no further than half way to the lining
+         (:cpp:member:`VGComponentBuffers::mirrorLimits`). **Default**: ``0``, every triangle of a mirrored buffer
+         gets its twin at the full offset
          @endrst
          */
         float mirrorBackedReach = 0.0f;
@@ -235,6 +237,17 @@ namespace AGRemapCore {
          @endrst
          */
         std::vector<bool> mirrored;
+
+        /**
+         * @brief
+         @rst
+         Per entry of \ref vertices, for a MIRRORED copy: the most it may move inward, half the distance to the
+         lining facing the other way behind it (:cpp:func:`InnerLayerOutline::backed`'s partial case), or ``-1`` for
+         no limit. Empty when :cpp:member:`VGComponentSpec::mirrorBackedReach` did not apply. A twin kept short of a
+         lining stays hidden behind both surfaces, where one moved the full offset came out in front of it
+         @endrst
+         */
+        std::vector<float> mirrorLimits;
 
         VGComponentSplitStats stats;
     };

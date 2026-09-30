@@ -168,6 +168,8 @@ What one component gets out of a split: the vertices it draws and its buffers ov
                       py::doc("List[List[:class:`int`]]: Per source index buffer, the SOURCE index of every triangle in :attr:`ibs`, ascending -- what a mod's own ``drawindexed`` ranges are remapped through"))
         .def_readonly("mirrored", &AGRC::VGComponentBuffers::mirrored,
                       py::doc("List[:class:`bool`]: Per entry of :attr:`vertices`, whether it is a copy for the mirrored inner layer (empty without one)"))
+        .def_readonly("mirrorLimits", &AGRC::VGComponentBuffers::mirrorLimits,
+                      py::doc("List[:class:`float`]: Per entry of :attr:`vertices`, for a mirrored copy the most it may move inward (half way to a lining behind it), ``-1`` for no limit; empty unless :attr:`VGComponentSpec.mirrorBackedReach` applied"))
         .def_readonly("stats", &AGRC::VGComponentBuffers::stats, py::doc(":class:`VGComponentSplitStats`: Counts worth reporting"));
 
     py::class_<AGRC::VGComponentSplit>(m, "VGComponentSplit", R"doc(

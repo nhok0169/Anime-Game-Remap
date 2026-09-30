@@ -2973,6 +2973,7 @@
     <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a9624d744136ab24fd2b539bb81425ced" kind="function"><name>covered</name></member>
     <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a50b3932d1f90b3967f656218e66d268e" kind="function"><name>find</name></member>
     <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1ab8e99e38f2d544811dd21904ea76972b" kind="function"><name>backed</name></member>
+    <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a437151c4cc626ba50eb4962c48b1329b" kind="function"><name>behind</name></member>
     <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1aa36a314c475b8b02d682e61b2ae8ffde" kind="function"><name>readPositions</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_internal_key_result" kind="struct"><name>AGRemapCore::ModMappedAssets::InternalKeyResult</name>
@@ -5026,6 +5027,7 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1ab39e14a91333ccf25ea30fe0a0471af2" kind="variable"><name>keptTriangleIds</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1aa627441cc2157e41b6a71c60d2dff78a" kind="variable"><name>live</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1a1b373ea8ed94588c6bdaa973f59247ef" kind="variable"><name>mirrored</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1a22ee0e98b9491143912d1e3f279a0e9b" kind="variable"><name>mirrorLimits</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1ab4e698d9e91a2e0210f31705a4077ce4" kind="variable"><name>stats</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_v_g_component_merge" kind="class"><name>AGRemapCore::VGComponentMerge</name>
@@ -5199,6 +5201,7 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a421459c2130b60316250d30bbb86d1c6" kind="variable"><name>texcoordLineEdit</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ab2f3ce8c9cbd2704ce0e7461327073f9" kind="variable"><name>positionLineEdit</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a5a81818945ae980a46c0702aaa893cbc" kind="variable"><name>mirrorLineEdit</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a355c81ab695cbc47ab0d7c75ca737211" kind="variable"><name>mirrorOffset</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1af3381873bc02309262c55f1c70ca2bc1" kind="variable"><name>pushAway</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a58596afadcd965271fe6b651c02f9e81" kind="variable"><name>innerOutline</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a8963c71c11c83a19ecccaeb3c4f009f7" kind="variable"><name>innerOutlineIbs</name></member>

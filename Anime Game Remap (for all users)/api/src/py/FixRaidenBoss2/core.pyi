@@ -7261,6 +7261,16 @@ class GIMIComponentFixerConfig:
         def innerOutlineReach(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
             ...
         @property
+        def mirrorBackedReach(self) -> float:
+            """
+            :class:`float`: How far behind a :attr:`mirroredObjs` triangle a layer of the mod facing the other way makes its twin
+            unneeded, in model units --- a coat with its own lining otherwise shows its twins as flat grey polygons through it. See
+            :attr:`VGComponentSpec.mirrorBackedReach`. ``0`` (the default) mirrors every triangle
+            """
+        @mirrorBackedReach.setter
+        def mirrorBackedReach(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+            ...
+        @property
         def mirrorOffset(self) -> float:
             """
             :class:`float`: How far inside the surface the mirrored layer sits, in model units --- ``0.005`` by default: at 1 mm it z-fought the surface from outside
@@ -23678,6 +23688,16 @@ class VGComponentSpec:
     def claimShare(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
+    def mirrorBackedReach(self) -> float:
+        """
+        :class:`float`: For a cut component with :attr:`mirroredIbs`: how far behind a mirrored triangle to look for a layer
+        of the mesh facing the other way, in model units; a triangle so backed gets no twin. Needs
+        :meth:`VGComponentSplit.setGeometry`. ``0`` (the default) mirrors every triangle
+        """
+    @mirrorBackedReach.setter
+    def mirrorBackedReach(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
     def mirroredIbs(self) -> list[int]:
         """
         List[:class:`int`]: For a cut component, the source index buffers (by position) whose triangles get a MIRRORED
@@ -23803,6 +23823,19 @@ class VGComponentSplit:
         """
     def __init__(self, weights: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(4)"]], indices: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(4)"]], ibs: collections.abc.Sequence[collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(3)"]]], specs: collections.abc.Sequence[VGComponentSpec]) -> None:
         ...
+    def setGeometry(self, positions: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]], normals: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]]) -> None:
+        """
+        Hands the split the mod's own positions and normals, per source vertex --- what
+        :attr:`VGComponentSpec.mirrorBackedReach` asks about
+        
+        Parameters
+        ----------
+        positions: List[Tuple[:class:`float`, :class:`float`, :class:`float`]]
+            Per source vertex, its position
+        
+        normals: List[Tuple[:class:`float`, :class:`float`, :class:`float`]]
+            Per source vertex, its normal
+        """
     def split(self, component: str) -> VGComponentBuffers:
         """
         Splits for one component
@@ -23832,6 +23865,11 @@ class VGComponentSplitStats:
     def keptVertices(self) -> int:
         """
         :class:`int`: The vertices the component draws
+        """
+    @property
+    def mirrorBacked(self) -> int:
+        """
+        :class:`int`: Cut only: triangles of a mirrored buffer given no twin, being backed -- see :attr:`VGComponentSpec.mirrorBackedReach`
         """
     @property
     def mirroredTriangles(self) -> int:

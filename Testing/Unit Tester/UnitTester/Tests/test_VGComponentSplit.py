@@ -203,6 +203,51 @@ class VGComponentSplitTest(BaseUnitTest):
         # too short to hold a normal: as it is
         self.assertEqual(FRB.VGComponentSplit.mirrorPositionLine(b"\x01" * 12, 0.5), b"\x01" * 12)
 
+    # A coat panel A with its own lining B 4 mm behind it, facing the other way; a single-layer panel C; and a panel
+    # E 4 mm under D facing the SAME way (cloth over a body). Every vertex on the one component's group 0.
+    #   A (0,1,2) z=0 facing +z   B (3,5,4) z=-0.004 facing -z   C (6,7,8) facing +z   D (9,10,11) z=0 / E (12,13,14) z=-0.004, both +z
+    BackedPositions = [(0, 0, 0), (1, 0, 0), (0, 1, 0),
+                       (0, 0, -0.004), (1, 0, -0.004), (0, 1, -0.004),
+                       (5, 0, 0), (6, 0, 0), (5, 1, 0),
+                       (10, 0, 0), (11, 0, 0), (10, 1, 0),
+                       (10, 0, -0.004), (11, 0, -0.004), (10, 1, -0.004)]
+    BackedNormals = [(0, 0, 1)] * 3 + [(0, 0, -1)] * 3 + [(0, 0, 1)] * 9
+    BackedIbs = [[[0, 1, 2], [3, 5, 4], [6, 7, 8], [9, 10, 11], [12, 13, 14]]]
+
+    def _backedSplit(self, reach, geometry = True):
+        spec = FRB.VGComponentSpec("Body", {0: 10})
+        spec.mirroredIbs = [0]
+        spec.mirrorBackedReach = reach
+        count = len(self.BackedPositions)
+        split = FRB.VGComponentSplit([[1, 0, 0, 0]] * count, [[0, 0, 0, 0]] * count, self.BackedIbs, [spec])
+        if (geometry):
+            split.setGeometry(self.BackedPositions, self.BackedNormals)
+        return split.split("Body")
+
+    def test_mirrorBackedReach_aTriangleWithItsOwnLiningGetsNoTwin(self):
+        body = self._backedSplit(0.01)
+
+        # A and B back each other: no twins. C has nothing behind it; D has E behind it, but E faces the SAME way
+        # (a twin pushed into it hides behind it); E has nothing behind it -- those three keep their twins
+        self.assertEqual(body.keptTriangleIds, [[0, 1, 2, 2, 3, 3, 4, 4]])
+        self.assertEqual((body.stats.mirrorBacked, body.stats.mirroredTriangles), (2, 3))
+        self.assertEqual(body.stats.trianglesKept, [8])
+
+        # the twin is still the triangle wound the other way, over copies
+        ibs = body.ibs[0]
+        self.assertEqual(ibs[:2], [[0, 1, 2], [3, 5, 4]])
+        self.assertEqual(len(ibs), 8)
+        twinC = ibs[3]
+        self.assertEqual([body.vertices[v] for v in twinC], [6, 8, 7])
+        self.assertTrue(all(body.mirrored[v] for v in twinC))
+
+    def test_mirrorBackedReach_offOutOfReachOrWithoutGeometry_mirrorsEveryTriangle(self):
+        # 0 (the default), a lining further away than the reach, and no positions handed over: every triangle mirrored
+        for body in (self._backedSplit(0.0), self._backedSplit(0.003), self._backedSplit(0.01, geometry = False)):
+            self.assertEqual(body.keptTriangleIds, [[0, 0, 1, 1, 2, 2, 3, 3, 4, 4]])
+            self.assertEqual((body.stats.mirrorBacked, body.stats.mirroredTriangles), (0, 5))
+        self.assertEqual(FRB.VGComponentSpec("A", {1: 2}).mirrorBackedReach, 0.0)
+
     # ================ shared groups ================
 
     def test_splitGroups_aGroupsWeightSharedAmongBones(self):

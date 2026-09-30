@@ -5,6 +5,7 @@
     <includes local="no">string</includes>
     <includedby refid="_g_i_m_i_fixer_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h</includedby>
     <includedby refid="_g_i_m_i_parser_8h" local="yes">include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</includedby>
+    <includedby refid="_g_i_m_i_component_parser_8cpp" local="yes">src/data/IniParseData/GIMIComponentParser.cpp</includedby>
     <incdepgraph>
       <node id="1">
         <label>include/AGRemapCore/constants/IniGraphModObjKeywords.h</label>
@@ -23,6 +24,8 @@
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
         </childnode>
       </node>
       <node id="2">

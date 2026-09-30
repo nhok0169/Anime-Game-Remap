@@ -36,7 +36,7 @@ The fixer for a 6.1-era Raiden ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Raiden/RaidenFixer.h" line="49" column="43" bodyfile="src/data/IniFixData/Raiden/RaidenFixer.cpp" bodystart="430" bodyend="432"/>
+        <location file="include/AGRemapCore/data/IniFixData/Raiden/RaidenFixer.h" line="49" column="43" bodyfile="src/data/IniFixData/Raiden/RaidenFixer.cpp" bodystart="434" bodyend="436"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

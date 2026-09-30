@@ -1042,6 +1042,12 @@ namespace AGRemapCore {
                                 }
 
                                 VGComponentSplit split(std::move(weights), std::move(indices), std::move(ibs), specsFor(names));
+                                // The same geometry the buffers' writer reads (VGSplitGroupResource), so a skipped
+                                // inner-layer twin is missing from the .ini's counts as well as from the buffer.
+                                if (split.needsGeometry(componentName_) && !files_.position.empty() && fileSize(files_.position) > 0) {
+                                    BinaryFile positions(files_.position);
+                                    split.readGeometry(positions.read());
+                                }
                                 VGComponentBuffers buffers = split.split(componentName_);
                                 result.first = buffers.stats.keptVertices;
 
@@ -1772,6 +1778,7 @@ namespace AGRemapCore {
                             if (c.name != spec.name || c.mirroredObjs.empty()) {
                                 continue;
                             }
+                            spec.mirrorBackedReach = c.mirrorBackedReach;
                             for (std::size_t i = 0; i < names.size(); ++i) {
                                 if (std::find(c.mirroredObjs.begin(), c.mirroredObjs.end(), names[i]) != c.mirroredObjs.end()) {
                                     spec.mirroredIbs.push_back(i);

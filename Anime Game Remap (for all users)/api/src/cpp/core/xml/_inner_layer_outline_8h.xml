@@ -8,6 +8,7 @@
     <includes refid="_buf_value_8h" local="yes">AGRemapCore/model/buffers/BufValue.h</includes>
     <includedby refid="_v_g_split_group_resource_8h" local="yes">include/AGRemapCore/model/iniresources/VGSplitGroupResource.h</includedby>
     <includedby refid="_inner_layer_outline_8cpp" local="yes">src/model/buffers/InnerLayerOutline.cpp</includedby>
+    <includedby refid="_v_g_component_split_8cpp" local="yes">src/model/buffers/VGComponentSplit.cpp</includedby>
     <incdepgraph>
       <node id="5">
         <label>AGRemapCore/model/buffers/BufValue.h</label>
@@ -85,6 +86,8 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>include/AGRemapCore/model/iniresources/VGSplitGroupResource.h</label>
@@ -142,6 +145,10 @@
         <label>src/model/buffers/InnerLayerOutline.cpp</label>
         <link refid="_inner_layer_outline_8cpp"/>
       </node>
+      <node id="16">
+        <label>src/model/buffers/VGComponentSplit.cpp</label>
+        <link refid="_v_g_component_split_8cpp"/>
+      </node>
       <node id="14">
         <label>src/model/iniresources/VGSplitGroupResource.cpp</label>
         <link refid="_v_g_split_group_resource_8cpp"/>
@@ -195,11 +202,14 @@
 <codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;bool&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a50b3932d1f90b3967f656218e66d268e" kindref="member">find</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Vec3&gt;&amp;<sp/>positions,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Vec3&gt;&amp;<sp/>normals,</highlight></codeline>
 <codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;const<sp/>Triangles*&gt;&amp;<sp/>occluders,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;const<sp/>Triangles*&gt;&amp;<sp/>targets)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="101"><highlight class="normal"></highlight></codeline>
-<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_inner_layer_outline_1aa36a314c475b8b02d682e61b2ae8ffde" kindref="member">readPositions</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref>&amp;<sp/>buffer,<sp/>std::size_t<sp/>stride,<sp/>std::vector&lt;Vec3&gt;&amp;<sp/>positions,<sp/>std::vector&lt;Vec3&gt;&amp;<sp/>normals);</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"></highlight></codeline>
-<codeline lineno="115"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;bool&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_inner_layer_outline_1ab8e99e38f2d544811dd21904ea76972b" kindref="member">backed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Vec3&gt;&amp;<sp/>positions,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Vec3&gt;&amp;<sp/>normals,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;const<sp/>Triangles*&gt;&amp;<sp/>occluders,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_inner_layer_outline_1add23feabd4f91c4ae042c96fb259652e" kindref="member">Triangles</ref>&amp;<sp/>targets,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_inner_layer_outline_1ac4844f674f4e0c9709f2949329cc266b" kindref="member">reach</ref>);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_inner_layer_outline_1aa36a314c475b8b02d682e61b2ae8ffde" kindref="member">readPositions</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref>&amp;<sp/>buffer,<sp/>std::size_t<sp/>stride,<sp/>std::vector&lt;Vec3&gt;&amp;<sp/>positions,<sp/>std::vector&lt;Vec3&gt;&amp;<sp/>normals);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h"/>
   </compounddef>

@@ -126,7 +126,11 @@ downloads). The two characters draw DIFFERENT face meshes, so a face atlas canno
 either way (the lashes vanished when it was). Yaoyao's head fix was half right here: the diffuse alpha (orange hair
 without it) yes, the band move (it gilded her hair) no. Older mods' metal map at `ps-t2` needs `SourceLayout::Plain`. And a
 skin mod written in the game's register order got a doubled role from a per-register download (dark eyes on Lumine):
-`GIMIComponentParserConfig::downloadsByName`, new and off by default. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s
+`GIMIComponentParserConfig::downloadsByName`, new and off by default. **The maintainer's first check (2026-09-30) found
+two more, both general:** a mirrored inner layer pokes through a coat that models its own lining (grey polygons;
+`Component::mirrorBackedReach` gives a triangle with a layer facing the other way right behind it no twin), and a skin
+slot holding cloth beside hair went to her head draw, which shades everything as hair (white sleeves yellow in shade;
+the slot goes to her body now). See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s
 "LUMINE <-> LUMINEHEAVEN".
 
 **NEUVILLETTE <-> NEUVILLETTEMELUSENT IS COMPILED BOTH WAYS (2026-09-25), AND THE SKIN HAS ONE REAL MOD --

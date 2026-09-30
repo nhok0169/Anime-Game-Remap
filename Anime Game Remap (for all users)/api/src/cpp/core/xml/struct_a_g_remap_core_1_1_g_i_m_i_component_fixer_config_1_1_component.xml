@@ -327,6 +327,32 @@ all (in game, 2026-09-26). **Default**: ``0.005`` (5 mm on a GI character)
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="285" column="19" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="285" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a593f45356806307ea80ce6ed5894f871" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float AGRemapCore::GIMIComponentFixerConfig::Component::mirrorBackedReach</definition>
+        <argsstring></argsstring>
+        <name>mirrorBackedReach</name>
+        <qualifiedname>AGRemapCore::GIMIComponentFixerConfig::Component::mirrorBackedReach</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How far behind a :cpp:member:`mirroredObjs` triangle a layer of the mod facing the other way makes its
+twin unneeded, in model units -- see :cpp:member:`VGComponentSpec::mirrorBackedReach` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A coat modelled with its own lining is two surfaces a few millimetres apart, and a twin moved
+:cpp:member:`mirrorOffset` inward from one lands in front of the other: flat grey polygons over the flaps
+of Lumine2&apos;s coat, which went when the backed twins did (in game, 2026-09-29). Every mod of Lumine&apos;s with
+a real dress mesh has 13-37% of its dress triangles backed within 5 mm. **Default**: ``0``, every triangle
+is mirrored (Neuvillette&apos;s verified output)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="301" column="19" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a3f614ffd858d4f04d59be573d711f0a5" prot="public" static="no" mutable="no">
         <type>std::unordered_map&lt; long long, std::vector&lt; std::pair&lt; long long, double &gt; &gt; &gt;</type>
         <definition>std::unordered_map&lt;long long, std::vector&lt;std::pair&lt;long long, double&gt; &gt; &gt; AGRemapCore::GIMIComponentFixerConfig::Component::splitGroups</definition>
@@ -345,7 +371,7 @@ cloth part the target has no counterpart for, between a bone it clips on and one
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="296" column="32" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="296" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="312" column="32" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="312" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a091fd718eea17cace6c632a0ae7b1a6c" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_v_g_push_away" kindref="compound">VGPushAway</ref> &gt;</type>
@@ -364,7 +390,7 @@ target moves differently. Cut components only. **Default**: empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="306" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="306" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="322" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="322" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a8e48326f59a942a80a07de2e27f2a54a" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -387,7 +413,7 @@ the component&apos;s ``Position.buf`` (not a :cpp:member:`negativeIndex` one). *
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="320" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="320" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="336" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="336" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a0ce25838978f6dbb530bd0e40571d1c9" prot="public" static="no" mutable="no">
         <type>float</type>
@@ -404,7 +430,7 @@ the component&apos;s ``Position.buf`` (not a :cpp:member:`negativeIndex` one). *
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="325" column="19" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="325" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="341" column="19" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="341" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a42de189d1693a557ce153cb1e0f7c055" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -421,7 +447,7 @@ the component&apos;s ``Position.buf`` (not a :cpp:member:`negativeIndex` one). *
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="330" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="330" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="346" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="346" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a41fc1fe25b79dd9a3fecf1691285ca04" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -446,7 +472,7 @@ since a plain slot has nowhere to put the normal map
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="345" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="345" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="361" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="361" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7760edfd8956346f514455eced0a1ad7" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -462,7 +488,7 @@ since a plain slot has nowhere to put the normal map
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="350" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="350" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="366" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="366" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae2c0b9f4af8f721add0e6a6b68f63603" prot="public" static="no" mutable="no">
         <type>std::size_t</type>
@@ -494,7 +520,7 @@ Yelan&apos;s Texcoord is already 20, the width all three of her slots read
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="372" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="372" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="388" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="388" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a5225f56ed78bb88097d27d42afa73840" prot="public" static="no" mutable="no">
         <type>std::array&lt; float, 3 &gt;</type>
@@ -529,7 +555,7 @@ Only the position is moved: a translation leaves normals and tangents as they ar
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="397" column="24" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="397" bodyend="397"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="413" column="24" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="413" bodyend="413"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a461e9236e3bbb7ff666a4c97014e772b" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -557,7 +583,7 @@ positions for this component. **Default**: ``false``, the offset always applies
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="415" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="415" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="431" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="431" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7268856272e0561b22ab78e94e2d7c93" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -588,7 +614,7 @@ Read these off the target&apos;s identity mod, never off a mod of it. Only a lit
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="437" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="437" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="453" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="453" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -596,7 +622,7 @@ Read these off the target&apos;s identity mod, never off a mod of it. Only a lit
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="97" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="97" bodyend="438"/>
+    <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" line="97" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" bodystart="97" bodyend="454"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a8a6e3aa1143a327fafd7b262e9c474dc" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>claimShare</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab57732e17c092f1bb8509403de678a16" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>dropTexFx</name></member>
@@ -604,6 +630,7 @@ Read these off the target&apos;s identity mod, never off a mod of it. Only a lit
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a42de189d1693a557ce153cb1e0f7c055" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>innerOutlineFacingAxis</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a8e48326f59a942a80a07de2e27f2a54a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>innerOutlineObjs</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a0ce25838978f6dbb530bd0e40571d1c9" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>innerOutlineReach</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a593f45356806307ea80ce6ed5894f871" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>mirrorBackedReach</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7e3f2b2b4da50d78455aa4fbed594377" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>mirroredObjs</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a19769206a6de54ee199134908fb567a5" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>mirrorOffset</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1abc2e02f12cd1943aad220c26f9fbc09a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentFixerConfig::Component</scope><name>modTypeName</name></member>

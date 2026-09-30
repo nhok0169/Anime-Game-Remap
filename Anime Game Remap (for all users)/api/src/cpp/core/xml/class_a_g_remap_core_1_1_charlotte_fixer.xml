@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Charlotte/CharlotteFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/Charlotte/CharlotteFixer.cpp" bodystart="112" bodyend="114"/>
+        <location file="include/AGRemapCore/data/IniFixData/Charlotte/CharlotteFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/Charlotte/CharlotteFixer.cpp" bodystart="117" bodyend="119"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_charlotte_fixer_1abf70ee70fdde5e548bff77881d011074" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Charlotte/CharlotteFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/Charlotte/CharlotteFixer.cpp" bodystart="117" bodyend="119"/>
+        <location file="include/AGRemapCore/data/IniFixData/Charlotte/CharlotteFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/Charlotte/CharlotteFixer.cpp" bodystart="122" bodyend="124"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

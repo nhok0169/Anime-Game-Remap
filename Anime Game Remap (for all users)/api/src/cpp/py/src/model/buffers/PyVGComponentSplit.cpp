@@ -115,6 +115,11 @@ INNER LAYER: each corner copied once (flagged in :attr:`VGComponentBuffers.mirro
 by its copy wound the other way, under the same source triangle id. For single-layer cloth whose back faces the
 target's shader does not shade as cloth. Empty by default
         )doc"))
+        .def_readwrite("mirrorBackedReach", &AGRC::VGComponentSpec::mirrorBackedReach, py::doc(R"doc(
+:class:`float`: For a cut component with :attr:`mirroredIbs`: how far behind a mirrored triangle to look for a layer
+of the mesh facing the other way, in model units; a triangle so backed gets no twin. Needs
+:meth:`VGComponentSplit.setGeometry`. ``0`` (the default) mirrors every triangle
+        )doc"))
         .def_readwrite("overlapRings", &AGRC::VGComponentSpec::overlapRings,
                        py::doc(":class:`int`: For a cut component, how many rings of its neighbours' triangles it draws as well"))
         .def_readwrite("claimShare", &AGRC::VGComponentSpec::claimShare,
@@ -142,6 +147,8 @@ Counts worth reporting about one component's split
                       py::doc(":class:`int`: Cut only: vertices copied for the mirrored inner layer -- see :attr:`VGComponentSpec.mirroredIbs`"))
         .def_readonly("mirroredTriangles", &AGRC::VGComponentSplitStats::mirroredTriangles,
                       py::doc(":class:`int`: Cut only: triangles added as the mirrored inner layer"))
+        .def_readonly("mirrorBacked", &AGRC::VGComponentSplitStats::mirrorBacked,
+                      py::doc(":class:`int`: Cut only: triangles of a mirrored buffer given no twin, being backed -- see :attr:`VGComponentSpec.mirrorBackedReach`"))
         .def_readonly("splitVertices", &AGRC::VGComponentSplitStats::splitVertices,
                       py::doc(":class:`int`: Cut only: vertices whose weight was shared -- see :attr:`VGComponentSpec.splitGroups`"));
 
@@ -191,6 +198,18 @@ specs: List[:class:`VGComponentSpec`]
                       std::vector<AGRC::VGComponentSplit::Triangles>, std::vector<AGRC::VGComponentSpec>>(),
              py::arg("weights"), py::arg("indices"), py::arg("ibs"), py::arg("specs"))
         .def_property_readonly("vertexCount", &AGRC::VGComponentSplit::vertexCount, py::doc(":class:`int`: The mod's vertices"))
+        .def("setGeometry", &AGRC::VGComponentSplit::setGeometry, py::arg("positions"), py::arg("normals"), py::doc(R"doc(
+Hands the split the mod's own positions and normals, per source vertex --- what
+:attr:`VGComponentSpec.mirrorBackedReach` asks about
+
+Parameters
+----------
+positions: List[Tuple[:class:`float`, :class:`float`, :class:`float`]]
+    Per source vertex, its position
+
+normals: List[Tuple[:class:`float`, :class:`float`, :class:`float`]]
+    Per source vertex, its normal
+        )doc"))
         .def("split", &AGRC::VGComponentSplit::split, py::arg("component"), py::doc(R"doc(
 Splits for one component
 

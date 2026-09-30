@@ -173,6 +173,122 @@ namespace AGRemapCore {
     }
 
 
+    std::vector<bool> InnerLayerOutline::backed(const std::vector<Vec3>& positions, const std::vector<Vec3>& normals,
+                                                const std::vector<const Triangles*>& occluders, const Triangles& targets, float reach) {
+        const std::size_t n = positions.size();
+        std::vector<bool> result(targets.size(), false);
+        if (reach <= 0.0f || normals.size() < n) {
+            return result;
+        }
+
+        std::vector<const Tri*> tris;
+        for (const Triangles* list : occluders) {
+            for (const Tri& t : *list) {
+                if (t[0] < n && t[1] < n && t[2] < n) {
+                    tris.push_back(&t);
+                }
+            }
+        }
+
+        const TriangleGrid grid(positions, tris, reach);
+        std::vector<std::size_t> candidates;
+
+        for (std::size_t k = 0; k < targets.size(); ++k) {
+            const Tri& self = targets[k];
+            if (self[0] >= n || self[1] >= n || self[2] >= n) {
+                continue;
+            }
+
+            // From the centroid, against the corners' mean normal
+            Vec3 o{0.0f, 0.0f, 0.0f};
+            Vec3 m{0.0f, 0.0f, 0.0f};
+            for (unsigned long long v : self) {
+                for (std::size_t a = 0; a < 3; ++a) {
+                    o[a] += positions[v][a] / 3.0f;
+                    m[a] += normals[v][a];
+                }
+            }
+            const float len = std::sqrt(dot(m, m));
+            if (len <= 1e-12f) {
+                continue;
+            }
+            m = {m[0] / len, m[1] / len, m[2] / len};
+            const Vec3 d{-m[0], -m[1], -m[2]};
+
+            // From the centroid and from a point near each corner (a tenth of the way in): a lining under only part of
+            // the triangle is missed by the centroid, and the twin's corner still comes out through it
+            std::array<Vec3, 4> origins{o, o, o, o};
+            for (std::size_t c = 0; c < 3; ++c) {
+                for (std::size_t a = 0; a < 3; ++a) {
+                    origins[c + 1][a] = positions[self[c]][a] * 0.9f + o[a] * 0.1f;
+                }
+            }
+            Vec3 lo = origins[0];
+            Vec3 hi = origins[0];
+            for (const Vec3& from : origins) {
+                for (std::size_t a = 0; a < 3; ++a) {
+                    lo[a] = std::min({lo[a], from[a], from[a] + d[a] * reach});
+                    hi[a] = std::max({hi[a], from[a], from[a] + d[a] * reach});
+                }
+            }
+
+            candidates.clear();
+            grid.forCells(lo, hi, [&](long long key) {
+                if (const std::vector<std::size_t>* in = grid.at(key)) {
+                    candidates.insert(candidates.end(), in->begin(), in->end());
+                }
+            });
+            std::sort(candidates.begin(), candidates.end());
+            candidates.erase(std::unique(candidates.begin(), candidates.end()), candidates.end());
+
+            for (std::size_t c : candidates) {
+                if (result[k]) {
+                    break;
+                }
+                if (tris[c] == &self) {
+                    continue;
+                }
+                const Tri& t = *tris[c];
+                const Vec3& a = positions[t[0]];
+                const Vec3 e1 = sub(positions[t[1]], a);
+                const Vec3 e2 = sub(positions[t[2]], a);
+
+                // Only a surface facing the other way backs this one
+                if (dot(cross(e1, e2), m) >= 0.0f) {
+                    continue;
+                }
+
+                // Moller-Trumbore, from each origin
+                const Vec3 h = cross(d, e2);
+                const float det = dot(e1, h);
+                if (std::fabs(det) <= 1e-14f) {
+                    continue;
+                }
+                const float inv = 1.0f / det;
+                for (const Vec3& from : origins) {
+                    const Vec3 s = sub(from, a);
+                    const float u = dot(s, h) * inv;
+                    if (u < 0.0f || u > 1.0f) {
+                        continue;
+                    }
+                    const Vec3 q = cross(s, e1);
+                    const float w = dot(d, q) * inv;
+                    if (w < 0.0f || u + w > 1.0f) {
+                        continue;
+                    }
+                    const float dist = dot(e2, q) * inv;
+                    if (dist > 1e-6f && dist < reach) {
+                        result[k] = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+
     std::vector<bool> InnerLayerOutline::find(const std::vector<Vec3>& positions, const std::vector<Vec3>& normals,
                                               const std::vector<const Triangles*>& occluders, const std::vector<const Triangles*>& targets) const {
         const std::size_t n = positions.size();

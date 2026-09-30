@@ -2000,6 +2000,17 @@ redrawn since (`d298f0bc`, filed at 6.3). Prototypes: `Tools/Misc/Prototypes/lum
    her mods binds one, so the forward is `Plain` -- Bennett's reason, and the warning `SourceLayout` already carries.
 4. **Single-layer cloth on her DRESS needs a mirrored inner layer on the skin's Body shader** (Neuvillette's
    `mirroredObjs`): a coat's lining came out bright blue, the long drapes dark, where on her own outfit they are pale.
+   **But not where the mod models its own lining** (2026-09-30): a twin moved `mirrorOffset` (5 mm) inward from a coat
+   lands IN FRONT of a lining a few millimetres behind it, and showed as flat grey polygons over Lumine2's coat flaps
+   and brown ones on Lumine7's dress. Ray-cast over every Lumine mod's dress, 13-70% of the twins crossed a layer facing
+   the other way within 5 mm (Lumine9: 28176 of 40793). `Component::mirrorBackedReach` (new, 0 = off; Lumine 0.01)
+   gives no twin to a triangle BACKED like that, asked from its centroid and from a point near each corner
+   (`InnerLayerOutline::backed`; the corners took the twins that still poked through from 264 to 70 on Lumine7). Two
+   traps it hit, both general: the FIXER's own split (the one the `.ini`'s vertex count and draw ranges come from) has
+   to read the same geometry as the buffers' writer (`VGComponentSplit::readGeometry`), or the `.ini` kept drawing
+   67224 indices out of a 50763-index buffer; `Tools/Misc/Diagnostics/drawFits.py <folder>` is the check: every explicit `drawindexed`
+   of a remapped section must fit the index buffer it binds (it failed against that build and passes now). Neuvillette keeps 0 (verified
+   output, byte-identical); it may want the same, untested.
 5. **A skin mod may write a slot in the GAME's register order, and a per-register download then doubles a role.**
    LumineHeaven1's Eye binds only `ps-t1 = ...Diffuse` -- right on the skin's own 6.x eye shader, which reads the diffuse
    there. The parser saw `ps-t0` empty and downloaded the game's eye diffuse into it, so the Eye member carried TWO textures
@@ -2011,14 +2022,27 @@ redrawn since (`d298f0bc`, filed at 6.3). Prototypes: `Tools/Misc/Prototypes/lum
    Three other characters' mods fix byte-identically with it built in.
 6. **Her centre front panel has no centre counterpart** (the skin's front skirt is a left and a right chain); it rides the
    right chain, flagged for a walking check the account cannot do on this skin.
-7. **A TexFx effect does not serve the skin's shaders** (Lumine10's blue glow and starry lining render as its flat colours):
-   the maintainer's 2026-09-24 call keeps an author's effect as it is.
+7. **A TexFx effect DOES run on the skin** (corrected 2026-09-30): Lumine10's starry lining and its glowing arm guards,
+   boots and flower render on the skin in both of its variants, and the brightest pixels measure within a few units of
+   her own outfit's. The earlier note that it rendered as flat colours was taken with `TexFx-main` not loaded -- check
+   the library is in `Mods` before judging an effect.
 8. **Mods whose own outfit is broken on the maintainer's old-loader GIMI** -- four shattered by a stale 4.0 ib
    (`dfb54407`), four drawn green -- render right on the skin, where the remap resolves the old hash and normalises the
    bindings.
 9. **Every re-run of a fix renames its generated files** (new `_B` / `_C` suffixes) while removing the old ones, for this
    pair and for Yaoyao alike: the file COUNT and the generated CONTENTS are what the run-twice rule checks, not the names.
    And an undo returns the author's `.ini` with one trailing newline added -- compare modulo trailing whitespace.
+10. **A skin slot whose atlas holds CLOTH and HAIR goes to the target object that shades cloth** (2026-09-30). The
+   skin's main `Head` slot carries the sleeves, neck scarf and bow (light map band 0) beside the back hair (band 127),
+   all on the Head textures, and it was merged onto Lumine's HEAD -- whose draw shades everything as hair: in the
+   overworld's shade the white cloth took her hair's warm shadow, yellow beside the cool white of her dress. A member
+   binds its own textures, so the slot can land on her BODY with the Head set still bound; there the cloth shades as
+   her white cloth and the back hair looked the same in sun and shade. Found by moving the member's two `drawindexed`
+   lines into the body section of ONE fixed `.ini` (with a rebind and an `NNFix` for the new bindings) before any code
+   changed. The Dressing Room's soft light does not show it; the overworld's shade does.
+11. **Lumine1's dark red on its cape tips is the mod's own** -- the pixels are dark grey-green with diffuse alpha 255, and
+   her own shader renders them the same red as the skin's (her outfit, seen from `R2MirrorOff`'s copy on the base card).
+   The maintainer's copy of Lumine1 shatters on her own outfit (a stale 4.0 ib, point 8), which is why it looked new.
 
 ## The reverse direction is COMPILED TOO: a multi-component SOURCE onto a classic target (2026-09-14)
 

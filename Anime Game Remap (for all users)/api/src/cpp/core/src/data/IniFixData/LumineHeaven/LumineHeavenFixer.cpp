@@ -29,16 +29,21 @@ namespace AGRemapCore {
             // (Tools/Misc/Prototypes/lumineFromHeavenFix.py), which stays the oracle, confirmed in game on the skin's
             // identity mod and its three real mods.
             //
-            // WHERE EACH SLOT LANDS: on the object whose TEXTURES it draws with -- the Head set (main Head, Bang, Eye)
-            // onto her head, the Body onto her body; her dress receives nothing, and the whole-ib skip keeps her own
-            // dress hidden. The trailing numbers are the GAME model's index count per slot, off the download folder's
-            // index buffers. Merge order: the biggest first.
+            // WHERE EACH SLOT LANDS: the Bang and the Eye onto her head, the main Head and the Body onto her BODY; her
+            // dress receives nothing, and the whole-ib skip keeps her own dress hidden. The main Head is NOT on her head
+            // although its textures are the Head set's: that slot carries the skin's sleeves, neck scarf and bow (band 0
+            // of its light map) beside the back hair, and her head draw shades everything as HAIR -- in the overworld's
+            // shade the white cloth took her hair's warm shadow, yellow beside the cool white of the dress
+            // (LumineHeaven2, 2026-09-30). On her body draw the cloth shades as her own white cloth, and the back hair
+            // looked the same both ways in sun and shade. A member binds its own textures, so the Head set's still go
+            // with it. The trailing numbers are the GAME model's index count per slot, off the download folder's index
+            // buffers. Merge order: the biggest first.
             GIMIMergeFixerConfig config{};
 
             GIMIMergeFixerConfig::Component main{};
             main.name = "";
             main.modTypeName = ModTypeIdTools::getName(ModTypeId::LumineHeavenMain);
-            main.slots = {{"Head", "0", "head", true, "", 57141, true},
+            main.slots = {{"Head", "0", "body", true, "", 57141, true},
                           {"Body", "57141", "body", true, "", 47298, true}};
             main.vertexCount = 31179;
 

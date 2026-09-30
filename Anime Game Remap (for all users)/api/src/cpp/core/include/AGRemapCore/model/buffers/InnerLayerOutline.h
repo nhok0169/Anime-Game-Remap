@@ -102,6 +102,34 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         Which target triangles are already BACKED: an occluder triangle facing the OTHER way lies within ``reach``
+         behind it, along the reverse of its corners' mean normal from its centroid or from a point near any of its
+         corners :raw-html:`<br />` :raw-html:`<br />`
+
+         Cloth modelled with its own lining is two surfaces a few millimetres apart, facing away from each other,
+         and the back of either is never seen. A mirrored inner layer (:cpp:member:`VGComponentSpec::mirroredIbs`)
+         moved inward from such a surface lands IN FRONT of the other one, and shows from outside as a flat grey
+         polygon over the cloth (Lumine2's coat on LumineHeaven, 2026-09-29: 27% of its twins crossed its lining
+         within 5 mm). A triangle backed this way needs no twin. The corners are asked as well as the centroid
+         because a lining under only part of a triangle lets the twin's corner through: from the centroid alone, 264
+         of Lumine7's kept twins still did, 70 with the corners. A surface facing the SAME way behind it -- the body
+         under a skirt -- does not count: a twin pushed into it is hidden behind it
+         @endrst
+         *
+         * @param positions Per vertex, its position
+         * @param normals Per vertex, its normal (need not be unit length)
+         * @param occluders Every triangle that can back a layer -- the whole mesh
+         * @param targets The triangles asked about (may be one of 'occluders'; a triangle never backs itself)
+         * @param reach How far behind to look, in model units
+         *
+         * @return Per triangle of 'targets'
+         */
+        static std::vector<bool> backed(const std::vector<Vec3>& positions, const std::vector<Vec3>& normals,
+                                        const std::vector<const Triangles*>& occluders, const Triangles& targets, float reach);
+
+        /**
+         * @brief
+         @rst
          Reads positions and normals out of a GIMI ``Position.buf`` (``POSITION`` float3, ``NORMAL`` float3 at
          byte 12, any stride of at least 24)
          @endrst

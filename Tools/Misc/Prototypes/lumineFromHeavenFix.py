@@ -24,8 +24,11 @@
 # ---- Where each slot lands ----
 #
 # Lumine is one mesh of three objects, head / body / dress, all on the PLAIN shader (diffuse, light map; no normal
-# map). The Head set (main Head, Bang, Eye) onto her head, the Body set onto her body; her dress receives nothing, and
-# the whole-ib skip keeps her own dress hidden (Neuvillette's dress, the same way).
+# map). The Bang and the Eye onto her head, the main Head and the Body onto her BODY; her dress receives nothing, and
+# the whole-ib skip keeps her own dress hidden (Neuvillette's dress, the same way). The main Head is not on her head:
+# it carries the skin's sleeves, neck scarf and bow (band 0) beside the back hair, and her head draw shades all of it as
+# hair -- the white cloth took her hair's warm shadow in the overworld's shade (LumineHeaven2, 2026-09-30). On her body
+# draw the cloth shades as her white cloth, and the back hair looked the same both ways. `--headTo head` is the A/B.
 #
 # ---- The target's layout ----
 #
@@ -66,7 +69,7 @@ DstName = "Lumine"
 Prefix = "LumineHeaven"
 
 # (component, slot, first index, layout, target object, the game model's index count, donor)
-Slots = [("", "Head", "0", "normal", "head", 57141, ""),
+Slots = [("", "Head", "0", "normal", "body", 57141, ""),
          ("", "Body", "57141", "normal", "body", 47298, ""),
          ("Bang", "A", "0", "normal", "head", 9096, ";Head"),
          ("Eye", "A", "0", "plain", "head", 720, "")]
@@ -190,11 +193,13 @@ def main():
     parser.add_argument("mod", help = "the mod folder (every LumineHeaven .ini under it is fixed)")
     parser.add_argument("--headAlpha", type = int, default = None, help = "an A/B: set the head diffuse's alpha to this")
     parser.add_argument("--headHairBand", type = int, default = None, help = "an A/B: move the head light map's 126-128 onto this band")
+    parser.add_argument("--headTo", default = "body", help = "the object the main Head slot lands on (default `body`; `head` for the A/B)")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--download", default = None,
                         help = "the API's downloadMode, eg. `disabled` -- omit for the API's own default")
     args = parser.parse_args()
+    Slots[0] = Slots[0][:4] + (args.headTo,) + Slots[0][5:]
 
     FRB.CppStrategyOverrides.clear()
     FRB.CppStrategyOverrides.setParser(SrcName, FRB.makeGIMIComponentParser(parserConfig()))

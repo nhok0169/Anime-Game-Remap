@@ -250,17 +250,19 @@ Grading
        | - Her head's diffuse alpha is moved onto the skin's legend, or her hair renders a glowing orange.
        |
        | - Cloth on her ``dress`` (coats, capes, long skirt tails) is given an inside layer, or its lining renders
-       | bright blue or dark on the skin.
+       | bright blue or dark on the skin -- except where the mod models its own lining, which the layer would
+       | poke through as flat grey or brown polygons.
        |
        | - Her centre front skirt panel has no centre counterpart on the skin and follows its right front skirt.
-       |
-       | - A TexFx effect (a glow, an animated pattern) the mod draws on her does not run on the skin's shaders.
        |
        | - A mod whose own outfit is broken by a stale 4.0 hash renders right on the skin.
    * - | **LumineHeaven --> Lumine**
      - | :greenBold:`4.5`
-     - | The inverse: the skin's main mesh, ``Bang`` and ``Eye`` merged onto one mesh -- the head's textures and
-       | the eyes onto Lumine's ``head``, the body's onto her ``body``; her own ``dress`` is hidden.
+     - | The inverse: the skin's main mesh, ``Bang`` and ``Eye`` merged onto one mesh -- the bangs and the eyes
+       | onto Lumine's ``head``, the rest of the main mesh onto her ``body``; her own ``dress`` is hidden.
+       |
+       | - The skin's sleeves, neck scarf and bow are drawn as Lumine's body, not her head, although they share the
+       | head's textures: her head shades as hair, which turned the white cloth yellow in shade.
        |
        | - Lumine's own face is drawn, for the same reason as the other way round: a mod repainting the skin's
        | face keeps Lumine's face on her.

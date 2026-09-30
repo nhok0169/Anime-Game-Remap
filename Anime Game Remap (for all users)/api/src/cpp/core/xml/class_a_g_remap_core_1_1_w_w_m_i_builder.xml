@@ -34,6 +34,36 @@
         </inbodydescription>
         <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="47" column="28" bodyfile="src/constants/WWMIBuilder.cpp" bodystart="109" bodyend="112"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_builder_1acdbad7c71c4f3e030e7b4bdf09b84e06" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::WWMIBuilder::chisa</definition>
+        <argsstring>()</argsstring>
+        <name>chisa</name>
+        <qualifiedname>AGRemapCore::WWMIBuilder::chisa</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Chisa. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="52" column="28" bodyfile="src/constants/WWMIBuilder.cpp" bodystart="114" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_builder_1a070107d2c55014c7f7f993220a885522" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::WWMIBuilder::chisaParfait</definition>
+        <argsstring>()</argsstring>
+        <name>chisaParfait</name>
+        <qualifiedname>AGRemapCore::WWMIBuilder::chisaParfait</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for ChisaParfait. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="57" column="28" bodyfile="src/constants/WWMIBuilder.cpp" bodystart="118" bodyend="121"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_builder_1a7f3fb64146cda2ed4b9f8726371be2e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &gt;</type>
         <definition>std::vector&lt; ModType &gt; AGRemapCore::WWMIBuilder::all</definition>
@@ -47,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="52" column="32" bodyfile="src/constants/WWMIBuilder.cpp" bodystart="114" bodyend="119"/>
+        <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="62" column="32" bodyfile="src/constants/WWMIBuilder.cpp" bodystart="123" bodyend="130"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -66,9 +96,11 @@ A WWMI mod type carries the same four asset tables a GI one does plus the four W
 ``Tools/Misc/Prototypes/sanhuaExorcistFix.py``
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="37" column="5" bodyfile="include/AGRemapCore/constants/WWMIBuilder.h" bodystart="37" bodyend="53"/>
+    <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="37" column="5" bodyfile="include/AGRemapCore/constants/WWMIBuilder.h" bodystart="37" bodyend="63"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1a7f3fb64146cda2ed4b9f8726371be2e9" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBuilder</scope><name>all</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1acdbad7c71c4f3e030e7b4bdf09b84e06" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBuilder</scope><name>chisa</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1a070107d2c55014c7f7f993220a885522" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBuilder</scope><name>chisaParfait</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1a62a192102acf2cef6cab9bfd45590720" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBuilder</scope><name>sanhua</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1a83475301b59bd0f1f8224b8049a6f820" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBuilder</scope><name>sanhuaExorcist</name></member>
     </listofallmembers>

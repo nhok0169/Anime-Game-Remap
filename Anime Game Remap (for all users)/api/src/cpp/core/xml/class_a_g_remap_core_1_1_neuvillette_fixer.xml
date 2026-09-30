@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Neuvillette/NeuvilletteFixer.h" line="44" column="43" bodyfile="src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp" bodystart="145" bodyend="147"/>
+        <location file="include/AGRemapCore/data/IniFixData/Neuvillette/NeuvilletteFixer.h" line="44" column="43" bodyfile="src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp" bodystart="195" bodyend="197"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_neuvillette_fixer_1aef80d280add5366c852af22f791b4a6a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Neuvillette/NeuvilletteFixer.h" line="49" column="43" bodyfile="src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp" bodystart="150" bodyend="152"/>
+        <location file="include/AGRemapCore/data/IniFixData/Neuvillette/NeuvilletteFixer.h" line="49" column="43" bodyfile="src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp" bodystart="200" bodyend="202"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_neuvillette_fixer_1af3991bf2a2c0ccbcd11d431d6aafe345" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Neuvillette/NeuvilletteFixer.h" line="54" column="43" bodyfile="src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp" bodystart="155" bodyend="157"/>
+        <location file="include/AGRemapCore/data/IniFixData/Neuvillette/NeuvilletteFixer.h" line="54" column="43" bodyfile="src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp" bodystart="205" bodyend="207"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_neuvillette_fixer_1a7f673642ca79e47d30f3b0b281b23484" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -78,7 +78,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Neuvillette/NeuvilletteFixer.h" line="59" column="43" bodyfile="src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp" bodystart="160" bodyend="162"/>
+        <location file="include/AGRemapCore/data/IniFixData/Neuvillette/NeuvilletteFixer.h" line="59" column="43" bodyfile="src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp" bodystart="210" bodyend="212"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

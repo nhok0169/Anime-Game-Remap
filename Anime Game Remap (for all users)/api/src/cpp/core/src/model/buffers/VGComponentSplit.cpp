@@ -21,6 +21,7 @@
 #include <stdexcept>
 #include <utility>
 
+#include "AGRemapCore/model/buffers/InnerLayerOutline.h"
 #include "AGRemapCore/model/files/BlendFile.h"
 #include "AGRemapCore/model/files/IbFile.h"
 
@@ -289,7 +290,7 @@ namespace AGRemapCore {
                 }
 
                 VGComponentBuffers result = splitCut(i);
-                addMirroredLayer(result, specs_[i].mirroredIbs);
+                addMirroredLayer(result, specs_[i]);
                 return result;
             }
         }
@@ -299,10 +300,28 @@ namespace AGRemapCore {
 
     // The inner layer -- see VGComponentSpec::mirroredIbs. Each corner of a mirrored buffer's triangles is copied
     // once (a vertex two mirrored buffers share gets one copy), and every triangle is followed by its copy wound
-    // the other way, under the same source id.
-    void VGComponentSplit::addMirroredLayer(VGComponentBuffers& result, const std::vector<std::size_t>& ibs) {
+    // the other way, under the same source id -- unless the triangle is BACKED (VGComponentSpec::mirrorBackedReach).
+    void VGComponentSplit::addMirroredLayer(VGComponentBuffers& result, const VGComponentSpec& spec) const {
+        const std::vector<std::size_t>& ibs = spec.mirroredIbs;
         if (ibs.empty()) {
             return;
+        }
+
+        // Per source triangle of each mirrored buffer, whether a layer facing the other way is right behind it. On the
+        // SOURCE mesh, every object's buffer as a possible layer.
+        const bool checkBacked = spec.mirrorBackedReach > 0.0f && !positions_.empty() && positions_.size() == weights_.size()
+            && normals_.size() == positions_.size();
+        std::vector<std::vector<bool>> backed(ibs_.size());
+        if (checkBacked) {
+            std::vector<const InnerLayerOutline::Triangles*> occluders;
+            for (const Triangles& list : ibs_) {
+                occluders.push_back(&list);
+            }
+            for (std::size_t which : ibs) {
+                if (which < ibs_.size() && backed[which].empty()) {
+                    backed[which] = InnerLayerOutline::backed(positions_, normals_, occluders, ibs_[which], spec.mirrorBackedReach);
+                }
+            }
         }
 
         result.mirrored.assign(result.vertices.size(), false);
@@ -343,6 +362,10 @@ namespace AGRemapCore {
                 const std::size_t id = t < ids.size() ? ids[t] : 0;
                 layered.push_back(triangle);
                 layeredIds.push_back(id);
+                if (t < ids.size() && id < backed[which].size() && backed[which][id]) {
+                    ++result.stats.mirrorBacked;
+                    continue;
+                }
 
                 const unsigned long long a = copy(triangle[0]);
                 const unsigned long long b = copy(triangle[1]);
@@ -360,6 +383,35 @@ namespace AGRemapCore {
         }
 
         result.stats.keptVertices = result.vertices.size();
+    }
+
+
+    void VGComponentSplit::setGeometry(std::vector<std::array<float, 3>> positions, std::vector<std::array<float, 3>> normals) {
+        positions_ = std::move(positions);
+        normals_ = std::move(normals);
+    }
+
+
+    bool VGComponentSplit::needsGeometry(const std::string& component) const {
+        for (const VGComponentSpec& spec : specs_) {
+            if (spec.name == component) {
+                return !spec.negativeIndex && !spec.mirroredIbs.empty() && spec.mirrorBackedReach > 0.0f;
+            }
+        }
+        return false;
+    }
+
+
+    bool VGComponentSplit::readGeometry(const ByteVec& positionBuffer) {
+        const std::size_t count = weights_.size();
+        if (count == 0 || positionBuffer.size() % count != 0 || positionBuffer.size() / count < 24) {
+            return false;
+        }
+        std::vector<InnerLayerOutline::Vec3> points;
+        std::vector<InnerLayerOutline::Vec3> normals;
+        InnerLayerOutline::readPositions(positionBuffer, positionBuffer.size() / count, points, normals);
+        setGeometry(std::move(points), std::move(normals));
+        return true;
     }
 
 

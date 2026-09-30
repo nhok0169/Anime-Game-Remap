@@ -55,6 +55,8 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>include/AGRemapCore/tools/GraphTools.h</label>
@@ -67,10 +69,14 @@
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
       <node id="4">
+        <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
+        <link refid="_g_i_m_i_merge_fixer_8cpp"/>
+      </node>
+      <node id="5">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
-      <node id="5">
+      <node id="6">
         <label>src/model/strategies/iniFixers/graphEdits/RegSurroundedAddInstantiation.cpp</label>
         <link refid="_reg_surrounded_add_instantiation_8cpp"/>
       </node>

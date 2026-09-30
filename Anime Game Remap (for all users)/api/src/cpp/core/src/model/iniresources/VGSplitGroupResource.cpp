@@ -220,6 +220,22 @@ namespace AGRemapCore {
         }
 
         VGComponentSplit split(std::move(weights), std::move(indices), std::move(triangles), config.specs);
+
+        // The mod's positions, for a mirrored layer that skips BACKED triangles -- see
+        // VGComponentSpec::mirrorBackedReach. The fixer's own split reads them the same way, or the .ini's counts
+        // would describe buffers these are not.
+        if (split.needsGeometry(config.component)) {
+            bool read = false;
+            if (position != nullptr) {
+                BinaryFile srcPositions(position->srcPath);
+                read = split.readGeometry(srcPositions.read());
+            }
+            if (!read) {
+                if (logger != nullptr) {
+                    logger->log("No normals in the group's Position.buf, so every triangle of the inner layer is mirrored");
+                }
+            }
+        }
         VGComponentBuffers buffers = split.split(config.component);
 
         writeBytes(blend->fixedPath, VGComponentSplit::encodeBlend(buffers.weights, buffers.indices));

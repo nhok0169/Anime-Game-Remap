@@ -103,6 +103,11 @@ namespace AGRemapCore {
             // inner layer gives the inside a front face (Neuvillette's lesson): the lining came back pale.
             main.mirroredObjs = {"dress"};
 
+            // ...but not where the mod models its own lining: a twin moved inward from a coat lands in front of the
+            // lining a few millimetres behind it, and Lumine2's coat showed flat grey polygons over its flaps (Lumine7's
+            // dress brown ones). A triangle with a layer facing the other way within 1 cm behind it gets no twin.
+            main.mirrorBackedReach = 0.01f;
+
             // The Bang: one slot, on the normal-map layout with the Head's textures. Her two front bangs and her
             // flower land here.
             GIMIComponentFixerConfig::Component bang{};

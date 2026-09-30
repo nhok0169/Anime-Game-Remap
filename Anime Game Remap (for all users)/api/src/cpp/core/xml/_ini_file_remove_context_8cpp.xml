@@ -8,6 +8,7 @@
     <includes local="no">utility</includes>
     <includes refid="_file_ext_8h" local="yes">AGRemapCore/constants/FileExt.h</includes>
     <includes refid="_file_prefixes_8h" local="yes">AGRemapCore/constants/FilePrefixes.h</includes>
+    <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
     <includes refid="_hashes_8h" local="yes">AGRemapCore/model/assets/Hashes.h</includes>
     <includes refid="_ini_file_8h" local="yes">AGRemapCore/model/files/IniFile.h</includes>
     <includes refid="_mod_type_8h" local="yes">AGRemapCore/model/strategies/ModType.h</includes>
@@ -15,19 +16,28 @@
       <node id="38">
         <label>Algo.tpp</label>
       </node>
-      <node id="103">
+      <node id="113">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="99">
         <label>BaseIniFixer.tpp</label>
       </node>
-      <node id="102">
+      <node id="98">
         <label>BaseIniParser.tpp</label>
       </node>
       <node id="44">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="74">
+      <node id="112">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="110">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="87">
         <label>CallGraph.tpp</label>
       </node>
-      <node id="69">
+      <node id="115">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
         <childnode refid="4" relation="include">
@@ -47,7 +57,7 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="110">
+      <node id="105">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
         <childnode refid="4" relation="include">
@@ -67,7 +77,27 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="73">
+      <node id="67">
+        <label>AGRemapCore/constants/ModTypeId.h</label>
+        <link refid="_mod_type_id_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="105" relation="include">
+        </childnode>
+        <childnode refid="106" relation="include">
+        </childnode>
+      </node>
+      <node id="86">
         <label>AGRemapCore/model/CallGraph.h</label>
         <link refid="_call_graph_8h"/>
         <childnode refid="13" relation="include">
@@ -82,10 +112,10 @@
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="74" relation="include">
+        <childnode refid="87" relation="include">
         </childnode>
       </node>
-      <node id="70">
+      <node id="83">
         <label>AGRemapCore/model/IniGraphGroup.h</label>
         <link refid="_ini_graph_group_8h"/>
         <childnode refid="13" relation="include">
@@ -102,17 +132,17 @@
         </childnode>
         <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="71" relation="include">
-        </childnode>
         <childnode refid="84" relation="include">
         </childnode>
+        <childnode refid="95" relation="include">
+        </childnode>
       </node>
-      <node id="71">
+      <node id="84">
         <label>AGRemapCore/model/IniSectionGraph.h</label>
         <link refid="_ini_section_graph_8h"/>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="72" relation="include">
+        <childnode refid="85" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
@@ -134,26 +164,26 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="73" relation="include">
+        <childnode refid="86" relation="include">
         </childnode>
-        <childnode refid="75" relation="include">
+        <childnode refid="88" relation="include">
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="76" relation="include">
+        <childnode refid="80" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="79" relation="include">
+        <childnode refid="90" relation="include">
         </childnode>
         <childnode refid="56" relation="include">
         </childnode>
         <childnode refid="57" relation="include">
         </childnode>
-        <childnode refid="83" relation="include">
+        <childnode refid="94" relation="include">
         </childnode>
       </node>
-      <node id="75">
+      <node id="88">
         <label>AGRemapCore/model/SectionIterData.h</label>
         <link refid="_section_iter_data_8h"/>
         <childnode refid="11" relation="include">
@@ -164,16 +194,16 @@
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="76" relation="include">
+        <childnode refid="80" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="57" relation="include">
         </childnode>
-        <childnode refid="78" relation="include">
+        <childnode refid="89" relation="include">
         </childnode>
       </node>
-      <node id="96">
+      <node id="77">
         <label>AGRemapCore/model/VGRemap.h</label>
         <link refid="_v_g_remap_8h"/>
         <childnode refid="4" relation="include">
@@ -199,7 +229,7 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="67">
+      <node id="69">
         <label>AGRemapCore/model/assets/Hashes.h</label>
         <link refid="_hashes_8h"/>
         <childnode refid="5" relation="include">
@@ -211,7 +241,7 @@
         <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="90">
+      <node id="71">
         <label>AGRemapCore/model/assets/IndexCounts.h</label>
         <link refid="_index_counts_8h"/>
         <childnode refid="5" relation="include">
@@ -223,7 +253,7 @@
         <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="89">
+      <node id="70">
         <label>AGRemapCore/model/assets/Indices.h</label>
         <link refid="_indices_8h"/>
         <childnode refid="5" relation="include">
@@ -235,7 +265,7 @@
         <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="97">
+      <node id="78">
         <label>AGRemapCore/model/assets/ModAssets.h</label>
         <link refid="_mod_assets_8h"/>
         <childnode refid="13" relation="include">
@@ -252,7 +282,7 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="98" relation="include">
+        <childnode refid="79" relation="include">
         </childnode>
       </node>
       <node id="17">
@@ -311,7 +341,7 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="91">
+      <node id="72">
         <label>AGRemapCore/model/assets/ShapeKeyChecksums.h</label>
         <link refid="_shape_key_checksums_8h"/>
         <childnode refid="5" relation="include">
@@ -323,7 +353,7 @@
         <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="93">
+      <node id="74">
         <label>AGRemapCore/model/assets/VGCounts.h</label>
         <link refid="_v_g_counts_8h"/>
         <childnode refid="5" relation="include">
@@ -335,7 +365,7 @@
         <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="94">
+      <node id="75">
         <label>AGRemapCore/model/assets/VGOffsets.h</label>
         <link refid="_v_g_offsets_8h"/>
         <childnode refid="5" relation="include">
@@ -347,17 +377,17 @@
         <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="95">
+      <node id="76">
         <label>AGRemapCore/model/assets/VGRemaps.h</label>
         <link refid="_v_g_remaps_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="96" relation="include">
+        <childnode refid="77" relation="include">
         </childnode>
-        <childnode refid="97" relation="include">
+        <childnode refid="78" relation="include">
         </childnode>
       </node>
-      <node id="92">
+      <node id="73">
         <label>AGRemapCore/model/assets/VertexCounts.h</label>
         <link refid="_vertex_counts_8h"/>
         <childnode refid="5" relation="include">
@@ -365,7 +395,7 @@
         <childnode refid="17" relation="include">
         </childnode>
       </node>
-      <node id="68">
+      <node id="114">
         <label>AGRemapCore/model/files/IniFile.h</label>
         <link refid="_ini_file_8h"/>
         <childnode refid="22" relation="include">
@@ -386,23 +416,23 @@
         </childnode>
         <childnode refid="46" relation="include">
         </childnode>
-        <childnode refid="69" relation="include">
+        <childnode refid="115" relation="include">
         </childnode>
-        <childnode refid="70" relation="include">
+        <childnode refid="83" relation="include">
         </childnode>
-        <childnode refid="85" relation="include">
+        <childnode refid="116" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="88" relation="include">
+        <childnode refid="68" relation="include">
         </childnode>
-        <childnode refid="109" relation="include">
+        <childnode refid="119" relation="include">
         </childnode>
         <childnode refid="56" relation="include">
         </childnode>
-        <childnode refid="86" relation="include">
+        <childnode refid="117" relation="include">
         </childnode>
       </node>
       <node id="26">
@@ -441,7 +471,7 @@
         <childnode refid="52" relation="include">
         </childnode>
       </node>
-      <node id="76">
+      <node id="80">
         <label>AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
         <link refid="_if_content_part_colour_8h"/>
         <childnode refid="11" relation="include">
@@ -470,7 +500,7 @@
         </childnode>
         <childnode refid="35" relation="include">
         </childnode>
-        <childnode refid="77" relation="include">
+        <childnode refid="81" relation="include">
         </childnode>
       </node>
       <node id="53">
@@ -593,7 +623,7 @@
         <childnode refid="63" relation="include">
         </childnode>
       </node>
-      <node id="85">
+      <node id="116">
         <label>AGRemapCore/model/iniresources/IniResource.h</label>
         <link refid="_ini_resource_8h"/>
         <childnode refid="11" relation="include">
@@ -608,10 +638,10 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="86" relation="include">
+        <childnode refid="117" relation="include">
         </childnode>
       </node>
-      <node id="88">
+      <node id="68">
         <label>AGRemapCore/model/strategies/ModType.h</label>
         <link refid="_mod_type_8h"/>
         <childnode refid="22" relation="include">
@@ -624,44 +654,44 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="67" relation="include">
+        <childnode refid="69" relation="include">
         </childnode>
-        <childnode refid="89" relation="include">
+        <childnode refid="70" relation="include">
         </childnode>
-        <childnode refid="90" relation="include">
+        <childnode refid="71" relation="include">
         </childnode>
-        <childnode refid="91" relation="include">
+        <childnode refid="72" relation="include">
         </childnode>
-        <childnode refid="92" relation="include">
+        <childnode refid="73" relation="include">
         </childnode>
-        <childnode refid="93" relation="include">
+        <childnode refid="74" relation="include">
         </childnode>
-        <childnode refid="94" relation="include">
-        </childnode>
-        <childnode refid="95" relation="include">
+        <childnode refid="75" relation="include">
         </childnode>
         <childnode refid="76" relation="include">
         </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
         <childnode refid="35" relation="include">
         </childnode>
-        <childnode refid="99" relation="include">
+        <childnode refid="82" relation="include">
         </childnode>
-        <childnode refid="104" relation="include">
+        <childnode refid="100" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
         </childnode>
         <childnode refid="101" relation="include">
         </childnode>
-        <childnode refid="105" relation="include">
+        <childnode refid="102" relation="include">
         </childnode>
-        <childnode refid="106" relation="include">
-        </childnode>
-        <childnode refid="108" relation="include">
+        <childnode refid="104" relation="include">
         </childnode>
       </node>
-      <node id="112">
+      <node id="121">
         <label>AGRemapCore/model/strategies/ModTypeIdData.h</label>
         <link refid="_mod_type_id_data_8h"/>
       </node>
-      <node id="109">
+      <node id="119">
         <label>AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h</label>
         <link refid="_base_ini_classifier_8h"/>
         <childnode refid="4" relation="include">
@@ -670,20 +700,20 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="110" relation="include">
+        <childnode refid="105" relation="include">
         </childnode>
-        <childnode refid="111" relation="include">
+        <childnode refid="120" relation="include">
         </childnode>
       </node>
-      <node id="111">
+      <node id="120">
         <label>AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h</label>
         <link refid="_ini_classify_stats_8h"/>
         <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="112" relation="include">
+        <childnode refid="121" relation="include">
         </childnode>
       </node>
-      <node id="99">
+      <node id="82">
         <label>AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h</label>
         <link refid="_base_ini_fixer_8h"/>
         <childnode refid="5" relation="include">
@@ -692,16 +722,16 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="70" relation="include">
+        <childnode refid="83" relation="include">
         </childnode>
-        <childnode refid="100" relation="include">
+        <childnode refid="96" relation="include">
         </childnode>
-        <childnode refid="101" relation="include">
+        <childnode refid="97" relation="include">
         </childnode>
-        <childnode refid="103" relation="include">
+        <childnode refid="99" relation="include">
         </childnode>
       </node>
-      <node id="104">
+      <node id="100">
         <label>AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</label>
         <link refid="_ini_fix_builder_8h"/>
         <childnode refid="11" relation="include">
@@ -720,12 +750,12 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="97" relation="include">
+        <childnode refid="78" relation="include">
         </childnode>
-        <childnode refid="99" relation="include">
+        <childnode refid="82" relation="include">
         </childnode>
       </node>
-      <node id="100">
+      <node id="96">
         <label>AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</label>
         <link refid="_ini_fixing_context_8h"/>
         <childnode refid="5" relation="include">
@@ -733,7 +763,7 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="101">
+      <node id="97">
         <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
         <link refid="_base_ini_parser_8h"/>
         <childnode refid="11" relation="include">
@@ -742,12 +772,12 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="70" relation="include">
+        <childnode refid="83" relation="include">
         </childnode>
-        <childnode refid="102" relation="include">
+        <childnode refid="98" relation="include">
         </childnode>
       </node>
-      <node id="105">
+      <node id="101">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</label>
         <link refid="_ini_parse_builder_8h"/>
         <childnode refid="11" relation="include">
@@ -762,17 +792,17 @@
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="101" relation="include">
+        <childnode refid="97" relation="include">
         </childnode>
       </node>
-      <node id="106">
+      <node id="102">
         <label>AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</label>
         <link refid="_base_ini_remover_8h"/>
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="107" relation="include">
+        <childnode refid="103" relation="include">
         </childnode>
       </node>
       <node id="8">
@@ -789,11 +819,11 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="107">
+      <node id="103">
         <label>AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h</label>
         <link refid="_ini_removal_context_8h"/>
       </node>
-      <node id="108">
+      <node id="104">
         <label>AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</label>
         <link refid="_ini_remove_builder_8h"/>
         <childnode refid="11" relation="include">
@@ -808,7 +838,7 @@
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="106" relation="include">
+        <childnode refid="102" relation="include">
         </childnode>
       </node>
       <node id="10">
@@ -843,21 +873,35 @@
         <childnode refid="38" relation="include">
         </childnode>
       </node>
-      <node id="79">
+      <node id="109">
+        <label>AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="110" relation="include">
+        </childnode>
+      </node>
+      <node id="90">
         <label>AGRemapCore/tools/Generator.h</label>
         <link refid="_generator_8h"/>
-        <childnode refid="80" relation="include">
+        <childnode refid="91" relation="include">
         </childnode>
-        <childnode refid="81" relation="include">
+        <childnode refid="92" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="82" relation="include">
+        <childnode refid="93" relation="include">
         </childnode>
       </node>
-      <node id="87">
+      <node id="118">
         <label>AGRemapCore/tools/Heading.h</label>
         <link refid="_heading_8h"/>
         <childnode refid="13" relation="include">
@@ -881,6 +925,14 @@
         <childnode refid="36" relation="include">
         </childnode>
         <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="111">
+        <label>AGRemapCore/tools/StringHash.h</label>
+        <link refid="_string_hash_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="108" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -1057,6 +1109,50 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
+      <node id="106">
+        <label>AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
+        <link refid="_base_aho_corasick_d_f_a_8h"/>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="107" relation="include">
+        </childnode>
+        <childnode refid="113" relation="include">
+        </childnode>
+      </node>
+      <node id="107">
+        <label>AGRemapCore/tools/tries/BaseTrie.h</label>
+        <link refid="_base_trie_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="108" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="109" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="111" relation="include">
+        </childnode>
+        <childnode refid="112" relation="include">
+        </childnode>
+      </node>
       <node id="56">
         <label>AGRemapCore/tools/z3/Z3Context.h</label>
         <link refid="_z3_context_8h"/>
@@ -1073,14 +1169,14 @@
         <childnode refid="56" relation="include">
         </childnode>
       </node>
-      <node id="86">
+      <node id="117">
         <label>AGRemapCore/view/BaseLogger.h</label>
         <link refid="_base_logger_8h"/>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="72" relation="include">
+        <childnode refid="85" relation="include">
         </childnode>
-        <childnode refid="81" relation="include">
+        <childnode refid="92" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
@@ -1088,7 +1184,7 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="87" relation="include">
+        <childnode refid="118" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -1108,18 +1204,20 @@
         </childnode>
         <childnode refid="67" relation="include">
         </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="114" relation="include">
+        </childnode>
         <childnode refid="68" relation="include">
         </childnode>
-        <childnode refid="88" relation="include">
-        </childnode>
       </node>
-      <node id="82">
+      <node id="93">
         <label>Generator.tpp</label>
       </node>
       <node id="52">
         <label>IfContentPart.tpp</label>
       </node>
-      <node id="77">
+      <node id="81">
         <label>IfContentPartColour.tpp</label>
       </node>
       <node id="64">
@@ -1134,13 +1232,13 @@
       <node id="33">
         <label>IncIdGenerator.tpp</label>
       </node>
-      <node id="84">
+      <node id="95">
         <label>IniGraphGroup.tpp</label>
       </node>
-      <node id="83">
+      <node id="94">
         <label>IniSectionGraph.tpp</label>
       </node>
-      <node id="98">
+      <node id="79">
         <label>ModAssets.tpp</label>
       </node>
       <node id="19">
@@ -1161,7 +1259,7 @@
       <node id="39">
         <label>Ranges.tpp</label>
       </node>
-      <node id="78">
+      <node id="89">
         <label>SectionIterData.tpp</label>
       </node>
       <node id="27">
@@ -1170,7 +1268,7 @@
       <node id="50">
         <label>cmath</label>
       </node>
-      <node id="80">
+      <node id="91">
         <label>coroutine</label>
       </node>
       <node id="13">
@@ -1179,10 +1277,10 @@
       <node id="14">
         <label>cstdint</label>
       </node>
-      <node id="72">
+      <node id="85">
         <label>deque</label>
       </node>
-      <node id="81">
+      <node id="92">
         <label>exception</label>
       </node>
       <node id="3">
@@ -1214,6 +1312,9 @@
       </node>
       <node id="5">
         <label>string</label>
+      </node>
+      <node id="108">
+        <label>string_view</label>
       </node>
       <node id="29">
         <label>tsl/ordered_map.h</label>
@@ -1270,158 +1371,188 @@
 <codeline lineno="19"><highlight class="normal"></highlight></codeline>
 <codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_file_ext_8h" kindref="compound">AGRemapCore/constants/FileExt.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_file_prefixes_8h" kindref="compound">AGRemapCore/constants/FilePrefixes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_hashes_8h" kindref="compound">AGRemapCore/model/assets/Hashes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_file_8h" kindref="compound">AGRemapCore/model/files/IniFile.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_type_8h" kindref="compound">AGRemapCore/model/strategies/ModType.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_type_id_8h" kindref="compound">AGRemapCore/constants/ModTypeId.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_hashes_8h" kindref="compound">AGRemapCore/model/assets/Hashes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_file_8h" kindref="compound">AGRemapCore/model/files/IniFile.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_type_8h" kindref="compound">AGRemapCore/model/strategies/ModType.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="26"><highlight class="normal"></highlight></codeline>
-<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
-<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_remove_context_1a3b13bae947474f5dfb358f18ac5ef16a" kindref="member">IniFileRemoveContext::IniFileRemoveContext</ref>(<ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/>iniFile):<sp/>iniFile_(iniFile)<sp/>{}</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_remove_context_1a3b13bae947474f5dfb358f18ac5ef16a" kindref="member">IniFileRemoveContext::IniFileRemoveContext</ref>(<ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/>iniFile):<sp/>iniFile_(iniFile)<sp/>{}</highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>IniFile*<sp/>IniFileRemoveContext::getIniFile()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iniFile_;</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>IniFile*<sp/>IniFileRemoveContext::getIniFile()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iniFile_;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>IniFileRemoveContext::hasIni()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iniFile_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>IniFileRemoveContext::hasIni()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iniFile_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="40"><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>IniFileRemoveContext::iniFolder()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni()<sp/>||<sp/>!iniFile_-&gt;getFile().has_value())<sp/>{</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"></highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>FileService::pathToStr(FileService::strToPath(*iniFile_-&gt;getFile()).parent_path());</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>IniFileRemoveContext::iniFolder()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni()<sp/>||<sp/>!iniFile_-&gt;getFile().has_value())<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>FileService::pathToStr(FileService::strToPath(*iniFile_-&gt;getFile()).parent_path());</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="49"><highlight class="normal"></highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;Version&gt;<sp/>IniFileRemoveContext::version()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"></highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iniFile_-&gt;fromVersion;</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;Version&gt;<sp/>IniFileRemoveContext::version()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iniFile_-&gt;fromVersion;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="58"><highlight class="normal"></highlight></codeline>
-<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;IniFileRemoveContext::Assets*&gt;<sp/>IniFileRemoveContext::modTypeHashes()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Assets*&gt;<sp/>result;</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Classified<sp/>lazily<sp/>here<sp/>rather<sp/>than<sp/>by<sp/>the<sp/>remover:<sp/>see<sp/>IniRemoveContext&apos;s<sp/>own<sp/>note<sp/>on<sp/>why</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>there<sp/>is<sp/>no<sp/>classify()<sp/>on<sp/>that<sp/>interface.<sp/>IniFile::removeFix<sp/>has<sp/>already<sp/>done<sp/>this<sp/>by<sp/>the</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>time<sp/>it<sp/>reaches<sp/>a<sp/>remover,<sp/>so<sp/>this<sp/>only<sp/>fires<sp/>for<sp/>a<sp/>caller<sp/>driving<sp/>one<sp/>directly.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!iniFile_-&gt;isClassified())<sp/>{</highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iniFile_-&gt;classify();</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"></highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::pair&lt;const<sp/>int,<sp/>ModType&gt;&amp;<sp/>entry<sp/>:<sp/>iniFile_-&gt;getModTypes())<sp/>{</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(entry.second.hashes<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(entry.second.hashes.get());</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"></highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;IniFileRemoveContext::Assets*&gt;<sp/>IniFileRemoveContext::modTypeHashes()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Assets*&gt;<sp/>result;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Classified<sp/>lazily<sp/>here<sp/>rather<sp/>than<sp/>by<sp/>the<sp/>remover:<sp/>see<sp/>IniRemoveContext&apos;s<sp/>own<sp/>note<sp/>on<sp/>why</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>there<sp/>is<sp/>no<sp/>classify()<sp/>on<sp/>that<sp/>interface.<sp/>IniFile::removeFix<sp/>has<sp/>already<sp/>done<sp/>this<sp/>by<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>time<sp/>it<sp/>reaches<sp/>a<sp/>remover,<sp/>so<sp/>this<sp/>only<sp/>fires<sp/>for<sp/>a<sp/>caller<sp/>driving<sp/>one<sp/>directly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!iniFile_-&gt;isClassified())<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iniFile_-&gt;classify();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::pair&lt;const<sp/>int,<sp/>ModType&gt;&amp;<sp/>entry<sp/>:<sp/>iniFile_-&gt;getModTypes())<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(entry.second.hashes<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(entry.second.hashes.get());</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="81"><highlight class="normal"></highlight></codeline>
-<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>IniFileRemoveContext::readFileLines()<sp/>{</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="86"><highlight class="normal"></highlight></codeline>
-<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!iniFile_-&gt;fileLinesRead())<sp/>{</highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iniFile_-&gt;readFileLines();</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"></highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iniFile_-&gt;getFileLines();</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"></highlight></codeline>
-<codeline lineno="94"><highlight class="normal"></highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>IniFileRemoveContext::Section*&gt;<sp/>IniFileRemoveContext::sectionIfTemplates()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Section*&gt;<sp/>result;</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="100"><highlight class="normal"></highlight></codeline>
-<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>entry<sp/>:<sp/>iniFile_-&gt;getIfTemplates())<sp/>{</highlight></codeline>
-<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(entry.second<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.emplace(entry.first,<sp/>entry.second.get());</highlight></codeline>
-<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"></highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>IniFileRemoveContext::modTypeNames()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>result;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!iniFile_-&gt;isClassified())<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iniFile_-&gt;classify();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>mod<sp/>type&apos;s<sp/>own<sp/>name<sp/>AND<sp/>the<sp/>names<sp/>it<sp/>remaps<sp/>onto:<sp/>a<sp/>fix&apos;s<sp/>sections<sp/>are<sp/>named<sp/>after</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>mod<sp/>they<sp/>were<sp/>remapped<sp/>TO<sp/>(IniNamingTools::getRemapName),<sp/>and<sp/>the<sp/>.ini<sp/>a<sp/>remover<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>handed<sp/>is<sp/>usually<sp/>classified<sp/>as<sp/>the<sp/>SOURCE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::pair&lt;const<sp/>int,<sp/>ModType&gt;&amp;<sp/>entry<sp/>:<sp/>iniFile_-&gt;getModTypes())<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(entry.second.name);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;ModTypeId&gt;<sp/>modTypeId<sp/>=<sp/>ModTypeIdTools::getEnum(entry.first);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!modTypeId.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(ModTypeId<sp/>target<sp/>:<sp/>ModTypeIdTools::getHashRemapTargets(modTypeId.value()))<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(ModTypeIdTools::getName(target));</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="110"><highlight class="normal"></highlight></codeline>
-<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>IniFileRemoveContext::fileTxt()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"></highlight></codeline>
-<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iniFile_-&gt;getFileTxt();</highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"></highlight></codeline>
-<codeline lineno="119"><highlight class="normal"></highlight></codeline>
-<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IniFileRemoveContext::setFileTxt(std::string<sp/>txt)<sp/>{</highlight></codeline>
-<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
-<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>IniFileRemoveContext::readFileLines()<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!iniFile_-&gt;fileLinesRead())<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iniFile_-&gt;readFileLines();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iniFile_-&gt;getFileLines();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
 <codeline lineno="124"><highlight class="normal"></highlight></codeline>
-<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iniFile_-&gt;setFileTxt(std::move(txt));</highlight></codeline>
-<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="127"><highlight class="normal"></highlight></codeline>
-<codeline lineno="128"><highlight class="normal"></highlight></codeline>
-<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>IniFileRemoveContext::write()<sp/>{</highlight></codeline>
-<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
-<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="133"><highlight class="normal"></highlight></codeline>
-<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iniFile_-&gt;write();</highlight></codeline>
-<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>IniFileRemoveContext::Section*&gt;<sp/>IniFileRemoveContext::sectionIfTemplates()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Section*&gt;<sp/>result;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>entry<sp/>:<sp/>iniFile_-&gt;getIfTemplates())<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(entry.second<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.emplace(entry.first,<sp/>entry.second.get());</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="136"><highlight class="normal"></highlight></codeline>
-<codeline lineno="137"><highlight class="normal"></highlight></codeline>
-<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IniFileRemoveContext::removeBackup()<sp/>{</highlight></codeline>
-<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni()<sp/>||<sp/>!iniFile_-&gt;getFile().has_value())<sp/>{</highlight></codeline>
-<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="142"><highlight class="normal"></highlight></codeline>
-<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>same<sp/>name<sp/>disableIni<sp/>builds:<sp/>the<sp/>backup<sp/>prefix<sp/>on<sp/>the<sp/>stem,<sp/>and<sp/>a<sp/>.txt<sp/>extension</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>rather<sp/>than<sp/>.ini.<sp/>Spelled<sp/>out<sp/>here<sp/>rather<sp/>than<sp/>shared,<sp/>because<sp/>the<sp/>two<sp/>are<sp/>opposites<sp/>--</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>one<sp/>of<sp/>them<sp/>changing<sp/>without<sp/>the<sp/>other<sp/>is<sp/>exactly<sp/>the<sp/>bug<sp/>worth<sp/>having<sp/>a<sp/>compile-visible</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>second<sp/>copy<sp/>for.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::path<sp/>path<sp/>=<sp/>FileService::strToPath(*iniFile_-&gt;getFile());</highlight></codeline>
-<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::path<sp/>backup<sp/>=<sp/>path.parent_path()<sp/>/</highlight></codeline>
-<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(FilePrefixes::BackupFilePrefix<sp/>+<sp/>FileService::pathToStr(path.stem())<sp/>+<sp/>FileExt::Txt);</highlight></codeline>
-<codeline lineno="150"><highlight class="normal"></highlight></codeline>
-<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>existence<sp/>check<sp/>first:<sp/>remove()<sp/>reports<sp/>&quot;there<sp/>was<sp/>nothing<sp/>there&quot;<sp/>the<sp/>same<sp/>way<sp/>it</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>reports<sp/>success,<sp/>and<sp/>a<sp/>backup<sp/>that<sp/>is<sp/>already<sp/>gone<sp/>is<sp/>not<sp/>a<sp/>failure.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::error_code<sp/>err;</highlight></codeline>
-<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove(backup,<sp/>err);</highlight></codeline>
-<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>IniFileRemoveContext::fileTxt()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iniFile_-&gt;getFileTxt();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IniFileRemoveContext::setFileTxt(std::string<sp/>txt)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iniFile_-&gt;setFileTxt(std::move(txt));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="157"><highlight class="normal"></highlight></codeline>
-<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IniFileRemoveContext::clearRead()<sp/>{</highlight></codeline>
-<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
-<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="162"><highlight class="normal"></highlight></codeline>
-<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iniFile_-&gt;clearRead();</highlight></codeline>
-<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>IniFileRemoveContext::write()<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iniFile_-&gt;write();</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="166"><highlight class="normal"></highlight></codeline>
-<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IniFileRemoveContext::setIsFixed(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isFixed)<sp/>{</highlight></codeline>
-<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deliberately<sp/>nothing<sp/>--<sp/>see<sp/>IniRemoveContext::setIsFixed&apos;s<sp/>own<sp/>note.<sp/>IniFile::isFixed<sp/>is</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>protected<sp/>and<sp/>owned<sp/>by<sp/>IniFile::classify;<sp/>re-classify<sp/>the<sp/>file<sp/>if<sp/>the<sp/>flag<sp/>matters<sp/>after<sp/>a</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>removal.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)isFixed;</highlight></codeline>
-<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IniFileRemoveContext::removeBackup()<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni()<sp/>||<sp/>!iniFile_-&gt;getFile().has_value())<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>same<sp/>name<sp/>disableIni<sp/>builds:<sp/>the<sp/>backup<sp/>prefix<sp/>on<sp/>the<sp/>stem,<sp/>and<sp/>a<sp/>.txt<sp/>extension</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>rather<sp/>than<sp/>.ini.<sp/>Spelled<sp/>out<sp/>here<sp/>rather<sp/>than<sp/>shared,<sp/>because<sp/>the<sp/>two<sp/>are<sp/>opposites<sp/>--</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>one<sp/>of<sp/>them<sp/>changing<sp/>without<sp/>the<sp/>other<sp/>is<sp/>exactly<sp/>the<sp/>bug<sp/>worth<sp/>having<sp/>a<sp/>compile-visible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>second<sp/>copy<sp/>for.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::path<sp/>path<sp/>=<sp/>FileService::strToPath(*iniFile_-&gt;getFile());</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::path<sp/>backup<sp/>=<sp/>path.parent_path()<sp/>/</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(FilePrefixes::BackupFilePrefix<sp/>+<sp/>FileService::pathToStr(path.stem())<sp/>+<sp/>FileExt::Txt);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>existence<sp/>check<sp/>first:<sp/>remove()<sp/>reports<sp/>&quot;there<sp/>was<sp/>nothing<sp/>there&quot;<sp/>the<sp/>same<sp/>way<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>reports<sp/>success,<sp/>and<sp/>a<sp/>backup<sp/>that<sp/>is<sp/>already<sp/>gone<sp/>is<sp/>not<sp/>a<sp/>failure.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::error_code<sp/>err;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove(backup,<sp/>err);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IniFileRemoveContext::clearRead()<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iniFile_-&gt;clearRead();</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IniFileRemoveContext::setIsFixed(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isFixed)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deliberately<sp/>nothing<sp/>--<sp/>see<sp/>IniRemoveContext::setIsFixed&apos;s<sp/>own<sp/>note.<sp/>IniFile::isFixed<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>protected<sp/>and<sp/>owned<sp/>by<sp/>IniFile::classify;<sp/>re-classify<sp/>the<sp/>file<sp/>if<sp/>the<sp/>flag<sp/>matters<sp/>after<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>removal.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)isFixed;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp"/>
   </compounddef>

@@ -873,6 +873,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae74ea7c73f7a9013e807f81e3b9ce492" kind="variable"><name>texFxBlend</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7e3f2b2b4da50d78455aa4fbed594377" kind="variable"><name>mirroredObjs</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a19769206a6de54ee199134908fb567a5" kind="variable"><name>mirrorOffset</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a593f45356806307ea80ce6ed5894f871" kind="variable"><name>mirrorBackedReach</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a3f614ffd858d4f04d59be573d711f0a5" kind="variable"><name>splitGroups</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a091fd718eea17cace6c632a0ae7b1a6c" kind="variable"><name>pushAway</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a8e48326f59a942a80a07de2e27f2a54a" kind="variable"><name>innerOutlineObjs</name></member>
@@ -2971,6 +2972,7 @@
     <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a924df1814e99ba2acbf62beeaedacb31" kind="variable"><name>facingCos</name></member>
     <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a9624d744136ab24fd2b539bb81425ced" kind="function"><name>covered</name></member>
     <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a50b3932d1f90b3967f656218e66d268e" kind="function"><name>find</name></member>
+    <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1ab8e99e38f2d544811dd21904ea76972b" kind="function"><name>backed</name></member>
     <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1aa36a314c475b8b02d682e61b2ae8ffde" kind="function"><name>readPositions</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_internal_key_result" kind="struct"><name>AGRemapCore::ModMappedAssets::InternalKeyResult</name>
@@ -5062,6 +5064,7 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a8fdc1313233c6ce7419e5f99683f77a2" kind="variable"><name>claimShare</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a92e12086f31356ed25ee40a66d630c7a" kind="variable"><name>overlapRings</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a0b57e8a1ec2e5098197048f5b6ccedbb" kind="variable"><name>mirroredIbs</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a4bc04db5c1000db92210d14948c67816" kind="variable"><name>mirrorBackedReach</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a095b1a0f9960336595f5379caf6a6a78" kind="variable"><name>splitGroups</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1abac762f14f4d58c0c2526e46c3e3b14f" kind="variable"><name>negativeIndex</name></member>
   </compound>
@@ -5074,9 +5077,14 @@
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a4265f9b88e1ca5808754e1b1012ebc0a" kind="variable"><name>ibs_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a46b7066cffe375dcf9f52ecb1bea8833" kind="variable"><name>specs_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a3e08666d5cf9c703b5ad4324096a5673" kind="variable"><name>totals_</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a3aa451a23a476bd96ec8ae71640d83aa" kind="variable"><name>positions_</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a0540c0504bd9c7c929e63602d02b1d45" kind="variable"><name>normals_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a6f92e43248a484e60db51315efcdfef6" kind="function"><name>VGComponentSplit</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a5f632c741402cbefd73b0693e88852b0" kind="function"><name>vertexCount</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a187d0901ffb710d5c67575290f9c5480" kind="function"><name>specs</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a45345a1711a71f484e348fcf8e0bf654" kind="function"><name>setGeometry</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_component_split_1ab2d96f55b32fad3b30257a2155418305" kind="function"><name>needsGeometry</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_component_split_1ad5f2bf020d73fdc3a98f84fe085f9b20" kind="function"><name>readGeometry</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a589bc6290b5efa5636371c003eb59649" kind="function"><name>split</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a6743c5bf640d533dae31d1f9b7cd1cf6" kind="function"><name>readBlend</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a467bd29245be5c8441bbba127bfc62a7" kind="function"><name>readIb</name></member>
@@ -5089,7 +5097,7 @@
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a40d9d1de6d57dc31bf149965f637dea9" kind="function"><name>liveVertices</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1acb2803a433f3473065fa8f5ce0b6b944" kind="function"><name>splitNegative</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1add0cc01f605e916543f36ee3d381e575" kind="function"><name>splitCut</name></member>
-    <member refid="class_a_g_remap_core_1_1_v_g_component_split_1ac6385bb49db949c52e84fc2f1459bc39" kind="function"><name>addMirroredLayer</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a6565d5d61fb4574c590f6fbbcce352e4" kind="function"><name>addMirroredLayer</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_v_g_component_split_stats" kind="struct"><name>AGRemapCore::VGComponentSplitStats</name>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a287fb32688c4220d2640b40c9b522487" kind="variable"><name>vertexCount</name></member>
@@ -5102,6 +5110,7 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a3a68e3236f770be1598c9c6a4df101b1" kind="variable"><name>sentinels</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a9804f304038b321b399985e331353fb6" kind="variable"><name>mirroredVertices</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1afee27ea0d3e4732cc24d34d6cecf650e" kind="variable"><name>mirroredTriangles</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1ab733f16c7687baf7b6d0c393df67a929" kind="variable"><name>mirrorBacked</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a43583c97fc41746306e1d2d6b5404bdb" kind="variable"><name>splitVertices</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_v_g_counts" kind="class"><name>AGRemapCore::VGCounts</name>

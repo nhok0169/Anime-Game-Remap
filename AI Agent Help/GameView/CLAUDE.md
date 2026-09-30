@@ -190,7 +190,7 @@ supports. Do not keep routine shots: the folder is committed.
 | a controlled studio view of a party member | overworld -> `key c` opens the character screen (verified). From the Paimon menu (`esc`) click the **Character** tile instead: `c` does nothing there. Every owned character is in the avatar row across the top, and clicking one switches. `drag` across the model turns it; `scroll` zooms |
 | the wardrobe / a different outfit of that character | on the character screen, `key r` (verified). **Switch** equips the selected outfit. A remap ONTO a skin is only visible while the character wears that skin, so switching is allowed; note what was equipped and switch back before you finish |
 | a skin the account does NOT own | Shop -> Character Outfits -> an outfit opens a live preview of it. **View only; see the rules below.** The eye icon bottom left hides the UI |
-| the overworld | `esc` until the minimap is back. `look DX DY` turns the camera, `1`-`4` switch party members, `hold w 1.5` walks |
+| the overworld | `esc` until the minimap is back. `look DX DY` turns the camera (the cursor is captured there, so a mouse MOVE turns it; `drag` does not -- `look 500 0` is about a quarter turn), `1`-`4` switch party members, `hold w 1.5` walks |
 | hide the UI | outfit preview: the eye icon bottom left. The character screen has no hide button. Crop instead |
 
 The character screen's lighting is the same every time, which is why it beats the overworld for

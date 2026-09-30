@@ -112,7 +112,7 @@ def parserConfig() -> "FRB.GIMICharParserConfig":
 
 
 def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = False, carryFace = False,
-                mirrored = ("dress",)) -> "FRB.GIMIComponentFixerConfig":
+                mirrored = ("dress",), mirrorBackedReach = 0.01) -> "FRB.GIMIComponentFixerConfig":
     config = FRB.GIMIComponentFixerConfig()
     config.targetSkin = Skin
     config.drawnObjs = ["head", "body", "dress"]
@@ -174,6 +174,9 @@ def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = False, 
     # the drapes of Lumine4 / 7 and her own identity dark, where on her own outfit they are pale (in game, 2026-09-29).
     # A mirrored inner layer (Neuvillette's mirroredObjs) gives the inside a front face: Lumine2's lining came back pale.
     main.mirroredObjs = list(mirrored)
+    # ...but not where the mod models its own lining: a twin moved inward from a coat lands in front of the lining a
+    # few millimetres behind, as flat grey polygons over Lumine2's coat flaps (in game, 2026-09-29).
+    main.mirrorBackedReach = mirrorBackedReach
 
     if (innerOutline):
         main.innerOutlineObjs = ["head"]
@@ -213,6 +216,7 @@ def main():
     parser.add_argument("mod", help = "the mod folder (every Lumine .ini under it is fixed)")
     parser.add_argument("--headHairBand", type = int, default = -1, help = "move the head light map's 254-255 onto this band (an A/B: 127 is the skin's hair band; default -1, none)")
     parser.add_argument("--mirror", default = "dress", help = "comma-separated source objects given a mirrored inner layer on the main mesh (default `dress`; `none` for the A/B)")
+    parser.add_argument("--mirrorBackedReach", type = float, default = 0.01, help = "a mirrored triangle with a layer facing the other way this close behind it gets no twin (default 0.01; 0 mirrors every triangle, the A/B)")
     parser.add_argument("--carryFace", action = "store_true", help = "an A/B: carry the mod's face diffuse onto the skin's face hash (it lands on a different mesh)")
     parser.add_argument("--noHeadAlpha", action = "store_true", help = "leave the head diffuse's alpha alone (the A/B for the edit)")
     parser.add_argument("--innerOutline", action = "store_true", help = "drop the outline of the hair's inner layers (Yaoyao's layered-hair fix)")
@@ -223,7 +227,7 @@ def main():
     args = parser.parse_args()
 
     config = fixerConfig(None if args.headHairBand < 0 else args.headHairBand, not args.noHeadAlpha, args.innerOutline, args.carryFace,
-                         [o for o in args.mirror.split(",") if o and o != "none"])
+                         [o for o in args.mirror.split(",") if o and o != "none"], args.mirrorBackedReach)
     FRB.CppStrategyOverrides.clear()
     FRB.CppStrategyOverrides.setParser(SrcName, FRB.makeGIMICharParser(parserConfig()))
     for component in config.components:

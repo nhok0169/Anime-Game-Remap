@@ -1918,7 +1918,7 @@ keyed by that component&apos;s own :cpp:enum:`ModTypeId`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="2333" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="2333" bodyend="2337" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="735" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="2340" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="2340" bodyend="2344" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="751" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2418,7 +2418,7 @@ and ``texcoord`` (at most one each) and ``buf`` (the index buffers, any number, 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="102" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="102" bodyend="312" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="188" declcolumn="10"/>
+        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="102" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="102" bodyend="328" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="188" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1acfa9613659a36bc4765c5f2fca7f218f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>

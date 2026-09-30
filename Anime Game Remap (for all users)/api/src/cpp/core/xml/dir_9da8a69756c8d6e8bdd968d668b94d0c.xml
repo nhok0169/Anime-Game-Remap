@@ -8,6 +8,7 @@
     <innerfile refid="_buf_int_8cpp">BufInt.cpp</innerfile>
     <innerfile refid="_buf_type_8cpp">BufType.cpp</innerfile>
     <innerfile refid="_buf_unorm_8cpp">BufUnorm.cpp</innerfile>
+    <innerfile refid="_inner_layer_outline_8cpp">InnerLayerOutline.cpp</innerfile>
     <innerfile refid="_v_g_component_merge_8cpp">VGComponentMerge.cpp</innerfile>
     <innerfile refid="_v_g_component_split_8cpp">VGComponentSplit.cpp</innerfile>
     <briefdescription>

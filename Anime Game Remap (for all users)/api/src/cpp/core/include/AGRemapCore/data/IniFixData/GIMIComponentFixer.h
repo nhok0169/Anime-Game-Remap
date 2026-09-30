@@ -287,6 +287,22 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             How far behind a :cpp:member:`mirroredObjs` triangle a layer of the mod facing the other way makes its
+             twin unneeded, in model units -- see :cpp:member:`VGComponentSpec::mirrorBackedReach` :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A coat modelled with its own lining is two surfaces a few millimetres apart, and a twin moved
+             :cpp:member:`mirrorOffset` inward from one lands in front of the other: flat grey polygons over the flaps
+             of Lumine2's coat, which went when the backed twins did (in game, 2026-09-29). Every mod of Lumine's with
+             a real dress mesh has 13-37% of its dress triangles backed within 5 mm. **Default**: ``0``, every triangle
+             is mirrored (Neuvillette's verified output)
+             @endrst
+             */
+            float mirrorBackedReach = 0.0f;
+
+            /**
+             * @brief
+             @rst
              Source groups whose weight this component SHARES among several of its bones, as
              ``{source group: [(bone, share), ...]}`` -- see :cpp:member:`VGComponentSpec::splitGroups`. For a
              cloth part the target has no counterpart for, between a bone it clips on and one it folds on.

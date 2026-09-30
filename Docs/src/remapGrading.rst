@@ -252,7 +252,7 @@ Grading
        | - Cloth on her ``dress`` (coats, capes, long skirt tails) is given an inside layer, or its lining renders
        | bright blue or dark on the skin. Where the mod models its own lining, the layer stays behind it.
        |
-       | - A part of the mod that glows blue keeps its colour but loses its glow: the skin would tint it gold.
+       | - A part of the mod that glows blue keeps its colour, and its TexFx glow is moved onto the skin's normal-map layout.
        |
        | - Layered clothes lose the outline of their inner layers, or it shows through the outer one as small dark
        | red marks.

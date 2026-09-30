@@ -231,6 +231,22 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Whether this component's remapped sections move the mod's `TexFx`_ calls onto TexFx's NORMAL-MAP variants:
+             ``T`` / ``T.0`` -> ``T.1``, ``TN.0`` -> ``TN.1``, and likewise ``Transparency``, ``TNat``,
+             ``TransparencyNatlan``, ``C`` and ``Component`` :raw-html:`<br />` :raw-html:`<br />`
+
+             TexFx has one sub-command per shader layout -- ``.0`` for a part with no normal map, ``.1`` for one whose
+             normal map sits at ``ps-t0`` -- and a mod's call names ITS character's layout. On a normal-map slot the
+             ``.0`` call runs against the wrong layout: Lumine10's glowing arm guards, gems and boots glowed faintly on
+             LumineHeaven and fully with ``.1`` (in game, 2026-09-30). Only for a :cpp:member:`normalMap` component.
+             **Default**: ``false``, the calls are kept as the mod wrote them
+             @endrst
+             */
+            bool texFxNormalMap = false;
+
+            /**
+             * @brief
+             @rst
              For a component whose mod's TexFx transparency is dropped (:cpp:member:`dropTexFx`): the
              opacity its SEE-THROUGH draws are blended at instead, 0 to 1; ``0`` leaves them opaque
              :raw-html:`<br />` :raw-html:`<br />`

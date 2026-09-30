@@ -7459,6 +7459,16 @@ class GIMIComponentFixerConfig:
         def texFxBlend(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
             ...
         @property
+        def texFxNormalMap(self) -> bool:
+            """
+            :class:`bool`: Whether this component's remapped sections move the mod's TexFx calls onto TexFx's normal-map variants
+            (``T.0`` -> ``T.1``, ``TN.0`` -> ``TN.1``, ...) --- a mod's call names its own character's layout, and a ``.0`` call on a
+            normal-map slot barely glows. Only for a :attr:`normalMap` component. ``False`` by default
+            """
+        @texFxNormalMap.setter
+        def texFxNormalMap(self, arg0: bool) -> None:
+            ...
+        @property
         def texcoordStride(self) -> int:
             """
             :class:`int`: The TARGET component's Texcoord stride, or ``0`` to keep the mod's own

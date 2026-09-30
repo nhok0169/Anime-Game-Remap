@@ -505,6 +505,11 @@ for single-layer cloth whose back faces the target's shader does not shade as cl
         )doc"))
         .def_readwrite("mirrorOffset", &AGRC::GIMIComponentFixerConfig::Component::mirrorOffset,
                        py::doc(":class:`float`: How far inside the surface the mirrored layer sits, in model units --- ``0.005`` by default: at 1 mm it z-fought the surface from outside"))
+        .def_readwrite("texFxNormalMap", &AGRC::GIMIComponentFixerConfig::Component::texFxNormalMap, py::doc(R"doc(
+:class:`bool`: Whether this component's remapped sections move the mod's TexFx calls onto TexFx's normal-map variants
+(``T.0`` -> ``T.1``, ``TN.0`` -> ``TN.1``, ...) --- a mod's call names its own character's layout, and a ``.0`` call on a
+normal-map slot barely glows. Only for a :attr:`normalMap` component. ``False`` by default
+        )doc"))
         .def_readwrite("mirrorBackedReach", &AGRC::GIMIComponentFixerConfig::Component::mirrorBackedReach, py::doc(R"doc(
 :class:`float`: How far behind a :attr:`mirroredObjs` triangle a layer of the mod facing the other way makes its twin
 unneeded, in model units --- a coat with its own lining otherwise shows its twins as flat grey polygons through it. See

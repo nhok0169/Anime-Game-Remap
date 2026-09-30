@@ -870,6 +870,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab62936cc39c35b9e9c98fcca5697f0b5" kind="variable"><name>standIns</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab511611368c2e834b9a778be9c94c531" kind="variable"><name>overlapRings</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab57732e17c092f1bb8509403de678a16" kind="variable"><name>dropTexFx</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae563e52d4d87d0a6d15e10883d33d4c8" kind="variable"><name>texFxNormalMap</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae74ea7c73f7a9013e807f81e3b9ce492" kind="variable"><name>texFxBlend</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7e3f2b2b4da50d78455aa4fbed594377" kind="variable"><name>mirroredObjs</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a19769206a6de54ee199134908fb567a5" kind="variable"><name>mirrorOffset</name></member>

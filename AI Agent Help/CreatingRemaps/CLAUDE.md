@@ -2033,6 +2033,12 @@ redrawn since (`d298f0bc`, filed at 6.3). Prototypes: `Tools/Misc/Prototypes/lum
    alpha of a pixel that is bright (max RGB > 60) and bluer than red; the skin then lights it in its own colour: blue.
    Clearing ALL alpha-255 pixels was wrong -- the skin reads that alpha on dark cloth too, and her black dress went grey.
    A warm glow keeps its alpha (the tint barely moves it). Only Lumine10 has much of it (1.4M pixels; others 0-14k).
+   **And the GLOW itself comes from TexFx's normal-map variant** (the maintainer's point): TexFx has one sub-command per
+   shader layout, `.0` for a part with no normal map and `.1` for one with it at `ps-t0`, and a mod's call names ITS
+   character's layout. Lumine has none, the skin's slots have one, and `T.0` there glowed faintly where `T.1` glows like
+   her own outfit. `Component::texFxNormalMap` (new, off by default) moves `T`/`T.0` -> `T.1`, `TN.0` -> `TN.1` and the
+   other named variants in a normal-map component's remapped sections; the plain Eye slot keeps `.0`. Open: her starry
+   skirt LINING (TexFx-drawn inside faces) does not show on the skin.
    And a re-fix in place can lose its DOWNLOADS to the intermittent GitHub failure, leaving the head draw bound to
    nothing and the whole remap invisible: check every `filename =` resolves after a re-fix.
 8. **Mods whose own outfit is broken on the maintainer's old-loader GIMI** -- four shattered by a stale 4.0 ib

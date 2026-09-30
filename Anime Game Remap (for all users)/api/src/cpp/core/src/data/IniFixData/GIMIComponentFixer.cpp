@@ -1979,6 +1979,30 @@ namespace AGRemapCore {
                         removeTexFxAdapter_ = std::make_unique<RegPartEdit<>>(removeTexFx_.get());
                     }
 
+                    // The mod's TexFx calls onto the normal-map variants -- see Component::texFxNormalMap. One edit per
+                    // sub-command, each rewriting only the calls that name it, case-insensitively as 3DMigoto matches.
+                    if (component_.texFxNormalMap && component_.normalMap) {
+                        const std::vector<std::pair<std::vector<std::string>, std::string>> variants = {
+                            {{"T", "T.0"}, "T.1"}, {{"Transparency", "Transparency.0"}, "Transparency.1"},
+                            {{"TN.0"}, "TN.1"}, {{"TNat.0"}, "TNat.1"}, {{"TransparencyNatlan.0"}, "TransparencyNatlan.1"},
+                            {{"C", "C.0"}, "C.1"}, {{"Component", "Component.0"}, "Component.1"}};
+                        for (const auto& [from, to] : variants) {
+                            std::vector<std::string> names;
+                            for (const std::string& name : from) {
+                                names.push_back(StringTools::toLower(IniKeywords::TexFxFolder + "\\" + name));
+                            }
+                            RegNewVals<>::ModTypePredicate matches = [names](const std::string& value, const ModType*) {
+                                const std::string path = StringTools::toLower(std::string(StringTools::strip(value)));
+                                return std::find(names.begin(), names.end(), path) != names.end();
+                            };
+                            auto edit = std::make_unique<RegNewVals<>>(std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
+                                {IniKeywords::Run, RegNewVals<>::NewValSpec(std::make_pair(
+                                    RegNewVals<>::NewVal(IniKeywords::TexFxFolder + "\\" + to), matches))}});
+                            texFxNormalAdapters_.push_back(std::make_unique<RegPartEdit<>>(edit.get()));
+                            texFxNormalEdits_.push_back(std::move(edit));
+                        }
+                    }
+
                     // BottomCover: the collects above spliced their registers into `if 1 ... endif`
                     // blocks, which split the section into parts, and the default FillMissing
                     // would put the draw in the FIRST part, ahead of the ib and the textures.
@@ -2140,6 +2164,9 @@ namespace AGRemapCore {
                         std::vector<ObjGroupEdit::PartEdit*> slotEdits = {removeReflectionKeysAdapter_.get()};
                         if (removeTexFxAdapter_ != nullptr) {
                             slotEdits.push_back(removeTexFxAdapter_.get());
+                        }
+                        for (const auto& adapter : texFxNormalAdapters_) {
+                            slotEdits.push_back(adapter.get());
                         }
                         if (!keepOwnFixCalls) {
                             slotEdits.push_back(removeFixCallsAdapter_.get());
@@ -2305,6 +2332,8 @@ namespace AGRemapCore {
                 std::unique_ptr<RegRemove<>> removeDrawIndexed_;
                 std::unique_ptr<RegRemove<>> removeReflectionKeys_;
                 std::unique_ptr<RegRemove<>> removeTexFx_;
+                std::vector<std::unique_ptr<RegNewVals<>>> texFxNormalEdits_;
+                std::vector<std::unique_ptr<RegPartEdit<>>> texFxNormalAdapters_;
                 std::unique_ptr<RegPartEdit<>> removeTexFxAdapter_;
                 std::unique_ptr<RegFillMissing<>> fillDrawIndexed_;
                 std::unordered_map<std::string, std::vector<std::size_t>> keptTriangleIds_;

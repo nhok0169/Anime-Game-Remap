@@ -1918,7 +1918,7 @@ keyed by that component&apos;s own :cpp:enum:`ModTypeId`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="2341" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="2341" bodyend="2345" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="751" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="2370" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="2370" bodyend="2374" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="767" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>

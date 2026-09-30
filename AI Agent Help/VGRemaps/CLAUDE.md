@@ -874,6 +874,13 @@ original through WWMI Tools 1.3.4, is the template the script copies), then thes
   dump still came out at 512 -- change it in the game's own menu, where it sticks. And the hashes
   move with it (`bacb2d38` at 512 is `526b9ed0` at 2048), which is one more reason the fixer places a
   texture by pixel thumbprint rather than by hash.
+- **DUMP FROM THE CHARACTER MENU, NOT THE OVERWORLD** (the maintainer, 2026-09-30, for both
+  games). A dump holds everything on screen, and the character screen holds almost nothing else.
+  An overworld ChisaParfait at 3.7 came to 36857 files / 9.8 GB / 558 draw calls and the game did
+  not survive it; worse, WWMI Tools' extractor walks EVERY vb0 object in the dump and raises on the
+  first whose skeleton buffer is shorter than its highest blend index, naming neither the object
+  nor its hash -- so one bad NPC makes a perfectly good character look unextractable. See
+  [Game View](../GameView/CLAUDE.md)'s dump rules.
 - **NEVER DUMP A CHARACTER WITH A MOD OF THAT CHARACTER INSTALLED -- THE EXTRACTION DESCRIBES THE
   MODDED PIPELINE AND LOOKS LIKE A DIFFERENT CHARACTER, NOT LIKE AN ERROR** (2026-09-20). Two
   ChisaParfait dumps taken with her own IDENTITY MOD active came back with `cb4_hash` **empty** --

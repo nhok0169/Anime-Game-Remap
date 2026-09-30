@@ -672,6 +672,23 @@ first WuWa download (`WWMIFixerConfig::fallbackTextures`; `DownloadTools::urlPat
 folder now). **Not seen in game through the compiled path yet.** Open: WuWa BUFFER downloads (only textures are fetched so far), the
 reverse direction, retargeting the shape keys, the skin's LOD hashes.
 
+**WUTHERING WAVES 3.7 MOVED ONE CHARACTER OF THE FOUR, NOT ALL OF THEM (2026-09-30).** The 3.7
+update changed the game's model system and every WuWa mod stopped matching, which reads as a rehash
+of everything. It is not: re-dumped and rebuilt, `Chisa`, `Sanhua` and `SanhuaExorcist` are
+**byte-identical** to their shipped download folders, hashes included, and only **ChisaParfait**
+moved -- `vb0` `e611d493` -> `95ecef77`, plus small edits to `Position` / `Texcoord` / `Color` /
+`ShapeKeyVertexOffset`, with every count, offset, texture hash, `cb4`, `shapekey_offsets` and
+`shapekey_scale` unchanged. `Data/Mod Downloads/WuWa/ChisaParfait/3_7` is the new folder; the other
+three need none. **A mod failing to match says nothing about which asset moved** -- and an earlier
+narrow OVERWORLD dump that reported "Chisa 4 of 56 hashes present" was measuring characters that were
+never drawn in that frame. Two rules came out of it, both written up: **take a frame dump from the
+CHARACTER MENU, not the overworld** (the maintainer's, for both games -- an overworld dump was 9.8 GB
+and killed the game, and WWMI Tools' extractor aborts on an unrelated NPC whose skeleton buffer is
+short, naming neither the object nor its hash), and a WuWa download folder is now proved a second way
+by `Tools/Misc/Diagnostics/wwmiCheckDownload.py`, against the dump's own bytes rather than the reader
+that built it. See [Game View](AI%20Agent%20Help/GameView/CLAUDE.md)'s dump rules and
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Proving a NEW download folder".
+
 **A WUWA REMAP TO DEBUG OR A NEW WUWA PAIR: three sections of [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)
 carry everything the in-game rounds taught (2026-09-19).** "WuWa triage" maps every report's WORDS
 so far to its cause (a hue over body and clothes is the MASK; one part in another's texture is a

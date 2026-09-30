@@ -5503,6 +5503,30 @@ that caught nothing on Bennett (all 18 binaries matched, including the R16 -> R3
 but it is the only check that could have. The `.dds` files are straight copies, so md5 them against
 the asset folder.
 
+**On WuWa that second way is a tool now: `Tools/Misc/Diagnostics/wwmiCheckDownload.py` (2026-09-30).**
+3DMigoto writes each bound vertex and index buffer WHOLE, once per draw call, so a download folder's
+`Position`, `Vector`, `Color`, `Texcoord` and `Index` must be byte-identical to a slot the
+character's own draws bound -- nothing in that path goes through WWMI Tools, which is the point.
+`Blend.buf` deliberately is not one of them (the extractor rewrites each component's local bone ids
+into the merged skeleton: 47.7% of ChisaParfait's bytes differ from the raw `vb4`), nor are the three
+shape key buffers, which are rebuilt sparse; the tool names those as derived and exits 1 on anything
+else. It also prints each buffer's SLOT HASH, which is what a `HashData` row needs. It was proved the
+way habit 34 asks: it FAILS on `ChisaParfait/3_5` against the same 3.7 dump that `3_7` passes.
+
+**AND A GAME VERSION THAT "REHASHES EVERYTHING" MAY HAVE MOVED ONE CHARACTER (WuWa 3.7,
+2026-09-30).** The 3.7 update changed WuWa's model system and every WuWa mod stopped matching, which
+reads as a rehash of the lot. Re-dumped and rebuilt: `Chisa`, `Sanhua` and `SanhuaExorcist` are
+**byte-identical** to their shipped folders, hashes included, and only `ChisaParfait` moved -- `vb0`
+`e611d493` -> `95ecef77`, with small edits to `Position` / `Texcoord` / `Color` /
+`ShapeKeyVertexOffset` and every count, offset, texture and other hash (`cb4`, `shapekey_offsets`,
+`shapekey_scale`) unchanged. **A mod not matching says nothing about which asset moved**: what said
+it was re-dumping each character and running `--check` against its own folder, four dumps and about
+twenty minutes. The trap that nearly hid it: an earlier narrow dump taken in the OVERWORLD with the
+skin equipped reported "Chisa 4 of 56 hashes present, Sanhua 0 of 4" -- those characters were simply
+never drawn in that frame, and absence from a dump is not evidence about a hash. The three unchanged
+folders rebuilt from fresh dumps are also the pipeline proof the new folder needs, in place of the
+six GI folders.
+
 Two things measured on Bennett that are not guessable:
 
 - **The Texcoord stride is per COMPONENT, and differs inside one skin.** BennettAdventure's `Body`

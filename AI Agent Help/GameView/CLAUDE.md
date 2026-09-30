@@ -168,6 +168,23 @@ that changes.
   and **never dump a character with a mod of that character installed** when the dump is for asset
   extraction: see [Vertex Group Remaps](../VGRemaps/CLAUDE.md). `mods ... only` with an empty
   selection is how you get there, and `mods ... restore` is how you come back.
+- **TAKE THE DUMP FROM THE CHARACTER MENU, NOT THE OVERWORLD (the maintainer's rule, 2026-09-30;
+  BOTH GAMES).** The character / Resonator screen draws the character and almost nothing else, and
+  a frame dump holds *everything on screen*. The overworld does not just cost disk: it is the
+  reason for two failures this repo has already paid for.
+  - **It can kill the game.** ChisaParfait standing in an overworld field at WuWa 3.7 dumped
+    **36857 files, 9.8 GB, 558 draw calls**, and the game was gone by the next command.
+  - **An unrelated object aborts the extraction.** `wwmiExtractDump.py` runs WWMI Tools' own
+    extractor, which walks *every* vb0 object in the dump and raises on the first one whose
+    skeleton buffer is shorter than its highest blend index -- an NPC, a prop, a creature. The
+    message names neither the object nor its hash (`skeleton of Component_0 has only 43 bones,
+    while there are 83 VGs declared`), so a dump whose own character is perfectly readable looks
+    exactly like a dump that is unusable.
+  - And it is the same reason a register read off an overworld dump may belong to a passer-by
+    rather than to the character -- Creating Remaps' "A REGISTER A DRAW INHERITED MAY BELONG TO A
+    DIFFERENT CHARACTER ENTIRELY", which cost an in-game round on a yellow kimono.
+  The character menu also shows the model close and lit, which is what streams its textures in at
+  full size -- the other half of the LOD-bias trap in [Vertex Group Remaps](../VGRemaps/CLAUDE.md).
 - **A texture that looks unchanged may be a cache, not a failed fix.** 3DMigoto can keep serving
   a texture it already loaded (Creating Remaps' "A SCREENSHOT IS EVIDENCE ABOUT THE GAME'S STATE").
   Check the written `.dds` first. If the file is right and the game is not, `close --force` then

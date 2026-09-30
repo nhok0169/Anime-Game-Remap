@@ -147,45 +147,45 @@
       <node id="116">
         <label>include/AGRemapCore/RemapServiceCLI.h</label>
         <link refid="_remap_service_c_l_i_8h"/>
-        <childnode refid="31" relation="include">
-        </childnode>
-      </node>
-      <node id="27">
-        <label>include/AGRemapCore/constants/GIBuilder.h</label>
-        <link refid="_g_i_builder_8h"/>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-      </node>
-      <node id="30">
-        <label>include/AGRemapCore/constants/GlobalModTypes.h</label>
-        <link refid="_global_mod_types_8h"/>
-        <childnode refid="31" relation="include">
-        </childnode>
         <childnode refid="32" relation="include">
         </childnode>
+      </node>
+      <node id="28">
+        <label>include/AGRemapCore/constants/GIBuilder.h</label>
+        <link refid="_g_i_builder_8h"/>
         <childnode refid="29" relation="include">
         </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
       </node>
-      <node id="33">
+      <node id="31">
+        <label>include/AGRemapCore/constants/GlobalModTypes.h</label>
+        <link refid="_global_mod_types_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
         <label>include/AGRemapCore/constants/ModTypeId.h</label>
         <link refid="_mod_type_id_8h"/>
-        <childnode refid="34" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="35" relation="include">
         </childnode>
         <childnode refid="84" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="31" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
+        <childnode refid="25" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
         <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
         </childnode>
         <childnode refid="91" relation="include">
         </childnode>
@@ -359,7 +359,7 @@
       <node id="113">
         <label>include/AGRemapCore/constants/WWMIBuilder.h</label>
         <link refid="_w_w_m_i_builder_8h"/>
-        <childnode refid="29" relation="include">
+        <childnode refid="30" relation="include">
         </childnode>
         <childnode refid="92" relation="include">
         </childnode>
@@ -414,7 +414,7 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="34">
+      <node id="23">
         <label>include/AGRemapCore/data/IniFixData/WWMIFixer.h</label>
         <link refid="_w_w_m_i_fixer_8h"/>
         <childnode refid="8" relation="include">
@@ -546,7 +546,7 @@
         <childnode refid="90" relation="include">
         </childnode>
       </node>
-      <node id="23">
+      <node id="25">
         <label>include/AGRemapCore/data/IniParseData/WWMIParser.h</label>
         <link refid="_w_w_m_i_parser_8h"/>
         <childnode refid="24" relation="include">
@@ -559,7 +559,7 @@
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="25" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
       </node>
       <node id="6">
@@ -575,6 +575,8 @@
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
         <childnode refid="24" relation="include">
         </childnode>
       </node>
@@ -585,9 +587,9 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
+        <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="28" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
         <childnode refid="92" relation="include">
         </childnode>
@@ -611,7 +613,7 @@
         </childnode>
         <childnode refid="88" relation="include">
         </childnode>
-        <childnode refid="25" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
         <childnode refid="111" relation="include">
         </childnode>
@@ -630,14 +632,14 @@
         <childnode refid="112" relation="include">
         </childnode>
       </node>
-      <node id="26">
+      <node id="27">
         <label>include/AGRemapCore/model/strategies/ModType.h</label>
         <link refid="_mod_type_8h"/>
-        <childnode refid="27" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
+        <childnode refid="34" relation="include">
         </childnode>
         <childnode refid="113" relation="include">
         </childnode>
@@ -645,7 +647,7 @@
         </childnode>
         <childnode refid="124" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="33" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
@@ -674,19 +676,19 @@
         <label>src/RemapService.cpp</label>
         <link refid="_remap_service_8cpp"/>
       </node>
-      <node id="31">
+      <node id="32">
         <label>src/RemapServiceCLI.cpp</label>
         <link refid="_remap_service_c_l_i_8cpp"/>
       </node>
-      <node id="28">
+      <node id="29">
         <label>src/constants/GIBuilder.cpp</label>
         <link refid="_g_i_builder_8cpp"/>
       </node>
-      <node id="32">
+      <node id="33">
         <label>src/constants/GlobalIniClassifiers.cpp</label>
         <link refid="_global_ini_classifiers_8cpp"/>
       </node>
-      <node id="29">
+      <node id="30">
         <label>src/constants/GlobalModTypes.cpp</label>
         <link refid="_global_mod_types_8cpp"/>
       </node>
@@ -1010,7 +1012,7 @@
         <label>src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp</label>
         <link refid="_shenhe_frost_flower_parser_8cpp"/>
       </node>
-      <node id="25">
+      <node id="26">
         <label>src/data/IniParseData/WWMIParser.cpp</label>
         <link refid="_w_w_m_i_parser_8cpp"/>
       </node>

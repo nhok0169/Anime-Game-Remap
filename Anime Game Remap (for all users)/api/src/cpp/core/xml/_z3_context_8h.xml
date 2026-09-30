@@ -5,6 +5,7 @@
     <includes local="no">memory</includes>
     <includedby refid="_mod_branches_8h" local="yes">include/AGRemapCore/data/IniFixData/ModBranches.h</includedby>
     <includedby refid="_ini_section_graph_8h" local="yes">include/AGRemapCore/model/IniSectionGraph.h</includedby>
+    <includedby refid="_ini_section_text_8h" local="yes">include/AGRemapCore/model/IniSectionText.h</includedby>
     <includedby refid="_ini_file_8h" local="yes">include/AGRemapCore/model/files/IniFile.h</includedby>
     <includedby refid="_if_pred_part_8h" local="yes">include/AGRemapCore/model/iftemplate/IfPredPart.h</includedby>
     <includedby refid="_if_pred_z3_generator_8h" local="yes">include/AGRemapCore/model/iftemplate/IfPredZ3Generator.h</includedby>
@@ -1546,12 +1547,18 @@
         <childnode refid="358" relation="include">
         </childnode>
       </node>
-      <node id="361">
+      <node id="359">
+        <label>include/AGRemapCore/model/IniSectionText.h</label>
+        <link refid="_ini_section_text_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="362">
         <label>include/AGRemapCore/model/SectionIterData.h</label>
         <link refid="_section_iter_data_8h"/>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="362" relation="include">
+        <childnode refid="363" relation="include">
         </childnode>
         <childnode refid="342" relation="include">
         </childnode>
@@ -1563,13 +1570,13 @@
         </childnode>
         <childnode refid="253" relation="include">
         </childnode>
-        <childnode refid="363" relation="include">
+        <childnode refid="364" relation="include">
         </childnode>
       </node>
-      <node id="364">
+      <node id="365">
         <label>include/AGRemapCore/model/files/GIMIApiNormalizer.h</label>
         <link refid="_g_i_m_i_api_normalizer_8h"/>
-        <childnode refid="365" relation="include">
+        <childnode refid="366" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
@@ -1606,50 +1613,54 @@
         <childnode refid="30" relation="include">
         </childnode>
       </node>
-      <node id="359">
+      <node id="360">
         <label>include/AGRemapCore/model/iftemplate/IfPredPart.h</label>
         <link refid="_if_pred_part_8h"/>
-        <childnode refid="360" relation="include">
+        <childnode refid="359" relation="include">
         </childnode>
-        <childnode refid="373" relation="include">
+        <childnode refid="361" relation="include">
         </childnode>
         <childnode refid="374" relation="include">
         </childnode>
+        <childnode refid="375" relation="include">
+        </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="377" relation="include">
+        <childnode refid="378" relation="include">
         </childnode>
-        <childnode refid="367" relation="include">
+        <childnode refid="368" relation="include">
         </childnode>
       </node>
-      <node id="378">
+      <node id="379">
         <label>include/AGRemapCore/model/iftemplate/IfPredZ3Generator.h</label>
         <link refid="_if_pred_z3_generator_8h"/>
-        <childnode refid="377" relation="include">
+        <childnode refid="378" relation="include">
         </childnode>
-        <childnode refid="379" relation="include">
+        <childnode refid="380" relation="include">
         </childnode>
       </node>
-      <node id="360">
+      <node id="361">
         <label>include/AGRemapCore/model/iftemplate/IfTemplate.h</label>
         <link refid="_if_template_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="361" relation="include">
+        <childnode refid="359" relation="include">
         </childnode>
-        <childnode refid="364" relation="include">
+        <childnode refid="362" relation="include">
+        </childnode>
+        <childnode refid="365" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="366" relation="include">
+        <childnode refid="367" relation="include">
         </childnode>
         <childnode refid="123" relation="include">
         </childnode>
         <childnode refid="239" relation="include">
         </childnode>
-        <childnode refid="368" relation="include">
+        <childnode refid="369" relation="include">
         </childnode>
         <childnode refid="267" relation="include">
         </childnode>
@@ -1659,7 +1670,7 @@
         </childnode>
         <childnode refid="277" relation="include">
         </childnode>
-        <childnode refid="370" relation="include">
+        <childnode refid="371" relation="include">
         </childnode>
         <childnode refid="353" relation="include">
         </childnode>
@@ -1667,24 +1678,26 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="372" relation="include">
+        <childnode refid="373" relation="include">
         </childnode>
         <childnode refid="269" relation="include">
         </childnode>
       </node>
-      <node id="373">
+      <node id="374">
         <label>include/AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
         <link refid="_if_template_node_8h"/>
-        <childnode refid="360" relation="include">
+        <childnode refid="361" relation="include">
         </childnode>
-        <childnode refid="374" relation="include">
+        <childnode refid="375" relation="include">
         </childnode>
-        <childnode refid="376" relation="include">
+        <childnode refid="377" relation="include">
         </childnode>
       </node>
-      <node id="366">
+      <node id="367">
         <label>include/AGRemapCore/model/iftemplate/IfTemplateRender.h</label>
         <link refid="_if_template_render_8h"/>
+        <childnode refid="359" relation="include">
+        </childnode>
         <childnode refid="121" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
@@ -1695,25 +1708,25 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="367" relation="include">
+        <childnode refid="368" relation="include">
         </childnode>
         <childnode refid="125" relation="include">
         </childnode>
       </node>
-      <node id="374">
+      <node id="375">
         <label>include/AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
         <link refid="_if_template_tree_8h"/>
-        <childnode refid="360" relation="include">
+        <childnode refid="361" relation="include">
         </childnode>
-        <childnode refid="375" relation="include">
+        <childnode refid="376" relation="include">
         </childnode>
       </node>
-      <node id="381">
+      <node id="382">
         <label>include/AGRemapCore/model/iftemplate/Z3IfPredGenerator.h</label>
         <link refid="_z3_if_pred_generator_8h"/>
-        <childnode refid="377" relation="include">
+        <childnode refid="378" relation="include">
         </childnode>
-        <childnode refid="382" relation="include">
+        <childnode refid="383" relation="include">
         </childnode>
       </node>
       <node id="32">
@@ -1786,7 +1799,7 @@
         <childnode refid="125" relation="include">
         </childnode>
       </node>
-      <node id="362">
+      <node id="363">
         <label>include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h</label>
         <link refid="_g_i_m_i_obj_part_filter_8h"/>
         <childnode refid="121" relation="include">
@@ -2188,7 +2201,7 @@
         <childnode refid="279" relation="include">
         </childnode>
       </node>
-      <node id="369">
+      <node id="370">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.h</label>
         <link refid="_ini_file_res_edit_context_8h"/>
         <childnode refid="253" relation="include">
@@ -2196,10 +2209,10 @@
         <childnode refid="26" relation="include">
         </childnode>
       </node>
-      <node id="368">
+      <node id="369">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h</label>
         <link refid="_ini_res_edit_context_8h"/>
-        <childnode refid="369" relation="include">
+        <childnode refid="370" relation="include">
         </childnode>
         <childnode refid="259" relation="include">
         </childnode>
@@ -2576,16 +2589,16 @@
         <childnode refid="355" relation="include">
         </childnode>
       </node>
-      <node id="371">
+      <node id="372">
         <label>include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h</label>
         <link refid="_ini_file_remove_context_8h"/>
         <childnode refid="30" relation="include">
         </childnode>
       </node>
-      <node id="370">
+      <node id="371">
         <label>include/AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h</label>
         <link refid="_ini_remove_context_8h"/>
-        <childnode refid="371" relation="include">
+        <childnode refid="372" relation="include">
         </childnode>
         <childnode refid="353" relation="include">
         </childnode>
@@ -2623,55 +2636,57 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
         <childnode refid="359" relation="include">
         </childnode>
-        <childnode refid="378" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
         <childnode refid="360" relation="include">
         </childnode>
-        <childnode refid="374" relation="include">
+        <childnode refid="379" relation="include">
+        </childnode>
+        <childnode refid="361" relation="include">
+        </childnode>
+        <childnode refid="375" relation="include">
         </childnode>
         <childnode refid="239" relation="include">
         </childnode>
-        <childnode refid="368" relation="include">
+        <childnode refid="369" relation="include">
         </childnode>
         <childnode refid="249" relation="include">
         </childnode>
         <childnode refid="274" relation="include">
         </childnode>
-        <childnode refid="380" relation="include">
+        <childnode refid="381" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="385" relation="include">
+        </childnode>
         <childnode refid="384" relation="include">
         </childnode>
-        <childnode refid="383" relation="include">
-        </childnode>
       </node>
-      <node id="380">
+      <node id="381">
         <label>include/AGRemapCore/tools/z3/Z3Predicate.h</label>
         <link refid="_z3_predicate_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="361" relation="include">
+        <childnode refid="362" relation="include">
         </childnode>
-        <childnode refid="359" relation="include">
+        <childnode refid="360" relation="include">
         </childnode>
-        <childnode refid="378" relation="include">
+        <childnode refid="379" relation="include">
         </childnode>
-        <childnode refid="381" relation="include">
+        <childnode refid="382" relation="include">
         </childnode>
         <childnode refid="345" relation="include">
         </childnode>
         <childnode refid="249" relation="include">
         </childnode>
-        <childnode refid="383" relation="include">
+        <childnode refid="384" relation="include">
         </childnode>
-        <childnode refid="385" relation="include">
+        <childnode refid="386" relation="include">
         </childnode>
       </node>
       <node id="22">
@@ -3254,11 +3269,11 @@
         <label>src/model/IniSectionGraphInstantiation.cpp</label>
         <link refid="_ini_section_graph_instantiation_8cpp"/>
       </node>
-      <node id="363">
+      <node id="364">
         <label>src/model/SectionIterDataInstantiation.cpp</label>
         <link refid="_section_iter_data_instantiation_8cpp"/>
       </node>
-      <node id="365">
+      <node id="366">
         <label>src/model/files/GIMIApiNormalizer.cpp</label>
         <link refid="_g_i_m_i_api_normalizer_8cpp"/>
       </node>
@@ -3266,31 +3281,31 @@
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
       </node>
-      <node id="377">
+      <node id="378">
         <label>src/model/iftemplate/IfPredPart.cpp</label>
         <link refid="_if_pred_part_8cpp"/>
       </node>
-      <node id="379">
+      <node id="380">
         <label>src/model/iftemplate/IfPredZ3Generator.cpp</label>
         <link refid="_if_pred_z3_generator_8cpp"/>
       </node>
-      <node id="372">
+      <node id="373">
         <label>src/model/iftemplate/IfTemplateInstantiation.cpp</label>
         <link refid="_if_template_instantiation_8cpp"/>
       </node>
-      <node id="376">
+      <node id="377">
         <label>src/model/iftemplate/IfTemplateNodeInstantiation.cpp</label>
         <link refid="_if_template_node_instantiation_8cpp"/>
       </node>
-      <node id="367">
+      <node id="368">
         <label>src/model/iftemplate/IfTemplateRender.cpp</label>
         <link refid="_if_template_render_8cpp"/>
       </node>
-      <node id="375">
+      <node id="376">
         <label>src/model/iftemplate/IfTemplateTreeInstantiation.cpp</label>
         <link refid="_if_template_tree_instantiation_8cpp"/>
       </node>
-      <node id="382">
+      <node id="383">
         <label>src/model/iftemplate/Z3IfPredGenerator.cpp</label>
         <link refid="_z3_if_pred_generator_8cpp"/>
       </node>
@@ -3414,25 +3429,25 @@
         <label>src/tools/DownloadTools.cpp</label>
         <link refid="_download_tools_8cpp"/>
       </node>
-      <node id="384">
+      <node id="385">
         <label>src/tools/z3/Z3Context.cpp</label>
         <link refid="_z3_context_8cpp"/>
       </node>
-      <node id="383">
+      <node id="384">
         <label>src/tools/z3/Z3Internal.h</label>
         <link refid="_z3_internal_8h"/>
-        <childnode refid="377" relation="include">
+        <childnode refid="378" relation="include">
         </childnode>
-        <childnode refid="379" relation="include">
+        <childnode refid="380" relation="include">
         </childnode>
-        <childnode refid="382" relation="include">
-        </childnode>
-        <childnode refid="384" relation="include">
+        <childnode refid="383" relation="include">
         </childnode>
         <childnode refid="385" relation="include">
         </childnode>
+        <childnode refid="386" relation="include">
+        </childnode>
       </node>
-      <node id="385">
+      <node id="386">
         <label>src/tools/z3/Z3Predicate.cpp</label>
         <link refid="_z3_predicate_8cpp"/>
       </node>

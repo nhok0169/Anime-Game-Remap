@@ -65,6 +65,48 @@ namespace AGRemapCore {
         // any more, and the parser's pass matched against an empty table on every mod.
         facts.textureThumbprints = chisaTextureThumbprints();
 
+        // ---- a role the mod ships no file for falls back to HER game texture ----
+        facts.downloadCharFolder = "Chisa";
+        facts.downloadVersionFolder = "2_8";
+        facts.downloadPrefix = "Chisa";
+        facts.fallbackTextures = {
+            {"accessoryDiffuse", "019c268e"},
+            {"accessoryNormal", "40528957"},
+            {"accessorySheen", "4eaa9816"},
+            {"bodySheen", "bb73967a"},
+            {"faceDiffuse", "d030af95"},
+            {"faceMask", "6ae8dd10"},
+            {"frontHairDiffuse", "f2646d21"},
+            {"frontHairMask", "d3b9ba76"},
+            {"frontHairNormal", "9ccd7ea7"},
+            {"hairDiffuse", "cbab5910"},
+            // `hairMask` IS downloaded, and the flat test above must not reach it (2026-09-26).
+            // a842d51f is one RGBA value over all 1024x1024 texels -- (255, 0, 126, 0) -- which
+            // reads as "carries no information, so binding it is pointless". It is not: that value
+            // is ChisaParfait's OWN dominant hair code, 49.2% of her own hair mask's texels. Bound,
+            // every texel of the mod's hair is ordinary hair material.
+            //
+            // Dropped, the register falls to the game, and the game binds the TARGET's structured
+            // mask (129 distinct R values, 16.3% of them R = 0) sampled at CHISA's UVs -- so the
+            // codes land in patches laid out for a different head. Patchy codes shade in patches.
+            //
+            // The "R = 255 means bare skin" reading that argued for dropping it is a fact about the
+            // BODY mask and does not carry to the hair pass: 60.4% of the target's own hair mask is
+            // R = 255. Ask the target's own texture at a register what its values mean.
+            {"hairMask", "a842d51f"},
+            {"hairNormal", "e921181d"},
+            {"hairRamp", "232c2dbc"},
+            {"hairTipRamp", "2b16c5ac"},
+            {"irisDiffuse", "226b31fc"},
+            {"lowerDiffuse", "f642139e"},
+            {"lowerMask", "3f0e6f21"},
+            {"lowerNormal", "2b6f8bcb"},
+            {"skinRamp", "06790f7e"},
+            {"upperDiffuse", "165f3a1b"},
+            {"upperMask", "90196068"},
+            {"upperNormal", "526b9ed0"},
+        };
+
         return facts;
     }
 }

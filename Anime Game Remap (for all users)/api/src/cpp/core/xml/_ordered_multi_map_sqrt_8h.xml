@@ -980,14 +980,14 @@
         <childnode refid="172" relation="include">
         </childnode>
       </node>
-      <node id="387">
+      <node id="388">
         <label>include/AGRemapCore/data/IniFixData/TexRegLayout.h</label>
         <link refid="_tex_reg_layout_8h"/>
         <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="388" relation="include">
+        <childnode refid="389" relation="include">
         </childnode>
       </node>
       <node id="40">
@@ -1709,11 +1709,17 @@
         </childnode>
       </node>
       <node id="363">
+        <label>include/AGRemapCore/model/IniSectionText.h</label>
+        <link refid="_ini_section_text_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="364">
         <label>include/AGRemapCore/model/SectionIterData.h</label>
         <link refid="_section_iter_data_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="364" relation="include">
+        <childnode refid="365" relation="include">
         </childnode>
         <childnode refid="344" relation="include">
         </childnode>
@@ -1725,13 +1731,13 @@
         </childnode>
         <childnode refid="255" relation="include">
         </childnode>
-        <childnode refid="365" relation="include">
+        <childnode refid="366" relation="include">
         </childnode>
       </node>
-      <node id="369">
+      <node id="370">
         <label>include/AGRemapCore/model/files/GIMIApiNormalizer.h</label>
         <link refid="_g_i_m_i_api_normalizer_8h"/>
-        <childnode refid="370" relation="include">
+        <childnode refid="371" relation="include">
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
@@ -1777,19 +1783,21 @@
         </childnode>
         <childnode refid="363" relation="include">
         </childnode>
-        <childnode refid="366" relation="include">
+        <childnode refid="364" relation="include">
         </childnode>
-        <childnode refid="368" relation="include">
+        <childnode refid="367" relation="include">
         </childnode>
-        <childnode refid="378" relation="include">
-        </childnode>
-        <childnode refid="371" relation="include">
+        <childnode refid="369" relation="include">
         </childnode>
         <childnode refid="379" relation="include">
         </childnode>
+        <childnode refid="372" relation="include">
+        </childnode>
+        <childnode refid="380" relation="include">
+        </childnode>
         <childnode refid="246" relation="include">
         </childnode>
-        <childnode refid="382" relation="include">
+        <childnode refid="383" relation="include">
         </childnode>
         <childnode refid="269" relation="include">
         </childnode>
@@ -1797,28 +1805,28 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="391" relation="include">
+        <childnode refid="392" relation="include">
         </childnode>
       </node>
-      <node id="366">
+      <node id="367">
         <label>include/AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
         <link refid="_if_content_part_colour_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="363" relation="include">
+        <childnode refid="364" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
-        <childnode refid="364" relation="include">
+        <childnode refid="365" relation="include">
         </childnode>
         <childnode refid="269" relation="include">
         </childnode>
         <childnode refid="277" relation="include">
         </childnode>
-        <childnode refid="367" relation="include">
+        <childnode refid="368" relation="include">
         </childnode>
       </node>
-      <node id="368">
+      <node id="369">
         <label>include/AGRemapCore/model/iftemplate/IfTemplate.h</label>
         <link refid="_if_template_8h"/>
         <childnode refid="348" relation="include">
@@ -1827,17 +1835,19 @@
         </childnode>
         <childnode refid="363" relation="include">
         </childnode>
-        <childnode refid="369" relation="include">
+        <childnode refid="364" relation="include">
+        </childnode>
+        <childnode refid="370" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="371" relation="include">
+        <childnode refid="372" relation="include">
         </childnode>
         <childnode refid="124" relation="include">
         </childnode>
         <childnode refid="240" relation="include">
         </childnode>
-        <childnode refid="373" relation="include">
+        <childnode refid="374" relation="include">
         </childnode>
         <childnode refid="269" relation="include">
         </childnode>
@@ -1847,7 +1857,7 @@
         </childnode>
         <childnode refid="279" relation="include">
         </childnode>
-        <childnode refid="375" relation="include">
+        <childnode refid="376" relation="include">
         </childnode>
         <childnode refid="356" relation="include">
         </childnode>
@@ -1855,24 +1865,26 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="377" relation="include">
+        <childnode refid="378" relation="include">
         </childnode>
         <childnode refid="271" relation="include">
         </childnode>
       </node>
-      <node id="378">
+      <node id="379">
         <label>include/AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
         <link refid="_if_template_node_8h"/>
-        <childnode refid="368" relation="include">
+        <childnode refid="369" relation="include">
         </childnode>
-        <childnode refid="379" relation="include">
+        <childnode refid="380" relation="include">
         </childnode>
-        <childnode refid="381" relation="include">
+        <childnode refid="382" relation="include">
         </childnode>
       </node>
-      <node id="371">
+      <node id="372">
         <label>include/AGRemapCore/model/iftemplate/IfTemplateRender.h</label>
         <link refid="_if_template_render_8h"/>
+        <childnode refid="363" relation="include">
+        </childnode>
         <childnode refid="122" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
@@ -1883,17 +1895,17 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="372" relation="include">
+        <childnode refid="373" relation="include">
         </childnode>
         <childnode refid="126" relation="include">
         </childnode>
       </node>
-      <node id="379">
+      <node id="380">
         <label>include/AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
         <link refid="_if_template_tree_8h"/>
-        <childnode refid="368" relation="include">
+        <childnode refid="369" relation="include">
         </childnode>
-        <childnode refid="380" relation="include">
+        <childnode refid="381" relation="include">
         </childnode>
       </node>
       <node id="33">
@@ -1966,7 +1978,7 @@
         <childnode refid="126" relation="include">
         </childnode>
       </node>
-      <node id="364">
+      <node id="365">
         <label>include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h</label>
         <link refid="_g_i_m_i_obj_part_filter_8h"/>
         <childnode refid="122" relation="include">
@@ -2368,7 +2380,7 @@
         <childnode refid="281" relation="include">
         </childnode>
       </node>
-      <node id="374">
+      <node id="375">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.h</label>
         <link refid="_ini_file_res_edit_context_8h"/>
         <childnode refid="255" relation="include">
@@ -2376,10 +2388,10 @@
         <childnode refid="27" relation="include">
         </childnode>
       </node>
-      <node id="373">
+      <node id="374">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h</label>
         <link refid="_ini_res_edit_context_8h"/>
-        <childnode refid="374" relation="include">
+        <childnode refid="375" relation="include">
         </childnode>
         <childnode refid="261" relation="include">
         </childnode>
@@ -2508,14 +2520,12 @@
         <childnode refid="123" relation="include">
         </childnode>
       </node>
-      <node id="382">
+      <node id="383">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h</label>
         <link refid="_base_reg_edit_8h"/>
         <childnode refid="247" relation="include">
         </childnode>
         <childnode refid="259" relation="include">
-        </childnode>
-        <childnode refid="383" relation="include">
         </childnode>
         <childnode refid="384" relation="include">
         </childnode>
@@ -2523,16 +2533,18 @@
         </childnode>
         <childnode refid="386" relation="include">
         </childnode>
-        <childnode refid="389" relation="include">
+        <childnode refid="387" relation="include">
         </childnode>
         <childnode refid="390" relation="include">
         </childnode>
+        <childnode refid="391" relation="include">
+        </childnode>
       </node>
-      <node id="383">
+      <node id="384">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h</label>
         <link refid="_reg_add_8h"/>
       </node>
-      <node id="384">
+      <node id="385">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h</label>
         <link refid="_reg_asset_remap_8h"/>
         <childnode refid="122" relation="include">
@@ -2546,7 +2558,7 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="385">
+      <node id="386">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h</label>
         <link refid="_reg_new_vals_8h"/>
         <childnode refid="122" relation="include">
@@ -2559,13 +2571,13 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="370" relation="include">
+        <childnode refid="371" relation="include">
         </childnode>
       </node>
-      <node id="386">
+      <node id="387">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h</label>
         <link refid="_reg_remap_8h"/>
-        <childnode refid="387" relation="include">
+        <childnode refid="388" relation="include">
         </childnode>
         <childnode refid="122" relation="include">
         </childnode>
@@ -2577,26 +2589,26 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="370" relation="include">
-        </childnode>
-      </node>
-      <node id="389">
-        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h</label>
-        <link refid="_reg_remove_8h"/>
-        <childnode refid="387" relation="include">
-        </childnode>
-        <childnode refid="122" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="123" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="371" relation="include">
         </childnode>
       </node>
       <node id="390">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h</label>
+        <link refid="_reg_remove_8h"/>
+        <childnode refid="388" relation="include">
+        </childnode>
+        <childnode refid="122" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="123" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="391">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h</label>
         <link refid="_reg_restrict_8h"/>
         <childnode refid="21" relation="include">
@@ -2850,16 +2862,16 @@
         <childnode refid="358" relation="include">
         </childnode>
       </node>
-      <node id="376">
+      <node id="377">
         <label>include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h</label>
         <link refid="_ini_file_remove_context_8h"/>
         <childnode refid="31" relation="include">
         </childnode>
       </node>
-      <node id="375">
+      <node id="376">
         <label>include/AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h</label>
         <link refid="_ini_remove_context_8h"/>
-        <childnode refid="376" relation="include">
+        <childnode refid="377" relation="include">
         </childnode>
         <childnode refid="356" relation="include">
         </childnode>
@@ -3174,7 +3186,7 @@
         <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
         <link refid="_shenhe_frost_flower_fixer_8cpp"/>
       </node>
-      <node id="388">
+      <node id="389">
         <label>src/data/IniFixData/TexRegLayout.cpp</label>
         <link refid="_tex_reg_layout_8cpp"/>
       </node>
@@ -3490,11 +3502,11 @@
         <label>src/model/IniSectionGraphInstantiation.cpp</label>
         <link refid="_ini_section_graph_instantiation_8cpp"/>
       </node>
-      <node id="365">
+      <node id="366">
         <label>src/model/SectionIterDataInstantiation.cpp</label>
         <link refid="_section_iter_data_instantiation_8cpp"/>
       </node>
-      <node id="370">
+      <node id="371">
         <label>src/model/files/GIMIApiNormalizer.cpp</label>
         <link refid="_g_i_m_i_api_normalizer_8cpp"/>
       </node>
@@ -3502,27 +3514,27 @@
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
       </node>
-      <node id="367">
+      <node id="368">
         <label>src/model/iftemplate/IfContentPartColourInstantiation.cpp</label>
         <link refid="_if_content_part_colour_instantiation_8cpp"/>
       </node>
-      <node id="391">
+      <node id="392">
         <label>src/model/iftemplate/IfContentPartInstantiation.cpp</label>
         <link refid="_if_content_part_instantiation_8cpp"/>
       </node>
-      <node id="377">
+      <node id="378">
         <label>src/model/iftemplate/IfTemplateInstantiation.cpp</label>
         <link refid="_if_template_instantiation_8cpp"/>
       </node>
-      <node id="381">
+      <node id="382">
         <label>src/model/iftemplate/IfTemplateNodeInstantiation.cpp</label>
         <link refid="_if_template_node_instantiation_8cpp"/>
       </node>
-      <node id="372">
+      <node id="373">
         <label>src/model/iftemplate/IfTemplateRender.cpp</label>
         <link refid="_if_template_render_8cpp"/>
       </node>
-      <node id="380">
+      <node id="381">
         <label>src/model/iftemplate/IfTemplateTreeInstantiation.cpp</label>
         <link refid="_if_template_tree_instantiation_8cpp"/>
       </node>

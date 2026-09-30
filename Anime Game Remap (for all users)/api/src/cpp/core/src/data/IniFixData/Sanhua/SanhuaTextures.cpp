@@ -50,6 +50,23 @@ namespace AGRemapCore {
         // any more, and the parser's pass matched against an empty table on every mod.
         facts.textureThumbprints = sanhuaTextureThumbprints();
 
+        // A planned role a mod ships no file for is bound to Sanhua's OWN texture of that role,
+        // downloaded from her folder (the mod's UVs are hers). The red-camellia mod carries no
+        // bodice or skirt mask, and the Exorcist's mask sampled at its UVs shaded cloth as skin: a
+        // reddish hue over the whole body (2026-09-19). eyeMask (c88cc1fc) and faceMask (46177147)
+        // are bound under the same hash on both skins, so they need no entry.
+        facts.downloadCharFolder = "Sanhua";
+        facts.downloadVersionFolder = "2_5";
+        facts.downloadPrefix = "Sanhua";
+        facts.fallbackTextures = {
+            {"bangsDiffuse", "ae6e9014"}, {"bangsMask", "1c0c8b91"}, {"t5Ramp", "1035197c"},
+            {"hairDiffuse", "68ca7071"}, {"hairNormal", "cef6494f"}, {"faceDiffuse", "881c236d"},
+            {"skinNormal", "e39835c7"}, {"skinDiffuse", "fde0f298"},
+            {"bodiceNormal", "efb25eb3"}, {"bodiceMask", "89ba19a1"}, {"bodiceDiffuse", "abda232b"},
+            {"skirtNormal", "f3b217ab"}, {"skirtMask", "f0713dc7"}, {"skirtDiffuse", "c689a8ee"},
+            {"irisDiffuse", "1dcc0f1d"},
+        };
+
         return facts;
     }
 }

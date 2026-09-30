@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include <cstdint>
 #include <filesystem>
 #include <optional>
 #include <string>
@@ -294,6 +295,36 @@ namespace AGRemapCore {
              *
              * @return The files within the folder, then the folders within it
              */
+            /**
+             * @brief
+             @rst
+             The size of a file in bytes, or ``std::nullopt`` when it cannot be read
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             One answer for "there is no such file", "it is not a regular file" and "it could not be
+             read", because a caller deriving a vertex count or a stride from a size treats all three
+             the same -- and because each one otherwise carries its own ``std::error_code`` and its
+             own ``strToPath``, which is the UTF-8 conversion this class exists to own
+             @endrst
+             *
+             * @param path The UTF-8 path to measure
+             *
+             * @return Its size in bytes, or ``std::nullopt``
+             */
+            static std::optional<std::uintmax_t> fileSize(const std::string& path);
+
+            /**
+             * @brief
+             @rst
+             Creates the folder a file is about to be written into, if it is not already there
+             @endrst
+             *
+             * @param filePath The UTF-8 path of the FILE (not of its folder)
+             *
+             * @return Whether the folder exists afterwards
+             */
+            static bool makeFolderFor(const std::string& filePath);
+
             static std::pair<std::vector<std::string>, std::vector<std::string>> getFilesAndDirs(const std::string& path,
                                                                                                 bool recursive = false);
 

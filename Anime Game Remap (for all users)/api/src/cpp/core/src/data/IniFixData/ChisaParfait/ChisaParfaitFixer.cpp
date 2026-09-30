@@ -261,25 +261,8 @@ namespace AGRemapCore {
         //
         // Her slot 5 is the clothing layout with ps-t0 and ps-t2 EXCHANGED (detail at t0, normal at
         // t2), measured from the pixels rather than assumed from its neighbours.
-        config.sourceRegisterRoles = chisaParfaitTextureFacts().registerRoles;
+        config.sourceTextures = chisaParfaitTextureFacts();
 
-        // ---- a role the mod ships no file for falls back to HER game texture ----------------------
-        // The mod's UVs are ChisaParfait's, so her own texture is the right default and Chisa's is
-        // wrong by construction. The roles both skins share (`frontHair*`, `irisDiffuse`) need no
-        // entry: the hash is the same on both sides, so the game already binds the right thing.
-        // `hairRamp` and `hairTipRamp` are not in her download folder, so they cannot fall back --
-        // they are lookups, and the game's own serve them.
-        config.downloadCharFolder = "ChisaParfait";
-        config.downloadVersionFolder = "3_5";
-        config.downloadPrefix = "ChisaParfait";
-        config.fallbackTextures = {
-            {"hairMask", "3f433212"}, {"hairDiffuse", "a94ee44f"}, {"hairNormal", "d547f3c6"},
-            {"faceMask", "226d9bc4"}, {"faceDiffuse", "53e96488"},
-            {"upperNormal", "3c4279a9"}, {"upperMask", "6b7ae743"}, {"upperDiffuse", "4c420ea9"},
-            {"lowerNormal", "b9a888ec"}, {"lowerMask", "4668fce8"}, {"lowerDiffuse", "1d79fc96"},
-            {"panelMask", "2f911db8"}, {"panelNormal", "56e725c4"}, {"panelDiffuse", "1e1b7bbc"},
-            {"propMask", "2c990f51"}, {"propNormal", "e4463fca"}, {"propDiffuse", "71a6e63f"},
-        };
 
         // A mask marks REGIONS, so a mod shipping a constant one has given the fix nothing to place:
         // the body's take her own, whose regions land right because the mod's UVs ARE hers. The two

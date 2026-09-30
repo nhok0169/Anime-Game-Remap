@@ -25,6 +25,7 @@
 #include <vector>
 
 #include "AGRemapCore/constants/ModTypeId.h"
+#include "AGRemapCore/data/WWMITextureFacts.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 #include "AGRemapCore/model/textures/Colour.h"
@@ -286,46 +287,6 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         The game folder under ``Data/Mod Downloads`` the source's textures are fetched from.
-         **Default**: ``"WuWa"``
-         @endrst
-         */
-        std::string downloadGameFolder = "WuWa";
-
-        /**
-         * @brief
-         @rst
-         The source character's download folder, version folder and file prefix under
-         :cpp:member:`downloadGameFolder` -- ``Sanhua`` / ``2_5`` / ``Sanhua`` for
-         ``WuWa/Sanhua/2_5/SanhuaTexture<hash>.dds``. Empty (the default) registers no fallback
-         download at all
-         @endrst
-         */
-        std::string downloadCharFolder;
-        std::string downloadVersionFolder;
-        std::string downloadPrefix;
-
-        /**
-         * @brief
-         @rst
-         Role -> the source's texture hash of that role, for a planned role the mod has NO file
-         for: the register is bound to the SOURCE's own game texture, downloaded as
-         ``<downloadPrefix><Role>RemapDL.dds`` into the mod's texture folder :raw-html:`<br />`
-         :raw-html:`<br />`
-
-         The mod's UVs are the source's, so what an unbound register samples on the target's draw
-         -- the TARGET's texture -- is wrong by construction: the red-camellia mod ships no bodice
-         or skirt mask, and the Exorcist's mask at its UVs put skin codes over cloth, a reddish hue
-         over the whole body while every diffuse was right (2026-09-19). The same reasoning as the
-         GI templates' texture donor. A role whose hash BOTH skins bind needs no entry: the target's
-         texture is the source's. Empty (the default) binds nothing for a missing role
-         @endrst
-         */
-        std::map<std::string, std::string> fallbackTextures;
-
-        /**
-         * @brief
-         @rst
          Roles whose texture says WHERE something is, so a CONSTANT one from the mod is not usable
          :raw-html:`<br />` :raw-html:`<br />`
 
@@ -524,7 +485,14 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         The SOURCE's own register layout per component -- ``{component: {register: role}}``.
+         Every fact about the SOURCE character's own textures -- its hashes by role, its register
+         layout per component, its pixel thumbprints, and where its game textures are downloaded
+         from. The same object the parser is configured with
+         (:cpp:member:`WWMIParserConfig::textures`), so a character states these once, in
+         ``<Name>Textures.cpp``, rather than once per fix row :raw-html:`<br />` :raw-html:`<br />`
+
+         :cpp:member:`WWMITextureFacts::registerRoles` is the field this used to be, and the one the
+         fix reads most: ``{component: {register: role}}``.
 
          A mod that REPAINTS a texture is identified by none of the other paths: its hash is its own,
          its pixels are its own art, and its exporter may name the file anything. What still
@@ -537,7 +505,7 @@ namespace AGRemapCore {
          INHERITED may have been written by an unrelated NPC standing in the same frame
          @endrst
          */
-        std::map<int, std::map<std::string, std::string>> sourceRegisterRoles;
+        WWMITextureFacts sourceTextures;
         /**
          * @brief
          @rst

@@ -189,6 +189,17 @@ namespace AGRemapCore {
             static inline const std::string MatchPriority = "match_priority";
 
             /**
+             * @brief The ``filter_index`` `KVP`_ key -- the value a shader's own draw writes into
+             *      ``IniConstants``, which a remapped `section`_ matches on to tell one pass from another
+             */
+            static inline const std::string FilterIndex = "filter_index";
+
+            /**
+             * @brief The ``array`` `KVP`_ key -- how many elements a buffer resource holds
+             */
+            static inline const std::string Array = "array";
+
+            /**
              * @brief
              @rst
              The `KVP`_ key holding which kind of draw call a `section`_ matches

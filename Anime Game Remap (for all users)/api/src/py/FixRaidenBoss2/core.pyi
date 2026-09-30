@@ -24911,50 +24911,6 @@ class WWMIFixerConfig:
     def createdTextures(self, arg0: collections.abc.Sequence[WWMIFixerConfig.CreatedTexture]) -> None:
         ...
     @property
-    def downloadCharFolder(self) -> str:
-        """
-        :class:`str`: The source character's download folder under :attr:`downloadGameFolder`. Empty registers no fallback download. **Default**: ``""``
-        """
-    @downloadCharFolder.setter
-    def downloadCharFolder(self, arg0: str) -> None:
-        ...
-    @property
-    def downloadGameFolder(self) -> str:
-        """
-        :class:`str`: The game folder under ``Data/Mod Downloads`` the source's textures are fetched from. **Default**: ``"WuWa"``
-        """
-    @downloadGameFolder.setter
-    def downloadGameFolder(self, arg0: str) -> None:
-        ...
-    @property
-    def downloadPrefix(self) -> str:
-        """
-        :class:`str`: The file prefix of the source's downloads, eg. ``"Sanhua"`` for ``SanhuaTexture<hash>.dds``. **Default**: ``""``
-        """
-    @downloadPrefix.setter
-    def downloadPrefix(self, arg0: str) -> None:
-        ...
-    @property
-    def downloadVersionFolder(self) -> str:
-        """
-        :class:`str`: The version folder under :attr:`downloadCharFolder`, eg. ``"2_5"``. **Default**: ``""``
-        """
-    @downloadVersionFolder.setter
-    def downloadVersionFolder(self, arg0: str) -> None:
-        ...
-    @property
-    def fallbackTextures(self) -> dict[str, str]:
-        """
-        Dict[:class:`str`, :class:`str`]: Role -> the source's texture hash of that role, for a planned role
-        the mod has NO file for: the register is bound to the SOURCE's own game texture, downloaded as
-        ``<downloadPrefix><Role>RemapDL.dds`` into the mod's texture folder. The mod's UVs are the source's,
-        so the target's texture, which an unbound register samples on the target's draw, is wrong by
-        construction. **Default**: empty
-        """
-    @fallbackTextures.setter
-    def fallbackTextures(self, arg0: collections.abc.Mapping[str, str]) -> None:
-        ...
-    @property
     def filterBase(self) -> float:
         """
         :class:`float`: The ``filter_index`` the first distinct shader of :attr:`slotPasses` is tagged with. **Default**: ``3381.91``
@@ -25039,6 +24995,20 @@ class WWMIFixerConfig:
         """
     @sourceLabels.setter
     def sourceLabels(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, str]) -> None:
+        ...
+    @property
+    def sourceTextures(self) -> WWMITextureFacts:
+        """
+        :class:`WWMITextureFacts`: Every fact about the SOURCE character's own textures -- its hashes by
+        role, its register layout per component, its pixel thumbprints, and where its game textures are
+        downloaded from.
+        
+        The same object :attr:`WWMIParserConfig.textures` takes, so a character states these once. The field
+        this replaced held only the register layout and was bound nowhere, which left the strongest texture
+        identification path unreachable from a prototype
+        """
+    @sourceTextures.setter
+    def sourceTextures(self, arg0: WWMITextureFacts) -> None:
         ...
     @property
     def targetId(self) -> ModTypeId:
@@ -25162,6 +25132,54 @@ class WWMITextureFacts:
         
     """
     def __init__(self) -> None:
+        ...
+    @property
+    def downloadCharFolder(self) -> str:
+        """
+        :class:`str`: This character's download folder under :attr:`downloadGameFolder`. Empty registers no fallback download. **Default**: ``""``
+        """
+    @downloadCharFolder.setter
+    def downloadCharFolder(self, arg0: str) -> None:
+        ...
+    @property
+    def downloadGameFolder(self) -> str:
+        """
+        :class:`str`: The game folder under ``Data/Mod Downloads`` this character's textures are fetched from. **Default**: ``"WuWa"``
+        """
+    @downloadGameFolder.setter
+    def downloadGameFolder(self, arg0: str) -> None:
+        ...
+    @property
+    def downloadPrefix(self) -> str:
+        """
+        :class:`str`: The file prefix of this character's downloads, eg. ``"Sanhua"`` for ``SanhuaTexture<hash>.dds``. **Default**: ``""``
+        """
+    @downloadPrefix.setter
+    def downloadPrefix(self, arg0: str) -> None:
+        ...
+    @property
+    def downloadVersionFolder(self) -> str:
+        """
+        :class:`str`: The version folder under :attr:`downloadCharFolder`, eg. ``"2_5"``. **Default**: ``""``
+        """
+    @downloadVersionFolder.setter
+    def downloadVersionFolder(self, arg0: str) -> None:
+        ...
+    @property
+    def fallbackTextures(self) -> dict[str, str]:
+        """
+        Dict[:class:`str`, :class:`str`]: Role -> this character's texture hash of that role, for a planned
+        role the mod has NO file for: the register is bound to the character's own game texture, downloaded
+        as ``<downloadPrefix><Role>RemapDL.dds`` into the mod's texture folder. The mod's UVs are the
+        source's, so the target's texture, which an unbound register samples on the target's draw, is wrong
+        by construction.
+        
+        Name the hash ``Data/Mod Downloads`` actually holds, which is the one thing this says that
+        :attr:`roles` does not -- the folder was built from one frame dump, and that is not always the
+        generation :class:`HashData` files as current. **Default**: empty
+        """
+    @fallbackTextures.setter
+    def fallbackTextures(self, arg0: collections.abc.Mapping[str, str]) -> None:
         ...
     @property
     def identifyTexture(self) -> collections.abc.Callable[[str], str | None]:

@@ -4,6 +4,59 @@
     <compoundname>AGRemapCore::WWMITextureRoles</compoundname>
     <includes refid="_w_w_m_i_texture_roles_8h" local="no">WWMITextureRoles.h</includes>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_roles_1_1_role" prot="public">AGRemapCore::WWMITextureRoles::Role</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1ad42a6948aedc3730cc4170bc3510ee73" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMITextureRoles::DeclaredHash</definition>
+        <argsstring></argsstring>
+        <name>DeclaredHash</name>
+        <qualifiedname>AGRemapCore::WWMITextureRoles::DeclaredHash</qualifiedname>
+        <initializer>= &quot;its own hash &quot;</initializer>
+        <briefdescription>
+<para>Records that &apos;file&apos; plays &apos;role&apos;, decided by &apos;how&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture file, as the <computeroutput>.ini</computeroutput> names it resolved against its folder </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The role it plays </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>how</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How that was decided</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<verbatim>embed:rst 
+The prefix #add&apos;s ``how`` carries when the role was read off the file&apos;s OWN ``hash =``
+-- the mod naming the game texture its file replaces -- rather than inferred from a
+register :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Here because BOTH sides need it and neither owns it: the parser writes it and the fixer
+tests it to decide which of two conflicting statements about a file wins. Spelled out at
+each end instead, it drifted, and two tests against it were quietly false for a whole
+session
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="99" column="45" bodyfile="include/AGRemapCore/data/WWMITextureRoles.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
     <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a3c9eec7dc05267b1903d3f1b613ae265" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_roles_1_1_role" kindref="compound">Role</ref> &gt; &gt;</type>
@@ -17,7 +70,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="113" column="32" bodyfile="include/AGRemapCore/data/WWMITextureRoles.h" bodystart="113" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="128" column="32" bodyfile="include/AGRemapCore/data/WWMITextureRoles.h" bodystart="128" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a4fcb480f91f366f5725c6a1124c9ed82" prot="private" static="no" mutable="no">
         <type>std::map&lt; std::string, std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &gt;</type>
@@ -31,7 +84,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="114" column="22" bodyfile="include/AGRemapCore/data/WWMITextureRoles.h" bodystart="114" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="129" column="22" bodyfile="include/AGRemapCore/data/WWMITextureRoles.h" bodystart="129" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -68,39 +121,12 @@
           <declname>how</declname>
         </param>
         <briefdescription>
-<para>Records that &apos;file&apos; plays &apos;role&apos;, decided by &apos;how&apos;. </para>
         </briefdescription>
         <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>file</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The texture file, as the <computeroutput>.ini</computeroutput> names it resolved against its folder </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>role</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The role it plays </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>how</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>How that was decided </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="86" column="18" bodyfile="src/data/WWMITextureRoles.cpp" bodystart="23" bodyend="41"/>
+        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="101" column="18" bodyfile="src/data/WWMITextureRoles.cpp" bodystart="23" bodyend="41"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a5c4b9b0d1b07c2ce01a35c9654f5ed31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -153,7 +179,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="95" column="18" bodyfile="src/data/WWMITextureRoles.cpp" bodystart="43" bodyend="50"/>
+        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="110" column="18" bodyfile="src/data/WWMITextureRoles.cpp" bodystart="43" bodyend="50"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a51423db073e1e2bc0e460a7135b2e7e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_roles_1_1_role" kindref="compound">Role</ref> &gt; &gt; &amp;</type>
@@ -171,7 +197,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="102" column="38" bodyfile="src/data/WWMITextureRoles.cpp" bodystart="52" bodyend="54"/>
+        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="117" column="38" bodyfile="src/data/WWMITextureRoles.cpp" bodystart="52" bodyend="54"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1ac89f4ca28ee3edc3152dd3386890d1ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
@@ -202,7 +228,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="110" column="31" bodyfile="src/data/WWMITextureRoles.cpp" bodystart="56" bodyend="61"/>
+        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="125" column="31" bodyfile="src/data/WWMITextureRoles.cpp" bodystart="56" bodyend="61"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -233,10 +259,11 @@ through :cpp:class:`WWMIParseFacts` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /
    (2026-09-29). A texture the ``.ini`` does not name is not the mod&apos;s texture.
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="55" column="5" bodyfile="include/AGRemapCore/data/WWMITextureRoles.h" bodystart="55" bodyend="115"/>
+    <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="55" column="5" bodyfile="include/AGRemapCore/data/WWMITextureRoles.h" bodystart="55" bodyend="130"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a8b73a3ceb523b9d1c683a95ef4428688" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureRoles</scope><name>add</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a5c4b9b0d1b07c2ce01a35c9654f5ed31" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureRoles</scope><name>addResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1ad42a6948aedc3730cc4170bc3510ee73" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureRoles</scope><name>DeclaredHash</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a4fcb480f91f366f5725c6a1124c9ed82" prot="private" virt="non-virtual"><scope>AGRemapCore::WWMITextureRoles</scope><name>resourcesByIni_</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1ac89f4ca28ee3edc3152dd3386890d1ab" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureRoles</scope><name>resourcesOf</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a51423db073e1e2bc0e460a7135b2e7e6" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureRoles</scope><name>rolesOf</name></member>

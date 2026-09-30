@@ -130,19 +130,8 @@ namespace AGRemapCore {
 
             config.createdTextures = {{ClothMask, Colour(0, 0, 0, 255), 16}};
 
-            // A planned role a mod ships no file for is bound to SanhuaExorcist's OWN texture of that
-            // role, downloaded from her folder -- the mod's UVs are hers, so the target's texture is
-            // wrong by construction. eyeMask (c88cc1fc) and faceMask (46177147) are the same texture on
-            // both skins, and so is the iris (1dcc0f1d): they need no entry.
-            config.downloadCharFolder = "SanhuaExorcist";
-            config.downloadVersionFolder = "2_5";
-            config.downloadPrefix = "SanhuaExorcist";
-            config.fallbackTextures = {
-                {"bangsDiffuse", "f8d5c991"}, {"bangsMask", "63c807fe"}, {"t5Ramp", "4478285f"},
-                {"hairDiffuse", "11171f1c"}, {"hairNormal", "9febd992"}, {"faceDiffuse", "c98e83cd"},
-                {"torsoNormal", "72739d6e"}, {"torsoMask", "e0c15187"}, {"torsoDiffuse", "52f35e6d"},
-                {"lowerNormal", "221b8ad6"}, {"lowerDiffuse", "8e5306a9"},
-            };
+            config.sourceTextures = sanhuaExorcistTextureFacts();
+
 
             // Her own textures' thumbprints, so a file no hash names is placed by what it IS
 

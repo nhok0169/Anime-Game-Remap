@@ -112,6 +112,59 @@ namespace AGRemapCore {
          @endrst
          */
         std::map<int, std::map<std::string, std::string>> registerRoles;
+
+        /**
+         * @brief
+         @rst
+         The game folder under ``Data/Mod Downloads`` this character's textures are fetched from.
+         **Default**: ``"WuWa"``
+         @endrst
+         */
+        std::string downloadGameFolder = "WuWa";
+
+        /**
+         * @brief
+         @rst
+         This character's download folder, version folder and file prefix under
+         :cpp:member:`downloadGameFolder` -- ``Sanhua`` / ``2_5`` / ``Sanhua`` for
+         ``WuWa/Sanhua/2_5/SanhuaTexture<hash>.dds``. Empty (the default) registers no fallback
+         download at all :raw-html:`<br />` :raw-html:`<br />`
+
+         Beside the roles rather than on the fixer's config for the reason
+         :cpp:member:`GIMICharParserConfig::downloadCharFolder` is: they describe the character a
+         mod was made FOR, so a second target for the same source would otherwise repeat them
+         @endrst
+         */
+        std::string downloadCharFolder;
+        std::string downloadVersionFolder;
+        std::string downloadPrefix;
+
+        /**
+         * @brief
+         @rst
+         Role -> this character's texture hash of that role, for a planned role the mod has NO file
+         for: the register is bound to the character's own game texture, downloaded as
+         ``<downloadPrefix><Role>RemapDL.dds`` into the mod's texture folder :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         The mod's UVs are the source's, so what an unbound register samples on the target's draw
+         -- the TARGET's texture -- is wrong by construction: the red-camellia mod ships no bodice
+         or skirt mask, and the Exorcist's mask at its UVs put skin codes over cloth, a reddish hue
+         over the whole body while every diffuse was right (2026-09-19). The same reasoning as the
+         GI templates' texture donor. A role whose hash BOTH skins bind needs no entry: the target's
+         texture is the source's. Empty (the default) binds nothing for a missing role
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         .. note::
+            Which GENERATION of a role's hash to name here is the one thing this table says that
+            #roles does not, so it is not that table inverted. ``Data/Mod Downloads`` was built
+            from one frame dump, and for ChisaParfait that is not the generation
+            :cpp:class:`HashData` files at 3.5 -- eight of her roles would name a hash with no file
+            behind it if this were derived by taking the newest (measured 2026-09-30). Name the
+            hash the download folder actually holds
+         @endrst
+         */
+        std::map<std::string, std::string> fallbackTextures;
     };
 
 }

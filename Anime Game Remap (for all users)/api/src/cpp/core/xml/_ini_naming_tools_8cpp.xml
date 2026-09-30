@@ -15,52 +15,52 @@
     <includes refid="_text_tools_8h" local="yes">AGRemapCore/tools/TextTools.h</includes>
     <includes refid="_grapheme_range_8h" local="yes">AGRemapCore/tools/grapheme/GraphemeRange.h</includes>
     <incdepgraph>
-      <node id="9">
+      <node id="10">
         <label>AGRemapCore/constants/FileExt.h</label>
         <link refid="_file_ext_8h"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="10">
-        <label>AGRemapCore/constants/FilePrefixes.h</label>
-        <link refid="_file_prefixes_8h"/>
-        <childnode refid="5" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
       <node id="11">
-        <label>AGRemapCore/constants/IniKeywords.h</label>
-        <link refid="_ini_keywords_8h"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
+        <label>AGRemapCore/constants/FilePrefixes.h</label>
+        <link refid="_file_prefixes_8h"/>
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="8">
+      <node id="12">
+        <label>AGRemapCore/constants/IniKeywords.h</label>
+        <link refid="_ini_keywords_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
         <label>AGRemapCore/model/IniNamingTools.h</label>
         <link refid="_ini_naming_tools_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
       </node>
-      <node id="13">
+      <node id="14">
         <label>AGRemapCore/tools/StringTools.h</label>
         <link refid="_string_tools_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
       <node id="16">
         <label>AGRemapCore/tools/TextTools.h</label>
         <link refid="_text_tools_8h"/>
-        <childnode refid="5" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
@@ -78,6 +78,8 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
         <childnode refid="2" relation="include">
         </childnode>
       </node>
@@ -86,7 +88,7 @@
         <link refid="_grapheme_iterator_8h"/>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
       <node id="17">
@@ -100,51 +102,51 @@
         <link refid="_ini_naming_tools_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
       </node>
-      <node id="14">
+      <node id="3">
         <label>cstdint</label>
       </node>
-      <node id="3">
+      <node id="4">
         <label>filesystem</label>
       </node>
-      <node id="4">
+      <node id="5">
         <label>optional</label>
       </node>
-      <node id="5">
+      <node id="6">
         <label>string</label>
       </node>
       <node id="15">
         <label>string_view</label>
       </node>
-      <node id="12">
+      <node id="13">
         <label>unordered_set</label>
       </node>
-      <node id="6">
+      <node id="7">
         <label>utility</label>
       </node>
-      <node id="7">
+      <node id="8">
         <label>vector</label>
       </node>
     </incdepgraph>

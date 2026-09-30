@@ -14,6 +14,7 @@
     <innerfile refid="_ini_graph_group_8h">IniGraphGroup.h</innerfile>
     <innerfile refid="_ini_naming_tools_8h">IniNamingTools.h</innerfile>
     <innerfile refid="_ini_section_graph_8h">IniSectionGraph.h</innerfile>
+    <innerfile refid="_ini_section_text_8h">IniSectionText.h</innerfile>
     <innerfile refid="_section_iter_data_8h">SectionIterData.h</innerfile>
     <innerfile refid="_version_8h">Version.h</innerfile>
     <innerfile refid="_version_set_8h">VersionSet.h</innerfile>

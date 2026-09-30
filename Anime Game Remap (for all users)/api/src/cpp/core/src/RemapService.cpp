@@ -191,7 +191,7 @@ namespace AGRemapCore {
 
 
     std::string RemapService::_warnSkippedIniResource(const std::string& modPath, const FileStats& resourceStats) const {
-        const std::string parentFolder = FileService::pathToStr(FileService::strToPath(path_).parent_path());
+        const std::string parentFolder = FileService::parentOf(path_);
         Heading modHeading("Mod: " + FileService::getRelPath(modPath, parentFolder), 5);
 
         std::string message = modHeading.open() + "\n\n";
@@ -382,7 +382,7 @@ namespace AGRemapCore {
     void RemapService::_fix() {
         // The walk reports each folder relative to the parent of where it started, so the starting
         // folder itself still shows up by name rather than as ".".
-        const std::string parentFolder = FileService::pathToStr(FileService::strToPath(path_).parent_path());
+        const std::string parentFolder = FileService::parentOf(path_);
 
         FolderWalk walk;
         walk.push(path_);
@@ -623,7 +623,7 @@ namespace AGRemapCore {
                 // same folders (and the ones its new fix writes to) through its own models.
                 if (undoOnly) {
                     removedResourceFolders_.push_back(
-                        FileService::pathToStr(FileService::strToPath(resource->srcPath).parent_path()));
+                        FileService::parentOf(resource->srcPath));
                 }
 
                 // NEVER DELETE SOMETHING THIS RUN JUST PRODUCED.
@@ -685,7 +685,7 @@ namespace AGRemapCore {
 
 
     void RemapService::_rememberReferences(const std::string& iniPath) {
-        const std::string folder = FileService::pathToStr(FileService::strToPath(iniPath).parent_path());
+        const std::string folder = FileService::parentOf(iniPath);
 
         std::vector<std::string> files{iniPath};
         for (const std::string& file : FileService::getFilesAndDirs(folder).first) {
@@ -752,7 +752,7 @@ namespace AGRemapCore {
         }
 
         const std::string iniPath = *ini.getFile();
-        const std::string folder = FileService::pathToStr(FileService::strToPath(iniPath).parent_path());
+        const std::string folder = FileService::parentOf(iniPath);
 
         // Found by walking the folder and mapping each copy back to its source, rather than by
         // guessing how many copies exist: that is what the pure-Python original's

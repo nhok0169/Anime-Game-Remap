@@ -82,7 +82,7 @@ namespace AGRemapCore {
         }
 
         // Derived rather than stored, the same way IniFileRemoveContext does it.
-        return FileService::pathToStr(FileService::strToPath(*iniFile_->getFile()).parent_path());
+        return FileService::parentOf(*iniFile_->getFile());
     }
 
 

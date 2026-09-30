@@ -259,7 +259,27 @@ namespace AGRemapCore {
             VGComponentSplit(Weights weights, Indices indices, std::vector<Triangles> ibs, std::vector<VGComponentSpec> specs);
 
             /**
-             * @brief Decodes a ``Blend.buf`` into weights and indices
+             * @brief
+             @rst
+             Decodes a ``Blend.buf`` into weights and indices :raw-html:`<br />` :raw-html:`<br />`
+
+             .. warning::
+                **FOUR influences a vertex only** (2026-09-30). :cpp:type:`Weights` and
+                :cpp:type:`Indices` are ``std::array<..., 4>`` and this drops columns past the fourth
+                SILENTLY, so an eight-influence `blend`_ -- what a Wuthering Waves character like
+                Chisa carries -- loses half of every vertex without an error.
+
+                :cpp:class:`BlendFile` itself has no such limit: its constructor takes the caller's
+                own elements and :cpp:func:`BlendFile::remapIndices` runs to the shorter of the two.
+                It is this class that is fixed, because its types are. ``WWMIFixer.cpp``'s ``bufRows``
+                is this function generalised over the width, kept local until widening these types
+                can be swept against a GI corpus -- see Architecture's "A BLEND'S INFLUENCE COUNT IS
+                A PARAMETER"
+             @endrst
+             *
+             * @param blend The `blend`_ to decode
+             *
+             * @return Its weights and its indices, four of each per vertex
              */
             static std::pair<Weights, Indices> readBlend(BlendFile& blend);
 

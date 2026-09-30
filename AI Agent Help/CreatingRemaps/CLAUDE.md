@@ -9,6 +9,119 @@ Read [Architecture](../Architecture/CLAUDE.md) first if you have never touched
 
 <br>
 
+## THE FIX'S OWN FILES GO WHERE THE MOD KEEPS ITS OWN (2026-09-30)
+
+`WWMIFixer` writes a blend remap, a zero shape-key stream, created textures, fallback downloads and a
+texcoord copy. Where they land was `meshFolder_` / `textureFolder_`, each derived from the mod and
+each falling back to a literal -- `"Meshes"` / `"Textures"` -- when the derivation found nothing.
+
+Both are now **empty by default, meaning beside the `.ini`**, and `modFile(folder, name)` joins them
+so an empty folder produces no leading separator. Beside the `.ini` is the one place certainly inside
+the mod and certainly present; a mod that does use folders still gets its own, because that is what
+the derivation returns.
+
+**And the tally could not count the root.** `readTextureFolder` counted a declared file only when its
+path had a slash, so "beside the `.ini`" was never a candidate however many files were there.
+Chisa12's character `.ini` declares **50 files in its root** (37 `.dds` and 13 `.assets`) against
+**41 in `res/`**, which holds nothing but its UI art (`Border.png`, `Button.png`, `draw_2d.hlsl`) --
+so every texture the fix made went into the UI folder while the mod's own 37 `.dds` sat in the root
+the tally could not see.
+
+Over the corpus this moves exactly one `.ini`: 15 files change path with identical bytes and the
+`.ini` that references them follows. Predict it before the sweep --
+`Tools/Misc/Diagnostics/folderProbe.py` shows what a single mod does, and the sweep's manifest diff
+should name only the mods the prediction did.
+
+### The buffer paths had the same shape on the READ side
+
+`indexFile_`, `positionFile_`, `blendSourceFile_` and `texcoordFile_` are taken from the mod's `.ini`
+(case-insensitively -- one mod spells it `ResourceTexCoordBuffer`), which is right. Each was
+*initialised* to `Meshes/<Name>.buf`, so a mod declaring no such section was read at an invented path.
+All four start empty now, which also makes `straddlingVertices`' existing `indexFile_.empty()` test
+reachable -- it could never have been true.
+
+Every one of the 82 WWMI character `.ini` files in the corpus declares all four, so this fires for
+none of them. Exercise it with `Tools/Misc/Diagnostics/noPositionProbe.py <mod>`, which deletes the
+one section and reads the message; against the old build the same input reported a completely clean
+fix.
+
+## A SOURCE CHARACTER'S DOWNLOAD COORDINATES GO ON THE PARSER SIDE (2026-09-30)
+
+GI settled this long ago and WuWa had drifted: `GIMICharParserConfig::downloadCharFolder` /
+`downloadVersionFolder` / `downloadPrefix` are on the **parser** config, because they describe the
+character a mod was made FOR. `WWMIFixerConfig` carried the same four fields plus the role -> hash
+table that uses them, so a second target for one source would repeat all five -- and
+`<Name>Fixer.cpp` was already reaching into `<Name>TextureFacts()` for `registerRoles`, splitting one
+character's facts across two files with one importing the other.
+
+They are on `WWMITextureFacts` now, and `WWMIFixerConfig` takes that whole object as
+**`sourceTextures`** -- one field instead of six, the same object
+`WWMIParserConfig::textures` takes, stated once per character in `<Name>Textures.cpp`. That also
+closed a gap: the field it replaced, `sourceRegisterRoles`, was bound to `Python` **nowhere**, so the
+source's register layout -- which its own doc calls "the primary path for most mods that do more than
+swap a mesh" -- could not be set from a prototype at all.
+
+**The MECHANISM did not move, and the reason is worth knowing before trying again.** The framework's
+parse-time download machinery (`GIMIParser::getDownloads` / `addDownloads`, `DownloadData`,
+`DownloadStore`) decides what is needed by **register coverage in the mod's own sections**, and
+references the result from those same sections. A WWMI mod binds its textures by hash override and
+frequently binds no `ps-t` at all, so that test reports every register missing and the reference
+belongs in the fix's remapped section rather than the mod's. `DownloadData` also takes an
+`IniParseContext`, so it cannot be driven from a fix context at all. **The data is the parser's; the
+placement is genuinely the plan's.**
+
+### `fallbackTextures` is NOT `facts.roles` inverted, however much it looks it
+
+Every row of it is (measured over all four registered WuWa characters: no row's hash is absent from
+that character's `facts.roles`, and none disagrees about the role). Deriving it would still be wrong.
+What the table says that `facts.roles` does not is **which generation of the role's hash the download
+folder actually holds**:
+
+```
+ChisaParfait upperDiffuse:  HashData 3.5 -> f72c0f87     Data/Mod Downloads/.../3_5 has NO such file
+                            fallbackTextures -> 4c420ea9  present on disk, and in no HashData row
+```
+
+Eight of ChisaParfait's seventeen roles are like that. Derived by "invert `facts.roles` and take the
+newest", eight downloads would name a file that does not exist. `Data/Mod Downloads` was built from
+one frame dump, and that is not always the generation `HashData` files as current. **Name the hash
+the download folder holds**, and check it against the folder.
+
+### Two Chisa rows in it are unreachable, and one of them is a real question
+
+`skinRamp` (`06790f7e`) and `hairTipRamp` (`2b16c5ac`) are in Chisa's `fallbackTextures` and named by
+**no** `plan`, `extraPassRegs` or `sharedMeshes` binding -- so no download for them can ever fire, and
+`grep -i skinramp` over the whole fixed corpus finds nothing. The skin ramp is the one this guide
+already records as the per-character pair behind the red cast on her decollete (hers `06790f7e`
+against the skin's redder `6a9ec87e`); identifying it and binding it are different steps, and only
+the first happened. **Whether Chisa's skin ramp should be carried onto ChisaParfait is a render
+change and the maintainer's call**, so the rows are left in place and written down here rather than
+quietly deleted or quietly wired up.
+
+### Do not add a "newer generation wins" tiebreak between two candidates for one role
+
+Chisa5 and Chisa8 each declare two files as `upperDiffuse`, at generations `HashData` files under 3.0
+and 3.1, and the fix picks a different one in each mod. That looks like a job for the version -- and
+`HashData`'s own comment on those rows says the labels are **placeholders**: *"Nothing records which
+version any of them belongs to ... the versions are PLACEHOLDERS inside her life (2.8 .. 3.6) and the
+order within a role is arbitrary (sorted)"*. A tiebreak on them would decide by sort order while
+looking principled, which is the shape of check this repo keeps having to delete. Both candidates are
+superseded by 3.6 anyway, so it could not separate them even if the labels were real.
+
+What the two mods actually are, once asked: Chisa8's two files are **byte-identical**
+(`4194452` bytes, same md5), so the choice is cosmetic; Chisa5's are two different pictures, both
+declared, neither bound at any register and neither matching a thumbprint, so **nothing in the mod or
+the library distinguishes them** -- and the fix already says so:
+
+```
+WARNING: ...000134-ps-t2=2970cef1-...dds also has the role upperDiffuse (its own hash 2970cef1),
+already taken by ...Components-0-1-2-3-4 t=662f126aFromTga.dds (its own hash 662f126a);
+the first one is bound
+```
+
+An announced arbitrary choice between two equally-supported files is the right behaviour. An
+unannounced one dressed as a version rule is not.
+
 ## `ref` IS A KEYWORD, AND IT HAD NO CONSTANT (2026-09-29)
 
 `ps-t0 = ref ResourceFoo` and `ps-t0 = ResourceFoo` name the same `section`_, and every reader in the

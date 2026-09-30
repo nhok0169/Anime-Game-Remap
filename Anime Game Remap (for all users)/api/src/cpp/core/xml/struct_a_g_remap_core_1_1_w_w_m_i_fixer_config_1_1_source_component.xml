@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="141" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="141" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="142" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="142" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1ab904796798a3d61f734be2c19f33e7f2" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding" kindref="compound">Binding</ref> &gt;</type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="146" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="146" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="147" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="147" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -41,7 +41,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="137" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="137" bodyend="147"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="138" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="138" bodyend="148"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1ab904796798a3d61f734be2c19f33e7f2" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::SourceComponent</scope><name>bindings</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1a367138aa205bf3cc3ad100c8610b6263" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::SourceComponent</scope><name>slot</name></member>

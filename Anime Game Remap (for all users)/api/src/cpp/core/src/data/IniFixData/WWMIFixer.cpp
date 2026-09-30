@@ -17,9 +17,7 @@
 #include <cmath>
 #include <cstdint>
 #include <cstdio>
-#include <filesystem>
 #include <cstring>
-#include <fstream>
 #include <functional>
 #include <map>
 #include <memory>
@@ -47,6 +45,7 @@
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
 #include "AGRemapCore/tools/z3/Z3Context.h"
 #include "AGRemapCore/model/IniNamingTools.h"
+#include "AGRemapCore/model/IniSectionText.h"
 #include "AGRemapCore/model/assets/Hashes.h"
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/buffers/BufElementType.h"
@@ -108,81 +107,14 @@ namespace AGRemapCore {
         const std::string MeshVertexCountKey = "global $mesh_vertex_count";
         const std::string ConstantsSection = "Constants";
         const std::string BlendBufferResource = "ResourceBlendBuffer";
+
+        // What a ResGroupCollect files the blend's edit under -- this library's vocabulary, not an
+        // `.ini` key, so it does not belong in IniKeywords
+        const std::string BlendResGroupMember = "blend";
         const std::string IndexBufferResource = "ResourceIndexBuffer";
         const std::string PositionBufferResource = "ResourcePositionBuffer";
         const std::string TexcoordBufferResource = "ResourceTexcoordBuffer";
 
-        // ONE OF THE FIX'S OWN SECTIONS, BUILT RATHER THAN CONCATENATED (2026-09-29).
-        //
-        // `IfTemplate` is a section, `IfContentPart` a run of `key = value` lines, `IfPredPart` an
-        // `if` / `endif`, and `renderIfTemplate` turns the three back into text -- including the
-        // `[name]` header and the indentation. This file used to assemble all of that as strings,
-        // twenty section headers' worth, which is the same structure written twice: once as the
-        // model every other part of the fix is edited through, and once as text here.
-        //
-        // The renderer indents with a TAB where the string version used four spaces. That is the
-        // only output difference, it is inside the fix's own block, and it makes the file
-        // self-consistent -- every section that reaches the page through the section graph is
-        // already rendered by this same function.
-        class SectionText {
-            public:
-                SectionText(Z3Context& z3Ctx, std::string name): z3_(z3Ctx), name_(std::move(name)) {}
-
-                // A run of `key = value` lines. A value of "" is a line with no `=` at all --
-                // 3dmigoto's `local $var` -- which is how IfContentPart already reads one.
-                SectionText& keys(const std::vector<std::pair<std::string, std::string>>& kvps) {
-                    parts_.push_back(std::make_unique<IfContentPart<std::string, std::string>>(kvps, depth_));
-                    return *this;
-                }
-
-                SectionText& key(const std::string& k, const std::string& v = "") {
-                    return keys({{k, v}});
-                }
-
-                SectionText& open(const std::string& predicate) {
-                    parts_.push_back(std::make_unique<IfPredPart>("if " + predicate, IfPredPartType::If, z3_));
-                    ++depth_;
-                    return *this;
-                }
-
-                // A comment above the `[name]` line. IfTemplate carries it, so even this is
-                // the model's rather than text glued on the front.
-                SectionText& prefix(std::string text) {
-                    prefix_ = std::move(text);
-                    return *this;
-                }
-
-                SectionText& close() {
-                    if (depth_ > 0) {
-                        --depth_;
-                    }
-
-                    parts_.push_back(std::make_unique<IfPredPart>("endif", IfPredPartType::EndIf, z3_));
-                    return *this;
-                }
-
-                // The blank line after a section is this file's own convention, not the renderer's.
-                std::string str() {
-                    IfTemplate<std::string, std::string> section{
-                        std::move(parts_),
-                        IfTemplateRunConfig<std::string, std::string>{
-                            IniKeywords::Run,
-                            [](const std::string& val) { return val; },
-                            [](const std::string& name) { return name; }},
-                        name_,
-                        IfTemplate<std::string, std::string>::TreeKind::NonEmptyNode,
-                        prefix_};
-
-                    return renderIfTemplate(section) + "\n\n";
-                }
-
-            private:
-                Z3Context& z3_;
-                std::string name_;
-                std::string prefix_;
-                std::vector<std::unique_ptr<IfTemplatePart>> parts_;
-                int depth_ = 0;
-        };
 
 
         // The one element a texcoord line decodes into: `stride / 2` halves, named so
@@ -202,8 +134,6 @@ namespace AGRemapCore {
         // own this buffer. See `core/tests/BufFloat16_Rounding_test.cpp`.
         const std::string ShapeKeyZero = "ShapeKeyZero";
         const std::string ChecksumNotFound = "ChecksumNotFound";
-        const std::string DefaultTextureFolder = "Textures";
-        const std::string DefaultMeshFolder = "Meshes";
 
         // How a file's name may say what type of texture it is, when nothing else does.
 
@@ -245,8 +175,6 @@ namespace AGRemapCore {
         // The D3D semantic names every line of these buffers is keyed by. A filter that asks for
         // the wrong one finds nothing, leaves every vertex alone and reports success, so they are
         // written once.
-        const std::string WWMIBlendIndicesKey = "BLENDINDICES";
-        const std::string WWMIBlendWeightKey = "BLENDWEIGHT";
 
         // A BLEND LIFT THAT GIVES UP HAS TO SAY WHY (2026-09-29).
         //
@@ -270,18 +198,187 @@ namespace AGRemapCore {
         }
 
 
-        std::vector<std::unique_ptr<BufElementType>> wwmiBlendElements(std::size_t influences) {
-            std::vector<std::unique_ptr<BufElementType>> elements;
-            const std::string format = influences == 4 ? "R8G8B8A8_UINT" : "R8_UINT";
-            for (const std::string& name : {WWMIBlendIndicesKey, WWMIBlendWeightKey}) {
-                std::vector<std::unique_ptr<BufDataType>> types;
-                for (std::size_t i = 0; i < influences; ++i) {
-                    types.push_back(std::make_unique<BufUnSignedInt>("UnsignedInt8", 1, false));
+        /**
+         * @brief
+         @rst
+         What one weighted influence of a `blend`_ line becomes -- ``std::nullopt`` to leave the id
+         alone. Handed the vertex, which slot of that vertex this is, and the id the buffer holds
+         @endrst
+         */
+        using InfluenceRemap = std::function<std::optional<long long>(std::size_t vertex, std::size_t slot,
+                                                                     long long id)>;
+
+
+        /**
+         * @brief
+         @rst
+         A :cpp:type:`BufFile::Filter` that rewrites the ids of every WEIGHTED influence of each
+         `blend`_ line, leaving a weight-zero slot alone as the library's own
+         :cpp:func:`BlendFile::remapIndices` does :raw-html:`<br />` :raw-html:`<br />`
+
+         Both of this file's blend passes -- the ordinary remap and the 8-bit lift onto a target past
+         256 merged bones -- were this same twenty-line walk with four lines of their own in the
+         middle
+         @endrst
+         *
+         * @param vertices How many vertices the mesh has, from its ``Position.buf``
+         * @param influences How many (id, weight) slots each vertex carries
+         * @param remap What each weighted influence becomes
+         *
+         * @return The filter to hand :cpp:func:`BufFile::fix`
+         */
+        BufFile::Filter blendIndexFilter(std::size_t vertices, std::size_t influences, InfluenceRemap remap) {
+            return [vertices, influences, remap = std::move(remap)](const BufLineData& line, long long,
+                                                                    double index, long long) {
+                BufLineData out = line;
+                const auto vertex = static_cast<std::size_t>(index);
+                if (vertex >= vertices) {
+                    return out;
                 }
 
-                elements.push_back(std::make_unique<BufElementType>(name, format, std::move(types)));
+                const auto ids = out.find(BlendFile::BlendIndicesKey);
+                const auto weights = out.find(BlendFile::BlendWeightKey);
+                if (ids == out.end() || weights == out.end()) {
+                    return out;
+                }
+
+                for (std::size_t b = 0; b < influences && b < ids->second.size()
+                                        && b < weights->second.size(); ++b) {
+                    if (bufValueAsFloat(weights->second[b]) == 0) {
+                        continue;                                 // a weight-zero slot
+                    }
+
+                    const std::optional<long long> to =
+                        remap(vertex, b, bufValueAsInt(ids->second[b]));
+                    if (to.has_value()) {
+                        ids->second[b] = static_cast<unsigned long long>(*to);
+                    }
+                }
+
+                return out;
+            };
+        }
+
+
+        /**
+         * @brief
+         @rst
+         Whether one of an ``.ini``'s resource lists already names 'path' as its source
+         @endrst
+         *
+         * @tparam Lst The list type -- ``IniFile::getResources()`` or ``getFileDownloads()``
+         * @param lst The list to search
+         * @param path The absolute source path asked about
+         *
+         * @return Whether the list already holds it
+         */
+        /**
+         * @brief
+         @rst
+         Every line's values for one element of a ``.buf`` file, in line order -- ``out[line][i]`` is
+         the element's i-th data type :raw-html:`<br />` :raw-html:`<br />`
+
+         :cpp:func:`BufFile::decodeAll` is the library's bulk read, documented as "one entry per
+         column, each holding one value per line" and walking the elements once into contiguous
+         buffers. The alternative this replaces -- a :cpp:type:`BufFile::Filter` over
+         ``fix(std::nullopt, ...)`` that pushes each line into a vector -- allocates and hashes a
+         :cpp:type:`BufLineData` per line and then picks one element back out of it :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         This is :cpp:func:`VGComponentSplit::readBlend` generalised over 'width': that one is fixed
+         at FOUR influences and a Chisa mod carries eight, so it would drop half of every vertex
+         @endrst
+         *
+         * @param file The buffer to read
+         * @param elementKey The element to take, eg. :cpp:member:`BlendFile::BlendIndicesKey`
+         * @param width How many data types of it to keep per line, zero-padded when the file has fewer
+         *
+         * @return One row per line
+         */
+        std::vector<std::vector<long long>> bufRows(BufFile& file, const std::string& elementKey,
+                                                    std::size_t width) {
+            file.read();
+            const std::vector<BufFile::BufColumnData> columns = file.decodeAll();
+
+            std::size_t lines = 0;
+            for (const BufFile::BufColumnData& column : columns) {
+                if (column.elementKey == elementKey) {
+                    lines = std::max(lines, std::visit([](auto&& values) { return values.size(); },
+                                                       column.values));
+                }
             }
 
+            std::vector<std::vector<long long>> rows(lines, std::vector<long long>(width, 0));
+            for (const BufFile::BufColumnData& column : columns) {
+                if (column.elementKey != elementKey || column.valueInd >= width) {
+                    continue;
+                }
+
+                std::visit([&rows, &column, lines](auto&& values) {
+                    for (std::size_t i = 0; i < values.size() && i < lines; ++i) {
+                        rows[i][column.valueInd] = static_cast<long long>(values[i]);
+                    }
+                }, column.values);
+            }
+
+            return rows;
+        }
+
+
+        /**
+         * @brief One column of a ``.buf`` file as numbers, in line order -- see \ref bufRows
+         *
+         * @param file The buffer to read
+         * @param elementKey The element to take
+         * @param valueInd Which of its data types
+         *
+         * @return One value per line
+         */
+        std::vector<double> bufColumn(BufFile& file, const std::string& elementKey, std::size_t valueInd) {
+            file.read();
+            const std::vector<BufFile::BufColumnData> columns = file.decodeAll();
+            for (const BufFile::BufColumnData& column : columns) {
+                if (column.elementKey != elementKey || column.valueInd != valueInd) {
+                    continue;
+                }
+
+                return std::visit([](auto&& values) {
+                    std::vector<double> out;
+                    out.reserve(values.size());
+                    for (const auto& value : values) {
+                        out.push_back(static_cast<double>(value));
+                    }
+
+                    return out;
+                }, column.values);
+            }
+
+            return {};
+        }
+
+
+        template <typename Lst>
+        bool listsSrcPath(const Lst& lst, const std::string& path) {
+            for (const auto& resource : lst) {
+                if (resource != nullptr && resource->srcPath == path) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
+        std::vector<std::unique_ptr<BufElementType>> wwmiBlendElements(std::size_t influences) {
+            // `influences` ids then `influences` weights, one unsigned byte each. The four-wide name
+            // is what a dump of a four-influence character writes; any other width is named after the
+            // type and the count, which is why this no longer carries a `== 4 ?` conditional.
+            const auto byte = [] { return std::make_unique<BufUnSignedInt>("UnsignedInt8", 1, false); };
+            const std::string format = influences == 4 ? "R8G8B8A8_UINT" : "R8_UINT";
+
+            std::vector<std::unique_ptr<BufElementType>> elements;
+            elements.push_back(BufElementType::repeated(BlendFile::BlendIndicesKey, influences, byte, format));
+            elements.push_back(BufElementType::repeated(BlendFile::BlendWeightKey, influences, byte, format));
             return elements;
         }
 
@@ -289,15 +386,35 @@ namespace AGRemapCore {
         // BlendRemapVertexVG.buf -- one element of `influences` of them, no weights. Built here
         // rather than inline at each use: two functions need it, and the pair's whole risk is the
         // two disagreeing about the width.
-        std::vector<std::unique_ptr<BufElementType>> wwmiVertexVGElements(std::size_t influences) {
-            std::vector<std::unique_ptr<BufDataType>> wide;
-            for (std::size_t i = 0; i < influences; ++i) {
-                wide.push_back(std::make_unique<BufUnSignedInt>("UnsignedInt16", 2, false));
-            }
+        /**
+         * @brief
+         @rst
+         The zero shape-key stream's one element -- ``stride`` bytes a vertex, all of them zero
+         :raw-html:`<br />` :raw-html:`<br />`
 
+         Declared rather than written as a byte count so the file goes out through
+         :cpp:func:`BufFile::fix` like every other buffer the fix writes
+         @endrst
+         *
+         * @param stride How many bytes each vertex carries
+         *
+         * @return The elements
+         */
+        std::vector<std::unique_ptr<BufElementType>> zeroStreamElements(int stride) {
             std::vector<std::unique_ptr<BufElementType>> elements;
-            elements.push_back(
-                std::make_unique<BufElementType>(WWMIBlendIndicesKey, "R16_UINT", std::move(wide)));
+            elements.push_back(BufElementType::repeated(
+                ShapeKeyZero, static_cast<std::size_t>(stride),
+                [] { return std::make_unique<BufUnSignedInt>("UnsignedInt8", 1, false); }, "R8_UINT"));
+
+            return elements;
+        }
+
+
+        std::vector<std::unique_ptr<BufElementType>> wwmiVertexVGElements(std::size_t influences) {
+            std::vector<std::unique_ptr<BufElementType>> elements;
+            elements.push_back(BufElementType::repeated(
+                BlendFile::BlendIndicesKey, influences,
+                [] { return std::make_unique<BufUnSignedInt>("UnsignedInt16", 2, false); }, "R16_UINT"));
 
             return elements;
         }
@@ -310,34 +427,102 @@ namespace AGRemapCore {
         //
         // Falls back to FOUR whenever it cannot be derived, which is exactly the behaviour before
         // this existed -- so a derivation that fails cannot move a shipped character's output.
+        /**
+         * @brief The pass names of one ``{pass -> bindings}`` table, in its own order
+         *
+         * @tparam ByPass The table type
+         * @param byPass The table
+         *
+         * @return Its keys
+         */
+        template <typename ByPass>
+        std::vector<std::string> passNamesOf(const ByPass& byPass) {
+            std::vector<std::string> names;
+            names.reserve(byPass.size());
+            for (const auto& [pass, binds] : byPass) {
+                (void)binds;
+                names.push_back(pass);
+            }
+
+            return names;
+        }
+
+
+        /**
+         * @brief What a mod's ``Position.buf`` and ``Blend.buf`` sizes say its blend layout is
+         */
+        struct BlendLayout {
+            std::size_t vertices = 0;
+
+            /**
+             * @brief How many (id, weight) slots each vertex carries
+             */
+            std::size_t influences = 0;
+        };
+
+
+        /**
+         * @brief
+         @rst
+         The vertex count and influences per vertex the two buffers' SIZES imply, or ``std::nullopt``
+         when they do not imply one :raw-html:`<br />` :raw-html:`<br />`
+
+         Derived rather than assumed: hardcoding the layout is what made the legacy 8-bit lift
+         silently do nothing on these same mods, and what read an 8-influence line as two. The
+         arithmetic lives here and nowhere else -- the three callers differ only in what they do when
+         it fails (bail with a reason, or fall back to four)
+         @endrst
+         *
+         * @param blendPath The mod's own ``Blend.buf``
+         * @param positionPath Its ``Position.buf``, which is what gives the vertex count
+         *
+         * @return The layout, or ``std::nullopt``
+         */
+        std::optional<BlendLayout> blendLayout(const std::string& blendPath, const std::string& positionPath) {
+            const std::optional<std::uintmax_t> positionSize = FileService::fileSize(positionPath);
+            if (!positionSize.has_value() || *positionSize < WWMIPositionStride) {
+                return std::nullopt;
+            }
+
+            const auto vertices = static_cast<std::uintmax_t>(*positionSize / WWMIPositionStride);
+            const std::optional<std::uintmax_t> blendSize = FileService::fileSize(blendPath);
+            if (vertices == 0 || !blendSize.has_value() || *blendSize == 0 || *blendSize % vertices != 0) {
+                return std::nullopt;
+            }
+
+            const std::uintmax_t stride = *blendSize / vertices;
+            if (stride < 2 || stride % 2 != 0) {
+                return std::nullopt;
+            }
+
+            return BlendLayout{static_cast<std::size_t>(vertices), static_cast<std::size_t>(stride / 2)};
+        }
+
+
         std::size_t wwmiBlendInfluences(const std::string& blendPath, long long vertices,
                                         const std::string& positionPath) {
+            // The FALLBACK is this caller's own policy, and the one thing it does not share: it
+            // exists so a failed derivation cannot move a shipped character's output.
             constexpr std::size_t Fallback = 4;
-            std::error_code err;
-            if (vertices <= 0 && !positionPath.empty()) {
-                const std::uintmax_t positionSize =
-                    std::filesystem::file_size(FileService::strToPath(positionPath), err);
-                if (!err && positionSize >= 12) {
-                    vertices = static_cast<long long>(positionSize / WWMIPositionStride);
-                }
+            const std::optional<BlendLayout> layout = blendLayout(blendPath, positionPath);
+            if (layout.has_value() && (vertices <= 0
+                                       || static_cast<std::size_t>(vertices) == layout->vertices)) {
+                return layout->influences;
             }
 
             if (vertices <= 0) {
                 return Fallback;
             }
 
-            const std::uintmax_t blendSize =
-                std::filesystem::file_size(FileService::strToPath(blendPath), err);
-            if (err || blendSize == 0 || blendSize % static_cast<std::uintmax_t>(vertices) != 0) {
+            // A caller that already knows the vertex count and whose Position.buf did not answer.
+            const std::optional<std::uintmax_t> blendSize = FileService::fileSize(blendPath);
+            if (!blendSize.has_value() || *blendSize == 0
+                    || *blendSize % static_cast<std::uintmax_t>(vertices) != 0) {
                 return Fallback;
             }
 
-            const std::uintmax_t stride = blendSize / static_cast<std::uintmax_t>(vertices);
-            if (stride < 2 || stride % 2 != 0) {
-                return Fallback;
-            }
-
-            return static_cast<std::size_t>(stride / 2);
+            const std::uintmax_t stride = *blendSize / static_cast<std::uintmax_t>(vertices);
+            return (stride < 2 || stride % 2 != 0) ? Fallback : static_cast<std::size_t>(stride / 2);
         }
 
         BaseResEdit<>::ResEditConfig makeResEditConfig() {
@@ -439,63 +624,53 @@ namespace AGRemapCore {
         // the 16-bit ones in BlendRemapVertexVG, and Blend.buf holds them TRUNCATED. The weights
         // come from Blend.buf unchanged; VertexVG holds every vertex, not only the remapped
         // components'.
+        /**
+         * @brief
+         @rst
+         The vertex count and influences per vertex the two buffers' SIZES imply, throwing through
+         \ref bail when they disagree :raw-html:`<br />` :raw-html:`<br />`
+
+         Derived rather than assumed: hardcoding the layout is what made the legacy 8-bit lift
+         silently do nothing on these same mods, and what read an 8-influence line as two. Two
+         functions had these eleven lines each
+         @endrst
+         *
+         * @param resource The `blend`_ being fixed, for the failure message
+         * @param positionSize Its ``Position.buf``'s size in bytes
+         * @param blendSize Its ``Blend.buf``'s size in bytes
+         *
+         * @return The layout
+         */
+        BlendLayout blendShape(RemapBlendResource& resource, const std::string& positionPath) {
+            const std::optional<BlendLayout> layout = blendLayout(resource.srcPath, positionPath);
+            if (!layout.has_value()) {
+                bail(resource, "its Blend.buf and Position.buf do not agree on a vertex count and an"
+                               " even number of influences per vertex");
+            }
+
+            return layout.value_or(BlendLayout{});
+        }
+
+
         bool remapFromVertexVG(RemapBlendResource& resource, const std::string& vertexVGPath,
                                const std::string& positionPath) {
             // Both buffers through BufFile: integers, so decode-then-encode is exact and the
             // re-encode of the lines nothing touches cannot move them.
-            std::error_code sizeErr;
-            const std::uintmax_t blendSize =
-                std::filesystem::file_size(FileService::strToPath(resource.srcPath), sizeErr);
-            if (sizeErr || blendSize == 0) {
-                return bail(resource, "its Blend.buf is empty or unreadable");
-            }
-
+            //
             // The layout is derived, not assumed -- hardcoding it is what made the legacy lift
             // silently do nothing on these same mods.
-            std::error_code err;
-            const std::uintmax_t positionSize =
-                std::filesystem::file_size(FileService::strToPath(positionPath), err);
-            if (err || positionSize < WWMIPositionStride) {
-                return bail(resource, "its Position.buf is missing or too short to give a vertex count");
-            }
+            const BlendLayout shape = blendShape(resource, positionPath);
+            const std::size_t vertices = shape.vertices;
+            const std::size_t influences = shape.influences;
 
-            const std::size_t vertices = static_cast<std::size_t>(positionSize / WWMIPositionStride);
-            if (vertices == 0 || blendSize % vertices != 0) {
-                return bail(resource, "its Blend.buf does not divide evenly by its vertex count");
-            }
-
-            const std::size_t stride = static_cast<std::size_t>(blendSize / vertices);   // N ids + N weights, a byte each
-            if (stride < 2 || stride % 2 != 0) {
-                return bail(resource, "its Blend.buf's bytes per vertex are not an even number of influences");
-            }
-
-            const std::size_t influences = stride / 2;
-
-            std::vector<std::vector<unsigned long long>> trueIds;
-            trueIds.reserve(vertices);
-            const BufFile::Filter collect =
-                [&trueIds, influences](const BufLineData& line, long long, double, long long) {
-                    std::vector<unsigned long long> ids;
-                    const auto at = line.find(WWMIBlendIndicesKey);
-                    if (at != line.end()) {
-                        for (const BufValue& value : at->second) {
-                            ids.push_back(std::holds_alternative<unsigned long long>(value)
-                                              ? std::get<unsigned long long>(value) : 0);
-                        }
-                    }
-
-                    ids.resize(influences, 0);
-                    trueIds.push_back(std::move(ids));
-                    return line;
-                };
-
+            std::vector<std::vector<long long>> trueIds;
             try {
                 BufFile vgFile{vertexVGPath, wwmiVertexVGElements(influences)};
                 if (!vgFile.isValid()) {
                     return bail(resource, "its BlendRemapVertexVG.buf could not be read");
                 }
 
-                vgFile.fix(std::nullopt, {collect});
+                trueIds = bufRows(vgFile, BlendFile::BlendIndicesKey, influences);
             } catch (const std::exception& exception) {
                 return bail(resource, std::string("its BlendRemapVertexVG.buf could not be read: ") + exception.what());
             }
@@ -505,36 +680,15 @@ namespace AGRemapCore {
             }
 
             const std::unordered_map<long long, long long>& row = resource.vgRemap.getRemap();
-            const BufFile::Filter remap =
-                [&trueIds, &row, vertices, influences](const BufLineData& line, long long,
-                                                       double index, long long) {
-                    BufLineData out = line;
-                    const auto vertex = static_cast<std::size_t>(index);
-                    if (vertex >= vertices) {
-                        return out;
-                    }
-
-                    const auto ids = out.find(WWMIBlendIndicesKey);
-                    const auto weights = out.find(WWMIBlendWeightKey);
-                    if (ids == out.end() || weights == out.end()) {
-                        return out;
-                    }
-
-                    for (std::size_t b = 0; b < influences && b < ids->second.size()
-                                            && b < weights->second.size(); ++b) {
-                        if (!std::holds_alternative<unsigned long long>(weights->second[b])
-                                || std::get<unsigned long long>(weights->second[b]) == 0) {
-                            continue;                                 // a weight-zero slot
-                        }
-
-                        const auto target = row.find(static_cast<long long>(trueIds[vertex][b]));
-                        if (target != row.end()) {
-                            ids->second[b] = static_cast<unsigned long long>(target->second);
-                        }
-                    }
-
-                    return out;
-                };
+            // The id to remap comes from BlendRemapVertexVG.buf, not from the Blend.buf line: past
+            // 256 bones the line's 8-bit id is an index into the remap, and #trueIds holds what it
+            // really names.
+            const BufFile::Filter remap = blendIndexFilter(
+                vertices, influences,
+                [&trueIds, &row](std::size_t vertex, std::size_t slot, long long) -> std::optional<long long> {
+                    const auto target = row.find(static_cast<long long>(trueIds[vertex][slot]));
+                    return target == row.end() ? std::nullopt : std::optional<long long>(target->second);
+                });
 
             try {
                 BufFile blend{resource.srcPath, wwmiBlendElements(influences)};
@@ -589,72 +743,25 @@ namespace AGRemapCore {
                              const std::string& positionPath, const BlendRemapOut& out) {
 
             // The layout is derived, never assumed -- hardcoding it is what made the legacy lift
-            // silently do nothing on these same mods, and what read an 8-influence line as two. The
-            // sizes come first because they are what says how many influences a line has, which is
-            // what the BufFile's elements are built from.
-            std::error_code err;
-            const std::uintmax_t positionSize =
-                std::filesystem::file_size(FileService::strToPath(positionPath), err);
-            const std::uintmax_t blendSize =
-                std::filesystem::file_size(FileService::strToPath(resource.srcPath), err);
-            if (err || positionSize < WWMIPositionStride || blendSize == 0) {
-                return bail(resource, "its Position.buf or Blend.buf is missing, empty or too short");
-            }
-
-            const std::size_t vertices = static_cast<std::size_t>(positionSize / WWMIPositionStride);
-            if (vertices == 0 || blendSize % vertices != 0) {
-                return bail(resource, "its Blend.buf does not divide evenly by its vertex count");
-            }
-
-            const std::size_t stride = static_cast<std::size_t>(blendSize / vertices);   // N ids + N weights, a byte each
-            if (stride < 2 || stride % 2 != 0) {
-                return bail(resource, "its Blend.buf's bytes per vertex are not an even number of influences");
-            }
-
-            const std::size_t influences = stride / 2;
+            // silently do nothing on these same mods, and what read an 8-influence line as two. It
+            // comes first because it is what says how many influences a line has, which is what the
+            // BufFile's elements are built from.
+            const BlendLayout shape = blendShape(resource, positionPath);
+            const std::size_t vertices = shape.vertices;
+            const std::size_t influences = shape.influences;
 
             // Both buffers through BufFile: integers, so decode-then-encode is exact and the
             // re-encode of the lines nothing touches cannot move them.
-            std::vector<std::vector<unsigned long long>> ids;        // per vertex, `influences` of them
-            std::vector<std::vector<unsigned long long>> weights;
-            ids.reserve(vertices);
-            weights.reserve(vertices);
-
-            const BufFile::Filter readBlend =
-                [&ids, &weights, influences](const BufLineData& line, long long, double, long long) {
-                    std::vector<unsigned long long> lineIds;
-                    std::vector<unsigned long long> lineWeights;
-
-                    const auto atIds = line.find(WWMIBlendIndicesKey);
-                    if (atIds != line.end()) {
-                        for (const BufValue& value : atIds->second) {
-                            lineIds.push_back(std::holds_alternative<unsigned long long>(value)
-                                                  ? std::get<unsigned long long>(value) : 0);
-                        }
-                    }
-
-                    const auto atWeights = line.find(WWMIBlendWeightKey);
-                    if (atWeights != line.end()) {
-                        for (const BufValue& value : atWeights->second) {
-                            lineWeights.push_back(std::holds_alternative<unsigned long long>(value)
-                                                      ? std::get<unsigned long long>(value) : 0);
-                        }
-                    }
-
-                    lineIds.resize(influences, 0);
-                    lineWeights.resize(influences, 0);
-                    ids.push_back(std::move(lineIds));
-                    weights.push_back(std::move(lineWeights));
-                    return line;
-                };
-
+            std::vector<std::vector<long long>> ids;                  // per vertex, `influences` of them
+            std::vector<std::vector<long long>> weights;
             try {
                 BufFile blendFile{resource.srcPath, wwmiBlendElements(influences)};
                 if (!blendFile.isValid()) {
                     return bail(resource, "its Blend.buf could not be read");
                 }
 
-                blendFile.fix(std::nullopt, {readBlend});
+                ids = bufRows(blendFile, BlendFile::BlendIndicesKey, influences);
+                weights = bufRows(blendFile, BlendFile::BlendWeightKey, influences);
             } catch (const std::exception& exception) {
                 return bail(resource, std::string("its Blend.buf could not be read: ") + exception.what());
             }
@@ -668,29 +775,20 @@ namespace AGRemapCore {
             std::vector<std::uint16_t> trueIds(vertices * influences, 0);
             bool haveVertexVG = false;
             if (!srcVertexVGPath.empty()) {
-                std::size_t at = 0;
-                const BufFile::Filter readVG =
-                    [&trueIds, &at, influences](const BufLineData& line, long long, double, long long) {
-                        const auto found = line.find(WWMIBlendIndicesKey);
-                        if (found != line.end()) {
-                            for (std::size_t b = 0; b < influences && b < found->second.size(); ++b) {
-                                if (at + b < trueIds.size()
-                                        && std::holds_alternative<unsigned long long>(found->second[b])) {
-                                    trueIds[at + b] =
-                                        static_cast<std::uint16_t>(std::get<unsigned long long>(found->second[b]));
-                                }
-                            }
-                        }
-
-                        at += influences;
-                        return line;
-                    };
-
                 try {
                     BufFile vgFile{srcVertexVGPath, wwmiVertexVGElements(influences)};
                     if (vgFile.isValid()) {
-                        vgFile.fix(std::nullopt, {readVG});
-                        haveVertexVG = at == trueIds.size();
+                        const std::vector<std::vector<long long>> rows =
+                            bufRows(vgFile, BlendFile::BlendIndicesKey, influences);
+                        haveVertexVG = rows.size() * influences == trueIds.size();
+                        if (haveVertexVG) {
+                            for (std::size_t vertex = 0; vertex < rows.size(); ++vertex) {
+                                for (std::size_t b = 0; b < influences; ++b) {
+                                    trueIds[vertex * influences + b] =
+                                        static_cast<std::uint16_t>(rows[vertex][b]);
+                                }
+                            }
+                        }
                     }
                 } catch (const std::exception&) {
                     haveVertexVG = false;                  // its own ids are optional; Blend.buf's stand
@@ -731,7 +829,7 @@ namespace AGRemapCore {
                 [&mapped, vertices, influences](const BufLineData& line, long long, double index, long long) {
                     BufLineData out = line;
                     const auto vertex = static_cast<std::size_t>(index);
-                    const auto found = out.find(WWMIBlendIndicesKey);
+                    const auto found = out.find(BlendFile::BlendIndicesKey);
                     if (vertex >= vertices || found == out.end()) {
                         return out;
                     }
@@ -755,20 +853,35 @@ namespace AGRemapCore {
                 return bail(resource, std::string("its Blend.buf could not be rewritten: ") + exception.what());
             }
 
-            const auto write = [&resource](const std::string& path, const void* data, std::size_t bytes) {
-                std::error_code dirErr;
-                std::filesystem::create_directories(
-                    FileService::strToPath(path).parent_path(), dirErr);
-                std::ofstream file(FileService::strToPath(path), std::ios::binary);
-                if (!file.is_open()) {
-                    return bail(resource, "could not open " + path + " to write");
+            // Through BufFile, so the width and the byte order come from the element declaration
+            // rather than from a `* 2` and a reinterpret_cast -- and so these files are written by
+            // the same code that reads them (`wwmiVertexVGElements`), which is what they are read
+            // back with.
+            const auto write = [&resource](const std::string& path,
+                                           const std::vector<std::uint16_t>& ids, std::size_t perLine) {
+                FileService::makeFolderFor(path);
+                ByteVec bytes;
+                bytes.reserve(ids.size() * 2);
+                for (const std::uint16_t id : ids) {
+                    bytes.push_back(static_cast<std::uint8_t>(id & 0xFF));
+                    bytes.push_back(static_cast<std::uint8_t>((id >> 8) & 0xFF));
                 }
 
-                file.write(reinterpret_cast<const char*>(data), static_cast<std::streamsize>(bytes));
+                try {
+                    BufFile out{std::move(bytes), wwmiVertexVGElements(perLine)};
+                    if (!out.isValid()) {
+                        return bail(resource, "could not build " + path);
+                    }
+
+                    out.fix(path);
+                } catch (const std::exception& exception) {
+                    return bail(resource, "could not write " + path + ": " + exception.what());
+                }
+
                 return true;
             };
 
-            if (!write(out.vertexVG, mapped.data(), mapped.size() * 2)) {
+            if (!write(out.vertexVG, mapped, influences)) {
                 return bail(resource, "its BlendRemapVertexVG.buf could not be written");
             }
 
@@ -777,22 +890,41 @@ namespace AGRemapCore {
             // is written BEFORE this runs, so the two have to derive it from the same thing, and the
             // row is the only thing neither can change. An entry no vertex reaches costs two bytes.
             std::set<std::uint16_t> used;
+            std::set<long long> unaddressable;
             for (const auto& [srcBone, dstBone] : row) {
                 (void)srcBone;
-                if (dstBone >= 0 && static_cast<std::size_t>(dstBone) < WWMIBlendRemapSize) {
+                if (dstBone < 0) {
+                    continue;
+                }
+
+                if (static_cast<std::size_t>(dstBone) < WWMIBlendRemapSize) {
                     used.insert(static_cast<std::uint16_t>(dstBone));
+                } else {
+                    unaddressable.insert(dstBone);
                 }
             }
 
-            if (used.size() > WWMIBlendRemapSize) {
-                // Refused rather than truncated: a silently short remap sends every bone past the
-                // cut to local 0, which is a limb pinned to the root and nothing in the output to
-                // say so. Cannot happen for a pair whose row names fewer distinct targets than a
-                // remap holds, which is checked when the row is read.
+            if (!unaddressable.empty()) {
+                // Refused rather than truncated: a bone this remap cannot name gets no reverse entry,
+                // so every vertex weighted to it reads local 0 -- a limb pinned to the root, with
+                // nothing in the output to say so. This is a fault in the LIBRARY's vertex group row
+                // rather than in the mod, so without the message it is undiagnosable from the
+                // outside: the part simply does not render.
                 //
-                // ...and the refusal said nothing either, until 2026-09-29. This one is a fault in
-                // the LIBRARY's vertex group row rather than in the mod, so it would otherwise be
-                // undiagnosable from the outside: the part simply does not render.
+                // ASKED ABOUT THE VALUES, NOT THE COUNT (2026-09-30). This was
+                // `used.size() > WWMIBlendRemapSize` over a set the loop had already filtered to
+                // `[0, WWMIBlendRemapSize)`, so it could not be true -- and the filter that made it
+                // unreachable is what caused the pinned limb it refuses. No pair registered today
+                // reaches it either way (Chisa's 420 merged slots are the largest), so the fix moves
+                // no output; it makes the refusal possible.
+                return bail(resource, "the vertex group row maps to target bone "
+                                      + std::to_string(*unaddressable.begin()) + ", which a WWMI blend "
+                                      "remap of " + std::to_string(WWMIBlendRemapSize)
+                                      + " entries cannot name ("
+                                      + std::to_string(unaddressable.size()) + " such bone(s))");
+            }
+
+            if (used.size() > WWMIBlendRemapSize) {
                 return bail(resource, "the vertex group row names " + std::to_string(used.size())
                                       + " distinct target bones, more than the "
                                       + std::to_string(WWMIBlendRemapSize) + " a WWMI blend remap holds");
@@ -807,8 +939,7 @@ namespace AGRemapCore {
                 ++local;
             }
 
-            return write(out.forward, forward.data(), forward.size() * 2)
-                   && write(out.reverse, reverse.data(), reverse.size() * 2);
+            return write(out.forward, forward, 1) && write(out.reverse, reverse, 1);
         }
 
 
@@ -821,22 +952,15 @@ namespace AGRemapCore {
             std::vector<std::uint32_t> indexList;
             try {
                 IbFile indices{indexPath};
-                const BufFile::Filter collect =
-                    [&indexList](const BufLineData& line, long long, double, long long) {
-                        const auto at = line.find(IbFile::TriangleBufElementKey);
-                        if (at != line.end()) {
-                            for (const BufValue& value : at->second) {
-                                if (std::holds_alternative<unsigned long long>(value)) {
-                                    indexList.push_back(static_cast<std::uint32_t>(
-                                        std::get<unsigned long long>(value)));
-                                }
-                            }
-                        }
 
-                        return line;
-                    };
-
-                indices.fix(std::nullopt, {collect});
+                // A draw range indexes into the triangles' corners in order, so the rows are
+                // flattened back to that one list.
+                for (const std::vector<long long>& triangle :
+                         bufRows(indices, IbFile::TriangleBufElementKey, IbFile::VerticesPerTriangle)) {
+                    for (const long long corner : triangle) {
+                        indexList.push_back(static_cast<std::uint32_t>(corner));
+                    }
+                }
             } catch (const std::exception& exception) {
                 return bail(resource, std::string("its index buffer could not be read: ") + exception.what());
             }
@@ -846,34 +970,12 @@ namespace AGRemapCore {
             // componentOf is indexed by a vertex id that means nothing, most vertices get no
             // component at all and their ids pass through unlifted -- local id 5 of the skirt read
             // as merged bone 5, the jumbled mesh this function exists to prevent.
-            std::error_code sizeErr;
-            const std::uintmax_t positionSize =
-                std::filesystem::file_size(FileService::strToPath(positionPath), sizeErr);
-            if (sizeErr || positionSize < WWMIPositionStride) {
-                return bail(resource, "its Position.buf is missing or too short to give a vertex count");
-            }
-
-            const std::size_t vertices = static_cast<std::size_t>(positionSize / WWMIPositionStride);
-            const std::uintmax_t blendSize =
-                std::filesystem::file_size(FileService::strToPath(resource.srcPath), sizeErr);
-            if (sizeErr || vertices == 0 || blendSize == 0 || blendSize % vertices != 0) {
-                return bail(resource, "its Blend.buf does not divide evenly by the vertex count its Position.buf gives");
-            }
-
-            const std::size_t stride = static_cast<std::size_t>(blendSize / vertices);
-            if (stride < 2 || stride % 2 != 0) {
-                return bail(resource, "its Blend.buf's bytes per vertex are not an even number of influences");
-            }
-
-            // The same answer `wwmiBlendInfluences` gives, from the same two file sizes -- asked of
-            // it rather than restated. Its FALLBACK of 4 is the one thing not shared: it exists so a
-            // failed derivation cannot move a shipped character's output, and here a failed
-            // derivation must lift nothing at all, which is what the guards above already decided.
-            const std::size_t influences = wwmiBlendInfluences(resource.srcPath,
-                                                              static_cast<long long>(vertices), positionPath);
-            if (influences != stride / 2) {
-                return bail(resource, "its Blend.buf's influences per vertex disagree with its byte stride");
-            }
+            // ...asked of the one derivation rather than restated. This block used to compute the
+            // vertex count and the stride itself AND call `wwmiBlendInfluences`, then check the two
+            // answers against each other -- which is the same arithmetic three times over.
+            const BlendLayout shape = blendShape(resource, positionPath);
+            const std::size_t vertices = shape.vertices;
+            const std::size_t influences = shape.influences;
 
             const std::size_t indexCount = indexList.size();
 
@@ -904,54 +1006,26 @@ namespace AGRemapCore {
             }
 
             const std::unordered_map<long long, long long>& row = resource.vgRemap.getRemap();
-            const BufFile::Filter lift =
-                [&componentOf, &vgMaps, &row, vertices, influences](const BufLineData& line, long long,
-                                                                    double index, long long) {
-                    BufLineData out = line;
-                    const auto vertex = static_cast<std::size_t>(index);
-                    if (vertex >= vertices) {
-                        return out;
-                    }
-
+            // Here the line's id IS a component-local vertex group, so it is read from the line and
+            // carried through that component's own vg_map before the remap row.
+            const BufFile::Filter lift = blendIndexFilter(
+                vertices, influences,
+                [&componentOf, &vgMaps, &row](std::size_t vertex, std::size_t,
+                                              long long id) -> std::optional<long long> {
                     const int component = componentOf[vertex];
                     auto vgMap = vgMaps.find(component);
                     if (component < 0 || vgMap == vgMaps.end()) {
-                        return out;
+                        return std::nullopt;
                     }
 
-                    const auto ids = out.find(WWMIBlendIndicesKey);
-                    const auto weights = out.find(WWMIBlendWeightKey);
-                    if (ids == out.end() || weights == out.end()) {
-                        return out;
+                    const auto local = static_cast<std::size_t>(id);
+                    if (local >= vgMap->second.size()) {
+                        return std::nullopt;
                     }
 
-                    for (std::size_t b = 0; b < influences && b < ids->second.size()
-                                            && b < weights->second.size(); ++b) {
-                        if (!std::holds_alternative<unsigned long long>(weights->second[b])
-                                || std::get<unsigned long long>(weights->second[b]) == 0) {
-                            continue;                   // a weight-zero slot: the library leaves those alone too
-                        }
-
-                        if (!std::holds_alternative<unsigned long long>(ids->second[b])) {
-                            continue;
-                        }
-
-                        const auto local = static_cast<std::size_t>(
-                            std::get<unsigned long long>(ids->second[b]));
-                        if (local >= vgMap->second.size()) {
-                            continue;
-                        }
-
-                        auto target = row.find(vgMap->second[local]);
-                        if (target == row.end()) {
-                            continue;
-                        }
-
-                        ids->second[b] = static_cast<unsigned long long>(target->second);
-                    }
-
-                    return out;
-                };
+                    auto target = row.find(vgMap->second[local]);
+                    return target == row.end() ? std::nullopt : std::optional<long long>(target->second);
+                });
 
             try {
                 blend.fix(resource.fixedPath, {lift});
@@ -1469,16 +1543,19 @@ namespace AGRemapCore {
                         }
                     }
 
-                    meshFolder_ = DefaultMeshFolder;
+                    // Beside the .ini until the mod says otherwise -- see modFile. A mod whose
+                    // buffers sit next to its .ini (Chisa12: GUID names, `.assets` buffers) had a
+                    // `Meshes/` built for it holding nothing but the fix's own output.
+                    meshFolder_.clear();
                     auto blend = templates.find(BlendBufferResource);
                     if (blend != templates.end() && blend->second != nullptr) {
                         std::optional<std::string> file = ModBranches::firstVal(*blend->second, IniKeywords::Filename);
                         if (file.has_value()) {
                             const std::string forward = FileService::iniPathToRel(*file);
-                            const std::size_t slash = forward.rfind('/');
-                            if (slash != std::string::npos && slash > 0) {
-                                meshFolder_ = forward.substr(0, slash);
-                            }
+
+                            // `parentOf` answers "" for a file with no folder part, which is the
+                            // mod root -- exactly what meshFolder_ means by empty.
+                            meshFolder_ = FileService::parentOf(forward);
 
                             // Kept whole, because the name of the blend the FIX writes is derived
                             // from it and not from the character -- see blendFixedFile().
@@ -1490,7 +1567,7 @@ namespace AGRemapCore {
                             const std::string blendPath =
                                 FileService::absPathOfRelPath(forward, ctx_.getIniFile()->getFolder());
                             const std::string positionPath =
-                                FileService::absPathOfRelPath(positionFile_, ctx_.getIniFile()->getFolder());
+                                positionBufPath();
                             blendInfluences_ = wwmiBlendInfluences(blendPath, meshVertexCount_, positionPath);
                             blendStride_ = blendInfluences_ * 2;
                         }
@@ -1612,8 +1689,11 @@ namespace AGRemapCore {
                     std::unordered_map<std::string, std::set<int>> componentsOfRole;
                     std::set<int> sourceComponents;
 
-                    // whether this mod's `Components-<n>` tags are in the SOURCE's numbering
-                    bool tagsAreOurs = true;
+
+                    // file -> the roles the mod DECLARES it as, by writing `hash = <h>` over it.
+                    // Stronger than a register, which says where a file is used rather than what it
+                    // is; see rankCandidate.
+                    std::map<std::string, std::set<std::string>> declaredRolesOf;
 
                     // an ambiguity between two files is reported once, however many components are
                     // offered the role
@@ -1686,7 +1766,7 @@ namespace AGRemapCore {
                 }
 
                 void readTextureFolder(TextureScan& scan) {
-                    textureFolder_ = DefaultTextureFolder;
+                    textureFolder_.clear();                 // beside the .ini until the mod says otherwise
                     std::map<std::string, std::size_t> folderCounts;
                     for (const auto& entry : scan.resourceOfFile) {
                         const std::string rel =
@@ -1695,10 +1775,14 @@ namespace AGRemapCore {
                             continue;                   // the index could not place it: not a folder of this mod
                         }
 
-                        const std::size_t slash = rel.rfind('/');
-                        if (slash != std::string::npos && slash > 0) {
-                            ++folderCounts[rel.substr(0, slash)];
-                        }
+                        // THE ROOT IS A FOLDER TOO, which is what `parentOf` answers "" for. This
+                        // counted a file only when its path had a slash, so "beside the .ini" could
+                        // never win however many files were there and a minority folder took it by
+                        // default: Chisa12 declares 50 files in its root (37 .dds and 13 .assets)
+                        // against 41 in `res/`, which holds only its UI art, and every texture the
+                        // fix made went into the UI folder (2026-09-30). The library's own answer had
+                        // the right behaviour the whole time.
+                        ++folderCounts[FileService::parentOf(rel)];
                     }
 
                     // most textures wins; a tie goes to the lowest path, so the answer is the mod's
@@ -1762,16 +1846,22 @@ namespace AGRemapCore {
                     for (const auto& entry : scan.roles->rolesOf()) {
                         for (const WWMITextureRoles::Role& role : entry.second) {
                             scan.byRole[role.role].emplace_back(entry.first, role.how);
+
+                            // ...and separately, what the mod DECLARED the file as. The parser
+                            // writes this prefix for a role read off the file's own `hash =`.
+                            if (StringTools::startsWith(role.how, WWMITextureRoles::DeclaredHash)) {
+                                scan.declaredRolesOf[entry.first].insert(role.role);
+                            }
                         }
                     }
 
                     // ...and the roles the mod's OWN sections name by the register they bind at --
-                    // see WWMIFixerConfig::sourceRegisterRoles. Added as candidates beside the
+                    // see WWMITextureFacts::registerRoles. Added as candidates beside the
                     // others, which is what the ranking below expects.
                     // file -> source component -> the roles that component's own register
                     // bindings offer it for. One file offered two roles of ONE slot is the alias
                     // the mask drop below is about.
-                    if (!config_.sourceRegisterRoles.empty()) {
+                    if (!config_.sourceTextures.registerRoles.empty()) {
                         std::unordered_map<std::string, std::string> fileOfResource;
                         for (const auto& entry : scan.roles->resourcesOf(scan.iniPath)) {
                             fileOfResource.emplace(StringTools::toLower(entry.first), entry.second);
@@ -1779,8 +1869,8 @@ namespace AGRemapCore {
 
                         const auto& templates = ini->getIfTemplates();
                         for (const auto& entry : present_) {
-                            const auto layout = config_.sourceRegisterRoles.find(entry.first);
-                            if (layout == config_.sourceRegisterRoles.end()) {
+                            const auto layout = config_.sourceTextures.registerRoles.find(entry.first);
+                            if (layout == config_.sourceTextures.registerRoles.end()) {
                                 continue;
                             }
 
@@ -1932,7 +2022,7 @@ namespace AGRemapCore {
                     // are written per component. Not the same question as which component's slot is
                     // asking for it: Chisa's accessory slot and four of her extra passes bind
                     // `frontHairDiffuse`, which is component 0's.
-                    for (const auto& entry : config_.sourceRegisterRoles) {
+                    for (const auto& entry : config_.sourceTextures.registerRoles) {
                         for (const auto& reg : entry.second) {
                             scan.componentsOfRole[reg.second].insert(entry.first);
                         }
@@ -1957,15 +2047,6 @@ namespace AGRemapCore {
                         scan.sourceComponents.insert(entry.first);
                     }
 
-                    for (const auto& entry : scan.byRole) {
-                        for (const auto& candidate : entry.second) {
-                            for (int c : componentTag(candidate.first)) {
-                                if (scan.sourceComponents.count(c) == 0) {
-                                    scan.tagsAreOurs = false;
-                                }
-                            }
-                        }
-                    }
 
                     // How well a file serves ONE source component: first how specifically its
                     // WWMI-Tools `Components-<a>-<b>... t=<hash>.dds` name is tagged for that component,
@@ -1982,7 +2063,29 @@ namespace AGRemapCore {
 
                 // How good a candidate FILE is for a role on one source component -- lower is
                 // better, compared as a tuple.
-                auto rankCandidate(const TextureScan& scan, const std::string& file, int component) const {
+                auto rankCandidate(const TextureScan& scan, const std::string& role, const std::string& file,
+                                   int component) const {
+                        // A FILE THE MOD DECLARES AS ANOTHER ROLE IS NOT THIS ONE (2026-09-29).
+                        //
+                        // `hash = <h>` over a texture is the mod naming the game texture its file
+                        // replaces, and the library says what role <h> is. A register binding says
+                        // only where the file is USED, and a mod may point two registers at one
+                        // resource -- Chisa3 binds its front hair NORMAL at the RabbitFX Lightmap
+                        // register, which this character's layout reads as the mask, so the normal
+                        // map won the mask role and the target's shader read slope data as material
+                        // codes.
+                        //
+                        // Only a file whose declared roles EXIST and exclude this one is demoted: a
+                        // mod may alias one file onto several hashes (Chisa2 puts seven on one
+                        // resource), and demoting those is what the filename version of this test
+                        // got wrong.
+                        int contradicted = 0;
+                        const auto declared = scan.declaredRolesOf.find(file);
+                        if (declared != scan.declaredRolesOf.end() && !declared->second.empty()
+                                && declared->second.count(role) == 0) {
+                            contradicted = 1;
+                        }
+
                         std::string rel = FileService::pathKey(FileService::getRelPath(file, scan.iniFolder));
                         std::size_t ups = 0;
                         std::size_t pos = 0;
@@ -1991,24 +2094,33 @@ namespace AGRemapCore {
                             pos += 3;
                         }
 
-                        // AN UNTAGGED FILE MAKES NO CLAIM, AND IS NOT EVIDENCE AGAINST (2026-09-28).
-                        // `Components-<i>-<j>... t=<hash>.dds` is WWMI-Tools' export name and no mod
-                        // author is obliged to keep it -- a mod-manager-packaged mod names every
-                        // texture a GUID, and `Component3.dds`, `Upper_D.dds` and `wumao.dds` are all
-                        // in this corpus. Ranking "no tag" the same as "tagged for other components"
-                        // put every file of such a mod in the worst bucket, where one leftover
-                        // vanilla `Components-<this> t=<hash>.dds` outranked all of them.
-                        const std::vector<int> tag = componentTag(file);
-                        int specificity = 2;                               // no tag: says nothing
-                        if (tag.size() == 1 && tag.front() == component) {
-                            specificity = 0;                               // exactly this component
-                        } else if (std::find(tag.begin(), tag.end(), component) != tag.end()) {
-                            specificity = 1;                               // this one among others
-                        } else if (!tag.empty()) {
-                            specificity = 3;                               // tagged, and NOT this one
+                        // WHAT THE MOD SAYS, NOT WHAT THE FILE IS CALLED (2026-09-29).
+                        //
+                        // This read `Components-<i>-<j>... t=<hash>.dds`, WWMI-Tools' export name,
+                        // and ranked a file by which components that name claimed. A mod author may
+                        // call a texture anything -- a mod-manager-packaged mod names every texture
+                        // a GUID, and `Component3.dds`, `Upper_D.dds` and `wumao.dds` are all in
+                        // this corpus -- so the name was a guess about a fact the mod states
+                        // outright elsewhere.
+                        //
+                        // `regRolesOfFile` is that statement: the author writing `ps-t5 =
+                        // ResourceFoo` inside component 1's section IS the author saying what
+                        // component 1's normal map is. A file no register names makes no claim and
+                        // is not evidence against itself, which is what the untagged case meant.
+                        int specificity = 2;                               // nothing binds it: says nothing
+                        const auto bound = scan.regRolesOfFile.find(file);
+                        if (bound != scan.regRolesOfFile.end() && !bound->second.empty()) {
+                            const auto here = bound->second.find(component);
+                            if (here != bound->second.end()) {
+                                specificity = bound->second.size() == 1 ? 0 : 1;
+                            } else {
+                                specificity = 3;                           // bound, and NOT by this one
+                            }
                         }
 
-                        return std::make_tuple(specificity, scan.resourceOfFile.count(file) > 0 ? 0 : 1, ups, rel.size(), rel);
+                        return std::make_tuple(contradicted, specificity,
+                                               scan.resourceOfFile.count(file) > 0 ? 0 : 1, ups,
+                                               rel.size(), rel);
                 }
 
                 // Which of the mod's files serves one role on one source component, if any.
@@ -2044,82 +2156,7 @@ namespace AGRemapCore {
                             // table places are both untouched. Dropping every candidate is a real
                             // answer too: the mod ships nothing for that role, which is what the
                             // fallback download is for.
-                            auto roleComponents = scan.componentsOfRole.find(role);
-                            if (scan.tagsAreOurs && roleComponents != scan.componentsOfRole.end()) {
-                                candidates.erase(
-                                    std::remove_if(candidates.begin(), candidates.end(),
-                                                   [&](const std::pair<std::string, std::string>& candidate) {
-                                                       // Only a candidate a HASH put here. A role read
-                                                       // off the mod's own component section -- its
-                                                       // `ps-tN` or its `Resource\RabbitFX\...` line --
-                                                       // is the author saying what that component is
-                                                       // textured with, which outranks a file name:
-                                                       // Chisa2's component 5 binds the kimono atlas
-                                                       // itself, deliberately.
-                                                       //
-                                                       // Not readable off `how`: scan.byRole is built
-                                                       // hash-first and deduplicated to one entry per
-                                                       // file keeping the FIRST way it was decided, so a
-                                                       // file found both ways carries the hash's. Ask
-                                                       // scan.regRolesOfFile, which is that route's own map.
-                                                       if (!StringTools::startsWith(candidate.second, "hash ")) {
-                                                           return false;
-                                                       }
 
-                                                       auto regRoles = scan.regRolesOfFile.find(candidate.first);
-                                                       if (regRoles != scan.regRolesOfFile.end()) {
-                                                           for (const auto& perComponent : regRoles->second) {
-                                                               if (perComponent.second.count(role) > 0) {
-                                                                   return false;
-                                                               }
-                                                           }
-                                                       }
-
-                                                       const std::vector<int> tag = componentTag(candidate.first);
-                                                       if (tag.empty()) {
-                                                           return false;
-                                                       }
-
-                                                       return std::none_of(tag.begin(), tag.end(),
-                                                                           [&](int c) { return roleComponents->second.count(c) > 0; });
-                                                   }),
-                                    candidates.end());
-                                if (candidates.empty()) {
-                                    return;
-                                }
-                            }
-
-                            // A file NAMED for a hash of this role is the self-consistent choice and
-                            // beats everything below (2026-09-27). A mod may declare a texture under
-                            // a hash its own name disagrees with: Chisa13 binds its hair DIFFUSE
-                            // (`Components-1 t=23b680fe.dds`) in a SECOND TextureOverride carrying
-                            // the hair normal's hash `d8ed7611`, beside the correct
-                            // `Components-1 t=d8ed7611.dds`. Both then rank identically -- same
-                            // component tag, both with a resource, same folder, same NAME LENGTH --
-                            // so the winner was the last tiebreak, which is alphabetical, and
-                            // "23b680fe" sorts first. The diffuse was bound as the normal map; once
-                            // the hair's ps-t5 was actually bound and repacked (R and B zeroed) that
-                            // rendered the hair GREEN.
-                            // Each candidate carries WHY it matched -- "hash <h> (...)" when a hash
-                            // put it here. A file whose own name contradicts that hash is demoted;
-                            // everything else keeps the order below, so the only behaviour that
-                            // moves is this one contradiction.
-                            auto contradictsItsHash = [&](const std::pair<std::string, std::string>& candidate) {
-                                static const std::string prefix = "hash ";
-                                if (!StringTools::startsWith(candidate.second, prefix)) {
-                                    return 0;               // not matched by hash: nothing to contradict
-                                }
-
-                                std::string hash = candidate.second.substr(prefix.size());
-                                const std::size_t end = hash.find(' ');
-                                if (end != std::string::npos) {
-                                    hash = hash.substr(0, end);
-                                }
-
-                                const std::string name = StringTools::toLower(
-                                    FileService::baseName(candidate.first));
-                                return name.find(StringTools::toLower(hash)) == std::string::npos ? 1 : 0;
-                            };
 
                             // THE DEMOTION BELONGS AFTER rank()'s FIRST TWO ELEMENTS, NOT ABOVE ALL
                             // OF THEM (2026-09-28). rank() already orders by how specifically a
@@ -2144,21 +2181,16 @@ namespace AGRemapCore {
                             // 56 bindings onto different bytes across Sanhua and Chisa.
                             std::sort(candidates.begin(), candidates.end(),
                                       [&](const auto& a, const auto& b) {
-                                          const int badA = contradictsItsHash(a);
-                                          const int badB = contradictsItsHash(b);
-                                          if (badA != badB) {
-                                              return badA < badB;
-                                          }
-
-                                          return rankCandidate(scan, a.first, component) < rankCandidate(scan, b.first, component);
+                                          return rankCandidate(scan, role, a.first, component)
+                                                 < rankCandidate(scan, role, b.first, component);
                                       });
                             const std::string& best = candidates.front().first;
                             if (candidates.size() > 1) {
-                                const auto first = rankCandidate(scan, best, component);
-                                const auto second = rankCandidate(scan, candidates[1].first, component);
-                                if (contradictsItsHash(candidates.front()) == contradictsItsHash(candidates[1])
-                                    && std::get<0>(first) == std::get<0>(second) && std::get<1>(first) == std::get<1>(second)
+                                const auto first = rankCandidate(scan, role, best, component);
+                                const auto second = rankCandidate(scan, role, candidates[1].first, component);
+                                if (std::get<0>(first) == std::get<0>(second) && std::get<1>(first) == std::get<1>(second)
                                     && std::get<2>(first) == std::get<2>(second)
+                                    && std::get<3>(first) == std::get<3>(second)
                                     && scan.saidAmbiguous.insert(role + "\n" + best + "\n" + candidates[1].first).second) {
                                     // Two shipped textures equally close on one role: the first is bound
                                     // and only a measurement can say which is right -- say so loudly.
@@ -2167,6 +2199,16 @@ namespace AGRemapCore {
                                              + "), already taken by " + FileService::getRelPath(best, scan.iniFolder)
                                              + " (" + candidates.front().second + "); the first one is bound");
                                 }
+                            }
+
+                            // AGREMAP_WWMI_PICK=1: which FILE the fix chose for each (role,
+                            // component), which is the thing a change to the ranking moves. The
+                            // corpus manifest only shows a change a mod's output happens to depend
+                            // on; this shows every choice, including the ones that tie.
+                            if (std::getenv("AGREMAP_WWMI_PICK") != nullptr) {
+                                std::fprintf(stderr, "WWMIPICK\t%s\t%s\t%d\t%s\n", scan.iniPath.c_str(),
+                                             role.c_str(), component,
+                                             FileService::pathKey(best).c_str());
                             }
 
                             fileOfRole_[role] = best;
@@ -2231,7 +2273,7 @@ namespace AGRemapCore {
                     // download named RemapDL (the file is the fix's, so an undo may delete it). The
                     // mod's UVs are the source's, and the target's texture -- what the register
                     // samples on the target's draw when nothing binds it -- is wrong by construction.
-                    if (!config_.downloadCharFolder.empty()) {
+                    if (!config_.sourceTextures.downloadCharFolder.empty()) {
                         for (const auto& entry : config_.plan) {
                             if (present_.count(entry.first) == 0) {
                                 continue;
@@ -2243,22 +2285,13 @@ namespace AGRemapCore {
                                     continue;
                                 }
 
-                                auto fallback = config_.fallbackTextures.find(binding.role);
-                                if (fallback == config_.fallbackTextures.end()
+                                auto fallback = config_.sourceTextures.fallbackTextures.find(binding.role);
+                                if (fallback == config_.sourceTextures.fallbackTextures.end()
                                         || leftToGame_.count(binding.role) > 0) {
                                     continue;
                                 }
 
-                                const std::string kind = TextTools::capitalize(binding.role);
-                                const std::string fileName = DownloadTools::fixedFileName(config_.downloadPrefix, kind, FileExt::DDS);
-                                const std::string resource = IniKeywords::Resource + config_.downloadPrefix + kind + IniKeywords::RemapDL;
-                                fallbacks_[binding.role] = Fallback{
-                                    DownloadTools::downloadFolder() + "/"
-                                        + DownloadTools::urlPath(config_.downloadGameFolder, config_.downloadCharFolder,
-                                                                 config_.downloadVersionFolder, config_.downloadPrefix,
-                                                                 "Texture" + fallback->second, FileExt::DDS),
-                                    fileName, textureFolder_ + "/" + fileName, resource};
-                                resourceOfRole_[binding.role] = resource;
+                                registerFallback(binding.role, fallback->second);
                             }
                         }
 
@@ -2284,27 +2317,56 @@ namespace AGRemapCore {
                                 }
                             }
 
-                            auto fallback = config_.fallbackTextures.find(role);
-                            if (owned || fallback == config_.fallbackTextures.end()
+                            auto fallback = config_.sourceTextures.fallbackTextures.find(role);
+                            if (owned || fallback == config_.sourceTextures.fallbackTextures.end()
                                     || leftToGame_.count(role) > 0) {
                                 continue;
                             }
 
-                            const std::string kind = TextTools::capitalize(role);
-                            const std::string fileName = DownloadTools::fixedFileName(config_.downloadPrefix, kind, FileExt::DDS);
-                            const std::string resource = IniKeywords::Resource + config_.downloadPrefix + kind + IniKeywords::RemapDL;
-                            fallbacks_[role] = Fallback{
-                                DownloadTools::downloadFolder() + "/"
-                                    + DownloadTools::urlPath(config_.downloadGameFolder, config_.downloadCharFolder,
-                                                             config_.downloadVersionFolder, config_.downloadPrefix,
-                                                             "Texture" + fallback->second, FileExt::DDS),
-                                fileName, textureFolder_ + "/" + fileName, resource};
-                            resourceOfRole_[role] = resource;
+                            registerFallback(role, fallback->second);
                         }
                     }
                 }
 
                 // ---- the edits ----
+
+                /**
+                 * @brief
+                 @rst
+                 One path the fix WRITES, relative to the mod's ``.ini`` -- inside 'folder' when the
+                 mod keeps that kind of file in one, beside the ``.ini`` when it does not
+                 @endrst
+                 *
+                 * @param folder #meshFolder_ or #textureFolder_, empty for the mod's own root
+                 * @param name The file's name
+                 *
+                 * @return The path, with no leading separator when there is no folder
+                 */
+                /**
+                 * @brief
+                 @rst
+                 The absolute path of the mod's own ``Position.buf``, however its ``.ini`` names it
+                 @endrst
+                 *
+                 * @throws std::runtime_error If the mod's ``.ini`` declares no such resource, which is
+                 *      its own failure and not "the file is missing"
+                 *
+                 * @return The path
+                 */
+                std::string positionBufPath() const {
+                    if (positionFile_.empty()) {
+                        throw std::runtime_error(
+                            "cannot fix this mod: its .ini declares no [" + PositionBufferResource
+                            + "], so there is no mesh to read a vertex count from");
+                    }
+
+                    return FileService::absPathOfRelPath(
+                        positionFile_, const_cast<IniFileFixContext&>(ctx_).getIniFile()->getFolder());
+                }
+
+                static std::string modFile(const std::string& folder, const std::string& name) {
+                    return folder.empty() ? name : folder + "/" + name;
+                }
 
                 ModObj targetSlotObj(int slot) const {
                     return ModObj(toModName_, config_.slotPrefix + std::to_string(slot));
@@ -2548,7 +2610,7 @@ namespace AGRemapCore {
                             additions.emplace_back(config_.texcoordReg, *texcoordResource_);
                         }
 
-                        std::vector<std::string> bindings;
+                        std::vector<Kvp> bindings;
                         for (const WWMIFixerConfig::Binding& binding : planned.bindings) {
                             if (binding.role == IniKeywords::Null) {
                                 bindings.push_back(nullLine(binding.reg));
@@ -2564,15 +2626,12 @@ namespace AGRemapCore {
                         if (!bindings.empty()) {
                             const std::string cmdList = fixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(config_.slotPrefix)
                                                                 + std::to_string(component) + "Textures");
-                            const std::string condition =
-                                passCondition(config_.slotPasses.at(static_cast<std::size_t>(planned.slot)));
-                            std::string text = "[" + cmdList + "]\nif " + condition + "\n";
-                            for (const std::string& binding : bindings) {
-                                text += binding + "\n";
-                            }
-
-                            text += "endif\n";
-                            textureLists_.push_back(text);
+                            textureLists_.push_back(
+                                SectionText(z3_, cmdList)
+                                    .open(passCondition(config_.slotPasses.at(static_cast<std::size_t>(planned.slot))))
+                                    .keys(bindings)
+                                    .close()
+                                    .str());
                             additions.emplace_back(IniKeywords::Run, cmdList);
                         }
 
@@ -2583,7 +2642,7 @@ namespace AGRemapCore {
                         if (extra != config_.extraPassRegs.end()) {
                             int n = 0;
                             for (const auto& [pass, regs] : extra->second) {
-                                std::vector<std::string> extraBindings;
+                                std::vector<Kvp> extraBindings;
                                 for (const WWMIFixerConfig::Binding& binding : regs) {
                                     // A binding for ONE source, on a slot two sources merge onto --
                                     // see Binding::srcComponent. The default -1 takes every source,
@@ -2606,13 +2665,11 @@ namespace AGRemapCore {
                                 const std::string extraList =
                                     fixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(config_.slotPrefix)
                                             + std::to_string(component) + "TexturesPass" + std::to_string(n));
-                                std::string extraText = "[" + extraList + "]\nif " + passCondition(pass) + "\n";
-                                for (const std::string& binding : extraBindings) {
-                                    extraText += binding + "\n";
-                                }
-
-                                extraText += "endif\n";
-                                textureLists_.push_back(extraText);
+                                textureLists_.push_back(SectionText(z3_, extraList)
+                                                            .open(passCondition(pass))
+                                                            .keys(extraBindings)
+                                                            .close()
+                                                            .str());
                                 additions.emplace_back(IniKeywords::Run, extraList);
                                 ++n;
                             }
@@ -2646,7 +2703,7 @@ namespace AGRemapCore {
                     hashOnlyObjs_.clear();
                     if (auto* parser = dynamic_cast<GIMIParser<>*>(this->getParser())) {
                         for (const ModObj& obj : parser->modObjs()) {
-                            if (obj.second.rfind(config_.slotPrefix, 0) != 0) {
+                            if (!StringTools::startsWith(obj.second, config_.slotPrefix)) {
                                 hashOnlyObjs_.push_back(obj);
                             }
                         }
@@ -2747,7 +2804,7 @@ namespace AGRemapCore {
                                 ? std::string()
                                 : FileService::absPathOfRelPath(vgRel, ctx_.getIniFile()->getFolder());
                             const std::string posPath =
-                                FileService::absPathOfRelPath(positionFile_, ctx_.getIniFile()->getFolder());
+                                positionBufPath();
                             const BlendRemapOut out{
                                 FileService::absPathOfRelPath(blendRemapFile("VertexVG"), ctx_.getIniFile()->getFolder()),
                                 FileService::absPathOfRelPath(blendRemapFile("Forward"), ctx_.getIniFile()->getFolder()),
@@ -2760,14 +2817,14 @@ namespace AGRemapCore {
                             const std::string vgPath =
                                 FileService::absPathOfRelPath(vgRel, ctx_.getIniFile()->getFolder());
                             const std::string posPath =
-                                FileService::absPathOfRelPath(positionFile_, ctx_.getIniFile()->getFolder());
+                                positionBufPath();
                             lift = [vgPath, posPath](RemapBlendResource& resource) {
                                 return remapFromVertexVG(resource, vgPath, posPath);
                             };
                         } else if (legacy_) {
                             const std::string indexPath = FileService::absPathOfRelPath(indexFile_, ctx_.getIniFile()->getFolder());
                             const std::string positionPath =
-                            FileService::absPathOfRelPath(positionFile_, ctx_.getIniFile()->getFolder());
+                            positionBufPath();
                             const std::map<int, std::vector<std::pair<long long, long long>>> ranges = drawRanges_;
                             const std::map<int, std::vector<int>> maps = config_.sourceVgMaps;
                             lift = [indexPath, positionPath, ranges, maps](RemapBlendResource& resource) {
@@ -2778,7 +2835,7 @@ namespace AGRemapCore {
                         auto replace = std::make_unique<WWMIBlendReplace>(GraphId(g, "", "blend"), makeResEditConfig(), source, from, to,
                                                                           std::move(lift), config_.anchorChains,
                                                                           meshVertexCount_,
-                                                                          FileService::absPathOfRelPath(positionFile_, ctx_.getIniFile()->getFolder()));
+                                                                          positionBufPath());
                         auto collect = std::make_unique<Collector>();
                         for (int component : groups_[g]) {
                             const ModObj obj = targetSlotObj(config_.plan.at(component).slot);
@@ -2799,7 +2856,7 @@ namespace AGRemapCore {
                                 };
                         }
 
-                        collect->resEdits = {{"blend", replace.get()}};
+                        collect->resEdits = {{BlendResGroupMember, replace.get()}};
                         blendReplaces_.push_back(std::move(replace));
                         blendCollects_.push_back(std::move(collect));
                     }
@@ -2864,12 +2921,14 @@ namespace AGRemapCore {
                  * @brief `<reg> = null` -- bind NOTHING, rather than letting the game's own
                  *        texture serve the register (see WWMIFixerConfig::Binding::role)
                  */
-                std::string nullLine(const std::string& reg) {
-                    return "    " + reg + " = " + std::string(IniKeywords::Null);
+                using Kvp = std::pair<std::string, std::string>;
+
+                Kvp nullLine(const std::string& reg) {
+                    return {reg, std::string(IniKeywords::Null)};
                 }
 
-                std::string bindLine(const std::string& role, const std::string& reg, const std::string& resource) {
-                    const std::string direct = "    " + reg + " = " + resource;
+                Kvp bindLine(const std::string& role, const std::string& reg, const std::string& resource) {
+                    const Kvp direct{reg, resource};
 
                     // An edit's output is not one of the mod's resources, so ask under the resource
                     // the edit READ
@@ -2882,7 +2941,7 @@ namespace AGRemapCore {
 
                     const auto cached = roleLists_.find({role, reg});
                     if (cached != roleLists_.end()) {
-                        return "    " + std::string(IniKeywords::Run) + " = " + cached->second;
+                        return {std::string(IniKeywords::Run), cached->second};
                     }
 
                     IniFile* ini = ctx_.getIniFile();
@@ -2996,7 +3055,7 @@ namespace AGRemapCore {
                     // dropped. Section order in an .ini does not matter.
                     // `renderIfTemplate` returns no trailing newline; the consumer adds the blank line
                     roleListTexts_.push_back(renderIfTemplate(*list) + "\n");
-                    return "    " + std::string(IniKeywords::Run) + " = " + name;
+                    return {std::string(IniKeywords::Run), name};
                 }
 
                 const std::string* sharedResourceFor(const std::string& role) const {
@@ -3022,34 +3081,6 @@ namespace AGRemapCore {
 
                 // The components a WWMI-Tools export name is tagged for: `Components-0-2 t=<hash>.dds`
                 // is {0, 2}. Empty for a file named anything else
-                static std::vector<int> componentTag(const std::string& file) {
-                    const std::string name = StringTools::toLower(FileService::baseName(file));
-                    const std::string prefix = "components-";
-                    const std::size_t end = name.find(" t=");
-                    if (!StringTools::startsWith(name, prefix) || end == std::string::npos) {
-                        return {};
-                    }
-
-                    std::vector<int> tag;
-                    std::string digits;
-                    for (std::size_t i = prefix.size(); i <= end; ++i) {
-                        const char c = (i < end) ? name[i] : '-';
-                        if (c >= '0' && c <= '9') {
-                            digits += c;
-                        } else if (c == '-') {
-                            if (digits.empty()) {
-                                return {};
-                            }
-
-                            tag.push_back(std::stoi(digits));
-                            digits.clear();
-                        } else {
-                            return {};
-                        }
-                    }
-
-                    return tag;
-                }
 
                 // The shaders TAGGED for a pass: its own pixel shader by default, or the vertex
                 // shaders it is drawn with -- see WWMIFixerConfig::passVertexShaders.
@@ -3118,26 +3149,12 @@ namespace AGRemapCore {
                         std::vector<std::vector<std::string>> allPasses = config_.slotPasses;
                         for (const auto& [mesh, byPass] : config_.sharedMeshes) {
                             (void)mesh;
-                            std::vector<std::string> names;
-                            names.reserve(byPass.size());
-                            for (const auto& [pass, regs] : byPass) {
-                                (void)regs;
-                                names.push_back(pass);
-                            }
-
-                            allPasses.push_back(std::move(names));
+                            allPasses.push_back(passNamesOf(byPass));
                         }
 
                         for (const auto& [slot, byPass] : config_.extraPassRegs) {
                             (void)slot;
-                            std::vector<std::string> names;
-                            names.reserve(byPass.size());
-                            for (const auto& [pass, regs] : byPass) {
-                                (void)regs;
-                                names.push_back(pass);
-                            }
-
-                            allPasses.push_back(std::move(names));
+                            allPasses.push_back(passNamesOf(byPass));
                         }
 
                         for (const auto& passes : allPasses) {
@@ -3184,14 +3201,14 @@ namespace AGRemapCore {
                         out += SectionText(z3_, name)
                                    .keys({{IniKeywords::Type, "RWBuffer"},
                                           {IniKeywords::Format, "R32G32B32A32_FLOAT"},
-                                          {"array", std::to_string(config_.mergedSkeletonSlots)}})
+                                          {IniKeywords::Array, std::to_string(config_.mergedSkeletonSlots)}})
                                    .str();
                     }
 
                     out += SectionText(z3_, fixName("TextureOverrideMarkBoneDataCB"))
                                .keys({{IniKeywords::Hash, target_.cb4Hash},
-                                      {"match_priority", "0"},
-                                      {"filter_index", config_.boneDataFilter}})
+                                      {IniKeywords::MatchPriority, "0"},
+                                      {IniKeywords::FilterIndex, config_.boneDataFilter}})
                                .str();
 
                     // The private skeleton a blend remap needs, gathered right after the merge:
@@ -3363,7 +3380,7 @@ namespace AGRemapCore {
                             .open("$mod_enabled");
 
                         if (legacy_) {
-                            hide.keys({{IniKeywords::Run, mergeListName(slot)}, {"handling", "skip"}});
+                            hide.keys({{IniKeywords::Run, mergeListName(slot)}, {IniKeywords::Handling, "skip"}});
                         } else {
                             hide.key("local " + state)
                                 .open(state + " != $state_id")
@@ -3396,25 +3413,28 @@ namespace AGRemapCore {
                     // Other meshes the character draws -- see WWMIFixerConfig::sharedMeshes
                     std::size_t meshNum = 0;
                     for (const auto& [meshHash, byPass] : config_.sharedMeshes) {
-                        std::string body;
+                        SectionText mesh(z3_, fixName(IniKeywords::TextureOverride + source_.name
+                                                      + "SharedMesh" + std::to_string(meshNum)));
+                        mesh.key(IniKeywords::Hash, meshHash);
+
+                        bool drew = false;
                         for (const auto& [pass, bindings] : byPass) {
-                            std::string lines;
+                            std::vector<Kvp> lines;
                             for (const WWMIFixerConfig::Binding& binding : bindings) {
                                 const std::string* resource = sharedResourceFor(binding.role);
                                 if (resource != nullptr) {
-                                    lines += bindLine(binding.role, binding.reg, *resource) + "\n";
+                                    lines.push_back(bindLine(binding.role, binding.reg, *resource));
                                 }
                             }
 
                             if (!lines.empty()) {
-                                body += "if " + passCondition(pass) + "\n" + lines + "endif\n";
+                                mesh.open(passCondition(pass)).keys(lines).close();
+                                drew = true;
                             }
                         }
 
-                        if (!body.empty()) {
-                            out += "[" + fixName(IniKeywords::TextureOverride + source_.name + "SharedMesh"
-                                                 + std::to_string(meshNum)) + "]\n"
-                                   + IniKeywords::Hash + " = " + meshHash + "\n" + body + "\n";
+                        if (drew) {
+                            out += mesh.str();
                         }
 
                         ++meshNum;
@@ -3470,15 +3490,17 @@ namespace AGRemapCore {
                 }
 
                 std::string blendRemapFile(const std::string& which) const {
-                    return meshFolder_ + "/" + toModName_ + IniKeywords::Remap + "BlendRemap" + which + ".buf";
+                    return modFile(meshFolder_,
+                                   toModName_ + IniKeywords::Remap + "BlendRemap" + which + ".buf");
                 }
 
                 std::string zeroStreamFile() const {
-                    return meshFolder_ + "/" + toModName_ + IniKeywords::Remap + ShapeKeyZero + ".buf";
+                    return modFile(meshFolder_, toModName_ + IniKeywords::Remap + ShapeKeyZero + ".buf");
                 }
 
                 std::string createdTextureFile(const WWMIFixerConfig::CreatedTexture& created) const {
-                    return textureFolder_ + "/" + created.role + toModName_ + IniKeywords::RemapTex + FileExt::DDS;
+                    return modFile(textureFolder_,
+                                   created.role + toModName_ + IniKeywords::RemapTex + FileExt::DDS);
                 }
 
                 // ---- at fix time ----
@@ -3489,17 +3511,29 @@ namespace AGRemapCore {
                     }
 
                     const std::string path = FileService::absPathOfRelPath(zeroStreamFile(), ctx_.getIniFile()->getFolder());
-                    const std::filesystem::path fsPath = FileService::strToPath(path);
-                    const std::uintmax_t size = static_cast<std::uintmax_t>(meshVertexCount_) * static_cast<std::uintmax_t>(config_.shapeKeyStride);
-                    std::error_code err;
-                    if (std::filesystem::is_regular_file(fsPath, err) && std::filesystem::file_size(fsPath, err) == size && !err) {
-                        return;
+                    const auto size = static_cast<std::uintmax_t>(meshVertexCount_)
+                                      * static_cast<std::uintmax_t>(config_.shapeKeyStride);
+                    if (FileService::fileSize(path) == size) {
+                        return;                                       // already there, at the right size
                     }
 
-                    std::filesystem::create_directories(fsPath.parent_path(), err);
-                    std::ofstream out(fsPath, std::ios::binary);
-                    const std::vector<char> zeros(static_cast<std::size_t>(size), 0);
-                    out.write(zeros.data(), static_cast<std::streamsize>(zeros.size()));
+                    // THROUGH BufFile, AND THE RESULT IS READ (2026-09-30). This wrote the bytes with
+                    // its own ofstream and discarded the result -- the defect the guides record for
+                    // `TextureFile::save`, where a run reported editing 18 textures having written
+                    // none. The stride now comes from the element declaration rather than from a byte
+                    // count, and `BufFile::fix` throws a named error when it cannot write.
+                    FileService::makeFolderFor(path);
+                    try {
+                        BufFile zeros{ByteVec(static_cast<std::size_t>(size), 0),
+                                      zeroStreamElements(config_.shapeKeyStride)};
+                        if (!zeros.isValid()) {
+                            throw std::runtime_error("its zero shape-key stream could not be built");
+                        }
+
+                        zeros.fix(path);
+                    } catch (const std::exception& exception) {
+                        throw std::runtime_error("cannot write " + zeroStreamFile() + ": " + exception.what());
+                    }
                 }
 
                 // The edits the fix makes to a role's texture before binding it -- see
@@ -3540,8 +3574,10 @@ namespace AGRemapCore {
                             source = FileService::absPathOfRelPath(back->second.relPath, folder);
                         }
 
-                        const std::string fixedRel = textureFolder_ + "/" + config_.downloadPrefix
-                                                     + TextTools::capitalize(edit.role) + edit.name + IniKeywords::RemapTex + FileExt::DDS;
+                        const std::string fixedRel =
+                            modFile(textureFolder_,
+                                    config_.sourceTextures.downloadPrefix + TextTools::capitalize(edit.role)
+                                    + edit.name + IniKeywords::RemapTex + FileExt::DDS);
                         plannedEdits_.push_back(PlannedEdit{&edit, source, fixedRel});
 
                         // every binding of the role follows the edited file
@@ -3580,8 +3616,10 @@ namespace AGRemapCore {
                                     ++n;
                                     const std::string suffix = std::to_string(n);
                                     const std::string variantRel =
-                                        textureFolder_ + "/" + config_.downloadPrefix + TextTools::capitalize(edit.role)
-                                        + edit.name + suffix + IniKeywords::RemapTex + FileExt::DDS;
+                                        modFile(textureFolder_,
+                                                config_.sourceTextures.downloadPrefix
+                                                + TextTools::capitalize(edit.role) + edit.name + suffix
+                                                + IniKeywords::RemapTex + FileExt::DDS);
                                     const std::string variantResource =
                                         fixName(IniKeywords::Resource + TextTools::capitalize(edit.role) + edit.name + suffix
                                                 + IniKeywords::RemapTex);
@@ -3619,7 +3657,7 @@ namespace AGRemapCore {
                     WWMIFixerConfig::TexEditContext context;
                     context.iniFolder = folder;
                     context.indexFile = FileService::absPathOfRelPath(indexFile_, folder);
-                    context.positionFile = FileService::absPathOfRelPath(positionFile_, folder);
+                    context.positionFile = positionBufPath();
                     context.texcoordFile = FileService::absPathOfRelPath(texcoordFile_, folder);
                     std::error_code err;
 
@@ -3640,7 +3678,7 @@ namespace AGRemapCore {
                         }
 
                         const std::string fixedPath = FileService::absPathOfRelPath(planned.fixedRel, folder);
-                        std::filesystem::create_directories(FileService::strToPath(fixedPath).parent_path(), err);
+                        FileService::makeFolderFor(fixedPath);
                         ini->getResources().push_back(std::make_unique<RemapTexEditResource>(
                             folder, planned.source, fixedPath,
                             TexEditor({std::move(filter)}, planned.edit->compress)));
@@ -3721,15 +3759,11 @@ namespace AGRemapCore {
                 // is the whole reason this can be a BufFile at all -- see the note where this file's
                 // own half codec used to be.
                 static std::vector<std::unique_ptr<BufElementType>> texcoordElements(std::size_t stride) {
-                    std::vector<std::unique_ptr<BufDataType>> halves;
-                    for (std::size_t i = 0; i < stride / 2; ++i) {
-                        halves.push_back(std::make_unique<BufFloat16>(false,
-                                                                      BufFloat16::Rounding::NearestEven));
-                    }
-
                     std::vector<std::unique_ptr<BufElementType>> elements;
-                    elements.push_back(std::make_unique<BufElementType>(TexcoordElement, "",
-                                                                        std::move(halves)));
+                    elements.push_back(BufElementType::repeated(
+                        TexcoordElement, stride / 2,
+                        [] { return std::make_unique<BufFloat16>(false, BufFloat16::Rounding::NearestEven); }));
+
                     return elements;
                 }
 
@@ -3737,21 +3771,10 @@ namespace AGRemapCore {
                 // straddle test has to see the same values the write does.
                 static std::vector<float> readTexcoordU(BufFile& texcoord) {
                     std::vector<float> u;
-                    const BufFile::Filter collect =
-                        [&u](const BufLineData& line, long long, double, long long) {
-                            const auto at = line.find(TexcoordElement);
-                            if (at != line.end() && !at->second.empty()
-                                    && std::holds_alternative<double>(at->second.front())) {
-                                const double value = std::get<double>(at->second.front());
-                                u.push_back(std::isnan(value) ? 0.0f : static_cast<float>(value));
-                            } else {
-                                u.push_back(0.0f);
-                            }
+                    for (const double value : bufColumn(texcoord, TexcoordElement, 0)) {
+                        u.push_back(std::isnan(value) ? 0.0f : static_cast<float>(value));
+                    }
 
-                            return line;
-                        };
-
-                    texcoord.fix(std::nullopt, {collect});
                     return u;
                 }
 
@@ -3793,12 +3816,7 @@ namespace AGRemapCore {
 
                                 std::size_t tri[3] = {0, 0, 0};
                                 for (std::size_t i = 0; i < IbFile::VerticesPerTriangle; ++i) {
-                                    if (!std::holds_alternative<unsigned long long>(at->second[i])) {
-                                        return line;
-                                    }
-
-                                    tri[i] = static_cast<std::size_t>(
-                                        std::get<unsigned long long>(at->second[i]));
+                                    tri[i] = static_cast<std::size_t>(bufValueAsInt(at->second[i]));
                                     if (tri[i] >= vertices) {
                                         return line;
                                     }
@@ -3961,10 +3979,10 @@ namespace AGRemapCore {
                         return;
                     }
 
-                    const std::string fixedRel = meshFolder_ + "/" + toModName_ + IniKeywords::Remap + "Texcoord.buf";
+                    const std::string fixedRel =
+                        modFile(meshFolder_, toModName_ + IniKeywords::Remap + "Texcoord.buf");
                     const std::string fixedPath = FileService::absPathOfRelPath(fixedRel, ini->getFolder());
-                    std::error_code err;
-                    std::filesystem::create_directories(FileService::strToPath(fixedPath).parent_path(), err);
+                    FileService::makeFolderFor(fixedPath);
 
                     // The same filter again, writing this time -- so the counters run up a second
                     // time and the snapshot above is what the log reports.
@@ -3995,24 +4013,39 @@ namespace AGRemapCore {
                              + std::to_string(foldedCount) + " U values folded into [0, 1) in a remap-only copy");
                 }
 
+                /**
+                 * @brief
+                 @rst
+                 Registers the download of the SOURCE's own game texture for one role, and points
+                 every component with no file of its own at it
+                 @endrst
+                 *
+                 * @param role The role with no file of the mod behind it
+                 * @param hash The source's texture hash of that role
+                 */
+                void registerFallback(const std::string& role, const std::string& hash) {
+                    const WWMITextureFacts& source = config_.sourceTextures;
+                    const std::string kind = TextTools::capitalize(role);
+                    const std::string fileName = DownloadTools::fixedFileName(source.downloadPrefix, kind, FileExt::DDS);
+                    const std::string resource = IniKeywords::Resource + source.downloadPrefix + kind + IniKeywords::RemapDL;
+                    fallbacks_[role] = Fallback{
+                        DownloadTools::downloadFolder() + "/"
+                            + DownloadTools::urlPath(source.downloadGameFolder, source.downloadCharFolder,
+                                                     source.downloadVersionFolder, source.downloadPrefix,
+                                                     "Texture" + hash, FileExt::DDS),
+                        fileName, modFile(textureFolder_, fileName), resource};
+                    resourceOfRole_[role] = resource;
+                }
+
                 void addCreatedTextures() {
                     IniFile* ini = ctx_.getIniFile();
                     for (const WWMIFixerConfig::CreatedTexture& created : config_.createdTextures) {
                         const std::string path = FileService::absPathOfRelPath(createdTextureFile(created), ini->getFolder());
-                        bool known = false;
-                        for (const auto& resource : ini->getResources()) {
-                            if (resource != nullptr && resource->srcPath == path) {
-                                known = true;
-                                break;
-                            }
-                        }
-
-                        if (known) {
+                        if (listsSrcPath(ini->getResources(), path)) {
                             continue;
                         }
 
-                        std::error_code err;
-                        std::filesystem::create_directories(FileService::strToPath(path).parent_path(), err);
+                        FileService::makeFolderFor(path);
                         ini->getResources().push_back(std::make_unique<RemapTexAddResource>(
                             ini->getFolder(), path, TexCreator(created.size, created.size, created.colour, false, false)));
                     }
@@ -4043,20 +4076,11 @@ namespace AGRemapCore {
                     IniFile* ini = ctx_.getIniFile();
                     for (const auto& entry : fallbacks_) {
                         const std::string path = FileService::absPathOfRelPath(entry.second.relPath, ini->getFolder());
-                        bool known = false;
-                        for (const auto& resource : ini->getFileDownloads()) {
-                            if (resource != nullptr && resource->srcPath == path) {
-                                known = true;
-                                break;
-                            }
-                        }
-
-                        if (known) {
+                        if (listsSrcPath(ini->getFileDownloads(), path)) {
                             continue;
                         }
 
-                        std::error_code err;
-                        std::filesystem::create_directories(FileService::strToPath(path).parent_path(), err);
+                        FileService::makeFolderFor(path);
                         ini->getFileDownloads().push_back(std::make_unique<RemapIniDownload>(
                             ini->getFolder(), entry.second.relPath,
                             std::make_unique<FileDownload>(entry.second.url, entry.second.fileName)));
@@ -4094,10 +4118,16 @@ namespace AGRemapCore {
 
 
                 bool legacy_ = false;                                 // a mod from before WWMI's merged skeleton
-                std::string indexFile_ = "Meshes/Index.buf";           // as the mod's own [ResourceIndexBuffer] names it
-                std::string positionFile_ = "Meshes/Position.buf";     // ...and [ResourcePositionBuffer]
-                std::string blendSourceFile_ = "Meshes/Blend.buf";      // ...and [ResourceBlendBuffer]; blendFixedFile() derives the fix's name FROM it
-                std::string texcoordFile_ = "Meshes/TexCoord.buf";     // ...and [ResourceTexcoordBuffer]
+                // EMPTY UNTIL THE MOD'S OWN `.ini` SAYS OTHERWISE (2026-09-30). Each of these used to
+                // start at `Meshes/<Name>.buf`, so a mod declaring no such section was read at a path
+                // the fix invented -- the same assumption about a mod's folder structure that
+                // `DefaultTextureFolder` / `DefaultMeshFolder` made on the write side. A mod-manager
+                // -packaged mod names every file by GUID with a `.assets` extension and has no
+                // `Meshes/` at all.
+                std::string indexFile_;                               // the mod's own [ResourceIndexBuffer]
+                std::string positionFile_;                            // ...and [ResourcePositionBuffer]
+                std::string blendSourceFile_;                         // ...and [ResourceBlendBuffer]; blendFixedFile() derives the fix's name FROM it
+                std::string texcoordFile_;                            // ...and [ResourceTexcoordBuffer]
                 std::map<int, std::vector<std::pair<long long, long long>>> drawRanges_;   // source component -> its (index count, first index) draws
 
                 // Whether the TARGET's merged skeleton passes what an 8-bit blend index can name.

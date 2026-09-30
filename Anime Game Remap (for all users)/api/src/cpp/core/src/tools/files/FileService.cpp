@@ -99,6 +99,30 @@ namespace AGRemapCore {
     }
 
 
+    std::optional<std::uintmax_t> FileService::fileSize(const std::string& path) {
+        std::error_code err;
+        const std::filesystem::path at = strToPath(path);
+        if (!std::filesystem::is_regular_file(at, err) || err) {
+            return std::nullopt;
+        }
+
+        const std::uintmax_t size = std::filesystem::file_size(at, err);
+        return err ? std::optional<std::uintmax_t>() : std::optional<std::uintmax_t>(size);
+    }
+
+
+    bool FileService::makeFolderFor(const std::string& filePath) {
+        std::error_code err;
+        const std::filesystem::path folder = strToPath(filePath).parent_path();
+        if (folder.empty()) {
+            return true;                              // the file sits in the working folder already
+        }
+
+        std::filesystem::create_directories(folder, err);
+        return std::filesystem::is_directory(folder, err) && !err;
+    }
+
+
     std::string FileService::parentOf(const std::string& path) {
         return pathToStr(strToPath(path).parent_path());
     }

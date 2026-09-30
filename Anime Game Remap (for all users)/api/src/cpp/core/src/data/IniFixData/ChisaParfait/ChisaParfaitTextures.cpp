@@ -71,6 +71,24 @@ namespace AGRemapCore {
         // any more, and the parser's pass matched against an empty table on every mod.
         facts.textureThumbprints = chisaParfaitTextureThumbprints();
 
+        // ---- a role the mod ships no file for falls back to HER game texture ----------------------
+        // The mod's UVs are ChisaParfait's, so her own texture is the right default and Chisa's is
+        // wrong by construction. The roles both skins share (`frontHair*`, `irisDiffuse`) need no
+        // entry: the hash is the same on both sides, so the game already binds the right thing.
+        // `hairRamp` and `hairTipRamp` are not in her download folder, so they cannot fall back --
+        // they are lookups, and the game's own serve them.
+        facts.downloadCharFolder = "ChisaParfait";
+        facts.downloadVersionFolder = "3_5";
+        facts.downloadPrefix = "ChisaParfait";
+        facts.fallbackTextures = {
+            {"hairMask", "3f433212"}, {"hairDiffuse", "a94ee44f"}, {"hairNormal", "d547f3c6"},
+            {"faceMask", "226d9bc4"}, {"faceDiffuse", "53e96488"},
+            {"upperNormal", "3c4279a9"}, {"upperMask", "6b7ae743"}, {"upperDiffuse", "4c420ea9"},
+            {"lowerNormal", "b9a888ec"}, {"lowerMask", "4668fce8"}, {"lowerDiffuse", "1d79fc96"},
+            {"panelMask", "2f911db8"}, {"panelNormal", "56e725c4"}, {"panelDiffuse", "1e1b7bbc"},
+            {"propMask", "2c990f51"}, {"propNormal", "e4463fca"}, {"propDiffuse", "71a6e63f"},
+        };
+
         return facts;
     }
 }

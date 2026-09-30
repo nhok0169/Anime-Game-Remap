@@ -83,6 +83,21 @@ namespace AGRemapCore {
              * @param role The role it plays
              * @param how How that was decided
              */
+            /**
+             * @brief
+             @rst
+             The prefix #add's ``how`` carries when the role was read off the file's OWN ``hash =``
+             -- the mod naming the game texture its file replaces -- rather than inferred from a
+             register :raw-html:`<br />` :raw-html:`<br />`
+
+             Here because BOTH sides need it and neither owns it: the parser writes it and the fixer
+             tests it to decide which of two conflicting statements about a file wins. Spelled out at
+             each end instead, it drifted, and two tests against it were quietly false for a whole
+             session
+             @endrst
+             */
+            static inline const std::string DeclaredHash = "its own hash ";
+
             void add(const std::string& file, const std::string& role, const std::string& how);
 
             /**

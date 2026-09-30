@@ -619,7 +619,7 @@ namespace AGRemapCore {
             // Every path here is already absolute -- IniResource's constructor resolves both
             // 'srcPath' and 'fixedPath' against the .ini file's own folder -- so no second
             // resolution is needed.
-            std::string folder = FileService::pathToStr(FileService::strToPath(filePath).parent_path());
+            std::string folder = FileService::parentOf(filePath);
             if (seen.insert(folder).second) {
                 result.push_back(std::move(folder));
             }
@@ -677,7 +677,7 @@ namespace AGRemapCore {
 
         // The same derivation every core-side context already does for its own iniFolder() -- see
         // IniFileRemoveContext::iniFolder.
-        return FileService::pathToStr(FileService::strToPath(*file_).parent_path());
+        return FileService::parentOf(*file_);
     }
 
 

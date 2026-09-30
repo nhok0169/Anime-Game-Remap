@@ -109,7 +109,7 @@ namespace AGRemapCore {
     }
 
     bool RemapIniDownload::_fix(CachedFileStats& downloadStats, std::optional<std::string> proxy) {
-        std::string downloadFolder = FileService::pathToStr(FileService::strToPath(srcPath).parent_path());
+        std::string downloadFolder = FileService::parentOf(srcPath);
         auto [rawDownloadFullPath, downloaded, downloadExisted] = download->get(downloadFolder, proxy, downloadCache);
         (void)downloadExisted;
 

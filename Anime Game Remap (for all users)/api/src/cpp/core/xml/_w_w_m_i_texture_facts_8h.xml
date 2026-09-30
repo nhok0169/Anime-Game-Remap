@@ -23,6 +23,7 @@
     <includedby refid="_chisa_parfait_textures_8h" local="yes">include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitTextures.h</includedby>
     <includedby refid="_sanhua_textures_8h" local="yes">include/AGRemapCore/data/IniFixData/Sanhua/SanhuaTextures.h</includedby>
     <includedby refid="_sanhua_exorcist_textures_8h" local="yes">include/AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.h</includedby>
+    <includedby refid="_w_w_m_i_fixer_8h" local="yes">include/AGRemapCore/data/IniFixData/WWMIFixer.h</includedby>
     <includedby refid="_w_w_m_i_parser_8h" local="yes">include/AGRemapCore/data/IniParseData/WWMIParser.h</includedby>
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
     <incdepgraph>
@@ -215,6 +216,8 @@
       <node id="26">
         <label>AGRemapCore/tools/files/FileService.h</label>
         <link refid="_file_service_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
         <childnode refid="27" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
@@ -319,6 +322,20 @@
         </childnode>
       </node>
       <node id="18">
+        <label>include/AGRemapCore/data/IniFixData/WWMIFixer.h</label>
+        <link refid="_w_w_m_i_fixer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
         <label>include/AGRemapCore/data/IniParseData/WWMIParser.h</label>
         <link refid="_w_w_m_i_parser_8h"/>
         <childnode refid="19" relation="include">
@@ -331,7 +348,7 @@
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -346,6 +363,8 @@
         <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
@@ -402,7 +421,7 @@
         <label>src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp</label>
         <link refid="_sanhua_exorcist_parser_8cpp"/>
       </node>
-      <node id="20">
+      <node id="21">
         <label>src/data/IniParseData/WWMIParser.cpp</label>
         <link refid="_w_w_m_i_parser_8cpp"/>
       </node>
@@ -469,11 +488,19 @@
 <codeline lineno="100" refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a0ce7e46ca6501e058971734a634da34a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::optional&lt;std::string&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>file)&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a0ce7e46ca6501e058971734a634da34a" kindref="member">identifyTexture</ref>;</highlight></codeline>
 <codeline lineno="101"><highlight class="normal"></highlight></codeline>
 <codeline lineno="114" refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a6aa77f6ee0b48602e777e491f13f9fd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;int,<sp/>std::map&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a6aa77f6ee0b48602e777e491f13f9fd0" kindref="member">registerRoles</ref>;</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="116"><highlight class="normal"></highlight></codeline>
-<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"></highlight></codeline>
-<codeline lineno="119"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a1676a328121ad3c9fdc23fd13872222a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a1676a328121ad3c9fdc23fd13872222a" kindref="member">downloadGameFolder</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;WuWa&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a7a87edac7e228b46b9cf64b31cd7697a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a7a87edac7e228b46b9cf64b31cd7697a" kindref="member">downloadCharFolder</ref>;</highlight></codeline>
+<codeline lineno="139" refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a37d7ca6d077eed7da4db51e07fb44fed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a37d7ca6d077eed7da4db51e07fb44fed" kindref="member">downloadVersionFolder</ref>;</highlight></codeline>
+<codeline lineno="140" refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a8d5c3c1e57ad8389f4f1ed62ec3f49ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a8d5c3c1e57ad8389f4f1ed62ec3f49ff" kindref="member">downloadPrefix</ref>;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1acb1b7ac448346a5849fb90c23c3a1d8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1acb1b7ac448346a5849fb90c23c3a1d8d" kindref="member">fallbackTextures</ref>;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/data/WWMITextureFacts.h"/>
   </compounddef>

@@ -4,6 +4,48 @@
     <compoundname>AGRemapCore::BlendFile</compoundname>
     <basecompoundref refid="class_a_g_remap_core_1_1_buf_file" prot="public" virt="non-virtual">AGRemapCore::BufFile</basecompoundref>
     <includes refid="_blend_file_8h" local="no">BlendFile.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_blend_file_1ae1af01c9b16fef2b51cb369e33a5429b" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::BlendFile::BlendWeightKey</definition>
+        <argsstring></argsstring>
+        <name>BlendWeightKey</name>
+        <qualifiedname>AGRemapCore::BlendFile::BlendWeightKey</qualifiedname>
+        <initializer>= &quot;BLENDWEIGHT&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The two element names every `blend`_ buffer uses, in both games :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Here rather than in each reader because three files had their own file-local copies of
+the pair -- this one, ``VGComponentSplit.cpp`` and ``WWMIFixer.cpp`` -- and a spelling
+repeated per file is a spelling that can be wrong in one of them. One such copy was
+silently emptied by a patch script and every Sanhua `blend`_ in a corpus was skipped
+from a clean build (2026-09-29)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BlendFile.h" line="115" column="45" bodyfile="include/AGRemapCore/model/files/BlendFile.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_blend_file_1a16768dc301ccee51e87d8ed238802217" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::BlendFile::BlendIndicesKey</definition>
+        <argsstring></argsstring>
+        <name>BlendIndicesKey</name>
+        <qualifiedname>AGRemapCore::BlendFile::BlendIndicesKey</qualifiedname>
+        <initializer>= &quot;BLENDINDICES&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BlendFile.h" line="116" column="45" bodyfile="include/AGRemapCore/model/files/BlendFile.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
     <sectiondef kind="public-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_blend_file_1a0b006ae2521b373ef323141ad696710c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
@@ -45,7 +87,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BlendFile.h" line="63" column="22" bodyfile="src/model/files/BlendFile.cpp" bodystart="56" bodyend="57"/>
+        <location file="include/AGRemapCore/model/files/BlendFile.h" line="63" column="22" bodyfile="src/model/files/BlendFile.cpp" bodystart="43" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_blend_file_1acc431d4f104395810f7c19d6e175af6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::variant&lt; std::monostate, std::string, <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &gt;</type>
@@ -102,7 +144,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BlendFile.h" line="100" column="26" bodyfile="src/model/files/BlendFile.cpp" bodystart="111" bodyend="129"/>
+        <location file="include/AGRemapCore/model/files/BlendFile.h" line="100" column="26" bodyfile="src/model/files/BlendFile.cpp" bodystart="98" bodyend="116"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -147,7 +189,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BlendFile.h" line="74" column="39" bodyfile="src/model/files/BlendFile.cpp" bodystart="59" bodyend="75"/>
+        <location file="include/AGRemapCore/model/files/BlendFile.h" line="74" column="39" bodyfile="src/model/files/BlendFile.cpp" bodystart="46" bodyend="62"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_blend_file_1a0db36a8cbf7275a04037add89ab350a4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" kindref="member">BufLineData</ref></type>
@@ -203,23 +245,50 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BlendFile.h" line="85" column="32" bodyfile="src/model/files/BlendFile.cpp" bodystart="77" bodyend="109"/>
+        <location file="include/AGRemapCore/model/files/BlendFile.h" line="85" column="32" bodyfile="src/model/files/BlendFile.cpp" bodystart="64" bodyend="96"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_blend_file_1ac62774aafbb9db93fcdd5f5e07761e1a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_blend_file_1a3b816263a30c81924303dd1ccf062236" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_element_type" kindref="compound">BufElementType</ref> &gt; &gt;</type>
         <definition>std::vector&lt; std::unique_ptr&lt; BufElementType &gt; &gt; AGRemapCore::BlendFile::defaultElements</definition>
-        <argsstring>()</argsstring>
+        <argsstring>(std::size_t influences=4)</argsstring>
         <name>defaultElements</name>
         <qualifiedname>AGRemapCore::BlendFile::defaultElements</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>influences</declname>
+          <defval>4</defval>
+        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
+<para><verbatim>embed:rst 
+The ordinary `blend`_ layout: &apos;influences&apos; 32-bit float weights then &apos;influences&apos; 32-bit
+signed indices :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A width other than four is not exotic -- a Wuthering Waves `blend`_ carries as many as
+eight, at one byte each -- and nothing in this class assumes the number: #remapIndices,
+#getMissingIndicesRemap and #remap all run to the SHORTER of the two elements the file
+actually declares. A caller whose types differ as well hands its own elements to the
+constructor, which is what the WuWa fixer does
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>influences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How many (weight, index) slots each vertex carries. <bold>Default</bold>: <computeroutput>4</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The elements </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BlendFile.h" line="103" column="32" bodyfile="src/model/files/BlendFile.cpp" bodystart="38" bodyend="54"/>
+        <location file="include/AGRemapCore/model/files/BlendFile.h" line="136" column="32" bodyfile="src/model/files/BlendFile.cpp" bodystart="29" bodyend="41"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -277,11 +346,13 @@ Used for handling ``Blend.buf`` files :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/files/BlendFile.h" line="51" column="5" bodyfile="include/AGRemapCore/model/files/BlendFile.h" bodystart="51" bodyend="104"/>
+    <location file="include/AGRemapCore/model/files/BlendFile.h" line="51" column="5" bodyfile="include/AGRemapCore/model/files/BlendFile.h" bodystart="51" bodyend="137"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a7c915ab0ed85cd3e85087a0efe8437f3" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>append</name></member>
       <member refid="class_a_g_remap_core_1_1_binary_file_1a2bd5a0dea0d3721e3924febb7e916ed9" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BinaryFile</name></member>
       <member refid="class_a_g_remap_core_1_1_blend_file_1a0b006ae2521b373ef323141ad696710c" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BlendFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_blend_file_1a16768dc301ccee51e87d8ed238802217" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BlendIndicesKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_blend_file_1ae1af01c9b16fef2b51cb369e33a5429b" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BlendWeightKey</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1aaf2af92e66c98e4c78c57642d42487ea" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BufColumn</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BufFile</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a6c826bd22020a9cbef086086b9985583" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BufFile</name></member>
@@ -290,7 +361,7 @@ Used for handling ``Blend.buf`` files :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
       <member refid="class_a_g_remap_core_1_1_binary_file_1a70d6840d6ff225a4fd844cc23ca595f5" prot="protected" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>data_</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1aa857f880bf4351c25d06b90c119e69da" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>decodeAll</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a2239d3c4b85012a406b295e5d05eafb2" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>decodeLine</name></member>
-      <member refid="class_a_g_remap_core_1_1_blend_file_1ac62774aafbb9db93fcdd5f5e07761e1a" prot="private" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>defaultElements</name></member>
+      <member refid="class_a_g_remap_core_1_1_blend_file_1a3b816263a30c81924303dd1ccf062236" prot="private" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>defaultElements</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a90cc6195110d6415184e903263fceab5" prot="private" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>elementKeys_</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1adf1c0236185dd52140d2844ba1bcff9e" prot="private" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>elements_</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1ad4933bfa4601410cdbc01286655b5d31" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>encodeAll</name></member>

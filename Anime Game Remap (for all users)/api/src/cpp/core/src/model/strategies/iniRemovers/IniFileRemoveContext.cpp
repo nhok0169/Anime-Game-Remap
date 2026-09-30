@@ -44,7 +44,7 @@ namespace AGRemapCore {
             return "";
         }
 
-        return FileService::pathToStr(FileService::strToPath(*iniFile_->getFile()).parent_path());
+        return FileService::parentOf(*iniFile_->getFile());
     }
 
 

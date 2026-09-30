@@ -555,11 +555,13 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding_1aca109c48fe2fae8ea8d5b8f0c787ed74" kind="variable"><name>srcComponent</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_blend_file" kind="class"><name>AGRemapCore::BlendFile</name>
+    <member refid="class_a_g_remap_core_1_1_blend_file_1ae1af01c9b16fef2b51cb369e33a5429b" kind="variable"><name>BlendWeightKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_blend_file_1a16768dc301ccee51e87d8ed238802217" kind="variable"><name>BlendIndicesKey</name></member>
     <member refid="class_a_g_remap_core_1_1_blend_file_1a0b006ae2521b373ef323141ad696710c" kind="function"><name>BlendFile</name></member>
     <member refid="class_a_g_remap_core_1_1_blend_file_1acc431d4f104395810f7c19d6e175af6a" kind="function"><name>remap</name></member>
     <member refid="class_a_g_remap_core_1_1_blend_file_1a5a76688879af6ae15031261337b6426f" kind="function"><name>getMissingIndicesRemap</name></member>
     <member refid="class_a_g_remap_core_1_1_blend_file_1a0db36a8cbf7275a04037add89ab350a4" kind="function"><name>remapIndices</name></member>
-    <member refid="class_a_g_remap_core_1_1_blend_file_1ac62774aafbb9db93fcdd5f5e07761e1a" kind="function"><name>defaultElements</name></member>
+    <member refid="class_a_g_remap_core_1_1_blend_file_1a3b816263a30c81924303dd1ccf062236" kind="function"><name>defaultElements</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading" kind="struct"><name>AGRemapCore::RemapIniRemover::BoilerPlateHeading</name>
     <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading_1a9ccea04f6ae37337b62ae66db52a2e16" kind="variable"><name>titleSuffix</name></member>
@@ -640,6 +642,7 @@
     <member refid="class_a_g_remap_core_1_1_buf_element_type_1ad9a2ac0352d92ae1920a66fd1ea489cb" kind="function"><name>getSize</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_element_type_1a6381e7769fec58c3a43dc7cef4375233" kind="function"><name>decode</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_element_type_1a37c7e34524bde8dfc952821c1f07581f" kind="function"><name>encode</name></member>
+    <member refid="class_a_g_remap_core_1_1_buf_element_type_1a9112ab6344f33c96ff6f28c2cafc8e8f" kind="function"><name>repeated</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_element_type_1a3dd92f910521e154a2ac6f7d7ef04907" kind="function"><name>computeSize</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_element_type_1af732ab61ff93b0e8e1f653822640964f" kind="function"><name>cloneAll</name></member>
   </compound>
@@ -1086,6 +1089,8 @@
     <member refid="class_a_g_remap_core_1_1_file_service_1aa92b672a02bc0b5b26a00fb4f4e5abe9" kind="function"><name>defaultPath</name></member>
     <member refid="class_a_g_remap_core_1_1_file_service_1a1354f348d142e91845467da4f076501d" kind="function"><name>parseOSPath</name></member>
     <member refid="class_a_g_remap_core_1_1_file_service_1a44ac64f58cd3b48b2d0f93461e7485a2" kind="function"><name>getPath</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_service_1a994377efec69c9336b2643410d76e97d" kind="function"><name>fileSize</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_service_1a7d0d9c7550b26ff25aca348e142cc1cd" kind="function"><name>makeFolderFor</name></member>
     <member refid="class_a_g_remap_core_1_1_file_service_1add9b4070a288f7d12a696dcf03fe0638" kind="function"><name>getFilesAndDirs</name></member>
     <member refid="class_a_g_remap_core_1_1_file_service_1a6e81c2ff3686891a1b31a3f54323df9c" kind="function"><name>getRelPath</name></member>
   </compound>
@@ -2613,6 +2618,8 @@
     <member refid="class_a_g_remap_core_1_1_ini_keywords_1a912fb647df39f8e5ce6eacfe92df78ac" kind="variable"><name>MatchIndexCount</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_keywords_1a5a02030482870c9c8d6cdf04e320923d" kind="variable"><name>MatchVertexCount</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_keywords_1acce3c0ddaf17f1e5c7e733372c08b981" kind="variable"><name>MatchPriority</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_keywords_1a36d848cccf920f47bc463cf7725df989" kind="variable"><name>FilterIndex</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_keywords_1aa913c2a35a21fcebd01e4d40698b3499" kind="variable"><name>Array</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_keywords_1a109cb8484b6b9b86bb7c1ca566fea778" kind="variable"><name>MatchType</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_keywords_1a79af5209650d91131fa71d46fe3bfb7e" kind="variable"><name>MatchKeys</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_keywords_1ae7b06e4f9664f4c634630000ace95bc6" kind="variable"><name>Filename</name></member>
@@ -4655,6 +4662,20 @@
     <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_section_span_1a3eedb8cac1f6e9c5b4cd13a05682f2b5" kind="variable"><name>endInd</name></member>
     <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_section_span_1a63a243c3709531826364fc8c78474b06" kind="variable"><name>boilerPlateInd</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_section_text" kind="class"><name>AGRemapCore::SectionText</name>
+    <member refid="class_a_g_remap_core_1_1_section_text_1a6855c6964f9e007e4d618a5a36b23db9" kind="variable"><name>z3_</name></member>
+    <member refid="class_a_g_remap_core_1_1_section_text_1aab22d11ff20d76ef4fd2a07a1ec0d6a4" kind="variable"><name>name_</name></member>
+    <member refid="class_a_g_remap_core_1_1_section_text_1a937276f76e7b599a1a057c745bd2ca42" kind="variable"><name>prefix_</name></member>
+    <member refid="class_a_g_remap_core_1_1_section_text_1a00473beaf8094bb0e7fedb2c3f97ad6e" kind="variable"><name>parts_</name></member>
+    <member refid="class_a_g_remap_core_1_1_section_text_1a3c80e1a0a8a71e2457fe086481cadac1" kind="variable"><name>depth_</name></member>
+    <member refid="class_a_g_remap_core_1_1_section_text_1a726847307f8b2dae85f2d761c5b24d28" kind="function"><name>SectionText</name></member>
+    <member refid="class_a_g_remap_core_1_1_section_text_1a5bd46d537f7b3cc3c4d5750de9692f59" kind="function"><name>keys</name></member>
+    <member refid="class_a_g_remap_core_1_1_section_text_1af14c732fd51b447a2df1a3f4f1564cc3" kind="function"><name>key</name></member>
+    <member refid="class_a_g_remap_core_1_1_section_text_1a3744a7480755e3a0b9bdc5695f46dce8" kind="function"><name>open</name></member>
+    <member refid="class_a_g_remap_core_1_1_section_text_1aa8ba71c613d14b8a5133f74230e70c50" kind="function"><name>prefix</name></member>
+    <member refid="class_a_g_remap_core_1_1_section_text_1ad59ad608e8aa0dd9e4e3ffe9314e5f8c" kind="function"><name>close</name></member>
+    <member refid="class_a_g_remap_core_1_1_section_text_1afc60841656a5fabaf4922f57a0275210" kind="function"><name>str</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_shape_key_checksums" kind="class"><name>AGRemapCore::ShapeKeyChecksums</name>
     <member refid="class_a_g_remap_core_1_1_shape_key_checksums_1a37a343d90c345ffee70a9bb5f4d91362" kind="function"><name>ShapeKeyChecksums</name></member>
   </compound>
@@ -5278,11 +5299,6 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a35e39e37eb7c09b4dca5f93c7183d140" kind="variable"><name>plan</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae28be3a422ec6c5e358409867d4b95aa" kind="variable"><name>typeRoles</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab323d24041a1319407c23388e5b63e4e" kind="variable"><name>createdTextures</name></member>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab9d29e393f4a5c2e406a745ef3d71d55" kind="variable"><name>downloadGameFolder</name></member>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a56696b3a3137daf444c348585b0e792a" kind="variable"><name>downloadCharFolder</name></member>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ace6c6362df51b2e92ec70293b90a79ec" kind="variable"><name>downloadVersionFolder</name></member>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a92953604bf82311979e3ee1028e50cae" kind="variable"><name>downloadPrefix</name></member>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a4106064c188ba6977d280b3e003ba4cb" kind="variable"><name>fallbackTextures</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a13c1c343348af3f9641da855a4e48ca1" kind="variable"><name>flatFallsBackToSource</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a8fbbc392c95ce74ff3c822cab15901f4" kind="variable"><name>flatLeftToGame</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a4ef719aa694142f97f1f1311889edc53" kind="variable"><name>zeroShapeKeyStream</name></member>
@@ -5294,7 +5310,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a5d28206db77e4a6cdbf9cd3f80b02f63" kind="variable"><name>anchorChains</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a0452ac46471de1c18b6a5b97abe062e9" kind="variable"><name>extraPassRegs</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1af951f1675d051aa563dbee67220240f5" kind="variable"><name>passVertexShaders</name></member>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a28fb4c6205f06ecf42743069697e9bc7" kind="variable"><name>sourceRegisterRoles</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a8599cd1301b993083ca14752d9af5dba" kind="variable"><name>sourceTextures</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aba0800fd4efa4fb7b4a5685016eae81a" kind="variable"><name>sharedMeshes</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a62d26bafb7e13dbe52bb960ee5d03d34" kind="variable"><name>texEdits</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a20bc04c1e235777e39638dc4fb333d7b" kind="variable"><name>cleanTexcoords</name></member>
@@ -5328,8 +5344,14 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1aa584ae2397c9ad8cf827d9c061a1976f" kind="variable"><name>identityGap</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a0ce7e46ca6501e058971734a634da34a" kind="variable"><name>identifyTexture</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a6aa77f6ee0b48602e777e491f13f9fd0" kind="variable"><name>registerRoles</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a1676a328121ad3c9fdc23fd13872222a" kind="variable"><name>downloadGameFolder</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a7a87edac7e228b46b9cf64b31cd7697a" kind="variable"><name>downloadCharFolder</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a37d7ca6d077eed7da4db51e07fb44fed" kind="variable"><name>downloadVersionFolder</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a8d5c3c1e57ad8389f4f1ed62ec3f49ff" kind="variable"><name>downloadPrefix</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1acb1b7ac448346a5849fb90c23c3a1d8d" kind="variable"><name>fallbackTextures</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles" kind="class"><name>AGRemapCore::WWMITextureRoles</name>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1ad42a6948aedc3730cc4170bc3510ee73" kind="variable"><name>DeclaredHash</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a3c9eec7dc05267b1903d3f1b613ae265" kind="variable"><name>rolesOf_</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a4fcb480f91f366f5725c6a1124c9ed82" kind="variable"><name>resourcesByIni_</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a5cc3e3d4e365f7d95887f56bf82de68d" kind="function"><name>WWMITextureRoles</name></member>
@@ -5569,6 +5591,8 @@
     <member refid="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" kind="function"><name>makeGIMICharParser</name></member>
     <member refid="namespace_a_g_remap_core_1a584e65cf26c955c00926e1dcbcfa8933" kind="function"><name>makeGIMIComponentParser</name></member>
     <member refid="namespace_a_g_remap_core_1a71353ecec052c71edfa6c5b90da4c4e5" kind="function"><name>makeWWMIParser</name></member>
+    <member refid="namespace_a_g_remap_core_1af345bf406bf262670fdd608726f76ee4" kind="function"><name>bufValueAsInt</name></member>
+    <member refid="namespace_a_g_remap_core_1a53ab28865ce362dc377bc159a1d54ac9" kind="function"><name>bufValueAsFloat</name></member>
     <member refid="namespace_a_g_remap_core_1a691d142e23d6f610f8f9831ce21bce5e" kind="function"><name>renderIfContentPart</name></member>
     <member refid="namespace_a_g_remap_core_1a8c4d94255932b5ce14e08272853059fb" kind="function"><name>renderIfTemplate</name></member>
     <member refid="namespace_a_g_remap_core_1ab8a2e9664037aee26807d0e777ae4568" kind="function"><name>fixVGMergeGroup</name></member>
@@ -6310,6 +6334,8 @@
   <compound refid="_v_g_split_group_resource_8h" kind="file"><name>VGSplitGroupResource.h</name>
   </compound>
   <compound refid="_ini_section_graph_8h" kind="file"><name>IniSectionGraph.h</name>
+  </compound>
+  <compound refid="_ini_section_text_8h" kind="file"><name>IniSectionText.h</name>
   </compound>
   <compound refid="_section_iter_data_8h" kind="file"><name>SectionIterData.h</name>
   </compound>

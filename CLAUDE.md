@@ -1347,7 +1347,14 @@ regardless, so reading that way and writing with `newline=""` **converts the who
 without touching a single line you meant to change. Read binary (or with `newline=""`), normalise
 explicitly, write back explicitly -- then re-check `file` or `git diff --shortstat` against
 `--ignore-cr-at-eol`; (2) the Bash tool's heredocs eat backslashes (`\ref` arrives as a carriage
-return + `ef`), so write patch scripts with the Write tool and run them by path -- **and `sed -i`
+return + `ef`), so write patch scripts with the Write tool and run them by path -- **and "eat" is
+too kind: it TRANSLATES, so the damage can be a byte that prints as nothing.** A Python
+`re.sub` replacement written `r"\1facts."` in a heredoc arrived as `r"<0x01>facts."`: the group
+reference had become the control character, `grep` showed the line looking *correct*, and the
+substitution would have deleted the indentation of every line it touched. Confirmed with
+`cat -A` (`^A`), and fixed by rewriting the byte. **If a heredoc-written script behaves oddly around a
+backslash, `cat -A` the line before re-reading it** -- an escape that survived and one that became a
+control byte look identical in every ordinary view -- **and `sed -i`
 mangles the same things in two more ways**: it rewrites a CRLF file as **LF** (silent whole-file
 line-ending churn in your diff) and it eats the doubled backslash in this codebase's RST plurals
 (`:cpp:enum:`X`\\s` arrives as `X`s`, which is broken RST). **The same eating happens to a `py -3 -c` one-liner run

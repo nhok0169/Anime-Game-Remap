@@ -4,6 +4,204 @@ What this project is, how the repo is laid out, and the operating norms that don
 under Building/Testing/Documentation/Architecture. Read this one first if you're new to the repo;
 it's the map the other [AI Agent Help](../README.md) files assume you have.
 
+## AUDITING FOR "DOES THIS REPEAT THE LIBRARY" IS A READ, NOT A GREP (2026-09-30)
+
+`WWMIFixer.cpp` was audited three times in one session and declared clean twice, and the maintainer
+found more each time. The findings were real; the METHOD was the problem, and it failed the same way
+each time:
+
+1. grep for `std::filesystem`, `ofstream`, `reinterpret_cast` -> fix the hits -> "the file no longer
+   reaches past the library". It still had five buffer reads written as per-line filters.
+2. `dupBlocks.py` for repeated runs of identical lines -> fix them -> "0 repeated runs". A THIRD copy
+   of the blend-layout derivation survived, because it carried different error messages and
+   exact-line matching cannot see a near-duplicate.
+3. count library types per function -> "dense library use everywhere". Density says nothing: a
+   function can call `BufFile` on every line and still re-implement `BufFile::decodeAll`.
+
+**A pattern search finds the mechanisms you thought of.** "This code re-implements a library concept"
+has no textual signature at all -- it is a statement about meaning.
+
+### What works instead
+
+- **Enumerate, then walk.** `Tools/Misc/Diagnostics/fnInventory.py <file>` lists every function with
+  its line span, brace-depth based. Read the list; read every function over some size. An audit that
+  samples will miss whatever it did not sample, and will then report the file clean.
+- **Read the library's surface FIRST, in full.** Dump the public methods of every type the file
+  touches -- `BufFile`, `BlendFile`, `IbFile`, `VGComponentSplit`, `FileService`, `StringTools`. The
+  decisive find of this pass was `BufFile::decodeAll`, whose own doc comment describes the exact job
+  five hand-written filters were doing.
+- **Count the idiom against the rest of the codebase.** Seven `fix(std::nullopt, {filter})` calls in
+  this file and **zero** in the other ~300 source files settled whose idiom it was in one command.
+  A construct that appears nowhere else is either a genuine special case or a reinvention, and the
+  ratio tells you which to assume.
+- **Ask what a function MEANS, then search the library for that sentence.** "Read a buffer's contents
+  into per-vertex arrays" -> `decodeAll`. "The folder this path sits in" -> `parentOf`. "The size of a
+  file" -> `fileSize`. The name of the concept is the search term, not the mechanism.
+
+### And check the library's version fits before reaching for it
+
+`VGComponentSplit::readBlend` is the library's own blend reader and looks like the obvious answer
+here. It is fixed at FOUR influences (`std::array<double, 4>`, `if (column.valueInd >= 4) continue`)
+and a Chisa mod carries eight, so using it would have silently dropped half of every vertex's
+weights. The generalisation went into the caller as `bufRows(file, elementKey, width)` rather than
+into `VGComponentSplit`, because widening that one changes the GI split path and this session's
+corpus is WuWa. **A library function that does not fit is a finding, not a reason to hand-roll
+silently** -- say which, and why.
+
+## A DEFAULT PATH IS AN ASSUMPTION ABOUT SOMEONE ELSE'S FOLDERS (2026-09-30)
+
+The maintainer's standing rule is that a fix may not assume a mod's folder structure -- a texture can
+be anywhere, including outside the mod or on another drive. `WWMIFixer` broke it in three places, all
+of them *derived-with-a-fallback* rather than plainly hardcoded, which is why they survived review:
+
+| where | what it assumed | what it cost |
+| --- | --- | --- |
+| write | `DefaultMeshFolder` / `DefaultTextureFolder` when derivation found nothing | a `Meshes/` built inside a flat mod, holding only the fix's own output |
+| write | the folder tally could not count the mod ROOT | 50 files in the root lost to 41 in a UI-art folder; every texture the fix made went in with the UI art |
+| read | `positionFile_` initialised to `"Meshes/Position.buf"` | a mod declaring no such resource was read at a path the fix invented |
+
+**The read one is the one to remember, because its failure mode is a clean run.** With the
+`[ResourcePositionBuffer]` section deleted from a mod, the old build reported
+
+```
+- Out of the 1 *.ini files ... fixed 1 *.ini files and skipped 0
+- Out of the 1 Blend.buf files ... fixed 1 Blend.buf files and skipped 0
+- ... created 4 *.dds files ... editted 5 *.dds files ... downloaded 2 files
+```
+
+-- complete success, having used a file the mod no longer pointed at. It got away with it only
+because that mod follows the convention; the mod-manager-packaged one in the same corpus (GUID names,
+`.assets` buffers, no `Meshes/` at all) would have got a path that does not exist. The fix now says
+*"its .ini declares no [ResourcePositionBuffer]"* and refuses.
+
+Three things this generalises to:
+
+- **A fallback default is a guess, and a guess about someone else's filesystem is the worst kind** --
+  it is right exactly when it did not matter, and silent when it did.
+- **The mod root is a folder.** Any tally over "which folder does this mod use" that keys on a path
+  separator cannot see it, so the most popular location can never win. Count the empty string.
+- **Ask what happens when the derivation finds NOTHING**, and prefer a location that is certainly
+  inside the mod and certainly exists -- beside the `.ini` -- over a name that sounds right.
+
+`Tools/Misc/Diagnostics/folderProbe.py <mod>` is the check: every directory the fix created that the
+mod did not have, and every `filename =` in the output that does not resolve.
+
+## A GUARD WHOSE OWN FILTER MAKES ITS CONDITION UNSATISFIABLE (2026-09-30)
+
+`WWMIFixer`'s blend-remap writer collected the vertex group row's distinct target bones and then
+refused a row too big for a 512-entry WWMI blend remap:
+
+```cpp
+if (dstBone >= 0 && (std::size_t)dstBone < WWMIBlendRemapSize) { used.insert(dstBone); }
+...
+if (used.size() > WWMIBlendRemapSize) { return bail(resource, "...more than the 512 a remap holds"); }
+```
+
+`used` can only ever hold values in `[0, 512)`, so `used.size() > 512` **cannot be true**. The
+refusal was dead code -- and the filter that made it dead is the harm it was written to prevent: a
+target bone at or past 512 is *dropped*, so it gets no `reverse[]` entry, so every vertex weighted to
+it reads local 0. The comment directly above the dead `bail` describes that outcome precisely, as the
+thing it exists to stop: *"a limb pinned to the root and nothing in the output to say so"*.
+
+This is the "a counter that can only ever be zero" family in conditional form, and it is harder to see: a
+count has a printed value you can stare at, while a branch that never runs looks exactly like a
+branch guarding something that never happens. Two questions separate them:
+
+- **Can the expression be true, given what built its operands?** Here the loop and the `if` are eight
+  lines apart and the loop's own bound is the answer.
+- **Is the condition about the same thing as the comment?** The comment is about *values a remap
+  cannot name*; the code asks about a *count*. Where those differ, the code is usually the mistake --
+  a count is the easy thing to write and the values are the question.
+
+Fixed by asking about the values. It fires for no pair registered today, so the corpus came out
+byte-identical over 3200 files, which is the whole point: **a guard becoming live must not move any
+output.**
+
+**Then prove it can fire -- and the first two attempts did not, each for its own reason.**
+
+*Shrinking `WWMIBlendRemapSize` to 64* moved a second guard: an earlier gate reads the same constant
+(`if (targetPast256_ && blendRemapBones_ > WWMIBlendRemapSize)`), fires first, clears
+`targetPast256_` and routes the fix to the 8-bit lift -- so `writeBlendRemap` is never called and the
+guard under test is never reached. The run printed `fixed 1 Blend.buf files and skipped 0`, which
+reads exactly like "still dead". **A mutant that moves more than the thing under test is not a test
+of that thing**; shrink the one expression, not the constant it shares.
+
+*Probing a Chisa mod* was the wrong direction. The blend remap exists because the TARGET's ids pass
+what a byte can name -- Chisa reaches 418, ChisaParfait stops at 250 -- so it is
+`ChisaParfait -> Chisa` that takes the path, and a Chisa mod never enters the function at all.
+
+With the classification shrunk to 64 and a **ChisaParfait** mod:
+
+```
+cannot fix Blend.buf: the vertex group row maps to target bone 77, which a WWMI blend remap of
+512 entries cannot name (138 such bone(s))
+- Out of the 1 Blend.buf files ... fixed 0 Blend.buf files and skipped 1 Blend.buf files
+```
+
+and on the real build, silent, `fixed 1 ... skipped 0`. `Tools/Misc/Diagnostics/boneGuardMutant.py`
+carries both the mutant and the account of the first attempt.
+
+That contrast -- **skipped 1** rather than **fixed 1** -- is the same accounting the `return false`
+section above is about: without the throw, a file the fix refused to write is counted as neither.
+
+The two guards are not redundant, which is the reason to keep both: the earlier one asks how MANY
+distinct targets a row has, this one whether any SINGLE one is too high. A row with 300 targets, one
+of them bone 600, passes the first and must fail the second.
+
+## REPEATED CODE IS INVISIBLE TO READING, BECAUSE THE COPIES ARE FAR APART (2026-09-30)
+
+An audit of `WWMIFixer.cpp` for "does this reinvent what the library already has" found five runs of
+5+ lines that appear **twice in the file**, and not one had been noticed by reading it end to end
+several times in one session. They sit 140 to 400 lines apart.
+
+The instrument is `Tools/Misc/Diagnostics/dupBlocks.py <file> [min lines]`: the longest runs of
+identical significant lines that occur more than once, ignoring indentation, comments, and lines that
+are only braces (a run of `}` matches everywhere and says nothing). What it found:
+
+| lines | what |
+| --- | --- |
+| ~20 | two `BufFile::Filter` lambdas whose whole traversal was shared, differing in four |
+| 11 | the blend stride derivation, in two functions -- plus a third copy that *guesses* 4 |
+| 7 | "is this file already registered", over two different resource lists |
+| 7 | one fallback download's fields, in the two registration loops |
+| 6 | a `{pass -> bindings}` map's keys |
+
+Two things worth carrying:
+
+- **A duplicate is often a missing parameter.** The two filters were one walk over a blend line's
+  weighted influences with a different per-influence action, which is `std::function` -- the same
+  shape as `BufFloat16::Rounding` being the difference between two half codecs (see Buf Files).
+- **Run it before claiming a file is clean.** Grepping for library primitives found the rest of that
+  audit (three file-local spellings of `BLENDINDICES`, six hand-rolled `BufValue` decodes, five bare
+  `.ini` keys of which two are already `IniKeywords` constants, one hand-rolled `FileService::stem`);
+  the *duplication* needed a tool.
+
+## A REGEX THAT MATCHED NOTHING READS EXACTLY LIKE A FINDING (2026-09-30)
+
+Asked whether the fix's download table could reach every role, a script reported:
+
+```
+fallbackTextures  22 role(s)   reachable from the plan   0
+in the table, NOT reachable: accessoryDiffuse, accessoryNormal, bodySheen, faceDiffuse, ... (all 22)
+```
+
+Which is a dramatic finding, and was a regex matching nothing: the bindings are brace-initialised
+`{"ps-t0", "frontHairMask"}` and the pattern wanted `Binding\{`. Corrected, 20 of the 22 are reachable
+and the answer is two rows, not twenty-two. **A measurement of "how many X are missing" has the same
+shape as "my matcher is broken", and the broken one is always the more alarming number** -- so assert
+that the *denominator* was found, not just that the numerator is interesting. One line:
+
+```python
+assert found or not chunk.strip("{} \r\n\t"), "{}: matched no binding in {} characters".format(...)
+```
+
+The same session had the reverse failure, and it is the more dangerous one: a static read of
+`<Name>Textures.cpp` concluded the parser could identify only one hash generation per role and that
+**30 older Chisa hashes were unidentifiable**. An actual run (`AGREMAP_WWMI_ROLES=1`, one mod) printed
+two of those 30 being identified by name. The table was the *fallback*; identification goes through
+`HashData` first. **When a static reading of the data and a run of the product disagree, the run is
+right** -- and the run cost one command.
+
 ## `return false` IS THE PATH THAT LOSES THE REASON (2026-09-29)
 
 `RemapService::_fixResource` returning **false** is a bare `continue`: the resource is counted as

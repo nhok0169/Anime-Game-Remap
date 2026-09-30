@@ -449,6 +449,8 @@
         <link refid="_buf_element_type_8h"/>
         <childnode refid="13" relation="include">
         </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
@@ -1225,6 +1227,8 @@
       <node id="145">
         <label>AGRemapCore/tools/files/FileService.h</label>
         <link refid="_file_service_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
         <childnode refid="120" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
@@ -1859,7 +1863,7 @@
 <codeline lineno="191"><highlight class="normal"></highlight></codeline>
 <codeline lineno="192"><highlight class="normal"></highlight></codeline>
 <codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>RemapService::_warnSkippedIniResource(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modPath,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>FileStats&amp;<sp/>resourceStats)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>parentFolder<sp/>=<sp/>FileService::pathToStr(FileService::strToPath(path_).parent_path());</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>parentFolder<sp/>=<sp/>FileService::parentOf(path_);</highlight></codeline>
 <codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Heading<sp/>modHeading(</highlight><highlight class="stringliteral">&quot;Mod:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>FileService::getRelPath(modPath,<sp/>parentFolder),<sp/>5);</highlight></codeline>
 <codeline lineno="196"><highlight class="normal"></highlight></codeline>
 <codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>message<sp/>=<sp/>modHeading.open()<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\n\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
@@ -2050,7 +2054,7 @@
 <codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>RemapService::_fix()<sp/>{</highlight></codeline>
 <codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>walk<sp/>reports<sp/>each<sp/>folder<sp/>relative<sp/>to<sp/>the<sp/>parent<sp/>of<sp/>where<sp/>it<sp/>started,<sp/>so<sp/>the<sp/>starting</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>folder<sp/>itself<sp/>still<sp/>shows<sp/>up<sp/>by<sp/>name<sp/>rather<sp/>than<sp/>as<sp/>&quot;.&quot;.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>parentFolder<sp/>=<sp/>FileService::pathToStr(FileService::strToPath(path_).parent_path());</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>parentFolder<sp/>=<sp/>FileService::parentOf(path_);</highlight></codeline>
 <codeline lineno="386"><highlight class="normal"></highlight></codeline>
 <codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FolderWalk<sp/>walk;</highlight></codeline>
 <codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>walk.push(path_);</highlight></codeline>
@@ -2291,7 +2295,7 @@
 <codeline lineno="623"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>same<sp/>folders<sp/>(and<sp/>the<sp/>ones<sp/>its<sp/>new<sp/>fix<sp/>writes<sp/>to)<sp/>through<sp/>its<sp/>own<sp/>models.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="624"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(undoOnly)<sp/>{</highlight></codeline>
 <codeline lineno="625"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>removedResourceFolders_.push_back(</highlight></codeline>
-<codeline lineno="626"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FileService::pathToStr(FileService::strToPath(resource-&gt;srcPath).parent_path()));</highlight></codeline>
+<codeline lineno="626"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FileService::parentOf(resource-&gt;srcPath));</highlight></codeline>
 <codeline lineno="627"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="628"><highlight class="normal"></highlight></codeline>
 <codeline lineno="629"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NEVER<sp/>DELETE<sp/>SOMETHING<sp/>THIS<sp/>RUN<sp/>JUST<sp/>PRODUCED.</highlight><highlight class="normal"></highlight></codeline>
@@ -2353,7 +2357,7 @@
 <codeline lineno="685"><highlight class="normal"></highlight></codeline>
 <codeline lineno="686"><highlight class="normal"></highlight></codeline>
 <codeline lineno="687"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>RemapService::_rememberReferences(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>iniPath)<sp/>{</highlight></codeline>
-<codeline lineno="688"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>folder<sp/>=<sp/>FileService::pathToStr(FileService::strToPath(iniPath).parent_path());</highlight></codeline>
+<codeline lineno="688"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>folder<sp/>=<sp/>FileService::parentOf(iniPath);</highlight></codeline>
 <codeline lineno="689"><highlight class="normal"></highlight></codeline>
 <codeline lineno="690"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>files{iniPath};</highlight></codeline>
 <codeline lineno="691"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>file<sp/>:<sp/>FileService::getFilesAndDirs(folder).first)<sp/>{</highlight></codeline>
@@ -2420,7 +2424,7 @@
 <codeline lineno="752"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="753"><highlight class="normal"></highlight></codeline>
 <codeline lineno="754"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>iniPath<sp/>=<sp/>*ini.getFile();</highlight></codeline>
-<codeline lineno="755"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>folder<sp/>=<sp/>FileService::pathToStr(FileService::strToPath(iniPath).parent_path());</highlight></codeline>
+<codeline lineno="755"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>folder<sp/>=<sp/>FileService::parentOf(iniPath);</highlight></codeline>
 <codeline lineno="756"><highlight class="normal"></highlight></codeline>
 <codeline lineno="757"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Found<sp/>by<sp/>walking<sp/>the<sp/>folder<sp/>and<sp/>mapping<sp/>each<sp/>copy<sp/>back<sp/>to<sp/>its<sp/>source,<sp/>rather<sp/>than<sp/>by</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="758"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>guessing<sp/>how<sp/>many<sp/>copies<sp/>exist:<sp/>that<sp/>is<sp/>what<sp/>the<sp/>pure-Python<sp/>original&apos;s</highlight><highlight class="normal"></highlight></codeline>

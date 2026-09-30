@@ -146,6 +146,113 @@ corpus -- and kept because a future mod could be written that way
         </inbodydescription>
         <location file="include/AGRemapCore/data/WWMITextureFacts.h" line="114" column="18" bodyfile="include/AGRemapCore/data/WWMITextureFacts.h" bodystart="114" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a1676a328121ad3c9fdc23fd13872222a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMITextureFacts::downloadGameFolder</definition>
+        <argsstring></argsstring>
+        <name>downloadGameFolder</name>
+        <qualifiedname>AGRemapCore::WWMITextureFacts::downloadGameFolder</qualifiedname>
+        <initializer>= &quot;WuWa&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The game folder under ``Data/Mod Downloads`` this character&apos;s textures are fetched from.
+**Default**: ``&quot;WuWa&quot;``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMITextureFacts.h" line="123" column="21" bodyfile="include/AGRemapCore/data/WWMITextureFacts.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a7a87edac7e228b46b9cf64b31cd7697a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMITextureFacts::downloadCharFolder</definition>
+        <argsstring></argsstring>
+        <name>downloadCharFolder</name>
+        <qualifiedname>AGRemapCore::WWMITextureFacts::downloadCharFolder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+This character&apos;s download folder, version folder and file prefix under
+:cpp:member:`downloadGameFolder` -- ``Sanhua`` / ``2_5`` / ``Sanhua`` for
+``WuWa/Sanhua/2_5/SanhuaTexture&lt;hash&gt;.dds``. Empty (the default) registers no fallback
+download at all :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Beside the roles rather than on the fixer&apos;s config for the reason
+:cpp:member:`GIMICharParserConfig::downloadCharFolder` is: they describe the character a
+mod was made FOR, so a second target for the same source would otherwise repeat them
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMITextureFacts.h" line="138" column="21" bodyfile="include/AGRemapCore/data/WWMITextureFacts.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a37d7ca6d077eed7da4db51e07fb44fed" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMITextureFacts::downloadVersionFolder</definition>
+        <argsstring></argsstring>
+        <name>downloadVersionFolder</name>
+        <qualifiedname>AGRemapCore::WWMITextureFacts::downloadVersionFolder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMITextureFacts.h" line="139" column="21" bodyfile="include/AGRemapCore/data/WWMITextureFacts.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a8d5c3c1e57ad8389f4f1ed62ec3f49ff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMITextureFacts::downloadPrefix</definition>
+        <argsstring></argsstring>
+        <name>downloadPrefix</name>
+        <qualifiedname>AGRemapCore::WWMITextureFacts::downloadPrefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMITextureFacts.h" line="140" column="21" bodyfile="include/AGRemapCore/data/WWMITextureFacts.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1acb1b7ac448346a5849fb90c23c3a1d8d" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; AGRemapCore::WWMITextureFacts::fallbackTextures</definition>
+        <argsstring></argsstring>
+        <name>fallbackTextures</name>
+        <qualifiedname>AGRemapCore::WWMITextureFacts::fallbackTextures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Role -&gt; this character&apos;s texture hash of that role, for a planned role the mod has NO file
+for: the register is bound to the character&apos;s own game texture, downloaded as
+``&lt;downloadPrefix&gt;&lt;Role&gt;RemapDL.dds`` into the mod&apos;s texture folder :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The mod&apos;s UVs are the source&apos;s, so what an unbound register samples on the target&apos;s draw
+-- the TARGET&apos;s texture -- is wrong by construction: the red-camellia mod ships no bodice
+or skirt mask, and the Exorcist&apos;s mask at its UVs put skin codes over cloth, a reddish hue
+over the whole body while every diffuse was right (2026-09-19). The same reasoning as the
+GI templates&apos; texture donor. A role whose hash BOTH skins bind needs no entry: the target&apos;s
+texture is the source&apos;s. Empty (the default) binds nothing for a missing role
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Which GENERATION of a role&apos;s hash to name here is the one thing this table says that
+   #roles does not, so it is not that table inverted. ``Data/Mod Downloads`` was built
+   from one frame dump, and for ChisaParfait that is not the generation
+   :cpp:class:`HashData` files at 3.5 -- eight of her roles would name a hash with no file
+   behind it if this were derived by taking the newest (measured 2026-09-30). Name the
+   hash the download folder actually holds
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMITextureFacts.h" line="167" column="18" bodyfile="include/AGRemapCore/data/WWMITextureFacts.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -160,8 +267,13 @@ own rather than part of :cpp:struct:`WWMIFixerConfig`: sorting a mod&apos;s file
 CLASSIFICATION, which is the parser&apos;s job, and the fixer only needs the answer
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/WWMITextureFacts.h" line="52" column="5" bodyfile="include/AGRemapCore/data/WWMITextureFacts.h" bodystart="52" bodyend="115"/>
+    <location file="include/AGRemapCore/data/WWMITextureFacts.h" line="52" column="5" bodyfile="include/AGRemapCore/data/WWMITextureFacts.h" bodystart="52" bodyend="168"/>
     <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a7a87edac7e228b46b9cf64b31cd7697a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureFacts</scope><name>downloadCharFolder</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a1676a328121ad3c9fdc23fd13872222a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureFacts</scope><name>downloadGameFolder</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a8d5c3c1e57ad8389f4f1ed62ec3f49ff" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureFacts</scope><name>downloadPrefix</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a37d7ca6d077eed7da4db51e07fb44fed" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureFacts</scope><name>downloadVersionFolder</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1acb1b7ac448346a5849fb90c23c3a1d8d" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureFacts</scope><name>fallbackTextures</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a0ce7e46ca6501e058971734a634da34a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureFacts</scope><name>identifyTexture</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1aa584ae2397c9ad8cf827d9c061a1976f" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureFacts</scope><name>identityGap</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a205e015a800aaca0d1734cf6ca4fc585" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureFacts</scope><name>identityMin</name></member>

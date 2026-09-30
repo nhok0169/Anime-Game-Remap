@@ -176,9 +176,7 @@ namespace AGRemapCore {
                 // undos, and a fix may not assume the undo was complete over a folder someone has
                 // been editing by hand.
                 static bool isOursAlready(const std::string& file) {
-                    const std::string name = StringTools::toLower(FileService::baseName(file));
-                    const std::size_t dot = name.rfind('.');
-                    const std::string stem = dot == std::string::npos ? name : name.substr(0, dot);
+                    const std::string stem = StringTools::toLower(FileService::stem(file));
 
                     return StringTools::endsWith(stem, StringTools::toLower(IniKeywords::RemapDL))
                            || StringTools::endsWith(stem, StringTools::toLower(IniKeywords::RemapTex));
@@ -264,7 +262,7 @@ namespace AGRemapCore {
                                 auto file = fileOf.find(StringTools::toLower(
                                     std::string(StringTools::strip(bound.val))));
                                 if (file != fileOf.end()) {
-                                    out.add(file->second, *role, "its own hash " + value);
+                                    out.add(file->second, *role, WWMITextureRoles::DeclaredHash + value);
                                 }
                             }
                         }

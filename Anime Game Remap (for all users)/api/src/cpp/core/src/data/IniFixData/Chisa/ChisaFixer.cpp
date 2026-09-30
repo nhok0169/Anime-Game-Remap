@@ -494,7 +494,7 @@ namespace AGRemapCore {
         // RabbitFX's "lightmap" is this fix's mask. The normal map IS taken, following the
         // prototype's table (2026-09-21) rather than an older comment beside it that says it is
         // deliberately not -- if orange hair comes back, component 1's normalmap row goes first.
-        config.sourceRegisterRoles = chisaTextureFacts().registerRoles;
+        config.sourceTextures = chisaTextureFacts();
 
         // ---- the flats the fix invents, named as the prototype names them ----
         config.createdTextures = {
@@ -504,10 +504,6 @@ namespace AGRemapCore {
             {"FlatDE5A7E00", Colour(222, 90, 126, 0)},
         };
 
-        // ---- a role the mod ships no file for falls back to HER game texture ----
-        config.downloadCharFolder = "Chisa";
-        config.downloadVersionFolder = "2_8";
-        config.downloadPrefix = "Chisa";
         // Her masks mark regions, so a mod shipping a constant one has given us nothing to place.
         // The body's take the source's own, whose regions land right because the mod's UVs ARE the
         // source's; the HAIR's are left to the game instead (the maintainer's call, 2026-09-26, and
@@ -521,43 +517,6 @@ namespace AGRemapCore {
         config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask"};
         config.flatLeftToGame = {"hairMask", "frontHairMask"};
 
-        config.fallbackTextures = {
-            {"accessoryDiffuse", "019c268e"},
-            {"accessoryNormal", "40528957"},
-            {"accessorySheen", "4eaa9816"},
-            {"bodySheen", "bb73967a"},
-            {"faceDiffuse", "d030af95"},
-            {"faceMask", "6ae8dd10"},
-            {"frontHairDiffuse", "f2646d21"},
-            {"frontHairMask", "d3b9ba76"},
-            {"frontHairNormal", "9ccd7ea7"},
-            {"hairDiffuse", "cbab5910"},
-            // `hairMask` IS downloaded, and the flat test above must not reach it (2026-09-26).
-            // a842d51f is one RGBA value over all 1024x1024 texels -- (255, 0, 126, 0) -- which
-            // reads as "carries no information, so binding it is pointless". It is not: that value
-            // is ChisaParfait's OWN dominant hair code, 49.2% of her own hair mask's texels. Bound,
-            // every texel of the mod's hair is ordinary hair material.
-            //
-            // Dropped, the register falls to the game, and the game binds the TARGET's structured
-            // mask (129 distinct R values, 16.3% of them R = 0) sampled at CHISA's UVs -- so the
-            // codes land in patches laid out for a different head. Patchy codes shade in patches.
-            //
-            // The "R = 255 means bare skin" reading that argued for dropping it is a fact about the
-            // BODY mask and does not carry to the hair pass: 60.4% of the target's own hair mask is
-            // R = 255. Ask the target's own texture at a register what its values mean.
-            {"hairMask", "a842d51f"},
-            {"hairNormal", "e921181d"},
-            {"hairRamp", "232c2dbc"},
-            {"hairTipRamp", "2b16c5ac"},
-            {"irisDiffuse", "226b31fc"},
-            {"lowerDiffuse", "f642139e"},
-            {"lowerMask", "3f0e6f21"},
-            {"lowerNormal", "2b6f8bcb"},
-            {"skinRamp", "06790f7e"},
-            {"upperDiffuse", "165f3a1b"},
-            {"upperMask", "90196068"},
-            {"upperNormal", "526b9ed0"},
-        };
 
         // ---- the three lines that would undo the whole fix, and RabbitFX's SetTextures ----
         config.removedRegs = {

@@ -21,6 +21,7 @@
 #include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
+#include "AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h"
 
 
 namespace AGRemapCore {
@@ -39,6 +40,17 @@ namespace AGRemapCore {
         // on 126-128, but moved to 127 her hair came out a saturated gold beside her own outfit's pale cream; left on
         // 255 it matched (one variable at a time, on her identity mod in the Dressing Room preview).
         const int HeadDiffuseAlpha = 1;
+
+        // Her dark cloth onto the skin's dark-cloth band 78 -- see lumineHeavenConfig. "Dark" is a mean diffuse RGB
+        // under 90: Lumine1's jacket is ~60, her own white cloth ~190.
+        const int DarkClothMean = 90;
+        bool darkCloth(int red, int green, int blue) {
+            return red + green + blue < 3 * DarkClothMean;
+        }
+        const std::vector<MaterialBandRemapFilter::Band> DarkClothBands = {
+            {0, 63, 78, &darkCloth},
+            {151, 200, 78, &darkCloth},
+        };
 
 
         void alphaOne(TextureFile& texFile) {
@@ -147,7 +159,14 @@ namespace AGRemapCore {
             config.sideMeshes = {"ib_face", "ib_headupper"};
 
             config.diffuseEdits = {{"head", &alphaOne}};
-            config.lightMapEdit = nullptr;
+
+            // DARK CLOTH onto the skin's dark-cloth band. The skin's body legend splits cloth in two -- 0 its white
+            // cloth, 78 its dark -- and band 0's shadow ramp is warm: Lumine1's black jacket (her bands 44 / 170) went
+            // RED wherever it fell into shadow, small red squares on the sleeve and the waist, and moved onto 78 the
+            // same shadow is a neutral dark (in game, 2026-09-30). Gated on the diffuse, because a mod may keep light
+            // and dark cloth on one band -- her own white cloth stays on 0. 96-150 was tried too and changed nothing.
+            config.lightMapEdit = MaterialBandRemapFilter::lightMapEdit(DarkClothBands);
+            config.lightMapObjs = {"body", "dress"};
             config.compressTextures = false;
 
             return config;

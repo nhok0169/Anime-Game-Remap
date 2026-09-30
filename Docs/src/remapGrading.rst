@@ -254,6 +254,8 @@ Grading
        |
        | - A part of the mod that glows takes the skin's own glow colour: a blue glow comes out red or green.
        |
+       | - Dark cloth is moved onto the skin's dark-cloth shading, or its shadows turn red.
+       |
        | - Her centre front skirt panel has no centre counterpart on the skin and follows its right front skirt.
        |
        | - A mod whose own outfit is broken by a stale 4.0 hash renders right on the skin.

@@ -112,7 +112,7 @@ def parserConfig() -> "FRB.GIMICharParserConfig":
 
 
 def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = False, carryFace = False,
-                mirrored = ("dress",), mirrorBackedReach = 0.01) -> "FRB.GIMIComponentFixerConfig":
+                mirrored = ("dress",), mirrorBackedReach = 0.01, darkCloth = None, darkClothMid = False) -> "FRB.GIMIComponentFixerConfig":
     config = FRB.GIMIComponentFixerConfig()
     config.targetSkin = Skin
     config.drawnObjs = ["head", "body", "dress"]
@@ -196,6 +196,16 @@ def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = False, 
         bands = [Band(254, 255, headHairBand)]
         config.lightMapEdit = lambda diffusePath: FRB.CppMaterialBandRemapFilter(bands, diffusePath)
         config.lightMapObjs = ["head"]
+    if (darkCloth is not None):
+        # DARK CLOTH onto the skin's dark-cloth band. The skin's body legend splits cloth in two -- 0 its white cloth, 78
+        # its dark -- and band 0's shadow ramp is warm: Lumine1's black jacket (her bands 44 / 170) went RED wherever it
+        # fell into shadow, and moved onto 78 the same shadow is a neutral dark (in game, 2026-09-30). Gated on the
+        # diffuse, because a mod may keep light and dark cloth on one band.
+        Band = FRB.CppMaterialBandRemapFilter.Band
+        dark = lambda r, g, b: (r + g + b) < 3 * darkCloth
+        bands = [Band(0, 63, 78, dark), Band(151, 200, 78, dark)] + ([Band(96, 150, 78, dark)] if darkClothMid else [])
+        config.lightMapEdit = lambda diffusePath: FRB.CppMaterialBandRemapFilter(bands, diffusePath)
+        config.lightMapObjs = ["body", "dress"]
     # A mod toggling variants of one object on an if / else if chain with no else drew EVERY variant at once under the
     # template's unconditional drawindexed = auto (Yaoyao2).
     config.fillDrawOnlyWhenUndrawn = True
@@ -217,6 +227,8 @@ def main():
     parser.add_argument("--headHairBand", type = int, default = -1, help = "move the head light map's 254-255 onto this band (an A/B: 127 is the skin's hair band; default -1, none)")
     parser.add_argument("--mirror", default = "dress", help = "comma-separated source objects given a mirrored inner layer on the main mesh (default `dress`; `none` for the A/B)")
     parser.add_argument("--mirrorBackedReach", type = float, default = 0.01, help = "a mirrored triangle with a layer facing the other way this close behind it gets no twin (default 0.01; 0 mirrors every triangle, the A/B)")
+    parser.add_argument("--darkCloth", type = int, default = 90, help = "move body / dress bands 0-63 and 151-200 over a diffuse darker than this (mean RGB) onto the skin's dark-cloth band 78 (default 90; -1 off, the A/B)")
+    parser.add_argument("--darkClothMid", action = "store_true", help = "an A/B: --darkCloth also moves 96-150")
     parser.add_argument("--carryFace", action = "store_true", help = "an A/B: carry the mod's face diffuse onto the skin's face hash (it lands on a different mesh)")
     parser.add_argument("--noHeadAlpha", action = "store_true", help = "leave the head diffuse's alpha alone (the A/B for the edit)")
     parser.add_argument("--innerOutline", action = "store_true", help = "drop the outline of the hair's inner layers (Yaoyao's layered-hair fix)")
@@ -227,7 +239,8 @@ def main():
     args = parser.parse_args()
 
     config = fixerConfig(None if args.headHairBand < 0 else args.headHairBand, not args.noHeadAlpha, args.innerOutline, args.carryFace,
-                         [o for o in args.mirror.split(",") if o and o != "none"], args.mirrorBackedReach)
+                         [o for o in args.mirror.split(",") if o and o != "none"], args.mirrorBackedReach,
+                         None if args.darkCloth < 0 else args.darkCloth, args.darkClothMid)
     FRB.CppStrategyOverrides.clear()
     FRB.CppStrategyOverrides.setParser(SrcName, FRB.makeGIMICharParser(parserConfig()))
     for component in config.components:

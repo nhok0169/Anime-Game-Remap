@@ -2056,9 +2056,17 @@ redrawn since (`d298f0bc`, filed at 6.3). Prototypes: `Tools/Misc/Prototypes/lum
    written with have to match the buffers, so it is a template change (`Slot` routes by band). Currently the whole slot
    is on her body. The Dressing Room's soft light shows none of this; the overworld's shade does, and `look DX DY` is how
    to turn the camera there.
-11. **Lumine1's dark red on its cape tips is the mod's own** -- the pixels are dark grey-green with diffuse alpha 255, and
-   her own shader renders them the same red as the skin's (her outfit, seen from `R2MirrorOff`'s copy on the base card).
-   The maintainer's copy of Lumine1 shatters on her own outfit (a stale 4.0 ib, point 8), which is why it looked new.
+11. **Dark cloth goes onto the skin's DARK-cloth band, or its shadow turns red** (2026-09-30). Lumine1's black jacket sits
+   on her bands 44 and 170; the skin's body legend is 0 white cloth, 78 dark cloth, 177 gold, 255 skin, and the band-0
+   ramp's shadow is warm -- made for white cloth. Every patch of the jacket in shadow came out as a small RED square (the
+   sleeve, the waist), which I first called the mod's own design because I looked at the cape tips (those ARE the
+   mod's). The maintainer's zoomed pair of screenshots pinned the spots; then one variable at a time: without the dress
+   draw -- still there; light map bands 200-255 or 100-199 moved, light map RGB flattened -- still there; the whole
+   diffuse painted flat GREEN -- the spots are darker green, i.e. SHADED geometry, not texture; bands 40-49 onto 0 --
+   still red, onto 78 -- neutral dark. `lightMapEdit` now moves bands 0-63 and 151-200 over a DARK diffuse (mean RGB
+   under 90) onto 78, body and dress only; gated, so her white cloth (~190) stays on 0. Lumine2 / 3 / 8 and the identity
+   render as before. **A spot that only shows in shadow is a ramp row, and painting the diffuse flat is what tells
+   shading from texture.**
 
 ## The reverse direction is COMPILED TOO: a multi-component SOURCE onto a classic target (2026-09-14)
 

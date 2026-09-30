@@ -1587,10 +1587,44 @@ namespace AGRemapCore {
                     }
                 }
 
+                // WHAT readTextures WORKS OUT, IN THE ORDER IT WORKS IT OUT.
+                //
+                // A struct rather than members: this is scan state, dead the moment the scan ends,
+                // and passing it explicitly is what makes the order the phases run in visible at the
+                // call site. They were one 650-line function sharing these by scope, which is how
+                // `best` came to mean two different things in it.
+                struct TextureScan {
+                    const WWMITextureRoles* roles = nullptr;
+                    std::string iniFolder;
+                    std::string iniPath;
+
+                    // the mod's own file -> the resource section naming it
+                    std::unordered_map<std::string, std::string> resourceOfFile;
+
+                    // role -> (file, how the role was decided), every role of every file
+                    std::map<std::string, std::vector<std::pair<std::string, std::string>>> byRole;
+
+                    // file -> source component -> the roles that component's own register bindings
+                    // offer it for. One file offered two roles of ONE slot is the mask alias.
+                    std::map<std::string, std::map<int, std::set<std::string>>> regRolesOfFile;
+
+                    // role -> the source components that can draw it, and the components the plan has
+                    std::unordered_map<std::string, std::set<int>> componentsOfRole;
+                    std::set<int> sourceComponents;
+
+                    // whether this mod's `Components-<n>` tags are in the SOURCE's numbering
+                    bool tagsAreOurs = true;
+
+                    // an ambiguity between two files is reported once, however many components are
+                    // offered the role
+                    std::set<std::string> saidAmbiguous;
+                };
+
                 void readTextures() {
+                    TextureScan scan;
                     IniFile* ini = ctx_.getIniFile();
-                    const std::string iniFolder = ini->getFolder();
-                    const std::string iniPath = ini->getFile().value_or("");
+                    scan.iniFolder = ini->getFolder();
+                    scan.iniPath = ini->getFile().value_or("");
                     readConditionalBindings();
                     // WHAT THE MOD'S TEXTURES ARE IS THE PARSER'S ANSWER, NOT THIS ONE'S.
                     // A texture is identified by a HASH and a REGISTER -- the hash being the
@@ -1604,12 +1638,11 @@ namespace AGRemapCore {
                     // the installed one and a spare won `upperDiffuse`, which is what turned a
                     // kimono red. Over ten mods the scan offered 51 such files; none of them is a
                     // candidate now (2026-09-29).
-                    const WWMITextureRoles* textureRoles = nullptr;
                     if (const auto* facts = dynamic_cast<const WWMIParseFacts*>(this->getParser())) {
-                        textureRoles = facts->textureRoles();
+                        scan.roles = facts->textureRoles();
                     }
 
-                    if (textureRoles == nullptr) {
+                    if (scan.roles == nullptr) {
                         // Every WuWa character's parse row carries its textures, so this is a
                         // configuration error rather than a mod's doing -- and a fix that cannot
                         // tell what any texture is would bind the game's over all of them.
@@ -1619,9 +1652,8 @@ namespace AGRemapCore {
                         return;
                     }
 
-                    std::unordered_map<std::string, std::string> resourceOfFile;
-                    for (const auto& entry : textureRoles->resourcesOf(iniPath)) {
-                        resourceOfFile.emplace(entry.second, entry.first);
+                    for (const auto& entry : scan.roles->resourcesOf(scan.iniPath)) {
+                        scan.resourceOfFile.emplace(entry.second, entry.first);
                         // ...and the other way, so an edit can reach EVERY variant a toggled role
                         // binds rather than only the one fileOfRole_ resolved to
                         fileOfResource_.emplace(StringTools::toLower(entry.first), entry.second);
@@ -1630,7 +1662,7 @@ namespace AGRemapCore {
                     // WHERE THE FIX WRITES ITS OWN TEXTURES: the folder MOST of the mod's textures
                     // are already in, and never an absolute one.
                     //
-                    // This used to read `resourceOfFile.begin()`, which on an unordered_map is
+                    // This used to read `scan.resourceOfFile.begin()`, which on an unordered_map is
                     // whichever entry the table hashed first -- so a mod whose textures are not all
                     // in one folder got a folder picked at random, and the pick could move between
                     // runs. That is what made Chisa13's mod.ini come out with four different hashes
@@ -1639,17 +1671,26 @@ namespace AGRemapCore {
                     // And the folder-scanning index this replaced keyed everything by a
                     // LOWERCASED path and answered with its argument when the key was absent, so an
                     // absolute path came back lowercased -- which `getRelPath` cannot relativise
-                    // against a real-cased `iniFolder`. The folder then came out absolute and every
+                    // against a real-cased `scan.iniFolder`. The folder then came out absolute and every
                     // download, edit and created texture was written into the mod's .ini as
                     // `c:/users/.../textures/...`: broken the moment the mod moves, and the fixing
                     // machine's paths in someone else's file. A path that is not relative is
                     // refused, which leaves `Textures` -- what a mod with no textures of its own
                     // already gets (2026-09-29).
+                    readTextureFolder(scan);
+                    dumpTextureRoles(scan);
+                    collectRoleCandidates(scan);
+                    narrowRoleCandidates(scan);
+                    readComponentTagging(scan);
+                    applyTextureRoles(scan);
+                }
+
+                void readTextureFolder(TextureScan& scan) {
                     textureFolder_ = DefaultTextureFolder;
                     std::map<std::string, std::size_t> folderCounts;
-                    for (const auto& entry : resourceOfFile) {
+                    for (const auto& entry : scan.resourceOfFile) {
                         const std::string rel =
-                            FileService::iniPathToRel(FileService::getRelPath(entry.first, iniFolder));
+                            FileService::iniPathToRel(FileService::getRelPath(entry.first, scan.iniFolder));
                         if (FileService::strToPath(rel).is_absolute()) {
                             continue;                   // the index could not place it: not a folder of this mod
                         }
@@ -1670,13 +1711,16 @@ namespace AGRemapCore {
                         }
                     }
 
-                    // AGREMAP_WWMI_ROLES=1: one line per file per role, so the identification
-                    // this does can be diffed against the one the parser is taking over. Off by
-                    // default; the compiled fixer is silent by request.
+                }
+
+                // AGREMAP_WWMI_ROLES=1: one line per file per role, so the identification this does
+                // can be diffed against the one the parser is taking over. Off by default; the
+                // compiled fixer is silent by request.
+                void dumpTextureRoles(const TextureScan& scan) {
                     if (std::getenv("AGREMAP_WWMI_ROLES") != nullptr) {
-                        for (const auto& entry : textureRoles->rolesOf()) {
+                        for (const auto& entry : scan.roles->rolesOf()) {
                             for (const WWMITextureRoles::Role& role : entry.second) {
-                                std::fprintf(stderr, "WWMIROLE\t%s\t%s\t%s\t%s\n", iniPath.c_str(),
+                                std::fprintf(stderr, "WWMIROLE\t%s\t%s\t%s\t%s\n", scan.iniPath.c_str(),
                                              FileService::pathKey(entry.first).c_str(),
                                              role.role.c_str(), role.how.c_str());
                             }
@@ -1690,25 +1734,34 @@ namespace AGRemapCore {
                             if (const WWMITextureRoles* roles = facts->textureRoles()) {
                                 for (const auto& entry : roles->rolesOf()) {
                                     for (const auto& role : entry.second) {
-                                        std::fprintf(stderr, "WWMIROLE2\t%s\t%s\t%s\t%s\n", iniPath.c_str(),
+                                        std::fprintf(stderr, "WWMIROLE2\t%s\t%s\t%s\t%s\n", scan.iniPath.c_str(),
                                                      FileService::pathKey(entry.first).c_str(),
                                                      role.role.c_str(), role.how.c_str());
                                     }
                                 }
                             } else {
-                                std::fprintf(stderr, "WWMIROLE2\t%s\t(no parser roles)\t\t\n", iniPath.c_str());
+                                std::fprintf(stderr, "WWMIROLE2\t%s\t(no parser roles)\t\t\n", scan.iniPath.c_str());
                             }
                         } else {
                             std::fprintf(stderr, "WWMIROLE2\t%s\t(parser is not WWMIParseFacts)\t\t\n",
-                                         iniPath.c_str());
+                                         scan.iniPath.c_str());
                         }
                     }
 
+                }
+
+                // Every candidate file for every role: the parser's answer, plus the roles the
+                // mod's own sections name by the register they bind at.
+                void collectRoleCandidates(TextureScan& scan) {
+                    IniFile* ini = ctx_.getIniFile();
+                    if (ini == nullptr) {
+                        return;
+                    }
+
                     // role -> (file, how the role was decided), every role of every file
-                    std::map<std::string, std::vector<std::pair<std::string, std::string>>> byRole;
-                    for (const auto& entry : textureRoles->rolesOf()) {
+                    for (const auto& entry : scan.roles->rolesOf()) {
                         for (const WWMITextureRoles::Role& role : entry.second) {
-                            byRole[role.role].emplace_back(entry.first, role.how);
+                            scan.byRole[role.role].emplace_back(entry.first, role.how);
                         }
                     }
 
@@ -1718,10 +1771,9 @@ namespace AGRemapCore {
                     // file -> source component -> the roles that component's own register
                     // bindings offer it for. One file offered two roles of ONE slot is the alias
                     // the mask drop below is about.
-                    std::map<std::string, std::map<int, std::set<std::string>>> regRolesOfFile;
                     if (!config_.sourceRegisterRoles.empty()) {
                         std::unordered_map<std::string, std::string> fileOfResource;
-                        for (const auto& entry : textureRoles->resourcesOf(iniPath)) {
+                        for (const auto& entry : scan.roles->resourcesOf(scan.iniPath)) {
                             fileOfResource.emplace(StringTools::toLower(entry.first), entry.second);
                         }
 
@@ -1753,20 +1805,25 @@ namespace AGRemapCore {
                                         continue;
                                     }
 
-                                    byRole[role].emplace_back(
+                                    scan.byRole[role].emplace_back(
                                         file->second, "the " + reg + " its own section binds it at");
-                                    regRolesOfFile[file->second][entry.first].insert(role);
+                                    scan.regRolesOfFile[file->second][entry.first].insert(role);
                                 }
                             }
                         }
                     }
 
+                }
+
+                // Three passes that take candidates AWAY: the same file found twice, a mask that is
+                // really the slot's normal map, and a file left to the game.
+                void narrowRoleCandidates(TextureScan& scan) {
                     // ONE ENTRY PER FILE. A file is routinely found for a role more than one way
                     // -- by its hash AND by the register its own section binds it at -- and two
                     // entries naming one path rank identically, which made the "two textures are
                     // equally good answers" warning below fire with the SAME file on both sides of
                     // it. Keep the first way it was decided, which is the more specific one.
-                    for (auto& entry : byRole) {
+                    for (auto& entry : scan.byRole) {
                         std::vector<std::pair<std::string, std::string>> unique;
                         for (const auto& candidate : entry.second) {
                             const bool seen = std::any_of(unique.begin(), unique.end(),
@@ -1796,7 +1853,7 @@ namespace AGRemapCore {
                     // file legitimately plays every role its HASHES name, across components, and
                     // that is untouched here. The role then takes the ordinary "the mod has no file
                     // for this role" path, exactly as a flat one does.
-                    for (auto& entry : byRole) {
+                    for (auto& entry : scan.byRole) {
                         const bool toGame = config_.flatLeftToGame.count(entry.first) > 0;
                         if (!toGame && config_.flatFallsBackToSource.count(entry.first) == 0) {
                             continue;
@@ -1804,9 +1861,9 @@ namespace AGRemapCore {
 
                         std::vector<std::pair<std::string, std::string>> kept;
                         for (const auto& candidate : entry.second) {
-                            const auto perComponent = regRolesOfFile.find(candidate.first);
+                            const auto perComponent = scan.regRolesOfFile.find(candidate.first);
                             bool aliased = false;
-                            if (perComponent != regRolesOfFile.end()) {
+                            if (perComponent != scan.regRolesOfFile.end()) {
                                 for (const auto& slot : perComponent->second) {
                                     if (slot.second.count(entry.first) > 0 && slot.second.size() > 1) {
                                         aliased = true;
@@ -1820,7 +1877,7 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            ctx_.log(FileService::getRelPath(candidate.first, iniFolder)
+                            ctx_.log(FileService::getRelPath(candidate.first, scan.iniFolder)
                                      + " is bound for another role of its own slot too, so it is not"
                                      + " the mod's " + entry.first + "; "
                                      + (toGame ? "left to the game" : "the source's own is used instead"));
@@ -1838,7 +1895,7 @@ namespace AGRemapCore {
                     // "the mod has no file for this role" path -- and which path that is, a download
                     // of the source's own or nothing at all, is the difference between
                     // WWMIFixerConfig::flatFallsBackToSource and WWMIFixerConfig::flatLeftToGame.
-                    for (auto& entry : byRole) {
+                    for (auto& entry : scan.byRole) {
                         const bool toGame = config_.flatLeftToGame.count(entry.first) > 0;
                         if (!toGame && config_.flatFallsBackToSource.count(entry.first) == 0) {
                             continue;
@@ -1852,7 +1909,7 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            ctx_.log(FileService::getRelPath(candidate.first, iniFolder)
+                            ctx_.log(FileService::getRelPath(candidate.first, scan.iniFolder)
                                      + " is a flat " + entry.first + ", which marks no regions; "
                                      + (toGame ? "left to the game" : "the source's own is used instead"));
                         }
@@ -1866,20 +1923,24 @@ namespace AGRemapCore {
                         entry.second = std::move(varying);
                     }
 
+                }
+
+                // Which source component each role BELONGS to, and whether this mod's
+                // `Components-<n>` tags are in the SOURCE's numbering at all.
+                void readComponentTagging(TextureScan& scan) {
                     // Which source component each role BELONGS to, off the two config tables that
                     // are written per component. Not the same question as which component's slot is
                     // asking for it: Chisa's accessory slot and four of her extra passes bind
                     // `frontHairDiffuse`, which is component 0's.
-                    std::unordered_map<std::string, std::set<int>> componentsOfRole;
                     for (const auto& entry : config_.sourceRegisterRoles) {
                         for (const auto& reg : entry.second) {
-                            componentsOfRole[reg.second].insert(entry.first);
+                            scan.componentsOfRole[reg.second].insert(entry.first);
                         }
                     }
 
                     for (const auto& entry : config_.typeRoles) {
                         for (const auto& type : entry.second) {
-                            componentsOfRole[type.second].insert(entry.first);
+                            scan.componentsOfRole[type.second].insert(entry.first);
                         }
                     }
 
@@ -1892,17 +1953,15 @@ namespace AGRemapCore {
                     // source does not have says the whole numbering is somebody else's, so the
                     // refusal below is switched off for the file -- rank() reads the same tag and
                     // can only mis-PREFER, where a refusal deletes.
-                    std::set<int> sourceComponents;
                     for (const auto& entry : config_.plan) {
-                        sourceComponents.insert(entry.first);
+                        scan.sourceComponents.insert(entry.first);
                     }
 
-                    bool tagsAreOurs = true;
-                    for (const auto& entry : byRole) {
+                    for (const auto& entry : scan.byRole) {
                         for (const auto& candidate : entry.second) {
                             for (int c : componentTag(candidate.first)) {
-                                if (sourceComponents.count(c) == 0) {
-                                    tagsAreOurs = false;
+                                if (scan.sourceComponents.count(c) == 0) {
+                                    scan.tagsAreOurs = false;
                                 }
                             }
                         }
@@ -1919,8 +1978,12 @@ namespace AGRemapCore {
                     // `Components-0-1-2-3-4 t=d153e37f.dds`, and binds the second. Sampled at the mod's
                     // own atlas UVs that put wrong-coloured patches over the fringe in game (2026-09-19).
                     // A register binding is per component and can honour the specific one.
-                    auto rank = [&](const std::string& file, int component) {
-                        std::string rel = FileService::pathKey(FileService::getRelPath(file, iniFolder));
+                }
+
+                // How good a candidate FILE is for a role on one source component -- lower is
+                // better, compared as a tuple.
+                auto rankCandidate(const TextureScan& scan, const std::string& file, int component) const {
+                        std::string rel = FileService::pathKey(FileService::getRelPath(file, scan.iniFolder));
                         std::size_t ups = 0;
                         std::size_t pos = 0;
                         while ((pos = rel.find("../", pos)) != std::string::npos) {
@@ -1945,17 +2008,18 @@ namespace AGRemapCore {
                             specificity = 3;                               // tagged, and NOT this one
                         }
 
-                        return std::make_tuple(specificity, resourceOfFile.count(file) > 0 ? 0 : 1, ups, rel.size(), rel);
-                    };
+                        return std::make_tuple(specificity, scan.resourceOfFile.count(file) > 0 ? 0 : 1, ups, rel.size(), rel);
+                }
 
-                    // The choice is per (role, source component), not per role -- but an ambiguity
-                    // BETWEEN TWO FILES is a property of the files, so it is reported once however
-                    // many components are offered the role.
-                    std::set<std::string> saidAmbiguous;
-                    auto assign = [&](const std::string& role, int component) {
+                // Which of the mod's files serves one role on one source component, if any.
+                //
+                // The choice is per (role, source component), not per role -- but an ambiguity
+                // BETWEEN TWO FILES is a property of the files, so it is reported once however many
+                // components are offered the role (hence TextureScan::saidAmbiguous).
+                void assignRole(TextureScan& scan, const std::string& role, int component) {
                         {
-                            auto found = byRole.find(role);
-                            if (found == byRole.end() || found->second.empty()
+                            auto found = scan.byRole.find(role);
+                            if (found == scan.byRole.end() || found->second.empty()
                                 || resourceOfSlotRole_.count({role, component}) > 0) {
                                 return;
                             }
@@ -1980,8 +2044,8 @@ namespace AGRemapCore {
                             // table places are both untouched. Dropping every candidate is a real
                             // answer too: the mod ships nothing for that role, which is what the
                             // fallback download is for.
-                            auto roleComponents = componentsOfRole.find(role);
-                            if (tagsAreOurs && roleComponents != componentsOfRole.end()) {
+                            auto roleComponents = scan.componentsOfRole.find(role);
+                            if (scan.tagsAreOurs && roleComponents != scan.componentsOfRole.end()) {
                                 candidates.erase(
                                     std::remove_if(candidates.begin(), candidates.end(),
                                                    [&](const std::pair<std::string, std::string>& candidate) {
@@ -1993,17 +2057,17 @@ namespace AGRemapCore {
                                                        // Chisa2's component 5 binds the kimono atlas
                                                        // itself, deliberately.
                                                        //
-                                                       // Not readable off `how`: byRole is built
+                                                       // Not readable off `how`: scan.byRole is built
                                                        // hash-first and deduplicated to one entry per
                                                        // file keeping the FIRST way it was decided, so a
                                                        // file found both ways carries the hash's. Ask
-                                                       // regRolesOfFile, which is that route's own map.
+                                                       // scan.regRolesOfFile, which is that route's own map.
                                                        if (!StringTools::startsWith(candidate.second, "hash ")) {
                                                            return false;
                                                        }
 
-                                                       auto regRoles = regRolesOfFile.find(candidate.first);
-                                                       if (regRoles != regRolesOfFile.end()) {
+                                                       auto regRoles = scan.regRolesOfFile.find(candidate.first);
+                                                       if (regRoles != scan.regRolesOfFile.end()) {
                                                            for (const auto& perComponent : regRoles->second) {
                                                                if (perComponent.second.count(role) > 0) {
                                                                    return false;
@@ -2086,28 +2150,28 @@ namespace AGRemapCore {
                                               return badA < badB;
                                           }
 
-                                          return rank(a.first, component) < rank(b.first, component);
+                                          return rankCandidate(scan, a.first, component) < rankCandidate(scan, b.first, component);
                                       });
                             const std::string& best = candidates.front().first;
                             if (candidates.size() > 1) {
-                                const auto first = rank(best, component);
-                                const auto second = rank(candidates[1].first, component);
+                                const auto first = rankCandidate(scan, best, component);
+                                const auto second = rankCandidate(scan, candidates[1].first, component);
                                 if (contradictsItsHash(candidates.front()) == contradictsItsHash(candidates[1])
                                     && std::get<0>(first) == std::get<0>(second) && std::get<1>(first) == std::get<1>(second)
                                     && std::get<2>(first) == std::get<2>(second)
-                                    && saidAmbiguous.insert(role + "\n" + best + "\n" + candidates[1].first).second) {
+                                    && scan.saidAmbiguous.insert(role + "\n" + best + "\n" + candidates[1].first).second) {
                                     // Two shipped textures equally close on one role: the first is bound
                                     // and only a measurement can say which is right -- say so loudly.
-                                    ctx_.log("WARNING: " + FileService::getRelPath(candidates[1].first, iniFolder)
+                                    ctx_.log("WARNING: " + FileService::getRelPath(candidates[1].first, scan.iniFolder)
                                              + " also has the role " + role + " (" + candidates[1].second
-                                             + "), already taken by " + FileService::getRelPath(best, iniFolder)
+                                             + "), already taken by " + FileService::getRelPath(best, scan.iniFolder)
                                              + " (" + candidates.front().second + "); the first one is bound");
                                 }
                             }
 
                             fileOfRole_[role] = best;
-                            auto own = resourceOfFile.find(best);
-                            if (own != resourceOfFile.end()) {
+                            auto own = scan.resourceOfFile.find(best);
+                            if (own != scan.resourceOfFile.end()) {
                                 resourceOfSlotRole_[{role, component}] = own->second;
                                 return;
                             }
@@ -2126,21 +2190,24 @@ namespace AGRemapCore {
                                 usedDeclaredNames_.insert(name);
                                 declaredName = declaredName_.emplace(best, name).first;
                                 const std::string rel = FileService::pathToIniStr(
-                                    FileService::strToPath(FileService::getRelPath(best, iniFolder)));
+                                    FileService::strToPath(FileService::getRelPath(best, scan.iniFolder)));
                                 declared_.emplace_back(best, rel);
                             }
 
                             resourceOfSlotRole_[{role, component}] = declaredName->second;
                         }
-                    };
+                }
 
+                // Every role offered to every component that could serve it, then the roles the fix
+                // invents and the downloads for the rest.
+                void applyTextureRoles(TextureScan& scan) {
                     for (const auto& planned : config_.plan) {
                         if (present_.count(planned.first) == 0) {
                             continue;
                         }
 
                         for (const WWMIFixerConfig::Binding& binding : planned.second.bindings) {
-                            assign(binding.role, planned.first);
+                            assignRole(scan, binding.role, planned.first);
                         }
                     }
 
@@ -2152,7 +2219,7 @@ namespace AGRemapCore {
                     // every present component is safe.
                     for (const std::string& role : passOnlyRoles()) {
                         for (const auto& entry : present_) {
-                            assign(role, entry.first);
+                            assignRole(scan, role, entry.first);
                         }
                     }
 
@@ -2243,12 +2310,11 @@ namespace AGRemapCore {
                     return ModObj(toModName_, config_.slotPrefix + std::to_string(slot));
                 }
 
-                void buildEdits() {
-                    buildTexcoordCopy();
-                    const ModType* source = ctx_.modType();
-                    const std::optional<Version> from = fromVersion();
-                    const std::optional<Version> to = toVersion();
-
+                // Does the TARGET's merged skeleton pass what an 8-bit blend index can name, and can
+                // one WWMI blend remap hold the row? Sets #targetPast256_ and #blendRemapBones_,
+                // which every later phase reads.
+                void readBlendWidth(const ModType* source, const std::optional<Version>& from,
+                                     const std::optional<Version>& to) {
                     // Does the TARGET's merged skeleton pass what an 8-bit blend index can name?
                     // The row's largest target id answers it, and it is a property of the PAIR --
                     // so the .ini and the buffers, written at different moments, cannot disagree
@@ -2292,7 +2358,15 @@ namespace AGRemapCore {
                             }
                         }
                     }
+                }
 
+                void buildEdits() {
+                    buildTexcoordCopy();
+                    const ModType* source = ctx_.modType();
+                    const std::optional<Version> from = fromVersion();
+                    const std::optional<Version> to = toVersion();
+
+                    readBlendWidth(source, from, to);
 
                     assetRemap_ = std::make_unique<RegAssetRemap<>>(
                         std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
@@ -2301,8 +2375,21 @@ namespace AGRemapCore {
                         toModName_, ctx_.modTypeName().value_or(""), from, to);
                     assetAdapter_ = std::make_unique<RegPartEdit<>>(assetRemap_.get());
 
-                    // Lines a remapped section drops -- see WWMIFixerConfig::removedRegs for why
-                    // each kind is there. Built once and hung on every remapped slot section.
+                    // In this order because each reads what the one before it set: the removals
+                    // need the blend width, the groups decide which slots are drawn, and everything
+                    // after that is per drawn slot.
+                    buildRegRemovals();
+                    buildGroups();
+                    buildSlotValues();
+                    buildComponentAdditions();
+                    buildSlotRemap();
+                    buildPerGroupEdits();
+                    buildBlendCollects(source, from, to);
+                }
+
+                // Lines a remapped section drops -- see WWMIFixerConfig::removedRegs for why each
+                // kind is there. Built once and hung on every remapped slot section.
+                void buildRegRemovals() {
                     std::vector<WWMIFixerConfig::RegRemoval> removals = config_.removedRegs;
                     if (targetPast256_) {
                         // The MOD's own merge list, dropped from the remapped sections. It writes
@@ -2341,11 +2428,14 @@ namespace AGRemapCore {
                         removeAdapter_ = std::make_unique<RegPartEdit<>>(regRemove_.get());
                     }
 
-                    // The groups: one remapped section per target draw per file. The first source
-                    // component claiming a slot stays in the mod's own .ini, the second lands in the
-                    // first copy, and so on -- in the source components' numeric order, which is the
-                    // order the remap below creates the target graphs in and so the order collisions
-                    // are resolved in.
+                }
+
+                // The groups: one remapped section per target draw per file. The first source
+                // component claiming a slot stays in the mod's own .ini, the second lands in the
+                // first copy, and so on -- in the source components' numeric order, which is the
+                // order the remap below creates the target graphs in and so the order collisions
+                // are resolved in.
+                void buildGroups() {
                     std::map<int, std::size_t> claimants;
                     for (const auto& entry : present_) {
                         auto planned = config_.plan.find(entry.first);
@@ -2394,7 +2484,10 @@ namespace AGRemapCore {
                     }
 
 
-                    // Per target slot: its numbers, written over the source's.
+                }
+
+                // Per target slot: its numbers, written over the source's.
+                void buildSlotValues() {
                     for (int slot : drawnSlots_) {
                         const Slot& s = target_.slots.at(static_cast<std::size_t>(slot));
                         auto newVals = std::make_unique<RegNewVals<>>(
@@ -2419,10 +2512,13 @@ namespace AGRemapCore {
                         regAdapters_.push_back(std::move(adapter));
                     }
 
-                    // Per drawn source component: the zero stream and its texture command list right
-                    // after the shared-resource override. No after-register on the add: `drawindexed`
-                    // as one is a MUST fact, and behind a `$draw_x` toggle no draw is certain, which
-                    // parked the additions inside the first toggle.
+                }
+
+                // Per drawn source component: the zero stream and its texture command list right
+                // after the shared-resource override. No after-register on the add: `drawindexed`
+                // as one is a MUST fact, and behind a `$draw_x` toggle no draw is certain, which
+                // parked the additions inside the first toggle.
+                void buildComponentAdditions() {
                     for (const auto& entry : config_.plan) {
                         const int component = entry.first;
                         if (present_.count(component) == 0) {
@@ -2540,18 +2636,25 @@ namespace AGRemapCore {
                         }
                     }
 
-                    // The hash-only objects: the hidden ones (the shape keys) commented out of the
-                    // original and copied nowhere, the rest (the bone-data override) into every group.
-                    std::vector<ModObj> hashOnlyObjs;
+                }
+
+                // The hash-only objects: the hidden ones (the shape keys) commented out of the
+                // original and copied nowhere, the rest (the bone-data override) into every group
+                void buildSlotRemap() {
+                    // Members rather than locals: buildPerGroupEdits below reads both, and the two
+                    // phases were one function when they shared them by scope.
+                    hashOnlyObjs_.clear();
                     if (auto* parser = dynamic_cast<GIMIParser<>*>(this->getParser())) {
                         for (const ModObj& obj : parser->modObjs()) {
                             if (obj.second.rfind(config_.slotPrefix, 0) != 0) {
-                                hashOnlyObjs.push_back(obj);
+                                hashOnlyObjs_.push_back(obj);
                             }
                         }
                     }
 
-                    const std::unordered_set<std::string> hidden(config_.hiddenObjs.begin(), config_.hiddenObjs.end());
+                    hiddenObjs_ = std::unordered_set<std::string>(config_.hiddenObjs.begin(), config_.hiddenObjs.end());
+                    const std::vector<ModObj>& hashOnlyObjs = hashOnlyObjs_;
+                    const std::unordered_set<std::string>& hidden = hiddenObjs_;
 
                     // The remap: every source slot section onto its target slot's object, named
                     // after the TARGET so a target never collides with a source still to be moved;
@@ -2587,7 +2690,12 @@ namespace AGRemapCore {
 
                     slotRemap_ = std::make_unique<GraphGroupRemap<>>(std::move(remap));
 
-                    // The edits, per group, keyed by the target objects the remap created.
+                }
+
+                // The edits, per group, keyed by the target objects the remap created.
+                void buildPerGroupEdits() {
+                    const std::vector<ModObj>& hashOnlyObjs = hashOnlyObjs_;
+                    const std::unordered_set<std::string>& hidden = hiddenObjs_;
                     std::vector<ObjGroupEdit::IniEdits> perGroup(groups_.size());
                     for (std::size_t g = 0; g < groups_.size(); ++g) {
                         for (int component : groups_[g]) {
@@ -2618,10 +2726,14 @@ namespace AGRemapCore {
 
                     mainEdits_ = std::make_unique<ObjGroupEdit>(std::move(perGroup), false);
 
-                    // The blend: the register bound in the shared override, collected out of every
-                    // drawn slot section -- one collect PER GROUP, so every copy declares the
-                    // RemapBlend resource its own sections bind, as a GIMI merge's copies do (a
-                    // collect is addressed by GraphId, whose iniIndex is the group).
+                }
+
+                // The blend: the register bound in the shared override, collected out of every
+                // drawn slot section -- one collect PER GROUP, so every copy declares the
+                // RemapBlend resource its own sections bind, as a GIMI merge's copies do (a
+                // collect is addressed by GraphId, whose iniIndex is the group).
+                void buildBlendCollects(const ModType* source, const std::optional<Version>& from,
+                                         const std::optional<Version>& to) {
                     for (std::size_t g = 0; g < groups_.size(); ++g) {
                         std::function<bool(RemapBlendResource&)> lift;
                         if (targetPast256_) {
@@ -3535,90 +3647,95 @@ namespace AGRemapCore {
                     }
                 }
 
-                // A remap-only copy of the mod's texcoord buffer -- see
-                // WWMIFixerConfig::cleanTexcoords for what is wrong with the original and why
-                // neither fault is the mod's bug.
-                void buildTexcoordCopy() {
-                    if (!config_.cleanTexcoords || texcoordResource_.has_value()) {
-                        return;
-                    }
+                // Where the mod's texcoord buffer is and how wide one vertex of it is.
+                struct TexcoordBuffer {
+                    const IfTemplate<std::string, std::string>* resource = nullptr;
+                    std::string rel;                    // as the .ini spells it
+                    std::string path;                   // ...and on disk
+                    std::size_t stride = 0;
+                };
 
+                // The mod's texcoord buffer, or nothing -- and when it is nothing, the log says
+                // which of the four ways it was nothing.
+                std::optional<TexcoordBuffer> findTexcoordBuffer() {
                     IniFile* ini = ctx_.getIniFile();
                     if (ini == nullptr) {
-                        return;
+                        return std::nullopt;
                     }
 
                     // WITHOUT REGARD TO CASE: this mod spells it ResourceTexCoordBuffer, and asking
                     // for ResourceTexcoordBuffer finds nothing and says nothing.
-                    const IfTemplate<std::string, std::string>* resource = nullptr;
+                    TexcoordBuffer found;
                     for (const auto& entry : ini->getIfTemplates()) {
                         if (entry.second != nullptr
                             && StringTools::equalsIgnoreCase(entry.first, TexcoordBufferResource)) {
-                            resource = entry.second.get();
+                            found.resource = entry.second.get();
                             break;
                         }
                     }
 
-                    if (resource == nullptr) {
+                    if (found.resource == nullptr) {
                         note("this mod declares no " + TexcoordBufferResource
                              + ", so its UVs are left alone");
-                        return;
+                        return std::nullopt;
                     }
 
-                    const std::optional<std::string> name = ModBranches::firstVal(*resource, IniKeywords::Filename);
+                    const std::optional<std::string> name =
+                        ModBranches::firstVal(*found.resource, IniKeywords::Filename);
                     if (!name.has_value()) {
                         note(TexcoordBufferResource + " names no file, so this mod's UVs are left alone");
-                        return;
+                        return std::nullopt;
                     }
 
-                    const std::string rel = FileService::iniPathToRel(*name);
-                    const std::string path = FileService::absPathOfRelPath(rel, ini->getFolder());
+                    found.rel = FileService::iniPathToRel(*name);
+                    found.path = FileService::absPathOfRelPath(found.rel, ini->getFolder());
+
                     // A DECLARED STRIDE THAT DOES NOT PARSE IS NOT A REASON TO GUESS ONE. This
                     // fell back to 16, which mis-reads every vertex of a buffer that is not 16 -- the
                     // mod said a number and the fix ignored it.
-                    const std::optional<std::string> strideVal = ModBranches::firstVal(*resource, IniKeywords::Stride);
-                    std::size_t stride = DefaultTexcoordStride;
+                    const std::optional<std::string> strideVal =
+                        ModBranches::firstVal(*found.resource, IniKeywords::Stride);
+                    found.stride = DefaultTexcoordStride;
                     if (strideVal.has_value()) {
                         try {
-                            stride = static_cast<std::size_t>(std::stoul(StringTools::strip(*strideVal).data()));
+                            found.stride = static_cast<std::size_t>(std::stoul(StringTools::strip(*strideVal).data()));
                         } catch (const std::exception&) {
                             note(TexcoordBufferResource + " declares a stride of `"
                                  + std::string(StringTools::strip(*strideVal))
                                  + "`, which is not a number, so this mod's UVs are left alone");
-                            return;
+                            return std::nullopt;
                         }
                     }
 
-                    if (stride < 4 || stride % 2 != 0) {
-                        note(TexcoordBufferResource + " declares a stride of " + std::to_string(stride)
+                    if (found.stride < 4 || found.stride % 2 != 0) {
+                        note(TexcoordBufferResource + " declares a stride of "
+                             + std::to_string(found.stride)
                              + ", which cannot hold a UV pair of halves, so this mod's UVs are left alone");
-                        return;
+                        return std::nullopt;
                     }
 
-                    // One element of `stride / 2` halves, rounded the way a folded UV needs. That
-                    // mode is the whole reason this can be a BufFile at all -- see the note where
-                    // this file's own half codec used to be.
-                    const std::size_t perVertex = stride / 2;
-                    auto texcoordElements = [perVertex]() {
-                        std::vector<std::unique_ptr<BufDataType>> halves;
-                        for (std::size_t i = 0; i < perVertex; ++i) {
-                            halves.push_back(std::make_unique<BufFloat16>(false,
-                                                                          BufFloat16::Rounding::NearestEven));
-                        }
+                    return found;
+                }
 
-                        std::vector<std::unique_ptr<BufElementType>> elements;
-                        elements.push_back(std::make_unique<BufElementType>(TexcoordElement, "",
-                                                                           std::move(halves)));
-                        return elements;
-                    };
-
-                    BufFile texcoord{path, texcoordElements()};
-                    if (!texcoord.isValid()) {
-                        return;                         // not a whole number of vertices: leave it alone
+                // One element of `stride / 2` halves, rounded the way a folded UV needs. That mode
+                // is the whole reason this can be a BufFile at all -- see the note where this file's
+                // own half codec used to be.
+                static std::vector<std::unique_ptr<BufElementType>> texcoordElements(std::size_t stride) {
+                    std::vector<std::unique_ptr<BufDataType>> halves;
+                    for (std::size_t i = 0; i < stride / 2; ++i) {
+                        halves.push_back(std::make_unique<BufFloat16>(false,
+                                                                      BufFloat16::Rounding::NearestEven));
                     }
 
-                    // Pass one: every vertex's U, with a NaN read as the 0 the clean pass will make
-                    // it -- the straddle test below has to see the same values the write does.
+                    std::vector<std::unique_ptr<BufElementType>> elements;
+                    elements.push_back(std::make_unique<BufElementType>(TexcoordElement, "",
+                                                                        std::move(halves)));
+                    return elements;
+                }
+
+                // Every vertex's U, with a NaN read as the 0 the clean pass will make it -- the
+                // straddle test has to see the same values the write does.
+                static std::vector<float> readTexcoordU(BufFile& texcoord) {
                     std::vector<float> u;
                     const BufFile::Filter collect =
                         [&u](const BufLineData& line, long long, double, long long) {
@@ -3634,8 +3751,153 @@ namespace AGRemapCore {
                             return line;
                         };
 
+                    texcoord.fix(std::nullopt, {collect});
+                    return u;
+                }
+
+                // The vertices of any triangle whose corners sit in DIFFERENT U tiles, which the
+                // fold must leave alone.
+                //
+                // Folding one corner of a straddling triangle would widen its U span from a few
+                // hundredths to nearly 1 and interpolate it backwards across the atlas, so such a
+                // vertex is left alone -- which also protects deliberate TILING.
+                //
+                // Still read at 4 bytes per index, which is what the hand-rolled loop assumed;
+                // `IbFile::bytesPerIndexOf(<the declared format>)` is how a mod declaring
+                // `DXGI_FORMAT_R16_UINT` gets answered, and that is a BEHAVIOUR change rather than a
+                // refactor. A failure here leaves every entry false, which folds more rather than
+                // less -- the same answer the unopenable-file branch gave before.
+                std::vector<bool> straddlingVertices(const std::vector<float>& u) const {
+                    std::vector<bool> keep(u.size(), false);
+                    if (indexFile_.empty()) {
+                        return keep;
+                    }
+
+                    IniFile* ini = const_cast<IniFileFixContext&>(ctx_).getIniFile();
+                    if (ini == nullptr) {
+                        return keep;
+                    }
+
+                    const std::size_t vertices = u.size();
+                    const std::string indexPath = FileService::absPathOfRelPath(
+                        FileService::iniPathToRel(indexFile_), ini->getFolder());
+
                     try {
-                        texcoord.fix(std::nullopt, {collect});
+                        IbFile indices{indexPath};
+                        const BufFile::Filter straddles =
+                            [&keep, &u, vertices](const BufLineData& line, long long, double, long long) {
+                                const auto at = line.find(IbFile::TriangleBufElementKey);
+                                if (at == line.end() || at->second.size() < IbFile::VerticesPerTriangle) {
+                                    return line;
+                                }
+
+                                std::size_t tri[3] = {0, 0, 0};
+                                for (std::size_t i = 0; i < IbFile::VerticesPerTriangle; ++i) {
+                                    if (!std::holds_alternative<unsigned long long>(at->second[i])) {
+                                        return line;
+                                    }
+
+                                    tri[i] = static_cast<std::size_t>(
+                                        std::get<unsigned long long>(at->second[i]));
+                                    if (tri[i] >= vertices) {
+                                        return line;
+                                    }
+                                }
+
+                                const float a = std::floor(u[tri[0]]);
+                                const float b = std::floor(u[tri[1]]);
+                                const float c = std::floor(u[tri[2]]);
+                                if (a != b || b != c) {
+                                    keep[tri[0]] = true;
+                                    keep[tri[1]] = true;
+                                    keep[tri[2]] = true;
+                                }
+
+                                return line;
+                            };
+
+                        indices.fix(std::nullopt, {straddles});
+                    } catch (const std::exception&) {
+                        // no index buffer to read: every vertex stays foldable, as before
+                    }
+
+                    return keep;
+                }
+
+                // How many NaNs a clean pass cleared and how many UVs it folded.
+                struct TexcoordCleanTally {
+                    std::size_t cleared = 0;
+                    std::size_t folded = 0;
+                };
+
+                // A NaN in any half set to 0, and the fold in U. A NaN is `std::isnan` on the
+                // decoded value rather than an exponent and mantissa test on the raw bits.
+                //
+                // Returned rather than applied so the caller can run it TWICE -- once to count and
+                // once to write -- which is how the counts it reports describe the file it wrote.
+                static BufFile::Filter texcoordCleaner(TexcoordCleanTally& tally,
+                                                        const std::vector<bool>& keep) {
+                    const std::size_t vertices = keep.size();
+                    return [&tally, &keep, vertices](const BufLineData& line, long long,
+                                                      double index, long long) {
+                        BufLineData out = line;
+                        const auto at = out.find(TexcoordElement);
+                        if (at == out.end() || at->second.empty()) {
+                            return out;
+                        }
+
+                        for (BufValue& value : at->second) {
+                            if (std::holds_alternative<double>(value)
+                                    && std::isnan(std::get<double>(value))) {
+                                value = 0.0;
+                                ++tally.cleared;
+                            }
+                        }
+
+                        if (!std::holds_alternative<double>(at->second.front())) {
+                            return out;
+                        }
+
+                        const auto vertex = static_cast<std::size_t>(index);
+                        const auto first = static_cast<float>(std::get<double>(at->second.front()));
+                        if (first >= 1.0f && vertex < vertices && !keep[vertex]) {
+                            at->second.front() = static_cast<double>(std::fmod(first, 1.0f));
+                            ++tally.folded;
+                        }
+
+                        return out;
+                    };
+                }
+
+                // A remap-only copy of the mod's texcoord buffer -- see
+                // WWMIFixerConfig::cleanTexcoords for what is wrong with the original and why
+                // neither fault is the mod's bug.
+                void buildTexcoordCopy() {
+                    if (!config_.cleanTexcoords || texcoordResource_.has_value()) {
+                        return;
+                    }
+
+                    IniFile* ini = ctx_.getIniFile();
+                    if (ini == nullptr) {
+                        return;
+                    }
+
+                    const std::optional<TexcoordBuffer> source = findTexcoordBuffer();
+                    if (!source.has_value()) {
+                        return;                         // findTexcoordBuffer said which way
+                    }
+
+                    const IfTemplate<std::string, std::string>* resource = source->resource;
+                    const std::size_t stride = source->stride;
+
+                    BufFile texcoord{source->path, texcoordElements(stride)};
+                    if (!texcoord.isValid()) {
+                        return;                         // not a whole number of vertices: leave it alone
+                    }
+
+                    std::vector<float> u;
+                    try {
+                        u = readTexcoordU(texcoord);
                     } catch (const std::exception& exception) {
                         note(std::string("its Texcoord.buf could not be read: ") + exception.what()
                              + " -- so this mod's UVs are left alone");
@@ -3678,84 +3940,10 @@ namespace AGRemapCore {
                     // `DXGI_FORMAT_R16_UINT` gets answered, and that is a BEHAVIOUR change rather
                     // than a refactor. A failure here leaves `keep` false, which folds more rather
                     // than less -- the same answer the unopenable-file branch gave before.
-                    std::vector<bool> keep(vertices, false);
-                    if (!indexFile_.empty()) {
-                        const std::string indexPath = FileService::absPathOfRelPath(
-                            FileService::iniPathToRel(indexFile_), ini->getFolder());
-                        try {
-                            IbFile indices{indexPath};
-                            const BufFile::Filter straddles =
-                                [&keep, &u, vertices](const BufLineData& line, long long, double, long long) {
-                                    const auto at = line.find(IbFile::TriangleBufElementKey);
-                                    if (at == line.end() || at->second.size() < IbFile::VerticesPerTriangle) {
-                                        return line;
-                                    }
+                    const std::vector<bool> keep = straddlingVertices(u);
 
-                                    std::size_t tri[3] = {0, 0, 0};
-                                    for (std::size_t i = 0; i < IbFile::VerticesPerTriangle; ++i) {
-                                        if (!std::holds_alternative<unsigned long long>(at->second[i])) {
-                                            return line;
-                                        }
-
-                                        tri[i] = static_cast<std::size_t>(
-                                            std::get<unsigned long long>(at->second[i]));
-                                        if (tri[i] >= vertices) {
-                                            return line;
-                                        }
-                                    }
-
-                                    const float a = std::floor(u[tri[0]]);
-                                    const float b = std::floor(u[tri[1]]);
-                                    const float c = std::floor(u[tri[2]]);
-                                    if (a != b || b != c) {
-                                        keep[tri[0]] = true;
-                                        keep[tri[1]] = true;
-                                        keep[tri[2]] = true;
-                                    }
-
-                                    return line;
-                                };
-
-                            indices.fix(std::nullopt, {straddles});
-                        } catch (const std::exception&) {
-                            // no index buffer to read: every vertex stays foldable, as before
-                        }
-                    }
-
-                    // A NaN in any half set to 0, and the fold in U. A NaN is `std::isnan` on the
-                    // decoded value now rather than an exponent and mantissa test on the raw bits.
-                    std::size_t cleared = 0;
-                    std::size_t folded = 0;
-                    const BufFile::Filter clean =
-                        [&cleared, &folded, &keep, vertices](const BufLineData& line, long long,
-                                                             double index, long long) {
-                            BufLineData out = line;
-                            const auto at = out.find(TexcoordElement);
-                            if (at == out.end() || at->second.empty()) {
-                                return out;
-                            }
-
-                            for (BufValue& value : at->second) {
-                                if (std::holds_alternative<double>(value)
-                                        && std::isnan(std::get<double>(value))) {
-                                    value = 0.0;
-                                    ++cleared;
-                                }
-                            }
-
-                            if (!std::holds_alternative<double>(at->second.front())) {
-                                return out;
-                            }
-
-                            const auto vertex = static_cast<std::size_t>(index);
-                            const auto first = static_cast<float>(std::get<double>(at->second.front()));
-                            if (first >= 1.0f && vertex < vertices && !keep[vertex]) {
-                                at->second.front() = static_cast<double>(std::fmod(first, 1.0f));
-                                ++folded;
-                            }
-
-                            return out;
-                        };
+                    TexcoordCleanTally tally;
+                    const BufFile::Filter clean = texcoordCleaner(tally, keep);
 
                     // Counted before anything is written, because the copy exists only when it
                     // differs -- a mod with clean texcoords keeps its own buffer and its own binding.
@@ -3767,8 +3955,8 @@ namespace AGRemapCore {
                         return;
                     }
 
-                    const std::size_t clearedCount = cleared;
-                    const std::size_t foldedCount = folded;
+                    const std::size_t clearedCount = tally.cleared;
+                    const std::size_t foldedCount = tally.folded;
                     if (clearedCount == 0 && foldedCount == 0) {
                         return;
                     }
@@ -3887,6 +4075,8 @@ namespace AGRemapCore {
                 std::map<int, std::vector<std::string>> present_;     // source component -> its sections
                 std::vector<int> dropped_;
                 std::vector<std::vector<int>> groups_;
+                std::vector<ModObj> hashOnlyObjs_;                    // ...and the mod's objects that are not slots
+                std::unordered_set<std::string> hiddenObjs_;          // of those, the ones commented out rather than copied
                 std::set<int> drawnSlots_;
                 long long meshVertexCount_ = 0;
                 std::string meshFolder_;

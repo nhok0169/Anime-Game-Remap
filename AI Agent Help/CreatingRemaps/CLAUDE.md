@@ -1989,9 +1989,24 @@ does not change. Verified by injecting each source's own variant into every slot
 (`texfxSynth.py` in the session scratchpad: copy, add `run = CommandList\TexFx\T.n` after every `match_first_index`,
 fix, list each remapped section's calls) -- the corpus has TexFx mods for only Citlali, CitlaliWhisper, Neuvillette,
 Yaoyao, Charlotte, CharlotteHurlock and Lumine, and of those only two Yaoyao mods' output moved (their eye, `T.1` ->
-`T.0` on YaoyaoBamboo's plain eye slot). Open: YelanTranquil's Body slot C is a normal-map slot in the FORWARD config
-(`YelanFixer.cpp`) and a plain one in the REVERSE (`YelanTranquilFixer.cpp`); the download folder has no
-`BodyCNormalMap`, which sides with the reverse. The switch follows each config as written.
+`T.0` on YaoyaoBamboo's plain eye slot).
+
+**"The target's layout" means the layout the remapped SECTION binds in, not the game's own draw.** TexFx's
+`run = CustomShader...` draws on the spot, with whatever the section has bound at that line -- ORFix / NNFix re-slot
+the registers only for the game's draw afterwards. The two usually agree. YelanTranquil's Body slot C is where they do
+not (looked at 2026-09-30). Her own draw of it (`ib 611d6168`, first index 67374, the dump
+`FrameAnalysis-YelanTranquil-2026-09-12-060339`, draw 46) runs the two-sided cloth shader `vs d4c01363` / `ps
+93dcb43f`. It binds light map / diffuse / `b0e08915` with NO normal map, which is why the REVERSE config
+(`YelanTranquilFixer.cpp`) reads her mods' slot C as plain. The FORWARD config (`YelanFixer.cpp`) writes it in the
+normal-map layout under ORFix, and that is NOT a bug:
+- ORFix sends every pass of that shader through branches that read only the diffuse and the light map: `LDX` for the
+  draw (`vs d4c01363` is filter `037731.1`), `FixReflection` for the outline, `DiffuseSlot0` for the AA passes. The
+  flat normal map is thrown away, so the two layouts render alike.
+- The section binds the normal-map layout, so `T.1` is the right TexFx call there, and the switch picks it.
+- Switching the forward config to plain was built and thrown away: the component template's `buildTexEdits` applies
+  `diffuseEdits` / `lightMapEdit` ONLY on a normal-map component. The plain slot C bound the mod's raw head diffuse and
+  light map, losing the band legend and the alpha-1 head that were confirmed in game.
+- **That gap is real for the next pair**: a plain component whose objects need a texture edit gets none, silently.
 
 ## LUMINE <-> LUMINEHEAVEN (2026-09-29): the seventh component pair, compiled both ways
 

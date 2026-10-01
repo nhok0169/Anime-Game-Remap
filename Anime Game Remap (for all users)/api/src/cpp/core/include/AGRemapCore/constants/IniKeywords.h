@@ -25,12 +25,8 @@ namespace AGRemapCore {
      @rst
      Common keywords used in the .ini file :raw-html:`<br />` :raw-html:`<br />`
 
-     .. note::
-        This is a **partial** port of the pure-Python ``IniKeywords`` enum
-        (``constants/IniConsts.py``) -- that enum has ~30 members covering many subsystems that
-        haven't been ported to C++ yet; only the members :cpp:class:`IniNamingTools` actually needs
-        are included here. Add more members as later-ported subsystems need them, rather than
-        porting the whole enum speculatively up front
+     Bound to `Python`_ as ``IniKeywords``, each member a plain string. Add a member when a caller on
+     either side needs a keyword, rather than spelling the literal out where it is used
      @endrst
      */
     class IniKeywords {
@@ -474,7 +470,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              Written in place of a ``match_first_index`` that has no mapping onto the mod being
-             fixed to -- the index counterpart of ef HashNotFound
+             fixed to -- the index counterpart of \ref HashNotFound
              @endrst
              */
             static inline const std::string IndexNotFound = "IndexNotFound";

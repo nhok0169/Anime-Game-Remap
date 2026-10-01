@@ -152,7 +152,7 @@ modName: :class:`str`
 
     **Default**: ``""``
 
-version: Optional[:class:`CppVersion`]
+version: Optional[:class:`Version`]
     The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``, meaning the latest listed version

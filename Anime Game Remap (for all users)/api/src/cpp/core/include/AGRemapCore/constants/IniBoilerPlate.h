@@ -26,11 +26,9 @@ namespace AGRemapCore {
      Boilerplate constants used when fixing a ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        A **partial** port of the pure-Python ``IniBoilerPlate`` enum (``constants/IniConsts.py``),
-        which is still the one the `Python`_ ``IniFile`` uses -- only the members
-        :cpp:class:`RemapIniFixContext` needs are here, and ``OldHeading`` (which belongs to the
-        classifier's already-fixed check, not to writing a fix) is deliberately not among them.
-        Same rule as :cpp:class:`IniKeywords`: add members as later-ported subsystems need them
+        Only the members :cpp:class:`RemapIniFixContext` needs are here, and ``OldHeading`` (which
+        belongs to the classifier's already-fixed check, not to writing a fix) is deliberately not
+        among them. Add members as later subsystems need them
 
      .. note::
         ``DefaultHeading``'s *title* (``".*Remap"``) has no member here on purpose. Despite living

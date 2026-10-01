@@ -243,7 +243,7 @@ nonVersionVals: List[Any]
     The values of every index column that does not refer to a version, in index order (with the
     version column's position skipped)
 
-version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
     The specific version to query the asset -- the latest available version is used if this is
     ``None`` :raw-html:`<br />` :raw-html:`<br />`
 

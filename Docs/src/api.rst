@@ -766,6 +766,58 @@ CppTransparencyAdjustFilter
 
 :raw-html:`<br />`
 
+DownloadMode
+============
+
+.. autoclass:: FixRaidenBoss2.DownloadMode
+    :members:
+
+:raw-html:`<br />`
+
+DownloadModeTools
+=================
+
+.. attributetable:: FixRaidenBoss2.DownloadModeTools
+
+.. autoclass:: FixRaidenBoss2.DownloadModeTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+FileExt
+=======
+
+.. attributetable:: FixRaidenBoss2.FileExt
+
+.. autoclass:: FixRaidenBoss2.FileExt
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+FilePrefixes
+============
+
+.. attributetable:: FixRaidenBoss2.FilePrefixes
+
+.. autoclass:: FixRaidenBoss2.FilePrefixes
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+FileTypes
+=========
+
+.. attributetable:: FixRaidenBoss2.FileTypes
+
+.. autoclass:: FixRaidenBoss2.FileTypes
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 GameTypeId
 ==========
 
@@ -1032,6 +1084,25 @@ IfPredPart
 
 :raw-html:`<br />`
 
+IfPredPartType
+==============
+
+.. autoclass:: FixRaidenBoss2.IfPredPartType
+    :members:
+
+:raw-html:`<br />`
+
+IfPredPartTypeTools
+===================
+
+.. attributetable:: FixRaidenBoss2.IfPredPartTypeTools
+
+.. autoclass:: FixRaidenBoss2.IfPredPartTypeTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IfPredTokenizer
 ===============
 
@@ -1154,6 +1225,47 @@ IniFixingContext
 
 .. autoclass:: FixRaidenBoss2.IniFixingContext
     :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniGraphModObjKeywords
+======================
+
+.. attributetable:: FixRaidenBoss2.IniGraphModObjKeywords
+
+.. autoclass:: FixRaidenBoss2.IniGraphModObjKeywords
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniGraphReplaceMode
+===================
+
+.. autoclass:: FixRaidenBoss2.IniGraphReplaceMode
+    :members:
+
+:raw-html:`<br />`
+
+IniKeywords
+===========
+
+.. attributetable:: FixRaidenBoss2.IniKeywords
+
+.. autoclass:: FixRaidenBoss2.IniKeywords
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniNamingTools
+==============
+
+.. attributetable:: FixRaidenBoss2.IniNamingTools
+
+.. autoclass:: FixRaidenBoss2.IniNamingTools
     :members:
     :private-members:
 
@@ -1395,6 +1507,14 @@ RegFillMissing
     :inherited-members:
     :members:
     :private-members:
+
+:raw-html:`<br />`
+
+RegFillMissingMode
+==================
+
+.. autoclass:: FixRaidenBoss2.RegFillMissingMode
+    :members:
 
 :raw-html:`<br />`
 
@@ -1704,6 +1824,28 @@ VbFile
 
 :raw-html:`<br />`
 
+Version
+=======
+
+.. attributetable:: FixRaidenBoss2.Version
+
+.. autoclass:: FixRaidenBoss2.Version
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+VersionSet
+==========
+
+.. attributetable:: FixRaidenBoss2.VersionSet
+
+.. autoclass:: FixRaidenBoss2.VersionSet
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 VGRemap
 =======
 
@@ -1785,17 +1927,6 @@ CppHashTools
 .. attributetable:: FixRaidenBoss2.CppHashTools
 
 .. autoclass:: FixRaidenBoss2.CppHashTools
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-CppIntTools
-===========
-
-.. attributetable:: FixRaidenBoss2.CppIntTools
-
-.. autoclass:: FixRaidenBoss2.CppIntTools
     :members:
     :private-members:
 
@@ -1939,6 +2070,17 @@ Hash64
 .. attributetable:: FixRaidenBoss2.Hash64
 
 .. autoclass:: FixRaidenBoss2.Hash64
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IntTools
+========
+
+.. attributetable:: FixRaidenBoss2.IntTools
+
+.. autoclass:: FixRaidenBoss2.IntTools
     :members:
     :private-members:
 
@@ -3276,17 +3418,6 @@ Z3Predicate
 
 .. :raw-html:`<br />`
 
-.. ModTypeNames
-.. ~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.ModTypeNames
-
-.. .. autoclass:: FixRaidenBoss2.ModTypeNames
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
 .. ModTypes
 .. ~~~~~~~~
 
@@ -3394,29 +3525,6 @@ Z3Predicate
 
 .. :raw-html:`<br />`
 
-.. IniKeywords
-.. ~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.IniKeywords
-
-.. .. autoclass:: FixRaidenBoss2.IniKeywords
-..     :members:
-
-.. :raw-html:`<br />`
-
-.. IfPredPartType
-.. ~~~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.IfPredPartType
-
-.. .. autoclass:: FixRaidenBoss2.IfPredPartType
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-
-.. :raw-html:`<br />`
-
 .. ColourConsts
 .. ~~~~~~~~~~~~
 
@@ -3451,43 +3559,6 @@ Z3Predicate
 ..     :inherited-members:
 ..     :members:
 ..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. DownloadMode
-.. ~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.DownloadMode
-
-.. .. autoclass:: FixRaidenBoss2.DownloadMode
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. FileExt
-.. ~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.FileExt
-
-.. .. autoclass:: FixRaidenBoss2.FileExt
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. FileTypes
-.. ~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.FileTypes
-
-.. .. autoclass:: FixRaidenBoss2.FileTypes
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
 
 .. :raw-html:`<br />`
 
@@ -3554,17 +3625,6 @@ Z3Predicate
 .. .. attributetable:: FixRaidenBoss2.TextTools
 
 .. .. autoclass:: FixRaidenBoss2.TextTools
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. IntTools
-.. ~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.IntTools
-
-.. .. autoclass:: FixRaidenBoss2.IntTools
 ..     :members:
 ..     :private-members:
 

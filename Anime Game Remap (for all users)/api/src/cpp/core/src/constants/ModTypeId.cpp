@@ -295,7 +295,7 @@ namespace AGRemapCore {
                 return "Ayaka";
 
             // note: the value differs from the enumerator's own name ("AyakaSpringbloom") --
-            // mirrors ModTypeNames.py's AyakaSpringbloom = "AyakaSpringBloom" exactly
+            // the capital-B spelling is the name this mod type has always had
             case ModTypeId::AyakaSpringbloom:
                 return "AyakaSpringBloom";
 

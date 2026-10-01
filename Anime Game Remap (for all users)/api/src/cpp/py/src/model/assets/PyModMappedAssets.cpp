@@ -187,7 +187,7 @@ Parameters
 asset: Any
     The asset to search for
 
-version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
     The version to search from -- the latest available version is used if this is ``None``
 
     **Default**: ``None``
@@ -220,7 +220,7 @@ Parameters
 asset: Any
     The asset value to search for
 
-fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
     The version to search from -- see :meth:`hasFrom`
 
     **Default**: ``None``
@@ -273,7 +273,7 @@ Parameters
 asset: Any
     The asset to be replaced
 
-fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
     The version to replace from -- see :meth:`getKey`
 
     **Default**: ``None``
@@ -283,7 +283,7 @@ fromNonVersionVals: Optional[Union[Any, List[Optional[Any]], Dict[str, Any]]]
 
     **Default**: ``None``
 
-toVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+toVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
     The version to replace to -- the latest available version is used if this is ``None``
 
     **Default**: ``None``
@@ -328,7 +328,7 @@ Parameters
 asset: Any
     The asset to be replaced
 
-fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
     The version to replace from -- see :meth:`getKey`
 
     **Default**: ``None``
@@ -338,7 +338,7 @@ fromNonVersionVals: Optional[Union[Any, List[Optional[Any]], Dict[str, Any]]]
 
     **Default**: ``None``
 
-toVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+toVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
     The version to replace to -- the latest available version is used if this is ``None``
 
     **Default**: ``None``

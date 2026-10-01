@@ -16,9 +16,13 @@
 from typing import Optional, List
 ##### EndExtImports
 
+##### CppLocalImports
+from ..core import FileTypes
+##### EndCppLocalImports
+
+
 ##### LocalImports
 from .FileException import FileException
-from ..constants.FileTypes import FileTypes
 from ..constants.FilePathConsts import FilePathConsts
 ##### EndLocalImports
 
@@ -57,7 +61,7 @@ class DuplicateFileException(FileException):
         **Default**: ``None``
     """
 
-    def __init__(self, files: List[str], fileType: str = FileTypes.Default.value, path: Optional[str] = None):
+    def __init__(self, files: List[str], fileType: str = FileTypes.Default, path: Optional[str] = None):
         path = FilePathConsts.getPath(path)
         self.files = files
         self.fileType = fileType

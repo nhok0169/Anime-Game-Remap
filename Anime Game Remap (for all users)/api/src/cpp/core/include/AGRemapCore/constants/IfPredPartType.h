@@ -23,9 +23,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     The possible types for an :cpp:class:`IfPredPart` :raw-html:`<br />` :raw-html:`<br />`
-
-     Mirrors the pure-Python ``IfPredPartType`` enum (``constants/IfPredPartType.py``)
+     The possible types for an :cpp:class:`IfPredPart`
      @endrst
      */
     enum class IfPredPartType {

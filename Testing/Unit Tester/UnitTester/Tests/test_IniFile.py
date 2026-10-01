@@ -62,8 +62,7 @@ class IniFileTest(BaseUnitTest):
     # ================= download mode ================
 
     def test_downloadMode_acceptsEnumMemberAndBareString(self):
-        # DownloadMode is a plain enum in C++ but a StrEnum in Python, so it crosses by value --
-        # both the member and the string it carries have to work.
+        # the bound enum member, and the name a user types for it on the command line
         for mode in (FRB.DownloadMode.Disabled, FRB.DownloadMode.Normal, FRB.DownloadMode.Always,
                      "disabled", "normal", "always", None):
             FRB.IniFile(txt = "", downloadMode = mode)

@@ -142,8 +142,6 @@ delimiterRegs: Optional[Dict[:class:`str`, Optional[Callable[[:class:`str`], :cl
     **Default**: ``None``
     )doc");
 
-    // Bound as a plain py::enum_, unlike RegFillMissingMode -- that one mirrors a still-pure-Python
-    // Enum and has to be matched through '.value'; this one has no pure-Python original to mirror.
     py::enum_<AGRC::RegDelimitedAddMode>(m, "RegDelimitedAddMode", R"doc(
 How often :class:`RegDelimitedAdd` places its addition along one execution path :raw-html:`<br />`
 :raw-html:`<br />`

@@ -21,14 +21,6 @@ namespace AGRemapCore {
      * @brief
      @rst
      Different modes for handling :cpp:class:`IfContentPart`\s with missing registers
-     :raw-html:`<br />` :raw-html:`<br />`
-
-     .. note::
-        The `Python`_-facing ``RegFillMissingMode`` is a separate, still-pure-Python ``Enum``
-        (``constants/RegFillMissingMode.py``) whose members carry the same three string values. The
-        binding layer maps one onto the other by that value, rather than either side being replaced
-        -- this enum exists so `AGRemapCore` stays usable with no `Python`_ at all, matching what
-        ``IniGraphReplaceMode`` already does for the same reason
      @endrst
      */
     enum class RegFillMissingMode {

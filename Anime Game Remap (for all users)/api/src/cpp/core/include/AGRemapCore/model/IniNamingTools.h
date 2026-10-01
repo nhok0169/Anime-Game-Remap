@@ -24,9 +24,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     Utilities for some common naming conventions for .ini files :raw-html:`<br />` :raw-html:`<br />`
-
-     Mirrors the pure-Python ``IniNamingTools`` class (``model/IniNamingTools.py``)
+     Utilities for some common naming conventions for .ini files
      @endrst
      */
     class IniNamingTools {

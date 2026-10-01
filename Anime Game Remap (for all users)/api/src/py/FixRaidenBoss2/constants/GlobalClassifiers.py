@@ -33,13 +33,10 @@ class GlobalClassifiers(DeferredEnum):
     ModOptFiles: :class:`AhoCorasickSingleton`
         The classifier used to identify the type of file within a mod
 
-    DownloadModes: :class:`AhoCorasickSingleton`
-        The classifier used to identify the :class:`DownloadMode` for some string
     """
 
     __buildAhoCorasickSingleton__ = lambda: AhoCorasickSingleton(AhoCorasickBuilder())
 
     ModTypes = (__buildAhoCorasickSingleton__, )
     ModOptFiles = (__buildAhoCorasickSingleton__, )
-    DownloadModes = (__buildAhoCorasickSingleton__, )
 ##### EndScript

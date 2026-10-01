@@ -22,9 +22,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     Different file extensions for files :raw-html:`<br />` :raw-html:`<br />`
-
-     Mirrors the pure-Python ``FileExt`` enum (``constants/FileExt.py``)
+     Different file extensions for files
      @endrst
      */
     class FileExt {

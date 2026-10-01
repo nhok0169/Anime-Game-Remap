@@ -31,31 +31,6 @@ namespace AGRC = AGRemapCore;
 /**
  * @brief
  @rst
- The still-pure-Python ``RegFillMissingMode`` enum class object
- (``constants/RegFillMissingMode.py``), imported lazily on first use :raw-html:`<br />`
- :raw-html:`<br />`
-
- Only needed to materialize this edit's ``fillMode`` **default**, so that an omitted argument reads
- back as the real ``RegFillMissingMode.FillMissing`` member rather than ``None`` -- every other use
- goes through `parseFillMissingMode`, which reads the member's ``.value`` string instead and so
- needs no import at all. Deliberately **not** :cpp:enum:`AGRemapCore::RegFillMissingMode`, which is
- an unrelated C++ enum the `Python`_ side never sees
- @endrst
- */
-py::object pyRegFillMissingModeEnum();
-
-
-/**
- * @brief Converts a Python ``RegFillMissingMode`` member into the core enum
- *
- * @param mode The Python value to convert -- anything unrecognized (including ``None``) reads as ``RegFillMissingMode::FillMissing``
- */
-AGRC::RegFillMissingMode parseFillMissingMode(const py::object &mode);
-
-
-/**
- * @brief
- @rst
  Reads a `Python`_-side ``IniFile``'s own ``downloadMode`` and converts it into the core enum
  :raw-html:`<br />` :raw-html:`<br />`
 

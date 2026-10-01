@@ -65,7 +65,7 @@ class GIMIParserTest(BaseIniFileTest):
         }
 
         self._parser.trackKeys = True
-        self._parser.keysToTrack = {FRB.IniKeywords.Hash.value, FRB.IniKeywords.MatchFirstIndex.value}
+        self._parser.keysToTrack = {FRB.IniKeywords.Hash, FRB.IniKeywords.MatchFirstIndex}
         self._parser.objTargetFuncs = [sectionClassifier]
 
     # ====================== parse =======================================
@@ -239,7 +239,7 @@ filename = uniqueBaseFile""", 4]]
             
             self.createKeyedParser()
             self._parser.trackKeys = True
-            self._parser.keysToTrack = {FRB.IniKeywords.Hash.value, FRB.IniKeywords.MatchFirstIndex.value}
+            self._parser.keysToTrack = {FRB.IniKeywords.Hash, FRB.IniKeywords.MatchFirstIndex}
 
             self._iniFile.parse()
 
@@ -420,7 +420,7 @@ filename = uniqueBaseFile""", 4]]
         # Download graphs come in the order the parse FOUND them (downloadResourceGraphs is an
         # ordered map filled as the walk reaches each register), not the order of 'downloads'.
         downloadGraphs = self._parser.downloadResourceGraphs
-        expected += [(FRB.IniGraphModObjKeywords.Download.value, self._parser.downloads[modObj][reg].name)
+        expected += [(FRB.IniGraphModObjKeywords.Download, self._parser.downloads[modObj][reg].name)
                      for modObj in downloadGraphs for reg in downloadGraphs[modObj]]
         self.assertEqual(len(expected), 8)
 
@@ -438,7 +438,7 @@ filename = uniqueBaseFile""", 4]]
         for modObj in downloadGraphs:
             for reg in downloadGraphs[modObj]:
                 name = self._parser.downloads[modObj][reg].name
-                self.assertIs(graphs[(FRB.IniGraphModObjKeywords.Download.value, name)], downloadGraphs[modObj][reg])
+                self.assertIs(graphs[(FRB.IniGraphModObjKeywords.Download, name)], downloadGraphs[modObj][reg])
 
     def test_parse_groupsDictIsFresh_notCommandGraphsItself(self):
         result = self._parseResult()
@@ -465,8 +465,8 @@ filename = uniqueBaseFile""", 4]]
         self.assertEqual(len(self._iniFile.getFileDownloads()), 1)
 
         graphs = self._parser.collectParseResult()[0].graphs
-        downloadKeys = [modObj for modObj in graphs if modObj[0] == FRB.IniGraphModObjKeywords.Download.value]
-        self.compareList(downloadKeys, [(FRB.IniGraphModObjKeywords.Download.value, "sharedDownload")])
+        downloadKeys = [modObj for modObj in graphs if modObj[0] == FRB.IniGraphModObjKeywords.Download]
+        self.compareList(downloadKeys, [(FRB.IniGraphModObjKeywords.Download, "sharedDownload")])
 
         resourceGraphs = self._parser.downloadResourceGraphs[("", "texcoord")]
         self.assertIsNot(resourceGraphs["vb0"], resourceGraphs["vb1"])
@@ -480,7 +480,7 @@ filename = uniqueBaseFile""", 4]]
         # The register a download is referenced from ("vb0", "ps-t1", ...) never appears in the
         # key -- only the download's own name does, so the same resource reached from two places
         # would be one entry.
-        downloadKeys = [modObj for modObj in graphs if modObj[0] == FRB.IniGraphModObjKeywords.Download.value]
+        downloadKeys = [modObj for modObj in graphs if modObj[0] == FRB.IniGraphModObjKeywords.Download]
         self.compareList(sorted(name for _, name in downloadKeys),
                          sorted(["testPosition", "testTexture", "testDiffuse", "testLightMap"]))
 

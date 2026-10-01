@@ -55,9 +55,9 @@ PyBaseResEditCore::ResEditConfig makeResEditConfig();
 
 
 /**
- * @brief Converts a Python ``IniGraphReplaceMode`` member into the core enum
+ * @brief Converts a Python ``IniGraphReplaceMode`` argument into the core enum -- see ``toIniGraphReplaceMode``
  *
- * @param mode The Python enum member (read by its ``.value``), or ``None`` for ``Ignore``
+ * @param mode The :class:`IniGraphReplaceMode` member, or ``None`` for ``Ignore``
  */
 AGRC::IniGraphReplaceMode parseGraphReplaceMode(const py::object &mode);
 

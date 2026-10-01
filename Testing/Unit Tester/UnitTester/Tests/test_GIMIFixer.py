@@ -140,7 +140,7 @@ class GIMIFixerTest(BaseIniFileTest):
         graphs = self._fixer.graphGroups[0].graphs
 
         expected = list(self._parser.commandGraphs.keys())
-        expected.append((FRB.IniGraphModObjKeywords.Download.value, "testPosition"))
+        expected.append((FRB.IniGraphModObjKeywords.Download, "testPosition"))
         self.compareList(list(graphs.keys()), expected)
 
     def test_getFix_graphsAreCopiesOfTheParsers(self):
@@ -242,7 +242,7 @@ class GIMIFixerTest(BaseIniFileTest):
     def _hiddenHeaderPattern(self, sectionName):
         # The comment goes in front of the *whole* line, indentation included, so a hidden section
         # header reads ";RemapFixHideOrig -->                    [Name]".
-        comment = FRB.IniKeywords.HideOriginalComment.value
+        comment = FRB.IniKeywords.HideOriginalComment
         return re.compile(re.escape(comment) + r"[ 	]*\[" + re.escape(sectionName) + r"\]")
 
     def _touchedSections(self):
@@ -326,7 +326,7 @@ class GIMIFixerTest(BaseIniFileTest):
         content = self._fixer.fix(hideOrig = True, context = FRB.IniFixingContext(isLastModType = False))
         content = content[self._iniFile.file]
 
-        self.assertNotIn(FRB.IniKeywords.HideOriginalComment.value, content)
+        self.assertNotIn(FRB.IniKeywords.HideOriginalComment, content)
 
         # ...and it still produced its own fix.
         self.assertIn("Albert Gold#2696", content)
@@ -349,7 +349,7 @@ class GIMIFixerTest(BaseIniFileTest):
     def _backupFile(self):
         # Where IniFile.disableIni puts the backup: beside the .ini file, prefixed, as a .txt
         folder, name = os.path.split(self._iniFile.file)
-        return os.path.join(folder, f"{FRB.FilePrefixes.BackupFilePrefix.value}{os.path.splitext(name)[0]}.txt")
+        return os.path.join(folder, f"{FRB.FilePrefixes.BackupFilePrefix}{os.path.splitext(name)[0]}.txt")
 
     def test_fix_keepBackup_isSkippedWhenThisIsNotTheFirstModType(self):
         self.create(modsToFix = ["rika"])
@@ -399,7 +399,7 @@ class GIMIFixerTest(BaseIniFileTest):
         self.create(modsToFix = ["rika"])
         content = self.parseAndFix()[self._iniFile.file]
 
-        self.assertNotIn(FRB.IniKeywords.HideOriginalComment.value, content)
+        self.assertNotIn(FRB.IniKeywords.HideOriginalComment, content)
 
     # =========================== groupToStr =====================================
 

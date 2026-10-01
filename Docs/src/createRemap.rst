@@ -26,7 +26,8 @@ How to Create a Remap
 
 1. Register the name of the characters to remap
 -----------------------------------------------
-Add the names of the characters to remap at `ModTypeNames.py`_
+Add the characters to remap to the ``ModTypeId`` enum in `ModTypeId.h`_, and their names to
+``ModTypeIdTools::getName`` in `ModTypeId.cpp`_
 
 :raw-html:`<br />`
 :raw-html:`<br />`
@@ -145,7 +146,8 @@ Go to `IniClassifierBuilder.py`_ and specify how software will identify whether 
 
 
 .. _GIMI Assets: https://github.com/SilentNightSound/GI-Model-Importer-Assets
-.. _ModTypeNames.py: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/constants/ModTypeNames.py
+.. _ModTypeId.h: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/cpp/core/include/AGRemapCore/constants/ModTypeId.h
+.. _ModTypeId.cpp: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/cpp/core/src/constants/ModTypeId.cpp
 .. _HashData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/HashData.py
 .. _IndexData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/IndexData.py
 .. _PositionEditorData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/PositionEditorData.py

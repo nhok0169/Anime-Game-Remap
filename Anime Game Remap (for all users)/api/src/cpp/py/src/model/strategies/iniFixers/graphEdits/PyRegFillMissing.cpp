@@ -19,82 +19,16 @@
 #include <vector>
 
 #include "../../../iftemplate/PyIfContentPart.h"
+#include "../../../../constants/PyConstantEnums.h"
 #include "../regEdits/PyBaseRegEdit.h"  // reuses PyPartRanges (the "a bound Ranges, or a raw list
                                         // of bounds" resolver) for a partFilter's return value
-
-
-namespace {
-
-// The dotted path to the still-pure-Python constants.RegFillMissingMode, derived once at module
-// init from this 'core' module's own '__name__' rather than hardcoded -- a literal
-// "FixRaidenBoss2...." path breaks under this repo's Unit Tester harness, which imports the whole
-// package as 'src.py.FixRaidenBoss2'. Same technique (and same reason) as PyGraphGroupEdit.cpp's
-// baseIniGraphEditModulePath.
-std::string &regFillMissingModeModulePath() {
-    static std::string path;
-    return path;
-}
-
-
-// Reads the '.value' string a Python Enum member carries, or the object's own str() when it has no
-// '.value' at all -- the shape both parse helpers below compare against.
-std::string enumValueOf(const py::object &member) {
-    py::object value = py::hasattr(member, "value") ? member.attr("value") : member;
-    return py::str(value).cast<std::string>();
-}
-
-}
-
-
-py::object pyRegFillMissingModeEnum() {
-    // Never deleted: a function-local static holding a Python reference is destroyed during C++
-    // static destruction, which on CPython runs *after* Py_Finalize -- decref'ing an object into an
-    // already-torn-down interpreter. Same reasoning (and same confirmed 0xC0000005 crash) as
-    // PyGraphGroupEdit.cpp's own never-deleted statics.
-    static py::object *modeEnum = nullptr;
-    if (modeEnum == nullptr) {
-        modeEnum = new py::object(py::module_::import(regFillMissingModeModulePath().c_str()).attr("RegFillMissingMode"));
-    }
-
-    return *modeEnum;
-}
-
-
-AGRC::RegFillMissingMode parseFillMissingMode(const py::object &mode) {
-    if (mode.is_none()) {
-        return AGRC::RegFillMissingMode::FillMissing;
-    }
-
-    // Read through '.value' rather than by identity: RegFillMissingMode is still a pure-Python
-    // Enum, so there is no C++ member to compare against -- only the string each member carries.
-    // Same shape as PyResEdit.cpp's parseGraphReplaceMode.
-    if (enumValueOf(mode) == "topdownCover") {
-        return AGRC::RegFillMissingMode::TopdownCover;
-    }
-    if (enumValueOf(mode) == "bottomCover") {
-        return AGRC::RegFillMissingMode::BottomCover;
-    }
-
-    return AGRC::RegFillMissingMode::FillMissing;
-}
 
 
 AGRC::DownloadMode parseIniDownloadMode(const py::object &ini) {
     if (ini.is_none() || !py::hasattr(ini, "downloadMode")) {
         return AGRC::DownloadMode::Normal;
     }
-
-    std::string parsed = enumValueOf(ini.attr("downloadMode"));
-
-    if (parsed == "disabled") {
-        return AGRC::DownloadMode::Disabled;
-    }
-
-    if (parsed == "always") {
-        return AGRC::DownloadMode::Always;
-    }
-
-    return AGRC::DownloadMode::Normal;
+    return toDownloadMode(ini.attr("downloadMode"), false);
 }
 
 
@@ -201,16 +135,15 @@ PyRegFillMissing::PyRegFillMissing(std::string regObj, py::object fillMissingObj
     Core(std::move(regObj)), fillMissingObj(std::move(fillMissingObj)), keysToTrackObj(std::move(keysToTrackObj)) {
 
     // An omitted 'fillMode' materializes the real RegFillMissingMode.FillMissing member rather than
-    // staying None, so reading '.fillMode' back matches what the pure-Python original's own default
-    // argument stored.
-    this->fillModeObj = fillModeObj.is_none() ? pyRegFillMissingModeEnum().attr("FillMissing") : std::move(fillModeObj);
+    // staying None, so reading '.fillMode' back gives the member itself.
+    this->fillModeObj = fillModeObj.is_none() ? enumMember(AGRC::RegFillMissingMode::FillMissing) : std::move(fillModeObj);
     this->dependOnDownload = dependOnDownload;
     this->trackKeys = trackKeys;
 }
 
 
 void PyRegFillMissing::refresh() {
-    fillMode = parseFillMissingMode(fillModeObj);
+    fillMode = toRegFillMissingMode(fillModeObj);
 
     // Mode and fill function are re-derived together -- see this method's own doc comment.
     bool toFront = (fillMode == AGRC::RegFillMissingMode::TopdownCover);
@@ -223,21 +156,6 @@ void PyRegFillMissing::refresh() {
 
 
 void initCppRegFillMissing(pybind11::module_ &m) {
-    // Derive "<core's own parent package>.constants.RegFillMissingMode" from 'm's actual
-    // '__name__' -- see regFillMissingModeModulePath's comment for why this can't just be
-    // hardcoded.
-    std::string coreModuleName = m.attr("__name__").cast<std::string>();
-    std::string parentPackage = coreModuleName;
-    std::size_t lastDot = parentPackage.rfind('.');
-    if (lastDot != std::string::npos) {
-        parentPackage.erase(lastDot);
-    } else {
-        parentPackage.clear();
-    }
-
-    std::string relativePath = "constants.RegFillMissingMode";
-    regFillMissingModeModulePath() = parentPackage.empty() ? relativePath : (parentPackage + "." + relativePath);
-
     py::class_<PyRegFillMissing, PyBaseIniGraphEdit, py::smart_holder> cls(m, "RegFillMissing", R"doc(
 This class inherits from :class:`BaseIniGraphEdit`
 

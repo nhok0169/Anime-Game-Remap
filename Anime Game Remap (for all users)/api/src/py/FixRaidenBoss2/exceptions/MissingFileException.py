@@ -16,9 +16,13 @@
 from typing import Optional
 ##### EndExtImports
 
+##### CppLocalImports
+from ..core import FileTypes
+##### EndCppLocalImports
+
+
 ##### LocalImports
 from .FileException import FileException
-from ..constants.FileTypes import FileTypes
 from ..constants.FilePathConsts import FilePathConsts
 ##### EndLocalImports
 
@@ -48,7 +52,7 @@ class MissingFileException(FileException):
     fileType: :class:`str`
         The type of file searching in the folder
     """
-    def __init__(self, fileType: str = FileTypes.Default.value, path: Optional[str] = None):
+    def __init__(self, fileType: str = FileTypes.Default, path: Optional[str] = None):
         path = FilePathConsts.getPath(path)
         message = f"Unable to find {fileType}. Ensure it is in the folder"
         self.fileType = fileType

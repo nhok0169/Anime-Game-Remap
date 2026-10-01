@@ -57,7 +57,7 @@ def kiraraAltFixer(FRB):
     RegValChecks = FRB.GIMICharFixerConfig.RegValChecks
     TexEdit = FRB.GIMICharFixerConfig.TexEdit
 
-    ORFix = FRB.IniKeywords.ORFixPath.value
+    ORFix = FRB.IniKeywords.ORFixPath
     NNFix = r"CommandList\global\ORFix\NNFix"
     TexFx = r"CommandList\TexFx\TN.0"
 

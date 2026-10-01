@@ -23,6 +23,7 @@
 #include "../../PyIniGraphGroup.h"
 #include "../../PyIniSectionGraph.h"
 #include "../../PyVersion.h"
+#include "../../../constants/PyConstantEnums.h"
 #include "../../assets/PyModMappedAssets.h"
 #include "../../iftemplate/PyIfContentPart.h"
 #include "../../iftemplate/PyIfContentPartColour.h"
@@ -45,27 +46,6 @@ ModObj modObjFromPy(const py::handle &value) {
 
 py::tuple modObjToPy(const ModObj &modObj) {
     return PyIniGraphGroups::modObjToPy(modObj);
-}
-
-
-// The Python DownloadMode is a still-pure-Python Enum whose members carry the same three string
-// values as AGRC::DownloadMode -- see that enum's own note. Mapped by value rather than by
-// position, so adding a member on either side can't silently misalign the two.
-AGRC::DownloadMode parseDownloadMode(const py::object &raw) {
-    if (raw.is_none()) {
-        return AGRC::DownloadMode::Normal;
-    }
-
-    py::object value = py::hasattr(raw, "value") ? raw.attr("value") : raw;
-    std::string parsed = py::str(value).cast<std::string>();
-
-    if (parsed == "disabled") {
-        return AGRC::DownloadMode::Disabled;
-    }
-    if (parsed == "always") {
-        return AGRC::DownloadMode::Always;
-    }
-    return AGRC::DownloadMode::Normal;
 }
 
 
@@ -207,7 +187,7 @@ AGRC::DownloadMode PyIniParseContext::downloadMode() const {
         return AGRC::DownloadMode::Normal;
     }
 
-    return parseDownloadMode(ini.attr("downloadMode"));
+    return toDownloadMode(ini.attr("downloadMode"), false);
 }
 
 

@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniGraphModObjKeywords.h" line="50" column="45" bodyfile="include/AGRemapCore/constants/IniGraphModObjKeywords.h" bodystart="50" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniGraphModObjKeywords.h" line="41" column="45" bodyfile="include/AGRemapCore/constants/IniGraphModObjKeywords.h" bodystart="41" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -33,18 +33,9 @@ graphs that really are one mod object&apos;s ``TextureOverride`` command chain. 
 hands back also carries graphs that aren&apos;t -- the synthesized download-resource `sections`_ --
 and those get a reserved component name instead, so they can never collide with a real
 ``(component, object)`` pair from the ``.ini`` file.
-
-:raw-html:`&lt;br /&gt;`
-
-.. note::
-   The `Python`_-facing ``IniGraphModObjKeywords`` is a separate, still-pure-Python ``Enum``
-   (``constants/IniConsts.py``) whose member carries the same string value. The binding layer
-   uses the same literal rather than either side being replaced -- this class exists so
-   `AGRemapCore` stays usable with no `Python`_ at all, matching what
-   :cpp:enum:`IniGraphReplaceMode` already does for the same reason
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/IniGraphModObjKeywords.h" line="44" column="5" bodyfile="include/AGRemapCore/constants/IniGraphModObjKeywords.h" bodystart="44" bodyend="51"/>
+    <location file="include/AGRemapCore/constants/IniGraphModObjKeywords.h" line="35" column="5" bodyfile="include/AGRemapCore/constants/IniGraphModObjKeywords.h" bodystart="35" bodyend="42"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_graph_mod_obj_keywords_1a730b5a74cd6f071e06c3b05246ebf547" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphModObjKeywords</scope><name>Download</name></member>
     </listofallmembers>

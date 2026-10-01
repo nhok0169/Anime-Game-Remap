@@ -1254,6 +1254,26 @@ python3 main.py runSuite                      # or produceOutputs / printOutputs
 python3 main.py runSuite ApiDocTests.test_fullFix_modFixed
 ```
 
+**Running it on WINDOWS, for a quick check (2026-10-01).** `main.py` dies on import with
+`ImportError: DLL load failed while importing core: The parameter is incorrect` -- not a broken
+build: the tester puts the API on `sys.path` as a RELATIVE path, and CPython cannot load an
+extension module through one. Import the package from its absolute path first, then hand over:
+
+```python
+import os, runpy, sys
+sys.path.insert(0, r"<repo>\Anime Game Remap (for all users)\api\src\py")
+import FixRaidenBoss2
+os.chdir(r"<repo>\Testing\Integration Tester"); sys.path.insert(0, os.getcwd())
+sys.argv = ["main.py", "runSuite"]; runpy.run_path("main.py", run_name = "__main__")
+```
+
+Against the Linux goldens a Windows run passes all 17 `APIDocsTests` and fails all 7
+`MixedModsTests`, and none of the 7 is content: the summary logs differ in path separators,
+in compiler-specific exception names (`class std::out_of_range` vs `St12out_of_range`) and in the
+order of two entries, and the three Raiden `.ini` files differ only in the ORDER of generated
+sections (the same lines added as removed). Classify before attributing, and restore
+`integrationTestResults.txt` afterwards -- the run rewrites that tracked file.
+
 **Produce and run it on LINUX**, as its README says and as the user asked --- CI is Linux, and a
 golden written on Windows differs in path separators inside logs. From this Windows host that means
 WSL with the Linux `.so` rebuilt first (`Tools/Misc/Linux/linuxBuild.sh`, run through an LF copy:

@@ -71,7 +71,7 @@ class PyBindRemapServiceCLI: public AGRC::RemapServiceCLI, public py::trampoline
 
  Bound under a ``Cpp`` name rather than the bare one because the class a caller actually wants is
  the `Python`_ ``RemapServiceCLI`` that subclasses it, following the same convention as
- ``CppVersion``/``CppGlobalModTypes``
+ ``CppGlobalModTypes``
  @endrst
  *
  * @param m The module to register into

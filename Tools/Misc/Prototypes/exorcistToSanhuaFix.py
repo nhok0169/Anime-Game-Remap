@@ -415,13 +415,13 @@ class TextureIndex():
         self.real: Dict[str, str] = {}                           # matching key (case-folded abs path) -> the file's real spelling
         hashesOfFile: Dict[str, List[str]] = {}
         ddsFiles: List[str] = []
-        remapFix = FRB.IniKeywords.RemapFix.value.lower()
+        remapFix = FRB.IniKeywords.RemapFix.lower()
         for folder, dirs, names in os.walk(root):
             dirs[:] = sorted(d for d in dirs if (not d.upper().startswith("DISABLED")))
             for name in sorted(names):
                 path = os.path.normcase(os.path.abspath(os.path.join(folder, name)))
                 low = name.lower()
-                if (low.endswith(".dds") and FRB.IniKeywords.RemapTex.value.lower() not in low and FRB.IniKeywords.RemapDL.value.lower() not in low):
+                if (low.endswith(".dds") and FRB.IniKeywords.RemapTex.lower() not in low and FRB.IniKeywords.RemapDL.lower() not in low):
                     ddsFiles.append(path)
                     self.real[path] = os.path.abspath(os.path.join(folder, name))
                 elif (low.endswith(".ini") and not name.upper().startswith("DISABLED") and remapFix not in low):
@@ -587,11 +587,11 @@ class ModFiles():
             return self._resourceOfFile[best]
         if (best not in self._declaredName):
             names = set(self._declaredName.values())
-            name = f"Resource{role[0].upper()}{role[1:]}{TargetName}{FRB.IniKeywords.RemapRef.value}"
+            name = f"Resource{role[0].upper()}{role[1:]}{TargetName}{FRB.IniKeywords.RemapRef}"
             n = 1
             while (name in names):
                 n += 1
-                name = f"Resource{role[0].upper()}{role[1:]}{n}{TargetName}{FRB.IniKeywords.RemapRef.value}"
+                name = f"Resource{role[0].upper()}{role[1:]}{n}{TargetName}{FRB.IniKeywords.RemapRef}"
             self._declaredName[best] = name
             self.declared[name] = os.path.relpath(self._real(best), self._iniFolder).replace("/", "\\")
         return self._declaredName[best]
@@ -608,11 +608,11 @@ class ModFiles():
             if (not os.path.isfile(src)):
                 print(f"    WARNING: no {os.path.basename(src)} under {AssetsFolder} for the {role} the mod lacks")
                 continue
-            fileName = f"{SourceName}{role[0].upper()}{role[1:]}{FRB.IniKeywords.RemapDL.value}.dds"
+            fileName = f"{SourceName}{role[0].upper()}{role[1:]}{FRB.IniKeywords.RemapDL}.dds"
             rel = f"{self.textureFolder}/{fileName}"
             os.makedirs(os.path.join(self.iniFolder, self.textureFolder), exist_ok = True)
             shutil.copyfile(src, os.path.join(self.iniFolder, self.textureFolder, fileName))
-            name = f"Resource{SourceName}{role[0].upper()}{role[1:]}{FRB.IniKeywords.RemapDL.value}"
+            name = f"Resource{SourceName}{role[0].upper()}{role[1:]}{FRB.IniKeywords.RemapDL}"
             self.resourceOfRole[role] = name
             out.append("\n".join([f"[{name}]", f"filename = {rel}", ""]))
         return out
@@ -735,7 +735,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
     plan = Plans[planName]
     source, target = characterFromLibrary(sourceType), characterFromLibrary(targetType)
     vgRemap, forcedRemap = effectiveRemap(sourceType, target, remapOverride)
-    naming = FRB.CppIniNamingTools
+    naming = FRB.IniNamingTools
 
     def factory(parser, toModName: str, modTypeId: int):
         ini = parser._iniFile
@@ -766,7 +766,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             if (vertexCount <= 0):
                 raise ValueError("no `global $mesh_vertex_count` in [Constants], so the zero shape-key stream cannot be sized")
             blendFile = next((v for k, v in map(keyValue, files.sections.get("ResourceBlendBuffer", [])) if k == "filename"), "Meshes/Blend.buf")
-            zeroFile = os.path.join(os.path.dirname(blendFile.replace("\\", "/")), f"{toModName}{FRB.IniKeywords.Remap.value}{ShapeKeyZero}.buf").replace("\\", "/")
+            zeroFile = os.path.join(os.path.dirname(blendFile.replace("\\", "/")), f"{toModName}{FRB.IniKeywords.Remap}{ShapeKeyZero}.buf").replace("\\", "/")
             os.makedirs(os.path.dirname(os.path.join(ini.folder, zeroFile)) or ini.folder, exist_ok = True)
             with open(os.path.join(ini.folder, zeroFile), "wb") as f:
                 f.write(bytes(vertexCount * ShapeKeyStride))
@@ -775,7 +775,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             print(f"    vb6 (the game's shape-key offsets, applied by vertex id): every remapped draw binds {vertexCount} zero offsets instead")
 
         # ---- the edits shared by every object: the target's hashes, the target's checksum, the names ----
-        hashRemap = FRB.RegAssetRemap({"hash": (modType.hashes, FRB.IniKeywords.HashNotFound.value),
+        hashRemap = FRB.RegAssetRemap({"hash": (modType.hashes, FRB.IniKeywords.HashNotFound),
                                        "$\\WWMIv1\\shapekey_checksum": (modType.shapeKeyChecksums, "ChecksumNotFound")},
                                       toModName, SourceName, ini.fromVersion, ini.toVersion)
         rename = FRB.GraphRename(fixName)
@@ -839,7 +839,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                 # what every remapped section of this component must end up with, for the check that runs
                 # over the written file (ensureAdditions): a graph edit that finds no position adds nothing
                 # and says nothing, and this component then draws with no vb6 zero stream and no textures
-                RequiredAdditions[f"TextureOverride{SlotPrefix}{i}{toModName}{FRB.IniKeywords.RemapFix.value}".lower()] = list(additions)
+                RequiredAdditions[f"TextureOverride{SlotPrefix}{i}{toModName}{FRB.IniKeywords.RemapFix}".lower()] = list(additions)
                 # right after the shared-resource override, the EARLIEST spot after it; no after-register
                 # (behind a `$draw_x` toggle no draw is certain -- sanhuaExorcistFix.py's header, point 14)
                 # the anchor is matched under BOTH names: GraphGroupRemap renames as it copies, so a section
@@ -853,7 +853,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             # and what the written file must then say, for ensureValues: a RegNewVals that does not reach a
             # line leaves the SOURCE's number there, which for vg_offset / vg_count merges the target's bone
             # data into the wrong window of the merged skeleton -- the component drawn on wrong bones
-            RequiredValues[f"TextureOverride{SlotPrefix}{i}{toModName}{FRB.IniKeywords.RemapFix.value}".lower()] = dict(retarget)
+            RequiredValues[f"TextureOverride{SlotPrefix}{i}{toModName}{FRB.IniKeywords.RemapFix}".lower()] = dict(retarget)
             edits.append(FRB.RegNewVals(retarget))
             edits += [hashRemap, rename]
             perObj[("", f"{SlotPrefix}{i}")] = edits
@@ -873,7 +873,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
         for slot, c in enumerate(target["components"]):
             if (slot in drawnSlots):
                 continue
-            name = f"TextureOverride{toModName}{SlotPrefix.capitalize()}{slot}{FRB.IniKeywords.Remap.value}Hide"
+            name = f"TextureOverride{toModName}{SlotPrefix.capitalize()}{slot}{FRB.IniKeywords.Remap}Hide"
             appended.append("\n".join([
                 f"; nothing of the mod is drawn through {toModName}'s {TargetLabels.get(slot, slot)} slot: the skin's own geometry is skipped and its bones still merged",
                 f"[{name}]", f"hash = {target['vb0_hash']}", f"match_first_index = {c['index_offset']}", f"match_index_count = {c['index_count']}",
@@ -890,7 +890,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             appended.append("\n".join([f"[{fixName(f'ShaderOverridePass{i}')}]", f"hash = {ps}", f"filter_index = {filterIndex}", ""]))
         usedCreated = [role for role in CreatedTextures if any(r == role for i in files.present if (i in plan) for r in plan[i][1].values())]
         for role in usedCreated:
-            texFile = os.path.join(files.textureFolder, f"{role}{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
+            texFile = os.path.join(files.textureFolder, f"{role}{toModName}{FRB.IniKeywords.RemapTex}.dds").replace("\\", "/")
             os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
             writeSolidDds(os.path.join(ini.folder, texFile), CreatedTextures[role])
             appended.append("\n".join([f"[{createdResource[role]}]", f"filename = {texFile}", ""]))
@@ -923,7 +923,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
 
 ShapeKeySections = ["TextureOverrideShapeKeyOffsets", "TextureOverrideShapeKeyScale", "CommandListSetupShapeKeys", "CommandListLoadShapeKeys",
                     "TextureOverrideShapeKeyLoaderCallback", "CommandListMultiplyShapeKeys", "TextureOverrideShapeKeyMultiplierCallback"]
-HideMarker = FRB.IniKeywords.HideOriginalComment.value
+HideMarker = FRB.IniKeywords.HideOriginalComment
 
 
 def hideOriginalSections(iniPath: str, matches) -> int:
@@ -1061,10 +1061,10 @@ def ensureBlendBinding(iniPath: str, blendReg: str = "vb4") -> List[str]:
         text = f.read()
     ending = "\r\n" if ("\r\n" in text) else "\n"
     lines = text.split(ending)
-    start = next((k for k, line in enumerate(lines) if (line.startswith("; ---") and FRB.IniKeywords.Remap.value in line)), None)
+    start = next((k for k, line in enumerate(lines) if (line.startswith("; ---") and FRB.IniKeywords.Remap in line)), None)
     if (start is None):
         return []
-    remapped = next((v for k, v in map(keyValue, lines[start:]) if (k == blendReg and v and FRB.IniKeywords.Remap.value in v)), None)
+    remapped = next((v for k, v in map(keyValue, lines[start:]) if (k == blendReg and v and FRB.IniKeywords.Remap in v)), None)
     if (remapped is None):
         return []
     fixed: List[str] = []
@@ -1083,12 +1083,12 @@ def duplicateSections(iniPath: str) -> List[str]:
     """The section names the fix block declares more than once -- always worth saying out loud"""
     with open(iniPath, "r", encoding = "utf-8", newline = "") as f:
         lines = f.read().splitlines()
-    start = next((k for k, line in enumerate(lines) if (line.startswith("; ---") and FRB.IniKeywords.Remap.value in line)), len(lines))
+    start = next((k for k, line in enumerate(lines) if (line.startswith("; ---") and FRB.IniKeywords.Remap in line)), len(lines))
     names = [m.group("name") for m in map(SectionPattern.match, lines[start:]) if m]
     return sorted({name for name in names if names.count(name) > 1})
 
 
-SlotSectionPattern = re.compile(rf"^TextureOverride{SlotPrefix}\d+{TargetName}{FRB.IniKeywords.RemapFix.value}$", re.IGNORECASE)
+SlotSectionPattern = re.compile(rf"^TextureOverride{SlotPrefix}\d+{TargetName}{FRB.IniKeywords.RemapFix}$", re.IGNORECASE)
 DrawKeys = {"drawindexed", "vb6"}
 
 
@@ -1197,7 +1197,7 @@ def splitSlotFiles(iniPath: str) -> List[str]:
                 block = skipOnly(name, block)
             out.extend(block)
             k = e
-        extra = f"{stem}{FRB.IniKeywords.RemapFix.value}{n}{ext}"
+        extra = f"{stem}{FRB.IniKeywords.RemapFix}{n}{ext}"
         with open(extra, "w", encoding = "utf-8", newline = "") as f:
             f.write(ending.join(out))
         written.append(extra)
@@ -1220,7 +1220,7 @@ def removeSplitFiles(folder: str) -> int:
     removed = 0
     for root, _, names in os.walk(folder):
         for name in names:
-            if (re.search(rf"(?:{TargetName})?{FRB.IniKeywords.RemapFix.value}\d+\.ini$", name, re.IGNORECASE)):
+            if (re.search(rf"(?:{TargetName})?{FRB.IniKeywords.RemapFix}\d+\.ini$", name, re.IGNORECASE)):
                 os.remove(os.path.join(root, name)); removed += 1
     return removed
 

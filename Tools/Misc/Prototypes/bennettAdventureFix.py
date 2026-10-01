@@ -632,7 +632,7 @@ def texReplace(files: ModFiles, resModObj, kind: str, filterFunc, compress: bool
 def makeFixer(component: str, components: List[str]):
     plan = Plan[component]
     slot, slotObj = plan["slot"], ("", plan["slot"])
-    naming = FRB.CppIniNamingTools
+    naming = FRB.IniNamingTools
 
     def factory(parser, toModName: str, modTypeId: int):
         ini = parser._iniFile

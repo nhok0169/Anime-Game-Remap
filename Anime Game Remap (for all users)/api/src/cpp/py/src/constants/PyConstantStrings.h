@@ -1,5 +1,5 @@
-#ifndef AGRemapPyBind_PyIniNamingTools_H
-#define AGRemapPyBind_PyIniNamingTools_H
+#ifndef AGRemapPyBind_PyConstantStrings_H
+#define AGRemapPyBind_PyConstantStrings_H
 
 // ##### Credits
 
@@ -17,12 +17,6 @@
 #include <pybind11/pybind11.h>
 
 
-/**
- * @brief
- @rst
- Binds `AGRC::IniNamingTools` as ``IniNamingTools``
- @endrst
- */
-void initCppIniNamingTools(pybind11::module_ &m);
+void initCppConstantStrings(pybind11::module_ &m);
 
 #endif

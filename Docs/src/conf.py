@@ -99,6 +99,10 @@ autodoc_typehints = "description"
 #   :ref:\coreAPI:Tools
 autosectionlabel_prefix_document = True
 
+# The tutorial's choices each walk through their own STEP 1 / 2 / 3, so those headings share labels.
+# Nothing references a STEP heading (a reference goes to the choice's own heading instead)
+suppress_warnings = ["autosectionlabel.tutorial"]
+
 
 # add the edit on github link
 html_context = {

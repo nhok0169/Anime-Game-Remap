@@ -85,11 +85,6 @@ class TexCreator(CppTexCreator):
         Whether to maintain :attr:`TextureFile.img` when :attr:`engine` is
         :attr:`TexEngine.Compressonator`
 
-    compress: :class:`bool`
-        Whether the created texture is written compressed -- see :attr:`CppTexCreator.compress`
-
-    mipmaps: :class:`bool`
-        Whether the created texture is written with its full mip chain -- see :attr:`CppTexCreator.mipmaps`
     """
 
     def __init__(self, width: int, height: int, colour: Optional[Colour] = None, engine: TexEngine = TexEngine.Compressonator, readPillowImg: bool = False,

@@ -206,12 +206,23 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is eighty-six short habits, none of
+feature or bug request here: the habits that pay" first.** It is eighty-seven short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
 will conclude there is no coverage when there is), when a divergence from the old script is *not*
 a bug, and how to prove a refactor changed nothing.
+
+**EVERY DOC COMMENT AND DOCSTRING IS PUBLISHED, AND THE SITE'S READER IS A NEW API USER (2026-10-01).** Doxygen
+comments in `core/`, pybind11 `R"(...)"` docstrings and Python docstrings all render on the Read the Docs site,
+and an audit that day removed ~1,200 lines of work log from the two reference pages -- dates, "a port of / mirrors
+the pure-Python original", "until 2026-09-17 this ...", per-mod debugging stories -- plus ~90 method docs that had
+gone plain WRONG (real fixes documented as "Stub for ..."). Write a doc comment as the present-tense contract;
+the story goes in `AI Agent Help/` or a plain `//` comment. A new public class or function also needs an entry on
+`Docs/src/api.rst` / `coreAPI.rst` (164 exports had none). After changing comments, regenerate `core.pyi` /
+`core/xml` (the site renders those, not the sources) and run `Tools/Misc/Docs/auditApiDocs.py --html <build>`.
+See Overview habit 87 and [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md)'s "THE REFERENCE PAGES ARE
+FOR A NEW USER", which also has the Linux recipe for regenerating both artifacts (`CASE_SENSE_NAMES = NO`).
 
 **A request for a NEW class may describe one that already exists (habit 53, 2026-09-18).**
 "Build a `GraphCompose` edit" turned out to be `GraphInherit` with one pluggable piece added, and

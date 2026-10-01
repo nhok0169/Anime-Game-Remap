@@ -2145,28 +2145,6 @@ RemapTexEditResource
 
 :raw-html:`<br />`
 
-ReplaceIf
-=========
-
-.. attributetable:: FixRaidenBoss2.ReplaceIf
-
-.. autoclass:: FixRaidenBoss2.ReplaceIf
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-ReplaceList
-===========
-
-.. attributetable:: FixRaidenBoss2.ReplaceList
-
-.. autoclass:: FixRaidenBoss2.ReplaceList
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
 ResCreate
 =========
 
@@ -2697,6 +2675,7 @@ WWMITextureFacts
     :private-members:
 
 :raw-html:`<br />`
+
 
 :raw-html:`<br />`
 :raw-html:`<br />`
@@ -3799,6 +3778,28 @@ RemappedKeyData
 .. attributetable:: FixRaidenBoss2.RemappedKeyData
 
 .. autoclass:: FixRaidenBoss2.RemappedKeyData
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ReplaceIf
+=========
+
+.. attributetable:: FixRaidenBoss2.ReplaceIf
+
+.. autoclass:: FixRaidenBoss2.ReplaceIf
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ReplaceList
+===========
+
+.. attributetable:: FixRaidenBoss2.ReplaceList
+
+.. autoclass:: FixRaidenBoss2.ReplaceList
     :members:
     :private-members:
 

@@ -5483,6 +5483,65 @@ NEW download is not usable from a release until then.
 
 <br>
 
+### A GAME UPDATE REHASHES THE SHADERS TOO, AND THAT IS WHERE A WUWA FIX LIVES (3.7, 2026-10-01)
+
+Every WuWa fix binds the mod's textures through the TARGET's shaders:
+`[ShaderOverridePassN] hash = <vertex shader>` sets a `filter_index`, and each texture command list
+is `if vs == <that index>`. WuWa 3.7 rehashed the shaders along with ChisaParfait's vertex buffer,
+and of the hashes in the four configs **2 of 46, 2 of 30, 0 of 6 and 0 of 7** still existed. So `vs`
+never took a filter_index, every texture list was skipped, and each remapped mod drew the mod's
+GEOMETRY with the TARGET's own art -- Chisa's school uniform in ChisaParfait's pink, with the vertex
+groups perfect throughout. **It reads as a texture bug and it is a shader bug.**
+
+**Do not re-derive the configs to repair this.** Which pass of a slot sets which register, which role
+sits where, which passes bind only globals -- none of that moves when the hashes do, and redoing it
+by hand is how the kimono came back yellow. Substitute the hashes, and pair the passes with
+`Tools/Misc/Diagnostics/` + the scratch tools this used:
+
+| key | what happened |
+| --- | --- |
+| every `ps-t` the draw has bound | 8 of 30 unmatched -- the columns include registers the draw INHERITED, and the old dumps are of the overworld while a 3.7 overworld dump kills the game |
+| the component's draw ORDER | 1 conflict, and 4 draws whose `ps-t0` is a different texture before and after |
+| the character's own textures | 9 refused -- shared ramps and sheens are "its own" too |
+| **what the draw SETS, as ROLES** | **this one.** `wwmiPassLayout` says which registers a draw set rather than inherited, and a role is a property of the character, not of the scene |
+
+Validate the derivation the way habit 34 asks: **run it on the OLD dump and require it to reproduce
+the config already in the tree.** It did -- same slots, same passes, same role layouts -- and the old
+and new tables then came out structurally identical for every character, so the pairing is exact.
+For a pair whose download folder came from WWMI-Assets (Sanhua's), a texture hash names no role at
+all, and the SIZES of the textures a pass sets are the version-proof key instead.
+
+Two cross-checks that cost nothing and are worth taking: a shader several characters draw with must
+come out the same in two unrelated derivations (`21176cf68a65ab7a -> f8c96a270bf847dd` and the face
+pass `374a4f8fc9a5ea6a -> ed1c0f8b2ba08ac4` did), and a MERGE substitutes cleanly while a SPLIT
+cannot -- 3.7 merged ChisaParfait's front-hair and hair shaders into one and split Chisa's into two,
+and the split needs the second slot corrected by hand because one old hash has to become two.
+
+### AND A MOD MADE BEFORE THE UPDATE IS DEAD WHATEVER THE FIX DOES (2026-10-01)
+
+`ChisaParfait -> Chisa` drew **nothing at all** after the shader repair -- no body, just the weapon.
+It is not a remap bug. A WWMI mod registers itself in `[Present]`:
+
+    if $object_detected
+        if $mod_enabled ... else ... run = CommandListRegisterMod   <- sets $mod_enabled = 1
+
+and `$object_detected` is set by the mod's OWN `[TextureOverrideComponentN]` sections, which carry
+the hash its author exported with. ChisaParfait's `vb0` moved at 3.7, so those sections match
+nothing, the mod never registers, `$mod_enabled` stays 0 -- and every remapped section the fix wrote
+begins `if $mod_enabled`. **The remap inherits the mod's own staleness.**
+
+Proved in one step rather than argued: with the mod loaded, the character's own outfit renders
+VANILLA. The mod is dead on its own character first.
+
+So a "renders nothing" report on a direction whose SOURCE was rehashed is a question about the mod,
+not the fix, and the first thing to do is equip the source's own outfit and look. The three
+ChisaParfait mods that exist are all 3.5-era, which is why that direction cannot be checked in game
+until one is re-exported -- or until the fix updates the mod's own sections to the source's current
+hash, which is what the maintainer's `25fix` / `wwmi_fix_23` tools do and is a decision rather than a
+bug.
+
+<br>
+
 ### A MOD THAT ARRIVES ALREADY FIXED IS A DIFFERENT INPUT, AND IT IS THE ONE THE MAINTAINER HAS (2026-09-30)
 
 A fix undoes first, and the undo removes **every section a previous fix named**. So anything the

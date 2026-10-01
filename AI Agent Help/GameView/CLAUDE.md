@@ -347,7 +347,10 @@ Two WuWa specifics about the tool:
   `reload`, `compare` --- therefore produces two IDENTICAL halves every time, which reads exactly
   like a mod that does not draw. Toggle **after** the reload, not before.
 - **`reload --mod`'s "no warnings" is an empty check here.** It reads `d3d11_log.txt`, and WWMI's
-  call logging is off --- which it must stay (110 GB in 40 minutes). `status` shows `log: 0.0 MB`
+  call logging is off --- which it must stay for any run measured in minutes (110 GB in 40 of
+  them). The one exception is deliberate and lasts SECONDS: "ASK THE LOG WHICH SHADERS A
+  THIRD-PARTY MOD IS PATCHING" below turns it on for a single reload to read what a shader-patching
+  mod matched, and off again before anything else. Even that wrote 1.7 GB. `status` shows `log: 0.0 MB`
   when that is the case, and then the line means "nothing was read", not "nothing was wrong"
   (Overview's habit 66). On WWMI the picture is the evidence; the log is not available.
 - **A frame dump can kill WuWa.** Unreal's own watchdog ends the game with "Hang detected on

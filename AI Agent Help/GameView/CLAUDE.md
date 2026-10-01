@@ -190,6 +190,52 @@ that changes.
   Check the written `.dds` first. If the file is right and the game is not, `close --force` then
   `launch` settles it.
 
+## ASK THE LOG WHICH SHADERS A THIRD-PARTY MOD IS PATCHING (2026-10-01)
+
+A Chisa mod's heart eyes stopped appearing after WuWa 3.7, and the obvious reading -- that the
+remap had lost them -- was wrong twice over. They are not a texture swap: the mod points RabbitFX's
+GlowMap at a pink heart and runs `CommandList\RabbitFX\Run` on the eye draw, and every line of that
+command list sits inside `if ps == 1718.1`, a `filter_index` RabbitFX sets on the shaders **it**
+patched. Forcing the block unconditional (so the toggle's state could not be the explanation) still
+showed nothing -- which says the eye draw's shader was never patched, and says nothing about why.
+
+3dmigoto answers that directly, and this is the cheapest in-game question in the whole repo. Set
+`[Logging] calls = 1` in the importer's `d3dx.ini`, `reload`, and `d3d11_log.txt` carries one line
+per match:
+
+```
+ShaderRegex: ps_5_0 2f93cd572b00b673 matches [ShaderRegex\RabbitFX\Main]
+```
+
+plus, from each patched shader's `post run`, proof that it then RUNS rather than merely matching.
+At WuWa 3.7, RabbitFX 8.2 patched **10** pixel shaders under `Main` and **2** under
+`TexturelessOutline` (running 7799 and 1418 times), and matched **nothing** under `Eye`,
+`Transparent`, `SingleOutput`, `Outline` or `SoundTattooCensorFilter`. The eye pass both Chisa and
+ChisaParfait draw through (`e04f4df80ee6b0ab`) is absent from the patched list, so the eye glow is
+dead for every character and every mod, remapped or not -- and the body effects are fine, which is
+why the mod looks mostly right.
+
+**The read is per REGEX, and that is the part that generalises.** A shader-patching mod has several
+independent patterns; an update breaks some and not others. "Is RabbitFX working?" has no single
+answer -- ask which pattern the part in front of you needs, and whether THAT one matched.
+
+Three mechanics decide whether this costs two minutes or an afternoon:
+
+- **the log opens at RUNTIME.** `calls = 1` plus one `reload` is enough; no game restart, which
+  matters because a restart can land on a login screen and a login is the maintainer's to do.
+- **turn it off within SECONDS.** With `debug = 1` (what this install ships) it wrote **1.7 GB in
+  about four seconds** at 2560x1440. Put `calls` back, `reload`, and confirm the size has stopped
+  moving before reading anything.
+- **the game holds the handle open**, so the file cannot be deleted while it runs -- `: >
+  d3d11_log.txt` truncates it in place, which is what puts `status` back to `log: 0.0 MB`.
+
+A corollary for our own output: a mod that asks RabbitFX to bind its textures
+(`run = Commandlist\RabbitFX\SetTextures`, which fills `ps-t60`-`ps-t65`) is relying on that patch
+for its ART, not just an effect. The WuWa fix drops those calls and binds the mod's textures to the
+target's own registers itself, so a remapped mod does not depend on RabbitFX at all -- which is
+right, and also means a RabbitFX outage shows up on the mod's OWN character while the remap looks
+fine. Compare the two before blaming either.
+
 ## Observing a remap in game: see it yourself, before the maintainer does (the maintainer's rule, 2026-09-27)
 
 **Be diligent and look at the details.** Most of what the maintainer reported on Neuvillette -> NeuvilletteMelusent

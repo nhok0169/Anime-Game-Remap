@@ -1061,6 +1061,19 @@ the part's OTHER bones have to be anchored too (27% of that prop's weight sat on
 chain, which left it torn between two places). Both are in
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md).
 
+**A SYMPTOM MAY BELONG TO A THIRD-PARTY MOD, AND 3DMIGOTO'S LOG SAYS SO IN TWO MINUTES
+(2026-10-01).** A Chisa mod's heart eyes went missing after WuWa 3.7 and read as a remap
+regression. They are a RabbitFX glow, not a texture, and RabbitFX chooses the shaders it patches
+with a bytecode REGEX rather than hashes -- so a game update that rewrites a shader family drops
+every effect riding on it, silently, with no file changing anywhere. `[Logging] calls = 1` plus one
+`reload` names each regex and what it matched: at 3.7 RabbitFX 8.2 patches 10 shaders under `Main`
+and **nothing** under `Eye`, so the glow is gone for every character and every mod while the body
+effects work. **The families fail independently, so "the FX mod still works" is not an answer about
+the part in front of you.** Two traps: with `debug = 1` the log writes **1.7 GB in four seconds**,
+and the game holds its handle open so it can only be truncated, not deleted. See
+[Game View](AI%20Agent%20Help/GameView/CLAUDE.md)'s "ASK THE LOG WHICH SHADERS A THIRD-PARTY MOD IS
+PATCHING".
+
 **FOUR THINGS TO READ BEFORE ANY TASK, DEPENDING ON WHICH KIND YOU HAVE (2026-09-14; a third added
 2026-09-20, a fourth 2026-09-22).** They are the lenses the maintainer keeps having to re-teach, and each now has its own
 writing:

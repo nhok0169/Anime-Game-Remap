@@ -32,19 +32,14 @@ namespace AGRemapCore {
      @rst
      This class inherits from :cpp:class:`RemapIniFixResource`
 
-     Class for fixing some ``Blend.buf`` file used by the overall remap process -- mirrors the
-     pure-Python ``RemapBlendResource`` class (``model/iniresources/RemapBlendResource.py``)
+     Class for fixing some ``Blend.buf`` file used by the overall remap process
      :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        #fixExists isn't re-overridden here -- the Python original re-declares it with an identical
-        body to what :cpp:class:`RemapIniFixResource` (its own base) already does
-        (``os.path.isfile(fixedPath)``), so this class just inherits :cpp:func:`RemapIniFixResource::fixExists`
-        directly rather than duplicating it
+        #fixExists isn't re-overridden here: this class inherits :cpp:func:`RemapIniFixResource::fixExists`
+        (whether the fixed file exists on disk) directly
 
-        #_fix's return value: same "the Python original has no ``return`` statement here at all, so
-        it always implicitly returns ``None``/falsy" gap as :cpp:class:`RemapIniDownload::_fix` --
-        see that class's own doc comment. This port returns ``true`` on success instead
+        #_fix returns ``true`` on success
      @endrst
      */
     class RemapBlendResource: public RemapIniFixResource {

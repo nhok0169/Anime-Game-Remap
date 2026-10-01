@@ -220,9 +220,7 @@ IDENTIFIES a mod's textures is :class:`WWMITextureFacts`, on the parser
 role, its register layout per component, its pixel thumbprints, and where its game textures are
 downloaded from.
 
-The same object :attr:`WWMIParserConfig.textures` takes, so a character states these once. The field
-this replaced held only the register layout and was bound nowhere, which left the strongest texture
-identification path unreachable from a prototype
+The same object :attr:`WWMIParserConfig.textures` takes, so a character states these once
         )doc"))
         .def_readwrite("createdTextures", &AGRC::WWMIFixerConfig::createdTextures,
                         py::doc("List[:class:`WWMIFixerConfig.CreatedTexture`]: The textures the fix invents, each bound wherever a binding names its role"))

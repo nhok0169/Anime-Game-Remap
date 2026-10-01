@@ -489,8 +489,8 @@ push's source groups --- for cloth that clips a limb the target moves differentl
         .def_readwrite("innerOutlineObjs", &AGRC::GIMIComponentFixerConfig::Component::innerOutlineObjs, py::doc(R"doc(
 List[:class:`str`]: The SOURCE objects (lowercase, eg. ``"head"``) whose INNER layers draw no outline on this
 component --- the faces turned in towards the head, or covered by another layer, get vertex colour alpha 0. For hair
-of close two-sided sheets, whose inner outline shows through as dark shards on a skin whose outline sits further out
-(Yaoyao5 on YaoyaoBamboo). Needs the component's ``Position.buf``. Empty by default
+of close two-sided sheets, whose inner outline shows through as dark shards on a skin whose outline sits further out.
+Needs the component's ``Position.buf``. Empty by default
         )doc"))
         .def_readwrite("innerOutlineReach", &AGRC::GIMIComponentFixerConfig::Component::innerOutlineReach, py::doc(R"doc(
 float: How far along its normal a vertex looks for a covering layer, in model units. ``0.1`` by default

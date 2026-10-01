@@ -27,7 +27,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     A generic `LRU cache`_ -- the C++ counterpart to the pure-Python ``LruCache`` class
+     A generic `LRU cache`_ -- the C++ counterpart to the `Python`_ ``LruCache`` class
      (``tools/caches/LRUCache.py``), which extends ``Cache`` the same way this class extends
      :cpp:class:`Cache` :raw-html:`<br />` :raw-html:`<br />`
 
@@ -35,7 +35,7 @@ namespace AGRemapCore {
      capacity-based eviction on top of :cpp:class:`Cache`'s shared storage --
      :cpp:func:`Cache::contains`/:cpp:func:`Cache::clear`/:cpp:func:`Cache::size`/
      :cpp:func:`Cache::getCapacity` are inherited unchanged, mirroring exactly which methods the
-     pure-Python ``LruCache`` does (and doesn't) override on ``Cache``
+     `Python`_ ``LruCache`` does (and doesn't) override on ``Cache``
      @endrst
      *
      * @tparam K The type for a key

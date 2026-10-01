@@ -28,10 +28,9 @@ namespace AGRemapCore {
      @rst
      Keeps track of different types of files encountered by the program :raw-html:`<br />` :raw-html:`<br />`
 
-     Mirrors the pure-Python ``FileStats`` class (``model/stats/FileStats.py``). A skipped file's
+     A skipped file's
      exception is stored as ``std::exception_ptr`` (rather than a fixed exception type) so any
-     exception type caught at the call site can be kept around for later, matching Python's own
-     "any exception object" flexibility
+     exception type caught at the call site can be kept around for later
      @endrst
      */
     class FileStats {
@@ -58,10 +57,8 @@ namespace AGRemapCore {
              * The inner values are the errors encountered :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                Mirrors the Python original's ``DefaultDict``-based ``skippedByMods`` --
-                ``skippedByMods[modFolder]`` auto-vivifies an empty inner map the same way a
-                ``std::unordered_map``'s ``operator[]`` already does, so no separate default-dict
-                wrapper is needed here
+                ``skippedByMods[modFolder]`` auto-vivifies an empty inner map, as a
+                ``std::unordered_map``'s ``operator[]`` does
              @endrst
              */
             std::unordered_map<std::string, std::unordered_map<std::string, std::exception_ptr>> skippedByMods;

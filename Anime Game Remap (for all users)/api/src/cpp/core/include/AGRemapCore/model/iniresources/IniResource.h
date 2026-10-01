@@ -31,15 +31,11 @@ namespace AGRemapCore {
      @rst
      Base class for a resource in the .ini file :raw-html:`<br />` :raw-html:`<br />`
 
-     Mirrors the pure-Python ``IniResource`` class (``model/iniresources/IniResource.py``)
-     :raw-html:`<br />` :raw-html:`<br />`
-
      .. note::
-        The Python original also carries a generic, per-instance ``fixFunc``/``fix()``/``_fix()``
-        override mechanism at this level, built on ``*args``/``**kwargs`` -- that pattern doesn't
-        translate to a single, uniform C++ virtual signature (every real subclass in this codebase's
-        port -- ``RemapBlendResource``, ``RemapTexAddResource``, ``RemapIniDownload`` -- needs a
-        genuinely different signature for its own fix logic), so this class stays a plain data
+        This class has no generic, per-instance ``fixFunc``/``fix()``/``_fix()`` override
+        mechanism: every real subclass -- :cpp:class:`RemapBlendResource`,
+        :cpp:class:`RemapTexAddResource`, :cpp:class:`RemapIniDownload` -- needs a
+        genuinely different signature for its own fix logic, so this class stays a plain data
         holder: each concrete leaf class defines its own, concretely-typed ``fix()`` (and its own
         ``fixFunc`` member, typed for that leaf specifically) instead of inheriting a generic one
         from here. :cpp:class:`IniGroupedResource` is the one exception in this hierarchy that keeps
@@ -108,9 +104,8 @@ namespace AGRemapCore {
      @rst
      This class inherits from :cpp:class:`IniResource`
 
-     Base class for a resource to be fixed in the .ini file -- mirrors the pure-Python
-     ``IniFixResource`` class (``model/iniresources/IniResource.py``); see :cpp:class:`IniResource`'s
-     own doc comment for why the generic ``fixFunc`` mechanism isn't carried over to this level
+     Base class for a resource to be fixed in the .ini file -- see :cpp:class:`IniResource`'s
+     own doc comment for why there is no generic ``fixFunc`` mechanism at this level
      @endrst
      */
     class IniFixResource: public IniResource {
@@ -135,8 +130,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     Base class for a group of resources -- mirrors the pure-Python ``IniGroupedResource`` class
-     (``model/iniresources/IniResource.py``) :raw-html:`<br />` :raw-html:`<br />`
+     Base class for a group of resources :raw-html:`<br />` :raw-html:`<br />`
 
      Unlike :cpp:class:`IniResource`/:cpp:class:`IniFixResource`, this class keeps a generic
      #fixFunc/#fix/#_fix override mechanism, since (per :cpp:class:`IniResource`'s own doc comment)

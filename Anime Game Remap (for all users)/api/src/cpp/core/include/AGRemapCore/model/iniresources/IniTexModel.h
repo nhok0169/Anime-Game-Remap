@@ -34,7 +34,6 @@ namespace AGRemapCore {
 
      Contains data for editing some texture files in a .ini file :raw-html:`<br />` :raw-html:`<br />`
 
-     Mirrors the pure-Python ``IniTexModel`` class (``model/iniresources/IniTexModel.py``) --
      #texEdits owns its :cpp:class:`BaseTexEditor`\\s via ``std::unique_ptr`` since it's a
      polymorphic type (matches how it's used elsewhere in this codebase, eg.
      :cpp:class:`BlendFile`'s owned ``BufElementType``\\s)

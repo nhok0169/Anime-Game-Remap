@@ -53,8 +53,8 @@ reachable colouring state gives its ``hash`` `KVP`_ a value belonging to one of 
 types. That second half is what recognizes the ``Remap``-named leftovers *outside* the boilerplate :raw-html:`<br />` :raw-html:`<br />`
 
 With this set, the hash half is skipped and **every** candidate is taken -- every `section`_ inside
-the boilerplate plus every ``Remap``-named `section`_ outside it, whoever they belong to. That is
-what the pure-Python ``RemapIniRemover`` this replaced always did :raw-html:`<br />` :raw-html:`<br />`
+the boilerplate plus every ``Remap``-named `section`_ outside it, whoever they belong to
+:raw-html:`<br />` :raw-html:`<br />`
 
 :class:`IniFile` asks for it on its **last** mod type, so that every earlier pass takes only what it
 can prove is its own and the final pass clears whatever is still standing. Without it, a leftover

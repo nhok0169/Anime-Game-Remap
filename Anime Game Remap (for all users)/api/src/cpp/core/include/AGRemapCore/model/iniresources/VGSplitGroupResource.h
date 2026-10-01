@@ -140,10 +140,10 @@ namespace AGRemapCore {
          (``TEXCOORD1``, bytes 12-19 of a 20-byte ``Texcoord.buf`` line) as its first, wherever that set is not zero
          :raw-html:`<br />` :raw-html:`<br />`
 
-         A two-sided cloth shader textures a BACK face through ``TEXCOORD1``: Lumine's dress lining, and Lumine10's
-         starry skirt lining, which maps 1101 back faces into a galaxy quadrant of its atlas. The mirrored layer stands in
-         for those back faces on a one-sided target, so it has to read what they read -- with the front UVs it showed the
-         outside's black instead (2026-09-30). **Default**: ``false``
+         A two-sided cloth shader textures a BACK face through ``TEXCOORD1`` (eg. a dress or skirt lining mapped into
+         its own region of the atlas). The mirrored layer stands in
+         for those back faces on a one-sided target, so it has to read what they read -- with the front UVs it shows the
+         outside's texture instead. **Default**: ``false``
          @endrst
          */
         bool mirrorBackUV = false;
@@ -156,8 +156,8 @@ namespace AGRemapCore {
          times its weight share on the push's groups, read off the SOURCE blend :raw-html:`<br />`
          :raw-html:`<br />`
 
-         For cloth that clips a limb the target moves differently: Neuvillette3's side coat flap rides his tail
-         chain, which on the skin rides the pelvis, and the stepping thigh went through it (2026-09-26). Pushed
+         For cloth that clips a limb the target moves differently -- eg. a side coat flap whose chain rides the
+         target's pelvis, so the stepping thigh goes through it. Pushed
          outward, it hangs clear. Empty by default
          @endrst
          */

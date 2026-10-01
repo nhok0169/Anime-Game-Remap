@@ -32,10 +32,9 @@ namespace AGRemapCore {
 
      Contains data for a particular resource in the original .ini file :raw-html:`<br />` :raw-html:`<br />`
 
-     Mirrors the pure-Python ``IniSrcResourceModel`` class
-     (``model/iniresources/IniSrcResourceModel.py``) -- #paths/#fullPaths use ``tsl::ordered_map``
-     rather than ``std::unordered_map`` specifically to preserve the same insertion-order iteration
-     the Python original's plain ``dict`` gives for free, since these keys are the (order-meaningful)
+     #paths/#fullPaths use ``tsl::ordered_map``
+     rather than ``std::unordered_map`` specifically to preserve insertion-order iteration,
+     since these keys are the (order-meaningful)
      :cpp:class:`IfContentPart` indices for some :cpp:class:`IfTemplate`
      @endrst
      */
@@ -72,8 +71,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              Every ``(path, fullPath)`` pair across every :cpp:class:`IfContentPart` in #paths, in
-             the same order #paths itself iterates -- the C++ counterpart to the pure-Python
-             original's ``__iter__`` (a plain flattened list here rather than a lazy generator,
+             the same order #paths itself iterates (a plain flattened list rather than a lazy generator,
              since the whole flattened sequence is small and already fully materialized in #paths/
              #fullPaths anyway)
              @endrst

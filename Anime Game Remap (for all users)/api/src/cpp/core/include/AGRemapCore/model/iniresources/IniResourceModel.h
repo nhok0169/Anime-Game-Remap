@@ -23,9 +23,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     Contains data for some particular resource in a .ini file :raw-html:`<br />` :raw-html:`<br />`
-
-     Mirrors the pure-Python ``IniResourceModel`` class (``model/iniresources/IniResourceModel.py``)
+     Contains data for some particular resource in a .ini file
      @endrst
      */
     class IniResourceModel {

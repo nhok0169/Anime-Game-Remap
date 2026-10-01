@@ -23,15 +23,14 @@ namespace AGRemapCore {
      * @brief
      @rst
      Creates new :cpp:class:`ModType` objects for WuWa (Wuthering Waves) mods -- the WWMI
-     counterpart of :cpp:class:`GIBuilder`, added 2026-09-19 with Sanhua and her Exorcist skin as
-     its first pair :raw-html:`<br />` :raw-html:`<br />`
+     counterpart of :cpp:class:`GIBuilder` :raw-html:`<br />` :raw-html:`<br />`
 
      A WWMI mod type carries the same four asset tables a GI one does plus the four WWMI-only ones
      (:cpp:class:`IndexCounts`, :cpp:class:`VGOffsets`, :cpp:class:`VGCounts`,
      :cpp:class:`ShapeKeyChecksums`), all keyed by the same remap graph
-     (:cpp:func:`ModTypeIdTools::getHashRemapTargets`). Its parse / fix / remove rows are STUBS
-     (``defaultFactory``) until the WWMI strategies exist; the prototype of the fix is
-     ``Tools/Misc/Prototypes/sanhuaExorcistFix.py``
+     (:cpp:func:`ModTypeIdTools::getHashRemapTargets`). Like a GI one, its parser and fixer for
+     each direction come from the builder data tables (``IniParseBuilderData`` /
+     ``IniFixBuilderData``); a direction with no WWMI fix written yet has a stub row there
      @endrst
      */
     class WWMIBuilder {

@@ -34,8 +34,7 @@ namespace AGRemapCore {
      Contains data about a particular resource to download in the original .ini file :raw-html:`<br />`
      :raw-html:`<br />`
 
-     Mirrors the pure-Python ``IniDownloadModel`` class (``model/iniresources/IniDownloadModel.py``)
-     -- #downloads owns its :cpp:class:`FileDownload`\\s via ``std::unique_ptr`` (matches
+     #downloads owns its :cpp:class:`FileDownload`\\s via ``std::unique_ptr`` (matches
      :cpp:class:`IniTexModel`'s own reasoning for owning polymorphic entries this way)
      @endrst
      */

@@ -190,6 +190,27 @@ that changes.
   Check the written `.dds` first. If the file is right and the game is not, `close --force` then
   `launch` settles it.
 
+## Two things `mods` and `key` got wrong during a sweep (2026-10-01)
+
+- **`mods <IMP> restore` replays its journal and can over-apply it.** Twice in one session it put a
+  DIFFERENT mod back than the one that had been loaded -- the maintainer's set contained `Chisa2`
+  and the restore left `Chisa6` loaded in its place, both times. Always `mods <IMP> list` after a
+  restore and compare against the set you wrote down before you started; correct it with an
+  explicit `park` / `load` pair.
+- **An Alt chord does not reach WuWa.** `key alt+vk_up`, `key alt+vk_up --vk` and
+  `hold "alt+vk_up" 1` all leave the mod's toggle variable untouched in `d3dx_user.ini`, while
+  plain keys (`vk_numpad5`, `h`, `]`) move it immediately. The chord code itself is right -- it
+  presses in order, holds, releases in reverse -- so something above it swallows Alt. A mod whose
+  toggles are `Alt VK_UP` / `Alt VK_DOWN` cannot be exercised by this tool today; say so rather
+  than reporting the toggle as working or as broken.
+
+**And read a toggle's `condition` before blaming the key.** The mod that prompted this
+(`Sanhua3`) gates every toggle on `condition = $object_detected`, which its companion `.ini` sets
+from sections matching the SOURCE's hashes -- so on the remapped character the toggles are inert
+whatever key arrives. `d3dx_user.ini` tells you which of the two you have: if the variable does not
+move, the key never arrived; if it moves and nothing renders differently, the condition is false or
+the branch draws nothing.
+
 ## ASK THE LOG WHICH SHADERS A THIRD-PARTY MOD IS PATCHING (2026-10-01)
 
 A Chisa mod's heart eyes stopped appearing after WuWa 3.7, and the obvious reading -- that the

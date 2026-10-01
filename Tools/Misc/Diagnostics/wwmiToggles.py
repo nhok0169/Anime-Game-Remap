@@ -91,9 +91,22 @@ Modifiers = {"vk_control": "ctrl", "vk_lcontrol": "ctrl", "vk_rcontrol": "ctrl",
 
 
 def toDo(key):
-    """3DMigoto's key spelling -> what GameView's `key` step accepts"""
+    """3DMigoto's key spelling -> what GameView's `key` step accepts
+
+    3dmigoto lets a virtual-key name drop its `VK_` prefix, and mods do: one writes
+    `key = OEM_MINUS`. Lowercased that is in neither of GameView's tables, so `do "key oem_minus"`
+    raised `unknown key` and this function's whole promise failed on it. GameView uppercases a
+    token before looking in VK_NAMES, so putting the prefix back is enough. Friendly names
+    (`numpad5`, `f8`, `]`, `p`) carry no underscore and keep going through the other table.
+    """
     parts = [p for p in key.strip().lower().replace("no_modifiers", "").split() if p]
-    return "+".join(Modifiers.get(p, p) for p in parts)
+    return "+".join(_vkName(Modifiers.get(p, p)) for p in parts)
+
+
+def _vkName(part):
+    if ("_" in part and not part.startswith("vk_")):
+        return "vk_" + part
+    return part
 
 
 parser = argparse.ArgumentParser()

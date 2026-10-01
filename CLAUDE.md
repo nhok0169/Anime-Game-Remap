@@ -132,8 +132,15 @@ two more, both general:** a mirrored inner layer pokes through a coat that model
 slot holding cloth beside hair went to her head draw, which shades everything as hair (white sleeves yellow in shade;
 the slot is SPLIT per triangle by light map band now, hair to her head and cloth to her body:
 `GIMIMergeFixerConfig::Slot::splitFrom`), and small dark red squares on a layered jacket were the skin's wider OUTLINE shells coming through
-it (Yaoyao's `innerOutlineObjs`, on body and dress; a band move had only darkened them). See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s
-"LUMINE <-> LUMINEHEAVEN".
+it (Yaoyao's `innerOutlineObjs`, on body and dress; a band move had only darkened them). **Then three that reach
+every agent-built pair (2026-09-30/10-01):** a mod's TexFx call names its OWN character's layout (`T.0` plain, `T.1`
+normal map), so both multi-component templates now move it onto the target's (`texFxLayoutSwitch`, on by default --
+eleven directions had been missing it); a two-sided source shader textures back faces through `TEXCOORD1`
+(`Component::mirrorBackUV`); and a glow (diffuse alpha 255) the target tints gold is cleared WITH its brightness baked
+into the colour, tapered so bright blues do not clip to cyan. **Before "fixing" a slot layout two configs disagree
+on, trace both through `ORFix.ini`** (Creating Remaps' "A FIX LIBRARY DECIDES WHAT A PASS READS"): YelanTranquil's
+slot C differs between its two configs and renders identically, and the "fix" lost two verified texture edits. See
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "LUMINE <-> LUMINEHEAVEN".
 
 **NEUVILLETTE <-> NEUVILLETTEMELUSENT IS COMPILED BOTH WAYS (2026-09-25), AND THE SKIN HAS ONE REAL MOD --
 SO FOUR SYNTHETIC ONES WERE BUILT, AND TWO OF THEM FOUND LIBRARY BUGS.** The skin's main mesh is an UNNAMED
@@ -199,7 +206,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is eighty-three short habits, none of
+feature or bug request here: the habits that pay" first.** It is eighty-six short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you

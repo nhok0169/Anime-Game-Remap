@@ -136,7 +136,13 @@ implemented** against two things:
    * cloth the target has no bones for (capes, tails, flaps -- does it tear, fold, swing, clip?), single-layer
      cloth whose inside the target's shader lights differently;
    * the fix run TWICE on one folder (every file still there? nothing counted fixed that was not?), undone,
-     and a non-Latin folder name.
+     and a non-Latin folder name;
+   * a GLOW (diffuse alpha 255) in a colour the target's shader tints, a two-sided part the target draws
+     one-sided, and a texture edit configured on an object a PLAIN component draws (the component template
+     applies `diffuseEdits` / `lightMapEdit` only on a normal-map component -- silently none on a plain one).
+   * **Re-fixing in place downloads again, and GitHub fails intermittently** ("Could not resolve host"): run
+     `Tools/Misc/Diagnostics/check_dangling.py <mod>` after every re-fix and re-run until it is clean. A head
+     draw bound to a file that never landed makes the whole remap invisible.
 
 **How.** A read-only subagent given this file, the configs of both directions and the comparable pairs'
 configs, and asked for a numbered COVERED / NOT COVERED checklist, did the first pass of the 2026-09-26
@@ -191,6 +197,12 @@ surprises you.
 | **white cheeks** on the remap, **and on the BASE outfit too** | "The face diffuse" below (a `ps-t0` <-> `ps-t1` swap). A remap corrects the base as well; the maintainer calls this a GI 6.1 break, not the mod's fault. If the output has **no remapped face section at all**, the swap never ran: see "YAOYAO <-> YAOYAOBAMBOO", point 9 (a face hash two characters share, and the versionless lookup). Check the face in the SHOP PREVIEW at full-resolution crops over several frames, because a single frame can catch a blink |
 | **the face washes out / loses its lashes** after a remap onto (or from) a skin, the eyes themselves right | "LUMINE <-> LUMINEHEAVEN", point 2: the two characters draw DIFFERENT face meshes and a face atlas does not move between them. Compare the face-shader draws' ib hashes in both frame dumps; if they differ, carry no face (`Component::face = false`, the merge's `faceReg = ""`) |
 | **one slot's texture is wrong only on the TARGET of a merge** (dark eyes, a light map colouring a part), the mod right on its own skin | "LUMINE <-> LUMINEHEAVEN", point 5: the mod binds that slot in the GAME's register order and a per-register download doubled a role. Read the fixed `.ini`'s member block for two textures of one role; `GIMIComponentParserConfig::downloadsByName` |
+| a **GLOW looks wrong on the target** -- gold / orange where the source glows blue, or a glowing part DARKER than on the source | "LUMINE <-> LUMINEHEAVEN", point 7. A diffuse alpha of 255 is "glow" on most GI body shaders, and the target's shader may tint every glow its own colour. Paint the glow white on both sides to see the tint, then clear the alpha of the pixels the tint ruins AND bake the lost brightness into their colour, tapered, or bright parts clip to cyan. Then "A FIX LIBRARY DECIDES WHAT A PASS READS" for any TexFx glow, whose variant follows the section's layout |
+| the **inside of a skirt / coat** shows the OUTSIDE's texture, or black, where the source shows a pattern | "LUMINE <-> LUMINEHEAVEN", point 7: the source's shader is two-sided and textures back faces through `TEXCOORD1`. `Component::mirrorBackUV` on the mirrored layer |
+| **grey / brown polygons poking through** a coat or skirt that models its own lining | "LUMINE <-> LUMINEHEAVEN", point 4: mirrored twins landing in front of the lining. `Component::mirrorBackedReach` |
+| **small dark squares / wedges** on layered CLOTHING that change colour with a band edit but never go away | "LUMINE <-> LUMINEHEAVEN", point 11: the outline shells of the under-layer. Zero the vertex colour alpha (the outline width) as the test, then `Component::innerOutlineObjs` |
+| **white cloth goes warm, or hair goes two colours, in the overworld's SHADE** only (the Dressing Room looks fine) | "LUMINE <-> LUMINEHEAVEN", point 10: one skin slot carries cloth and hair, and a draw shades everything as one of them. `GIMIMergeFixerConfig::Slot::splitFrom` splits it by light map band. Test in the overworld's shade (`look DX DY`), never only in the preview |
+| two configs of one pair **disagree about a slot's layout** (normal map or not) | "A TexFx call follows the TARGET's layout", the YelanTranquil slot C paragraph, and [Overview](../Overview/CLAUDE.md)'s habit 86: trace both through ORFix before "fixing" either |
 | the remap **works and you are finishing up** | "Verifying", then "Closing out a remap" --- five files and a regenerated `core/xml`, and the vertex-group draft's `Credits` sheet |
 
 Four things hold whichever row you are on, and each has cost a session:
@@ -283,6 +295,10 @@ Six things that will cost you an hour each if you learn them the hard way:
   `resource.fix()` from Python worked. And give each resource a `resType` the stats know
   (`blend` / `position` / `texcoord` / `buf`); the default `resourceRemapBlend` was counted nowhere
   until the same day.
+* **Port a numpy texture filter in `double`, not `float`.** numpy computes in float64. Lumine's
+  tapered glow gain written in C++ `float` moved 40 texels of a 4096 x 4096 diffuse by one, and the
+  A/B flagged it as two texture md5s in three sections. Constants, the taper and the multiply all
+  have to be `double`, and the rounding has to match too (`+ 0.5`, then truncate, like `astype(uint8)`).
 * **Buffers that depend on each other go through `ResGroupCollect`, and a draw call filled
   afterwards wants `RegFillMissingMode.BottomCover`.** A `ResRegCollect` per buffer is the naive
   shape (issue #190): the blend decides which vertices a component keeps, the ib which triangles,
@@ -1968,6 +1984,28 @@ face diffuse hash (`c70ae897`). Prototypes: `Tools/Misc/Prototypes/yaoyaoBambooF
    To find the next one: `py -3` over `HashData.cpp` for any `tex_face_diffuse` value filed under two names, then
    `Hashes().getKey(value, None, [base, None], False)` -- `None` is this bug.
 
+## A FIX LIBRARY DECIDES WHAT A PASS READS: LOOK IT UP, DO NOT REASON ABOUT IT (2026-09-30)
+
+ORFix and NNFix do not "fix" a section in general. They read the section's bindings into `ResourceDiffuse` /
+`ResourceLightmap` / `ResourceNormalMap` (`CommandListReference` for ORFix's normal-map layout,
+`CommandListReferenceNoNormal` for NNFix's plain one), then `CommandListFixLogic` writes them back per PASS,
+choosing a branch by the `filter_index` of the vertex / pixel shader being drawn. So "what does the target's
+draw actually read" has a definite answer, in four greps:
+
+1. the pass's 16-hex shader hashes: a frame dump's filenames (`000046-...-vs=d4c01363144d79d6-ps=93dcb43f769ee6da...`);
+2. their `filter_index` in `Core/GIMI/Libraries/ORFix.ini` (`hash = d4c01363144d79d6` -> `filter_index = 037731.1`);
+3. the `CommandListFixLogic` branch that index takes (`037731.1` -> `CommandListLDX`; an outline vs at `037730.0`
+   -> `CommandListFixReflection`; an AA pass at `037738` -> `CommandListDiffuseSlot0`; no match -> `LDX`);
+4. what that branch writes (`LDX`: light map at `ps-t0`, diffuse at `ps-t1`, normal map DROPPED).
+
+A slot's layout in the config can differ from the game's draw and still render identically when every branch
+discards the difference (YelanTranquil slot C, below). **TexFx is a different mechanism, so do not extend this
+reasoning to it**: a `run = CommandList\TexFx\...` draws nothing on its line -- it sets `$use_default_shader`, and
+TexFx's shader serves that request on the next OUTLINE draw (Citlali's "A TexFx call is a REQUEST" note, found with
+a frame dump's `logDraw`). Its two shaders differ only in where they read the diffuse (`OutlineWithDiffuseColor0`
+from `t0`, `...1` from `t1`, in `Mods/TexFx-main/hic_sunt_dracones/`), and which one is right was settled in game,
+not by tracing: see the next section.
+
 ## A TexFx call follows the TARGET's layout (2026-09-30)
 
 TexFx has one entry point per shader layout: `.0` for a part with no normal map, `.1` for one with it at `ps-t0`
@@ -1991,10 +2029,14 @@ fix, list each remapped section's calls) -- the corpus has TexFx mods for only C
 Yaoyao, Charlotte, CharlotteHurlock and Lumine, and of those only two Yaoyao mods' output moved (their eye, `T.1` ->
 `T.0` on YaoyaoBamboo's plain eye slot).
 
-**"The target's layout" means the layout the remapped SECTION binds in, not the game's own draw.** TexFx's
-`run = CustomShader...` draws on the spot, with whatever the section has bound at that line -- ORFix / NNFix re-slot
-the registers only for the game's draw afterwards. The two usually agree. YelanTranquil's Body slot C is where they do
-not (looked at 2026-09-30). Her own draw of it (`ib 611d6168`, first index 67374, the dump
+**"The target's layout" means the layout the remapped SECTION binds in (with its fix call), not the game's own
+draw.** That is the in-game evidence: Lumine10's call on LumineHeaven's normal-map sections (ORFix) glowed like her
+own outfit only as `.1`. The mechanism is NOT that TexFx draws at its line (an earlier version of this paragraph said
+so, and it is wrong: the call is a request served on the next outline draw, see Citlali's note). How the registers
+stand when that draw serves it -- after the section's bindings and ORFix's outline branch -- has not been traced
+through a frame dump, so if a TexFx part looks wrong on a slot whose config layout differs from the game's draw,
+dump a frame and `logDraw` the outline draw before trusting this rule. The section and the game's draw usually agree
+anyway. YelanTranquil's Body slot C is where they do not (looked at 2026-09-30). Her own draw of it (`ib 611d6168`, first index 67374, the dump
 `FrameAnalysis-YelanTranquil-2026-09-12-060339`, draw 46) runs the two-sided cloth shader `vs d4c01363` / `ps
 93dcb43f`. It binds light map / diffuse / `b0e08915` with NO normal map, which is why the REVERSE config
 (`YelanTranquilFixer.cpp`) reads her mods' slot C as plain. The FORWARD config (`YelanFixer.cpp`) writes it in the
@@ -2002,7 +2044,8 @@ normal-map layout under ORFix, and that is NOT a bug:
 - ORFix sends every pass of that shader through branches that read only the diffuse and the light map: `LDX` for the
   draw (`vs d4c01363` is filter `037731.1`), `FixReflection` for the outline, `DiffuseSlot0` for the AA passes. The
   flat normal map is thrown away, so the two layouts render alike.
-- The section binds the normal-map layout, so `T.1` is the right TexFx call there, and the switch picks it.
+- The section binds the normal-map layout under ORFix, Lumine10's proven case, so the switch picks `T.1` there. No
+  Yelan mod in the corpus calls TexFx, so that is untested in game on this slot.
 - Switching the forward config to plain was built and thrown away: the component template's `buildTexEdits` applies
   `diffuseEdits` / `lightMapEdit` ONLY on a normal-map component. The plain slot C bound the mod's raw head diffuse and
   light map, losing the band legend and the alpha-1 head that were confirmed in game.
